@@ -274,7 +274,12 @@ export class WidgetContentService {
       { request: req },
     )
   }
-  searchV6(req: NSSearch.ISearchV6Request) {
+  searchV6(req: any) {
+    console.log(req)
+    let url = location.href
+    if (url.includes('/hi/')) {
+      req.request.filters.lang = 'hi'
+    }
     req.query = req.query || ''
     req.sort = [
       {
@@ -284,7 +289,12 @@ export class WidgetContentService {
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH, req)
   }
 
-  publicContentSearch(req: NSSearch.ISearchV6Request) {
+  publicContentSearch(req: any) {
+    console.log(req)
+    let url = location.href
+    if (url.includes('/hi/')) {
+      req.request.filters.lang = 'hi'
+    }
     req.query = req.query || ''
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
       req,
