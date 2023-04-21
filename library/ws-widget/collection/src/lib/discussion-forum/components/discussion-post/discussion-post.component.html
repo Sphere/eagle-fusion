@@ -67,8 +67,8 @@
 
   <div *ngIf="editMode" class="margin-top-s padding-s mat-primary-border">
     <!-- [minLength]="'10'" -->
-    <ws-widget-editor-quill [htmlText]="post.postContent.title" (textData)="onTextChange($event)">
-    </ws-widget-editor-quill>
+    <!-- <ws-widget-editor-quill [htmlText]="post.postContent.title" (textData)="onTextChange($event)">
+    </ws-widget-editor-quill> -->
     <div class="text-right">
       <button type="button" name="discussion-post-update-button" class="margin-top-s" [disabled]="!postPublishEnabled"
         mat-raised-button color="primary" i18n (click)="editPost(editFailMsg.value)">
@@ -114,8 +114,8 @@
     <div class="padding-left-m width-expand">
       <div [hidden]="!replyPlaceholderToggler" #commentBox>
         <!-- [minLength]="'10'" -->
-        <ws-widget-editor-quill class="write-reply-editor" (textData)="onReplyTextChange($event)"
-          #discussionReplyEditor></ws-widget-editor-quill>
+        <!-- <ws-widget-editor-quill class="write-reply-editor" (textData)="onReplyTextChange($event)"
+          #discussionReplyEditor></ws-widget-editor-quill> -->
         <div class="text-right padding-top-s mr-4 mat-app-background">
 
           <button name="discussion-post-cancel-reply-button" type="button" class="margin-right-xs cancel-btn"

@@ -4,7 +4,7 @@ import { DisplayContentTypeModule } from '@ws-widget/collection'
 import { DefaultThumbnailModule, PipeDurationTransformModule } from '@ws-widget/utils'
 import { SharedModule } from '@ws/author/src/lib/modules/shared/shared.module'
 import { AceEditorModule } from 'ng2-ace-editor'
-import { CKEditorModule } from 'ng2-ckeditor'
+//import { CKEditorModule } from 'ng2-ckeditor'
 import { CatalogSelectModule } from '../shared/components/catalog-select/catalog-select.module'
 import { AceEditorComponent } from './components/ace-editor/ace-editor.component'
 import { AuthEditorActionButtonsComponent } from './components/auth-editor-action-buttons/auth-editor-action-buttons.component'
@@ -38,7 +38,7 @@ import { EditMetaV2Component } from './components/editor/edit-meta-v2/edit-meta-
     DefaultThumbnailModule,
     PipeDurationTransformModule,
     DisplayContentTypeModule,
-    CKEditorModule,
+    //CKEditorModule,
     SharedModule,
     AceEditorModule,
     CatalogSelectModule,

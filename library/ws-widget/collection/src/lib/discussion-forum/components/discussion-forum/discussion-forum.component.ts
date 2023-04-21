@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
-import { EditorQuillComponent } from '../../editor-quill/component/editor-quill/editor-quill.component'
+//import { EditorQuillComponent } from '../../editor-quill/component/editor-quill/editor-quill.component'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 
@@ -15,7 +15,7 @@ export class DiscussionForumComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsDiscussionForum.IDiscussionForumInput> {
   @Input() widgetData!: NsDiscussionForum.IDiscussionForumInput
 
-  @ViewChild('editorQuill', { static: true }) editorQuill: EditorQuillComponent | null = null
+  // @ViewChild('editorQuill', { static: true }) editorQuill: EditorQuillComponent | null = null
   @ViewChild('postEnabled', { static: true }) postEnabled: ElementRef<
     HTMLInputElement
   > | null = null
@@ -147,9 +147,9 @@ export class DiscussionForumComponent extends WidgetBaseComponent
         this.editorText = undefined
         this.isValidPost = false
         this.isPostingDiscussion = false
-        if (this.editorQuill) {
-          this.editorQuill.resetEditor()
-        }
+        // if (this.editorQuill) {
+        //   this.editorQuill.resetEditor()
+        // }
         this.fetchDiscussion(true)
       },
       () => {
@@ -186,8 +186,8 @@ export class DiscussionForumComponent extends WidgetBaseComponent
 
   cancelPost() {
     this.showCommentBox = !this.showCommentBox
-    if (this.editorQuill) {
-      this.editorQuill.resetEditor()
-    }
+    // if (this.editorQuill) {
+    //   this.editorQuill.resetEditor()
+    // }
   }
 }

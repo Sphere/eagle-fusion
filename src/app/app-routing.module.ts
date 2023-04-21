@@ -333,6 +333,11 @@ const routes: Routes = [
 
   },
   {
+    path: 'organisations',
+    loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
+    canActivate: [GeneralGuard],
+  },
+  {
     path: 'public/home',
     component: PublicHomeComponent,
     data: {

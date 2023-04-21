@@ -16,6 +16,7 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 //import { WidgetContentService } from '../_services/widget-content.service'
 import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
 import { Router } from '@angular/router'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 /* tslint:enable*/
 
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
@@ -34,7 +35,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
   public route: string
   public locale = ''
   isXSmall$ = this.valueSvc.isXSmall$
-
+  userData: any
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
@@ -43,7 +44,8 @@ export class BtnProfileComponent extends WidgetBaseComponent
     // private element: ElementRef,
     private router: Router,
     // private contentSvc: WidgetContentService,
-    location: Location
+    location: Location,
+    private userProfileSvc: UserProfileService,
   ) {
     super()
     this.route = location.path()
@@ -176,6 +178,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
   // }
 
   ngOnInit() {
+    console.log(this.configSvc)
     this.setPinnedApps()
     if (this.widgetData && this.widgetData.actionBtnId) {
       this.id = this.widgetData.actionBtnId
@@ -220,11 +223,18 @@ export class BtnProfileComponent extends WidgetBaseComponent
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   redirect() {
-    if (this.configSvc.unMappedUser.profileDetails.profileReq.personalDetails.dob) {
-      this.router.navigate(['/app/profile-view'])
-    } else {
-      const url = `/page/home`
-      this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
+        console.log(data, 'btn')
+        this.userData = await data
+
+        if (this.userData && this.userData.profileDetails!.profileReq!.personalDetails!.dob) {
+          this.router.navigate(['/app/profile-view'])
+        } else {
+          const url = `/page/home`
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+        }
+      })
     }
   }
   setPinnedApps() {
