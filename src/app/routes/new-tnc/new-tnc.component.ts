@@ -238,11 +238,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
         data = localStorage.getItem('preferedLanguage')
         this.lang = JSON.parse(data)
         this.lang = this.lang.id !== 'en' ? this.lang.id : ''
-        Obj = {
-          preferences: {
-            language: this.lang.id,
-          },
-        }
+        // Obj = {
+        //   preferences: {
+        //     language: this.lang,
+        //   },
+        // }
       }
 
       /* this changes for ebhyass*/
@@ -261,7 +261,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
         const reqUpdate = {
           request: {
             userId: this.userId,
-            profileDetails: Object.assign(profileRequest, Obj),
+            //profileDetails: Object.assign(profileRequest, Obj),
+            profileDetails: profileRequest,
           },
         }
         this.updateUser(reqUpdate)
@@ -285,15 +286,15 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  let url = `${this.lang.id}/app/about-you`
+                  let url = `${this.lang}/app/about-you`
                   this.router.navigate([url], { queryParams: { redirect: courseUrl } })
                 } else {
-                  let url = `${this.lang.id}/page/home`
+                  let url = `${this.lang}/page/home`
                   location.href = url
                 }
               } else {
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {
-                  let url = `${this.lang.id}/page/home`
+                  let url = `${this.lang}/page/home`
                   location.href = url
                 }
                 location.href = localStorage.getItem('url_before_login') || ''
@@ -301,7 +302,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
             })
           }
         } else {
-          let url = `${this.lang.id}/page/home`
+          let url = `${this.lang}/page/home`
           location.href = url
         }
         // location.href = '/page/home'

@@ -96,7 +96,6 @@
     "videojs-youtube": "^2.6.0",
     "vis-network": "^5.2.4",
     "vis-util": "^5.0.1",
-    "xlsx": "^0.16.1",
     "zone.js": "~0.10.1"
   },
   "devDependencies": {
