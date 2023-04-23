@@ -237,7 +237,6 @@ export class NewTncComponent implements OnInit, OnDestroy {
       let Obj: any
       if (localStorage.getItem('preferedLanguage')) {
         let data: any
-
         data = localStorage.getItem('preferedLanguage')
         this.lang = JSON.parse(data)
         this.lang = this.lang.id !== 'en' ? this.lang.id : ''
@@ -246,6 +245,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
         //     language: this.lang,
         //   },
         // }
+      } else {
+        this.lang = ''
       }
 
       /* this changes for ebhyass*/
