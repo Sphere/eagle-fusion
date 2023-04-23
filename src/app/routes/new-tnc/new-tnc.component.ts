@@ -293,17 +293,20 @@ export class NewTncComponent implements OnInit, OnDestroy {
                 console.log('12')
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  let url = `/app/about-you`
-                  this.router.navigate([url], { queryParams: { redirect: courseUrl } })
+                  let url = `app/about-you`
+                  window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
+                  //this.router.navigate([url], { queryParams: { redirect: courseUrl } })
                 } else {
-                  let url = `/page/home`
-                  location.href = url
+                  let url = `page/home`
+                  //location.href = url
+                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
                 }
               } else {
                 console.log('21')
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {
-                  let url = `/page/home`
-                  location.href = url
+                  let url = `page/home`
+                  //location.href = url
+                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
                 }
                 location.href = localStorage.getItem('url_before_login') || ''
               }
@@ -311,8 +314,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
           }
         } else {
           console.log('4s')
-          let url = `/page/home`
-          location.href = url
+          let url = `page/home`
+          //location.href = url
+          window.location.assign(`${location.origin}/${this.lang}/${url}`)
         }
         // location.href = '/page/home'
         // this.router.navigate(['/page/home'])
