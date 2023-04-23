@@ -225,10 +225,10 @@ export class BtnProfileComponent extends WidgetBaseComponent
   redirect() {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
-        console.log(data, 'btn')
+        console.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
+        //console.log(this.userData.profileDetails!.profileReq!.personalDetails!.dob)
         this.userData = await data
-
-        if (this.userData && this.userData.profileDetails!.profileReq!.personalDetails!.dob) {
+        if (data && data.profileDetails!.profileReq!.personalDetails!.dob) {
           this.router.navigate(['/app/profile-view'])
         } else {
           const url = `/page/home`

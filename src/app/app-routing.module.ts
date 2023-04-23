@@ -296,6 +296,7 @@ const routes: Routes = [
     component: GoogleCallbackComponent,
   },
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
+  { path: 'hi/hi/page/home', redirectTo: 'hi/page/home', pathMatch: 'full' },
   {
     path: 'hi/app/profile',
     loadChildren: () =>
