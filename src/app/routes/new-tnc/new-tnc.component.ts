@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Data, Router } from '@angular/router'
-import { Subscription, of } from 'rxjs'
+import {
+  Subscription,
+  of
+} from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
 import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -273,28 +276,33 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
   }
   updateUser(reqUpdate: any) {
+    console.log(reqUpdate)
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-      if (data) {
+      console.log(data)
+      console.log(this.result)
+      if (data.result.response === "SUCCESS") {
         this.configSvc.profileDetailsStatus = true
         this.configSvc.hasAcceptedTnc = true
         if (this.result.tncStatus) {
           if (this.configSvc.unMappedUser) {
-            this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
+            this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(200), mergeMap((userData: any) => {
               return of(userData)
             })).subscribe((userDetails: any) => {
+              console.log(userDetails)
               if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
-
+                console.log('12')
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  let url = `${this.lang}/app/about-you`
+                  let url = `/app/about-you`
                   this.router.navigate([url], { queryParams: { redirect: courseUrl } })
                 } else {
-                  let url = `${this.lang}/page/home`
+                  let url = `/page/home`
                   location.href = url
                 }
               } else {
+                console.log('21')
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {
-                  let url = `${this.lang}/page/home`
+                  let url = `/page/home`
                   location.href = url
                 }
                 location.href = localStorage.getItem('url_before_login') || ''
@@ -302,7 +310,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
             })
           }
         } else {
-          let url = `${this.lang}/page/home`
+          console.log('4s')
+          let url = `/page/home`
           location.href = url
         }
         // location.href = '/page/home'
