@@ -48,9 +48,9 @@
 </div>
 
 <!-- Featured Section-->
-<section class="p-4" style="background-color: #F7F7F7;">
+<section *ngIf="featuredCourse.length > 0" class="p-4" style="background-color: #F7F7F7;">
   <p class="text-2xl" i18n>Featured</p>
-  <ng-container *ngIf="featuredCourse" style="background-color: #FFF;">
+  <ng-container style="background-color: #FFF;">
     <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
   </ng-container>
 
