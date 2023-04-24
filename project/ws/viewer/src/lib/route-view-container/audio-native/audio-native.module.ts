@@ -34,14 +34,14 @@ import {
   PipeSafeSanitizerModule,
 } from '@ws-widget/utils'
 
-import { AudioNativeModule as AudioNativePluginModule } from '../../plugins/audio-native/audio-native.module'
+//import { AudioNativeModule as AudioNativePluginModule } from '../../plugins/audio-native/audio-native.module'
 
 import { AudioNativeComponent } from './audio-native.component'
 
 @NgModule({
   declarations: [AudioNativeComponent],
   imports: [
-    AudioNativePluginModule,
+    //AudioNativePluginModule,
     BtnContentDownloadModule,
     BtnContentFeedbackModule,
     BtnContentFeedbackV2Module,

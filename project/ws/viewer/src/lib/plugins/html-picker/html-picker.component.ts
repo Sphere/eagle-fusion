@@ -1,19 +1,19 @@
 import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { EventService } from '@ws-widget/utils'
-import 'brace'
-import 'brace/ext/language_tools'
-import 'brace/mode/css'
-import 'brace/mode/html'
-import 'brace/mode/javascript'
-import 'brace/mode/text'
-import 'brace/snippets/css'
-import 'brace/snippets/html'
-import 'brace/snippets/javascript'
-import 'brace/snippets/text'
-import 'brace/theme/cobalt'
-import 'brace/worker/css'
-import 'brace/worker/html'
-import 'brace/worker/javascript'
+// import 'brace'
+// import 'brace/ext/language_tools'
+// import 'brace/mode/css'
+// import 'brace/mode/html'
+// import 'brace/mode/javascript'
+// import 'brace/mode/text'
+// import 'brace/snippets/css'
+// import 'brace/snippets/html'
+// import 'brace/snippets/javascript'
+// import 'brace/snippets/text'
+// import 'brace/theme/cobalt'
+// import 'brace/worker/css'
+// import 'brace/worker/html'
+// import 'brace/worker/javascript'
 import { IHtmlPicker } from './html-picker.model'
 
 @Component({
@@ -192,14 +192,14 @@ export class HtmlPickerComponent implements OnInit, OnDestroy {
       if (this.isInput) {
         this.raiseInteractTelemetry('editor', 'codeinput')
       }
-    },                               2 * 60000)
+    }, 2 * 60000)
   }
   startClickTimer() {
     this.clickInterval = setInterval(() => {
       if (this.isClick) {
         this.raiseInteractTelemetry('editor', 'buttonclick')
       }
-    },                               2 * 60000)
+    }, 2 * 60000)
   }
 
 }

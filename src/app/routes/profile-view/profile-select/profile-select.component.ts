@@ -1,8 +1,11 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material'
+import {
+  //MatDialog,
+  MatDialogRef, MatSnackBar
+} from '@angular/material'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
-import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
-import { LoaderService } from '../../../../../project/ws/author/src/public-api'
+//import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
+//import { LoaderService } from '../../../../../project/ws/author/src/public-api'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
@@ -33,11 +36,11 @@ export class ProfileSelectComponent implements OnInit {
   ]
 
   constructor(public dialogRef: MatDialogRef<ProfileSelectComponent>,
-              private snackBar: MatSnackBar,
-              private userProfileSvc: UserProfileService,
-              private configSvc: ConfigurationsService,
-              private dialog: MatDialog,
-              private loader: LoaderService,
+    private snackBar: MatSnackBar,
+    private userProfileSvc: UserProfileService,
+    private configSvc: ConfigurationsService,
+    //private dialog: MatDialog,
+    //private loader: LoaderService,
   ) {
     this.createUserForm = new FormGroup({
       photo: new FormControl('', []),
@@ -53,7 +56,7 @@ export class ProfileSelectComponent implements OnInit {
   }
 
   uploadProfileImg(file: File) {
-    const formdata = new FormData()
+    //const formdata = new FormData()
     const fileName = file.name.replace(/[^A-Za-z0-9.]/g, '')
     if (
       !(
@@ -84,33 +87,33 @@ export class ProfileSelectComponent implements OnInit {
       return
     }
 
-    const dialogRef = this.dialog.open(ImageCropComponent, {
-      width: '70%',
-      data: {
-        isRoundCrop: true,
-        imageFile: file,
-        width: 265,
-        height: 150,
-        isThumbnail: true,
-        imageFileName: fileName,
-      },
-    })
+    // const dialogRef = this.dialog.open(ImageCropComponent, {
+    //   width: '70%',
+    //   data: {
+    //     isRoundCrop: true,
+    //     imageFile: file,
+    //     width: 265,
+    //     height: 150,
+    //     isThumbnail: true,
+    //     imageFileName: fileName,
+    //   },
+    // })
 
-    dialogRef.afterClosed().subscribe({
-      next: (result: File) => {
-        if (result) {
-          formdata.append('content', result, fileName)
-          this.loader.changeLoad.next(true)
-          const reader = new FileReader()
-          reader.readAsDataURL(result)
-          reader.onload = _event => {
-            this.photoUrl = reader.result
-            this.createUserForm.controls['photo'].setValue(this.photoUrl)
-            this.onSubmit(this.createUserForm)
-          }
-        }
-      },
-    })
+    // dialogRef.afterClosed().subscribe({
+    //   next: (result: File) => {
+    //     if (result) {
+    //       formdata.append('content', result, fileName)
+    //       this.loader.changeLoad.next(true)
+    //       const reader = new FileReader()
+    //       reader.readAsDataURL(result)
+    //       reader.onload = _event => {
+    //         this.photoUrl = reader.result
+    //         this.createUserForm.controls['photo'].setValue(this.photoUrl)
+    //         this.onSubmit(this.createUserForm)
+    //       }
+    //     }
+    //   },
+    // })
   }
 
   getUserDetails() {

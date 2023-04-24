@@ -5,7 +5,7 @@ import { Subscription, Observable } from 'rxjs'
 import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { MatSnackBar, MatChipInputEvent, DateAdapter, MAT_DATE_FORMATS, MatDialog, MatTabGroup } from '@angular/material'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../services/format-datepicker'
-import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
+//import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
 import { UserProfileService } from '../../services/user-profile.service'
 import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
@@ -26,7 +26,7 @@ import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
-import { LoaderService } from '@ws/author/src/public-api'
+//import { LoaderService } from '@ws/author/src/public-api'
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
@@ -133,7 +133,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private dialog: MatDialog,
-    private loader: LoaderService,
+    //private loader: LoaderService,
     private btnservice: BtnProfileService,
     private http: HttpClient,
   ) {
@@ -810,7 +810,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -1322,7 +1322,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadProfileImg(file: File) {
-    const formdata = new FormData()
+    //const formdata = new FormData()
     const fileName = file.name.replace(/[^A-Za-z0-9.]/g, '')
     if (
       !(
@@ -1353,35 +1353,35 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       return
     }
 
-    const dialogRef = this.dialog.open(ImageCropComponent, {
-      width: '70%',
-      data: {
-        isRoundCrop: true,
-        imageFile: file,
-        width: 265,
-        height: 150,
-        isThumbnail: true,
-        imageFileName: fileName,
-      },
-    })
+    // const dialogRef = this.dialog.open(ImageCropComponent, {
+    //   width: '70%',
+    //   data: {
+    //     isRoundCrop: true,
+    //     imageFile: file,
+    //     width: 265,
+    //     height: 150,
+    //     isThumbnail: true,
+    //     imageFileName: fileName,
+    //   },
+    // })
 
-    dialogRef.afterClosed().subscribe({
-      next: (result: File) => {
-        if (result) {
-          formdata.append('content', result, fileName)
-          this.loader.changeLoad.next(true)
-          const reader = new FileReader()
-          reader.readAsDataURL(result)
-          reader.onload = _event => {
-            this.photoUrl = reader.result
-            if (this.createUserForm.get('photo') !== undefined) {
-              // tslint:disable-next-line: no-non-null-assertion
-              this.createUserForm.get('photo')!.setValue(this.photoUrl)
-            }
-          }
-        }
-      },
-    })
+    // dialogRef.afterClosed().subscribe({
+    //   next: (result: File) => {
+    //     if (result) {
+    //       formdata.append('content', result, fileName)
+    //       this.loader.changeLoad.next(true)
+    //       const reader = new FileReader()
+    //       reader.readAsDataURL(result)
+    //       reader.onload = _event => {
+    //         this.photoUrl = reader.result
+    //         if (this.createUserForm.get('photo') !== undefined) {
+    //           // tslint:disable-next-line: no-non-null-assertion
+    //           this.createUserForm.get('photo')!.setValue(this.photoUrl)
+    //         }
+    //       }
+    //     }
+    //   },
+    // })
   }
 
   onDateChange(event: any) {

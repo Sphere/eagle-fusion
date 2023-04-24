@@ -36,7 +36,11 @@ import {
 } from '@ws-widget/collection'
 import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { ImageCropComponent, ImageCropModule, LoggerService, PipeSafeSanitizerModule } from '@ws-widget/utils'
+import {
+  //ImageCropComponent,
+  //ImageCropModule,
+  LoggerService, PipeSafeSanitizerModule
+} from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
 import 'hammerjs'
 import { KeycloakAngularModule } from 'keycloak-angular'
@@ -275,7 +279,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MatSelectModule,
     MatExpansionModule,
     DiscussionUiModule.forRoot(ConfigService),
-    ImageCropModule,
+    //ImageCropModule,
     SharedModule,
     OrganisationsModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
@@ -292,7 +296,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     DialogConfirmComponent,
     LoginComponent,
     ProfileSelectComponent,
-    ImageCropComponent,
+    //ImageCropComponent,
     NotificationComponent,
     LanguageDialogComponent,
   ],

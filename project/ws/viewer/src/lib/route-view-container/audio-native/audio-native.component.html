@@ -1,6 +1,6 @@
 <div class="video-player-m ws-mat-primary-lite-background-important" *ngIf="isScreenSizeSmall && audioData"
   [ngStyle]="{ background: 'url(' + defaultThumbnail + ')' }">
-  <viewer-plugin-audio-native [artifactUrl]="audioData?.artifactUrl"> </viewer-plugin-audio-native>
+  <!-- <viewer-plugin-audio-native [artifactUrl]="audioData?.artifactUrl"> </viewer-plugin-audio-native> -->
 </div>
 <div class="padding-dynamic" *ngIf="audioData">
   <div class="flex flex-around flex-wrapped">
@@ -10,8 +10,8 @@
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player ws-mat-primary-lite-background-important"
               [ngStyle]="{ background: 'url(' + defaultThumbnail + ')' }">
-              <viewer-plugin-audio-native [artifactUrl]="audioData?.artifactUrl">
-              </viewer-plugin-audio-native>
+              <!-- <viewer-plugin-audio-native [artifactUrl]="audioData?.artifactUrl">
+              </viewer-plugin-audio-native> -->
               <div class="player-nav-links">
                 <div class="flex justify-between html">
                   <div class="prev-button">
