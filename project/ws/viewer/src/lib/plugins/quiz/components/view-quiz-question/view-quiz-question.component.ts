@@ -5,7 +5,7 @@ import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import * as _ from 'lodash'
+import { isUndefined, toLower } from 'lodash'
 @Component({
   selector: 'viewer-view-quiz-question',
   templateUrl: './view-quiz-question.component.html',
@@ -92,7 +92,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
     this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe(
       // tslint:disable-next-line:no-shadowed-variable
       (res: any) => {
-        if (!_.isUndefined(res)) {
+        if (!isUndefined(res)) {
           if (res) {
             this.initJsPlump()
 
@@ -227,7 +227,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
     const arr = []
     for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
       const blank: HTMLInputElement = this.elementRef.nativeElement.querySelector(`#${this.question.questionId}${i}`)
-      arr.push(_.toLower(blank.value.trim()))
+      arr.push(toLower(blank.value.trim()))
     }
     this.itemSelected.emit(arr.join())
     this.ifFillInTheBlankCorrect(id)

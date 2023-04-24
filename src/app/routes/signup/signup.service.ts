@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
-import * as _ from 'lodash'
+import { get, isUndefined } from 'lodash'
 import { v4 as uuid } from 'uuid'
 
 const API_END_POINTS = {
@@ -101,10 +101,10 @@ export class SignupService {
           }
           localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
-          const profileV2 = _.get(userPidProfile, 'profiledetails')
+          const profileV2 = get(userPidProfile, 'profiledetails')
           this.configSvc.userProfile = {
-            country: _.get(profileV2, 'personalDetails.countryCode') || null,
-            email: _.get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
+            country: get(profileV2, 'personalDetails.countryCode') || null,
+            email: get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
             givenName: userPidProfile.firstName,
             userId: userPidProfile.userId,
             firstName: userPidProfile.firstName,
@@ -116,19 +116,19 @@ export class SignupService {
             departmentName: userPidProfile.channel,
             dealerCode: null,
             isManager: false,
-            phone: _.get(userPidProfile, 'phone'),
+            phone: get(userPidProfile, 'phone'),
           }
           this.configSvc.userProfileV2 = {
-            userId: _.get(profileV2, 'userId') || userPidProfile.userId,
-            email: _.get(profileV2, 'personalDetails.officialEmail') || userPidProfile.email,
-            firstName: _.get(profileV2, 'personalDetails.firstname') || userPidProfile.firstName,
-            surName: _.get(profileV2, 'personalDetails.surname') || userPidProfile.lastName,
-            middleName: _.get(profileV2, 'personalDetails.middlename') || '',
-            departmentName: _.get(profileV2, 'employmentDetails.departmentName') || userPidProfile.channel,
-            givenName: _.get(userPidProfile, 'userName'),
-            userName: `${_.get(profileV2, 'personalDetails.firstname') ? _.get(profileV2, 'personalDetails.firstname') :
-              ''}${_.get(profileV2, 'personalDetails.surname') ? _.get(profileV2, 'personalDetails.surname') : ''}`,
-            profileImage: _.get(profileV2, 'photo') || userPidProfile.thumbnail,
+            userId: get(profileV2, 'userId') || userPidProfile.userId,
+            email: get(profileV2, 'personalDetails.officialEmail') || userPidProfile.email,
+            firstName: get(profileV2, 'personalDetails.firstname') || userPidProfile.firstName,
+            surName: get(profileV2, 'personalDetails.surname') || userPidProfile.lastName,
+            middleName: get(profileV2, 'personalDetails.middlename') || '',
+            departmentName: get(profileV2, 'employmentDetails.departmentName') || userPidProfile.channel,
+            givenName: get(userPidProfile, 'userName'),
+            userName: `${get(profileV2, 'personalDetails.firstname') ? get(profileV2, 'personalDetails.firstname') :
+              ''}${get(profileV2, 'personalDetails.surname') ? get(profileV2, 'personalDetails.surname') : ''}`,
+            profileImage: get(profileV2, 'photo') || userPidProfile.thumbnail,
             dealerCode: null,
             isManager: false,
           }
@@ -141,9 +141,9 @@ export class SignupService {
         }
         const details = {
           group: [],
-          profileDetailsStatus: !!_.get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
+          profileDetailsStatus: !!get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
           roles: (userPidProfile.roles || []).map((v: { toLowerCase: () => void }) => v.toLowerCase()),
-          tncStatus: !(_.isUndefined(this.configSvc.unMappedUser)),
+          tncStatus: !(isUndefined(this.configSvc.unMappedUser)),
           isActive: !!!userPidProfile.isDeleted,
           userId: userPidProfile.userId,
           status: 200,

@@ -10,7 +10,7 @@ import { FilterDisplayComponent } from '../../components/filter-display/filter-d
 // import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
-import * as _ from 'lodash'
+import { isEmpty } from 'lodash'
 import { SearchApiService } from '../../apis/search-api.service'
 @Component({
   selector: 'ws-app-learning',
@@ -302,7 +302,7 @@ export class LearningComponent implements OnInit, OnDestroy {
             this.expandToPrefLang = true
           }
           this.searchRequestObject.request.query = queryParams.get('q') || ''
-          if (_.isEmpty(this.searchRequest.filters)) {
+          if (isEmpty(this.searchRequest.filters)) {
             this.searchRequestObject.request.filters = {
               visibility: ['Default'],
               primaryCategory: [

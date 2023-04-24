@@ -8,10 +8,12 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
 import { forkJoin, from } from 'rxjs'
-import * as  _ from 'lodash'
+// import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
+import * as _ from './lodash'
+
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
@@ -76,7 +78,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                             'identifier')
+    })), 'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -98,7 +100,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      },         500)
+      }, 500)
     })
 
   }
@@ -106,13 +108,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                                (result: any, value) => {
+    })), (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    },                                  [])
+    }, [])
     this.certificates = issuedCertificates
   }
 

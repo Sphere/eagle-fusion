@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import * as _ from 'lodash'
+import { trim, get, upperCase } from 'lodash'
 import * as moment from 'moment'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
@@ -50,7 +50,7 @@ export class CertificateDetailsComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.instance = _.upperCase(this.configService.rootOrg || 'aastrika')
+    this.instance = upperCase(this.configService.rootOrg || 'aastrika')
     if (this.configService.instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configService.instanceConfig.logos.appTransparent,
@@ -63,17 +63,17 @@ export class CertificateDetailsComponent implements OnInit {
     this.loader = true
     const request = {
       certId: this.activatedRoute.snapshot.params.uuid,
-      accessCode: _.trim(this.certificateCode),
+      accessCode: trim(this.certificateCode),
     }
     this.certificateService.validateCertificate(request).subscribe(
       (data: any) => {
-        // this.getCourseVideoUrl(_.get(data, 'result.response.courseId'))
-        const certData = _.get(data, 'response.json')
+        // this.getCourseVideoUrl(get(data, 'result.response.courseId'))
+        const certData = get(data, 'response.json')
         this.loader = false
         this.viewCertificate = true
-        this.recipient = _.get(certData, 'recipient.name')
-        this.courseName = _.get(certData, 'badge.name')
-        this.issuedOn = moment(new Date(_.get(certData, 'issuedOn'))).format('DD MMM YYYY')
+        this.recipient = get(certData, 'recipient.name')
+        this.courseName = get(certData, 'badge.name')
+        this.issuedOn = moment(new Date(get(certData, 'issuedOn'))).format('DD MMM YYYY')
       },
       () => {
         this.wrongCertificateCode = true
@@ -105,7 +105,7 @@ export class CertificateDetailsComponent implements OnInit {
   getCourseVideoUrl(courseId: string) {
     this.getCollectionHierarchy(courseId).subscribe(
       (response: any) => {
-        this.watchVideoLink = _.get(response, 'result.content.certVideoUrl')
+        this.watchVideoLink = get(response, 'result.content.certVideoUrl')
         if (this.watchVideoLink) {
           const splitedData = this.watchVideoLink.split('/')
           splitedData.forEach(value => {
