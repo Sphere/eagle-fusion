@@ -628,7 +628,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
   }
 
   actionOnExpiry(content: NSContent.IContentMeta) {
-    console.log("content: " + content)
+    console.log('content: ' + content)
   }
 
   setCurrentLanguage(lang: string) {

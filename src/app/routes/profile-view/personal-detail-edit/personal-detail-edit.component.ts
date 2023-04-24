@@ -56,12 +56,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   loadDob = false
   showDesignation = false
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
-    public dialog: MatDialog,
-    private valueSvc: ValueService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private matSnackBar: MatSnackBar,
+              public dialog: MatDialog,
+              private valueSvc: ValueService,
+              private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.personalDetailForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
@@ -358,7 +358,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     console.log(form.value)
     console.log(this.userProfileData)
     if (form.value.dob.includes('undefined')) {
-      let data = form.value.dob.replace(/\/undefined/g, '')
+      const data = form.value.dob.replace(/\/undefined/g, '')
       console.log(data)
       form.value.dob = data
     }

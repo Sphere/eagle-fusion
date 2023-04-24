@@ -2,7 +2,7 @@ import { Component, Input, OnChanges, OnInit, SimpleChanges, HostListener } from
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import {
   IBtnAppsConfig,
-  //CustomTourService
+  // CustomTourService
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
@@ -54,7 +54,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   constructor(
     private domSanitizer: DomSanitizer,
     private configSvc: ConfigurationsService,
-    //private tourService: CustomTourService,
+    // private tourService: CustomTourService,
     private router: Router,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
@@ -136,7 +136,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         !this.configSvc.restrictedFeatures.has('tourGuide')
       ) {
         this.isTourGuideAvailable = canShow
-        //this.popupTour = this.tourService.createPopupTour()
+        // this.popupTour = this.tourService.createPopupTour()
       }
     })
   }
@@ -200,7 +200,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   // }
   cancelTour() {
     if (this.popupTour) {
-      //this.tourService.cancelPopupTour()
+      // this.tourService.cancelPopupTour()
       this.isTourGuideClosed = false
     }
 

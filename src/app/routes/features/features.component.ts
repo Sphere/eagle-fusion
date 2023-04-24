@@ -7,7 +7,7 @@ import { NsAppsConfig, ConfigurationsService, NsPage, LogoutComponent, Subapplic
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import {
   ROOT_WIDGET_CONFIG,
-  //CustomTourService
+  // CustomTourService
 } from '@ws-widget/collection'
 import { MatDialog } from '@angular/material'
 import { AccessControlService } from '../../../../project/ws/author/src/public-api'
@@ -33,7 +33,7 @@ export class FeaturesComponent implements OnInit, OnDestroy {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private configurationSvc: ConfigurationsService,
-    //private tour: CustomTourService,
+    // private tour: CustomTourService,
     private respondSvc: SubapplicationRespondService,
     private valueSvc: ValueService,
     private accessService: AccessControlService,
@@ -44,7 +44,7 @@ export class FeaturesComponent implements OnInit, OnDestroy {
     })
     if (this.configurationSvc.appsConfig && this.configurationSvc.appsConfig.tourGuide) {
       this.configurationSvc.tourGuideNotifier.next(true)
-      //this.tour.data = this.configurationSvc.appsConfig.tourGuide
+      // this.tour.data = this.configurationSvc.appsConfig.tourGuide
     }
     if (this.configurationSvc.appsConfig) {
       const appsConfig = this.configurationSvc.appsConfig
@@ -142,7 +142,7 @@ export class FeaturesComponent implements OnInit, OnDestroy {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   startTour() {
-    //this.tour.startTour()
+    // this.tour.startTour()
     if (this.responseSubscription) {
       this.respondSvc.unsubscribeResponse()
       this.responseSubscription.unsubscribe()

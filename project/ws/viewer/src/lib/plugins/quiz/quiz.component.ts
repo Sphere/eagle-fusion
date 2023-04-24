@@ -238,7 +238,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      }, 500)
+      },         500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -416,7 +416,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           if (res) {
             setTimeout(() => {
               this.openOverviewDialog()
-            }, 500)
+            },         500)
           }
         })
       }

@@ -62,8 +62,8 @@ import { ErrorResolverComponent } from './error-resolver/error-resolver.componen
 import { ErrorResolverModule } from './error-resolver/error-resolver.module'
 import { GalleryViewComponent } from './gallery-view/gallery-view.component'
 import { GalleryViewModule } from './gallery-view/gallery-view.module'
-//import { GraphGeneralComponent } from './graph-general/graph-general.component'
-//import { GraphGeneralModule } from './graph-general/graph-general.module'
+// import { GraphGeneralComponent } from './graph-general/graph-general.component'
+// import { GraphGeneralModule } from './graph-general/graph-general.module'
 import { GridLayoutComponent } from './grid-layout/grid-layout.component'
 import { GridLayoutModule } from './grid-layout/grid-layout.module'
 import { ImageMapResponsiveComponent } from './image-map-responsive/image-map-responsive.component'
@@ -131,7 +131,7 @@ export const WIDGET_REGISTERED_MODULES = [
   ChannelHubModule,
   ContentStripMultipleModule,
   ContentStripSingleModule,
-  //GraphGeneralModule,
+  // GraphGeneralModule,
   LayoutLinearModule,
   LayoutTabModule,
   PickerContentModule,

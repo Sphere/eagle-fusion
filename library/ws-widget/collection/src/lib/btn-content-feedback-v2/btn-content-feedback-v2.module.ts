@@ -11,7 +11,7 @@ import {
   MatSnackBarModule,
 } from '@angular/material'
 
-//import { EditorQuillModule } from '../discussion-forum/editor-quill/editor-quill.module'
+// import { EditorQuillModule } from '../discussion-forum/editor-quill/editor-quill.module'
 
 import { BtnContentFeedbackV2Component } from './components/btn-content-feedback-v2/btn-content-feedback-v2.component'
 import { BtnContentFeedbackDialogV2Component } from './components/btn-content-feedback-dialog-v2/btn-content-feedback-dialog-v2.component'
@@ -29,7 +29,7 @@ import { UserContentRatingModule } from './../_common/user-content-rating/user-c
     CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    //EditorQuillModule,
+    // EditorQuillModule,
     MatButtonModule,
     MatIconModule,
     MatTooltipModule,

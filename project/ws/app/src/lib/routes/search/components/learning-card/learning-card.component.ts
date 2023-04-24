@@ -53,7 +53,7 @@ export class LearningCardComponent extends WidgetBaseComponent
           this.cometencyData.push(
             {
               name: value.competencyName,
-              levels: ` Level ${value.level}`
+              levels: ` Level ${value.level}`,
             }
           )
         }

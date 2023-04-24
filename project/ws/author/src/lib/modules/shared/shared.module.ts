@@ -37,7 +37,7 @@ import { MatStepperModule } from '@angular/material/stepper'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTreeModule } from '@angular/material/tree'
-//import { ImageCropModule } from '@ws-widget/utils/src/public-api'
+// import { ImageCropModule } from '@ws-widget/utils/src/public-api'
 import { AuthEditorStepsComponent } from './components/auth-editor-steps/auth-editor-steps.component'
 import { CommentsDialogComponent } from './components/comments-dialog/comments-dialog.component'
 import { ConfirmDialogComponent } from './components/confirm-dialog/confirm-dialog.component'
@@ -101,7 +101,7 @@ import { StatusTrackComponent } from './components/status-track/status-track.com
     MatTreeModule,
     MatRadioModule,
     MatProgressBarModule,
-    //ImageCropModule,
+    // ImageCropModule,
     PipeContentRouteModule,
   ],
   exports: [
@@ -140,7 +140,7 @@ import { StatusTrackComponent } from './components/status-track/status-track.com
     MatTreeModule,
     MatRadioModule,
     MatProgressBarModule,
-    //ImageCropModule,
+    // ImageCropModule,
     AuthEditorStepsComponent,
     ErrorParserComponent,
     PipeContentRouteModule,

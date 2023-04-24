@@ -6,7 +6,7 @@ import { get } from 'lodash'
 @Component({
   selector: 'ws-app-call-back',
   templateUrl: './app-call-back.component.html',
-  styleUrls: ['./app-call-back.component.scss']
+  styleUrls: ['./app-call-back.component.scss'],
 })
 export class AppCallBackComponent implements OnInit {
 

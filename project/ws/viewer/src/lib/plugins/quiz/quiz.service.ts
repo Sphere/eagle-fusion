@@ -29,7 +29,7 @@ export class QuizService {
   competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
     let url = ''
     if (window.location.origin.indexOf('http://localhost:') === -1) {
-      url = `${window["env"]["azureHost"]}/${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
+      url = `${window['env']['azureHost']}/${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     } else {
       url = `${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     }

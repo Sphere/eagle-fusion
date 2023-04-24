@@ -5,7 +5,7 @@ import { forEach } from 'lodash'
 @Component({
   selector: 'ws-app-app-toc-desktop-modal',
   templateUrl: './app-toc-desktop-modal.component.html',
-  styleUrls: ['./app-toc-desktop-modal.component.scss']
+  styleUrls: ['./app-toc-desktop-modal.component.scss'],
 })
 export class AppTocDesktopModalComponent implements OnInit {
   cometencyData: { name: any; levels: string }[] = []
@@ -27,11 +27,11 @@ export class AppTocDesktopModalComponent implements OnInit {
         {
           name: value.competencyName,
 
-          levels: value.level ? ` Level ${value.level}` : `Levels data not found!`
+          levels: value.level ? ` Level ${value.level}` : `Levels data not found!`,
         }
       )
     })
-    console.log("inside", this.cometencyData, 'name')
+    console.log('inside', this.cometencyData, 'name')
     return this.cometencyData
   }
 

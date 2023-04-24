@@ -18,7 +18,7 @@ import {
   MatCheckboxModule,
   // MatSnackBarModule,
 } from '@angular/material'
-//import { EditorQuillModule } from './editor-quill/editor-quill.module'
+// import { EditorQuillModule } from './editor-quill/editor-quill.module'
 import { UserImageModule } from '../_common/user-image/user-image.module'
 import { BtnSocialVoteModule } from './actionBtn/btn-social-vote/btn-social-vote.module'
 import { BtnSocialLikeModule } from './actionBtn/btn-social-like/btn-social-like.module'
@@ -42,7 +42,7 @@ import { DialogSocialDeletePostModule } from './dialog/dialog-social-delete-post
     MatProgressSpinnerModule,
     BtnSocialVoteModule,
     BtnSocialLikeModule,
-    //EditorQuillModule,
+    // EditorQuillModule,
     UserImageModule,
     // MatSnackBarModule,
     DialogSocialActivityUserModule,

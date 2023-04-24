@@ -187,7 +187,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          }, 4000)
+          },         4000)
         }
       }
 
@@ -270,14 +270,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    }, 300)
+    },         300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -640,7 +640,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.playerStateService.setState({
       isValid: Boolean(this.collection),
       // tslint:disable-next-line:object-shorthand-properties-first
-      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId,
     })
   }
 

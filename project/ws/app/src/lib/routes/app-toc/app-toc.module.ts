@@ -31,7 +31,7 @@ import {
 } from '@angular/material'
 
 // comps
-//import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
+// import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
 import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-contents.component'
 import { AppTocHomeComponent } from './components/app-toc-home/app-toc-home.component'
 import { AppTocHomeComponent as AppTocHomeRootComponent } from './routes/app-toc-home/app-toc-home.component'
@@ -46,7 +46,7 @@ import { CreateBatchDialogComponent } from './components/create-batch-dialog/cre
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
 import { ProfileResolverService } from './../user-profile/resolvers/profile-resolver.service'
 import { AppTocService } from './services/app-toc.service'
-//import { TrainingApiService } from '../infy/routes/training/apis/training-api.service'
+// import { TrainingApiService } from '../infy/routes/training/apis/training-api.service'
 
 // custom modules
 import { WidgetResolverModule } from '@ws-widget/resolver'
@@ -92,13 +92,13 @@ import { CertificationMetaResolver } from './routes/app-toc-certification/resolv
 import { ContentCertificationResolver } from './routes/app-toc-certification/resolvers/content-certification.resolver'
 import { CertificationApiService } from './routes/app-toc-certification/apis/certification-api.service'
 import { AppTocCertificationModule } from './routes/app-toc-certification/app-toc-certification.module'
-//import { TrainingService } from '../infy/routes/training/services/training.service'
+// import { TrainingService } from '../infy/routes/training/services/training.service'
 import { AppTocOverviewDirective } from './routes/app-toc-overview/app-toc-overview.directive'
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
 import { AppTocHomeDirective } from './routes/app-toc-home/app-toc-home.directive'
-//import { AppTocCohortsDirective } from './routes/app-toc-cohorts/app-toc-cohorts.directive'
-//import { AppTocCohortsComponent as AppTocCohortsRootComponent } from './routes/app-toc-cohorts/app-toc-cohorts.component'
-//import { AppTocAnalyticsTilesComponent } from './components/app-toc-analytics-tiles/app-toc-analytics-tiles.component'
+// import { AppTocCohortsDirective } from './routes/app-toc-cohorts/app-toc-cohorts.directive'
+// import { AppTocCohortsComponent as AppTocCohortsRootComponent } from './routes/app-toc-cohorts/app-toc-cohorts.component'
+// import { AppTocAnalyticsTilesComponent } from './components/app-toc-analytics-tiles/app-toc-analytics-tiles.component'
 import { KnowledgeArtifactDetailsComponent } from './components/knowledge-artifact-details/knowledge-artifact-details.component'
 import { ProfileImageModule } from '../../../../../../../library/ws-widget/collection/src/lib/_common/profile-image/profile-image.module'
 import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
@@ -115,7 +115,7 @@ import { AssessmentDetailComponent } from './components/assessment-detail/assess
 import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/app-toc-desktop-modal.component'
 @NgModule({
   declarations: [
-    //AppTocAnalyticsComponent,
+    // AppTocAnalyticsComponent,
     AppTocContentsComponent,
     AppTocHomeComponent,
     AppTocOverviewComponent,
@@ -128,10 +128,10 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     AppTocOverviewRootComponent,
     AppTocHomeDirective,
     AppTocHomeRootComponent,
-    //AppTocCohortsDirective,
-    //AppTocCohortsRootComponent,
+    // AppTocCohortsDirective,
+    // AppTocCohortsRootComponent,
     KnowledgeArtifactDetailsComponent,
-    //AppTocAnalyticsTilesComponent,
+    // AppTocAnalyticsTilesComponent,
     LicenseComponent,
     // AppTocSinglePageComponent,
     // AppTocSinglePageRootComponent,
@@ -215,8 +215,8 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     AppTocResolverService,
     AppTocService,
     PipeContentRoutePipe,
-    //TrainingApiService,
-    //TrainingService,
+    // TrainingApiService,
+    // TrainingService,
     CertificationApiService,
     CertificationMetaResolver,
     ContentCertificationResolver,

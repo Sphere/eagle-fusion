@@ -23,7 +23,7 @@ const API_END_POINTS = {
 export class SignupService {
 
   constructor(private http: HttpClient,
-    private configSvc: ConfigurationsService
+              private configSvc: ConfigurationsService
   ) { }
 
   signup(data: any): Observable<any> {

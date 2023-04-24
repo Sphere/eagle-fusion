@@ -218,7 +218,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          }, 10)
+          },         10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -378,9 +378,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.init()
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      }, 300)
+      },         300)
       // window.fcWidget.show()
-      //this.isCommonChatEnabled = false
+      // this.isCommonChatEnabled = false
       const script = this._renderer2.createElement('script')
       script.src = '//in.fw-cdn.com/30492305/271953.js'
       this._renderer2.appendChild(this._document.body, script)

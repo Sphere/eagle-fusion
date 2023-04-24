@@ -27,7 +27,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  }, [])
+  },                  [])
 }
 @Component({
   selector: 'ws-app-app-toc-home-page',
@@ -422,7 +422,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           })
           const progress = map(this.resumeData, 'completionPercentage')
           this.resumeResource = this.resumeData.filter((item: any) => {
-            return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ""))
+            return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
           })
 
           const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
@@ -479,7 +479,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             const query = this.generateQuery('RESUME')
             this.router.navigate([this.resumeDataLink.url], { queryParams: query })
 
-          }, 500)
+          },         500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')

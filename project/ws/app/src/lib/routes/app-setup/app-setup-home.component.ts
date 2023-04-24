@@ -4,7 +4,7 @@ import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core'
 import { IWidgetsPlayerMediaData } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-//import { InterestComponent } from '../profile/routes/interest/components/interest/interest.component'
+// import { InterestComponent } from '../profile/routes/interest/components/interest/interest.component'
 import { SettingsComponent } from '../profile/routes/settings/settings.component'
 
 @Component({

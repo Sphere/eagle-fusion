@@ -21,7 +21,7 @@ export class MobileDashboardComponent implements OnInit {
   topCertifiedCourse: any = []
   featuredCourse: any = []
   userEnrollCourse: any
-  videoData: any
+  //videoData: any
   homeFeatureData: any
   homeFeature: any
   userId: any
@@ -58,23 +58,23 @@ export class MobileDashboardComponent implements OnInit {
       }
     }
 
-    this.videoData = [
-      {
-        url: './../../fusion-assets/videos/videoplayback.mp4',
-        title: 'Register for a course',
-        description: 'Explore various courses and pick the ones you like',
-      },
-      {
-        url: './../../fusion-assets/videos/videoplayback.mp4',
-        title: 'Take the course',
-        description: 'Access the course anytime, at your convinience',
-      },
-      {
-        url: './../../fusion-assets/videos/videoplayback.mp4',
-        title: 'Get certified',
-        description: 'Receive downloadable and shareable certificates',
-      },
-    ]
+    // this.videoData = [
+    //   {
+    //     url: './../../fusion-assets/videos/videoplayback.mp4',
+    //     title: 'Register for a course',
+    //     description: 'Explore various courses and pick the ones you like',
+    //   },
+    //   {
+    //     url: './../../fusion-assets/videos/videoplayback.mp4',
+    //     title: 'Take the course',
+    //     description: 'Access the course anytime, at your convinience',
+    //   },
+    //   {
+    //     url: './../../fusion-assets/videos/videoplayback.mp4',
+    //     title: 'Get certified',
+    //     description: 'Receive downloadable and shareable certificates',
+    //   },
+    // ]
     if (this.configSvc.userProfile) {
       this.firstName = this.configSvc.userProfile
       this.userId = this.configSvc.userProfile.userId || ''
@@ -93,12 +93,13 @@ export class MobileDashboardComponent implements OnInit {
 
   }
   formatFeaturedCourseResponse(res: any) {
-
+    console.log(res)
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
-
+    console.log(featuredCourse)
     this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
+      console.log(value)
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
@@ -162,9 +163,9 @@ export class MobileDashboardComponent implements OnInit {
     this.langDialog.afterClosed().subscribe(async (result: any) => {
       let langSelected: any
       langSelected = await result
-      langSelected["selected"] = true
+      langSelected['selected'] = true
       localStorage.setItem(`preferedLanguage`, JSON.stringify(langSelected))
-      let lang = result.id === 'hi' ? result.id : 'en'
+      const lang = result.id === 'hi' ? result.id : 'en'
       let user: any
       const userid = this.configSvc.userProfileV2!.userId
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {

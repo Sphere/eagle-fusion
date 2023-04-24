@@ -2,13 +2,13 @@ import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { SearchRootComponent } from './routes/search-root/search-root.component'
 import { LearningComponent } from './routes/learning/learning.component'
-//import { KnowledgeComponent } from './routes/knowledge/knowledge.component'
-//import { ProjectComponent } from './routes/project/project.component'
-//import { SocialComponent6 } from './routes/social/social.component'
+// import { KnowledgeComponent } from './routes/knowledge/knowledge.component'
+// import { ProjectComponent } from './routes/project/project.component'
+// import { SocialComponent6 } from './routes/social/social.component'
 import { HomeComponent } from './routes/home/home.component'
-//import { PeopleComponent } from './routes/people/people.component'
+// import { PeopleComponent } from './routes/people/people.component'
 import { PageResolve } from '@ws-widget/utils'
-//import { GeneralGuard } from 'src/app/guards/general.guard'
+// import { GeneralGuard } from 'src/app/guards/general.guard'
 
 const routes: Routes = [
   {

@@ -31,15 +31,15 @@ import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-b
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
   BtnFeatureModule, ErrorResolverModule,
-  //TourModule,
-  WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe
+  // TourModule,
+  WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe,
 } from '@ws-widget/collection'
 import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
-  //ImageCropComponent,
-  //ImageCropModule,
-  LoggerService, PipeSafeSanitizerModule
+  // ImageCropComponent,
+  // ImageCropModule,
+  LoggerService, PipeSafeSanitizerModule,
 } from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
 import 'hammerjs'
@@ -118,7 +118,7 @@ import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
 import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
-//import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
+// import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
   buildHammer(element: HTMLElement) {
@@ -231,7 +231,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     SashaktCallbackComponent,
     SelfAssessmentComponent,
     AppCallBackComponent,
-    //SettingsComponent
+    // SettingsComponent
   ],
   imports: [
     FormsModule,
@@ -270,7 +270,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PublicFaqModule,
     MobileAppModule,
     PipeSafeSanitizerModule,
-    //TourModule,
+    // TourModule,
     SlidersModule,
     MdePopoverModule,
     MatAutocompleteModule,
@@ -279,7 +279,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MatSelectModule,
     MatExpansionModule,
     DiscussionUiModule.forRoot(ConfigService),
-    //ImageCropModule,
+    // ImageCropModule,
     SharedModule,
     OrganisationsModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
@@ -296,7 +296,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     DialogConfirmComponent,
     LoginComponent,
     ProfileSelectComponent,
-    //ImageCropComponent,
+    // ImageCropComponent,
     NotificationComponent,
     LanguageDialogComponent,
   ],

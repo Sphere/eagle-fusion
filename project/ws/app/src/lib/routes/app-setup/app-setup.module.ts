@@ -27,17 +27,17 @@ import {
   LanguageSelectorModule,
   BtnPageBackModule,
 } from '@ws-widget/collection'
-//import { AboutVideoModule } from '../info/about-video/about-video.module'
+// import { AboutVideoModule } from '../info/about-video/about-video.module'
 import { HomeComponent } from './components/home/home.component'
 import { LangSelectComponent } from './components/lang-select/lang-select.component'
 import { TncComponent } from './components/tnc/tnc.component'
 import { TncRendererComponent } from './components/tnc-renderer/tnc-renderer.component'
 import { PipeSafeSanitizerModule } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { TncAppResolverService } from '../../../../../../../src/app/services/tnc-app-resolver.service'
-//import { SetupDoneComponent } from './components/setup-done/setup-done.component'
+// import { SetupDoneComponent } from './components/setup-done/setup-done.component'
 import { InterestModules } from './module/interest/interest.module'
 import { Globals } from './globals'
-//import { InterestModule } from '../profile/routes/interest/interest.module'
+// import { InterestModule } from '../profile/routes/interest/interest.module'
 
 @NgModule({
   declarations: [
@@ -46,7 +46,7 @@ import { Globals } from './globals'
     LangSelectComponent,
     TncComponent,
     TncRendererComponent,
-    //SetupDoneComponent,
+    // SetupDoneComponent,
   ],
   imports: [
     CommonModule,
@@ -71,12 +71,12 @@ import { Globals } from './globals'
     BtnPageBackModule,
 
     SettingsModule,
-    //AboutVideoModule,
+    // AboutVideoModule,
     WidgetResolverModule,
     LocaleTranslatorModule,
     InterestModules,
     LanguageSelectorModule,
-    //InterestModule,
+    // InterestModule,
   ],
   providers: [TncAppResolverService, Globals],
 })

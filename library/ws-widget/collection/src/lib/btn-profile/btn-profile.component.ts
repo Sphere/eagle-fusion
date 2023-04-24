@@ -226,7 +226,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
         console.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
-        //console.log(this.userData.profileDetails!.profileReq!.personalDetails!.dob)
+        // console.log(this.userData.profileDetails!.profileReq!.personalDetails!.dob)
         this.userData = await data
         if (data && data.profileDetails!.profileReq!.personalDetails!.dob) {
           this.router.navigate(['/app/profile-view'])

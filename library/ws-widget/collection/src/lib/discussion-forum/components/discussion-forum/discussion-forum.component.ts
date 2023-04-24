@@ -2,7 +2,7 @@ import { Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core'
 import { MatSnackBar } from '@angular/material'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
-//import { EditorQuillComponent } from '../../editor-quill/component/editor-quill/editor-quill.component'
+// import { EditorQuillComponent } from '../../editor-quill/component/editor-quill/editor-quill.component'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 

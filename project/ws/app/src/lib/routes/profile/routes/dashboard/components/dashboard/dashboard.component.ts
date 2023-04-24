@@ -1,20 +1,20 @@
-//import { UserProfileService } from './../../../../../user-profile/services/user-profile.service'
-//import { ITimeSpent } from './../../../learning/models/learning.models'
+// import { UserProfileService } from './../../../../../user-profile/services/user-profile.service'
+// import { ITimeSpent } from './../../../learning/models/learning.models'
 import {
   Component, OnInit,
   // ViewChild,
   // ElementRef
 } from '@angular/core'
-//import { ActivatedRoute } from '@angular/router'
-//import { NsContent, NsContentStripMultiple, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
-//import { NsWidgetResolver } from '@ws-widget/resolver'
-//import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
-//import { NSProfileData } from '../../../../models/profile.model'
-//import { ProfileService } from '../../../../services/profile.service'
+// import { ActivatedRoute } from '@angular/router'
+// import { NsContent, NsContentStripMultiple, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
+// import { NsWidgetResolver } from '@ws-widget/resolver'
+// import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
+// import { NSProfileData } from '../../../../models/profile.model'
+// import { ProfileService } from '../../../../services/profile.service'
 // import { InterestService } from '../../../interest/services/interest.service'
 // import { NSLearningHistory } from '../../../learning/models/learning.models'
 // import { LearningHistoryService } from '../../../learning/services/learning-history.service'
-//import { IUserProfileDetailsFromRegistry } from '../../../../../user-profile/models/user-profile.model'
+// import { IUserProfileDetailsFromRegistry } from '../../../../../user-profile/models/user-profile.model'
 
 // interface ILearningHistoryContent {
 //   content: NSLearningHistory.ILearningHistory
@@ -97,7 +97,7 @@ export class DashboardComponent implements OnInit {
   //   widgetHostClass: 'block sm:-mx-10 -mx-6',
   // }
 
-  //coursePending: NSLearningHistory.ILearningHistoryItem[] = []
+  // coursePending: NSLearningHistory.ILearningHistoryItem[] = []
   // lhContent: ILearningHistoryContent[] = []
   // selectedStatusType = 'inprogress'
   // selectedTabIndex = 0
@@ -120,11 +120,11 @@ export class DashboardComponent implements OnInit {
   constructor(
     // private configSvc: ConfigurationsService,
     // private badgesSvc: BadgesService,
-    //private profileSvc: ProfileService,
-    //private learnHstSvc: LearningHistoryService,
-    //private interestSvc: InterestService,
-    //private activatedRoute: ActivatedRoute,
-    //private userProfileSvc: UserProfileService,
+    // private profileSvc: ProfileService,
+    // private learnHstSvc: LearningHistoryService,
+    // private interestSvc: InterestService,
+    // private activatedRoute: ActivatedRoute,
+    // private userProfileSvc: UserProfileService,
   ) {
 
     // if (this.configSvc.userProfile) {
@@ -209,7 +209,7 @@ export class DashboardComponent implements OnInit {
     // this.followFetchStatus = 'fetching'
     // this.historyFetchStatus = 'fetching'
     // this.apiFetchStatus = 'fetching'
-    //this.fetchInterests()
+    // this.fetchInterests()
     // this.badgesSvc.fetchBadges().subscribe(
     //   (data: IBadgeResponse) => {
     //     this.badgesData = data

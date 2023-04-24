@@ -29,13 +29,13 @@ export class SelfAssessmentGuard implements CanActivate {
     if (this.configSvc.userProfile) {
       if (get(next, 'queryParams')) {
         return this.selfAsesment(get(next, 'queryParams'))
-      } else {
-        return false
       }
-    } else {
+        return false
+
+    }
       this.router.navigate([`public/home`])
       return false
-    }
+
   }
 
   selfAsesment(event: any): boolean {
@@ -56,16 +56,16 @@ export class SelfAssessmentGuard implements CanActivate {
             competency_meta_data = JSON.parse(this.content.competencies_v1)
             // competency_meta_data.push(competencies_v1[0])
           }
-          let children: { identifier: any; competencyId: any }[] = []
+          const children: { identifier: any; competencyId: any }[] = []
           forEach(this.content.children, (item: any) => {
             children.push({
               identifier: item.identifier,
-              competencyId: item.index
+              competencyId: item.index,
             })
           })
           // console.log(competency_meta_data.push(...children))
           competency_meta_data.push({
-            competencyIds: [...children]
+            competencyIds: [...children],
           })
 
           localStorage.setItem('competency_meta_data', JSON.stringify(competency_meta_data))
@@ -74,9 +74,9 @@ export class SelfAssessmentGuard implements CanActivate {
         this.batchData = res[1].content
         if (!this.batchData[0].enrollmentEndDate) {
           return this.enrollUser(this.batchData)
-        } else {
-          return of(this.batchData)
         }
+          return of(this.batchData)
+
       })).subscribe((res: any) => {
         return this.navigateToplayer(res[0])
       })
@@ -147,7 +147,7 @@ export class SelfAssessmentGuard implements CanActivate {
         )
         this.routeNavigation(batchId, 'RESUME')
         return false
-      } else {
+      }  {
         const firstPlayableContent = this.contentSvc.getFirstChildInHierarchy(this.content)
         this.resumeDataLink = viewerRouteGenerator(
           firstPlayableContent.identifier,
@@ -179,8 +179,8 @@ export class SelfAssessmentGuard implements CanActivate {
     if (this.resumeDataLink) {
       const qParams: { [key: string]: string } = {
         ...this.resumeDataLink.queryParams,
-        batchId: batchId,
-        viewMode: viewMode,
+        batchId,
+        viewMode,
         competency: true,
       }
       this.router.navigate([this.resumeDataLink.url], { queryParams: qParams })

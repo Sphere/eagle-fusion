@@ -1,8 +1,8 @@
 import {
   Component, OnInit,
-  //Input
+  // Input
 } from '@angular/core'
-//import {  IChallenges,  IActivityCard,} from '../../../../../../project/ws/app/src/lib/routes/activities/interfaces/activities.model'
+// import {  IChallenges,  IActivityCard,} from '../../../../../../project/ws/app/src/lib/routes/activities/interfaces/activities.model'
 import { ConfigurationsService } from '../../../../utils/src/lib/services/configurations.service'
 import { Router, NavigationExtras } from '@angular/router'
 import { ProgressSpinnerMode } from '@angular/material/progress-spinner'
@@ -13,10 +13,10 @@ import { ProgressSpinnerMode } from '@angular/material/progress-spinner'
   styleUrls: ['./challenge.component.scss'],
 })
 export class ChallengeComponent implements OnInit {
-  //@Input() widgetData!: IChallenges
+  // @Input() widgetData!: IChallenges
   tag = ''
   heading = ''
-  //activities: IActivityCard[] = []
+  // activities: IActivityCard[] = []
   completedActivity: string[] = []
   moreActivities = false
   totalNumberOfActivities = 0

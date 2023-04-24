@@ -99,11 +99,11 @@ export class LoginOtpComponent implements OnInit {
       },
       (err: any) => {
         if (localStorage.getItem(`preferedLanguage`)) {
-          let reqObj = localStorage.getItem(`preferedLanguage`) || ''
-          let lang = JSON.parse(reqObj) || ''
+          const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+          const lang = JSON.parse(reqObj) || ''
           if (lang.id === 'hi') {
-            if (err.error.message === "Please provide correct otp and try again.") {
-              let err = "कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।"
+            if (err.error.message === 'Please provide correct otp and try again.') {
+              const err = 'कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।'
               this.openSnackbar(err)
             }
           } else {
@@ -137,7 +137,7 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.validateOtp(request).subscribe(
       async (res: any) => {
         this.openSnackbar(res.message)
-        //localStorage.removeItem('preferedLanguage')
+        // localStorage.removeItem('preferedLanguage')
         location.href = '/page/home'
         return res
       },
@@ -161,7 +161,7 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
         this.openSnackbar(res.message)
-        //localStorage.removeItem('preferedLanguage')
+        // localStorage.removeItem('preferedLanguage')
       },
       (err: any) => {
         this.openSnackbar(`OTP Error`, + err.error.message)

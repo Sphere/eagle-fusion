@@ -35,7 +35,7 @@ export class PlayerStateService {
         nextResTitle: nextTitle,
         currentCompletionPercentage: currentPercentage,
         prevCompletionPercentage: prevPercentage,
-        nextContentId: nextContentId
+        nextContentId,
       },
     )
   }

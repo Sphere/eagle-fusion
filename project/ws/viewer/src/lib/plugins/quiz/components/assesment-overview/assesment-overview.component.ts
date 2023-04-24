@@ -23,7 +23,7 @@ export class AssesmentOverviewComponent implements OnInit {
     if (this.isCompetency) {
       this.dialogRef.close({
         event: 'close-overview',
-        competency: this.route.snapshot.queryParams.competency
+        competency: this.route.snapshot.queryParams.competency,
       })
     } else {
       this.dialogRef.close({ event: 'close-overview' })

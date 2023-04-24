@@ -454,8 +454,8 @@ export class AlmostDoneComponent implements OnInit {
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
       this.userId = this.configSvc.unMappedUser.id || ''
     }
-    let reqObj = localStorage.getItem(`preferedLanguage`) || ''
-    let obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
+    const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+    const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
       preferences: {
         language: obj1.id !== undefined ? obj1.id : 'en',

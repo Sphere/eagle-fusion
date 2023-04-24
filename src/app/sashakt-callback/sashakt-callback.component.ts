@@ -3,7 +3,7 @@ import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service
 @Component({
   selector: 'ws-sashakt-callback',
   templateUrl: './sashakt-callback.component.html',
-  styleUrls: ['./sashakt-callback.component.scss']
+  styleUrls: ['./sashakt-callback.component.scss'],
 })
 export class SashaktCallbackComponent implements OnInit {
   isLoading = false
@@ -26,14 +26,14 @@ export class SashaktCallbackComponent implements OnInit {
           window.location = res.resRedirectUrl
           // tslint:disable-next-line:no-console
           console.log(res)
-        }, (err: any) => {
+        },                                                (err: any) => {
           // tslint:disable-next-line:no-console
           console.log(err)
           if (err.status === 400) {
             sessionStorage.clear()
           }
         })
-      }, 1000)
+      },         1000)
     } catch (err) {
       // tslint:disable-next-line:no-console
       console.log(err)

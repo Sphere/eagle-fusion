@@ -93,7 +93,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
   closePopup() {
-    console.log("close competenct", this.isCompetency)
+    console.log('close competenct', this.isCompetency)
     if (this.isCompetency) {
       this.dialogRef.close({
         event: 'CLOSE',
@@ -338,7 +338,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                     additionalParams: {
                       competencyName: competency_meta_data.competencyName,
                       courseId: this.assesmentdata.generalData.collectionId,
-                      ResourseId: this.assesmentdata.generalData.identifier
+                      ResourseId: this.assesmentdata.generalData.identifier,
                     },
                   },
                 },

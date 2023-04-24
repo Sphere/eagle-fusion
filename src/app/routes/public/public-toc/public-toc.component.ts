@@ -67,7 +67,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     this.orgService.getSearchResults().subscribe((res: any) => {
       if (res) {
         find(res.result.content
-          , findRes => {
+          ,  findRes => {
             if (findRes.identifier === id) {
               this.tocData = findRes
               localStorage.setItem('tocData', JSON.stringify(this.tocData))

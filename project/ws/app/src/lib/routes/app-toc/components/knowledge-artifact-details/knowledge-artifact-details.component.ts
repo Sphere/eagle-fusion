@@ -4,10 +4,10 @@ import { ActivatedRoute, Data, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 import { Observable, Subscription } from 'rxjs'
-//import { retry } from 'rxjs/operators'
+// import { retry } from 'rxjs/operators'
 import { EditorService } from '../../../../../../../author/src/lib/routing/modules/editor/services/editor.service'
-//import { TrainingApiService } from '../../../infy/routes/training/apis/training-api.service'
-//import { TrainingService } from '../../../infy/routes/training/services/training.service'
+// import { TrainingApiService } from '../../../infy/routes/training/apis/training-api.service'
+// import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 
@@ -40,7 +40,7 @@ export class KnowledgeArtifactDetailsComponent implements OnInit, OnDestroy {
     private tocSharedSvc: AppTocService,
     private configSvc: ConfigurationsService,
     // private trainingApi: TrainingApiService,
-    //private trainingSvc: TrainingService,
+    // private trainingSvc: TrainingService,
     private domSanitizer: DomSanitizer,
     private contentSvc: WidgetContentService,
     private editorSvc: EditorService,

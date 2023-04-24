@@ -4,7 +4,7 @@ import { NsContent, NsError, NSSearch, ROOT_WIDGET_CONFIG } from '@ws-widget/col
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, ValueService, UtilityService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
-//import { IKhubFetchStatus } from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
+// import { IKhubFetchStatus } from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
 // import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { FilterDisplayComponent } from '../../components/filter-display/filter-display.component'
 // import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
@@ -419,32 +419,32 @@ export class LearningComponent implements OnInit, OnDestroy {
     }
   }
   getCompetencyResult(data: any) {
-    let reqData = {
-      "request": {
-        "filters": {
-          "competencySearch": data,
-          "primaryCategory": [
-            "Course"
+    const reqData = {
+      request: {
+        filters: {
+          competencySearch: data,
+          primaryCategory: [
+            'Course',
           ],
-          "contentType": [
-            "Course"
+          contentType: [
+            'Course',
           ],
-          "status": [
-            "Live"
-          ]
+          status: [
+            'Live',
+          ],
         },
-        "sort_by": {
-          "lastUpdatedOn": "desc"
-        }
+        sort_by: {
+          lastUpdatedOn: 'desc',
+        },
       },
-      "sort": [
+      sort: [
         {
-          "lastUpdatedOn": "desc"
-        }
-      ]
+          lastUpdatedOn: 'desc',
+        },
+      ],
     }
     let withQuotes: boolean
-    let didYouMean = true
+    const didYouMean = true
     this.searchSvc.getSearchCompetencyCourses(reqData).subscribe(
       data => {
         this.searchResults.result.count = data.result.count
@@ -571,7 +571,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   getResults(withQuotes?: boolean, didYouMean = true) {
-    console.log("getResults", withQuotes)
+    console.log('getResults', withQuotes)
     // this.searchRequestObject.didYouMean = didYouMean
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription.unsubscribe()
@@ -607,7 +607,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchRequestObject.request.filters['sourceName'] = ['Ministry of Health and Family Welfare']
     }
-    debugger
+
     this.searchResultsSubscription = this.searchServ
       .getLearning(this.searchRequestObject)
       .subscribe(
@@ -663,7 +663,7 @@ export class LearningComponent implements OnInit, OnDestroy {
               this.filtersResponse = filteR.filtersRes
             }
           })
-          debugger
+
           if (
             this.searchResults.result.count === 0 && this.isDefaultFilterApplied
           ) {

@@ -12,10 +12,10 @@ import { ConfigurationsService } from '@ws-widget/utils'
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
   constructor(private orgService: OrgServiceService,
-    private snackBarSvc: MatSnackBar,
-    private signupService: SignupService,
-    private authSvc: AuthKeycloakService,
-    private configSvc: ConfigurationsService,
+              private snackBarSvc: MatSnackBar,
+              private signupService: SignupService,
+              private authSvc: AuthKeycloakService,
+              private configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {
@@ -34,7 +34,7 @@ export class KeycloakCallbackComponent implements OnInit {
         this.orgService.setConnectSid(code).subscribe(async (res: any) => {
           if (res) {
             // console.log(res)
-            //sessionStorage.clear()
+            // sessionStorage.clear()
             sessionStorage.removeItem('code')
             setTimeout(() => {
               this.signupService.fetchStartUpDetails().then(result => {
@@ -68,10 +68,10 @@ export class KeycloakCallbackComponent implements OnInit {
                       }
                     } else {
                       if (localStorage.getItem('url_before_login')) {
-                        //window.location.href = localStorage.getItem('url_before_login') || ''
+                        // window.location.href = localStorage.getItem('url_before_login') || ''
 
-                        let url = localStorage.getItem('url_before_login') || ''
-                        //localStorage.removeItem('url_before_login')
+                        const url = localStorage.getItem('url_before_login') || ''
+                        // localStorage.removeItem('url_before_login')
                         location.href = url
                       } else {
                         window.location.href = '/page/home'
@@ -111,9 +111,9 @@ export class KeycloakCallbackComponent implements OnInit {
                 //   location.href = '/page/home'
                 // }
               })
-            }, 1000)
+            },         1000)
           }
-        }, (err: any) => {
+        },                                            (err: any) => {
           // console.log(err)
           // tslint:disable-next-line:no-console
           console.log(err)

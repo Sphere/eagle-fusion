@@ -5,7 +5,7 @@ import { ConfigurationsService, EventService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { take } from 'rxjs/operators'
 import { MobileAppsService } from '../../../../../../src/app/services/mobile-apps.service'
-//import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
+// import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
 import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 
@@ -55,7 +55,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private router: Router,
     private mobileSvc: MobileAppsService,
     private configSvc: ConfigurationsService,
-    //private tour: CustomTourService,
+    // private tour: CustomTourService,
     private searchApi: SearchApiService
   ) {
     super()
@@ -102,7 +102,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       if (this.widgetData.actionBtn && this.widgetData.actionBtn.badgeEndpoint) {
         this.navigationSubs = this.router.events.subscribe((e: Event) => {
           if (e instanceof NavigationEnd) {
-            //this.updateBadge()
+            // this.updateBadge()
           }
         })
       }
@@ -172,6 +172,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   }
 
   startTour() {
-    //this.tour.startTour()
+    // this.tour.startTour()
   }
 }

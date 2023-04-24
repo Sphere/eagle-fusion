@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { IapComponent } from './iap.component'
 import { IapRoutingModule } from './iap-routing.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
-//import { IapModule as IapPluginModule } from '../../plugins/iap/iap.module'
+// import { IapModule as IapPluginModule } from '../../plugins/iap/iap.module'
 
 import {
   MatCardModule,
@@ -37,7 +37,7 @@ import {
   declarations: [IapComponent],
   imports: [
     CommonModule,
-    //IapPluginModule,
+    // IapPluginModule,
     IapRoutingModule,
     WidgetResolverModule,
     PipeDurationTransformModule,

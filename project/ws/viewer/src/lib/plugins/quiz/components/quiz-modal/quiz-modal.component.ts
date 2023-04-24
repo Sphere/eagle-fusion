@@ -345,7 +345,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.updateQuestionType(false)
       }
-    }, 500)
+    },         500)
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion

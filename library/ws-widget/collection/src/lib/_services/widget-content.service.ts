@@ -276,7 +276,7 @@ export class WidgetContentService {
   }
   searchV6(req: any) {
     console.log(req)
-    let url = location.href
+    const url = location.href
     if (url.includes('/hi/')) {
       req.request.filters.lang = 'hi'
     }
@@ -291,13 +291,13 @@ export class WidgetContentService {
 
   publicContentSearch(req: any) {
     console.log(req)
-    let url = location.href
+    const url = location.href
     if (url.includes('/hi/')) {
       req.request.filters.lang = 'hi'
     }
     req.query = req.query || ''
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
-      req,
+                                                       req,
     )
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {
@@ -343,7 +343,7 @@ export class WidgetContentService {
 
   loginAuth(req: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(retry(1),
-      map(
+                                                                    map(
         (data: any) => data
       )
     )

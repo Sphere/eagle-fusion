@@ -49,7 +49,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+    },                                                   {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -88,7 +88,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+    },                                                   {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -103,7 +103,7 @@ export class CreateAccountComponent implements OnInit {
 
   ngOnInit() {
     if (localStorage.getItem(`preferedLanguage`)) {
-      let reqObj = localStorage.getItem(`preferedLanguage`) || ''
+      const reqObj = localStorage.getItem(`preferedLanguage`) || ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
   }
@@ -143,7 +143,7 @@ export class CreateAccountComponent implements OnInit {
       reqObj = {
         firstName: form.value.firstname.trim(),
         lastName: form.value.lastname.trim(),
-        email: form.value.emailOrMobile.trim()
+        email: form.value.emailOrMobile.trim(),
         // password: form.value.password.trim(),
       }
 
@@ -152,11 +152,11 @@ export class CreateAccountComponent implements OnInit {
         console.log(res.status)
         if (res.status_code === 200) {
           if (localStorage.getItem(`preferedLanguage`)) {
-            let reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            let lang = JSON.parse(reqObj) || ''
+            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+            const lang = JSON.parse(reqObj) || ''
             if (lang.id === 'hi') {
-              if (res.msg === "user created successfully") {
-                let msg = "उपयोगकर्ता सफलतापूर्वक बनाया गया"
+              if (res.msg === 'user created successfully') {
+                const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
                 this.openSnackbar(msg)
               }
             } else {
@@ -175,14 +175,14 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                  err => {
           console.log(err)
           if (localStorage.getItem(`preferedLanguage`)) {
-            let reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            let lang = JSON.parse(reqObj) || ''
+            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+            const lang = JSON.parse(reqObj) || ''
             if (lang.id === 'hi') {
-              if (err.error.msg === "Email id  already exists.") {
-                let err = "ईमेल आईडी पहले से मौजूद है।"
+              if (err.error.msg === 'Email id  already exists.') {
+                const err = 'ईमेल आईडी पहले से मौजूद है।'
                 this.openSnackbar(err)
                 this.uploadSaveData = false
               }
@@ -201,18 +201,18 @@ export class CreateAccountComponent implements OnInit {
       const requestBody = {
         firstName: form.value.firstname.trim(),
         lastName: form.value.lastname.trim(),
-        phone: form.value.emailOrMobile.trim()
+        phone: form.value.emailOrMobile.trim(),
         // password: form.value.password.trim(),
       }
 
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
         if (res.status === 'success') {
           if (localStorage.getItem(`preferedLanguage`)) {
-            let reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            let lang = JSON.parse(reqObj) || ''
+            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+            const lang = JSON.parse(reqObj) || ''
             if (lang.id === 'hi') {
-              if (res.msg === "user created successfully") {
-                let msg = "उपयोगकर्ता सफलतापूर्वक बनाया गया"
+              if (res.msg === 'user created successfully') {
+                const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
                 this.openSnackbar(msg)
               }
             } else {
@@ -226,19 +226,19 @@ export class CreateAccountComponent implements OnInit {
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
-          //localStorage.removeItem(`preferedLanguage`)
+          // localStorage.removeItem(`preferedLanguage`)
           localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                                   err => {
           if (localStorage.getItem(`preferedLanguage`)) {
-            let reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            let lang = JSON.parse(reqObj) || ''
+            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+            const lang = JSON.parse(reqObj) || ''
             if (lang.id === 'hi') {
-              if (err.error.msg === "Email id  already exists.") {
-                let err = "ईमेल आईडी पहले से मौजूद है।"
+              if (err.error.msg === 'Email id  already exists.') {
+                const err = 'ईमेल आईडी पहले से मौजूद है।'
                 this.openSnackbar(err)
                 this.uploadSaveData = false
               }
@@ -292,7 +292,7 @@ export class CreateAccountComponent implements OnInit {
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
       localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
-      let lang = result.id === 'hi' ? result.id : ''
+      const lang = result.id === 'hi' ? result.id : ''
       if (this.router.url.includes('hi')) {
         const lan = this.router.url.split('hi/').join('')
         if (lang === 'hi') {

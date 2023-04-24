@@ -3,9 +3,9 @@ import { Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService } from '@ws-widget/utils'
 
-//import { ActivitiesService } from '@ws/app/src/lib/routes/activities/services/activities.service'
-//import { IActivity, IActivityCard, IChallenges } from '@ws/app/src/lib/routes/activities/interfaces/activities.model'
-//import { MatSnackBar } from '@angular/material'
+// import { ActivitiesService } from '@ws/app/src/lib/routes/activities/services/activities.service'
+// import { IActivity, IActivityCard, IChallenges } from '@ws/app/src/lib/routes/activities/interfaces/activities.model'
+// import { MatSnackBar } from '@angular/material'
 
 @Component({
   selector: 'ws-widget-card-welcome',
@@ -18,16 +18,16 @@ export class CardWelcomeComponent extends WidgetBaseComponent
   @Input() widgetData: any
   givenName: string | undefined
   userEmail: string | undefined
-  //activityCards: IActivityCard[] = []
-  //challenges: IChallenges[] = []
+  // activityCards: IActivityCard[] = []
+  // challenges: IChallenges[] = []
   isNewUser = false
   showActivities = false
   keyTag: string[] = []
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
-    //private activitiesSvc: ActivitiesService,
-    //private snackBar: MatSnackBar,
+    // private activitiesSvc: ActivitiesService,
+    // private snackBar: MatSnackBar,
   ) {
     super()
     if (this.configSvc.userProfile) {

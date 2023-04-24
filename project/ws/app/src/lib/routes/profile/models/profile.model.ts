@@ -1,6 +1,6 @@
 import {
-  //IWidgetGraphData,
-  NsContent
+  // IWidgetGraphData,
+  NsContent,
 } from '@ws-widget/collection'
 
 export namespace NSProfileData {

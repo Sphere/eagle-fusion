@@ -16,12 +16,13 @@ export class MobileCourseViewComponent implements OnInit {
   @Input() courseData: any
   @Input() enableConfig = false
   constructor(private router: Router,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private signUpSvc: SignupService
+              private configSvc: ConfigurationsService,
+              private userProfileSvc: UserProfileService,
+              private signUpSvc: SignupService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
+    console.log(this.courseData)
     if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
       forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {
@@ -29,7 +30,7 @@ export class MobileCourseViewComponent implements OnInit {
           this.cometencyData.push(
             {
               name: value.competencyName,
-              levels: ` Level ${value.level}`
+              levels: ` Level ${value.level}`,
             }
           )
         }
@@ -42,7 +43,6 @@ export class MobileCourseViewComponent implements OnInit {
   navigateToToc(contentIdentifier: any) {
 
     // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
-
 
     const url = `app/toc/` + `${contentIdentifier}` + `/overview`
     if (this.configSvc.userProfile === null) {

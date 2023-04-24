@@ -54,13 +54,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      }, 50)
-      var data1: any = {
+      },         50)
+      const data1: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
           this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
         contentId: this.htmlContent.identifier,
         name: this.htmlContent.name,
-        moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined
+        moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined,
       }
       this.telemetrySvc.end('youtube', 'youtube-close', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data1)
@@ -120,14 +120,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      }, 50)
+      },         50)
 
-      var data1: any = {
+      const data1: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
           this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
         contentId: this.htmlContent.identifier,
         name: this.htmlContent.name,
-        moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined
+        moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined,
       }
       this.telemetrySvc.end('docs.google', 'docs.google-close', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data1)
@@ -140,10 +140,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       this.urlContains = this.htmlContent.artifactUrl
       const courseId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
-      let obj = {
-        "resourceID": this.htmlContent.identifier,
-        "courseID": courseId,
-        "moduleID": this.htmlContent.parent
+      const obj = {
+        resourceID: this.htmlContent.identifier,
+        courseID: courseId,
+        moduleID: this.htmlContent.parent,
       }
       this.telemetrySvc.end('player', 'view', '', obj)
     }
@@ -163,12 +163,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       this.scormAdapterService.contentId = this.htmlContent.identifier
       // this.scormAdapterService.loadData()
       this.scormAdapterService.loadDataV2()
-      var data1: any = {
+      const data1: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
           this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
         contentId: this.htmlContent.identifier,
         name: this.htmlContent.name,
-        moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined
+        moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined,
       }
       this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data1)
@@ -229,14 +229,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
                 this.contentSvc.changeMessage('html')
               }
-            }, 50)
+            },         50)
 
-            var data2: any = {
+            const data2: any = {
               courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
                 this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
               contentId: this.htmlContent.identifier,
               name: this.htmlContent.name,
-              moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined
+              moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined,
             }
             this.telemetrySvc.end('html/x-url', 'html/x-url-close', this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data2)
@@ -290,7 +290,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
         } else {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
-            //const streamingUrl = this.htmlContent.streamingUrl.substring(51)
+            // const streamingUrl = this.htmlContent.streamingUrl.substring(51)
             let streamingUrl = this.htmlContent.streamingUrl
             streamingUrl = streamingUrl.includes(
               'https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com'
@@ -346,14 +346,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
               this.contentSvc.changeMessage('html')
             }
-          }, 50)
+          },         50)
 
-          var data2: any = {
+          const data2: any = {
             courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
             contentId: this.htmlContent.identifier,
             name: this.htmlContent.name,
-            moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined
+            moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined,
           }
           this.telemetrySvc.end('html/lms', 'html/lms-close', this.activatedRoute.snapshot.queryParams.collectionId ?
             this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data2)
@@ -432,14 +432,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
           this.contentSvc.changeMessage('html')
         }
-      }, 50)
+      },         50)
 
-      var data2: any = {
+      const data2: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
           this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
         contentId: this.htmlContent.identifier,
         name: this.htmlContent.name,
-        moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined
+        moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined,
       }
       this.telemetrySvc.end('html/open-in-newtab', 'html/open-in-newtab-close', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data2)

@@ -12,17 +12,17 @@ import {
 } from '@ws-widget/collection'
 import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
-//import { AccessControlService } from '@ws/author'
+// import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
-//import { NsAnalytics } from '../../models/app-toc-analytics.model'
+// import { NsAnalytics } from '../../models/app-toc-analytics.model'
 import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-//import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
+// import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { FormControl, Validators } from '@angular/forms'
-//import * as dayjs from 'dayjs'
-//import * as  lodash from 'lodash'
-//import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
+// import * as dayjs from 'dayjs'
+// import * as  lodash from 'lodash'
+// import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 import * as FileSaver from 'file-saver'
 import moment from 'moment'
 
@@ -34,14 +34,14 @@ import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-de
   templateUrl: './app-toc-desktop.component.html',
   styleUrls: ['./app-toc-desktop.component.scss'],
   providers: [
-    //AccessControlService
+    // AccessControlService
   ],
 })
 export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() banners: NsAppToc.ITocBanner | null = null
   @Input() content: NsContent.IContent | null = null
   @Input() resumeData: NsContent.IContinueLearningData | null = null
-  //@Input() analytics: NsAnalytics.IAnalytics | null = null
+  // @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
   @Input() batchData!: any
   @Input() resumeResource: NsContent.IContinueLearningData | null = null
@@ -53,7 +53,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
   validPaths = new Set(['overview', 'contents',
-    //'analytics'
+    // 'analytics'
   ])
   routerParamSubscription: Subscription | null = null
   routeSubscription: Subscription | null = null
@@ -63,7 +63,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   isPracticeVisible = false
   editButton = false
   reviewButton = false
-  //analyticsDataClient: any = null
+  // analyticsDataClient: any = null
   btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
   btnGoalsConfig: NsGoal.IBtnGoal | null = null
   isRegistrationSupported = false
@@ -457,8 +457,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               this.issueCertificate = true
             }
-            if (this.enrolledCourse)
+            if (this.enrolledCourse) {
               this.resumeData = this.enrolledCourse.lastReadContentId
+            }
           }
         }
       })
@@ -624,8 +625,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   private getResumeDataFromList() {
     const lastItem = this.resumeResource && this.resumeResource.pop()
     return {
-      identifier: lastItem ? lastItem.contentId : "",
-      mimeType: lastItem ? lastItem.progressdetails && lastItem.progressdetails.mimeType : "",
+      identifier: lastItem ? lastItem.contentId : '',
+      mimeType: lastItem ? lastItem.progressdetails && lastItem.progressdetails.mimeType : '',
 
     }
   }
@@ -885,7 +886,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          }, 500)
+          },         500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
@@ -899,7 +900,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
 
   }
-  //openDialog(content: any): void {
+  // openDialog(content: any): void {
   // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
   // this.createBatchDialog.open(CreateBatchDialogComponent, {
   //   // height: '400px',
@@ -912,13 +913,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   //     this.tocSvc.updateBatchData()
   //   }
   // })
-  //}
+  // }
 
   openDetails(content: any, tocConfig: any) {
     this.dialog.open(AppTocDesktopModalComponent, {
       width: '600px',
       data: { content, tocConfig, type: 'DETAILS' },
-      disableClose: true
+      disableClose: true,
     })
   }
   openCompetency(content: any) {
