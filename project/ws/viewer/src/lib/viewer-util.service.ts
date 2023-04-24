@@ -219,7 +219,8 @@ export class ViewerUtilService {
       : ''
   }
   getCompetencyAuthoringUrl(url: string): string {
-    return `apis/protected/v8/assessmentCompetency/v1/assessment/content${url}`
+    return `apis/public/v8/mobileApp/v1/assessment/content${url}`
+
   }
   regexDownloadReplace = (_str = '', group1: string, group2: string): string => {
     return `${this.authoringBase}${encodeURIComponent(group1)}${group2}`
