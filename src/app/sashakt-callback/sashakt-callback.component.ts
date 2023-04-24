@@ -26,14 +26,14 @@ export class SashaktCallbackComponent implements OnInit {
           window.location = res.resRedirectUrl
           // tslint:disable-next-line:no-console
           console.log(res)
-        },                                                (err: any) => {
+        }, (err: any) => {
           // tslint:disable-next-line:no-console
           console.log(err)
           if (err.status === 400) {
             sessionStorage.clear()
           }
         })
-      },         1000)
+      }, 500)
     } catch (err) {
       // tslint:disable-next-line:no-console
       console.log(err)
