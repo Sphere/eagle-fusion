@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import * as _ from 'lodash'
+import { includes, find } from 'lodash'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 
 @Component({
@@ -45,9 +45,9 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     this.checkRoute()
   }
   checkRoute() {
-    if (_.includes(this.router.url, 'overview')) {
+    if (includes(this.router.url, 'overview')) {
       this.toggleComponent('overview')
-    } else if (_.includes(this.router.url, 'contents')) {
+    } else if (includes(this.router.url, 'contents')) {
       this.toggleComponent('contents')
     } else {
       this.toggleComponent('license')
@@ -66,8 +66,8 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   seachAPI(id: any) {
     this.orgService.getSearchResults().subscribe((res: any) => {
       if (res) {
-        _.find(res.result.content
-          ,    findRes => {
+        find(res.result.content
+          , findRes => {
             if (findRes.identifier === id) {
               this.tocData = findRes
               localStorage.setItem('tocData', JSON.stringify(this.tocData))

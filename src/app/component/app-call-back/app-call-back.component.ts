@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { AppCallBackService } from '../../services/app-call-back.service'
-import * as _ from 'lodash'
+import { get } from 'lodash'
 
 @Component({
   selector: 'ws-app-call-back',
@@ -17,7 +17,7 @@ export class AppCallBackComponent implements OnInit {
     private appCallBackService: AppCallBackService
   ) {
     this.activated.queryParamMap.subscribe(queryParams => {
-      if (_.get(queryParams, 'params.x-authenticated-user-token')) {
+      if (get(queryParams, 'params.x-authenticated-user-token')) {
         this.token = queryParams.get('x-authenticated-user-token')
         this.webviewCookieSet()
       }
@@ -30,7 +30,7 @@ export class AppCallBackComponent implements OnInit {
   webviewCookieSet() {
     if (this.token) {
       this.appCallBackService.webviewCookieSet(this.token).subscribe((data: any) => {
-        if (_.get(data, 'redirectUrl')) {
+        if (get(data, 'redirectUrl')) {
           window.location = data.redirectUrl
         }
       })

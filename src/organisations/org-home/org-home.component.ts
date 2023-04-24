@@ -6,7 +6,7 @@ import { delay, mergeMap } from 'rxjs/operators'
 import { of } from 'rxjs'
 import { SignupService } from '../../app/routes/signup/signup.service'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import _ from 'lodash'
+import { orderBy } from 'lodash'
 @Component({
   selector: 'ws-org-home',
   templateUrl: './org-home.component.html',
@@ -50,7 +50,7 @@ export class OrgHomeComponent implements OnInit {
               this.orgService.fetchUserBatchList(userId).subscribe((responseEnrollment: any) => {
                 // tslint:disable-next-line:max-line-length
                 enrollmentArr = responseEnrollment.filter((enrollment: { contentId: any }) => courseArray.includes(enrollment.contentId))
-                enrollmentArr = _.orderBy(enrollmentArr, ['dateTime'], ['desc'])
+                enrollmentArr = orderBy(enrollmentArr, ['dateTime'], ['desc'])
                 this.resultEnroll = [enrollmentArr[0]]
                 if (enrollmentArr[0]) { this.enrollData = false }
               })

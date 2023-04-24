@@ -11,7 +11,7 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { Location } from '@angular/common'
 // declare const gapi: any
 /* tslint:disable*/
-import _ from 'lodash'
+import { compact, get } from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 //import { WidgetContentService } from '../_services/widget-content.service'
 import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
@@ -73,9 +73,9 @@ export class BtnProfileComponent extends WidgetBaseComponent
         (group: NsAppsConfig.IGroup): IGroupWithFeatureWidgets => (
           {
             ...group,
-            featureWidgets: _.compact(group.featureIds.map(
+            featureWidgets: compact(group.featureIds.map(
               (id: string): NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink> | undefined => {
-                const permissions = _.get(appsConfig, `features[${id}].permission`)
+                const permissions = get(appsConfig, `features[${id}].permission`)
                 if (!permissions || permissions.length === 0 || this.accessService.hasRole(permissions)) {
                   return ({
                     widgetType: ROOT_WIDGET_CONFIG.actionButton._type,

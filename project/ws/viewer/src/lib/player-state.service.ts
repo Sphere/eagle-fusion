@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, ReplaySubject } from 'rxjs'
-import * as _ from 'lodash'
+import { get, isUndefined } from 'lodash'
 import { map, take } from 'rxjs/operators'
 
 export interface IPlayerSateStore {
@@ -43,8 +43,8 @@ export class PlayerStateService {
   getCurrentCompletionPercentage() {
     let currentCompletionPercentage: any
     this.playerState.subscribe((data: any) => {
-      if (_.get(data, 'currentCompletionPercentage')) {
-        currentCompletionPercentage = _.get(data, 'currentCompletionPercentage')
+      if (get(data, 'currentCompletionPercentage')) {
+        currentCompletionPercentage = get(data, 'currentCompletionPercentage')
       }
     })
     return currentCompletionPercentage
@@ -53,8 +53,8 @@ export class PlayerStateService {
   getPrevCompletionPercentage() {
     let prevCompletionPercentage: any
     this.playerState.subscribe((data: any) => {
-      if (_.get(data, 'prevCompletionPercentage')) {
-        prevCompletionPercentage = _.get(data, 'prevCompletionPercentage')
+      if (get(data, 'prevCompletionPercentage')) {
+        prevCompletionPercentage = get(data, 'prevCompletionPercentage')
       }
     })
     return prevCompletionPercentage
@@ -63,10 +63,10 @@ export class PlayerStateService {
   getPrevResource() {
     let prevResource: any
     const tdata = this.trigger$.getValue()
-    if (_.isUndefined(tdata)) {
+    if (isUndefined(tdata)) {
       this.playerState.subscribe((data: any) => {
-        if (_.get(data, 'prevResource')) {
-          prevResource = _.get(data, 'prevResource')
+        if (get(data, 'prevResource')) {
+          prevResource = get(data, 'prevResource')
           this.trigger$.next(prevResource)
         }
       })
@@ -79,8 +79,8 @@ export class PlayerStateService {
   getNextResource() {
     let nextResource = ''
     this.playerState.pipe(take(1)).subscribe((data: any) => {
-      if (_.get(data, 'nextResource')) {
-        nextResource = _.get(data, 'nextResource')
+      if (get(data, 'nextResource')) {
+        nextResource = get(data, 'nextResource')
         return nextResource
       }
       return nextResource
@@ -91,8 +91,8 @@ export class PlayerStateService {
   isResourceCompleted() {
     let isResourceCompleted = false
     const tdata = this.trigger$.getValue()
-    if (tdata !== 'triggered' || _.isUndefined(tdata)) {
-      this.playerState.pipe(map((data: any) => _.get(data, 'currentCompletionPercentage') === 100 ? true : false)).
+    if (tdata !== 'triggered' || isUndefined(tdata)) {
+      this.playerState.pipe(map((data: any) => get(data, 'currentCompletionPercentage') === 100 ? true : false)).
         subscribe((data: any) => {
           if (data) {
             isResourceCompleted = data

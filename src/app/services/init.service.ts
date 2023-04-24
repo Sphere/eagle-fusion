@@ -29,7 +29,7 @@ import {
 import { environment } from '../../environments/environment'
 /* tslint:disable */
 // import _ from 'lodash'
-import * as _ from "lodash"
+import { isUndefined, get } from "lodash"
 import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
 // import { retry } from 'rxjs/operators'
@@ -302,10 +302,10 @@ export class InitService {
           }
           localStorage.setItem('telemetrySessionId', uuid())
           this.configSvc.unMappedUser = userPidProfile
-          const profileV2 = _.get(userPidProfile, 'profileDetails.profileReq')
+          const profileV2 = get(userPidProfile, 'profileDetails.profileReq')
           this.configSvc.userProfile = {
-            country: _.get(profileV2, 'personalDetails.countryCode') || null,
-            email: _.get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
+            country: get(profileV2, 'personalDetails.countryCode') || null,
+            email: get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
             givenName: userPidProfile.firstName,
             userId: userPidProfile.userId,
             firstName: userPidProfile.firstName,
@@ -319,20 +319,20 @@ export class InitService {
             departmentName: userPidProfile.channel,
             dealerCode: null,
             isManager: false,
-            phone: _.get(userPidProfile, 'phone'),
+            phone: get(userPidProfile, 'phone'),
             language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
           }
           this.configSvc.userProfileV2 = {
-            userId: _.get(profileV2, 'userId') || userPidProfile.userId,
-            email: _.get(profileV2, 'personalDetails.officialEmail') || userPidProfile.email,
-            firstName: _.get(profileV2, 'personalDetails.firstname') || userPidProfile.firstName,
-            surName: _.get(profileV2, 'personalDetails.surname') || userPidProfile.lastName,
-            middleName: _.get(profileV2, 'personalDetails.middlename') || '',
-            departmentName: _.get(profileV2, 'employmentDetails.departmentName') || userPidProfile.channel,
-            givenName: _.get(userPidProfile, 'userName'),
+            userId: get(profileV2, 'userId') || userPidProfile.userId,
+            email: get(profileV2, 'personalDetails.officialEmail') || userPidProfile.email,
+            firstName: get(profileV2, 'personalDetails.firstname') || userPidProfile.firstName,
+            surName: get(profileV2, 'personalDetails.surname') || userPidProfile.lastName,
+            middleName: get(profileV2, 'personalDetails.middlename') || '',
+            departmentName: get(profileV2, 'employmentDetails.departmentName') || userPidProfile.channel,
+            givenName: get(userPidProfile, 'userName'),
             // tslint:disable-next-line: max-line-length
-            userName: `${_.get(profileV2, 'personalDetails.firstname') ? _.get(profileV2, 'personalDetails.firstname') : ''}${_.get(profileV2, 'personalDetails.surname') ? _.get(profileV2, 'personalDetails.surname') : ''}`,
-            profileImage: _.get(profileV2, 'photo') || userPidProfile.thumbnail,
+            userName: `${get(profileV2, 'personalDetails.firstname') ? get(profileV2, 'personalDetails.firstname') : ''}${get(profileV2, 'personalDetails.surname') ? get(profileV2, 'personalDetails.surname') : ''}`,
+            profileImage: get(profileV2, 'photo') || userPidProfile.thumbnail,
             dealerCode: null,
             isManager: false,
             language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
@@ -348,9 +348,9 @@ export class InitService {
         }
         const details = {
           group: [],
-          profileDetailsStatus: !!_.get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
+          profileDetailsStatus: !!get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
           roles: (userPidProfile.roles || []).map((v: { toLowerCase: () => void }) => v.toLowerCase()),
-          tncStatus: !(_.isUndefined(this.configSvc.unMappedUser)),
+          tncStatus: !(isUndefined(this.configSvc.unMappedUser)),
           isActive: !!!userPidProfile.isDeleted,
         }
         this.configSvc.hasAcceptedTnc = details.tncStatus

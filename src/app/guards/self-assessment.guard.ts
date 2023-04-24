@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router'
-import * as _ from 'lodash'
+import { get, forEach } from 'lodash'
 import { forkJoin, of } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import { WidgetContentService } from '../../../library/ws-widget/collection/src/public-api'
@@ -27,8 +27,8 @@ export class SelfAssessmentGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot) {
     if (this.configSvc.userProfile) {
-      if (_.get(next, 'queryParams')) {
-        return this.selfAsesment(_.get(next, 'queryParams'))
+      if (get(next, 'queryParams')) {
+        return this.selfAsesment(get(next, 'queryParams'))
       } else {
         return false
       }
@@ -57,7 +57,7 @@ export class SelfAssessmentGuard implements CanActivate {
             // competency_meta_data.push(competencies_v1[0])
           }
           let children: { identifier: any; competencyId: any }[] = []
-          _.forEach(this.content.children, (item: any) => {
+          forEach(this.content.children, (item: any) => {
             children.push({
               identifier: item.identifier,
               competencyId: item.index
@@ -133,7 +133,7 @@ export class SelfAssessmentGuard implements CanActivate {
     }
     this.contentSvc.fetchContentHistoryV2(req).subscribe((data: any) => {
       if (data && data.result && data.result.contentList && data.result.contentList.length > 0) {
-        this.resumeData = _.get(data, 'result.contentList')
+        this.resumeData = get(data, 'result.contentList')
         const resumeDataV2 = this.getResumeDataFromList()
         resumeDataV2['mimeType'] = 'application/json'
         this.resumeDataLink = viewerRouteGenerator(

@@ -21,7 +21,7 @@ import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/a
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { FormControl, Validators } from '@angular/forms'
 import * as dayjs from 'dayjs'
-import * as  lodash from 'lodash'
+import { get } from 'lodash'
 import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 import * as FileSaver from 'file-saver'
 import moment from 'moment'
@@ -325,7 +325,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   public handleEnrollmentEndDate(batch: any) {
-    const enrollmentEndDate = dayjs(lodash.get(batch, 'enrollmentEndDate')).format('YYYY-MM-DD')
+    const enrollmentEndDate = dayjs(get(batch, 'enrollmentEndDate')).format('YYYY-MM-DD')
     const systemDate = dayjs()
     return enrollmentEndDate ? dayjs(enrollmentEndDate).isBefore(systemDate) : false
   }

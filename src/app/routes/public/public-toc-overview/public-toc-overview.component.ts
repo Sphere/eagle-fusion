@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core'
 
 import { Subject } from 'rxjs'
 
-import * as _ from 'lodash'
+// import * as _ from 'lodash'
 // import { takeUntil } from 'rxjs/operators'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'
@@ -62,7 +62,7 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
       }
     },
-                                                            (err: HttpErrorResponse) => {
+      (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }
