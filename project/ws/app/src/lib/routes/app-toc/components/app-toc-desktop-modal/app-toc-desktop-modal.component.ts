@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
-import * as _ from 'lodash'
+import { forEach } from 'lodash'
 
 @Component({
   selector: 'ws-app-app-toc-desktop-modal',
@@ -22,7 +22,7 @@ export class AppTocDesktopModalComponent implements OnInit {
 
   competencyData(data: any) {
     // let competencyData: { name: any; levels: string }[] = []
-    _.forEach(JSON.parse(data), (value: any) => {
+    forEach(JSON.parse(data), (value: any) => {
       this.cometencyData.push(
         {
           name: value.competencyName,

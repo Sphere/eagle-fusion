@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
-import * as _ from 'lodash'
+// import * as _ from 'lodash'
 import { ActivatedRoute, Router } from '@angular/router'
 @Component({
   selector: 'ws-education-edit',
@@ -21,11 +21,11 @@ export class EducationEditComponent implements OnInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = '(^[0-9]{4}$)'
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private snackBar: MatSnackBar,
-              private router: Router,
-              private route: ActivatedRoute,
-              private valueSvc: ValueService) {
+    private userProfileSvc: UserProfileService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute,
+    private valueSvc: ValueService) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl(),
       courseName: new FormControl(),

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
 import { BehaviorSubject, Observable } from 'rxjs'
-import * as _ from 'lodash'
+import { get, filter, toLower } from 'lodash'
 const API_END_POINTS = {
   // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
   ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/assessment/submit/v2`,
@@ -90,19 +90,19 @@ export class QuizService {
       if (option.isCorrect) {
         userSelectedAnswer['answer'] = option.text
       }
-      if (questionAnswerHash[_.get(userSelectedAnswer, 'questionId')]) {
+      if (questionAnswerHash[get(userSelectedAnswer, 'questionId')]) {
         option.userSelected = questionAnswerHash[userSelectedAnswer.questionId].includes(option.optionId)
       } else {
         option.userSelected = false
       }
     })
-    if (_.filter(userSelectedAnswer.options, 'isCorrect')[0].userSelected) {
+    if (filter(userSelectedAnswer.options, 'isCorrect')[0].userSelected) {
       userSelectedAnswer['isCorrect'] = true
     }
     userSelectedAnswer['isExplanation'] = false
     if (quiz.questions[questionAnswerHash['qslideIndex']].
       questionType === 'fitb') {
-      if (_.toLower(_.filter(userSelectedAnswer.options, 'text')[0].text) === questionAnswerHash[userSelectedAnswer.questionId][0]) {
+      if (toLower(filter(userSelectedAnswer.options, 'text')[0].text) === questionAnswerHash[userSelectedAnswer.questionId][0]) {
         userSelectedAnswer['isCorrect'] = true
       } else {
         userSelectedAnswer['isCorrect'] = false

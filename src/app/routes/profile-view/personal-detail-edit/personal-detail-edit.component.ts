@@ -12,7 +12,7 @@ import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
-import * as _ from 'lodash'
+import { upperFirst } from 'lodash'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -409,7 +409,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       if (result) {
         this.preferedLanguage = result
         this.personalDetailForm.controls.
-          knownLanguage.setValue(_.upperFirst(result.lang))
+          knownLanguage.setValue(upperFirst(result.lang))
 
         if (this.configSvc.userProfileV2) {
           let user: any

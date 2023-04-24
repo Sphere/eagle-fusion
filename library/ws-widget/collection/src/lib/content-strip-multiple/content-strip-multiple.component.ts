@@ -14,7 +14,7 @@ import {
 import { Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 // import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
-import * as _ from 'lodash'
+import { get } from 'lodash'
 import { WidgetUserService } from '../_services/widget-user.service'
 // import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
@@ -218,7 +218,7 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
       let userId = ''
       let content: NsContent.IContent[]
       let contentNew: NsContent.IContent[]
-      const queryParams = _.get(strip.request.enrollmentList, 'queryParams')
+      const queryParams = get(strip.request.enrollmentList, 'queryParams')
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId
       } else {

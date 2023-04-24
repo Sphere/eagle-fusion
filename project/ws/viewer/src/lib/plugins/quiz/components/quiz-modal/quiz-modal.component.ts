@@ -9,7 +9,7 @@ import { QuizService } from '../../quiz.service'
 
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
-import * as _ from 'lodash'
+import { round } from 'lodash'
 @Component({
   selector: 'viewer-quiz-modal',
   templateUrl: './quiz-modal.component.html',
@@ -172,7 +172,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.numUnanswered = res.blank
         /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
-        this.result = _.round(res.result)
+        this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
         if (this.result >= this.passPercentage) {
@@ -345,7 +345,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.updateQuestionType(false)
       }
-    },         500)
+    }, 500)
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion

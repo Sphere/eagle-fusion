@@ -22,7 +22,7 @@ import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
-import * as _ from 'lodash'
+import { isNull } from 'lodash'
 interface IViewerTocCard {
   identifier: string
   completionPercentage: number
@@ -173,7 +173,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
               const nextResource = this.playerStateService.getNextResource()
-              if (!_.isNull(nextResource)) {
+              if (!isNull(nextResource)) {
                 this.router.navigate([nextResource], { preserveQueryParams: true })
                 this.playerStateService.trigger$.complete()
 

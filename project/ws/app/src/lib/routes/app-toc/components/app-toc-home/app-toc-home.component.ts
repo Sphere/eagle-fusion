@@ -11,7 +11,7 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
-import * as _ from 'lodash'
+import { includes, get, map, filter, set, first, each, toInteger } from 'lodash'
 import moment from 'moment'
 
 export enum ErrorType {
@@ -27,7 +27,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
@@ -330,9 +330,9 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     this.loadDiscussionWidget = false
   }
   checkRoute() {
-    if (_.includes(this.router.url, 'overview')) {
+    if (includes(this.router.url, 'overview')) {
       this.toggleComponent('overview')
-    } else if (_.includes(this.router.url, 'contents')) {
+    } else if (includes(this.router.url, 'contents')) {
       this.toggleComponent('contents')
     } else {
       this.toggleComponent('license')
@@ -398,27 +398,27 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     this.contentSvc.fetchContentHistoryV2(req).subscribe(
       data => {
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
-          this.resumeData = _.get(data, 'result.contentList')
-          this.resumeData = _.map(this.resumeData, rr => {
+          this.resumeData = get(data, 'result.contentList')
+          this.resumeData = map(this.resumeData, rr => {
             // tslint:disable-next-line
-            const items = _.filter(flattenItems(_.get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
-            _.set(rr, 'progressdetails.mimeType', _.get(_.first(items), 'mimeType'))
-            if (!_.get(rr, 'completionPercentage')) {
-              if (_.get(rr, 'status') === 2) {
-                _.set(rr, 'completionPercentage', rr.completionPercentage)
+            const items = filter(flattenItems(get(this.content, 'children') || [], 'children'), { 'identifier': rr.contentId, primaryCategory: 'Learning Resource' })
+            set(rr, 'progressdetails.mimeType', get(first(items), 'mimeType'))
+            if (!get(rr, 'completionPercentage')) {
+              if (get(rr, 'status') === 2) {
+                set(rr, 'completionPercentage', rr.completionPercentage)
               } else {
-                _.set(rr, 'completionPercentage', rr.completionPercentage)
+                set(rr, 'completionPercentage', rr.completionPercentage)
               }
             }
             return rr
           })
-          const progress = _.map(this.resumeData, 'completionPercentage')
-          const totalCount = _.toInteger(_.get(this.content, 'leafNodesCount')) || 1
+          const progress = map(this.resumeData, 'completionPercentage')
+          const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
           if (progress.length < totalCount) {
             const diff = totalCount - progress.length
             if (diff) {
               // tslint:disable-next-line
-              _.each(new Array(diff), () => {
+              each(new Array(diff), () => {
                 progress.push(0)
               })
             }

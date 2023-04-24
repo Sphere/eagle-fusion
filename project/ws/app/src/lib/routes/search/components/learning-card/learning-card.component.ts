@@ -10,7 +10,7 @@ import { delay, mergeMap } from 'rxjs/operators'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { v4 as uuid } from 'uuid'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
-import * as _ from 'lodash'
+import { forEach } from 'lodash'
 @Component({
   selector: 'ws-app-learning-card',
   templateUrl: './learning-card.component.html',
@@ -48,7 +48,7 @@ export class LearningCardComponent extends WidgetBaseComponent
     this.redirectUrl = url
     if (this.content.competencies_v1 && Object.keys(this.content.competencies_v1).length > 0) {
 
-      _.forEach(JSON.parse(this.content.competencies_v1), (value: any) => {
+      forEach(JSON.parse(this.content.competencies_v1), (value: any) => {
         if (value.level) {
           this.cometencyData.push(
             {

@@ -6,7 +6,7 @@ import { WidgetUserService } from '../../../../library/ws-widget/collection/src/
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { forkJoin } from 'rxjs'
-import * as _ from 'lodash'
+import { filter, includes, reduce, uniqBy, forEach } from 'lodash'
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -94,11 +94,11 @@ export class MobileDashboardComponent implements OnInit {
   }
   formatFeaturedCourseResponse(res: any) {
 
-    const featuredCourse = _.filter(res.result.content, ckey => {
-      return _.includes(this.featuredCourseIdentifier, ckey.identifier)
+    const featuredCourse = filter(res.result.content, ckey => {
+      return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
 
-    this.featuredCourse = _.reduce(_.uniqBy(featuredCourse, 'identifier'), (result, value) => {
+    this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
@@ -109,16 +109,16 @@ export class MobileDashboardComponent implements OnInit {
 
   formatTopCertifiedCourseResponse(res: any) {
 
-    const topCertifiedCourse = _.filter(res.result.content, ckey => {
-      return _.includes(this.topCertifiedCourseIdentifier, ckey.identifier)
+    const topCertifiedCourse = filter(res.result.content, ckey => {
+      return includes(this.topCertifiedCourseIdentifier, ckey.identifier)
     })
 
-    this.topCertifiedCourse = _.uniqBy(topCertifiedCourse, 'identifier')
+    this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
   }
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
-    _.forEach(res, key => {
+    forEach(res, key => {
       if (res.completionPercentage !== 100) {
         myCourseObject = {
           identifier: key.content.identifier,

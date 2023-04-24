@@ -7,7 +7,7 @@ import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
-import * as _ from 'lodash'
+import { round, forEach, isNull } from 'lodash'
 import { ViewerDataService } from '../../../../viewer-data.service'
 import {
   ValueService,
@@ -254,7 +254,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.numUnanswered = res.blank
         /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
-        this.result = _.round(res.result)
+        this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
@@ -291,7 +291,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.numUnanswered = res.blank
         /* tslint:disable-next-line:max-line-length */
         this.passPercentage = this.assesmentdata.generalData.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
-        this.result = _.round(res.result)
+        this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
@@ -308,7 +308,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         let competencyLevelId
         if (data) {
           competency_meta_data = JSON.parse(data)[0]
-          _.forEach(JSON.parse(data), (item: any) => {
+          forEach(JSON.parse(data), (item: any) => {
             if (item.competencyIds) {
               competencyLevelId = this.getCompetencyId(item.competencyIds)
               this.competencyLevelId = competencyLevelId ? competencyLevelId : ''
@@ -381,7 +381,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
   getCompetencyId(data: any) {
     let id
-    _.forEach(data, (item: any) => {
+    forEach(data, (item: any) => {
       if (item.identifier === this.assesmentdata.generalData.identifier) {
         id = item.competencyId.toString()
       }
@@ -506,7 +506,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       // console.log("submit next data", data)
-      if (!_.isNull(data.nextResource)) {
+      if (!isNull(data.nextResource)) {
 
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId)
       }
