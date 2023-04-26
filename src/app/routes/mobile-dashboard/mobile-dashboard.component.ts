@@ -28,7 +28,7 @@ export class MobileDashboardComponent implements OnInit {
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
-  languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  //languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
 

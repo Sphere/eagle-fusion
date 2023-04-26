@@ -5,8 +5,8 @@ import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
   // ContentProgressService,
   NsContent,
-  NsGoal,
-  NsPlaylist,
+  //NsGoal,
+  //NsPlaylist,
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
@@ -64,8 +64,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   editButton = false
   reviewButton = false
   // analyticsDataClient: any = null
-  btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
-  btnGoalsConfig: NsGoal.IBtnGoal | null = null
+  //btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
+  //btnGoalsConfig: NsGoal.IBtnGoal | null = null
   isRegistrationSupported = false
   checkRegistrationSources: Set<string> = new Set([
     'SkillSoft Digitalization',
@@ -186,17 +186,17 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.content) {
-      this.btnPlaylistConfig = {
-        contentId: this.content.identifier,
-        contentName: this.content.name,
-        contentType: this.content.contentType,
-        mode: 'dialog',
-      }
-      this.btnGoalsConfig = {
-        contentId: this.content.identifier,
-        contentName: this.content.name,
-        contentType: this.content.contentType,
-      }
+      // this.btnPlaylistConfig = {
+      //   contentId: this.content.identifier,
+      //   contentName: this.content.name,
+      //   contentType: this.content.contentType,
+      //   mode: 'dialog',
+      // }
+      // this.btnGoalsConfig = {
+      //   contentId: this.content.identifier,
+      //   contentName: this.content.name,
+      //   contentType: this.content.contentType,
+      // }
     }
   }
 
@@ -886,7 +886,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')

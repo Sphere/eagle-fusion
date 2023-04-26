@@ -580,7 +580,7 @@
 
             <!--<ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
             </ws-widget-btn-playlist> -->
-            <ws-widget-btn-content-download [widgetData]="
+            <!-- <ws-widget-btn-content-download [widgetData]="
                 widgetData.content
                   | pipePartialContent
                     : [
@@ -592,7 +592,7 @@
                         'isExternal',
                         'artifactUrl'
                       ]
-              "></ws-widget-btn-content-download>
+              "></ws-widget-btn-content-download> -->
           </div>
         </div>
       </mat-card-content>
@@ -678,7 +678,7 @@
 
             <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
             </ws-widget-btn-playlist> -->
-            <ws-widget-btn-content-download [widgetData]="
+            <!-- <ws-widget-btn-content-download [widgetData]="
                 widgetData.content
                   | pipePartialContent
                     : [
@@ -690,7 +690,7 @@
                         'isExternal',
                         'artifactUrl'
                       ]
-              "></ws-widget-btn-content-download>
+              "></ws-widget-btn-content-download> -->
 
             <!-- <mat-icon class="px-2 cursor-pointer" aria-label="Comment" i18n-aria-label matTooltip="Comment"
               i18n-matTooltip="Comment Button" [routerLink]="(widgetData.content | pipeContentRoute).url"
@@ -865,9 +865,9 @@
         <span class="time-text">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
       </div>
       <div class="flex items-center justify-between flex-row-reverse space-0 mb-0">
-        <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
+        <!-- <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
           [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">
-        </ws-widget-btn-content-like>
+        </ws-widget-btn-content-like> -->
 
         <div *ngIf="showContentTag" class="mode-tag px-2 ws-mat-primary-background">
           {{ widgetData.contentTags.tag }}
@@ -890,7 +890,7 @@
 <mat-menu #cardMenu="matMenu">
   <ng-template matMenuContent>
     <div mat-menu-item>
-      <ws-widget-btn-content-download [widgetData]="
+      <!-- <ws-widget-btn-content-download [widgetData]="
           widgetData.content
             | pipePartialContent
               : [
@@ -902,23 +902,23 @@
                   'isExternal',
                   'artifactUrl'
                 ]
-        "></ws-widget-btn-content-download>
+        "></ws-widget-btn-content-download> -->
       <!-- <ws-widget-btn-content-like [widgetData]="widgetData.content | pipePartialContent: ['identifier']">
       </ws-widget-btn-content-like> -->
       <!-- <ws-widget-btn-content-mail-me [widgetData]="widgetData.content"></ws-widget-btn-content-mail-me> -->
       <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
-      <ws-widget-btn-channel-analytics [widgetData]="widgetData.content"></ws-widget-btn-channel-analytics>
-      <ws-widget-btn-kb [contentId]="widgetData?.content?.identifier" [forPreview]="false"
+      <!-- <ws-widget-btn-channel-analytics [widgetData]="widgetData.content"></ws-widget-btn-channel-analytics> -->
+      <!-- <ws-widget-btn-kb [contentId]="widgetData?.content?.identifier" [forPreview]="false"
         [contentName]="widgetData?.content?.name" [contentType]="widgetData?.content?.contentType">
-      </ws-widget-btn-kb>
-      <ws-widget-btn-follow [widgetData]="{
+      </ws-widget-btn-kb> -->
+      <!-- <ws-widget-btn-follow [widgetData]="{
           targetId: widgetData?.content?.identifier,
           type: widgetData?.content?.contentType
-        }" *ngIf="isKnowledgeBoard"></ws-widget-btn-follow>
+        }" *ngIf="isKnowledgeBoard"></ws-widget-btn-follow> -->
       <!-- <ws-widget-btptocn-goals *ngIf="btnGoalsConfig" [widgetData]="btnGoalsConfig"></ws-widget-btn-goals>
       <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
       </ws-widget-btn-playlist> -->
-      <ws-widget-btn-kb-analytics [widgetData]="
+      <!-- <ws-widget-btn-kb-analytics [widgetData]="
           widgetData.content
             | pipePartialContent
               : [
@@ -930,7 +930,7 @@
                   'isExternal',
                   'artifactUrl'
                 ]
-        "></ws-widget-btn-kb-analytics>
+        "></ws-widget-btn-kb-analytics> -->
     </div>
   </ng-template>
 </mat-menu>
