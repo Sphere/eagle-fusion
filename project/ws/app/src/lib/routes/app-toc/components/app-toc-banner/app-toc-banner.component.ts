@@ -21,7 +21,7 @@ import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/a
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { FormControl, Validators } from '@angular/forms'
 import * as dayjs from 'dayjs'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 import * as FileSaver from 'file-saver'
 import moment from 'moment'
@@ -846,7 +846,7 @@ export class AppTocBannerComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')

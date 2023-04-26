@@ -14,7 +14,7 @@ import {
 import { Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 // import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { WidgetUserService } from '../_services/widget-user.service'
 // import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 

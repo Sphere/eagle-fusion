@@ -6,7 +6,12 @@ import { WidgetUserService } from '../../../../library/ws-widget/collection/src/
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { forkJoin } from 'rxjs'
-import { filter, includes, reduce, uniqBy, forEach } from 'lodash'
+import filter from 'lodash/filter'
+import includes from 'lodash/includes'
+import reduce from 'lodash/reduce'
+import uniqBy from 'lodash/uniqBy'
+import forEach from 'lodash/forEach'
+
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'

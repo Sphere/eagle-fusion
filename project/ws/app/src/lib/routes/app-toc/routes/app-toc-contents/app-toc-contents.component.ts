@@ -8,7 +8,7 @@ import { AppTocService } from '../../services/app-toc.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { takeUntil } from 'rxjs/operators'
-import { get } from 'lodash'
+import get from 'lodash/get'
 @Component({
   selector: 'ws-app-app-toc-contents',
   templateUrl: './app-toc-contents.component.html',

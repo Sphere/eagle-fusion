@@ -7,7 +7,10 @@ import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
-import { round, forEach, isNull } from 'lodash'
+import round from 'lodash/round'
+import forEach from 'lodash/forEach'
+import isNull from 'lodash/isNull'
+
 import { ViewerDataService } from '../../../../viewer-data.service'
 import {
   ValueService,

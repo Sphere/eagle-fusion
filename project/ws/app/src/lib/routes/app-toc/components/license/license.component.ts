@@ -6,7 +6,7 @@ import { ValueService } from '@ws-widget/utils/src/public-api'
 import { AppTocService } from '../../services/app-toc.service'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import { get } from 'lodash'
+import get from 'lodash/get'
 @Component({
   selector: 'ws-app-license',
   templateUrl: './license.component.html',
@@ -23,7 +23,7 @@ export class LicenseComponent implements OnInit {
 */
   public unsubscribe = new Subject<void>()
   constructor(private valueSvc: ValueService,
-              private tocSvc: AppTocService
+    private tocSvc: AppTocService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall

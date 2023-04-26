@@ -25,7 +25,8 @@ import { AssesmentOverviewComponent } from './components/assesment-overview/asse
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
-import { get, isNull } from 'lodash'
+import get from 'lodash/get'
+import isNull from 'lodash/isNull'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewerDataService } from '../../viewer-data.service'
 import { PlayerStateService } from '../../player-state.service'
@@ -238,7 +239,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      },         500)
+      }, 500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -416,7 +417,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           if (res) {
             setTimeout(() => {
               this.openOverviewDialog()
-            },         500)
+            }, 500)
           }
         })
       }

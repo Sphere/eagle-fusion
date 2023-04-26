@@ -1,4 +1,6 @@
-import { get, find } from 'lodash'
+import get from 'lodash/get'
+import find from 'lodash/find'
+
 // import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any) => {
   const userid = userProfileData.userId || userProfileData.id || ''

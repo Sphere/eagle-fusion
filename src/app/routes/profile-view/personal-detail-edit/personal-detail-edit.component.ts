@@ -12,7 +12,7 @@ import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
-import { upperFirst } from 'lodash'
+import upperFirst from 'lodash/upperFirst'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -56,12 +56,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   loadDob = false
   showDesignation = false
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar,
-              public dialog: MatDialog,
-              private valueSvc: ValueService,
-              private readonly changeDetectorRef: ChangeDetectorRef
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private valueSvc: ValueService,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) {
     this.personalDetailForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
