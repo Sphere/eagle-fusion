@@ -11,7 +11,15 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
-import { includes, get, map, filter, set, first, each, toInteger } from 'lodash'
+import includes from 'lodash/includes'
+import get from 'lodash/get'
+import map from 'lodash/map'
+import filter from 'lodash/filter'
+import set from 'lodash/set'
+import first from 'lodash/first'
+import each from 'lodash/each'
+import toInteger from 'lodash/toInteger'
+
 import moment from 'moment'
 
 export enum ErrorType {
@@ -27,7 +35,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
   selector: 'ws-app-app-toc-home-page',
@@ -479,7 +487,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             const query = this.generateQuery('RESUME')
             this.router.navigate([this.resumeDataLink.url], { queryParams: query })
 
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')

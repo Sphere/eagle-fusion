@@ -29,7 +29,9 @@ import {
 import { environment } from '../../environments/environment'
 /* tslint:disable */
 // import _ from 'lodash'
-import { isUndefined, get } from "lodash"
+import isUndefined from "lodash/isUndefined"
+import get from "lodash/get"
+
 import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
 // import { retry } from 'rxjs/operators'

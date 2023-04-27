@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Router, NavigationExtras, ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
-import { toNumber } from 'lodash'
+import toNumber from 'lodash/toNumber'
 @Component({
   selector: 'ws-mobile-video-player',
   templateUrl: './mobile-video-player.component.html',

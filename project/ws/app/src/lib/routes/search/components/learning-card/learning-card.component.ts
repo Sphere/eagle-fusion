@@ -10,7 +10,7 @@ import { delay, mergeMap } from 'rxjs/operators'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { v4 as uuid } from 'uuid'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 @Component({
   selector: 'ws-app-learning-card',
   templateUrl: './learning-card.component.html',

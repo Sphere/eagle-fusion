@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router'
-import { get, forEach } from 'lodash'
+import get from 'lodash/get'
+import forEach from 'lodash/forEach'
 import { forkJoin, of } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import { WidgetContentService } from '../../../library/ws-widget/collection/src/public-api'
@@ -30,11 +31,11 @@ export class SelfAssessmentGuard implements CanActivate {
       if (get(next, 'queryParams')) {
         return this.selfAsesment(get(next, 'queryParams'))
       }
-        return false
+      return false
 
     }
-      this.router.navigate([`public/home`])
-      return false
+    this.router.navigate([`public/home`])
+    return false
 
   }
 
@@ -75,7 +76,7 @@ export class SelfAssessmentGuard implements CanActivate {
         if (!this.batchData[0].enrollmentEndDate) {
           return this.enrollUser(this.batchData)
         }
-          return of(this.batchData)
+        return of(this.batchData)
 
       })).subscribe((res: any) => {
         return this.navigateToplayer(res[0])
@@ -147,7 +148,7 @@ export class SelfAssessmentGuard implements CanActivate {
         )
         this.routeNavigation(batchId, 'RESUME')
         return false
-      }  {
+      } {
         const firstPlayableContent = this.contentSvc.getFirstChildInHierarchy(this.content)
         this.resumeDataLink = viewerRouteGenerator(
           firstPlayableContent.identifier,

@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
 import { BehaviorSubject, Observable } from 'rxjs'
-import { get, filter, toLower } from 'lodash'
+import get from 'lodash/get'
+import filter from 'lodash/filter'
+import toLower from 'lodash/toLower'
+
 const API_END_POINTS = {
   // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
   ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/assessment/submit/v2`,

@@ -5,7 +5,7 @@ import { of } from 'rxjs'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { SignupService } from '../signup/signup.service'
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 @Component({
   selector: 'ws-mobile-course-view',
   templateUrl: './mobile-course-view.component.html',
@@ -16,9 +16,9 @@ export class MobileCourseViewComponent implements OnInit {
   @Input() courseData: any
   @Input() enableConfig = false
   constructor(private router: Router,
-              private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private signUpSvc: SignupService
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private signUpSvc: SignupService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {

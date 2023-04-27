@@ -3,7 +3,9 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
-import { get, isUndefined } from 'lodash'
+import get from 'lodash/get'
+import isUndefined from 'lodash/isUndefined'
+
 import { v4 as uuid } from 'uuid'
 
 const API_END_POINTS = {
@@ -23,7 +25,7 @@ const API_END_POINTS = {
 export class SignupService {
 
   constructor(private http: HttpClient,
-              private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService
   ) { }
 
   signup(data: any): Observable<any> {

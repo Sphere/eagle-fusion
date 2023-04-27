@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
-import { forEach } from 'lodash'
+import forEach from 'lodash/forEach'
 
 @Component({
   selector: 'ws-app-app-toc-desktop-modal',

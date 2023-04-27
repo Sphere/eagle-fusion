@@ -10,7 +10,7 @@ import { FilterDisplayComponent } from '../../components/filter-display/filter-d
 // import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import { SearchApiService } from '../../apis/search-api.service'
 @Component({
   selector: 'ws-app-learning',

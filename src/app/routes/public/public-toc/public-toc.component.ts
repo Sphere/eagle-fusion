@@ -1,6 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { includes, find } from 'lodash'
+import includes from 'lodash/includes'
+import find from 'lodash/find'
+
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 
 @Component({
@@ -67,7 +69,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     this.orgService.getSearchResults().subscribe((res: any) => {
       if (res) {
         find(res.result.content
-          ,  findRes => {
+          , findRes => {
             if (findRes.identifier === id) {
               this.tocData = findRes
               localStorage.setItem('tocData', JSON.stringify(this.tocData))

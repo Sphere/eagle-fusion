@@ -3,7 +3,9 @@ import { NSQuiz } from '../../quiz.model'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
-import { isUndefined, toLower } from 'lodash'
+import isUndefined from 'lodash/isUndefined'
+import toLower from 'lodash/toLower'
+
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 @Component({

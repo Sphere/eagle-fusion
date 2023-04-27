@@ -35,7 +35,7 @@ import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import { split } from 'lodash'
+import split from 'lodash/split'
 import { Plugins } from '@capacitor/core'
 import { v4 as uuid } from 'uuid'
 const { App } = Plugins
@@ -218,7 +218,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          },         10)
+          }, 10)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -378,7 +378,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.init()
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      },         300)
+      }, 300)
       // window.fcWidget.show()
       // this.isCommonChatEnabled = false
       const script = this._renderer2.createElement('script')

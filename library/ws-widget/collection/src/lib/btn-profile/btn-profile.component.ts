@@ -11,7 +11,8 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { Location } from '@angular/common'
 // declare const gapi: any
 /* tslint:disable*/
-import { compact, get } from 'lodash'
+import compact from 'lodash/compact'
+import get from 'lodash/get'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 //import { WidgetContentService } from '../_services/widget-content.service'
 import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'

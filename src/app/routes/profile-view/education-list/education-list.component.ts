@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { Router } from '@angular/router'
 
 @Component({
@@ -15,9 +15,9 @@ export class EducationListComponent implements OnInit {
   showLogOutIcon = false
   trigerrNavigation = true
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private valueSvc: ValueService) {
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private valueSvc: ValueService) {
 
   }
 

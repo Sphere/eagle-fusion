@@ -7,7 +7,7 @@ import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { Observable, Subscription, Subject } from 'rxjs'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import { takeUntil } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 import { HttpErrorResponse } from '@angular/common/http'
@@ -104,7 +104,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
       }
     },
-                                                            (err: HttpErrorResponse) => {
+      (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }
