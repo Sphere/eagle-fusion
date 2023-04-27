@@ -22,7 +22,8 @@
     "extract-i18n": "ng run fusion:extract-i18n --output-path locale",
     "i18n": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng xi18n --output-path locale",
     "tailwind": "./node_modules/.bin/tailwind build ./src/tailwind-build.scss  -o ./src/styles.scss",
-    "prestart": "npm run tailwind"
+    "prestart": "npm run tailwind",
+    "bundle:report": "source-map-explorer dist/www/fusion/**/*.js"
   },
   "private": true,
   "dependencies": {
@@ -58,7 +59,6 @@
     "@types/uuid": "^8.3.1",
     "angularx-qrcode": "~2.1.4",
     "bootstrap": "4.1.1",
-    "brace": "^0.11.1",
     "dayjs": "^1.9.7",
     "dom-to-image": "^2.6.0",
     "express-healthcheck": "^0.1.0",
@@ -84,6 +84,7 @@
     "pdfjs-dist": "2.1.266",
     "rxjs": "~6.5.2",
     "shepherd.js": "^7.1.0",
+    "source-map-explorer": "^2.5.3",
     "tailwindcss": "^1.1.4",
     "three": "^0.113.2",
     "tslib": "^1.10.0",

@@ -242,9 +242,9 @@
           <div class="width-expand flex flex-middle flex-between">
             <h3 class="margin-remove"><a class="margin-remove text-md font-normal" (click)="goToProfile(author.id)"
                 [ngClass]="{'cursor-pointer': true}">{{ author.name }}</a></h3>
-            <ws-widget-btn-mail-user *ngIf="askAuthorEnabled"
+            <!-- <ws-widget-btn-mail-user *ngIf="askAuthorEnabled"
               [widgetData]="{ content: content, emails: [author.email] }">
-            </ws-widget-btn-mail-user>
+            </ws-widget-btn-mail-user> -->
           </div>
         </div>
       </div>
@@ -284,9 +284,9 @@
   </div>
   <!-- At a glance section -->
   <div class="info-section">
-    <ws-widget-player-brief [forPreview]="forPreview" [content]="content" [hasTocStructure]="hasTocStructure"
+    <!-- <ws-widget-player-brief [forPreview]="forPreview" [content]="content" [hasTocStructure]="hasTocStructure"
       [tocStructure]="tocStructure">
-    </ws-widget-player-brief>
+    </ws-widget-player-brief> -->
   </div>
   <ng-container>
     <!-- <ws-app-license></ws-app-license> -->

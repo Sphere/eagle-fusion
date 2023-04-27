@@ -7,14 +7,16 @@ import {
   MatTooltipModule,
 } from '@angular/material'
 import { ViewerTopBarComponent } from './viewer-top-bar.component'
-import { BtnFullscreenModule, BtnPageBackModule ,
-  BtnContentLikeModule,
+import {
+  BtnFullscreenModule, BtnPageBackModule,
+  //BtnContentLikeModule,
   BtnContentShareModule,
-  BtnGoalsModule,
-  BtnPlaylistModule,
-  BtnContentFeedbackModule,
+  //BtnGoalsModule,
+  //BtnPlaylistModule,
+  //BtnContentFeedbackModule,
   // DisplayContentTypeIconModule,
-  BtnContentFeedbackV2Module } from '@ws-widget/collection'
+  //BtnContentFeedbackV2Module
+} from '@ws-widget/collection'
 import { RouterModule } from '@angular/router'
 import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
 @NgModule({
@@ -29,12 +31,12 @@ import { ValueService, PipePartialContentModule } from '@ws-widget/utils'
     MatTooltipModule,
     RouterModule,
     PipePartialContentModule,
-    BtnContentLikeModule,
+    //BtnContentLikeModule,
     BtnContentShareModule,
-    BtnGoalsModule,
-    BtnPlaylistModule,
-    BtnContentFeedbackModule,
-    BtnContentFeedbackV2Module,
+    //BtnGoalsModule,
+    //BtnPlaylistModule,
+    //BtnContentFeedbackModule,
+    //BtnContentFeedbackV2Module,
   ],
   exports: [ViewerTopBarComponent],
   providers: [ValueService],

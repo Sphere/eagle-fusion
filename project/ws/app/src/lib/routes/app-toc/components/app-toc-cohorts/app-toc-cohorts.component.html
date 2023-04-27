@@ -135,15 +135,15 @@
         class="width-expand padding-left-xs">
         <div class="mat-body-strong cohorts-name">
           {{
-            { firstName: user.first_name, lastName: user.last_name, email: user.email }
-              | pipeNameTransform
+          { firstName: user.first_name, lastName: user.last_name, email: user.email }
+          | pipeNameTransform
           }}
         </div>
         <div class="mat-caption cohorts-desc">{{ user.desc }}</div>
       </div>
       <div class="width-auto">
-        <ws-widget-btn-mail-user [widgetData]="{ content: identifier, emails: [user.email] }"></ws-widget-btn-mail-user>
-        <ws-widget-btn-call *ngIf="user.phone_No !== '0'" [widgetData]="{
+        <!-- <ws-widget-btn-mail-user [widgetData]="{ content: identifier, emails: [user.email] }"></ws-widget-btn-mail-user> -->
+        <!-- <ws-widget-btn-call *ngIf="user.phone_No !== '0'" [widgetData]="{
             userName:
               {
                 firstName: user.first_name,
@@ -151,7 +151,7 @@
                 email: user.email
               } | pipeNameTransform,
             userPhone: user.phone_No
-          }"></ws-widget-btn-call>
+          }"></ws-widget-btn-call> -->
       </div>
     </div>
   </ng-template>

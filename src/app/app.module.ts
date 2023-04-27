@@ -34,7 +34,7 @@ import {
   // TourModule,
   WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe,
 } from '@ws-widget/collection'
-import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
+//import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   // ImageCropComponent,
@@ -244,7 +244,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     AppRoutingModule,
     ...WIDGET_REGISTERED_MODULES,
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
-    StickyHeaderModule,
+    //StickyHeaderModule,
     ErrorResolverModule,
     MatSliderModule,
     MatButtonModule,

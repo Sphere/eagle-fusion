@@ -3,8 +3,8 @@ import { MatSnackBar } from '@angular/material'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, UtilityService, NsInstanceConfig, AuthKeycloakService } from '@ws-widget/utils'
 import { Subscription, of } from 'rxjs'
-import { NsGoal } from '../btn-goals/btn-goals.model'
-import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
+//import { NsGoal } from '../btn-goals/btn-goals.model'
+//import { NsPlaylist } from '../btn-playlist/btn-playlist.model'
 import { NsContent } from '../_services/widget-content.model'
 import { NsCardContent } from './card-content.model'
 import { MdePopoverTrigger } from '@material-extended/mde'
@@ -32,8 +32,8 @@ export class CardContentComponent extends WidgetBaseComponent
   offSetYValue: number | undefined
   isUserLoggedIn = false
 
-  btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
-  btnGoalsConfig: NsGoal.IBtnGoal | null = null
+  //btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
+  //btnGoalsConfig: NsGoal.IBtnGoal | null = null
   prefChangeSubscription: Subscription | null = null
   sourceLogos: NsInstanceConfig.ISourceLogo[] | undefined
 
@@ -83,17 +83,17 @@ export class CardContentComponent extends WidgetBaseComponent
     }
 
     if (this.widgetData) {
-      this.btnPlaylistConfig = {
-        contentId: this.widgetData.content.identifier,
-        contentName: this.widgetData.content.name,
-        contentType: this.widgetData.content.contentType,
-        mode: 'dialog',
-      }
-      this.btnGoalsConfig = {
-        contentId: this.widgetData.content.identifier,
-        contentName: this.widgetData.content.name,
-        contentType: this.widgetData.content.contentType,
-      }
+      // this.btnPlaylistConfig = {
+      //   contentId: this.widgetData.content.identifier,
+      //   contentName: this.widgetData.content.name,
+      //   contentType: this.widgetData.content.contentType,
+      //   mode: 'dialog',
+      // }
+      // this.btnGoalsConfig = {
+      //   contentId: this.widgetData.content.identifier,
+      //   contentName: this.widgetData.content.name,
+      //   contentType: this.widgetData.content.contentType,
+      // }
       this.modifySensibleContentRating()
     }
 

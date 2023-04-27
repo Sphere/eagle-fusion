@@ -36,7 +36,7 @@ import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-conte
 import { AppTocHomeComponent } from './components/app-toc-home/app-toc-home.component'
 import { AppTocHomeComponent as AppTocHomeRootComponent } from './routes/app-toc-home/app-toc-home.component'
 import { AppTocOverviewComponent } from './components/app-toc-overview/app-toc-overview.component'
-import { AppTocBannerComponent } from './components/app-toc-banner/app-toc-banner.component'
+// import { AppTocBannerComponent } from './components/app-toc-banner/app-toc-banner.component'
 import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
 import { AppTocContentCardComponent } from './components/app-toc-content-card/app-toc-content-card.component'
 import { AppTocDiscussionComponent } from './components/app-toc-discussion/app-toc-discussion.component'
@@ -63,35 +63,35 @@ import {
   PipeCountTransformModule,
 } from '@ws-widget/utils'
 import {
-  BtnCallModule,
-  BtnContentDownloadModule,
-  BtnContentLikeModule,
+  // BtnCallModule,
+  // BtnContentDownloadModule,
+  // BtnContentLikeModule,
   BtnContentShareModule,
-  BtnContentFeedbackModule,
-  BtnContentFeedbackV2Module,
-  BtnGoalsModule,
-  BtnMailUserModule,
+  //BtnContentFeedbackModule,
+  //BtnContentFeedbackV2Module,
+  // BtnGoalsModule,
+  // BtnMailUserModule,
   BtnPageBackModule,
   UserImageModule,
   DisplayContentTypeModule,
-  BtnPlaylistModule,
+  //BtnPlaylistModule,
   DisplayContentTypeIconModule,
   ContentProgressModule,
-  UserContentRatingModule,
+  //UserContentRatingModule,
   PipeContentRouteModule,
   PipeContentRoutePipe,
-  BtnKbModule,
-  MarkAsCompleteModule,
-  PlayerBriefModule,
+  //BtnKbModule,
+  // MarkAsCompleteModule,
+  // PlayerBriefModule,
   CardContentModule,
   UserAutocompleteModule,
 
 } from '@ws-widget/collection'
-import { AppTocDialogIntroVideoComponent } from './components/app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
-import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
-import { ContentCertificationResolver } from './routes/app-toc-certification/resolvers/content-certification.resolver'
-import { CertificationApiService } from './routes/app-toc-certification/apis/certification-api.service'
-import { AppTocCertificationModule } from './routes/app-toc-certification/app-toc-certification.module'
+// import { AppTocDialogIntroVideoComponent } from './components/app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
+// import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
+// import { ContentCertificationResolver } from './routes/app-toc-certification/resolvers/content-certification.resolver'
+// import { CertificationApiService } from './routes/app-toc-certification/apis/certification-api.service'
+// import { AppTocCertificationModule } from './routes/app-toc-certification/app-toc-certification.module'
 // import { TrainingService } from '../infy/routes/training/services/training.service'
 import { AppTocOverviewDirective } from './routes/app-toc-overview/app-toc-overview.directive'
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
@@ -99,7 +99,7 @@ import { AppTocHomeDirective } from './routes/app-toc-home/app-toc-home.directiv
 // import { AppTocCohortsDirective } from './routes/app-toc-cohorts/app-toc-cohorts.directive'
 // import { AppTocCohortsComponent as AppTocCohortsRootComponent } from './routes/app-toc-cohorts/app-toc-cohorts.component'
 // import { AppTocAnalyticsTilesComponent } from './components/app-toc-analytics-tiles/app-toc-analytics-tiles.component'
-import { KnowledgeArtifactDetailsComponent } from './components/knowledge-artifact-details/knowledge-artifact-details.component'
+// import { KnowledgeArtifactDetailsComponent } from './components/knowledge-artifact-details/knowledge-artifact-details.component'
 import { ProfileImageModule } from '../../../../../../../library/ws-widget/collection/src/lib/_common/profile-image/profile-image.module'
 import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
 import { ApiService, AccessControlService } from '../../../../../author/src/public-api'
@@ -119,18 +119,18 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     AppTocContentsComponent,
     AppTocHomeComponent,
     AppTocOverviewComponent,
-    AppTocBannerComponent,
+    //AppTocBannerComponent,
     AppTocCohortsComponent,
     AppTocContentCardComponent,
     AppTocDiscussionComponent,
-    AppTocDialogIntroVideoComponent,
+    //AppTocDialogIntroVideoComponent,
     AppTocOverviewDirective,
     AppTocOverviewRootComponent,
     AppTocHomeDirective,
     AppTocHomeRootComponent,
     // AppTocCohortsDirective,
     // AppTocCohortsRootComponent,
-    KnowledgeArtifactDetailsComponent,
+    //KnowledgeArtifactDetailsComponent,
     // AppTocAnalyticsTilesComponent,
     LicenseComponent,
     // AppTocSinglePageComponent,
@@ -183,25 +183,25 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     PipeCountTransformModule,
     PipePartialContentModule,
     PipeContentRouteModule,
-    BtnCallModule,
-    BtnContentDownloadModule,
-    BtnContentLikeModule,
-    BtnContentFeedbackModule,
-    BtnContentFeedbackV2Module,
-    BtnGoalsModule,
-    BtnPlaylistModule,
-    BtnMailUserModule,
+    // BtnCallModule,
+    // BtnContentDownloadModule,
+    // BtnContentLikeModule,
+    // BtnContentFeedbackModule,
+    //BtnContentFeedbackV2Module,
+    //BtnGoalsModule,
+    //BtnPlaylistModule,
+    //BtnMailUserModule,
     BtnPageBackModule,
     HorizontalScrollerModule,
     UserImageModule,
     DefaultThumbnailModule,
     WidgetResolverModule,
     ContentProgressModule,
-    UserContentRatingModule,
-    BtnKbModule,
-    AppTocCertificationModule,
-    MarkAsCompleteModule,
-    PlayerBriefModule,
+    //UserContentRatingModule,
+    //BtnKbModule,
+    // AppTocCertificationModule,
+    // MarkAsCompleteModule,
+    // PlayerBriefModule,
     MatProgressSpinnerModule,
     CardContentModule,
     BtnContentShareModule,
@@ -217,9 +217,9 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     PipeContentRoutePipe,
     // TrainingApiService,
     // TrainingService,
-    CertificationApiService,
-    CertificationMetaResolver,
-    ContentCertificationResolver,
+    // CertificationApiService,
+    // CertificationMetaResolver,
+    // ContentCertificationResolver,
     EditorService,
     ApiService,
     AccessControlService,
@@ -227,7 +227,7 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
   ],
   exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
   entryComponents: [
-    AppTocDialogIntroVideoComponent,
+    //AppTocDialogIntroVideoComponent,
     AppTocOverviewComponent,
     AppTocHomeComponent,
     // AppTocSinglePageComponent,
