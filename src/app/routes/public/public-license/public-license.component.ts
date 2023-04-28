@@ -10,6 +10,7 @@ import get from 'lodash/get'
   selector: 'ws-public-license',
   templateUrl: './public-license.component.html',
   styleUrls: ['./public-license.component.scss'],
+  providers: [AppTocService]
 })
 export class PublicLicenseComponent implements OnInit {
   isXSmall = false
