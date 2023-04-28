@@ -69,6 +69,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   collectionId = ''
   resourceContentType: any
   disabledNode: boolean
+  currentContentType: any
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -151,6 +152,24 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
+        if (this.currentContentType == "Video") {
+          if (this.playerStateService.isResourceCompleted()) {
+            const nextResource = this.playerStateService.getNextResource()
+            if (!isNull(nextResource)) {
+              this.router.navigate([nextResource], { preserveQueryParams: true })
+              this.playerStateService.trigger$.complete()
+
+            } else {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.batchId,
+                },
+              })
+            }
+
+          }
+        }
       }
 
     })
@@ -230,6 +249,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     await this.contentSvc.currentMessage.subscribe(
       (data: any) => {
         if (data) {
+          this.currentContentType = data
           this.ngOnInit()
         }
       })

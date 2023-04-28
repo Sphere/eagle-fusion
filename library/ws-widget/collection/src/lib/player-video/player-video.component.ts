@@ -222,7 +222,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         }
       }
     }
-    const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
+    const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
@@ -266,6 +266,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId)
               this.contentSvc.changeMessage('Video')
             }
+          } else {
+            this.contentSvc.changeMessage('Video')
           }
           if (this.contentData === undefined && percent > 95) {
             const data1: any = {
