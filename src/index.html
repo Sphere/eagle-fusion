@@ -112,6 +112,21 @@
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 <script>
+
+  // window.addEventListener("load", (event) => {
+  const url = window.location.href
+
+  console.log("href", window.location.href)
+  if (url.includes('token') && url.includes('moduleId')) {
+    const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
+    sessionStorage.setItem('sashakt_token', sashakt_token)
+    const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
+    sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
+  }
+
+
+</script>
+<script>
   var MATCHING_IE = navigator.userAgent.match(/(msie|trident(?=\/))\/?\s*(\d+)/i) || []
   if (/trident/i.test(MATCHING_IE[1])) {
     // tslint:disable-next-line: max-line-length
