@@ -157,12 +157,12 @@ if (url.indexOf('&code=') > 0) {
   sessionStorage.setItem('code', code)
 }
 
-if (url.includes('token') && url.includes('moduleId')) {
-  const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
-  sessionStorage.setItem('sashakt_token', sashakt_token)
-  const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
-  sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
-}
+// if (url.includes('token') && url.includes('moduleId')) {
+//   const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
+//   sessionStorage.setItem('sashakt_token', sashakt_token)
+//   const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
+//   sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
+// }
 
 // Conditions added for checking if nhsrc organisation is present in url
 if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
@@ -174,11 +174,12 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     if (orgValue === 'nhsrc') {
       if (url.indexOf('do_') > 0) {
         // window.location.href = `${url}`
-        console.log(url)
+        console.log("app.module", url)
         localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
           }` + `/overview`)
-        window.location.href = `${document.baseURI}organisations/home`
+        // window.location.href = `${document.baseURI}organisations/home`
       } else {
+        console.log("line number 182 else in app module.ts", url)
         window.location.href = `${document.baseURI}organisations/home`
       }
     }
