@@ -33,7 +33,7 @@ import { CreateAccountComponent } from './routes/create-account/create-account.c
 import { YourLocationComponent as AboutYou } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
-//import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 //import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
@@ -291,10 +291,10 @@ const routes: Routes = [
     canActivate: [ExternalUrlResolverService],
     component: ErrorResolverComponent,
   },
-  // {
-  //   path: 'google/callback',
-  //   component: GoogleCallbackComponent,
-  // },
+  {
+    path: 'google/callback',
+    component: GoogleCallbackComponent,
+  },
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
   { path: 'hi/hi/page/home', redirectTo: 'hi/page/home', pathMatch: 'full' },
   {

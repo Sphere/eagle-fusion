@@ -87,7 +87,7 @@ import { YourBackgroundComponent } from './routes/your-background/your-backgroun
 import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
-//import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 //import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 //import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
@@ -212,7 +212,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     AlmostDoneComponent,
     CompleteProfileComponent,
     HeaderComponent,
-    //GoogleCallbackComponent,
+    GoogleCallbackComponent,
     MobileDashboardComponent,
     //MobileCategoryComponent,
     //MobileVideoPlayerComponent,
