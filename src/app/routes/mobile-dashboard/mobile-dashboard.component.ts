@@ -98,11 +98,10 @@ export class MobileDashboardComponent implements OnInit {
 
   }
   formatFeaturedCourseResponse(res: any) {
-    console.log(res)
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
-    console.log(featuredCourse)
+
     this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
       console.log(value)
       result['identifier'] = value.identifier

@@ -12,7 +12,7 @@ import { GeneralGuard } from './guards/general.guard'
 import { LoginGuard } from './guards/login.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
-import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
+//import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
@@ -33,8 +33,8 @@ import { CreateAccountComponent } from './routes/create-account/create-account.c
 import { YourLocationComponent as AboutYou } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
-import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
-import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+//import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+//import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
@@ -212,10 +212,10 @@ const routes: Routes = [
   {
     path: 'app/user/competency', component: CompetencyDashboardComponent,
   },
-  {
-    path: 'app/video-player',
-    component: MobileVideoPlayerComponent,
-  },
+  // {
+  //   path: 'app/video-player',
+  //   component: MobileVideoPlayerComponent,
+  // },
   {
     path: 'app/workinfo-edit',
     component: WorkInfoEditComponent,
@@ -291,10 +291,10 @@ const routes: Routes = [
     canActivate: [ExternalUrlResolverService],
     component: ErrorResolverComponent,
   },
-  {
-    path: 'google/callback',
-    component: GoogleCallbackComponent,
-  },
+  // {
+  //   path: 'google/callback',
+  //   component: GoogleCallbackComponent,
+  // },
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
   { path: 'hi/hi/page/home', redirectTo: 'hi/page/home', pathMatch: 'full' },
   {
@@ -386,18 +386,18 @@ const routes: Routes = [
     },
     canActivate: [GeneralGuard],
   },
-  {
-    path: 'page/explore/:tags',
-    data: {
-      pageType: 'page',
-      pageKey: 'catalog-details',
-    },
-    resolve: {
-      pageData: ExploreDetailResolve,
-    },
-    component: PageComponent,
-    // canActivate: [GeneralGuard],
-  },
+  // {
+  //   path: 'page/explore/:tags',
+  //   data: {
+  //     pageType: 'page',
+  //     pageKey: 'catalog-details',
+  //   },
+  //   resolve: {
+  //     pageData: ExploreDetailResolve,
+  //   },
+  //   component: PageComponent,
+  //   // canActivate: [GeneralGuard],
+  // },
   {
     path: 'page-leaders',
     loadChildren: () =>
@@ -430,17 +430,17 @@ const routes: Routes = [
       pageData: PageResolve,
     },
   },
-  {
-    path: 'public/mobile-app',
-    component: MobileAppHomeComponent,
-    data: {
-      pageType: 'feature',
-      pageKey: 'mobile-app',
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
-  },
+  // {
+  //   path: 'public/mobile-app',
+  //   component: MobileAppHomeComponent,
+  //   data: {
+  //     pageType: 'feature',
+  //     pageKey: 'mobile-app',
+  //   },
+  //   resolve: {
+  //     pageData: PageResolve,
+  //   },
+  // },
   {
     path: 'public/tnc',
     component: TncComponent,

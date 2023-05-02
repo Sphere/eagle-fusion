@@ -76,14 +76,12 @@
     "moment": "^2.29.1",
     "mustache": "^3.0.2",
     "ng-circle-progress": "1.5.1",
-    "ng2-ace-editor": "^0.3.9",
     "ngx-chips": "2.0.2",
     "ngx-infinite-scroll": "^10.0.0",
     "ngx-moment": "^5.0.0",
     "pdfjs-dist": "2.1.266",
     "rxjs": "~6.5.2",
     "shepherd.js": "^7.1.0",
-    "source-map-explorer": "^2.5.3",
     "tailwindcss": "^1.1.4",
     "tslib": "^1.10.0",
     "typeface-roboto": "0.0.75",
@@ -130,6 +128,7 @@
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "~3.5.3",
     "typescript-tslint-plugin": "^0.5.4",
-    "webpack-bundle-analyzer": "^3.4.1"
+    "webpack-bundle-analyzer": "^3.4.1",
+    "source-map-explorer": "^2.5.3"
   }
 }

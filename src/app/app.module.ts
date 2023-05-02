@@ -61,7 +61,7 @@ import { InvalidUserComponent } from './component/invalid-user/invalid-user.comp
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { TncRendererComponent } from './component/tnc-renderer/tnc-renderer.component'
-import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
+//import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
@@ -87,11 +87,11 @@ import { YourBackgroundComponent } from './routes/your-background/your-backgroun
 import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
-import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
+//import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
-import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
-import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
-import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
+//import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
+//import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+//import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
@@ -212,11 +212,11 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     AlmostDoneComponent,
     CompleteProfileComponent,
     HeaderComponent,
-    GoogleCallbackComponent,
+    //GoogleCallbackComponent,
     MobileDashboardComponent,
-    MobileCategoryComponent,
-    MobileVideoPlayerComponent,
-    MobileFooterComponent,
+    //MobileCategoryComponent,
+    //MobileVideoPlayerComponent,
+    //MobileFooterComponent,
     MobileProfileDashboardComponent,
     MobileAboutPopupComponent,
     ProfileSelectComponent,
@@ -269,7 +269,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PublicHomeModule,
     PublicContactModule,
     PublicFaqModule,
-    MobileAppModule,
+    //MobileAppModule,
     PipeSafeSanitizerModule,
     // TourModule,
     SlidersModule,

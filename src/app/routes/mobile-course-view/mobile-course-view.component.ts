@@ -22,7 +22,6 @@ export class MobileCourseViewComponent implements OnInit {
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
-    console.log(this.courseData)
     if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
       forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {
@@ -41,9 +40,7 @@ export class MobileCourseViewComponent implements OnInit {
 
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
-
     // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
-
     const url = `app/toc/` + `${contentIdentifier}` + `/overview`
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
