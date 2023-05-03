@@ -230,6 +230,10 @@ const routes: Routes = [
     canActivate: [GeneralGuard],
   },
   {
+    path: 'certs',
+    loadChildren: () => import('./routes/route-cert.module').then(u => u.RouteCertificateModule),
+  },
+  {
     path: 'embed',
     data: {
       topBar: ETopBar.NONE,
