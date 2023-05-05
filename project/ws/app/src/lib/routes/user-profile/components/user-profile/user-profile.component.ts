@@ -26,9 +26,9 @@ import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
-// import { LoaderService } from '@ws/author/src/public-api'
+import { LoaderService } from '@ws/author/src/public-api'
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
-import get from 'lodash/get'
+import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import moment from 'moment'
 import { LanguageDialogComponent } from '../../../../../../../../../src/app/routes/language-dialog/language-dialog.component'
@@ -133,7 +133,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private fb: FormBuilder,
     private cd: ChangeDetectorRef,
     private dialog: MatDialog,
-    // private loader: LoaderService,
+    private loader: LoaderService,
     private btnservice: BtnProfileService,
     private http: HttpClient,
   ) {
@@ -331,7 +331,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   fetchPendingFields() {
     this.userProfileSvc.listApprovalPendingFields().subscribe(res => {
       if (res && res.result && res.result.data) {
-        this.unApprovedField = get(res, 'result.data')
+        this.unApprovedField = _.get(res, 'result.data')
       }
     })
   }
@@ -617,11 +617,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         if (this.configSvc.userProfile) {
           const tempData = this.configSvc.userProfile
-          this.userProfileData = get(this.configSvc, 'unMappedUser.profileDetails')
+          this.userProfileData = _.get(this.configSvc, 'unMappedUser.profileDetails')
           this.createUserForm.patchValue({
             firstname: this.userProfileData.personalDetails.firstname,
             surname: this.userProfileData.personalDetails.surname,
-            primaryEmail: get(this.configSvc.unMappedUser, 'profileDetails.profileReq.personalDetails.primaryEmail') || tempData.email,
+            primaryEmail: _.get(this.configSvc.unMappedUser, 'profileDetails.profileReq.personalDetails.primaryEmail') || tempData.email,
           })
         }
       }
@@ -797,18 +797,18 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       industryOther: organisation.industryOther,
       profession: organisation.profession,
       professionOtherSpecify: organisation.professionOtherSpecify,
-      // orgName: get(data, 'employmentDetails.departmentName') || '',
-      service: get(data, 'employmentDetails.service') || '',
-      cadre: get(data, 'employmentDetails.cadre') || '',
-      allotmentYear: this.checkvalue(get(data, 'employmentDetails.allotmentYearOfService') || ''),
-      otherDetailsDoj: this.getDateFromText(get(data, 'employmentDetails.dojOfService') || ''),
-      payType: get(data, 'employmentDetails.payType') || '',
-      civilListNo: get(data, 'employmentDetails.civilListNo') || '',
-      employeeCode: this.checkvalue(get(data, 'employmentDetails.employeeCode') || ''),
-      otherDetailsOfficeAddress: this.checkvalue(get(data, 'employmentDetails.officialPostalAddress') || ''),
-      otherDetailsOfficePinCode: this.checkvalue(get(data, 'employmentDetails.pinCode') || ''),
-      skillAquiredDesc: get(data, 'skills.additionalSkills') || '',
-      certificationDesc: get(data, 'skills.certificateDetails') || '',
+      // orgName: _.get(data, 'employmentDetails.departmentName') || '',
+      service: _.get(data, 'employmentDetails.service') || '',
+      cadre: _.get(data, 'employmentDetails.cadre') || '',
+      allotmentYear: this.checkvalue(_.get(data, 'employmentDetails.allotmentYearOfService') || ''),
+      otherDetailsDoj: this.getDateFromText(_.get(data, 'employmentDetails.dojOfService') || ''),
+      payType: _.get(data, 'employmentDetails.payType') || '',
+      civilListNo: _.get(data, 'employmentDetails.civilListNo') || '',
+      employeeCode: this.checkvalue(_.get(data, 'employmentDetails.employeeCode') || ''),
+      otherDetailsOfficeAddress: this.checkvalue(_.get(data, 'employmentDetails.officialPostalAddress') || ''),
+      otherDetailsOfficePinCode: this.checkvalue(_.get(data, 'employmentDetails.pinCode') || ''),
+      skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
+      certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
       {
         emitEvent: true,
@@ -922,11 +922,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     profileReq.personalDetails.personalEmail = form.value.secondaryEmail
 
     // let approvalData
-    // forOwn(this.approvalConfig, (v, k) => {
+    // _.forOwn(this.approvalConfig, (v, k) => {
     //   if (!v.approvalRequired) {
-    //     set(profileReq, k, this.getDataforK(k, form))
+    //     _.set(profileReq, k, this.getDataforK(k, form))
     //   } else {
-    //     set(profileReq, k, this.getDataforKRemove(k, v.approvalFiels, form))
+    //     _.set(profileReq, k, this.getDataforKRemove(k, v.approvalFiels, form))
     //     approvalData = this.getDataforKAdd(k, v.approvalFiels, form)
     //   }
     // })
@@ -963,7 +963,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   //         officialEmail: officeEmail,
   //         postalAddress: form.value.residenceAddress,
   //         pincode: form.value.pincode,
-  //         osid: get(this.userProfileData, 'personalDetails.osid') || undefined,
+  //         osid: _.get(this.userProfileData, 'personalDetails.osid') || undefined,
   //       }
   //     case 'academics':
   //       return this.getAcademics(form)
@@ -979,7 +979,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   //         officialPostalAddress: form.value.otherDetailsOfficeAddress,
   //         pinCode: form.value.otherDetailsOfficePinCode,
   //         departmentName: form.value.orgName || form.value.orgNameOther || '',
-  //         osid: get(this.userProfileData, 'employmentDetails.osid') || undefined,
+  //         osid: _.get(this.userProfileData, 'employmentDetails.osid') || undefined,
   //       }
   //     case 'professionalDetails':
   //       return [
@@ -1001,12 +1001,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   // }
   // private getDataforKRemove(k: string, fields: string[], form: any) {
   //   const datak = this.getDataforK(k, form)
-  //   each(datak, (dk, idx) => {
+  //   _.each(datak, (dk, idx) => {
   //     for (let i = 0; i <= fields.length && dk; i += 1) {
-  //       const oldVal = get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
-  //       const newVal = get(dk, `${fields[i]}`)
+  //       const oldVal = _.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
+  //       const newVal = _.get(dk, `${fields[i]}`)
   //       if (oldVal !== newVal) {
-  //         set(dk, fields[i], oldVal)
+  //         _.set(dk, fields[i], oldVal)
   //       }
   //     }
   //   })
@@ -1016,16 +1016,16 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   //   const datak = this.getDataforK(k, form)
   //   const lst: any = []
   //   // tslint: disable-next-line
-  //   each(datak, (dk: any, idx: any) => {
+  //   _.each(datak, (dk: any, idx: any) => {
   //     for (let i = 0; i <= fields.length && dk; i += 1) {
-  //       const oldVal = get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
-  //       const newVal = get(dk, `${fields[i]}`)
-  //       if ((oldVal !== newVal) && dk && get(dk, fields[i]) && typeof (get(dk, fields[i])) !== 'object') {
+  //       const oldVal = _.get(this.userProfileData, `${k}[${idx}].${fields[i]}`)
+  //       const newVal = _.get(dk, `${fields[i]}`)
+  //       if ((oldVal !== newVal) && dk && _.get(dk, fields[i]) && typeof (_.get(dk, fields[i])) !== 'object') {
   //         lst.push({
   //           fieldKey: k,
   //           fromValue: { [fields[i]]: oldVal || '' },
   //           toValue: { [fields[i]]: newVal || '' },
-  //           osid: get(this.userProfileData, `${k}[${idx}].osid`),
+  //           osid: _.get(this.userProfileData, `${k}[${idx}].osid`),
   //         })
   //       }
   //     }
@@ -1050,7 +1050,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       description: form.value.orgDesc,
       completePostalAddress: '',
       additionalAttributes: {},
-      osid: get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
+      osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
     }
     organisations.push(org)
     return organisations
@@ -1322,7 +1322,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   uploadProfileImg(file: File) {
-    // const formdata = new FormData()
+    const formdata = new FormData()
     const fileName = file.name.replace(/[^A-Za-z0-9.]/g, '')
     if (
       !(
