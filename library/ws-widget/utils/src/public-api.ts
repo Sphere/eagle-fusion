@@ -1,7 +1,7 @@
 // constants
-// export * from './lib/components/image-crop/image-crop.component'
+export * from './lib/components/image-crop/image-crop.component'
 // components
-// export * from './lib/components/image-crop/image-crop.module'
+export * from './lib/components/image-crop/image-crop.module'
 export * from './lib/constants/features.enum'
 export * from './lib/constants/instances.enum'
 export * from './lib/constants/misc.constants'

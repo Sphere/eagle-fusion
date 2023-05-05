@@ -5,7 +5,7 @@ import { Subscription, Observable } from 'rxjs'
 import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { MatSnackBar, MatChipInputEvent, DateAdapter, MAT_DATE_FORMATS, MatDialog, MatTabGroup } from '@angular/material'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../services/format-datepicker'
-// import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
+import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
 import { UserProfileService } from '../../services/user-profile.service'
 import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
@@ -1353,35 +1353,35 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       return
     }
 
-    // const dialogRef = this.dialog.open(ImageCropComponent, {
-    //   width: '70%',
-    //   data: {
-    //     isRoundCrop: true,
-    //     imageFile: file,
-    //     width: 265,
-    //     height: 150,
-    //     isThumbnail: true,
-    //     imageFileName: fileName,
-    //   },
-    // })
+    const dialogRef = this.dialog.open(ImageCropComponent, {
+      width: '70%',
+      data: {
+        isRoundCrop: true,
+        imageFile: file,
+        width: 265,
+        height: 150,
+        isThumbnail: true,
+        imageFileName: fileName,
+      },
+    })
 
-    // dialogRef.afterClosed().subscribe({
-    //   next: (result: File) => {
-    //     if (result) {
-    //       formdata.append('content', result, fileName)
-    //       this.loader.changeLoad.next(true)
-    //       const reader = new FileReader()
-    //       reader.readAsDataURL(result)
-    //       reader.onload = _event => {
-    //         this.photoUrl = reader.result
-    //         if (this.createUserForm.get('photo') !== undefined) {
-    //           // tslint:disable-next-line: no-non-null-assertion
-    //           this.createUserForm.get('photo')!.setValue(this.photoUrl)
-    //         }
-    //       }
-    //     }
-    //   },
-    // })
+    dialogRef.afterClosed().subscribe({
+      next: (result: File) => {
+        if (result) {
+          formdata.append('content', result, fileName)
+          this.loader.changeLoad.next(true)
+          const reader = new FileReader()
+          reader.readAsDataURL(result)
+          reader.onload = _event => {
+            this.photoUrl = reader.result
+            if (this.createUserForm.get('photo') !== undefined) {
+              // tslint:disable-next-line: no-non-null-assertion
+              this.createUserForm.get('photo')!.setValue(this.photoUrl)
+            }
+          }
+        }
+      },
+    })
   }
 
   onDateChange(event: any) {
