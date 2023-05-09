@@ -170,6 +170,12 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     }
   }
 
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any) {
+    console.log('Back button pressed', event)
+    location.href = '/page/home'
+  }
+
   @HostListener('window:resize', ['$event'])
   onResize() {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {

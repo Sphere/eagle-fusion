@@ -58,6 +58,11 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     return true
   }
 
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    console.log('Back button pressed')
+    location.href = '/public/home'
+  }
   async ngOnInit() {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false
