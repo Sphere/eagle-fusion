@@ -5,24 +5,24 @@ import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
   // ContentProgressService,
   NsContent,
-  NsGoal,
-  NsPlaylist,
+  //NsGoal,
+  //NsPlaylist,
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
 import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
-import { AccessControlService } from '@ws/author'
+// import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
-import { NsAnalytics } from '../../models/app-toc-analytics.model'
+// import { NsAnalytics } from '../../models/app-toc-analytics.model'
 import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
+// import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { FormControl, Validators } from '@angular/forms'
-import * as dayjs from 'dayjs'
-import * as  lodash from 'lodash'
-import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
+// import * as dayjs from 'dayjs'
+// import * as  lodash from 'lodash'
+// import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 import * as FileSaver from 'file-saver'
 import moment from 'moment'
 
@@ -33,13 +33,15 @@ import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-de
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
   styleUrls: ['./app-toc-desktop.component.scss'],
-  providers: [AccessControlService],
+  providers: [
+    // AccessControlService
+  ],
 })
 export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() banners: NsAppToc.ITocBanner | null = null
   @Input() content: NsContent.IContent | null = null
   @Input() resumeData: NsContent.IContinueLearningData | null = null
-  @Input() analytics: NsAnalytics.IAnalytics | null = null
+  // @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
   @Input() batchData!: any
   @Input() resumeResource: NsContent.IContinueLearningData | null = null
@@ -50,7 +52,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
-  validPaths = new Set(['overview', 'contents', 'analytics'])
+  validPaths = new Set(['overview', 'contents',
+    // 'analytics'
+  ])
   routerParamSubscription: Subscription | null = null
   routeSubscription: Subscription | null = null
   firstResourceLink: { url: string; queryParams: { [key: string]: any } } | null = null
@@ -59,9 +63,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   isPracticeVisible = false
   editButton = false
   reviewButton = false
-  analyticsDataClient: any = null
-  btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
-  btnGoalsConfig: NsGoal.IBtnGoal | null = null
+  // analyticsDataClient: any = null
+  //btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
+  //btnGoalsConfig: NsGoal.IBtnGoal | null = null
   isRegistrationSupported = false
   checkRegistrationSources: Set<string> = new Set([
     'SkillSoft Digitalization',
@@ -182,17 +186,17 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
 
     if (this.content) {
-      this.btnPlaylistConfig = {
-        contentId: this.content.identifier,
-        contentName: this.content.name,
-        contentType: this.content.contentType,
-        mode: 'dialog',
-      }
-      this.btnGoalsConfig = {
-        contentId: this.content.identifier,
-        contentName: this.content.name,
-        contentType: this.content.contentType,
-      }
+      // this.btnPlaylistConfig = {
+      //   contentId: this.content.identifier,
+      //   contentName: this.content.name,
+      //   contentType: this.content.contentType,
+      //   mode: 'dialog',
+      // }
+      // this.btnGoalsConfig = {
+      //   contentId: this.content.identifier,
+      //   contentName: this.content.name,
+      //   contentType: this.content.contentType,
+      // }
     }
   }
 
@@ -324,11 +328,11 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return batchId
   }
 
-  public handleEnrollmentEndDate(batch: any) {
-    const enrollmentEndDate = dayjs(lodash.get(batch, 'enrollmentEndDate')).format('YYYY-MM-DD')
-    const systemDate = dayjs()
-    return enrollmentEndDate ? dayjs(enrollmentEndDate).isBefore(systemDate) : false
-  }
+  // public handleEnrollmentEndDate(batch: any) {
+  //   const enrollmentEndDate = dayjs(lodash.get(batch, 'enrollmentEndDate')).format('YYYY-MM-DD')
+  //   const systemDate = dayjs()
+  //   return enrollmentEndDate ? dayjs(enrollmentEndDate).isBefore(systemDate) : false
+  // }
 
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
@@ -453,8 +457,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               this.issueCertificate = true
             }
-            if (this.enrolledCourse)
+            if (this.enrolledCourse) {
               this.resumeData = this.enrolledCourse.lastReadContentId
+            }
           }
         }
       })
@@ -620,8 +625,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   private getResumeDataFromList() {
     const lastItem = this.resumeResource && this.resumeResource.pop()
     return {
-      identifier: lastItem.contentId,
-      mimeType: lastItem.progressdetails && lastItem.progressdetails.mimeType,
+      identifier: lastItem ? lastItem.contentId : '',
+      mimeType: lastItem ? lastItem.progressdetails && lastItem.progressdetails.mimeType : '',
 
     }
   }
@@ -686,15 +691,15 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       )
     }
   }
-  playIntroVideo() {
-    if (this.content) {
-      this.dialog.open(AppTocDialogIntroVideoComponent, {
-        data: this.content.introductoryVideo,
-        height: '350px',
-        width: '620px',
-      })
-    }
-  }
+  // playIntroVideo() {
+  //   if (this.content) {
+  //     this.dialog.open(AppTocDialogIntroVideoComponent, {
+  //       data: this.content.introductoryVideo,
+  //       height: '350px',
+  //       width: '620px',
+  //     })
+  //   }
+  // }
   get sanitizedIntroductoryVideoIcon() {
     if (this.content && this.content.introductoryVideoIcon) {
       return this.sanitizer.bypassSecurityTrustStyle(`url(${this.content.introductoryVideoIcon})`)
@@ -895,26 +900,26 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
 
   }
-  openDialog(content: any): void {
-    // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
-    this.createBatchDialog.open(CreateBatchDialogComponent, {
-      // height: '400px',
-      width: '600px',
-      data: { content },
-    })
-    // dialogRef.componentInstance.xyz = this.configSvc
-    // dialogRef.afterClosed().subscribe((_result: any) => {
-    //   if (!this.batchId) {
-    //     this.tocSvc.updateBatchData()
-    //   }
-    // })
-  }
+  // openDialog(content: any): void {
+  // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
+  // this.createBatchDialog.open(CreateBatchDialogComponent, {
+  //   // height: '400px',
+  //   width: '600px',
+  //   data: { content },
+  // })
+  // dialogRef.componentInstance.xyz = this.configSvc
+  // dialogRef.afterClosed().subscribe((_result: any) => {
+  //   if (!this.batchId) {
+  //     this.tocSvc.updateBatchData()
+  //   }
+  // })
+  // }
 
   openDetails(content: any, tocConfig: any) {
     this.dialog.open(AppTocDesktopModalComponent, {
       width: '600px',
       data: { content, tocConfig, type: 'DETAILS' },
-      disableClose: true
+      disableClose: true,
     })
   }
   openCompetency(content: any) {

@@ -2,7 +2,11 @@ import { EventEmitter, Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable, BehaviorSubject } from 'rxjs'
 import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/lib/services/configurations.service'
-import { NsPlaylist, NsGoal, NsDiscussionForum } from '../../../../../../../../library/ws-widget/collection/src/public-api'
+import {
+  //NsPlaylist,
+  //NsGoal,
+  NsDiscussionForum
+} from '../../../../../../../../library/ws-widget/collection/src/public-api'
 import { IFollowDetails } from '../person-profile.model'
 
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
@@ -16,9 +20,10 @@ const API_END_POINTS = {
   getFollowing: `${PROTECTED_SLAG_V8}/user/follow/getFollowing`,
   getAllPlaylists: `${PROTECTED_SLAG_V8}/user/playlist`,
   getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
- // getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
-  getUserGoals: (type: NsGoal.EGoalTypes, sourceFields: string, wid: string) =>
-    `/apis/protected/v8/user/goals/${type}?sourceFields=${sourceFields}&wid=${wid}`,
+  // getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
+  //getUserGoals:
+  // (type: NsGoal.EGoalTypes, sourceFields: string, wid: string) =>
+  //   `/apis/protected/v8/user/goals/${type}?sourceFields=${sourceFields}&wid=${wid}`
 }
 
 @Injectable({
@@ -66,7 +71,7 @@ export class PersonProfileService {
         return this.http.get<IFollowDetails>(API_END_POINTS.getDetails)
       }
 
-        return this.http.post<IFollowDetails>(API_END_POINTS.getDetails, { wid })
+      return this.http.post<IFollowDetails>(API_END_POINTS.getDetails, { wid })
 
     } catch (e) {
       return e
@@ -94,13 +99,13 @@ export class PersonProfileService {
     return this.http.get<any>(url)
   }
 
-  getPlaylists(wid: string) {
-    return this.http.get<NsPlaylist.IPlaylistResponse>(`${API_END_POINTS.getAllPlaylists}?wid=${wid}`)
-  }
+  // getPlaylists(wid: string) {
+  //   return this.http.get<NsPlaylist.IPlaylistResponse>(`${API_END_POINTS.getAllPlaylists}?wid=${wid}`)
+  // }
 
-  getUserGoals(type: NsGoal.EGoalTypes, sourceFields: string = '', wid: string) {
-    return this.http.get<NsGoal.IUserGoals>(API_END_POINTS.getUserGoals(type, sourceFields, wid))
-  }
+  // getUserGoals(type: NsGoal.EGoalTypes, sourceFields: string = '', wid: string) {
+  //   return this.http.get<NsGoal.IUserGoals>(API_END_POINTS.getUserGoals(type, sourceFields, wid))
+  // }
   fetchTimelineDataProfile(wid: string, request: NsDiscussionForum.ITimelineRequest): Observable<NsDiscussionForum.ITimeline> {
     return this.http.post<NsDiscussionForum.ITimeline>(`${API_END_POINTS.SOCIAL_TIMELINE}?wid=${wid}`, request)
   }

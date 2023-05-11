@@ -3,7 +3,9 @@ import { NSQuiz } from '../../quiz.model'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
-import * as _ from 'lodash'
+import isUndefined from 'lodash/isUndefined'
+import toLower from 'lodash/toLower'
+
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 @Component({
@@ -91,7 +93,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
     this.quizService.updateMtf$.pipe(takeUntil(this.unsubscribe)).subscribe(
       // tslint:disable-next-line:no-shadowed-variable
       (res: any) => {
-        if (!_.isUndefined(res)) {
+        if (!isUndefined(res)) {
           if (res) {
             this.initJsPlump()
           } else {
@@ -230,7 +232,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
     const arr = []
     for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
       const blank: HTMLInputElement = this.elementRef.nativeElement.querySelector(`#${this.question.questionId}${i}`)
-      arr.push(_.toLower(blank.value.trim()))
+      arr.push(toLower(blank.value.trim()))
     }
     this.itemSelected.emit(arr.join())
     this.ifFillInTheBlankCorrect(id)

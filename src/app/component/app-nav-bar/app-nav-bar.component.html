@@ -4,16 +4,15 @@
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
       <div class="logo-container flex items-center">
         <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
-          <img [src]="appIcon" i18n-alt alt="Application Logo" id="app-logo" class="app-logo" />
+          <img [src]="appIcon" loading="lazy" i18n-alt alt="Application Logo" id="app-logo" class="app-logo" />
         </a>
       </div>
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
         <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
         </ng-container> -->
-
-        <ws-app-search-input-home placeHolder="What do you want to learn today ?" class="my-search flex-1"
-          [ref]="'home'"></ws-app-search-input-home>
+        <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="What do you want to learn today ?"
+          class="my-search flex-1" [ref]="'home'"></ws-app-search-input-home>
 
 
         <span class="spacer"></span>
@@ -53,7 +52,7 @@
 
     <ng-container *ngIf="mode === 'top' && courseNameHeader">
       <a routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-dim">
-        <img [src]="appIcon" alt="Application Logo" class="app-logo" />
+        <img loading="lazy" [src]="appIcon" alt="Application Logo" class="app-logo" />
       </a>
       <h3 class="mt-name">{{courseNameHeader}}</h3>
 

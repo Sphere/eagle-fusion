@@ -1,9 +1,9 @@
 <mat-toolbar *ngIf="showPublicNavbar" [color]="navBar?.color" [ngStyle]="navBar?.styles">
   <a name="application-logo" class="padding-remove-small application-logo" routerLink="." i18n-matTooltip
     matTooltip="Home">
-    <img [src]="appIcon" id="app-logo" i18n-alt alt="Application Logo" class="app-logo"
+    <img loading="lazy" [src]="appIcon" id="app-logo" i18n-alt alt="Application Logo" class="app-logo"
       *ngIf=" (isXSmall$ | async) === false" />
-    <img src="./../../../fusion-assets/images/sphere-new-logo.svg" width="125px" height="65px"
+    <img loading="lazy" src="./../../../fusion-assets/images/sphere-new-logo.svg" width="125px" height="65px"
       *ngIf=" (isXSmall$ | async) === true" />
   </a>
   <div class="fix-ww">

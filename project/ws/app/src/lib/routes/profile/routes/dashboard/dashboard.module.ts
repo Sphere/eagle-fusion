@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DashboardComponent } from './components/dashboard/dashboard.component'
 import { HorizontalScrollerModule, PipeDurationTransformModule, DefaultThumbnailModule } from '@ws-widget/utils'
-import { UserImageModule, CardKnowledgeModule } from '@ws-widget/collection'
-import { InterestModule } from './../interest/interest.module'
-import { LearningModule } from './../learning/learning.module'
-import { CompetencyModule } from './../competency/competency.module'
+import {
+  UserImageModule,
+  //CardKnowledgeModule
+} from '@ws-widget/collection'
+// import { InterestModule } from './../interest/interest.module'
+// import { LearningModule } from './../learning/learning.module'
+// import { CompetencyModule } from './../competency/competency.module'
 import {
   MatCardModule,
   MatChipsModule,
@@ -39,12 +42,12 @@ import { UserProfileService } from '../../../user-profile/services/user-profile.
     PipeDurationTransformModule,
     CalendarModule,
     RouterModule,
-    CardKnowledgeModule,
+    //CardKnowledgeModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    InterestModule,
-    LearningModule,
-    CompetencyModule,
+    // InterestModule,
+    // LearningModule,
+    // CompetencyModule,
   ],
   providers: [UserProfileService],
 })

@@ -22,7 +22,7 @@ import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
-import * as _ from 'lodash'
+import isNull from 'lodash/isNull'
 interface IViewerTocCard {
   identifier: string
   completionPercentage: number
@@ -69,6 +69,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   collectionId = ''
   resourceContentType: any
   disabledNode: boolean
+  currentContentType: any
   constructor(
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -151,6 +152,24 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
+        if (this.currentContentType == "Video") {
+          if (this.playerStateService.isResourceCompleted()) {
+            const nextResource = this.playerStateService.getNextResource()
+            if (!isNull(nextResource)) {
+              this.router.navigate([nextResource], { preserveQueryParams: true })
+              this.playerStateService.trigger$.complete()
+
+            } else {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.batchId,
+                },
+              })
+            }
+
+          }
+        }
       }
 
     })
@@ -173,7 +192,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
               const nextResource = this.playerStateService.getNextResource()
-              if (!_.isNull(nextResource)) {
+              if (!isNull(nextResource)) {
                 this.router.navigate([nextResource], { preserveQueryParams: true })
                 this.playerStateService.trigger$.complete()
 
@@ -230,6 +249,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     await this.contentSvc.currentMessage.subscribe(
       (data: any) => {
         if (data) {
+          this.currentContentType = data
           this.ngOnInit()
         }
       })
@@ -640,7 +660,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.playerStateService.setState({
       isValid: Boolean(this.collection),
       // tslint:disable-next-line:object-shorthand-properties-first
-      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId,
     })
   }
 

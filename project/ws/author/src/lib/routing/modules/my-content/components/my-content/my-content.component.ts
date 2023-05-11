@@ -1,4 +1,3 @@
-import { AuthExpiryDateConfirmComponent } from '@ws/author/src/lib/modules/shared/components/auth-expiry-date-confirm/auth-expiry-date-confirm.component'
 import { FlatTreeControl } from '@angular/cdk/tree'
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormGroup } from '@angular/forms'
@@ -629,17 +628,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
   }
 
   actionOnExpiry(content: NSContent.IContentMeta) {
-    const dialogRef = this.dialog.open(AuthExpiryDateConfirmComponent, {
-      width: '750px',
-      height: '300px',
-      data: content,
-    })
-
-    dialogRef.afterClosed().subscribe((userAction?: { isExtend: boolean; expiryDate?: string }) => {
-      if (userAction) {
-        this.cardContent = (this.cardContent || []).filter(v => v.identifier !== content.identifier)
-      }
-    })
+    console.log('content: ' + content)
   }
 
   setCurrentLanguage(lang: string) {

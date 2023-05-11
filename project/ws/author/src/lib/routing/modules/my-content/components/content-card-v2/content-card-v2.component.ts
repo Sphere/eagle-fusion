@@ -1,6 +1,4 @@
 import { StatusTrackComponent } from './../../../../../modules/shared/components/status-track/status-track.component'
-import { AuthExpiryDateConfirmComponent } from '@ws/author/src/lib/modules/shared/components/auth-expiry-date-confirm/auth-expiry-date-confirm.component'
-import { DraftDialogComponent } from '@ws/author/src/lib/modules/shared/components/draft-dialog/draft-dialog.component'
 import { UnpublishDialogComponent } from '@ws/author/src/lib/modules/shared/components/unpublish-dialog/unpublish-dialog.component'
 import { RestoreDialogComponent } from '@ws/author/src/lib/modules/shared/components/restore-dialog/restore-dialog.component'
 import { ValueService } from '@ws-widget/utils'
@@ -49,7 +47,7 @@ export class ContentCardV2Component implements OnInit {
     private dialog: MatDialog,
     private initService: AuthInitService,
     private valueSvc: ValueService,
-  ) {}
+  ) { }
 
   getLocale(locale: string): string {
     const language = this.initService.ordinals.subTitles.find(
@@ -200,29 +198,11 @@ export class ContentCardV2Component implements OnInit {
   }
 
   moveToDraft() {
-    const dialog = this.dialog.open(DraftDialogComponent, {
-      width: this.isMobile ? '90vw' : '600px',
-      height: 'auto',
-      data: this.content,
-    })
-    dialog.afterClosed().subscribe(v => {
-      if (v) {
-        this.onClick('edit')
-      }
-    })
+
   }
 
   extendOrExpiry() {
-    const dialog = this.dialog.open(AuthExpiryDateConfirmComponent, {
-      width: this.isMobile ? '90vw' : '600px',
-      height: 'auto',
-      data: this.content,
-    })
-    dialog.afterClosed().subscribe(v => {
-      if (v) {
-        this.onClick('remove')
-      }
-    })
+
   }
 
   changeToGlobalSymbol($event: any) {

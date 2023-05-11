@@ -7,7 +7,7 @@
 
 <div class="outer">
   <a mat-button routerLink="." i18n-matTooltip matTooltip="Home" class="flex flex-center flex-middle">
-    <img [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo pr-2" />
+    <img loading="lazy" [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo pr-2" />
     <span class="title-app" *ngIf="appName">| {{appName}}</span>
   </a>
 

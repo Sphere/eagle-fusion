@@ -344,12 +344,12 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
-          var data1: any = {
+          const data1: any = {
             courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
             contentId: this.identifier,
             name: this.viewerDataSvc.resource!.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
           }
           if (this.contentData && percent >= this.contentData.completionPercentage) {
             this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?

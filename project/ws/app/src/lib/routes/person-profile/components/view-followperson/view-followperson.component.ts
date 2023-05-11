@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core'
-import { BtnFollowService } from '@ws-widget/collection/src/public-api'
+//import { BtnFollowService } from '@ws-widget/collection/src/public-api'
 import { PersonProfileService } from '../../services/person-profile.service'
 import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 import { IFollowDetails } from '../../person-profile.model'
@@ -23,7 +23,7 @@ export class ViewFollowpersonComponent implements OnInit {
   statusFollowed: 'FOLLOWED' | 'NOT_FOLLOWED' | 'PENDING' = 'NOT_FOLLOWED'
 
   constructor(
-    private followSvc: BtnFollowService,
+    //private followSvc: BtnFollowService,
     private personprofileSvc: PersonProfileService,
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -63,28 +63,28 @@ export class ViewFollowpersonComponent implements OnInit {
     this.userName = `${data[0].first_name} ${data[0].last_name}`
   }
 
-  follow() {
-    this.followSvc.follow(this.wid, 'person').subscribe(
-      () => {
-        this.statusFollowed = 'FOLLOWED'
-      },
-      () => {
-        this.statusFollowed = 'NOT_FOLLOWED'
-      },
-    )
-  }
-  unfollow() {
-    this.followSvc.unfollow(this.wid, 'person').subscribe(
-      () => {
-        this.statusFollowed = 'NOT_FOLLOWED'
-        // this.isFollow = true
-      },
-      () => {
-        this.statusFollowed = 'FOLLOWED'
-        // this.isFollow = false
-      },
-    )
-  }
+  // follow() {
+  //   this.followSvc.follow(this.wid, 'person').subscribe(
+  //     () => {
+  //       this.statusFollowed = 'FOLLOWED'
+  //     },
+  //     () => {
+  //       this.statusFollowed = 'NOT_FOLLOWED'
+  //     },
+  //   )
+  // }
+  // unfollow() {
+  //   this.followSvc.unfollow(this.wid, 'person').subscribe(
+  //     () => {
+  //       this.statusFollowed = 'NOT_FOLLOWED'
+  //       // this.isFollow = true
+  //     },
+  //     () => {
+  //       this.statusFollowed = 'FOLLOWED'
+  //       // this.isFollow = false
+  //     },
+  //   )
+  // }
   // fetchFollowers() {
   //   this.personprofileSvc.getFollowers(this.wid).subscribe((data: any) => {
   //     if (data) {

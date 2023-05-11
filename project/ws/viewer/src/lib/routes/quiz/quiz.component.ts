@@ -62,8 +62,8 @@ export class QuizComponent implements OnInit, OnDestroy {
       this.activatedRoute.snapshot.queryParams.collectionType
       && this.quizData) {
       await this.contentSvc.continueLearning(this.quizData.identifier,
-        this.activatedRoute.snapshot.queryParams.collectionId,
-        this.activatedRoute.snapshot.queryParams.collectionType,
+                                             this.activatedRoute.snapshot.queryParams.collectionId,
+                                             this.activatedRoute.snapshot.queryParams.collectionType,
       )
     } else if (this.quizData) {
       await this.contentSvc.continueLearning(this.quizData.identifier)
@@ -106,7 +106,7 @@ export class QuizComponent implements OnInit, OnDestroy {
         artifactUrl = artifactUrl.replace('hi/', '')
       }
       if (window.location.origin.indexOf('http://localhost:') === -1) {
-        artifactUrl = `${window["env"]["azureHost"]}/${artifactUrl}`
+        artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
       }
       console.log(artifactUrl)
       let quizJSON: NSQuiz.IQuiz = await this.http
@@ -127,7 +127,7 @@ export class QuizComponent implements OnInit, OnDestroy {
       })
       this.viewSvc.competencyAsessment.next(true)
       return quizJSON
-    } else {
+    }  {
       const artifactUrl = this.forPreview
         ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
         : content.artifactUrl

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
-import * as _ from 'lodash'
+// import * as _ from 'lodash-es'
 import { ServerResponse } from 'http'
 import { ApiService } from '@ws/author/src/public-api'
 

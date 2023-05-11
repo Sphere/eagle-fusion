@@ -32,7 +32,8 @@
           icon: widgetData.actionBtn.icon
         }"></ng-container>
       <ng-container *ngIf="!searchButton">
-        <img class="org-logo img-responsive" src="./../../../../../../../fusion-assets/images/Asha-E-ABhyass-logo.svg">
+        <img loading="lazy" alt="logo" class="org-logo img-responsive"
+          src="./../../../../../../../fusion-assets/images/Asha-E-ABhyass-logo.svg">
       </ng-container>
     </a>
     <a *ngSwitchCase="displayType.matMiniFabButton" [routerLink]="widgetData.actionBtn?.url" mat-mini-fab>
@@ -188,7 +189,7 @@
       {{ icon }}
     </mat-icon>
   </ng-container>
-  <img class="feature-icon-img" [ngStyle]="
+  <img alt="logo" loading="lazy" class="feature-icon-img" [ngStyle]="
       scale
         ? {
             height: scale * defaultIconSize + 'px',

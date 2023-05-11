@@ -41,10 +41,10 @@
         <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.thumbnail"
-              [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
-              [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
-              [title]="widgetData.content.name" />
+            <img mat-card-image loading="lazy" style="position: absolute; z-index: 2; "
+              [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+              class="card-img no-prog ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+              [alt]="widgetData.content.name" [title]="widgetData.content.name" />
             <span class="img-overlay"></span>
             <div class="source-div mt-4">
             </div>
@@ -148,10 +148,10 @@
           <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
             i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
-              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.thumbnail"
-                [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
-                [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
-                [title]="widgetData.content.name" />
+              <img mat-card-image loading="lazy" style="position: absolute; z-index: 2;"
+                [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+                class="card-img no-prog ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                [alt]="widgetData.content.name" [title]="widgetData.content.name" />
               <span class="img-overlay"></span>
               <div class="source-div mt-4">
               </div>
@@ -205,7 +205,7 @@
         *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
       <a (click)="raiseTelemetry()" class="card-link" role="link" aria-label="Content"
         i18n-aria-label="Content | Click to view">
-        <img [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+        <img loading="lazy" [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
           class="card-thumbnail ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
           [alt]="widgetData.content.name" [title]="widgetData.content.name" />
       </a>
@@ -260,9 +260,10 @@
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
         <a (click)="raiseTelemetry()" role="link" class="rounded-t" aria-label="Content"
           i18n-aria-label="Content | Click to view">
-          <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
-            class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-            [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+          <img loading="lazy" mat-card-image [src]="widgetData.content.thumbnail"
+            [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+            [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+            [title]="widgetData.content.name" />
           <span class="img-overlay"></span>
         </a>
         <!--2 -->
@@ -374,7 +375,7 @@
         <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2; height: 152px;"
+            <img loading="lazy" mat-card-image style="position: absolute; z-index: 2; height: 152px;"
               [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
               class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
               [alt]="widgetData.content.name" [title]="widgetData.content.name" />
@@ -387,10 +388,10 @@
         <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" class="rounded-t" role="link"
           aria-label="Content" i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.thumbnail"
-              [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
-              [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
-              [title]="widgetData.content.name" />
+            <img loading="lazy" mat-card-image style="position: absolute; z-index: 2;"
+              [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+              class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+              [alt]="widgetData.content.name" [title]="widgetData.content.name" />
             <span class="img-overlay"></span>
             <div class="source-div">
 
@@ -467,10 +468,10 @@
           <a (click)="raiseTelemetry()" class="rounded-t" role="link" aria-label="Content"
             i18n-aria-label="Content | Click to view">
             <div style="position: relative; z-index: 1;">
-              <img mat-card-image style="position: absolute; z-index: 2;" [src]="widgetData.content.thumbnail"
-                [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
-                [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
-                [title]="widgetData.content.name" />
+              <img loading="lazy" mat-card-image style="position: absolute; z-index: 2;"
+                [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+                class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                [alt]="widgetData.content.name" [title]="widgetData.content.name" />
               <span class="img-overlay"></span>
               <div class="source-div">
 
@@ -532,10 +533,10 @@
         <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
           {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
         </div>
-        <div class="mb-2" *ngIf="widgetData.content?.lastPublishedOn"><span class="fw-500" i18n>Published On</span>: 
+        <div class="mb-2" *ngIf="widgetData.content?.lastPublishedOn"><span class="fw-500" i18n>Published On</span>:
           {{widgetData.content?.lastPublishedOn | date }}</div>
         <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
-          <span class="mr-1 orange-text" i18n>Duration</span>: 
+          <span class="mr-1 orange-text" i18n>Duration</span>:
           <mat-icon>access_time</mat-icon>
           <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
           <!--<span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
@@ -544,16 +545,19 @@
             </div>
           </span> -->
         </div>
-        <p *ngIf="widgetData?.content?.completionPercentage"><span class="fw-500" i18n>Progress</span>:  {{
+        <p *ngIf="widgetData?.content?.completionPercentage"><span class="fw-500" i18n>Progress</span>: {{
           widgetData?.content?.completionPercentage}} %</p>
         <!-- <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.childNodes?.length}}</p> -->
-        <p *ngIf="widgetData?.content?.creator"><span class="fw-500" i18n>Author</span>: {{ widgetData?.content?.creator}}
+        <p *ngIf="widgetData?.content?.creator"><span class="fw-500" i18n>Author</span>: {{
+          widgetData?.content?.creator}}
         </p>
-        <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{ widgetData.content?.creatorContacts[0]?.name}}</p>
+        <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+          widgetData.content?.creatorContacts[0]?.name}}</p>
 
-        <p *ngIf="widgetData.content?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>: 
+        <p *ngIf="widgetData.content?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
           {{widgetData.content?.uniqueUsersCount}}</p>
-        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500" i18n>Source</span>:  {{widgetData.content.sourceName}}
+        <p *ngIf="widgetData.content?.sourceName"><span class="fw-500" i18n>Source</span>:
+          {{widgetData.content.sourceName}}
         </p>
         <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
           <div class="fw-500 mb-1">Course Description</div>
@@ -576,7 +580,7 @@
 
             <!--<ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
             </ws-widget-btn-playlist> -->
-            <ws-widget-btn-content-download [widgetData]="
+            <!-- <ws-widget-btn-content-download [widgetData]="
                 widgetData.content
                   | pipePartialContent
                     : [
@@ -588,7 +592,7 @@
                         'isExternal',
                         'artifactUrl'
                       ]
-              "></ws-widget-btn-content-download>
+              "></ws-widget-btn-content-download> -->
           </div>
         </div>
       </mat-card-content>
@@ -618,9 +622,10 @@
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
         <a (click)="raiseTelemetry()" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
-          <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
-            class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-            [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+          <img loading="lazy" mat-card-image [src]="widgetData.content.thumbnail"
+            [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+            [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+            [title]="widgetData.content.name" />
           <span class="img-overlay"></span>
         </a>
         <button class="detail-button ws-mat-primary-lite-background-op30" mat-icon-button (click)="isCardFlipped = true"
@@ -673,7 +678,7 @@
 
             <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
             </ws-widget-btn-playlist> -->
-            <ws-widget-btn-content-download [widgetData]="
+            <!-- <ws-widget-btn-content-download [widgetData]="
                 widgetData.content
                   | pipePartialContent
                     : [
@@ -685,7 +690,7 @@
                         'isExternal',
                         'artifactUrl'
                       ]
-              "></ws-widget-btn-content-download>
+              "></ws-widget-btn-content-download> -->
 
             <!-- <mat-icon class="px-2 cursor-pointer" aria-label="Comment" i18n-aria-label matTooltip="Comment"
               i18n-matTooltip="Comment Button" [routerLink]="(widgetData.content | pipeContentRoute).url"
@@ -730,9 +735,10 @@
         *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
       <a (click)="raiseTelemetry()" role="link" class="rounded-t" aria-label="Content"
         i18n-aria-label="Content | Click to view">
-        <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
-          class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-          [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+        <img loading="lazy" mat-card-image [src]="widgetData.content.thumbnail"
+          [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+          [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+          [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
         <!--6 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
@@ -766,8 +772,8 @@
         </a>
       </mat-card-content>
       <div class="flex justify-between items-center">
-        <img alt="source img" [src]="widgetData.content.sourceIconUrl" *ngIf="widgetData.content.sourceIconUrl"
-          class="source-image mr-1" />
+        <img loading="lazy" alt="source img" loading="lazy" [src]="widgetData.content.sourceIconUrl"
+          *ngIf="widgetData.content.sourceIconUrl" class="source-image mr-1" />
         <div *ngIf="widgetData.content.sourceName" class="source-name w-64 text-truncate" i18n-title title="Source">
           {{ widgetData.content.sourceName }}
         </div>
@@ -829,10 +835,10 @@
           </div>
         </div>
 
-        <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
-          class="card-img ws-mat-primary-lite-background" [ngClass]="{ 'greyed-img': isGreyedImage }"
-          [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
-          [title]="widgetData.content.name" />
+        <img mat-card-image loading="lazy" [src]="widgetData.content.thumbnail"
+          [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+          [ngClass]="{ 'greyed-img': isGreyedImage }" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+          [alt]="widgetData.content.name" [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
         <!--7 -->
         <ws-widget-content-progress class="progress-bar" *ngIf="widgetData.content?.identifier"
@@ -859,9 +865,9 @@
         <span class="time-text">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
       </div>
       <div class="flex items-center justify-between flex-row-reverse space-0 mb-0">
-        <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
+        <!-- <ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
           [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">
-        </ws-widget-btn-content-like>
+        </ws-widget-btn-content-like> -->
 
         <div *ngIf="showContentTag" class="mode-tag px-2 ws-mat-primary-background">
           {{ widgetData.contentTags.tag }}
@@ -884,7 +890,7 @@
 <mat-menu #cardMenu="matMenu">
   <ng-template matMenuContent>
     <div mat-menu-item>
-      <ws-widget-btn-content-download [widgetData]="
+      <!-- <ws-widget-btn-content-download [widgetData]="
           widgetData.content
             | pipePartialContent
               : [
@@ -896,23 +902,23 @@
                   'isExternal',
                   'artifactUrl'
                 ]
-        "></ws-widget-btn-content-download>
+        "></ws-widget-btn-content-download> -->
       <!-- <ws-widget-btn-content-like [widgetData]="widgetData.content | pipePartialContent: ['identifier']">
       </ws-widget-btn-content-like> -->
       <!-- <ws-widget-btn-content-mail-me [widgetData]="widgetData.content"></ws-widget-btn-content-mail-me> -->
       <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
-      <ws-widget-btn-channel-analytics [widgetData]="widgetData.content"></ws-widget-btn-channel-analytics>
-      <ws-widget-btn-kb [contentId]="widgetData?.content?.identifier" [forPreview]="false"
+      <!-- <ws-widget-btn-channel-analytics [widgetData]="widgetData.content"></ws-widget-btn-channel-analytics> -->
+      <!-- <ws-widget-btn-kb [contentId]="widgetData?.content?.identifier" [forPreview]="false"
         [contentName]="widgetData?.content?.name" [contentType]="widgetData?.content?.contentType">
-      </ws-widget-btn-kb>
-      <ws-widget-btn-follow [widgetData]="{
+      </ws-widget-btn-kb> -->
+      <!-- <ws-widget-btn-follow [widgetData]="{
           targetId: widgetData?.content?.identifier,
           type: widgetData?.content?.contentType
-        }" *ngIf="isKnowledgeBoard"></ws-widget-btn-follow>
+        }" *ngIf="isKnowledgeBoard"></ws-widget-btn-follow> -->
       <!-- <ws-widget-btptocn-goals *ngIf="btnGoalsConfig" [widgetData]="btnGoalsConfig"></ws-widget-btn-goals>
       <ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
       </ws-widget-btn-playlist> -->
-      <ws-widget-btn-kb-analytics [widgetData]="
+      <!-- <ws-widget-btn-kb-analytics [widgetData]="
           widgetData.content
             | pipePartialContent
               : [
@@ -924,7 +930,7 @@
                   'isExternal',
                   'artifactUrl'
                 ]
-        "></ws-widget-btn-kb-analytics>
+        "></ws-widget-btn-kb-analytics> -->
     </div>
   </ng-template>
 </mat-menu>
@@ -950,9 +956,10 @@
         *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
       <a (click)="raiseTelemetry()" role="link" class="rounded-t" aria-label="Content"
         i18n-aria-label="Content | Click to view">
-        <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
-          class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-          [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+        <img mat-card-image loading="lazy" [src]="widgetData.content.thumbnail"
+          [id]="'card_' + widgetData.content.identifier" class="card-img ws-mat-primary-lite-background"
+          [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+          [title]="widgetData.content.name" />
         <span class="img-overlay"></span>
       </a>
       <mat-card-content>

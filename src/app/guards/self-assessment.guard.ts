@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import forEach from 'lodash/forEach'
 import { forkJoin, of } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import { WidgetContentService } from '../../../library/ws-widget/collection/src/public-api'
@@ -27,15 +28,15 @@ export class SelfAssessmentGuard implements CanActivate {
   canActivate(
     next: ActivatedRouteSnapshot) {
     if (this.configSvc.userProfile) {
-      if (_.get(next, 'queryParams')) {
-        return this.selfAsesment(_.get(next, 'queryParams'))
-      } else {
-        return false
+      if (get(next, 'queryParams')) {
+        return this.selfAsesment(get(next, 'queryParams'))
       }
-    } else {
-      this.router.navigate([`public/home`])
       return false
+
     }
+    this.router.navigate([`public/home`])
+    return false
+
   }
 
   selfAsesment(event: any): boolean {
@@ -52,20 +53,20 @@ export class SelfAssessmentGuard implements CanActivate {
         this.content = res[0].result.content
         let competency_meta_data
         if (this.content) {
-          if (this.content.competencies_v1) {
+          if (this.content.competencies_v1 && Object.keys(this.content.competencies_v1).length > 0) {
             competency_meta_data = JSON.parse(this.content.competencies_v1)
             // competency_meta_data.push(competencies_v1[0])
           }
-          let children: { identifier: any; competencyId: any }[] = []
-          _.forEach(this.content.children, (item: any) => {
+          const children: { identifier: any; competencyId: any }[] = []
+          forEach(this.content.children, (item: any) => {
             children.push({
               identifier: item.identifier,
-              competencyId: item.index
+              competencyId: item.index,
             })
           })
           // console.log(competency_meta_data.push(...children))
           competency_meta_data.push({
-            competencyIds: [...children]
+            competencyIds: [...children],
           })
 
           localStorage.setItem('competency_meta_data', JSON.stringify(competency_meta_data))
@@ -74,9 +75,9 @@ export class SelfAssessmentGuard implements CanActivate {
         this.batchData = res[1].content
         if (!this.batchData[0].enrollmentEndDate) {
           return this.enrollUser(this.batchData)
-        } else {
-          return of(this.batchData)
         }
+        return of(this.batchData)
+
       })).subscribe((res: any) => {
         return this.navigateToplayer(res[0])
       })
@@ -133,7 +134,7 @@ export class SelfAssessmentGuard implements CanActivate {
     }
     this.contentSvc.fetchContentHistoryV2(req).subscribe((data: any) => {
       if (data && data.result && data.result.contentList && data.result.contentList.length > 0) {
-        this.resumeData = _.get(data, 'result.contentList')
+        this.resumeData = get(data, 'result.contentList')
         const resumeDataV2 = this.getResumeDataFromList()
         resumeDataV2['mimeType'] = 'application/json'
         this.resumeDataLink = viewerRouteGenerator(
@@ -147,7 +148,7 @@ export class SelfAssessmentGuard implements CanActivate {
         )
         this.routeNavigation(batchId, 'RESUME')
         return false
-      } else {
+      } {
         const firstPlayableContent = this.contentSvc.getFirstChildInHierarchy(this.content)
         this.resumeDataLink = viewerRouteGenerator(
           firstPlayableContent.identifier,
@@ -179,8 +180,8 @@ export class SelfAssessmentGuard implements CanActivate {
     if (this.resumeDataLink) {
       const qParams: { [key: string]: string } = {
         ...this.resumeDataLink.queryParams,
-        batchId: batchId,
-        viewMode: viewMode,
+        batchId,
+        viewMode,
         competency: true,
       }
       this.router.navigate([this.resumeDataLink.url], { queryParams: qParams })

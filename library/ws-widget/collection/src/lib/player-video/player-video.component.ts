@@ -222,7 +222,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         }
       }
     }
-    const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
+    const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
@@ -251,12 +251,12 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
-          var data1: any = {
+          const data1: any = {
             courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
             contentId: this.widgetData.identifier,
             name: this.viewerDataSvc.resource!.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
           }
           this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
             this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
@@ -266,14 +266,16 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId)
               this.contentSvc.changeMessage('Video')
             }
+          } else {
+            this.contentSvc.changeMessage('Video')
           }
           if (this.contentData === undefined && percent > 95) {
-            var data1: any = {
+            const data1: any = {
               courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
                 this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
               contentId: this.widgetData.identifier,
               name: this.viewerDataSvc.resource!.name,
-              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined
+              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
             }
             this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)

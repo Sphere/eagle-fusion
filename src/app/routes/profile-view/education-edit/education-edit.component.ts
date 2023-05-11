@@ -4,7 +4,7 @@ import { MatSnackBar } from '@angular/material'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
-import * as _ from 'lodash'
+// import * as _ from 'lodash'
 import { ActivatedRoute, Router } from '@angular/router'
 @Component({
   selector: 'ws-education-edit',
