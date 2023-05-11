@@ -2,7 +2,7 @@
 <div class="flex flex-between flex-wrapped mt-4" *ngIf="loadOverview">
   <div class="meta-section">
     <!-- Description : Conditional : If not shown here, will be shown over banner -->
-    <div *ngIf="
+    <!-- <div *ngIf="
         tocConfig?.overview?.description?.enabled &&
         showDescription &&
         showSubtitleOnBanner &&
@@ -12,7 +12,7 @@
       <mat-card-content>
         <div class="mat-subheading-1" [innerHTML]="content?.description"></div>
       </mat-card-content>
-    </div>
+    </div> -->
     <!-- Content Body -->
     <div *ngIf="tocConfig?.overview?.body?.enabled && content?.instructions" class="unit-meta-item">
       <h2 i18n>Description</h2>
