@@ -6,7 +6,12 @@ import { WidgetUserService } from '../../../../library/ws-widget/collection/src/
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { forkJoin } from 'rxjs'
-import * as _ from 'lodash'
+import filter from 'lodash/filter'
+import includes from 'lodash/includes'
+import reduce from 'lodash/reduce'
+import uniqBy from 'lodash/uniqBy'
+import forEach from 'lodash/forEach'
+
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -21,14 +26,14 @@ export class MobileDashboardComponent implements OnInit {
   topCertifiedCourse: any = []
   featuredCourse: any = []
   userEnrollCourse: any
-  videoData: any
+  //videoData: any
   homeFeatureData: any
   homeFeature: any
   userId: any
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
-  languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  //languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
 
@@ -58,23 +63,23 @@ export class MobileDashboardComponent implements OnInit {
       }
     }
 
-    this.videoData = [
-      {
-        url: './../../fusion-assets/videos/videoplayback.mp4',
-        title: 'Register for a course',
-        description: 'Explore various courses and pick the ones you like',
-      },
-      {
-        url: './../../fusion-assets/videos/videoplayback.mp4',
-        title: 'Take the course',
-        description: 'Access the course anytime, at your convinience',
-      },
-      {
-        url: './../../fusion-assets/videos/videoplayback.mp4',
-        title: 'Get certified',
-        description: 'Receive downloadable and shareable certificates',
-      },
-    ]
+    // this.videoData = [
+    //   {
+    //     url: './../../fusion-assets/videos/videoplayback.mp4',
+    //     title: 'Register for a course',
+    //     description: 'Explore various courses and pick the ones you like',
+    //   },
+    //   {
+    //     url: './../../fusion-assets/videos/videoplayback.mp4',
+    //     title: 'Take the course',
+    //     description: 'Access the course anytime, at your convinience',
+    //   },
+    //   {
+    //     url: './../../fusion-assets/videos/videoplayback.mp4',
+    //     title: 'Get certified',
+    //     description: 'Receive downloadable and shareable certificates',
+    //   },
+    // ]
     if (this.configSvc.userProfile) {
       this.firstName = this.configSvc.userProfile
       this.userId = this.configSvc.userProfile.userId || ''
@@ -93,12 +98,12 @@ export class MobileDashboardComponent implements OnInit {
 
   }
   formatFeaturedCourseResponse(res: any) {
-
-    const featuredCourse = _.filter(res.result.content, ckey => {
-      return _.includes(this.featuredCourseIdentifier, ckey.identifier)
+    const featuredCourse = filter(res.result.content, ckey => {
+      return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
 
-    this.featuredCourse = _.reduce(_.uniqBy(featuredCourse, 'identifier'), (result, value) => {
+    this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
+      console.log(value)
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
@@ -109,16 +114,16 @@ export class MobileDashboardComponent implements OnInit {
 
   formatTopCertifiedCourseResponse(res: any) {
 
-    const topCertifiedCourse = _.filter(res.result.content, ckey => {
-      return _.includes(this.topCertifiedCourseIdentifier, ckey.identifier)
+    const topCertifiedCourse = filter(res.result.content, ckey => {
+      return includes(this.topCertifiedCourseIdentifier, ckey.identifier)
     })
 
-    this.topCertifiedCourse = _.uniqBy(topCertifiedCourse, 'identifier')
+    this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
   }
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
-    _.forEach(res, key => {
+    forEach(res, key => {
       if (res.completionPercentage !== 100) {
         myCourseObject = {
           identifier: key.content.identifier,
@@ -162,9 +167,9 @@ export class MobileDashboardComponent implements OnInit {
     this.langDialog.afterClosed().subscribe(async (result: any) => {
       let langSelected: any
       langSelected = await result
-      langSelected["selected"] = true
+      langSelected['selected'] = true
       localStorage.setItem(`preferedLanguage`, JSON.stringify(langSelected))
-      let lang = result.id === 'hi' ? result.id : 'en'
+      const lang = result.id === 'hi' ? result.id : 'en'
       let user: any
       const userid = this.configSvc.userProfileV2!.userId
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {

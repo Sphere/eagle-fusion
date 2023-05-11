@@ -14,15 +14,15 @@
   <link id="id-app-fav-icon" rel="icon" type="image/png" href="favicon.png" />
   <link id="id-app-webmanifest" rel="manifest" />
   <meta id="id-app-theme-color" name="theme-color" content="#000" />
+  <link rel="stylesheet" href="/assets/theme-igot.css">
   <link rel="stylesheet" type="text/css" href="//fonts.googleapis.com/css?family=Open+Sans" />
-  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap">
   <meta name="google-signin-client_id"
     content="836909204939-r7u6cn00eprhv6ie7ota38ndp34m690l.apps.googleusercontent.com">
-  <script src="https://apis.google.com/js/client:platform.js?onload=startApp"></script>
-  <link rel="stylesheet" type="text/css" href="/assets/theme-igot.css">
-  <script type='text/javascript' src='https://ind-widget.freshworks.com/widgets/82000001922.js' async defer></script>
+  <link rel="prefetch" as="script" href="https://apis.google.com/js/client:platform.js?onload=startApp">
+  <link rel="prefetch" as="script" href='https://ind-widget.freshworks.com/widgets/82000001922.js'>
   <!-- Global site tag (gtag.js) - Google Analytics -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-NNKYEF6EF7"></script>
+  <link rel="prefetch" as="script" href="https://www.googletagmanager.com/gtag/js?id=G-NNKYEF6EF7">
   <script>
     window.dataLayer = window.dataLayer || []
     function gtag() { dataLayer.push(arguments) }
@@ -33,7 +33,7 @@
   <script type="text/javascript">
     (function (c, l, a, r, i, t, y) {
       c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) }
-      t = l.createElement(r); t.async = 1; t.src = "https://www.clarity.ms/tag/" + i
+      t = l.createElement(r); t.defer = true; t.src = "https://www.clarity.ms/tag/" + i
       y = l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t, y)
     })(window, document, "clarity", "script", "ar1sqh47c0");
   </script>
@@ -45,16 +45,14 @@
     (function () {
       var p5 = document.createElement('script')
       p5.type = 'text/javascript'
+      p5.defer = true
       p5.src = 'https://src.plumb5.com/aastrika_org.js'
       var p5s = document.getElementsByTagName('script')[0]
       p5s.parentNode.insertBefore(p5, p5s)
     })();
   </script>
-
-
   <!-- End of plumb5 Embed Code -->
-
-
+  <script defer src="/assets/env.js"></script>
 </head>
 
 <body class="mat-app-background mat-body mat-typography custom-scroll">
@@ -114,6 +112,21 @@
   <noscript>Please enable JavaScript to continue using this application.</noscript>
 </body>
 <script>
+
+  // window.addEventListener("load", (event) => {
+  const url = window.location.href
+
+  console.log("href", window.location.href)
+  if (url.includes('token') && url.includes('moduleId')) {
+    const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
+    sessionStorage.setItem('sashakt_token', sashakt_token)
+    const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
+    sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
+  }
+
+
+</script>
+<script>
   var MATCHING_IE = navigator.userAgent.match(/(msie|trident(?=\/))\/?\s*(\d+)/i) || []
   if (/trident/i.test(MATCHING_IE[1])) {
     // tslint:disable-next-line: max-line-length
@@ -122,7 +135,6 @@
   }
 
 </script>
-<script src="/assets/env.js"></script>
 <!-- <script src='//in.fw-cdn.com/30492305/271953.js' chat='true'></script> -->
 
 </html>

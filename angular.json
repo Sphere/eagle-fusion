@@ -21,6 +21,8 @@
               "src/favicon.ico",
               "src/favicon.png",
               "src/fusion-assets",
+              "src/fusion-assets/icons/",
+              "src/fusion-assets/images/",
               {
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
@@ -50,46 +52,6 @@
               "node_modules/shepherd.js/dist/css/shepherd.css",
               "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
               "node_modules/@aastrika_npmjs/comptency/assets/styles/global.scss",
-              {
-                "input": "src/themes/theme-deep-purple.scss",
-                "bundleName": "theme-deep-purple",
-                "lazy": true
-              },
-              {
-                "input": "src/themes/theme-grey.scss",
-                "bundleName": "theme-grey",
-                "lazy": true
-              },
-              {
-                "input": "src/themes/theme-indigo.scss",
-                "bundleName": "theme-indigo",
-                "lazy": true
-              },
-              {
-                "input": "src/themes/theme-lite-blue.scss",
-                "bundleName": "theme-lite-blue",
-                "lazy": true
-              },
-              {
-                "input": "src/themes/theme-orange.scss",
-                "bundleName": "theme-orange",
-                "lazy": true
-              },
-              {
-                "input": "src/themes/theme-teal.scss",
-                "bundleName": "theme-teal",
-                "lazy": true
-              },
-              {
-                "input": "src/themes/theme-blue.scss",
-                "bundleName": "theme-blue",
-                "lazy": true
-              },
-              {
-                "input": "src/themes/theme-deep-blue.scss",
-                "bundleName": "theme-deep-blue",
-                "lazy": true
-              },
               {
                 "input": "src/themes/theme-igot.scss",
                 "bundleName": "theme-igot",

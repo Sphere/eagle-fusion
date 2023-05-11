@@ -1,8 +1,4 @@
 import videoJs from 'video.js'
-import 'videojs-youtube'
-import 'videojs-contrib-quality-levels'
-import 'videojs-hls-quality-selector'
-import 'videojs-vr'
 
 import { Subscription, interval, fromEvent } from 'rxjs'
 import { WsEvents } from '@ws-widget/utils'

@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { AppCallBackComponent } from './app-call-back.component';
+import { AppCallBackComponent } from './app-call-back.component'
 
 describe('AppCallBackComponent', () => {
-  let component: AppCallBackComponent;
-  let fixture: ComponentFixture<AppCallBackComponent>;
+  let component: AppCallBackComponent
+  let fixture: ComponentFixture<AppCallBackComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppCallBackComponent ]
+      declarations: [AppCallBackComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppCallBackComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(AppCallBackComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

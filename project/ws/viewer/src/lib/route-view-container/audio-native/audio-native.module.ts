@@ -13,17 +13,17 @@ import {
 import { WidgetResolverModule } from '@ws-widget/resolver'
 
 import {
-  BtnContentDownloadModule,
-  BtnContentFeedbackModule,
-  BtnContentLikeModule,
+  // BtnContentDownloadModule,
+  // BtnContentFeedbackModule,
+  // BtnContentLikeModule,
   BtnContentShareModule,
-  BtnGoalsModule,
-  BtnPlaylistModule,
+  //BtnGoalsModule,
+  //BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  UserContentRatingModule,
-  BtnContentFeedbackV2Module,
-  PlayerBriefModule,
+  //UserContentRatingModule,
+  //BtnContentFeedbackV2Module,
+  //PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -34,21 +34,21 @@ import {
   PipeSafeSanitizerModule,
 } from '@ws-widget/utils'
 
-import { AudioNativeModule as AudioNativePluginModule } from '../../plugins/audio-native/audio-native.module'
+// import { AudioNativeModule as AudioNativePluginModule } from '../../plugins/audio-native/audio-native.module'
 
 import { AudioNativeComponent } from './audio-native.component'
 
 @NgModule({
   declarations: [AudioNativeComponent],
   imports: [
-    AudioNativePluginModule,
-    BtnContentDownloadModule,
-    BtnContentFeedbackModule,
-    BtnContentFeedbackV2Module,
-    BtnContentLikeModule,
+    // AudioNativePluginModule,
+    // BtnContentDownloadModule,
+    // BtnContentFeedbackModule,
+    //BtnContentFeedbackV2Module,
+    //BtnContentLikeModule,
     BtnContentShareModule,
-    BtnGoalsModule,
-    BtnPlaylistModule,
+    //BtnGoalsModule,
+    //BtnPlaylistModule,
     CommonModule,
     DefaultThumbnailModule,
     DisplayContentTypeModule,
@@ -62,11 +62,11 @@ import { AudioNativeComponent } from './audio-native.component'
     PipeLimitToModule,
     PipePartialContentModule,
     RouterModule,
-    UserContentRatingModule,
+    //UserContentRatingModule,
     UserImageModule,
     WidgetResolverModule,
     PipeSafeSanitizerModule,
-    PlayerBriefModule,
+    //PlayerBriefModule,
   ],
   exports: [AudioNativeComponent],
 })

@@ -11,16 +11,16 @@ import {
 import { WidgetResolverModule } from '@ws-widget/resolver'
 
 import {
-  BtnContentDownloadModule,
-  BtnContentFeedbackModule,
-  BtnContentLikeModule,
+  // BtnContentDownloadModule,
+  // BtnContentFeedbackModule,
+  // BtnContentLikeModule,
   BtnContentShareModule,
-  BtnGoalsModule,
-  BtnPlaylistModule,
+  //BtnGoalsModule,
+  //BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  UserContentRatingModule,
-  BtnContentFeedbackV2Module,
+  //UserContentRatingModule,
+  //BtnContentFeedbackV2Module,
 } from '@ws-widget/collection'
 
 import {
@@ -39,13 +39,13 @@ import { AudioNativeComponent } from './audio-native.component'
   declarations: [AudioNativeComponent],
   imports: [
     AudioNativeViewContainerModule,
-    BtnContentDownloadModule,
-    BtnContentFeedbackModule,
-    BtnContentFeedbackV2Module,
-    BtnContentLikeModule,
+    // BtnContentDownloadModule,
+    // BtnContentFeedbackModule,
+    //BtnContentFeedbackV2Module,
+    //BtnContentLikeModule,
     BtnContentShareModule,
-    BtnGoalsModule,
-    BtnPlaylistModule,
+    //BtnGoalsModule,
+    //BtnPlaylistModule,
     CommonModule,
     DefaultThumbnailModule,
     DisplayContentTypeModule,
@@ -57,7 +57,7 @@ import { AudioNativeComponent } from './audio-native.component'
     PipeLimitToModule,
     PipePartialContentModule,
     RouterModule,
-    UserContentRatingModule,
+    //UserContentRatingModule,
     UserImageModule,
     WidgetResolverModule,
     PipeSafeSanitizerModule,

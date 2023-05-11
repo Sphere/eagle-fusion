@@ -12,7 +12,7 @@ import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
-import * as _ from 'lodash'
+import upperFirst from 'lodash/upperFirst'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -48,7 +48,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   trigerrNavigation = true
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
-  professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Mother/Family Member', 'Student', 'Faculty', 'Others']
+  professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   langList = ['English', 'Hindi']
   langDialog: any
@@ -175,7 +175,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
             this.updateForm()
-            if (data.profileDetails.preferences!.language === 'hi') {
+            if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences!.language === 'hi') {
               this.personalDetailForm.patchValue({
                 knownLanguage: 'हिंदी',
               })
@@ -282,7 +282,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   updateForm() {
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
-
       // this.profileUserName = `${data.personalDetails.firstname} `
       // if (data.personalDetails.middlename) {
       //   this.profileUserName += `${data.personalDetails.middlename} `
@@ -356,18 +355,34 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     // if (form.value.dob) {
     //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
     // }
+    console.log(form.value)
+    console.log(this.userProfileData)
+    if (form.value.dob.includes('undefined')) {
+      const data = form.value.dob.replace(/\/undefined/g, '')
+      console.log(data)
+      form.value.dob = data
+    }
+    console.log(form.value)
     form.value.knownLanguages = this.selectedKnowLangs
 
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form.value, this.userProfileData)
+    let profileRequest = constructReq(form.value, this.userProfileData)
+    const obj = {
+      preferences: {
+        language: this.personalDetailForm.controls.knownLanguage.value === 'English' ? 'en' : 'hi',
+      },
+    }
+    profileRequest = Object.assign(profileRequest, obj)
+
     const reqUpdate = {
       request: {
         userId: this.userID,
         profileDetails: profileRequest,
       },
     }
+
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
@@ -394,7 +409,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       if (result) {
         this.preferedLanguage = result
         this.personalDetailForm.controls.
-          knownLanguage.setValue(_.upperFirst(result.lang))
+          knownLanguage.setValue(upperFirst(result.lang))
 
         if (this.configSvc.userProfileV2) {
           let user: any

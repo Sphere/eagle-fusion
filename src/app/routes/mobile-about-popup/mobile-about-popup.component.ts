@@ -1,7 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
-import * as _ from 'lodash'
+// import * as _ from 'lodash-es'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../profile-view/request-util'
@@ -16,12 +16,12 @@ export class MobileAboutPopupComponent implements OnInit {
   userProfileData!: any
   userID = ''
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
-
+  langdata!: any
   constructor(public dialogRef: MatDialogRef<MobileAboutPopupComponent>,
-              private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private matSnackBar: MatSnackBar,
-              @Inject(MAT_DIALOG_DATA) public data: any
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private matSnackBar: MatSnackBar,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.aboutForm = new FormGroup({
       about: new FormControl('', [Validators.required, Validators.maxLength(500)]),
@@ -36,6 +36,7 @@ export class MobileAboutPopupComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
+            this.langdata = data
             this.userProfileData = data.profileDetails.profileReq
           }
         })
@@ -51,7 +52,14 @@ export class MobileAboutPopupComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form.value, this.userProfileData)
+    let profileRequest = constructReq(form.value, this.userProfileData)
+    const obj = {
+      preferences: {
+        language: this.langdata.profileDetails!.preferences!.language === 'en' ? 'en' : 'hi',
+      },
+    }
+    profileRequest = Object.assign(profileRequest, obj)
+
     const reqUpdate = {
       request: {
         userId: this.userID,

@@ -10,16 +10,16 @@ import {
 } from '@angular/material'
 
 import {
-  BtnContentDownloadModule,
-  BtnContentFeedbackModule,
-  BtnContentLikeModule,
+  // BtnContentDownloadModule,
+  // BtnContentFeedbackModule,
+  // BtnContentLikeModule,
   BtnContentShareModule,
-  BtnGoalsModule,
-  BtnPlaylistModule,
+  //BtnGoalsModule,
+  //BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  UserContentRatingModule,
-  BtnContentFeedbackV2Module,
+  //UserContentRatingModule,
+  //BtnContentFeedbackV2Module,
 } from '@ws-widget/collection'
 
 import {
@@ -38,12 +38,12 @@ import { YoutubeModule as YoutubeViewContainerModule } from '../../route-view-co
   declarations: [YoutubeComponent],
   imports: [
     RouterModule,
-    BtnContentDownloadModule,
-    BtnContentFeedbackModule,
-    BtnContentLikeModule,
+    // BtnContentDownloadModule,
+    // BtnContentFeedbackModule,
+    // BtnContentLikeModule,
     BtnContentShareModule,
-    BtnGoalsModule,
-    BtnPlaylistModule,
+    //BtnGoalsModule,
+    //BtnPlaylistModule,
     CommonModule,
     DisplayContentTypeModule,
     MatCardModule,
@@ -55,8 +55,8 @@ import { YoutubeModule as YoutubeViewContainerModule } from '../../route-view-co
     PipePartialContentModule,
     UserImageModule,
     WidgetResolverModule,
-    UserContentRatingModule,
-    BtnContentFeedbackV2Module,
+    //UserContentRatingModule,
+    //BtnContentFeedbackV2Module,
     YoutubeViewContainerModule,
   ],
 })

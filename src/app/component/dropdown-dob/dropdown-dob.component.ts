@@ -40,7 +40,7 @@ export class DropdownDobComponent implements OnInit {
   ngOnInit() {
     setTimeout(() => {
       this.updateForm()
-    }, 500)
+    },         500)
 
   }
   /* function to update the form if input is there*/

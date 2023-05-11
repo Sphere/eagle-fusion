@@ -11,11 +11,13 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { Location } from '@angular/common'
 // declare const gapi: any
 /* tslint:disable*/
-import _ from 'lodash'
+import compact from 'lodash/compact'
+import get from 'lodash/get'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 //import { WidgetContentService } from '../_services/widget-content.service'
 import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'
-// import { Router } from '@angular/router'
+import { Router } from '@angular/router'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 /* tslint:enable*/
 
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
@@ -34,16 +36,17 @@ export class BtnProfileComponent extends WidgetBaseComponent
   public route: string
   public locale = ''
   isXSmall$ = this.valueSvc.isXSmall$
-
+  userData: any
   constructor(
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
     // private element: ElementRef,
-    // private router: Router,
+    private router: Router,
     // private contentSvc: WidgetContentService,
-    location: Location
+    location: Location,
+    private userProfileSvc: UserProfileService,
   ) {
     super()
     this.route = location.path()
@@ -71,9 +74,9 @@ export class BtnProfileComponent extends WidgetBaseComponent
         (group: NsAppsConfig.IGroup): IGroupWithFeatureWidgets => (
           {
             ...group,
-            featureWidgets: _.compact(group.featureIds.map(
+            featureWidgets: compact(group.featureIds.map(
               (id: string): NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink> | undefined => {
-                const permissions = _.get(appsConfig, `features[${id}].permission`)
+                const permissions = get(appsConfig, `features[${id}].permission`)
                 if (!permissions || permissions.length === 0 || this.accessService.hasRole(permissions)) {
                   return ({
                     widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
@@ -176,6 +179,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
   // }
 
   ngOnInit() {
+    console.log(this.configSvc)
     this.setPinnedApps()
     if (this.widgetData && this.widgetData.actionBtnId) {
       this.id = this.widgetData.actionBtnId
@@ -219,7 +223,21 @@ export class BtnProfileComponent extends WidgetBaseComponent
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
-
+  redirect() {
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
+        console.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
+        // console.log(this.userData.profileDetails!.profileReq!.personalDetails!.dob)
+        this.userData = await data
+        if (data && data.profileDetails!.profileReq!.personalDetails!.dob) {
+          this.router.navigate(['/app/profile-view'])
+        } else {
+          const url = `/page/home`
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+        }
+      })
+    }
+  }
   setPinnedApps() {
     this.pinnedAppsSubs = this.configSvc.pinnedApps.subscribe(pinnedApps => {
       const appsConfig = this.configSvc.appsConfig

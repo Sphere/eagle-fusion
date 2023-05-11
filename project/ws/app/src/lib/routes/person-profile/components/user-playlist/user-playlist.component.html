@@ -51,16 +51,16 @@
   <div class="text-center" *ngIf="playlistFetchStatus === 'fetching'">
     <p class="font-family fetching" i18n>Fetching playlists ...</p>
   </div>
-  <div class="text-center" *ngIf="!playlists?.length && playlistFetchStatus === 'done'">
+  <!-- <div class="text-center" *ngIf="!playlists?.length && playlistFetchStatus === 'done'">
     <div class="flex flex-center">
       <span class="font-family fetching">{{name}}</span>
       <span class="font-family fetching" i18n> has not created any playlists.</span>
     </div>
-  </div>
+  </div> -->
   <div class="text-center" *ngIf="playlistFetchStatus === 'error'">
     <p class="mat-error" i18n>Failed to fetch playlists.</p>
   </div>
-  <ws-utils-horizontal-scroller *ngIf="playlists?.length" [loadStatus]="'done'">
+  <!-- <ws-utils-horizontal-scroller *ngIf="playlists?.length" [loadStatus]="'done'">
     <div class="px-3 py-1 playlist-card" *ngFor="let playlist of playlists">
       <div class="card relative">
         <img [src]="playlist?.icon" [wsUtilsDefaultThumbnail]="defaultThumbnail"
@@ -84,5 +84,5 @@
         <span class="mat-body-strong margin-remove-bottom">{{ playlist.sharedByDisplayName }}</span>
       </span>
     </div>
-  </ws-utils-horizontal-scroller>
+  </ws-utils-horizontal-scroller> -->
 </div>

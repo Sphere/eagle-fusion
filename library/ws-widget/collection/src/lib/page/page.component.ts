@@ -11,7 +11,7 @@ import {
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 import { SubapplicationRespondService } from '../../../../utils/src/lib/services/subapplication-respond.service'
-import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
+// import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
 import { MatDialog } from '@angular/material'
 
 @Component({
@@ -40,7 +40,7 @@ export class PageComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private eventSvc: EventService,
-    private tour: CustomTourService,
+    // private tour: CustomTourService,
     private domSanitizer: DomSanitizer,
     private respondSvc: SubapplicationRespondService,
     private dialog: MatDialog,
@@ -158,7 +158,7 @@ export class PageComponent extends WidgetBaseComponent
     }
     if (this.pageData && this.pageData.tourGuide) {
       this.configSvc.tourGuideNotifier.next(true)
-      this.tour.data = this.pageData.tourGuide
+      // this.tour.data = this.pageData.tourGuide
     }
   }
 
@@ -209,7 +209,7 @@ export class PageComponent extends WidgetBaseComponent
     this.configSvc.tourGuideNotifier.next(false)
   }
   startTour() {
-    this.tour.startTour()
+    // this.tour.startTour()
     if (this.responseSubscription) {
       this.respondSvc.unsubscribeResponse()
       this.responseSubscription.unsubscribe()

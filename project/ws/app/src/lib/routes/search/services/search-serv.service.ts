@@ -3,8 +3,8 @@ import { Injectable } from '@angular/core'
 import { NSSearch } from '@ws-widget/collection'
 import { ConfigurationsService, EventService, WsEvents } from '@ws-widget/utils'
 import { Observable, of } from 'rxjs'
-import { KnowledgeHubApiService } from '../../infy/routes/knowledge-hub/apis/knowledge-hub-api.service'
-import { IKhubAutoMation, IKhubFilterObj, IKhubItemTile, IKhubKshop, IKhubProject, IKhubViewResultDocs, IKhubViewResultProject, ISearchObjForSearch } from '../../infy/routes/knowledge-hub/models/knowledgeHub.model'
+// import { KnowledgeHubApiService } from '../../infy/routes/knowledge-hub/apis/knowledge-hub-api.service'
+// import { IKhubAutoMation, IKhubFilterObj, IKhubItemTile, IKhubKshop, IKhubProject, IKhubViewResultDocs, IKhubViewResultProject, ISearchObjForSearch } from '../../infy/routes/knowledge-hub/models/knowledgeHub.model'
 import { SearchApiService } from '../apis/search-api.service'
 // import { IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequest,
 // ISearchRequestV2, ISearchSocialSearchPartialRequest, ISocialSearchRequest } from '../models/search.model'
@@ -29,7 +29,7 @@ export class SearchServService {
   constructor(
     private events: EventService,
     // private contentApi: WidgetContentService,
-    private khubApiSvc: KnowledgeHubApiService,
+    // private khubApiSvc: KnowledgeHubApiService,
     private searchApi: SearchApiService,
     private configSrv: ConfigurationsService,
     private http: HttpClient,
@@ -59,6 +59,7 @@ export class SearchServService {
   }
 
   searchAutoComplete(params: ISearchQuery): Promise<ISearchAutoComplete[]> {
+    console.log(params)
     params.q = params.q.toLowerCase()
     if (params.l.split(',').length === 1 && params.l.toLowerCase() !== 'all') {
       return this.searchApi.getSearchAutoCompleteResults(params).toPromise()
@@ -79,11 +80,12 @@ export class SearchServService {
     //     displayName: 'Mime Type',
     //   },
     // }
+    console.log(request.request)
     request.request.filters['status'] = ['Live']
-    const v6Request: NSSearch.ISearchV6RequestV2 = {
+    const v6Request: any = {
       request: {
         query: request.request.query,
-        filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'] } : request.request.filters,
+        filters: request.request.query ? { ['contentType']: ['Course'], ['status']: ['Live'], lang: request.request.filters.lang ? request.request.filters.lang : undefined } : request.request.filters,
         sort_by: {
           lastUpdatedOn: request.request.sort_by.lastUpdatedOn,
         },
@@ -210,12 +212,12 @@ export class SearchServService {
     return this.searchApi.getSearchResults(req)
   }
 
-  fetchSearchDataDocs(request: ISearchObjForSearch): Observable<IKhubViewResultDocs> {
-    return this.khubApiSvc.fetchSearchDataDocs(request)
-  }
-  fetchSearchDataProjects(request: ISearchObjForSearch): Observable<IKhubViewResultProject> {
-    return this.khubApiSvc.fetchSearchDataProject(request)
-  }
+  // fetchSearchDataDocs(request: ISearchObjForSearch): Observable<IKhubViewResultDocs> {
+  //   return this.khubApiSvc.fetchSearchDataDocs(request)
+  // }
+  // fetchSearchDataProjects(request: ISearchObjForSearch): Observable<IKhubViewResultProject> {
+  //   return this.khubApiSvc.fetchSearchDataProject(request)
+  // }
 
   updateSelectedFiltersSet(filters: { [key: string]: string[] }) {
     const valuesForSet: string[] = []
@@ -317,97 +319,97 @@ export class SearchServService {
   }
 
   // tslint:disable-next-line: prefer-array-literal
-  setTilesDocs(response: Array<IKhubKshop | IKhubAutoMation>) {
-    try {
-      const tiles: IKhubItemTile[] = []
-      response.map((cur: IKhubKshop | IKhubAutoMation) => {
-        const tile: IKhubItemTile = {
-          author: cur.authors || [],
-          category: cur.category || '',
-          description: cur.description || '',
-          itemId: cur.itemId,
-          itemType: cur.itemType || '',
-          noOfViews: cur.noOfViews || 0,
-          restricted: cur.isAccessRestricted || 'N',
-          source: cur.source,
-          title: cur.title || '',
-          topics: cur.topics || [],
-          url: cur.url || '',
-          dateCreated: cur.dateCreated ? new Date(cur.dateCreated) : new Date(),
-          color: cur.source.toLowerCase() === 'kshop' ? '3px solid #f26522' : '3px solid #28a9b2',
-          sourceId: cur.sourceId || 0,
-        }
-        tiles.push(tile)
-      })
-      return tiles
-    } catch (e) {
-      throw e
-    }
-  }
+  // setTilesDocs(response: Array<IKhubKshop | IKhubAutoMation>) {
+  //   try {
+  //     const tiles: IKhubItemTile[] = []
+  //     response.map((cur: IKhubKshop | IKhubAutoMation) => {
+  //       const tile: IKhubItemTile = {
+  //         author: cur.authors || [],
+  //         category: cur.category || '',
+  //         description: cur.description || '',
+  //         itemId: cur.itemId,
+  //         itemType: cur.itemType || '',
+  //         noOfViews: cur.noOfViews || 0,
+  //         restricted: cur.isAccessRestricted || 'N',
+  //         source: cur.source,
+  //         title: cur.title || '',
+  //         topics: cur.topics || [],
+  //         url: cur.url || '',
+  //         dateCreated: cur.dateCreated ? new Date(cur.dateCreated) : new Date(),
+  //         color: cur.source.toLowerCase() === 'kshop' ? '3px solid #f26522' : '3px solid #28a9b2',
+  //         sourceId: cur.sourceId || 0,
+  //       }
+  //       tiles.push(tile)
+  //     })
+  //     return tiles
+  //   } catch (e) {
+  //     throw e
+  //   }
+  // }
 
-  setTileProject(response: IKhubProject[]) {
-    try {
-      const tilesProject: IKhubItemTile[] = []
-      response.map((cur: IKhubProject) => {
-        const tile: IKhubItemTile = {
-          pm: cur.pm || [],
-          dm: cur.dm || [],
-          objectives: cur.mstInfyObjectives || '',
-          risks: cur.risks || [],
-          contribution: cur.contributions || [],
-          category: 'Project',
-          // description: '',
-          projectScope: cur.mstProjectScope,
-          businessContext: cur.mstBusinessContext,
-          itemId: cur.itemId,
-          restricted: cur.isAccessRestricted || 'N',
-          source: 'PROMT',
-          title: cur.mstProjectName || '',
-          topics: cur.topics || [],
-          url: '',
-          dateCreated: new Date(cur.dateStartDate),
-          color: '3px solid #e94a48',
-          sourceId: 0,
-        }
-        tilesProject.push(tile)
-      })
-      return tilesProject
-    } catch (e) {
-      throw e
-    }
-  }
+  // setTileProject(response: IKhubProject[]) {
+  //   try {
+  //     const tilesProject: IKhubItemTile[] = []
+  //     response.map((cur: IKhubProject) => {
+  //       const tile: IKhubItemTile = {
+  //         pm: cur.pm || [],
+  //         dm: cur.dm || [],
+  //         objectives: cur.mstInfyObjectives || '',
+  //         risks: cur.risks || [],
+  //         contribution: cur.contributions || [],
+  //         category: 'Project',
+  //         // description: '',
+  //         projectScope: cur.mstProjectScope,
+  //         businessContext: cur.mstBusinessContext,
+  //         itemId: cur.itemId,
+  //         restricted: cur.isAccessRestricted || 'N',
+  //         source: 'PROMT',
+  //         title: cur.mstProjectName || '',
+  //         topics: cur.topics || [],
+  //         url: '',
+  //         dateCreated: new Date(cur.dateStartDate),
+  //         color: '3px solid #e94a48',
+  //         sourceId: 0,
+  //       }
+  //       tilesProject.push(tile)
+  //     })
+  //     return tilesProject
+  //   } catch (e) {
+  //     throw e
+  //   }
+  // }
 
-  formatKhubFilters(filters: { [key: string]: IKhubFilterObj[] }) {
-    try {
-      const returnArr: IFilterUnitResponse[] = []
-      for (const key in filters) {
-        if (key) {
-          const filterObj: IFilterUnitResponse = {
-            type: key,
-            displayName: this.getDisplayName(key),
-            content: this.fetchContentOfFilter(filters[key]),
-          }
-          returnArr.push(filterObj)
-        }
-      }
-      return returnArr
-    } catch (e) {
-      throw e
-    }
-  }
+  // formatKhubFilters(filters: { [key: string]: IKhubFilterObj[] }) {
+  //   try {
+  //     const returnArr: IFilterUnitResponse[] = []
+  //     for (const key in filters) {
+  //       if (key) {
+  //         const filterObj: IFilterUnitResponse = {
+  //           type: key,
+  //           displayName: this.getDisplayName(key),
+  //           content: this.fetchContentOfFilter(filters[key]),
+  //         }
+  //         returnArr.push(filterObj)
+  //       }
+  //     }
+  //     return returnArr
+  //   } catch (e) {
+  //     throw e
+  //   }
+  // }
 
-  fetchContentOfFilter(filter: IKhubFilterObj[]) {
-    const filterItemArr: IFilterUnitItem[] = []
-    filter.map((cur: IKhubFilterObj) => {
-      const obj = {
-        count: cur.doc_count,
-        displayName: cur.key,
-        type: cur.key,
-      }
-      filterItemArr.push(obj)
-    })
-    return filterItemArr
-  }
+  // fetchContentOfFilter(filter: IKhubFilterObj[]) {
+  //   const filterItemArr: IFilterUnitItem[] = []
+  //   filter.map((cur: IKhubFilterObj) => {
+  //     const obj = {
+  //       count: cur.doc_count,
+  //       displayName: cur.key,
+  //       type: cur.key,
+  //     }
+  //     filterItemArr.push(obj)
+  //   })
+  //   return filterItemArr
+  // }
   formatFilterForSearch(filters: { [type: string]: string[] }) {
     try {
       let filterStr = ''

@@ -1,6 +1,9 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Data, Router } from '@angular/router'
-import { Subscription, of } from 'rxjs'
+import {
+  Subscription,
+  of,
+} from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
 import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -28,6 +31,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   userId = ''
   createUserForm!: FormGroup
   showAcceptbtn = true
+  lang: any
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -233,15 +237,16 @@ export class NewTncComponent implements OnInit, OnDestroy {
       let Obj: any
       if (localStorage.getItem('preferedLanguage')) {
         let data: any
-        let lang: any
         data = localStorage.getItem('preferedLanguage')
-        lang = JSON.parse(data)
-        lang = lang !== 'en' ? lang : ''
-        Obj = {
-          preferences: {
-            language: lang,
-          },
-        }
+        this.lang = JSON.parse(data)
+        this.lang = this.lang.id !== 'en' ? this.lang.id : ''
+        // Obj = {
+        //   preferences: {
+        //     language: this.lang,
+        //   },
+        // }
+      } else {
+        this.lang = ''
       }
 
       /* this changes for ebhyass*/
@@ -260,7 +265,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
         const reqUpdate = {
           request: {
             userId: this.userId,
-            profileDetails: Object.assign(profileRequest, Obj),
+            // profileDetails: Object.assign(profileRequest, Obj),
+            profileDetails: profileRequest,
           },
         }
         this.updateUser(reqUpdate)
@@ -271,33 +277,47 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
   }
   updateUser(reqUpdate: any) {
+    console.log(reqUpdate)
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-      if (data) {
+      console.log(data)
+      console.log(this.result)
+      if (data.result.response === 'SUCCESS') {
         this.configSvc.profileDetailsStatus = true
         this.configSvc.hasAcceptedTnc = true
         if (this.result.tncStatus) {
           if (this.configSvc.unMappedUser) {
-            this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(100), mergeMap((userData: any) => {
+            this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(200), mergeMap((userData: any) => {
               return of(userData)
             })).subscribe((userDetails: any) => {
+              console.log(userDetails)
               if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
-
+                console.log('12')
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+                  const url = `app/about-you`
+                  window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
+                  // this.router.navigate([url], { queryParams: { redirect: courseUrl } })
                 } else {
-                  location.href = '/page/home'
+                  const url = `page/home`
+                  // location.href = url
+                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
                 }
               } else {
+                console.log('21')
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {
-                  location.href = '/page/home'
+                  const url = `page/home`
+                  // location.href = url
+                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
                 }
                 location.href = localStorage.getItem('url_before_login') || ''
               }
             })
           }
         } else {
-          location.href = '/page/home'
+          console.log('4s')
+          const url = `page/home`
+          // location.href = url
+          window.location.assign(`${location.origin}/${this.lang}/${url}`)
         }
         // location.href = '/page/home'
         // this.router.navigate(['/page/home'])
@@ -306,7 +326,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         //   })
       }
     },
-      (err: any) => {
+                                                                  (err: any) => {
         this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
         // TO DO: Telemetry event for failure
         this.errorInAccepting = true

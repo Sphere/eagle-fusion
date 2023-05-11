@@ -6,12 +6,13 @@
       </button>
 
       <div>
-        <img src=".\fusion-assets\icons\clock.svg" alt="clock"> {{ content?.duration | pipeDurationTransform: 'hms' }}
+        <img loading="lazy" src=".\fusion-assets\icons\clock.svg" alt="clock"> {{ content?.duration |
+        pipeDurationTransform: 'hms' }}
       </div>
     </div>
 
 
-    <div class="title"><span [title]="content?.name">
+    <div class="title"><span style="word-wrap: break-word;" [title]="content?.name">
         {{ content?.name }} </span></div>
     <div class="details mb-3" *ngIf="content?.creator"><span i18n>By</span>: {{content?.sourceName}}</div>
 
@@ -51,14 +52,14 @@
       <div class=" flex flex-row gap-2">
         <div class="flex flex-col gap-1 justify-content-center align-items-center">
           <button mat-icon-button class="button-border" (click)="openDetails(content, tocConfig)">
-            <img src=".\fusion-assets\icons\details.svg" alt="detail-icon">
+            <img loading="lazy" src=".\fusion-assets\icons\details.svg" alt="detail-icon">
           </button>
           <span class="btn-tittle" i18n>Details</span>
         </div>
 
         <div *ngIf="content?.competencies_v1" class="flex flex-col gap-1 justify-content-center align-items-center">
           <button mat-icon-button class="button-border" (click)="openCompetency(content)">
-            <img src=".\fusion-assets\icons\competency.svg" alt="competency-icon">
+            <img loading="lazy" src=".\fusion-assets\icons\competency.svg" alt="competency-icon">
           </button>
           <span class="btn-tittle" i18n>Competency</span>
         </div>
@@ -70,14 +71,14 @@
           <ng-container *ngIf="issueCertificate === true; else download ">
             <button mat-icon-button *ngIf="content?.issueCertification === true" (click)="sendApi()" data-toggle="modal"
               class="button-border">
-              <img src=".\fusion-assets\icons\download.svg" alt="download">
+              <img loading="lazy" src=".\fusion-assets\icons\download.svg" alt="download">
             </button>
             <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
           </ng-container>
           <ng-template #download>
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" class="button-border" data-toggle="modal">
-              <img src=".\fusion-assets\icons\download.svg" alt="download">
+              <img loading="lazy" src=".\fusion-assets\icons\download.svg" alt="download">
             </button>
             <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
           </ng-template>

@@ -38,9 +38,9 @@ export class AssessmentDetailComponent implements OnInit {
   }
 
   constructor(private viewSvc: ViewerUtilService,
-    private http: HttpClient,
-    private contentSvc: WidgetContentService,
-    private activatedRoute: ActivatedRoute) {
+              private http: HttpClient,
+              private contentSvc: WidgetContentService,
+              private activatedRoute: ActivatedRoute) {
   }
 
   async ngOnInit() {
@@ -56,7 +56,7 @@ export class AssessmentDetailComponent implements OnInit {
           artifactUrl = artifactUrl.replace('hi/', '')
         }
         if (window.location.origin.indexOf('http://localhost:') === -1) {
-          artifactUrl = `${window["env"]["azureHost"]}/${artifactUrl}`
+          artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
         }
         console.log(artifactUrl)
         let quizJSON: NSQuiz.IQuiz = await this.http
@@ -91,7 +91,7 @@ export class AssessmentDetailComponent implements OnInit {
           artifactUrl = artifactUrl.replace('hi/', '')
         }
         if (window.location.origin.indexOf('http://localhost:') === -1) {
-          artifactUrl = `${window["env"]["azureHost"]}/${artifactUrl}`
+          artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
         }
         console.log(artifactUrl)
         let quizJSON: NSQuiz.IQuiz = await this.http
@@ -112,7 +112,7 @@ export class AssessmentDetailComponent implements OnInit {
         })
         return quizJSON
       }
-    } else {
+    }
       if (content.artifactUrl) {
         const artifactUrl = this.forPreview
           ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
@@ -163,6 +163,6 @@ export class AssessmentDetailComponent implements OnInit {
         })
         return quizJSON
       }
-    }
+
   }
 }

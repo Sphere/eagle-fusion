@@ -3,50 +3,50 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { BtnAppsComponent } from './btn-apps/btn-apps.component'
 // Modules
 import { BtnAppsModule } from './btn-apps/btn-apps.module'
-import { BtnCallComponent } from './btn-call/btn-call.component'
-import { BtnCallModule } from './btn-call/btn-call.module'
-import { BtnCatalogComponent } from './btn-catalog/btn-catalog.component'
-import { BtnCatalogModule } from './btn-catalog/btn-catalog.module'
-import { BtnChannelAnalyticsComponent } from './btn-channel-analytics/btn-channel-analytics.component'
-import { BtnChannelAnalyticsModule } from './btn-channel-analytics/btn-channel-analytics.module'
-import { BtnContentDownloadComponent } from './btn-content-download/btn-content-download.component'
-import { BtnContentDownloadModule } from './btn-content-download/btn-content-download.module'
-import { BtnContentFeedbackComponent } from './btn-content-feedback/btn-content-feedback.component'
-import { BtnContentFeedbackModule } from './btn-content-feedback/btn-content-feedback.module'
-import { BtnContentLikeComponent } from './btn-content-like/btn-content-like.component'
-import { BtnContentLikeModule } from './btn-content-like/btn-content-like.module'
-import { BtnContentMailMeComponent } from './btn-content-mail-me/btn-content-mail-me.component'
-import { BtnContentMailMeModule } from './btn-content-mail-me/btn-content-mail-me.module'
+// import { BtnCallComponent } from './btn-call/btn-call.component'
+// import { BtnCallModule } from './btn-call/btn-call.module'
+// import { BtnCatalogComponent } from './btn-catalog/btn-catalog.component'
+// import { BtnCatalogModule } from './btn-catalog/btn-catalog.module'
+// import { BtnChannelAnalyticsComponent } from './btn-channel-analytics/btn-channel-analytics.component'
+// import { BtnChannelAnalyticsModule } from './btn-channel-analytics/btn-channel-analytics.module'
+// import { BtnContentDownloadComponent } from './btn-content-download/btn-content-download.component'
+// import { BtnContentDownloadModule } from './btn-content-download/btn-content-download.module'
+// import { BtnContentFeedbackComponent } from './btn-content-feedback/btn-content-feedback.component'
+// import { BtnContentFeedbackModule } from './btn-content-feedback/btn-content-feedback.module'
+// import { BtnContentLikeComponent } from './btn-content-like/btn-content-like.component'
+// import { BtnContentLikeModule } from './btn-content-like/btn-content-like.module'
+// import { BtnContentMailMeComponent } from './btn-content-mail-me/btn-content-mail-me.component'
+// import { BtnContentMailMeModule } from './btn-content-mail-me/btn-content-mail-me.module'
 import { BtnContentShareComponent } from './btn-content-share/btn-content-share.component'
 import { BtnContentShareModule } from './btn-content-share/btn-content-share.module'
 import { BtnFeatureComponent } from './btn-feature/btn-feature.component'
 import { BtnFeatureModule } from './btn-feature/btn-feature.module'
 import { BtnFullscreenComponent } from './btn-fullscreen/btn-fullscreen.component'
 import { BtnFullscreenModule } from './btn-fullscreen/btn-fullscreen.module'
-import { BtnGoalsComponent } from './btn-goals/btn-goals.component'
-import { BtnGoalsModule } from './btn-goals/btn-goals.module'
-import { BtnMailUserComponent } from './btn-mail-user/btn-mail-user.component'
-import { BtnMailUserModule } from './btn-mail-user/btn-mail-user.module'
+// import { BtnGoalsComponent } from './btn-goals/btn-goals.component'
+// import { BtnGoalsModule } from './btn-goals/btn-goals.module'
+// import { BtnMailUserComponent } from './btn-mail-user/btn-mail-user.component'
+// import { BtnMailUserModule } from './btn-mail-user/btn-mail-user.module'
 import { BtnPageBackComponent } from './btn-page-back/btn-page-back.component'
 import { BtnPageBackModule } from './btn-page-back/btn-page-back.module'
-import { BtnPlaylistComponent } from './btn-playlist/btn-playlist.component'
-import { BtnPlaylistModule } from './btn-playlist/btn-playlist.module'
-import { BtnPreviewComponent } from './btn-preview/btn-preview.component'
-import { BtnPreviewModule } from './btn-preview/btn-preview.module'
+//import { BtnPlaylistComponent } from './btn-playlist/btn-playlist.component'
+//import { BtnPlaylistModule } from './btn-playlist/btn-playlist.module'
+// import { BtnPreviewComponent } from './btn-preview/btn-preview.component'
+// import { BtnPreviewModule } from './btn-preview/btn-preview.module'
 import { BtnProfileComponent } from './btn-profile/btn-profile.component'
 import { BtnProfileModule } from './btn-profile/btn-profile.module'
 import { BtnSettingsComponent } from './btn-settings/btn-settings.component'
 import { BtnSettingsModule } from './btn-settings/btn-settings.module'
-import { CardBreadcrumbComponent } from './card-breadcrumb/card-breadcrumb.component'
-import { CardBreadcrumbModule } from './card-breadcrumb/card-breadcrumb.module'
-import { CardChannelComponent } from './card-channel/card-channel.component'
-import { CardChannelModule } from './card-channel/card-channel.module'
+// import { CardBreadcrumbComponent } from './card-breadcrumb/card-breadcrumb.component'
+// import { CardBreadcrumbModule } from './card-breadcrumb/card-breadcrumb.module'
+// import { CardChannelComponent } from './card-channel/card-channel.component'
+// import { CardChannelModule } from './card-channel/card-channel.module'
 import { CardContentComponent } from './card-content/card-content.component'
 import { CardContentModule } from './card-content/card-content.module'
-import { CardWelcomeComponent } from './card-welcome/card-welcome.component'
-import { CardWelcomeModule } from './card-welcome/card-welcome.module'
-import { ChannelHubComponent } from './channel-hub/channel-hub.component'
-import { ChannelHubModule } from './channel-hub/channel-hub.module'
+// import { CardWelcomeComponent } from './card-welcome/card-welcome.component'
+// import { CardWelcomeModule } from './card-welcome/card-welcome.module'
+// import { ChannelHubComponent } from './channel-hub/channel-hub.component'
+// import { ChannelHubModule } from './channel-hub/channel-hub.module'
 import { ROOT_WIDGET_CONFIG } from './collection.config'
 import { ContentStripMultipleComponent } from './content-strip-multiple/content-strip-multiple.component'
 import { ContentStripMultipleModule } from './content-strip-multiple/content-strip-multiple.module'
@@ -62,8 +62,8 @@ import { ErrorResolverComponent } from './error-resolver/error-resolver.componen
 import { ErrorResolverModule } from './error-resolver/error-resolver.module'
 import { GalleryViewComponent } from './gallery-view/gallery-view.component'
 import { GalleryViewModule } from './gallery-view/gallery-view.module'
-import { GraphGeneralComponent } from './graph-general/graph-general.component'
-import { GraphGeneralModule } from './graph-general/graph-general.module'
+// import { GraphGeneralComponent } from './graph-general/graph-general.component'
+// import { GraphGeneralModule } from './graph-general/graph-general.module'
 import { GridLayoutComponent } from './grid-layout/grid-layout.component'
 import { GridLayoutModule } from './grid-layout/grid-layout.module'
 import { ImageMapResponsiveComponent } from './image-map-responsive/image-map-responsive.component'
@@ -108,30 +108,30 @@ import { VideoWrapperModule } from './video-wrapper/video-wrapper.module'
 
 export const WIDGET_REGISTERED_MODULES = [
   BtnAppsModule,
-  BtnCallModule,
-  BtnCatalogModule,
-  BtnChannelAnalyticsModule,
-  BtnContentDownloadModule,
-  BtnContentFeedbackModule,
-  BtnContentLikeModule,
-  BtnContentMailMeModule,
+  // BtnCallModule,
+  // BtnCatalogModule,
+  // BtnChannelAnalyticsModule,
+  // BtnContentDownloadModule,
+  // BtnContentFeedbackModule,
+  // BtnContentLikeModule,
+  // BtnContentMailMeModule,
   BtnContentShareModule,
   BtnFullscreenModule,
-  BtnGoalsModule,
-  BtnMailUserModule,
+  // BtnGoalsModule,
+  // BtnMailUserModule,
   BtnPageBackModule,
-  BtnPlaylistModule,
-  BtnPreviewModule,
+  //BtnPlaylistModule,
+  //BtnPreviewModule,
   BtnProfileModule,
   BtnSettingsModule,
-  CardBreadcrumbModule,
+  //CardBreadcrumbModule,
   CardContentModule,
-  CardChannelModule,
-  CardWelcomeModule,
-  ChannelHubModule,
+  // CardChannelModule,
+  // CardWelcomeModule,
+  // ChannelHubModule,
   ContentStripMultipleModule,
   ContentStripSingleModule,
-  GraphGeneralModule,
+  // GraphGeneralModule,
   LayoutLinearModule,
   LayoutTabModule,
   PickerContentModule,
@@ -167,41 +167,41 @@ export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] 
     widgetSubType: ROOT_WIDGET_CONFIG.actionButton.apps,
     component: BtnAppsComponent,
   },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.call,
-    component: BtnCallComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.catalog,
-    component: BtnCatalogComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.channelAnalytics,
-    component: BtnChannelAnalyticsComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentDownload,
-    component: BtnContentDownloadComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentFeedback,
-    component: BtnContentFeedbackComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentLike,
-    component: BtnContentLikeComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentMailMe,
-    component: BtnContentMailMeComponent,
-  },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.call,
+  //   component: BtnCallComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.catalog,
+  //   component: BtnCatalogComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.channelAnalytics,
+  //   component: BtnChannelAnalyticsComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentDownload,
+  //   component: BtnContentDownloadComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentFeedback,
+  //   component: BtnContentFeedbackComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentLike,
+  //   component: BtnContentLikeComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentMailMe,
+  //   component: BtnContentMailMeComponent,
+  // },
   {
     widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
     widgetSubType: ROOT_WIDGET_CONFIG.actionButton.contentShare,
@@ -212,31 +212,31 @@ export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] 
     widgetSubType: ROOT_WIDGET_CONFIG.actionButton.fullscreen,
     component: BtnFullscreenComponent,
   },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.goals,
-    component: BtnGoalsComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.mailUser,
-    component: BtnMailUserComponent,
-  },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.goals,
+  //   component: BtnGoalsComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.mailUser,
+  //   component: BtnMailUserComponent,
+  // },
   {
     widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
     widgetSubType: ROOT_WIDGET_CONFIG.actionButton.pageBack,
     component: BtnPageBackComponent,
   },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.playlist,
-    component: BtnPlaylistComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.actionButton.preview,
-    component: BtnPreviewComponent,
-  },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.playlist,
+  //   component: BtnPlaylistComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.actionButton.preview,
+  //   component: BtnPreviewComponent,
+  // },
   {
     widgetType: ROOT_WIDGET_CONFIG.actionButton._type,
     widgetSubType: ROOT_WIDGET_CONFIG.actionButton.newProfile,
@@ -248,31 +248,31 @@ export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] 
     component: BtnSettingsComponent,
   },
 
-  {
-    widgetType: ROOT_WIDGET_CONFIG.card._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.card.breadcrumb,
-    component: CardBreadcrumbComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.card._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.card.channel,
-    component: CardChannelComponent,
-  },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.card._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.card.breadcrumb,
+  //   component: CardBreadcrumbComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.card._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.card.channel,
+  //   component: CardChannelComponent,
+  // },
   {
     widgetType: ROOT_WIDGET_CONFIG.card._type,
     widgetSubType: ROOT_WIDGET_CONFIG.card.content,
     component: CardContentComponent,
   },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.card._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.card.welcome,
-    component: CardWelcomeComponent,
-  },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.channelHub._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.channelHub.channelHub,
-    component: ChannelHubComponent,
-  },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.card._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.card.welcome,
+  //   component: CardWelcomeComponent,
+  // },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.channelHub._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.channelHub.channelHub,
+  //   component: ChannelHubComponent,
+  // },
   {
     widgetType: ROOT_WIDGET_CONFIG.contentStrip._type,
     widgetSubType: ROOT_WIDGET_CONFIG.contentStrip.multiStrip,
@@ -283,11 +283,11 @@ export const WIDGET_REGISTRATION_CONFIG: NsWidgetResolver.IRegistrationConfig[] 
     widgetSubType: ROOT_WIDGET_CONFIG.contentStrip.singleStrip,
     component: ContentStripSingleComponent,
   },
-  {
-    widgetType: ROOT_WIDGET_CONFIG.graph._type,
-    widgetSubType: ROOT_WIDGET_CONFIG.graph.graphGeneral,
-    component: GraphGeneralComponent,
-  },
+  // {
+  //   widgetType: ROOT_WIDGET_CONFIG.graph._type,
+  //   widgetSubType: ROOT_WIDGET_CONFIG.graph.graphGeneral,
+  //   component: GraphGeneralComponent,
+  // },
   {
     widgetType: ROOT_WIDGET_CONFIG.layout._type,
     widgetSubType: ROOT_WIDGET_CONFIG.layout.linear,

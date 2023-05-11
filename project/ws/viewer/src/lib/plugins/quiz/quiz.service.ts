@@ -2,7 +2,10 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { NSQuiz } from './quiz.model'
 import { BehaviorSubject, Observable } from 'rxjs'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import filter from 'lodash/filter'
+import toLower from 'lodash/toLower'
+
 const API_END_POINTS = {
   // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
   ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/assessment/submit/v2`,
@@ -29,7 +32,7 @@ export class QuizService {
   competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
     let url = ''
     if (window.location.origin.indexOf('http://localhost:') === -1) {
-      url = `${window["env"]["azureHost"]}/${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
+      url = `${window['env']['azureHost']}/${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     } else {
       url = `${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     }
@@ -90,19 +93,19 @@ export class QuizService {
       if (option.isCorrect) {
         userSelectedAnswer['answer'] = option.text
       }
-      if (questionAnswerHash[_.get(userSelectedAnswer, 'questionId')]) {
+      if (questionAnswerHash[get(userSelectedAnswer, 'questionId')]) {
         option.userSelected = questionAnswerHash[userSelectedAnswer.questionId].includes(option.optionId)
       } else {
         option.userSelected = false
       }
     })
-    if (_.filter(userSelectedAnswer.options, 'isCorrect')[0].userSelected) {
+    if (filter(userSelectedAnswer.options, 'isCorrect')[0].userSelected) {
       userSelectedAnswer['isCorrect'] = true
     }
     userSelectedAnswer['isExplanation'] = false
     if (quiz.questions[questionAnswerHash['qslideIndex']].
       questionType === 'fitb') {
-      if (_.toLower(_.filter(userSelectedAnswer.options, 'text')[0].text) === questionAnswerHash[userSelectedAnswer.questionId][0]) {
+      if (toLower(filter(userSelectedAnswer.options, 'text')[0].text) === questionAnswerHash[userSelectedAnswer.questionId][0]) {
         userSelectedAnswer['isCorrect'] = true
       } else {
         userSelectedAnswer['isCorrect'] = false

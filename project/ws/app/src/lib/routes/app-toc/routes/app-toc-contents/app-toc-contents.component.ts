@@ -8,7 +8,7 @@ import { AppTocService } from '../../services/app-toc.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { takeUntil } from 'rxjs/operators'
-import * as _ from 'lodash'
+import get from 'lodash/get'
 @Component({
   selector: 'ws-app-app-toc-contents',
   templateUrl: './app-toc-contents.component.html',
@@ -71,7 +71,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     }
 
     this.tocSvc.showComponent$.pipe(takeUntil(this.unsubscribe)).subscribe(item => {
-      if (item && !_.get(item, 'showComponent')) {
+      if (item && !get(item, 'showComponent')) {
         this.loadContent = item.showComponent
       } else {
         this.loadContent = true
@@ -114,8 +114,8 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       this.content.children.map((child1: any, index: any, element: any) => {
         if (child1['children']) {
           child1['children'].map((child2: any, cindex: any) => {
-            if (_.get(child2, 'completionPercentage') === 100) {
-              if (child1['children'][cindex + 1] && _.get(child1['children'][cindex + 1], 'completionPercentage') !== 100) {
+            if (get(child2, 'completionPercentage') === 100) {
+              if (child1['children'][cindex + 1] && get(child1['children'][cindex + 1], 'completionPercentage') !== 100) {
                 child1['children'][cindex + 1].hideLocIcon = true
               }
             } else {
@@ -132,8 +132,8 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
           })
         } else {
           /* condition for when don't have children */
-          if (_.get(element[index], 'completionPercentage') === 100) {
-            if (element[index + 1] && _.get(element[index + 1], 'completionPercentage') !== 100) {
+          if (get(element[index], 'completionPercentage') === 100) {
+            if (element[index + 1] && get(element[index + 1], 'completionPercentage') !== 100) {
               element[index + 1].hideLocIcon = true
             }
           }

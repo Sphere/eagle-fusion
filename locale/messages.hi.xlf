@@ -43,7 +43,7 @@
       </trans-unit>
       <trans-unit id="0a18ef68c19a041036207144036ce5ed96d25b68" datatype="html">
         <source>Profile Photo</source>
-        <target state="final">Test6</target>
+        <target state="final">खाते की फोटो</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">32</context>
@@ -51,7 +51,7 @@
       </trans-unit>
       <trans-unit id="e329f67417e3574eda9988c92b15c0e29df1dd1b" datatype="html">
         <source>close</source>
-        <target state="final">Test7</target>
+        <target state="final">बंद करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">33</context>
@@ -59,7 +59,7 @@
       </trans-unit>
       <trans-unit id="0246654466a4aa5f3febab8d60a1338c42a3e2f3" datatype="html">
         <source>Rotate Left</source>
-        <target state="final">Test8</target>
+        <target state="final">बायीं तरफ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">89</context>
@@ -67,7 +67,7 @@
       </trans-unit>
       <trans-unit id="023ce8a4afa1749027a312da88ab1fa87eb02197" datatype="html">
         <source>Rotate Right</source>
-        <target state="final">Test9</target>
+        <target state="final">दाएं घुमाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">93</context>
@@ -75,7 +75,7 @@
       </trans-unit>
       <trans-unit id="37bf4aa1495da9119cb714ae1de31b4602ada15b" datatype="html">
         <source>Flip Horizontal</source>
-        <target state="final">Test10</target>
+        <target state="final">फ्लिप हॉरिजॉन्टल</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">97</context>
@@ -83,7 +83,7 @@
       </trans-unit>
       <trans-unit id="fda2eb55c83dad879c0def23ee190af503501dbe" datatype="html">
         <source>Edit Image</source>
-        <target state="final">Test11</target>
+        <target state="final">संपादित छवि</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">68</context>
@@ -92,7 +92,7 @@
       <trans-unit id="c3b6f7de44d81c437034d080ad21abc8bab6ad6c" datatype="html">
         <source>
         close</source>
-        <target state="final">Test7</target>
+        <target state="final">बंद करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">69</context>
@@ -100,7 +100,7 @@
       </trans-unit>
       <trans-unit id="e76cd6dbaa898f85934f363fef654b29e44d004b" datatype="html">
         <source>Zoom</source>
-        <target state="final">Test13</target>
+        <target state="final">ज़ूम</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">81</context>
@@ -116,7 +116,7 @@
       </trans-unit>
       <trans-unit id="2c26252fe766b14daa607345fdd6f3ea0a7de517" datatype="html">
         <source>Cropped Width: </source>
-        <target state="final">Test15</target>
+        <target state="final">कटी हुई चौड़ाई</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">119</context>
@@ -124,7 +124,7 @@
       </trans-unit>
       <trans-unit id="470dedbfdc7b84baeec2ed8a0480250b07544346" datatype="html">
         <source>px</source>
-        <target state="final">Test16</target>
+        <target state="final">पिक्सल</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">129</context>
@@ -132,7 +132,7 @@
       </trans-unit>
       <trans-unit id="31c37a7589f95d5104e8e668a94dfc947e362e11" datatype="html">
         <source>Cropped Height: </source>
-        <target state="final">Test17</target>
+        <target state="final">कटी हुई ऊँचाई</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/components/image-crop/image-crop.component.html</context>
           <context context-type="linenumber">127</context>
@@ -140,7 +140,7 @@
       </trans-unit>
       <trans-unit id="c2d0ac9f528bbd5f53fd34269fde8b59e029621b" datatype="html">
         <source>Apply</source>
-        <target state="final">Test18</target>
+        <target state="final">आवेदन करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/feedback-v2/routes/my-feedback/components/feedback-filter-dialog/feedback-filter-dialog.component.html</context>
           <context context-type="linenumber">70</context>
@@ -148,7 +148,7 @@
       </trans-unit>
       <trans-unit id="680d5c75b7fd8d37961083608b9fcdc4167b4c43" datatype="html">
         <source>Previous</source>
-        <target state="final">Test19</target>
+        <target state="final">पहले का</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/editor/routing/modules/web-page/components/web-module-editor/web-module-editor.component.html</context>
           <context context-type="linenumber">205</context>
@@ -200,7 +200,7 @@
       <trans-unit id="d4b41ba881db70404db0b640a93b4883e209e5c2" datatype="html">
         <source>
         Error as Invalid Registration for Widget</source>
-        <target state="final">Test25</target>
+        <target state="final">विजेट के लिए अमान्य पंजीकरण के रूप में त्रुटि</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/resolver/src/lib/invalid-registration/invalid-registration.component.html</context>
           <context context-type="linenumber">7</context>
@@ -2162,7 +2162,7 @@
       <trans-unit id="a6e52d6cfcfa9ff3cd10225dddfaadbcdd3aa1e2" datatype="html">
         <source>
       We are facing some technical difficulties. The experts are on it.</source>
-        <target state="final">Test259</target>
+        <target state="final">हमें कुछ तकनीकी दिक्कतों का सामना करना पड़ रहा है। विशेषज्ञ इस पर हैं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-content-unavailable/error-content-unavailable.component.html</context>
           <context context-type="linenumber">11</context>
@@ -2170,7 +2170,7 @@
       </trans-unit>
       <trans-unit id="3e45aea38b8eb81bf1abf21696ce6e9bdd3641e6" datatype="html">
         <source>Empty the cache and reload the page.</source>
-        <target state="final">Test260</target>
+        <target state="final">कैश खाली करें और पृष्ठ को पुनः लोड करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-something-wrong/error-something-wrong.component.html</context>
           <context context-type="linenumber">17</context>
@@ -2222,7 +2222,7 @@
       </trans-unit>
       <trans-unit id="2ba32ea7eb7295e217c19e0aa91737ddd3ec95cc" datatype="html">
         <source>Uh Oh!</source>
-        <target state="final">Test266</target>
+        <target state="final">उह ओह!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-internal-server/error-internal-server.component.html</context>
           <context context-type="linenumber">9</context>
@@ -2231,7 +2231,7 @@
       <trans-unit id="b355ad9814e43cbf8f2ec65d2b4c40566324169c" datatype="html">
         <source>
       We ran into some issues</source>
-        <target state="final">Test267</target>
+        <target state="final">हमें कुछ समस्याएँ हुईं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/error-resolver/components/error-internal-server/error-internal-server.component.html</context>
           <context context-type="linenumber">10</context>
@@ -2332,7 +2332,7 @@
       <trans-unit id="532c1d8cc5d7e1ba0daa0c25095e5150689e6671" datatype="html">
         <source>
     Check your network connection and reload the page.</source>
-        <target state="final">Test279</target>
+        <target state="final">अपने नेटवर्क कनेक्शन की जाँच करें और पृष्ठ को पुनः लोड करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/page/page.component.html</context>
           <context context-type="linenumber">42</context>

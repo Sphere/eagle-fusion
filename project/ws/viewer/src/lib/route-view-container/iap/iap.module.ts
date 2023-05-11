@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common'
 import { IapComponent } from './iap.component'
 import { IapRoutingModule } from './iap-routing.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { IapModule as IapPluginModule } from '../../plugins/iap/iap.module'
+// import { IapModule as IapPluginModule } from '../../plugins/iap/iap.module'
 
 import {
   MatCardModule,
@@ -15,17 +15,17 @@ import {
 } from '@angular/material'
 
 import {
-  BtnContentDownloadModule,
-  BtnContentFeedbackModule,
-  BtnContentLikeModule,
+  // BtnContentDownloadModule,
+  // BtnContentFeedbackModule,
+  // BtnContentLikeModule,
   BtnContentShareModule,
-  BtnGoalsModule,
-  BtnPlaylistModule,
+  //BtnGoalsModule,
+  //BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  UserContentRatingModule,
-  BtnContentFeedbackV2Module,
-  PlayerBriefModule,
+  //UserContentRatingModule,
+  //BtnContentFeedbackV2Module,
+  //PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -37,18 +37,18 @@ import {
   declarations: [IapComponent],
   imports: [
     CommonModule,
-    IapPluginModule,
+    // IapPluginModule,
     IapRoutingModule,
     WidgetResolverModule,
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,
-    BtnContentDownloadModule,
-    BtnContentFeedbackModule,
-    BtnContentLikeModule,
+    // BtnContentDownloadModule,
+    // BtnContentFeedbackModule,
+    // BtnContentLikeModule,
     BtnContentShareModule,
-    BtnGoalsModule,
-    BtnPlaylistModule,
+    //BtnGoalsModule,
+    //BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     MatCardModule,
@@ -57,9 +57,9 @@ import {
     MatSnackBarModule,
     MatIconModule,
     MatChipsModule,
-    UserContentRatingModule,
-    BtnContentFeedbackV2Module,
-    PlayerBriefModule,
+    //UserContentRatingModule,
+    //BtnContentFeedbackV2Module,
+    //PlayerBriefModule,
   ],
   exports: [IapComponent],
 })

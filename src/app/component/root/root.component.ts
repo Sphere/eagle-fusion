@@ -35,7 +35,7 @@ import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import * as _ from 'lodash'
+import split from 'lodash/split'
 import { Plugins } from '@capacitor/core'
 import { v4 as uuid } from 'uuid'
 const { App } = Plugins
@@ -202,7 +202,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = true
           // this.showNavigation = true
           this.isLoggedIn = true
-          localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
+          localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
             }` + `/overview`)
           sessionStorage.setItem('login-btn', 'clicked')
           setTimeout(() => {
@@ -380,7 +380,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
       }, 300)
       // window.fcWidget.show()
-      //this.isCommonChatEnabled = false
+      // this.isCommonChatEnabled = false
       const script = this._renderer2.createElement('script')
       script.src = '//in.fw-cdn.com/30492305/271953.js'
       this._renderer2.appendChild(this._document.body, script)

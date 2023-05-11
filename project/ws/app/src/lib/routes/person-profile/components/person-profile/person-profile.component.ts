@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { BtnFollowService } from '@ws-widget/collection/src/public-api'
+//import { BtnFollowService } from '@ws-widget/collection/src/public-api'
 import { PersonProfileService } from '../../services/person-profile.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, ValueService, TFetchStatus } from '@ws-widget/utils/src/public-api'
@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material'
 export class PersonProfileComponent implements OnInit {
 
   constructor(
-    private followSvc: BtnFollowService,
+    //private followSvc: BtnFollowService,
     private personprofileSvc: PersonProfileService,
     // private fetchUser: UserAutocompleteService,
     private route: ActivatedRoute,
@@ -101,38 +101,38 @@ export class PersonProfileComponent implements OnInit {
     })
   }
 
-  follow() {
-    this.statusFollowed = 'PENDING'
-    this.followSvc.follow(this.targetId, 'person').subscribe(
-      () => {
-        this.statusFollowed = 'FOLLOWED'
-        this.isFollow = false
-        this.personprofileSvc.isfollowevent.emit(true)
-        this.followersCount = this.followersCount + 1
-      },
-      () => {
-        this.statusFollowed = 'NOT_FOLLOWED'
-        this.isFollow = true
-      },
-    )
-  }
-  unfollowFn() {
-    this.statusFollowed = 'PENDING'
-    this.followSvc.unfollow(this.targetId, 'person').subscribe(
-      () => {
-        this.statusFollowed = 'NOT_FOLLOWED'
-        this.followersCount = this.followersCount - 1
-        this.personprofileSvc.isfollowevent.emit(true)
-        // this.isFollow = true
+  // follow() {
+  //   this.statusFollowed = 'PENDING'
+  //   this.followSvc.follow(this.targetId, 'person').subscribe(
+  //     () => {
+  //       this.statusFollowed = 'FOLLOWED'
+  //       this.isFollow = false
+  //       this.personprofileSvc.isfollowevent.emit(true)
+  //       this.followersCount = this.followersCount + 1
+  //     },
+  //     () => {
+  //       this.statusFollowed = 'NOT_FOLLOWED'
+  //       this.isFollow = true
+  //     },
+  //   )
+  // }
+  // unfollowFn() {
+  //   this.statusFollowed = 'PENDING'
+  //   this.followSvc.unfollow(this.targetId, 'person').subscribe(
+  //     () => {
+  //       this.statusFollowed = 'NOT_FOLLOWED'
+  //       this.followersCount = this.followersCount - 1
+  //       this.personprofileSvc.isfollowevent.emit(true)
+  //       // this.isFollow = true
 
-      },
-      () => {
-        this.statusFollowed = 'FOLLOWED'
-        // this.isFollow = false
-      },
-    )
+  //     },
+  //     () => {
+  //       this.statusFollowed = 'FOLLOWED'
+  //       // this.isFollow = false
+  //     },
+  //   )
 
-  }
+  // }
   fetchUserDetails(wid: string) {
     this.followingCount = 0
     this.isFollowButtonEnabled = true

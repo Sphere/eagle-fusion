@@ -5,9 +5,9 @@ import { ActivatedRoute, Data, Router } from '@angular/router'
 import { NsContent } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { Observable, Subscription } from 'rxjs'
-import { retry } from 'rxjs/operators'
-import { TrainingApiService } from '../../../infy/routes/training/apis/training-api.service'
-import { TrainingService } from '../../../infy/routes/training/services/training.service'
+// import { retry } from 'rxjs/operators'
+// import { TrainingApiService } from '../../../infy/routes/training/apis/training-api.service'
+// import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 
@@ -35,8 +35,8 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private tocSharedSvc: AppTocService,
     private configSvc: ConfigurationsService,
-    private trainingApi: TrainingApiService,
-    private trainingSvc: TrainingService,
+    // private trainingApi: TrainingApiService,
+    // private trainingSvc: TrainingService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
     private router: Router,
@@ -154,12 +154,12 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     if (
       this.trainingLHubEnabled &&
       this.content &&
-      this.trainingSvc.isValidTrainingContent(this.content) &&
+      // this.trainingSvc.isValidTrainingContent(this.content) &&
       !this.forPreview
     ) {
-      this.trainingLHubCount$ = this.trainingApi
-        .getTrainingCount(this.content.identifier)
-        .pipe(retry(2))
+      // this.trainingLHubCount$ = this.trainingApi
+      //   .getTrainingCount(this.content.identifier)
+      //   .pipe(retry(2))
     }
   }
   goToProfile(id: string) {

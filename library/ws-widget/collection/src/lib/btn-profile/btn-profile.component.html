@@ -42,7 +42,7 @@
   </section>
 
   <section class="padding-s border-bottom">
-    <a role="link" routerLink="/app/profile-view" class="all-features" id="viewprofile">
+    <a role="link" (click)="redirect()" class="all-features cursor-pointer" id="viewprofile">
       <div class="float-left">
         <!-- <mat-icon>account_circle</mat-icon> -->
         <ws-widget-avatar-photo [name]="givenName" [size]="'m'" [photoUrl]="profileImage"></ws-widget-avatar-photo>
@@ -59,8 +59,9 @@
     class="padding-top-xs padding-bottom-xs padding-left-s padding-right-s border-bottom">
     <div *ngFor="let wdata of portalLinks">
       <div class="box-sizing-box" id="portal-list-dropdown">
-        <a class="inline-block" target="_blank" href="{{wdata.widgetData.actionBtn.url}}">
-          <img src="{{wdata.widgetData.actionBtn.icon}}" alt="wdata.widgetData.actionBtn.name">
+        <a class="inline-block" target="_blank" id="portal-{{wdata.widgetData.actionBtn.name}}"
+          href="{{wdata.widgetData.actionBtn.url}}">
+          <img loading="lazy" src="{{wdata.widgetData.actionBtn.icon}}" alt="wdata.widgetData.actionBtn.name">
           <div class="mat-body-2 inline-block margin-left-s" [attr.id]="wdata.widgetData.actionBtn.icon">{{
             wdata.widgetData.actionBtn.name }}
             <span *ngIf="wdata.widgetData.actionBtn.name !== 'Frac'">Portal</span>

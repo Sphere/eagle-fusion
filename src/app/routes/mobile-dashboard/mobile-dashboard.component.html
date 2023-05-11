@@ -8,7 +8,8 @@
   <div class="flex gap-2">
     <h3 class="mb-2"><span i18n>Language for Learning </span>: <span
         class="display-language">{{preferedLanguage.lang}}</span></h3>
-    <img src="/fusion-assets/icons/lang-icon.png" class="lang-img cursor-pointer" (click)="changeLanguage()" />
+    <img alt="logo" src="/fusion-assets/icons/lang-icon.png" class="lang-img cursor-pointer"
+      (click)="changeLanguage()" />
   </div>
   <!-- <span class="language-text">English <mat-icon>close</mat-icon></span>
   <span class="language-text">हिन्दी <mat-icon>close</mat-icon></span> -->
@@ -22,7 +23,7 @@
     <ng-container>
       <p class="text-2xl" i18n>How does it work?</p>
       <p class="font-normal text-sm grey-color" i18n>3 simple steps</p>
-      <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+      <!-- <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work> -->
     </ng-container>
   </section>
 
@@ -47,16 +48,16 @@
 </div>
 
 <!-- Featured Section-->
-<section class="p-4" style="background-color: #F7F7F7;">
+<section *ngIf="featuredCourse.length > 0" class="p-4" style="background-color: #F7F7F7;">
   <p class="text-2xl" i18n>Featured</p>
-  <ng-container *ngIf="featuredCourse" style="background-color: #FFF;">
+  <ng-container style="background-color: #FFF;">
     <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
   </ng-container>
 
 </section>
 
 <!-- People follow Section -->
-<section class="p-4" [hidden]=true>
+<!-- <section class="p-4" [hidden]=true>
   <p class="text-2xl" i18n>People you may want to follow</p>
   <p i18n>because you saw Manyata for Mothers</p>
   <div class="horizontal-scroll-content">
@@ -72,7 +73,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <div class="py-1 px-4 mb-6">
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">

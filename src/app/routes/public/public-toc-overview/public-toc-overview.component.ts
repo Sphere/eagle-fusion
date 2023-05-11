@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, Input } from '@angular/core'
 
 import { Subject } from 'rxjs'
 
-import * as _ from 'lodash'
+// import * as _ from 'lodash'
 // import { takeUntil } from 'rxjs/operators'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'

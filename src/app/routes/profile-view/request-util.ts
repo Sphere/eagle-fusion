@@ -1,4 +1,6 @@
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import find from 'lodash/find'
+
 // import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any) => {
   const userid = userProfileData.userId || userProfileData.id || ''
@@ -6,53 +8,53 @@ export const constructReq = (form: any, userProfileData: any) => {
     id: userid,
     userId: userid,
     personalDetails: {
-      firstname: _.get(form, 'firstname') ? form.firstname : userProfileData.personalDetails.firstname,
-      middlename: _.get(form, 'middlename') ? form.middlename : userProfileData.personalDetails.middlename,
-      surname: _.get(form, 'surname') ? form.surname : userProfileData.personalDetails.surname,
-      about: _.get(form, 'about') ? form.about : userProfileData.personalDetails.about,
-      photo: _.get(form, 'photo') !== 'NaN - NaN - NaN' ? form.photo : userProfileData.personalDetails.photo,
-      dob: _.get(form, 'dob') ? form.dob : userProfileData.personalDetails.dob,
-      nationality: _.get(form, 'nationality') ? form.nationality : userProfileData.personalDetails.nationality,
-      domicileMedium: _.get(form, 'domicileMedium') ? form.domicileMedium : userProfileData.personalDetails.domicileMedium,
-      regNurseRegMidwifeNumber: _.get(form, 'regNurseRegMidwifeNumber') ? form.regNurseRegMidwifeNumber :
+      firstname: get(form, 'firstname') ? form.firstname : userProfileData.personalDetails.firstname,
+      middlename: get(form, 'middlename') ? form.middlename : userProfileData.personalDetails.middlename,
+      surname: get(form, 'surname') ? form.surname : userProfileData.personalDetails.surname,
+      about: get(form, 'about') ? form.about : userProfileData.personalDetails.about,
+      photo: get(form, 'photo') !== 'NaN - NaN - NaN' ? form.photo : userProfileData.personalDetails.photo,
+      dob: get(form, 'dob') ? form.dob : userProfileData.personalDetails.dob,
+      nationality: get(form, 'nationality') ? form.nationality : userProfileData.personalDetails.nationality,
+      domicileMedium: get(form, 'domicileMedium') ? form.domicileMedium : userProfileData.personalDetails.domicileMedium,
+      regNurseRegMidwifeNumber: get(form, 'regNurseRegMidwifeNumber') ? form.regNurseRegMidwifeNumber :
         userProfileData.personalDetails.regNurseRegMidwifeNumber,
       nationalUniqueId: userProfileData.nationalUniqueId,
       doctorRegNumber: userProfileData.doctorRegNumber,
       instituteName: userProfileData.instituteName,
       nursingCouncil: userProfileData.nursingCouncil,
-      gender: _.get(form, 'gender') ? form.gender : userProfileData.personalDetails.gender,
-      maritalStatus: _.get(form, 'maritalStatus') ? form.maritalStatus : userProfileData.personalDetails.maritalStatus,
+      gender: get(form, 'gender') ? form.gender : userProfileData.personalDetails.gender,
+      maritalStatus: get(form, 'maritalStatus') ? form.maritalStatus : userProfileData.personalDetails.maritalStatus,
       category: userProfileData.category,
-      knownLanguages: _.get(form, 'knownLanguages') ? form.knownLanguages : userProfileData.personalDetails.knownLanguages,
+      knownLanguages: get(form, 'knownLanguages') ? form.knownLanguages : userProfileData.personalDetails.knownLanguages,
       countryCode: userProfileData.countryCode,
-      mobile: _.get(form, 'mobile') ? form.mobile : userProfileData.personalDetails.mobile,
+      mobile: get(form, 'mobile') ? form.mobile : userProfileData.personalDetails.mobile,
       telephone: userProfileData.personalDetails.telephone,
       primaryEmail: userProfileData.personalDetails.primaryEmail,
       officialEmail: '',
       personalEmail: '',
-      postalAddress: _.get(form, 'postalAddress') ? form.postalAddress : userProfileData.personalDetails.postalAddress,
-      pincode: _.get(form, 'pincode') ? form.pincode : userProfileData.personalDetails.pincode,
+      postalAddress: get(form, 'postalAddress') ? form.postalAddress : userProfileData.personalDetails.postalAddress,
+      pincode: get(form, 'pincode') ? form.pincode : userProfileData.personalDetails.pincode,
     },
-    academics: _.get(form.value, 'courseDegree') ? populateAcademics(form.value, userProfileData) : populateAcademics(userProfileData),
+    academics: get(form.value, 'courseDegree') ? populateAcademics(form.value, userProfileData) : populateAcademics(userProfileData),
     employmentDetails: {
-      service: _.get(userProfileData, 'employmentDetails.service') || '',
-      cadre: _.get(userProfileData, 'employmentDetails.cadre') || '',
-      allotmentYearOfService: checkvalue(_.get(userProfileData, 'employmentDetails.allotmentYearOfService') || ''),
-      dojOfService: getDateFromText(_.get(userProfileData, 'employmentDetails.dojOfService') || ''),
-      payType: _.get(userProfileData, 'employmentDetails.payType') || '',
-      civilListNo: _.get(userProfileData, 'employmentDetails.civilListNo') || '',
-      employeeCode: checkvalue(_.get(userProfileData, 'employmentDetails.employeeCode') || ''),
-      officialPostalAddress: checkvalue(_.get(userProfileData, 'employmentDetails.officialPostalAddress') || ''),
-      pinCode: checkvalue(_.get(userProfileData, 'employmentDetails.pinCode') || ''),
+      service: get(userProfileData, 'employmentDetails.service') || '',
+      cadre: get(userProfileData, 'employmentDetails.cadre') || '',
+      allotmentYearOfService: checkvalue(get(userProfileData, 'employmentDetails.allotmentYearOfService') || ''),
+      dojOfService: getDateFromText(get(userProfileData, 'employmentDetails.dojOfService') || ''),
+      payType: get(userProfileData, 'employmentDetails.payType') || '',
+      civilListNo: get(userProfileData, 'employmentDetails.civilListNo') || '',
+      employeeCode: checkvalue(get(userProfileData, 'employmentDetails.employeeCode') || ''),
+      officialPostalAddress: checkvalue(get(userProfileData, 'employmentDetails.officialPostalAddress') || ''),
+      pinCode: checkvalue(get(userProfileData, 'employmentDetails.pinCode') || ''),
     },
     professionalDetails: [...getOrganisationsHistory(form, userProfileData)],
     skills: {
-      additionalSkills: _.get(userProfileData, 'skills.additionalSkills') || '',
-      certificateDetails: _.get(userProfileData, 'skills.certificateDetails') || '',
+      additionalSkills: get(userProfileData, 'skills.additionalSkills') || '',
+      certificateDetails: get(userProfileData, 'skills.certificateDetails') || '',
     },
     interests: {
-      professional: _.get(userProfileData, 'interests.professional') || '',
-      hobbies: _.get(userProfileData, 'interests.hobbies') || '',
+      professional: get(userProfileData, 'interests.professional') || '',
+      hobbies: get(userProfileData, 'interests.hobbies') || '',
     },
   }
   return { profileReq }
@@ -115,80 +117,79 @@ export const populateAcademics = (data?: any, userProfileData?: any) => {
 }
 
 export const getClass10 = (data: any, userProfileData?: any) => {
-  const class10 = _.find(userProfileData.academics, { type: 'X_STANDARD' })
+  const class10 = find(userProfileData.academics, { type: 'X_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'X_STANDARD',
     nameOfInstitute: data.courseDegree.type === 'X_STANDARD' ?
-      data.institutionName : _.get(class10, 'nameOfInstitute') ? _.get(class10, 'nameOfInstitute') : '',
+      data.institutionName : get(class10, 'nameOfInstitute') ? get(class10, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'X_STANDARD' ? `${data.yearPassing
-      }` : _.get(class10, 'yearOfPassing') ? _.get(class10, 'yearOfPassing') : '',
+      }` : get(class10, 'yearOfPassing') ? get(class10, 'yearOfPassing') : '',
   })
 }
 
 export const getClass12 = (data: any, userProfileData?: any) => {
-  const class12 = _.find(userProfileData.academics, { type: 'XII_STANDARD' })
+  const class12 = find(userProfileData.academics, { type: 'XII_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'XII_STANDARD',
     nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName :
-      _.get(class12, 'nameOfInstitute') ? _.get(class12, 'nameOfInstitute') : '',
+      get(class12, 'nameOfInstitute') ? get(class12, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
-      }` : _.get(class12, 'yearOfPassing') ? _.get(class12, 'yearOfPassing') : '',
+      }` : get(class12, 'yearOfPassing') ? get(class12, 'yearOfPassing') : '',
   })
 }
 
 export const getDegree = (data: any, userProfileData?: any) => {
-  const GRADUATE = _.find(userProfileData.academics, { type: 'GRADUATE' })
+  const GRADUATE = find(userProfileData.academics, { type: 'GRADUATE' })
   return ({
     nameOfQualification: data.courseDegree.type === 'GRADUATE'
       && data.courseName ? data.courseName :
-      _.get(GRADUATE, 'nameOfQualification') ?
-        _.get(GRADUATE, 'nameOfQualification') : '',
+      get(GRADUATE, 'nameOfQualification') ?
+        get(GRADUATE, 'nameOfQualification') : '',
     type: 'GRADUATE',
     nameOfInstitute: data.courseDegree.type === 'GRADUATE' && data.institutionName ?
-      data.institutionName : _.get(GRADUATE, 'nameOfInstitute') ? _.get(GRADUATE, 'nameOfInstitute') : '',
+      data.institutionName : get(GRADUATE, 'nameOfInstitute') ? get(GRADUATE, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'GRADUATE' ? `${data.yearPassing
-      }` : _.get(GRADUATE, 'yearOfPassing') ? _.get(GRADUATE, 'yearOfPassing') : '',
+      }` : get(GRADUATE, 'yearOfPassing') ? get(GRADUATE, 'yearOfPassing') : '',
   })
 }
 
 export const getPostDegree = (data: any, userProfileData?: any) => {
-  const POSTGRADUATE = _.find(userProfileData.academics, { type: 'POSTGRADUATE' })
+  const POSTGRADUATE = find(userProfileData.academics, { type: 'POSTGRADUATE' })
   return ({
     nameOfQualification: data.courseDegree.type === 'POSTGRADUATE'
-      && data.courseName ? data.courseName : _
-        .get(POSTGRADUATE, 'nameOfQualification') ?
-      _.get(POSTGRADUATE, 'nameOfQualification') : '',
+      && data.courseName ? data.courseName : get(POSTGRADUATE, 'nameOfQualification') ?
+      get(POSTGRADUATE, 'nameOfQualification') : '',
     type: 'POSTGRADUATE',
     nameOfInstitute: data.courseDegree.type === 'POSTGRADUATE' ? data.institutionName :
-      _.get(POSTGRADUATE, 'nameOfInstitute') ? _.get(POSTGRADUATE, 'nameOfInstitute') : '',
+      get(POSTGRADUATE, 'nameOfInstitute') ? get(POSTGRADUATE, 'nameOfInstitute') : '',
     yearOfPassing: data.courseDegree.type === 'POSTGRADUATE' ? `${data.yearPassing
-      }` : _.get(POSTGRADUATE, 'yearOfPassing') ? _.get(POSTGRADUATE, 'yearOfPassing') : '',
+      }` : get(POSTGRADUATE, 'yearOfPassing') ? get(POSTGRADUATE, 'yearOfPassing') : '',
   })
 }
 
 export const getOrganisationsHistory = (form: any, userProfileData: any) => {
   const organisations: any = []
   const org = {
-    orgType: _.get(form, 'orgType') ? form.orgType : userProfileData.professionalDetails[0].orgType,
-    professionOtherSpecify: _.get(form, 'professionOtherSpecify') ? form.professionOtherSpecify :
+    orgType: get(form, 'orgType') ? form.orgType : userProfileData.professionalDetails[0].orgType,
+    professionOtherSpecify: get(form, 'professionOtherSpecify') ? form.professionOtherSpecify :
       userProfileData.professionalDetails[0].professionOtherSpecify,
-    orgOtherSpecify: _.get(form, 'orgOtherSpecify') ? form.orgOtherSpecify :
+    orgOtherSpecify: get(form, 'orgOtherSpecify') ? form.orgOtherSpecify :
       userProfileData.professionalDetails[0].orgOtherSpecify,
-    name: _.get(form, 'organizationName', _.get(userProfileData, 'professionalDetails[0].name', '')),
+    name: get(form, 'organizationName', get(userProfileData, 'professionalDetails[0].name', '')),
     nameOther: form.orgNameOther,
     industry: form.industry,
     industryOther: form.industryOther,
-    designation: _.get(form, 'designation') ? form.designation : userProfileData.professionalDetails[0].designation,
-    profession: _.get(form, 'profession') ? form.profession : userProfileData.professionalDetails[0].profession,
-    location: _.get(form, 'location') ? form.location : userProfileData.professionalDetails[0].location,
+    designation: get(form, 'designation') ? form.designation : userProfileData.professionalDetails[0].designation,
+    profession: get(form, 'profession') ? form.profession : userProfileData.professionalDetails[0].profession,
+    location: get(form, 'location') ? form.location : userProfileData.professionalDetails[0].location,
     responsibilities: '',
-    doj: _.get(form, 'doj') ? form.doj : userProfileData.professionalDetails[0].doj,
+    doj: get(form, 'doj') ? form.doj : userProfileData.professionalDetails[0].doj,
     description: form.orgDesc,
     completePostalAddress: '',
     additionalAttributes: {},
-    osid: _.get(userProfileData, 'professionalDetails[0].osid') || undefined,
+    osid: get(userProfileData, 'professionalDetails[0].osid') || undefined,
   }
   organisations.push(org)
   return organisations

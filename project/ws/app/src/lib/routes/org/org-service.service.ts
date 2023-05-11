@@ -14,7 +14,7 @@ const API_END_POINTS = {
   // SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
   SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
-  Sashakt_Auth: '/apis/public/v8/sashaktAuth/login'
+  Sashakt_Auth: '/apis/public/v8/sashaktAuth/login',
 }
 @Injectable({
   providedIn: 'root',

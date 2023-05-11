@@ -12,17 +12,17 @@ import {
 } from '@angular/material'
 
 import {
-  BtnContentDownloadModule,
-  BtnContentFeedbackModule,
-  BtnContentLikeModule,
+  // BtnContentDownloadModule,
+  // BtnContentFeedbackModule,
+  // BtnContentLikeModule,
   BtnContentShareModule,
-  BtnGoalsModule,
-  BtnPlaylistModule,
+  //BtnGoalsModule,
+  //BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  UserContentRatingModule,
-  BtnContentFeedbackV2Module,
-  PlayerBriefModule,
+  //UserContentRatingModule,
+  //BtnContentFeedbackV2Module,
+  //PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -39,12 +39,12 @@ import { YoutubeComponent } from './youtube.component'
   declarations: [YoutubeComponent],
   imports: [
     RouterModule,
-    BtnContentDownloadModule,
-    BtnContentFeedbackModule,
-    BtnContentLikeModule,
+    // BtnContentDownloadModule,
+    // BtnContentFeedbackModule,
+    // BtnContentLikeModule,
     BtnContentShareModule,
-    BtnGoalsModule,
-    BtnPlaylistModule,
+    //BtnGoalsModule,
+    //BtnPlaylistModule,
     CommonModule,
     DisplayContentTypeModule,
     MatCardModule,
@@ -58,9 +58,9 @@ import { YoutubeComponent } from './youtube.component'
     PipePartialContentModule,
     UserImageModule,
     WidgetResolverModule,
-    UserContentRatingModule,
-    BtnContentFeedbackV2Module,
-    PlayerBriefModule,
+    //UserContentRatingModule,
+    //BtnContentFeedbackV2Module,
+    //PlayerBriefModule,
   ],
   exports: [
     YoutubeComponent,

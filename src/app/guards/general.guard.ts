@@ -17,7 +17,7 @@ export class GeneralGuard implements CanActivate {
   isXSmall = false
   locale = ''
   constructor(private router: Router, private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService) { }
+              private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -146,12 +146,23 @@ export class GeneralGuard implements CanActivate {
               let data: any
               let lang: any
               data = localStorage.getItem('preferedLanguage')
-              console.log(JSON.parse(data))
               lang = JSON.parse(data)
-              if (lang.id !== 'en') {
-                let url = `${lang.id}/app`
+              if (lang.id) {
+                lang = lang.id !== 'en' ? lang.id : ''
+                const url = `/app/`
                 return this.router.navigate([url, 'new-tnc'])
+                // let wholeUrl = `${document.baseURI}`
+                // if (wholeUrl.includes('hi')) {
+                //   // wholeUrl = url.replace(/hi\//g, '')
+                //   // let redirectUrl = `${wholeUrl}${url}new-tnc`
+                //   // window.location.href = redirectUrl
+                //   return this.router.navigate([url, 'new-tnc'])
+                // } else {
+                //   return this.router.navigate([url, 'new-tnc'])
+                // }
+                // return this.router.navigate([url, 'new-tnc'])
               }
+              // return this.router.navigate(['app', 'new-tnc'])
             }
           }
           return this.router.navigate(['app', 'new-tnc'])

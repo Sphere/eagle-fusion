@@ -25,7 +25,8 @@ import { AssesmentOverviewComponent } from './components/assesment-overview/asse
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
-import * as _ from 'lodash'
+import get from 'lodash/get'
+import isNull from 'lodash/isNull'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewerDataService } from '../../viewer-data.service'
 import { PlayerStateService } from '../../player-state.service'
@@ -146,7 +147,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       noOfQuestions: this.quizJson.questions.length,
       progressStatus: this.progressStatus,
       isNqocnContent: this.isNqocnContent,
-      isAssessment: _.get(this.quizJson, 'isAssessment'),
+      isAssessment: get(this.quizJson, 'isAssessment'),
       subtitle: this.name,
       passPercentage: (this.quizJson && this.quizJson.hasOwnProperty('passPercentage')) ? this.quizJson.passPercentage : 60,
     }
@@ -163,7 +164,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.router.navigate([`/app/user/competency`])
         } else {
           this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-            if (_.isNull(data.nextResource)) {
+            if (isNull(data.nextResource)) {
               this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                 queryParams: {
                   primaryCategory: 'Course',
@@ -172,7 +173,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               })
               // this.router.navigate([data.prevResource], { preserveQueryParams: true })
             } else {
-              if (_.isNull(data.prevResource)) {
+              if (isNull(data.prevResource)) {
                 if (this.viewerDataSvc.gatingEnabled) {
                   if (data.currentCompletionPercentage === 100) {
                     this.router.navigate([data.nextResource], { preserveQueryParams: true })
@@ -213,7 +214,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         }
       } else {
         // this.startQuiz()
-        if (_.get(this.quizJson, 'isAssessment')) {
+        if (get(this.quizJson, 'isAssessment')) {
           this.openAssesmentDialog()
         } else {
           this.openQuizDialog()
@@ -344,7 +345,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-                  if (_.isNull(data.nextResource)) {
+                  if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
@@ -392,7 +393,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   nextCompetency() {
     this.viewState = 'answer'
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-      if (_.isNull(data.nextResource)) {
+      if (isNull(data.nextResource)) {
         // tslint:disable-next-line
         if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
           const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
@@ -530,7 +531,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   this.showCompletionMsg = false
                 }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-                  if (_.isNull(data.nextResource)) {
+                  if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
@@ -592,7 +593,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          if (!_.isNull(data.prevResource)) {
+          if (!isNull(data.prevResource)) {
             this.router.navigate([data.prevResource], { preserveQueryParams: true })
           }
           return
@@ -614,7 +615,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          if (!_.isNull(data.prevResource)) {
+          if (!isNull(data.prevResource)) {
             this.router.navigate([data.prevResource], { preserveQueryParams: true })
           }
 

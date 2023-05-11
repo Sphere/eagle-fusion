@@ -29,10 +29,18 @@ import {
 } from '@angular/material'
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
-import { BtnFeatureModule, ErrorResolverModule, TourModule, WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe } from '@ws-widget/collection'
-import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
+import {
+  BtnFeatureModule, ErrorResolverModule,
+  // TourModule,
+  WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe,
+} from '@ws-widget/collection'
+//import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
-import { ImageCropComponent, ImageCropModule, LoggerService, PipeSafeSanitizerModule } from '@ws-widget/utils'
+import {
+  ImageCropComponent,
+  ImageCropModule,
+  LoggerService, PipeSafeSanitizerModule,
+} from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
 import 'hammerjs'
 import { KeycloakAngularModule } from 'keycloak-angular'
@@ -53,7 +61,7 @@ import { InvalidUserComponent } from './component/invalid-user/invalid-user.comp
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { TncRendererComponent } from './component/tnc-renderer/tnc-renderer.component'
-import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
+//import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
@@ -81,9 +89,9 @@ import { CompleteProfileComponent } from './routes/complete-profile/complete-pro
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
-import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
-import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
-import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
+//import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
+//import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+//import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
@@ -110,7 +118,7 @@ import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
 import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
-
+// import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
   buildHammer(element: HTMLElement) {
@@ -149,12 +157,12 @@ if (url.indexOf('&code=') > 0) {
   sessionStorage.setItem('code', code)
 }
 
-if (url.includes('token') && url.includes('moduleId')) {
-  const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
-  sessionStorage.setItem('sashakt_token', sashakt_token)
-  const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
-  sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
-}
+// if (url.includes('token') && url.includes('moduleId')) {
+//   const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
+//   sessionStorage.setItem('sashakt_token', sashakt_token)
+//   const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
+//   sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
+// }
 
 // Conditions added for checking if nhsrc organisation is present in url
 if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
@@ -166,11 +174,12 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     if (orgValue === 'nhsrc') {
       if (url.indexOf('do_') > 0) {
         // window.location.href = `${url}`
-        console.log(url)
+        console.log("app.module", url)
         localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
           }` + `/overview`)
-        window.location.href = `${document.baseURI}organisations/home`
+        // window.location.href = `${document.baseURI}organisations/home`
       } else {
+        console.log("line number 182 else in app module.ts", url)
         window.location.href = `${document.baseURI}organisations/home`
       }
     }
@@ -205,9 +214,9 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     HeaderComponent,
     GoogleCallbackComponent,
     MobileDashboardComponent,
-    MobileCategoryComponent,
-    MobileVideoPlayerComponent,
-    MobileFooterComponent,
+    //MobileCategoryComponent,
+    //MobileVideoPlayerComponent,
+    //MobileFooterComponent,
     MobileProfileDashboardComponent,
     MobileAboutPopupComponent,
     ProfileSelectComponent,
@@ -223,6 +232,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     SashaktCallbackComponent,
     SelfAssessmentComponent,
     AppCallBackComponent,
+    // SettingsComponent
   ],
   imports: [
     FormsModule,
@@ -235,7 +245,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     AppRoutingModule,
     ...WIDGET_REGISTERED_MODULES,
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
-    StickyHeaderModule,
+    //StickyHeaderModule,
     ErrorResolverModule,
     MatSliderModule,
     MatButtonModule,
@@ -259,9 +269,9 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PublicHomeModule,
     PublicContactModule,
     PublicFaqModule,
-    MobileAppModule,
+    //MobileAppModule,
     PipeSafeSanitizerModule,
-    TourModule,
+    // TourModule,
     SlidersModule,
     MdePopoverModule,
     MatAutocompleteModule,

@@ -1,5 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { NsContent, NsDiscussionForum } from '@ws-widget/collection'
+import {
+  // NsContent,
+  NsDiscussionForum,
+} from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
@@ -12,7 +15,7 @@ import { PlayerStateService } from '../../player-state.service'
 })
 export class IapComponent implements OnInit {
   @Input() isFetchingDataComplete = false
-  @Input() iapData: NsContent.IContent | null = null
+  // @Input() iapData: NsContent.IContent | null = null
   @Input() discussionForumWidget: NsWidgetResolver.IRenderConfigWithTypedData<
     NsDiscussionForum.IDiscussionForumInput
   > | null = null
