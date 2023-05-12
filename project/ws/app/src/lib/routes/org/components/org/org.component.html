@@ -93,7 +93,7 @@
   <div class="w-100" *ngIf="courseData > 5">
     <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a>
   </div>
-  <div class="flex-main mt-4">
+  <div class="mt-4">
     <ng-container *ngFor="let widget of courseData">
       <mat-card class="card-standard-container mr-8 1 cursor-pointer">
         <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
