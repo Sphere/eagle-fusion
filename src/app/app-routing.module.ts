@@ -58,7 +58,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'public/home',
     pathMatch: 'full',
-    data: { title: 'Home - Aastrika' },
+    data: { title: 'Home - Aastrika Sphere' },
   },
   {
     path: 'aboutpoppage',
@@ -346,7 +346,7 @@ const routes: Routes = [
     path: 'public/home',
     component: PublicHomeComponent,
     data: {
-      title: 'Home - Aastrika',
+      title: 'Home - Aastrika Sphere',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
