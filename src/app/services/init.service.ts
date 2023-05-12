@@ -499,7 +499,10 @@ export class InitService {
           const shareIcon = document.getElementById('id-app-share-icon')
           if (shareIcon) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-            ; (shareIcon as HTMLLinkElement).href = this.configSvc.instanceConfig.logos.app
+            ; (shareIcon as HTMLMetaElement).setAttribute(
+              'content',
+              this.configSvc.instanceConfig.logos.appBottomNav,
+            )
           }
         }
         if (this.configSvc.instanceConfig.indexHtmlMeta.pngIcon) {
