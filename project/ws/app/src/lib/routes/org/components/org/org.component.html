@@ -124,7 +124,6 @@
 
       <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
         <mat-card class="popover-card xs-hidden">
-
           <mat-card-content>
             <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
               {{ widget.name }}
@@ -134,7 +133,7 @@
             </div>
 
             <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span i18n>Published on</span>:
-              {{widget?.publishedOn | date }}</div>
+              {{widget?.lastPublishedOn | date }}</div>
             <div *ngIf="widget.duration" class="duration mb-2" title="Duration">
               <span class="mr-1 orange-text" i18n>Duration</span>:
               <mat-icon>access_time</mat-icon>
@@ -143,7 +142,7 @@
 
               </span>
             </div>
-            <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.children?.length}}</p>
+            <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.childNodes?.length}}</p>
             <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
               widget?.creatorContacts[0]?.name}}</p>
 
@@ -153,7 +152,7 @@
             </p>
             <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
               <div class="fw-500 mb-1">Course Description</div>
-              {{ (widget.description.length>156)? (widget.description | slice:0:120) + '...' :(widget.description) }}
+              {{ widget.description }}
             </div>
 
             <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
@@ -191,15 +190,15 @@
   </section> -->
 
 
-  <div role="main" class="toc-body">
-    <!-- <mat-tab-group [@.disabled]="true">
+  <!-- <div role="main" class="toc-body"> -->
+  <!-- <mat-tab-group [@.disabled]="true">
       <mat-tab label="Courses">
       </mat-tab>
       <mat-tab label="About" (click)="scrollToAbout()"> </mat-tab>
       <mat-tab label="Team" (click)="scrollToTeam()"> </mat-tab>
     </mat-tab-group> -->
 
-    <!-- <div id="aboutus" class="mt-10">
+  <!-- <div id="aboutus" class="mt-10">
       <h2>About</h2>
       About us content goes here, About us content goes hereAbout us
       content goes hereAbout us
@@ -213,15 +212,15 @@
       content goes hereAbout us content goes hereAbout us content goes hereAbout us content goes hereAbout us content
       goes here
     </div> -->
-  </div>
+  <!-- </div> -->
 
 
-  <div class="flex flex-center mt-5 mb-10 suborg-logo" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
+  <div style="display: inline-block;" class="" *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
     <div class="align-logo flex-center">
       <div class="support-txt" i18n>Supported by</div><img src="../../../fusion-assets/logos/maternity_foundation.png"
-        class="mt-5 ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />
+        class="ml-5 mf-logo" (click)="goToLink('https://www.maternity.dk')" />
       <div class="support-txt ml-10">Platform powered by</div><img
-        src="./../../../../../../../../../src/fusion-assets/images/sphere-new-logo.svg"
-        class="mt-5 ml-5 footer-aastrika-logo" (click)="goToLink('https://aastrika.org')" />
+        src="https://sphere.aastrika.org/assets/instances/eagle/app_logos/aastar-logo.svg"
+        class="ml-5 footer-aastrika-logo" (click)="goToLink('https://aastrika.org')" />
     </div>
   </div>

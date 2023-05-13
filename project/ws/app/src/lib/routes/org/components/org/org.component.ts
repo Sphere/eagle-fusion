@@ -59,7 +59,8 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   this.courseData = data
     //   this.courseCount = this.courseData.result.length
     // })
-    this.configSvc.isAuthenticated ? this.btnText = 'View Course' : this.btnText = 'Login'
+    console.log(this.configSvc)
+    this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
   }
 
   gotoOverview(identifier: any) {
