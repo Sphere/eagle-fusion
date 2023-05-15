@@ -6,6 +6,7 @@
       "e-Learning for Maternal and Newborn Health Care" }}</span>
   </div>
 </div>
+
 <div class=" profile-container px-4 sm:px-20 md:px-20 xl:px-40  py-0 my-0 mt-12">
   <div class="mb-4" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
     <mat-card class="org-data mb-4">
@@ -14,7 +15,7 @@
           <div class="flex mt-10">
             <div class="flex-auto mr-4">
               <div class="image-outer">
-                <img [src]="currentOrgData?.logo " alt=" Logo" class="org-logo" />
+                <img [src]="currentOrgData?.logo " alt=" Logo" class="org-logo" *ngIf="currentOrgData.logo !== ''" />
               </div>
             </div>
             <div class="flex-auto">
