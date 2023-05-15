@@ -24,10 +24,10 @@ export class OrgComponent implements OnInit, OnDestroy {
   courseCount = 0
 
   constructor(private activateRoute: ActivatedRoute,
-              private orgService: OrgServiceService,
-              private router: Router,
+    private orgService: OrgServiceService,
+    private router: Router,
     // private authSvc: AuthKeycloakService,
-              private configSvc: ConfigurationsService) {
+    private configSvc: ConfigurationsService) {
   }
 
   ngOnInit() {
@@ -48,7 +48,7 @@ export class OrgComponent implements OnInit, OnDestroy {
         }
       }
     })
-    this.orgService.getSearchResults().subscribe((result: any) => {
+    this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
       this.courseData = result.result.content.filter(
         (org: any) => org.sourceName === this.orgName
       )
@@ -59,7 +59,8 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   this.courseData = data
     //   this.courseCount = this.courseData.result.length
     // })
-    this.configSvc.isAuthenticated ? this.btnText = 'View Course' : this.btnText = 'Login'
+    console.log(this.configSvc)
+    this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
   }
 
   gotoOverview(identifier: any) {
