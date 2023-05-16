@@ -200,6 +200,104 @@ export class TelemetryService {
     }
   }
 
+  paramTriggerImpression(param: any, browserName: any, OS: any) {
+    try {
+      const page = this.getPageDetails()
+      var cookie: any
+      if (this.isCookieExpired('USERUID')) {
+        console.log('The cookie has expired')
+        var timestamp = new Date().getTime().toString(36)
+        var randomString = Math.random().toString(36).substring(2, 9)
+        var uniqueId = timestamp + randomString
+        cookie = this.setCookie('USERUID', uniqueId, 1)
+      } else {
+        cookie = this.getCookie('USERUID')
+        console.log('The cookie is still valid')
+      }
+
+
+      const edata = {
+        pageid: page.pageid, // Required. Unique page id
+        type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
+        uri: page.pageUrl,
+        param,
+        browserName,
+        OS,
+        timestamp: Date.now(),
+        cookie
+      }
+      console.log("edataService", edata)
+      if (page.objectId) {
+        const config = {
+          context: {
+            pdata: {
+              ...this.pData,
+              id: this.pData.id,
+            },
+          },
+          object: {
+            id: page.objectId,
+          },
+        }
+        $t.impression(edata, config)
+      } else {
+        $t.impression(edata, {
+          context: {
+            pdata: {
+              ...this.pData,
+              id: this.pData.id,
+            },
+          },
+        })
+      }
+      this.previousUrl = page.pageUrl
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in telemetry paramTrigger', e)
+    }
+  }
+
+  setCookie = (name: any, value: any, days: any) => {
+    const expires = new Date()
+    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000))
+    const cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`
+    document.cookie = cookie
+    return cookie
+  };
+
+  isCookieExpired(cookieName: any) {
+    const cookieValue = this.getCookie(cookieName)
+    if (!cookieValue) {
+      return true
+    }
+    if (cookieValue) {
+      const cookieParts = cookieValue.split(';')
+      for (let i = 0; i < cookieParts.length; i++) {
+        const cookiePart = cookieParts[i].trim()
+        if (cookiePart.startsWith('expires=')) {
+          const expirationDate = new Date(cookiePart.substring('expires='.length))
+          const currentDate = new Date()
+          console.log("cookie date", expirationDate, currentDate)
+          if (currentDate > expirationDate) {
+            return true
+          }
+        }
+      }
+    }
+    return false
+  }
+
+  getCookie(name: any) {
+    const cookies = document.cookie.split(';')
+    for (let i = 0; i < cookies.length; i++) {
+      const cookie = cookies[i].trim()
+      if (cookie.startsWith(name + '=')) {
+        return decodeURIComponent(cookie.substring(name.length + 1))
+      }
+    }
+    return null
+  }
+
   externalImpression(impressionData: any) {
     try {
       const page = this.getPageDetails()
