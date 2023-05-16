@@ -516,7 +516,7 @@ export class AppRoutingModule {
 
   constructor(private router: Router, private route: ActivatedRoute, private telemetrySvc: TelemetryService,
   ) {
-    this.router.events.subscribe(event => {
+    this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         const paramMap = this.route.snapshot.queryParamMap
         const params = {}
