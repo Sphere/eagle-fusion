@@ -8,6 +8,7 @@ import { WsEvents } from './event.model'
 import { EventService } from './event.service'
 import { LoggerService } from './logger.service'
 // import { environment } from 'src/environments/environment'
+import { HttpClient } from '@angular/common/http'
 
 declare var $t: any
 
@@ -15,6 +16,8 @@ declare var $t: any
   providedIn: 'root',
 })
 export class TelemetryService {
+  private baseUrl = 'assets/configurations'
+
   previousUrl: string | null = null
   telemetryConfig: NsInstanceConfig.ITelemetryConfig | null = null
   pData: any = null
@@ -22,6 +25,7 @@ export class TelemetryService {
     RBCP: 'rbcp-web-ui',
   }
   constructor(
+    private http: HttpClient,
     private configSvc: ConfigurationsService,
     private eventsSvc: EventService,
     // private authSvc: AuthKeycloakService,
@@ -161,10 +165,30 @@ export class TelemetryService {
       console.log('Error in telemetry heartbeat', e)
     }
   }
-
-  impression() {
+  async getTelemetryConfig() {
+    const publicConfig: NsInstanceConfig.IConfig = await this.http
+      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
+      .toPromise()
+    let instanceConfig = publicConfig
+    this.telemetryConfig = instanceConfig.telemetryConfig
+    this.telemetryConfig = {
+      ...this.telemetryConfig,
+      pdata: {
+        ...this.telemetryConfig.pdata,
+        pid: navigator.userAgent,
+        // id: `${environment.name}.${this.telemetryConfig.pdata.id}`,
+      },
+      channel: this.rootOrgId || this.telemetryConfig.channel,
+      uid: this.configSvc.userProfile && this.configSvc.userProfile.userId,
+      sid: this.getTelemetrySessionId,
+      // authtoken: this.authSvc.token,
+    }
+    this.pData = instanceConfig.telemetryConfig.pdata
+  }
+  async impression() {
     try {
       const page = this.getPageDetails()
+      await this.getTelemetryConfig()
       const edata = {
         pageid: page.pageid, // Required. Unique page id
         type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
@@ -200,9 +224,11 @@ export class TelemetryService {
     }
   }
 
-  paramTriggerImpression(param: any, browserName: any, OS: any) {
+  async paramTriggerImpression(param: any, browserName: any, OS: any) {
     try {
       const page = this.getPageDetails()
+      await this.getTelemetryConfig()
+      console.log("instanceConfig ", this.configSvc.instanceConfig, this.pData)
       var cookie: any
       if (this.isCookieExpired('USERUID')) {
         console.log('The cookie has expired')
