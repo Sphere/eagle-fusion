@@ -16,8 +16,12 @@
       showNavbar && isNavBarRequired
   }">
 
-    <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn"></ws-mobile-dashboard>
-    <router-outlet></router-outlet>
+    <ws-mobile-dashboard
+      *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline"></ws-mobile-dashboard>
+    <router-outlet *ngIf="appOnline"></router-outlet>
+    <div *ngIf="!appOnline" style="text-align: center;">
+      <img src="/fusion-assets/images/no-internet.jpg" class="no-internet" />
+    </div>
   </div>
 
   <!-- Mobile Footer -->

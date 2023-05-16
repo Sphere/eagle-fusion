@@ -70,16 +70,22 @@
         <!-- #if cetification ininrollment api -->
         <div class="flex flex-col gap-1 justify-content-center align-items-center">
           <ng-container *ngIf="issueCertificate === true; else download ">
-            <button mat-icon-button *ngIf="content?.issueCertification === true" (click)="sendApi()" data-toggle="modal"
-              class="button-border">
-              <img loading="lazy" src=".\fusion-assets\icons\download.svg" alt="download">
+            <!-- sendApi() -->
+            <button mat-icon-button *ngIf="content?.issueCertification === true"
+              (click)="downloadCertificate(content, tocConfig)" data-toggle="modal" class="button-border"
+              matTooltip="Preview Certificate">
+              <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
+                style="background-color: cornflowerblue;width: 25px;height: auto;">
             </button>
             <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
           </ng-container>
+          <!-- (click)="downloadCertificate(content, tocConfig)" -->
           <ng-template #download>
             <button mat-icon-button *ngIf="content?.issueCertification === true"
-              (click)="downloadCertificate(content, tocConfig)" class="button-border" data-toggle="modal">
-              <img loading="lazy" src=".\fusion-assets\icons\download.svg" alt="download">
+              (click)="downloadCertificate(content, tocConfig)" class="button-border" data-toggle="modal"
+              matTooltip="Preview Certificate">
+              <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
+                style="background-color: cornflowerblue;width: 25px;height: auto;">
             </button>
             <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
           </ng-template>

@@ -70,6 +70,9 @@ ws-app-nav-bar {
   .hide-in-mobile {
     display: none;
   }
+  .no-internet {
+    width: -webkit-fill-available !important;
+  }
 }
 
 @media screen and (min-width:600px) {
@@ -136,4 +139,8 @@ ws-app-nav-bar {
   bottom: 1.9rem;
   padding: 0.1rem;
   border-radius: 0.3rem;
+}
+.no-internet {
+  width:auto;
+   height:80vh;
 }

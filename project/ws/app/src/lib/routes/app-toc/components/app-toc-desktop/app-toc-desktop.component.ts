@@ -23,11 +23,12 @@ import { FormControl, Validators } from '@angular/forms'
 // import * as dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
-import * as FileSaver from 'file-saver'
+//import * as FileSaver from 'file-saver'
 import moment from 'moment'
 
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
+import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 
 @Component({
   selector: 'ws-app-app-toc-desktop',
@@ -381,9 +382,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   return course
                 })
                 if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
-                  this.displayStyle = 'block'
+                  //this.displayStyle = 'block'
                   // tslint:disable-next-line: max-line-length
-                  this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
+                  //this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
                   this.sendApi()
                   // trigger this.downloadCertificate
 
@@ -398,7 +399,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   } else {
                     this.contentSvc.processCertificate(req).subscribe((response: any) => {
                       if (response.responseCode === 'OK') {
-                        // this.sendApi()
+                        this.sendApi()
                         // tslint:disable-next-line: max-line-length
                         localStorage.setItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`, moment(new Date()).toString())
                         this.displayStyle = 'block'
@@ -475,7 +476,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         // let enrolledCourse: NsContent.ICourse | undefined
         if (this.content && this.content.identifier && !this.forPreview) {
           // tslint:disable-next-line:no-this-assignment
-          const self = this
+          //const self = this
           if (courses && courses.length) {
             this.enrolledCourse = courses.find(course => {
               const identifier = this.content && this.content.identifier || ''
@@ -487,44 +488,46 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               const name = this.enrolledCourse.courseName
-              this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
-                if (response.responseCode) {
-                  const img = new Image()
-                  const url = response.result.printUri
-                  img.onload = function () {
+              console.log(certID, name)
+              this.openPopup(certID, name)
+              // this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
+              //   if (response.responseCode) {
+              //     const img = new Image()
+              //     const url = response.result.printUri
+              //     img.onload = function () {
 
-                    const canvas: any = document.getElementById('certCanvas') || {}
-                    const ctx = canvas.getContext('2d')
-                    const imgWidth = img.width
-                    const imgHeight = img.height
-                    canvas.width = imgWidth
-                    canvas.height = imgHeight
-                    ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
-                    let imgURI = canvas
-                      .toDataURL('image/jpeg')
+              //       const canvas: any = document.getElementById('certCanvas') || {}
+              //       const ctx = canvas.getContext('2d')
+              //       const imgWidth = img.width
+              //       const imgHeight = img.height
+              //       canvas.width = imgWidth
+              //       canvas.height = imgHeight
+              //       ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
+              //       let imgURI = canvas
+              //         .toDataURL('image/jpeg')
 
-                    imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
-                    const arr = imgURI.split(',')
-                    const mime = arr[0].match(/:(.*?);/)[1]
-                    const bstr = atob(arr[1])
-                    let n = bstr.length
-                    const u8arr = new Uint8Array(n)
-                    while (n) {
-                      n = n - 1
-                      u8arr[n] = bstr.charCodeAt(n)
-                    }
-                    const blob = new Blob([u8arr], { type: mime })
-                    FileSaver.saveAs(blob, `${name}`)
-                    if (localStorage.getItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)) {
-                      localStorage.removeItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)
-                    }
-                  }
-                  //  DOMURL.revokeObjectURL(url)
-                  img.src = url
-                }
-              })
+              //       imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
+              //       const arr = imgURI.split(',')
+              //       const mime = arr[0].match(/:(.*?);/)[1]
+              //       const bstr = atob(arr[1])
+              //       let n = bstr.length
+              //       const u8arr = new Uint8Array(n)
+              //       while (n) {
+              //         n = n - 1
+              //         u8arr[n] = bstr.charCodeAt(n)
+              //       }
+              //       const blob = new Blob([u8arr], { type: mime })
+              //       FileSaver.saveAs(blob, `${name}`)
+              //       if (localStorage.getItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)) {
+              //         localStorage.removeItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)
+              //       }
+              //     }
+              //     //  DOMURL.revokeObjectURL(url)
+              //     img.src = url
+              //   }
+              // })
             } else {
-              this.displayStyle = 'block'
+              //this.displayStyle = 'block'
             }
           }
         }
@@ -914,7 +917,14 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   //   }
   // })
   // }
-
+  openPopup(content: any, tocConfig: any) {
+    this.dialog.open(AppTocCertificateModalComponent, {
+      width: "100vw",
+      height: "80vh",
+      data: { content, tocConfig, type: 'DETAILS' },
+      disableClose: false,
+    })
+  }
   openDetails(content: any, tocConfig: any) {
     this.dialog.open(AppTocDesktopModalComponent, {
       width: '600px',

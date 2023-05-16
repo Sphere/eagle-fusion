@@ -47,6 +47,9 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
 import { DOCUMENT } from '@angular/common'
+import { mapTo } from 'rxjs/operators'
+import { Observable, fromEvent, merge, of } from 'rxjs'
+
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
@@ -74,6 +77,9 @@ export class RootComponent implements OnInit, AfterViewInit {
   mobileView = true
   showMobileDashboard = true
   isCommonChatEnabled = true
+  online$: Observable<boolean>
+  appOnline: boolean | undefined
+
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -93,6 +99,12 @@ export class RootComponent implements OnInit, AfterViewInit {
     private _renderer2: Renderer2,
     @Inject(DOCUMENT) private _document: Document
   ) {
+    this.online$ = merge(
+      of(navigator.onLine),
+      fromEvent(window, 'online').pipe(mapTo(true)),
+      fromEvent(window, 'offline').pipe(mapTo(false))
+    )
+    this.networkStatus()
 
     this.mobileAppsSvc.init()
     const locationOrigin = location.origin
@@ -137,6 +149,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           apiPath: '/discussion',
         },
       },
+    })
+  }
+
+  public networkStatus() {
+    this.online$.subscribe(value => {
+      this.appOnline = value
     })
   }
 
