@@ -495,6 +495,16 @@ export class InitService {
         //     )
         //   }
         // }
+        if (this.configSvc.instanceConfig.logos.app) {
+          const shareIcon = document.getElementById('id-app-share-icon')
+          if (shareIcon) {
+            // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
+            ; (shareIcon as HTMLMetaElement).setAttribute(
+              'content',
+              this.configSvc.instanceConfig.logos.appBottomNav,
+            )
+          }
+        }
         if (this.configSvc.instanceConfig.indexHtmlMeta.pngIcon) {
           const pngIconElem = document.getElementById('id-app-fav-icon')
           if (pngIconElem) {

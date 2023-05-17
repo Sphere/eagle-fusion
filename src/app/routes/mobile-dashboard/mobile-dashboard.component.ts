@@ -83,7 +83,7 @@ export class MobileDashboardComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.firstName = this.configSvc.userProfile
       this.userId = this.configSvc.userProfile.userId || ''
-      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(),
+      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
       this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
         this.homeFeature = res[2].userLoggedInSection
         this.topCertifiedCourseIdentifier = res[2].topCertifiedCourseIdentifier

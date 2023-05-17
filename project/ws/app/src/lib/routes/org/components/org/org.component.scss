@@ -28,12 +28,12 @@
   $card-width: 276px;
   position: relative;
   width: $card-width;
-  height: 300px;
+  height: 265px;
   min-height: 254px;
   box-sizing: border-box;
   box-shadow: transparent 0 0 !important;
   float: left;
-  margin-top: 15px;
+  //margin-top: 15px;
 
   .progress-bar {
     display: block;
@@ -182,6 +182,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
 .image-outer {
   display: flex;
   align-items: center;
+  width: 150px;
   max-width: 150px;
   height: 150px;
   margin-left: auto;

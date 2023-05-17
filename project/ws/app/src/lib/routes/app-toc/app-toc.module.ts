@@ -40,7 +40,7 @@ import { AppTocOverviewComponent } from './components/app-toc-overview/app-toc-o
 import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
 import { AppTocContentCardComponent } from './components/app-toc-content-card/app-toc-content-card.component'
 import { AppTocDiscussionComponent } from './components/app-toc-discussion/app-toc-discussion.component'
-import { CreateBatchDialogComponent } from './components/create-batch-dialog/create-batch-dialog.component'
+//import { CreateBatchDialogComponent } from './components/create-batch-dialog/create-batch-dialog.component'
 
 // services
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
@@ -113,6 +113,7 @@ import { AppTocHomePageComponent } from './components/app-toc-home-page/app-toc-
 import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-desktop.component'
 import { AssessmentDetailComponent } from './components/assessment-detail/assessment-detail.component'
 import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/app-toc-desktop-modal.component'
+import { AppTocCertificateModalComponent } from './components/app-toc-certificate-modal/app-toc-certificate-modal.component'
 @NgModule({
   declarations: [
     // AppTocAnalyticsComponent,
@@ -136,13 +137,14 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     // AppTocSinglePageComponent,
     // AppTocSinglePageRootComponent,
     // AppTocSinglePageDirective,
-    CreateBatchDialogComponent,
+    //CreateBatchDialogComponent,
     RetainScrollDirective,
     AllDiscussionWidgetComponent,
     AppTocHomePageComponent,
     AppTocDesktopComponent,
     AssessmentDetailComponent,
     AppTocDesktopModalComponent,
+    AppTocCertificateModalComponent,
   ],
   imports: [
     CommonModule,
@@ -232,9 +234,10 @@ import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/
     AppTocHomeComponent,
     // AppTocSinglePageComponent,
     // AppTocSinglePageRootComponent,
-    CreateBatchDialogComponent,
+    //CreateBatchDialogComponent,
     AppTocHomePageComponent,
     AppTocDesktopModalComponent,
+    AppTocCertificateModalComponent
   ],
 })
 export class AppTocModule { }

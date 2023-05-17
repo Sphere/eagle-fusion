@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
+import { RouterModule, Routes, NavigationEnd, Router, ActivatedRoute } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
-import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
+import { ExploreDetailResolve, PageResolve, TelemetryService } from '@ws-widget/utils'
 // import { LearningGuard } from '../../project/ws/app/src/lib/routes/my-learning/guards/my-learning.guard'
 // import { BtnProfileComponent } from '../../library/ws-widget/collection/src/lib/btn-profile/btn-profile.component'
 import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
@@ -49,6 +49,7 @@ import { SelfAssessmentComponent } from './routes/self-assessment/self-assessmen
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/comptency/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
+
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -58,7 +59,7 @@ const routes: Routes = [
     path: '',
     redirectTo: 'public/home',
     pathMatch: 'full',
-    data: { title: 'Home - Aastrika' },
+    data: { title: 'Home - Aastrika Sphere' },
   },
   {
     path: 'aboutpoppage',
@@ -346,7 +347,7 @@ const routes: Routes = [
     path: 'public/home',
     component: PublicHomeComponent,
     data: {
-      title: 'Home - Aastrika',
+      title: 'Home - Aastrika Sphere',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
@@ -509,4 +510,77 @@ const routes: Routes = [
   exports: [RouterModule],
   providers: [ExploreDetailResolve],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {
+  paramsJSON!: string
+  userAgent!: string
+
+  constructor(private router: Router, private route: ActivatedRoute, private telemetrySvc: TelemetryService,
+  ) {
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        const paramMap = this.route.snapshot.queryParamMap
+        const params = {}
+
+        paramMap.keys.forEach(key => {
+          const paramValue = paramMap.get(key)
+          params[key] = paramValue
+        })
+
+        this.paramsJSON = JSON.stringify(params)
+        let userAgent = navigator.userAgent
+        let browserName
+
+        if (userAgent.match(/chrome|chromium|crios/i)) {
+          browserName = "chrome"
+        } else if (userAgent.match(/firefox|fxios/i)) {
+          browserName = "firefox"
+        } else if (userAgent.match(/safari/i)) {
+          browserName = "safari"
+        } else if (userAgent.match(/opr\//i)) {
+          browserName = "opera"
+        } else if (userAgent.match(/edg/i)) {
+          browserName = "edge"
+        } else {
+          browserName = "No browser detection"
+        }
+
+        let OS = this.getOsInfo()
+
+        this.telemetrySvc.paramTriggerImpression(this.paramsJSON, browserName, OS)
+
+        console.log("yes here", this.paramsJSON, browserName, OS)
+      }
+    })
+  }
+
+  getOsInfo = () => {
+    const userAgent = window.navigator.userAgent
+    const osName = (() => {
+      if (userAgent.indexOf("Win") !== -1) return "Windows"
+      if (userAgent.indexOf("Mac") !== -1) return "MacOS"
+      if (userAgent.indexOf("Linux") !== -1) return "Linux"
+      if (userAgent.indexOf("Android") !== -1) return "Android"
+      if (userAgent.indexOf("iOS") !== -1) return "iOS"
+      return "Unknown"
+    })()
+    let osVersion = ""
+    if (osName === "Windows") {
+      const match = userAgent.match(/Windows NT (\d+\.\d+)/)
+      if (match) osVersion = match[1]
+    } else if (osName === "MacOS") {
+      const match = userAgent.match(/Mac OS X (\d+\.\d+)/)
+      if (match) osVersion = match[1]
+    } else if (osName === "iOS") {
+      const match = userAgent.match(/iPhone OS (\d+\.\d+)/)
+      if (match) osVersion = match[1]
+    } else if (osName === "Android") {
+      const match = userAgent.match(/Android (\d+\.\d+)/)
+      if (match) osVersion = match[1]
+    } else {
+      osVersion = ""
+    }
+    return `${osName} (${osVersion})`
+  };
+
+
+}

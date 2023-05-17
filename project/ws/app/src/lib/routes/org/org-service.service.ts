@@ -37,9 +37,18 @@ export class OrgServiceService {
     return orgMeta
   }
 
-  getSearchResults(): Observable<any> {
+  getSearchResults(source?: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    const req = { request: { filters: { primaryCategory: ['Course'], contentType: ['Course'] } }, query: '', sort: [{ lastUpdatedOn: 'desc' }] }
+    const req = {
+      request: {
+        filters: {
+          primaryCategory: ['Course'], contentType: ['Course'], "status": [
+            "Live"
+          ],
+          "sourceName": source
+        }
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }]
+    }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
@@ -48,12 +57,16 @@ export class OrgServiceService {
     return this.http.get<any>(`${url}`).toPromise()
   }
 
-  getLiveSearchResults(): Observable<any> {
+  getLiveSearchResults(lang?: any): Observable<any> {
+    console.log(lang)
     // tslint:disable-next-line:max-line-length
     const req = {
       request: {
         filters: {
-          primaryCategory: ['Course'], contentType: ['Course'], status: ['Live'],
+          primaryCategory: ['Course'],
+          contentType: ['Course'],
+          status: ['Live'],
+          "lang": lang
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
