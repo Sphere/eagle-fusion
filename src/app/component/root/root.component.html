@@ -20,7 +20,7 @@
       *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline"></ws-mobile-dashboard>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
-      <img src="/fusion-assets/images/no-internet.jpg" class="no-internet" />
+      <h3 class="mt-15">You're offline. Check your internet connection</h3>
     </div>
   </div>
 
