@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material'
-import { Location } from '@angular/common'
 import { Router } from '@angular/router'
 import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
+import { WidgetContentService } from '@ws-widget/collection'
 
 @Component({
   selector: 'ws-mobile-profile-nav',
@@ -16,8 +16,14 @@ export class MobileProfileNavComponent implements OnInit {
   @Input() navigateTohome?: Boolean = false
   constructor(
     private dialog: MatDialog,
-    private _location: Location,
-    public router: Router) {
+    public router: Router,
+    private contentSvc: WidgetContentService,
+  ) {
+    this.contentSvc.backMessage.subscribe((data: any) => {
+      if (data) {
+        sessionStorage.setItem('clickedUrl', data)
+      }
+    })
   }
 
   ngOnInit() {
@@ -28,7 +34,6 @@ export class MobileProfileNavComponent implements OnInit {
   }
 
   backScreen() {
-
     if (this.trigerrNavigation) {
       this.router.navigate(['/app/profile-view'])
     } else {
@@ -39,9 +44,10 @@ export class MobileProfileNavComponent implements OnInit {
           this.router.navigate(['/page/home'])
         }
       } else {
-        this._location.back()
+        let url = sessionStorage.getItem('clickedUrl') || ''
+        sessionStorage.removeItem('clickedUrl')
+        this.router.navigateByUrl(url)
       }
-
     }
   }
 }

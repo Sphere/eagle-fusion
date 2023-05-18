@@ -18,19 +18,22 @@ export class EducationEditComponent implements OnInit {
   userProfileData!: any
   showbackButton = false
   showLogOutIcon = false
+  cName = ''
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
-  yearPattern = '(^[0-9]{4}$)'
-  constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private snackBar: MatSnackBar,
-              private router: Router,
-              private route: ActivatedRoute,
-              private valueSvc: ValueService) {
+  yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
+  constructor(
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private snackBar: MatSnackBar,
+    private router: Router,
+    private route: ActivatedRoute,
+    private valueSvc: ValueService
+  ) {
     this.educationForm = new FormGroup({
-      courseDegree: new FormControl(),
-      courseName: new FormControl(),
-      institutionName: new FormControl(),
-      yearPassing: new FormControl('', [Validators.pattern(this.yearPattern)]),
+      courseDegree: new FormControl('', [Validators.required]),
+      courseName: new FormControl('', [Validators.pattern(/^[a-z][a-z\s]*$/)]),
+      institutionName: new FormControl('', [Validators.required, Validators.pattern(/^[a-z][a-z\s]*$/)]),
+      yearPassing: new FormControl('', [Validators.required, Validators.pattern(this.yearPattern)]),
     })
     this.academics = [
       {
@@ -47,6 +50,9 @@ export class EducationEditComponent implements OnInit {
 
       },
     ]
+  }
+  onChange(event: any) {
+    this.cName = event.target.value
   }
 
   ngOnInit() {
@@ -89,6 +95,7 @@ export class EducationEditComponent implements OnInit {
   }
 
   onSubmit(form: any) {
+    console.log(form)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
