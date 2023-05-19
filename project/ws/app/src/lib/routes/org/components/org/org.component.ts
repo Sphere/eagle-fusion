@@ -37,17 +37,19 @@ export class OrgComponent implements OnInit, OnDestroy {
     // }
     this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
       this.orgName = this.activateRoute.snapshot.queryParams.orgId
-      const currentOrg = this.orgName
+      const currentOrg = this.orgName.trim()
       if (response.orgData) {
         this.orgData = response.orgData.data.sources
         this.currentOrgData = this.orgData.filter(
-          (org: any) => org.sourceName === currentOrg
+          (org: any) =>
+            org.sourceName === currentOrg
         )
         if (this.currentOrgData) {
           this.currentOrgData = this.currentOrgData[0]
         }
       }
     })
+
     this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
       this.courseData = result.result.content.filter(
         (org: any) => org.sourceName === this.orgName
@@ -59,7 +61,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   this.courseData = data
     //   this.courseCount = this.courseData.result.length
     // })
-    console.log(this.configSvc)
+
     this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
   }
 

@@ -67,7 +67,6 @@ export class WidgetContentService {
     this.messageSource.next(message)
   }
   changeBack(message: string) {
-    console.log(message)
     this.backSource.next(message)
   }
   // fetchContent(

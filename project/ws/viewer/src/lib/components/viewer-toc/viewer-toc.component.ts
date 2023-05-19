@@ -245,14 +245,13 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.scrollToUserView(index)
     }
   }
-  async ngOnChanges() {
-    await this.contentSvc.currentMessage.subscribe(
-      (data: any) => {
-        if (data) {
-          this.currentContentType = data
-          this.ngOnInit()
-        }
-      })
+  ngOnChanges() {
+    this.contentSvc.currentMessage.subscribe(async (data: any) => {
+      if (data) {
+        this.currentContentType = await data
+        this.ngOnInit()
+      }
+    })
   }
   scrollToUserView(index: number) {
 
