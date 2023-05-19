@@ -228,17 +228,14 @@ export class TelemetryService {
     try {
       const page = this.getPageDetails()
       await this.getTelemetryConfig()
-      console.log("instanceConfig ", this.configSvc.instanceConfig, this.pData)
       var cookie: any
       if (this.isCookieExpired('USERUID')) {
-        console.log('The cookie has expired')
         var timestamp = new Date().getTime().toString(36)
         var randomString = Math.random().toString(36).substring(2, 9)
         var uniqueId = timestamp + randomString
         cookie = this.setCookie('USERUID', uniqueId, 1)
       } else {
         cookie = this.getCookie('USERUID')
-        console.log('The cookie is still valid')
       }
 
 
@@ -252,7 +249,7 @@ export class TelemetryService {
         timestamp: Date.now(),
         cookie
       }
-      console.log("edataService", edata)
+
       if (page.objectId) {
         const config = {
           context: {
@@ -303,7 +300,6 @@ export class TelemetryService {
         if (cookiePart.startsWith('expires=')) {
           const expirationDate = new Date(cookiePart.substring('expires='.length))
           const currentDate = new Date()
-          console.log("cookie date", expirationDate, currentDate)
           if (currentDate > expirationDate) {
             return true
           }
