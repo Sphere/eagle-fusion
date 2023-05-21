@@ -13,8 +13,9 @@
       <div class="form-group input-box"
         *ngIf="educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'GRADUATE' ||  educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'POSTGRADUATE'">
         <input type="text" i18n-placeholder formControlName="courseName" class="form-control" placeholder="Course Name"
-          (change)="onChange($event)" autocomplete="off">
+          autocomplete="off">
       </div>
+
       <div class="form-group input-box">
         <input type="text" formControlName="institutionName" class="form-control" placeholder="Institution Name"
           i18n-placeholder autocomplete="off">
@@ -27,6 +28,7 @@
         </mat-error>
       </mat-form-field>
     </div>
+
     <button
       *ngIf="educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'GRADUATE' ||  educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'POSTGRADUATE'; else normal "
       type="submit" (click)="onSubmit(educationForm)" class="save-btn"

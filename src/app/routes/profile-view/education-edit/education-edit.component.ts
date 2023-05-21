@@ -50,10 +50,13 @@ export class EducationEditComponent implements OnInit {
 
       },
     ]
+    this.educationForm.controls['courseName'].valueChanges.subscribe(
+      (selectedValue) => {
+        this.cName = selectedValue
+      }
+    )
   }
-  onChange(event: any) {
-    this.cName = event.target.value
-  }
+
 
   ngOnInit() {
     this.getUserDetails()
@@ -81,8 +84,11 @@ export class EducationEditComponent implements OnInit {
       institutionName: data.nameOfInstitute,
       yearPassing: data.yearOfPassing,
     })
-
+    if (data.nameOfQualification) {
+      this.cName = data.nameOfQualification
+    }
   }
+
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
@@ -95,7 +101,6 @@ export class EducationEditComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    console.log(form)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
