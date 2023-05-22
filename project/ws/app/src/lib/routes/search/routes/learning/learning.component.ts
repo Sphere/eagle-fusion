@@ -11,6 +11,7 @@ import { FilterDisplayComponent } from '../../components/filter-display/filter-d
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 import isEmpty from 'lodash/isEmpty'
+import orderBy from 'lodash/orderBy'
 import { SearchApiService } from '../../apis/search-api.service'
 @Component({
   selector: 'ws-app-learning',
@@ -457,7 +458,8 @@ export class LearningComponent implements OnInit, OnDestroy {
         this.searchResults.filters = data.filters
         // this.searchResults.queryUsed = data.queryUsed
         // this.searchResults.type = data.type
-        this.searchResults.result.content = (data.result.content) ? data.result.content : []
+        console.log(orderBy(data.result.content, ['lastPublishedOn'], ['desc']))
+        this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
         // [...this.searchResults.result.content, ...(data.result.content ? data.result.content : [])]
         // this.searchResults.doYouMean = data.doYouMean
         // this.searchResults.queryUsed = data.queryUsed
@@ -622,7 +624,7 @@ export class LearningComponent implements OnInit, OnDestroy {
           this.searchResults.filters = data.filters
           // this.searchResults.queryUsed = data.queryUsed
           // this.searchResults.type = data.type
-          this.searchResults.result.content = (data.result.content) ? data.result.content : []
+          this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
           // [...this.searchResults.result.content, ...(data.result.content ? data.result.content : [])]
           // this.searchResults.doYouMean = data.doYouMean
           // this.searchResults.queryUsed = data.queryUsed
