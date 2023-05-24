@@ -249,11 +249,11 @@ export class TelemetryService {
         cookie
       }
       param = JSON.parse(param)
-      let data = {
+      edata = {
         ...edata, ...param
       }
 
-      console.log("edataService", data)
+      console.log("edataService", edata)
       if (page.objectId) {
         const config = {
           context: {
