@@ -1,0 +1,21 @@
+<div>
+  <button class="close-button float-right cursor-pointer" [mat-dialog-close]="true">&times;</button>
+  <div style="display: flex;">
+    <h3>Certificate preview of course : {{content.tocConfig}}</h3>
+    <button mat-raised-button [color]="'primary'" style="margin:0px 10px;" (click)="downloadCertificate(content)">
+      <img loading="lazy" src=".\fusion-assets\icons\download.svg" alt="download">
+      <span class="full-text" i18n>Certificate</span>
+      <span class="short-text" i18n>Cert</span>
+    </button>
+  </div>
+  <img [src]="img">
+  <canvas id="certCanvas"></canvas>
+  <div class="overlay" *ngIf="isLoading">
+    <div class="loader-container">
+      <div class="loader-ripple">
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+</div>

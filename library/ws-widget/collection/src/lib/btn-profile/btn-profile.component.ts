@@ -179,7 +179,6 @@ export class BtnProfileComponent extends WidgetBaseComponent
   // }
 
   ngOnInit() {
-    console.log(this.configSvc)
     this.setPinnedApps()
     if (this.widgetData && this.widgetData.actionBtnId) {
       this.id = this.widgetData.actionBtnId

@@ -16,8 +16,12 @@
       showNavbar && isNavBarRequired
   }">
 
-    <ws-mobile-dashboard *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn"></ws-mobile-dashboard>
-    <router-outlet></router-outlet>
+    <ws-mobile-dashboard
+      *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline"></ws-mobile-dashboard>
+    <router-outlet *ngIf="appOnline"></router-outlet>
+    <div *ngIf="!appOnline" style="text-align: center;">
+      <h3 class="mt-15">You're offline. Check your internet connection</h3>
+    </div>
   </div>
 
   <!-- Mobile Footer -->

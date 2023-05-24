@@ -47,6 +47,10 @@ const API_END_POINTS = {
 export class WidgetContentService {
   private messageSource = new Subject<any>()
   public currentMessage = this.messageSource.asObservable()
+
+  private backSource = new Subject<any>()
+  public backMessage = this.backSource.asObservable()
+
   public _updateValue = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
   updateValue$ = this._updateValue.asObservable()
@@ -61,6 +65,9 @@ export class WidgetContentService {
   }
   changeMessage(message: string) {
     this.messageSource.next(message)
+  }
+  changeBack(message: string) {
+    this.backSource.next(message)
   }
   // fetchContent(
   //   contentId: string,
@@ -297,7 +304,7 @@ export class WidgetContentService {
     }
     req.query = req.query || ''
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
-                                                       req,
+      req,
     )
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {
@@ -343,7 +350,7 @@ export class WidgetContentService {
 
   loginAuth(req: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(retry(1),
-                                                                    map(
+      map(
         (data: any) => data
       )
     )

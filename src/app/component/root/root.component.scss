@@ -70,6 +70,9 @@ ws-app-nav-bar {
   .hide-in-mobile {
     display: none;
   }
+  .mt-15 {
+    padding-top: 80px !important;
+  }
 }
 
 @media screen and (min-width:600px) {
@@ -136,4 +139,9 @@ ws-app-nav-bar {
   bottom: 1.9rem;
   padding: 0.1rem;
   border-radius: 0.3rem;
+}
+
+.mt-15 {
+  margin-top: 15px !important;
+  font-weight: 500 !important;
 }

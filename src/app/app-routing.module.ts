@@ -547,8 +547,6 @@ export class AppRoutingModule {
         let OS = this.getOsInfo()
 
         this.telemetrySvc.paramTriggerImpression(this.paramsJSON, browserName, OS)
-
-        console.log("yes here", this.paramsJSON, browserName, OS)
       }
     })
   }

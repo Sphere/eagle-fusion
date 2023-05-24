@@ -494,7 +494,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         }
       })
         .catch((err: any) => {
-
+          console.log(err)
           this.openSnackbar(err.error.params.errmsg)
         })
     }

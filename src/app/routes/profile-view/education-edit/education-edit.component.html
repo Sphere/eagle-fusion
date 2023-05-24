@@ -28,8 +28,15 @@
         </mat-error>
       </mat-form-field>
     </div>
-    <button type="submit" (click)="onSubmit(educationForm)" class="save-btn"
-      [disabled]="educationForm?.invalid || educationForm.controls?.yearPassing.errors?.pattern" i18n>Save</button>
+
+    <button
+      *ngIf="educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'GRADUATE' ||  educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'POSTGRADUATE'; else normal "
+      type="submit" (click)="onSubmit(educationForm)" class="save-btn"
+      [disabled]="educationForm?.invalid || cName === ''" i18n>Save</button>
+    <ng-template #normal>
+      <button type="submit" (click)="onSubmit(educationForm)" class="save-btn" [disabled]="educationForm?.invalid"
+        i18n>Save</button>
+    </ng-template>
   </form>
   <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"
     value="User profile details updated successfully!" #toastSuccess />

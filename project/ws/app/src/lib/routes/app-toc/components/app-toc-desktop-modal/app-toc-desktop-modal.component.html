@@ -6,10 +6,10 @@
     <div class="details mb-1" *ngIf="content?.content.creator"><span i18n i18n>Author</span>:
       {{content?.content.creator}}
     </div>
-    <div *ngIf="content?.content.sourceName" class="mb-1">
+    <!-- <div *ngIf="content?.content.sourceName" class="mb-1">
       <span i18n>Source</span>: <a class="blue-link cursor-pointer"
         (click)="showOrgprofile(content?.content.sourceName)">{{content?.content.sourceName}}</a>
-    </div>
+    </div> -->
     <div class="details-date"
       *ngIf="content?.tocConfig.atAGlance?.lastUpdatedOn?.enabled && content?.content.lastUpdatedOn">
       <span i18n>Last updated on</span>: {{ content?.content.lastUpdatedOn | date }}
