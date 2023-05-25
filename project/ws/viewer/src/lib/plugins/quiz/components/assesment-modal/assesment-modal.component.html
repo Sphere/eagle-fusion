@@ -33,11 +33,11 @@
     </mat-tab>
     <mat-tab i18n-label label="Results" [disabled]='!tabActive'>
       <div class="flex flex-col justify-content-center items-center m-0  result-wrapper pt-5" *ngIf="!isCompetency">
-        <h1 class="result-title"><span i18n>Result:</span> <span class="text-green-600" *ngIf="isCompleted"
+        <h1 class="result-title"><span i18n>Result : </span> <span class="text-green-600" *ngIf="isCompleted"
             i18n>Pass</span>
           <span class="text-red-600" *ngIf="!isCompleted" i18n> Did not pass</span>
         </h1>
-        <h4 class="result-score-title text-center" i18n>Your score is:</h4>
+        <h4 class="result-score-title text-center" i18n>Your score is :</h4>
         <h1 class="result-score text-center">{{result}}<span>%</span></h1>
 
         <div class="result-overview-container">

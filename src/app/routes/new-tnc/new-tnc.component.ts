@@ -277,36 +277,29 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
   }
   updateUser(reqUpdate: any) {
-    console.log(reqUpdate)
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-      console.log(data)
-      console.log(this.result)
-      if (data.result.response === 'SUCCESS') {
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
+      let res = await data
+      console.log(res.result.response)
+      if (res.result.response === 'SUCCESS') {
         this.configSvc.profileDetailsStatus = true
         this.configSvc.hasAcceptedTnc = true
         if (this.result.tncStatus) {
           if (this.configSvc.unMappedUser) {
-            this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(200), mergeMap((userData: any) => {
+            this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(400), mergeMap((userData: any) => {
               return of(userData)
             })).subscribe((userDetails: any) => {
-              console.log(userDetails)
               if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
-                console.log('12')
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
                   const url = `app/about-you`
                   window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
-                  // this.router.navigate([url], { queryParams: { redirect: courseUrl } })
                 } else {
                   const url = `page/home`
-                  // location.href = url
                   window.location.assign(`${location.origin}/${this.lang}/${url}`)
                 }
               } else {
-                console.log('21')
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {
                   const url = `page/home`
-                  // location.href = url
                   window.location.assign(`${location.origin}/${this.lang}/${url}`)
                 }
                 location.href = localStorage.getItem('url_before_login') || ''
@@ -314,19 +307,12 @@ export class NewTncComponent implements OnInit, OnDestroy {
             })
           }
         } else {
-          console.log('4s')
           const url = `page/home`
-          // location.href = url
           window.location.assign(`${location.origin}/${this.lang}/${url}`)
         }
-        // location.href = '/page/home'
-        // this.router.navigate(['/page/home'])
-        //   .then(() => {
-        //     window.location.reload()
-        //   })
       }
     },
-                                                                  (err: any) => {
+      (err: any) => {
         this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
         // TO DO: Telemetry event for failure
         this.errorInAccepting = true

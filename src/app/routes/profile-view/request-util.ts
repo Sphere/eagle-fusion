@@ -190,6 +190,8 @@ export const getOrganisationsHistory = (form: any, userProfileData: any) => {
     completePostalAddress: '',
     additionalAttributes: {},
     osid: get(userProfileData, 'professionalDetails[0].osid') || undefined,
+    block: get(form, 'block') ? form.block : userProfileData.professionalDetails[0].block,
+    subcentre: get(form, 'subcentre') ? form.subcentre : userProfileData.professionalDetails[0].subcentre,
   }
   organisations.push(org)
   return organisations

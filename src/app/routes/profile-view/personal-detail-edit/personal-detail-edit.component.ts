@@ -85,6 +85,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       postalAddress: new FormControl(),
       pincode: new FormControl(),
       languages: new FormControl(),
+      block: new FormControl(),
+      subcentre: new FormControl(),
     })
 
     // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
@@ -174,7 +176,11 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
-            this.updateForm()
+            console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
+            if (data.profileDetails.profileReq.personalDetails.dob) {
+
+              this.updateForm()
+            }
             if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences!.language === 'hi') {
               this.personalDetailForm.patchValue({
                 knownLanguage: 'हिंदी',
@@ -282,6 +288,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   updateForm() {
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
+      console.log(data, 'o')
       // this.profileUserName = `${data.personalDetails.firstname} `
       // if (data.personalDetails.middlename) {
       //   this.profileUserName += `${data.personalDetails.middlename} `
@@ -295,31 +302,41 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       //   this.getDateFromText(data.personalDetails.dob)
       // }
 
-      data.professionalDetails[0].orgType === 'Others' ? this.orgOthersField = true : this.orgOthersField = false
-      data.professionalDetails[0].profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
-      data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
-      this.personalDetailForm.patchValue({
-        // userName: this.profileUserName,
-        firstname: data.personalDetails.firstname,
-        surname: data.personalDetails.surname,
-        dob: this.getDateFromText(data.personalDetails.dob),
-        profession: data.professionalDetails[0].profession,
-        professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
-        regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
-        orgType: data.professionalDetails[0].orgType,
-        orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,
-        organizationName: data.professionalDetails[0].name,
-        nationality: data.personalDetails.nationality,
-        domicileMedium: data.personalDetails.domicileMedium,
-        gender: data.personalDetails.gender,
-        maritalStatus: data.personalDetails.maritalStatus,
-        knownLanguages: data.personalDetails.knownLanguages,
-        mobile: data.personalDetails.mobile,
-        postalAddress: data.personalDetails.postalAddress,
-        pincode: data.personalDetails.pincode,
-        designation: data.professionalDetails[0].designation,
-      })
+      if (data.personalDetails && data) {
+        this.personalDetailForm.patchValue({
+          // userName: this.profileUserName,
+          firstname: data.personalDetails.firstname,
+          surname: data.personalDetails.surname,
+          dob: this.getDateFromText(data.personalDetails.dob),
+          regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
+          nationality: data.personalDetails.nationality,
+          domicileMedium: data.personalDetails.domicileMedium,
+          gender: data.personalDetails.gender,
+          maritalStatus: data.personalDetails.maritalStatus,
+          knownLanguages: data.personalDetails.knownLanguages,
+          mobile: data.personalDetails.mobile,
+          postalAddress: data.personalDetails.postalAddress,
+          pincode: data.personalDetails.pincode,
+
+        })
+      }
+      if (data && data.professionalDetails) {
+        data.professionalDetails[0].orgType === 'Others' ? this.orgOthersField = true : this.orgOthersField = false
+        data.professionalDetails[0].profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
+        data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
+        this.personalDetailForm.patchValue({
+          profession: data.professionalDetails[0].profession,
+          professionOtherSpecify: data.professionalDetails[0].professionOtherSpecify,
+          orgType: data.professionalDetails[0].orgType,
+          orgOtherSpecify: data.professionalDetails[0].orgOtherSpecify,
+          organizationName: data.professionalDetails[0].name,
+          block: data.professionalDetails[0].block,
+          subcentre: data.professionalDetails[0].subcentre,
+          designation: data.professionalDetails[0].designation,
+        })
+      }
     }
+
     this.loadDob = true
   }
 

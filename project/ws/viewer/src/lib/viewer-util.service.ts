@@ -13,6 +13,7 @@ export class ViewerUtilService {
     setS3Cookie: `/apis/v8/protected/content/setCookie`,
     // PROGRESS_UPDATE: `/apis/protected/v8/user/realTimeProgress/update`,
     PROGRESS_UPDATE: `/apis/proxies/v8/content-progres`,
+    NEW_PROGRESS_UPDATE: `/apis/protected/v8/updateProgressv2/update`,
     SCORM_UPDATE: `/apis/proxies/v8/getContents/`,
   }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
@@ -172,9 +173,9 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    this.http
-      .patch(`${this.API_ENDPOINTS.PROGRESS_UPDATE}/${contentId}`, req)
-      .subscribe(noop, noop)
+    console.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`)
+    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
+
   }
 
   realTimeProgressUpdateQuiz(contentId: string, collectionId?: string, batchId?: string, status?: number) {
@@ -197,9 +198,11 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    this.http
-      .patch(`${this.API_ENDPOINTS.PROGRESS_UPDATE}/${contentId}`, req)
-      .subscribe(noop, noop)
+    console.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '201')
+    // this.http
+    //   .patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}/${contentId}`, req)
+    //   .subscribe(noop, noop)
+    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
   }
 
   scormUpdate(artifactUrl: string): Observable<any> {
