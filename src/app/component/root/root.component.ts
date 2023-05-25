@@ -79,6 +79,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isCommonChatEnabled = true
   online$: Observable<boolean>
   appOnline: boolean | undefined
+  paramsJSON!: string
 
   constructor(
     private router: Router,
@@ -318,6 +319,35 @@ export class RootComponent implements OnInit, AfterViewInit {
       // }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
+        const paramMap = this.activatedRoute.snapshot.queryParamMap
+        const params = {}
+
+        paramMap.keys.forEach((key: any) => {
+          var paramValue = paramMap.get(key)
+          params[key] = paramValue
+        })
+
+        this.paramsJSON = JSON.stringify(params)
+        let userAgent = navigator.userAgent
+        let browserName
+
+        if (userAgent.match(/chrome|chromium|crios/i)) {
+          browserName = "chrome"
+        } else if (userAgent.match(/firefox|fxios/i)) {
+          browserName = "firefox"
+        } else if (userAgent.match(/safari/i)) {
+          browserName = "safari"
+        } else if (userAgent.match(/opr\//i)) {
+          browserName = "opera"
+        } else if (userAgent.match(/edg/i)) {
+          browserName = "edge"
+        } else {
+          browserName = "No browser detection"
+        }
+
+        let OS = this.getOsInfo()
+
+        this.telemetrySvc.paramTriggerImpression(this.paramsJSON, browserName, OS)
         if (this.appStartRaised) {
           this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
           this.appStartRaised = false
@@ -352,6 +382,34 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.isLoggedIn = false
     }
   }
+  getOsInfo = () => {
+    const userAgent = window.navigator.userAgent
+    const osName = (() => {
+      if (userAgent.indexOf("Win") !== -1) return "Windows"
+      if (userAgent.indexOf("Mac") !== -1) return "MacOS"
+      if (userAgent.indexOf("Linux") !== -1) return "Linux"
+      if (userAgent.indexOf("Android") !== -1) return "Android"
+      if (userAgent.indexOf("iOS") !== -1) return "iOS"
+      return "Unknown"
+    })()
+    let osVersion = ""
+    if (osName === "Windows") {
+      const match = userAgent.match(/Windows NT (\d+\.\d+)/)
+      if (match) osVersion = match[1]
+    } else if (osName === "MacOS") {
+      const match = userAgent.match(/Mac OS X (\d+\.\d+)/)
+      if (match) osVersion = match[1]
+    } else if (osName === "iOS") {
+      const match = userAgent.match(/iPhone OS (\d+\.\d+)/)
+      if (match) osVersion = match[1]
+    } else if (osName === "Android") {
+      const match = userAgent.match(/Android (\d+\.\d+)/)
+      if (match) osVersion = match[1]
+    } else {
+      osVersion = ""
+    }
+    return `${osName} (${osVersion})`
+  };
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
