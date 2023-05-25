@@ -178,12 +178,25 @@
             <div [ngSwitch]="content.type | lowercase">
               <div *ngSwitchCase="'pdf'">
                 <img src=".\fusion-assets\icons\pdf-icon.png">
+                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
+                  (click)="downloadResource(content)" mat-icon-button matTooltip="Download Resource" i18n-matTooltip>
+                  <mat-icon matTooltip="Download Resource">get_app</mat-icon>
+                </button>
               </div>
               <div *ngSwitchCase="'lecture'">
                 <img src=".\fusion-assets\icons\pdf-icon.png">
+                <button title="Download Resource" matTooltip="Download Resource" aria-label="Download Resource"
+                  *ngIf="content.showDownloadBtn=='Yes'" (click)="downloadResource(content)" mat-icon-button
+                  i18n-matTooltip>
+                  <mat-icon matTooltip="Download Resource">get_app</mat-icon>
+                </button>
               </div>
               <div *ngSwitchCase="'video'">
                 <img src=".\fusion-assets\icons\video-icon.png">
+                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
+                  (click)="downloadResource(content)" mat-icon-button matTooltip="Download Resource" i18n-matTooltip>
+                  <mat-icon matTooltip="Download Resource">get_app</mat-icon>
+                </button>
               </div>
               <div *ngSwitchCase="'scorm'">
                 <img src=".\fusion-assets\icons\video-icon.png">
@@ -195,7 +208,8 @@
             </div>
           </ng-container>
           <!-- </span> -->
-          <div class="margin-left-xxs">{{ content?.duration | pipeDurationTransform: 'hms' }}</div>
+          <div [ngClass]="content.showDownloadBtn === 'Yes' ? 'margin-top-xs' : 'margin-left-xxs'">{{ content?.duration
+            | pipeDurationTransform: 'hms' }}</div>
           <div class="align-rt progrss-box">
             <span class="content-check"
               *ngIf="content?.completionPercentage === 100 && content?.completionStatus == 2; else elseResourcePercentage">

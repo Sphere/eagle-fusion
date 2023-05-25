@@ -1,8 +1,9 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
+  NgModule,
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
-import { MatTreeNestedDataSource } from '@angular/material'
+import { MatTreeNestedDataSource, MatTooltipModule } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
@@ -34,7 +35,10 @@ interface IViewerTocCard {
   type: string
   complexity: string
   children: null | IViewerTocCard[]
+  artifactUrl: string
+  showDownloadBtn: string
 }
+import { HttpClient } from '@angular/common/http'
 
 export type TCollectionCardType = 'content' | 'playlist' | 'goals'
 
@@ -48,7 +52,12 @@ interface ICollectionCard {
   duration: number
   redirectUrl: string | null
 }
+@NgModule({
+  imports: [
+    MatTooltipModule,
 
+  ],
+})
 @Component({
   selector: 'viewer-viewer-toc',
   templateUrl: './viewer-toc.component.html',
@@ -71,6 +80,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   disabledNode: boolean
   currentContentType: any
   constructor(
+    private http: HttpClient,
     private activatedRoute: ActivatedRoute,
     private domSanitizer: DomSanitizer,
     // private logger: LoggerService,
@@ -215,6 +225,18 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
 
     })
+  }
+  downloadResource(content: any) {
+    const fileUrl = content.artifactUrl
+    console.log("fileUrl: ", content)
+    // Make the HTTP GET request
+    this.http.get(fileUrl, {
+      responseType: 'blob' // Set the response type as blob
+    })
+      .subscribe((response: Blob) => {
+        // Save the file using FileSaver
+        saveAs(response, content.title) // Replace 'filename.ext' with your desired file name and extension
+      })
   }
   async scromUpdateCheck(data: any) {
     this.batchId = data.batchId
@@ -459,6 +481,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       duration: content.duration,
       type: this.resourceContentType,
       complexity: content.complexityLevel,
+      artifactUrl: content.artifactUrl,
+      showDownloadBtn: content.showDownloadBtn || 'No',
       // tslint:disable
       completionPercentage: content.completionPercentage!,
       completionStatus: content.completionStatus!,
