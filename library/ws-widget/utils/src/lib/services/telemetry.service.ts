@@ -239,17 +239,21 @@ export class TelemetryService {
       }
 
 
-      const edata = {
+      let edata = {
         pageid: page.pageid, // Required. Unique page id
         type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
         uri: page.pageUrl,
-        param,
         browserName,
         OS,
         timestamp: Date.now(),
         cookie
       }
+      param = JSON.parse(param)
+      edata = {
+        ...edata, ...param
+      }
 
+      console.log("edataService", edata)
       if (page.objectId) {
         const config = {
           context: {
