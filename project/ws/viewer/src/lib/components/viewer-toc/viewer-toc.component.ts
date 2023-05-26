@@ -78,7 +78,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   collectionId = ''
   resourceContentType: any
   disabledNode: boolean
-  currentContentType: any
+  currentContentType: any = ''
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -274,9 +274,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ngOnChanges() {
     this.change = this.contentSvc.currentMessage.subscribe(async (data: any) => {
       if (data) {
-        console.log(data)
+        console.log(data, data.type)
         this.currentContentType = await data.type
-        this.processCollectionForTree(data.contentList)
+        this.processCollectionForTree(data)
         //this.ngOnInit()
       }
     })
@@ -654,10 +654,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   private async processCollectionForTree(content?: any) {
     if (content) {
       console.log(content)
-      let res: any
-      res = await this.processData(content)
-      console.log(res)
-      if (this.currentContentType == "Video" || "Scorm") {
+      await this.processData(content.contentList)
+      console.log(content.type)
+      if (content.type === "Video" || content.type === "Scorm") {
         if (this.playerStateService.isResourceCompleted()) {
           const nextResource = this.playerStateService.getNextResource()
           if (!isNull(nextResource)) {
