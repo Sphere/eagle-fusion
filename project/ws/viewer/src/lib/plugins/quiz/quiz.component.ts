@@ -345,12 +345,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+                  console.log(data)
+                  console.log(isNull(data.nextResource))
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
-                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
+                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        width: '542px',
-                        panelClass: 'overview-modal',
+                        //width: '542px',
+                        //panelClass: 'overview-modal',
                         disableClose: true,
                         data: 'Congratulations!, you have completed the course',
                       })
@@ -365,6 +367,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                         }
                       })
                     } else {
+
                       this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                         queryParams: {
                           primaryCategory: 'Course',
@@ -395,10 +398,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (isNull(data.nextResource)) {
         // tslint:disable-next-line
-        if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
+        if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
           const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-            width: '542px',
-            panelClass: 'overview-modal',
+            //width: '542px',
+            //panelClass: 'overview-modal',
             disableClose: true,
             data: 'Congratulations!, you have completed the course',
           })
@@ -533,7 +536,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
-                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.showCompletionMsg) {
+                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                         width: '542px',
                         panelClass: 'overview-modal',

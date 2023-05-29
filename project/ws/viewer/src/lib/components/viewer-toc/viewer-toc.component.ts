@@ -3,7 +3,7 @@ import {
   NgModule,
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
-import { MatTreeNestedDataSource, MatTooltipModule } from '@angular/material'
+import { MatTreeNestedDataSource, MatTooltipModule, MatDialog } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
@@ -24,6 +24,7 @@ import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
 import isNull from 'lodash/isNull'
+import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 interface IViewerTocCard {
   identifier: string
   completionPercentage: number
@@ -75,7 +76,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   hideSideNav = false
   reverse = ''
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
-  collectionId = ''
+  collectionId: any = ''
   resourceContentType: any
   disabledNode: boolean
   currentContentType: any = ''
@@ -92,6 +93,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     // private contentProgressSvc: ContentProgressService,
     private playerStateService: PlayerStateService,
     public router: Router,
+    public dialog: MatDialog,
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -142,6 +144,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
+      this.collectionId = params.get('collectionId')
       const collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
         if (
@@ -220,7 +223,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          }, 1000)
+          }, 500)
         }
       }
 
@@ -659,15 +662,48 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (content.type === "Video" || content.type === "Scorm") {
         if (this.playerStateService.isResourceCompleted()) {
           const nextResource = this.playerStateService.getNextResource()
-          if (!isNull(nextResource)) {
+          console.log(nextResource)
+          if (isNull(nextResource)) {
             this.router.navigate([nextResource], { preserveQueryParams: true })
             this.playerStateService.trigger$.complete()
           } else {
+            console.log('ss12')
             this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
               queryParams: {
                 primaryCategory: 'Course',
                 batchId: this.batchId,
               },
+            })
+          }
+
+        }
+      } else {
+        console.log(this.playerStateService.isResourceCompleted())
+        console.log(isNull(this.playerStateService.getNextResource()))
+        if (this.playerStateService.isResourceCompleted()) {
+          const nextResource = this.playerStateService.getNextResource()
+          console.log(nextResource)
+          if (isNull(nextResource)) {
+            this.router.navigate([nextResource], { preserveQueryParams: true })
+            this.playerStateService.trigger$.complete()
+          } else {
+            console.log('ss')
+            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+              width: '542px',
+              panelClass: 'overview-modal',
+              disableClose: true,
+              data: 'Congratulations!, you have completed the course',
+            })
+            confirmdialog.afterClosed().subscribe((res: any) => {
+              if (res && res.event === 'CONFIRMED') {
+                this.dialog.closeAll()
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
+              }
             })
           }
 
