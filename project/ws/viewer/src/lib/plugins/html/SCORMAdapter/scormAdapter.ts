@@ -288,6 +288,7 @@ export class SCORMAdapterService {
     }
   }
   getPercentage(postData: any): number {
+    console.log(postData)
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 100
