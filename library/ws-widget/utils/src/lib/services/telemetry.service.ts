@@ -9,6 +9,7 @@ import { EventService } from './event.service'
 import { LoggerService } from './logger.service'
 // import { environment } from 'src/environments/environment'
 import { HttpClient } from '@angular/common/http'
+import { OrgServiceService } from '../../../../../../src/organisations/org-home-service.service'
 
 declare var $t: any
 
@@ -25,6 +26,7 @@ export class TelemetryService {
     RBCP: 'rbcp-web-ui',
   }
   constructor(
+    private orgService: OrgServiceService,
     private http: HttpClient,
     private configSvc: ConfigurationsService,
     private eventsSvc: EventService,
@@ -223,7 +225,107 @@ export class TelemetryService {
       console.log('Error in telemetry impression', e)
     }
   }
+  async publicImpression(param: any, browserName: any, OS: any) {
+    try {
+      const page = this.getPageDetails()
+      await this.getTelemetryConfig()
+      var cookie: any
+      if (this.isCookieExpired('USERUID')) {
+        var timestamp = new Date().getTime().toString(36)
+        var randomString = Math.random().toString(36).substring(2, 9)
+        var uniqueId = timestamp + randomString
+        cookie = this.setCookie('USERUID', uniqueId, 1)
+      } else {
+        cookie = this.getCookie('USERUID')
+      }
 
+
+      let edata = {
+        pageid: page.pageid, // Required. Unique page id
+        type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
+        uri: page.pageUrl,
+        browserName,
+        OS,
+        timestamp: Date.now(),
+        cookie
+      }
+      param = JSON.parse(param)
+      edata = {
+        ...edata, ...param
+      }
+      const finalObject = {
+        "id": "ekstep.telemetry",
+        "ver": "3.0",
+        "ets": Date.now(),
+        "events": [
+          {
+            "eid": "PUBLICIMPRESSION",
+            "ets": Date.now(),
+            "ver": "3.0",
+            "mid": "",
+            "actor": {
+              "id": "anonymous",
+              "type": "User"
+            },
+            "context": {
+              "channel": "",
+              "pdata": {
+                "id": "web-ui",
+                "ver": "1.0.0",
+                "pid": ""
+              },
+              "env": "prod",
+              "sid": "",
+              "did": "",
+              "cdata": [],
+              "rollup": {}
+            },
+            "object": {
+              "ver": "1.0.0",
+              "id": ""
+            },
+            "tags": [],
+            "edata": edata
+          }
+        ]
+      }
+
+      console.log("edataService", finalObject)
+      if (page.objectId) {
+        // const config = {
+        //   context: {
+        //     pdata: {
+        //       ...this.pData,
+        //       id: this.pData.id,
+        //     },
+        //   },
+        //   object: {
+        //     id: page.objectId,
+        //   },
+        // }
+        this.orgService.postPublicTelemetry(finalObject).subscribe((result: any) => {
+          console.log("result", result)
+        })
+        // $t.impression(edata, config)
+      } else {
+        this.orgService.postPublicTelemetry(finalObject).subscribe((result: any) => {
+          console.log("result", result)
+        })
+        // $t.impression(edata, {
+        //   context: {
+        //     pdata: {
+        //       ...this.pData,
+        //       id: this.pData.id,
+        //     },
+        //   },
+        // })
+      }
+      this.previousUrl = page.pageUrl
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in telemetry paramTrigger', e)
+    }
+  }
   async paramTriggerImpression(param: any, browserName: any, OS: any) {
     try {
       const page = this.getPageDetails()
