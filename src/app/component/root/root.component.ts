@@ -319,6 +319,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       // }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
+        console.log("yes telemetry")
         const paramMap = this.activatedRoute.snapshot.queryParamMap
         const params = {}
 

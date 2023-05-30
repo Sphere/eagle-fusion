@@ -91,7 +91,7 @@ import { GoogleCallbackComponent } from './routes/google-callback/google-callbac
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 //import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 //import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
-//import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
+import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
@@ -216,7 +216,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MobileDashboardComponent,
     //MobileCategoryComponent,
     //MobileVideoPlayerComponent,
-    //MobileFooterComponent,
+    MobileFooterComponent,
     MobileProfileDashboardComponent,
     MobileAboutPopupComponent,
     ProfileSelectComponent,

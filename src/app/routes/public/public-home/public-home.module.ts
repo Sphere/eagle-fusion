@@ -17,9 +17,11 @@ import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
 import { MobileHomeComponent } from '../../../routes/mobile-home/mobile-home.component'
-//import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
+import { MobileTrustedByPageComponent } from '../../../routes/mobile-trusted-by-page/mobile-trusted-by-page.component'
+
+import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
 import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
-//import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
+import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
 import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
 //import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 import { PublicTocComponent } from '../public-toc/public-toc.component'
@@ -32,9 +34,10 @@ import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callbac
     PublicHomeComponent,
     MobilePageComponent,
     MobileHomeComponent,
-    //MobilePageFaqComponent,
+    MobileTrustedByPageComponent,
+    MobilePageFaqComponent,
     MobileCourseViewComponent,
-    //MobileHowDoesWorkComponent,
+    MobileHowDoesWorkComponent,
     MobileOrganizationComponent,
     //MobileLeaderboardComponent,
     PublicTocComponent,
@@ -66,7 +69,8 @@ import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callbac
   exports: [PublicHomeComponent,
     MobilePageComponent,
     MobileHomeComponent,
-    //MobilePageFaqComponent,
+    MobileTrustedByPageComponent,
+    MobilePageFaqComponent,
     MobileCourseViewComponent,
     //MobileHowDoesWorkComponent,
     PublicTocComponent,

@@ -12,30 +12,30 @@ export class MobilePageComponent implements OnInit {
   topThreeCourse: any
   showCreateBtn = false
   pageLayout: any
-  //videoData: any
+  videoData: any
   leaderBoard = false
   constructor(
     private router: Router,
     private http: HttpClient) { }
 
   ngOnInit() {
-    // this.videoData = [
-    //   {
-    //     url: '../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Register for a course',
-    //     description: 'Explore various courses and pick the ones you like',
-    //   },
-    //   {
-    //     url: '../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Take the course',
-    //     description: 'Access the course anytime, at your convinience',
-    //   },
-    //   {
-    //     url: '../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Get certified',
-    //     description: 'Receive downloadable and shareable certificates',
-    //   },
-    // ]
+    this.videoData = [
+      {
+        url: '../../fusion-assets/videos/Login-Register-Comp-Final.mp4#t=0.1',
+        title: 'Register for a course',
+        description: 'Explore various courses and pick the ones you like',
+      },
+      {
+        url: '../../fusion-assets/videos/Navigation-Comp-Final.mp4#t=0.1',
+        title: 'Take the course',
+        description: 'Access the course anytime, at your convinience',
+      },
+      {
+        url: '../../fusion-assets/videos/Certificate-Comp-Final.mp4#t=0.1',
+        title: 'Get certified',
+        description: 'Receive downloadable and shareable certificates',
+      },
+    ]
 
     this.http.get(`assets/configurations/mobile-public.json`).pipe(delay(500)).subscribe((res: any) => {
       this.pageLayout = res.pageLayout
