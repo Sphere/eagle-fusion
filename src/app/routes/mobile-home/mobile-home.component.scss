@@ -1,3 +1,4 @@
+@import 'ws-mixins';
 .header2 {
 width: 317px;
 height: 80px;
@@ -1004,4 +1005,18 @@ img.card-img-partner-a.img-responsive {
   }
 
 
+}
+.info-block{
+    flex-wrap: wrap;
+}
+.info-container{
+    width: 145px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    @include breakpoint-xs{
+         width: 250px;
+    }
 }
