@@ -97,7 +97,7 @@
             <div class="next-btn-div">
               <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
                 [disabled]="!createAccountForm?.valid"
-                (click)="onSubmit(createAccountForm);eventTrigger('Create Account Page', 'next-btn')">Next</button>
+                (click)="onSubmit(createAccountForm);eventTrigger('Create Account Page', 'next-btn', createAccountForm)">Next</button>
             </div>
             <div class="rel">
               <span class="whatsApp">
