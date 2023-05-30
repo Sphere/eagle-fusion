@@ -352,6 +352,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
           this.appStartRaised = false
         }
+        if (!this.configSvc.userProfile) {
+          this.telemetrySvc.publicImpression(this.paramsJSON, browserName, OS)
+        }
       }
 
     })
