@@ -659,35 +659,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       console.log(content)
       await this.processData(content.contentList)
       console.log(content.type)
+      console.log(this.playerStateService.isResourceCompleted())
+      console.log(isNull(this.playerStateService.getNextResource()))
       if (content.type === "Video" || content.type === "Scorm") {
         if (this.playerStateService.isResourceCompleted()) {
           const nextResource = this.playerStateService.getNextResource()
           console.log(nextResource)
-          if (isNull(nextResource)) {
+          if (!isNull(nextResource)) {
             this.router.navigate([nextResource], { preserveQueryParams: true })
             this.playerStateService.trigger$.complete()
           } else {
             console.log('ss12')
-            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-              queryParams: {
-                primaryCategory: 'Course',
-                batchId: this.batchId,
-              },
-            })
-          }
-
-        }
-      } else {
-        console.log(this.playerStateService.isResourceCompleted())
-        console.log(isNull(this.playerStateService.getNextResource()))
-        if (this.playerStateService.isResourceCompleted()) {
-          const nextResource = this.playerStateService.getNextResource()
-          console.log(nextResource)
-          if (isNull(nextResource)) {
-            this.router.navigate([nextResource], { preserveQueryParams: true })
-            this.playerStateService.trigger$.complete()
-          } else {
-            console.log('ss')
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
               panelClass: 'overview-modal',
@@ -706,8 +688,76 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
             })
           }
-
+        } else {
+          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+            queryParams: {
+              primaryCategory: 'Course',
+              batchId: this.batchId,
+            },
+          })
         }
+      } else {
+        console.log(this.playerStateService.isResourceCompleted())
+        console.log(isNull(this.playerStateService.getNextResource()))
+        if (this.playerStateService.isResourceCompleted()) {
+          if (isNull(this.playerStateService.getNextResource())) {
+            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+              width: '542px',
+              panelClass: 'overview-modal',
+              disableClose: true,
+              data: 'Congratulations!, you have completed the course',
+            })
+            confirmdialog.afterClosed().subscribe((res: any) => {
+              if (res && res.event === 'CONFIRMED') {
+                this.dialog.closeAll()
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
+              }
+            })
+          } else {
+            console.log('lll')
+            // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+            //   queryParams: {
+            //     primaryCategory: 'Course',
+            //     batchId: this.batchId,
+            //   },
+            // })
+          }
+        }
+        // setTimeout(() => {
+        //   if (this.playerStateService.isResourceCompleted()) {
+        //     const nextResource = this.playerStateService.getNextResource()
+        //     console.log(nextResource)
+        //     if (!isNull(nextResource)) {
+        //       this.router.navigate([nextResource], { preserveQueryParams: true })
+        //       this.playerStateService.trigger$.complete()
+        //     } else {
+        //       console.log('ss')
+        //       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+        //         width: '542px',
+        //         panelClass: 'overview-modal',
+        //         disableClose: true,
+        //         data: 'Congratulations!, you have completed the course',
+        //       })
+        //       confirmdialog.afterClosed().subscribe((res: any) => {
+        //         if (res && res.event === 'CONFIRMED') {
+        //           this.dialog.closeAll()
+        //           this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+        //             queryParams: {
+        //               primaryCategory: 'Course',
+        //               batchId: this.batchId,
+        //             },
+        //           })
+        //         }
+        //       })
+        //     }
+
+        //   }
+        // }, 2000)
       }
       //this.nestedDataSource.data = content
       //this.processCurrentResourceChange()
@@ -726,6 +776,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       //}
     } else {
       if (this.collection && this.collection.children) {
+        this.isLoading = true
         let userId
         if (this.configSvc.userProfile) {
           userId = this.configSvc.userProfile.userId || ''
@@ -856,7 +907,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         // if (this.resourceId && this.tocMode === 'TREE') {
         if (this.resourceId) {
           of(true)
-            .pipe(delay(2000))
+            .pipe(delay(200))
             .subscribe(() => {
               this.expandThePath()
               this.isLoading = false
@@ -872,7 +923,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
-    const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex].completionPercentage! : null
+    const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex]!.completionPercentage! : null
     const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
     // tslint:disable-next-line:object-shorthand-properties-first
     this.playerStateService.setState({

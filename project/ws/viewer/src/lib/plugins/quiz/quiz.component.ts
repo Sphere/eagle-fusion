@@ -369,7 +369,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                         }
                       })
                     } else {
-
+                      this.dialog.closeAll()
                       this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                         queryParams: {
                           primaryCategory: 'Course',
