@@ -277,9 +277,9 @@ export class CreateAccountComponent implements OnInit {
     console.log(userInfo)
     let obj3 = {
       "FormInfoDetails": {
-        "FormId": 7,
+        "FormId": 4,
         "OTPFormId": 0,
-        "FormType": 1,
+        "FormType": 0,
         "BannerId": 0,
         "RedirectUrl": "",
         "Name": "",

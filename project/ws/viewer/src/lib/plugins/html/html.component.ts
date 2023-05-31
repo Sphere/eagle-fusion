@@ -170,7 +170,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
 
-      this.contentSvc.changeMessage('scorm')
+      //this.contentSvc.changeMessage('scorm')
       this.scormAdapterService.contentId = this.htmlContent.identifier
       // this.scormAdapterService.loadData()
       this.scormAdapterService.loadDataV2()
