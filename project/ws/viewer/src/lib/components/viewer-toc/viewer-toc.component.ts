@@ -3,7 +3,7 @@ import {
   NgModule,
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
-import { MatTreeNestedDataSource, MatTooltipModule } from '@angular/material'
+import { MatTreeNestedDataSource, MatTooltipModule, MatDialog } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
@@ -24,6 +24,7 @@ import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
 import isNull from 'lodash/isNull'
+import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 interface IViewerTocCard {
   identifier: string
   completionPercentage: number
@@ -75,10 +76,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   hideSideNav = false
   reverse = ''
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
-  collectionId = ''
+  collectionId: any = ''
   resourceContentType: any
   disabledNode: boolean
-  currentContentType: any
+  currentContentType: any = ''
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -92,6 +93,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     // private contentProgressSvc: ContentProgressService,
     private playerStateService: PlayerStateService,
     public router: Router,
+    public dialog: MatDialog,
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -119,6 +121,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   isErrorOccurred = false
   private paramSubscription: Subscription | null = null
   private viewerDataServiceSubscription: Subscription | null = null
+  change: Subscription | null = null
+  progresSub: Subscription | null = null
   message!: string
   subscription: Subscription | null = null
   isLoading = false
@@ -140,6 +144,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.paramSubscription = this.activatedRoute.queryParamMap.subscribe(async params => {
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
+      this.collectionId = params.get('collectionId')
       const collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
         if (
@@ -185,6 +190,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     })
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
+      console.log(_data, '180')
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
         this.processCurrentResourceChange()
@@ -192,6 +198,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     })
     this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
+      console.log(data, '188')
       if (data) {
         //
         // console.log(this.playerStateService.trigger$.getValue())
@@ -216,7 +223,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          }, 4000)
+          }, 500)
         }
       }
 
@@ -268,10 +275,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     }
   }
   ngOnChanges() {
-    this.contentSvc.currentMessage.subscribe(async (data: any) => {
+    this.change = this.contentSvc.currentMessage.subscribe(async (data: any) => {
       if (data) {
-        this.currentContentType = await data
-        this.ngOnInit()
+        console.log(data, data.type)
+        this.currentContentType = await data.type
+        this.processCollectionForTree(data)
+        //this.ngOnInit()
       }
     })
   }
@@ -345,6 +354,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     }
     if (this.viewerDataServiceSubscription) {
       this.viewerDataServiceSubscription.unsubscribe()
+    }
+    if (this.change) {
+      console.log('ko')
+      this.change.unsubscribe()
+    }
+    if (this.progresSub) {
+      console.log('por')
+      this.progresSub.unsubscribe()
     }
     // if(this.subscription) {
     //   this.subscription.unsubscribe();
@@ -528,31 +545,259 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     }
     return url
   }
-
-  private async processCollectionForTree() {
+  async processData(data?: any) {
+    console.log(this.collection)
+    console.log(data)
+    if (this.collection) {
+      this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
+    }
+    console.log('here data from current message', data)
     if (this.collection && this.collection.children) {
-      let userId
-      if (this.configSvc.userProfile) {
-        userId = this.configSvc.userProfile.userId || ''
+      const mergeData = (collection: any) => {
+
+        collection.map((child1: any, index: any, element: any) => {
+          const foundContent = data.find((el1: any) => el1.contentId === child1.identifier)
+
+          if (foundContent) {
+            child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
+            child1.completionStatus = foundContent.status
+            if (this.viewerDataSvc.getNode() && child1.completionPercentage === undefined) {
+              child1.disabledNode = false
+            }
+          } else if (this.viewerDataSvc.getNode()) {
+            if (index === 0) {
+              element[index].disabledNode = false
+              if (child1.completionPercentage === 100) {
+                if (element && element[index + 1]) {
+                  element[index + 1].disabledNode = false
+                }
+              }
+            } else {
+              if (element[index + 1]) {
+                element[index + 1].disabledNode = true
+              }
+            }
+          }
+          if (child1.completionPercentage === 100) {
+            if (element && element[index + 1]) {
+              element[index + 1].disabledNode = false
+            }
+          } else {
+            if (element[index + 1]) {
+              element[index + 1].disabledNode = true
+            }
+          }
+
+          if (child1['children']) {
+
+            child1['children'].map((child2: any, cindex: any) => {
+              // tslint:disable-next-line:max-line-length
+              const foundContent2 = data.find((el2: any) => el2.contentId === child2.identifier)
+              if (foundContent2) {
+                child2.completionPercentage = foundContent2.completionPercentage
+                child2.completionStatus = foundContent2.status
+
+                // tslint:disable-next-line:max-line-length
+              } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                if (element[index].children.length > 0) {
+                  if (cindex === 0) {
+                    element[index].children[cindex].disabledNode = false
+                  } else {
+                    if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
+
+                      element[index].children[cindex].disabledNode = false
+                    } else {
+                      if (this.viewerDataSvc.getNode()) {
+                        element[index].children[cindex].disabledNode = true
+                      } else {
+                        element[index].children[cindex].disabledNode = false
+                      }
+
+                    }
+
+                  }
+                  return
+                }
+                // tslint:disable-next-line: max-line-length
+              } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
+                if (element[index].children.length > 0) {
+
+                  if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
+
+                    element[index].children[cindex].disabledNode = false
+                  } else {
+                    if (this.viewerDataSvc.getNode()) {
+                      element[index].children[cindex].disabledNode = true
+                    } else {
+                      element[index].children[cindex].disabledNode = false
+                    }
+
+                  }
+                  return
+                }
+              } else {
+
+                if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage !== 100) {
+                  if (this.viewerDataSvc.getNode()) {
+                    element[index].children[cindex].disabledNode = true
+                  } else {
+                    element[index].children[cindex].disabledNode = false
+                  }
+
+                }
+              }
+            })
+          }
+        })
       }
-      const req: NsContent.IContinueLearningDataReq = {
-        request: {
-          userId,
-          batchId: this.batchId,
-          courseId: this.collection.identifier || '',
-          contentIds: [],
-          fields: ['progressdetails'],
-        },
+      mergeData(this.collection.children)
+    }
+    this.updateResourceChange()
+  }
+  private async processCollectionForTree(content?: any) {
+    if (content) {
+      console.log(content)
+      await this.processData(content.contentList)
+      console.log(content.type)
+      console.log(this.playerStateService.isResourceCompleted())
+      console.log(isNull(this.playerStateService.getNextResource()))
+      if (content.type === "Video" || content.type === "Scorm") {
+        if (this.playerStateService.isResourceCompleted()) {
+          const nextResource = this.playerStateService.getNextResource()
+          console.log(nextResource)
+          if (!isNull(nextResource)) {
+            this.router.navigate([nextResource], { preserveQueryParams: true })
+            this.playerStateService.trigger$.complete()
+          } else {
+            console.log('ss12')
+            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+              width: '542px',
+              panelClass: 'overview-modal',
+              disableClose: true,
+              data: 'Congratulations!, you have completed the course',
+            })
+            confirmdialog.afterClosed().subscribe((res: any) => {
+              if (res && res.event === 'CONFIRMED') {
+                this.dialog.closeAll()
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
+              }
+            })
+          }
+        } else {
+          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+            queryParams: {
+              primaryCategory: 'Course',
+              batchId: this.batchId,
+            },
+          })
+        }
+      } else {
+        console.log(this.playerStateService.isResourceCompleted())
+        console.log(isNull(this.playerStateService.getNextResource()))
+        if (this.playerStateService.isResourceCompleted()) {
+          if (isNull(this.playerStateService.getNextResource())) {
+            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+              width: '542px',
+              panelClass: 'overview-modal',
+              disableClose: true,
+              data: 'Congratulations!, you have completed the course',
+            })
+            confirmdialog.afterClosed().subscribe((res: any) => {
+              if (res && res.event === 'CONFIRMED') {
+                this.dialog.closeAll()
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
+              }
+            })
+          } else {
+            console.log('lll')
+            // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+            //   queryParams: {
+            //     primaryCategory: 'Course',
+            //     batchId: this.batchId,
+            //   },
+            // })
+          }
+        }
+        // setTimeout(() => {
+        //   if (this.playerStateService.isResourceCompleted()) {
+        //     const nextResource = this.playerStateService.getNextResource()
+        //     console.log(nextResource)
+        //     if (!isNull(nextResource)) {
+        //       this.router.navigate([nextResource], { preserveQueryParams: true })
+        //       this.playerStateService.trigger$.complete()
+        //     } else {
+        //       console.log('ss')
+        //       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+        //         width: '542px',
+        //         panelClass: 'overview-modal',
+        //         disableClose: true,
+        //         data: 'Congratulations!, you have completed the course',
+        //       })
+        //       confirmdialog.afterClosed().subscribe((res: any) => {
+        //         if (res && res.event === 'CONFIRMED') {
+        //           this.dialog.closeAll()
+        //           this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+        //             queryParams: {
+        //               primaryCategory: 'Course',
+        //               batchId: this.batchId,
+        //             },
+        //           })
+        //         }
+        //       })
+        //     }
+
+        //   }
+        // }, 2000)
       }
-      await this.contentSvc.fetchContentHistoryV2(req).subscribe(
-        data => {
+      //this.nestedDataSource.data = content
+      //this.processCurrentResourceChange()
+      // this.collection = content.contentList
+      //this.nestedDataSource = content
+      //this.updateResourceChange()
+      //this.pathSet = new Set()
+      // if (this.resourceId && this.tocMode === 'TREE') {
+      // if (this.resourceId) {
+      //   of(true)
+      //     .pipe(delay(200))
+      //     .subscribe(() => {
+      //this.expandThePath()
+      //this.isLoading = false
+      //})
+      //}
+    } else {
+      if (this.collection && this.collection.children) {
+        this.isLoading = true
+        let userId
+        if (this.configSvc.userProfile) {
+          userId = this.configSvc.userProfile.userId || ''
+        }
+        const req: NsContent.IContinueLearningDataReq = {
+          request: {
+            userId,
+            batchId: this.batchId,
+            courseId: this.collection.identifier || '',
+            contentIds: [],
+            fields: ['progressdetails'],
+          },
+        }
+        this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(async data => {
           // tslint:disable-next-line: no-console
           console.log(data['result']['contentList'])
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
 
-              collection.map((child1: any, index: any, element: any) => {
-                const foundContent = data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
+              collection.map(async (child1: any, index: any, element: any) => {
+                const foundContent = await data['result']['contentList'].find((el1: any) => el1.contentId === child1.identifier)
 
                 if (foundContent) {
                   child1.completionPercentage = foundContent.completionPercentage === undefined ? 0 : foundContent.completionPercentage
@@ -650,23 +895,24 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           }
           this.updateResourceChange()
         },
-        (error: any) => {
-          // tslint:disable-next-line:no-console
-          console.log('CONTENT HISTORY FETCH ERROR >', error)
-        },
-      )
-      // tslint:disable-next-line: no-console
-      console.log(this.collection.children)
-      this.nestedDataSource.data = this.collection.children
-      this.pathSet = new Set()
-      // if (this.resourceId && this.tocMode === 'TREE') {
-      if (this.resourceId) {
-        of(true)
-          .pipe(delay(2000))
-          .subscribe(() => {
-            this.expandThePath()
-            this.isLoading = false
-          })
+          (error: any) => {
+            // tslint:disable-next-line:no-console
+            console.log('CONTENT HISTORY FETCH ERROR >', error)
+          },
+        )
+        // tslint:disable-next-line: no-console
+        console.log(this.collection.children)
+        this.nestedDataSource.data = this.collection.children
+        this.pathSet = new Set()
+        // if (this.resourceId && this.tocMode === 'TREE') {
+        if (this.resourceId) {
+          of(true)
+            .pipe(delay(200))
+            .subscribe(() => {
+              this.expandThePath()
+              this.isLoading = false
+            })
+        }
       }
     }
   }
@@ -677,8 +923,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
-    const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex].completionPercentage : null
-    const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage : null
+    const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex]!.completionPercentage! : null
+    const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
     // tslint:disable-next-line:object-shorthand-properties-first
     this.playerStateService.setState({
       isValid: Boolean(this.collection),

@@ -4,6 +4,7 @@ import { MatDialog, MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
 import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
+import { forkJoin } from 'rxjs/internal/observable/forkJoin'
 
 @Component({
   selector: 'ws-create-account',
@@ -49,7 +50,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   {})
+    }, {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -88,7 +89,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   {})
+    }, {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -175,7 +176,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           console.log(err)
           if (localStorage.getItem(`preferedLanguage`)) {
             const reqObj = localStorage.getItem(`preferedLanguage`) || ''
@@ -232,7 +233,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
+        err => {
           if (localStorage.getItem(`preferedLanguage`)) {
             const reqObj = localStorage.getItem(`preferedLanguage`) || ''
             const lang = JSON.parse(reqObj) || ''
@@ -254,7 +255,8 @@ export class CreateAccountComponent implements OnInit {
       )
     }
   }
-  eventTrigger(p1: string, p2: string) {
+  eventTrigger(p1: string, p2: string, form?: any) {
+    console.log(form)
     const obj = {
       EventDetails: {
         EventName: p1,
@@ -262,10 +264,38 @@ export class CreateAccountComponent implements OnInit {
       },
     }
     // @ts-ignore: Unreachable code error
+    console.log(MainVisitorDetails)
+    // @ts-ignore: Unreachable code error
+    console.log('-------', FormInfoDetails)
+    // @ts-ignore: Unreachable code error
     const userdata = Object.assign(MainVisitorDetails, obj)
-    this.signupService.plumb5SendEvent(userdata).subscribe((res: any) => {
-      // @ts-ignore: Unreachable code error
-      // tslint:disable-next-line
+    console.log(userdata)
+    let obj2 = {
+      "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""]
+    }
+    const userInfo = Object.assign(userdata, obj2)
+    console.log(userInfo)
+    let obj3 = {
+      "FormInfoDetails": {
+        "FormId": 4,
+        "OTPFormId": 0,
+        "FormType": 0,
+        "BannerId": 0,
+        "RedirectUrl": "",
+        "Name": "",
+        "EmailId": ""
+      },
+      "MainVisitorDetails": userInfo
+    }
+    //const data = Object.assign(obj3, userInfo)
+    console.log(obj3)
+    // this.signupService.plumb5SendEvent(userInfo).subscribe((res: any) => {
+    //   // @ts-ignore: Unreachable code error
+    //   // tslint:disable-next-line
+    //   console.log(res)
+    // })
+    console.log(this.emailPhoneType)
+    forkJoin([this.signupService.plumb5SendEvent(userdata), this.signupService.plumb5SendForm(obj3)]).pipe().subscribe((res: any) => {
       console.log(res)
     })
   }

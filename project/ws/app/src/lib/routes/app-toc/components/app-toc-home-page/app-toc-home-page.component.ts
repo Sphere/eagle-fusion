@@ -482,7 +482,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
               queryParams: { batchId: batchData.content[0].batchId },
               queryParamsHandling: 'merge',
             })
-          this.openSnackbar('Enrolled Successfully!')
+          //this.openSnackbar('Enrolled Successfully!')
           setTimeout(() => {
             const query = this.generateQuery('RESUME')
             this.router.navigate([this.resumeDataLink.url], { queryParams: query })
@@ -490,7 +490,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           }, 500)
 
         } else {
-          this.openSnackbar('Something went wrong, please try again later!')
+          //this.openSnackbar('Something went wrong, please try again later!')
         }
       })
         .catch((err: any) => {

@@ -66,7 +66,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     }
   }
   seachAPI(id: any) {
-    this.orgService.getSearchResults().subscribe((res: any) => {
+    this.orgService.getSearchResultsById(id).subscribe((res: any) => {
       if (res) {
         find(res.result.content
           , findRes => {

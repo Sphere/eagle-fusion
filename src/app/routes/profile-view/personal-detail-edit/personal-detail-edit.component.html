@@ -65,26 +65,35 @@
         i18n-placeholder placeholder="RN/RM Number" autocomplete="off">
     </div>
 
-    <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
-        (selectionChange)="orgTypeSelect($event.value);">
-        <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
+    <div *ngIf="userProfileData?.professionalDetails[0].orgType !== null">
+      <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
+        <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
+          (selectionChange)="orgTypeSelect($event.value);">
+          <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-    <div class="form-group" *ngIf="orgOthersField">
+    <div class="form-group" *ngIf="orgOthersField || userProfileData?.professionalDetails[0].orgOtherSpecify">
       <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
         i18n-placeholder autocomplete="off">
     </div>
     <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgOtherSpecify'].hasError('pattern')">
       {{errorMsg}}</mat-error>
 
-    <div class="form-group">
+    <div class="form-group" *ngIf=" userProfileData?.professionalDetails[0].name">
       <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization's Name"
         i18n-placeholder autocomplete="off" (change)="fieldChange()" i18n-placeholder>
     </div>
-
+    <div class="form-group input-box" *ngIf="userProfileData?.professionalDetails[0].profession === 'ASHA'">
+      <input type="text" name="block" formControlName="block" class="form-control" placeholder="Block"
+        autocomplete="off" i18n-placeholder>
+    </div>
+    <div class="form-group input-box" *ngIf="userProfileData?.professionalDetails[0].profession === 'ASHA'">
+      <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
+        autocomplete="off" i18n-placeholder>
+    </div>
     <div class="form-group">
       <input type="text" formControlName="nationality" i18n-placeholder class="form-control" placeholder="Nationality"
         autocomplete="off" (change)="fieldChange()">

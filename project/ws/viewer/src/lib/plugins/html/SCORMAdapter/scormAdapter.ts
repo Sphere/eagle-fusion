@@ -6,15 +6,18 @@ import { errorCodes } from './errors'
 import { HttpBackend, HttpClient } from '@angular/common/http'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
-import { NsContent } from '@ws-widget/collection'
 import * as dayjs from 'dayjs'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { Subscription } from 'rxjs'
+import { NsContent, WidgetContentService } from '@ws-widget/collection'
+import { shareReplay } from 'rxjs/operators'
+
 const API_END_POINTS = {
   SCROM_ADD_UPDTE: '/apis/protected/v8/scrom/add',
   SCROM_FETCH: '/apis/protected/v8/scrom/get',
   SCROM_UPDTE_PROGRESS: `/apis/proxies/v8/content-progres`,
   SCROM_FETCH_PROGRESS: `/apis/proxies/v8/read/content-progres`,
+  NEW_PROGRESS_UPDATE: `/apis/protected/v8/updateProgressv2/update`,
 }
 //import { ViewerDataService } from '../../../viewer-data.service'
 @Injectable({
@@ -30,7 +33,8 @@ export class SCORMAdapterService {
     private activatedRoute: ActivatedRoute,
     private configSvc: ConfigurationsService,
     private viewerDataSvc: ViewerDataService,
-    private router: Router
+    private router: Router,
+    private contentSvc: WidgetContentService,
   ) {
     this.http = new HttpClient(handler)
   }
@@ -71,15 +75,15 @@ export class SCORMAdapterService {
       this._setError(301)
       return false
     }
-    this.viewerDataSvc.scromChangeSubject.next(
-      {
-        'completed': true,
-        'batchId':
-          this.activatedRoute.snapshot.queryParamMap.get('batchId'),
-        'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
-        , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
-      }
-    )
+    // this.viewerDataSvc.scromChangeSubject.next(
+    //   {
+    //     'completed': true,
+    //     'batchId':
+    //       this.activatedRoute.snapshot.queryParamMap.get('batchId'),
+    //     'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
+    //     , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
+    //   }
+    // )
     let _return = this.LMSCommit()
     this.store.setItem('Initialized', false)
     this.store.clearAll()
@@ -122,8 +126,11 @@ export class SCORMAdapterService {
       let splitUrl1 = url.split('?primary')
       let splitUrl2 = splitUrl1[0].split('/viewer/html/')
       if (splitUrl2[1] === this.contentId) {
-        this.scromSubscription = this.addDataV2(data).subscribe((response) => {
-          // console.log(response)
+        this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
+          console.log(response)
+          let result = await response.result
+          result["type"] = 'scorm'
+          this.contentSvc.changeMessage(result)
           if (this.getPercentage(data) === 100) {
             this.viewerDataSvc.scromChangeSubject.next(
               {
@@ -281,6 +288,7 @@ export class SCORMAdapterService {
     }
   }
   getPercentage(postData: any): number {
+    console.log(postData)
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 100
@@ -322,7 +330,9 @@ export class SCORMAdapterService {
     console.log(req)
 
     //if(Object.keys(postData).length > 3) {
-    return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
+    //return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
+    console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '327')
+    return this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(shareReplay())
     //}
 
   }

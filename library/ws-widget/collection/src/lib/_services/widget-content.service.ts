@@ -63,7 +63,7 @@ export class WidgetContentService {
     const url = API_END_POINTS.MARK_AS_COMPLETE_META(identifier)
     return this.http.get(url).toPromise()
   }
-  changeMessage(message: string) {
+  changeMessage(message: any) {
     this.messageSource.next(message)
   }
   changeBack(message: string) {

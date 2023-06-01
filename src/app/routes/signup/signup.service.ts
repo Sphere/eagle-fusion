@@ -66,6 +66,14 @@ export class SignupService {
       })
     )
   }
+
+  plumb5SendForm(data: any) {
+    return this.http.post<any>(`https://track.plumb5.com/FormInfoDetails/SaveFormDetails`, data).pipe(
+      map(response => {
+        return response
+      })
+    )
+  }
   validateOtp(data: any) {
     return this.http.post<any>(API_END_POINTS.VALIDATE_OTP, data).pipe(
       map(response => {
