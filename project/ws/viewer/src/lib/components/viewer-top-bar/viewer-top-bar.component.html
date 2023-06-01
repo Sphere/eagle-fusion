@@ -82,7 +82,7 @@
           style="    position: absolute;left: 5px;top: 30px;">
           <mat-icon class="">chevron_left</mat-icon>
         </a>
-        <div class="" style="position: absolute;right: 0px;top: 30px;">
+        <div class="" style="position: absolute;right: 0px;top: 33px;">
           <!-- <ws-widget-btn-content-share [forPreview]="forPreview" [widgetData]="collection" [isDisabled]="isPreview"> -->
           <!-- </ws-widget-btn-content-share> -->
           <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
@@ -91,8 +91,8 @@
         </div>
       </div>
 
-      <h3 *ngIf="logo" class=" pl-3 text-truncate" style="margin-left: 10px;">
-        {{ collection?.name }}
+      <h3 *ngIf="logo" class=" pl-3" style="margin-left: 10px;">
+        {{ (collection?.name.length > 20) ? (collection?.name | slice:0:29)+'...':(collection?.name)}}
       </h3>
     </div>
 

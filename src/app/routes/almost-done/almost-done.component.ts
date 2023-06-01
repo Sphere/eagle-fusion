@@ -351,16 +351,17 @@ export class AlmostDoneComponent implements OnInit {
 
   private getOrganisationsHistory() {
     const organisations: any = []
+    console.log(this.almostDoneForm.value.orgOtherSpecify)
     const org = {
       orgType: this.almostDoneForm.value.orgType,
-      name: this.almostDoneForm.value.orgName.trim(),
-      nameOther: this.almostDoneForm.value.orgOtherSpecify.trim(),
+      name: this.almostDoneForm.value.orgName!.trim(),
+      nameOther: this.almostDoneForm.value.orgOtherSpecify !== null ? this.almostDoneForm.value.orgOtherSpecify!.trim() : '',
       designation: this.almostDoneForm.value.profession.trim(),
       profession: this.backgroundSelect,
       location: '',
       doj: '',
       completePostalAddress: '',
-      professionOtherSpecify: this.almostDoneForm.value.orgOtherSpecify.trim()
+      professionOtherSpecify: this.almostDoneForm.value.orgOtherSpecify !== null ? this.almostDoneForm.value.orgOtherSpecify!.trim() : '',
     }
 
     if (this.backgroundSelect === 'ASHA') {

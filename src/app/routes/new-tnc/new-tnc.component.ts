@@ -291,8 +291,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
               if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  const url = `app/about-you`
-                  window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
+                  //const url = `app/about-you`
+                  this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+                  //window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
                 } else {
                   const url = `page/home`
                   window.location.assign(`${location.origin}/${this.lang}/${url}`)
