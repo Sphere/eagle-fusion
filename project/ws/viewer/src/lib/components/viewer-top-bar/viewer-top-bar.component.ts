@@ -141,6 +141,9 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   fullScreenState(state: boolean) {
+    console.log(Capacitor.getPlatform())
+    alert(state)
+    alert(Capacitor.getPlatform())
     this.isInFullScreen = state
     this.fsState.emit(state)
   }
