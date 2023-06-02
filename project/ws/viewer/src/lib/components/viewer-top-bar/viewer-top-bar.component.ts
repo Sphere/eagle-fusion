@@ -9,7 +9,7 @@ import { PlayerStateService } from '../../player-state.service'
 import { WidgetContentService } from '@ws-widget/collection/src/lib/_services/widget-content.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
-import { Capacitor } from '@capacitor/core'
+
 @Component({
   selector: 'viewer-viewer-top-bar',
   templateUrl: './viewer-top-bar.component.html',
@@ -142,9 +142,23 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   fullScreenState(state: boolean) {
-    console.log(Capacitor.getPlatform())
-    alert(state)
-    alert(Capacitor.getPlatform())
+    // console.log(Capacitor.getPlatform())
+    console.log(state)
+    console.log(!window.screenTop)
+    console.log(!window.screenY)
+    document.addEventListener('fullscreenchange', () => {
+      if (document.fullscreenElement) {
+        console.log('Fullscreen')
+      } else {
+        console.log('Normal')
+        alert('Normal')
+      }
+    })
+    // if (!window.screenTop && !window.screenY) {
+    //   alert('Browser is in fullscreen')
+    // }
+    // alert(Capacitor.getPlatform())
+    //this.contentSvc.showFullScreen(state)
     this.isInFullScreen = state
     this.fsState.emit(state)
   }
