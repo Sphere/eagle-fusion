@@ -20,6 +20,9 @@ import { MobileHomeComponent } from '../../../routes/mobile-home/mobile-home.com
 import { MobileTrustedByPageComponent } from '../../../routes/mobile-trusted-by-page/mobile-trusted-by-page.component'
 
 import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
+import { MobileLatestCommentComponent } from '../../../routes/mobile-latest-comment/mobile-latest-comment.component'
+import { MobileTestimonialsComponent } from '../../../routes/mobile-testimonials/mobile-testimonials.component'
+
 import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
 import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
 import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
@@ -36,6 +39,8 @@ import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callbac
     MobileHomeComponent,
     MobileTrustedByPageComponent,
     MobilePageFaqComponent,
+    MobileLatestCommentComponent,
+    MobileTestimonialsComponent,
     MobileCourseViewComponent,
     MobileHowDoesWorkComponent,
     MobileOrganizationComponent,
@@ -71,6 +76,8 @@ import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callbac
     MobileHomeComponent,
     MobileTrustedByPageComponent,
     MobilePageFaqComponent,
+    MobileLatestCommentComponent,
+    MobileTestimonialsComponent,
     MobileCourseViewComponent,
     //MobileHowDoesWorkComponent,
     PublicTocComponent,

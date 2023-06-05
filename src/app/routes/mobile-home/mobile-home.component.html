@@ -10,32 +10,51 @@
 </div>
 <div class="flex info-block">
   <div class="info-container info-disaplay-bg1">
-    <div class="flex">
+    <div class="flex info-box">
       <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number">13+</div>
     </div>
     <p class="info-text">Language options</p>
   </div>
   <div class="info-container info-disaplay-bg2">
-    <div class="flex">
+    <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number">13+</div>
     </div>
     <p class="info-text">Courses with CNE points</p>
   </div>
   <div class="info-container info-disaplay-bg2">
-    <div class="flex">
+    <div class="flex info-box">
       <img src="/fusion-assets/images/award.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number">13+</div>
     </div>
     <p class="info-text">Certificate Courses</p>
   </div>
   <div class="info-container info-disaplay-bg1">
-    <div class="flex">
-      <img src="/fusion-assets/images/cert.png" class="count-sphere-icons-n" alt="Sphere Icons" />
+    <div class="flex info-box">
+      <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number">157</div>
     </div>
     <p class="info-text">Learners Onboarded</p>
   </div>
-
+</div>
+<div class="tutorials-container">
+  <p class="tutorials-text">Watch tutorials on how sphere works ></p>
+</div>
+<div class="create-account">
+  <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
+    class="flex items-center flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+    [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+    <ng-container>
+      <button mat-raised-button [ngStyle]="{
+            'background-color': '#1C5D95',
+            'width': '100%',
+            'border': '1px solid #1C5D95',
+            'border-radius': '20px',
+            'color': 'white',
+            'font-size': '16px',
+            'font-weight': '400'}" i18n>
+        Create Account</button>
+    </ng-container>
+  </a>
 </div>
