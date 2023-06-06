@@ -53,7 +53,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   hideSearch = false
   constructor(
     private domSanitizer: DomSanitizer,
-    private configSvc: ConfigurationsService,
+    public configSvc: ConfigurationsService,
     // private tourService: CustomTourService,
     private router: Router,
     private accessService: AccessControlService,

@@ -11,7 +11,7 @@ import { ScrollService } from '../../services/scroll.service'
 export class MobileHomeComponent implements OnInit {
   showCreateBtn = false
 
-  constructor(private router: Router, private valueSvc: ValueService, private configSvc: ConfigurationsService,
+  constructor(private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
 
     private scrollService: ScrollService
   ) { }
