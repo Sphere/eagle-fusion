@@ -41,10 +41,10 @@
   }
 }
 .fix-ww {
-  margin-left: auto;
-  margin-right: auto;
+  // margin-left: auto;
+  // margin-right: auto;
   display: flex;
-  flex: 1;
+  // flex: 1;
 }
 .small-font-size {
   @include breakpoint-xs {

@@ -25,7 +25,8 @@
   </div>
 
   <!-- Mobile Footer -->
-  <ws-mobile-footer class="hide-in-desktop app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
+  <ws-mobile-footer *ngIf="(isXSmall$ | async) === true && !isLoggedIn" class="hide-in-desktop app-footer mt-8"
+    [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
   </ws-mobile-footer>
 
   <!-- Desktop Footer -->

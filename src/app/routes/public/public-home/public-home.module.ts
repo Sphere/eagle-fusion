@@ -79,7 +79,7 @@ import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callbac
     MobileLatestCommentComponent,
     MobileTestimonialsComponent,
     MobileCourseViewComponent,
-    //MobileHowDoesWorkComponent,
+    MobileHowDoesWorkComponent,
     PublicTocComponent,
     PublicTocBannerComponent,
     PublicTocOverviewComponent,

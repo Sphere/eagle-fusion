@@ -115,3 +115,30 @@ img.org-logo.img-responsive {
   height: 31px;
   margin-left: -32px;
 }
+
+a {
+  text-decoration: none !important;
+  text-decoration-line: none;
+  text-decoration-thickness: initial;
+  text-decoration-style: initial;
+  text-decoration-color: initial;
+  color: inherit;
+}
+
+::ng-deep .theme-igot.day-mode .ws-mat-accent-text {
+  color: #1C5D95;
+
+  .feature-icon-img {
+    filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
+  }
+
+}
+
+::ng-deep .theme-igot.day-mode .ws-mat-accent-text  .feature-icon-img {
+  filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
+}
+
+
+.blue {
+  filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
+}

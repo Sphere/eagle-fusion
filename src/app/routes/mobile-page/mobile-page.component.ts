@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { delay } from 'rxjs/operators'
+import { DomSanitizer } from '@angular/platform-browser'
+
 @Component({
   selector: 'ws-mobile-page',
   templateUrl: './mobile-page.component.html',
@@ -16,22 +18,24 @@ export class MobilePageComponent implements OnInit {
   leaderBoard = false
   constructor(
     private router: Router,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private sanitizer: DomSanitizer
+  ) { }
 
   ngOnInit() {
     this.videoData = [
       {
-        url: '../../fusion-assets/videos/Login-Register-Comp-Final.mp4#t=0.1',
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
         title: 'Register for a course',
         description: 'Explore various courses and pick the ones you like',
       },
       {
-        url: '../../fusion-assets/videos/Navigation-Comp-Final.mp4#t=0.1',
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Kl28R7m2k50'),
         title: 'Take the course',
         description: 'Access the course anytime, at your convinience',
       },
       {
-        url: '../../fusion-assets/videos/Certificate-Comp-Final.mp4#t=0.1',
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/JTGzCkEXlmU'),
         title: 'Get certified',
         description: 'Receive downloadable and shareable certificates',
       },

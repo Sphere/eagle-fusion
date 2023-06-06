@@ -1,6 +1,7 @@
 import { Component, OnInit, HostListener } from '@angular/core'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ScrollService } from '../../services/scroll.service'
 
 @Component({
   selector: 'ws-mobile-home',
@@ -12,7 +13,7 @@ export class MobileHomeComponent implements OnInit {
 
   constructor(private router: Router, private valueSvc: ValueService, private configSvc: ConfigurationsService,
 
-
+    private scrollService: ScrollService
   ) { }
 
   ngOnInit() {
@@ -23,6 +24,9 @@ export class MobileHomeComponent implements OnInit {
         this.showCreateBtn = false
       }
     })
+  }
+  scrollToHowSphereWorks() {
+    this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
   }
   @HostListener('window:resize', ['$event'])
   onResize() {

@@ -15,6 +15,8 @@ import forEach from 'lodash/forEach'
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { DomSanitizer } from '@angular/platform-browser'
+import { ScrollService } from '../../services/scroll.service'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -26,7 +28,7 @@ export class MobileDashboardComponent implements OnInit {
   topCertifiedCourse: any = []
   featuredCourse: any = []
   userEnrollCourse: any
-  //videoData: any
+  videoData: any
   homeFeatureData: any
   homeFeature: any
   userId: any
@@ -43,13 +45,17 @@ export class MobileDashboardComponent implements OnInit {
     private userSvc: WidgetUserService,
     private router: Router,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sanitizer: DomSanitizer,
+    private scrollService: ScrollService
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
   }
-
+  scrollToHowSphereWorks() {
+    this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
+  }
   ngOnInit() {
     if (localStorage.getItem('preferedLanguage')) {
       let data: any
@@ -63,23 +69,23 @@ export class MobileDashboardComponent implements OnInit {
       }
     }
 
-    // this.videoData = [
-    //   {
-    //     url: './../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Register for a course',
-    //     description: 'Explore various courses and pick the ones you like',
-    //   },
-    //   {
-    //     url: './../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Take the course',
-    //     description: 'Access the course anytime, at your convinience',
-    //   },
-    //   {
-    //     url: './../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Get certified',
-    //     description: 'Receive downloadable and shareable certificates',
-    //   },
-    // ]
+    this.videoData = [
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
+        title: 'Register for a course',
+        description: 'Explore various courses and pick the ones you like',
+      },
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Kl28R7m2k50'),
+        title: 'Take the course',
+        description: 'Access the course anytime, at your convinience',
+      },
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/JTGzCkEXlmU'),
+        title: 'Get certified',
+        description: 'Receive downloadable and shareable certificates',
+      },
+    ]
     if (this.configSvc.userProfile) {
       this.firstName = this.configSvc.userProfile
       this.userId = this.configSvc.userProfile.userId || ''
@@ -97,6 +103,7 @@ export class MobileDashboardComponent implements OnInit {
     }
 
   }
+
   formatFeaturedCourseResponse(res: any) {
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
@@ -147,6 +154,10 @@ export class MobileDashboardComponent implements OnInit {
   // For opening Course Page
   raiseTelemetry(contentIdentifier: any) {
     this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
+  }
+  // To view all course
+  viewAllCourse() {
+    this.router.navigateByUrl(`app/search/learning`)
   }
 
   openIframe(video: any) {

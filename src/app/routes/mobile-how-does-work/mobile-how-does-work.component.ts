@@ -1,4 +1,5 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core'
+import { ScrollService } from '../../services/scroll.service'
 
 @Component({
   selector: 'ws-mobile-how-does-work',
@@ -10,9 +11,15 @@ export class MobileHowDoesWorkComponent implements OnInit {
   /** to listen the eevnt **/
   @Output() openPlayer = new EventEmitter()
 
-  constructor() { }
+  constructor(private scrollService: ScrollService, private elementRef: ElementRef) { }
 
   ngOnInit() {
+    this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
+      if (targetDivId === 'scrollToHowSphereWorks') {
+        this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' })
+      }
+    })
+
   }
   openIframe(data?: any, index?: any) {
     const emitData = {

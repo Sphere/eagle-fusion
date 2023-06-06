@@ -1,31 +1,26 @@
 <div class="content">
-  <p class="py-2 text-base text-capitalize">Hi {{firstName?.firstName}}! <span i18n>Here are some courses for you</span>
+  <p class="banner-heading text-2xl py-2 text-base text-capitalize">Welcome {{firstName?.firstName}}!
   </p>
-  <p class="text-2xl" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue Learning</p>
+  <p class="banner-mini-heading" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue
+    Learning</p>
   <ng-template #start>
-    <p class="text-2xl" i18n>Start Learning</p>
+    <p class="banner-mini-heading" class="text-2xl" i18n>Start Learning</p>
   </ng-template>
-  <div class="flex gap-2">
+  <img class="banner-image" src="/fusion-assets/images/new-banner.png" alt="Banner image" loading="lazy">
+  <!-- <div class="flex gap-2">
     <h3 class="mb-2"><span i18n>Language for Learning </span>: <span
         class="display-language">{{preferedLanguage.lang}}</span></h3>
     <img alt="logo" src="/fusion-assets/icons/lang-icon.png" class="lang-img cursor-pointer"
       (click)="changeLanguage()" />
-  </div>
+  </div> -->
   <!-- <span class="language-text">English <mat-icon>close</mat-icon></span>
   <span class="language-text">हिन्दी <mat-icon>close</mat-icon></span> -->
-
-  <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
+  <div class="tutorials-container" (click)="scrollToHowSphereWorks()">
+    <p class="tutorials-text">Watch tutorials on how sphere works ></p>
+  </div>
+  <!-- <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
     <ws-mobile-course-view [courseData]="userEnrollCourse[0]"></ws-mobile-course-view>
-  </ng-container>
-
-  <!-- How does it work section -->
-  <section class="mt-4" [hidden]=true>
-    <ng-container>
-      <p class="text-2xl" i18n>How does it work?</p>
-      <p class="font-normal text-sm grey-color" i18n>3 simple steps</p>
-      <!-- <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work> -->
-    </ng-container>
-  </section>
+  </ng-container> -->
 
   <!-- Categories Section -->
   <!-- <section class="mt-4">
@@ -34,21 +29,21 @@
   </section> -->
 
   <!-- Top certified courses -->
-  <section class="mt-4">
-    <p class="text-2xl" i18n>Top certified courses</p>
+  <section class="mt-4 py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
+    <p class="text-2xl" i18n>Top Courses</p>
     <div *ngFor="let course of topCertifiedCourse">
       <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
         <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
       </ng-container>
     </div>
-    <a href="app/search/learning">
-      <p class="text-center blue-color text-xl" i18n>View all courses</p>
-    </a>
+    <button i18n (click)="viewAllCourse()" class="view-all-course">
+      View all courses
+    </button>
   </section>
 </div>
 
 <!-- Featured Section-->
-<section *ngIf="featuredCourse.length > 0" class="p-4" style="background-color: #F7F7F7;">
+<section *ngIf="featuredCourse.length > 0" class="mt-4 py-1 px-4 p-4" style="background-color: #F7F7F7;">
   <p class="text-2xl" i18n>Featured</p>
   <ng-container style="background-color: #FFF;">
     <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
@@ -75,9 +70,19 @@
   </div>
 </section> -->
 
-<div class="py-1 px-4 mb-6">
+<div class="py-1 px-4">
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">
     <p class="text-2xl" style="padding-top:10px" i18n>My Courses</p>
     <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
   </ng-container>
+</div>
+<div class="py-1 px-4 mb-6">
+  <!-- How does it work section -->
+  <section class="mt-4">
+    <ng-container>
+      <p class="header2 mb-0">How does it work?</p>
+      <p class="lable1 grey-color">3 simple steps</p>
+      <ws-mobile-how-does-work [data]="videoData" (openPlayer)="openIframe($event)"></ws-mobile-how-does-work>
+    </ng-container>
+  </section>
 </div>
