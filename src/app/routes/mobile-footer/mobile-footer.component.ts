@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'ws-mobile-footer',
@@ -21,6 +22,7 @@ export class MobileFooterComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
+    private router: Router,
   ) {
     if (this.configSvc.restrictedFeatures) {
       if (this.configSvc.restrictedFeatures.has('termsOfUser')) {
@@ -38,5 +40,9 @@ export class MobileFooterComponent implements OnInit {
         this.configSvc.instanceConfig.logos.app,
       )
     }
+  }
+  createAcct() {
+    localStorage.removeItem('url_before_login')
+    this.router.navigateByUrl('app/create-account')
   }
 }
