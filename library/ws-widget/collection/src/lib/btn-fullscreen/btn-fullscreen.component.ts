@@ -42,7 +42,6 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   }
 
   toggleFs() {
-    alert(this.isFullScreenSupported)
     if (getFullScreenElement()) {
       requestExitFullScreen()
       this.fsState.emit(false)
@@ -52,6 +51,10 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
       try {
         this.widgetData.fsContainer.classList.add('mat-app-background')
       } catch (err) { }
+    }
+    if (this.isFullScreenSupported) {
+      requestFullScreen()
+
     }
   }
 }
