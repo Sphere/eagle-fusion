@@ -356,11 +356,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.viewerDataServiceSubscription.unsubscribe()
     }
     if (this.change) {
-      console.log('ko')
       this.change.unsubscribe()
     }
     if (this.progresSub) {
-      console.log('por')
       this.progresSub.unsubscribe()
     }
     // if(this.subscription) {

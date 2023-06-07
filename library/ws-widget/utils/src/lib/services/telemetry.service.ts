@@ -289,8 +289,6 @@ export class TelemetryService {
           }
         ]
       }
-
-      console.log("edataService", finalObject)
       if (page.objectId) {
         // const config = {
         //   context: {
@@ -355,7 +353,6 @@ export class TelemetryService {
         ...edata, ...param
       }
 
-      console.log("edataService", edata)
       if (page.objectId) {
         const config = {
           context: {
