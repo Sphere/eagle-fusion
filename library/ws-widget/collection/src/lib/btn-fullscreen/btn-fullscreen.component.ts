@@ -42,6 +42,15 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   }
 
   toggleFs() {
+    let elem: any
+    elem = document
+    //console.log(elem.querySelector)
+    alert(elem.documentElement)
+    //elem.documentElement.className = 'myClass'
+    if (elem.fullscreenEnabled === false) {
+      alert('e')
+      elem.documentElement.className = 'myClass'
+    }
     if (getFullScreenElement()) {
       requestExitFullScreen()
       this.fsState.emit(false)
@@ -52,9 +61,6 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
         this.widgetData.fsContainer.classList.add('mat-app-background')
       } catch (err) { }
     }
-    if (this.isFullScreenSupported) {
-      requestFullScreen()
 
-    }
   }
 }

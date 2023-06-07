@@ -27,31 +27,18 @@ export function getFullScreenElement() {
   )
 }
 
-export function requestFullScreen(elem?: HTMLElement) {
-  console.log(elem)
-  if (elem) {
-    if (elem.requestFullscreen) {
-      elem.requestFullscreen()
-    } else if (elem.mozRequestFullScreen) {
-      /* Firefox */
-      elem.mozRequestFullScreen()
-    } else if (elem.webkitRequestFullscreen) {
-      /* Chrome, Safari and Opera */
-      elem.webkitRequestFullscreen()
-    } else if (elem.msRequestFullscreen) {
-      /* IE/Edge */
-      elem.msRequestFullscreen()
-    }
-  } else {
-    console.log(document)
-    alert(document.fullscreenEnabled)
-    let docElement: HTMLElement
-    docElement = document.documentElement
-    //document.documentElement.requestFullscreen()
-    if (!document.fullscreenEnabled) {
-      docElement.requestFullscreen()
-    }
-    //)
+export function requestFullScreen(elem: HTMLElement) {
+  if (elem.requestFullscreen) {
+    elem.requestFullscreen()
+  } else if (elem.mozRequestFullScreen) {
+    /* Firefox */
+    elem.mozRequestFullScreen()
+  } else if (elem.webkitRequestFullscreen) {
+    /* Chrome, Safari and Opera */
+    elem.webkitRequestFullscreen()
+  } else if (elem.msRequestFullscreen) {
+    /* IE/Edge */
+    elem.msRequestFullscreen()
   }
 }
 
