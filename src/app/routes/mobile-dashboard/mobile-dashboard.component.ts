@@ -17,6 +17,8 @@ import { MatDialog } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { DomSanitizer } from '@angular/platform-browser'
 import { ScrollService } from '../../services/scroll.service'
+import { ConfigService as CompetencyConfiService } from '../competency/services/config.service'
+import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -47,7 +49,11 @@ export class MobileDashboardComponent implements OnInit {
     private http: HttpClient,
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
-    private scrollService: ScrollService
+    private scrollService: ScrollService,
+    private CompetencyConfiService: CompetencyConfiService,
+    private contentSvc: WidgetContentService,
+
+
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
@@ -88,6 +94,12 @@ export class MobileDashboardComponent implements OnInit {
     ]
     if (this.configSvc.userProfile) {
       this.firstName = this.configSvc.userProfile
+      forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
+      this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+        this.setCompetencyConfig(res[0])
+      })
+      console.log("this.configSvc.userProfile", this.configSvc.userProfile)
+
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
       this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
@@ -102,6 +114,11 @@ export class MobileDashboardComponent implements OnInit {
       })
     }
 
+  }
+  setCompetencyConfig(data: any) {
+    if (data) {
+      this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
+    }
   }
 
   formatFeaturedCourseResponse(res: any) {

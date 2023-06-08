@@ -1,7 +1,7 @@
 <mat-toolbar *ngIf="this.configSvc.userProfile !== null" [color]="primaryNavbarBackground?.color"
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar"
   style="    justify-content: left;">
-  <div class="fix-ww">
+  <div class="fix-ww" style="justify-content: space-evenly;">
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
       <div class="logo-container flex items-center">
         <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
