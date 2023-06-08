@@ -21,11 +21,11 @@ export class MobileHowDoesWorkComponent implements OnInit {
     })
 
   }
-  openIframe(data?: any, index?: any) {
-    const emitData = {
-      videoData: data,
-      videoIndex: index,
-    }
-    this.openPlayer.emit(emitData)
-  }
+  // openIframe(data?: any, index?: any) {
+  //   const emitData = {
+  //     videoData: data,
+  //     videoIndex: index,
+  //   }
+  //   this.openPlayer.emit(emitData)
+  // }
 }
