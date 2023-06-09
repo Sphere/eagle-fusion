@@ -386,32 +386,25 @@ export class RootComponent implements OnInit, AfterViewInit {
     }
   }
   getOsInfo = () => {
-    const userAgent = window.navigator.userAgent
-    const osName = (() => {
-      if (userAgent.indexOf("Win") !== -1) return "Windows"
-      if (userAgent.indexOf("Mac") !== -1) return "MacOS"
-      if (userAgent.indexOf("Linux") !== -1) return "Linux"
-      if (userAgent.indexOf("Android") !== -1) return "Android"
-      if (userAgent.indexOf("iOS") !== -1) return "iOS"
-      return "Unknown"
-    })()
-    let osVersion = ""
-    if (osName === "Windows") {
-      const match = userAgent.match(/Windows NT (\d+\.\d+)/)
-      if (match) osVersion = match[1]
-    } else if (osName === "MacOS") {
-      const match = userAgent.match(/Mac OS X (\d+\.\d+)/)
-      if (match) osVersion = match[1]
-    } else if (osName === "iOS") {
-      const match = userAgent.match(/iPhone OS (\d+\.\d+)/)
-      if (match) osVersion = match[1]
-    } else if (osName === "Android") {
-      const match = userAgent.match(/Android (\d+\.\d+)/)
-      if (match) osVersion = match[1]
-    } else {
-      osVersion = ""
+    let userAgent = window.navigator.userAgent.toLowerCase(),
+      macosPlatforms = /(macintosh|macintel|macppc|mac68k|macos)/i,
+      windowsPlatforms = /(win32|win64|windows|wince)/i,
+      iosPlatforms = /(iphone|ipad|ipod)/i,
+      os = null
+
+    if (macosPlatforms.test(userAgent)) {
+      os = "MacOS"
+    } else if (iosPlatforms.test(userAgent)) {
+      os = "iOS"
+    } else if (windowsPlatforms.test(userAgent)) {
+      os = "Windows"
+    } else if (/android/.test(userAgent)) {
+      os = "Android"
+    } else if (!os && /linux/.test(userAgent)) {
+      os = "Linux"
     }
-    return `${osName} (${osVersion})`
+
+    return os
   };
 
   ngAfterViewInit() {

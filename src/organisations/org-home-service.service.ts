@@ -23,8 +23,6 @@ const API_END_POINTS = {
   // SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
   SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
-  PUBLIC_TELEMETRY: '/apis/public/v8/publicTelemetry',
-
 }
 
 @Injectable({
@@ -53,11 +51,6 @@ export class OrgServiceService {
     const req = { request: { filters: { primaryCategory: ['Course'], contentType: ['Course'], sourceName: 'Ministry of Health and Family Welfare' } }, query: '', sort: [{ lastUpdatedOn: 'desc' }] }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
-  postPublicTelemetry(data: any): Observable<any> {
-    // tslint:disable-next-line:max-line-length
-    return this.http.post<any>(API_END_POINTS.PUBLIC_TELEMETRY, data)
-  }
-
 
   getDatabyOrgId(): Promise<any> {
     const url = `${this.configSvc.sitePath}/page/course.json`

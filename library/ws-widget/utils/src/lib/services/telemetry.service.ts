@@ -9,7 +9,6 @@ import { EventService } from './event.service'
 import { LoggerService } from './logger.service'
 // import { environment } from 'src/environments/environment'
 import { HttpClient } from '@angular/common/http'
-import { OrgServiceService } from '../../../../../../src/organisations/org-home-service.service'
 
 declare var $t: any
 
@@ -25,8 +24,9 @@ export class TelemetryService {
   externalApps: any = {
     RBCP: 'rbcp-web-ui',
   }
+  PUBLIC_TELEMETRY = '/apis/public/v8/publicTelemetry'
+
   constructor(
-    private orgService: OrgServiceService,
     private http: HttpClient,
     private configSvc: ConfigurationsService,
     private eventsSvc: EventService,
@@ -301,14 +301,12 @@ export class TelemetryService {
         //     id: page.objectId,
         //   },
         // }
-        this.orgService.postPublicTelemetry(finalObject).subscribe((result: any) => {
-          console.log("result", result)
-        })
+        this.postPublicTelemetry(finalObject)
+
         // $t.impression(edata, config)
       } else {
-        this.orgService.postPublicTelemetry(finalObject).subscribe((result: any) => {
-          console.log("result", result)
-        })
+        this.postPublicTelemetry(finalObject)
+
         // $t.impression(edata, {
         //   context: {
         //     pdata: {
@@ -323,6 +321,13 @@ export class TelemetryService {
       // tslint:disable-next-line: no-console
       console.log('Error in telemetry paramTrigger', e)
     }
+  }
+  postPublicTelemetry(data: any) {
+    console.log("public telemetry")
+    const publicConfig = this.http
+      .post<any>(this.PUBLIC_TELEMETRY, data)
+      .toPromise()
+    return publicConfig
   }
   async paramTriggerImpression(param: any, browserName: any, OS: any) {
     try {
