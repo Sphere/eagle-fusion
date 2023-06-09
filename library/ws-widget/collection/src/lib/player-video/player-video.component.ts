@@ -265,7 +265,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             if (this.widgetData.identifier && identifier && data) {
               this.viewerSvc
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
-                  console.log(data.result.contentList)
+
                   let result = data.result
                   result["type"] = 'Video'
                   this.contentSvc.changeMessage(result)
@@ -286,7 +286,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
             this.viewerSvc
               .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
-                console.log(data.result.contentList)
+
                 let result = data.result
                 result["type"] = 'Video'
                 this.contentSvc.changeMessage(result)
