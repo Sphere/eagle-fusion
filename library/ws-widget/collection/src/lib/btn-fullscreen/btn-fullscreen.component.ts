@@ -21,7 +21,7 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   // isFullScreenSupported = true
   isInFs = false
   fsChangeSubs: Subscription | null = null
-  isFullScreenSupported: boolean | undefined
+  //isFullScreenSupported: boolean | undefined
 
   ngOnInit() {
     if (!this.widgetData.fsContainer) {
