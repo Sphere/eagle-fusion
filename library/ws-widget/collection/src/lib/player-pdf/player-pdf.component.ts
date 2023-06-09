@@ -107,7 +107,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     this.zoom.disable()
     this.currentPage.disable()
     this.valueSvc.isLtMedium$.subscribe(ltMedium => {
-      console.log(ltMedium)
       if (ltMedium) {
         this.zoom.setValue(0.5)
       }
@@ -355,7 +354,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
 
             this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-              console.log(data.result.contentList)
+
               let result = data.result
               result["type"] = 'PDF'
               this.contentSvc.changeMessage(result)
@@ -366,7 +365,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
 
             this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-              console.log(data)
+
               let result = data.result
               result["type"] = 'PDF'
               this.contentSvc.changeMessage(result)

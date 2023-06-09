@@ -277,7 +277,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ngOnChanges() {
     this.change = this.contentSvc.currentMessage.subscribe(async (data: any) => {
       if (data) {
-        console.log(data, data.type)
         this.currentContentType = await data.type
         this.processCollectionForTree(data)
         //this.ngOnInit()
@@ -544,12 +543,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     return url
   }
   async processData(data?: any) {
-    console.log(this.collection)
-    console.log(data)
+
     if (this.collection) {
       this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
     }
-    console.log('here data from current message', data)
+
     if (this.collection && this.collection.children) {
       const mergeData = (collection: any) => {
 
@@ -656,18 +654,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     if (content) {
       console.log(content)
       await this.processData(content.contentList)
-      console.log(content.type)
-      console.log(this.playerStateService.isResourceCompleted())
-      console.log(isNull(this.playerStateService.getNextResource()))
       if (content.type === "Video" || content.type === "Scorm") {
         if (this.playerStateService.isResourceCompleted()) {
           const nextResource = this.playerStateService.getNextResource()
-          console.log(nextResource)
+
           if (!isNull(nextResource)) {
             this.router.navigate([nextResource], { preserveQueryParams: true })
             this.playerStateService.trigger$.complete()
           } else {
-            console.log('ss12')
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
               panelClass: 'overview-modal',
@@ -695,8 +689,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           })
         }
       } else {
-        console.log(this.playerStateService.isResourceCompleted())
-        console.log(isNull(this.playerStateService.getNextResource()))
+
         if (this.playerStateService.isResourceCompleted()) {
           if (isNull(this.playerStateService.getNextResource())) {
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {

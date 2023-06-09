@@ -90,6 +90,9 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   }
   ngOnInit() {
     this.instanceVal = this.configSvc.rootOrg || ''
+    if (this.configSvc.userProfile && this.configSvc.userProfile.firstName) {
+      this.givenName = `${this.configSvc!.userProfile!.firstName!} ${this.configSvc!.userProfile!.lastName!}`
+    }
     if (this.configSvc.restrictedFeatures) {
       this.isPinFeatureAvailable = !this.configSvc.restrictedFeatures.has('pinFeatures')
     }
