@@ -2,31 +2,30 @@
 
   <div class="mat-body  footer-flex mb-4" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}" class="footer-first-col">
-      <mat-list class="list">
-        <div class="">
-          <!-- <img [src]="appIcon" alt="Angular icon" id="footer-aastar-logo" class="docs-footer-aastar-logo"> -->
+      <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item style="margin-top: 10px;">
           <img class="footer-aastar-logo" loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg"
             alt="Angular icon" id="footer-aastar-logo">
-        </div>
+        </mat-list-item>
       </mat-list>
-
-      <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item> <span i18n>Quick Links</span> </mat-list-item>
+      <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item class="link-header" i18n> Quick Links </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
           <a class="list-item" routerLink="/public/tnc" i18n>
-            Privacy policy and terms of use
+            Privacy policy
+          </a>
+        </mat-list-item>
+        <mat-list-item style="margin-top: 10px;">
+          <a class="list-item" routerLink="/public/tnc" i18n>
+            Terms of Use
           </a>
         </mat-list-item>
       </mat-list>
 
-      <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
-
-
-
+      <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
         <mat-list-item> <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n
-            id="footer-help-contact" class="list-item">Help & Contact </a>
+            id="footer-help-contact" class="list-item link-header">Help & Contact </a>
         </mat-list-item>
-
         <!-- <mat-list-item> <a routerLink="/app/social/blogs" i18n>Blog</a> </mat-list-item> -->
         <mat-list-item style="margin-top: 10px;">
           <a class="link-text" href="mail-to:support@aastrika.org">support@aastrika.org</a>
@@ -52,69 +51,32 @@
         <!--     </mat-form-field> -->
         <!-- </mat-list-item> -->
       </mat-list>
-      <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item> <span i18n>Additional Links</span> </mat-list-item>
-        <mat-list-item style="margin-top: 10px;">Aastrika Foundation:https:
-          <a class="list-item-link" routerLink="https: //www.aastrika.org/" i18n>
+      <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item class="link-header" i18n> Additional Links </mat-list-item>
+        <mat-list-item class="foundation-container" style="margin-top: 10px;">Aastrika Foundation:https:
+          <a target="_blank" class="list-item-link" href="https://www.aastrika.org/" i18n>
             //www.aastrika.org/
           </a>
         </mat-list-item>
-        <mat-list-item>
-          <a class="" href="https://twitter.com/aastrika_fndn?s=21&t=I9xN5rzMahavP0R1Fp7VwA" target="_blank">
+        <mat-list-item class="social-logo-container">
+          <a class="social-logo-block" href="https://twitter.com/aastrika_fndn?s=21&t=I9xN5rzMahavP0R1Fp7VwA"
+            target="_blank">
             <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/twitter.svg" />
           </a>
-          <a class="" href="https://www.facebook.com/aastrikasphere?mibextid=LQQJ4d" target="_blank">
+          <a class="social-logo-block" href="https://www.facebook.com/aastrikasphere?mibextid=LQQJ4d" target="_blank">
             <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/facebook.svg" />
           </a>
-          <a class="" href="https://instagram.com/sphere.aastrika?igshid=MmJiY2I4NDBkZg==" target="_blank">
+          <a class="social-logo-block" href="https://instagram.com/sphere.aastrika?igshid=MmJiY2I4NDBkZg=="
+            target="_blank">
             <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/Instagram-Logo.wine.svg" />
           </a>
-          <a class="" href="https://www.linkedin.com/company/aastrika-foundation/" target="_blank">
+          <a class="social-logo-block" href="https://www.linkedin.com/company/aastrika-foundation/" target="_blank">
             <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/linked-in.svg" />
           </a>
         </mat-list-item>
       </mat-list>
     </div>
-
-    <!-- <div class="text-center" [ngClass]="{'flex': !isXSmall }" style="margin-top: 10px;">
-      <div>
-        <h2 class="footer-heading text-center" i18n>An initiative of</h2>
-        <a href="https://rohininilekani.org/" target="_blank">
-          <img class="footer-image mt-1"
-            src="https://www.aastrika.org/wp-content/uploads/2020/03/nilekani-philanthropies-logo.png"
-            style="max-width: 80px;" /></a>
-      </div>
-      <div>
-        <h2 class="footer-heading text-center" i18n>A Collaboration with </h2>
-        <a href="https://societalplatform.org/" target="_blank">
-          <img class="footer-image mt-2" src="/assets/instances/eagle/app_logos/SPT-logo-small.png" /></a>
-      </div>
-      <div>
-        <h2 class="footer-heading text-center" i18n>Endorsing</h2>
-        <div class="text-center">
-          <a href="https://www.whiteribbonalliance.org/respectful-maternity-care-charter/" class="text-center"
-            target="_blank">
-            <img class="footer-image mt-1"
-              src="https://www.aastrika.org/wp-content/uploads/2020/03/respectful-maternal-care-logo.png" /></a>
-        </div>
-      </div>
-    </div> -->
-    <div [ngClass]="{'flex': !isXSmall}" class="flex-col">
-      <!--       <h2 class="mail">Write to us!</h2>
-      <div class="form-box">
-
-        <input class="input-fiels" type="text" placeholder="Type message">
-        <button class="send-btn">
-          <img src=".\fusion-assets\icons\send-icon.png" alt="">
-        </button>
-      </div> -->
-    </div>
   </div>
-  <!-- partner border -->
-  <!-- <div class="flex">
-    <h2 class="partner"><span i18n>Partners</span></h2>
-  </div> -->
-
 </div>
 
 <footer class="docs-footer px-4 pt-0 sm:px-8 md:px-10ss">
@@ -123,10 +85,8 @@
     </div> -->
     <div class="docs-footer-copyright flex-1">
       <div>
-        <div class="text-dark" class="footer-alignment" i18n>&copy; 2023
-          AastarUrmika Health
-          Systems Pvt
-          Ltd. All rights reserved. </div>
+        <div class="footer-alignment" i18n>&copy; 2023
+          AastarUrmika Health Systems ("Aastrika Foundation") </div>
       </div>
     </div>
   </div>

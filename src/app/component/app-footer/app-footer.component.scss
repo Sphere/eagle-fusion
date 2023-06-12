@@ -1,5 +1,33 @@
 @import 'ws-mixins';
+.mat-body{
+  display: flex;
+  justify-content: center;
+    @include breakpoint-m {
+        justify-content: center;
+    }
 
+    @include breakpoint-s {
+      justify-content: center;
+    }
+}
+.link-header{
+  font-family: 'Roboto' !important;
+font-style: normal !important;
+font-weight: 600 !important;
+font-size: 16px !important;
+line-height: 24px !important;
+/* or 150% */
+
+letter-spacing: -0.02em;
+
+color: #7B6961 !important;
+}
+.social-logo-block{
+  margin: 0px 5px;
+}
+.social-logo-container{
+    margin-top: 10px;
+}
 .footer-container {
   background-color: #f7f7f7;
   display: flex;
@@ -8,13 +36,27 @@
   padding: 1.5rem 10rem;
 
   @include breakpoint-lt-l {
-    padding: 1.5rem 4rem;
+    padding: 1.5rem 1rem;
   }
 
   @include breakpoint-s {
-    padding: 3.5rem 7rem;
+    padding: 1.5rem 1rem;
+    .ml-12{
+      margin-left: 5px !important;
+    }
+    .social-logo-container{
+    margin-top: 15px;
+    }
+    .foundation-container .mat-list-item-content{
+      display: flex;
+      flex-direction: column;
+    }
   }
-
+  @include breakpoint-m {
+    .ml-12{
+      margin-left: 5px !important;
+    }
+  }
   @include breakpoint-l {
     padding: 1.5rem 1rem;
   }
@@ -27,13 +69,9 @@
 }
 
 .footer-flex {
-
-
   @include breakpoint-lt-xl {
-    justify-content: flex-start;
+    justify-content: center;
   }
-
-
 }
 
 .languages {
@@ -48,7 +86,13 @@
 .footer-first-col {
   justify-content: flex-start;
   // align-items: center;
+    @include breakpoint-m {
+      justify-content:space-between;
+    }
 
+    @include breakpoint-s {
+      justify-content:space-between;
+    }
   // width: 35%;
   .list {
     padding-right: 85px !important;
@@ -60,11 +104,11 @@
     }
 
     @include breakpoint-m {
-      padding-right: 35px !important;
+      padding-right: 28px !important;
     }
 
     @include breakpoint-s {
-      padding-right: 50px !important;
+      padding-right: 0px !important;
       padding-bottom: 20px;
     }
 
@@ -114,6 +158,9 @@
   }
 }
 
+.mt-10 {
+  margin-top: 10px;
+}
 
 .mat-list-base .mat-list-item {
   height: 37px !important;
@@ -133,7 +180,30 @@
 //   }
 // }
 
+::ng-deep .social-logo-container > .mat-list-item-content {
+  @include breakpoint-s {
+    margin-top: 10px !important;
+    margin-left:0px !important;
+  }
+  @include breakpoint-m {
+    margin-top: 10px !important;
+    margin-left:0px !important;  }
+  @include breakpoint-l {
+    margin-top: 10px !important;
+    margin-left:0px !important; }
 
+}
+ .mat-list-item{
+  @include breakpoint-s {
+    margin-top: 0px !important
+  }
+  @include breakpoint-m {
+    margin-top: 0px !important
+  }
+  @include breakpoint-l {
+    margin-top: 0px !important
+  }
+}
 @media (min-width: 1870px) {
   .col-width {
     min-width: 315px;
@@ -200,10 +270,8 @@
   padding: 8px;
 }
 .footer-aastar-logo{
-  height: auto;
-    max-width: 100%;
-    width: 150px;
-    max-height: 60px;
+  width: 190px;
+  margin-top: 30px;
 }
 img.docs-footer-aastar-logo {
   width: 104px;
@@ -234,13 +302,37 @@ height: auto;
     text-align: center;
   }
 }
+.footer-aastar-logo{
+
+@include breakpoint-m {
+      margin-top: 0px !important;
+  }
+  @include breakpoint-s {
+    width: 150px;
+      margin-top: 0px !important;
+  }
+}
 
 ::ng-deep .footer-container .mat-list-base .mat-list-item .mat-list-item-content {
   padding: 0;
 
+color: #7B6961;
+
   @include breakpoint-xs {
     display: block !important;
     text-align: center;
+    font-size: 14px;
+  }
+  @include breakpoint-s {
+    .list-item-link{
+      font-size: 14px;
+    }
+    display: block !important;
+    font-size: 14px;
+  }
+  @include breakpoint-m {
+    display: block !important;
+    font-size: 14px;
   }
 }
 
@@ -282,6 +374,18 @@ line-height: 24px;
 letter-spacing: -0.02em;
 
 color: #7B6961;
+ @include breakpoint-xs {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  @include breakpoint-s {
+    font-size: 14px;
+    line-height: 22px;
+  }
+  @include breakpoint-m {
+    font-size: 14px;
+    line-height: 22px;
+  }
 }
 .list-item-link{
     font-family: 'Roboto';
@@ -293,7 +397,7 @@ line-height: 24px;
 
 letter-spacing: -0.02em;
 
-color: #7B6961;
+color: #7B6961 !important;
 text-decoration: underline !important;
 }
 
@@ -348,7 +452,6 @@ text-decoration: underline !important;
 }
 
 
-@import 'ws-mixins';
 .flex-column{
   flex-direction: column;
 }
@@ -391,8 +494,18 @@ hr.new1{
   padding-left: 5px;
   align-items: center;
   color: #7B6961 !important;
+   @include breakpoint-s {
+    font-size: 12px;
+    width: 160px;
+    padding-left: 0px;
+    margin-top: 0px;
+  }
 }
 .whatsapp-logo{
+  @include breakpoint-s{
+    width: 30px;
+    height: 30px;
+  }
   width: 40px;
   height: 40px;
   padding: 5px;
@@ -448,4 +561,30 @@ color: #7B6961;
 
 .tutorials-text{
   margin: auto;
+}
+.footer-alignment{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+text-align: center;
+letter-spacing: -0.02em;
+
+color: #7B6961;
+ @include breakpoint-s {
+    font-size: 14px;
+  }
+  @include breakpoint-m {
+    font-size: 14px;
+  }
+}
+
+
+@media only screen and (min-width: 1280px) and (max-width: 1919px){
+.mt-10{
+  margin-top: 0px !important;
+}
 }
