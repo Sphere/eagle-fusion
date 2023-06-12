@@ -24,7 +24,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.activeRoute.queryParams.subscribe(params => {
-      this.courseid = params['courseId']
+      this.courseid = params['courseid']
     })
     // const navigation = this.router.getCurrentNavigation()
     // if (navigation) {
@@ -41,6 +41,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
       // const data: any = localStorage.getItem('tocData')
       // this.tocData = JSON.parse(data)
     }
+    console.log(this.tocData, this.courseid)
     if (this.tocData === undefined) {
       this.seachAPI(this.courseid)
     }
