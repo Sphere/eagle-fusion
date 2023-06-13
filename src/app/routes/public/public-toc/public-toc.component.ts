@@ -24,7 +24,8 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.activeRoute.queryParams.subscribe(params => {
-      this.courseid = params['courseid']
+      console.log(params)
+      this.courseid = params['courseid'] !== undefined ? params['courseid'] : params['courseId']
     })
     // const navigation = this.router.getCurrentNavigation()
     // if (navigation) {
