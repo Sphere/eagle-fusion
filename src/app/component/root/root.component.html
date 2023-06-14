@@ -28,6 +28,43 @@
   <ws-mobile-footer *ngIf="(isXSmall$ | async) === true && !isLoggedIn" class="hide-in-desktop app-footer mt-8"
     [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
   </ws-mobile-footer>
+  <!-- Desktop Featured Course -->
+  <!-- Featured Section-->
+  <!-- <section *ngIf="(isXSmall$ | async) === false && isLoggedIn" class="mt-4 py-1 px-4 p-4"
+    style="background-color: #F7F7F7;">
+    <p class="text-2xl" i18n>Featured</p>
+    <ng-container style="background-color: #FFF;">
+      <ws-web-featured-course [courseData]="featuredCourse"></ws-web-featured-course>
+    </ng-container>
+
+  </section> -->
+
+
+  <!-- <ng-container>
+    <div class="px-4">
+      <p class="header2 mb-0">Featured</p>
+      <ws-web-featured-course class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+        *ngIf="showNavbar && !hideHeaderFooter"></ws-web-featured-course>
+    </div>
+  </ng-container> -->
+
+  <!-- Desktop trusted by section -->
+  <ng-container *ngIf="(isXSmall$ | async) === false && !isLoggedIn">
+    <div class="px-4">
+      <ws-web-trusted-by-page></ws-web-trusted-by-page>
+    </div>
+  </ng-container>
+
+  <!-- Desktop How does it Works -->
+  <ng-container *ngIf="(isXSmall$ | async) === false && isLoggedIn">
+    <div class="px-4 mt-8">
+      <p class="header2 mb-0">How does it work?</p>
+      <p class="lable1 grey-color">In 3-simple videos we guide you through making an account and getting certified.</p>
+      <ws-web-how-does-work class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+        *ngIf="showNavbar && !hideHeaderFooter" [data]="videoData"></ws-web-how-does-work>
+    </div>
+  </ng-container>
+
 
   <!-- Desktop Footer -->
   <ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"

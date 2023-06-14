@@ -14,7 +14,7 @@ export class AppFooterComponent {
   appIcon: SafeUrl | null = null
   isMedium = false
   // currentYear = new Date().getFullYear()
-
+  isLoggedIn = false
   constructor(
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
@@ -36,6 +36,11 @@ export class AppFooterComponent {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.app,
       )
+    }
+    if (this.configSvc.userProfile) {
+      this.isLoggedIn = true
+    } else {
+      this.isLoggedIn = false
     }
   }
   redirect(lang: string) {
