@@ -50,16 +50,16 @@ import { DOCUMENT } from '@angular/common'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
 import { DomSanitizer } from '@angular/platform-browser'
-import { forkJoin } from 'rxjs'
-import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
-import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
-import { HttpClient } from '@angular/common/http'
+// import { forkJoin } from 'rxjs'
+// import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+// import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
+// import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
+// import { HttpClient } from '@angular/common/http'
 import includes from 'lodash/includes'
 import uniqBy from 'lodash/uniqBy'
 import forEach from 'lodash/forEach'
 import reduce from 'lodash/reduce'
-import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
+// import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
 
 @Component({
   selector: 'ws-root',
@@ -119,11 +119,11 @@ export class RootComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private _renderer2: Renderer2,
     private sanitizer: DomSanitizer,
-    private userProfileSvc: UserProfileService,
-    private contentSvc: WidgetContentService,
-    private userSvc: WidgetUserService,
-    private http: HttpClient,
-    private CompetencyConfiService: CompetencyConfiService,
+    // private userProfileSvc: UserProfileService,
+    // private contentSvc: WidgetContentService,
+    // private userSvc: WidgetUserService,
+    // private http: HttpClient,
+    // private CompetencyConfiService: CompetencyConfiService,
 
 
     @Inject(DOCUMENT) private _document: Document
