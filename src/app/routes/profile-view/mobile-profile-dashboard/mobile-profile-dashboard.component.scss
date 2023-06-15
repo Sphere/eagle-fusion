@@ -127,8 +127,6 @@ gap: 8px;
 position: absolute;
 width: 114px;
 height: 35px;
-left: 1215px;
-top: 150px;
 background: #2E6491 !important;
 border-radius: 50px;
 font-family: 'Roboto';
@@ -143,4 +141,7 @@ mix-blend-mode: normal;
 flex: none;
 order: 0;
 flex-grow: 0;
+}
+.mt-5{
+margin-top: 2.5rem;
 }
