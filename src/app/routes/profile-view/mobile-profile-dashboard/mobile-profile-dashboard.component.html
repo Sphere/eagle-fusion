@@ -13,6 +13,12 @@
       {{userProfileData?.personalDetails.surname}}
     </p>
   </div>
+  <div class="mt-4">
+    <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
+      <!-- <mat-icon>power_settings_new</mat-icon>&nbsp; -->
+      <span i18n>Logout</span>
+    </a>
+  </div>
 
   <div>
     <img [src]="photoUrl ? photoUrl:image" alt="profile image" width="120px" height="120px" class="profile-border">

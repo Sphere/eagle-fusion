@@ -49,7 +49,7 @@
   </ng-container> -->
 
   <!-- Desktop trusted by section -->
-  <ng-container *ngIf="(isXSmall$ | async) === false && !isLoggedIn">
+  <ng-container *ngIf="(isXSmall$ | async) === false && !isLoggedIn&&isHomePage">
     <div class="px-4">
       <ws-web-trusted-by-page></ws-web-trusted-by-page>
     </div>

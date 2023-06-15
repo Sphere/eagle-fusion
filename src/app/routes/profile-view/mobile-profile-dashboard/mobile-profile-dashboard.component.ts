@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { Router } from '@angular/router'
-import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -73,7 +73,9 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     // this.CompetencyConfiService.setConfig(this.profileData)
   }
-
+  logout() {
+    this.dialog.open<LogoutComponent>(LogoutComponent)
+  }
   processCertiFicate(data: any) {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
