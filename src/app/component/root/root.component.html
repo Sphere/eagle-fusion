@@ -56,7 +56,7 @@
   </ng-container>
 
   <!-- Desktop How does it Works -->
-  <ng-container *ngIf="(isXSmall$ | async) === false && isLoggedIn">
+  <ng-container *ngIf="(isXSmall$ | async) === false && isLoggedIn&&isHomePage">
     <div class="px-4 mt-8">
       <p class="header2 mb-0">How does it work?</p>
       <p class="lable1 grey-color">In 3-simple videos we guide you through making an account and getting certified.</p>

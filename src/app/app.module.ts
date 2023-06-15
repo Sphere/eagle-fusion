@@ -121,6 +121,7 @@ import { AppCallBackComponent } from './component/app-call-back/app-call-back.co
 import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
 import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
 import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trusted-by-page.component'
+import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
@@ -238,7 +239,8 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     AppCallBackComponent,
     WebHowDoesWorkComponent,
     WebFeaturedCourseComponent,
-    WebTrustedByPageComponent
+    WebTrustedByPageComponent,
+    WebNavLinkPageComponent
     // SettingsComponent
   ],
   imports: [

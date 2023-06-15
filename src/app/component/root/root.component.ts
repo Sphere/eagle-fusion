@@ -90,6 +90,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isInIframe = false
   appStartRaised = false
   isSetupPage = false
+  isHomePage = false
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
@@ -227,6 +228,11 @@ export class RootComponent implements OnInit, AfterViewInit {
       if (event instanceof NavigationEnd) {
         if (event.url.includes('/setup/')) {
           this.isSetupPage = true
+        }
+        if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {
+          this.isHomePage = true
+        } else {
+          this.isHomePage = false
         }
       }
 

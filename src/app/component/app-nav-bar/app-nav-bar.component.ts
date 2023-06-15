@@ -46,6 +46,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   courseNameHeader: any
   showCreateBtn = false
   isXSmall$: Observable<boolean>
+  isXSmall!: boolean
   showSearchIcon = true
   langDialog: any
   preferedLanguage: any = ['english']
@@ -99,6 +100,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isXSmall = isXSmall
       if (isXSmall && (this.configSvc.userProfile === null)) {
         this.showCreateBtn = true
       } else {

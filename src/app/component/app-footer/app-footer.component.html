@@ -1,10 +1,10 @@
-<div *ngIf="(isXSmall | async) === false && !isLoggedIn" class="flex transform-footer-container">
+<div *ngIf="(isXSmall) === false && !isLoggedIn" class="flex transform-footer-container">
   <div class="transform-header">
     Transform your Healthcare career through Sphere!
   </div>
   <button (click)="createAcct()" class="start-today-button">Start Today</button>
 </div>
-<div *ngIf="(isXSmall | async) === false && !isLoggedIn" class="flex-container">
+<div *ngIf="(isXSmall) === false && !isLoggedIn" class="flex-container">
   <div class="part-a-partner center-partner">
     <div class="text-partners">
       An initiative of
