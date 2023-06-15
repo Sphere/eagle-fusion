@@ -50,16 +50,10 @@ import { DOCUMENT } from '@angular/common'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
 import { DomSanitizer } from '@angular/platform-browser'
-// import { forkJoin } from 'rxjs'
-// import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-// import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
-// import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
-// import { HttpClient } from '@angular/common/http'
-import includes from 'lodash/includes'
-import uniqBy from 'lodash/uniqBy'
-import forEach from 'lodash/forEach'
-import reduce from 'lodash/reduce'
-// import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
+import { forkJoin } from 'rxjs'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
+import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
 
 @Component({
   selector: 'ws-root',
@@ -120,11 +114,9 @@ export class RootComponent implements OnInit, AfterViewInit {
     private activatedRoute: ActivatedRoute,
     private _renderer2: Renderer2,
     private sanitizer: DomSanitizer,
-    // private userProfileSvc: UserProfileService,
-    // private contentSvc: WidgetContentService,
-    // private userSvc: WidgetUserService,
-    // private http: HttpClient,
-    // private CompetencyConfiService: CompetencyConfiService,
+    private userProfileSvc: UserProfileService,
+    private contentSvc: WidgetContentService,
+    private CompetencyConfiService: CompetencyConfiService,
 
 
     @Inject(DOCUMENT) private _document: Document
@@ -436,64 +428,16 @@ export class RootComponent implements OnInit, AfterViewInit {
         description: 'Receive downloadable and shareable certificates',
       },
     ]
-    // if (this.configSvc.userProfile) {
-    //   console.log("afa", this.configSvc.userProfile)
-    //   this.userId = this.configSvc.userProfile.userId || ''
+    if (this.configSvc.userProfile) {
+      forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
+      this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+        this.setCompetencyConfig(res[0])
+      })
+      console.log("this.configSvc.userProfile", this.configSvc.userProfile)
 
-    //   forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-    //   this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
-    //     this.homeFeature = res[2].userLoggedInSection
-    //     this.topCertifiedCourseIdentifier = res[2].topCertifiedCourseIdentifier
-    //     this.featuredCourseIdentifier = res[2].featuredCourseIdentifier
-    //     this.formatmyCourseResponse(res[0])
-    //     if (res[1].result.content.length > 0) {
-    //       this.formatTopCertifiedCourseResponse(res[1])
-    //       this.formatFeaturedCourseResponse(res[1])
-    //     }
-    //     console.log("fasdf", res)
-    //   })
-    // }
+    }
   }
-  formatTopCertifiedCourseResponse(res: any) {
 
-    const topCertifiedCourse: any = filter(res.result.content, (ckey: { identifier: any }) => {
-      return includes(this.topCertifiedCourseIdentifier, ckey.identifier)
-    })
-
-    this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
-  }
-  formatmyCourseResponse(res: any) {
-    const myCourse: any = []
-    let myCourseObject = {}
-    forEach(res, (key: { content: { identifier: any; appIcon: any; thumbnail: any; name: any } }) => {
-      if (res.completionPercentage !== 100) {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-        }
-        myCourse.push(myCourseObject)
-      }
-    })
-    this.userEnrollCourse = myCourse
-  }
-  formatFeaturedCourseResponse(res: any) {
-    const featuredCourse: any = filter(res.result.content, (ckey: { identifier: any }) => {
-      return includes(this.featuredCourseIdentifier, ckey.identifier)
-    })
-    console.log("this.featuredCourseIdentifier", featuredCourse, this.featuredCourseIdentifier, res.result.content)
-
-
-    this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value: any) => {
-      console.log(value)
-      result['identifier'] = value.identifier
-      result['appIcon'] = value.appIcon
-      result['name'] = value.name
-      return result
-
-    }, {})
-  }
 
   getOsInfo = () => {
 
@@ -573,7 +517,11 @@ export class RootComponent implements OnInit, AfterViewInit {
       console.log(error)
     }
   }
-
+  setCompetencyConfig(data: any) {
+    if (data) {
+      this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
+    }
+  }
   backToChatIcon() {
     try {
       this.isCommonChatEnabled = true
