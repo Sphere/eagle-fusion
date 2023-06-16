@@ -54,6 +54,21 @@ color: #000000;
 .banner-image{
     max-width: 400px;
 }
+@media only screen and (min-width: 600px) and (max-width: 959px){
+.banner-image{
+    max-width: 350px;
+}
+.banner-heading {
+    font-weight: 400;
+    font-size: 40px;
+    line-height: 42px;
+
+}
+.banner-mini-heading {
+    font-size: 22px;
+    line-height: 28px;
+}
+}
 .view-course{
   cursor: pointer;
   margin-top: 25px;

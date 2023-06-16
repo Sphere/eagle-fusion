@@ -1,49 +1,92 @@
-.how-work-content {
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
-  border-radius: 5px;
-  padding: 10px;
+.featured-course-container{
+  background: #FFFFFF;
+box-shadow: 0px 1px 4px rgba(0, 0, 0, 0.15);
+border-radius: 20px;
+height: 332px;
+}
+.featured-course-block{
+  display: flex
+}
+.featured-course-content{
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
-  border-radius: 20px;
+  justify-content: center;
 }
-video {
-  border-radius: 10px;
+.featured-course-title{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 32px;
+line-height: 38px;
+/* or 120% */
+
+letter-spacing: -0.02em;
+
+color: #1C5D95;
 }
-.videoTitle {
-  font-weight: 400;
-  font-size: 14px;
-  color: #000;
-  margin-bottom: 5px !important;
+.featured-course-desc{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+letter-spacing: -0.02em;
+
+color: #404040;
 }
 
-.videoDes {
-  color: #808080;
-  font-size: 12px;
-  font-weight: 400;
+.featured-course-start-btn{
+width: 162px;
+height: 39px;
+left: 165px;
+top: 1342.79px;
+
+background-color: #2E6491 !important;
+color: #FFFFFF !important;
+border-radius: 50px;
+border: none !important;
+}
+.featured-course-img-container{
+padding-top: 28px;
+}
+.featured-course-image{
+  width: 429px;
+height: 273px;
+border-radius: 20px;
+color: #FFFFFF;
 }
 
-.video-div {
-  margin: auto 10px;
+@media only screen and (min-width: 600px) and (max-width: 959px){
+  .featured-course-title {
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 29px;
 }
 
-video::-webkit-media-controls-play-button {
-  background-color: rgba(0, 0, 0, 0.52);
-  border-radius: 50%;
-  margin-left: 20px;
-  margin-bottom: 7px;
-  height: 34px;
+.featured-course-desc {
+    font-size: 16px;
+    line-height: 21px;
+
 }
 
-.how-work-iframe{
-  display: flex;
-  // width: 297px;
-  // height: 184px;
-  border-radius: 25px;
+.featured-course-image {
+    width: 295px;
+    height: 225px;
 }
-.scrollHowSphereWorks{
-  display: flex;
+
+.featured-course-block {
+    padding-top: 25px;
 }
-.m-10{
-  margin: 10px;
+
+.featured-course-content {
+    padding-top: 25px;
 }
+
+}
+
+
+
+
+
