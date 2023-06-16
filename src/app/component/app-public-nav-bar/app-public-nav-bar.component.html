@@ -34,7 +34,7 @@
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
   </ng-container>
   <span class="spacer"></span>
-  <div *ngIf="hideCreateButton">
+  <!-- <div *ngIf="hideCreateButton">
     <a role="button" *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)"
       class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
       routerLinkActive="ws-mat-accent-text">
@@ -47,11 +47,11 @@
           Create Account</button>
       </ng-container>
     </a>
-  </div>
+  </div> -->
 
   <div class="flex justify-center flex-col login-btn">
     <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
-      color="primary" mat-raised-button i18n="login: client" (click)="login('S')"
+      color="primary" i18n="login: client" (click)="login('S')"
       class="login-btn header-btn ws-mat-primary-background mat-button-base">
       Login
     </button>

@@ -1,0 +1,67 @@
+.banner-container{
+    display: flex;
+    margin-top: 45px;
+    align-items: center;
+    justify-content: space-around;
+}
+.banner-heading{
+    line-height: 38px;
+    color: #000000;
+
+    font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 48px;
+  /* or 96% */
+
+  letter-spacing: -0.02em;
+}
+.banner-mini-heading{
+    font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 28px;
+/* identical to box height */
+
+letter-spacing: -0.02em;
+
+color: #000000;
+}
+.tutorials-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #469788;
+    height: 51px;
+    margin-bottom: 20px;
+}
+.tutorials-text{
+    /* Body */
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* or 150% */
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: #FFFFFF !important;
+    margin: 0px !important;
+}
+.banner-image{
+    max-width: 400px;
+}
+.view-course{
+  cursor: pointer;
+  margin-top: 25px;
+  width: 248px;
+  height: 39px;
+  background-color: #2E6491 !important;
+  border-radius: 50px;
+  color: #FFFFFF !important;
+  border: none !important;
+
+}

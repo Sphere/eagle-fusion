@@ -1,0 +1,115 @@
+.banner-container{
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    justify-content: space-around;
+}
+.banner-heading{
+    padding-left: 15px;
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 32px;
+    line-height: 38px;
+    letter-spacing: -0.02em;
+    color: #000000;
+}
+.banner-mini-heading{
+    padding-left: 15px;
+
+    /* Body */
+
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* or 150% */
+
+    letter-spacing: -0.02em;
+
+    color: #000000;
+}
+// @media only screen and (max-width: 599px)
+// .info-container[_ngcontent-sxu-c23] {
+//     width: 160px;
+// }
+.banner-image{
+    max-width: 400px;
+}
+
+.info-block{
+    flex-wrap: wrap;
+}
+.info-container{
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex: 1 0 25%;
+    height: 74px;
+    box-sizing: border-box;
+    flex-direction: column;
+}
+.info-disaplay-bg1{
+    background: #F1E7E3;
+}
+.info-disaplay-bg2{
+    background: #F5F5F5;
+}
+.info-number{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 43px;
+    /* or 180% */
+
+    letter-spacing: -0.02em;
+
+    color: #14446C;
+}
+.info-text{
+    margin-top: 5px !important;
+    text-align: center;
+    font-family: 'Roboto';
+    font-style: italic;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 18px;
+    /* or 129% */
+    letter-spacing: -0.02em;
+    color: #14446C;
+}
+.tutorials-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #469788;
+    height: 51px;
+}
+.tutorials-text{
+    /* Body */
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* or 150% */
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: #FFFFFF !important;
+    margin: 0px !important;
+}
+.count-sphere-icons{
+    width: 25px;
+    height: 25px;
+}
+.info-box{
+    align-items: center;
+}
+.banner-heading-container{
+    display: flex;
+    flex-direction: column;
+}

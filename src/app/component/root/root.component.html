@@ -15,7 +15,7 @@
       (isXSmall$ | async) === false &&
       showNavbar && isNavBarRequired
   }">
-
+    <ws-web-dashboard class="mb-6" *ngIf="(isXSmall$ | async) === false && isLoggedIn&&isHomePage"></ws-web-dashboard>
     <ws-mobile-dashboard
       *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline"></ws-mobile-dashboard>
     <router-outlet *ngIf="appOnline"></router-outlet>

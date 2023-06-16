@@ -122,6 +122,7 @@ import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does
 import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
 import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trusted-by-page.component'
 import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
+import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
@@ -240,7 +241,8 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     WebHowDoesWorkComponent,
     WebFeaturedCourseComponent,
     WebTrustedByPageComponent,
-    WebNavLinkPageComponent
+    WebNavLinkPageComponent,
+    WebDashboardComponent
     // SettingsComponent
   ],
   imports: [
