@@ -58,11 +58,19 @@
   }
 }
 
-.login-btn.mat-raised-button {
-width: 73px;
-background-color: #2E6491 !important;
-border-radius: 50px;
-color: #FFFFFF !important;
+.login-btn {
+    width: 92px;
+    height: 40px;
+    background-color: #2E6491 !important;
+    border-radius: 50px;
+    color: #FFFFFF !important;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    border: none;
+
 }
 
 .login-btn-xs {
