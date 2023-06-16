@@ -24,7 +24,8 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.activeRoute.queryParams.subscribe(params => {
-      this.courseid = params['courseId']
+      console.log(params)
+      this.courseid = params['courseid'] !== undefined ? params['courseid'] : params['courseId']
     })
     // const navigation = this.router.getCurrentNavigation()
     // if (navigation) {
@@ -41,6 +42,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
       // const data: any = localStorage.getItem('tocData')
       // this.tocData = JSON.parse(data)
     }
+    console.log(this.tocData, this.courseid)
     if (this.tocData === undefined) {
       this.seachAPI(this.courseid)
     }
@@ -66,7 +68,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     }
   }
   seachAPI(id: any) {
-    this.orgService.getSearchResults().subscribe((res: any) => {
+    this.orgService.getSearchResultsById(id).subscribe((res: any) => {
       if (res) {
         find(res.result.content
           , findRes => {

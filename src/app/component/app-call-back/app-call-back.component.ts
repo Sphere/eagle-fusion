@@ -11,6 +11,7 @@ import get from 'lodash/get'
 export class AppCallBackComponent implements OnInit {
 
   token: any
+  isLoading = false
 
   constructor(
     public activated: ActivatedRoute,
@@ -18,6 +19,7 @@ export class AppCallBackComponent implements OnInit {
   ) {
     this.activated.queryParamMap.subscribe(queryParams => {
       if (get(queryParams, 'params.x-authenticated-user-token')) {
+        this.isLoading = true
         this.token = queryParams.get('x-authenticated-user-token')
         this.webviewCookieSet()
       }

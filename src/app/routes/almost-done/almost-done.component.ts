@@ -212,7 +212,7 @@ export class AlmostDoneComponent implements OnInit {
 
     if (option === 'Others') {
       this.orgOthersField = true
-      this.createUserForm.controls.orgOtherSpecify.setValue(null)
+      //this.createUserForm.controls.orgOtherSpecify.setValue(null)
       this.almostDoneForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
     } else {
       this.orgOthersField = false
@@ -346,19 +346,22 @@ export class AlmostDoneComponent implements OnInit {
     if (Object.keys(event).length && this.almostDoneForm.dirty) {
       this.enableSubmit = false
     }
+    console.log(this.backgroundSelect, this.selectedBg)
   }
 
   private getOrganisationsHistory() {
     const organisations: any = []
+    console.log(this.almostDoneForm.value.orgOtherSpecify)
     const org = {
       orgType: this.almostDoneForm.value.orgType,
-      name: this.almostDoneForm.value.orgName.trim(),
-      nameOther: '',
+      name: this.almostDoneForm.value.orgName!.trim(),
+      nameOther: this.almostDoneForm.value.orgOtherSpecify !== null ? this.almostDoneForm.value.orgOtherSpecify!.trim() : '',
       designation: this.almostDoneForm.value.profession.trim(),
       profession: this.backgroundSelect,
       location: '',
       doj: '',
       completePostalAddress: '',
+      professionOtherSpecify: this.almostDoneForm.value.orgOtherSpecify !== null ? this.almostDoneForm.value.orgOtherSpecify!.trim() : '',
     }
 
     if (this.backgroundSelect === 'ASHA') {

@@ -161,6 +161,7 @@ export class AuthKeycloakService {
       localStorage.removeItem('url_before_login')
       localStorage.removeItem('tocData')
       localStorage.removeItem(`userUUID`)
+      localStorage.clear()
       let url = `${document.baseURI}`
       let redirectUrl = ''
       if (url.includes('hi')) {

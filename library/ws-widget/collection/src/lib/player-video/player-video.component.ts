@@ -260,14 +260,18 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           }
           this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
             this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+
           if (this.contentData && percent >= this.contentData.completionPercentage) {
             if (this.widgetData.identifier && identifier && data) {
               this.viewerSvc
-                .realTimeProgressUpdate(identifier, data, collectionId, batchId)
-              this.contentSvc.changeMessage('Video')
+                .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
+
+                  let result = data.result
+                  result["type"] = 'Video'
+                  this.contentSvc.changeMessage(result)
+                })
+              //this.contentSvc.changeMessage('Video')
             }
-          } else {
-            this.contentSvc.changeMessage('Video')
           }
           if (this.contentData === undefined && percent > 95) {
             const data1: any = {
@@ -279,9 +283,15 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             }
             this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+
             this.viewerSvc
-              .realTimeProgressUpdate(identifier, data, collectionId, batchId)
-            this.contentSvc.changeMessage('Video')
+              .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
+
+                let result = data.result
+                result["type"] = 'Video'
+                this.contentSvc.changeMessage(result)
+              })
+            //this.contentSvc.changeMessage('Video')
           }
 
         })

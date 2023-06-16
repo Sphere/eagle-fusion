@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
-import { map } from 'rxjs/operators'
+import { map, share } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
@@ -23,6 +23,7 @@ const API_END_POINTS = {
   providedIn: 'root',
 })
 export class SignupService {
+  someDataObservable!: Observable<any>
 
   constructor(private http: HttpClient,
     private configSvc: ConfigurationsService
@@ -52,15 +53,29 @@ export class SignupService {
     )
   }
 
-  generateOtp(data: any) {
-    return this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(
+  generateOtp(data: any): Observable<any> {
+    if (this.someDataObservable) {
+      return this.someDataObservable
+    } else {
+      this.someDataObservable = this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(share())
+      return this.someDataObservable
+      // .pipe(
+      //   map(response => {
+      //     return response
+      //   })
+      // )
+    }
+  }
+  plumb5SendEvent(data: any) {
+    return this.http.post<any>(`https://track.plumb5.com/EventDetails/SaveEventDetails`, data).pipe(
       map(response => {
         return response
       })
     )
   }
-  plumb5SendEvent(data: any) {
-    return this.http.post<any>(`https://track.plumb5.com/EventDetails/SaveEventDetails`, data).pipe(
+
+  plumb5SendForm(data: any) {
+    return this.http.post<any>(`https://track.plumb5.com/FormInfoDetails/SaveFormDetails`, data).pipe(
       map(response => {
         return response
       })
@@ -196,3 +211,5 @@ export class SignupService {
   }
 
 }
+
+

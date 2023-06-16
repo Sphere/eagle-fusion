@@ -3,7 +3,7 @@ import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-
+import { WidgetContentService } from '@ws-widget/collection'
 @Component({
   selector: 'ws-work-info-list',
   templateUrl: './work-info-list.component.html',
@@ -14,10 +14,13 @@ export class WorkInfoListComponent implements OnInit {
   showbackButton = false
   showLogOutIcon = false
   trigerrNavigation = true
-  constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private valueSvc: ValueService) { }
+  constructor(
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private valueSvc: ValueService,
+    private contentSvc: WidgetContentService,
+  ) { }
 
   ngOnInit() {
     this.getUserDetails()
@@ -43,6 +46,7 @@ export class WorkInfoListComponent implements OnInit {
     }
   }
   redirectToWorkInfo(isEdit?: any) {
+    this.contentSvc.changeBack('/app/workinfo-list')
     if (isEdit) {
       this.router.navigate([`app/workinfo-edit`], {
         queryParams: { isEdit },

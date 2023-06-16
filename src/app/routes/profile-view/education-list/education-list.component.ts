@@ -3,6 +3,7 @@ import { ConfigurationsService, ValueService } from '../../../../../library/ws-w
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import get from 'lodash/get'
 import { Router } from '@angular/router'
+import { WidgetContentService } from '@ws-widget/collection'
 
 @Component({
   selector: 'ws-education-list',
@@ -14,10 +15,13 @@ export class EducationListComponent implements OnInit {
   showbackButton = false
   showLogOutIcon = false
   trigerrNavigation = true
-  constructor(private configSvc: ConfigurationsService,
+  constructor(
+    private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
-    private valueSvc: ValueService) {
+    private valueSvc: ValueService,
+    private contentSvc: WidgetContentService,
+  ) {
 
   }
 
@@ -43,6 +47,7 @@ export class EducationListComponent implements OnInit {
     })
   }
   redirectTo(isEdit?: any, academic?: any) {
+    this.contentSvc.changeBack('/app/education-list')
     if (isEdit) {
       this.router.navigate([`app/education-edit`], { queryParams: { ...academic }, skipLocationChange: true })
     } else {

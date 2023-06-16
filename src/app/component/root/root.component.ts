@@ -79,6 +79,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isCommonChatEnabled = true
   online$: Observable<boolean>
   appOnline: boolean | undefined
+  paramsJSON!: string
 
   constructor(
     private router: Router,
@@ -318,9 +319,41 @@ export class RootComponent implements OnInit, AfterViewInit {
       // }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
+        const paramMap = this.activatedRoute.snapshot.queryParamMap
+        const params = {}
+
+        paramMap.keys.forEach((key: any) => {
+          var paramValue = paramMap.get(key)
+          params[key] = paramValue
+        })
+
+        this.paramsJSON = JSON.stringify(params)
+        let userAgent = navigator.userAgent
+        let browserName
+
+        if (userAgent.match(/chrome|chromium|crios/i)) {
+          browserName = "chrome"
+        } else if (userAgent.match(/firefox|fxios/i)) {
+          browserName = "firefox"
+        } else if (userAgent.match(/safari/i)) {
+          browserName = "safari"
+        } else if (userAgent.match(/opr\//i)) {
+          browserName = "opera"
+        } else if (userAgent.match(/edg/i)) {
+          browserName = "edge"
+        } else {
+          browserName = "No browser detection"
+        }
+
+        let OS = this.getOsInfo()
+
+        this.telemetrySvc.paramTriggerImpression(this.paramsJSON, browserName, OS)
         if (this.appStartRaised) {
           this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
           this.appStartRaised = false
+        }
+        if (!this.configSvc.userProfile) {
+          this.telemetrySvc.publicImpression(this.paramsJSON, browserName, OS)
         }
       }
 
@@ -352,6 +385,27 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.isLoggedIn = false
     }
   }
+  getOsInfo = () => {
+    let userAgent = window.navigator.userAgent.toLowerCase(),
+      macosPlatforms = /(macintosh|macintel|macppc|mac68k|macos)/i,
+      windowsPlatforms = /(win32|win64|windows|wince)/i,
+      iosPlatforms = /(iphone|ipad|ipod)/i,
+      os = null
+
+    if (macosPlatforms.test(userAgent)) {
+      os = "MacOS"
+    } else if (iosPlatforms.test(userAgent)) {
+      os = "iOS"
+    } else if (windowsPlatforms.test(userAgent)) {
+      os = "Windows"
+    } else if (/android/.test(userAgent)) {
+      os = "Android"
+    } else if (!os && /linux/.test(userAgent)) {
+      os = "Linux"
+    }
+
+    return os
+  };
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()

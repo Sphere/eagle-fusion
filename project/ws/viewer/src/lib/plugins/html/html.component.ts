@@ -53,8 +53,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           mime_type: this.mimeType,
         }
         // @ts-ignore: Object is possibly 'null'.
-        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         50)
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId).subscribe((data: any) => {
+          console.log(data.result.contentList)
+          let result = data.result
+          result["type"] = 'youtube'
+          this.contentSvc.changeMessage(result)
+        })
+
+      }, 50)
       const data1: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
           this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
@@ -64,7 +70,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       }
       this.telemetrySvc.end('youtube', 'youtube-close', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data1)
-      this.contentSvc.changeMessage('youtube')
+      //this.contentSvc.changeMessage('youtube')
     }
   }
 
@@ -119,8 +125,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           mime_type: this.mimeType,
         }
         // @ts-ignore: Object is possibly 'null'.
-        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId)
-      },         50)
+        this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId).subscribe((data: any) => {
+          console.log(data.result.contentList)
+          let result = data.result
+          result["type"] = 'docs.google'
+          this.contentSvc.changeMessage(result)
+        })
+      }, 50)
 
       const data1: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -132,7 +143,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       this.telemetrySvc.end('docs.google', 'docs.google-close', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data1)
 
-      this.contentSvc.changeMessage('docs.google')
+      //this.contentSvc.changeMessage('docs.google')
     }
   }
   ngOnChanges() {
@@ -159,7 +170,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
 
-      this.contentSvc.changeMessage('scorm')
+      //this.contentSvc.changeMessage('scorm')
       this.scormAdapterService.contentId = this.htmlContent.identifier
       // this.scormAdapterService.loadData()
       this.scormAdapterService.loadDataV2()
@@ -226,10 +237,15 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             setTimeout(() => {
               if (this.htmlContent) {
                 this.viewerSvc
-                  .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
-                this.contentSvc.changeMessage('html')
+                  .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
+                    console.log(data.result.contentList)
+                    let result = data.result
+                    result["type"] = 'html'
+                    this.contentSvc.changeMessage(result)
+                  })
+                //this.contentSvc.changeMessage('html')
               }
-            },         50)
+            }, 50)
 
             const data2: any = {
               courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -343,10 +359,15 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           setTimeout(() => {
             if (this.htmlContent) {
               this.viewerSvc
-                .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
-              this.contentSvc.changeMessage('html')
+                .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
+                  console.log(data.result.contentList)
+                  let result = data.result
+                  result["type"] = 'html'
+                  this.contentSvc.changeMessage(result)
+                })
+              //this.contentSvc.changeMessage('html')
             }
-          },         50)
+          }, 50)
 
           const data2: any = {
             courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -429,10 +450,15 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       setTimeout(() => {
         if (this.htmlContent) {
           this.viewerSvc
-            .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId)
-          this.contentSvc.changeMessage('html')
+            .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
+              console.log(data.result.contentList)
+              let result = data.result
+              result["type"] = 'html'
+              this.contentSvc.changeMessage(result)
+            })
+          //this.contentSvc.changeMessage('html')
         }
-      },         50)
+      }, 50)
 
       const data2: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?

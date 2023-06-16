@@ -24,6 +24,8 @@ export class TelemetryService {
   externalApps: any = {
     RBCP: 'rbcp-web-ui',
   }
+  PUBLIC_TELEMETRY = '/apis/public/v8/publicTelemetry'
+
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService,
@@ -223,36 +225,139 @@ export class TelemetryService {
       console.log('Error in telemetry impression', e)
     }
   }
-
-  async paramTriggerImpression(param: any, browserName: any, OS: any) {
+  async publicImpression(param: any, browserName: any, OS: any) {
     try {
       const page = this.getPageDetails()
       await this.getTelemetryConfig()
-      console.log("instanceConfig ", this.configSvc.instanceConfig, this.pData)
       var cookie: any
       if (this.isCookieExpired('USERUID')) {
-        console.log('The cookie has expired')
         var timestamp = new Date().getTime().toString(36)
         var randomString = Math.random().toString(36).substring(2, 9)
         var uniqueId = timestamp + randomString
         cookie = this.setCookie('USERUID', uniqueId, 1)
       } else {
         cookie = this.getCookie('USERUID')
-        console.log('The cookie is still valid')
       }
 
 
-      const edata = {
+      let edata = {
         pageid: page.pageid, // Required. Unique page id
         type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
         uri: page.pageUrl,
-        param,
         browserName,
         OS,
         timestamp: Date.now(),
         cookie
       }
-      console.log("edataService", edata)
+      param = JSON.parse(param)
+      edata = {
+        ...edata, ...param
+      }
+      const finalObject = {
+        "id": "ekstep.telemetry",
+        "ver": "3.0",
+        "ets": Date.now(),
+        "events": [
+          {
+            "eid": "PUBLICIMPRESSION",
+            "ets": Date.now(),
+            "ver": "3.0",
+            "mid": "",
+            "actor": {
+              "id": "anonymous",
+              "type": "User"
+            },
+            "context": {
+              "channel": "",
+              "pdata": {
+                "id": "web-ui",
+                "ver": "1.0.0",
+                "pid": ""
+              },
+              "env": "prod",
+              "sid": "",
+              "did": "",
+              "cdata": [],
+              "rollup": {}
+            },
+            "object": {
+              "ver": "1.0.0",
+              "id": ""
+            },
+            "tags": [],
+            "edata": edata
+          }
+        ]
+      }
+      if (page.objectId) {
+        // const config = {
+        //   context: {
+        //     pdata: {
+        //       ...this.pData,
+        //       id: this.pData.id,
+        //     },
+        //   },
+        //   object: {
+        //     id: page.objectId,
+        //   },
+        // }
+        this.postPublicTelemetry(finalObject)
+
+        // $t.impression(edata, config)
+      } else {
+        this.postPublicTelemetry(finalObject)
+
+        // $t.impression(edata, {
+        //   context: {
+        //     pdata: {
+        //       ...this.pData,
+        //       id: this.pData.id,
+        //     },
+        //   },
+        // })
+      }
+      this.previousUrl = page.pageUrl
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in telemetry paramTrigger', e)
+    }
+  }
+  postPublicTelemetry(data: any) {
+    console.log("public telemetry")
+    const publicConfig = this.http
+      .post<any>(this.PUBLIC_TELEMETRY, data)
+      .toPromise()
+    return publicConfig
+  }
+  async paramTriggerImpression(param: any, browserName: any, OS: any) {
+    try {
+      const page = this.getPageDetails()
+      await this.getTelemetryConfig()
+      var cookie: any
+      if (this.isCookieExpired('USERUID')) {
+        var timestamp = new Date().getTime().toString(36)
+        var randomString = Math.random().toString(36).substring(2, 9)
+        var uniqueId = timestamp + randomString
+        cookie = this.setCookie('USERUID', uniqueId, 1)
+      } else {
+        cookie = this.getCookie('USERUID')
+      }
+
+
+      let edata = {
+        pageid: page.pageid, // Required. Unique page id
+        type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
+        uri: page.pageUrl,
+        browserName,
+        OS,
+        timestamp: Date.now(),
+        cookie
+      }
+      param = JSON.parse(param)
+      edata = {
+        ...edata, ...param
+      }
+
       if (page.objectId) {
         const config = {
           context: {
@@ -303,7 +408,6 @@ export class TelemetryService {
         if (cookiePart.startsWith('expires=')) {
           const expirationDate = new Date(cookiePart.substring('expires='.length))
           const currentDate = new Date()
-          console.log("cookie date", expirationDate, currentDate)
           if (currentDate > expirationDate) {
             return true
           }

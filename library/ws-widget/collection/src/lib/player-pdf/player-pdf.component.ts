@@ -38,7 +38,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
   @ViewChild('pdfContainer', { static: true })
   pdfContainer!: ElementRef<HTMLCanvasElement>
-  DEFAULT_SCALE = 1.0
+  DEFAULT_SCALE = 0.9
   MAX_SCALE = 3
   MIN_SCALE = 0.2
   CSS_UNITS = 96 / 72
@@ -266,11 +266,9 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       const percent = parseFloat(percentMilis.toFixed(2))
       if (this.contentData && percent >= this.contentData.completionPercentage) {
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId)
-        this.contentSvc.changeMessage('PDF')
       }
       if (this.contentData === undefined && percent > 0) {
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId)
-        this.contentSvc.changeMessage('PDF')
       }
     }
     return
@@ -354,14 +352,24 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           if (this.contentData && percent >= this.contentData.completionPercentage) {
             this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
-            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
-            this.contentSvc.changeMessage('PDF')
+
+            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
+
+              let result = data.result
+              result["type"] = 'PDF'
+              this.contentSvc.changeMessage(result)
+            })
           }
           if (this.contentData === undefined && percent > 0) {
             this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
-            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId)
-            this.contentSvc.changeMessage('PDF')
+
+            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
+
+              let result = data.result
+              result["type"] = 'PDF'
+              this.contentSvc.changeMessage(result)
+            })
           }
 
         }

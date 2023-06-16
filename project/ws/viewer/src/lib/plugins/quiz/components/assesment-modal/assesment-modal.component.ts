@@ -10,7 +10,7 @@ declare var $: any
 import round from 'lodash/round'
 import forEach from 'lodash/forEach'
 import isNull from 'lodash/isNull'
-
+import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ViewerDataService } from '../../../../viewer-data.service'
 import {
   ValueService,
@@ -18,7 +18,7 @@ import {
   TelemetryService,
 } from '@ws-widget/utils'
 // import moment from 'moment'
-import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
+//import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
 // declare var Telemetry: any
@@ -72,6 +72,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private telemetrySvc: TelemetryService,
     private viewerSvc: ViewerUtilService,
     public playerStateService: PlayerStateService,
+    private contentSvc: WidgetContentService,
   ) { }
 
   ngOnInit() {
@@ -96,7 +97,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
   closePopup() {
-    console.log('close competenct', this.isCompetency)
     if (this.isCompetency) {
       this.dialogRef.close({
         event: 'CLOSE',
@@ -508,10 +508,14 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       user_id_type: 'uuid',
     }
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-      // console.log("submit next data", data)
       if (!isNull(data.nextResource)) {
 
-        this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId)
+        this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
+          let result = data.result
+          result["type"] = 'assessment'
+          this.contentSvc.changeMessage(result)
+        })
+
       }
     })
   }

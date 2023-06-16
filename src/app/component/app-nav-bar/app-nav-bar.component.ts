@@ -85,7 +85,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         if ((e.url.includes('/app/setup') && this.configSvc.instanceConfig && !this.configSvc.instanceConfig.showNavBarInSetup)) {
           this.showAppNavBar = false
         } else {
-          console.log(e.url)
           this.showAppNavBar = true
           if (e.url.includes('new-tnc')) {
             this.hideSearch = true

@@ -70,8 +70,8 @@ ws-app-nav-bar {
   .hide-in-mobile {
     display: none;
   }
-  .no-internet {
-    width: -webkit-fill-available !important;
+  .mt-15 {
+    padding-top: 80px !important;
   }
 }
 
@@ -140,7 +140,8 @@ ws-app-nav-bar {
   padding: 0.1rem;
   border-radius: 0.3rem;
 }
-.no-internet {
-  width:auto;
-   height:80vh;
+
+.mt-15 {
+  margin-top: 15px !important;
+  font-weight: 500 !important;
 }
