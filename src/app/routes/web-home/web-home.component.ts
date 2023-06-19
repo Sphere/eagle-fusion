@@ -10,6 +10,7 @@ import { ScrollService } from '../../services/scroll.service'
 })
 export class WebHomeComponent implements OnInit {
   showCreateBtn = false
+  bannerStatus: any
 
   constructor(private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
 
@@ -17,6 +18,7 @@ export class WebHomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.bannerStatus = this.configSvc.bannerStats
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall && (this.configSvc.userProfile === null)) {
         this.showCreateBtn = true

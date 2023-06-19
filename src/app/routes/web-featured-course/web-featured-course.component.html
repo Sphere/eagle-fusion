@@ -1,24 +1,22 @@
-<section class="featured-course-container">
-  <div class="m-10">
-    <div class="featured-course-block">
-      <div class="featured-course-content">
-        <p class="featured-course-title">Respectful Maternity Care</p>
-        <p class="featured-course-desc">This module will enable you to be a part of the voice that advocates for
-          women’s rights during childbirth and learn how
-          to provide compassionate care to the mother during childbirth which is the most vulnerable at the same time
-          most joyous
-          phase of her life.</p>
-        <button class="featured-course-start-btn">
-          Start now!
-        </button>
-      </div>
-      <div class="featured-course-img-container">
-        <img class="featured-course-image"
-          src="https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com/content/do_11373000947118899213751/artifact/do_11373000947118899213751_1676026547031_do11341723127590092815071637848523570normallabourandbirthalt1620746178335.thumb1676026546139.png"
-          alt="Featured Course" loading="lazy">
+<div *ngIf="isFeaturedCourse" class="mt-4 py-1 px-4 p-4" style="background-color: #F7F7F7;">
+  <p class="text-2xl" i18n>Featured</p>
 
+  <section class="featured-course-container" style="background-color: #FFF;">
+    <div class="m-10">
+      <div class="featured-course-block">
+        <div class="featured-course-content">
+          <p class="featured-course-title">{{featuredCourse.name}}</p>
+          <p class="featured-course-desc">{{featuredCourse.description}}</p>
+          <button class="featured-course-start-btn">
+            <a href="app/toc/{{featuredCourse.identifier}}/overview" class="start-now" i18n>Start now!</a>
+          </button>
+        </div>
+        <div class="featured-course-img-container">
+          <img class="featured-course-image"
+            src="{{featuredCourse.thumbnail? featuredCourse.thumbnail : featuredCourse.appIcon}}" alt="Featured Course"
+            loading="lazy">
+        </div>
       </div>
-
     </div>
-  </div>
-</section>
+  </section>
+</div>

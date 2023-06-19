@@ -5,6 +5,7 @@ border-radius: 20px;
 height: 332px;
 }
 .featured-course-block{
+  justify-content: space-between;
   display: flex
 }
 .featured-course-content{
@@ -86,7 +87,9 @@ color: #FFFFFF;
 
 }
 
-
+.start-now:hover{
+  color: #FFFFFF;
+}
 
 
 
