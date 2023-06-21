@@ -1,13 +1,14 @@
 <mat-toolbar *ngIf="this.configSvc.userProfile !== null" [color]="primaryNavbarBackground?.color"
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar"
   style="    justify-content: left;">
+  <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
+    <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
+      <img [src]="appIcon" loading="lazy" i18n-alt alt="Application Logo" id="app-logo" class="app-logo" />
+    </a>
+  </div>
   <div class="fix-ww">
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
-      <div class="logo-container flex items-center">
-        <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
-          <img [src]="appIcon" loading="lazy" i18n-alt alt="Application Logo" id="app-logo" class="app-logo" />
-        </a>
-      </div>
+
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
         <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">

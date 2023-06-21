@@ -13,7 +13,11 @@
   display: flex;
   flex: 1;
   // align-items: center;
+  @media (min-width:320px) and (max-width:600px)  {
+    justify-content: center;
+  }
 }
+
 
 @media (min-width:320px)  {
   .navbar-gap{
