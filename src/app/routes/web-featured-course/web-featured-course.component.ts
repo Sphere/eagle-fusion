@@ -81,6 +81,7 @@ export class WebFeaturedCourseComponent implements OnInit {
         if (!this.isEmpty(this.featuredCourse)) {
           this.isFeaturedCourse = true
         }
+        console.log("featuredCourse", this.featuredCourse)
       })
     } else {
       this.isFeaturedCourse = false
@@ -103,6 +104,7 @@ export class WebFeaturedCourseComponent implements OnInit {
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
+      result['description'] = value.description
       return result
 
     }, {})
