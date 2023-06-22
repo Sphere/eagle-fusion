@@ -6,6 +6,8 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 import { constructReq } from '../request-util'
 // import * as _ from 'lodash'
 import { ActivatedRoute, Router } from '@angular/router'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+
 @Component({
   selector: 'ws-education-edit',
   templateUrl: './education-edit.component.html',
@@ -27,7 +29,8 @@ export class EducationEditComponent implements OnInit {
     private snackBar: MatSnackBar,
     private router: Router,
     private route: ActivatedRoute,
-    private valueSvc: ValueService
+    private valueSvc: ValueService,
+    private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl('', [Validators.required]),
@@ -104,7 +107,16 @@ export class EducationEditComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form, this.userProfileData)
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
+    const obj = {
+      osName: userAgent.OS,
+      browserName: userAgent.browserName,
+      userCookie: userCookie,
+    }
+    let profileRequest = constructReq(form, this.userProfileData)
+    profileRequest = Object.assign(profileRequest, obj)
+
     const reqUpdate = {
       request: {
         userId: this.userID,

@@ -54,6 +54,7 @@ import { forkJoin } from 'rxjs'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-root',
@@ -117,8 +118,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
     private CompetencyConfiService: CompetencyConfiService,
-
-
+    private UserAgentResolverService: UserAgentResolverService,
     @Inject(DOCUMENT) private _document: Document
   ) {
     this.online$ = merge(
@@ -355,32 +355,15 @@ export class RootComponent implements OnInit, AfterViewInit {
         })
 
         this.paramsJSON = JSON.stringify(params)
-        let userAgent = navigator.userAgent
-        let browserName
+        let userAgent = this.UserAgentResolverService.getUserAgent()
 
-        if (userAgent.match(/chrome|chromium|crios/i)) {
-          browserName = "chrome"
-        } else if (userAgent.match(/firefox|fxios/i)) {
-          browserName = "firefox"
-        } else if (userAgent.match(/safari/i)) {
-          browserName = "safari"
-        } else if (userAgent.match(/opr\//i)) {
-          browserName = "opera"
-        } else if (userAgent.match(/edg/i)) {
-          browserName = "edge"
-        } else {
-          browserName = "No browser detection"
-        }
-
-        let OS = this.getOsInfo()
-
-        this.telemetrySvc.paramTriggerImpression(this.paramsJSON, browserName, OS)
+        this.telemetrySvc.paramTriggerImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         if (this.appStartRaised) {
           this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
           this.appStartRaised = false
         }
         if (!this.configSvc.userProfile) {
-          this.telemetrySvc.publicImpression(this.paramsJSON, browserName, OS)
+          this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         }
       }
 
@@ -437,31 +420,12 @@ export class RootComponent implements OnInit, AfterViewInit {
 
     }
   }
+  getReferrerUrl(): string {
+    return this._renderer2 && this._renderer2['data'].referrer || ''
+  }
 
 
-  getOsInfo = () => {
 
-    let userAgent = window.navigator.userAgent.toLowerCase(),
-      macosPlatforms = /(macintosh|macintel|macppc|mac68k|macos)/i,
-      windowsPlatforms = /(win32|win64|windows|wince)/i,
-      iosPlatforms = /(iphone|ipad|ipod)/i,
-      os = null
-
-    if (macosPlatforms.test(userAgent)) {
-      os = "MacOS"
-    } else if (iosPlatforms.test(userAgent)) {
-      os = "iOS"
-    } else if (windowsPlatforms.test(userAgent)) {
-      os = "Windows"
-    } else if (/android/.test(userAgent)) {
-      os = "Android"
-    } else if (!os && /linux/.test(userAgent)) {
-      os = "Linux"
-    }
-
-    return os
-
-  };
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()

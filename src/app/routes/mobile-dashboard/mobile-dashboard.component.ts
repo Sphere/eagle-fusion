@@ -19,6 +19,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigService as CompetencyConfiService } from '../competency/services/config.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -52,7 +53,7 @@ export class MobileDashboardComponent implements OnInit {
     private scrollService: ScrollService,
     private CompetencyConfiService: CompetencyConfiService,
     private contentSvc: WidgetContentService,
-
+    private UserAgentResolverService: UserAgentResolverService,
 
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -200,12 +201,18 @@ export class MobileDashboardComponent implements OnInit {
       const lang = result.id === 'hi' ? result.id : 'en'
       let user: any
       const userid = this.configSvc.userProfileV2!.userId
+      let userAgent = this.UserAgentResolverService.getUserAgent()
+      let userCookie = this.UserAgentResolverService.generateCookie()
+
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
         user = data
         const obj = {
           preferences: {
             language: lang,
           },
+          osName: userAgent.OS,
+          browserName: userAgent.browserName,
+          userCookie: userCookie,
         }
         const userdata = Object.assign(user['profileDetails'], obj)
         const reqUpdate = {

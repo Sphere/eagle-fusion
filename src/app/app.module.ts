@@ -123,6 +123,7 @@ import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-fea
 import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trusted-by-page.component'
 import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
 import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.component'
+import { UserAgentResolverService } from './services/user-agent.service'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
@@ -346,6 +347,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
     Title,
+    UserAgentResolverService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

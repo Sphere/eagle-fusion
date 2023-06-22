@@ -10,6 +10,7 @@ import { FormControl, FormGroup } from '@angular/forms'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { constructReq } from '../request-util'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-profile-select',
@@ -38,6 +39,7 @@ export class ProfileSelectComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private dialog: MatDialog,
     private loader: LoaderService,
+    private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.createUserForm = new FormGroup({
       photo: new FormControl('', []),
@@ -133,7 +135,16 @@ export class ProfileSelectComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form.value, this.userProfileData)
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
+    let profileRequest = constructReq(form.value, this.userProfileData)
+    const obj = {
+      osName: userAgent.OS,
+      browserName: userAgent.browserName,
+      userCookie: userCookie,
+    }
+    profileRequest = Object.assign(profileRequest, obj)
+
     const reqUpdate = {
       request: {
         userId: this.userID,
