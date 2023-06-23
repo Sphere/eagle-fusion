@@ -24,7 +24,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   courseCount = 0
   cardLimit: number = 5;
 
-  rating: number = 2;
+  rating: number = 4;
   starCount: number = 5;
   color: string = 'accent';
   ratingArr: any = [];
