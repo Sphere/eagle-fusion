@@ -233,7 +233,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       }
       if (event instanceof NavigationStart) {
         // tslint:disable-next-line: max-line-length
-        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register') || event.url.includes('/app/org-details')) {
+        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')) {
           this.isNavBarRequired = false
           this.hideHeaderFooter = true
         } else if (event.url.includes('author/') && this.isInIframe) {

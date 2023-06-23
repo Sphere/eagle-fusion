@@ -17,7 +17,7 @@
   }">
     <ws-web-dashboard class="mb-6" *ngIf="(isXSmall$ | async) === false && isLoggedIn&&isHomePage"></ws-web-dashboard>
     <ws-mobile-dashboard
-      *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline"></ws-mobile-dashboard>
+      *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline&&isHomePage"></ws-mobile-dashboard>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
       <h3 class="mt-15">You're offline. Check your internet connection</h3>

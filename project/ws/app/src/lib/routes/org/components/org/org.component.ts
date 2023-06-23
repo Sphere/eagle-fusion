@@ -22,7 +22,13 @@ export class OrgComponent implements OnInit, OnDestroy {
   showEndPopup = false
   btnText = ''
   courseCount = 0
+  cardLimit: number = 5;
 
+  rating: number = 2;
+  starCount: number = 5;
+  color: string = 'accent';
+  ratingArr: any = [];
+  index: number = 0;
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
     private router: Router,
@@ -31,6 +37,10 @@ export class OrgComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    for (this.index = 0; this.index < this.starCount; this.index++) {
+      this.ratingArr.push(this.index)
+    }
+
     // this.orgName = this.activateRoute.snapshot.queryParams.orgId
     // if (this.orgName ) {
     //   this.orgService.hideHeaderFooter.next(true)
@@ -64,7 +74,13 @@ export class OrgComponent implements OnInit, OnDestroy {
 
     this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
   }
-
+  toggleCardLimit() {
+    if (this.cardLimit === 5) {
+      this.cardLimit = this.courseData.length
+    } else {
+      this.cardLimit = 5
+    }
+  }
   gotoOverview(identifier: any) {
     // if (this.configSvc.isAuthenticated) {
     this.router.navigate([`/app/toc/${identifier}/overview`])
@@ -105,4 +121,14 @@ export class OrgComponent implements OnInit, OnDestroy {
   goToLink(a: string) {
     window.open(a, '_blank')
   }
+  showIcon(index: number) {
+
+    if (this.rating >= index + 1) {
+      return 'star'
+    } else {
+      return 'star_border'
+    }
+  }
+
+
 }
