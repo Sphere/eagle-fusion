@@ -21,7 +21,7 @@
       <img src="/fusion-assets/icons/ion_people-sharp.svg" />
       <div class="org-details">Nationwide Quality Of Care Network</div>
     </div>
-    <div class="org-details-block">
+    <div class="org-details-block" *ngIf="courseCount&&courseCount.length">
       <img src="/fusion-assets/icons/material-symbols_book-outline.svg">
       <div class="org-details">
         {{courseCount === 1 ? '1 Course offered': courseCount.length + ' Courses offered'}}
@@ -84,12 +84,22 @@
               <div class="border-block">
                 <hr class="border-content">
               </div>
-              <div class="competency-block">
+              <div class="competency-block" *ngIf="cometencyData && cometencyData[0]">
                 <img src="/fusion-assets/icons/ph_medal.svg">
-                <div class="competency-details">
+                <!-- <div class="competency-details">
                   Provide appropriate referral services to beneficiaries, Level 1
+                </div> -->
+                <div>
+                  <span>{{cometencyData[0]?.name}}, </span>
+                  <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                    <span>{{competency.levels}}</span>
+                    <span *ngIf="!last">, </span>
+                  </ng-container>
+                  <!-- <div>{{cometencyData[0]?.competencyName}}</div>
+                                      <span>Level {{cometencyData[0]?.level}}</span> -->
                 </div>
               </div>
+
             </a>
           </div>
 

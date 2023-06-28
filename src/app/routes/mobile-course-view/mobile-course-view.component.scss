@@ -1,10 +1,9 @@
-
-
 /************/
 
 .course-container {
   box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
   border-radius: 10px;
+  height: auto;
 }
 .course-container .appIcon {
   min-width: 276px;
@@ -41,9 +40,77 @@
   font-size: 14px;
   padding: 5px 25px;
   background: #1C5D95;
-  color: #fff;
+  color: #fff !important;
   cursor: pointer;
 }
 .bg-cont-white {
   background-color: #fff;
+}
+
+.value {
+  position: relative;
+  bottom: 19px;
+  color: #000000;
+  font-weight: 600;
+  width: 275px;
+  display: flex;
+  justify-content: center;
+}
+
+.mat-progress-bar {
+  width: 100%;
+  border-radius: 40px;
+  height: 20px;
+}
+
+::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
+  background-color: #EDEDED;
+}
+
+.fitsize {
+  width: 100%;
+  max-width: 100% !important;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+
+.text-over {
+  position: relative;
+}
+
+.topStyle {
+  position: absolute;
+  top: 0px;
+  padding: 5px;
+  background-color: #D68480;
+  color: #FFFFFF;
+  border-top-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+}
+
+.bottomStyle {
+  position: absolute;
+  bottom: -15px;
+  right: 0px;
+  padding: 5px;
+  background-color: #519DB2;
+  color: #FFFFFF;
+  border-top-left-radius: 10px;
+  border-bottom-left-radius: 10px;
+}
+
+.name {
+  padding-top: 1rem;
+}
+
+.competency-card {
+  border-top: 1px solid #DCDCDC;
+  margin-top: 15px;
+  padding-top: 10px;
+  color: #000000;
+}
+
+.competency-icon {
+  height: 15px !important;
+  margin-right: 5px;
 }

@@ -114,7 +114,6 @@ export class MobileDashboardComponent implements OnInit {
         }
       })
     }
-
   }
   setCompetencyConfig(data: any) {
     if (data) {
@@ -132,6 +131,8 @@ export class MobileDashboardComponent implements OnInit {
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
+      result['sourceName'] = value.sourceName
+      result['competencies_v1'] = value.competencies_v1
       return result
 
     }, {})
@@ -155,6 +156,7 @@ export class MobileDashboardComponent implements OnInit {
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
+          sourceName: key.content.sourceName,
         }
         myCourse.push(myCourseObject)
       }

@@ -6,6 +6,9 @@ import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router, Data } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
+import forEach from 'lodash/forEach'
+import get from 'lodash/get'
+
 
 @Component({
   selector: 'ws-app-org',
@@ -23,7 +26,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   btnText = ''
   courseCount = 0
   cardLimit: number = 5;
-
+  cometencyData: { name: any; levels: string }[] = []
   rating: number = 4;
   starCount: number = 5;
   color: string = 'accent';
@@ -65,6 +68,21 @@ export class OrgComponent implements OnInit, OnDestroy {
         (org: any) => org.sourceName === this.orgName
       )
       this.courseCount = this.courseData
+      console.log("this.courseCount", this.courseData)
+      if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
+        forEach(JSON.parse(get(this.courseData, 'competencies_v1')), (value: any) => {
+          console.log("value", value)
+          if (value.level) {
+            this.cometencyData.push(
+              {
+                name: value.competencyName,
+                levels: ` Level ${value.level}`
+              }
+            )
+          }
+          return this.cometencyData
+        })
+      }
     })
     // this.orgService.getDatabyOrgId().then((data: any) => {
     //   console.log(data)

@@ -28,6 +28,8 @@
   <ws-mobile-footer *ngIf="(isXSmall$ | async) === true && !isLoggedIn" class="hide-in-desktop app-footer mt-8"
     [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
   </ws-mobile-footer>
+
+
   <!-- Desktop Featured Course -->
   <!-- Featured Section-->
   <section *ngIf="(isXSmall$ | async) === false&&isHomePage">

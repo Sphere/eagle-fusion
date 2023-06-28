@@ -681,6 +681,10 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
         intranetMode: strip.stripConfig && strip.stripConfig.intranetMode,
         deletedMode: strip.stripConfig && strip.stripConfig.deletedMode,
         contentTags: strip.stripConfig && strip.stripConfig.contentTags,
+        badges: {
+          orgIcon: strip.stripConfig!.cardSubType === 'card-badges' ? true : false,
+          certification: strip.stripConfig!.cardSubType === 'card-badges' ? true : false
+        }
       },
     }))
   }

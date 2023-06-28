@@ -15,6 +15,14 @@ export class MobileCourseViewComponent implements OnInit {
 
   @Input() courseData: any
   @Input() enableConfig = false
+  @Input()
+  displayConfig = {
+    displayType: 'card-badges',
+    badges: {
+      orgIcon: true,
+      certification: true,
+    }
+  }
   constructor(private router: Router,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -22,6 +30,7 @@ export class MobileCourseViewComponent implements OnInit {
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
+    console.log("displayConfig", this.displayConfig)
     if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
       forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {

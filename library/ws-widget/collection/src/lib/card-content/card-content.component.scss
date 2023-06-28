@@ -1,6 +1,27 @@
 @import 'ws-vars';
 @import 'ws-mixins';
-
+.topStyle {
+  position: absolute;
+  top: -31px;
+  padding: 5px;
+  background-color: #D68480;
+  color: #FFFFFF;
+  border-top-left-radius: 10px;
+  z-index: 3;
+  border-bottom-right-radius: 10px;
+  left: -17px;
+}
+.bottomStyle {
+  position: absolute;
+    z-index: 3;
+    right: -17px;
+    padding: 5px;
+    background-color: #519DB2;
+    color: #FFFFFF;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    top: 109px;
+}
 .card-minimal-container {
   position: relative;
 
@@ -304,7 +325,7 @@ a {
     margin-top: -32px !important;
   }
   a.rounded-t:hover .card-img.no-prog {
-    margin-top: -16px !important;
+    // margin-top: -16px !important;
   }
 
   .complexity {
@@ -535,20 +556,20 @@ $title-line-count: 2;
 }
 
 span.img-overlay {
-  background: rgba(0, 0, 0, 0.2);
-  height: 157px;
-  width: 278px;
-  z-index: 9;
-  position: relative;
-  margin-bottom: -157px;
-  top: -15px;
-  left: -15px;
-  transition: all ease 0.5s;
+  // background: rgba(0, 0, 0, 0.2);
+  // height: 157px;
+  // width: 278px;
+  // z-index: 9;
+  // position: relative;
+  // margin-bottom: -157px;
+  // top: -15px;
+  // left: -15px;
+  // transition: all ease 0.5s;
 }
 
 a.rounded-t:hover span.img-overlay {
-  display: block;
-  transition: all ease 0.5s;
+  // display: block;
+  // transition: all ease 0.5s;
 }
 
 ::ng-deep .theme-igot.day-mode .mat-progress-bar-buffer {
@@ -567,4 +588,62 @@ a.rounded-t:hover span.img-overlay {
   .card-standard-container {
     background-color: #F7F7F7 !important;
   }
+}
+
+.card-badges {
+  border: 1px solid #ddd;
+  padding-top: 7px;
+  border-radius: 10px;
+
+  .card-img {
+    position: absolute;
+    z-index: 2;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+  }
+}
+
+.foundation {
+    background-color: #D68480;
+    width: 205px;
+    height: 35px;
+    position: absolute;
+    top: -31px;
+    left: -15px;
+    z-index: 3;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+    border-radius: 10px 0px;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 10px;
+}
+
+.points {
+  position: absolute;
+  width: 205px;
+  height: 29px;
+  right: -17px;
+  bottom: -60px;
+  background-color: #519DB2;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 10px 0px 0px 10px;
+  z-index: 3;
+  align-items: center;
+  justify-content: center;
+}
+
+.badges-text {
+  color: #FFFFFF;
+}
+
+.competency-card {
+  border-top: 1px solid #DCDCDC;
+  margin-top: 15px;
+  padding-top: 10px;
+  color: #000000;
+}
+
+.competency-icon {
+  height: 15px !important;
+  margin-right: 5px;
 }

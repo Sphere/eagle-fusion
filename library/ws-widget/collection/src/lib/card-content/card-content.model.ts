@@ -27,6 +27,7 @@ export namespace NsCardContent {
     | 'basic-info'
     | 'basic-details'
     | 'card-description-back'
+    | 'card-badges'
 
   export enum EContentStatus {
     LIVE = 'Live',
