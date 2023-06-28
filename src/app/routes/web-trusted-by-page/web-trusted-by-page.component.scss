@@ -1,8 +1,18 @@
+@import 'ws-mixins';
 .trusted-by-container{
     display: flex;
     // flex-wrap: wrap;
     flex-direction: column;
-}
+    padding-left: 100px;
+    @include breakpoint-s {
+      padding-left: 20px;
+    }
+    @include breakpoint-m{
+        padding-left: 30px;
+    }
+
+
+    }
 .trusted-by-heading{
     /* Header 2 */
     font-family: 'Roboto';
@@ -25,42 +35,58 @@
     color: #000000;
 }
 .button-wrai-rmc{
-    width: 125px;
-    height: 30px;
-    margin-top: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: "Roboto";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 16px;
-    color: #2E6491 !important;
-    mix-blend-mode: normal;
-    flex: none;
-    order: 0;
-    flex-grow: 0;
-    border: 1px #2E6491 solid;
-    background: #ffff;
-    border-radius: 26px;
+display: inline-flex;
+padding: 4px 24px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+border-radius: 50px;
+border: 1px solid #2E6491 !important;
+color: #2E6491 !important;;
+font-size: 14px;
+font-family: Roboto;
+@include breakpoint-s{
+    padding: 4px 4px;
+}
 }
 .trusted-by-img{
-    width: 40%;
+    width: 411px;
+    height: 373px;
+    @include breakpoint-s{
+    width: 300px;
+    height: 290px;
+    }
 }
 .trusted-by-img2{
-    width: 50%;
+    width: 760px;
+    height: 250px;
+    @include breakpoint-s{
+    width: 414px;
+    height: 150px;
+    }
+    @include breakpoint-m{
+    width: 500px;
+    height: 250px;
+    }
 }
 
 .trusted-by-img3{
-    width: 60px;
+    width: 30px;
+    margin-right: 5px;
 }
 .rmc-container{
      display: flex;
-    flex-wrap: wrap;
+    // flex-wrap: wrap;
+    // align-items: center;
     flex-direction: column;
-    justify-content: center;
+}
+.rmc-block{
     align-items: center;
+    left: 40px;
+    position: relative;
+     @include breakpoint-s{
+    left: 17px;
+    }
 }
 .rmc-text{
 
@@ -74,10 +100,8 @@ line-height: 24px;
 letter-spacing: -0.02em;
 
 color: #1C5D95 !important;
+margin-right: 15px;
 }
 .trusted-by-img-container{
     display: flex;
-    // flex-wrap: wrap;
-    align-items: center;
-    flex-direction: column;
 }

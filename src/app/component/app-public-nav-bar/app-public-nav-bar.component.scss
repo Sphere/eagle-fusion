@@ -59,8 +59,10 @@
 }
 
 .login-btn {
-    width: 92px;
-    height: 40px;
+    padding: 8px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
     background-color: #2E6491 !important;
     border-radius: 50px;
     color: #FFFFFF !important;
@@ -72,6 +74,24 @@
     border: none;
     cursor: pointer;
 
+}
+.new-user-btn {
+  margin-right: 10px;
+  display: inline-flex;
+    padding: 8px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background-color: #FFFFFF !important;
+    border-radius: 50px;
+    color: #2E6491 !important;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    cursor: pointer;
+    border: 1px solid #2E6491;
 }
 
 .login-btn-xs {

@@ -49,7 +49,11 @@
     </a>
   </div> -->
 
-  <div class="flex justify-center flex-col login-btn">
+  <div class="flex justify-center">
+    <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
+      color="primary" i18n="login: client" (click)="login('S')" class="new-user-btn header-btn  mat-button-base">
+      New User
+    </button>
     <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
       color="primary" i18n="login: client" (click)="login('S')" class="login-btn header-btn  mat-button-base">
       Log in
