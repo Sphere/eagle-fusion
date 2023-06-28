@@ -156,7 +156,7 @@
     </ng-container>
     <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
       loading="lazy"
-      [src]="{{content.posterImage ? content.posterImage : content.thumbnail? content.thumbnail : content.appIcon}}"
+      src="{{content.posterImage ? content.posterImage : content.thumbnail? content.thumbnail : content.appIcon}}"
       alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
       [wsUtilsDefaultThumbnail]="defaultThumbnail" />
     <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
