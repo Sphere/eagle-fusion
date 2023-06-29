@@ -14,7 +14,7 @@ import forEach from 'lodash/forEach'
 })
 export class WebCourseViewComponent implements OnInit {
   isUserLoggedIn = false
-
+  @Input() widgetData!: any
   @Input() courseData: any
   @Input() enableConfig = false
   @Input()
