@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { Router } from '@angular/router'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material'
   styleUrls: ['./web-featured-course.component.scss'],
 })
 export class WebFeaturedCourseComponent implements OnInit {
+  @Input() courseData: any
   myCourse: any
   topCertifiedCourse: any = []
   featuredCourse: any

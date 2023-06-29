@@ -4,11 +4,37 @@
 </div>
 
 <!--latest course-->
-<div class="bg-grey pt-3">
+<!-- <div class="bg-grey pt-3">
   <ng-container [wsResolverWidget]="pageLayout">
   </ng-container>
-</div>
+</div> -->
+<!-- Top certified courses -->
+<section class="mt-4 py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
+  <p class="text-2xl" i18n>Top Courses</p>
+  <div *ngFor="let course of topCertifiedCourse">
+    <ng-container>
+      <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
+    </ng-container>
+  </div>
+  <button i18n (click)="viewAllCourse()" class="view-all-course">
+    View all courses
+  </button>
+</section>
 
+<!-- Featured Section-->
+<section *ngIf="featuredCourse && featuredCourse.length>0" class="mt-4 py-1 px-4 p-4"
+  style="background-color: #F7F7F7;">
+  <p class="text-2xl" i18n>Featured</p>
+  <div *ngFor="let course of featuredCourse">
+    <ng-container>
+      <ws-mobile-course-view [enableConfig]="true" [courseData]="course"></ws-mobile-course-view>
+    </ng-container>
+  </div>
+  <!-- <ng-container style="background-color: #FFF;">
+    <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
+  </ng-container> -->
+
+</section>
 <div class="mx-4">
 
   <section class="mt-4">

@@ -1,62 +1,53 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import { delay } from 'rxjs/operators'
-import { DomSanitizer } from '@angular/platform-browser'
-import { forkJoin } from 'rxjs'
-import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 // import reduce from 'lodash/reduce'
 import uniqBy from 'lodash/uniqBy'
+import forEach from 'lodash/forEach'
+import { MatDialog } from '@angular/material'
+import { forkJoin } from 'rxjs'
+import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
+
 @Component({
-  selector: 'ws-mobile-page',
-  templateUrl: './mobile-page.component.html',
-  styleUrls: ['./mobile-page.component.scss'],
+  selector: 'ws-web-public-container',
+  templateUrl: './web-public-container.component.html',
+  styleUrls: ['./web-public-container.component.scss'],
 })
-export class MobilePageComponent implements OnInit {
-  courseContent: any
-  topThreeCourse: any
-  showCreateBtn = false
-  pageLayout: any
-  videoData: any
-  leaderBoard = false
-  preferedLanguage: any = { id: 'en', lang: 'English' }
-  homeFeature: any
-  topCertifiedCourseIdentifier: any = []
-  featuredCourseIdentifier: any = []
+export class WebPublicComponent implements OnInit {
+  myCourse: any
   topCertifiedCourse: any = []
   featuredCourse: any = []
+  userEnrollCourse: any
+  videoData: any
+  homeFeatureData: any
+  homeFeature: any
+  userId: any
+  firstName: any
+  topCertifiedCourseIdentifier: any = []
+  featuredCourseIdentifier: any = []
+  //languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  langDialog: any
+  preferedLanguage: any = { id: 'en', lang: 'English' }
+  displayConfig = {
+    displayType: 'card-badges',
+    badges: {
+      orgIcon: true,
+      certification: true,
+    }
+  }
   constructor(
     private router: Router,
     private http: HttpClient,
-    private sanitizer: DomSanitizer,
+    public dialog: MatDialog,
     private orgService: OrgServiceService,
+  ) {
 
-  ) { }
+
+  }
 
   async ngOnInit() {
-    this.videoData = [
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
-        title: 'Register for a course',
-        description: 'Explore various courses and pick the ones you like',
-      },
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Kl28R7m2k50'),
-        title: 'Take the course',
-        description: 'Access the course anytime, at your convinience',
-      },
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/JTGzCkEXlmU'),
-        title: 'Get certified',
-        description: 'Receive downloadable and shareable certificates',
-      },
-    ]
-
-    this.http.get(`assets/configurations/mobile-public.json`).pipe(delay(500)).subscribe((res: any) => {
-      this.pageLayout = res.pageLayout
-    })
     forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
     await this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
       console.log("res", res)
@@ -66,10 +57,13 @@ export class MobilePageComponent implements OnInit {
       if (res[0].result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(res[0])
         this.formatFeaturedCourseResponse(res[0])
-        console.log("this.formatTopCertifiedCourseResponse", this.featuredCourse)
+        console.log("this.formatTopCertifiedCourseResponse", this.topCertifiedCourse, this.featuredCourse)
       }
     })
+
   }
+
+
   formatFeaturedCourseResponse(res: any) {
     // const featuredCourse = filter(res.result.content, ckey => {
     //   return includes(this.featuredCourseIdentifier, ckey.identifier)
@@ -104,6 +98,34 @@ export class MobilePageComponent implements OnInit {
 
     this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
   }
+  formatmyCourseResponse(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+    forEach(res, key => {
+      if (res.completionPercentage !== 100) {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          sourceName: key.content.sourceName,
+        }
+        myCourse.push(myCourseObject)
+      }
+    })
+    this.userEnrollCourse = myCourse
+  }
+
+
+  // For opening Course Page
+  raiseTelemetry(contentIdentifier: any) {
+    this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
+  }
+  // To view all course
+  viewAllCourse() {
+    this.router.navigateByUrl(`app/search/learning`)
+  }
+
   openIframe(video: any) {
     const navigationExtras: NavigationExtras = {
       queryParams: {
@@ -112,12 +134,5 @@ export class MobilePageComponent implements OnInit {
     }
     this.router.navigate(['/app/video-player'], navigationExtras)
   }
-  leaderBoardSection() {
-    if (this.leaderBoard) {
-      this.leaderBoard = false
-    }
-  }
-  viewAllCourse() {
-    this.router.navigateByUrl(`app/search/learning`)
-  }
+
 }

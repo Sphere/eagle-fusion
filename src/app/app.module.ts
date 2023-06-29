@@ -124,6 +124,9 @@ import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trus
 import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
 import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.component'
 import { UserAgentResolverService } from './services/user-agent.service'
+import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
+import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
+
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
@@ -243,7 +246,9 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     WebFeaturedCourseComponent,
     WebTrustedByPageComponent,
     WebNavLinkPageComponent,
-    WebDashboardComponent
+    WebDashboardComponent,
+    WebPublicComponent,
+    WebCourseViewComponent
     // SettingsComponent
   ],
   imports: [

@@ -34,7 +34,7 @@
   <!-- Featured Section-->
   <section *ngIf="(isXSmall$ | async) === false&&isHomePage">
     <ng-container>
-      <ws-web-featured-course [courseData]="featuredCourse"></ws-web-featured-course>
+      <ws-web-public-container *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
     </ng-container>
 
   </section>

@@ -1,0 +1,18 @@
+@import 'ws-mixins';
+
+.view-all-course{
+display: inline-flex;
+padding: 7px 24px;
+justify-content: center;
+align-items: center;
+gap: 8px;
+border-radius: 50px;
+border: 1px solid #2E6491;
+color: #2E6491;
+background-color: #FFFF;
+}
+.scroller-container{
+  justify-content: space-between;
+    margin-bottom: 10px;
+
+}

@@ -113,6 +113,16 @@ export class MobileDashboardComponent implements OnInit {
           this.formatFeaturedCourseResponse(res[1])
         }
       })
+    } else {
+      forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
+      this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
+        this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
+        this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
+        if (res[0].result.content.length > 0) {
+          this.formatTopCertifiedCourseResponse(res[0])
+          this.formatFeaturedCourseResponse(res[0])
+        }
+      })
     }
   }
   setCompetencyConfig(data: any) {
