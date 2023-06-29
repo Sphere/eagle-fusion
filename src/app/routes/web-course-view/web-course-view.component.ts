@@ -6,12 +6,14 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { SignupService } from '../signup/signup.service'
 import forEach from 'lodash/forEach'
+
 @Component({
   selector: 'ws-web-course-view',
   templateUrl: './web-course-view.component.html',
   styleUrls: ['./web-course-view.component.scss'],
 })
 export class WebCourseViewComponent implements OnInit {
+  isUserLoggedIn = false
 
   @Input() courseData: any
   @Input() enableConfig = false
@@ -30,6 +32,11 @@ export class WebCourseViewComponent implements OnInit {
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
+    if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
+      this.isUserLoggedIn = true
+    } else {
+      this.isUserLoggedIn = false
+    }
     console.log("displayConfig", this.displayConfig)
     if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
@@ -43,6 +50,35 @@ export class WebCourseViewComponent implements OnInit {
           )
         }
         return this.cometencyData
+      })
+    }
+  }
+  clickToRedirect(data: any) {
+    if (this.configSvc.userProfile === null) {
+      localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+      const url = localStorage.getItem(`url_before_login`) || ''
+      this.router.navigateByUrl(url)
+    } else {
+      this.raiseTelemetry(data)
+    }
+
+  }
+  raiseTelemetry(data: any) {
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(50), mergeMap((data: any) => {
+        return of(data)
+      })).subscribe((userDetails: any) => {
+        if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+          // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
+          //   contentId: this.widgetData.content.identifier,
+          //   contentType: this.widgetData.content.contentType,
+          //   context: this.widgetData.context,
+          // })
+          this.router.navigateByUrl(`/app/toc/${data.identifier}/overview?primaryCategory=Course`)
+        } else {
+          const url = `/app/toc/${data.identifier}/overview`
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+        }
       })
     }
   }

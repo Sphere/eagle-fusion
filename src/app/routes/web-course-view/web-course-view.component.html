@@ -68,18 +68,18 @@
       <div *ngIf="courseData.duration" class="duration mb-2" i18n-title title="Duration">
         <span class="mr-1 orange-text" i18n>Duration</span>:
         <mat-icon>access_time</mat-icon>
-        <span class="time-text fs-13">{{ courseData.duration }}</span>
+        <span class="time-text fs-13">{{ courseData.duration| pipeDurationTransform: 'hms' }}</span>
         <!--<span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
             <div class="flex items-start">
               <ng-container [ngTemplateOutlet]="rating"></ng-container>
             </div>
           </span> -->
       </div>
-      <p *ngIf="widgetData?.content?.completionPercentage"><span class="fw-500" i18n>Progress</span>: {{
-        widgetData?.content?.completionPercentage}} %</p>
-      <!-- <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.childNodes?.length}}</p> -->
-      <p *ngIf="widgetData?.content?.creator"><span class="fw-500" i18n>Author</span>: {{
-        widgetData?.content?.creator}}
+      <p *ngIf="courseData?.completionPercentage"><span class="fw-500" i18n>Progress</span>: {{
+        courseData?.completionPercentage}} %</p>
+      <!-- <p><span class="fw-500">Number of modules:</span> {{ courseData?.childNodes?.length}}</p> -->
+      <p *ngIf="courseData?.creator"><span class="fw-500" i18n>Author</span>: {{
+        courseData?.creator}}
       </p>
       <p *ngIf="courseData?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
         courseData?.creatorContacts[0]?.name}}</p>

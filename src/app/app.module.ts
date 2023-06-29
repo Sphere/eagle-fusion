@@ -126,6 +126,7 @@ import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.comp
 import { UserAgentResolverService } from './services/user-agent.service'
 import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
 import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
+import { PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemovalModule, PipePartialContentModule } from '@ws-widget/utils'
 
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
@@ -303,6 +304,10 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
     CompetencyModule,
+    PipeDurationTransformModule,
+    PipePartialContentModule,
+    PipeCountTransformModule,
+    PipeHtmlTagRemovalModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
