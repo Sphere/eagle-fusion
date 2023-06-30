@@ -7,7 +7,7 @@
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
     <a [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
       [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
-      [mdePopoverOffsetY]="-340" (click)="redirectPage(courseData.identifier)">
+      [mdePopoverOffsetY]="-340" (click)="redirectPage(courseData)">
       <div class="box">
         <div class="text-over">
           <img class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
@@ -109,7 +109,7 @@
 </mde-popover>
 <ng-template #cardStandard>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a (click)="navigateToToc(courseData.identifier)">
+    <a (click)="redirectPage(courseData)">
       <div class="box">
         <div class="text-center">
           <img class="appIcon" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
