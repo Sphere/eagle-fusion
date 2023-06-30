@@ -1,8 +1,9 @@
 <div *ngIf="currentOrgData">
   <div class="banner-container">
-    <img src="/fusion-assets/images/org-banner.png" class="banner" *ngIf="currentOrgData.logo !== ''" />
-    <img class="banner" *ngIf="currentOrgData.logo == ''" />
-
+    <div class="default-banner">
+      <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" *ngIf="!currentOrgData.bgImage" />
+    </div>
+    <img [src]="currentOrgData.bgImage" class="banner" *ngIf="currentOrgData.bgImage" />
     <!-- <img [src]="currentOrgData?.logo" class="logo" /> -->
     <div class="flex-auto mr-4">
       <div class="image-outer">
@@ -63,7 +64,7 @@
                 </div>
               </div>
               <div>
-                <p class="by-org-name mb-0"> by {{currentOrgData.sourceName}}</p>
+                <p class="by-org-name mb-1"> by {{currentOrgData.sourceName}}</p>
               </div>
               <!-- <div class="rating-block">
                 <div class="rating">{{rating}}
@@ -83,10 +84,11 @@
                 </div> -->
                 <p *ngIf="widget.issueCertification" class="certified-text">Certified</p>
               </div>
-              <div class="border-block">
-                <hr class="border-content">
-              </div>
+
               <div class="competency-block" *ngIf="cometencyData && cometencyData[0]">
+                <div class="border-block">
+                  <hr class="border-content">
+                </div>
                 <img src="/fusion-assets/icons/ph_medal.svg">
                 <div>
                   <span>{{cometencyData[0]?.name}}, </span>

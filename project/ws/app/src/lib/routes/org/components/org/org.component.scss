@@ -1,7 +1,18 @@
 @import 'ws-vars';
 @import 'ws-mixins';
 
-
+.default-banner{
+  display: flex;
+  justify-content: end;
+  background: #EEF8F8 !important;
+}
+.default-banner-img{
+  position: relative;
+    height: 372px;
+    background-size: cover;
+    background-position: center;
+    padding: 20px 20px 0px 0px;
+}
 .banner {
       position: relative;
       width: 100%;

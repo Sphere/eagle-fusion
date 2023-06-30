@@ -5,7 +5,6 @@ import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 // import reduce from 'lodash/reduce'
 import uniqBy from 'lodash/uniqBy'
-import forEach from 'lodash/forEach'
 import { MatDialog } from '@angular/material'
 import { forkJoin } from 'rxjs'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
@@ -98,24 +97,6 @@ export class WebPublicComponent implements OnInit {
 
     this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
   }
-  formatmyCourseResponse(res: any) {
-    const myCourse: any = []
-    let myCourseObject = {}
-    forEach(res, key => {
-      if (res.completionPercentage !== 100) {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          sourceName: key.content.sourceName,
-        }
-        myCourse.push(myCourseObject)
-      }
-    })
-    this.userEnrollCourse = myCourse
-  }
-
 
   // For opening Course Page
   raiseTelemetry(contentIdentifier: any) {

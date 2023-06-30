@@ -55,6 +55,8 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import forEach from 'lodash/forEach'
+import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
   selector: 'ws-root',
@@ -119,6 +121,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     private contentSvc: WidgetContentService,
     private CompetencyConfiService: CompetencyConfiService,
     private UserAgentResolverService: UserAgentResolverService,
+    private userSvc: WidgetUserService,
     @Inject(DOCUMENT) private _document: Document
   ) {
     this.online$ = merge(
@@ -181,6 +184,13 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    if (this.configSvc.userProfile) {
+      this.userId = this.configSvc.userProfile.userId || ''
+      forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
+        this.formatmyCourseResponse(res[0])
+      })
+    }
+
     this.setPageTitle()
     this.fcSettingsFunc()
 
@@ -419,6 +429,24 @@ export class RootComponent implements OnInit, AfterViewInit {
       console.log("this.configSvc.userProfile", this.configSvc.userProfile)
 
     }
+  }
+  formatmyCourseResponse(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+    forEach(res, (key: { content: { identifier: any; appIcon: any; thumbnail: any; name: any; sourceName: any } }) => {
+      if (res.completionPercentage !== 100) {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          sourceName: key.content.sourceName,
+        }
+        myCourse.push(myCourseObject)
+      }
+    })
+    this.userEnrollCourse = myCourse
+    console.log("myCourse: ", myCourse, this.userEnrollCourse)
   }
   getReferrerUrl(): string {
     return this._renderer2 && this._renderer2['data'].referrer || ''
