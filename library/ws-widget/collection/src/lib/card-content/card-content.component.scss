@@ -325,7 +325,7 @@ a {
     margin-top: -32px !important;
   }
   a.rounded-t:hover .card-img.no-prog {
-    // margin-top: -16px !important;
+    margin-top: -16px !important;
   }
 
   .complexity {
@@ -600,6 +600,8 @@ a.rounded-t:hover span.img-overlay {
     z-index: 2;
     border-top-left-radius: 10px;
     border-top-right-radius: 10px;
+    width: calc(100% + 39px);
+    height: 157px;
   }
 }
 

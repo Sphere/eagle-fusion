@@ -84,11 +84,10 @@
                 </div> -->
                 <p *ngIf="widget.issueCertification" class="certified-text">Certified</p>
               </div>
-
+              <div class="border-block" *ngIf="cometencyData && cometencyData[0]">
+                <hr class="border-content">
+              </div>
               <div class="competency-block" *ngIf="cometencyData && cometencyData[0]">
-                <div class="border-block">
-                  <hr class="border-content">
-                </div>
                 <img src="/fusion-assets/icons/ph_medal.svg">
                 <div>
                   <span>{{cometencyData[0]?.name}}, </span>
