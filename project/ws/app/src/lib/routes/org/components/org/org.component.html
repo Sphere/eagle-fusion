@@ -1,6 +1,8 @@
 <div *ngIf="currentOrgData">
   <div class="banner-container">
-    <img src="/fusion-assets/images/org-banner.png" class="banner" />
+    <img src="/fusion-assets/images/org-banner.png" class="banner" *ngIf="currentOrgData.logo !== ''" />
+    <img class="banner" *ngIf="currentOrgData.logo == ''" />
+
     <!-- <img [src]="currentOrgData?.logo" class="logo" /> -->
     <div class="flex-auto mr-4">
       <div class="image-outer">
@@ -17,22 +19,22 @@
     <p class="org-desc">
       {{currentOrgData?.about}}
     </p>
-    <div class="org-details-block">
+    <!-- <div class="org-details-block">
       <img src="/fusion-assets/icons/ion_people-sharp.svg" />
       <div class="org-details">Nationwide Quality Of Care Network</div>
-    </div>
+    </div> -->
     <div class="org-details-block" *ngIf="courseCount&&courseCount.length">
       <img src="/fusion-assets/icons/material-symbols_book-outline.svg">
       <div class="org-details">
         {{courseCount === 1 ? '1 Course offered': courseCount.length + ' Courses offered'}}
       </div>
     </div>
-    <div class="org-details-block">
+    <!-- <div class="org-details-block">
       <img src="/fusion-assets/icons/ph_medal.svg">
       <div class="org-details">
         12 Competencies offered
       </div>
-    </div>
+    </div> -->
   </div>
   <div class="course-container">
     <div class="w-100">
@@ -63,7 +65,7 @@
               <div>
                 <p class="by-org-name mb-0"> by {{currentOrgData.sourceName}}</p>
               </div>
-              <div class="rating-block">
+              <!-- <div class="rating-block">
                 <div class="rating">{{rating}}
                 </div>
                 <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr; index as i"
@@ -73,30 +75,25 @@
                   </mat-icon>
                 </button>
 
-              </div>
+              </div> -->
               <div class="flex cne-container">
-                <div class="flex cne-block mr-1">
+                <!-- <div class="flex cne-block mr-1">
                   <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
                   <p class="cne-content mb-0">32 CNE Points</p>
-                </div>
-                <p class="certified-text">Certified</p>
+                </div> -->
+                <p *ngIf="widget.issueCertification" class="certified-text">Certified</p>
               </div>
               <div class="border-block">
                 <hr class="border-content">
               </div>
               <div class="competency-block" *ngIf="cometencyData && cometencyData[0]">
                 <img src="/fusion-assets/icons/ph_medal.svg">
-                <!-- <div class="competency-details">
-                  Provide appropriate referral services to beneficiaries, Level 1
-                </div> -->
                 <div>
                   <span>{{cometencyData[0]?.name}}, </span>
                   <ng-container *ngFor="let competency of cometencyData; let last = last;">
-                    <span>{{competency.levels}}</span>
-                    <span *ngIf="!last">, </span>
+                    <span *ngIf="competency.identifier==widget.identifier">{{competency.levels}}</span>
+                    <span *ngIf="!last && competency.identifier==widget.identifier"> </span>
                   </ng-container>
-                  <!-- <div>{{cometencyData[0]?.competencyName}}</div>
-                                      <span>Level {{cometencyData[0]?.level}}</span> -->
                 </div>
               </div>
 

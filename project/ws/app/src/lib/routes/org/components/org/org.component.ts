@@ -26,7 +26,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   btnText = ''
   courseCount = 0
   cardLimit: number = 5;
-  cometencyData: { name: any; levels: string }[] = []
+  cometencyData: { identifier: string, name: any; levels: string }[] = []
   rating: number = 4;
   starCount: number = 5;
   color: string = 'accent';
@@ -68,20 +68,25 @@ export class OrgComponent implements OnInit, OnDestroy {
         (org: any) => org.sourceName === this.orgName
       )
       this.courseCount = this.courseData
-      console.log("this.courseCount", this.courseData)
-      if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
-        forEach(JSON.parse(get(this.courseData, 'competencies_v1')), (value: any) => {
-          console.log("value", value)
-          if (value.level) {
-            this.cometencyData.push(
-              {
-                name: value.competencyName,
-                levels: ` Level ${value.level}`
-              }
-            )
-          }
-          return this.cometencyData
+      if (this.courseData) {
+        this.courseData.forEach((course: any) => {
+          console.log("course", course)
+          forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
+            console.log("value", value)
+            if (value.level) {
+              this.cometencyData.push(
+                {
+                  identifier: course.identifier,
+                  name: value.competencyName,
+                  levels: ` Level ${value.level}`
+                }
+              )
+            }
+            return this.cometencyData
+          })
         })
+        console.log("this.cometencyData", this.cometencyData)
+
       }
     })
     // this.orgService.getDatabyOrgId().then((data: any) => {

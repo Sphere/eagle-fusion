@@ -88,8 +88,8 @@
           <div style="position: relative; z-index: 1;">
             <img loading="lazy" mat-card-image style="position: absolute; z-index: 2;"
               [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
-              class="card-img ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-              [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+              class="card-img ws-mat-primary-lite-background" [alt]="widgetData.content.name"
+              [title]="widgetData.content.name" />
             <span class="img-overlay"></span>
             <div class="source-div">
 
@@ -97,7 +97,7 @@
           </div>
         </a>
         <mat-card-content style="margin: 0px;">
-          <div class="mat-title title-text ws-mat-text-block-fade-gradient" style="margin-top:65px !important;">
+          <div class="mat-title title-text ws-mat-text-block-fade-gradient" style="margin-top:75px !important;">
             {{ widgetData.content.name }}
           </div>
           <ng-container *ngIf="widgetData.content.description">
