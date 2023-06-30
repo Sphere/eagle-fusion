@@ -82,14 +82,21 @@ export class WebCourseViewComponent implements OnInit {
       })
     }
   }
+  redirectPage(contentIdentifier: any) {
+    if (this.isUserLoggedIn == true) {
+      this.navigateToToc(contentIdentifier)
+    } else {
+      this.clickToRedirect(contentIdentifier)
+    }
+  }
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
     // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
     const url = `app/toc/` + `${contentIdentifier}` + `/overview`
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
-      // localStorage.setItem(`url_before_login`, url)
-      // this.router.navigateByUrl('app/login')
+      localStorage.setItem(`url_before_login`, url)
+      this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
