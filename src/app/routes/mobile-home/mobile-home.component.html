@@ -2,7 +2,7 @@
 <div class="banner-container">
   <!--upskill now section-->
   <div class="banner-heading" i18n>Access free Healthcare courses</div>
-  <div class="banner-mini-heading">
+  <div class="banner-mini-heading" i18n>
     High quality content from experts
   </div>
   <img class="banner-image" src="/fusion-assets/images/Mask_group.svg" alt="Banner image" loading="lazy">
@@ -14,32 +14,32 @@
       <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number">{{bannerStatus.learner_onboard}}+</div>
     </div>
-    <p class="info-text">Learners onboarded</p>
+    <p class="info-text" i18n>Learners onboarded</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number">{{bannerStatus.course}}+</div>
     </div>
-    <p class="info-text">Number of courses</p>
+    <p class="info-text" i18n>Number of courses</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number">{{bannerStatus.cert_course}}+</div>
+      <div class="info-number" i18n>{{bannerStatus.cert_course}}+</div>
     </div>
-    <p class="info-text">Certificate Courses</p>
+    <p class="info-text" i18n>Certificate Courses</p>
   </div>
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number">{{bannerStatus.certificates_issues}}+</div>
     </div>
-    <p class="info-text">Total certificate issued</p>
+    <p class="info-text" i18n>Total certificate issued</p>
   </div>
 </div>
 <div class="tutorials-container" (click)="scrollToHowSphereWorks()">
-  <p class="tutorials-text">Watch tutorials on how sphere works ></p>
+  <p class="tutorials-text" i18n>Watch tutorials on how sphere works ></p>
 </div>
 <div class="create-account">
   <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple

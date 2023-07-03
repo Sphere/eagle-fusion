@@ -51,7 +51,7 @@
 
   <div class="flex justify-center">
     <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
-      color="primary" i18n="login: client" (click)="createAcct()" class="new-user-btn header-btn  mat-button-base">
+      color="primary" i18n (click)="createAcct()" class="new-user-btn header-btn  mat-button-base">
       New User
     </button>
     <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"

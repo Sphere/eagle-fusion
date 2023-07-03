@@ -1,12 +1,12 @@
 <div *ngIf="(isXSmall) === false && !isLoggedIn" class="flex transform-footer-container">
-  <div class="transform-header">
+  <div class="transform-header" i18n>
     Transform your Healthcare career through Sphere!
   </div>
-  <button (click)="createAcct()" class="start-today-button">Start Today</button>
+  <button (click)="createAcct()" class="start-today-button" i18n>Start Today</button>
 </div>
 <div *ngIf="(isXSmall) === false && !isLoggedIn" class="flex-container">
   <div class="part-a-partner center-partner">
-    <div class="text-partners">
+    <div class="text-partners" i18n>
       An initiative of
     </div>
     <div class="flex-prop">
@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="part-b-partner center-partner">
-    <div class="text-partners">
+    <div class="text-partners" i18n>
       A collaboration with
     </div>
     <div class="flex-prop">
@@ -56,7 +56,7 @@
           <a class="link-text" href="mail-to:support@aastrika.org">support@aastrika.org</a>
         </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="whatsapp-logo-container"
+          <a i18n class="whatsapp-logo-container"
             href="https://wa.me/919632013414?text=Hi%2C%20Need%20help%20on%20Aastrika%20Platform" target="_blank">
             <img class="fa fa-whatsapp whatsapp-logo" src="/fusion-assets/icons/whatsapp.png" />
             Talk to us on Whatsapp
@@ -78,8 +78,8 @@
       </mat-list>
       <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
         <mat-list-item class="link-header" i18n> Additional Links </mat-list-item>
-        <mat-list-item class="foundation-container" style="margin-top: 10px;">Aastrika Foundation:https:
-          <a target="_blank" class="list-item-link" href="https://www.aastrika.org/" i18n>
+        <mat-list-item class="foundation-container" style="margin-top: 10px;" i18n>Aastrika Foundation:https:
+          <a target="_blank" class="list-item-link" href="https://www.aastrika.org/">
             //www.aastrika.org/
           </a>
         </mat-list-item>

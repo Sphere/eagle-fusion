@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Input } from '@angular/core'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
 import { Router } from '@angular/router'
@@ -8,8 +8,9 @@ import { Router } from '@angular/router'
   templateUrl: './mobile-footer.component.html',
   styleUrls: ['./mobile-footer.component.scss'],
 })
-export class MobileFooterComponent implements OnInit {
 
+export class MobileFooterComponent implements OnInit {
+  @Input() isHomePage!: any
   isXSmall = false
   termsOfUser = true
   appIcon: SafeUrl | null = null

@@ -52,6 +52,7 @@ export class WebPublicComponent implements OnInit {
       console.log("res", res)
       this.homeFeature = res[0].userLoggedInSection
       this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
+      console.log("this.topCertifiedCourseIdentifier", this.topCertifiedCourseIdentifier)
       this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
       if (res[0].result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(res[0])

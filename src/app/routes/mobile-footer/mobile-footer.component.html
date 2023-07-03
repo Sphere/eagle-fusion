@@ -1,12 +1,12 @@
-<div class="flex footer-container">
-  <div class="transform-header">
+<div *ngIf="isHomePage" class="flex footer-container">
+  <div class="transform-header" i18n>
     Transform your Healthcare career through Sphere!
   </div>
-  <button (click)="createAcct()" class="start-today-button">Start Today</button>
+  <button (click)="createAcct()" class="start-today-button" i18n>Start Today</button>
 </div>
 <div class="flex-container">
   <div class="part-a-partner center-partner">
-    <div class="text-partners">
+    <div class="text-partners" i18n>
       An initiative of
     </div>
     <div class="flex-prop">
@@ -14,7 +14,7 @@
     </div>
   </div>
   <div class="part-b-partner center-partner">
-    <div class="text-partners">
+    <div class="text-partners" i18n>
       A collaboration with
     </div>
     <div class="flex-prop">
@@ -26,21 +26,21 @@
 <div class="flex flex-column ">
   <img class="footer-logo" src="/fusion-assets/images/sphere-new-logo.svg">
   <div class="flex flex-column link-container">
-    <a class="footer-heading">Quick Links</a>
-    <a class="link-text" routerLink="/public/tnc">Privacy policy </a>
-    <a class="link-text" routerLink="/public/tnc">Terms of use</a>
+    <a class="footer-heading" i18n>Quick Links</a>
+    <a class="link-text" routerLink="/public/tnc" i18n>Privacy policy </a>
+    <a class="link-text" routerLink="/public/tnc" i18n>Terms of use</a>
     <hr class="new1">
-    <a class="footer-heading">Help and Contact</a>
+    <a class="footer-heading" i18n>Help and Contact</a>
     <a class="link-text" href="mail-to:support@aastrika.org">support@aastrika.org</a>
-    <a class="whatsapp-logo-container"
+    <a i18n class="whatsapp-logo-container"
       href="https://wa.me/919632013414?text=Hi%2C%20Need%20help%20on%20Aastrika%20Platform" target="_blank">
       <img class="fa fa-whatsapp whatsapp-logo" src="/fusion-assets/icons/whatsapp.png" />
       Talk to us on Whatsapp
     </a>
     <hr class="new1">
     <div class="flex flex-column">
-      <span class="footer-heading">Additional Links</span>
-      <div class="foundation-link">Aastrika Foundation : https:www.aastrika.org</div>
+      <span class="footer-heading" i18n>Additional Links</span>
+      <div class="foundation-link" i18n>Aastrika Foundation : https:www.aastrika.org</div>
     </div>
     <div class="footer-social-icon">
       <a class="" href="https://twitter.com/aastrika_fndn?s=21&t=I9xN5rzMahavP0R1Fp7VwA" target="_blank">
@@ -57,7 +57,7 @@
       </a>
     </div>
     <div class="footer-text-container">
-      <div class="footer-text">
+      <div i18n class="footer-text">
         &copy; 2023 AastarUrmika Health Systems ("Aastrika Foundation")
       </div>
     </div>

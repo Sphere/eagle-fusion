@@ -8,7 +8,10 @@
           <p class="featured-course-title">{{courseData.name}}</p>
           <p class="featured-course-desc">{{courseData.description}}</p>
           <button class="featured-course-start-btn">
-            <a href="app/toc/{{courseData.identifier}}/overview" class="start-now" i18n>Start now!</a>
+            <a *ngIf="isLoggedIn" href="app/toc/{{courseData.identifier}}/overview" class="start-now" i18n>Start
+              now!</a>
+            <a (click)="login(courseData)" *ngIf="!isLoggedIn" class="start-now" i18n>Start
+              now!</a>
           </button>
         </div>
         <div class="featured-course-img-container">
