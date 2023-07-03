@@ -80,9 +80,28 @@ ws-app-nav-bar {
     display: none;
   }
 }
-
+.web-public-chat-icon{
+    cursor: pointer;
+    z-index: 1000;
+    /* left: 0rem; */
+    position: fixed;
+    /* bottom: 5.3rem; */
+    width: 90px;
+    top: 5.3rem;
+    right: 0rem;
+}
+.web-chat-icon{
+    cursor: pointer;
+    z-index: 1000;
+    /* left: 0rem; */
+    position: fixed;
+    /* bottom: 5.3rem; */
+    width: 90px;
+    top: 0rem;
+    right: 0rem;
+}
 //chat-style
-.chat-icon {
+.public-chat-icon {
   // cursor: pointer;
   // z-index: 1000;
   // left: 0rem;
@@ -99,6 +118,14 @@ ws-app-nav-bar {
     top: 5.3rem;
     right: 0rem;
 
+}
+.chat-icon {
+    cursor: pointer;
+    z-index: 1000;
+    position: fixed;
+    width: 70px;
+    top: 0rem;
+    right: 0rem;
 }
 
 .whatsapp-icon {
