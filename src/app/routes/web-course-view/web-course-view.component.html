@@ -95,10 +95,10 @@
         </div> -->
       <div class="mt-0 flex">
         <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
-          class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="clickToRedirect(courseData)">
+          class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
           View Course</button>
         <button *ngIf="isUserLoggedIn === false" mat-raised-button i18n
-          class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="clickToRedirect(courseData)">
+          class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
           View Course </button>
         <div class="flex">
           <ws-widget-btn-content-share [widgetData]="courseData"></ws-widget-btn-content-share>

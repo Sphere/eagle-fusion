@@ -286,6 +286,23 @@ export class RootComponent implements OnInit, AfterViewInit {
           //   // this.router.navigateByUrl('app/login')
           // }
 
+        } else if (event.url.includes('login')) {
+          setTimeout(() => {
+            this.signupService.fetchStartUpDetails().then(result => {
+              if (result && result.status !== 200) {
+
+                const redirectUrl = `${document.baseURI}openid/keycloak`
+                const state = uuid()
+                const nonce = uuid()
+                // tslint:disable-next-line:max-line-length
+                const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                window.location.href = keycloakurl
+              } else {
+                this.router.navigateByUrl('/page/home')
+              }
+            })
+
+          }, 10)
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
