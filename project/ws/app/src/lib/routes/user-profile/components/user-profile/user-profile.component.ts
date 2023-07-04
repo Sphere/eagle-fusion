@@ -894,9 +894,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         personalEmail: '',
         postalAddress: form.value.residenceAddress,
         pincode: form.value.pincode,
-        osName: userAgent.OS,
-        browserName: userAgent.browserName,
-        userCookie: userCookie,
+        osName: this.userProfileData.personalDetails.osName ? this.userProfileData.personalDetails.osName : userAgent.OS,
+        browserName: this.userProfileData.personalDetails.browserName ? this.userProfileData.personalDetails.browserName : userAgent.browserName,
+        userCookie: this.userProfileData.personalDetails.userCookie ? this.userProfileData.personalDetails.userCookie : userCookie,
       },
       academics: this.getAcademics(form),
       employmentDetails: {

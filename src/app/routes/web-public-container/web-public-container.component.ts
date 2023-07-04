@@ -65,29 +65,10 @@ export class WebPublicComponent implements OnInit {
 
 
   formatFeaturedCourseResponse(res: any) {
-    // const featuredCourse = filter(res.result.content, ckey => {
-    //   return includes(this.featuredCourseIdentifier, ckey.identifier)
-    // })
-
-    // this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
-    //   console.log(value)
-    //   result['identifier'] = value.identifier
-    //   result['appIcon'] = value.appIcon
-    //   result['name'] = value.name
-    //   result['sourceName'] = value.sourceName
-    //   result['competencies_v1'] = value.competencies_v1
-    //   return result
-
-    // }, {})
-
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
-
     this.featuredCourse = uniqBy(featuredCourse, 'identifier')
-
-
-
   }
 
   formatTopCertifiedCourseResponse(res: any) {

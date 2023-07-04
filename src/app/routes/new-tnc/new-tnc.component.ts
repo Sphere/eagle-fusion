@@ -251,9 +251,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
         this.createUserForm.controls.regNurseRegMidwifeNumber.setValue('[NA]')
-        this.createUserForm.controls.osName.setValue(userAgent.OS || '')
-        this.createUserForm.controls.browserName.setValue(userAgent.browserName || '')
-        this.createUserForm.controls.userCookie.setValue(userCookie || '')
+        this.createUserForm.controls.osName.setValue((this.configSvc.unMappedUser.personalDetails.osName ? this.configSvc.unMappedUser.personalDetails.osName : userAgent.OS) || '')
+        this.createUserForm.controls.browserName.setValue((this.configSvc.unMappedUser.personalDetails.browserName ? this.configSvc.unMappedUser.personalDetails.browserName : userAgent.browserName) || '')
+        this.createUserForm.controls.userCookie.setValue((this.configSvc.unMappedUser.personalDetails.userCookie ? this.configSvc.unMappedUser.personalDetails.userCookie : userCookie) || '')
       }
       let Obj: any
       if (localStorage.getItem('preferedLanguage')) {

@@ -390,7 +390,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     }
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
-    let profileRequest = constructReq(form.value, this.userProfileData)
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
       preferences: {
         language: this.personalDetailForm.controls.knownLanguage.value === 'English' ? 'en' : 'hi',

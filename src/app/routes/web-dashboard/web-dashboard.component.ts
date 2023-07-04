@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Component({
   selector: 'ws-web-dashboard',
@@ -17,20 +18,19 @@ export class WebDashboardComponent implements OnInit {
   videoData: any
   homeFeatureData: any
   homeFeature: any
-  userId: any
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
   //languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
-
+  userData: any
   constructor(
     private router: Router,
     public dialog: MatDialog,
     private scrollService: ScrollService,
     private configSvc: ConfigurationsService,
-
+    private userProfileSvc: UserProfileService,
 
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -41,6 +41,12 @@ export class WebDashboardComponent implements OnInit {
     this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
   }
   ngOnInit() {
+
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
+      this.userData = await data
+      this.firstName = this.userData.profileDetails!.profileReq!.personalDetails!.firstname
+      console.log("this.firstName", this.firstName)
+    })
     if (localStorage.getItem('preferedLanguage')) {
       let data: any
       data = localStorage.getItem('preferedLanguage')
@@ -52,14 +58,6 @@ export class WebDashboardComponent implements OnInit {
         this.preferedLanguage = { id: 'hi', lang: 'हिंदी' }
       }
     }
-
-
-    if (this.configSvc.userProfile) {
-      this.firstName = this.configSvc.userProfile
-      this.userId = this.configSvc.userProfile.userId || ''
-
-    }
-
   }
 
 }

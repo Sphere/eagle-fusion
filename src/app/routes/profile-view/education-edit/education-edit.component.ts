@@ -109,13 +109,8 @@ export class EducationEditComponent implements OnInit {
     }
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
-    const obj = {
-      osName: userAgent.OS,
-      browserName: userAgent.browserName,
-      userCookie: userCookie,
-    }
-    let profileRequest = constructReq(form, this.userProfileData)
-    profileRequest = Object.assign(profileRequest, obj)
+
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
 
     const reqUpdate = {
       request: {

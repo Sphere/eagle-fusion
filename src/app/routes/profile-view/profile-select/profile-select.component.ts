@@ -137,13 +137,7 @@ export class ProfileSelectComponent implements OnInit {
     }
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
-    let profileRequest = constructReq(form.value, this.userProfileData)
-    const obj = {
-      osName: userAgent.OS,
-      browserName: userAgent.browserName,
-      userCookie: userCookie,
-    }
-    profileRequest = Object.assign(profileRequest, obj)
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
 
     const reqUpdate = {
       request: {
