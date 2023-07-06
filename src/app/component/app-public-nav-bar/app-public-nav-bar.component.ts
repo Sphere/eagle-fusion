@@ -142,9 +142,9 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   createAcct() {
-    localStorage.removeItem('url_before_login')
     this.router.navigateByUrl('app/create-account')
   }
+
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'mode') {
