@@ -5,6 +5,7 @@ import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../profile-view/request-util'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-mobile-about-popup',
@@ -21,6 +22,7 @@ export class MobileAboutPopupComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private matSnackBar: MatSnackBar,
+    private UserAgentResolverService: UserAgentResolverService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.aboutForm = new FormGroup({
@@ -52,11 +54,14 @@ export class MobileAboutPopupComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let profileRequest = constructReq(form.value, this.userProfileData)
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
+
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
       preferences: {
         language: this.langdata.profileDetails!.preferences!.language === 'en' ? 'en' : 'hi',
-      },
+      }
     }
     profileRequest = Object.assign(profileRequest, obj)
 

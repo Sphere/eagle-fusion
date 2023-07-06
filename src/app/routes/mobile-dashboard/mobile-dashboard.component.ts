@@ -15,6 +15,11 @@ import forEach from 'lodash/forEach'
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { DomSanitizer } from '@angular/platform-browser'
+import { ScrollService } from '../../services/scroll.service'
+import { ConfigService as CompetencyConfiService } from '../competency/services/config.service'
+import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -26,7 +31,7 @@ export class MobileDashboardComponent implements OnInit {
   topCertifiedCourse: any = []
   featuredCourse: any = []
   userEnrollCourse: any
-  //videoData: any
+  videoData: any
   homeFeatureData: any
   homeFeature: any
   userId: any
@@ -43,13 +48,21 @@ export class MobileDashboardComponent implements OnInit {
     private userSvc: WidgetUserService,
     private router: Router,
     private http: HttpClient,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private sanitizer: DomSanitizer,
+    private scrollService: ScrollService,
+    private CompetencyConfiService: CompetencyConfiService,
+    private contentSvc: WidgetContentService,
+    private UserAgentResolverService: UserAgentResolverService,
+
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
   }
-
+  scrollToHowSphereWorks() {
+    this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
+  }
   ngOnInit() {
     if (localStorage.getItem('preferedLanguage')) {
       let data: any
@@ -63,25 +76,31 @@ export class MobileDashboardComponent implements OnInit {
       }
     }
 
-    // this.videoData = [
-    //   {
-    //     url: './../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Register for a course',
-    //     description: 'Explore various courses and pick the ones you like',
-    //   },
-    //   {
-    //     url: './../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Take the course',
-    //     description: 'Access the course anytime, at your convinience',
-    //   },
-    //   {
-    //     url: './../../fusion-assets/videos/videoplayback.mp4',
-    //     title: 'Get certified',
-    //     description: 'Receive downloadable and shareable certificates',
-    //   },
-    // ]
+    this.videoData = [
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
+        title: 'Register for a course',
+        description: 'Explore various courses and pick the ones you like',
+      },
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Kl28R7m2k50'),
+        title: 'Take the course',
+        description: 'Access the course anytime, at your convinience',
+      },
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/JTGzCkEXlmU'),
+        title: 'Get certified',
+        description: 'Receive downloadable and shareable certificates',
+      },
+    ]
     if (this.configSvc.userProfile) {
       this.firstName = this.configSvc.userProfile
+      forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
+      this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+        this.setCompetencyConfig(res[0])
+      })
+      console.log("this.configSvc.userProfile", this.configSvc.userProfile)
+
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
       this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
@@ -94,9 +113,24 @@ export class MobileDashboardComponent implements OnInit {
           this.formatFeaturedCourseResponse(res[1])
         }
       })
+    } else {
+      forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
+      this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
+        this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
+        this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
+        if (res[0].result.content.length > 0) {
+          this.formatTopCertifiedCourseResponse(res[0])
+          this.formatFeaturedCourseResponse(res[0])
+        }
+      })
     }
-
   }
+  setCompetencyConfig(data: any) {
+    if (data) {
+      this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
+    }
+  }
+
   formatFeaturedCourseResponse(res: any) {
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
@@ -107,6 +141,8 @@ export class MobileDashboardComponent implements OnInit {
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
+      result['sourceName'] = value.sourceName
+      result['competencies_v1'] = value.competencies_v1
       return result
 
     }, {})
@@ -130,6 +166,7 @@ export class MobileDashboardComponent implements OnInit {
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
+          sourceName: key.content.sourceName,
         }
         myCourse.push(myCourseObject)
       }
@@ -147,6 +184,10 @@ export class MobileDashboardComponent implements OnInit {
   // For opening Course Page
   raiseTelemetry(contentIdentifier: any) {
     this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
+  }
+  // To view all course
+  viewAllCourse() {
+    this.router.navigateByUrl(`app/search/learning`)
   }
 
   openIframe(video: any) {
@@ -172,12 +213,18 @@ export class MobileDashboardComponent implements OnInit {
       const lang = result.id === 'hi' ? result.id : 'en'
       let user: any
       const userid = this.configSvc.userProfileV2!.userId
+      let userAgent = this.UserAgentResolverService.getUserAgent()
+      let userCookie = this.UserAgentResolverService.generateCookie()
+
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
         user = data
         const obj = {
           preferences: {
             language: lang,
           },
+          osName: userAgent.OS,
+          browserName: userAgent.browserName,
+          userCookie: userCookie,
         }
         const userdata = Object.assign(user['profileDetails'], obj)
         const reqUpdate = {

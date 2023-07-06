@@ -1,0 +1,7 @@
+<div class="link-container">
+  <div class="link-block" *ngFor="let link of linksData">
+    <a role="button" matRipple routerLink="{{link.url}}" active routerLinkActive="ws-mat-accent-text" class="flex ">
+      <span class="link-text">{{link.linkName}}</span>
+    </a>
+  </div>
+</div>

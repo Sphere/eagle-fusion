@@ -34,7 +34,7 @@
     *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
   </ng-container>
   <span class="spacer"></span>
-  <div *ngIf="hideCreateButton">
+  <!-- <div *ngIf="hideCreateButton">
     <a role="button" *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)"
       class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
       routerLinkActive="ws-mat-accent-text">
@@ -47,16 +47,19 @@
           Create Account</button>
       </ng-container>
     </a>
-  </div>
+  </div> -->
 
-  <div class="flex justify-center flex-col login-btn">
+  <div class="flex justify-center">
     <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
-      color="primary" mat-raised-button i18n="login: client" (click)="login('S')"
-      class="login-btn header-btn ws-mat-primary-background mat-button-base">
-      Login
+      color="primary" i18n (click)="createAcct()" class="new-user-btn header-btn  mat-button-base">
+      New User
+    </button>
+    <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
+      color="primary" i18n="login: client" (click)="login('S')" class="login-btn header-btn  mat-button-base">
+      Log in
     </button>
     <button *ngIf="(isXSmall$ | async) === true && (this.configSvc.userProfile === null)" name="login_client_button"
-      [ngStyle]="{'background-color': 'inherit',  'width': '90px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#3f51b5', 'font-size': 'medium'}"
+      [ngStyle]="{'background-color': '#2E6491',  'width': '90px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#FFFFFF', 'font-size': 'medium'}"
       mat-raised-button i18n="login: client" (click)="login('S')" class="login-btn-xs">
       Log in
     </button>

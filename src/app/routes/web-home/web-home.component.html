@@ -1,0 +1,61 @@
+<!--page banner-->
+<div class="banner-container">
+  <!--upskill now section-->
+  <div class="banner-heading-container">
+    <div class="banner-heading" i18n>Access free Healthcare courses</div>
+    <div class="banner-mini-heading">
+      Learn at your own pace & Get Certified
+    </div>
+    <div class="create-account">
+      <a role="button" matRipple class="flex flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+        [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+        <ng-container>
+          <button mat-raised-button [ngStyle]="{
+            'width':'150px',
+            'height':'auto',
+                'background-color': '#2E6491',
+                'border': '1px solid #2E6491',
+                'border-radius': '20px',
+                'color': 'white',
+                'font-size': '16px',
+                'font-weight': '400'}" i18n>
+            Create Account</button>
+        </ng-container>
+      </a>
+    </div>
+  </div>
+  <img class="banner-image" src="/fusion-assets/images/Mask_group.svg" alt="Banner image" loading="lazy">
+</div>
+<div class="flex info-block">
+  <div class="info-container info-disaplay-bg1">
+    <div class="flex info-box">
+      <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number">{{bannerStatus.learner_onboard}}+</div>
+    </div>
+    <p class="info-text">Learners onboarded</p>
+  </div>
+  <div class="info-container info-disaplay-bg2">
+    <div class="flex info-box">
+      <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number">{{bannerStatus.course}}+</div>
+    </div>
+    <p class="info-text">Number of courses</p>
+  </div>
+  <div class="info-container info-disaplay-bg1">
+    <div class="flex info-box">
+      <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number">{{bannerStatus.cert_course}}+</div>
+    </div>
+    <p class="info-text">Certificate Courses</p>
+  </div>
+  <div class="info-container info-disaplay-bg2">
+    <div class="flex info-box">
+      <img src="/fusion-assets/icons/certificates-issued-01.svg" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number">{{bannerStatus.certificates_issues}}+</div>
+    </div>
+    <p class="info-text">Total certificate issued</p>
+  </div>
+</div>
+<div class="tutorials-container" (click)="scrollToHowSphereWorks()">
+  <p class="tutorials-text">Watch tutorials on how sphere works ></p>
+</div>

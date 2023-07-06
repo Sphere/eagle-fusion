@@ -1,0 +1,74 @@
+.how-work-content {
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 5px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 15px;
+  border-radius: 20px;
+}
+video {
+  border-radius: 10px;
+}
+.videoTitle {
+  font-weight: 400;
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 5px !important;
+}
+
+.videoDes {
+  color: #808080;
+  font-size: 12px;
+  font-weight: 400;
+}
+
+.video-div {
+  margin: auto 10px;
+}
+
+video::-webkit-media-controls-play-button {
+  background-color: rgba(0, 0, 0, 0.52);
+  border-radius: 50%;
+  margin-left: 20px;
+  margin-bottom: 7px;
+  height: 34px;
+}
+
+.how-work-iframe{
+  display: flex;
+  // width: 297px;
+  // height: 184px;
+  border-radius: 25px;
+}
+.scrollHowSphereWorks-block{
+  display: flex;
+  flex-wrap: wrap;
+}
+.m-10{
+  margin: 10px;
+}
+.header2{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 32px;
+line-height: 38px;
+/* identical to box height, or 120% */
+
+letter-spacing: -0.02em;
+
+color: #000000;
+}
+.label1{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+letter-spacing: -0.02em;
+
+color: #000000;
+}

@@ -13,6 +13,8 @@ import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operato
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
 import upperFirst from 'lodash/upperFirst'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -61,7 +63,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private matSnackBar: MatSnackBar,
     public dialog: MatDialog,
     private valueSvc: ValueService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.personalDetailForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
@@ -385,11 +388,16 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let profileRequest = constructReq(form.value, this.userProfileData)
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
       preferences: {
         language: this.personalDetailForm.controls.knownLanguage.value === 'English' ? 'en' : 'hi',
       },
+      osName: userAgent.OS,
+      browserName: userAgent.browserName,
+      userCookie: userCookie,
     }
     profileRequest = Object.assign(profileRequest, obj)
 
@@ -431,12 +439,17 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         if (this.configSvc.userProfileV2) {
           let user: any
           const userid = this.configSvc.userProfileV2.userId
+          let userAgent = this.UserAgentResolverService.getUserAgent()
+          let userCookie = this.UserAgentResolverService.generateCookie()
           this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
             user = data
             const obj = {
               preferences: {
                 language: result.id,
               },
+              osName: userAgent.OS,
+              browserName: userAgent.browserName,
+              userCookie: userCookie,
             }
             const userdata = Object.assign(user['profileDetails'], obj)
             // this.chosenLanguage = path.value

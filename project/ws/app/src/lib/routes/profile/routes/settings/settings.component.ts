@@ -21,6 +21,7 @@ import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatSnackBar, MatSelectChange, MatTabChangeEvent } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-app-settings',
@@ -67,7 +68,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private utilitySvc: UtilityService,
-    private userProfileSvc: UserProfileService
+    private userProfileSvc: UserProfileService,
+    private UserAgentResolverService: UserAgentResolverService,
   ) { }
 
   ngOnInit() {
@@ -222,12 +224,18 @@ export class SettingsComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfileV2) {
       let user: any
       const userid = this.configSvc.userProfileV2.userId
+      let userAgent = this.UserAgentResolverService.getUserAgent()
+      let userCookie = this.UserAgentResolverService.generateCookie()
+
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
         user = data
         const obj = {
           preferences: {
             language: path.value,
           },
+          osName: userAgent.OS,
+          browserName: userAgent.browserName,
+          userCookie: userCookie,
         }
         const userdata = Object.assign(user['profileDetails'], obj)
 
@@ -279,11 +287,11 @@ export class SettingsComponent implements OnInit, OnDestroy {
         }
         if (this.chosenLanguage === 'en') {
           this.chosenLanguage = ''
-           window.location.assign(`${location.origin}/page/home`)
+          window.location.assign(`${location.origin}/page/home`)
           // window.location.reload(true)
         } else {
           // window.location.reload(true)
-           window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
+          window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
         }
         this.snackBar.open(this.successToast.nativeElement.value)
       })

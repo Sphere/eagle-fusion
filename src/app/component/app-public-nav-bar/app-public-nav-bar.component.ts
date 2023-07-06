@@ -141,7 +141,10 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       this.featureApps = Object.keys(this.configSvc.appsConfig.features)
     }
   }
-
+  createAcct() {
+    localStorage.removeItem('url_before_login')
+    this.router.navigateByUrl('app/create-account')
+  }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'mode') {
@@ -173,9 +176,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
-  createAcct() {
-    this.router.navigateByUrl('app/create-account')
-  }
+
   login(key: 'E' | 'N' | 'S') {
     if (localStorage.getItem('login_url')) {
       const url: any = localStorage.getItem('login_url')

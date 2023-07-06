@@ -37,11 +37,15 @@ ws-app-search-input-home .search .mat-form-field-wrapper {
 }
 
 ws-app-search-input-home .search-border {
-  border-radius: 10px; /*.75rem;*/
+  border-radius: 40.3162px;
+  // border-radius: 10px; /*.75rem;*/
   border: 1px solid #dedfe0;
   flex: 1;
   background-color: #fff;
-  width: 350px;
+  width: 450px;
+    @include breakpoint-s {
+      width: 350px;
+    }
   /* border-color: #cecece;*/
   .search {
     @include breakpoint-xs {
