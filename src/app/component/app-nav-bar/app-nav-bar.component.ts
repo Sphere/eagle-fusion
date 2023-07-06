@@ -143,7 +143,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   createAcct() {
-    localStorage.removeItem('url_before_login')
     this.router.navigateByUrl('app/create-account')
   }
 

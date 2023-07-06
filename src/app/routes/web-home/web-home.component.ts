@@ -41,7 +41,6 @@ export class WebHomeComponent implements OnInit {
     })
   }
   createAcct() {
-    localStorage.removeItem('url_before_login')
     this.router.navigateByUrl('app/create-account')
   }
 
