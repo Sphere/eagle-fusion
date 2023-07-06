@@ -3,7 +3,7 @@
 
 .default-banner{
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   background: #EEF8F8 !important;
 
   @include breakpoint-xs {

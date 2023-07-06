@@ -45,7 +45,7 @@ export class WebCourseViewComponent implements OnInit {
     } else {
       this.isLoggedIn = false
     }
-    console.log("displayConfig", this.displayConfig)
+
     if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
       forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {
