@@ -345,10 +345,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-                  console.log(data)
-                  console.log(isNull(data.nextResource), ';;;;;;')
-                  console.log(this.playerStateService.isResourceCompleted())
-                  console.log(isNull(this.playerStateService.getNextResource()))
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
@@ -536,10 +532,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   this.showCompletionMsg = false
                 }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-                  console.log(data)
-                  console.log(isNull(data.nextResource), '-----------')
-                  console.log(this.playerStateService.isResourceCompleted())
-                  console.log(isNull(this.playerStateService.getNextResource()))
+
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {

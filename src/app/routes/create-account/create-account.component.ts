@@ -270,22 +270,23 @@ export class CreateAccountComponent implements OnInit {
     // @ts-ignore: Unreachable code error
     const userdata = Object.assign(MainVisitorDetails, obj)
     console.log(userdata)
-    let obj2 = {
-      "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""]
-    }
-    const userInfo = Object.assign(userdata, obj2)
-    console.log(userInfo)
+    // let obj2 = {
+    //   "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""]
+    // }
+    // const userInfo = Object.assign(userdata, obj2)
+    //console.log(userInfo)
     let obj3 = {
       "FormInfoDetails": {
-        "FormId": 4,
+        "FormId": 7,
         "OTPFormId": 0,
-        "FormType": 0,
+        "FormType": 1,
         "BannerId": 0,
         "RedirectUrl": "",
         "Name": "",
         "EmailId": ""
       },
-      "MainVisitorDetails": userInfo
+      "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""],
+      "MainVisitorDetails": userdata
     }
     //const data = Object.assign(obj3, userInfo)
     console.log(obj3)

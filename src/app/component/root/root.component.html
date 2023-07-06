@@ -118,11 +118,11 @@
 
 <div *ngIf="!isCommonChatEnabled">
   <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross image" (click)="backToChatIcon()" />
-  <a href="https://wa.me/919632013414?text=Hi%2C%20Need%20help%20on%20Aastrika%20Platform" target="_blank">
+  <a href="https://wa.me/919632013414?text=Hi" target="_blank">
     <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp image" />
     <div>
-      <p class="whtsapp-text">Chat with us on WhatsApp</p>
+      <p class="whtsapp-text" i18n>Chat with us on WhatsApp</p>
     </div>
   </a>
-  <a class="fcapp-text cursor-pointer" onclick="window.fcWidget.open();window.fcWidget.show();">Connect with us</a>
+  <a class="fcapp-text cursor-pointer" onclick="window.fcWidget.open();window.fcWidget.show();" i18n>Connect with us</a>
 </div>

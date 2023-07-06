@@ -61,7 +61,6 @@ export class AppFooterComponent {
     }
   }
   createAcct() {
-    localStorage.removeItem('url_before_login')
     this.router.navigateByUrl('app/create-account')
   }
 }

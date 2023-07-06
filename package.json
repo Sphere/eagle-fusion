@@ -27,7 +27,7 @@
   },
   "private": true,
   "dependencies": {
-    "@aastrika_npmjs/comptency": "0.0.36",
+    "@aastrika_npmjs/competency-web": "0.0.1",
     "@aastrika_npmjs/discussions-ui-v8": "^2.1.15",
     "@angular/animations": "~8.2.1",
     "@angular/cdk": "~8.1.2",
@@ -72,6 +72,7 @@
     "mustache": "^3.0.2",
     "ng-circle-progress": "1.5.1",
     "ngx-chips": "2.0.2",
+    "ngx-image-cropper": "^3.0.3",
     "ngx-infinite-scroll": "^10.0.0",
     "ngx-moment": "^5.0.0",
     "pdfjs-dist": "2.1.266",
@@ -81,7 +82,6 @@
     "tslib": "^1.10.0",
     "typeface-roboto": "0.0.75",
     "uuid": "^8.3.2",
-    "ngx-image-cropper": "^3.0.3",
     "video.js": "7.6.0",
     "vis-network": "^5.2.4",
     "vis-util": "^5.0.1",
@@ -113,6 +113,7 @@
     "karma-jasmine-html-reporter": "^1.4.2",
     "ng-packagr": "^5.4.3",
     "protractor": "~5.4.2",
+    "source-map-explorer": "^2.5.3",
     "ts-node": "~8.3.0",
     "tsickle": "^0.36.0",
     "tslint": "~5.18.0",
@@ -120,7 +121,6 @@
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "~3.5.3",
     "typescript-tslint-plugin": "^0.5.4",
-    "webpack-bundle-analyzer": "^3.4.1",
-    "source-map-explorer": "^2.5.3"
+    "webpack-bundle-analyzer": "^3.4.1"
   }
 }

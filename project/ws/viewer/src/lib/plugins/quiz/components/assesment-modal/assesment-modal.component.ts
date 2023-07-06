@@ -97,7 +97,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
   }
   closePopup() {
-    console.log('close competenct', this.isCompetency)
     if (this.isCompetency) {
       this.dialogRef.close({
         event: 'CLOSE',
@@ -509,11 +508,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       user_id_type: 'uuid',
     }
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-      // console.log("submit next data", data)
       if (!isNull(data.nextResource)) {
 
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
-          console.log(data.result.contentList)
           let result = data.result
           result["type"] = 'assessment'
           this.contentSvc.changeMessage(result)
