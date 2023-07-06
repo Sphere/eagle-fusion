@@ -8,7 +8,7 @@
       </button>
     </div>
     <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of topCertifiedCourse.slice(0,4)">
+      <div *ngFor="let course of topCertifiedCourse">
         <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
           <ws-web-course-view [displayConfig]="displayConfig" [courseData]="course"></ws-web-course-view>
         </ng-container>

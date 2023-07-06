@@ -14,10 +14,10 @@
 
 
   <div class="org-body ">
-    <p class="org-name">
+    <p class="org-name mb-0">
       {{currentOrgData.sourceName}}
     </p>
-    <p class="org-desc">
+    <p class="org-desc mb-1">
       {{currentOrgData?.about}}
     </p>
     <!-- <div class="org-details-block">
@@ -143,13 +143,14 @@
             </mat-card>
           </mde-popover>
         </ng-container>
+        <div class="w-100" *ngIf="courseData&&courseData.length > 5">
+          <!-- <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a> -->
+          <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5">Load More</button>
+          <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5">Load Less</button>
+        </div>
       </div>
 
-      <div class="w-100" *ngIf="courseData&&courseData.length > 5">
-        <!-- <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a> -->
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5">Load More</button>
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5">Load Less</button>
-      </div>
+
     </div>
 
   </div>

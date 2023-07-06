@@ -60,6 +60,24 @@ font-size: 40px;
 font-family: Roboto;
 line-height: 48px;
 letter-spacing: -0.8px;
+color: #000;
+/* Display 2 */
+font-family: Roboto;
+font-size: 40px;
+font-style: normal;
+font-weight: 400;
+line-height: 48px;
+letter-spacing: -0.8px;
+ @include breakpoint-xs {
+        color: #000;
+/* Header 2 */
+font-family: Roboto;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: 28.8px;
+letter-spacing: -0.48px;
+  }
 }
 .org-desc{
   color: #000;
@@ -81,6 +99,9 @@ margin: 0px 0px 0px 10px;
   display: flex;
   align-items: center;
   margin: 5px 0px;
+   @include breakpoint-xs {
+padding-left: 15px;
+  }
 }
 
 
@@ -110,7 +131,7 @@ margin: 0px 0px 0px 10px;
 
   min-height: 100px;
   max-height: 200px;
-  height: 185px;
+  height: auto;
   box-shadow: 0px 0px 3.7592592239379883px 0px rgba(0, 0, 0, 0.15)!important;
   .mde-popover-content {
     background-color: #fff;
@@ -369,10 +390,12 @@ background-color: #fff;
   flex-direction: column;
 }
 @media (min-width:320px) and (max-width:600px)  {
-
+.course-body{
+  padding: 0px 15px;
+}
     .image-outer{
       top: 87%;
-      left: 19%;
+      left: 23%;
       width: 100px;
       height: 100px;
     }
@@ -388,10 +411,20 @@ background-color: #fff;
   .org-name {
     font-size: 18px;
     line-height: 22px;
+    padding-top: 26px;
+    padding-left: 15px;
 }
 .org-desc{
    font-size: 14px;
     line-height: 20px;
+    color: #000;
+font-family: Roboto;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 16.8px;
+letter-spacing: -0.28px;
+    padding-left: 15px;
 }
 .org-details{
    font-size: 14px;
@@ -483,11 +516,24 @@ letter-spacing: -0.226px;
 }
  @include breakpoint-s {
   .course-header{
-    font-size: 16px!important;
+    /* Header 2 */
+font-family: Roboto;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: 28.8px;
+letter-spacing: -0.48px;
   }
 }
  @include breakpoint-xs {
   .course-header{
-    font-size: 16px!important;
+    /* Header 2 */
+font-family: Roboto;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: 28.8px;
+letter-spacing: -0.48px;
+padding-left: 15px;
   }
 }

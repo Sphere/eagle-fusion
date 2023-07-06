@@ -428,9 +428,9 @@ export class AlmostDoneComponent implements OnInit {
       countryCode: this.yourBackground.value.countryCode,
       primaryEmail: this.email,
       postalAddress: this.selectedAddress,
-      osName: this.configSvc.unMappedUser.personalDetails.osName ? this.configSvc.unMappedUser.personalDetails.osName : userAgent.OS,
-      browserName: this.configSvc.unMappedUser.personalDetails.browserName ? this.configSvc.unMappedUser.personalDetails.browserName : userAgent.browserName,
-      userCookie: this.configSvc.unMappedUser.personalDetails.userCookie ? this.configSvc.unMappedUser.personalDetails.userCookie : userCookie,
+      osName: userAgent.OS,
+      browserName: userAgent.browserName,
+      userCookie: userCookie,
 
     }
     Object.keys(userObject).forEach(key => {

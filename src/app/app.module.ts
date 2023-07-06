@@ -127,6 +127,7 @@ import { UserAgentResolverService } from './services/user-agent.service'
 import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
 import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
 import { PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemovalModule, PipePartialContentModule } from '@ws-widget/utils'
+import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
 
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
@@ -308,6 +309,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PipePartialContentModule,
     PipeCountTransformModule,
     PipeHtmlTagRemovalModule,
+    HorizontalScrollerModule
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
