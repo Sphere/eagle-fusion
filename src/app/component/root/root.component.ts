@@ -463,7 +463,6 @@ export class RootComponent implements OnInit, AfterViewInit {
       }
     })
     this.userEnrollCourse = myCourse
-    console.log("myCourse: ", myCourse, this.userEnrollCourse)
   }
   getReferrerUrl(): string {
     return this._renderer2 && this._renderer2['data'].referrer || ''
@@ -527,7 +526,8 @@ export class RootComponent implements OnInit, AfterViewInit {
     }
   }
   setCompetencyConfig(data: any) {
-    if (data) {
+    if (data.profileDetails) {
+      console.log("data login", data)
       this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
     }
   }
