@@ -143,13 +143,13 @@
             </mat-card>
           </mde-popover>
         </ng-container>
-        <div class="w-100 load-more-block" *ngIf="courseData&&courseData.length > 5">
-          <!-- <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a> -->
-          <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5">Load More</button>
-          <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5">Load Less</button>
-        </div>
-      </div>
 
+      </div>
+      <div class="w-100 load-more-block" *ngIf="courseData&&courseData.length > 5">
+        <!-- <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a> -->
+        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5">Load More</button>
+        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5">Load Less</button>
+      </div>
 
     </div>
 

@@ -12,6 +12,7 @@
 
 }
 .load-more-block{
+
   @include breakpoint-xs {
      padding-bottom: 50px;
     }
@@ -380,6 +381,7 @@ line-height: 38.4px;
 letter-spacing: -0.64px;
 }
 .load-more{
+  cursor: pointer;
   border-radius: 50px;
 border: 1px solid #2E6491;
 color: #2E6491;
