@@ -59,7 +59,7 @@ export class OrgComponent implements OnInit, OnDestroy {
         )
         if (this.currentOrgData) {
           this.currentOrgData = this.currentOrgData[0]
-          console.log("this.currentOrgData", this.currentOrgData)
+          // console.log("this.currentOrgData", this.currentOrgData)
         }
       }
     })
@@ -71,10 +71,10 @@ export class OrgComponent implements OnInit, OnDestroy {
       this.courseCount = this.courseData
       if (this.courseData) {
         this.courseData.forEach((course: any) => {
-          console.log("course", course)
+          // console.log("course", course)
           if (course && course.competencies_v1) {
             forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-              console.log("value", value)
+              // console.log("value", value)
               if (value.level) {
                 this.cometencyData.push(
                   {
@@ -88,7 +88,7 @@ export class OrgComponent implements OnInit, OnDestroy {
             })
           }
         })
-        console.log("this.cometencyData", this.cometencyData)
+        // console.log("this.cometencyData", this.cometencyData)
 
       }
     })

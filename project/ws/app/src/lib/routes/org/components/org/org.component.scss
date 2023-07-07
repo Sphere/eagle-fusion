@@ -11,6 +11,11 @@
     }
 
 }
+.load-more-block{
+  @include breakpoint-xs {
+     padding-bottom: 50px;
+    }
+}
 .default-banner-img{
   position: relative;
     height: 372px;
