@@ -468,6 +468,9 @@ export class InitService {
       if (this.configSvc.instanceConfig.primaryNavBarConfig) {
         this.configSvc.primaryNavBarConfig = this.configSvc.instanceConfig.primaryNavBarConfig
       }
+      if (this.configSvc.instanceConfig.bannerStats) {
+        this.configSvc.bannerStats = this.configSvc.instanceConfig.bannerStats
+      }
     }
   }
 

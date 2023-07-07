@@ -1,9 +1,9 @@
-<div class="banner-container mb-4" (swipeleft)="slideTo(currentIndex + 1)" (swiperight)="slideTo(currentIndex - 1)"
-  *ngIf="widgetData?.length" [ngClass]="{'m-t-80' : screenSize === 'less', 'm-t-0' : screenSize === 'medium'}">
-  <!-- <a (click)="raiseTelemetry(widgetData[currentIndex].redirectUrl)"
+<!-- <div class="banner-container mb-4" (swipeleft)="slideTo(currentIndex + 1)" (swiperight)="slideTo(currentIndex - 1)"
+  *ngIf="widgetData?.length" [ngClass]="{'m-t-80' : screenSize === 'less', 'm-t-0' : screenSize === 'medium'}"> -->
+<!-- <a (click)="raiseTelemetry(widgetData[currentIndex].redirectUrl)"
     [routerLink]=" !isOpenInNewTab ? widgetData[currentIndex].redirectUrl : './'" class="banner-overlay"
     [ngClass]="{'cursor-auto': !widgetData[currentIndex].redirectUrl}"></a> -->
-  <div class="banner WidgetInstanceId" *ngFor="let slide of widgetData; let i = index" [hidden]="i !== currentIndex">
+<!-- <div class="banner WidgetInstanceId" *ngFor="let slide of widgetData; let i = index" [hidden]="i !== currentIndex">
     <img i18n-alt alt="Page Banner" loading="lazy" [src]="slide.banners" wsUtilsImageResponsive class="banner-image" />
     <div class="text-block" align="center">
       <h2 class="slider-header-subtext" *ngIf="widgetData[currentIndex].intro">{{ widgetData[currentIndex].intro }}</h2>
@@ -11,10 +11,10 @@
         {{ widgetData[currentIndex].title }}</h1>
       <div class="slider-header-subtext" *ngIf="widgetData[currentIndex].button">
         <button class="mat-raised-button join-btn">{{ widgetData[currentIndex].button }}</button>
-      </div>
+      </div> -->
 
-      <!-- <h2 class="slider-header-subtext">Our vision at Aastar is a future in which every woman is treated with respect and dignity during childbirth, and the right treatment is provided at the right time</h2> -->
-    </div>
+<!-- <h2 class="slider-header-subtext">Our vision at Aastar is a future in which every woman is treated with respect and dignity during childbirth, and the right treatment is provided at the right time</h2> -->
+<!-- </div>
   </div>
   <div class="banner-meta">
     <a [routerLink]=" !isOpenInNewTab ? widgetData[currentIndex].redirectUrl : './'" class="slider-header-subtext"
@@ -29,7 +29,7 @@
   </div>
   <a *ngIf="widgetData?.length > 1" role="button" class="prev" (click)="slideTo(currentIndex - 1)">&#10094;</a>
   <a *ngIf="widgetData?.length > 1" role="button" class="next" (click)="slideTo(currentIndex + 1)">&#10095;</a>
-</div>
+</div> -->
 <!-- <div class="banner-container" (swipeleft)="slideTo(currentIndex + 1)" (swiperight)="slideTo(currentIndex - 1)"
   *ngIf="widgetData?.length">
   <a (click)="raiseTelemetry(widgetData[currentIndex].redirectUrl)"

@@ -1,0 +1,24 @@
+<div *ngIf="courseData" class="py-1 px-4 p-4" style="background-color: #F7F7F7;">
+  <!-- <p class="text-2xl" i18n>Featured</p> -->
+
+  <section class="featured-course-container" style="background-color: #FFF;">
+    <div class="m-10">
+      <div class="featured-course-block">
+        <div class="featured-course-content">
+          <p class="featured-course-title">{{courseData.name}}</p>
+          <p class="featured-course-desc">{{courseData.description}}</p>
+          <button class="featured-course-start-btn">
+            <a *ngIf="isLoggedIn" href="app/toc/{{courseData.identifier}}/overview" class="start-now" i18n>Start
+              now!</a>
+            <a (click)="login(courseData)" *ngIf="!isLoggedIn" class="start-now" i18n>Start
+              now!</a>
+          </button>
+        </div>
+        <div class="featured-course-img-container">
+          <img class="featured-course-image" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}"
+            alt="Featured Course" loading="lazy">
+        </div>
+      </div>
+    </div>
+  </section>
+</div>

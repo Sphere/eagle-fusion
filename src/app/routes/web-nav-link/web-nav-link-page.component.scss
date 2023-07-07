@@ -1,0 +1,29 @@
+.link-container{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 10px 10px 10px 20px;
+}
+
+::ng-deep .link-container .ws-mat-accent-text {
+
+    color: #2E6491 !important;
+    border-bottom: 2px solid #2E6491;
+}
+.link-text{
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* or 150% */
+    letter-spacing: -0.02em;
+}
+.link-block{
+    margin: 0px 15px;
+}
+
+@media only screen and (min-width: 600px) and (max-width: 959px){
+.link-block{
+    margin: 0px 10px;
+}
+}

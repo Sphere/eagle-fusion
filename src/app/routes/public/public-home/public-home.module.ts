@@ -17,9 +17,14 @@ import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
 import { MobileHomeComponent } from '../../../routes/mobile-home/mobile-home.component'
-//import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
+import { MobileTrustedByPageComponent } from '../../../routes/mobile-trusted-by-page/mobile-trusted-by-page.component'
+
+import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
+import { MobileLatestCommentComponent } from '../../../routes/mobile-latest-comment/mobile-latest-comment.component'
+import { MobileTestimonialsComponent } from '../../../routes/mobile-testimonials/mobile-testimonials.component'
+
 import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
-//import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
+import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
 import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
 //import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 import { PublicTocComponent } from '../public-toc/public-toc.component'
@@ -27,14 +32,19 @@ import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner
 import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-overview.component'
 import { PublicLicenseComponent } from '../public-license/public-license.component'
 import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callback.component'
+import { WebHomeComponent } from '../../../routes/web-home/web-home.component'
+
 @NgModule({
   declarations: [
     PublicHomeComponent,
     MobilePageComponent,
     MobileHomeComponent,
-    //MobilePageFaqComponent,
+    MobileTrustedByPageComponent,
+    MobilePageFaqComponent,
+    MobileLatestCommentComponent,
+    MobileTestimonialsComponent,
     MobileCourseViewComponent,
-    //MobileHowDoesWorkComponent,
+    MobileHowDoesWorkComponent,
     MobileOrganizationComponent,
     //MobileLeaderboardComponent,
     PublicTocComponent,
@@ -42,6 +52,7 @@ import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callbac
     PublicTocOverviewComponent,
     PublicLicenseComponent,
     KeycloakCallbackComponent,
+    WebHomeComponent
 
   ],
   imports: [
@@ -66,9 +77,12 @@ import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callbac
   exports: [PublicHomeComponent,
     MobilePageComponent,
     MobileHomeComponent,
-    //MobilePageFaqComponent,
+    MobileTrustedByPageComponent,
+    MobilePageFaqComponent,
+    MobileLatestCommentComponent,
+    MobileTestimonialsComponent,
     MobileCourseViewComponent,
-    //MobileHowDoesWorkComponent,
+    MobileHowDoesWorkComponent,
     PublicTocComponent,
     PublicTocBannerComponent,
     PublicTocOverviewComponent,

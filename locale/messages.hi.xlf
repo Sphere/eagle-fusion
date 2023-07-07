@@ -3518,7 +3518,7 @@
         <source> Self Assessment</source>
         <target state="final">स्वयं मूल्यांकन</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/entry-module/components/slef-assessment-entry/slef-assessment-entry.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/entry-module/components/slef-assessment-entry/slef-assessment-entry.component.d.ts</context>
           <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
@@ -3526,7 +3526,7 @@
         <source> Competency Dashboard</source>
         <target state="final">योग्यता डैशबोर्ड</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/entry-module/components/competency-entry/competency-entry.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/entry-module/components/competency-entry/competency-entry.component.d.ts</context>
           <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
@@ -3535,7 +3535,7 @@
         Assess</source>
         <target state="final">मूल्यांकन</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
@@ -3544,7 +3544,7 @@
         Re-Assess</source>
         <target state="final">पुन: मूल्यांकन</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
           <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
@@ -3553,7 +3553,7 @@
         Done</source>
         <target state="final">हो गया</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
@@ -3561,7 +3561,7 @@
         <source>View Courses</source>
         <target state="final">कोर्स देखें</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
           <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
@@ -3569,7 +3569,7 @@
         <source>Levels:</source>
         <target state="final">स्तर : </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
           <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
@@ -3577,7 +3577,7 @@
         <source>Log:</source>
         <target state="final">लॉग : </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
           <context context-type="linenumber">57</context>
         </context-group>
       </trans-unit>
@@ -3588,7 +3588,7 @@
         </source>
         <target>स्तर </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
           <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
@@ -3596,7 +3596,7 @@
         <source>Competency Dashboard</source>
         <target state="final">योग्यता डैशबोर्ड</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
@@ -3604,7 +3604,7 @@
         <source>Roles</source>
         <target state="final">भूमिकाएं</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
@@ -3612,7 +3612,7 @@
         <source>Job Description</source>
         <target state="final">नौकरी विवरण</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
@@ -3620,7 +3620,7 @@
         <source>External</source>
         <target state="final">बाहरी</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
@@ -3628,7 +3628,7 @@
         <source>Self</source>
         <target state="final">स्वयं</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
@@ -3636,7 +3636,7 @@
         <source>Passbook</source>
         <target state="final">पासबुक</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">28</context>
         </context-group>
       </trans-unit>
@@ -3644,7 +3644,7 @@
         <source>Self Assessments</source>
         <target state="final">स्वयं मूल्यांकन</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
@@ -3660,7 +3660,7 @@
         <source>In Progress</source>
         <target state="final">चालू</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/active-summary/active-summary.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/active-summary/active-summary.component.d.ts</context>
           <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
@@ -3676,7 +3676,7 @@
         <source>Activities</source>
         <target state="final">गतिविधियाँ</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/active-summary/active-summary.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/active-summary/active-summary.component.d.ts</context>
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
@@ -3684,7 +3684,7 @@
         <source>Competencies :</source>
         <target state="final">दक्षताओं :</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
@@ -3692,7 +3692,7 @@
         <source>Levels :</source>
         <target state="final">स्तर : </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/comptency/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>

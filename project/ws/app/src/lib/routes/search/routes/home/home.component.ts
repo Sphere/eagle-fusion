@@ -55,6 +55,8 @@ export class HomeComponent implements OnInit {
   }
 
   search(query?: string, lang?: string) {
+    console.log(lang)
+    console.log(this.searchQuery.l)
     this.router.navigate(['/app/search/home'], {
       queryParams: { lang, q: query || this.searchQuery.q },
     }).then(() => {
@@ -99,8 +101,12 @@ export class HomeComponent implements OnInit {
   }
 
   getActivateLocale(): string {
-    const locale = (this.configSvc.activeLocale && this.configSvc.activeLocale.locals[0]) || 'en'
-    return this.searchSvc.getLanguageSearchIndex(locale)
+    console.log(this.configSvc)
+    const locale = (this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : undefined
+    console.log(locale)
+    //(this.configSvc.unMappedUser.profileDetails?.preferences?.language) || 'en'
+    //return this.searchSvc.getLanguageSearchIndex(locale)
+    return locale
   }
 
   get preferredLanguages(): string | null {

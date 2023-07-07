@@ -4,6 +4,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-your-background',
@@ -30,6 +31,7 @@ export class YourBackgroundComponent implements OnInit {
     private snackBar: MatSnackBar,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
+    private UserAgentResolverService: UserAgentResolverService,
   ) { }
 
   ngOnInit() {
@@ -70,6 +72,8 @@ export class YourBackgroundComponent implements OnInit {
     if (this.aboutYou.value.distict) {
       this.selectedAddress += ', ' + `${this.aboutYou.value.distict}`
     }
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
     const userObject = {
       firstname: this.firstName,
       middlename: this.middleName,
@@ -78,6 +82,9 @@ export class YourBackgroundComponent implements OnInit {
       primaryEmail: this.email,
       dob: this.aboutYou.value.dob,
       postalAddress: this.selectedAddress,
+      osName: userAgent.OS,
+      browserName: userAgent.browserName,
+      userCookie: userCookie,
     }
     Object.keys(userObject).forEach(key => {
       if (userObject[key] === '') {

@@ -41,10 +41,10 @@
   }
 }
 .fix-ww {
-  margin-left: auto;
-  margin-right: auto;
+  // margin-left: auto;
+  // margin-right: auto;
   display: flex;
-  flex: 1;
+  // flex: 1;
 }
 .small-font-size {
   @include breakpoint-xs {
@@ -58,9 +58,40 @@
   }
 }
 
-.login-btn.mat-raised-button {
-  color: rgba(0, 0, 0, 0.87);
-  font-weight: 500;
+.login-btn {
+    padding: 8px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background-color: #2E6491 !important;
+    border-radius: 50px;
+    color: #FFFFFF !important;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    border: none;
+    cursor: pointer;
+
+}
+.new-user-btn {
+  margin-right: 10px;
+  display: inline-flex;
+    padding: 8px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background-color: #FFFFFF !important;
+    border-radius: 50px;
+    color: #2E6491 !important;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    cursor: pointer;
+    border: 1px solid #2E6491;
 }
 
 .login-btn-xs {

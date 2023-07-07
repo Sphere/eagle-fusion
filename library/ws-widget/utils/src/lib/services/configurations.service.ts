@@ -79,4 +79,6 @@ export class ConfigurationsService {
     color: 'primary',
   }
   primaryNavBarConfig: NsInstanceConfig.IPrimaryNavbarConfig | null = null
+  bannerStats: NsInstanceConfig.bannerStats | null = null
+
 }

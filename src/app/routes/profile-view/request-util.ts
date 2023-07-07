@@ -2,7 +2,7 @@ import get from 'lodash/get'
 import find from 'lodash/find'
 
 // import { changeformat } from '../../../../project/ws/app/src/public-api'
-export const constructReq = (form: any, userProfileData: any) => {
+export const constructReq = (form: any, userProfileData: any, userAgent: any, userCookies: any) => {
   const userid = userProfileData.userId || userProfileData.id || ''
   const profileReq = {
     id: userid,
@@ -34,6 +34,10 @@ export const constructReq = (form: any, userProfileData: any) => {
       personalEmail: '',
       postalAddress: get(form, 'postalAddress') ? form.postalAddress : userProfileData.personalDetails.postalAddress,
       pincode: get(form, 'pincode') ? form.pincode : userProfileData.personalDetails.pincode,
+      osName: userProfileData.personalDetails.osName ? userProfileData.personalDetails.osName : userAgent.OS,
+      browserName: userProfileData.personalDetails.browserName ? userProfileData.personalDetails.browserName : userAgent.browserName,
+      userCookie: userProfileData.personalDetails.userCookie ? userProfileData.personalDetails.userCookie : userCookies,
+
     },
     academics: get(form.value, 'courseDegree') ? populateAcademics(form.value, userProfileData) : populateAcademics(userProfileData),
     employmentDetails: {

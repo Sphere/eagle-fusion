@@ -91,7 +91,7 @@ import { GoogleCallbackComponent } from './routes/google-callback/google-callbac
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 //import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 //import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
-//import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
+import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
@@ -113,11 +113,23 @@ import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
-import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
-import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
-import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
+import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/competency-web/competency'
 import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
+import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
+import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
+import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trusted-by-page.component'
+import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
+import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.component'
+import { UserAgentResolverService } from './services/user-agent.service'
+import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
+import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
+import { PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemovalModule, PipePartialContentModule } from '@ws-widget/utils'
+import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
+
+
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -216,7 +228,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MobileDashboardComponent,
     //MobileCategoryComponent,
     //MobileVideoPlayerComponent,
-    //MobileFooterComponent,
+    MobileFooterComponent,
     MobileProfileDashboardComponent,
     MobileAboutPopupComponent,
     ProfileSelectComponent,
@@ -232,6 +244,13 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     SashaktCallbackComponent,
     SelfAssessmentComponent,
     AppCallBackComponent,
+    WebHowDoesWorkComponent,
+    WebFeaturedCourseComponent,
+    WebTrustedByPageComponent,
+    WebNavLinkPageComponent,
+    WebDashboardComponent,
+    WebPublicComponent,
+    WebCourseViewComponent
     // SettingsComponent
   ],
   imports: [
@@ -286,6 +305,11 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
     CompetencyModule,
+    PipeDurationTransformModule,
+    PipePartialContentModule,
+    PipeCountTransformModule,
+    PipeHtmlTagRemovalModule,
+    HorizontalScrollerModule
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
@@ -335,6 +359,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
     Title,
+    UserAgentResolverService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

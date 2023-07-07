@@ -32,6 +32,8 @@ import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import moment from 'moment'
 import { LanguageDialogComponent } from '../../../../../../../../../src/app/routes/language-dialog/language-dialog.component'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+
 @Component({
   selector: 'ws-app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -136,6 +138,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private loader: LoaderService,
     private btnservice: BtnProfileService,
     private http: HttpClient,
+    private UserAgentResolverService: UserAgentResolverService
   ) {
     this.approvalConfig = this.route.snapshot.data.pageData.data
     this.isForcedUpdate = !!this.route.snapshot.paramMap.get('isForcedUpdate')
@@ -860,6 +863,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private constructReq(form: any) {
     const userid = this.userProfileData.userId || this.userProfileData.id || ''
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
     const profileReq = {
       id: userid,
       userId: userid,
@@ -889,6 +894,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         personalEmail: '',
         postalAddress: form.value.residenceAddress,
         pincode: form.value.pincode,
+        osName: this.userProfileData.personalDetails.osName ? this.userProfileData.personalDetails.osName : userAgent.OS,
+        browserName: this.userProfileData.personalDetails.browserName ? this.userProfileData.personalDetails.browserName : userAgent.browserName,
+        userCookie: this.userProfileData.personalDetails.userCookie ? this.userProfileData.personalDetails.userCookie : userCookie,
       },
       academics: this.getAcademics(form),
       employmentDetails: {
@@ -1408,12 +1416,18 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configSvc.userProfileV2) {
         let user: any
         const userid = this.configSvc.userProfileV2.userId
+        let userAgent = this.UserAgentResolverService.getUserAgent()
+        let userCookie = this.UserAgentResolverService.generateCookie()
+
         this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
           user = data
           const obj = {
             preferences: {
               language: result.id,
             },
+            osName: userAgent.OS,
+            browserName: userAgent.browserName,
+            userCookie: userCookie,
           }
           const userdata = Object.assign(user['profileDetails'], obj)
           // this.chosenLanguage = path.value

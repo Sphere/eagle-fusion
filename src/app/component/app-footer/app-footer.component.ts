@@ -14,7 +14,7 @@ export class AppFooterComponent {
   appIcon: SafeUrl | null = null
   isMedium = false
   // currentYear = new Date().getFullYear()
-
+  isLoggedIn = false
   constructor(
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
@@ -37,6 +37,11 @@ export class AppFooterComponent {
         this.configSvc.instanceConfig.logos.app,
       )
     }
+    if (this.configSvc.userProfile) {
+      this.isLoggedIn = true
+    } else {
+      this.isLoggedIn = false
+    }
   }
   redirect(lang: string) {
     if (lang !== '') {
@@ -54,5 +59,8 @@ export class AppFooterComponent {
         window.location.assign(`${location.origin}${lang}${this.router.url}`)
       }
     }
+  }
+  createAcct() {
+    this.router.navigateByUrl('app/create-account')
   }
 }

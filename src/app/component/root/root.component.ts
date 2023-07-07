@@ -49,6 +49,14 @@ import { Title } from '@angular/platform-browser'
 import { DOCUMENT } from '@angular/common'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
+import { DomSanitizer } from '@angular/platform-browser'
+import { forkJoin } from 'rxjs'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
+import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import forEach from 'lodash/forEach'
+import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
   selector: 'ws-root',
@@ -62,6 +70,14 @@ export class RootComponent implements OnInit, AfterViewInit {
   appUpdateTitleRef: ElementRef | null = null
   @ViewChild('appUpdateBody', { static: true })
   appUpdateBodyRef: ElementRef | null = null
+  featuredCourse: any = []
+  userId: any
+  preferedLanguage: any = { id: 'en', lang: 'English' }
+  homeFeature: any
+  topCertifiedCourseIdentifier: any = []
+  featuredCourseIdentifier: any = []
+  topCertifiedCourse: any = []
+  userEnrollCourse: any
 
   isXSmall$ = this.valueSvc.isXSmall$
   routeChangeInProgress = false
@@ -71,6 +87,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isInIframe = false
   appStartRaised = false
   isSetupPage = false
+  isHomePage = false
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
@@ -80,6 +97,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   online$: Observable<boolean>
   appOnline: boolean | undefined
   paramsJSON!: string
+  videoData: any
 
   constructor(
     private router: Router,
@@ -98,6 +116,12 @@ export class RootComponent implements OnInit, AfterViewInit {
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
     private _renderer2: Renderer2,
+    private sanitizer: DomSanitizer,
+    private userProfileSvc: UserProfileService,
+    private contentSvc: WidgetContentService,
+    private CompetencyConfiService: CompetencyConfiService,
+    private UserAgentResolverService: UserAgentResolverService,
+    private userSvc: WidgetUserService,
     @Inject(DOCUMENT) private _document: Document
   ) {
     this.online$ = merge(
@@ -160,6 +184,13 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit() {
+    if (this.configSvc.userProfile) {
+      this.userId = this.configSvc.userProfile.userId || ''
+      forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
+        this.formatmyCourseResponse(res[0])
+      })
+    }
+
     this.setPageTitle()
     this.fcSettingsFunc()
 
@@ -200,6 +231,11 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (event.url.includes('/setup/')) {
           this.isSetupPage = true
         }
+        if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {
+          this.isHomePage = true
+        } else {
+          this.isHomePage = false
+        }
       }
 
       if (this.configSvc.userProfile === null) {
@@ -207,7 +243,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       }
       if (event instanceof NavigationStart) {
         // tslint:disable-next-line: max-line-length
-        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register') || event.url.includes('/app/org-details')) {
+        if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')) {
           this.isNavBarRequired = false
           this.hideHeaderFooter = true
         } else if (event.url.includes('author/') && this.isInIframe) {
@@ -250,6 +286,23 @@ export class RootComponent implements OnInit, AfterViewInit {
           //   // this.router.navigateByUrl('app/login')
           // }
 
+        } else if (event.url.includes('login')) {
+          setTimeout(() => {
+            this.signupService.fetchStartUpDetails().then(result => {
+              if (result && result.status !== 200) {
+
+                const redirectUrl = `${document.baseURI}openid/keycloak`
+                const state = uuid()
+                const nonce = uuid()
+                // tslint:disable-next-line:max-line-length
+                const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                window.location.href = keycloakurl
+              } else {
+                this.router.navigateByUrl('/page/home')
+              }
+            })
+
+          }, 10)
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
@@ -319,6 +372,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       // }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
+        console.log("yes telemetry")
         const paramMap = this.activatedRoute.snapshot.queryParamMap
         const params = {}
 
@@ -328,32 +382,15 @@ export class RootComponent implements OnInit, AfterViewInit {
         })
 
         this.paramsJSON = JSON.stringify(params)
-        let userAgent = navigator.userAgent
-        let browserName
+        let userAgent = this.UserAgentResolverService.getUserAgent()
 
-        if (userAgent.match(/chrome|chromium|crios/i)) {
-          browserName = "chrome"
-        } else if (userAgent.match(/firefox|fxios/i)) {
-          browserName = "firefox"
-        } else if (userAgent.match(/safari/i)) {
-          browserName = "safari"
-        } else if (userAgent.match(/opr\//i)) {
-          browserName = "opera"
-        } else if (userAgent.match(/edg/i)) {
-          browserName = "edge"
-        } else {
-          browserName = "No browser detection"
-        }
-
-        let OS = this.getOsInfo()
-
-        this.telemetrySvc.paramTriggerImpression(this.paramsJSON, browserName, OS)
+        this.telemetrySvc.paramTriggerImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         if (this.appStartRaised) {
           this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
           this.appStartRaised = false
         }
         if (!this.configSvc.userProfile) {
-          this.telemetrySvc.publicImpression(this.paramsJSON, browserName, OS)
+          this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         }
       }
 
@@ -384,28 +421,55 @@ export class RootComponent implements OnInit, AfterViewInit {
     } else {
       this.isLoggedIn = false
     }
-  }
-  getOsInfo = () => {
-    let userAgent = window.navigator.userAgent.toLowerCase(),
-      macosPlatforms = /(macintosh|macintel|macppc|mac68k|macos)/i,
-      windowsPlatforms = /(win32|win64|windows|wince)/i,
-      iosPlatforms = /(iphone|ipad|ipod)/i,
-      os = null
+    this.videoData = [
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
+        title: 'Register for a course',
+        description: 'Explore various courses and pick the ones you like',
+      },
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Kl28R7m2k50'),
+        title: 'Take the course',
+        description: 'Access the course anytime, at your convinience',
+      },
+      {
+        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/JTGzCkEXlmU'),
+        title: 'Get certified',
+        description: 'Receive downloadable and shareable certificates',
+      },
+    ]
+    if (this.configSvc.userProfile) {
+      forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
+      this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+        this.setCompetencyConfig(res[0])
+      })
+      console.log("this.configSvc.userProfile", this.configSvc.userProfile)
 
-    if (macosPlatforms.test(userAgent)) {
-      os = "MacOS"
-    } else if (iosPlatforms.test(userAgent)) {
-      os = "iOS"
-    } else if (windowsPlatforms.test(userAgent)) {
-      os = "Windows"
-    } else if (/android/.test(userAgent)) {
-      os = "Android"
-    } else if (!os && /linux/.test(userAgent)) {
-      os = "Linux"
     }
+  }
+  formatmyCourseResponse(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+    forEach(res, (key: { content: { identifier: any; appIcon: any; thumbnail: any; name: any; sourceName: any } }) => {
+      if (res.completionPercentage !== 100) {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          sourceName: key.content.sourceName,
+        }
+        myCourse.push(myCourseObject)
+      }
+    })
+    this.userEnrollCourse = myCourse
+  }
+  getReferrerUrl(): string {
+    return this._renderer2 && this._renderer2['data'].referrer || ''
+  }
 
-    return os
-  };
+
+
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
@@ -461,7 +525,12 @@ export class RootComponent implements OnInit, AfterViewInit {
       console.log(error)
     }
   }
-
+  setCompetencyConfig(data: any) {
+    if (data.profileDetails) {
+      console.log("data login", data)
+      this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
+    }
+  }
   backToChatIcon() {
     try {
       this.isCommonChatEnabled = true
