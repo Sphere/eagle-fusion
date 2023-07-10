@@ -318,7 +318,7 @@ export class TelemetryService {
     }
   }
   postPublicTelemetry(data: any) {
-    console.log("public telemetry")
+    // console.log("public telemetry")
     const publicConfig = this.http
       .post<any>(this.PUBLIC_TELEMETRY, data)
       .toPromise()

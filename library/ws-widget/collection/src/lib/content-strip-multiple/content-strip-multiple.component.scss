@@ -1,4 +1,15 @@
 @import 'ws-mixins';
+.header1{
+    color: #000;
+
+/* Header 1 */
+font-family: Roboto !important;
+font-size: 32px !important;
+font-style: normal !important;
+font-weight: 500 !important;
+line-height: 38.4px !important;
+letter-spacing: -0.64px !important;
+}
 
 .view-more {
   display: flex;

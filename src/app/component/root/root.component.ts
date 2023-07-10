@@ -87,6 +87,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isInIframe = false
   appStartRaised = false
   isSetupPage = false
+  createAcc = false
   isHomePage = false
   showNavigation = true
   hideHeaderFooter = false
@@ -231,6 +232,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (event.url.includes('/setup/')) {
           this.isSetupPage = true
         }
+        if (event.url.includes('/app/create-account')) {
+          this.createAcc = true
+        }
         if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {
           this.isHomePage = true
         } else {
@@ -372,7 +376,6 @@ export class RootComponent implements OnInit, AfterViewInit {
       // }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
-        console.log("yes telemetry")
         const paramMap = this.activatedRoute.snapshot.queryParamMap
         const params = {}
 
@@ -443,8 +446,6 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
         this.setCompetencyConfig(res[0])
       })
-      console.log("this.configSvc.userProfile", this.configSvc.userProfile)
-
     }
   }
   formatmyCourseResponse(res: any) {
@@ -527,7 +528,6 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
   setCompetencyConfig(data: any) {
     if (data.profileDetails) {
-      console.log("data login", data)
       this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
     }
   }
