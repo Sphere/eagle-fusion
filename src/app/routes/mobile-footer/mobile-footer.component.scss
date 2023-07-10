@@ -13,6 +13,7 @@
   background-position: center;
   align-items: center;
   height: 245px;
+  background-position: center center;
 }
 .footer-logo{
   width: 135px;
@@ -214,7 +215,8 @@ color: #7B6961;
 .social-logo{
   width: 25px;
   height: 25px;
-  filter: grayscale(1);
+  // filter: grayscale(1);
+  color: lightgray -128.533px 0px / 523.478% 100% no-repeat;
 }
 
 @media (min-width:320px)  {

@@ -8,9 +8,12 @@
     max-width: 60px;
   }
 }
+.navbar-container{
+  background-color: #FFFFFF !important;
+}
 
 .app-logo {
-  max-height: 52px;
+  max-height: 73px;
   min-width: 120px;
 
   @include breakpoint-xs {
@@ -95,5 +98,7 @@
 }
 
 .login-btn-xs {
-  margin-right: 12px;
+  display: flex;
+  align-items: center;
+  // margin-right: 12px;
 }

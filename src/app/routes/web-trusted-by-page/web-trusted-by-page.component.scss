@@ -15,24 +15,26 @@
     }
 .trusted-by-heading{
     /* Header 2 */
-    font-family: 'Roboto';
+    color: #000000;
+    /* Display 1 */
+    font-family: Roboto;
+    font-size: 40px;
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
-    line-height: 29px;
-    letter-spacing: -0.02em;
-    color: #000000
+    line-height: 57.6px;
+    letter-spacing: -0.96px;
 }
 .trusted-by-ord-heading{
     /* Body */
-    font-family: 'Roboto';
+    color: #000000;
+
+    color: #000;
+    font-family: Roboto;
+    font-size: 24px;
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
     line-height: 24px;
-    /* or 150% */
-    letter-spacing: -0.02em;
-    color: #000000;
+    letter-spacing: -0.48px;
 }
 .button-wrai-rmc{
 display: inline-flex;
