@@ -1,11 +1,11 @@
 <div [hidden]="isRestricted">
   <div class="discussion-body mb-6">
-    <div *ngIf="discussionFetchStatus === 'none'" class="no-conversation mat-toolbar" i18n>
+    <div *ngIf="discussionFetchStatus === 'none'" class="no-conversation mat-toolbar">
       There aren’t any conversations yet
     </div>
     <div class="discussion-header" [hidden]="widgetData.isLoggedInUserRestricted">
       <!-- <p >Start a new thread</p> -->
-      <a class="text-xl blue-link cursor-pointer" i18n (click)="showCommentBox=!showCommentBox">+ Start a New
+      <a class="text-xl blue-link cursor-pointer" (click)="showCommentBox=!showCommentBox">+ Start a New
         Discussion</a>
       <div [hidden]="!showCommentBox">
         <div class="question-container mt-10">
@@ -18,14 +18,14 @@
           </div>
         </div>
         <div class="text-right margin-top-xs">
-          <!-- <mat-checkbox class="mx-2 text-sm font-small" i18n>Notify me when someone replies to my post</mat-checkbox> -->
+          <!-- <mat-checkbox class="mx-2 text-sm font-small" >Notify me when someone replies to my post</mat-checkbox> -->
           <button name="discussion-post-cancel-reply-button" type="button" class="margin-right-xs cancel-btn"
-            mat-stroked-button (click)="cancelPost()" i18n>
+            mat-stroked-button (click)="cancelPost()">
             Cancel
           </button>
           <button name="discussion-forum-post-button"
             [disabled]="!isValidPost || isPostingDiscussion || widgetData?.isDisabled" type="button"
-            (click)="publishConversation(error.value)" mat-raised-button color="primary" i18n
+            (click)="publishConversation(error.value)" mat-raised-button color="primary"
             [title]="widgetData?.isDisabled ? postDisabled.value : postEnabled.value">
             Post
           </button>
@@ -43,8 +43,7 @@
     </div>
     <div class="text-center margin-top-s" *ngIf="discussionFetchStatus === 'hasMore'">
       <button name="discussion-forum-show-more-posts-button" mat-stroked-button [color]="'primary'"
-        [disabled]="discussionFetchStatus === 'fetching'" class="width-1-1" type="button" i18n
-        (click)="fetchDiscussion()">
+        [disabled]="discussionFetchStatus === 'fetching'" class="width-1-1" type="button" (click)="fetchDiscussion()">
         Show More Posts
       </button>
     </div>
@@ -54,13 +53,13 @@
 
 <div [hidden]="!isRestricted">
   <div class="discussion-body mb-6">
-    <div class="no-conversation mat-toolbar" i18n>
+    <div class="no-conversation mat-toolbar">
       Discussion Forum is disabled currently.
     </div>
   </div>
 </div>
 <!-- PID to corses of group and get all user of that group -->
-<input type="hidden" i18n-value value="Conversation published successfully" #publish />
-<input type="hidden" i18n-value value="Unable to save. Please retry" #error />
-<input type="hidden" i18n-value value="Post" #postEnabled />
-<input type="hidden" i18n-value value="Post to Dashboard is disabled for authoring preview mode" #postDisabled />
+<input type="hidden" value="Conversation published successfully" #publish />
+<input type="hidden" value="Unable to save. Please retry" #error />
+<input type="hidden" value="Post" #postEnabled />
+<input type="hidden" value="Post to Dashboard is disabled for authoring preview mode" #postDisabled />

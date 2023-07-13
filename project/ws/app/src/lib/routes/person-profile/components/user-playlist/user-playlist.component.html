@@ -49,7 +49,7 @@
 
 <div class="m-0 lg:py-2 card-height">
   <div class="text-center" *ngIf="playlistFetchStatus === 'fetching'">
-    <p class="font-family fetching" i18n>Fetching playlists ...</p>
+    <p class="font-family fetching">Fetching playlists ...</p>
   </div>
   <!-- <div class="text-center" *ngIf="!playlists?.length && playlistFetchStatus === 'done'">
     <div class="flex flex-center">
@@ -58,7 +58,7 @@
     </div>
   </div> -->
   <div class="text-center" *ngIf="playlistFetchStatus === 'error'">
-    <p class="mat-error" i18n>Failed to fetch playlists.</p>
+    <p class="mat-error">Failed to fetch playlists.</p>
   </div>
   <!-- <ws-utils-horizontal-scroller *ngIf="playlists?.length" [loadStatus]="'done'">
     <div class="px-3 py-1 playlist-card" *ngFor="let playlist of playlists">

@@ -118,7 +118,7 @@
       <img class="feature-icon-img" [src]="actionBtn.src">
     </ng-container>
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-      'mat-caption'">{{ actionBtn.name }}</span>
+      'mat-caption'" i18n>{{ actionBtn.name }}</span>
   </a>
 </ng-template>
 <ng-template #featureItem let-actionBtn="actionBtn" let-config="config">

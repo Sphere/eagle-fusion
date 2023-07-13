@@ -76,13 +76,14 @@
     Error loading page. Please try refreshing page.
   </h2>
   <h2 *ngIf="pageFetchStatus === 'artifactUrlMissing'">
-    <span i18n>There is nothing to play</span> <a class="cursor-pointer ws-mat-primary-text" (click)="backToDetailsPage()"><span i18n>Click here</span></a>
+    <span i18n>There is nothing to play</span> <a class="cursor-pointer ws-mat-primary-text"
+      (click)="backToDetailsPage()"><span i18n>Click here</span></a>
     <span i18n>to go to details page.</span>
   </h2>
 </div>
 
 <div class="container-v2" *ngIf="htmlContent && htmlContent.isIframeSupported === 'Yes'">
-  <iframe #iframeElem title="HTML Content Viewer" i18n-title [src]="iframeUrl"
+  <iframe #iframeElem title="HTML Content Viewer" [src]="iframeUrl"
     (load)="onIframeLoadOrError('load',iframeElem,$event)" (error)="onIframeLoadOrError('error')"
     allow="fullscreen; accelerometer; autoplay; encrypted-media; gyroscope; microphone; camera;"
     class="html-iframe"></iframe>

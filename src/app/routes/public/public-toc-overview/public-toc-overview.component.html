@@ -13,7 +13,7 @@
     </div>
     <!-- Content Body -->
     <div *ngIf="tocConfig?.overview?.body?.enabled && tocData?.instructions" class="unit-meta-item">
-      <h2>{{ tocConfig?.overview?.body?.displayName }}</h2>
+      <h2 i18n>Description</h2>
       <mat-card-content>
         <div class="break-words" [innerHTML]="tocData?.instructions"></div>
       </mat-card-content>

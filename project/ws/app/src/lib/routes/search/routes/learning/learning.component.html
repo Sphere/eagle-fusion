@@ -116,7 +116,7 @@
         </button>
       </h4> -->
       <h4 *ngIf="searchRequest?.lang!=='en' && searchRequest?.lang?.split(',').length === 1">
-        <ng-container> Removing Language </ng-container>
+        <ng-container i18n> Removing Language </ng-container>
         <button (click)="removeLanguage()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>
         </button>

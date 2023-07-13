@@ -8,7 +8,7 @@
         <mat-icon color="warn">report_problem</mat-icon>
       </div>
       <mat-card-title>
-        <ng-container i18n>
+        <ng-container>
           Error in Resolving Json for Widget
         </ng-container>
       </mat-card-title>
@@ -16,13 +16,13 @@
     <div class="flex flex-wrap flex-between">
       <div>
         <div class="margin-top-s">
-          <span class="mat-body-2" i18n>
+          <span class="mat-body-2">
             Widget Type :
           </span>
           {{ widgetType }}
         </div>
         <div class="margin-top-s">
-          <span class="mat-body-2" i18n>
+          <span class="mat-body-2">
             Widget Sub Type :
           </span>
           {{ widgetSubType }}
@@ -30,31 +30,19 @@
       </div>
       <div>
         <ng-container *ngIf="widgetData">
-          <button
-            mat-raised-button
-            class="margin-top-m"
-            color="primary"
-            *ngIf="!showData"
-            (click)="showData = true"
-          >
-            <ng-container i18n>See Details</ng-container>
+          <button mat-raised-button class="margin-top-m" color="primary" *ngIf="!showData" (click)="showData = true">
+            <ng-container>See Details</ng-container>
             <mat-icon>arrow_drop_down</mat-icon>
           </button>
-          <button
-            mat-raised-button
-            class="margin-top-m"
-            color="primary"
-            *ngIf="showData"
-            (click)="showData = false"
-          >
-            <ng-container i18n>Hide Details</ng-container>
+          <button mat-raised-button class="margin-top-m" color="primary" *ngIf="showData" (click)="showData = false">
+            <ng-container>Hide Details</ng-container>
             <mat-icon>arrow_drop_up</mat-icon>
           </button>
         </ng-container>
       </div>
     </div>
     <ng-container *ngIf="widgetData">
-      <pre *ngIf="showData" class="margin-top-s"><span i18n class="mat-body-2">Widget Data :</span>
+      <pre *ngIf="showData" class="margin-top-s"><span  class="mat-body-2">Widget Data :</span>
 {{ widgetData | json }}
     </pre>
     </ng-container>
@@ -64,11 +52,11 @@
   <mat-card>
     <div class="w-full">
       <div class="p-4">
-        <div class="text-3xl font-semibold text-center leading-tight" i18n>
+        <div class="text-3xl font-semibold text-center leading-tight">
           Content not available
         </div>
         <br />
-        <div class="text-base font-medium text-center leading-normal" i18n>
+        <div class="text-base font-medium text-center leading-normal">
           Please add widget or provide data to widget template
         </div>
       </div>

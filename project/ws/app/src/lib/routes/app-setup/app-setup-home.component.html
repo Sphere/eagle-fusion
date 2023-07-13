@@ -1,12 +1,12 @@
 <mat-card class="setup-container">
   <mat-horizontal-stepper labelPosition="bottom" [selectedIndex]="currentIndex" (selectionChange)="onChange($event)">
-    <mat-step i18n-label label="About us" state="about">
+    <mat-step label="About us" state="about">
       <!-- <ws-app-about-video></ws-app-about-video> -->
     </mat-step>
-    <mat-step i18n-label label="Interests" state="interest">
+    <mat-step label="Interests" state="interest">
       <!-- <ws-app-interest #userInterest></ws-app-interest> -->
     </mat-step>
-    <mat-step i18n-label label="Settings" state="setting">
+    <mat-step label="Settings" state="setting">
       <ws-app-settings #userSettings [mode]="'setup'" (langChangedEvent)="langChanged($event)"></ws-app-settings>
     </mat-step>
 
@@ -23,32 +23,30 @@
   <div class="flex flex-between">
     <button [disabled]="currentIndex < 1" mat-raised-button color="primary" (click)="prevBtn()">
       <mat-icon>chevron_left</mat-icon>
-      <span class="padding-left-xs" i18n>Prev</span>
+      <span class="padding-left-xs">Prev</span>
     </button>
-    <a mat-raised-button type="button" color="primary" *ngIf="currentIndex !== 2" [routerLink]="'/page/home'"
-      i18n>Skip</a>
-    <button mat-raised-button type="button" color="primary" *ngIf="currentIndex == 2" (click)="applyChanges(confirm)"
-      i18n>
+    <a mat-raised-button type="button" color="primary" *ngIf="currentIndex !== 2" [routerLink]="'/page/home'">Skip</a>
+    <button mat-raised-button type="button" color="primary" *ngIf="currentIndex == 2" (click)="applyChanges(confirm)">
       Done
     </button>
 
     <button mat-raised-button [disabled]="currentIndex > 1" color="primary"
       class="flex item-centre margin-left-s margin-right-s" (click)="nextBtn()">
-      <span class="padding-left-xs" i18n>Next</span>
+      <span class="padding-left-xs">Next</span>
       <mat-icon>chevron_right</mat-icon>
     </button>
   </div>
 </mat-card>
 
 <ng-template #confirm>
-  <div mat-dialog-content i18n>
+  <div mat-dialog-content>
     Click Yes to take you to the link you tried to access
   </div>
   <div mat-dialog-actions class="flex-row-reverse">
-    <button mat-flat-button color="primary" [mat-dialog-close]=true i18n>
+    <button mat-flat-button color="primary" [mat-dialog-close]=true>
       Yes
     </button>
-    <button mat-button class="margin-right-xs" [mat-dialog-close]=false cdkFocusInitial i18n>No</button>
+    <button mat-button class="margin-right-xs" [mat-dialog-close]=false cdkFocusInitial>No</button>
   </div>
 
 </ng-template>

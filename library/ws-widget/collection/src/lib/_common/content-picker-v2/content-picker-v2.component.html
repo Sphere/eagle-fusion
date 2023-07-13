@@ -18,7 +18,7 @@
     <div *ngIf="objKey(widgetData?.sortableFields || {}).length" class="flex justify-end margin-bottom-m">
       <button mat-stroked-button [matMenuTriggerFor]="sortMenu">Sort <mat-icon>arrow_drop_down</mat-icon></button>
     </div>
-    <h2 *ngIf="fetchStatus === 'done' && !searchResults?.result.length" class="mat-title" i18n>
+    <h2 *ngIf="fetchStatus === 'done' && !searchResults?.result.length" class="mat-title">
       No results
     </h2>
     <div class="flex flex-wrap">
@@ -39,7 +39,7 @@
             class="leading-none pr-4">
           </mat-checkbox>
           <img class="w-24 h-16 ws-mat-primary-lite-background" [src]="content?.appIcon"
-            [wsUtilsDefaultThumbnail]="defaultThumbnail" alt="Content Icon" i18n-alt />
+            [wsUtilsDefaultThumbnail]="defaultThumbnail" alt="Content Icon" -alt />
           <div class="flex-1 min-w-0">
             <div class="flex">
               <h3
@@ -55,10 +55,10 @@
             </p>
             <p *ngIf="content?.uniqueLearners" class="margin-remove-bottom margin-left-xs margin-right-xs">
               {{ content?.uniqueLearners }}
-              <ng-container *ngIf="(content?.uniqueLearners || 0) > 1" i18n>
+              <ng-container *ngIf="(content?.uniqueLearners || 0) > 1">
                 people are studying this
               </ng-container>
-              <ng-container *ngIf="content?.uniqueLearners === 1" i18n>
+              <ng-container *ngIf="content?.uniqueLearners === 1">
                 person is studying this
               </ng-container>
             </p>

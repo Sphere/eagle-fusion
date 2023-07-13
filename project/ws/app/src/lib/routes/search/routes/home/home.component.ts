@@ -103,7 +103,7 @@ export class HomeComponent implements OnInit {
   getActivateLocale(): string {
     console.log(this.configSvc)
     const locale = (this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : undefined
-    console.log(locale)
+    console.log(locale, 'homecompo')
     //(this.configSvc.unMappedUser.profileDetails?.preferences?.language) || 'en'
     //return this.searchSvc.getLanguageSearchIndex(locale)
     return locale
