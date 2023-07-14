@@ -52,6 +52,67 @@
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="e9e2c2392fe275b071273523ee016e8eadbf6ae4" datatype="html">
+        <source>Logout Now</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/utils/src/lib/helpers/logout/logout.component.html</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c913d363025462cffc7e424e5fbb47e3d34026b4" datatype="html">
+        <source>
+  Note: On logging out all the downloaded content will be deleted.
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/utils/src/lib/helpers/logout/logout.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d80cf3640629ebf19fddac2cbe9a2649491ef614" datatype="html">
+        <source>
+  Are you sure?
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/utils/src/lib/helpers/logout/logout.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="82fd7e594001bd60b83e2fce92649f7686e40b3f" datatype="html">
+        <source>
+    Yes
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/utils/src/lib/helpers/logout/logout.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/dialog-confirm/dialog-confirm.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3d3ae7deebc5949b0c1c78b9847886a94321d9fd" datatype="html">
+        <source>No</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/utils/src/lib/helpers/logout/logout.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discussion-delete/discussion-delete.component.d.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/dialog-confirm/dialog-confirm.component.html</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/submit-quiz-dialog/submit-quiz-dialog.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="440d04373825632dfc88c3455c3f8a23a04dc8ce" datatype="html">
         <source>
         Error as Invalid Permission for Widget
@@ -786,6 +847,10 @@
           <context context-type="linenumber">1094</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-toc-overview/public-toc-overview.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
           <context context-type="linenumber">132</context>
         </context-group>
@@ -1472,6 +1537,10 @@
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
           <context context-type="linenumber">17</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="b1536a627b0d69cd74b3578b0a5326f533f56dc6" datatype="html">
         <source>Number of courses</source>
@@ -1519,6 +1588,32 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
           <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6c509bfde4edaf20ac94f83418d4d05602d16a67" datatype="html">
+        <source>
+    Trusted By
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-trusted-by-page/mobile-trusted-by-page.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e1c12d05b25446ff93896825a7323080bd9a552a" datatype="html">
+        <source>
+    50+ Partner Organizations and Growing
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-trusted-by-page/mobile-trusted-by-page.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="845dbe1bf4eae96d6589d881fbdfcc6c25075c73" datatype="html">
@@ -1597,6 +1692,21 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
           <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e95ae009d0bdb45fcc656e8b65248cf7396080d5" datatype="html">
+        <source>Overview</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-toc/public-toc.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home/app-toc-home.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="07fb098c25b2e0ae58ca1a144206cd97091d60ea" datatype="html">
@@ -1879,25 +1989,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
           <context context-type="linenumber">8</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3d3ae7deebc5949b0c1c78b9847886a94321d9fd" datatype="html">
-        <source>No</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discussion-delete/discussion-delete.component.d.ts</context>
-          <context context-type="linenumber">8</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/dialog-confirm/dialog-confirm.component.html</context>
-          <context context-type="linenumber">9</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/submit-quiz-dialog/submit-quiz-dialog.component.html</context>
-          <context context-type="linenumber">14</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
-          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c42ddd0de3cf736d71be86b2708efcd1ebfe2fd7" datatype="html">
@@ -2540,15 +2631,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
           <context context-type="linenumber">62</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="82fd7e594001bd60b83e2fce92649f7686e40b3f" datatype="html">
-        <source>
-    Yes
-  </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/dialog-confirm/dialog-confirm.component.html</context>
-          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4d528d81243448524f3e1de53c8b67e41aa7639f" datatype="html">
@@ -3606,17 +3688,6 @@
           <context context-type="linenumber">22</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="e95ae009d0bdb45fcc656e8b65248cf7396080d5" datatype="html">
-        <source>Overview</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home/app-toc-home.component.html</context>
-          <context context-type="linenumber">39</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="362576936fd6a7bdc0ebb582981c7451df578630" datatype="html">
         <source>Certification</source>
         <context-group purpose="location">
@@ -4246,24 +4317,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-featured-course/web-featured-course.component.html</context>
           <context context-type="linenumber">13</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6c509bfde4edaf20ac94f83418d4d05602d16a67" datatype="html">
-        <source>
-    Trusted By
-  </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
-          <context context-type="linenumber">3</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="e1c12d05b25446ff93896825a7323080bd9a552a" datatype="html">
-        <source>
-    50+ Partner Organizations and Growing
-  </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
-          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="248548e786acd3bd72ce10b2fe23097d4f175778" datatype="html">
