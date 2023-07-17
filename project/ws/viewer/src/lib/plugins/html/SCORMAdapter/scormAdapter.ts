@@ -276,11 +276,13 @@ export class SCORMAdapterService {
   }
 
   getStatus(postData: any): number {
+    console.log(postData["cmi.core.lesson_status"], 'getStatus', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 2
+      } else {
+        return 1
       }
-      return 1
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in getting completion status', e)
@@ -288,12 +290,13 @@ export class SCORMAdapterService {
     }
   }
   getPercentage(postData: any): number {
-    console.log(postData)
+    console.log(postData["cmi.core.lesson_status"], 'getpercentage', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 100
+      } else {
+        return 0
       }
-      return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
       console.log('Error in getting completion status', e)

@@ -267,7 +267,6 @@ export class RootComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
-
                 const redirectUrl = `${document.baseURI}openid/keycloak`
                 const state = uuid()
                 const nonce = uuid()
@@ -277,7 +276,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          }, 10)
+          }, 1000)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)

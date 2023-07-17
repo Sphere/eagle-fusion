@@ -2,7 +2,7 @@
   <ws-widget-btn-page-back [widgetData]="{ url: 'back' }"></ws-widget-btn-page-back>
   <div>
     <span class="margin-left-s">{{ firstName }}</span>
-    <span i18n>'s Profile</span>
+    <span>'s Profile</span>
   </div>
 </mat-toolbar>
 <ng-container *ngIf="isPersonProfileAvailable">
@@ -14,10 +14,8 @@
             <div class="flex mat-app-backgound profiledetails w-full">
               <div class="flex profile text-center w-full">
                 <div class="flex ml-2 margin-bottom-xs p-2 text-center">
-                  <div
-                    class="flex flex-middle profile-icon ws-mat-primary-lite-background-important"
-                    *ngIf="!profilePic.length; else profilepic"
-                  >
+                  <div class="flex flex-middle profile-icon ws-mat-primary-lite-background-important"
+                    *ngIf="!profilePic.length; else profilepic">
                     <div class="flex-1">
                       <h1 class="flex-1 font-family margin-remove mat-h1 text-black">
                         {{ iconChar }}
@@ -25,16 +23,11 @@
                     </div>
                   </div>
                   <ng-template #profilepic>
-                    <img
-                      alt="/assets/images/profile/blank-profilePcture.png"
-                      src="{{ profilePic }}"
-                      class="margin-left-l object-cover"
-                    />
+                    <img alt="/assets/images/profile/blank-profilePcture.png" src="{{ profilePic }}"
+                      class="margin-left-l object-cover" />
                   </ng-template>
                   <div class="margin-left-l">
-                    <p
-                      class="margin-remove margin-top-xs mat-h3 title font-family font-weight-bold"
-                    >
+                    <p class="margin-remove margin-top-xs mat-h3 title font-family font-weight-bold">
                       {{ userName }}
                     </p>
                     <p class="margin-remove-bottom email mat-h3 font-family">{{ emailId }}</p>
@@ -45,7 +38,7 @@
                           <p class="margin-remove text-center mat-h3 follownumber font-family">
                             {{ followersCount }}
                           </p>
-                          <p class="margin-remove-bottom mat-h3 email font-family" i18n>
+                          <p class="margin-remove-bottom mat-h3 email font-family">
                             Followers
                           </p>
                         </div>
@@ -54,47 +47,28 @@
                           <p class="margin-remove text-center mat-h3 follownumber font-family">
                             {{ followingCount }}
                           </p>
-                          <p class="margin-remove-bottom email mat-h3 font-family" i18n>
+                          <p class="margin-remove-bottom email mat-h3 font-family">
                             Following
                           </p>
                         </div>
                       </div>
                       <div class="flex flex-end" *ngIf="isFollowButtonEnabled">
                         <ng-container [ngSwitch]="statusFollowed">
-                          <button
-                            type="button"
-                            *ngSwitchCase="'NOT_FOLLOWED'"
-                            mat-raised-button
-                            class="follow-button ws-mat-primary-background margin-top-xs"
-                            (click)="follow()"
-                          >
+                          <button type="button" *ngSwitchCase="'NOT_FOLLOWED'" mat-raised-button
+                            class="follow-button ws-mat-primary-background margin-top-xs" (click)="follow()">
                             <div class="flex flex-center">
-                              <p
-                                class="text-white margin-remove-bottom font-weight-bold font-family"
-                                i18n
-                              >
+                              <p class="text-white margin-remove-bottom font-weight-bold font-family">
                                 Follow
                               </p>
                             </div>
                           </button>
                           <div class="flex flex-center">
-                            <div
-                              *ngSwitchCase="'PENDING'"
-                              class="loading ws-mat-primary-border-bottom-bolder"
-                            ></div>
+                            <div *ngSwitchCase="'PENDING'" class="loading ws-mat-primary-border-bottom-bolder"></div>
                           </div>
-                          <button
-                            type="button"
-                            *ngSwitchCase="'FOLLOWED'"
-                            mat-raised-button
-                            class="unfollow-button margin-top-xs ws-mat-primary-border-bold"
-                            (click)="unfollowFn()"
-                          >
+                          <button type="button" *ngSwitchCase="'FOLLOWED'" mat-raised-button
+                            class="unfollow-button margin-top-xs ws-mat-primary-border-bold" (click)="unfollowFn()">
                             <div class="flex flex-center">
-                              <p
-                                class="font-family margin-remove-bottom font-weight-bold text-black"
-                                i18n
-                              >
+                              <p class="font-family margin-remove-bottom font-weight-bold text-black">
                                 Unfollow
                               </p>
                             </div>
@@ -107,20 +81,16 @@
                 <div class="divider"></div>
                 <div class="flex flex-center flex-middle p-2">
                   <div class="interest text-left">
-                    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" i18n>
+                    <p class="margin-remove-bottom mat-h3 font-weight-bold font-family">
                       Interests:
                     </p>
                     <div *ngIf="!interests?.length" class="pl-4 py-4">
-                      <span i18n="no interest ws-mat-primary-text" i18n>No interest added</span>
+                      <span>No interest added</span>
                     </div>
                     <div class="margin-top-xs">
                       <mat-chip-list>
-                        <mat-chip
-                          [selectable]="true"
-                          color="mat-app-background"
-                          class="interestchips font-family"
-                          *ngFor="let interest of interests"
-                        >
+                        <mat-chip [selectable]="true" color="mat-app-background" class="interestchips font-family"
+                          *ngFor="let interest of interests">
                           {{ interest }}
                         </mat-chip>
                       </mat-chip-list>
@@ -131,20 +101,12 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <ng-container
-          *ngIf="
+        <ng-container *ngIf="
             targetId?.length && followingFetchStatus === 'done' && followersFetchStatus === 'done'
-          "
-        >
-          <ws-app-user-details
-            [wid]="targetId"
-            [name]="userName"
-            [enabledFeatures]="enabledFeatures"
-            [followingCount]="followingCount"
-            [followersCount]="followersCount"
-            [followers]="followers"
-            [following]="following"
-          >
+          ">
+          <ws-app-user-details [wid]="targetId" [name]="userName" [enabledFeatures]="enabledFeatures"
+            [followingCount]="followingCount" [followersCount]="followersCount" [followers]="followers"
+            [following]="following">
           </ws-app-user-details>
         </ng-container>
       </div>
@@ -153,20 +115,15 @@
       <div class="smallscreen">
         <mat-card class="mat-elevation-z0">
           <div class="profile text-center">
-            <div
-              class="flex flex-middle profile-icon ws-mat-primary-lite-background-important margin-auto"
-              *ngIf="!profilePic.length; else profilepic"
-            >
+            <div class="flex flex-middle profile-icon ws-mat-primary-lite-background-important margin-auto"
+              *ngIf="!profilePic.length; else profilepic">
               <div class="flex-1">
                 <h1 class="flex-1 font-family margin-remove mat-h1 text-black">{{ iconChar }}</h1>
               </div>
             </div>
             <ng-template #profilepic>
-              <img
-                alt="/assets/images/profile/blank-profilePcture.png"
-                src="{{ profilePic }}"
-                class="margin-left-l object-cover"
-              />
+              <img alt="/assets/images/profile/blank-profilePcture.png" src="{{ profilePic }}"
+                class="margin-left-l object-cover" />
             </ng-template>
             <div class="margin-bottom-xs text-center">
               <p class="margin-remove margin-top-xs mat-h3 title font-family font-weight-bold">
@@ -176,18 +133,16 @@
             </div>
             <!-- <div class="flex email margin-bottom-xs">
                     </div> -->
-            <div
-              class="flex flex-evenly margin-bottom-xs ws-mat-primary-background-op10 followcard"
-            >
+            <div class="flex flex-evenly margin-bottom-xs ws-mat-primary-background-op10 followcard">
               <div>
-                <p class="margin-remove-bottom mat-h3 email font-family" i18n>Followers</p>
+                <p class="margin-remove-bottom mat-h3 email font-family">Followers</p>
                 <p class="margin-remove text-center mat-h3 follownumber font-family">
                   {{ followersCount }}
                 </p>
               </div>
               <div class="divider ws-mat-primary-background"></div>
               <div>
-                <p class="margin-remove-bottom email mat-h3 font-family" i18n>Following</p>
+                <p class="margin-remove-bottom email mat-h3 font-family">Following</p>
                 <p class="margin-remove text-center mat-h3 follownumber font-family">
                   {{ followingCount }}
                 </p>
@@ -195,26 +150,18 @@
             </div>
             <div class="flex flex-center">
               <div *ngIf="isFollow; else unFollow">
-                <button
-                  type="button"
-                  mat-raised-button
-                  class="follow-button ws-mat-primary-background margin-top-xs"
-                  (click)="follow()"
-                >
+                <button type="button" mat-raised-button class="follow-button ws-mat-primary-background margin-top-xs"
+                  (click)="follow()">
                   <div class="flex flex-center">
-                    <p class="text-white margin-remove-bottom font-family" i18n>Follow</p>
+                    <p class="text-white margin-remove-bottom font-family">Follow</p>
                   </div>
                 </button>
               </div>
               <ng-template #unFollow>
-                <button
-                  type="button"
-                  mat-raised-button
-                  class="unfollow-button ws-mat-primary-border-bold margin-top-xs"
-                  (click)="unfollowFn()"
-                >
+                <button type="button" mat-raised-button class="unfollow-button ws-mat-primary-border-bold margin-top-xs"
+                  (click)="unfollowFn()">
                   <div class="flex flex-center">
-                    <p class="text-black margin-remove-bottom font-weight-bold font-family" i18n>
+                    <p class="text-black margin-remove-bottom font-weight-bold font-family">
                       Unfollow
                     </p>
                   </div>
@@ -224,11 +171,11 @@
             <!-- <button type="button" mat-raised-button class="follow-button ws-mat-primary-background margin-top-xs"
                       (click)="follow()">
                       <div class="flex flex-center" *ngIf="isFollow; else unFollow">
-                        <p class="text-white margin-remove-bottom font-family" i18n>Follow</p>
+                        <p class="text-white margin-remove-bottom font-family" >Follow</p>
                       </div>
                       <ng-template #unFollow>
                         <div class="flex flex-center">
-                          <p class="text-white margin-remove-bottom font-family" i18n>Unfollow</p>
+                          <p class="text-white margin-remove-bottom font-family" >Unfollow</p>
                         </div>
                       </ng-template>
                     </button> -->
@@ -239,20 +186,16 @@
           <mat-card-content>
             <div class="flex flex-center flex-middle p-2">
               <div class="interest text-left">
-                <p class="margin-remove-bottom mat-h3 font-weight-bold font-family" i18n>
+                <p class="margin-remove-bottom mat-h3 font-weight-bold font-family">
                   Interests:
                 </p>
                 <div *ngIf="!interests?.length" class="pl-4 py-4">
-                  <span i18n="no interest ws-mat-primary-text" i18n>No interest added</span>
+                  <span>No interest added</span>
                 </div>
                 <div class="margin-top-xs">
                   <mat-chip-list>
-                    <mat-chip
-                      [selectable]="true"
-                      color="mat-app-background"
-                      class="interestchips font-family"
-                      *ngFor="let interest of interests"
-                    >
+                    <mat-chip [selectable]="true" color="mat-app-background" class="interestchips font-family"
+                      *ngFor="let interest of interests">
                       {{ interest }}
                     </mat-chip>
                   </mat-chip-list>
@@ -262,20 +205,12 @@
             </div>
           </mat-card-content>
         </mat-card>
-        <ng-container
-          *ngIf="
+        <ng-container *ngIf="
             targetId?.length && followingFetchStatus === 'done' && followersFetchStatus === 'done'
-          "
-        >
-          <ws-app-user-details
-            [wid]="targetId"
-            [name]="userName"
-            [enabledFeatures]="enabledFeatures"
-            [followingCount]="followingCount"
-            [followersCount]="followersCount"
-            [followers]="followers"
-            [following]="following"
-          >
+          ">
+          <ws-app-user-details [wid]="targetId" [name]="userName" [enabledFeatures]="enabledFeatures"
+            [followingCount]="followingCount" [followersCount]="followersCount" [followers]="followers"
+            [following]="following">
           </ws-app-user-details>
         </ng-container>
       </div>

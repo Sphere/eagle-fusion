@@ -3,7 +3,7 @@
   style="    justify-content: left;">
   <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
     <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
-      <img [src]="appIcon" loading="lazy" i18n-alt alt="Application Logo" id="app-logo" class="app-logo" />
+      <img [src]="appIcon" loading="lazy" i18n alt="Application Logo" id="app-logo" class="app-logo" />
     </a>
   </div>
   <div class="fix-ww">
@@ -34,7 +34,7 @@
           <!-- <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" /> -->
         </div>
 
-        <button mat-raised-button *ngIf="allowAuthor" i18n
+        <button mat-raised-button *ngIf="allowAuthor"
           class="header-btn text-white ws-mat-primary-background mat-button-base hide-md"
           [routerLink]="'/author/create'">
           Add Course </button>
@@ -100,7 +100,7 @@
             matTooltip="Home">Home</span>
         </ng-container>
         <ng-container *ngIf="appBottomIcon">
-          <img width="40px" height="40px" [src]="appBottomIcon" i18n-alt alt="Home" />
+          <img width="40px" height="40px" [src]="appBottomIcon" i18n alt="Home" />
         </ng-container>
       </a> -->
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
@@ -146,8 +146,8 @@
       }
     }"></ws-widget-btn-feature>
   <div mat-menu-item *ngIf="isTourGuideAvailable" (click)="startTour()">
-    <mat-icon i18n-matTooltip matTooltip="Help">help</mat-icon>
-    <span class="ml-2" i18n i18n-matTooltip matTooltip="Tour Guide">Tour Guide</span>
+    <mat-icon matTooltip="Help">help</mat-icon>
+    <span class="ml-2" matTooltip="Tour Guide">Tour Guide</span>
   </div>
 
 </mat-menu>

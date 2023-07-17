@@ -44,8 +44,7 @@
         <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
           <div class="mt-2 px-1">
 
-            <span class="value" *ngIf="courseData?.completionPercentage"
-              i18n>{{courseData?.completionPercentage}}%</span>
+            <span class="value" *ngIf="courseData?.completionPercentage">{{courseData?.completionPercentage}}%</span>
           </div>
         </ng-container>
       </div>
@@ -85,8 +84,7 @@
         </ng-container>
         <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
           <div class="mt-2 px-1">
-            <span class="value" *ngIf="courseData?.completionPercentage"
-              i18n>{{courseData?.completionPercentage}}%</span>
+            <span class="value" *ngIf="courseData?.completionPercentage">{{courseData?.completionPercentage}}%</span>
           </div>
         </ng-container>
       </div>

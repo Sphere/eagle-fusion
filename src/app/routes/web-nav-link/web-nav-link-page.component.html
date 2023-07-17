@@ -1,7 +1,19 @@
 <div class="link-container">
-  <div class="link-block" *ngFor="let link of linksData">
-    <a role="button" matRipple routerLink="{{link.url}}" active routerLinkActive="ws-mat-accent-text" class="flex ">
-      <span class="link-text">{{link.linkName}}</span>
+  <div class="link-block">
+    <a role="button" matRipple routerLink="page/home" active routerLinkActive="ws-mat-accent-text" class="flex ">
+      <span class="link-text" i18n>Home</span>
+    </a>
+  </div>
+  <div class="link-block">
+    <a role="button" matRipple routerLink="/app/user/competency" active routerLinkActive="ws-mat-accent-text"
+      class="flex ">
+      <span class="link-text" i18n>Competency</span>
+    </a>
+  </div>
+  <div class="link-block">
+    <a role="button" matRipple routerLink="/app/profile-view" active routerLinkActive="ws-mat-accent-text"
+      class="flex ">
+      <span class="link-text" i18n>Account</span>
     </a>
   </div>
 </div>

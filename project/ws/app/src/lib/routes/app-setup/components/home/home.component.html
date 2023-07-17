@@ -6,8 +6,8 @@
 </div> -->
 
 <div class="outer">
-  <a mat-button routerLink="." i18n-matTooltip matTooltip="Home" class="flex flex-center flex-middle">
-    <img loading="lazy" [src]="appIcon" i18n-alt alt="Application Logo" class="app-logo pr-2" />
+  <a mat-button routerLink="." matTooltip="Home" class="flex flex-center flex-middle">
+    <img loading="lazy" [src]="appIcon" alt="Application Logo" class="app-logo pr-2" />
     <span class="title-app" *ngIf="appName">| {{appName}}</span>
   </a>
 
@@ -16,7 +16,7 @@
       <router-outlet></router-outlet>
     </div>
   </div>
-  <div *ngIf="showStepCount" class="mat-subheading-1 margin-remove margin-top-m"><span i18n>Step </span> {{stepCount}}/4
+  <div *ngIf="showStepCount" class="mat-subheading-1 margin-remove margin-top-m"><span>Step </span> {{stepCount}}/4
   </div>
 
 
