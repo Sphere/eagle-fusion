@@ -1,5 +1,6 @@
 <div class="content">
-  <p class="banner-heading text-2xl py-2 text-base text-capitalize"><span i18n>Welcome </span>{{firstName?.firstName}}!
+  <p class="banner-heading text-2xl py-2 text-base text-capitalize"><span i18n>Welcome
+    </span>{{firstName?firstName:''}}!
   </p>
   <p class="banner-mini-heading" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue
     Learning</p>

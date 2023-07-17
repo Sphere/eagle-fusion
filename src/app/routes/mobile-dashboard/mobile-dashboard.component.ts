@@ -94,12 +94,15 @@ export class MobileDashboardComponent implements OnInit {
       },
     ]
     if (this.configSvc.userProfile) {
-      this.firstName = this.configSvc.userProfile
+
+      // this.firstName = this.configSvc.userProfile
       forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
       this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
         this.setCompetencyConfig(res[0])
+        // console.log("fasdfasdf", res[0])
+        this.firstName = res[0].profileDetails!.profileReq!.personalDetails!.firstname
+
       })
-      console.log("this.configSvc.userProfile", this.configSvc.userProfile)
 
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
