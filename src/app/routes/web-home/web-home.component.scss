@@ -29,6 +29,28 @@
 // .info-container[_ngcontent-sxu-c23] {
 //     width: 160px;
 // }
+@media only screen and (min-width: 600px) and (max-width: 959px){
+.banner-image{
+    width: 400px !important;
+    height: 300px !important;
+}
+.banner-heading {
+    font-size: 24px !important;
+    line-height: 28.8px !important;
+}
+.banner-mini-heading{
+    font-size: 18px !important;
+}
+.box-sizing-box{
+    margin-top: 10px !important;
+}
+.info-number{
+    font-size: 24px !important;
+}
+.tutorials-text{
+    font-size: 20px !important;
+}
+}
 .banner-image{
     width: 661px;
     // height: 350px

@@ -9,14 +9,14 @@
 
   <ng-container *ngFor="let key of stripsKeyOrder; let i = index">
     <ng-container *ngIf="stripsResultDataMap[key].showStrip">
-      <a class="padding-rl" name="{{stripsResultDataMap[key]?.stripTitle}}">
-        <div *ngIf="
+      <a class="padding-rl " name="{{stripsResultDataMap[key]?.stripTitle}}">
+        <div class="mt-4" *ngIf="
                   stripsResultDataMap[key]?.widgets?.length ||
                   stripsResultDataMap[key]?.showOnNoData ||
                   stripsResultDataMap[key]?.showOnLoader ||
                   stripsResultDataMap[key]?.showOnError
                 " [ngClass]="
-                  !widgetData.isChannelStrip ? 'px-4 sm\:px-48 md:px-10ss py-0 my-0 mt-12' : i > 0 ? 'mt-12' : ''
+                  !widgetData.isChannelStrip ? 'py-0 my-0 mt-12' : i > 0 ? 'mt-12' : ''
                 " [id]="key">
           <div *ngIf="!callPublicApi" [ngClass]="{ pad: stripsResultDataMap[key]?.stripBackground }"
             [ngStyle]="{ 'background-color': stripsResultDataMap[key]?.stripBackground }">
@@ -28,7 +28,7 @@
                         : ''
                     ">
               <div class="flex items-center flex-1">
-                <h1 class="mat-h1 header-font margin-remove inline-block header1" id="my-course-heading"
+                <h1 class="margin-remove inline-block header1" id="my-course-heading"
                   *ngIf="stripsResultDataMap[key]?.stripTitle">
                   {{ stripsResultDataMap[key]?.stripTitle }}
                 </h1>

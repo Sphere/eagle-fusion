@@ -17,7 +17,7 @@
   </section>
 </div>
 <!-- Featured Section-->
-<section *ngIf="featuredCourse && featuredCourse.length>0" class="py-3 featuredCourse-section">
+<section *ngIf="featuredCourse && featuredCourse.length>0" class=" featuredCourse-section">
   <p class="mat-h1 header-font margin-remove inline-block ng-star-inserted header1" i18n>Featured</p>
   <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
     <div *ngFor="let course of featuredCourse">

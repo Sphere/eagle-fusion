@@ -80,6 +80,21 @@ letter-spacing: -0.32px;
   padding: 0px 50px;
 }
 .scrollHowSphereWorks-block{
+  padding: 0px 40px;
+}
+.block-container{
+  width: 208px;
+}
+.how-work-content{
+  height: 275px;
+}
+}
+
+@media only screen and (min-width: 1280px) and (max-width: 1500){
+.scrollHowSphereWorks{
   padding: 0px 50px;
+}
+.scrollHowSphereWorks-block{
+  padding: 0px 40px;
 }
 }

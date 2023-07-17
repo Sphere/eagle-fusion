@@ -11,7 +11,7 @@
   background-size: auto auto;
   background-repeat:no-repeat;
   background-position: center;
-  align-items: center;
+  align-items: end;
   height: 245px;
   background-position: center bottom;
 }
@@ -167,6 +167,7 @@ hr.new1{
   color: #7B6961 !important;
 }
 .foundation-link{
+  display: flex;
   width: 280px;
     height: 17px;
     left: 24px;
@@ -179,6 +180,15 @@ hr.new1{
     letter-spacing: -0.02em;
     color: #7B6961;
     margin: 10px 0px 10px 0px;
+}
+.foundation-text{
+  color: #7B6961 !important;
+font-family: Roboto;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 16.8px; /* 120% */
+letter-spacing: -0.28px;
 }
 .footer-text{
 width: 269px;
