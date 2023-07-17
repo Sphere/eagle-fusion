@@ -1,5 +1,7 @@
 @import 'ws-mixins';
-
+.top-course-container{
+  margin-bottom: 45px !important;
+}
 .view-all-course{
   cursor: pointer;
 display: inline-flex;
@@ -14,7 +16,7 @@ background-color: #FFFF;
 }
 .scroller-container{
   justify-content: space-between;
-    margin-bottom: 10px;
+    margin-bottom: 20px;
 
 }
 .header1{
@@ -22,9 +24,25 @@ background-color: #FFFF;
 
 /* Header 1 */
 font-family: Roboto !important;
-font-size: 32px !important;
+font-size: 36px !important;
 font-style: normal !important;
-font-weight: 500 !important;
+font-weight: 400 !important;
 line-height: 38.4px !important;
 letter-spacing: -0.64px !important;
+// margin-bottom: 10px !important;
+}
+.view-all-course-container{
+  padding: 0px 157px;
+}
+.featuredCourse-section{
+    padding: 0px 157px;
+
+}
+@media only screen and (min-width: 600px) and (max-width: 959px){
+.view-all-course-container{
+  padding: 0px 50px;
+}
+.featuredCourse-section{
+  padding: 0px 50px;
+}
 }

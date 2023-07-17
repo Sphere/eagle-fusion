@@ -45,7 +45,7 @@
     justify-content: center;
     align-items: center;
     flex: 1 0 25%;
-    height: 95px;
+    height: 120px;
     box-sizing: border-box;
     flex-direction: column;
 }
@@ -59,7 +59,7 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 26px;
+    font-size: 32px;
     line-height: 43px;
     /* or 180% */
 
@@ -68,10 +68,10 @@
     color: #14446C;
 }
 .info-text{
-    margin-top: 5px !important;
+    // margin-top: 5px !important;
     text-align: center;
     font-family: 'Roboto';
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 18px;
@@ -86,14 +86,14 @@
     justify-content: center;
     align-items: center;
     background: #469788;
-    height: 51px;
+    height: 60px;
 }
 .tutorials-text{
     /* Body */
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 18px;
+    font-size: 22px;
     line-height: 24px;
     /* or 150% */
     text-align: center;

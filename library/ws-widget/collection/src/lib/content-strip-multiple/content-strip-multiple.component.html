@@ -9,7 +9,7 @@
 
   <ng-container *ngFor="let key of stripsKeyOrder; let i = index">
     <ng-container *ngIf="stripsResultDataMap[key].showStrip">
-      <a name="{{stripsResultDataMap[key]?.stripTitle}}">
+      <a class="padding-rl" name="{{stripsResultDataMap[key]?.stripTitle}}">
         <div *ngIf="
                   stripsResultDataMap[key]?.widgets?.length ||
                   stripsResultDataMap[key]?.showOnNoData ||

@@ -10,7 +10,11 @@ font-weight: 500 !important;
 line-height: 38.4px !important;
 letter-spacing: -0.64px !important;
 }
-
+.padding-rl {
+  .horizontal-scroll-content{
+    padding: 0px 157px;
+  }
+}
 .view-more {
   display: flex;
   align-items: center;
