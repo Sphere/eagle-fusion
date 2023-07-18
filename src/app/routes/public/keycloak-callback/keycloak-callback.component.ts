@@ -12,10 +12,10 @@ import { ConfigurationsService } from '@ws-widget/utils'
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
   constructor(private orgService: OrgServiceService,
-              private snackBarSvc: MatSnackBar,
-              private signupService: SignupService,
-              private authSvc: AuthKeycloakService,
-              private configSvc: ConfigurationsService,
+    private snackBarSvc: MatSnackBar,
+    private signupService: SignupService,
+    private authSvc: AuthKeycloakService,
+    private configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {
@@ -98,12 +98,12 @@ export class KeycloakCallbackComponent implements OnInit {
                   this.isLoading = false
                 } else {
                   this.authSvc.logout()
-                  window.location.href = '/public/home'
+                  //window.location.href = '/public/home'
                 }
                 if (result.status === 419) {
                   this.authSvc.logout()
                   this.snackBarSvc.open(result.params.errmsg)
-                  window.location.href = '/public/home'
+                  //window.location.href = '/public/home'
                 }
                 // if (localStorage.getItem('url_before_login')) {
                 //   location.href = localStorage.getItem('url_before_login') || ''
@@ -111,23 +111,25 @@ export class KeycloakCallbackComponent implements OnInit {
                 //   location.href = '/page/home'
                 // }
               })
-            },         1000)
+            }, 1000)
           }
-        },                                            (err: any) => {
+        }, (err: any) => {
           // console.log(err)
           // tslint:disable-next-line:no-console
           console.log(err)
           if (err.status === 400) {
-            sessionStorage.clear()
-            this.snackBarSvc.open(err.error.error)
-            location.href = '/public/home'
+            //sessionStorage.clear()
+            this.authSvc.logout()
+            // this.snackBarSvc.open(err.error.error)
+            //ocation.href = '/public/home'
           }
         })
       } catch (err) {
         // tslint:disable-next-line:no-console
         console.log(err)
-        // alert('Error Occured while logging in')
-        // location.href = "/public/home"
+        this.authSvc.logout()
+        //alert('Error Occured while logging in')
+        //location.href = "/public/home"
       }
     }
     // else {

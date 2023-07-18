@@ -277,8 +277,10 @@ export class InitService {
   }
 
   private async fetchAppsConfig(): Promise<NsAppsConfig.IAppsConfig> {
+    const local = (this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : undefined
+    const url = `'/feature/apps.'${local}json`
     const appsConfig = await this.http
-      .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}/feature/apps.json`)
+      .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}${url}`)
       .toPromise()
     return appsConfig
   }
