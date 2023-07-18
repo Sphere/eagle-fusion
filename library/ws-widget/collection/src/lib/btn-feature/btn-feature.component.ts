@@ -46,6 +46,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   instanceVal = ''
   isPinFeatureAvailable = true
   searchButton = true
+  isSashakth = false
   private pinnedAppsChangeSubs?: Subscription
   private navigationSubs?: Subscription
   constructor(
@@ -102,13 +103,21 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.configurationsSvc.appsConfig
     ) {
       this.widgetData.actionBtn = this.configurationsSvc.appsConfig.features[this.widgetData.actionBtnId]
-      console.log(this.widgetData.actionBtn)
+      console.log(this.configurationsSvc.appsConfig.features[this.widgetData.actionBtnId])
       if (this.widgetData.actionBtn && this.widgetData.actionBtn.badgeEndpoint) {
         this.navigationSubs = this.router.events.subscribe((e: Event) => {
           if (e instanceof NavigationEnd) {
             // this.updateBadge()
           }
         })
+      }
+
+      const sashakt_token = sessionStorage.getItem('sashakt_token') || null
+      const sashakt_moduleId = sessionStorage.getItem('sashakt_moduleId') || null
+      if (sashakt_token && sashakt_moduleId) {
+        this.isSashakth = true
+      } else {
+        this.isSashakth = false
       }
     }
 

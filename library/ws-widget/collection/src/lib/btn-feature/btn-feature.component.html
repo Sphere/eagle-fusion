@@ -24,7 +24,7 @@
     <a *ngSwitchCase="displayType.matFlatButton" [routerLink]="widgetData.actionBtn?.url" mat-flat-button>
       <ng-container [ngTemplateOutlet]="buttonContent" [ngTemplateOutletContext]="widgetData"></ng-container>
     </a>
-    <a *ngSwitchCase="displayType.matIconButton" [ngClass]="widgetData?.className || ''"
+    <!-- <a *ngSwitchCase="displayType.matIconButton" [ngClass]="widgetData?.className || ''"
       [name]="widgetData.actionBtnName" [routerLink]="searchButton ? widgetData.actionBtn?.url : '' " mat-icon-button
       (click)="search()">
       <ng-container *ngIf="searchButton" [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="{
@@ -35,7 +35,7 @@
         <img loading="lazy" alt="logo" class="org-logo img-responsive"
           src="./../../../../../../../fusion-assets/images/Asha-E-ABhyass-logo.svg">
       </ng-container>
-    </a>
+    </a> -->
     <a *ngSwitchCase="displayType.matMiniFabButton" [routerLink]="widgetData.actionBtn?.url" mat-mini-fab>
       <ng-container [ngTemplateOutlet]="icon" [ngTemplateOutletContext]="widgetData.actionBtn"></ng-container>
     </a>
@@ -107,10 +107,10 @@
   </a>
 </ng-template>
 <ng-template #cardMini let-actionBtn="actionBtn" let-config="config">
-
-  <a role="button" *ngIf="actionBtn.name !== 'My Courses'" matRipple routerLink={{actionBtn.url}} active
-    [wsWidgetUrlResolver]="actionBtn.isExternal" routerLinkActive="ws-mat-accent-text"
-    class="flex items-center flex-col px-2 box-sizing-box">
+  <a role="button" *ngIf="actionBtn.name !== 'My Courses'"
+    [style.visibility]="!(actionBtn.name === 'Competency' && isSashakth === true) &&  !(actionBtn.name === 'Search' && isSashakth === true) ? 'visible' : 'hidden'"
+    matRipple routerLink={{actionBtn.url}} active [wsWidgetUrlResolver]="actionBtn.isExternal"
+    routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box">
     <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
       <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     </ng-container>

@@ -264,6 +264,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
             }` + `/overview`)
           sessionStorage.setItem('login-btn', 'clicked')
+
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
