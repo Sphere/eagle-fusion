@@ -104,13 +104,14 @@ export class EducationEditComponent implements OnInit {
   }
 
   onSubmit(form: any) {
+    console.log(form)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
 
-    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
 
     const reqUpdate = {
       request: {

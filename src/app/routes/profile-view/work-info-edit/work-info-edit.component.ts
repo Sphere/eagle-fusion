@@ -87,6 +87,7 @@ export class WorkInfoEditComponent implements OnInit {
   }
 
   onSubmit(form: any) {
+    console.log(form, form.value)
     if (form.doj) {
       form.doj = changeformat(new Date(`${form.doj}`))
     }
@@ -96,7 +97,7 @@ export class WorkInfoEditComponent implements OnInit {
     }
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
-    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
 
 
     const reqUpdate = {

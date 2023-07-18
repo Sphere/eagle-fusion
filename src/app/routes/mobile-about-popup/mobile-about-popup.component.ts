@@ -58,12 +58,12 @@ export class MobileAboutPopupComponent implements OnInit {
     let userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
-    const obj = {
-      preferences: {
-        language: this.langdata.profileDetails!.preferences!.language === 'en' ? 'en' : 'hi',
-      }
-    }
-    profileRequest = Object.assign(profileRequest, obj)
+    // const obj = {
+    //   preferences: {
+    //     language: this.langdata.profileDetails!.preferences!.language === 'en' ? 'en' : 'hi',
+    //   }
+    // }
+    //profileRequest = Object.assign(profileRequest, obj)
 
     const reqUpdate = {
       request: {

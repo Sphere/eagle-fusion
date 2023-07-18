@@ -543,7 +543,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     return url
   }
   async processData(data?: any) {
-
+    this.isLoading = true
     if (this.collection) {
       this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
     }
@@ -648,9 +648,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       mergeData(this.collection.children)
     }
+    this.isLoading = false
     this.updateResourceChange()
   }
   private async processCollectionForTree(content?: any) {
+    console.log(content, 'processCollectionForTree')
     if (content) {
       console.log(content)
       await this.processData(content.contentList)
