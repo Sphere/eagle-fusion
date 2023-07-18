@@ -3,7 +3,7 @@
     matTooltip="Home">
     <img loading="lazy" [src]="appIcon" id="app-logo" i18n-alt alt="Application Logo" class="app-logo"
       *ngIf=" (isXSmall$ | async) === false" />
-    <img loading="lazy" src="./../../../fusion-assets/images/sphere-new-logo.svg" width="125px" height="65px"
+    <img loading="lazy" src="./../../../fusion-assets/images/sphere-new-logo.svg" width="110px" height="65px"
       *ngIf=" (isXSmall$ | async) === true" />
   </a>
   <div class="fix-ww">
@@ -64,7 +64,7 @@
       New User
     </button>
     <button *ngIf="(isXSmall$ | async) === true && (this.configSvc.userProfile === null)" name="login_client_button"
-      [ngStyle]="{'background-color': '#2E6491',  'width': '95px','height':'30px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#FFFFFF', 'font-size': 'small'}"
+      [ngStyle]="{'background-color': '#2E6491',  'width': '75px','height':'30px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#FFFFFF', 'font-size': 'small','justify-content':'center'}"
       mat-raised-button i18n="login: client" (click)="login('S')" class="login-btn-xs">
       Log in
     </button>

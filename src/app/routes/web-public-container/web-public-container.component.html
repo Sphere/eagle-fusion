@@ -1,9 +1,9 @@
-<div class="content mb-6">
+<div class="top-course-container content">
   <!-- Top certified courses -->
-  <section class="mt-4 py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
+  <section class="mt-4 view-all-course-container" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
     <div class="flex scroller-container">
-      <p class="mat-h1 header-font margin-remove inline-block ng-star-inserted header1" i18n>Top Courses</p><button i18n
-        (click)="viewAllCourse()" class="view-all-course">
+      <p class="mat-h1 header-font margin-remove inline-block ng-star-inserted header1 mb-4" i18n>Top Courses</p><button
+        i18n (click)="viewAllCourse()" class="view-all-course">
         View all courses
       </button>
     </div>
@@ -17,7 +17,7 @@
   </section>
 </div>
 <!-- Featured Section-->
-<section *ngIf="featuredCourse && featuredCourse.length>0" class="py-1 px-4 p-4" style="background-color: #F7F7F7;">
+<section *ngIf="featuredCourse && featuredCourse.length>0" class=" featuredCourse-section">
   <p class="mat-h1 header-font margin-remove inline-block ng-star-inserted header1" i18n>Featured</p>
   <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
     <div *ngFor="let course of featuredCourse">

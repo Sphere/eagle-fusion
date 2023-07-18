@@ -1,5 +1,6 @@
 <div class="content">
-  <p class="banner-heading text-2xl py-2 text-base text-capitalize"><span i18n>Welcome </span>{{firstName?.firstName}}!
+  <p class="banner-heading text-2xl py-2 text-base text-capitalize"><span i18n>Welcome
+    </span>{{firstName?firstName:''}}!
   </p>
   <p class="banner-mini-heading" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue
     Learning</p>
@@ -27,7 +28,7 @@
     <p class="text-2xl" i18n>Categories</p>
     <ws-mobile-category></ws-mobile-category>
   </section> -->
-  <div class="py-1 px-4">
+  <div class="py-1 px-4 mt-8">
     <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">
       <p class="text-2xl" style="padding-top:10px" i18n>My Courses</p>
       <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
