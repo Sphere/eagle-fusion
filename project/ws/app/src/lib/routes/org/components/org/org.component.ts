@@ -97,8 +97,9 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   this.courseData = data
     //   this.courseCount = this.courseData.result.length
     // })
-
-    this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
+    console.log(this.configSvc)
+    // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
+    this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
   toggleCardLimit() {
     if (this.cardLimit === 5) {
