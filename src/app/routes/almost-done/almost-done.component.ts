@@ -364,7 +364,7 @@ export class AlmostDoneComponent implements OnInit {
       location: '',
       doj: '',
       completePostalAddress: '',
-      professionOtherSpecify: this.almostDoneForm.value.orgOtherSpecify !== null ? this.almostDoneForm.value.orgOtherSpecify!.trim() : '',
+      professionOtherSpecify: this.almostDoneForm.value.professionOtherSpecify !== null ? this.almostDoneForm.value.professionOtherSpecify!.trim() : '',
     }
 
     if (this.backgroundSelect === 'ASHA') {

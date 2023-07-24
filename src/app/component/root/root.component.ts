@@ -37,7 +37,7 @@ import { ExploreResolverService } from './../../../../library/ws-widget/resolver
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import split from 'lodash/split'
 import { Plugins } from '@capacitor/core'
-import { v4 as uuid } from 'uuid'
+//import { v4 as uuid } from 'uuid'
 const { App } = Plugins
 import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
@@ -268,12 +268,13 @@ export class RootComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
-                const redirectUrl = `${document.baseURI}openid/keycloak`
-                const state = uuid()
-                const nonce = uuid()
-                // tslint:disable-next-line:max-line-length
-                const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-                window.location.href = keycloakurl
+                this.authSvc.logout()
+                // const redirectUrl = `${document.baseURI}openid/keycloak`
+                // const state = uuid()
+                // const nonce = uuid()
+                // // tslint:disable-next-line:max-line-length
+                // const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                // window.location.href = keycloakurl
               }
             })
 
@@ -294,13 +295,13 @@ export class RootComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
-
-                const redirectUrl = `${document.baseURI}openid/keycloak`
-                const state = uuid()
-                const nonce = uuid()
-                // tslint:disable-next-line:max-line-length
-                const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-                window.location.href = keycloakurl
+                this.authSvc.logout()
+                // const redirectUrl = `${document.baseURI}openid/keycloak`
+                // const state = uuid()
+                // const nonce = uuid()
+                // // tslint:disable-next-line:max-line-length
+                // const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                // window.location.href = keycloakurl
               } else {
                 this.router.navigateByUrl('/page/home')
               }

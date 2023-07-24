@@ -1457,7 +1457,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">52</context>
+          <context context-type="linenumber">53</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
@@ -1495,7 +1495,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">39</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
@@ -1535,7 +1535,7 @@
         <source>Learners onboarded</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">16</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
@@ -1546,7 +1546,7 @@
         <source>Number of courses</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
-          <context context-type="linenumber">24</context>
+          <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
@@ -1557,7 +1557,7 @@
         <source>Certificate Courses</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">30</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
@@ -1568,18 +1568,30 @@
         <source>Total certificate issued</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">37</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
           <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9e28fb126d8059e7ac512caf95409188c43a8ab8" datatype="html">
-        <source>Watch tutorials on how sphere works &gt;</source>
+      <trans-unit id="c921f678f5ee634d8c6e1fe7d25feefd1d02ecd0" datatype="html">
+        <source>Learn about how Sphere works &gt;</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
-          <context context-type="linenumber">42</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
+          <context context-type="linenumber">63</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="255969689dc1f37fca70efb670aabe71427d8d43" datatype="html">
@@ -1587,7 +1599,7 @@
         Create Account</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6c509bfde4edaf20ac94f83418d4d05602d16a67" datatype="html">
@@ -1620,11 +1632,11 @@
         <source>We are endorsing the WRAI RMC Chapter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-trusted-by-page/mobile-trusted-by-page.component.html</context>
-          <context context-type="linenumber">16</context>
+          <context context-type="linenumber">32</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c53cfc7fa2f3a0c1a22d3fff073794870563d391" datatype="html">
@@ -1632,7 +1644,7 @@
     Chapter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-trusted-by-page/mobile-trusted-by-page.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="82331e61927bed926a26fe73da34f21f7a2faab7" datatype="html">
@@ -1692,6 +1704,63 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
           <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9a3e361869e079ebd75c5bcc0d537ae533f07fd2" datatype="html">
+        <source>Register for a course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="849d9235b26171733c73eddcc7a000e7d2db1020" datatype="html">
+        <source>Explore various courses and pick the ones you like
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="557f0ad5084b5d2d55d254f01bf311d8039e50c5" datatype="html">
+        <source>Take the course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71863fd5603570caef797248c9702ca1a7eb8a08" datatype="html">
+        <source>Access the course anytime, at your convinience
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="30280ada8498d0b60353ae7af6f10783637a2611" datatype="html">
+        <source>Get certified</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="77c724f4575b6eb3ed492b17c39ea1627cee81a0" datatype="html">
+        <source>Receive downloadable and shareable certificates
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e95ae009d0bdb45fcc656e8b65248cf7396080d5" datatype="html">
@@ -2282,6 +2351,13 @@
           <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="d8766b5ac38c3096369078bb4b307b53f79c244d" datatype="html">
+        <source>You&apos;re offline. Check your internet connection</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/root/root.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4b49ac731dbf8896ae4b3d1d8c0d841bde03dd69" datatype="html">
         <source>App Update</source>
         <context-group purpose="location">
@@ -2619,7 +2695,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">64</context>
         </context-group>
       </trans-unit>
       <trans-unit id="615f9c0ee29276ad4baeb478eee0bd5c5695cc4e" datatype="html">
@@ -2630,7 +2706,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">65</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4d528d81243448524f3e1de53c8b67e41aa7639f" datatype="html">
@@ -3283,15 +3359,12 @@
           <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9f810fa6ff4e5711cb6df3eb122e21e53b3366e2" datatype="html">
-        <source>Welcome </source>
+      <trans-unit id="acf8c2b67bb71ac7db22c94297c2d9fc69e88d74" datatype="html">
+        <source>Welcome
+    </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">2</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
-          <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ab828ec46dc50ac3d003dfd03511da401e135431" datatype="html">
@@ -3299,32 +3372,21 @@
     Learning</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">4</context>
+          <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="84026b0b828aee0ec5676866379f2f2a0e9f0f52" datatype="html">
         <source>Start Learning</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="c921f678f5ee634d8c6e1fe7d25feefd1d02ecd0" datatype="html">
-        <source>Learn about how Sphere works &gt;</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">19</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
-          <context context-type="linenumber">63</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c79b31b48912d434a4f19a03b0105be1f5ab22a3" datatype="html">
         <source>My Courses</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
@@ -3337,7 +3399,7 @@
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d4b2c4ca3538e5b2f8a747d63ab8381a2cf4002d" datatype="html">
@@ -4307,6 +4369,27 @@
           <context context-type="linenumber">3</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="91a8bf333160b711cfa564a2a21d45602e100eef" datatype="html">
+        <source>Explore various courses and pick the ones you like </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="064c9c44802e51fbfee9f3cc86ee323d390e5429" datatype="html">
+        <source>Access the course anytime, at your convinience</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="99b5d2f22d2da83126e3f7ee849b9fdf63490e7f" datatype="html">
+        <source>Receive downloadable and shareable certificates</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="fb056ecddd4412acaf0ad3c40dc2fc43e7b295bc" datatype="html">
         <source>Start
               now!</source>
@@ -4324,7 +4407,7 @@
           Chapter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="29881a45dafbe5aa05cd9d0441a4c0c2fb06df92" datatype="html">
@@ -4332,6 +4415,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-nav-link/web-nav-link-page.component.html</context>
           <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9f810fa6ff4e5711cb6df3eb122e21e53b3366e2" datatype="html">
+        <source>Welcome </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
+          <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
       <trans-unit id="008d34c4f4172ae630a95c11f40444b6afaf6e11" datatype="html">
@@ -4342,13 +4432,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
           <context context-type="linenumber">6</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="45de33130fdff364030d05b26fc8bac8276340aa" datatype="html">
-        <source>Learn about how Sphere works &gt; &gt;</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
-          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
       <trans-unit id="855e11c50eebd726f2653edeb11e458b958b7070" datatype="html">

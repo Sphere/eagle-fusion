@@ -314,7 +314,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               ? streamingUrl.substring(56)
               : streamingUrl.substring(50)
             const entryPoint = this.htmlContent.entryPoint || ''
-            const newUrl = `/apis/proxies/v8/getContents/${streamingUrl}${entryPoint}`
+            const newUrl = `/apis/proxies/v8/getContents${streamingUrl}${entryPoint}`
             this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${newUrl}`)
             // let artifactUrl = this.htmlContent.streamingUrl.substring(51)
             // this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()

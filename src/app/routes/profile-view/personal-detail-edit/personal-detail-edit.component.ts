@@ -291,7 +291,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   updateForm() {
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
-      console.log(data, 'o')
+      console.log(data.professionalDetails[0], 'o')
       // this.profileUserName = `${data.personalDetails.firstname} `
       // if (data.personalDetails.middlename) {
       //   this.profileUserName += `${data.personalDetails.middlename} `
@@ -324,8 +324,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         })
       }
       if (data && data.professionalDetails) {
-        data.professionalDetails[0].orgType === 'Others' ? this.orgOthersField = true : this.orgOthersField = false
-        data.professionalDetails[0].profession === 'Others' ? this.professionOtherField = true : this.professionOtherField = false
+        (data.professionalDetails[0].orgType === 'Others' && data.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
+        (data.professionalDetails[0].profession === 'Others' && data.professionalDetails[0].professionOtherSpecify) ? this.professionOtherField = true : this.professionOtherField = false;
+        (data.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
         data.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
         this.personalDetailForm.patchValue({
           profession: data.professionalDetails[0].profession,

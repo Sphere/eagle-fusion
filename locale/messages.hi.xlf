@@ -829,7 +829,7 @@
       </trans-unit>
       <trans-unit id="5c07c122c45c1a20c75f6d3a3ea394e561d24261" datatype="html">
         <source>Access free Healthcare courses</source>
-        <target state="final">निःशुल्क स्वास्थ्य देखभाल पाठ्यक्रमों तक पहुंचें</target>
+        <target state="final">स्वास्थ्य सेवाओं से संबंधित कोर्सेज मुफ्त में कीजिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
           <context context-type="linenumber">5</context>
@@ -858,7 +858,7 @@
       </trans-unit>
       <trans-unit id="b1536a627b0d69cd74b3578b0a5326f533f56dc6" datatype="html">
         <source>Number of courses</source>
-        <target state="final">पाठ्यक्रमों की संख्या</target>
+        <target state="final">कोर्सेज की संख्या</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
           <context context-type="linenumber">45</context>
@@ -866,7 +866,7 @@
       </trans-unit>
       <trans-unit id="13bd230385ff708a64f383c1724ee02f6461e9a9" datatype="html">
         <source>Certificate Courses</source>
-        <target state="final">सर्टिफिकेट पाठ्यक्रम</target>
+        <target state="final">सर्टिफिकेट वाले कोर्सेज</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
           <context context-type="linenumber">52</context>
@@ -874,7 +874,7 @@
       </trans-unit>
       <trans-unit id="3fba6a1bf09761016bd77fdd38a13216a76beac7" datatype="html">
         <source>Total certificate issued</source>
-        <target state="final">कुल प्रमाण पत्र जारी किया गया</target>
+        <target state="final">दिए गए सर्टिफिकेट</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
           <context context-type="linenumber">59</context>
@@ -900,7 +900,7 @@
       <trans-unit id="6c509bfde4edaf20ac94f83418d4d05602d16a67" datatype="html">
         <source>
     Trusted By</source>
-        <target state="final">द्वारा विश्वसनीय</target>
+        <target state="final">द्वारा प्रमाणित</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
           <context context-type="linenumber">3</context>
@@ -909,7 +909,7 @@
       <trans-unit id="e1c12d05b25446ff93896825a7323080bd9a552a" datatype="html">
         <source>
     50+ Partner Organizations and Growing</source>
-        <target state="final">५०+ भागीदार संगठन और विकास</target>
+        <target state="final">५०+ सहयोगी संस्थाएं और बढ़त</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
           <context context-type="linenumber">6</context>
@@ -917,7 +917,7 @@
       </trans-unit>
       <trans-unit id="845dbe1bf4eae96d6589d881fbdfcc6c25075c73" datatype="html">
         <source>We are endorsing the WRAI RMC Chapter</source>
-        <target state="final">हम WRAI RMC चैप्टर का समर्थन कर रहे हैं</target>
+        <target state="final">हम WRAI RMC चार्टर का समर्थन करते हैं।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
           <context context-type="linenumber">15</context>
@@ -926,7 +926,7 @@
       <trans-unit id="c53cfc7fa2f3a0c1a22d3fff073794870563d391" datatype="html">
         <source>Read
     Chapter</source>
-        <target state="final">पढ़ना अध्याय</target>
+        <target state="final">अध्याय पढ़ें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-trusted-by-page/mobile-trusted-by-page.component.html</context>
           <context context-type="linenumber">18</context>
@@ -1671,7 +1671,7 @@
       <trans-unit id="1c34b69c9d74033fd22a0b1fa11bebd183520fa9" datatype="html">
         <source>
     Transform your Healthcare career through Sphere!</source>
-        <target state="final">स्फीयर के माध्यम से अपने हेल्थकेयर करियर को बदलें!</target>
+        <target state="final">स्फीर से अपने करियर को बेहतर बनाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
           <context context-type="linenumber">3</context>
@@ -1730,7 +1730,7 @@
       </trans-unit>
       <trans-unit id="7b52d9bf03963521736a0b58f8e02d1deddcf704" datatype="html">
         <source> Additional Links </source>
-        <target state="final">अतिरिक्त लिंक</target>
+        <target state="final">संबंधित लिंक</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">81</context>
@@ -2377,13 +2377,17 @@
           <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9f810fa6ff4e5711cb6df3eb122e21e53b3366e2" datatype="html">
-        <source>Welcome </source>
-        <target state="final">स्वागत</target>
-                <context-group purpose="location">
+            <trans-unit id="acf8c2b67bb71ac7db22c94297c2d9fc69e88d74" datatype="html">
+        <source>Welcome</source>
+    <target state="final">स्वागत </target>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">2</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="9f810fa6ff4e5711cb6df3eb122e21e53b3366e2" datatype="html">
+        <source>Welcome </source>
+        <target state="final">स्वागत </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
           <context context-type="linenumber">5</context>
@@ -2679,6 +2683,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-setup/components/lang-select/lang-select.component.html</context>
           <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="d8766b5ac38c3096369078bb4b307b53f79c244d" datatype="html">
+        <source>You&apos;re offline. Check your internet connection</source>
+        <target>आप ऑफ़लाइन हैं. अपना इंटरनेट संपर्क जांचे</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/root/root.component.html</context>
+          <context context-type="linenumber">31</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c72e5b55bdad9208b215211ddfe17df5dafc928f" datatype="html">
@@ -3047,7 +3059,7 @@
       <trans-unit id="eecd120b06308bd7e9ad74a51f7799580f537e88" datatype="html">
         <source>
       Learn at your own pace &amp; Get Certified</source>
-        <target state="final">अपनी गति से सीखें और प्रमाणित हों</target>
+        <target state="final">अपनी सुविधा अनुसार कोर्स करें और सर्टिफिकेट प्राप्त करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
           <context context-type="linenumber">6</context>
@@ -3322,7 +3334,7 @@
       </trans-unit>
       <trans-unit id="37624bb2e7c48d267c27240c5c5c9f1e8badc9b6" datatype="html">
         <source>In 3-simple videos we guide you through making an account and getting certified.</source>
-        <target state="final">३-सरल वीडियो में हम आपको अकाउंट बनाने और प्रमाणित होने के बारे में मार्गदर्शन करते हैं।</target>
+        <target state="final">इन तीन आसान वीडियो में हम आपको अकाउंट खोलना और कोर्स पूरा करना सिखाएंगे</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
           <context context-type="linenumber">3</context>
@@ -3340,7 +3352,7 @@
       <trans-unit id="248548e786acd3bd72ce10b2fe23097d4f175778" datatype="html">
         <source>Read
           Chapter</source>
-        <target state="final">पढ़ना अध्याय</target>
+        <target state="final">अध्याय पढ़ें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
           <context context-type="linenumber">17</context>
@@ -3358,7 +3370,7 @@
         <source>
       Continue
       Learning</source>
-        <target state="final">जारी रखना सीखना</target>
+        <target state="final">पढ़ना जारी रखें।</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
           <context context-type="linenumber">6</context>
@@ -3366,7 +3378,7 @@
       </trans-unit>
       <trans-unit id="45de33130fdff364030d05b26fc8bac8276340aa" datatype="html">
         <source>Learn about how Sphere works &gt; &gt;</source>
-        <target state="final">स्फीयर कैसे काम करता है इसके बारे में जानें &gt; &gt;</target>
+        <target state="final">जानिए स्फीयर कैसे काम करता है &gt; &gt;</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
           <context context-type="linenumber">17</context>
@@ -3375,7 +3387,7 @@
       <trans-unit id="855e11c50eebd726f2653edeb11e458b958b7070" datatype="html">
         <source>
         View all courses</source>
-        <target state="final">सभी पाठ्यक्रम देखें</target>
+        <target state="final">सभी कोर्सेज देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
           <context context-type="linenumber">6</context>
@@ -3655,7 +3667,7 @@
       <trans-unit id="42c39b400c51db8d3cfec6b97574be2a0b00fef6" datatype="html">
         <source>
       Start Now!</source>
-        <target state="final">अभी शुरू करें</target>
+        <target state="final">शुरू करें!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
           <context context-type="linenumber">76</context>
@@ -4304,7 +4316,7 @@
       </trans-unit>
             <trans-unit id="82331e61927bed926a26fe73da34f21f7a2faab7" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{&apos;Start now!&apos; }}"/></source>
-              <target state="final">अभी शुरू करें</target>
+              <target state="final">शुरू करें!</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-course-view/mobile-course-view.component.html</context>
           <context context-type="linenumber">29</context>
@@ -4349,6 +4361,93 @@
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-pdf/player-pdf.component.html</context>
           <context context-type="linenumber">5</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="9a3e361869e079ebd75c5bcc0d537ae533f07fd2" datatype="html">
+        <source>Register for a course</source>
+         <target state="final">कोर्सेज में रजिस्टर करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="71863fd5603570caef797248c9702ca1a7eb8a08" datatype="html">
+        <source>Access the course anytime, at your convinience
+        </source>
+        <target>अपनी सुविधा के अनुसार कोर्स करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="849d9235b26171733c73eddcc7a000e7d2db1020" datatype="html">
+        <source>Explore various courses and pick the ones you like
+        </source>
+        <target>विभिन्न कोर्सेज में से अपना पसंदीदा कोर्स चूने</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="557f0ad5084b5d2d55d254f01bf311d8039e50c5" datatype="html">
+        <source>Take the course</source>
+        <target>कोर्से करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="30280ada8498d0b60353ae7af6f10783637a2611" datatype="html">
+        <source>Get certified</source>
+        <target>सर्टिफिकेट प्राप्त करें।</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="77c724f4575b6eb3ed492b17c39ea1627cee81a0" datatype="html">
+        <source>Receive downloadable and shareable certificates
+        </source>
+        <target>डाउनलोड और शेयर किया जा सकने वाले सर्टिफिकेट प्राप्त करे</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-how-does-work/mobile-how-does-work.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="91a8bf333160b711cfa564a2a21d45602e100eef" datatype="html">
+        <source>Explore various courses and pick the ones you like </source>
+                <target>विभिन्न कोर्सेज में से अपना पसंदीदा कोर्स चूने</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="064c9c44802e51fbfee9f3cc86ee323d390e5429" datatype="html">
+        <source>Access the course anytime, at your convinience</source>
+        <target>अपनी सुविधा के अनुसार कोर्स करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="99b5d2f22d2da83126e3f7ee849b9fdf63490e7f" datatype="html">
+        <source>Receive downloadable and shareable certificates</source>
+        <target>डाउनलोड और शेयर किया जा सकने वाले सर्टिफिकेट प्राप्त करे</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
     </body>

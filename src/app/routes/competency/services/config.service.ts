@@ -12,12 +12,17 @@ export class ConfigService {
   }
 
   setConfig(profileData: any, profileDetails: any) {
+    console.log(profileDetails)
     const config = {
       userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       profileData: (profileData.professionalDetails),
-      language: Object.keys(profileDetails!.preferences || {}).length > 0 ? profileDetails.preferences : '',
+      language: (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en',
       id: this.configSvc.unMappedUser.id,
       hostPath: this.configSvc.hostPath,
+    }
+    console.log(config)
+    if (localStorage.getItem('competency')) {
+      localStorage.removeItem('competency')
     }
     localStorage.setItem('competency', JSON.stringify(config))
   }
