@@ -169,7 +169,8 @@ export class AuthKeycloakService {
         redirectUrl = `${url}public/home`
         sessionStorage.setItem('lang', 'hi')
       } else {
-        redirectUrl = `${url}public/home`
+        //redirectUrl = `${url}public/home`
+        redirectUrl = `${url}openid/keycloak`
       }
 
       const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectUrl)}`
