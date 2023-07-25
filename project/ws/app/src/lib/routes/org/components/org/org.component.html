@@ -1,5 +1,14 @@
 <div *ngIf="currentOrgData">
-  <div class="banner-container">
+  <div id="navy-blue-bg" [ngClass]="{'mb-5': currentOrgData?.sourceName === 'Indian Nursing Council'}">
+    <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5  flex flex-middle main"
+      *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
+      <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
+        (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">{{currentOrgData.title
+        ||
+        "e-Learning for Maternal and Newborn Health Care" }}</span>
+    </div>
+  </div>
+  <div class="banner-container" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
     <div class="default-banner">
       <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" *ngIf="!currentOrgData.bgImage" />
     </div>
