@@ -105,15 +105,6 @@ export class AppTocService {
         this.resumeDataSubscription = this.resumeData.subscribe(
           (dataResult: any) => {
             if (dataResult && dataResult.length) {
-              // dataResult.map((item: any) => {
-              //   if ( && content.children) {
-              //     const foundContent = content.children.find(el => el.identifier === item.contentId)
-              //     if (foundContent) {
-              //       foundContent.completionPercentage = item.completionPercentage
-              //       foundContent.completionStatus = item.status
-              //     }
-              //   }
-              // })
               this.mapCompletionPercentage(content, dataResult)
             }
           },
@@ -143,9 +134,12 @@ export class AppTocService {
         if (foundContent) {
           child.completionPercentage = foundContent.completionPercentage
           child.completionStatus = foundContent.status
-        } else {
+        }
+        //else {
+        if (child.children) {
           this.mapCompletionPercentage(child, dataResult)
         }
+        //}
       })
     }
   }

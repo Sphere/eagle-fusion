@@ -114,6 +114,7 @@ export class SCORMAdapterService {
 
   LMSCommit() {
     let data = this.store.getAll()
+    console.log(data)
     if (data) {
       delete data['errors']
       // delete data['Initialized']
@@ -125,7 +126,7 @@ export class SCORMAdapterService {
       url = this.router.url
       let splitUrl1 = url.split('?primary')
       let splitUrl2 = splitUrl1[0].split('/viewer/html/')
-      if (splitUrl2[1] === this.contentId) {
+      if (splitUrl2[1] === this.contentId && (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed')) {
         this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
           console.log(response)
           let result = await response.result
@@ -305,7 +306,7 @@ export class SCORMAdapterService {
   }
   addDataV2(postData: IScromData) {
     let req: any
-    if (this.configSvc.userProfile) {
+    if (this.configSvc.userProfile && postData && (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed')) {
       req = {
         request: {
           userId: this.configSvc.userProfile.userId || '',
@@ -323,9 +324,10 @@ export class SCORMAdapterService {
         },
       }
 
-    } else {
-      req = {}
     }
+    // else {
+    //   req = {}
+    // }
     // if (this.getPercentage(postData) === 100) {
     //   this.viewerDataSvc.changedSubject.next(true)
     // }

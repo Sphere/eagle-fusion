@@ -26,8 +26,7 @@
     <p class="org-name mb-0">
       {{currentOrgData.sourceName}}
     </p>
-    <p class="org-desc mb-1">
-      {{currentOrgData?.about}}
+    <p class="org-desc mb-1" [innerHTML]="currentOrgData?.about">
     </p>
     <!-- <div class="org-details-block">
       <img src="/fusion-assets/icons/ion_people-sharp.svg" />

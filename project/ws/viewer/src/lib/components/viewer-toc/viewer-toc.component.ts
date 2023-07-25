@@ -125,7 +125,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   progresSub: Subscription | null = null
   message!: string
   subscription: Subscription | null = null
-  isLoading = false
+  isLoading = true
   // tslint:disable-next-line
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
@@ -277,6 +277,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ngOnChanges() {
     this.change = this.contentSvc.currentMessage.subscribe(async (data: any) => {
       if (data) {
+        this.isLoading = true
         this.currentContentType = await data.type
         this.processCollectionForTree(data)
         //this.ngOnInit()
@@ -648,7 +649,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       mergeData(this.collection.children)
     }
-    this.isLoading = false
+    //this.isLoading = false
     this.updateResourceChange()
   }
   private async processCollectionForTree(content?: any) {
@@ -903,7 +904,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             .pipe(delay(200))
             .subscribe(() => {
               this.expandThePath()
-              this.isLoading = false
+
             })
         }
       }
@@ -917,6 +918,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
     const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex]!.completionPercentage! : null
+    console.log(this.queue[currentIndex]!.completionPercentage)
     const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
     // tslint:disable-next-line:object-shorthand-properties-first
     this.playerStateService.setState({
@@ -924,6 +926,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       // tslint:disable-next-line:object-shorthand-properties-first
       prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId,
     })
+    this.isLoading = false
   }
 
   resourceContentTypeFunct(type: any): void {
@@ -951,6 +954,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       path.forEach((node: IViewerTocCard) => {
         this.nestedTreeControl.expand(node)
       })
+      //this.isLoading = false
     }
   }
 

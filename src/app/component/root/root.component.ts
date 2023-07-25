@@ -261,12 +261,18 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = true
           // this.showNavigation = true
           this.isLoggedIn = true
-          localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
-            }` + `/overview`)
+          let lang = `${document.baseURI}`
+          lang = lang.includes('hi') ? 'hi/' : ''
+          if (lang === 'hi') {
+            localStorage.setItem(`url_before_login`, `hi/app/toc/` + `${split(event.url, '/')[3]
+              }` + `/overview`)
+          } else {
+            localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
+              }` + `/overview`)
+          }
           sessionStorage.setItem('login-btn', 'clicked')
 
           setTimeout(() => {
-
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
                 //this.authSvc.logout()
@@ -277,6 +283,7 @@ export class RootComponent implements OnInit, AfterViewInit {
                 if (url.includes('hi')) {
                   url = url.replace('hi/', '')
                   redirectUrl = `${url}openid/keycloak`
+                  sessionStorage.setItem('lang', 'hi')
                 } else {
                   redirectUrl = `${url}openid/keycloak`
                 }
