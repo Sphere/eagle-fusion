@@ -1,3 +1,5 @@
+@import 'ws-mixins';
+
 .scrollHowSphereWorks{
   padding: 0px 157px;
   margin-top: 10px;
@@ -89,12 +91,8 @@ letter-spacing: -0.32px;
   height: 275px;
 }
 }
-
-@media only screen and (min-width: 1280px) and (max-width: 1500){
-.scrollHowSphereWorks{
-  padding: 0px 50px;
-}
-.scrollHowSphereWorks-block{
-  padding: 0px 40px;
+@media only screen and (min-width: 1360px) and (max-width:1500px){
+.block-container{
+  width: 320px !important;
 }
 }

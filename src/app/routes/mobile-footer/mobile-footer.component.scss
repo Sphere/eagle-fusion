@@ -73,12 +73,14 @@
   border: none;
 }
 .part-a-partner{
-  width: 160px;
+  flex: 1;
+  // width: 160px;
   height: 110px;
   background: #F1E7E3;
 }
 .part-b-partner{
-  width: 160px;
+  flex: 1;
+  // width: 160px;
   height: 110px;
   background: #F9F3E8;
 }
@@ -230,44 +232,44 @@ color: #7B6961;
 }
 
 @media (min-width:320px)  {
-.part-a-partner {
-    width: 160px;
-}
-.part-b-partner {
-    width: 160px;
-}
+// .part-a-partner {
+//     width: 160px;
+// }
+// .part-b-partner {
+//     width: 160px;
+// }
 }
 @media (min-width:375px)  {
-.part-a-partner {
-    width: 187px;
-}
-.part-b-partner {
-    width: 187px;
-}
+// .part-a-partner {
+//     width: 187px;
+// }
+// .part-b-partner {
+//     width: 187px;
+// }
 }
 @media (min-width:390px)  {
-.part-a-partner {
-    width: 195px;
-}
-.part-b-partner {
-    width: 195px;
-}
+// .part-a-partner {
+//     width: 195px;
+// }
+// .part-b-partner {
+//     width: 195px;
+// }
 }
 @media (min-width:414px)  {
-.part-a-partner {
-    width: 206.5px;
-}
-.part-b-partner {
-    width: 206.5px;
-}
+// .part-a-partner {
+//     width: 206.5px;
+// }
+// .part-b-partner {
+//     width: 206.5px;
+// }
 }
 @media (min-width:425px)  {
-.part-a-partner {
-    width: 212px;
-}
-.part-b-partner {
-    width: 212px;
-}
+// .part-a-partner {
+//     width: 212px;
+// }
+// .part-b-partner {
+//     width: 212px;
+// }
 }
 .tutorials-text{
   margin: auto;

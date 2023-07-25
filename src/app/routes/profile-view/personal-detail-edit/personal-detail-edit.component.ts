@@ -396,9 +396,10 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       preferences: {
         language: this.personalDetailForm.controls.knownLanguage.value === 'English' ? 'en' : 'hi',
       },
-      osName: userAgent.OS,
-      browserName: userAgent.browserName,
-      userCookie: userCookie,
+      personalDetails: profileRequest.profileReq.personalDetails
+      // osName: userAgent.OS,
+      // browserName: userAgent.browserName,
+      // userCookie: userCookie,
     }
     profileRequest = Object.assign(profileRequest, obj)
 

@@ -42,7 +42,8 @@ ws-app-nav-bar {
   min-height: calc(100vh - (56px + 52px));
 
   @include breakpoint-xs {
-    min-height: calc(100vh - (56px + 72px));
+    height: 650px;
+    min-height: 650px !important;
   }
 }
 
