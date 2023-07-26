@@ -45,7 +45,6 @@ export class WebDashboardComponent implements OnInit {
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
       this.userData = await data
       this.firstName = this.userData.profileDetails!.profileReq!.personalDetails!.firstname
-      console.log("this.firstName", this.firstName)
     })
     if (localStorage.getItem('preferedLanguage')) {
       let data: any
