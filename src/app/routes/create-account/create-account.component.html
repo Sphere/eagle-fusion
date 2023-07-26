@@ -123,7 +123,7 @@
 <input type="hidden" i18-value i18-aria-value aria-value="unable to signup" value="Error Signing up!" #toastError />
 
 <!-- OTP Form -->
-<div *ngIf="otpPage">
+<div *ngIf="otpPage" class="otp-page">
   <ws-login-otp [signUpdata]="createAccountForm" (redirectToParent)="showParentForm($event)"></ws-login-otp>
 </div>
 <!-- OTP Form Close-->
