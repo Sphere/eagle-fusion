@@ -394,7 +394,8 @@ background-color: #fff;
 }
 .course-body{
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
+  flex-wrap: wrap;
 }
 @media (min-width:320px) and (max-width:600px)  {
 .course-body{
