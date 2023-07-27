@@ -282,7 +282,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.updateUser(reqUpdate)
 
       } else {
-        const profileRequest = this.constructReq(this.createUserForm)
+        let profileRequest = this.constructReq(this.createUserForm)
+        const obj = {
+          personalDetails: profileRequest.profileReq.personalDetails
+        }
+        profileRequest = Object.assign(profileRequest, obj)
         const reqUpdate = {
           request: {
             userId: this.userId,
