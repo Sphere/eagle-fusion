@@ -152,5 +152,8 @@ span.mat-button-wrapper {
   }
 }
 .otp-page{
+  min-height: 600px;
+  @media screen and (min-height:600px) and (max-height:900px) {
   height: 600px;
+  }
 }
