@@ -1,6 +1,6 @@
 <ws-header></ws-header>
 <!-- Create Account Form -->
-<ng-container *ngIf="otpPage">
+<ng-container *ngIf="!otpPage">
   <div class="login-page-content">
     <div class="login-card">
       <div>
@@ -126,7 +126,7 @@
   #toastSuccess />
 <input type="hidden" i18-value i18-aria-value aria-value="unable to signup" value="Error Signing up!" #toastError />
 
-<ng-container *ngIf="!otpPage">
+<ng-container *ngIf="otpPage">
   <!-- OTP Form -->
   <div class="otp-page">
     <ws-login-otp [signUpdata]="createAccountForm" (redirectToParent)="showParentForm($event)"></ws-login-otp>
