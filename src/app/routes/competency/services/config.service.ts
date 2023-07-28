@@ -20,7 +20,7 @@ export class ConfigService {
       id: this.configSvc.unMappedUser.id,
       hostPath: this.configSvc.hostPath,
     }
-    console.log(config)
+
     if (localStorage.getItem('competency')) {
       localStorage.removeItem('competency')
     }

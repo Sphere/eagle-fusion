@@ -104,7 +104,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.configurationsSvc.appsConfig
     ) {
       this.widgetData.actionBtn = this.configurationsSvc.appsConfig.features[this.widgetData.actionBtnId]
-      console.log(this.configurationsSvc.appsConfig.features[this.widgetData.actionBtnId])
+
       if (this.widgetData.actionBtn && this.widgetData.actionBtn.badgeEndpoint) {
         this.navigationSubs = this.router.events.subscribe((e: Event) => {
           if (e instanceof NavigationEnd) {
@@ -120,7 +120,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         this.isSashakth = true
         this.local = 'hi'
         // this.local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-        console.log(this.local)
       } else {
         this.isSashakth = false
       }

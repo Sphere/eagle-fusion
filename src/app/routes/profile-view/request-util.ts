@@ -3,6 +3,7 @@ import find from 'lodash/find'
 
 // import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any, userAgent: any, userCookies: any) => {
+  console.log(form)
   const userid = userProfileData.userId || userProfileData.id || ''
   const profileReq = {
     id: userid,

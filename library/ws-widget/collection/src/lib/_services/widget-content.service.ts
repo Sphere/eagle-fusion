@@ -282,7 +282,6 @@ export class WidgetContentService {
     )
   }
   searchV6(req: any) {
-    console.log(req)
     const url = location.href
     if (url.includes('/hi/')) {
       req.request.filters.lang = 'hi'
@@ -297,7 +296,6 @@ export class WidgetContentService {
   }
 
   publicContentSearch(req: any) {
-    console.log(req)
     const url = location.href
     if (url.includes('/hi/')) {
       req.request.filters.lang = 'hi'

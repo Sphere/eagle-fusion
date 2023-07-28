@@ -72,7 +72,6 @@ export class OrgServiceService {
   }
 
   getLiveSearchResults(lang?: any): Observable<any> {
-    console.log(lang)
     // tslint:disable-next-line:max-line-length
     const req = {
       request: {
