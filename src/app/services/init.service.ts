@@ -373,7 +373,6 @@ export class InitService {
         console.log(e)
         this.configSvc.userProfile = null
         if (e.status === 419) {
-          // window.location.href = '/public/home'
           //this.authSvc.logout()
         }
         return e
