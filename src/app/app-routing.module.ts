@@ -49,6 +49,7 @@ import { SelfAssessmentComponent } from './routes/self-assessment/self-assessmen
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/competency-web/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
+import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
@@ -478,6 +479,10 @@ const routes: Routes = [
   {
     path: 'public/faq/:tab',
     component: PublicFaqComponent,
+  },
+  {
+    path: 'public/scrom-player/:scormUrl',
+    component: ScromPlayerComponent,
   },
   { path: 'resources', redirectTo: 'page/home', pathMatch: 'full' },
   {
