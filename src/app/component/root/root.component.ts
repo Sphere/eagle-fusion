@@ -93,6 +93,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   hideHeaderFooter = false
   isLoggedIn = false
   mobileView = true
+  showmobileFooter = true
   showMobileDashboard = true
   isCommonChatEnabled = true
   online$: Observable<boolean>
@@ -215,7 +216,8 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.appStartRaised = true
 
     } else {
-      if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
+      if ((window.location.href).indexOf('register') > 0 ||
+        (window.location.href).indexOf('forgot-password') > 0 || window.location.href.indexOf('scrom-player') > 0) {
         this.showNavigation = false
       } else if ((window.location.href).indexOf('login') > 0) {
         this.showNavigation = true
@@ -246,6 +248,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.isNavBarRequired = false
       }
       if (event instanceof NavigationStart) {
+        if (window.location.href.indexOf('scrom-player') > 0) {
+          this.showmobileFooter = false
+        }
         // tslint:disable-next-line: max-line-length
         if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')) {
           this.isNavBarRequired = false

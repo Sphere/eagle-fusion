@@ -481,7 +481,7 @@ const routes: Routes = [
     component: PublicFaqComponent,
   },
   {
-    path: 'public/scrom-player/:scormUrl',
+    path: 'public/scrom-player',
     component: ScromPlayerComponent,
   },
   { path: 'resources', redirectTo: 'page/home', pathMatch: 'full' },

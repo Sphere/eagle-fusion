@@ -45,9 +45,7 @@ export class MobileScromAdapterService {
   loadDataV2() {
     console.log("loadDataV2")
   }
-  loadData() {
-    console.log("loadData")
-  }
+
   addData() {
     console.log("addData")
   }
