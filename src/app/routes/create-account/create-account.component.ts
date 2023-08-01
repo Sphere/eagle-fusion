@@ -103,7 +103,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (localStorage.getItem(`preferedLanguage`)) {
+    if (localStorage.getItem(`preferedLanguage`) && this.router.url.includes('hi')) {
       const reqObj = localStorage.getItem(`preferedLanguage`) || ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
