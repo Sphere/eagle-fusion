@@ -280,7 +280,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
-                //this.authSvc.logout()
+                // this.authSvc.logout()
                 let url = `${document.baseURI}`
                 let redirectUrl = `${document.baseURI}openid/keycloak`
                 const state = uuid()
@@ -298,7 +298,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          }, 100)
+          },         100)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -327,7 +327,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          }, 10)
+          },         10)
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
@@ -401,12 +401,12 @@ export class RootComponent implements OnInit, AfterViewInit {
         const params = {}
 
         paramMap.keys.forEach((key: any) => {
-          var paramValue = paramMap.get(key)
+          const paramValue = paramMap.get(key)
           params[key] = paramValue
         })
 
         this.paramsJSON = JSON.stringify(params)
-        let userAgent = this.UserAgentResolverService.getUserAgent()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
 
         this.telemetrySvc.paramTriggerImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         if (this.appStartRaised) {
@@ -490,9 +490,6 @@ export class RootComponent implements OnInit, AfterViewInit {
     return this._renderer2 && this._renderer2['data'].referrer || ''
   }
 
-
-
-
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
     try {
@@ -536,7 +533,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.init()
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      }, 300)
+      },         300)
       // window.fcWidget.show()
       // this.isCommonChatEnabled = false
       const script = this._renderer2.createElement('script')

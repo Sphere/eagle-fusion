@@ -9,7 +9,6 @@ import { MdePopoverTrigger } from '@material-extended/mde'
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 
-
 @Component({
   selector: 'ws-app-org',
   templateUrl: './org.component.html',
@@ -25,18 +24,18 @@ export class OrgComponent implements OnInit, OnDestroy {
   showEndPopup = false
   btnText = ''
   courseCount = 0
-  cardLimit: number = 5;
+  cardLimit = 5
   cometencyData: { identifier: string, name: any; levels: string }[] = []
-  rating: number = 4;
-  starCount: number = 5;
-  color: string = 'accent';
-  ratingArr: any = [];
-  index: number = 0;
+  rating = 4
+  starCount = 5
+  color = 'accent'
+  ratingArr: any = []
+  index = 0
   constructor(private activateRoute: ActivatedRoute,
-    private orgService: OrgServiceService,
-    private router: Router,
+              private orgService: OrgServiceService,
+              private router: Router,
     // private authSvc: AuthKeycloakService,
-    private configSvc: ConfigurationsService) {
+              private configSvc: ConfigurationsService) {
   }
 
   ngOnInit() {
@@ -80,7 +79,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                   {
                     identifier: course.identifier,
                     name: value.competencyName,
-                    levels: ` Level ${value.level}`
+                    levels: ` Level ${value.level}`,
                   }
                 )
               }
@@ -152,10 +151,9 @@ export class OrgComponent implements OnInit, OnDestroy {
 
     if (this.rating >= index + 1) {
       return 'star'
-    } else {
-      return 'star_border'
     }
-  }
+      return 'star_border'
 
+  }
 
 }

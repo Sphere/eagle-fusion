@@ -53,13 +53,11 @@ export class EducationEditComponent implements OnInit {
 
       },
     ]
-    this.educationForm.controls['courseName'].valueChanges.subscribe(
-      (selectedValue) => {
+    this.educationForm.controls['courseName'].valueChanges.subscribe(selectedValue => {
         this.cName = selectedValue
       }
     )
   }
-
 
   ngOnInit() {
     this.getUserDetails()
@@ -108,10 +106,10 @@ export class EducationEditComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
 
-    let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    const profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
 
     const reqUpdate = {
       request: {

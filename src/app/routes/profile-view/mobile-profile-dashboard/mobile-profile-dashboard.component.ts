@@ -80,7 +80,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), 'identifier')
+    })),                             'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -102,7 +102,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      }, 500)
+      },         500)
     })
 
   }
@@ -110,13 +110,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), (result: any, value) => {
+    })),                                (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    }, [])
+    },                                  [])
     this.certificates = issuedCertificates
   }
 

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-//import { BtnFollowService } from '@ws-widget/collection/src/public-api'
+// import { BtnFollowService } from '@ws-widget/collection/src/public-api'
 import { PersonProfileService } from '../../services/person-profile.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, ValueService, TFetchStatus } from '@ws-widget/utils/src/public-api'
@@ -16,7 +16,7 @@ import { MatSnackBar } from '@angular/material'
 export class PersonProfileComponent implements OnInit {
 
   constructor(
-    //private followSvc: BtnFollowService,
+    // private followSvc: BtnFollowService,
     private personprofileSvc: PersonProfileService,
     // private fetchUser: UserAutocompleteService,
     private route: ActivatedRoute,

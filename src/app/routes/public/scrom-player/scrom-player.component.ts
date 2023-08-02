@@ -6,11 +6,11 @@ import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapte
 @Component({
   selector: 'ws-scrom-player',
   templateUrl: './scrom-player.component.html',
-  styleUrls: ['./scrom-player.component.scss']
+  styleUrls: ['./scrom-player.component.scss'],
 })
 export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   iframeUrl: any
-  isLandscapeModeEnforced: boolean = false;
+  isLandscapeModeEnforced = false
 
   constructor(
     public route: ActivatedRoute,
@@ -39,8 +39,6 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
       userToken: this.route.snapshot.queryParamMap.get('userToken'),
     }
 
-
-
     this.scormAdapterService.loadDataV2(req, header)
   }
 
@@ -49,7 +47,7 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    //this.releaseLandscapeModeLock()
+    // this.releaseLandscapeModeLock()
   }
 
   checkAndEnforceLandscapeMode() {
@@ -76,8 +74,6 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     }
   }
-
-
 
   createIframeUrl(scormUrl: any) {
     console.log(scormUrl)

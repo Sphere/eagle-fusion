@@ -26,7 +26,7 @@ export class SignupService {
   someDataObservable!: Observable<any>
 
   constructor(private http: HttpClient,
-    private configSvc: ConfigurationsService
+              private configSvc: ConfigurationsService
   ) { }
 
   signup(data: any): Observable<any> {
@@ -56,7 +56,7 @@ export class SignupService {
   generateOtp(data: any): Observable<any> {
     if (this.someDataObservable) {
       return this.someDataObservable
-    } else {
+    }
       this.someDataObservable = this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(share())
       return this.someDataObservable
       // .pipe(
@@ -64,7 +64,7 @@ export class SignupService {
       //     return response
       //   })
       // )
-    }
+
   }
   plumb5SendEvent(data: any) {
     return this.http.post<any>(`https://track.plumb5.com/EventDetails/SaveEventDetails`, data).pipe(
@@ -211,5 +211,3 @@ export class SignupService {
   }
 
 }
-
-

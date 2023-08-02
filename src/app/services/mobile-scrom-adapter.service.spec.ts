@@ -1,12 +1,12 @@
-import { TestBed } from '@angular/core/testing';
+import { TestBed } from '@angular/core/testing'
 
-import { MobileScromAdapterService } from './mobile-scrom-adapter.service';
+import { MobileScromAdapterService } from './mobile-scrom-adapter.service'
 
 describe('MobileScromAdapterService', () => {
-  beforeEach(() => TestBed.configureTestingModule({}));
+  beforeEach(() => TestBed.configureTestingModule({}))
 
   it('should be created', () => {
-    const service: MobileScromAdapterService = TestBed.get(MobileScromAdapterService);
-    expect(service).toBeTruthy();
-  });
-});
+    const service: MobileScromAdapterService = TestBed.get(MobileScromAdapterService)
+    expect(service).toBeTruthy()
+  })
+})

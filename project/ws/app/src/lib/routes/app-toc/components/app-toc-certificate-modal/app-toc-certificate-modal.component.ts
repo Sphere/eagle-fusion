@@ -3,12 +3,12 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
 import { WidgetContentService } from '@ws-widget/collection'
 import * as FileSaver from 'file-saver'
 import { DomSanitizer } from '@angular/platform-browser'
-//import moment from 'moment'
+// import moment from 'moment'
 
 @Component({
   selector: 'ws-app-app-toc-certificate-modal',
   templateUrl: './app-toc-certificate-modal.component.html',
-  styleUrls: ['./app-toc-certificate-modal.component.scss']
+  styleUrls: ['./app-toc-certificate-modal.component.scss'],
 })
 export class AppTocCertificateModalComponent implements OnInit {
   img: any = ''
@@ -23,10 +23,10 @@ export class AppTocCertificateModalComponent implements OnInit {
   ngOnInit() {
     console.log(this.content)
     // tslint:disable-next-line:no-this-assignment
-    //const self = this
+    // const self = this
     this.contentSvc.downloadCertificateAPI(this.content.content).toPromise().then(async (response: any) => {
       if (response.responseCode) {
-        //const img = new Image()
+        // const img = new Image()
         const url = await response.result.printUri
         this.img = this.sanitizer.bypassSecurityTrustUrl(url)
         this.isLoading = false
@@ -59,7 +59,7 @@ export class AppTocCertificateModalComponent implements OnInit {
         //   }
         // }
         //  DOMURL.revokeObjectURL(url)
-        //img.src = url
+        // img.src = url
       }
     })
   }

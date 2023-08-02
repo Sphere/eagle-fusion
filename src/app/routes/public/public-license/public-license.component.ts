@@ -10,7 +10,7 @@ import get from 'lodash/get'
   selector: 'ws-public-license',
   templateUrl: './public-license.component.html',
   styleUrls: ['./public-license.component.scss'],
-  providers: [AppTocService]
+  providers: [AppTocService],
 })
 export class PublicLicenseComponent implements OnInit {
   isXSmall = false
@@ -23,7 +23,7 @@ export class PublicLicenseComponent implements OnInit {
 */
   public unsubscribe = new Subject<void>()
   constructor(private valueSvc: ValueService,
-    private tocSvc: AppTocService
+              private tocSvc: AppTocService
   ) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall

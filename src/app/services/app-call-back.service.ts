@@ -17,6 +17,6 @@ export class AppCallBackService {
   webviewCookieSet(token: string) {
     const headers = new HttpHeaders()
       .set('x-authenticated-user-token', token)
-    return this.http.get<any>(endpoint.webview_login, { headers: headers })
+    return this.http.get<any>(endpoint.webview_login, { headers })
   }
 }

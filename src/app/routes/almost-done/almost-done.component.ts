@@ -215,7 +215,7 @@ export class AlmostDoneComponent implements OnInit {
 
     if (option === 'Others') {
       this.orgOthersField = true
-      //this.createUserForm.controls.orgOtherSpecify.setValue(null)
+      // this.createUserForm.controls.orgOtherSpecify.setValue(null)
       this.almostDoneForm.controls.orgOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
     } else {
       this.orgOthersField = false
@@ -416,8 +416,8 @@ export class AlmostDoneComponent implements OnInit {
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
 
     const userObject = {
       firstname: this.firstName,
@@ -430,7 +430,7 @@ export class AlmostDoneComponent implements OnInit {
       postalAddress: this.selectedAddress,
       osName: userAgent.OS,
       browserName: userAgent.browserName,
-      userCookie: userCookie,
+      userCookie,
 
     }
     Object.keys(userObject).forEach(key => {

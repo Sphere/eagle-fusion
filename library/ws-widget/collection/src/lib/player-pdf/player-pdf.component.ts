@@ -355,8 +355,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
             this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
 
-              let result = data.result
-              result["type"] = 'PDF'
+              const result = data.result
+              result['type'] = 'PDF'
               this.contentSvc.changeMessage(result)
             })
           }
@@ -366,8 +366,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
             this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
 
-              let result = data.result
-              result["type"] = 'PDF'
+              const result = data.result
+              result['type'] = 'PDF'
               this.contentSvc.changeMessage(result)
             })
           }
