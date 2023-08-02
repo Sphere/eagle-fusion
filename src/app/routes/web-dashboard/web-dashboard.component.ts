@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-web-dashboard',
@@ -44,7 +45,7 @@ export class WebDashboardComponent implements OnInit {
 
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
       this.userData = await data
-      this.firstName = this.userData.profileDetails!.profileReq!.personalDetails!.firstname
+      this.firstName = _.get(this.userData, 'profileDetails.profileReq.personalDetails.firstname', '')
     })
     if (localStorage.getItem('preferedLanguage')) {
       let data: any
