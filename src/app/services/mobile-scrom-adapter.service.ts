@@ -1,4 +1,9 @@
 import { Injectable } from '@angular/core'
+import { HttpClient, HttpHeaders } from '@angular/common/http'
+
+const API_END_POINTS = {
+  CONTENT_HISTORYV2: `/apis/course/v1/content/state/read`
+}
 
 @Injectable({
   providedIn: 'root'
@@ -6,7 +11,10 @@ import { Injectable } from '@angular/core'
 export class MobileScromAdapterService {
   initialize = false
 
-  constructor() { }
+
+  constructor(
+    private http: HttpClient,
+  ) { }
 
   LMSInitialize(): boolean {
     this.initialize = true
@@ -42,8 +50,24 @@ export class MobileScromAdapterService {
   downladFile() {
     console.log("downladFile")
   }
-  loadDataV2() {
-    console.log("loadDataV2")
+  loadDataV2(req: any, header: any) {
+    console.log("loadDataV2", req)
+    req.request.fields = ['progressdetails']
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${header.Authorization}`,
+      'X-authenticated-user-token': header.userToken,
+      'Content-Type': 'application/json',
+    })
+
+    const options = {
+      url: `${API_END_POINTS.CONTENT_HISTORYV2}`,
+      payload: req,
+    }
+    this.http.post(options.url, options.payload, { headers }).subscribe(
+      (res: any) => {
+        console.log(res)
+      }
+    )
   }
 
   addData() {
