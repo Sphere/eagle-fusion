@@ -323,7 +323,12 @@ export class NewTncComponent implements OnInit, OnDestroy {
                   //window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
                 } else {
                   const url = `page/home`
-                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  if (this.lang === 'en') {
+                    window.location.assign(`${location.origin}/${url}`)
+                  } else {
+                    window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  }
+
                 }
               } else {
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {

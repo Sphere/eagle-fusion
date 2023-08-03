@@ -133,7 +133,7 @@ export class MobileProfileDashboardComponent implements OnInit {
         console.log('The dialog was closed', result)
       })
     } else {
-      this.router.navigate(['/app/about-you'], { queryParams: { redirect: '/app/profile-view' } })
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
     }
   }
   setAcademicDetail(data: any) {
