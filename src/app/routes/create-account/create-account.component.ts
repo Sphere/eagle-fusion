@@ -34,6 +34,8 @@ export class CreateAccountComponent implements OnInit {
   iconChange2 = 'fas fa-eye-slash'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
+  timerSubscription: any
+  emailDelaid = false
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -107,6 +109,7 @@ export class CreateAccountComponent implements OnInit {
       const reqObj = localStorage.getItem(`preferedLanguage`) || ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
+    this.emailOrMobileValueChange()
   }
 
   onSubmit(form: any) {
@@ -339,5 +342,34 @@ export class CreateAccountComponent implements OnInit {
         }
       }
     })
+  }
+
+  emailOrMobileValueChange() {
+    this.createAccountForm.get('emailOrMobile')!.valueChanges
+      .subscribe(() => {
+        this.emailDelaid = true
+        if (this.timerSubscription) {
+          clearTimeout(this.timerSubscription)
+          this.timerSubscription = null
+        }
+        this.timerSubscription = setTimeout(() => {
+          this.emailDelaid = false
+        }, 3000)
+      })
+  }
+
+  get emailOrMobileErrorStatus() {
+    let errorType = ''
+    const controll = this.createAccountForm.get('emailOrMobile')
+    if (controll!.valid) {
+      return errorType
+    } else if (!this.emailDelaid) {
+      if (controll!.hasError('required') && (controll!.dirty || controll!.touched)) {
+        errorType = 'required'
+      } else if (controll!.hasError('pattern')) {
+        errorType = 'pattern'
+      }
+    }
+    return errorType
   }
 }
