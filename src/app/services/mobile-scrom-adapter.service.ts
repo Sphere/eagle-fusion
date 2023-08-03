@@ -3,6 +3,8 @@ import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Subscription, of } from 'rxjs'
 import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/storage'
 import { catchError } from 'rxjs/operators'
+import * as dayjs from 'dayjs'
+
 const API_END_POINTS = {
   CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
   PROGRESS_UPDATE: '/apis/public/v8/mobileApp/v2/updateProgress',
@@ -90,15 +92,32 @@ export class MobileScromAdapterService {
     return this.store.getItem(element)
   }
   LMSCommit() {
+    console.log("lms commit")
     let data = this.store.getAll()
     console.log(data)
     if (data) {
       delete data['errors']
-      if (this.getPercentage(data) === 100) {
-        window.parent.postMessage({ lmsFinishResult: this.getPercentage(data) }, '*')
+      if ((data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed')) {
+        this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
+          console.log(response)
+          let result = await response.result
+          result["type"] = 'scorm'
+          if (this.getPercentage(data) === 100) {
+            window.parent.postMessage({ lmsFinishResult: this.getPercentage(data) }, '*')
+          }
+
+        }, (error) => {
+          if (error) {
+            this._setError(101)
+            // console.log(error)
+          }
+        })
+
+        return true
       }
 
     }
+    return false
   }
   LMSGetLastError() {
     console.log('LMSGetLastError')
@@ -198,7 +217,39 @@ export class MobileScromAdapterService {
       return 0
     }
   }
-  addDataV2() {
-    console.log('addDataV2')
+
+  addDataV2(postData: any) {
+    let req: any
+    if (postData && (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed')) {
+      req = {
+        request: {
+          userId: this.getProperty('userId') || '',
+          contents: [
+            {
+              contentId: this.getProperty('contentId'),
+              batchId: this.getProperty('batchId') || '',
+              courseId: this.getProperty('courseId') || '',
+              status: this.getStatus(postData) || 2,
+              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+              progressdetails: postData,
+              completionPercentage: this.getPercentage(postData) || 0
+            },
+          ],
+        },
+      }
+
+    }
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getProperty('authorization')}`,
+      'X-authenticated-user-token': this.getProperty('userToken'),
+      'Content-Type': 'application/json',
+    })
+    const options = {
+      url: `${API_END_POINTS.PROGRESS_UPDATE}`,
+      payload: req,
+    }
+
+
+    return this.http.post(options.url, options.payload, { headers })
   }
 }
