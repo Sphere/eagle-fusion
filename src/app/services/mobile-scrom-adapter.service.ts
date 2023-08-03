@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 
 const API_END_POINTS = {
-  CONTENT_HISTORYV2: `/apis/course/v1/content/state/read`,
+  CONTENT_HISTORYV2: `/api/course/v1/content/state/read`,
 }
 
 @Injectable({
