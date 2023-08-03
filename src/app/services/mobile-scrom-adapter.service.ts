@@ -5,6 +5,7 @@ import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/
 import { catchError } from 'rxjs/operators'
 const API_END_POINTS = {
   CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
+  PROGRESS_UPDATE: '/apis/public/v8/mobileApp/v2/updateProgress',
 }
 
 @Injectable({
@@ -66,6 +67,10 @@ export class MobileScromAdapterService {
     console.log(data)
     if (data) {
       delete data['errors']
+      if (this.getPercentage(data) === 100) {
+        window.parent.postMessage({ lmsFinishResult: this.getPercentage(data) }, '*')
+      }
+
     }
   }
   LMSGetLastError() {
