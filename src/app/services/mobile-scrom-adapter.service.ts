@@ -1,13 +1,17 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Subscription, of } from 'rxjs'
-import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/storage'
 import { catchError } from 'rxjs/operators'
 import * as dayjs from 'dayjs'
 
+import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/storage'
+import { errorCodes } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/errors'
+
+import * as _ from 'lodash'
+
 const API_END_POINTS = {
   CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
-  PROGRESS_UPDATE: '/apis/public/v8/mobileApp/v2/updateProgress',
+  PROGRESS_UPDATE: '/api/public/v8/mobileApp/v2/updateProgress',
 }
 
 @Injectable({
@@ -50,11 +54,9 @@ export class MobileScromAdapterService {
     return this._userData[key]
   }
   setProperties(properties: any) {
-    for (const key in properties) {
-      if (Object.prototype.hasOwnProperty.call(properties, key)) {
-        this.setProperty(key, properties[key])
-      }
-    }
+    _.forEach(properties, (value, key) => {
+      this.setProperty(key, value)
+    })
   }
   LMSInitialize(): boolean {
     this.store.contentKey = this.contentId
@@ -76,10 +78,10 @@ export class MobileScromAdapterService {
       this._setError(301)
       return false
     }
-    let value = this.store.getItem(element)
+    let value = _.get(this.store.getAll(), element)
     if (!value) {
       this._setError(201)
-      return ""
+      return ''
     }
     return value
   }
@@ -95,15 +97,22 @@ export class MobileScromAdapterService {
     console.log("lms commit")
     let data = this.store.getAll()
     console.log(data)
+    let _return = false
     if (data) {
       delete data['errors']
       if ((data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed')) {
-        this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
+        this.scromSubscription = this.updateScromProgress(data).subscribe(async (response: any) => {
           console.log(response)
           let result = await response.result
           result["type"] = 'scorm'
           if (this.getPercentage(data) === 100) {
             window.parent.postMessage({ lmsFinishResult: this.getPercentage(data) }, '*')
+            setTimeout(() => {
+              this.LMSFinish()
+            })
+          }
+          if (response) {
+            _return = true
           }
 
         }, (error) => {
@@ -113,20 +122,28 @@ export class MobileScromAdapterService {
           }
         })
 
-        return true
+        return _return
       }
 
     }
     return false
   }
   LMSGetLastError() {
-    console.log('LMSGetLastError')
+    const newErrors = JSON.parse(this.store.getItem('errors') || '[]')
+    if (newErrors && newErrors.length > 0) {
+      return newErrors.pop()
+    }
+    return ""
   }
-  LMSGetErrorString() {
-    console.log('LMSGetErrorString')
+  LMSGetErrorString(errorCode: number) {
+    let error = errorCodes[errorCode]
+    if (!error) return ""
+    return error[errorCode]["errorString"]
   }
-  LMSGetDiagnostic() {
-    console.log('LMSGetDiagnostic')
+  LMSGetDiagnostic(errorCode: number) {
+    let error = errorCodes[errorCode]
+    if (!error) return ""
+    return error[errorCode]["diagnostic"]
   }
   _isInitialized() {
     let initialized = this.store.getItem('Initialized')
@@ -184,11 +201,6 @@ export class MobileScromAdapterService {
     })
   }
 
-
-
-  addData() {
-    console.log('addData')
-  }
   getStatus(postData: any): number {
     console.log(postData["cmi.core.lesson_status"], 'getStatus', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
@@ -218,7 +230,7 @@ export class MobileScromAdapterService {
     }
   }
 
-  addDataV2(postData: any) {
+  updateScromProgress(postData: any) {
     let req: any
     if (postData && (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed')) {
       req = {
@@ -248,8 +260,6 @@ export class MobileScromAdapterService {
       url: `${API_END_POINTS.PROGRESS_UPDATE}`,
       payload: req,
     }
-
-
     return this.http.post(options.url, options.payload, { headers })
   }
 }
