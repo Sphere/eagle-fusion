@@ -13,6 +13,9 @@ export class AppInterceptorService implements HttpInterceptor {
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.url.endsWith('/api/course/v1/content/state/read')) {
+      return next.handle(req)
+    }
     const lang = [this.locale.replace('en-US', 'en')]
     if (this.configSvc.userPreference) {
       (this.configSvc.userPreference.selectedLangGroup || '')

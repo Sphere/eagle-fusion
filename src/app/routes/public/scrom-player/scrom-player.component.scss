@@ -1,7 +1,9 @@
-.html-iframe {
+.mobile-html-iframe{
   width: 100%;
-  height: 100%;
+  height: 100vh;
   display: block;
+  transform: rotate(90deg);
+  object-fit: cover;
 }
 
 .float-right {

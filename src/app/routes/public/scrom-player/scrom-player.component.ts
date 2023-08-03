@@ -51,25 +51,11 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    this.checkAndEnforceLandscapeMode()
+
   }
 
   ngOnDestroy() {
     // this.releaseLandscapeModeLock()
-  }
-
-  checkAndEnforceLandscapeMode() {
-    if (window.innerWidth < 380 && !this.isLandscapeModeEnforced) {
-      this.isLandscapeModeEnforced = true
-      const iframeElement: HTMLIFrameElement | null = document.querySelector('iframe.html-iframe')
-
-      if (iframeElement) {
-        iframeElement.style.height = '100vh'
-        iframeElement.style.transform = 'rotate(90deg)'
-        iframeElement.style.objectFit = 'cover'
-      }
-
-    }
   }
 
 

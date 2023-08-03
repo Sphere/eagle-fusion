@@ -47,6 +47,13 @@ export class MobileScromAdapterService {
   getProperty(key: any): string {
     return this._userData[key]
   }
+  setProperties(properties: any) {
+    for (const key in properties) {
+      if (Object.prototype.hasOwnProperty.call(properties, key)) {
+        this.setProperty(key, properties[key])
+      }
+    }
+  }
   LMSInitialize(): boolean {
     this.store.contentKey = this.contentId
     this.store.setItem('Initialized', true)
