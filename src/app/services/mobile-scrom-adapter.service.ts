@@ -15,6 +15,19 @@ export class MobileScromAdapterService {
   initialize = false
   id = ''
   scromSubscription: Subscription | null = null
+  private _userData: {
+    userId: string
+    batchId: string
+    courseId: string
+    authorization: string
+    userToken: string
+  } = {
+      userId: '',
+      batchId: '',
+      courseId: '',
+      authorization: '',
+      userToken: '',
+    };
   constructor(
     private http: HttpClient,
     private store: Storage
@@ -26,6 +39,13 @@ export class MobileScromAdapterService {
 
   get contentId() {
     return this.id
+  }
+  setProperty(key: any, value: string) {
+    this._userData[key] = value
+  }
+
+  getProperty(key: any): string {
+    return this._userData[key]
   }
   LMSInitialize(): boolean {
     this.store.contentKey = this.contentId
