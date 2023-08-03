@@ -25,6 +25,7 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     const scormUrl = this.route.snapshot.queryParamMap.get('scormUrl')
     console.log('>>>>>>>>>>>', scormUrl, this.route.snapshot.queryParamMap)
     this.createIframeUrl(scormUrl)
+    this.scormAdapterService.contentId = this.route.snapshot.queryParamMap.get('identifier') || ''
     const req: any = {
       request: {
         userId: this.route.snapshot.queryParamMap.get('userId') || '',
@@ -40,6 +41,7 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     this.scormAdapterService.loadDataV2(req, header)
+
   }
 
   ngAfterViewInit() {
@@ -53,37 +55,22 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   checkAndEnforceLandscapeMode() {
     if (window.innerWidth < 380 && !this.isLandscapeModeEnforced) {
       this.isLandscapeModeEnforced = true
-      // Check if screen orientation API is available
-      if (screen.orientation) {
+      const iframeElement: HTMLIFrameElement | null = document.querySelector('iframe.html-iframe')
 
-        try {
-          // Attempt to lock the screen orientation to landscape
-          screen.orientation.lock('landscape').then(() => {
-            console.log('Screen orientation is locked to landscape mode.')
-          }).catch((err: any) => {
-            console.error('Failed to lock the screen orientation:', err)
-            this.isLandscapeModeEnforced = false // Reset the flag if locking fails
-          })
-        } catch (err) {
-          console.error('Error while locking screen orientation:', err)
-          this.isLandscapeModeEnforced = false // Reset the flag if an error occurs
-        }
-      } else {
-        console.warn('Screen orientation API is not supported on this browser.')
-        this.isLandscapeModeEnforced = false // Reset the flag if screen orientation API is not available
+      if (iframeElement) {
+        iframeElement.style.height = '100vh'
+        iframeElement.style.transform = 'rotate(90deg)'
+        iframeElement.style.objectFit = 'cover'
       }
+
     }
   }
+
+
 
   createIframeUrl(scormUrl: any) {
     console.log(scormUrl)
     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(scormUrl)
-    // this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-    //   'http://localhost:3000/apis/proxies/v8/getContents/content/html/do_11363377478112870411138-latest/index_lms.html'
-    // )
-    // this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(
-    //   'http://localhost:3000/public/scrom-player?scormUrl=https:%2F%2Fsphere.aastrika.org%2Fapis%2Fpublic%2Fv8%2FmobileApp%2FgetContents%2Fcontent%2Fhtml%2Fdo_11364358413983744011210-latest%2Findex_lms.html%20ELDERLY%20CARE_%20Chapter%201&userId=04121b76-2599-46e1-be01-78bf54dd6053&courseId=do_11364358413983744011210&bathcId=01364577008224665629&Authorization=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJTNHNNVFdjZUZqYkxUWGxiczkzUzk4dmFtODBhdkRPUiJ9.nPOCY0-bVX28iNcxxnYbGpihY3ZzfNwx0-SFCnJwjas&userToken=userToken'
-    // )
   }
 
   receiveMessage(msg: any) {
