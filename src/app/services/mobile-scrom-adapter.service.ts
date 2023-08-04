@@ -11,7 +11,7 @@ import * as _ from 'lodash'
 
 const API_END_POINTS = {
   CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
-  PROGRESS_UPDATE: '/api/public/v8/mobileApp/v2/updateProgress',
+  PROGRESS_UPDATE: '/apis/public/v8/mobileApp/v2/updateProgress',
 }
 
 @Injectable({
