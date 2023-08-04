@@ -150,6 +150,8 @@ export class SCORMAdapterService {
           let result = await response.result
           result["type"] = 'scorm'
           this.contentSvc.changeMessage(result)
+
+
           if (this.getPercentage(data) === 100) {
             this.viewerDataSvc.scromChangeSubject.next(
               {
@@ -162,15 +164,19 @@ export class SCORMAdapterService {
             setTimeout(() => {
               this.LMSFinish()
             })
-            const data1: any = {
-              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-                this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
-              contentId: this.contentId,
-              name: this.htmlName,
-              moduleId: this.parent,
+            if (data) {
+              const data1: any = {
+                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+                  this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
+                contentId: this.contentId,
+                name: this.htmlName,
+                moduleId: this.parent,
+                duration: data["cmi.core.session_time"]
+              }
+              this.telemetrySvc.end('youtube', 'youtube-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+                this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data1)
             }
-            this.telemetrySvc.end('youtube', 'youtube-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data1)
+
           }
           if (response) {
             _return = true

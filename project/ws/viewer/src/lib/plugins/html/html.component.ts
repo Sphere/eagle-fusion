@@ -176,7 +176,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent.parent : undefined
       // this.scormAdapterService.loadData()
       this.scormAdapterService.loadDataV2()
-      const data1: any = {
+      const data: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
           this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
         contentId: this.htmlContent.identifier,
@@ -184,7 +184,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         moduleId: this.htmlContent!.parent ? this.htmlContent.parent : undefined,
       }
       this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data1)
+        this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier, data)
     }
 
     this.isIntranetUrl = false

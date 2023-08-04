@@ -8,6 +8,7 @@ import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/
 import { errorCodes } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/errors'
 
 import * as _ from 'lodash'
+import { TelemetryService } from '../../../library/ws-widget/utils/src/public-api'
 
 const API_END_POINTS = {
   CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
@@ -36,7 +37,8 @@ export class MobileScromAdapterService {
     };
   constructor(
     private http: HttpClient,
-    private store: Storage
+    private store: Storage,
+    private telemetrySvc: TelemetryService
   ) { }
   set contentId(id: string) {
     this.store.key = id
