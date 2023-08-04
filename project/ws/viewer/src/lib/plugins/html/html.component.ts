@@ -60,7 +60,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           this.contentSvc.changeMessage(result)
         })
 
-      },         50)
+      }, 50)
       const data1: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
           this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
@@ -131,7 +131,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           result['type'] = 'docs.google'
           this.contentSvc.changeMessage(result)
         })
-      },         50)
+      }, 50)
 
       const data1: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -172,6 +172,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
       // this.contentSvc.changeMessage('scorm')
       this.scormAdapterService.contentId = this.htmlContent.identifier
+      this.scormAdapterService.htmlName = this.htmlContent.name
+      this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent.parent : undefined
       // this.scormAdapterService.loadData()
       this.scormAdapterService.loadDataV2()
       const data1: any = {
@@ -245,7 +247,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   })
                 // this.contentSvc.changeMessage('html')
               }
-            },         50)
+            }, 50)
 
             const data2: any = {
               courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -367,7 +369,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 })
               // this.contentSvc.changeMessage('html')
             }
-          },         50)
+          }, 50)
 
           const data2: any = {
             courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -458,7 +460,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             })
           // this.contentSvc.changeMessage('html')
         }
-      },         50)
+      }, 50)
 
       const data2: any = {
         courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
