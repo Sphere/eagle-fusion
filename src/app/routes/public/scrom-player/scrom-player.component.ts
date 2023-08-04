@@ -42,6 +42,7 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
       userToken: this.route.snapshot.queryParamMap.get('userToken'),
     }
     this.scormAdapterService.setProperties({
+      contentId: this.route.snapshot.queryParamMap.get('identifier') || '',
       userId: this.route.snapshot.queryParamMap.get('userId') || '',
       batchId: this.route.snapshot.queryParamMap.get('batchId') || '',
       courseId: this.route.snapshot.queryParamMap.get('courseId') || '',
