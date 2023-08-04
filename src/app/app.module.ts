@@ -34,7 +34,7 @@ import {
   // TourModule,
   WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe,
 } from '@ws-widget/collection'
-//import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
+// import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   ImageCropComponent,
@@ -61,7 +61,7 @@ import { InvalidUserComponent } from './component/invalid-user/invalid-user.comp
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { TncRendererComponent } from './component/tnc-renderer/tnc-renderer.component'
-//import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
+// import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
@@ -89,8 +89,8 @@ import { CompleteProfileComponent } from './routes/complete-profile/complete-pro
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
-//import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
-//import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+// import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
+// import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
@@ -128,7 +128,7 @@ import { WebPublicComponent } from './routes/web-public-container/web-public-con
 import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
 import { PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemovalModule, PipePartialContentModule } from '@ws-widget/utils'
 import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
-
+import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
@@ -186,12 +186,12 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     if (orgValue === 'nhsrc') {
       if (url.indexOf('do_') > 0) {
         // window.location.href = `${url}`
-        console.log("app.module", url)
+        console.log('app.module', url)
         localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
           }` + `/overview`)
         // window.location.href = `${document.baseURI}organisations/home`
       } else {
-        console.log("line number 182 else in app module.ts", url)
+        console.log('line number 182 else in app module.ts', url)
         window.location.href = `${document.baseURI}organisations/home`
       }
     }
@@ -226,8 +226,8 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     HeaderComponent,
     GoogleCallbackComponent,
     MobileDashboardComponent,
-    //MobileCategoryComponent,
-    //MobileVideoPlayerComponent,
+    // MobileCategoryComponent,
+    // MobileVideoPlayerComponent,
     MobileFooterComponent,
     MobileProfileDashboardComponent,
     MobileAboutPopupComponent,
@@ -250,7 +250,8 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     WebNavLinkPageComponent,
     WebDashboardComponent,
     WebPublicComponent,
-    WebCourseViewComponent
+    WebCourseViewComponent,
+    ScromPlayerComponent,
     // SettingsComponent
   ],
   imports: [
@@ -264,7 +265,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     AppRoutingModule,
     ...WIDGET_REGISTERED_MODULES,
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
-    //StickyHeaderModule,
+    // StickyHeaderModule,
     ErrorResolverModule,
     MatSliderModule,
     MatButtonModule,
@@ -288,7 +289,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PublicHomeModule,
     PublicContactModule,
     PublicFaqModule,
-    //MobileAppModule,
+    // MobileAppModule,
     PipeSafeSanitizerModule,
     // TourModule,
     SlidersModule,
@@ -309,7 +310,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PipePartialContentModule,
     PipeCountTransformModule,
     PipeHtmlTagRemovalModule,
-    HorizontalScrollerModule
+    HorizontalScrollerModule,
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
@@ -359,7 +360,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
     Title,
-    UserAgentResolverService
+    UserAgentResolverService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

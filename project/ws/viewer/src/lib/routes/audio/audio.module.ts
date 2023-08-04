@@ -14,11 +14,11 @@ import {
   // BtnContentLikeModule,
   BtnContentShareModule,
   //  BtnGoalsModule,
-  //BtnPlaylistModule,
+  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  //UserContentRatingModule,
-  //BtnContentFeedbackV2Module,
+  // UserContentRatingModule,
+  // BtnContentFeedbackV2Module,
 } from '@ws-widget/collection'
 
 import {
@@ -50,13 +50,13 @@ import { AudioModule as AudioViewContainerModule } from '../../route-view-contai
     // BtnContentDownloadModule,
     // BtnContentLikeModule,
     BtnContentShareModule,
-    //BtnGoalsModule,
-    //BtnPlaylistModule,
+    // BtnGoalsModule,
+    // BtnPlaylistModule,
     UserImageModule,
-    //BtnContentFeedbackModule,
+    // BtnContentFeedbackModule,
     DisplayContentTypeModule,
-    //UserContentRatingModule,
-    //BtnContentFeedbackV2Module,
+    // UserContentRatingModule,
+    // BtnContentFeedbackV2Module,
     AudioViewContainerModule,
   ],
 })

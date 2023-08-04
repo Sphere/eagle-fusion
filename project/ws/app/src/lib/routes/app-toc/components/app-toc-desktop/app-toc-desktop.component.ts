@@ -5,8 +5,8 @@ import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
   // ContentProgressService,
   NsContent,
-  //NsGoal,
-  //NsPlaylist,
+  // NsGoal,
+  // NsPlaylist,
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
@@ -23,7 +23,7 @@ import { FormControl, Validators } from '@angular/forms'
 // import * as dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
-//import * as FileSaver from 'file-saver'
+// import * as FileSaver from 'file-saver'
 import moment from 'moment'
 
 import { DOCUMENT } from '@angular/common'
@@ -65,8 +65,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   editButton = false
   reviewButton = false
   // analyticsDataClient: any = null
-  //btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
-  //btnGoalsConfig: NsGoal.IBtnGoal | null = null
+  // btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
+  // btnGoalsConfig: NsGoal.IBtnGoal | null = null
   isRegistrationSupported = false
   checkRegistrationSources: Set<string> = new Set([
     'SkillSoft Digitalization',
@@ -382,9 +382,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   return course
                 })
                 if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
-                  //this.displayStyle = 'block'
+                  // this.displayStyle = 'block'
                   // tslint:disable-next-line: max-line-length
-                  //this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
+                  // this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
                   this.sendApi()
                   // trigger this.downloadCertificate
 
@@ -476,7 +476,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         // let enrolledCourse: NsContent.ICourse | undefined
         if (this.content && this.content.identifier && !this.forPreview) {
           // tslint:disable-next-line:no-this-assignment
-          //const self = this
+          // const self = this
           if (courses && courses.length) {
             this.enrolledCourse = courses.find(course => {
               const identifier = this.content && this.content.identifier || ''
@@ -527,7 +527,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               //   }
               // })
             } else {
-              //this.displayStyle = 'block'
+              // this.displayStyle = 'block'
             }
           }
         }
@@ -889,7 +889,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          }, 500)
+          },         500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')
@@ -919,8 +919,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   // }
   openPopup(content: any, tocConfig: any) {
     this.dialog.open(AppTocCertificateModalComponent, {
-      width: "100vw",
-      height: "80vh",
+      width: '100vw',
+      height: '80vh',
       data: { content, tocConfig, type: 'DETAILS' },
       disableClose: false,
     })

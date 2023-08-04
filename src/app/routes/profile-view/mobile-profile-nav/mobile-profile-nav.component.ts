@@ -44,7 +44,7 @@ export class MobileProfileNavComponent implements OnInit {
           this.router.navigate(['/page/home'])
         }
       } else {
-        let url = sessionStorage.getItem('clickedUrl') || ''
+        const url = sessionStorage.getItem('clickedUrl') || ''
         sessionStorage.removeItem('clickedUrl')
         this.router.navigateByUrl(url)
       }

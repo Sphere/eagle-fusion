@@ -58,13 +58,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   loadDob = false
   showDesignation = false
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
-    public dialog: MatDialog,
-    private valueSvc: ValueService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private UserAgentResolverService: UserAgentResolverService,
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private matSnackBar: MatSnackBar,
+              public dialog: MatDialog,
+              private valueSvc: ValueService,
+              private readonly changeDetectorRef: ChangeDetectorRef,
+              private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.personalDetailForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
@@ -389,14 +389,14 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
       preferences: {
         language: this.personalDetailForm.controls.knownLanguage.value === 'English' ? 'en' : 'hi',
       },
-      personalDetails: profileRequest.profileReq.personalDetails
+      personalDetails: profileRequest.profileReq.personalDetails,
       // osName: userAgent.OS,
       // browserName: userAgent.browserName,
       // userCookie: userCookie,
@@ -441,8 +441,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         if (this.configSvc.userProfileV2) {
           let user: any
           const userid = this.configSvc.userProfileV2.userId
-          let userAgent = this.UserAgentResolverService.getUserAgent()
-          let userCookie = this.UserAgentResolverService.generateCookie()
+          const userAgent = this.UserAgentResolverService.getUserAgent()
+          const userCookie = this.UserAgentResolverService.generateCookie()
           this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
             user = data
             const obj = {
@@ -451,7 +451,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
               },
               osName: userAgent.OS,
               browserName: userAgent.browserName,
-              userCookie: userCookie,
+              userCookie,
             }
             const userdata = Object.assign(user['profileDetails'], obj)
             // this.chosenLanguage = path.value

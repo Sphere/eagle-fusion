@@ -24,14 +24,14 @@ export class WebCourseViewComponent implements OnInit {
     badges: {
       orgIcon: true,
       certification: true,
-    }
+    },
   }
   isLoggedIn = false
   constructor(private router: Router,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private signUpSvc: SignupService,
-    private titleService: Title
+              private configSvc: ConfigurationsService,
+              private userProfileSvc: UserProfileService,
+              private signUpSvc: SignupService,
+              private titleService: Title
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
@@ -105,11 +105,11 @@ export class WebCourseViewComponent implements OnInit {
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
   }
   redirectPage(course: any) {
-    if (this.isLoggedIn == true) {
-      console.log("yes here")
+    if (this.isLoggedIn) {
+      console.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log("else")
+      console.log('else')
       this.login(course)
     }
   }

@@ -135,11 +135,11 @@ export class AppTocService {
           child.completionPercentage = foundContent.completionPercentage
           child.completionStatus = foundContent.status
         }
-        //else {
+        // else {
         if (child.children) {
           this.mapCompletionPercentage(child, dataResult)
         }
-        //}
+        // }
       })
     }
   }

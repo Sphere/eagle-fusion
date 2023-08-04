@@ -18,7 +18,7 @@ import {
   TelemetryService,
 } from '@ws-widget/utils'
 // import moment from 'moment'
-//import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
+// import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
 // declare var Telemetry: any
@@ -511,8 +511,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       if (!isNull(data.nextResource)) {
 
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
-          let result = data.result
-          result["type"] = 'assessment'
+          const result = data.result
+          result['type'] = 'assessment'
           this.contentSvc.changeMessage(result)
         })
 

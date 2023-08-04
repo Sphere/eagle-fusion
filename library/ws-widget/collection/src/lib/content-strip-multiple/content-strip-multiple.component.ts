@@ -683,8 +683,8 @@ export class ContentStripMultipleComponent extends WidgetBaseComponent
         contentTags: strip.stripConfig && strip.stripConfig.contentTags,
         badges: {
           orgIcon: strip.stripConfig!.cardSubType === 'card-badges' ? true : false,
-          certification: strip.stripConfig!.cardSubType === 'card-badges' ? true : false
-        }
+          certification: strip.stripConfig!.cardSubType === 'card-badges' ? true : false,
+        },
       },
     }))
   }

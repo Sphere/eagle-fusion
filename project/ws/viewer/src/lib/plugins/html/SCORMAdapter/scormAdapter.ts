@@ -5,7 +5,7 @@ import { errorCodes } from './errors'
 // import _ from 'lodash'
 import { HttpBackend, HttpClient } from '@angular/common/http'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, TelemetryService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import * as dayjs from 'dayjs'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { Subscription } from 'rxjs'
@@ -25,6 +25,8 @@ const API_END_POINTS = {
 })
 export class SCORMAdapterService {
   id = ''
+  name = ''
+  parent = ''
   scromSubscription: Subscription | null = null
   constructor(
     private store: Storage,
@@ -35,6 +37,7 @@ export class SCORMAdapterService {
     private viewerDataSvc: ViewerDataService,
     private router: Router,
     private contentSvc: WidgetContentService,
+    private telemetrySvc: TelemetryService
   ) {
     this.http = new HttpClient(handler)
   }
@@ -46,6 +49,21 @@ export class SCORMAdapterService {
 
   get contentId() {
     return this.id
+  }
+
+  set htmlName(name: string) {
+    this.name = name
+  }
+
+  get htmlName() {
+    return this.name
+  }
+  set parentName(parent: string) {
+    this.parent = parent
+  }
+
+  get parentName() {
+    return this.parent
   }
 
   LMSInitialize() {
@@ -132,6 +150,8 @@ export class SCORMAdapterService {
           let result = await response.result
           result["type"] = 'scorm'
           this.contentSvc.changeMessage(result)
+
+
           if (this.getPercentage(data) === 100) {
             this.viewerDataSvc.scromChangeSubject.next(
               {
@@ -144,6 +164,19 @@ export class SCORMAdapterService {
             setTimeout(() => {
               this.LMSFinish()
             })
+            if (data) {
+              const data1: any = {
+                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+                  this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
+                contentId: this.contentId,
+                name: this.htmlName,
+                moduleId: this.parent,
+                duration: data["cmi.core.session_time"]
+              }
+              this.telemetrySvc.end('youtube', 'youtube-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+                this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data1)
+            }
+
           }
           if (response) {
             _return = true

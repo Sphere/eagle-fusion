@@ -813,7 +813,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-      {
+                                   {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -863,8 +863,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private constructReq(form: any) {
     const userid = this.userProfileData.userId || this.userProfileData.id || ''
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
     const profileReq = {
       id: userid,
       userId: userid,
@@ -1421,8 +1421,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.configSvc.userProfileV2) {
         let user: any
         const userid = this.configSvc.userProfileV2.userId
-        let userAgent = this.UserAgentResolverService.getUserAgent()
-        let userCookie = this.UserAgentResolverService.generateCookie()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const userCookie = this.UserAgentResolverService.generateCookie()
 
         this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
           user = data
@@ -1432,7 +1432,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             },
             osName: userAgent.OS,
             browserName: userAgent.browserName,
-            userCookie: userCookie,
+            userCookie,
           }
           const userdata = Object.assign(user['profileDetails'], obj)
           // this.chosenLanguage = path.value

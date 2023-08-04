@@ -54,8 +54,8 @@ export class MobileAboutPopupComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
@@ -67,7 +67,7 @@ export class MobileAboutPopupComponent implements OnInit {
     //     language: this.langdata.profileDetails!.preferences!.language === 'en' ? 'en' : 'hi',
     //   }
     // }
-    //profileRequest = Object.assign(profileRequest, obj)
+    // profileRequest = Object.assign(profileRequest, obj)
 
     const reqUpdate = {
       request: {

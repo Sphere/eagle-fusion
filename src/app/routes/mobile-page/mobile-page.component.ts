@@ -59,14 +59,14 @@ export class MobilePageComponent implements OnInit {
     })
     forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
     await this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
-      console.log("res", res)
+      console.log('res', res)
       this.homeFeature = res[0].userLoggedInSection
       this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
       this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
       if (res[0].result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(res[0])
         this.formatFeaturedCourseResponse(res[0])
-        console.log("this.formatTopCertifiedCourseResponse", this.featuredCourse)
+        // console.log('this.formatTopCertifiedCourseResponse', this.featuredCourse)
       }
     })
   }
@@ -91,8 +91,6 @@ export class MobilePageComponent implements OnInit {
     })
 
     this.featuredCourse = uniqBy(featuredCourse, 'identifier')
-
-
 
   }
 

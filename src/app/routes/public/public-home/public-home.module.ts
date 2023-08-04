@@ -26,7 +26,7 @@ import { MobileTestimonialsComponent } from '../../../routes/mobile-testimonials
 import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
 import { MobileHowDoesWorkComponent } from '../../mobile-how-does-work/mobile-how-does-work.component'
 import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
-//import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
+// import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 import { PublicTocComponent } from '../public-toc/public-toc.component'
 import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner.component'
 import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-overview.component'
@@ -46,13 +46,13 @@ import { WebHomeComponent } from '../../../routes/web-home/web-home.component'
     MobileCourseViewComponent,
     MobileHowDoesWorkComponent,
     MobileOrganizationComponent,
-    //MobileLeaderboardComponent,
+    // MobileLeaderboardComponent,
     PublicTocComponent,
     PublicTocBannerComponent,
     PublicTocOverviewComponent,
     PublicLicenseComponent,
     KeycloakCallbackComponent,
-    WebHomeComponent
+    WebHomeComponent,
 
   ],
   imports: [

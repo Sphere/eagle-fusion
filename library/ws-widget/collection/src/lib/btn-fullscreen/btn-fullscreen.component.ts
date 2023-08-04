@@ -5,7 +5,7 @@ import {
   getFullScreenElement,
   requestExitFullScreen,
   requestFullScreen,
-  //hasFullScreenSupport,
+  // hasFullScreenSupport,
 } from './fullscreen.util'
 
 @Component({
@@ -21,7 +21,7 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   // isFullScreenSupported = true
   isInFs = false
   fsChangeSubs: Subscription | null = null
-  //isFullScreenSupported: boolean | undefined
+  // isFullScreenSupported: boolean | undefined
 
   ngOnInit() {
     if (!this.widgetData.fsContainer) {
@@ -32,7 +32,7 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
       this.isInFs = Boolean(getFullScreenElement())
       this.fsState.emit(this.isInFs)
     })
-    //this.isFullScreenSupported = hasFullScreenSupport(this.widgetData.fsContainer)
+    // this.isFullScreenSupported = hasFullScreenSupport(this.widgetData.fsContainer)
   }
 
   ngOnDestroy() {

@@ -50,7 +50,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+    },                                                   {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -89,7 +89,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+    },                                                   {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -176,7 +176,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                  err => {
           console.log(err)
           if (localStorage.getItem(`preferedLanguage`)) {
             const reqObj = localStorage.getItem(`preferedLanguage`) || ''
@@ -233,7 +233,7 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-        err => {
+                                                                   err => {
           if (localStorage.getItem(`preferedLanguage`)) {
             const reqObj = localStorage.getItem(`preferedLanguage`) || ''
             const lang = JSON.parse(reqObj) || ''
@@ -274,21 +274,21 @@ export class CreateAccountComponent implements OnInit {
     //   "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""]
     // }
     // const userInfo = Object.assign(userdata, obj2)
-    //console.log(userInfo)
-    let obj3 = {
-      "FormInfoDetails": {
-        "FormId": 7,
-        "OTPFormId": 0,
-        "FormType": 1,
-        "BannerId": 0,
-        "RedirectUrl": "",
-        "Name": "",
-        "EmailId": ""
+    // console.log(userInfo)
+    const obj3 = {
+      FormInfoDetails: {
+        FormId: 7,
+        OTPFormId: 0,
+        FormType: 1,
+        BannerId: 0,
+        RedirectUrl: '',
+        Name: '',
+        EmailId: '',
       },
-      "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""],
-      "MainVisitorDetails": userdata
+      answerDetails: [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === 'email' ? form.value.emailOrMobile.trim() : '', this.emailPhoneType === 'phone' ? form.value.emailOrMobile.trim() : ''],
+      MainVisitorDetails: userdata,
     }
-    //const data = Object.assign(obj3, userInfo)
+    // const data = Object.assign(obj3, userInfo)
     console.log(obj3)
     // this.signupService.plumb5SendEvent(userInfo).subscribe((res: any) => {
     //   // @ts-ignore: Unreachable code error
