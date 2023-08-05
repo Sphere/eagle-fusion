@@ -90,7 +90,10 @@
   margin-top: 15px;
 }
 @media only screen and (max-width: 600px) {
-.searchHeading {
+.withFilter {
   margin-top: 90px;
+}
+.withoutFilter{
+  margin-top:10px;
 }
 }

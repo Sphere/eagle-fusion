@@ -95,9 +95,13 @@ export class WorkInfoEditComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const userAgent = this.UserAgentResolverService.getUserAgent()
-    const userCookie = this.UserAgentResolverService.generateCookie()
-    const profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
+    let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    const obj = {
+      personalDetails: profileRequest.profileReq.personalDetails
+    }
+    profileRequest = Object.assign(profileRequest, obj)
 
     const reqUpdate = {
       request: {

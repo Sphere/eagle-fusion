@@ -6,7 +6,7 @@
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
-    <div role="link" tabindex="0" class="searchHeading">
+    <div role="link" tabindex="0" [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
       <span *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
       <span *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.content.length }} </span>
       <p class="text-xl" *ngIf="(isXSmall$ | async) === true" i18n>All Courses</p>

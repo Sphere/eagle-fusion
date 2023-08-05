@@ -19,11 +19,11 @@ export class MobileAboutPopupComponent implements OnInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   langdata!: any
   constructor(public dialogRef: MatDialogRef<MobileAboutPopupComponent>,
-              private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private matSnackBar: MatSnackBar,
-              private UserAgentResolverService: UserAgentResolverService,
-              @Inject(MAT_DIALOG_DATA) public data: any
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private matSnackBar: MatSnackBar,
+    private UserAgentResolverService: UserAgentResolverService,
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {
     this.aboutForm = new FormGroup({
       about: new FormControl('', [Validators.required, Validators.maxLength(500)]),
@@ -57,7 +57,11 @@ export class MobileAboutPopupComponent implements OnInit {
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
 
-    const profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    const obj = {
+      personalDetails: profileRequest.profileReq.personalDetails
+    }
+    profileRequest = Object.assign(profileRequest, obj)
     // const obj = {
     //   preferences: {
     //     language: this.langdata.profileDetails!.preferences!.language === 'en' ? 'en' : 'hi',

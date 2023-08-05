@@ -34,12 +34,12 @@ export class ProfileSelectComponent implements OnInit {
   ]
 
   constructor(public dialogRef: MatDialogRef<ProfileSelectComponent>,
-              private snackBar: MatSnackBar,
-              private userProfileSvc: UserProfileService,
-              private configSvc: ConfigurationsService,
-              private dialog: MatDialog,
-              private loader: LoaderService,
-              private UserAgentResolverService: UserAgentResolverService,
+    private snackBar: MatSnackBar,
+    private userProfileSvc: UserProfileService,
+    private configSvc: ConfigurationsService,
+    private dialog: MatDialog,
+    private loader: LoaderService,
+    private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.createUserForm = new FormGroup({
       photo: new FormControl('', []),
@@ -135,10 +135,13 @@ export class ProfileSelectComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const userAgent = this.UserAgentResolverService.getUserAgent()
-    const userCookie = this.UserAgentResolverService.generateCookie()
-    const profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
-
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    const obj = {
+      personalDetails: profileRequest.profileReq.personalDetails
+    }
+    profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userID,

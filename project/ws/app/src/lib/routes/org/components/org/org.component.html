@@ -23,7 +23,7 @@
   </div>
 
 
-  <div class="org-body ">
+  <div [ngClass]="{'mt-5': currentOrgData?.sourceName === 'Indian Nursing Council','org-body': true}">
     <p class="org-name mb-0">
       {{currentOrgData.sourceName}}
     </p>

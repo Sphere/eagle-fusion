@@ -54,8 +54,8 @@ export class EducationEditComponent implements OnInit {
       },
     ]
     this.educationForm.controls['courseName'].valueChanges.subscribe(selectedValue => {
-        this.cName = selectedValue
-      }
+      this.cName = selectedValue
+    }
     )
   }
 
@@ -109,8 +109,11 @@ export class EducationEditComponent implements OnInit {
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
 
-    const profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
-
+    let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    const obj = {
+      personalDetails: profileRequest.profileReq.personalDetails
+    }
+    profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userID,
