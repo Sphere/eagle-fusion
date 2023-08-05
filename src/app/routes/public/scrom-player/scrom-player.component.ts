@@ -1,4 +1,4 @@
-import { Component, OnInit, AfterViewInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapter.service'
@@ -12,7 +12,7 @@ import { TelemetryService } from '../../../../../library/ws-widget/utils/src/lib
 export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   iframeUrl: any
   isLandscapeModeEnforced = false
-
+  @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
   constructor(
     public route: ActivatedRoute,
     private domSanitizer: DomSanitizer,
@@ -57,7 +57,6 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-
   }
 
   ngOnDestroy() {

@@ -94,6 +94,19 @@ export class MobileScromAdapterService {
     this.store.setItem(element, value)
     return this.store.getItem(element)
   }
+  postCordovaMessage() {
+    const message = { action: 'close' }
+
+    if (!window.webkit || !window.webkit.messageHandlers || !window.webkit.messageHandlers.cordova_iab) {
+      console.warn('Cordova IAB postMessage API not found!')
+      throw new Error('Cordova IAB postMessage API not found!')
+    } else {
+      console.log('Message sent!');
+      (window.webkit.messageHandlers.cordova_iab as any).postMessage(JSON.stringify(message))
+    }
+  }
+
+
   LMSCommit() {
     console.log("lms commit")
     let data = this.store.getAll()
@@ -107,7 +120,7 @@ export class MobileScromAdapterService {
           let result = await response.result
           result["type"] = 'scorm'
           if (this.getPercentage(data) === 100) {
-            window.parent.postMessage({ lmsFinishResult: this.getPercentage(data) }, '*')
+            this.postCordovaMessage()
             setTimeout(() => {
               this.LMSFinish()
             })
