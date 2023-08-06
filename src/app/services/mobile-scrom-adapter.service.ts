@@ -94,14 +94,14 @@ export class MobileScromAdapterService {
     this.store.setItem(element, value)
     return this.store.getItem(element)
   }
-  postCordovaMessage() {
-    const message = { action: 'close' }
+  postCordovaMessage(data?: any) {
+    const message = { action: 'close', percentage: data }
 
     if (!window.webkit || !window.webkit.messageHandlers || !window.webkit.messageHandlers.cordova_iab) {
       console.warn('Cordova IAB postMessage API not found!')
       throw new Error('Cordova IAB postMessage API not found!')
     } else {
-      console.log('Message sent!');
+      console.log('Message sent!', message);
       (window.webkit.messageHandlers.cordova_iab as any).postMessage(JSON.stringify(message))
     }
   }
@@ -120,7 +120,7 @@ export class MobileScromAdapterService {
           let result = await response.result
           result["type"] = 'scorm'
           if (this.getPercentage(data) === 100) {
-            this.postCordovaMessage()
+            this.postCordovaMessage(this.getPercentage(data))
             setTimeout(() => {
               this.LMSFinish()
             })
