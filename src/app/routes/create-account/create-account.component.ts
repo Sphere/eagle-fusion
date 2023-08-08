@@ -52,7 +52,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   {})
+    }, {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -91,7 +91,7 @@ export class CreateAccountComponent implements OnInit {
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    },                                                   {})
+    }, {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -155,9 +155,8 @@ export class CreateAccountComponent implements OnInit {
         console.log(res)
         console.log(res.status)
         if (res.status_code === 200) {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
               if (res.msg === 'user created successfully') {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
@@ -179,11 +178,10 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                  err => {
+        err => {
           console.log(err)
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
               if (err.error.msg === 'Email id  already exists.') {
                 const err = 'ईमेल आईडी पहले से मौजूद है।'
@@ -211,9 +209,8 @@ export class CreateAccountComponent implements OnInit {
 
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
         if (res.status === 'success') {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
               if (res.msg === 'user created successfully') {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
@@ -236,10 +233,9 @@ export class CreateAccountComponent implements OnInit {
           this.openSnackbar(res.msg)
         }
       },
-                                                                   err => {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+        err => {
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
               if (err.error.msg === 'Email id  already exists.') {
                 const err = 'ईमेल आईडी पहले से मौजूद है।'
