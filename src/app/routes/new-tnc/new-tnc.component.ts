@@ -260,18 +260,17 @@ export class NewTncComponent implements OnInit, OnDestroy {
         let data: any
         data = localStorage.getItem('preferedLanguage')
         this.lang = JSON.parse(data)
-        this.lang = this.lang.id !== 'en' ? this.lang.id : ''
-        // Obj = {
-        //   preferences: {
-        //     language: this.lang,
-        //   },
-        // }
+        this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
+        Obj = {
+          preferences: {
+            language: this.lang,
+          },
+        }
       } else {
-        this.lang = ''
+        this.lang = 'en'
       }
-
       /* this changes for ebhyass*/
-      if (this.userData.tcStatus === 'false') {
+      if (this.userData!.tcStatus === 'false') {
         const reqUpdate = {
           request: {
             userId: this.userId,
@@ -284,6 +283,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
       } else {
         let profileRequest = this.constructReq(this.createUserForm)
         const obj = {
+          preferences: {
+            language: this.lang,
+          },
           personalDetails: profileRequest.profileReq.personalDetails
         }
         profileRequest = Object.assign(profileRequest, obj)
@@ -321,7 +323,12 @@ export class NewTncComponent implements OnInit, OnDestroy {
                   // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
                 } else {
                   const url = `page/home`
-                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  if (this.lang === 'en') {
+                    window.location.assign(`${location.origin}/${url}`)
+                  } else {
+                    window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  }
+
                 }
               } else {
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {

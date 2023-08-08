@@ -180,10 +180,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
             console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
-            if (data.profileDetails.profileReq.personalDetails.dob) {
-
-              this.updateForm()
-            }
+            this.updateForm()
             if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences!.language === 'hi') {
               this.personalDetailForm.patchValue({
                 knownLanguage: 'हिंदी',
@@ -291,7 +288,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   updateForm() {
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
-      console.log(data.professionalDetails[0], 'o')
+      // console.log(data.professionalDetails[0], 'o')
       // this.profileUserName = `${data.personalDetails.firstname} `
       // if (data.personalDetails.middlename) {
       //   this.profileUserName += `${data.personalDetails.middlename} `
@@ -310,7 +307,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           // userName: this.profileUserName,
           firstname: data.personalDetails.firstname,
           surname: data.personalDetails.surname,
-          dob: this.getDateFromText(data.personalDetails.dob),
+          dob: data.personalDetails.dob ? this.getDateFromText(data.personalDetails.dob) : '',
           regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
           nationality: data.personalDetails.nationality,
           domicileMedium: data.personalDetails.domicileMedium,
@@ -341,7 +338,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       }
     }
 
-    this.loadDob = true
+    this.loadDob = this.userProfileData.personalDetails.dob ? true : false
   }
 
   private getDateFromText(dateString: string): any {
