@@ -120,9 +120,9 @@ export class MobileScromAdapterService {
           let result = await response.result
           result["type"] = 'scorm'
           if (this.getPercentage(data) === 100) {
-            this.postCordovaMessage(this.getPercentage(data))
             setTimeout(() => {
               this.LMSFinish()
+              this.postCordovaMessage(this.getPercentage(data))
             })
           }
           if (response) {
