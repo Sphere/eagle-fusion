@@ -124,8 +124,10 @@ export class MobileScromAdapterService {
           if (this.getPercentage(data) === 100) {
             setTimeout(() => {
               this.LMSFinish()
-              this.postCordovaMessage(this.getPercentage(data))
             })
+            setTimeout(() => {
+              this.postCordovaMessage(this.getPercentage(data))
+            }, 4000)
           }
           return !!response
         },
@@ -138,9 +140,9 @@ export class MobileScromAdapterService {
       )
       return false
     } else {
-      this.updateScromProgress(data).subscribe((res) => {
-        console.log(res)
-      })
+      // this.updateScromProgress(data).subscribe((res) => {
+      //   console.log(res)
+      // })
     }
     return false
   }
@@ -249,7 +251,8 @@ export class MobileScromAdapterService {
 
   updateScromProgress(postData: any) {
     let req: any
-    if (postData && (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed')) {
+    if (postData && (postData["cmi.core.lesson_status"] === 'completed' ||
+      postData["cmi.core.lesson_status"] === 'passed' || postData["cmi.core.lesson_status"] === 'incomplete')) {
       req = {
         request: {
           userId: this.getProperty('userId') || '',
