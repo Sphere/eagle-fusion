@@ -109,15 +109,17 @@ export class MobileScromAdapterService {
 
   LMSCommit() {
     console.log("lms commit")
-    let data = this.store.getAll()
+    const data = this.store.getAll()
     console.log(data)
-    let _return = false
-    if (data) {
-      delete data['errors']
-      if ((data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed')) {
-        this.scromSubscription = this.updateScromProgress(data).subscribe(async (response: any) => {
+    if (!data) {
+      return false
+    }
+    delete data['errors']
+    if (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed') {
+      this.scromSubscription = this.updateScromProgress(data).subscribe(
+        async (response: any) => {
           console.log(response)
-          let result = await response.result
+          const result = await response.result
           result["type"] = 'scorm'
           if (this.getPercentage(data) === 100) {
             setTimeout(() => {
@@ -125,23 +127,24 @@ export class MobileScromAdapterService {
               this.postCordovaMessage(this.getPercentage(data))
             })
           }
-          if (response) {
-            _return = true
-          }
-
-        }, (error) => {
+          return !!response
+        },
+        (error) => {
           if (error) {
             this._setError(101)
             // console.log(error)
           }
-        })
-
-        return _return
-      }
-
+        }
+      )
+      return false
+    } else {
+      this.updateScromProgress(data).subscribe((res) => {
+        console.log(res)
+      })
     }
     return false
   }
+
   LMSGetLastError() {
     const newErrors = JSON.parse(this.store.getItem('errors') || '[]')
     if (newErrors && newErrors.length > 0) {
