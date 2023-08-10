@@ -12,7 +12,7 @@ import { GeneralGuard } from './guards/general.guard'
 import { LoginGuard } from './guards/login.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
-//import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
+// import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
@@ -34,7 +34,7 @@ import { YourLocationComponent as AboutYou } from './routes/your-location/your-l
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
-//import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+// import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
@@ -49,6 +49,7 @@ import { SelfAssessmentComponent } from './routes/self-assessment/self-assessmen
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/competency-web/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
+import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
@@ -479,6 +480,10 @@ const routes: Routes = [
     path: 'public/faq/:tab',
     component: PublicFaqComponent,
   },
+  {
+    path: 'public/scrom-player',
+    component: ScromPlayerComponent,
+  },
   { path: 'resources', redirectTo: 'page/home', pathMatch: 'full' },
   {
     path: 'viewer',
@@ -517,7 +522,5 @@ export class AppRoutingModule {
   constructor() {
 
   }
-
-
 
 }

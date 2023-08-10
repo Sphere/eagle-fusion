@@ -25,7 +25,7 @@ export class WebNavLinkPageComponent implements OnInit {
         linkName: 'Account',
         title: 'Account',
         url: '/app/profile-view',
-      }
+      },
     ]
   }
 

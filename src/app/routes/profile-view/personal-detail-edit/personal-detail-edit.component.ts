@@ -58,13 +58,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   loadDob = false
   showDesignation = false
   constructor(private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private router: Router,
-    private matSnackBar: MatSnackBar,
-    public dialog: MatDialog,
-    private valueSvc: ValueService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private UserAgentResolverService: UserAgentResolverService,
+              private userProfileSvc: UserProfileService,
+              private router: Router,
+              private matSnackBar: MatSnackBar,
+              public dialog: MatDialog,
+              private valueSvc: ValueService,
+              private readonly changeDetectorRef: ChangeDetectorRef,
+              private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.personalDetailForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
@@ -180,10 +180,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
             console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
-            if (data.profileDetails.profileReq.personalDetails.dob) {
-
-              this.updateForm()
-            }
+            this.updateForm()
             if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences!.language === 'hi') {
               this.personalDetailForm.patchValue({
                 knownLanguage: 'हिंदी',
@@ -291,7 +288,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   updateForm() {
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
-      console.log(data.professionalDetails[0], 'o')
+      // console.log(data.professionalDetails[0], 'o')
       // this.profileUserName = `${data.personalDetails.firstname} `
       // if (data.personalDetails.middlename) {
       //   this.profileUserName += `${data.personalDetails.middlename} `
@@ -310,7 +307,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           // userName: this.profileUserName,
           firstname: data.personalDetails.firstname,
           surname: data.personalDetails.surname,
-          dob: this.getDateFromText(data.personalDetails.dob),
+          dob: data.personalDetails.dob ? this.getDateFromText(data.personalDetails.dob) : '',
           regNurseRegMidwifeNumber: data.personalDetails.regNurseRegMidwifeNumber,
           nationality: data.personalDetails.nationality,
           domicileMedium: data.personalDetails.domicileMedium,
@@ -341,7 +338,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       }
     }
 
-    this.loadDob = true
+    this.loadDob = this.userProfileData.personalDetails.dob ? true : false
   }
 
   private getDateFromText(dateString: string): any {
@@ -389,14 +386,14 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
       preferences: {
         language: this.personalDetailForm.controls.knownLanguage.value === 'English' ? 'en' : 'hi',
       },
-      personalDetails: profileRequest.profileReq.personalDetails
+      personalDetails: profileRequest.profileReq.personalDetails,
       // osName: userAgent.OS,
       // browserName: userAgent.browserName,
       // userCookie: userCookie,
@@ -441,8 +438,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         if (this.configSvc.userProfileV2) {
           let user: any
           const userid = this.configSvc.userProfileV2.userId
-          let userAgent = this.UserAgentResolverService.getUserAgent()
-          let userCookie = this.UserAgentResolverService.generateCookie()
+          const userAgent = this.UserAgentResolverService.getUserAgent()
+          const userCookie = this.UserAgentResolverService.generateCookie()
           this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
             user = data
             const obj = {
@@ -451,7 +448,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
               },
               osName: userAgent.OS,
               browserName: userAgent.browserName,
-              userCookie: userCookie,
+              userCookie,
             }
             const userdata = Object.assign(user['profileDetails'], obj)
             // this.chosenLanguage = path.value

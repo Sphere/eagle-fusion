@@ -102,7 +102,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       regNurseRegMidwifeNumber: new FormControl('', []),
       osName: new FormControl('', []),
       browserName: new FormControl('', []),
-      userCookie: new FormControl('', [])
+      userCookie: new FormControl('', []),
     })
   }
 
@@ -235,16 +235,16 @@ export class NewTncComponent implements OnInit, OnDestroy {
       const params = {}
 
       paramMap.keys.forEach((key: any) => {
-        var paramValue = paramMap.get(key)
+        const paramValue = paramMap.get(key)
         params[key] = paramValue
       })
 
       // this.paramsJSON = JSON.stringify(params)
 
       this.createUserForm.controls.tncAccepted.setValue('true')
-      let userAgent = this.UserAgentResolverService.getUserAgent()
-      let userCookie = this.UserAgentResolverService.generateCookie()
-      console.log("userCookie: ", userCookie)
+      const userAgent = this.UserAgentResolverService.getUserAgent()
+      const userCookie = this.UserAgentResolverService.generateCookie()
+      console.log('userCookie: ', userCookie)
       if (this.configSvc.userProfile) {
         this.userId = this.configSvc.userProfile.userId || ''
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
@@ -260,18 +260,17 @@ export class NewTncComponent implements OnInit, OnDestroy {
         let data: any
         data = localStorage.getItem('preferedLanguage')
         this.lang = JSON.parse(data)
-        this.lang = this.lang.id !== 'en' ? this.lang.id : ''
-        // Obj = {
-        //   preferences: {
-        //     language: this.lang,
-        //   },
-        // }
+        this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
+        Obj = {
+          preferences: {
+            language: this.lang,
+          },
+        }
       } else {
-        this.lang = ''
+        this.lang = 'en'
       }
-
       /* this changes for ebhyass*/
-      if (this.userData.tcStatus === 'false') {
+      if (this.userData!.tcStatus === 'false') {
         const reqUpdate = {
           request: {
             userId: this.userId,
@@ -284,6 +283,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
       } else {
         let profileRequest = this.constructReq(this.createUserForm)
         const obj = {
+          preferences: {
+            language: this.lang,
+          },
           personalDetails: profileRequest.profileReq.personalDetails
         }
         profileRequest = Object.assign(profileRequest, obj)
@@ -303,7 +305,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
   updateUser(reqUpdate: any) {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
-      let res = await data
+      const res = await data
       console.log(res.result.response)
       if (res.result.response === 'SUCCESS') {
         this.configSvc.profileDetailsStatus = true
@@ -316,12 +318,17 @@ export class NewTncComponent implements OnInit, OnDestroy {
               if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  //const url = `app/about-you`
+                  // const url = `app/about-you`
                   this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-                  //window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
+                  // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
                 } else {
                   const url = `page/home`
-                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  if (this.lang === 'en') {
+                    window.location.assign(`${location.origin}/${url}`)
+                  } else {
+                    window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  }
+
                 }
               } else {
                 if (userDetails.profileDetails.profileReq.personalDetails.dob) {
@@ -338,7 +345,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         }
       }
     },
-      (err: any) => {
+                                                                  (err: any) => {
         this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
         // TO DO: Telemetry event for failure
         this.errorInAccepting = true

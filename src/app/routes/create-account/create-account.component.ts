@@ -34,6 +34,8 @@ export class CreateAccountComponent implements OnInit {
   iconChange2 = 'fas fa-eye-slash'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
+  timerSubscription: any
+  emailDelaid = false
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -103,10 +105,11 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (localStorage.getItem(`preferedLanguage`)) {
+    if (localStorage.getItem(`preferedLanguage`) && location.href.includes('/hi/')) {
       const reqObj = localStorage.getItem(`preferedLanguage`) || ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
+    this.emailOrMobileValueChange()
   }
 
   onSubmit(form: any) {
@@ -152,9 +155,8 @@ export class CreateAccountComponent implements OnInit {
         console.log(res)
         console.log(res.status)
         if (res.status_code === 200) {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
               if (res.msg === 'user created successfully') {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
@@ -178,9 +180,8 @@ export class CreateAccountComponent implements OnInit {
       },
         err => {
           console.log(err)
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
               if (err.error.msg === 'Email id  already exists.') {
                 const err = 'ईमेल आईडी पहले से मौजूद है।'
@@ -208,9 +209,8 @@ export class CreateAccountComponent implements OnInit {
 
       this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
         if (res.status === 'success') {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
               if (res.msg === 'user created successfully') {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
@@ -234,9 +234,8 @@ export class CreateAccountComponent implements OnInit {
         }
       },
         err => {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
               if (err.error.msg === 'Email id  already exists.') {
                 const err = 'ईमेल आईडी पहले से मौजूद है।'
@@ -274,21 +273,21 @@ export class CreateAccountComponent implements OnInit {
     //   "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""]
     // }
     // const userInfo = Object.assign(userdata, obj2)
-    //console.log(userInfo)
-    let obj3 = {
-      "FormInfoDetails": {
-        "FormId": 7,
-        "OTPFormId": 0,
-        "FormType": 1,
-        "BannerId": 0,
-        "RedirectUrl": "",
-        "Name": "",
-        "EmailId": ""
+    // console.log(userInfo)
+    const obj3 = {
+      FormInfoDetails: {
+        FormId: 7,
+        OTPFormId: 0,
+        FormType: 1,
+        BannerId: 0,
+        RedirectUrl: '',
+        Name: '',
+        EmailId: '',
       },
-      "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""],
-      "MainVisitorDetails": userdata
+      answerDetails: [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === 'email' ? form.value.emailOrMobile.trim() : '', this.emailPhoneType === 'phone' ? form.value.emailOrMobile.trim() : ''],
+      MainVisitorDetails: userdata,
     }
-    //const data = Object.assign(obj3, userInfo)
+    // const data = Object.assign(obj3, userInfo)
     console.log(obj3)
     // this.signupService.plumb5SendEvent(userInfo).subscribe((res: any) => {
     //   // @ts-ignore: Unreachable code error
@@ -339,5 +338,34 @@ export class CreateAccountComponent implements OnInit {
         }
       }
     })
+  }
+
+  emailOrMobileValueChange() {
+    this.createAccountForm.get('emailOrMobile')!.valueChanges
+      .subscribe(() => {
+        this.emailDelaid = true
+        if (this.timerSubscription) {
+          clearTimeout(this.timerSubscription)
+          this.timerSubscription = null
+        }
+        this.timerSubscription = setTimeout(() => {
+          this.emailDelaid = false
+        }, 3000)
+      })
+  }
+
+  get emailOrMobileErrorStatus() {
+    let errorType = ''
+    const controll = this.createAccountForm.get('emailOrMobile')
+    if (controll!.valid) {
+      return errorType
+    } else if (!this.emailDelaid) {
+      if (controll!.hasError('required') && (controll!.dirty || controll!.touched)) {
+        errorType = 'required'
+      } else if (controll!.hasError('pattern')) {
+        errorType = 'pattern'
+      }
+    }
+    return errorType
   }
 }

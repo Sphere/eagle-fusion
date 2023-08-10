@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, SimpleChanges, OnChanges } from '@angular/core'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
-//import { NsGoal } from '@ws-widget/collection/src/public-api'
-//import { PersonProfileService } from '../../services/person-profile.service'
+// import { NsGoal } from '@ws-widget/collection/src/public-api'
+// import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
   selector: 'ws-app-user-goals',
@@ -10,13 +10,13 @@ import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 })
 export class UserGoalsComponent implements OnInit, OnChanges {
   @Input() wid = ''
-  //userGoals: NsGoal.IUserGoals | null = null
+  // userGoals: NsGoal.IUserGoals | null = null
   fetchGoalsStatus: TFetchStatus = 'none'
   suggestionsLimit = 4
   isInitialized = false
 
   constructor(
-    //private personProfileSvc: PersonProfileService
+    // private personProfileSvc: PersonProfileService
   ) { }
 
   ngOnInit() {

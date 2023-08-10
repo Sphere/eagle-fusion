@@ -38,22 +38,22 @@ export class MobileDashboardComponent implements OnInit {
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
-  //languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  // languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
 
   constructor(private orgService: OrgServiceService,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private userSvc: WidgetUserService,
-    private router: Router,
-    private http: HttpClient,
-    public dialog: MatDialog,
-    private sanitizer: DomSanitizer,
-    private scrollService: ScrollService,
-    private CompetencyConfiService: CompetencyConfiService,
-    private contentSvc: WidgetContentService,
-    private UserAgentResolverService: UserAgentResolverService,
+              private configSvc: ConfigurationsService,
+              private userProfileSvc: UserProfileService,
+              private userSvc: WidgetUserService,
+              private router: Router,
+              private http: HttpClient,
+              public dialog: MatDialog,
+              private sanitizer: DomSanitizer,
+              private scrollService: ScrollService,
+              private CompetencyConfiService: CompetencyConfiService,
+              private contentSvc: WidgetContentService,
+              private UserAgentResolverService: UserAgentResolverService,
 
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -148,7 +148,7 @@ export class MobileDashboardComponent implements OnInit {
       result['competencies_v1'] = value.competencies_v1
       return result
 
-    }, {})
+    },                           {})
   }
 
   formatTopCertifiedCourseResponse(res: any) {
@@ -216,8 +216,8 @@ export class MobileDashboardComponent implements OnInit {
       const lang = result.id === 'hi' ? result.id : 'en'
       let user: any
       const userid = this.configSvc.userProfileV2!.userId
-      let userAgent = this.UserAgentResolverService.getUserAgent()
-      let userCookie = this.UserAgentResolverService.generateCookie()
+      const userAgent = this.UserAgentResolverService.getUserAgent()
+      const userCookie = this.UserAgentResolverService.generateCookie()
 
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
         user = data
@@ -227,7 +227,7 @@ export class MobileDashboardComponent implements OnInit {
           },
           osName: userAgent.OS,
           browserName: userAgent.browserName,
-          userCookie: userCookie,
+          userCookie,
         }
         const userdata = Object.assign(user['profileDetails'], obj)
         const reqUpdate = {

@@ -266,11 +266,11 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               this.viewerSvc
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
 
-                  let result = data.result
-                  result["type"] = 'Video'
+                  const result = data.result
+                  result['type'] = 'Video'
                   this.contentSvc.changeMessage(result)
                 })
-              //this.contentSvc.changeMessage('Video')
+              // this.contentSvc.changeMessage('Video')
             }
           }
           if (this.contentData === undefined && percent > 95) {
@@ -287,11 +287,11 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             this.viewerSvc
               .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
 
-                let result = data.result
-                result["type"] = 'Video'
+                const result = data.result
+                result['type'] = 'Video'
                 this.contentSvc.changeMessage(result)
               })
-            //this.contentSvc.changeMessage('Video')
+            // this.contentSvc.changeMessage('Video')
           }
 
         })

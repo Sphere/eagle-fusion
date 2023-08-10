@@ -167,7 +167,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
-        if (this.currentContentType == "Video") {
+        if (this.currentContentType == 'Video') {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
             if (!isNull(nextResource)) {
@@ -223,7 +223,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          }, 500)
+          },         500)
         }
       }
 
@@ -231,10 +231,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   downloadResource(content: any) {
     const fileUrl = content.artifactUrl
-    console.log("fileUrl: ", content)
+    console.log('fileUrl: ', content)
     // Make the HTTP GET request
     this.http.get(fileUrl, {
-      responseType: 'blob' // Set the response type as blob
+      responseType: 'blob', // Set the response type as blob
     })
       .subscribe((response: Blob) => {
         // Save the file using FileSaver
@@ -280,7 +280,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.isLoading = true
         this.currentContentType = await data.type
         this.processCollectionForTree(data)
-        //this.ngOnInit()
+        // this.ngOnInit()
       }
     })
   }
@@ -320,14 +320,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    }, 300)
+    },         300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    }, 300)
+    },         300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -649,7 +649,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       mergeData(this.collection.children)
     }
-    //this.isLoading = false
+    // this.isLoading = false
     this.updateResourceChange()
   }
   private async processCollectionForTree(content?: any) {
@@ -657,7 +657,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     if (content && content.contentList) {
       console.log(content)
       await this.processData(content.contentList)
-      if (content.type === "Video" || content.type === "Scorm") {
+      if (content.type === 'Video' || content.type === 'Scorm') {
         if (this.playerStateService.isResourceCompleted()) {
           const nextResource = this.playerStateService.getNextResource()
 
@@ -755,21 +755,21 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         //   }
         // }, 2000)
       }
-      //this.nestedDataSource.data = content
-      //this.processCurrentResourceChange()
+      // this.nestedDataSource.data = content
+      // this.processCurrentResourceChange()
       // this.collection = content.contentList
-      //this.nestedDataSource = content
-      //this.updateResourceChange()
-      //this.pathSet = new Set()
+      // this.nestedDataSource = content
+      // this.updateResourceChange()
+      // this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {
       // if (this.resourceId) {
       //   of(true)
       //     .pipe(delay(200))
       //     .subscribe(() => {
-      //this.expandThePath()
-      //this.isLoading = false
-      //})
-      //}
+      // this.expandThePath()
+      // this.isLoading = false
+      // })
+      // }
     } else {
       if (this.collection && this.collection.children) {
         this.isLoading = true
@@ -891,7 +891,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           }
           this.updateResourceChange()
         },
-          (error: any) => {
+                                                                               (error: any) => {
             // tslint:disable-next-line:no-console
             console.log('CONTENT HISTORY FETCH ERROR >', error)
           },
@@ -956,7 +956,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       path.forEach((node: IViewerTocCard) => {
         this.nestedTreeControl.expand(node)
       })
-      //this.isLoading = false
+      // this.isLoading = false
     }
   }
 

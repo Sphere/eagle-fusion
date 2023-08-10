@@ -1,25 +1,25 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { AppTocCertificateModalComponent } from './app-toc-certificate-modal.component';
+import { AppTocCertificateModalComponent } from './app-toc-certificate-modal.component'
 
 describe('AppTocCertificateModalComponent', () => {
-  let component: AppTocCertificateModalComponent;
-  let fixture: ComponentFixture<AppTocCertificateModalComponent>;
+  let component: AppTocCertificateModalComponent
+  let fixture: ComponentFixture<AppTocCertificateModalComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ AppTocCertificateModalComponent ]
+      declarations: [AppTocCertificateModalComponent],
     })
-    .compileComponents();
-  }));
+    .compileComponents()
+  }))
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AppTocCertificateModalComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    fixture = TestBed.createComponent(AppTocCertificateModalComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  })
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})

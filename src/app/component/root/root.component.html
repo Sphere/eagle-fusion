@@ -33,7 +33,7 @@
   </div>
 
   <!-- Mobile Footer -->
-  <ws-mobile-footer [createAcc]="createAcc" *ngIf="(isXSmall$ | async) === true && !isLoggedIn"
+  <ws-mobile-footer [createAcc]="createAcc" *ngIf="(isXSmall$ | async) === true && !isLoggedIn && showmobileFooter"
     class="hide-in-desktop app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
   </ws-mobile-footer>
 

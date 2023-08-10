@@ -80,7 +80,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), 'identifier')
+    })),                             'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -102,7 +102,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      }, 500)
+      },         500)
     })
 
   }
@@ -110,27 +110,31 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), (result: any, value) => {
+    })),                                (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    }, [])
+    },                                  [])
     this.certificates = issuedCertificates
   }
 
   openAboutDialog() {
-    const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
-      width: '312px',
-      height: '369px',
-      data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
-    })
+    if (_.get(this.profileData, 'personalDetails.dob', false)) {
+      const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
+        width: '312px',
+        height: '369px',
+        data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
+      })
 
-    dialogRef.afterClosed().subscribe(result => {
-      // tslint:disable-next-line: no-console
-      console.log('The dialog was closed', result)
-    })
+      dialogRef.afterClosed().subscribe(result => {
+        // tslint:disable-next-line: no-console
+        console.log('The dialog was closed', result)
+      })
+    } else {
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
+    }
   }
   setAcademicDetail(data: any) {
     if (data) {
@@ -176,15 +180,23 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   eductionEdit() {
-    this.router.navigate([`app/education-list`])
+    this.navigate(`app/education-list`)
   }
 
   workInfoEdit() {
-    this.router.navigate([`app/workinfo-list`])
+    this.navigate(`app/workinfo-list`)
   }
 
   personalDetailEdit() {
-    this.router.navigate([`app/personal-detail-edit`])
+    this.navigate('app/personal-detail-edit')
+  }
+
+  navigate(navigateUrl: any) {
+    if (_.get(this.profileData, 'personalDetails.dob', false)) {
+      this.router.navigate([navigateUrl])
+    } else {
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
+    }
   }
 
   openCompetency(event: any) {

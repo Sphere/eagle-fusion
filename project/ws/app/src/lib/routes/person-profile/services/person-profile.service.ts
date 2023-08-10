@@ -3,9 +3,9 @@ import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http'
 import { Observable, BehaviorSubject } from 'rxjs'
 import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import {
-  //NsPlaylist,
-  //NsGoal,
-  NsDiscussionForum
+  // NsPlaylist,
+  // NsGoal,
+  NsDiscussionForum,
 } from '../../../../../../../../library/ws-widget/collection/src/public-api'
 import { IFollowDetails } from '../person-profile.model'
 
@@ -21,7 +21,7 @@ const API_END_POINTS = {
   getAllPlaylists: `${PROTECTED_SLAG_V8}/user/playlist`,
   getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
   // getDetails: `${PROTECTED_SLAG_V8}/user/details/detailV2`,
-  //getUserGoals:
+  // getUserGoals:
   // (type: NsGoal.EGoalTypes, sourceFields: string, wid: string) =>
   //   `/apis/protected/v8/user/goals/${type}?sourceFields=${sourceFields}&wid=${wid}`
 }

@@ -176,7 +176,6 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     })
   }
 
-
   login(key: 'E' | 'N' | 'S') {
     if (localStorage.getItem('login_url')) {
       const url: any = localStorage.getItem('login_url')
