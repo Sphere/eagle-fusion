@@ -140,9 +140,9 @@ export class MobileScromAdapterService {
       )
       return false
     } else {
-      // this.updateScromProgress(data).subscribe((res) => {
-      //   console.log(res)
-      // })
+      this.updateScromProgress(data).subscribe((res) => {
+        console.log(res)
+      })
     }
     return false
   }
