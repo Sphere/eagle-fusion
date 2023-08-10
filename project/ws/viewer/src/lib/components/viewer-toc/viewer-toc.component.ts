@@ -223,7 +223,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          },         500)
+          }, 500)
         }
       }
 
@@ -320,14 +320,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -581,7 +581,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             }
           } else {
             if (element[index + 1]) {
-              element[index + 1].disabledNode = true
+              element[index + 1].disabledNode = this.viewerDataSvc.getNode()
             }
           }
 
@@ -821,7 +821,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   }
                 } else {
                   if (element[index + 1]) {
-                    element[index + 1].disabledNode = true
+                    element[index + 1].disabledNode = this.viewerDataSvc.getNode()
                   }
                 }
 
@@ -891,7 +891,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           }
           this.updateResourceChange()
         },
-                                                                               (error: any) => {
+          (error: any) => {
             // tslint:disable-next-line:no-console
             console.log('CONTENT HISTORY FETCH ERROR >', error)
           },
