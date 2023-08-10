@@ -52,7 +52,8 @@ import { RestoreDialogComponent } from './components/restore-dialog/restore-dial
 import { UnpublishDialogComponent } from './components/unpublish-dialog/unpublish-dialog.component'
 import { ShowHideToolTipDirective } from './directives/show-hide-tool-tip.directive'
 import { StatusTrackComponent } from './components/status-track/status-track.component'
-
+import { PlayerNavigationWidgetComponent } from '../../../../../../../library/ws-widget/collection/src/lib/player-navigation-widget/player-navigation-widget.component'
+import { RouterModule } from '@angular/router'
 @NgModule({
   declarations: [
     RelativeUrlPipe,
@@ -67,6 +68,7 @@ import { StatusTrackComponent } from './components/status-track/status-track.com
     UnpublishDialogComponent,
     ShowHideToolTipDirective,
     StatusTrackComponent,
+    PlayerNavigationWidgetComponent
   ],
   imports: [
     CommonModule,
@@ -103,6 +105,7 @@ import { StatusTrackComponent } from './components/status-track/status-track.com
     MatProgressBarModule,
     // ImageCropModule,
     PipeContentRouteModule,
+    RouterModule
   ],
   exports: [
     MatIconModule,
@@ -150,6 +153,7 @@ import { StatusTrackComponent } from './components/status-track/status-track.com
     UnpublishDialogComponent,
     ShowHideToolTipDirective,
     StatusTrackComponent,
+    PlayerNavigationWidgetComponent
   ],
   providers: [
     ApiService,

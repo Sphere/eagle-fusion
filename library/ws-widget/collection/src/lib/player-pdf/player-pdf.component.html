@@ -5,47 +5,52 @@
       aria-label="previous" i18n-aria-label>
       <mat-icon>chevron_left</mat-icon>
     </button>
-    <mat-form-field class="auto-mat-form-field-input-infix">
+    <mat-form-field class="auto-mat-form-field-input-infix mb-2" #input>
       <span matPrefix i18n *ngIf="!isSmallViewPort">Page</span>
-      <input label="PageNumber" aria-label="Page Number" i18n-aria-label class="pdf-page-num" type="number" min="1"
-        [max]="totalPages" [formControl]="currentPage" matInput />
-      <span matSuffix>of {{ totalPages }}</span>
+      <input label="PageNumber" style="text-align: center;" aria-label="Page Number" i18n-aria-label
+        class="pdf-page-num" type="number" min="1" [max]="totalPages" [formControl]="currentPage" matInput />
+      <span matSuffix class="pl-2">of {{ totalPages }}</span>
     </mat-form-field>
     <button mat-icon-button [disabled]="currentPage.value >= totalPages" (click)="loadPageNum(currentPage.value + 1)"
       aria-label="next" i18n-aria-label>
       <mat-icon>chevron_right</mat-icon>
     </button>
 
-    <button mat-icon-button [disabled]="zoom.value <= MIN_SCALE" (click)="changeScale('zoomout')" aria-label="zoom out"
-      i18n-aria-label>
-      <mat-icon>zoom_out</mat-icon>
-    </button>
-    <button mat-icon-button [disabled]="zoom.value >= MAX_SCALE" (click)="changeScale('zoomin')" aria-label="zoom in"
-      i18n-aria-label>
-      <mat-icon>zoom_in</mat-icon>
-    </button>
+    <div class="flex">
+      <!-- <button mat-icon-button [disabled]="zoom.value <= MIN_SCALE" (click)="changeScale('zoomout')" aria-label="zoom out"
+        i18n-aria-label>
+        <mat-icon>zoom_out</mat-icon>
+      </button>
+      <button mat-icon-button [disabled]="zoom.value >= MAX_SCALE" (click)="changeScale('zoomin')" aria-label="zoom in"
+        i18n-aria-label>
+        <mat-icon>zoom_in</mat-icon>
+      </button> -->
 
-    <!-- <button mat-icon-button [matMenuTriggerFor]="zoomMenu" *ngIf="isSmallViewPort">
-      <mat-icon>zoom_in</mat-icon>
-    </button>
-    <mat-menu #zoomMenu="matMenu" xPosition="before" yPosition="below">
-      <div mat-menu-item>
-        <mat-slider min="0.2" max="3" step="0.05" [formControl]="zoom" tickInterval> </mat-slider>
-        {{ zoom.value }}<span>X</span>
+      <!-- <button mat-icon-button [matMenuTriggerFor]="zoomMenu" *ngIf="isSmallViewPort">
+        <mat-icon>zoom_in</mat-icon>
+      </button>
+      <mat-menu #zoomMenu="matMenu" xPosition="before" yPosition="below">
+        <div mat-menu-item>
+          <mat-slider min="0.2" max="3" step="0.05" [formControl]="zoom" tickInterval> </mat-slider>
+          {{ zoom.value }}<span>X</span>
+        </div>
+      </mat-menu>
+      <mat-slider *ngIf="!isSmallViewPort" thumbLabel min="0.2" max="3" step="0.05" [formControl]="zoom"></mat-slider> -->
+
+      <!-- <button mat-icon-button (click)="refresh()" aria-label="refresh" i18n-aria-label>
+        <mat-icon>refresh</mat-icon>
+      </button> -->
+      <div class="pdf-fullscreen">
+        <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
+          (fsState)="fullScreenState($event)" [widgetData]="{ fsContainer: fullScreenContainer }">
+        </ws-widget-btn-fullscreen>
       </div>
-    </mat-menu>
-    <mat-slider *ngIf="!isSmallViewPort" thumbLabel min="0.2" max="3" step="0.05" [formControl]="zoom"></mat-slider> -->
-
-    <!-- <button mat-icon-button (click)="refresh()" aria-label="refresh" i18n-aria-label>
-      <mat-icon>refresh</mat-icon>
-    </button> -->
-    <div class="pdf-fullscreen">
-      <ws-widget-btn-fullscreen (fsState)="fullScreenState($event)" (click)="refresh()"
-        [widgetData]="{ fsContainer: fullScreenContainer }">
-      </ws-widget-btn-fullscreen>
     </div>
   </mat-toolbar>
-  <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="pdf-page-container">
-    <div [ngClass]="{'custom-scroll-small': !isInFullScreen}" class="pl-0 container" #pdfContainer></div>
-  </div>
+  <ng-container *ngIf="widgetData?.pdfUrl">
+    <ngx-extended-pdf-viewer [src]="widgetData.pdfUrl" useBrowserLocale="true" [height]="getPDFHeight"
+      [zoom]="getPDFZoom" [page]="currentPage.value" [showToolbar]="false" enablePinchOnMobile="true"
+      (pageChange)="loadPageNum($event)" (pagesLoaded)="documentLoded($event)"
+      [(sidebarVisible)]="sidebarOpen"></ngx-extended-pdf-viewer>
+  </ng-container>
 </section>

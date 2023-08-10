@@ -1,0 +1,12 @@
+.parent{
+    display: flex;
+}
+.child {
+    flex: 1;
+    text-align: center;
+    background-color: #E7F2FA !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    border-radius: 0px !important;
+    pointer-events: auto;
+}

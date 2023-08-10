@@ -40,6 +40,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import { HtmlModule as HtmlPluginModule } from '../../plugins/html/html.module'
 
 import { HtmlComponent } from './html.component'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 // import { ViewerCourseInfoModule } from '../../plugins/viewer-course-info/viewer-course-info.module'
 
 @NgModule({
@@ -72,6 +73,7 @@ import { HtmlComponent } from './html.component'
     //BtnContentFeedbackV2Module,
     //PlayerBriefModule,
     // ViewerCourseInfoModule,
+    SharedModule
   ],
   providers: [PipeLimitToPipe],
   exports: [HtmlComponent],

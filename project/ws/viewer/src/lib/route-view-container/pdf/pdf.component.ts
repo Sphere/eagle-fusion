@@ -30,19 +30,19 @@ export class PdfComponent implements OnInit {
   > | null = null
   isTypeOfCollection = false
   isRestricted = false
-  prevResourceUrl: string | null = null
-  nextResourceUrl: string | null = null
+  // prevResourceUrl: string | null = null
+  // nextResourceUrl: string | null = null
   viewerDataServiceSubscription: any
   currentCompletionPercentage: number | null = null
   collectionType: any
-  prevTitle: string | null | undefined
-  nextTitle: string | null | undefined
+  // prevTitle: string | null | undefined
+  // nextTitle: string | null | undefined
   @ViewChild('navpdf', { static: false }) navpdf!: ElementRef
   isSmall = false
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: PlayerStateService, private valueSvc: ValueService) {
+    private viewerDataSvc: PlayerStateService, private valueSvc: ValueService) {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isSmall = isXSmall
     })
@@ -58,10 +58,10 @@ export class PdfComponent implements OnInit {
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
-      this.prevTitle = data.previousTitle
-      this.nextTitle = data.nextResTitle
-      this.prevResourceUrl = data.prevResource
-      this.nextResourceUrl = data.nextResource
+      // this.prevTitle = data.previousTitle
+      // this.nextTitle = data.nextResTitle
+      // this.prevResourceUrl = data.prevResource
+      // this.nextResourceUrl = data.nextResource
       this.currentCompletionPercentage = data.currentCompletionPercentage
     })
 
@@ -75,7 +75,7 @@ export class PdfComponent implements OnInit {
     }
     return true
   }
-  stopPropagation() {
-    return
-  }
+  // stopPropagation() {
+  //   return
+  // }
 }

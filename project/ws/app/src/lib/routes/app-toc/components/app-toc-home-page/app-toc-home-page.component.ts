@@ -500,4 +500,50 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
 
   }
+
+  generateQuery(type: 'RESUME' | 'START_OVER' | 'START'): { [key: string]: string } {
+    if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
+      let qParams: { [key: string]: string } = {
+        ...this.firstResourceLink.queryParams,
+        viewMode: type,
+        batchId: this.getBatchId(),
+      }
+      if (this.contextId && this.contextPath) {
+        qParams = {
+          ...qParams,
+          collectionId: this.contextId,
+          collectionType: this.contextPath,
+        }
+      }
+      if (this.forPreview) {
+        delete qParams.viewMode
+      }
+      return qParams
+    }
+    if (this.resumeDataLink && type === 'RESUME') {
+      let qParams: { [key: string]: string } = {
+        ...this.resumeDataLink.queryParams,
+        batchId: this.getBatchId(),
+        viewMode: 'RESUME',
+      }
+      if (this.contextId && this.contextPath) {
+        qParams = {
+          ...qParams,
+          collectionId: this.contextId,
+          collectionType: this.contextPath,
+        }
+      }
+      if (this.forPreview) {
+        delete qParams.viewMode
+      }
+      return qParams
+    }
+    if (this.forPreview) {
+      return {}
+    }
+    return {
+      batchId: this.getBatchId(),
+      viewMode: type,
+    }
+  }
 }

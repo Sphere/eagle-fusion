@@ -25,8 +25,8 @@ export class VideoComponent implements OnInit {
   @Input() isPreviewMode = false
   isTypeOfCollection = false
   isRestricted = false
-  prevResourceUrl: string | null = null
-  nextResourceUrl: string | null = null
+  // prevResourceUrl: string | null = null
+  // nextResourceUrl: string | null = null
   currentCompletionPercentage: number | null = null
   collectionType: any
   viewerDataServiceSubscription: any
@@ -35,7 +35,7 @@ export class VideoComponent implements OnInit {
   collectionIdentifier: any
 
   constructor(private activatedRoute: ActivatedRoute, private configSvc: ConfigurationsService,
-              private viewerDataSvc: PlayerStateService) { }
+    private viewerDataSvc: PlayerStateService) { }
 
   ngOnInit() {
     if (this.configSvc.restrictedFeatures) {
@@ -48,20 +48,20 @@ export class VideoComponent implements OnInit {
     this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
       this.prevTitle = data.previousTitle
       this.nextTitle = data.nextResTitle
-      this.prevResourceUrl = data.prevResource
-      this.nextResourceUrl = data.nextResource
+      // this.prevResourceUrl = data.prevResource
+      // this.nextResourceUrl = data.nextResource
       this.currentCompletionPercentage = data.currentCompletionPercentage
     })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId
   }
-  isProgressCheck(): boolean {
-    if (typeof this.currentCompletionPercentage === 'undefined' && this.currentCompletionPercentage !== 100) {
-      return false
-    }
-    return true
-  }
-  stopPropagation() {
-    return
-  }
+  // isProgressCheck(): boolean {
+  //   if (typeof this.currentCompletionPercentage === 'undefined' && this.currentCompletionPercentage !== 100) {
+  //     return false
+  //   }
+  //   return true
+  // }
+  // stopPropagation() {
+  //   return
+  // }
 }

@@ -7,28 +7,8 @@
             <div id="fullScreenContainer" class="video-player">
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverVideoData"></ng-container>
 
-              <div class="player-nav-links">
-                <div class="flex justify-between html video">
-                  <div class="prev-button">
-                    <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
-                      accesskey="<" [disabled]="!prevResourceUrl">
-                      <span class="material-icons align-arrow icon-tour" id="left-arrow">chevron_left</span>
-                    </a>
-                    <span class="title" *ngIf="prevTitle"><span class="fs-small">Previous
-                        Chapter</span>{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
-                    </span>
-                  </div>
-
-                  <div class="next-button">
-                    <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
-                        Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
-                    <a mat-button class="width-auto mr-10"
-                      [routerLink]="isProgressCheck() ? nextResourceUrl : stopPropagation()"
-                      queryParamsHandling="preserve" accesskey=">" [disabled]="!isProgressCheck()">
-                      <span class="material-icons icon-tour  align-right-arrow" id="right-arrow">chevron_right</span>
-                    </a>
-                  </div>
-                </div>
+              <div class="px-3">
+                <app-player-navigation-widget></app-player-navigation-widget>
               </div>
 
             </div>
