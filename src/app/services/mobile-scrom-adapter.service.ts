@@ -127,7 +127,7 @@ export class MobileScromAdapterService {
             })
             setTimeout(() => {
               this.postCordovaMessage(this.getPercentage(data))
-            }, 4000)
+            }, 6000)
           }
           return !!response
         },
