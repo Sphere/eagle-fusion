@@ -349,7 +349,7 @@ export class CardContentComponent extends WidgetBaseComponent
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(50), mergeMap((data: any) => {
         return of(data)
       })).subscribe((userDetails: any) => {
-        if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+        if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
           // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
           //   contentId: this.widgetData.content.identifier,
           //   contentType: this.widgetData.content.contentType,

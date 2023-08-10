@@ -11,6 +11,7 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { v4 as uuid } from 'uuid'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import forEach from 'lodash/forEach'
+import get from 'lodash/get'
 @Component({
   selector: 'ws-app-learning-card',
   templateUrl: './learning-card.component.html',
@@ -99,7 +100,7 @@ export class LearningCardComponent extends WidgetBaseComponent
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
-          if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+          if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
             this.router.navigateByUrl(url)
           } else {
             const courseUrl = `/app/toc/${content.identifier}/overview`

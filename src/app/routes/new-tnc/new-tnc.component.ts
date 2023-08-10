@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http'
 import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import get from 'lodash/get'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -315,7 +316,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
             this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(400), mergeMap((userData: any) => {
               return of(userData)
             })).subscribe((userDetails: any) => {
-              if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
+              if (!this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
                   // const url = `app/about-you`
@@ -331,7 +332,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
                 }
               } else {
-                if (userDetails.profileDetails.profileReq.personalDetails.dob) {
+                if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
                   const url = `page/home`
                   window.location.assign(`${location.origin}/${this.lang}/${url}`)
                 }
@@ -345,7 +346,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         }
       }
     },
-                                                                  (err: any) => {
+      (err: any) => {
         this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
         // TO DO: Telemetry event for failure
         this.errorInAccepting = true
