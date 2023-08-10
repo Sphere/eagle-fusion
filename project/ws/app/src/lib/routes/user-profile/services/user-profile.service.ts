@@ -89,16 +89,16 @@ export class UserProfileService {
           }
           break
         case 'Student':
-          isFilled = professionalDetails.qualification && professionalDetails.instituteName ? isFilled : false
+          isFilled = professionalDetails.qualification ? isFilled : false
           break
         case 'Healthcare Volunteer':
-          isFilled = professionalDetails.designation && professionalDetails.orgType ? isFilled : false
+          isFilled = professionalDetails.designation ? isFilled : false
           break
         case 'Healthcare Worker':
-          isFilled = professionalDetails.designation && professionalDetails.orgType ? isFilled : false
+          isFilled = professionalDetails.designation ? isFilled : false
           break
         case 'Faculty':
-          isFilled = professionalDetails.designation && professionalDetails.name ? isFilled : false
+          isFilled = professionalDetails.designation ? isFilled : false
           break
       }
     } else {
