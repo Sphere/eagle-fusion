@@ -578,7 +578,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.quizService.updateMtf.next(status)
   }
   previousQuestion() {
-    if (this.disableNext = true) {
+    if (this.disableNext === true) {
       this.disableNext = false
     }
     this.diablePrevious = true
@@ -588,13 +588,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       return
     }
 
-    if (
-      this.quizService.questionState.active_slide_index
-      === (this.quizService.questionState.slides.length - 1)) {
-      this.diablePrevious = false
-      this.showSubmit = false
-      this.proceedToSubmit()
-    }
+    // if (
+    //   this.quizService.questionState.active_slide_index
+    //   === (this.quizService.questionState.slides.length - 1)) {
+    //   this.diablePrevious = false
+    //   this.showSubmit = false
+    //   this.proceedToSubmit()
+    // }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()
