@@ -7,6 +7,7 @@ import { of } from 'rxjs'
 import { SignupService } from '../../app/routes/signup/signup.service'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import orderBy from 'lodash/orderBy'
+import get from 'lodash/get'
 @Component({
   selector: 'ws-org-home',
   templateUrl: './org-home.component.html',
@@ -73,7 +74,7 @@ export class OrgHomeComponent implements OnInit {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
-          if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+          if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
             this.router.navigateByUrl(url)
           } else {
             const courseUrl = `/app/toc/${contentIdentifier}/overview`

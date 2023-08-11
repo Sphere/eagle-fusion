@@ -39,6 +39,7 @@ import { QuizComponent } from './quiz.component'
 import { QuizRoutingModule } from './quiz-routing.module'
 
 import { QuizModule as QuizPluginModule } from '../../plugins/quiz/quiz.module'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 
 @NgModule({
   declarations: [QuizComponent],
@@ -68,7 +69,8 @@ import { QuizModule as QuizPluginModule } from '../../plugins/quiz/quiz.module'
     // UserContentRatingModule,
     // BtnContentFeedbackV2Module,
     BtnPageBackModule,
-    // PlayerBriefModule,
+    //PlayerBriefModule,
+    SharedModule
   ],
   exports: [
     QuizComponent,

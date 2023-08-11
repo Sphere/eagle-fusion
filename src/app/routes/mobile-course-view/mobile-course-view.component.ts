@@ -7,6 +7,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import forEach from 'lodash/forEach'
 import { Title } from '@angular/platform-browser'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-mobile-course-view',
@@ -28,10 +29,10 @@ export class MobileCourseViewComponent implements OnInit {
     },
   }
   constructor(private router: Router,
-              private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private signUpSvc: SignupService,
-              private titleService: Title
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private signUpSvc: SignupService,
+    private titleService: Title
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
@@ -92,7 +93,7 @@ export class MobileCourseViewComponent implements OnInit {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
-          if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+          if (this.userProfileSvc.isBackgroundDetailsFilled(_.get(userDetails, 'profileDetails.profileReq'))) {
 
             // location.href = url
             this.router.navigateByUrl(url)

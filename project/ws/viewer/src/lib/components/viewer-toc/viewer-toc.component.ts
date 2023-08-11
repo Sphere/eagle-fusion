@@ -223,7 +223,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               }
 
             }
-          },         500)
+          }, 500)
         }
       }
 
@@ -320,14 +320,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
       }
-    },         300)
+    }, 300)
   }
 
   ngAfterViewInit() {
 
     setTimeout(() => {
       this.checkIndexOfResource()
-    },         300)
+    }, 300)
   }
   // updateSearchModel(value) {
   //   this.searchModel = value
@@ -581,7 +581,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             }
           } else {
             if (element[index + 1]) {
-              element[index + 1].disabledNode = true
+              element[index + 1].disabledNode = this.viewerDataSvc.getNode()
             }
           }
 
@@ -654,7 +654,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   private async processCollectionForTree(content?: any) {
     console.log(content, 'processCollectionForTree')
-    if (content) {
+    if (content && content.contentList) {
       console.log(content)
       await this.processData(content.contentList)
       if (content.type === 'Video' || content.type === 'Scorm') {
@@ -662,8 +662,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           const nextResource = this.playerStateService.getNextResource()
 
           if (!isNull(nextResource)) {
-            this.router.navigate([nextResource], { preserveQueryParams: true })
-            this.playerStateService.trigger$.complete()
+            if (content.type === "Scorm") {
+              this.router.navigate([nextResource], { preserveQueryParams: true })
+              this.playerStateService.trigger$.complete()
+            }
           } else {
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
@@ -819,7 +821,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   }
                 } else {
                   if (element[index + 1]) {
-                    element[index + 1].disabledNode = true
+                    element[index + 1].disabledNode = this.viewerDataSvc.getNode()
                   }
                 }
 
@@ -889,7 +891,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           }
           this.updateResourceChange()
         },
-                                                                               (error: any) => {
+          (error: any) => {
             // tslint:disable-next-line:no-console
             console.log('CONTENT HISTORY FETCH ERROR >', error)
           },
@@ -917,7 +919,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
-    const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex]!.completionPercentage! : null
+    const currentPercentage = currentIndex < this.queue.length && this.queue[currentIndex] ? this.queue[currentIndex]!.completionPercentage! : null
     console.log(this.queue[currentIndex]!.completionPercentage)
     const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
     // tslint:disable-next-line:object-shorthand-properties-first

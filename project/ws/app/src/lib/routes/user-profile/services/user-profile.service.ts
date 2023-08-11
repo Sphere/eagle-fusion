@@ -67,4 +67,43 @@ export class UserProfileService {
       applicationStatus: 'SEND_FOR_APPROVAL',
     })
   }
+
+  isBackgroundDetailsFilled(profileReq: any): boolean {
+    let isFilled = true
+    if (profileReq && profileReq.personalDetails && profileReq.professionalDetails && profileReq.professionalDetails[0]) {
+      const personalDetails = profileReq.personalDetails
+      const professionalDetails = profileReq.professionalDetails[0]
+      if (!(personalDetails.dob
+        && personalDetails.postalAddress
+        && professionalDetails.profession)) {
+        isFilled = false
+      }
+      switch (professionalDetails.profession) {
+        case 'ASHA':
+          isFilled = professionalDetails.block ? isFilled : false
+          break
+        case 'Others':
+          isFilled = professionalDetails.selectBackground ? isFilled : false
+          if (professionalDetails.selectBackground === 'Asha Facilitator') {
+            isFilled = professionalDetails.block ? isFilled : false
+          }
+          break
+        case 'Student':
+          isFilled = professionalDetails.qualification ? isFilled : false
+          break
+        case 'Healthcare Volunteer':
+          isFilled = professionalDetails.designation ? isFilled : false
+          break
+        case 'Healthcare Worker':
+          isFilled = professionalDetails.designation ? isFilled : false
+          break
+        case 'Faculty':
+          isFilled = professionalDetails.designation ? isFilled : false
+          break
+      }
+    } else {
+      isFilled = false
+    }
+    return isFilled
+  }
 }

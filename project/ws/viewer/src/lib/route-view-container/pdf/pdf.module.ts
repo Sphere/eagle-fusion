@@ -34,6 +34,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 
 import { PdfComponent } from './pdf.component'
 import { RouterModule } from '@angular/router'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 @NgModule({
   declarations: [PdfComponent],
   imports: [
@@ -57,9 +58,10 @@ import { RouterModule } from '@angular/router'
     PipeLimitToModule,
     PipePartialContentModule,
     WidgetResolverModule,
-    // UserContentRatingModule,
-    // BtnContentFeedbackV2Module,
-    // PlayerBriefModule,
+    //UserContentRatingModule,
+    //BtnContentFeedbackV2Module,
+    //PlayerBriefModule,
+    SharedModule
   ],
   exports: [
     PdfComponent,

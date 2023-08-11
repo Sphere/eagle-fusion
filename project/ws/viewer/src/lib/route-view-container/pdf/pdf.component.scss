@@ -76,6 +76,12 @@
   // }
 }
 
+@media (max-width: 900px) {
+  .video-player {
+    min-height: 440px;
+  }
+}
+
 .prev-button .title {
     margin-left: 0px !important;
 }

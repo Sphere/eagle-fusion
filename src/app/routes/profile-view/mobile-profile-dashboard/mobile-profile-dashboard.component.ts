@@ -80,7 +80,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                             'identifier')
+    })), 'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -102,7 +102,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      },         500)
+      }, 500)
     })
 
   }
@@ -110,18 +110,18 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                                (result: any, value) => {
+    })), (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    },                                  [])
+    }, [])
     this.certificates = issuedCertificates
   }
 
   openAboutDialog() {
-    if (_.get(this.profileData, 'personalDetails.dob', false)) {
+    if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
       const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
         width: '312px',
         height: '369px',
@@ -192,7 +192,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   navigate(navigateUrl: any) {
-    if (_.get(this.profileData, 'personalDetails.dob', false)) {
+    if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
       this.router.navigate([navigateUrl])
     } else {
       this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
