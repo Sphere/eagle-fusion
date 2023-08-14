@@ -250,13 +250,13 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         collectionType.toLowerCase() ===
         NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
       ) {
-        this.collection = await this.getPlaylistContent(collectionId, collectionType)
+        // this.collection = await this.getPlaylistContent(collectionId, collectionType)
       } else if (
         collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
         collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
         collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
       ) {
-        this.collection = await this.getCollection(collectionId, collectionType)
+        // this.collection = await this.getCollection(collectionId, collectionType)
       } else {
         this.isErrorOccurred = true
       }
