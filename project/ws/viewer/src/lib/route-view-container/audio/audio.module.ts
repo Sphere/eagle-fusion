@@ -34,6 +34,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 
 import { AudioComponent } from './audio.component'
 import { RouterModule } from '@angular/router'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 
 @NgModule({
   declarations: [AudioComponent],
@@ -61,6 +62,7 @@ import { RouterModule } from '@angular/router'
     // UserContentRatingModule,
     // BtnContentFeedbackV2Module,
     // PlayerBriefModule,
+    SharedModule
   ],
   exports: [AudioComponent],
 })
