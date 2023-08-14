@@ -2,7 +2,6 @@ import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } fr
 import { DomSanitizer } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapter.service'
-import { TelemetryService } from '../../../../../library/ws-widget/utils/src/lib/services/telemetry.service'
 
 @Component({
   selector: 'ws-scrom-player',
@@ -16,8 +15,7 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   constructor(
     public route: ActivatedRoute,
     private domSanitizer: DomSanitizer,
-    private scormAdapterService: MobileScromAdapterService,
-    private telemetrySvc: TelemetryService
+    private scormAdapterService: MobileScromAdapterService
   ) {
     (window as any).API = this.scormAdapterService
     window.addEventListener('message', this.receiveMessage.bind(this))
@@ -49,9 +47,6 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
       authorization: this.route.snapshot.queryParamMap.get('Authorization'),
       userToken: this.route.snapshot.queryParamMap.get('userToken'),
     })
-    this.telemetrySvc.start('scorm', 'scorm-start', this.route.snapshot.queryParams.collectionId ?
-      this.route.snapshot.queryParams.collectionId : this.route.snapshot.queryParamMap.get('identifier') || '')
-
     this.scormAdapterService.loadDataV2(req, header)
 
   }

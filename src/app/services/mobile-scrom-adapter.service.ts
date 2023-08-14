@@ -8,6 +8,9 @@ import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/
 import { errorCodes } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/errors'
 
 import * as _ from 'lodash'
+import { TelemetryService } from '../../../library/ws-widget/utils/src/lib/services/telemetry.service'
+import { ActivatedRoute } from '@angular/router'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 const API_END_POINTS = {
   CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
@@ -37,6 +40,9 @@ export class MobileScromAdapterService {
   constructor(
     private http: HttpClient,
     private store: Storage,
+    private telemetrySvc: TelemetryService,
+    public route: ActivatedRoute,
+    private UserAgentResolverService: UserAgentResolverService
 
   ) { }
   set contentId(id: string) {
@@ -119,6 +125,38 @@ export class MobileScromAdapterService {
       this.scromSubscription = this.updateScromProgress(data).subscribe(
         async (response: any) => {
           console.log(response)
+          const paramMap = this.route.snapshot.queryParamMap
+          const params = {}
+          paramMap.keys.forEach((key: any) => {
+            const paramValue = paramMap.get(key)
+            params[key] = paramValue
+          })
+          const paramsJSON = JSON.stringify(params)
+          const userAgent = this.UserAgentResolverService.getUserAgent()
+          const startEparams = {
+            type: 'scorm',
+            mode: 'scorm-start',
+            pageid: this.route.snapshot.queryParams.courseId ?
+              this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+            duration: 0,
+          }
+          const user = {
+            userToken: this.getProperty('userToken')
+          }
+          this.telemetrySvc.
+            paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user)
+
+          if (data) {
+            const endEparams = {
+              type: 'scorm',
+              mode: 'scorm-close',
+              pageid: this.route.snapshot.queryParams.courseId ?
+                this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+              duration: data["cmi.core.session_time"],
+            }
+            this.telemetrySvc.
+              paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user)
+          }
           const result = await response.result
           result["type"] = 'scorm'
           if (this.getPercentage(data) === 100) {
