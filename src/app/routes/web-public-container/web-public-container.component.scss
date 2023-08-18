@@ -14,6 +14,12 @@ border: 1px solid #2E6491;
 color: #2E6491;
 background-color: #FFFF;
 }
+/* Highlight on hover */
+.view-all-course:hover {
+    // background-color: #2980b9;
+    color: #141d60;
+    border-color: #141d60;
+}
 .scroller-container{
   justify-content: space-between;
     margin-bottom: 20px;

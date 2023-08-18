@@ -239,6 +239,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isSetupPage = true
         }
         if (event.url.includes('/app/create-account')) {
+          this.showNavigation = false
           this.createAcc = true
         }
         if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {

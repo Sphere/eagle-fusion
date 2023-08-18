@@ -20,8 +20,8 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
-    font-size: 50px;
-    line-height: 55px;
+     font-size: 36px;
+    line-height: 40px;
     letter-spacing: -0.02em;
     color: #000000;
 }
@@ -41,10 +41,10 @@
     color: #000000;
     /* Header 2 */
     font-family: Roboto;
-    font-size: 24px;
+    font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    line-height: 28.8px;
+    line-height: 20px;
     letter-spacing: -0.48px;
 }
 .tutorials-container{
@@ -56,7 +56,7 @@
     background: #469788;
     height: 51px;
     margin-bottom: 20px;
-    margin-top: -18px;
+    margin-top: -12px;
 }
 .tutorials-text{
     /* Body */
@@ -73,9 +73,9 @@
 }
 .banner-image{
     // max-width: 400px;
-    width: 661px;
+    width: 600px;
     // height: 350px
-    height: 455px;
+    height: 325px;
 }
 @media only screen and (min-width: 600px) and (max-width: 959px){
 .banner-image{
