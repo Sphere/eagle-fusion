@@ -17,12 +17,12 @@ import {
   // BtnContentFeedbackModule,
   // BtnContentLikeModule,
   BtnContentShareModule,
-  //BtnGoalsModule,
-  //BtnPlaylistModule,
+  // BtnGoalsModule,
+  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  //UserContentRatingModule,
-  //BtnContentFeedbackV2Module,
+  // UserContentRatingModule,
+  // BtnContentFeedbackV2Module,
 } from '@ws-widget/collection'
 
 import {
@@ -44,16 +44,16 @@ import {
     // BtnContentFeedbackModule,
     // BtnContentLikeModule,
     BtnContentShareModule,
-    //BtnGoalsModule,
-    //BtnPlaylistModule,
+    // BtnGoalsModule,
+    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     MatCardModule,
     MatDividerModule,
     MatButtonModule,
     MatSnackBarModule,
-    //UserContentRatingModule,
-    //BtnContentFeedbackV2Module,
+    // UserContentRatingModule,
+    // BtnContentFeedbackV2Module,
   ],
 })
 export class IapModule { }

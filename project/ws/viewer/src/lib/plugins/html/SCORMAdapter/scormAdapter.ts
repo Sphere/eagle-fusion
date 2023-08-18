@@ -5,7 +5,7 @@ import { errorCodes } from './errors'
 // import _ from 'lodash'
 import { HttpBackend, HttpClient } from '@angular/common/http'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, TelemetryService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import * as dayjs from 'dayjs'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { Subscription } from 'rxjs'
@@ -25,6 +25,8 @@ const API_END_POINTS = {
 })
 export class SCORMAdapterService {
   id = ''
+  name = ''
+  parent = ''
   scromSubscription: Subscription | null = null
   constructor(
     private store: Storage,
@@ -35,6 +37,7 @@ export class SCORMAdapterService {
     private viewerDataSvc: ViewerDataService,
     private router: Router,
     private contentSvc: WidgetContentService,
+    private telemetrySvc: TelemetryService
   ) {
     this.http = new HttpClient(handler)
   }
@@ -46,6 +49,21 @@ export class SCORMAdapterService {
 
   get contentId() {
     return this.id
+  }
+
+  set htmlName(name: string) {
+    this.name = name
+  }
+
+  get htmlName() {
+    return this.name
+  }
+  set parentName(parent: string) {
+    this.parent = parent
+  }
+
+  get parentName() {
+    return this.parent
   }
 
   LMSInitialize() {
@@ -128,7 +146,20 @@ export class SCORMAdapterService {
       let splitUrl2 = splitUrl1[0].split('/viewer/html/')
       if (splitUrl2[1] === this.contentId && (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed')) {
         this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
-          console.log(response)
+          this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
+          if (data) {
+            let data1: any = {
+              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+                this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
+              contentId: this.contentId,
+              name: this.htmlName,
+              moduleId: this.parent,
+              duration: data["cmi.core.session_time"]
+            }
+            this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data1)
+          }
           let result = await response.result
           result["type"] = 'scorm'
           this.contentSvc.changeMessage(result)
@@ -226,8 +257,6 @@ export class SCORMAdapterService {
         console.log(data)
         if (data && data.result && data.result.contentList.length) {
           for (const content of data.result.contentList) {
-            // tslint:disable-next-line: no-console
-            console.log('loading state for ', content)
             if (content.contentId === this.contentId && content.progressdetails) {
               const data = content.progressdetails
               const loadDatas: IScromData = {
@@ -238,8 +267,6 @@ export class SCORMAdapterService {
                 Initialized: data["Initialized"],
                 // errors: data["errors"]
               }
-              // tslint:disable-next-line: no-console
-              console.log('loaded data', loadDatas)
               this.store.setAll(loadDatas)
             }
           }
@@ -277,7 +304,6 @@ export class SCORMAdapterService {
   }
 
   getStatus(postData: any): number {
-    console.log(postData["cmi.core.lesson_status"], 'getStatus', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 2
@@ -291,7 +317,6 @@ export class SCORMAdapterService {
     }
   }
   getPercentage(postData: any): number {
-    console.log(postData["cmi.core.lesson_status"], 'getpercentage', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 100

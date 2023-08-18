@@ -7,6 +7,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import forEach from 'lodash/forEach'
 import { Title } from '@angular/platform-browser'
+import get from 'lodash/get'
 
 @Component({
   selector: 'ws-web-course-view',
@@ -24,7 +25,7 @@ export class WebCourseViewComponent implements OnInit {
     badges: {
       orgIcon: true,
       certification: true,
-    }
+    },
   }
   isLoggedIn = false
   constructor(private router: Router,
@@ -76,7 +77,7 @@ export class WebCourseViewComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(50), mergeMap((data: any) => {
         return of(data)
       })).subscribe((userDetails: any) => {
-        if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+        if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
           // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
           //   contentId: this.widgetData.content.identifier,
           //   contentType: this.widgetData.content.contentType,
@@ -105,11 +106,11 @@ export class WebCourseViewComponent implements OnInit {
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
   }
   redirectPage(course: any) {
-    if (this.isLoggedIn == true) {
-      console.log("yes here")
+    if (this.isLoggedIn) {
+      console.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log("else")
+      console.log('else')
       this.login(course)
     }
   }
@@ -126,7 +127,7 @@ export class WebCourseViewComponent implements OnInit {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
-          if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+          if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
 
             // location.href = url
             this.router.navigateByUrl(url)

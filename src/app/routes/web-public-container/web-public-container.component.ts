@@ -26,7 +26,7 @@ export class WebPublicComponent implements OnInit {
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
-  //languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  // languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig = {
@@ -34,7 +34,7 @@ export class WebPublicComponent implements OnInit {
     badges: {
       orgIcon: true,
       certification: true,
-    }
+    },
   }
   constructor(
     private router: Router,
@@ -42,7 +42,6 @@ export class WebPublicComponent implements OnInit {
     public dialog: MatDialog,
     private orgService: OrgServiceService,
   ) {
-
 
   }
 
@@ -62,7 +61,6 @@ export class WebPublicComponent implements OnInit {
     })
 
   }
-
 
   formatFeaturedCourseResponse(res: any) {
     const featuredCourse = filter(res.result.content, ckey => {

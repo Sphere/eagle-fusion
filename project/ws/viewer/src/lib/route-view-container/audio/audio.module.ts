@@ -15,13 +15,13 @@ import {
   // BtnContentFeedbackModule,
   // BtnContentLikeModule,
   BtnContentShareModule,
-  //BtnGoalsModule,
-  //BtnPlaylistModule,
+  // BtnGoalsModule,
+  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  //UserContentRatingModule,
-  //BtnContentFeedbackV2Module,
-  //PlayerBriefModule,
+  // UserContentRatingModule,
+  // BtnContentFeedbackV2Module,
+  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -34,6 +34,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 
 import { AudioComponent } from './audio.component'
 import { RouterModule } from '@angular/router'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 
 @NgModule({
   declarations: [AudioComponent],
@@ -53,14 +54,15 @@ import { RouterModule } from '@angular/router'
     // BtnContentDownloadModule,
     // BtnContentLikeModule,
     BtnContentShareModule,
-    //BtnGoalsModule,
-    //BtnPlaylistModule,
+    // BtnGoalsModule,
+    // BtnPlaylistModule,
     UserImageModule,
-    //BtnContentFeedbackModule,
+    // BtnContentFeedbackModule,
     DisplayContentTypeModule,
-    //UserContentRatingModule,
-    //BtnContentFeedbackV2Module,
-    //PlayerBriefModule,
+    // UserContentRatingModule,
+    // BtnContentFeedbackV2Module,
+    // PlayerBriefModule,
+    SharedModule
   ],
   exports: [AudioComponent],
 })

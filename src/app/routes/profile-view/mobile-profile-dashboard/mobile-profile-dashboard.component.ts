@@ -121,16 +121,20 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   openAboutDialog() {
-    const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
-      width: '312px',
-      height: '369px',
-      data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
-    })
+    if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
+      const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
+        width: '312px',
+        height: '369px',
+        data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
+      })
 
-    dialogRef.afterClosed().subscribe(result => {
-      // tslint:disable-next-line: no-console
-      console.log('The dialog was closed', result)
-    })
+      dialogRef.afterClosed().subscribe(result => {
+        // tslint:disable-next-line: no-console
+        console.log('The dialog was closed', result)
+      })
+    } else {
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
+    }
   }
   setAcademicDetail(data: any) {
     if (data) {
@@ -176,15 +180,23 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   eductionEdit() {
-    this.router.navigate([`app/education-list`])
+    this.navigate(`app/education-list`)
   }
 
   workInfoEdit() {
-    this.router.navigate([`app/workinfo-list`])
+    this.navigate(`app/workinfo-list`)
   }
 
   personalDetailEdit() {
-    this.router.navigate([`app/personal-detail-edit`])
+    this.navigate('app/personal-detail-edit')
+  }
+
+  navigate(navigateUrl: any) {
+    if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
+      this.router.navigate([navigateUrl])
+    } else {
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
+    }
   }
 
   openCompetency(event: any) {

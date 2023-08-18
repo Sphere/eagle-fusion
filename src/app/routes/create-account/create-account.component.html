@@ -47,12 +47,11 @@
               <div class="form-group">
                 <input id="email-field" class="form-control" i18n formControlName="emailOrMobile" type="text"
                   i18n-placeholder placeholder="Phone Number/Email ID" autocomplete="off">
-                <mat-error class="text-danger" i18n
-                  *ngIf="createAccountForm.controls['emailOrMobile'].hasError('required') &&
-                (createAccountForm.controls['emailOrMobile'].dirty || createAccountForm.controls['emailOrMobile'].touched)">This field is required
+                <mat-error class="text-danger" i18n *ngIf="emailOrMobileErrorStatus === 'required'">This field is
+                  required
                 </mat-error>
-                <mat-error class="text-danger" i18n
-                  *ngIf="createAccountForm.controls['emailOrMobile'].hasError('pattern')">Invalid email or number
+                <mat-error class="text-danger" i18n *ngIf="emailOrMobileErrorStatus === 'pattern'">Invalid email or
+                  number
                 </mat-error>
               </div>
               <!-- <div class="form-group">

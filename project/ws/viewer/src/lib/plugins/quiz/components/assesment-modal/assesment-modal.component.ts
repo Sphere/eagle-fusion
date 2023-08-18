@@ -18,7 +18,7 @@ import {
   TelemetryService,
 } from '@ws-widget/utils'
 // import moment from 'moment'
-//import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
+// import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
 // declare var Telemetry: any
@@ -511,8 +511,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       if (!isNull(data.nextResource)) {
 
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
-          let result = data.result
-          result["type"] = 'assessment'
+          const result = data.result
+          result['type'] = 'assessment'
           this.contentSvc.changeMessage(result)
         })
 
@@ -578,7 +578,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.quizService.updateMtf.next(status)
   }
   previousQuestion() {
-    if (this.disableNext = true) {
+    if (this.disableNext === true) {
       this.disableNext = false
     }
     this.diablePrevious = true
@@ -588,13 +588,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       return
     }
 
-    if (
-      this.quizService.questionState.active_slide_index
-      === (this.quizService.questionState.slides.length - 1)) {
-      this.diablePrevious = false
-      this.showSubmit = false
-      this.proceedToSubmit()
-    }
+    // if (
+    //   this.quizService.questionState.active_slide_index
+    //   === (this.quizService.questionState.slides.length - 1)) {
+    //   this.diablePrevious = false
+    //   this.showSubmit = false
+    //   this.proceedToSubmit()
+    // }
     const oldSlide = this.quizService.questionState.slides[this.quizService.questionState.active_slide_index]
     $(oldSlide).fadeOut('fast', () => {
       $(oldSlide).hide()

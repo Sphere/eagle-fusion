@@ -42,12 +42,12 @@ export class OrgServiceService {
     const req = {
       request: {
         filters: {
-          primaryCategory: ['Course'], contentType: ['Course'], "status": [
-            "Live"
+          primaryCategory: ['Course'], contentType: ['Course'], status: [
+            'Live',
           ],
-          "sourceName": source
-        }
-      }, query: '', sort: [{ lastUpdatedOn: 'desc' }]
+          sourceName: source,
+        },
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
@@ -56,12 +56,12 @@ export class OrgServiceService {
     const req = {
       request: {
         filters: {
-          primaryCategory: ['Course'], contentType: ['Course'], "status": [
-            "Live"
+          primaryCategory: ['Course'], contentType: ['Course'], status: [
+            'Live',
           ],
-          "identifier": identifier
-        }
-      }, query: '', sort: [{ lastUpdatedOn: 'desc' }]
+          identifier,
+        },
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
@@ -79,7 +79,7 @@ export class OrgServiceService {
           primaryCategory: ['Course'],
           contentType: ['Course'],
           status: ['Live'],
-          "lang": lang
+          lang,
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }

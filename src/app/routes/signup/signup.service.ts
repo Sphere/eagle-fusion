@@ -56,15 +56,15 @@ export class SignupService {
   generateOtp(data: any): Observable<any> {
     if (this.someDataObservable) {
       return this.someDataObservable
-    } else {
-      this.someDataObservable = this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(share())
-      return this.someDataObservable
-      // .pipe(
-      //   map(response => {
-      //     return response
-      //   })
-      // )
     }
+    this.someDataObservable = this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(share())
+    return this.someDataObservable
+    // .pipe(
+    //   map(response => {
+    //     return response
+    //   })
+    // )
+
   }
   plumb5SendEvent(data: any) {
     return this.http.post<any>(`https://track.plumb5.com/EventDetails/SaveEventDetails`, data).pipe(
@@ -201,7 +201,7 @@ export class SignupService {
     } else {
       redirectUrl = `${url}openid/keycloak`
     }
-    console.log(url, redirectUrl)
+    // console.log(url, redirectUrl)
     const state = uuid()
     const nonce = uuid()
     sessionStorage.setItem('login-btn', 'clicked')
@@ -211,5 +211,3 @@ export class SignupService {
   }
 
 }
-
-

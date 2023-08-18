@@ -72,8 +72,8 @@ export class YourBackgroundComponent implements OnInit {
     if (this.aboutYou.value.distict) {
       this.selectedAddress += ', ' + `${this.aboutYou.value.distict}`
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
     const userObject = {
       firstname: this.firstName,
       middlename: this.middleName,
@@ -84,7 +84,7 @@ export class YourBackgroundComponent implements OnInit {
       postalAddress: this.selectedAddress,
       osName: userAgent.OS,
       browserName: userAgent.browserName,
-      userCookie: userCookie,
+      userCookie,
     }
     Object.keys(userObject).forEach(key => {
       if (userObject[key] === '') {

@@ -96,6 +96,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   routelinK = 'overview'
   result: any
   matspinner = true
+  resumeDataLink: any
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -482,15 +483,17 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
               queryParams: { batchId: batchData.content[0].batchId },
               queryParamsHandling: 'merge',
             })
-          //this.openSnackbar('Enrolled Successfully!')
+          // this.openSnackbar('Enrolled Successfully!')
           setTimeout(() => {
             const query = this.generateQuery('RESUME')
-            this.router.navigate([this.resumeDataLink.url], { queryParams: query })
+            if (this.resumeDataLink) {
+              this.router.navigate([this.resumeDataLink.url], { queryParams: query })
+            }
 
           }, 500)
 
         } else {
-          //this.openSnackbar('Something went wrong, please try again later!')
+          // this.openSnackbar('Something went wrong, please try again later!')
         }
       })
         .catch((err: any) => {
@@ -499,5 +502,51 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         })
     }
 
+  }
+
+  generateQuery(type: 'RESUME' | 'START_OVER' | 'START'): { [key: string]: string } {
+    if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
+      let qParams: { [key: string]: string } = {
+        ...this.firstResourceLink.queryParams,
+        viewMode: type,
+        batchId: this.getBatchId(),
+      }
+      if (this.contextId && this.contextPath) {
+        qParams = {
+          ...qParams,
+          collectionId: this.contextId,
+          collectionType: this.contextPath,
+        }
+      }
+      if (this.forPreview) {
+        delete qParams.viewMode
+      }
+      return qParams
+    }
+    if (this.resumeDataLink && type === 'RESUME') {
+      let qParams: { [key: string]: string } = {
+        ...this.resumeDataLink.queryParams,
+        batchId: this.getBatchId(),
+        viewMode: 'RESUME',
+      }
+      if (this.contextId && this.contextPath) {
+        qParams = {
+          ...qParams,
+          collectionId: this.contextId,
+          collectionType: this.contextPath,
+        }
+      }
+      if (this.forPreview) {
+        delete qParams.viewMode
+      }
+      return qParams
+    }
+    if (this.forPreview) {
+      return {}
+    }
+    return {
+      batchId: this.getBatchId(),
+      viewMode: type,
+    }
   }
 }

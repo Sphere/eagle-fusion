@@ -29,8 +29,8 @@ import { BtnFullscreenModule } from './btn-fullscreen/btn-fullscreen.module'
 // import { BtnMailUserModule } from './btn-mail-user/btn-mail-user.module'
 import { BtnPageBackComponent } from './btn-page-back/btn-page-back.component'
 import { BtnPageBackModule } from './btn-page-back/btn-page-back.module'
-//import { BtnPlaylistComponent } from './btn-playlist/btn-playlist.component'
-//import { BtnPlaylistModule } from './btn-playlist/btn-playlist.module'
+// import { BtnPlaylistComponent } from './btn-playlist/btn-playlist.component'
+// import { BtnPlaylistModule } from './btn-playlist/btn-playlist.module'
 // import { BtnPreviewComponent } from './btn-preview/btn-preview.component'
 // import { BtnPreviewModule } from './btn-preview/btn-preview.module'
 import { BtnProfileComponent } from './btn-profile/btn-profile.component'
@@ -120,11 +120,11 @@ export const WIDGET_REGISTERED_MODULES = [
   // BtnGoalsModule,
   // BtnMailUserModule,
   BtnPageBackModule,
-  //BtnPlaylistModule,
-  //BtnPreviewModule,
+  // BtnPlaylistModule,
+  // BtnPreviewModule,
   BtnProfileModule,
   BtnSettingsModule,
-  //CardBreadcrumbModule,
+  // CardBreadcrumbModule,
   CardContentModule,
   // CardChannelModule,
   // CardWelcomeModule,

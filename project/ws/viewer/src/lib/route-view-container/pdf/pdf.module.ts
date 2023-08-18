@@ -15,13 +15,13 @@ import {
   // BtnContentFeedbackModule,
   // BtnContentLikeModule,
   BtnContentShareModule,
-  //BtnGoalsModule,
-  //BtnPlaylistModule,
+  // BtnGoalsModule,
+  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  //UserContentRatingModule,
-  //BtnContentFeedbackV2Module,
-  //PlayerBriefModule,
+  // UserContentRatingModule,
+  // BtnContentFeedbackV2Module,
+  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -34,6 +34,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 
 import { PdfComponent } from './pdf.component'
 import { RouterModule } from '@angular/router'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 @NgModule({
   declarations: [PdfComponent],
   imports: [
@@ -49,8 +50,8 @@ import { RouterModule } from '@angular/router'
     // BtnContentFeedbackModule,
     // BtnContentLikeModule,
     BtnContentShareModule,
-    //BtnGoalsModule,
-    //BtnPlaylistModule,
+    // BtnGoalsModule,
+    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     PipeDurationTransformModule,
@@ -60,6 +61,7 @@ import { RouterModule } from '@angular/router'
     //UserContentRatingModule,
     //BtnContentFeedbackV2Module,
     //PlayerBriefModule,
+    SharedModule
   ],
   exports: [
     PdfComponent,

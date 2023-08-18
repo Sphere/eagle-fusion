@@ -22,8 +22,8 @@ export class WebFeaturedCourseComponent implements OnInit {
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
-  isLoggedIn: boolean = false
-  //languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  isLoggedIn = false
+  // languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   isFeaturedCourse!: boolean
@@ -56,7 +56,6 @@ export class WebFeaturedCourseComponent implements OnInit {
         this.preferedLanguage = { id: 'hi', lang: 'हिंदी' }
       }
     }
-
 
   }
   login(data: any) {

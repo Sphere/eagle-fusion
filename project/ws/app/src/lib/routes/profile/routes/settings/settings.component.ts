@@ -224,8 +224,8 @@ export class SettingsComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfileV2) {
       let user: any
       const userid = this.configSvc.userProfileV2.userId
-      let userAgent = this.UserAgentResolverService.getUserAgent()
-      let userCookie = this.UserAgentResolverService.generateCookie()
+      const userAgent = this.UserAgentResolverService.getUserAgent()
+      const userCookie = this.UserAgentResolverService.generateCookie()
 
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
         user = data
@@ -235,7 +235,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           },
           osName: userAgent.OS,
           browserName: userAgent.browserName,
-          userCookie: userCookie,
+          userCookie,
         }
         const userdata = Object.assign(user['profileDetails'], obj)
 

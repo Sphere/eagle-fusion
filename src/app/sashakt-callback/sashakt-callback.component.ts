@@ -27,22 +27,22 @@ export class SashaktCallbackComponent implements OnInit {
         this.orgService.setSashaktId(token, id).subscribe((res: any) => {
           window.location = res.resRedirectUrl
           // tslint:disable-next-line:no-console
-          console.log("sashakt component.ts", res.resRedirectUrl)
-        }, (err: any) => {
+          console.log('sashakt component.ts', res.resRedirectUrl)
+        },                                                (err: any) => {
           // tslint:disable-next-line:no-console
           console.log(err)
           if (err.status === 400 || err.status === 419) {
-            //sessionStorage.clear()
+            // sessionStorage.clear()
             this.authSvc.logout()
-            //location.href = '/public/home'
+            // location.href = '/public/home'
           }
         })
-      }, 500)
+      },         500)
     } catch (err) {
       // tslint:disable-next-line:no-console
       console.log(err)
       this.authSvc.logout()
-      //location.href = "/public/home"
+      // location.href = "/public/home"
     }
   }
 }

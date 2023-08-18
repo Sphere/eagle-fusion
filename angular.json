@@ -32,6 +32,13 @@
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/competency-web/assets",
                 "output": "./assets/comptency"
+              },
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-extended-pdf-viewer/bleeding-edge/",
+                "output": "/bleeding-edge/"
               }
             ],
             "stylePreprocessorOptions": {

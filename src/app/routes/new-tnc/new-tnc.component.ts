@@ -16,6 +16,7 @@ import { HttpClient } from '@angular/common/http'
 import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import get from 'lodash/get'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -102,7 +103,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       regNurseRegMidwifeNumber: new FormControl('', []),
       osName: new FormControl('', []),
       browserName: new FormControl('', []),
-      userCookie: new FormControl('', [])
+      userCookie: new FormControl('', []),
     })
   }
 
@@ -235,16 +236,16 @@ export class NewTncComponent implements OnInit, OnDestroy {
       const params = {}
 
       paramMap.keys.forEach((key: any) => {
-        var paramValue = paramMap.get(key)
+        const paramValue = paramMap.get(key)
         params[key] = paramValue
       })
 
       // this.paramsJSON = JSON.stringify(params)
 
       this.createUserForm.controls.tncAccepted.setValue('true')
-      let userAgent = this.UserAgentResolverService.getUserAgent()
-      let userCookie = this.UserAgentResolverService.generateCookie()
-      console.log("userCookie: ", userCookie)
+      const userAgent = this.UserAgentResolverService.getUserAgent()
+      const userCookie = this.UserAgentResolverService.generateCookie()
+      console.log('userCookie: ', userCookie)
       if (this.configSvc.userProfile) {
         this.userId = this.configSvc.userProfile.userId || ''
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
@@ -260,18 +261,17 @@ export class NewTncComponent implements OnInit, OnDestroy {
         let data: any
         data = localStorage.getItem('preferedLanguage')
         this.lang = JSON.parse(data)
-        this.lang = this.lang.id !== 'en' ? this.lang.id : ''
-        // Obj = {
-        //   preferences: {
-        //     language: this.lang,
-        //   },
-        // }
+        this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
+        Obj = {
+          preferences: {
+            language: this.lang,
+          },
+        }
       } else {
-        this.lang = ''
+        this.lang = 'en'
       }
-
       /* this changes for ebhyass*/
-      if (this.userData.tcStatus === 'false') {
+      if (this.userData!.tcStatus === 'false') {
         const reqUpdate = {
           request: {
             userId: this.userId,
@@ -284,6 +284,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
       } else {
         let profileRequest = this.constructReq(this.createUserForm)
         const obj = {
+          preferences: {
+            language: this.lang,
+          },
           personalDetails: profileRequest.profileReq.personalDetails
         }
         profileRequest = Object.assign(profileRequest, obj)
@@ -303,7 +306,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
   updateUser(reqUpdate: any) {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
-      let res = await data
+      const res = await data
       console.log(res.result.response)
       if (res.result.response === 'SUCCESS') {
         this.configSvc.profileDetailsStatus = true
@@ -313,18 +316,23 @@ export class NewTncComponent implements OnInit, OnDestroy {
             this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(400), mergeMap((userData: any) => {
               return of(userData)
             })).subscribe((userDetails: any) => {
-              if (userDetails.profileDetails.profileReq.personalDetails.dob === undefined) {
+              if (!this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  //const url = `app/about-you`
+                  // const url = `app/about-you`
                   this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-                  //window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
+                  // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
                 } else {
                   const url = `page/home`
-                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  if (this.lang === 'en') {
+                    window.location.assign(`${location.origin}/${url}`)
+                  } else {
+                    window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  }
+
                 }
               } else {
-                if (userDetails.profileDetails.profileReq.personalDetails.dob) {
+                if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
                   const url = `page/home`
                   window.location.assign(`${location.origin}/${this.lang}/${url}`)
                 }

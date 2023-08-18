@@ -239,7 +239,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      }, 500)
+      },         500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -349,8 +349,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        //width: '542px',
-                        //panelClass: 'overview-modal',
+                        // width: '542px',
+                        // panelClass: 'overview-modal',
                         disableClose: true,
                         data: 'Congratulations!, you have completed the course',
                       })
@@ -398,8 +398,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         // tslint:disable-next-line
         if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
           const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-            //width: '542px',
-            //panelClass: 'overview-modal',
+            // width: '542px',
+            // panelClass: 'overview-modal',
             disableClose: true,
             data: 'Congratulations!, you have completed the course',
           })
@@ -418,7 +418,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           if (res) {
             setTimeout(() => {
               this.openOverviewDialog()
-            }, 500)
+            },         500)
           }
         })
       }

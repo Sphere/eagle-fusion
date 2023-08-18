@@ -27,7 +27,7 @@
   },
   "private": true,
   "dependencies": {
-    "@aastrika_npmjs/competency-web": "0.0.1",
+    "@aastrika_npmjs/competency-web": "0.0.2",
     "@aastrika_npmjs/discussions-ui-v8": "^2.1.15",
     "@angular/animations": "~8.2.1",
     "@angular/cdk": "~8.1.2",
@@ -72,6 +72,7 @@
     "mustache": "^3.0.2",
     "ng-circle-progress": "1.5.1",
     "ngx-chips": "2.0.2",
+    "ngx-extended-pdf-viewer": "9.0.0-alpha.4",
     "ngx-image-cropper": "^3.0.3",
     "ngx-infinite-scroll": "^10.0.0",
     "ngx-moment": "^5.0.0",

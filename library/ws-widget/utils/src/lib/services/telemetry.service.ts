@@ -175,7 +175,7 @@ export class TelemetryService {
     const publicConfig: NsInstanceConfig.IConfig = await this.http
       .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
       .toPromise()
-    let instanceConfig = publicConfig
+    const instanceConfig = publicConfig
     this.telemetryConfig = instanceConfig.telemetryConfig
     this.telemetryConfig = {
       ...this.telemetryConfig,
@@ -233,7 +233,7 @@ export class TelemetryService {
     try {
       const page = this.getPageDetails()
       await this.getTelemetryConfig()
-      let cookie = this.UserAgentResolverService.generateCookie()
+      const cookie = this.UserAgentResolverService.generateCookie()
 
       let edata = {
         pageid: page.pageid, // Required. Unique page id
@@ -242,47 +242,47 @@ export class TelemetryService {
         browserName,
         OS,
         timestamp: Date.now(),
-        cookie
+        cookie,
       }
       param = JSON.parse(param)
       edata = {
-        ...edata, ...param
+        ...edata, ...param,
       }
       const finalObject = {
-        "id": "ekstep.telemetry",
-        "ver": "3.0",
-        "ets": Date.now(),
-        "events": [
+        id: 'ekstep.telemetry',
+        ver: '3.0',
+        ets: Date.now(),
+        events: [
           {
-            "eid": "PUBLICIMPRESSION",
-            "ets": Date.now(),
-            "ver": "3.0",
-            "mid": "",
-            "actor": {
-              "id": "anonymous",
-              "type": "User"
+            eid: 'PUBLICIMPRESSION',
+            ets: Date.now(),
+            ver: '3.0',
+            mid: '',
+            actor: {
+              id: 'anonymous',
+              type: 'User',
             },
-            "context": {
-              "channel": "",
-              "pdata": {
-                "id": "web-ui",
-                "ver": "1.0.0",
-                "pid": ""
+            context: {
+              channel: '',
+              pdata: {
+                id: 'web-ui',
+                ver: '1.0.0',
+                pid: '',
               },
-              "env": "prod",
-              "sid": "",
-              "did": "",
-              "cdata": [],
-              "rollup": {}
+              env: 'prod',
+              sid: '',
+              did: '',
+              cdata: [],
+              rollup: {},
             },
-            "object": {
-              "ver": "1.0.0",
-              "id": ""
+            object: {
+              ver: '1.0.0',
+              id: '',
             },
-            "tags": [],
-            "edata": edata
-          }
-        ]
+            tags: [],
+            edata,
+          },
+        ],
       }
       if (page.objectId) {
         // const config = {
@@ -317,6 +317,124 @@ export class TelemetryService {
       console.log('Error in telemetry paramTrigger', e)
     }
   }
+  async paramTriggerEnd(param: any, browserName: any, OS: any, eparams: any, user: any) {
+    const page = this.getPageDetails()
+    try {
+      let edata = {
+        browserName,
+        OS,
+        timestamp: Date.now(),
+        type: eparams.type,
+        mode: eparams.mode,
+        pageid: eparams.pageid,
+        duration: eparams.duration
+      }
+      param = JSON.parse(param)
+      edata = {
+        ...edata, ...param,
+      }
+      const finalObject = {
+        id: 'ekstep.telemetry',
+        ver: '3.0',
+        ets: Date.now(),
+        events: [
+          {
+            eid: 'END',
+            ets: Date.now(),
+            ver: '3.0',
+            mid: '',
+            actor: {
+              id: user.userToken,
+              type: 'User',
+            },
+            context: {
+              channel: '',
+              pdata: {
+                id: 'web-ui',
+                ver: '1.0.0',
+                pid: '',
+              },
+              env: 'prod',
+              sid: '',
+              did: '',
+              cdata: [],
+              rollup: {},
+            },
+            object: {
+              ver: '1.0.0',
+              id: '',
+            },
+            tags: [],
+            edata,
+          },
+        ],
+      }
+      this.postPublicTelemetry(finalObject)
+      this.previousUrl = page.pageUrl
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in telemetry paramTrigger', e)
+    }
+  }
+  async paramTriggerStart(param: any, browserName: any, OS: any, eparams: any, user: any) {
+    const page = this.getPageDetails()
+    try {
+      let edata = {
+        browserName,
+        OS,
+        timestamp: Date.now(),
+        type: eparams.type,
+        mode: eparams.mode,
+        pageid: eparams.pageid,
+        duration: eparams.duration
+      }
+      param = JSON.parse(param)
+      edata = {
+        ...edata, ...param,
+      }
+      const finalObject = {
+        id: 'ekstep.telemetry',
+        ver: '3.0',
+        ets: Date.now(),
+        events: [
+          {
+            eid: 'START',
+            ets: Date.now(),
+            ver: '3.0',
+            mid: '',
+            actor: {
+              id: user.userToken,
+              type: 'User',
+            },
+            context: {
+              channel: '',
+              pdata: {
+                id: 'web-ui',
+                ver: '1.0.0',
+                pid: '',
+              },
+              env: 'prod',
+              sid: '',
+              did: '',
+              cdata: [],
+              rollup: {},
+            },
+            object: {
+              ver: '1.0.0',
+              id: '',
+            },
+            tags: [],
+            edata,
+          },
+        ],
+      }
+      this.postPublicTelemetry(finalObject)
+      this.previousUrl = page.pageUrl
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in telemetry paramTrigger', e)
+    }
+  }
   postPublicTelemetry(data: any) {
     // console.log("public telemetry")
     const publicConfig = this.http
@@ -329,7 +447,7 @@ export class TelemetryService {
       const page = this.getPageDetails()
       await this.getTelemetryConfig()
 
-      let cookie = this.UserAgentResolverService.generateCookie()
+      const cookie = this.UserAgentResolverService.generateCookie()
 
       let edata = {
         pageid: page.pageid, // Required. Unique page id
@@ -338,11 +456,11 @@ export class TelemetryService {
         browserName,
         OS,
         timestamp: Date.now(),
-        cookie
+        cookie,
       }
       param = JSON.parse(param)
       edata = {
-        ...edata, ...param
+        ...edata, ...param,
       }
 
       if (page.objectId) {
@@ -374,7 +492,6 @@ export class TelemetryService {
       console.log('Error in telemetry paramTrigger', e)
     }
   }
-
 
   externalImpression(impressionData: any) {
     try {
