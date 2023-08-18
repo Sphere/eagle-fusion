@@ -1,0 +1,19 @@
+@import 'ws-mixins';
+.btn {
+  margin-left: 20px;
+  border-radius: 50px;
+  width: 100px !important;
+  height: 38px !important;
+  color: #1c5d95 !important;
+  // border-color: #1C5D95 !important;
+  border: 1px solid #1c5d95 !important;
+
+  @include breakpoint-xs {
+    margin-left: 12px;
+  }
+}
+
+.btn-active {
+  background-color: #1c5d95 !important;
+  color: #ffffff !important;
+}
