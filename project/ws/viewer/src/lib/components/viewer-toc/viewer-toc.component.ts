@@ -23,7 +23,7 @@ import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
-import isNull from 'lodash/isNull'
+import { isNull, isEmpty } from 'lodash'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 interface IViewerTocCard {
   identifier: string
@@ -170,7 +170,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.currentContentType == 'Video') {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
-            if (!isNull(nextResource)) {
+            if (!(isNull(nextResource) || isEmpty(nextResource))) {
               this.router.navigate([nextResource], { preserveQueryParams: true })
               this.playerStateService.trigger$.complete()
 
@@ -209,7 +209,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
               const nextResource = this.playerStateService.getNextResource()
-              if (!isNull(nextResource)) {
+              if (!(isNull(nextResource) || isEmpty(nextResource))) {
                 this.router.navigate([nextResource], { preserveQueryParams: true })
                 this.playerStateService.trigger$.complete()
 
@@ -661,12 +661,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.playerStateService.isResourceCompleted()) {
           const nextResource = this.playerStateService.getNextResource()
 
-          if (!isNull(nextResource)) {
+          if (!(isEmpty(nextResource) || isNull(nextResource))) {
             if (content.type === "Scorm") {
               this.router.navigate([nextResource], { preserveQueryParams: true })
               this.playerStateService.trigger$.complete()
             }
-          } else {
+          } else if (this.contentSvc.showConformation) {
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
               panelClass: 'overview-modal',
@@ -694,9 +694,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           })
         }
       } else {
-
         if (this.playerStateService.isResourceCompleted()) {
-          if (isNull(this.playerStateService.getNextResource())) {
+          if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
+            && this.contentSvc.showConformation) {
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
               panelClass: 'overview-modal',

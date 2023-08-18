@@ -2,13 +2,13 @@ import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Data } from '@angular/router'
 import { Subject, Subscription } from 'rxjs'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
-import { NsContent, viewerRouteGenerator, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
+import { NsContent, viewerRouteGenerator, ROOT_WIDGET_CONFIG, WidgetContentService } from '@ws-widget/collection'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { takeUntil } from 'rxjs/operators'
-import get from 'lodash/get'
+import { get, last } from 'lodash'
 @Component({
   selector: 'ws-app-app-toc-contents',
   templateUrl: './app-toc-contents.component.html',
@@ -39,6 +39,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     private sanitizer: DomSanitizer,
     private tocSvc: AppTocService,
     private configSvc: ConfigurationsService,
+    private contentSvc: WidgetContentService
   ) { }
 
   ngOnInit() {
@@ -78,6 +79,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         this.loadContent = true
       }
     })
+    this.checkLastResoursePercentage(this.content)
   }
   ngOnDestroy() {
     if (this.routeSubscription) {
@@ -143,6 +145,24 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       })
     }
   }
+
+  checkLastResoursePercentage(data: any) {
+    if (data) {
+      const masterData: any = last(data.children)
+      if (masterData.children && masterData.children.length > 0) {
+        const lastChild: any = last(masterData.children)
+        this.setConfirmDialogStatus(lastChild.completionPercentage)
+      } else {
+        this.setConfirmDialogStatus(masterData.completionPercentage)
+      }
+    }
+
+  }
+
+  setConfirmDialogStatus(percentage: any) {
+    this.contentSvc.showConformation = percentage
+  }
+
   private fetchContentParents(contentId: string) {
     this.tocSvc.fetchContentParents(contentId).subscribe(contents => {
       this.contentParents = contents || []

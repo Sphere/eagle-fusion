@@ -201,6 +201,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  setConfirmDialogStatus(percentage: any) {
+    this.contentSvc.showConformation = percentage
+  }
+
   get showIntranetMsg() {
     if (this.isMobile) {
       return true
@@ -889,7 +893,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               const query = this.generateQuery('START')
               this.router.navigate([this.firstResourceLink.url], { queryParams: query })
             }
-          },         500)
+          }, 500)
 
         } else {
           this.openSnackbar('Something went wrong, please try again later!')

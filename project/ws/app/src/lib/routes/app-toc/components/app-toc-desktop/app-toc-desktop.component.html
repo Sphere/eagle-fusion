@@ -104,6 +104,7 @@
         </button>
         <!--(click)="resumeBtn()" -->
         <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
+          (click)="setConfirmDialogStatus(content?.completionPercentage)"
           [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
           [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')" class="banner-btn resumeButton">
           <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>

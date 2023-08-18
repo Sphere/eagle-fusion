@@ -239,7 +239,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     if (this.viewState === 'initial') {
       setTimeout(() => {
         this.openOverviewDialog()
-      },         500)
+      }, 500)
     }
     this.viewerSvc.castResource.subscribe((content: any) => {
       if (content && content.type === 'Assessment') {
@@ -347,7 +347,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
-                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
+                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
+                      && this.contentSvc.showConformation) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                         // width: '542px',
                         // panelClass: 'overview-modal',
@@ -396,7 +397,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (isNull(data.nextResource)) {
         // tslint:disable-next-line
-        if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
+        if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
+          && this.contentSvc.showConformation) {
           const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
             // width: '542px',
             // panelClass: 'overview-modal',
@@ -418,7 +420,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           if (res) {
             setTimeout(() => {
               this.openOverviewDialog()
-            },         500)
+            }, 500)
           }
         })
       }
@@ -535,7 +537,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
-                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100) {
+                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
+                      && this.contentSvc.showConformation) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                         width: '542px',
                         panelClass: 'overview-modal',

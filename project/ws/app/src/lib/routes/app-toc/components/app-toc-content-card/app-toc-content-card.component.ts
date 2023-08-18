@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
-import { NsContent, viewerRouteGenerator } from '@ws-widget/collection'
+import { NsContent, WidgetContentService, viewerRouteGenerator } from '@ws-widget/collection'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
@@ -46,6 +46,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private router: Router,
     private tocSvc: AppTocService,
+    private contentSvc: WidgetContentService
   ) {
   }
 
@@ -69,6 +70,10 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
         this.viewChildren = this.expandAll
       }
     }
+  }
+
+  setConfirmDialogStatus(percentage: any) {
+    this.contentSvc.showConformation = percentage
   }
 
   resourceContentTypeFunct(type: any) {

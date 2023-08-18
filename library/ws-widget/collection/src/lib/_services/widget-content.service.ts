@@ -54,6 +54,7 @@ export class WidgetContentService {
   public _updateValue = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
   updateValue$ = this._updateValue.asObservable()
+  _showConformation: any
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
@@ -302,7 +303,7 @@ export class WidgetContentService {
     }
     req.query = req.query || ''
     return this.http.post<NSSearch.ISearchV6ApiResult>(API_END_POINTS.PUBLIC_CONTENT_SEARCH,
-                                                       req,
+      req,
     )
   }
   fetchContentRating(contentId: string): Observable<{ rating: number }> {
@@ -348,7 +349,7 @@ export class WidgetContentService {
 
   loginAuth(req: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.LOGIN_USER, req).pipe(retry(1),
-                                                                    map(
+      map(
         (data: any) => data
       )
     )
@@ -372,5 +373,18 @@ export class WidgetContentService {
 
   getLatestCourse() {
     return this.http.get<any>(`${API_END_POINTS.LATEST_HOMEPAGE_COURSE}`)
+  }
+
+  set showConformation(completionPersentage: any) {
+    this._showConformation = completionPersentage !== 100 ? true : false
+    localStorage.setItem('showConformation', this._showConformation)
+  }
+
+  get showConformation() {
+    if (this._showConformation === undefined) {
+      let showConformation = localStorage.getItem('showConformation')
+      this._showConformation = showConformation === 'false' ? false : true
+    }
+    return this._showConformation
   }
 }
