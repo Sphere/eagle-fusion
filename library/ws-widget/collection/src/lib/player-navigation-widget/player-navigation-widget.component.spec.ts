@@ -1,24 +1,22 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { IonicModule } from '@ionic/angular';
+import { async, ComponentFixture, TestBed } from '@angular/core/testing'
 
-import { PlayerNavigationWidgetComponent } from './player-navigation-widget.component';
+import { PlayerNavigationWidgetComponent } from './player-navigation-widget.component'
 
 describe('PlayerNavigationWidgetComponent', () => {
-  let component: PlayerNavigationWidgetComponent;
-  let fixture: ComponentFixture<PlayerNavigationWidgetComponent>;
+  let component: PlayerNavigationWidgetComponent
+  let fixture: ComponentFixture<PlayerNavigationWidgetComponent>
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ PlayerNavigationWidgetComponent ],
-      imports: [IonicModule.forRoot()]
-    }).compileComponents();
+      declarations: [PlayerNavigationWidgetComponent],
+    }).compileComponents()
 
-    fixture = TestBed.createComponent(PlayerNavigationWidgetComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  }));
+    fixture = TestBed.createComponent(PlayerNavigationWidgetComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
+  }))
 
   it('should create', () => {
-    expect(component).toBeTruthy();
-  });
-});
+    expect(component).toBeTruthy()
+  })
+})
