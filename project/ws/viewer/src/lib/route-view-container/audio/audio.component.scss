@@ -249,3 +249,9 @@
 .next-button .title {
   margin-right: -11px;
 }
+
+.audio {
+  display: block;
+  height: calc(100% - 60px);
+  position: unset !important;
+}

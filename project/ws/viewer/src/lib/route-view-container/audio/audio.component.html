@@ -8,8 +8,11 @@
         <mat-card>
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player">
-              <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverAudioData"></ng-container>
-              <div class="player-nav-links">
+              <span class="audio">
+                <ng-container *ngIf="isFetchingDataComplete"
+                  [wsResolverWidget]="widgetResolverAudioData"></ng-container>
+              </span>
+              <div>
                 <app-player-navigation-widget></app-player-navigation-widget>
                 <!-- <div class="flex justify-between html">
                   <div class="prev-button">
