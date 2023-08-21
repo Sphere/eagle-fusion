@@ -334,6 +334,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   //   // this.searchModelChange.emit(this.searchModel)
   // }
   sendStatus(content: any) {
+    content['openOverviewDialog'] = content.type === 'Assessment'
     this.viewSvc.editResourceData(content)
   }
 

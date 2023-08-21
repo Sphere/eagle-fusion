@@ -137,6 +137,7 @@ export namespace NsContent {
     references?: { url: string; title: string }[]
     resumePage?: number // For player WebModule in UI
     [key: string]: any
+    OverviewDialog: boolean
   }
 
   export interface IContentResponse {
@@ -213,7 +214,7 @@ export namespace NsContent {
     contentType: EContentTypes
     description: string
     displayContentType?: EDisplayContentTypes
-        completionPercentage: number | null
+    completionPercentage: number | null
     duration: number
     identifier: string
     hasAccess?: boolean
