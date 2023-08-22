@@ -613,7 +613,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          if (!isNull(data.prevResource)) {
+          if (isNull(data.nextResource)) {
+            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+              queryParams: {
+                primaryCategory: 'Course',
+                batchId: this.route.snapshot.queryParams.batchId,
+              },
+            })
+          } else if (!isNull(data.prevResource)) {
             this.router.navigate([data.prevResource], { preserveQueryParams: true })
           }
           return
@@ -635,7 +642,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          if (!isNull(data.prevResource)) {
+          if (isNull(data.nextResource)) {
+            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+              queryParams: {
+                primaryCategory: 'Course',
+                batchId: this.route.snapshot.queryParams.batchId,
+              },
+            })
+          } else if (!isNull(data.prevResource)) {
             this.router.navigate([data.prevResource], { preserveQueryParams: true })
           }
 

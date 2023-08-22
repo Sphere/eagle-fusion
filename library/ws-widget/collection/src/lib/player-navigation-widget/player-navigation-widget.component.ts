@@ -13,6 +13,7 @@ export class PlayerNavigationWidgetComponent implements OnInit {
   prevResourceUrl: string | null = null
   nextResourceUrl: string | null = null
   currentCompletionPercentage: number | null = null
+  firstResourceUrl: string | null = null
 
   constructor(
     private viewerDataSvc: PlayerStateService,
@@ -25,6 +26,7 @@ export class PlayerNavigationWidgetComponent implements OnInit {
         this.prevResourceUrl = data.prevResource
         this.nextResourceUrl = data.nextResource
         this.currentCompletionPercentage = data.currentCompletionPercentage
+        this.firstResourceUrl = data.firstResource
       }
     })
   }

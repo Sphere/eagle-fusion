@@ -5,7 +5,7 @@
       Previous
     </div>
   </a>
-  <a mat-button class="child" [routerLink]="isProgressCheck ? nextResourceUrl : stopPropagation()"
+  <a mat-button class="child" [routerLink]="isProgressCheck && nextResourceUrl ? nextResourceUrl : firstResourceUrl"
     queryParamsHandling="preserve" [disabled]="!isProgressCheck">
     <div>
       <img src="fusion-assets/icons/go-next.svg" alt="next">
