@@ -51,4 +51,5 @@ video::-webkit-media-controls-play-button {
       display: flex;
     width: 125px;
     height: 100px;
+    pointer-events: none;
 }

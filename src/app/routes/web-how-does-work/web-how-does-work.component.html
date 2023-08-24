@@ -5,7 +5,7 @@
 <section id="scrollToHowSphereWorks" class="scrollHowSphereWorks-block">
 
   <div class="block-container m-10">
-    <div class="how-work-content">
+    <div class="how-work-content" (click)="openVideoPopup('0')">
 
       <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
         <source src="{{video.url}}" type="video/mp4">
@@ -22,8 +22,7 @@
     </div>
   </div>
   <div class="block-container m-10">
-    <div class="how-work-content">
-
+    <div class="how-work-content" (click)="openVideoPopup('1')">
       <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
             <source src="{{video.url}}" type="video/mp4">
           </video> -->
@@ -39,8 +38,7 @@
     </div>
   </div>
   <div class="block-container m-10">
-    <div class="how-work-content">
-
+    <div class="how-work-content" (click)="openVideoPopup('2')">
       <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
               <source src="{{video.url}}" type="video/mp4">
             </video> -->

@@ -2,7 +2,7 @@
   <p class="header2 mb-0" i18n>How Sphere works</p>
   <p class="lable1 grey-color" i18n>3 simple steps</p>
   <div class="mt-2">
-    <div class="how-work-content">
+    <div class="how-work-content" (click)="openVideoPopup('0')">
 
       <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
         <source src="{{video.url}}" type="video/mp4">
@@ -18,7 +18,7 @@
       </div>
 
     </div>
-    <div class="how-work-content">
+    <div class="how-work-content" (click)="openVideoPopup('1')">
 
       <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
             <source src="{{video.url}}" type="video/mp4">
@@ -34,7 +34,7 @@
       </div>
 
     </div>
-    <div class="how-work-content">
+    <div class="how-work-content" (click)="openVideoPopup('2')">
 
       <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
             <source src="{{video.url}}" type="video/mp4">

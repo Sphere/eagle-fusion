@@ -1103,3 +1103,7 @@ button.submit-btn[disabled] {
     height: auto !important;
   }
 }
+
+.cdk-overlay-container .mat-dialog-container {
+    border-radius: 30px;
+}
