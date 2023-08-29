@@ -6,20 +6,21 @@
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
-    <div role="link" tabindex="0" [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
-      <span *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
-      <span *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.content.length }} </span>
+    <div role="link" tabindex="0" class="mb-2"
+      [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
+      <span class="mt-1" *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
+      <span class="mt-1" *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.content.length }} </span>
       <p class="text-xl" *ngIf="(isXSmall$ | async) === true" i18n>All Courses</p>
-      <span *ngIf="searchResults.result.content.length > 1 && (isXSmall$ | async) !== true " i18n>results
+      <span class="mt-1" *ngIf="searchResults.result.content.length > 1 && (isXSmall$ | async) !== true " i18n>results
       </span>
-      <span *ngIf="searchResults.result.content.length <= 1" i18n>result </span>
+      <span class="mt-1" *ngIf="searchResults.result.content.length <= 1" i18n>result </span>
       <span *ngIf="searchRequest?.lang?.split(',').length > 1"><span i18n>across your preferred language</span>
         <span>:&nbsp;</span><span class="cursor-pointer ws-mat-primary-text"
           *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)">{{lang | uppercase}}
         </span>
       </span>
       <div class="filter-lang" *ngIf="(isXSmall$ | async) !== true">
-        <label i18n class="pos-rel">Filter based on Language : </label>
+        <label i18n class="pos-rel mt-1">Filter based on Language : </label>
         <select class="form-control lang-select"
           [ngClass]="{'lang-icon': lang === '', 'lang-selected' : lang === 'step2' }" [(ngModel)]="contact"
           (change)="selectLang(contact)">
