@@ -255,9 +255,8 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.isNavBarRequired = false
       }
       if (event instanceof NavigationStart) {
-        console.log("????????", event)
+
         if (event.url.includes('/public/scrom-player')) {
-          console.log("???", event.url.includes('/public/scrom-player'))
           this.showmobileFooter = false
         }
         // if (window.location.href.indexOf('scrom-player') > 0) {
