@@ -213,6 +213,7 @@ const routes: Routes = [
   },
   {
     path: 'app/user/competency', component: CompetencyDashboardComponent,
+    canActivate: [GeneralGuard],
   },
   // {
   //   path: 'app/video-player',

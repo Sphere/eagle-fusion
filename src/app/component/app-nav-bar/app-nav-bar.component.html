@@ -113,7 +113,9 @@
   </div>
 </mat-toolbar>
 <ng-template #navbarSide let-item="item">
-  <ws-web-nav-link-page *ngIf="!isXSmall"></ws-web-nav-link-page>
+  <ng-container *ngIf="showNavLinkPage">
+    <ws-web-nav-link-page *ngIf="!isXSmall"></ws-web-nav-link-page>
+  </ng-container>
 
   <ng-container *ngIf="item.type === 'widgetButton'&&isXSmall" [wsResolverWidget]="item.config"></ng-container>
   <ws-widget-btn-feature *ngIf="item.type === 'featureButton'" [id]="item.config.actionBtnId" [widgetData]="item.config"

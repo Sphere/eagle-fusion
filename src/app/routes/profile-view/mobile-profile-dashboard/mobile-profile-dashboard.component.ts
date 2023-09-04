@@ -55,7 +55,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
       this.loader = false
-      this.profileData = res[0].profileDetails.profileReq
+      this.profileData = _.get(res[0], 'profileDetails.profileReq')
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })

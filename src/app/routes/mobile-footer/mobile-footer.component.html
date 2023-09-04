@@ -28,8 +28,8 @@
   <img class="footer-logo" src="/fusion-assets/images/sphere-new-logo.svg">
   <div class="flex flex-column link-container">
     <a class="footer-heading" i18n>Quick Links</a>
-    <a class="link-text" routerLink="/public/tnc" i18n>Privacy policy </a>
-    <a class="link-text" routerLink="/public/tnc" i18n>Terms of use</a>
+    <a class="link-text" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}" i18n>Privacy policy </a>
+    <a class="link-text" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}" i18n>Terms of use</a>
     <hr class="new1">
     <a class="footer-heading" i18n>Help and Contact</a>
     <a class="link-text" href="mailto:support@aastrika.org">support@aastrika.org</a>

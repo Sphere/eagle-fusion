@@ -10,3 +10,7 @@
     border-radius: 0px !important;
     pointer-events: auto;
 }
+
+.disableButton {
+    pointer-events: none;
+}

@@ -52,6 +52,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   preferedLanguage: any = ['english']
   hideCreateButton = true
   hideSearch = false
+  showNavLinkPage = true
   constructor(
     private domSanitizer: DomSanitizer,
     public configSvc: ConfigurationsService,
@@ -63,6 +64,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
+    if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
+      this.showNavLinkPage = false
+    }
     if (this.configSvc.restrictedFeatures) {
       this.isHelpMenuRestricted = this.configSvc.restrictedFeatures.has('helpNavBarMenu')
     }
@@ -148,7 +152,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
-    this.router.navigateByUrl('/page/home')
+    if (this.showNavLinkPage) {
+      this.router.navigateByUrl('/page/home')
+    }
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {

@@ -120,7 +120,7 @@ export class ProfileSelectComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
-            this.userProfileData = data.profileDetails.profileReq
+            this.userProfileData = data.profileDetails
           }
         })
     }
@@ -137,9 +137,10 @@ export class ProfileSelectComponent implements OnInit {
     }
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
-    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    let profileRequest = constructReq(form.value, this.userProfileData.profileReq, userAgent, userCookie)
     const obj = {
-      personalDetails: profileRequest.profileReq.personalDetails
+      personalDetails: profileRequest.profileReq.personalDetails,
+      preferences: this.userProfileData.preferences
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {

@@ -174,8 +174,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     // this.configSvc.userProfile = null
     // this.router.navigate(['/app/login'])
     try {
-      const url = `${document.baseURI}public/home`
-      const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
+      const baseURI = document.baseURI.replace('/hi/', '/')
+      const url = `${baseURI}public/home`
+      const keycloakurl = `${baseURI}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(url)}`
       window.location.href = keycloakurl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
       sessionStorage.clear()
