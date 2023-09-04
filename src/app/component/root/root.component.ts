@@ -255,9 +255,14 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.isNavBarRequired = false
       }
       if (event instanceof NavigationStart) {
-        if (window.location.href.indexOf('scrom-player') > 0) {
+        console.log("????????", event)
+        if (event.url.includes('/public/scrom-player')) {
+          console.log("???", event.url.includes('/public/scrom-player'))
           this.showmobileFooter = false
         }
+        // if (window.location.href.indexOf('scrom-player') > 0) {
+        //   this.showmobileFooter = false
+        // }
         // tslint:disable-next-line: max-line-length
         if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')) {
           this.isNavBarRequired = false
@@ -305,7 +310,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          },         100)
+          }, 100)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -334,7 +339,7 @@ export class RootComponent implements OnInit, AfterViewInit {
               }
             })
 
-          },         10)
+          }, 10)
         } else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
@@ -540,7 +545,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         window.fcWidget.init()
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
         window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      },         300)
+      }, 300)
       // window.fcWidget.show()
       // this.isCommonChatEnabled = false
       const script = this._renderer2.createElement('script')
