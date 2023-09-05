@@ -38,12 +38,12 @@
       <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
         <mat-list-item class="link-header" i18n> Quick Links </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/public/tnc" i18n>
+          <a class="list-item" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}" i18n>
             Privacy policy
           </a>
         </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/public/tnc" i18n>
+          <a class="list-item" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}" i18n>
             Terms of Use
           </a>
         </mat-list-item>

@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core'
 import { NsTnc } from '../../models/tnc.model'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
+import { ActivatedRoute } from '@angular/router'
 
 @Component({
   selector: 'ws-tnc-renderer',
@@ -19,7 +20,7 @@ export class TncRendererComponent implements OnInit, OnChanges {
 
   // UI Vars
   currentPanel: 'tnc' | 'dp' = 'tnc'
-  constructor(private configSvc: ConfigurationsService) {
+  constructor(private configSvc: ConfigurationsService, private route: ActivatedRoute) {
     if (this.configSvc.restrictedFeatures) {
       if (this.configSvc.restrictedFeatures.has('termsOfUser')) {
         this.termsOfUser = false
@@ -32,12 +33,15 @@ export class TncRendererComponent implements OnInit, OnChanges {
     if (this.tncData) {
       const tncData = this.tncData
       this.assignGeneralAndDp()
-      if (!tncData.isAccepted && this.dpTnc && !this.dpTnc.isAccepted) {
-        this.currentPanel = 'dp'
+      this.route.queryParams.subscribe(params => {
+        if (params['panel'] === 'dp' && !tncData.isAccepted && this.dpTnc && !this.dpTnc.isAccepted) {
+          this.currentPanel = 'dp'
+        }
+        if (params['panel'] === 'tnc' && !tncData.isAccepted && this.generalTnc && !this.generalTnc.isAccepted) {
+          this.currentPanel = 'tnc'
+        }
       }
-      if (!tncData.isAccepted && this.generalTnc && !this.generalTnc.isAccepted) {
-        this.currentPanel = 'tnc'
-      }
+      )
     }
   }
 

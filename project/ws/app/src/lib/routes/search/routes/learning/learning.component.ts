@@ -811,8 +811,9 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   removeLanguage() {
-
-    this.searchRequest.lang = ''
+    this.contact = this.lang = ''
+    this.searchRequest.filters['lang'] = []
+    console.log('filter', this.searchRequest)
     this.router.navigate([], {
       queryParams: { f: JSON.stringify(this.searchRequest.filters), q: this.searchRequestObject.request.query, lang: null },
 

@@ -87,8 +87,8 @@
 
       <div class="col-lg-3 col-md-6 footer-alignment">
         <a class="btn btn-link" routerLink="/public/about">About Us</a><br>
-        <a class="btn btn-link" routerLink="/public/tnc">Privacy Policy</a><br>
-        <a class="btn btn-link" routerLink="/public/tnc">Terms of use</a><br>
+        <a class="btn btn-link" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}">Privacy Policy</a><br>
+        <a class="btn btn-link" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}">Terms of use</a><br>
         <!-- <a class="btn btn-link" href="https://www.aastrika.org/team/" target="_blank" id=footer-team>Team</a>
         <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n id="footer-help-contact"
           class="list-item">Help & Contact</a>
