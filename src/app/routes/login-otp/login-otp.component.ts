@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
-import { v4 as uuid } from 'uuid'
+//import { v4 as uuid } from 'uuid'
 @Component({
   selector: 'ws-login-otp',
   templateUrl: './login-otp.component.html',
@@ -86,8 +86,8 @@ export class LoginOtpComponent implements OnInit {
         //   await this.signupService.fetchStartUpDetails()
         this.openSnackbar(res.message)
         // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
-        const state = uuid()
-        const nonce = uuid()
+        //const state = uuid()
+        //const nonce = uuid()
         sessionStorage.setItem('login-btn', 'clicked')
         if (url.includes('hi')) {
           url = url.replace('hi/', '')
@@ -97,8 +97,8 @@ export class LoginOtpComponent implements OnInit {
           this.redirectUrl = `${url}openid/keycloak`
         }
         // tslint:disable-next-line:max-line-length
-        const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-        window.location.href = keycloakurl
+        //const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+        //window.location.href = keycloakurl
       },
       (err: any) => {
         if (localStorage.getItem(`preferedLanguage`)) {
@@ -143,7 +143,7 @@ export class LoginOtpComponent implements OnInit {
         console.log(res, '2')
         this.openSnackbar(res.message)
         // localStorage.removeItem('preferedLanguage')
-        location.href = '/page/home'
+        //location.href = '/page/home'
         return res
       },
       (err: any) => {

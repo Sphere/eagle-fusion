@@ -17,7 +17,7 @@ export class GeneralGuard implements CanActivate {
   isXSmall = false
   locale = ''
   constructor(private router: Router, private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService) { }
+    private userProfileSvc: UserProfileService) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -135,13 +135,14 @@ export class GeneralGuard implements CanActivate {
           // if (this.dobFlag) {
           //   return this.router.parseUrl('/page/home')
           // }
-          if (data.tcStatus && data.tcStatus === 'false') {
-            return this.router.navigate(['app', 'new-tnc'])
-          }
-          if (data.profileDetails) {
-            return this.router.parseUrl(`/page/home`)
-          }
-          if (data.profileDetails === null) {
+          // if (data.tcStatus && data.tcStatus === 'false') {
+          //   return this.router.navigate(['app', 'new-tnc'])
+          // }
+          // if (data.profileDetails) {
+          //   return this.router.parseUrl(`/page/home`)
+          // }
+          console.log(data.profileDetails!.profileReq!.personalDetails!.dob === null, 'null')
+          if (data.profileDetails!.profileReq!.personalDetails!.dob === null) {
             if (localStorage.getItem('preferedLanguage')) {
               let data: any
               let lang: any
@@ -164,9 +165,11 @@ export class GeneralGuard implements CanActivate {
               }
               // return this.router.navigate(['app', 'new-tnc'])
             }
-          }
-          return this.router.navigate(['app', 'new-tnc'])
 
+            return this.router.navigate(['app', 'new-tnc'])
+          } else {
+            return this.router.parseUrl(`/page/home`)
+          }
         },
         (_err: any) => {
         })

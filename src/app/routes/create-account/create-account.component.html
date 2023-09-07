@@ -63,22 +63,18 @@
                   </div>
                 </div>
                 <label class="label-text">( <span i18n>Password must contain a minimum of 8 characters including
-                    numerals,
-                    lower and
-                    upper
-                    case alphabets and special characters without space </span>)</label>
+                    numerals, lower and upper case alphabets and special characters without space </span>)</label>
                 <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('required') &&
                   (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
                   This field is required</mat-error>
-                <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('pattern') &&
-                (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
-                  Invalid Password Format</mat-error>
+                <mat-error class="text-danger" i18n
+                  *ngIf="createAccountForm.controls['password'].hasError('pattern') &&
+                (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">Invalid Password Format</mat-error>
               </div>
               <div class="form-group">
                 <div class="input-group pwd">
-                  <input class="form-control" i18n formControlName="confirmPassword"
-                    [type]="hide2 ? 'password' : 'text'" i18n-placeholder placeholder="Confirm Password"
-                    id="confpassword-field">
+                  <input class="form-control" formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'"
+                    i18n-placeholder placeholder="Confirm Password" id="confpassword-field">
                   <div class="input-group-addon iconPosition1">
                     <a href="javascript:void(0)" (click)="toggle2()">
                       <i [ngClass]="iconChange2" aria-hidden="true"></i>
