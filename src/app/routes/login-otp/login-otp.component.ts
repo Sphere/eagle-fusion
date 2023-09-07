@@ -58,14 +58,15 @@ export class LoginOtpComponent implements OnInit {
   async verifyOtp() {
     let request: any = []
     let phone = this.signUpdata.value.emailOrMobile
+    console.log(this.signUpdata.value)
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
       request = {
-        mobileNumber: this.signUpdata.value.emailOrMobile,
+        mobile: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
-        userUUID: localStorage.getItem(`userUUID`),
+        userId: localStorage.getItem(`userUUID`),
       }
 
     } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
@@ -74,11 +75,13 @@ export class LoginOtpComponent implements OnInit {
         email: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
-        userUUID: localStorage.getItem(`userUUID`),
+        userId: localStorage.getItem(`userUUID`),
       }
     }
-    this.signupService.validateOtp(request).subscribe(
+    //this.signupService.validateOtp(request).subscribe(
+    this.signupService.ssoValidateOTP(request).subscribe(
       async (res: any) => {
+        console.log(res)
         let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
         this.openSnackbar(res.message)
@@ -123,7 +126,7 @@ export class LoginOtpComponent implements OnInit {
         mobileNumber: this.loginData.value.username,
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
-        userUUID: localStorage.getItem(`userUUID`),
+        userId: localStorage.getItem(`userUUID`),
       }
 
     } else {
@@ -131,11 +134,13 @@ export class LoginOtpComponent implements OnInit {
         email: this.loginData.value.username,
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
-        userUUID: localStorage.getItem(`userUUID`),
+        userId: localStorage.getItem(`userUUID`),
       }
     }
-    this.signupService.validateOtp(request).subscribe(
+    //this.signupService.validateOtp(request).subscribe(
+    this.signupService.ssoValidateOTP(request).subscribe(
       async (res: any) => {
+        console.log(res, '2')
         this.openSnackbar(res.message)
         // localStorage.removeItem('preferedLanguage')
         location.href = '/page/home'

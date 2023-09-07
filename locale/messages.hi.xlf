@@ -2128,8 +2128,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="a38f0b5645baa80b2159cf4268a2642017e95c55" datatype="html">
-        <source>
-                Invalid name Format</source>
+  <source> Invalid name Format</source>
         <target state="final">अमान्य नाम प्रारूप</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
@@ -2137,8 +2136,8 @@
         </context-group>
       </trans-unit>
       <trans-unit id="99ccedf4a5e02d123e3cede73ae402b1f9fd4f24" datatype="html">
-        <source>This is the name that will show up on your certificate)</source>
-        <target state="final">यह नाम आपके प्रमाणपत्र पर दिखेगा)</target>
+    <source>This is the name that will show up on your certificate)</source>
+        <target state="final">यह नाम आपके प्रमाणपत्र पर दिखेगा</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">42</context>
@@ -2153,8 +2152,7 @@
         </context-group>
       </trans-unit>
       <trans-unit id="6283d9c01c43d3cda0853fad4d9702283ae415e8" datatype="html">
-        <source>Get help on
-                WhatsApp</source>
+        <source>Get help on WhatsApp</source>
         <target state="final">व्हाट्सएप पर सहायता प्राप्त करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>

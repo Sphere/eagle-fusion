@@ -40,60 +40,60 @@
                   *ngIf="createAccountForm.controls['lastname'].hasError('pattern') &&
                                     (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">
                   Invalid name Format</mat-error>
-                <label class="label-text">( <span i18n>This is the name that will show up on your certificate)
-                  </span></label>
+                <label class="label-text">(<span i18n>This is the name that will show up on your
+                    certificate</span>)</label>
               </div>
 
               <div class="form-group">
                 <input id="email-field" class="form-control" i18n formControlName="emailOrMobile" type="text"
                   i18n-placeholder placeholder="Phone Number/Email ID" autocomplete="off">
                 <mat-error class="text-danger" i18n *ngIf="emailOrMobileErrorStatus === 'required'">This field is
-                  required
-                </mat-error>
+                  required</mat-error>
                 <mat-error class="text-danger" i18n *ngIf="emailOrMobileErrorStatus === 'pattern'">Invalid email or
-                  number
+                  number</mat-error>
+              </div>
+              <div class="form-group">
+                <div class="input-group pwd" id="show_hide_password_1">
+                  <input class="form-control" i18n formControlName="password" placeholder="Password" id="password-field"
+                    i18n-placeholder [type]="hide1 ? 'password' : 'text'">
+                  <div class="input-group-addon iconPosition1">
+                    <a href="javascript:void(0)" (click)="toggle1()">
+                      <i [ngClass]="iconChange1" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+                <label class="label-text">( <span i18n>Password must contain a minimum of 8 characters including
+                    numerals,
+                    lower and
+                    upper
+                    case alphabets and special characters without space </span>)</label>
+                <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('required') &&
+                  (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
+                  This field is required</mat-error>
+                <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('pattern') &&
+                (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
+                  Invalid Password Format</mat-error>
+              </div>
+              <div class="form-group">
+                <div class="input-group pwd">
+                  <input class="form-control" i18n formControlName="confirmPassword"
+                    [type]="hide2 ? 'password' : 'text'" i18n-placeholder placeholder="Confirm Password"
+                    id="confpassword-field">
+                  <div class="input-group-addon iconPosition1">
+                    <a href="javascript:void(0)" (click)="toggle2()">
+                      <i [ngClass]="iconChange2" aria-hidden="true"></i>
+                    </a>
+                  </div>
+                </div>
+                <mat-error class="text-danger" i18n
+                  *ngIf="createAccountForm.controls['confirmPassword'].hasError('required') &&
+                  (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">This field is required.
+                </mat-error>
+                <mat-error class="text-danger" i18n
+                  *ngIf="createAccountForm.controls['confirmPassword'].hasError('mustMatch') &&
+                (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">Password does not match
                 </mat-error>
               </div>
-              <!-- <div class="form-group">
-              <div class="input-group pwd" id="show_hide_password_1">
-                <input class="form-control" i18n formControlName="password" placeholder="Password" id="password-field"
-                  i18n-placeholder [type]="hide1 ? 'password' : 'text'">
-                <div class="input-group-addon iconPosition1">
-                  <a href="javascript:void(0)" (click)="toggle1()">
-                    <i [ngClass]="iconChange1" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-              <label class="label-text">( <span i18n>Password must contain a minimum of 8 characters including numerals,
-                  lower and
-                  upper
-                  case alphabets and special characters without space </span>)</label>
-              <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('required') &&
-                  (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
-                This field is required</mat-error>
-              <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('pattern') &&
-                (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
-                Invalid Password Format</mat-error>
-            </div>
-            <div class="form-group">
-              <div class="input-group pwd">
-                <input class="form-control" i18n formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'"
-                  i18n-placeholder placeholder="Confirm Password" id="confpassword-field">
-                <div class="input-group-addon iconPosition1">
-                  <a href="javascript:void(0)" (click)="toggle2()">
-                    <i [ngClass]="iconChange2" aria-hidden="true"></i>
-                  </a>
-                </div>
-              </div>
-              <mat-error class="text-danger" i18n
-                *ngIf="createAccountForm.controls['confirmPassword'].hasError('required') &&
-                  (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">This field is required.
-              </mat-error>
-              <mat-error class="text-danger" i18n
-                *ngIf="createAccountForm.controls['confirmPassword'].hasError('mustMatch') &&
-                (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">Password does not match
-              </mat-error>
-            </div> -->
               <div class="next-btn-div">
                 <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
                   [disabled]="!createAccountForm?.valid"
@@ -105,8 +105,7 @@
                 </span>
                 <a href="https://wa.me/919632013414?text=Hi" target="_blank" class="greenButton" mat-button i18n
                   id="whatsApp-createaccount-page"
-                  (click)="eventTrigger('WhatsApp-Help-Create', 'whatsApp-createaccount-page')">Get help on
-                  WhatsApp</a>
+                  (click)="eventTrigger('WhatsApp-Help-Create', 'whatsApp-createaccount-page')">Get help on WhatsApp</a>
               </div>
             </form>
 

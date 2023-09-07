@@ -49,9 +49,9 @@ export class CreateAccountComponent implements OnInit {
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
       emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
-      // password: new FormControl('', [Validators.required,
-      // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
+      confirmPassword: new FormControl('', [Validators.required]),
     }, {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
@@ -88,9 +88,9 @@ export class CreateAccountComponent implements OnInit {
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
       emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
-      // password: new FormControl('', [Validators.required,
-      // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
+      password: new FormControl('', [Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
+      confirmPassword: new FormControl('', [Validators.required]),
     }, {})
 
     this.otpCodeForm = this.spherFormBuilder.group({
@@ -148,34 +148,35 @@ export class CreateAccountComponent implements OnInit {
         firstName: form.value.firstname.trim(),
         lastName: form.value.lastname.trim(),
         email: form.value.emailOrMobile.trim(),
-        // password: form.value.password.trim(),
+        password: form.value.password.trim(),
       }
 
-      this.signupService.signup(reqObj).subscribe(res => {
+      //this.signupService.signup(reqObj).subscribe(res => {
+      this.signupService.ssoWithMobileEmail(reqObj).subscribe(res => {
         console.log(res)
         console.log(res.status)
-        if (res.status_code === 200) {
+        if (res.message = "User successfully created") {
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
-              if (res.msg === 'user created successfully') {
+              if (res.message = "User successfully created") {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
                 this.openSnackbar(msg)
               }
             } else {
-              this.openSnackbar(res.msg)
+              this.openSnackbar(res.message)
             }
           } else {
-            this.openSnackbar(res.msg)
+            this.openSnackbar(res.message)
           }
           // this.generateOtp('email', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
-          localStorage.setItem(`userUUID`, res.userUUId)
+          localStorage.setItem(`userUUID`, res.userId)
         } else if (res.status === 'error') {
-          this.openSnackbar(res.msg)
+          this.openSnackbar(res.message)
         }
       },
         err => {
@@ -204,10 +205,11 @@ export class CreateAccountComponent implements OnInit {
         firstName: form.value.firstname.trim(),
         lastName: form.value.lastname.trim(),
         phone: form.value.emailOrMobile.trim(),
-        // password: form.value.password.trim(),
+        password: form.value.password.trim(),
       }
 
-      this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
+      //this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
+      this.signupService.ssoWithMobileEmail(requestBody).subscribe(res => {
         if (res.status === 'success') {
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
