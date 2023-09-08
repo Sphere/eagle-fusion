@@ -96,11 +96,35 @@ export class LoginOtpComponent implements OnInit {
         } else {
           this.redirectUrl = `${url}openid/keycloak`
         }
-        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-          (data: any) => {
-            console.log(data)
+        this.signupService.fetchStartUpDetails().then(result => {
+          console.log(result)
+          if (result.userId) {
+            this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
+              (data: any) => {
+                console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
+                if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
+                  if (localStorage.getItem('preferedLanguage')) {
+                    let data: any
+                    let lang: any
+                    data = localStorage.getItem('preferedLanguage')
+                    lang = JSON.parse(data)
+                    if (lang.id) {
+                      lang = lang.id !== 'en' ? lang.id : ''
+                      const url = `${lang}/app/`
+                      this.router.navigate([url, 'new-tnc'])
+                    }
+                  } else {
+                    this.router.navigate(['app', 'new-tnc'])
+                  }
+                }
+              })
+          }
+        })
+        // this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        //   (data: any) => {
+        //     console.log(data)
 
-          })
+        //   })
         // tslint:disable-next-line:max-line-length
         //const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
         //window.location.href = keycloakurl
