@@ -84,7 +84,7 @@ export class LoginOtpComponent implements OnInit {
         console.log(res)
         let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
-        this.openSnackbar(res.message)
+        this.openSnackbar(res.msg)
         // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
         //const state = uuid()
         //const nonce = uuid()
@@ -96,6 +96,11 @@ export class LoginOtpComponent implements OnInit {
         } else {
           this.redirectUrl = `${url}openid/keycloak`
         }
+        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+          (data: any) => {
+            console.log(data)
+
+          })
         // tslint:disable-next-line:max-line-length
         //const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
         //window.location.href = keycloakurl
