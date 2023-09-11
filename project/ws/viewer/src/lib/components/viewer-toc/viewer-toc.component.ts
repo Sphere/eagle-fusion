@@ -701,7 +701,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   //   } else {
   //     return false
   //   }
-
   // }
 
   async getCompletionPercentage() {

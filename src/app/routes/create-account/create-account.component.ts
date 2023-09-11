@@ -5,6 +5,7 @@ import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
 import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 import { forkJoin } from 'rxjs/internal/observable/forkJoin'
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'ws-create-account',
@@ -41,7 +42,8 @@ export class CreateAccountComponent implements OnInit {
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private http: HttpClient,
   ) {
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
@@ -105,6 +107,17 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.http.get('/apis/proxies/v8/logout/user').subscribe(
+      result => {
+        console.log(result)
+        // this.analyticsFetchStatus = 'done'
+        // this.analyticsReplaySubject.next(result)
+      },
+      (err) => {
+        console.log(err)
+      },
+    )
+    //console.log(x)
     if (localStorage.getItem(`preferedLanguage`) && location.href.includes('/hi/')) {
       const reqObj = localStorage.getItem(`preferedLanguage`) || ''
       this.preferedLanguage = JSON.parse(reqObj)
