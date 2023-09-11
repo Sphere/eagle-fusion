@@ -15,6 +15,7 @@ import { FormGroup, FormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
 import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -50,6 +51,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private userProfileSvc: UserProfileService,
     private http: HttpClient,
     private signupService: SignupService,
+    private UserAgentResolverService: UserAgentResolverService,
+
   ) {
   }
 
@@ -97,6 +100,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
       primaryEmailType: new FormControl('', []),
       dob: new FormControl('', []),
       regNurseRegMidwifeNumber: new FormControl('', []),
+      osName: new FormControl('', []),
+      browserName: new FormControl('', []),
+      userCookie: new FormControl('', [])
     })
   }
 
@@ -225,14 +231,29 @@ export class NewTncComponent implements OnInit, OnDestroy {
         })
       }
       this.isAcceptInProgress = true
+      const paramMap = this.activatedRoute.snapshot.queryParamMap
+      const params = {}
+
+      paramMap.keys.forEach((key: any) => {
+        var paramValue = paramMap.get(key)
+        params[key] = paramValue
+      })
+
+      // this.paramsJSON = JSON.stringify(params)
 
       this.createUserForm.controls.tncAccepted.setValue('true')
+      let userAgent = this.UserAgentResolverService.getUserAgent()
+      let userCookie = this.UserAgentResolverService.generateCookie()
+      console.log("userCookie: ", userCookie)
       if (this.configSvc.userProfile) {
         this.userId = this.configSvc.userProfile.userId || ''
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
         this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
         this.createUserForm.controls.regNurseRegMidwifeNumber.setValue('[NA]')
+        this.createUserForm.controls.osName.setValue(userAgent.OS || '')
+        this.createUserForm.controls.browserName.setValue(userAgent.browserName || '')
+        this.createUserForm.controls.userCookie.setValue(userCookie || '')
       }
       let Obj: any
       if (localStorage.getItem('preferedLanguage')) {

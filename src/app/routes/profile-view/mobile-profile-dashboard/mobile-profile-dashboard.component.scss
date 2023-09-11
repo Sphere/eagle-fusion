@@ -117,3 +117,31 @@
   padding: 10px;
 
 }
+.log-o{
+display: flex;
+flex-direction: row;
+justify-content: center;
+align-items: center;
+padding: 8px 32px;
+gap: 8px;
+position: absolute;
+width: 114px;
+height: 35px;
+background: #2E6491 !important;
+border-radius: 50px;
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 19px;
+/* identical to box height */
+color: #FFFFFF !important;
+mix-blend-mode: normal;
+/* Inside auto layout */
+flex: none;
+order: 0;
+flex-grow: 0;
+}
+.mt-5{
+margin-top: 2.5rem;
+}

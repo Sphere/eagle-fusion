@@ -1,0 +1,29 @@
+<div class="testimonials-update p-4">
+  Updates
+</div>
+<div class="carousel">
+  <div class="carousel-container">
+    <p class="testimonials-update-text">Testimonials</p>
+    <div class="carousel-item" [class.active]="isActive == 1">
+      “1 Lelementum sapien sit amet orci cursus accumsan. Sed sagittis dui nec auctor congue. Curabitur vitae risus vel
+      turpis.”
+      <p class="carousel-user">-User Name</p>
+      <button class="know-more">Know More</button>
+    </div>
+    <div class="carousel-item" [class.active]="isActive == 2">
+      “2 Lelementum sapien sit amet orci cursus accumsan. Sed sagittis dui nec auctor congue. Curabitur vitae risus vel
+      turpis.”
+      <p class="carousel-user">-User Name</p>
+      <button class="know-more">Know More</button>
+
+    </div>
+    <div class="carousel-item" [class.active]="isActive == 3">
+      “3 Lelementum sapien sit amet orci cursus accumsan. Sed sagittis dui nec auctor congue. Curabitur vitae risus vel
+      turpis.”
+      <p class="carousel-user">-User Name</p>
+      <button class="know-more">Know More</button>
+
+    </div>
+  </div>
+  <button class="carousel-control next" (click)="next()"><mat-icon>arrow_right</mat-icon></button>
+</div>

@@ -10,55 +10,117 @@
   <ng-container *ngSwitchCase="'card-user-details'" [ngTemplateOutlet]="cardWithUserDetails"></ng-container>
   <ng-container *ngSwitchCase="'card-description-back'" [ngTemplateOutlet]="cardDescriptionBack"></ng-container>
   <ng-container *ngSwitchCase="'basic-details'" [ngTemplateOutlet]="cardBasicDetails"></ng-container>
-  <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardStandard"></ng-container>
+  <!-- <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardBadges"></ng-container> -->
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardBadges"></ng-container>
 </ng-container>
-<ng-container *ngIf="(showLoggedInCard &&  widgetData) &&
-    (widgetData.deletedMode === 'hide' && !isLiveOrMarkForDeletion
-      ? false
-      : !(widgetData?.intranetMode === 'hide' && showIntranetContent))">
-
-  <mat-card class="card-standard-container mr-8 1" *ngIf="!showEndPopup; else elseBlock1" [ngClass]="{
-        greyOut:
-          widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
-            ? true
-            : widgetData?.intranetMode === 'greyOut' && showIntranetContent
-      }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
-    [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+<ng-template #cardBadges>
+  <mat-card class="card-standard-container mr-8 1 card-badges" [ngClass]="{
+              greyOut:
+                widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                  ? true
+                  : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+            }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
+    [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
     [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
     [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
     <div class="display-contents" [ngClass]="{
-          disableClick:
-            widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
-              ? true
-              : widgetData?.intranetMode === 'greyOut' && showIntranetContent
-        }">
+                disableClick:
+                  widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                    ? true
+                    : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+              }">
       <ng-container *ngIf="!isCardFlipped">
         <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
           matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
         <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
           matTooltip="Available only in Company's network"
           *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
-        <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
+        <!-- <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
-          <div style="position: relative; z-index: 1;">
-            <img mat-card-image loading="lazy" style="position: absolute; z-index: 2; "
-              [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+          <div style="position: relative; z-index: 1; ">
+            <ng-container *ngIf="widgetData?.badges?.orgIcon">
+              <div class="flex foundation">
+                <span class="badges-text">{{widgetData?.content?.sourceName}}</span>
+              </div>
+            </ng-container>
+            <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
               class="card-img no-prog ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
               [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+            <ng-container *ngIf="widgetData?.badges?.certification">
+              <div class="points flex">
+                <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
+                <span class="badges-text"> 32 CNE Points | Certified</span>
+              </div>
+            </ng-container>
+            <span class="img-overlay"></span>
+            <div class="source-div mt-4">
+            </div>
+          </div>
+        </a> -->
+
+        <a *ngIf="isUserLoggedIn === true" (click)="raiseTelemetry()" class="rounded-t" role="link" aria-label="Content"
+          i18n-aria-label="Content | Click to view">
+          <div style="position: relative; z-index: 1;">
+            <ng-container *ngIf="widgetData?.badges?.orgIcon">
+              <!-- <div class="flex foundation">
+                <span class="badges-text">{{widgetData?.content?.sourceName}}</span>
+              </div> -->
+              <ng-container *ngIf="widgetData?.content?.sourceName">
+                <div class="topStyle">{{widgetData?.content?.sourceName}}</div>
+              </ng-container>
+            </ng-container>
+            <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+              class="card-img no-prog ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+              [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+            <ng-container *ngIf="widgetData?.badges?.certification">
+              <!-- <div class="bottomStyle">
+                <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector">
+                32 CNE Points | Certified
+              </div> -->
+            </ng-container>
             <span class="img-overlay"></span>
             <div class="source-div mt-4">
             </div>
           </div>
         </a>
-        <mat-card-content>
+        <a *ngIf="isUserLoggedIn === false" (click)="clickToRedirect(widgetData.content)" class="rounded-t" role="link"
+          aria-label="Content" i18n-aria-label="Content | Click to view">
+          <div style="position: relative; z-index: 1;">
+            <img loading="lazy" mat-card-image style="position: absolute; z-index: 2;"
+              [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+              class="card-img no-prog ws-mat-primary-lite-background" [alt]="widgetData.content.name"
+              [title]="widgetData.content.name" />
+            <span class="img-overlay"></span>
+            <div class="source-div">
 
-          <div class="mat-title title-text ws-mat-text-block-fade-gradient"
-            style="margin-top:65px; margin-left: -11px;">
+            </div>
+          </div>
+        </a>
+        <mat-card-content style="margin: 0px;">
+          <div class="mat-title title-text ws-mat-text-block-fade-gradient" style="margin-top:75px !important;">
             {{ widgetData.content.name }}
           </div>
-          <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
-            {{ widgetData.content.description | pipeHtmlTagRemoval }}
-          </div>
+          <ng-container *ngIf="widgetData.content.description">
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
+              {{ widgetData.content.description | pipeHtmlTagRemoval }}
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf="cometencyData && cometencyData[0]">
+            <div class="competency-card flex">
+              <img src="/fusion-assets/icons/ph_medal.svg">
+              <div>
+                <span>{{cometencyData[0]?.name}}, </span>
+                <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                  <span>{{competency.levels}}</span>
+                  <span *ngIf="!last">, </span>
+                </ng-container>
+                <!-- <div>{{cometencyData[0]?.competencyName}}</div>
+                      <span>Level {{cometencyData[0]?.level}}</span> -->
+              </div>
+            </div>
+          </ng-container>
+
         </mat-card-content>
       </ng-container>
       <ng-container *ngIf="isCardFlipped">
@@ -73,8 +135,246 @@
         </p>
       </ng-container>
     </div>
-
   </mat-card>
+</ng-template>
+<mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
+  <mat-card class="popover-card xs-hidden">
+    <mat-card-content>
+      <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
+        {{ widgetData.content.name }}
+      </div>
+      <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+        {{ widgetData.content.subTitle | pipeHtmlTagRemoval }}
+      </div>
+      <div class="mb-2" *ngIf="widgetData.content?.lastPublishedOn"><span class="fw-500" i18n>Published On</span>:
+        {{widgetData.content?.lastPublishedOn | date }}</div>
+      <div *ngIf="widgetData.content.duration" class="duration mb-2" i18n-title title="Duration">
+        <span class="mr-1 orange-text" i18n>Duration</span>:
+        <mat-icon>access_time</mat-icon>
+        <span class="time-text fs-13">{{ widgetData.content.duration | pipeDurationTransform: 'hms' }}</span>
+        <!--<span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
+            <div class="flex items-start">
+              <ng-container [ngTemplateOutlet]="rating"></ng-container>
+            </div>
+          </span> -->
+      </div>
+      <p *ngIf="widgetData?.content?.completionPercentage"><span class="fw-500" i18n>Progress</span>: {{
+        widgetData?.content?.completionPercentage}} %</p>
+      <!-- <p><span class="fw-500">Number of modules:</span> {{ widgetData?.content?.childNodes?.length}}</p> -->
+      <p *ngIf="widgetData?.content?.creator"><span class="fw-500" i18n>Author</span>: {{
+        widgetData?.content?.creator}}
+      </p>
+      <p *ngIf="widgetData.content?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+        widgetData.content?.creatorContacts[0]?.name}}</p>
+
+      <p *ngIf="widgetData.content?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
+        {{widgetData.content?.uniqueUsersCount}}</p>
+      <p *ngIf="widgetData.content?.sourceName"><span class="fw-500" i18n>Source</span>:
+        {{widgetData.content.sourceName}}
+      </p>
+      <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
+          <div class="fw-500 mb-1">Course Description</div>
+          {{ widgetData.content.description | pipeHtmlTagRemoval }}
+        </div> -->
+      <div class="mt-0 flex">
+        <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
+          class="header-btn text-white ws-mat-primary-background mat-button-base"
+          (click)="clickToRedirect(widgetData.content)">
+          View Course</button>
+        <button *ngIf="isUserLoggedIn === false" mat-raised-button i18n
+          class="header-btn text-white ws-mat-primary-background mat-button-base"
+          (click)="clickToRedirect(widgetData.content)">
+          View Course </button>
+        <div class="flex">
+          <ws-widget-btn-content-share [widgetData]="widgetData.content"></ws-widget-btn-content-share>
+          <!--<ws-widget-btn-content-like [color]="'primary'" class="flex items-center"
+              [widgetData]="widgetData.content | pipePartialContent: ['identifier']" [likesCount]="widgetData.likes">
+            </ws-widget-btn-content-like> -->
+
+          <!--<ws-widget-btn-playlist *ngIf="btnPlaylistConfig" [widgetData]="btnPlaylistConfig">
+            </ws-widget-btn-playlist> -->
+          <!-- <ws-widget-btn-content-download [widgetData]="
+                widgetData.content
+                  | pipePartialContent
+                    : [
+                        'identifier',
+                        'contentType',
+                        'resourceType',
+                        'mimeType',
+                        'downloadUrl',
+                        'isExternal',
+                        'artifactUrl'
+                      ]
+              "></ws-widget-btn-content-download> -->
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mde-popover>
+<ng-container *ngIf="(showLoggedInCard &&  widgetData) &&
+    (widgetData.deletedMode === 'hide' && !isLiveOrMarkForDeletion
+      ? false
+      : !(widgetData?.intranetMode === 'hide' && showIntranetContent))">
+
+  <ng-container *ngIf="!showEndPopup; else elseBlock1">
+
+    <ng-container [ngSwitch]="widgetData.cardSubType">
+      <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardBadges"></ng-container>
+      <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardBadges"></ng-container>
+    </ng-container>
+
+    <ng-template #cardBadges>
+      <mat-card class="card-standard-container mr-8 2 card-badges" [ngClass]="{
+            greyOut:
+              widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                ? true
+                : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+          }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
+        [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+        [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
+        [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
+        <div class="display-contents" [ngClass]="{
+              disableClick:
+                widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                  ? true
+                  : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+            }">
+          <ng-container *ngIf="!isCardFlipped">
+            <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted"
+              i18n-matTooltip matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+            <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+              matTooltip="Available only in Company's network"
+              *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+            <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
+              i18n-aria-label="Content | Click to view">
+              <div style="position: relative; z-index: 1; ">
+                <ng-container *ngIf="widgetData?.badges?.orgIcon">
+                  <!-- <div class="flex foundation">
+                    <span class="badges-text">{{widgetData?.content?.sourceName}}</span>
+                  </div> -->
+                  <ng-container *ngIf="widgetData?.content?.sourceName">
+                    <div class="topStyle">{{widgetData?.content?.sourceName}}</div>
+                  </ng-container>
+                </ng-container>
+                <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+                  class="card-img no-prog ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                  [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+                <ng-container *ngIf="widgetData?.badges?.certification">
+                  <!-- <div class="bottomStyle">
+                    <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector">
+                    32 CNE Points | Certified
+                  </div> -->
+                </ng-container>
+                <span class="img-overlay"></span>
+                <div class="source-div mt-4">
+                </div>
+              </div>
+            </a>
+            <mat-card-content style="margin: 0px;">
+
+              <div class="mat-title title-text ws-mat-text-block-fade-gradient" style="margin-top:65px !important;">
+                {{ widgetData.content.name }}
+              </div>
+              <ng-container *ngIf="widgetData.content.description">
+                <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title
+                  style="margin-left: -11px;">
+                  {{ widgetData.content.description | pipeHtmlTagRemoval }}
+                </div>
+              </ng-container>
+
+              <ng-container *ngIf="cometencyData && cometencyData[0]">
+                <div class="competency-card flex">
+                  <img src="/fusion-assets/icons/ph_medal.svg">
+                  <div>
+                    <span>{{cometencyData[0]?.name}}, </span>
+                    <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                      <span>{{competency.levels}}</span>
+                      <span *ngIf="!last">, </span>
+                    </ng-container>
+                    <!-- <div>{{cometencyData[0]?.competencyName}}</div>
+                    <span>Level {{cometencyData[0]?.level}}</span> -->
+                  </div>
+                </div>
+              </ng-container>
+
+            </mat-card-content>
+          </ng-container>
+          <ng-container *ngIf="isCardFlipped">
+            <div class="flex items-center">
+              <h2 class="mat-subheading-2 flex-1 min-w-0 margin-remove-bottom" i18n>Reason</h2>
+              <button mat-icon-button (click)="isCardFlipped = false">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            <p class="text-justify mat-body-1">
+              {{ widgetData.content.reason }}
+            </p>
+          </ng-container>
+        </div>
+      </mat-card>
+    </ng-template>
+
+    <ng-template #standard>
+      <mat-card class="card-standard-container mr-8 1" [ngClass]="{
+            greyOut:
+              widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                ? true
+                : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+          }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
+        [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+        [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
+        [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
+        <div class="display-contents" [ngClass]="{
+              disableClick:
+                widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                  ? true
+                  : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+            }">
+          <ng-container *ngIf="!isCardFlipped">
+            <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted"
+              i18n-matTooltip matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+            <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+              matTooltip="Available only in Company's network"
+              *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+            <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
+              i18n-aria-label="Content | Click to view">
+              <div style="position: relative; z-index: 1;">
+                <img mat-card-image style="position: absolute; z-index: 2; " [src]="widgetData.content.thumbnail"
+                  [id]="'card_' + widgetData.content.identifier" class="card-img no-prog ws-mat-primary-lite-background"
+                  [wsUtilsDefaultThumbnail]="defaultThumbnail" [alt]="widgetData.content.name"
+                  [title]="widgetData.content.name" />
+                <span class="img-overlay"></span>
+                <div class="source-div mt-4">
+                </div>
+              </div>
+            </a>
+            <mat-card-content>
+
+              <div class="mat-title title-text ws-mat-text-block-fade-gradient"
+                style="margin-top:65px; margin-left: -11px;">
+                {{ widgetData.content.name }}
+              </div>
+              <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
+                {{ widgetData.content.description | pipeHtmlTagRemoval }}
+              </div>
+            </mat-card-content>
+          </ng-container>
+          <ng-container *ngIf="isCardFlipped">
+            <div class="flex items-center">
+              <h2 class="mat-subheading-2 flex-1 min-w-0 margin-remove-bottom" i18n>Reason</h2>
+              <button mat-icon-button (click)="isCardFlipped = false">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+            <p class="text-justify mat-body-1">
+              {{ widgetData.content.reason }}
+            </p>
+          </ng-container>
+        </div>
+
+      </mat-card>
+    </ng-template>
+  </ng-container>
 
   <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
     <mat-card class="popover-card xs-hidden">
@@ -122,7 +422,7 @@
     </mat-card>
   </mde-popover>
 
-  <ng-template #elseBlock1>
+  <!-- <ng-template #elseBlock1>
 
     <mat-card class="card-standard-container mr-8 2" [ngClass]="{
           greyOut:
@@ -181,6 +481,96 @@
         </ng-container>
       </div>
 
+    </mat-card>
+  </ng-template> -->
+  <ng-template #elseBlock1>
+    <mat-card class="card-standard-container mr-8 3 card-badges" [ngClass]="{
+              greyOut:
+                widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                  ? true
+                  : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+            }" (click)="(showIntranetContent || !isLiveOrMarkForDeletion) && showSnackbar()"
+      [mdePopoverTriggerFor]="appPopover1" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+      [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
+      [mdePopoverOffsetY]="-340" (mouseover)="showTarget($event)">
+      <div class="display-contents" [ngClass]="{
+                disableClick:
+                  widgetData.deletedMode === 'greyOut' && !isLiveOrMarkForDeletion
+                    ? true
+                    : widgetData?.intranetMode === 'greyOut' && showIntranetContent
+              }">
+        <ng-container *ngIf="!isCardFlipped">
+          <div class="status-danger" role="note" i18n-aria-label aria-label="Content expired or deleted" i18n-matTooltip
+            matTooltip="Content may be expired or deleted" *ngIf="!isLiveOrMarkForDeletion"></div>
+          <div class="status-danger" role="note" i18n-aria-label aria-label="Intranet content" i18n-matTooltip
+            matTooltip="Available only in Company's network"
+            *ngIf="widgetData?.intranetMode === 'greyOut' && showIntranetContent"></div>
+          <a (click)="login(widgetData.content)" class="rounded-t" role="link" aria-label="Content"
+            i18n-aria-label="Content | Click to view">
+            <div style="position: relative; z-index: 1; ">
+              <ng-container *ngIf="widgetData?.badges?.orgIcon">
+                <!-- <div class="flex foundation">
+                  <span class="badges-text">{{widgetData?.content?.sourceName}}</span>
+                </div> -->
+                <ng-container *ngIf="widgetData?.content?.sourceName">
+                  <div class="topStyle">{{widgetData?.content?.sourceName}}</div>
+                </ng-container>
+              </ng-container>
+              <img mat-card-image [src]="widgetData.content.thumbnail" [id]="'card_' + widgetData.content.identifier"
+                class="card-img no-prog ws-mat-primary-lite-background" [wsUtilsDefaultThumbnail]="defaultThumbnail"
+                [alt]="widgetData.content.name" [title]="widgetData.content.name" />
+              <ng-container *ngIf="widgetData?.badges?.certification">
+                <!-- <div class="bottomStyle">
+                  <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector">
+                  32 CNE Points | Certified
+                </div> -->
+              </ng-container>
+
+              <span class="img-overlay"></span>
+              <div class="source-div mt-4">
+              </div>
+            </div>
+          </a>
+          <mat-card-content style="margin: 0px;">
+
+            <div class="mat-title title-text ws-mat-text-block-fade-gradient" style="margin-top:65px !important;">
+              {{ widgetData.content.name }}
+            </div>
+            <ng-container *ngIf="widgetData.content.description">
+              <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
+                {{ widgetData.content.description | pipeHtmlTagRemoval }}
+              </div>
+            </ng-container>
+
+            <ng-container *ngIf="cometencyData && cometencyData[0]">
+              <div class="competency-card flex">
+                <img src="/fusion-assets/icons/ph_medal.svg">
+                <div>
+                  <span>{{cometencyData[0]?.name}}, </span>
+                  <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                    <span>{{competency.levels}}</span>
+                    <span *ngIf="!last">, </span>
+                  </ng-container>
+                  <!-- <div>{{cometencyData[0]?.competencyName}}</div>
+                      <span>Level {{cometencyData[0]?.level}}</span> -->
+                </div>
+              </div>
+            </ng-container>
+
+          </mat-card-content>
+        </ng-container>
+        <ng-container *ngIf="isCardFlipped">
+          <div class="flex items-center">
+            <h2 class="mat-subheading-2 flex-1 min-w-0 margin-remove-bottom" i18n>Reason</h2>
+            <button mat-icon-button (click)="isCardFlipped = false">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+          <p class="text-justify mat-body-1">
+            {{ widgetData.content.reason }}
+          </p>
+        </ng-container>
+      </div>
     </mat-card>
   </ng-template>
 </ng-container>

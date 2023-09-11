@@ -12,6 +12,8 @@ import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { Title } from '@angular/platform-browser'
+import get from 'lodash/get'
+import forEach from 'lodash/forEach'
 
 @Component({
   selector: 'ws-widget-card-content',
@@ -41,7 +43,7 @@ export class CardContentComponent extends WidgetBaseComponent
   showLoggedInCard = false
   showEndPopup = false
   userDetails: any
-
+  cometencyData: { name: any; levels: string }[] = []
   constructor(
     private configSvc: ConfigurationsService,
     private utilitySvc: UtilityService,
@@ -94,6 +96,23 @@ export class CardContentComponent extends WidgetBaseComponent
       //   contentName: this.widgetData.content.name,
       //   contentType: this.widgetData.content.contentType,
       // }
+      // this.cometencyData = JSON.parse(get(this.widgetData, 'content.competencies_v1', ''))
+      // console.log("this.widgetData", this.widgetData, get(this.widgetData, 'content.competencies_v1'))
+
+      if (this.widgetData.content.competencies_v1 && Object.keys(this.widgetData.content.competencies_v1).length > 0) {
+        forEach(JSON.parse(get(this.widgetData, 'content.competencies_v1')), (value: any) => {
+          if (value.level) {
+            this.cometencyData.push(
+              {
+                name: value.competencyName,
+                levels: ` Level ${value.level}`
+              }
+            )
+          }
+          return this.cometencyData
+        })
+      }
+
       this.modifySensibleContentRating()
     }
 

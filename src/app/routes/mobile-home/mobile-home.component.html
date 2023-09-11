@@ -1,16 +1,60 @@
 <!--page banner-->
 <div class="banner-container">
-
-  <div class="text-center">
-    <img src="fusion-assets\icons\join-movement-image_new.png" width="175" height="168">
-  </div>
   <!--upskill now section-->
-  <div class="header2" i18n>Upskill now</div>
-  <div class="sub-points">
-    <ul>
-      <li i18n>Access free healthcare courses</li>
-      <li i18n>Get Certified on completing a Course</li>
-      <!-- <li>Get certified</li> -->
-    </ul>
+  <div class="banner-heading" i18n>Access free Healthcare courses</div>
+  <div class="banner-mini-heading" i18n>
+    High quality content from experts
   </div>
+  <img class="banner-image" src="/fusion-assets/images/Mask_group.svg" alt="Banner image" loading="lazy">
+
+</div>
+<div class="flex info-block">
+  <div class="info-container info-disaplay-bg1">
+    <div class="flex info-box">
+      <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number">{{bannerStatus.learner_onboard}}+</div>
+    </div>
+    <p class="info-text" i18n>Learners onboarded</p>
+  </div>
+  <div class="info-container info-disaplay-bg2">
+    <div class="flex info-box">
+      <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number">{{bannerStatus.course}}+</div>
+    </div>
+    <p class="info-text" i18n>Number of courses</p>
+  </div>
+  <div class="info-container info-disaplay-bg2">
+    <div class="flex info-box">
+      <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number" i18n>{{bannerStatus.cert_course}}+</div>
+    </div>
+    <p class="info-text" i18n>Certificate Courses</p>
+  </div>
+  <div class="info-container info-disaplay-bg1">
+    <div class="flex info-box">
+      <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number">{{bannerStatus.certificates_issues}}+</div>
+    </div>
+    <p class="info-text" i18n>Total certificate issued</p>
+  </div>
+</div>
+<div class="tutorials-container" (click)="scrollToHowSphereWorks()">
+  <p class="tutorials-text" i18n>Watch tutorials on how sphere works ></p>
+</div>
+<div class="create-account">
+  <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
+    class="flex items-center flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+    [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+    <ng-container>
+      <button mat-raised-button [ngStyle]="{
+            'background-color': '#2E6491',
+            'width': '100%',
+            'border': '1px solid #2E6491',
+            'border-radius': '20px',
+            'color': 'white',
+            'font-size': '16px',
+            'font-weight': '400'}" i18n>
+        Create Account</button>
+    </ng-container>
+  </a>
 </div>

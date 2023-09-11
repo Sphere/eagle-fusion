@@ -1,32 +1,95 @@
-<section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-  <a (click)="navigateToToc(courseData.identifier)">
-    <div class="box">
-      <div class="text-center">
-        <img alt="logo" class="appIcon" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
-      </div>
-      <div class="pl-3 pt-3">
-        <p class="name">{{courseData.name}}</p>
-        <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p>
+<ng-container *ngIf="displayConfig?.displayType" [ngSwitch]="displayConfig?.displayType">
+  <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardBadges"></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardStandard"></ng-container>
+</ng-container>
 
-        <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
-      </div>
-      <div *ngIf="enableConfig" class="p-2">
-        <a href="app/toc/{{courseData.identifier}}/overview" class="btn start-btn" i18n>Start now!</a>
-      </div>
-      <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0  ">
-        <div class="flex flex-col m-3 ">
-          <div><span class="font-medium" i18n>Competency Name: </span> {{cometencyData[0].name}}</div>
-          <div class="flex flex-row">
-            <span class="font-medium" i18n>Levels : </span>
-            <ng-container *ngFor="let competency of cometencyData; let last = last; ">
-              <div>{{competency.levels}}
-                <span *ngIf="!last">, </span>
-              </div>
-            </ng-container>
-          </div>
+<ng-template #cardBadges>
+  <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+    <a (click)="redirectPage(courseData)">
+      <div class="box">
+        <div class="text-over">
+          <img class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <ng-container>
+            <div class="topStyle">{{courseData.sourceName}}</div>
+          </ng-container>
+          <ng-container *ngIf="displayConfig?.badges?.certification">
+            <!-- <div class="bottomStyle">
+              <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector">
+              32 CNE Points | Certified
+            </div> -->
+          </ng-container>
         </div>
+        <div class="pl-3 pt-3">
+          <p class="name">{{courseData.name}}</p>
+          <!-- <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p> -->
 
-      </ng-container>
-    </div>
-  </a>
-</section>
+          <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
+        </div>
+        <div *ngIf="enableConfig" class="p-2">
+          <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+        </div>
+        <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
+          <div class="competency-card flex m-3">
+            <img class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
+            <div>
+              <span>{{cometencyData[0]?.name}}, </span>
+              <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                <span>{{competency.levels}}</span>
+                <span *ngIf="!last">, </span>
+              </ng-container>
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
+          <div class="mt-2 px-1">
+
+            <span class="value" *ngIf="courseData?.completionPercentage"
+              i18n>{{courseData?.completionPercentage}}%</span>
+          </div>
+        </ng-container>
+      </div>
+    </a>
+  </section>
+</ng-template>
+
+<ng-template #cardStandard>
+  <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+    <a (click)="redirectPage(courseData)">
+      <div class="box">
+        <div class="text-center">
+          <img class="appIcon" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+        </div>
+        <div class="pl-3 pt-3">
+          <!-- <p class="name">{{courseData.name}}</p> -->
+          <!-- <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p> -->
+
+          <!-- <p class="description" *ngIf="enableConfig">{{courseData.description}}</p> -->
+        </div>
+        <div *ngIf="enableConfig" class="p-2">
+          <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+        </div>
+        <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0  && showCompentencyDetails">
+          <div class="flex flex-col m-3 ">
+            <div><span class="font-medium" i18n>Competency Name: </span> {{cometencyData[0].name}}</div>
+            <div class="flex flex-row">
+              <span class="font-medium" i18n>Levels : </span>
+              <ng-container *ngFor="let competency of cometencyData; let last = last; ">
+                <div>{{competency.levels}}
+                  <span *ngIf="!last">, </span>
+                </div>
+              </ng-container>
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
+          <div class="mt-2 px-1">
+            <span class="value" *ngIf="courseData?.completionPercentage"
+              i18n>{{courseData?.completionPercentage}}%</span>
+          </div>
+        </ng-container>
+      </div>
+    </a>
+  </section>
+</ng-template>

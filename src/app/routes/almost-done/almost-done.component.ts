@@ -6,6 +6,7 @@ import { Router, ActivatedRoute } from '@angular/router'
 import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { HttpClient } from '@angular/common/http'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-almost-done',
@@ -52,7 +53,9 @@ export class AlmostDoneComponent implements OnInit {
     private snackBar: MatSnackBar,
     private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private UserAgentResolverService: UserAgentResolverService,
+
   ) {
   }
 
@@ -413,6 +416,8 @@ export class AlmostDoneComponent implements OnInit {
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
 
     const userObject = {
       firstname: this.firstName,
@@ -423,6 +428,10 @@ export class AlmostDoneComponent implements OnInit {
       countryCode: this.yourBackground.value.countryCode,
       primaryEmail: this.email,
       postalAddress: this.selectedAddress,
+      osName: userAgent.OS,
+      browserName: userAgent.browserName,
+      userCookie: userCookie,
+
     }
     Object.keys(userObject).forEach(key => {
       if (userObject[key] === '') {

@@ -9,6 +9,7 @@ import { EventService } from './event.service'
 import { LoggerService } from './logger.service'
 // import { environment } from 'src/environments/environment'
 import { HttpClient } from '@angular/common/http'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 declare var $t: any
 
@@ -27,12 +28,15 @@ export class TelemetryService {
   PUBLIC_TELEMETRY = '/apis/public/v8/publicTelemetry'
 
   constructor(
+    // private orgService: OrgServiceService,
     private http: HttpClient,
     private configSvc: ConfigurationsService,
     private eventsSvc: EventService,
     // private authSvc: AuthKeycloakService,
     // private envSvc : environment,
     private logger: LoggerService,
+    private UserAgentResolverService: UserAgentResolverService,
+
   ) {
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
@@ -229,16 +233,7 @@ export class TelemetryService {
     try {
       const page = this.getPageDetails()
       await this.getTelemetryConfig()
-      var cookie: any
-      if (this.isCookieExpired('USERUID')) {
-        var timestamp = new Date().getTime().toString(36)
-        var randomString = Math.random().toString(36).substring(2, 9)
-        var uniqueId = timestamp + randomString
-        cookie = this.setCookie('USERUID', uniqueId, 1)
-      } else {
-        cookie = this.getCookie('USERUID')
-      }
-
+      let cookie = this.UserAgentResolverService.generateCookie()
 
       let edata = {
         pageid: page.pageid, // Required. Unique page id
@@ -333,16 +328,8 @@ export class TelemetryService {
     try {
       const page = this.getPageDetails()
       await this.getTelemetryConfig()
-      var cookie: any
-      if (this.isCookieExpired('USERUID')) {
-        var timestamp = new Date().getTime().toString(36)
-        var randomString = Math.random().toString(36).substring(2, 9)
-        var uniqueId = timestamp + randomString
-        cookie = this.setCookie('USERUID', uniqueId, 1)
-      } else {
-        cookie = this.getCookie('USERUID')
-      }
 
+      let cookie = this.UserAgentResolverService.generateCookie()
 
       let edata = {
         pageid: page.pageid, // Required. Unique page id
@@ -388,45 +375,6 @@ export class TelemetryService {
     }
   }
 
-  setCookie = (name: any, value: any, days: any) => {
-    const expires = new Date()
-    expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000))
-    const cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`
-    document.cookie = cookie
-    return cookie
-  };
-
-  isCookieExpired(cookieName: any) {
-    const cookieValue = this.getCookie(cookieName)
-    if (!cookieValue) {
-      return true
-    }
-    if (cookieValue) {
-      const cookieParts = cookieValue.split(';')
-      for (let i = 0; i < cookieParts.length; i++) {
-        const cookiePart = cookieParts[i].trim()
-        if (cookiePart.startsWith('expires=')) {
-          const expirationDate = new Date(cookiePart.substring('expires='.length))
-          const currentDate = new Date()
-          if (currentDate > expirationDate) {
-            return true
-          }
-        }
-      }
-    }
-    return false
-  }
-
-  getCookie(name: any) {
-    const cookies = document.cookie.split(';')
-    for (let i = 0; i < cookies.length; i++) {
-      const cookie = cookies[i].trim()
-      if (cookie.startsWith(name + '=')) {
-        return decodeURIComponent(cookie.substring(name.length + 1))
-      }
-    }
-    return null
-  }
 
   externalImpression(impressionData: any) {
     try {

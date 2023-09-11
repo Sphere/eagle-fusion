@@ -1,0 +1,126 @@
+.testimonials-update{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+/* identical to box height, or 120% */
+
+letter-spacing: -0.02em;
+
+color: #000000;
+
+}
+p {
+  font-family: Lato;
+}
+
+.carousel{
+  position: relative;
+  background: #999;
+  height: 302px;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  align-items: center;
+
+
+background: #F7F7F7;
+  &-container{
+    width: 200px;
+    min-height: 200px;
+    position: relative;
+    margin: 0 auto;
+    overflow: hidden;
+    box-sizing: border-box;
+  }
+  &-item{
+    width: 100%;
+    position: absolute;
+    left: -100%;
+    box-sizing: border-box;
+    transition: left 0.3s;
+    background: #fff;
+    &.active{
+      left: 0;
+      &+.carousel-item{
+        left: 100%;
+      }
+    }
+    @for $i from 1 through 4 {
+      &:nth-child(#{$i}){
+        z-index: 4 - $i + 1;
+      }
+    }
+  }
+  &-control{
+    position: absolute;
+    height: 30px;
+    top: calc(50% - 15px);
+    // right: 100%;
+    left: 20px;
+    &.next{
+      left: auto;
+      right: 20px;
+    }
+  }
+}
+.agree{
+  background: pink;
+  text-align: center;
+}
+.testimonials-update-text{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  letter-spacing: -0.02em;
+  color: #1C5D95;
+}
+.carousel-item{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 19px;
+letter-spacing: -0.02em;
+
+color: #404040;
+}
+.carousel-container{
+  width: 310px;
+height: 280px;
+
+
+background: #FFFFFF;
+box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+}
+.carousel-user{
+  /* Body */
+
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+letter-spacing: -0.02em;
+
+color: #404040;
+}
+.know-more{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #2E6491;
+  mix-blend-mode: normal;
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
+}

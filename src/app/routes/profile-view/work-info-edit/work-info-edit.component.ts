@@ -7,6 +7,8 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
 import { constructReq } from '../request-util'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+
 @Component({
   selector: 'ws-work-info-edit',
   templateUrl: './work-info-edit.component.html',
@@ -31,7 +33,8 @@ export class WorkInfoEditComponent implements OnInit {
     private router: Router,
     private snackBar: MatSnackBar,
     private route: ActivatedRoute,
-    private valueSvc: ValueService
+    private valueSvc: ValueService,
+    private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.workInfoForm = new FormGroup({
       doj: new FormControl('', [Validators.required]),
@@ -91,7 +94,11 @@ export class WorkInfoEditComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const profileRequest = constructReq(form, this.userProfileData)
+    let userAgent = this.UserAgentResolverService.getUserAgent()
+    let userCookie = this.UserAgentResolverService.generateCookie()
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+
+
     const reqUpdate = {
       request: {
         userId: this.userID,

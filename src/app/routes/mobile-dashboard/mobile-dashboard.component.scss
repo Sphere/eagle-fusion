@@ -1,5 +1,31 @@
-.content {
-  padding: 60px 20px 30px;
+@import 'ws-mixins';
+
+.banner-container{
+    display: flex;
+    flex-wrap: wrap;
+}
+.banner-heading{
+    font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 24px;
+line-height: 29px;
+/* or 120% */
+padding: 65px 0px 0px 15px !important;
+letter-spacing: -0.02em;
+
+color: #000000;
+}
+.banner-mini-heading{
+font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 19px;
+letter-spacing: -0.02em;
+padding-left: 15px;
+
+color: #000000;
 }
 p {
   margin: 0 !important;
@@ -85,4 +111,86 @@ span.language-text {
 img.lang-img {
   width: 35px;
   height: 24px;
+}
+.banner-image{
+    max-width: 400px;
+}
+@media (min-width:320px)  {
+    .banner-image{
+        max-width: 300px;
+    }
+    .info-container {
+        width: 160px;
+    }
+}
+@media (min-width:375px)  {
+    .banner-image{
+        max-width: 360px;
+    }
+    .info-container {
+        width: 187.5px;
+    }
+}
+@media (min-width:425px)  {
+     .banner-image{
+        max-width: 410px;
+    }
+    .info-container {
+        width: 212.5px;
+    }
+}
+.tutorials-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #469788;
+    height: 51px;
+    margin-top: -9px;
+}
+.tutorials-text{
+    /* Body */
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 24px;
+    /* or 150% */
+    text-align: center;
+    letter-spacing: -0.02em;
+    color: #FFFFFF !important;
+    margin: 0px !important;
+}
+.header2{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+}
+.lable1{
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+}
+.view-all-course{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 14px;
+line-height: 16px;
+
+color: #2E6491;
+
+mix-blend-mode: normal;
+    display: flex;
+    justify-content: center;
+    border: 1px solid #2E6491;
+    padding: 8px 18px;
+    border-radius: 30px;
+    color: #2E6491;
+    background-color: #FFFFFF;
+    margin: auto;
 }

@@ -80,15 +80,52 @@ ws-app-nav-bar {
     display: none;
   }
 }
-
+.web-public-chat-icon{
+    cursor: pointer;
+    z-index: 1000;
+    /* left: 0rem; */
+    position: fixed;
+    /* bottom: 5.3rem; */
+    width: 70px;
+    top: 5.3rem;
+    right: 0rem;
+}
+.web-chat-icon{
+    cursor: pointer;
+    z-index: 1000;
+    /* left: 0rem; */
+    position: fixed;
+    /* bottom: 5.3rem; */
+    width: 70px;
+    top: 0.4rem;
+    right: 0rem;
+}
 //chat-style
+.public-chat-icon {
+  // cursor: pointer;
+  // z-index: 1000;
+  // left: 0rem;
+  // position: fixed;
+  // bottom: 5.3rem;
+  // width: 70px;
+
+      cursor: pointer;
+    z-index: 1000;
+    /* left: 0rem; */
+    position: fixed;
+    /* bottom: 5.3rem; */
+    width: 62px;
+    top: 5.3rem;
+    right: 0rem;
+
+}
 .chat-icon {
-  cursor: pointer;
-  z-index: 1000;
-  left: 0rem;
-  position: fixed;
-  bottom: 5.3rem;
-  width: 70px;
+    cursor: pointer;
+    z-index: 1000;
+    position: fixed;
+    width: 62px;
+    top: 0rem;
+    right: 0rem;
 }
 
 .whatsapp-icon {
@@ -144,4 +181,28 @@ ws-app-nav-bar {
 .mt-15 {
   margin-top: 15px !important;
   font-weight: 500 !important;
+}
+.header2{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 32px;
+line-height: 38px;
+/* identical to box height, or 120% */
+
+letter-spacing: -0.02em;
+
+color: #000000;
+}
+.label1{
+  font-family: 'Roboto';
+font-style: normal;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+/* or 150% */
+
+letter-spacing: -0.02em;
+
+color: #000000;
 }

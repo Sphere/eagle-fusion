@@ -1,21 +1,23 @@
-<mat-toolbar [color]="primaryNavbarBackground?.color" [ngStyle]="primaryNavbarBackground?.styles"
-  class="mat-elevation-z3 custom mat-tool-navbar">
+<mat-toolbar *ngIf="this.configSvc.userProfile !== null" [color]="primaryNavbarBackground?.color"
+  [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar"
+  style="    justify-content: left;">
+  <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
+    <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
+      <img [src]="appIcon" loading="lazy" i18n-alt alt="Application Logo" id="app-logo" class="app-logo" />
+    </a>
+  </div>
   <div class="fix-ww">
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
-      <div class="logo-container flex items-center">
-        <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
-          <img [src]="appIcon" loading="lazy" i18n-alt alt="Application Logo" id="app-logo" class="app-logo" />
-        </a>
-      </div>
+
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
         <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
         </ng-container> -->
-        <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="What do you want to learn today ?"
-          class="my-search flex-1" [ref]="'home'"></ws-app-search-input-home>
+        <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
+          [ref]="'home'"></ws-app-search-input-home>
 
 
-        <span class="spacer"></span>
+        <!-- <span class="spacer"></span> -->
 
         <div ngClass="search-small-logo" *ngIf="showSearchIcon">
           <ng-container [wsResolverWidget]="{
@@ -66,7 +68,7 @@
       </ng-container>
     </ng-container>
 
-    <div class="flex justify-between items-center w-full" *ngIf="mode === 'bottom'" [ngStyle]="{'margin':'0 40px'}">
+    <div class="flex navbar-gap justify-between items-center" *ngIf="mode === 'bottom'">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">
@@ -78,9 +80,9 @@
           [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
             <button mat-raised-button [ngStyle]="{
-            'background-color': '#1C5D95',
+            'background-color': '#2E6491',
             'width': '100%',
-            'border': '1px solid #1C5D95',
+            'border': '1px solid #2E6491',
             'border-radius': '20px',
             'color': 'white',
             'font-size': '16px',
@@ -110,9 +112,10 @@
     </div>
   </div>
 </mat-toolbar>
-
 <ng-template #navbarSide let-item="item">
-  <ng-container *ngIf="item.type === 'widgetButton'" [wsResolverWidget]="item.config"></ng-container>
+  <ws-web-nav-link-page *ngIf="!isXSmall"></ws-web-nav-link-page>
+
+  <ng-container *ngIf="item.type === 'widgetButton'&&isXSmall" [wsResolverWidget]="item.config"></ng-container>
   <ws-widget-btn-feature *ngIf="item.type === 'featureButton'" [id]="item.config.actionBtnId" [widgetData]="item.config"
     [showFixedLength]="true"></ws-widget-btn-feature>
 </ng-template>

@@ -54,6 +54,7 @@ export class ContentStripV2Component implements OnInit {
     | 'card-user-details'
     | 'basic-info'
     | 'basic-details'
+    | 'card-badges'
     | 'card-description-back' = 'standard'
   filteredOptions$: Observable<string[]> = of([])
   readonly separatorKeysCodes: number[] = [ENTER, COMMA]

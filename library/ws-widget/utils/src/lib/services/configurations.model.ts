@@ -47,6 +47,7 @@ export namespace NsInstanceConfig {
     }
     featuredApps: string[]
     primaryNavBarConfig: IPrimaryNavbarConfig
+    bannerStats: bannerStats
     org: string[]
     rootOrg: string
     intranetIframeUrls?: string[]
@@ -152,6 +153,13 @@ export namespace NsInstanceConfig {
   export interface IPrimaryNavbarConfig {
     mediumScreen: IPrimaryNavBarScreen
     smallScreen: IPrimaryNavBarScreen
+  }
+  export interface bannerStats {
+    lang_options: string
+    cne_points: string
+    cert_course: string
+    learner_onboard: string
+
   }
   interface IPrimaryNavBarScreen {
     left: IPrimaryNavBarSide[]

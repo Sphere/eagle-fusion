@@ -147,4 +147,7 @@ span.mat-button-wrapper {
     left: 53px;
     top: 3px;
     cursor: pointer;
+     @include breakpoint-xs{
+    left: 21px;
+  }
 }
