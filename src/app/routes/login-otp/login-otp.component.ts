@@ -3,7 +3,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
+import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 @Component({
   selector: 'ws-login-otp',
   templateUrl: './login-otp.component.html',
@@ -19,9 +21,11 @@ export class LoginOtpComponent implements OnInit {
   loginVerification = false
   redirectUrl = ''
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private signupService: SignupService
+    private signupService: SignupService,
+    private userProfileSvc: UserProfileService,
   ) {
     this.loginOtpForm = this.fb.group({
       code: new FormControl('', [Validators.required]),
@@ -102,7 +106,6 @@ export class LoginOtpComponent implements OnInit {
             console.log(result.userID)
             this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
               (data: any) => {
-                debugger
                 console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
                 if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
                   if (localStorage.getItem('preferedLanguage')) {
@@ -122,11 +125,6 @@ export class LoginOtpComponent implements OnInit {
               })
           }
         })
-        // this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        //   (data: any) => {
-        //     console.log(data)
-
-        //   })
         // tslint:disable-next-line:max-line-length
         //const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
         //window.location.href = keycloakurl

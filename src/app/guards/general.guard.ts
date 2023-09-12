@@ -125,7 +125,7 @@ export class GeneralGuard implements CanActivate {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
-          console.log(data)
+          console.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
           // if (data) {
           //   const userData = data.profileDetails.personalDetails
           //   if (userData.dob) {
@@ -141,34 +141,27 @@ export class GeneralGuard implements CanActivate {
           // if (data.profileDetails) {
           //   return this.router.parseUrl(`/page/home`)
           // }
-          console.log(data.profileDetails!.profileReq!.personalDetails!.dob === null, 'null')
-          if (data.profileDetails!.profileReq!.personalDetails!.dob === null) {
-            if (localStorage.getItem('preferedLanguage')) {
-              let data: any
-              let lang: any
-              data = localStorage.getItem('preferedLanguage')
-              lang = JSON.parse(data)
-              if (lang.id) {
-                lang = lang.id !== 'en' ? lang.id : ''
-                const url = `/app/`
-                return this.router.navigate([url, 'new-tnc'])
-                // let wholeUrl = `${document.baseURI}`
-                // if (wholeUrl.includes('hi')) {
-                //   // wholeUrl = url.replace(/hi\//g, '')
-                //   // let redirectUrl = `${wholeUrl}${url}new-tnc`
-                //   // window.location.href = redirectUrl
-                //   return this.router.navigate([url, 'new-tnc'])
-                // } else {
-                //   return this.router.navigate([url, 'new-tnc'])
-                // }
-                // return this.router.navigate([url, 'new-tnc'])
-              }
-              // return this.router.navigate(['app', 'new-tnc'])
-            }
+          console.log(data.profileDetails!.profileReq!.personalDetails)
 
-            return this.router.navigate(['app', 'new-tnc'])
-          } else {
-            return this.router.parseUrl(`/page/home`)
+          if (data.profileDetails!.profileReq!.personalDetails) {
+            if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
+              if (data.profileDetails!.profileReq!.personalDetails!.dob !== undefined) {
+                console.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
+              }
+            } else {
+              if (localStorage.getItem('preferedLanguage')) {
+                let data: any
+                let lang: any
+                data = localStorage.getItem('preferedLanguage')
+                lang = JSON.parse(data)
+                if (lang.id) {
+                  lang = lang.id !== 'en' ? lang.id : ''
+                  const url = `${lang}/app/`
+                  this.router.navigate([url, 'new-tnc'])
+                }
+                this.router.navigate(['app', 'new-tnc'])
+              }
+            }
           }
         },
         (_err: any) => {

@@ -34,6 +34,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   createUserForm!: FormGroup
   showAcceptbtn = true
   lang: any
+  termsAccepted: any
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -228,6 +229,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
           docName: generalTnc.name,
           version: generalTnc.version,
         })
+        this.termsAccepted = generalTnc.version
       }
       if (dataPrivacy) {
         termsAccepted.push({
@@ -300,8 +302,12 @@ export class NewTncComponent implements OnInit, OnDestroy {
             userId: this.userId,
             // profileDetails: Object.assign(profileRequest, Obj),
             profileDetails: profileRequest,
+            tncAcceptedVersion: this.termsAccepted,
+            tncAcceptedOn: new Date().getTime()
           },
         }
+        console.log(reqUpdate, 'sss')
+        console.log(this.termsAccepted)
         this.updateUser(reqUpdate)
       }
 
