@@ -484,6 +484,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       dob: event,
     })
     console.log(this.personalDetailForm)
+    this.savebtnDisable = false
   }
   ngAfterViewInit(): void {
     this.getUserDetails()
