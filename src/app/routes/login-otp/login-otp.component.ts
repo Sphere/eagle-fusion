@@ -99,8 +99,10 @@ export class LoginOtpComponent implements OnInit {
         this.signupService.fetchStartUpDetails().then(result => {
           console.log(result)
           if (result.userId) {
+            console.log(result.userID)
             this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
               (data: any) => {
+                debugger
                 console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
                 if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
                   if (localStorage.getItem('preferedLanguage')) {
