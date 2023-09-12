@@ -104,25 +104,27 @@ export class LoginOtpComponent implements OnInit {
           console.log(result)
           if (result.userId) {
             console.log(result.userID)
-            this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
-              (data: any) => {
-                console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
-                if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                  if (localStorage.getItem('preferedLanguage')) {
-                    let data: any
-                    let lang: any
-                    data = localStorage.getItem('preferedLanguage')
-                    lang = JSON.parse(data)
-                    if (lang.id) {
-                      lang = lang.id !== 'en' ? lang.id : ''
-                      const url = `${lang}/app/`
-                      this.router.navigate([url, 'new-tnc'])
+            setTimeout(() => {
+              this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
+                (data: any) => {
+                  console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
+                  if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
+                    if (localStorage.getItem('preferedLanguage')) {
+                      let data: any
+                      let lang: any
+                      data = localStorage.getItem('preferedLanguage')
+                      lang = JSON.parse(data)
+                      if (lang.id) {
+                        lang = lang.id !== 'en' ? lang.id : ''
+                        const url = `${lang}/app/`
+                        this.router.navigate([url, 'new-tnc'])
+                      }
+                    } else {
+                      this.router.navigate(['app', 'new-tnc'])
                     }
-                  } else {
-                    this.router.navigate(['app', 'new-tnc'])
                   }
-                }
-              })
+                })
+            }, 500)
           }
         })
         // tslint:disable-next-line:max-line-length
