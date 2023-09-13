@@ -211,7 +211,7 @@ export class CreateAccountComponent implements OnInit {
 
       //this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
       this.signupService.ssoWithMobileEmail(requestBody).subscribe(res => {
-        if (res.status === 'success') {
+        if (res.message === 'User successfully created') {
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
