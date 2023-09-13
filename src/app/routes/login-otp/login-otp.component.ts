@@ -13,6 +13,7 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 })
 export class LoginOtpComponent implements OnInit {
   [x: string]: any
+  isLoading = false
   loginOtpForm: FormGroup
   @Input() signUpdata: any
   @Input() loginData: any
