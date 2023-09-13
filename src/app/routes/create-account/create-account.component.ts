@@ -5,6 +5,7 @@ import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
 import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 import { forkJoin } from 'rxjs/internal/observable/forkJoin'
+import { mustMatch } from '../password-validator'
 
 @Component({
   selector: 'ws-create-account',
@@ -48,11 +49,11 @@ export class CreateAccountComponent implements OnInit {
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^([6-9][0-9]{9})|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/)]),
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -87,11 +88,11 @@ export class CreateAccountComponent implements OnInit {
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^([6-9][0-9]{9})|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/)]),
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -352,13 +353,14 @@ export class CreateAccountComponent implements OnInit {
         }
         this.timerSubscription = setTimeout(() => {
           this.emailDelaid = false
-        }, 3000)
+        }, 300)
       })
   }
 
   get emailOrMobileErrorStatus() {
     let errorType = ''
     const controll = this.createAccountForm.get('emailOrMobile')
+
     if (controll!.valid) {
       return errorType
     } else if (!this.emailDelaid) {

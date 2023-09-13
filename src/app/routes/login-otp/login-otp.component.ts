@@ -26,6 +26,7 @@ export class LoginOtpComponent implements OnInit {
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private userProfileSvc: UserProfileService,
+
   ) {
     this.loginOtpForm = this.fb.group({
       code: new FormControl('', [Validators.required]),
@@ -82,6 +83,7 @@ export class LoginOtpComponent implements OnInit {
         userId: localStorage.getItem(`userUUID`),
       }
     }
+    this.isLoading = true
     //this.signupService.validateOtp(request).subscribe(
     this.signupService.ssoValidateOTP(request).subscribe(
       async (res: any) => {
@@ -117,14 +119,16 @@ export class LoginOtpComponent implements OnInit {
                       if (lang.id) {
                         lang = lang.id !== 'en' ? lang.id : ''
                         const url = `${lang}/app/`
+                        this.isLoading = false
                         this.router.navigate([url, 'new-tnc'])
                       }
                     } else {
+                      this.isLoading = false
                       this.router.navigate(['app', 'new-tnc'])
                     }
                   }
                 })
-            }, 500)
+            }, 1000)
           }
         })
         // tslint:disable-next-line:max-line-length
@@ -132,6 +136,7 @@ export class LoginOtpComponent implements OnInit {
         //window.location.href = keycloakurl
       },
       (err: any) => {
+        this.isLoading = false
         if (localStorage.getItem(`preferedLanguage`)) {
           const reqObj = localStorage.getItem(`preferedLanguage`) || ''
           const lang = JSON.parse(reqObj) || ''
@@ -184,6 +189,7 @@ export class LoginOtpComponent implements OnInit {
   }
 
   resendOTP(emailPhoneType: string) {
+    this.isLoading = true
     let requestBody
     if (emailPhoneType === 'email') {
       requestBody = {
@@ -196,10 +202,12 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
+        this.isLoading = false
         this.openSnackbar(res.message)
         // localStorage.removeItem('preferedLanguage')
       },
       (err: any) => {
+        this.isLoading = false
         this.openSnackbar(`OTP Error`, + err.error.message)
       }
     )
