@@ -119,7 +119,10 @@ export class LoginOtpComponent implements OnInit {
                       lang = JSON.parse(data)
                       if (lang.id) {
                         lang = lang.id !== 'en' ? lang.id : ''
-                        const url = `${lang}/app/`
+                        if (url.includes('hi')) {
+                          url = url.replace('hi/', '')
+                        }
+                        url = `${url}{lang}/app/`
                         this.isLoading = false
                         this.router.navigate([url, 'new-tnc'])
                       }
