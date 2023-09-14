@@ -160,6 +160,9 @@ export class GeneralGuard implements CanActivate {
                   this.router.navigate([url, 'new-tnc'])
                 }
                 this.router.navigate(['app', 'new-tnc'])
+              } else {
+                console.log('alerr')
+                this.router.navigate(['app', 'new-tnc'])
               }
             }
           }
