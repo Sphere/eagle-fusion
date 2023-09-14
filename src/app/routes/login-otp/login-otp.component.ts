@@ -103,39 +103,58 @@ export class LoginOtpComponent implements OnInit {
         } else {
           this.redirectUrl = `${url}openid/keycloak`
         }
-        this.signupService.fetchStartUpDetails().then(result => {
-          console.log(result)
-          if (result.userId) {
-            console.log(result.userID)
-            setTimeout(() => {
-              this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
-                (data: any) => {
-                  console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
-                  if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                    if (localStorage.getItem('preferedLanguage')) {
-                      let data: any
-                      let lang: any
-                      data = localStorage.getItem('preferedLanguage')
-                      lang = JSON.parse(data)
-                      if (lang.id) {
-                        lang = lang.id !== 'en' ? lang.id : ''
-                        if (url.includes('hi')) {
-                          url = url.replace('hi/', '')
-                        }
-                        url = `${url}${lang.id}/app/new-tnc`
-                        this.isLoading = false
-                        window.location.href = url
-                        //this.router.navigate([url, 'new-tnc'])
-                      }
-                    } else {
-                      this.isLoading = false
-                      this.router.navigate(['app', 'new-tnc'])
-                    }
-                  }
-                })
-            }, 1000)
+        if (localStorage.getItem('preferedLanguage')) {
+          let data: any
+          let lang: any
+          data = localStorage.getItem('preferedLanguage')
+          lang = JSON.parse(data)
+          if (lang.id) {
+            lang = lang.id !== 'en' ? lang.id : ''
+            if (url.includes('hi')) {
+              url = url.replace('hi/', '')
+            }
+            url = `${url}${lang.id}/app/new-tnc`
+            this.isLoading = false
+            window.location.href = url
+            //this.router.navigate([url, 'new-tnc'])
           }
-        })
+        } else {
+          this.isLoading = false
+          this.router.navigate(['app', 'new-tnc'])
+        }
+        // this.signupService.fetchStartUpDetails().then(result => {
+        //   console.log(result)
+        //   if (result.userId) {
+        //     console.log(result.userID)
+        //     setTimeout(() => {
+        //       this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
+        //         (data: any) => {
+        //           console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
+        //           if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
+        //             if (localStorage.getItem('preferedLanguage')) {
+        //               let data: any
+        //               let lang: any
+        //               data = localStorage.getItem('preferedLanguage')
+        //               lang = JSON.parse(data)
+        //               if (lang.id) {
+        //                 lang = lang.id !== 'en' ? lang.id : ''
+        //                 if (url.includes('hi')) {
+        //                   url = url.replace('hi/', '')
+        //                 }
+        //                 url = `${url}${lang.id}/app/new-tnc`
+        //                 this.isLoading = false
+        //                 window.location.href = url
+        //                 //this.router.navigate([url, 'new-tnc'])
+        //               }
+        //             } else {
+        //               this.isLoading = false
+        //               this.router.navigate(['app', 'new-tnc'])
+        //             }
+        //           }
+        //         })
+        //     }, 1000)
+        //   }
+        // })
         // tslint:disable-next-line:max-line-length
         //const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
         //window.location.href = keycloakurl
