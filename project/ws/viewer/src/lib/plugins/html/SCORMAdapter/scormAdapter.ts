@@ -144,6 +144,22 @@ export class SCORMAdapterService {
       url = this.router.url
       let splitUrl1 = url.split('?primary')
       let splitUrl2 = splitUrl1[0].split('/viewer/html/')
+      if (data["cmi.core.lesson_status"] === 'incomplete') {
+        this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
+          this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
+        let data2: any = {
+          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
+          contentId: this.contentId,
+          name: this.htmlName,
+          moduleId: this.parent,
+          duration: data["cmi.core.session_time"],
+          type: 'scrom',
+          mode: 'scrom-play'
+        }
+        this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+          this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data2)
+      }
       if (splitUrl2[1] === this.contentId && (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed')) {
         this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
           this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -155,7 +171,9 @@ export class SCORMAdapterService {
               contentId: this.contentId,
               name: this.htmlName,
               moduleId: this.parent,
-              duration: data["cmi.core.session_time"]
+              duration: data["cmi.core.session_time"],
+              type: 'scrom',
+              mode: 'scrom-play'
             }
             this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data1)
