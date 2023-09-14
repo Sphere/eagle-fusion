@@ -149,20 +149,22 @@ export class GeneralGuard implements CanActivate {
                 console.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
               }
             } else {
-              if (localStorage.getItem('preferedLanguage')) {
-                let data: any
-                let lang: any
-                data = localStorage.getItem('preferedLanguage')
-                lang = JSON.parse(data)
-                if (lang.id) {
-                  lang = lang.id !== 'en' ? lang.id : ''
-                  const url = `${lang}/app/`
-                  this.router.navigate([url, 'new-tnc'])
+              if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
+                if (localStorage.getItem('preferedLanguage')) {
+                  let data: any
+                  let lang: any
+                  data = localStorage.getItem('preferedLanguage')
+                  lang = JSON.parse(data)
+                  if (lang.id) {
+                    lang = lang.id !== 'en' ? lang.id : ''
+                    const url = `${lang}/app/`
+                    this.router.navigate([url, 'new-tnc'])
+                  }
+                  this.router.navigate(['app', 'new-tnc'])
+                } else {
+                  console.log('alerr')
+                  this.router.navigate(['app', 'new-tnc'])
                 }
-                this.router.navigate(['app', 'new-tnc'])
-              } else {
-                console.log('alerr')
-                this.router.navigate(['app', 'new-tnc'])
               }
             }
           }
