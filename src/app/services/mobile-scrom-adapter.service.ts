@@ -121,6 +121,40 @@ export class MobileScromAdapterService {
       return false
     }
     delete data['errors']
+    if (data["cmi.core.lesson_status"] === 'incomplete') {
+      const paramMap = this.route.snapshot.queryParamMap
+      const params = {}
+      paramMap.keys.forEach((key: any) => {
+        const paramValue = paramMap.get(key)
+        params[key] = paramValue
+      })
+      const paramsJSON = JSON.stringify(params)
+      const userAgent = this.UserAgentResolverService.getUserAgent()
+      const startEparams = {
+        type: 'scorm',
+        mode: 'scorm-start',
+        pageid: this.route.snapshot.queryParams.courseId ?
+          this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+        duration: 0,
+      }
+      const user = {
+        userToken: this.getProperty('userToken')
+      }
+      this.telemetrySvc.
+        paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user)
+
+      if (data) {
+        const endEparams = {
+          type: 'scorm',
+          mode: 'scorm-close',
+          pageid: this.route.snapshot.queryParams.courseId ?
+            this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+          duration: data["cmi.core.session_time"],
+        }
+        this.telemetrySvc.
+          paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user)
+      }
+    }
     if (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed') {
       this.scromSubscription = this.updateScromProgress(data).subscribe(
         async (response: any) => {
