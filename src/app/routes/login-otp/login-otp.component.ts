@@ -113,7 +113,7 @@ export class LoginOtpComponent implements OnInit {
             if (url.includes('hi')) {
               url = url.replace('hi/', '')
             }
-            url = `${url}${lang.id}/app/new-tnc`
+            url = `${url}${lang}/app/new-tnc`
             this.isLoading = false
             window.location.href = url
             //this.router.navigate([url, 'new-tnc'])
