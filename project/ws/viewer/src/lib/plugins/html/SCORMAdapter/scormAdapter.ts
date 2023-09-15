@@ -147,18 +147,21 @@ export class SCORMAdapterService {
       if (data["cmi.core.lesson_status"] === 'incomplete') {
         this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
           this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
-        let data2: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
-          contentId: this.contentId,
-          name: this.htmlName,
-          moduleId: this.parent,
-          duration: data["cmi.core.session_time"],
-          type: 'scrom',
-          mode: 'scrom-play'
+        if (this.activatedRoute.snapshot.queryParams.collectionId) {
+          let data2: any = {
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
+            contentId: this.contentId,
+            name: this.htmlName,
+            moduleId: this.parent,
+            duration: data["cmi.core.session_time"],
+            type: 'scrom',
+            mode: 'scrom-play'
+          }
+          this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+            this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data2)
         }
-        this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data2)
+
       }
       if (splitUrl2[1] === this.contentId && (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed')) {
         this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
