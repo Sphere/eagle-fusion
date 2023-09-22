@@ -24,6 +24,8 @@ export class KeycloakCallbackComponent implements OnInit {
     if (loginBtn === 'clicked' || code) {
       this.isLoading = true
       this.checkKeycloakCallback()
+    } else {
+      console.log('ppp')
     }
   }
 
@@ -39,7 +41,7 @@ export class KeycloakCallbackComponent implements OnInit {
             setTimeout(() => {
               this.signupService.fetchStartUpDetails().then(result => {
                 // tslint:disable-next-line:no-console
-                console.log(result)
+                console.log(result, 'keycloak')
                 if (result && result.status === 200 && result.roles.length > 0) {
                   if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences && Object.keys(this.configSvc.unMappedUser.profileDetails.preferences).length > 0) {
                     let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
@@ -97,7 +99,8 @@ export class KeycloakCallbackComponent implements OnInit {
                   // }
                   this.isLoading = false
                 } else {
-                  this.authSvc.logout()
+                  console.log(this.configSvc.unMappedUser, 'key')
+                  //this.authSvc.logout()
                   // window.location.href = '/public/home'
                 }
                 if (result.status === 419) {
