@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.aastrika.sphere",
+      "sha256_cert_fingerprints": [
+        "9E:51:45:8E:FD:1A:91:96:36:A3:CA:F5:1C:13:FC:F4:52:8C:44:5F:7F:E9:20:5C:49:05:25:06:25:5B:DF:5F"
+      ]
+    }
+  }
+]

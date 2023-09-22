@@ -55,7 +55,7 @@ serveAssets('/zh-CN')
 serveAssets('/ja')
 
 function serveAssets(hostPath) {
-  console.log("hostPath====>",hostPath)
+  console.log("hostPath====>", hostPath)
   app.use(
     `${hostPath}/assets`,
     // proxyCreator(express.Router(), CONSTANTS.WEB_HOST_PROXY + '/web-hosted/client-assets/dist'),
@@ -90,7 +90,7 @@ function proxyCreator(route, baseUrl) {
 }
 
 function uiHostCreator(hostPath, hostFolderName) {
-  console.log("hostPath===>>",hostPath ,"hostFolderName===>>" ,hostFolderName)
+  console.log("hostPath===>>", hostPath, "hostFolderName===>>", hostFolderName)
   app.use(
     `${hostPath}`,
     expressStaticGzip(path.join(__dirname, `www/${hostFolderName}`), {
@@ -100,10 +100,12 @@ function uiHostCreator(hostPath, hostFolderName) {
   )
   app.get(`${hostPath}/*`, (req, res) => {
     if (req.url.startsWith('/assets/') || req.url.endsWith('.js')) {
-       res.sendFile(path.join(__dirname, `www/${hostFolderName}/${req.url}`))
-     // res.status(404).send('requested asset is not available')
+      res.sendFile(path.join(__dirname, `www/${hostFolderName}/${req.url}`))
+      // res.status(404).send('requested asset is not available')
+    } else if (req.url.startsWith('/.well-known/')) {
+      res.sendFile(path.join(__dirname, `${req.url}`))
     } else {
-      console.log("path===>>",path ,"hostFolderName===>",hostFolderName)
+      console.log("path===>>", path, "hostFolderName===>", hostFolderName)
       res.sendFile(path.join(__dirname, `www/${hostFolderName}/index.html`))
     }
   })
