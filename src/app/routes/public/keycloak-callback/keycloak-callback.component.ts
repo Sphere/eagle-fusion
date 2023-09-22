@@ -4,6 +4,7 @@ import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { ConfigurationsService } from '@ws-widget/utils'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 @Component({
   selector: 'ws-keycloak-callback',
   templateUrl: './keycloak-callback.component.html',
@@ -16,6 +17,7 @@ export class KeycloakCallbackComponent implements OnInit {
     private signupService: SignupService,
     private authSvc: AuthKeycloakService,
     private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
   ) { }
 
   ngOnInit() {
@@ -80,27 +82,55 @@ export class KeycloakCallbackComponent implements OnInit {
                       }
                     }
                   }
-                  // if (localStorage.getItem('url_before_login')) {
-                  //   // window.location.href = localStorage.getItem('url_before_login') || ''
-                  //   const url = localStorage.getItem('url_before_login') || ''
-                  //   // localStorage.removeItem('url_before_login')
-                  //   let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
-                  //   console.log(this.configSvc.unMappedUser)
-                  //   console.log(`${lang}/${url}`)
-                  //   sessionStorage.setItem('r-url', `${lang}/${url}`)
-                  //   // if (this.configSvc.unMappedUser.profileDetails.preferences!.language) {
-                  //   //   let lang = this.configSvc.unMappedUser.profileDetails.preferences.language
-                  //   //   location.href = `${lang}/${url}`
-                  //   // } else {
-                  //   //location.href = url
-                  //   //}
-                  // } else {
-                  //   //window.location.href = '/page/home'
-                  // }
                   this.isLoading = false
                 } else {
                   console.log(this.configSvc.unMappedUser, 'key')
-                  //this.authSvc.logout()
+                  if (result && result.status === 200 && result.roles.length === 0) {
+                    this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
+                      async (data: any) => {
+                        console.log(data, '108-key')
+                        if (data.profileDetails && data.profileDetails.preferences && Object.keys(data.profileDetails.preferences).length > 0) {
+                          let lang = await data.profileDetails.preferences.language
+                          console.log(`${lang}`, '111')
+                          lang = lang !== 'en' ? lang : ''
+                          let url = localStorage.getItem('url_before_login') || ''
+                          if (localStorage.getItem('url_before_login')) {
+                            location.href = `${lang}/${url}`
+                          } else {
+                            url = '/page/home'
+                            window.location.href = `${lang}${url}`
+                          }
+                        } else {
+                          if (localStorage.getItem('preferedLanguage')) {
+                            let data: any
+                            let lang: any
+                            data = localStorage.getItem('preferedLanguage')
+                            lang = JSON.parse(data)
+                            lang = lang.id !== 'en' ? lang.id : ''
+                            let url = localStorage.getItem('url_before_login') || ''
+                            if (localStorage.getItem('url_before_login')) {
+                              location.href = `${lang}/${url}`
+                            } else {
+                              url = '/page/home'
+                              window.location.href = `${lang}${url}`
+                            }
+                          } else {
+                            if (localStorage.getItem('url_before_login')) {
+                              // window.location.href = localStorage.getItem('url_before_login') || ''
+
+                              const url = localStorage.getItem('url_before_login') || ''
+                              // localStorage.removeItem('url_before_login')
+                              location.href = url
+                            } else {
+                              window.location.href = '/page/home'
+                            }
+                          }
+                        }
+                        this.isLoading = false
+                      })
+                  } else {
+                    this.authSvc.logout()
+                  }
                   // window.location.href = '/public/home'
                 }
                 if (result.status === 419) {
