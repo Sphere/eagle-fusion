@@ -12,10 +12,10 @@ import { ConfigurationsService } from '@ws-widget/utils'
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false
   constructor(private orgService: OrgServiceService,
-              private snackBarSvc: MatSnackBar,
-              private signupService: SignupService,
-              private authSvc: AuthKeycloakService,
-              private configSvc: ConfigurationsService,
+    private snackBarSvc: MatSnackBar,
+    private signupService: SignupService,
+    private authSvc: AuthKeycloakService,
+    private configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class KeycloakCallbackComponent implements OnInit {
                 // tslint:disable-next-line:no-console
                 console.log(result)
                 if (result && result.status === 200 && result.roles.length > 0) {
-                  if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences) {
+                  if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences && Object.keys(this.configSvc.unMappedUser.profileDetails.preferences).length > 0) {
                     let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
                     console.log(`${lang}`)
                     lang = lang !== 'en' ? lang : ''
@@ -111,9 +111,9 @@ export class KeycloakCallbackComponent implements OnInit {
                 //   location.href = '/page/home'
                 // }
               })
-            },         1000)
+            }, 1000)
           }
-        },                                            (err: any) => {
+        }, (err: any) => {
           // console.log(err)
           // tslint:disable-next-line:no-console
           console.log(err)
