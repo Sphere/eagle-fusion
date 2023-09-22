@@ -77,7 +77,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   reverse = ''
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
   collectionId: any = ''
-  collectionType: any = ''
   resourceContentType: any
   disabledNode: boolean
   currentContentType: any = ''
@@ -102,7 +101,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   resourceId: string | null = null
   collection: IViewerTocCard | null = null
-  courseData: any
   queue: IViewerTocCard[] = []
   tocMode: 'FLAT' | 'TREE' = 'TREE'
   nestedTreeControl: NestedTreeControl<IViewerTocCard>
@@ -148,7 +146,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const collectionId = params.get('collectionId')
       this.collectionId = params.get('collectionId')
       const collectionType = params.get('collectionType')
-      this.collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
         if (
           collectionType.toLowerCase() ===
@@ -167,7 +164,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.collection) {
           this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
         }
-        this.courseData = this.collection
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
@@ -657,101 +653,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     // this.isLoading = false
     this.updateResourceChange()
   }
-  // async getProgress() {
-
-  //   const collectionId = this.collectionId
-  //   const collectionType = this.collectionType
-  //   console.log("collectionId: " + collectionId)
-  //   if (collectionId && collectionType) {
-  //     if (
-  //       collectionType.toLowerCase() ===
-  //       NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
-  //     ) {
-  //       this.courseData = await this.getPlaylistContent(collectionId, collectionType)
-  //     } else if (
-  //       collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
-  //       collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
-  //       collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
-  //     ) {
-  //       this.courseData = await this.getCollection(collectionId, collectionType)
-  //     } else {
-  //       this.isErrorOccurred = true
-  //     }
-  //     if (this.courseData) {
-  //       this.queue = this.utilitySvc.getLeafNodes(this.courseData, [])
-  //     }
-  //     //  = this.collection
-  //   }
-  //   console.log("this.collection", this.courseData)
-  //   if (this.courseData && this.courseData.children) {
-  //     const arrayOfObjects = this.courseData.children
-  //     // const filteredArray = arrayOfObjects.filter((obj: any) => obj.completionPercentage === 0 || obj.completionPercentage === undefined)
-  //     const filteredArray = arrayOfObjects.filter((obj: { completionPercentage: number | undefined }) => obj.completionPercentage === 0 || obj.completionPercentage === undefined)
-
-  //     console.log("filteredArray", filteredArray)
-  //     if (filteredArray) {
-  //       console.log("At least one object has completionPercentage of 0 or is undefined.", filteredArray)
-
-  //       return false
-  //     } else {
-  //       console.log("None of the objects have completionPercentage of 0 or are undefined.")
-
-  //       return true
-  //     }
-  //   } else {
-  //     return false
-  //   }
-  // }
-
-  async getCompletionPercentage() {
-    let userId
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
-    }
-    const req: NsContent.IContinueLearningDataReq = {
-      request: {
-        userId,
-        batchId: this.batchId,
-        courseId: this.collectionId || '',
-        contentIds: [],
-        fields: ['progressdetails'],
-      },
-    }
-
-    try {
-      const data = await this.contentSvc.fetchContentHistoryV2(req).toPromise()
-      this.courseData = data['result']['contentList']
-      console.log(data['result']['contentList'])
-      if (this.courseData.length > 0 && this.courseData) {
-        const arrayOfObjects = this.courseData
-        const filteredArray = arrayOfObjects.filter((obj: { completionPercentage: number | undefined }) => obj.completionPercentage === 0 || obj.completionPercentage === undefined)
-
-        console.log("filteredArray", filteredArray)
-        if (filteredArray.length > 0) {
-          console.log("At least one object has completionPercentage of 0 or is undefined.", filteredArray)
-
-          return false
-        } else {
-          console.log("None of the objects have completionPercentage of 0 or are undefined.")
-
-          return true
-        }
-      } else {
-        return false
-      }
-      // return data['result']['contentList']
-    } catch (error) {
-      console.error('CONTENT HISTORY FETCH ERROR >', error)
-      return false // Return an empty array or handle the error appropriately
-    }
-  }
-
-
   private async processCollectionForTree(content?: any) {
-    // const isCompleted = await this.getProgress()
-    const isCompleted = await this.getCompletionPercentage()
-
-    console.log(content, isCompleted, 'processCollectionForTree')
+    console.log(content, 'processCollectionForTree')
     if (content && content.contentList) {
       console.log(content)
       await this.processData(content.contentList)
@@ -760,14 +663,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           const nextResource = this.playerStateService.getNextResource()
 
           if (!(isEmpty(nextResource) || isNull(nextResource))) {
-            console.log("showConformation 3213123")
-
             if (content.type === "Scorm") {
               this.router.navigate([nextResource], { preserveQueryParams: true })
               this.playerStateService.trigger$.complete()
             }
-          } else if (isCompleted) {
-            console.log("showConformation 1")
+          } else if (this.contentSvc.showConformation) {
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
               panelClass: 'overview-modal',
@@ -787,8 +687,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             })
           }
         } else {
-          console.log("showConformation 12")
-
           this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
             queryParams: {
               primaryCategory: 'Course',
@@ -799,9 +697,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       } else {
         if (this.playerStateService.isResourceCompleted()) {
           if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
-            && isCompleted) {
-            console.log("showConformation 2")
-
+            && this.contentSvc.showConformation) {
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
               panelClass: 'overview-modal',
@@ -821,13 +717,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             })
           } else {
             console.log('lll')
-            console.log(this.playerStateService.isResourceCompleted(),
-              isNull(this.playerStateService.getNextResource()),
-              isEmpty(this.playerStateService.getNextResource())
-              , this.contentSvc.showConformation,
-              !isCompleted,
-              "showConformation 312")
-
             // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
             //   queryParams: {
             //     primaryCategory: 'Course',
