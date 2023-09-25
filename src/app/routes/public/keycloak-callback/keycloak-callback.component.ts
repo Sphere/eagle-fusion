@@ -58,10 +58,12 @@ export class KeycloakCallbackComponent implements OnInit {
                     lang = lang !== 'en' ? lang : ''
                     let url = localStorage.getItem('url_before_login') || ''
                     if (localStorage.getItem('url_before_login')) {
-                      location.href = `${lang}/${url}`
+                      console.log(`${lang}/${url}`, '1')
+                      // location.href = `${lang}/${url}`
                     } else {
                       url = '/page/home'
-                      window.location.href = `${lang}${url}`
+                      console.log(`${url}`, '2')
+                      //window.location.href = `${lang}${url}`
                     }
                   } else {
                     if (localStorage.getItem('preferedLanguage')) {
@@ -72,10 +74,12 @@ export class KeycloakCallbackComponent implements OnInit {
                       lang = lang.id !== 'en' ? lang.id : ''
                       let url = localStorage.getItem('url_before_login') || ''
                       if (localStorage.getItem('url_before_login')) {
-                        location.href = `${lang}/${url}`
+                        console.log(`${lang}/${url}`, '3')
+                        //location.href = `${lang}/${url}`
                       } else {
                         url = '/page/home'
-                        window.location.href = `${lang}${url}`
+                        console.log(`${lang}/${url}`, '4')
+                        //window.location.href = `${lang}${url}`
                       }
                     } else {
                       if (localStorage.getItem('url_before_login')) {
@@ -83,8 +87,10 @@ export class KeycloakCallbackComponent implements OnInit {
 
                         const url = localStorage.getItem('url_before_login') || ''
                         // localStorage.removeItem('url_before_login')
+                        console.log(`${url}`, '5')
                         location.href = url
                       } else {
+                        console.log('6')
                         window.location.href = '/page/home'
                       }
                     }
@@ -103,10 +109,12 @@ export class KeycloakCallbackComponent implements OnInit {
                           lang = lang !== 'en' ? lang : ''
                           let url = localStorage.getItem('url_before_login') || ''
                           if (localStorage.getItem('url_before_login')) {
-                            location.href = `${lang}/${url}`
+                            console.log('7')
+                            //location.href = `${lang}/${url}`
                           } else {
                             url = '/page/home'
-                            window.location.href = `${lang}${url}`
+                            console.log('8')
+                            //window.location.href = `${lang}${url}`
                           }
                         } else {
                           if (localStorage.getItem('preferedLanguage')) {
@@ -117,27 +125,33 @@ export class KeycloakCallbackComponent implements OnInit {
                             lang = lang.id !== 'en' ? lang.id : ''
                             let url = localStorage.getItem('url_before_login') || ''
                             if (localStorage.getItem('url_before_login')) {
-                              location.href = `${lang}/${url}`
+                              //location.href = `${lang}/${url}`
+                              console.log('9')
                             } else {
                               url = '/page/home'
-                              window.location.href = `${lang}${url}`
+                              console.log('10')
+                              //window.location.href = `${lang}${url}`
                             }
                           } else {
                             if (localStorage.getItem('url_before_login')) {
                               // window.location.href = localStorage.getItem('url_before_login') || ''
 
-                              const url = localStorage.getItem('url_before_login') || ''
+                              //const url = localStorage.getItem('url_before_login') || ''
+
+                              console.log('11')
                               // localStorage.removeItem('url_before_login')
-                              location.href = url
+                              //location.href = url
                             } else {
-                              window.location.href = '/page/home'
+                              console.log('12')
+                              //window.location.href = '/page/home'
                             }
                           }
                         }
                         this.isLoading = false
                       })
                   } else {
-                    this.authSvc.logout()
+                    console.log('13', 'logout')
+                    //this.authSvc.logout()
                   }
                   // window.location.href = '/public/home'
                 }
@@ -168,7 +182,7 @@ export class KeycloakCallbackComponent implements OnInit {
       } catch (err) {
         // tslint:disable-next-line:no-console
         console.log(err)
-        this.authSvc.logout()
+        //this.authSvc.logout()
         // alert('Error Occured while logging in')
         // location.href = "/public/home"
       }
