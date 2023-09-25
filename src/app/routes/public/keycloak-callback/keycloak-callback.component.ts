@@ -51,7 +51,7 @@ export class KeycloakCallbackComponent implements OnInit {
                 console.log(result, 'keycloak')
                 let res = await result
                 console.log(res, '8888')
-                if (result && result.status === 200 && result.roles.length > 0) {
+                if (res && res.status === 200 && res.roles.length > 0) {
                   if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences && this.configSvc.unMappedUser.profileDetails.preferences.language) {
                     let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
                     console.log(`${lang}`)
@@ -59,11 +59,11 @@ export class KeycloakCallbackComponent implements OnInit {
                     let url = localStorage.getItem('url_before_login') || ''
                     if (localStorage.getItem('url_before_login')) {
                       console.log(`${lang}/${url}`, '1')
-                      // location.href = `${lang}/${url}`
+                      location.href = `${lang}/${url}`
                     } else {
                       url = '/page/home'
                       console.log(`${url}`, '2')
-                      //window.location.href = `${lang}${url}`
+                      window.location.href = `${lang}${url}`
                     }
                   } else {
                     if (localStorage.getItem('preferedLanguage')) {
@@ -75,11 +75,11 @@ export class KeycloakCallbackComponent implements OnInit {
                       let url = localStorage.getItem('url_before_login') || ''
                       if (localStorage.getItem('url_before_login')) {
                         console.log(`${lang}/${url}`, '3')
-                        //location.href = `${lang}/${url}`
+                        location.href = `${lang}/${url}`
                       } else {
-                        //url = '/page/home'
+                        url = '/page/home'
                         console.log(`${lang}/${url}`, '4')
-                        //window.location.href = `${lang}${url}`
+                        window.location.href = `${lang}${url}`
                       }
                     } else {
                       if (localStorage.getItem('url_before_login')) {
@@ -88,67 +88,69 @@ export class KeycloakCallbackComponent implements OnInit {
                         const url = localStorage.getItem('url_before_login') || ''
                         // localStorage.removeItem('url_before_login')
                         console.log(`${url}`, '5')
-                        //location.href = url
+                        location.href = url
                       } else {
                         console.log('6')
-                        //window.location.href = '/page/home'
+                        window.location.href = '/page/home'
                       }
                     }
                   }
                   this.isLoading = false
                 } else {
                   console.log(this.configSvc.unMappedUser, 'key')
-                  if (result && result.status === 200 && result.roles.length === 0) {
-                    this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
-                      async (data: any) => {
-                        let da = await data
-                        console.log(da, '108-key')
-                        if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences.language) {
-                          let lang = await data.profileDetails.preferences.language
-                          console.log(`${lang}`, '111')
-                          lang = lang !== 'en' ? lang : ''
-                          //let url = localStorage.getItem('url_before_login') || ''
-                          if (localStorage.getItem('url_before_login')) {
-                            console.log(lang, '7')
-                            //location.href = `${lang}/${url}`
-                          } else {
-                            //url = '/page/home'
-                            console.log('8')
-                            //window.location.href = `${lang}${url}`
-                          }
-                        } else {
-                          if (localStorage.getItem('preferedLanguage')) {
-                            let data: any
-                            let lang: any
-                            data = localStorage.getItem('preferedLanguage')
-                            lang = JSON.parse(data)
-                            lang = lang.id !== 'en' ? lang.id : ''
-                            //let url = localStorage.getItem('url_before_login') || ''
+                  if (res && res.status === 200 && res.roles.length === 0) {
+                    setTimeout(() => {
+                      this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
+                        async (data: any) => {
+                          let userData = await data
+                          console.log(userData, '108-key')
+                          if (userData.profileDetails && userData.profileDetails.preferences && userData.profileDetails.preferences.language) {
+                            let lang = await userData.profileDetails.preferences.language
+                            console.log(`${lang}`, '111')
+                            lang = lang !== 'en' ? lang : ''
+                            let url = localStorage.getItem('url_before_login') || ''
                             if (localStorage.getItem('url_before_login')) {
-                              //location.href = `${lang}/${url}`
-                              console.log(lang, '9')
+                              console.log(lang, '7')
+                              location.href = `${lang}/${url}`
                             } else {
-                              //url = '/page/home'
-                              console.log('10')
-                              //window.location.href = `${lang}${url}`
+                              url = '/page/home'
+                              console.log('8')
+                              window.location.href = `${lang}${url}`
                             }
                           } else {
-                            if (localStorage.getItem('url_before_login')) {
-                              // window.location.href = localStorage.getItem('url_before_login') || ''
-
-                              //const url = localStorage.getItem('url_before_login') || ''
-
-                              console.log('11')
-                              // localStorage.removeItem('url_before_login')
-                              //location.href = url
+                            if (localStorage.getItem('preferedLanguage')) {
+                              let data: any
+                              let lang: any
+                              data = localStorage.getItem('preferedLanguage')
+                              lang = JSON.parse(data)
+                              lang = lang.id !== 'en' ? lang.id : ''
+                              let url = localStorage.getItem('url_before_login') || ''
+                              if (localStorage.getItem('url_before_login')) {
+                                location.href = `${lang}/${url}`
+                                console.log(lang, '9')
+                              } else {
+                                url = '/page/home'
+                                console.log('10')
+                                window.location.href = `${lang}${url}`
+                              }
                             } else {
-                              console.log('12')
-                              //window.location.href = '/page/home'
+                              if (localStorage.getItem('url_before_login')) {
+                                // window.location.href = localStorage.getItem('url_before_login') || ''
+
+                                const url = localStorage.getItem('url_before_login') || ''
+
+                                console.log('11')
+                                //localStorage.removeItem('url_before_login')
+                                location.href = url
+                              } else {
+                                console.log('12')
+                                window.location.href = '/page/home'
+                              }
                             }
                           }
-                        }
-                        this.isLoading = false
-                      })
+                          this.isLoading = false
+                        })
+                    }, 400)
                   } else {
                     console.log('13', 'logout')
                     //this.authSvc.logout()
