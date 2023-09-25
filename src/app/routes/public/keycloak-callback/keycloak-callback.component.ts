@@ -77,7 +77,7 @@ export class KeycloakCallbackComponent implements OnInit {
                         console.log(`${lang}/${url}`, '3')
                         //location.href = `${lang}/${url}`
                       } else {
-                        url = '/page/home'
+                        //url = '/page/home'
                         console.log(`${lang}/${url}`, '4')
                         //window.location.href = `${lang}${url}`
                       }
@@ -88,10 +88,10 @@ export class KeycloakCallbackComponent implements OnInit {
                         const url = localStorage.getItem('url_before_login') || ''
                         // localStorage.removeItem('url_before_login')
                         console.log(`${url}`, '5')
-                        location.href = url
+                        //location.href = url
                       } else {
                         console.log('6')
-                        window.location.href = '/page/home'
+                        //window.location.href = '/page/home'
                       }
                     }
                   }
@@ -107,12 +107,12 @@ export class KeycloakCallbackComponent implements OnInit {
                           let lang = await data.profileDetails.preferences.language
                           console.log(`${lang}`, '111')
                           lang = lang !== 'en' ? lang : ''
-                          let url = localStorage.getItem('url_before_login') || ''
+                          //let url = localStorage.getItem('url_before_login') || ''
                           if (localStorage.getItem('url_before_login')) {
-                            console.log('7')
+                            console.log(lang, '7')
                             //location.href = `${lang}/${url}`
                           } else {
-                            url = '/page/home'
+                            //url = '/page/home'
                             console.log('8')
                             //window.location.href = `${lang}${url}`
                           }
@@ -123,12 +123,12 @@ export class KeycloakCallbackComponent implements OnInit {
                             data = localStorage.getItem('preferedLanguage')
                             lang = JSON.parse(data)
                             lang = lang.id !== 'en' ? lang.id : ''
-                            let url = localStorage.getItem('url_before_login') || ''
+                            //let url = localStorage.getItem('url_before_login') || ''
                             if (localStorage.getItem('url_before_login')) {
                               //location.href = `${lang}/${url}`
-                              console.log('9')
+                              console.log(lang, '9')
                             } else {
-                              url = '/page/home'
+                              //url = '/page/home'
                               console.log('10')
                               //window.location.href = `${lang}${url}`
                             }
@@ -166,7 +166,7 @@ export class KeycloakCallbackComponent implements OnInit {
                 //   location.href = '/page/home'
                 // }
               })
-            }, 1000)
+            }, 800)
           }
         }, (err: any) => {
           // console.log(err)
