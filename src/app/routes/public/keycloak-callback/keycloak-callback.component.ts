@@ -28,6 +28,10 @@ export class KeycloakCallbackComponent implements OnInit {
       this.checkKeycloakCallback()
     } else {
       console.log('ppp')
+      this.signupService.fetchStartUpDetails().then(async result => {
+        let res = await result
+        console.log(res, '8800  88')
+      })
     }
   }
 
@@ -37,15 +41,18 @@ export class KeycloakCallbackComponent implements OnInit {
       try {
         this.orgService.setConnectSid(code).subscribe(async (res: any) => {
           if (res) {
+            debugger
             // console.log(res)
             // sessionStorage.clear()
             sessionStorage.removeItem('code')
             setTimeout(() => {
-              this.signupService.fetchStartUpDetails().then(result => {
+              this.signupService.fetchStartUpDetails().then(async result => {
                 // tslint:disable-next-line:no-console
                 console.log(result, 'keycloak')
+                let res = await result
+                console.log(res, '8888')
                 if (result && result.status === 200 && result.roles.length > 0) {
-                  if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences && Object.keys(this.configSvc.unMappedUser.profileDetails.preferences).length > 0) {
+                  if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences && this.configSvc.unMappedUser.profileDetails.preferences.language) {
                     let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
                     console.log(`${lang}`)
                     lang = lang !== 'en' ? lang : ''
@@ -88,8 +95,9 @@ export class KeycloakCallbackComponent implements OnInit {
                   if (result && result.status === 200 && result.roles.length === 0) {
                     this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
                       async (data: any) => {
-                        console.log(data, '108-key')
-                        if (data.profileDetails && data.profileDetails.preferences && Object.keys(data.profileDetails.preferences).length > 0) {
+                        let da = await data
+                        console.log(da, '108-key')
+                        if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences.language) {
                           let lang = await data.profileDetails.preferences.language
                           console.log(`${lang}`, '111')
                           lang = lang !== 'en' ? lang : ''
