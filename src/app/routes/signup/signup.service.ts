@@ -163,6 +163,7 @@ export class SignupService {
           tncStatus: !(isUndefined(this.configSvc.unMappedUser)),
           isActive: !!!userPidProfile.isDeleted,
           userId: userPidProfile.userId,
+          language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language) ? userPidProfile.profileDetails.preferences.language : 'en',
           status: 200,
         }
         this.configSvc.hasAcceptedTnc = details.tncStatus
