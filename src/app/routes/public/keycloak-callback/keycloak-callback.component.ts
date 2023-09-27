@@ -45,21 +45,17 @@ export class KeycloakCallbackComponent implements OnInit {
                 // tslint:disable-next-line:no-console
                 console.log(result)
                 let res = await result
-                if (res && res.status === 200
-                  //&& res.roles.length >= 0
-                ) {
+                if (res && res.status === 200 && res.roles.length > 0) {
                   if (res.language) {
                     let lang = res.language
                     console.log(`${lang}`)
                     lang = lang !== 'en' ? lang : ''
                     let url = localStorage.getItem('url_before_login') || ''
                     if (localStorage.getItem('url_before_login')) {
-                      console.log('1', `${lang}/${url}`)
-                      //location.href = `${lang}/${url}`
+                      location.href = `${lang}/${url}`
                     } else {
                       url = '/page/home'
-                      console.log('2', `${lang}/${url}`)
-                      //window.location.href = `${lang}${url}`
+                      window.location.href = `${lang}${url}`
                     }
                   } else {
                     if (localStorage.getItem('preferedLanguage')) {
@@ -70,12 +66,10 @@ export class KeycloakCallbackComponent implements OnInit {
                       lang = lang.id !== 'en' ? lang.id : ''
                       let url = localStorage.getItem('url_before_login') || ''
                       if (localStorage.getItem('url_before_login')) {
-                        console.log('3', `${lang}/${url}`)
-                        //location.href = `${lang}/${url}`
+                        location.href = `${lang}/${url}`
                       } else {
                         url = '/page/home'
-                        console.log('4', `${lang}/${url}`)
-                        //window.location.href = `${lang}${url}`
+                        window.location.href = `${lang}${url}`
                       }
                     } else {
                       if (localStorage.getItem('url_before_login')) {
@@ -83,11 +77,9 @@ export class KeycloakCallbackComponent implements OnInit {
 
                         const url = localStorage.getItem('url_before_login') || ''
                         // localStorage.removeItem('url_before_login')
-                        console.log('4', `${url}`)
                         location.href = url
                       } else {
-                        //window.location.href = '/page/home'
-                        console.log('5')
+                        window.location.href = '/page/home'
                       }
                     }
                   }
@@ -110,8 +102,7 @@ export class KeycloakCallbackComponent implements OnInit {
                   // }
                   this.isLoading = false
                 } else {
-                  console.log('6')
-                  //this.authSvc.logout()
+                  this.authSvc.logout()
                   // window.location.href = '/public/home'
                 }
                 if (result.status === 419) {
@@ -141,7 +132,7 @@ export class KeycloakCallbackComponent implements OnInit {
       } catch (err) {
         // tslint:disable-next-line:no-console
         console.log(err)
-        //this.authSvc.logout()
+        this.authSvc.logout()
         // alert('Error Occured while logging in')
         // location.href = "/public/home"
       }
