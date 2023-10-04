@@ -19,7 +19,8 @@
   }
 
   @include breakpoint-s {
-    max-width: 50%;
+   // max-width: 50%;
+   padding: 0px 45px 50px;
   }
 
   @include breakpoint-xs {
@@ -153,13 +154,19 @@ margin-top: 2.5rem;
 
 .div a {
   margin-bottom: 15px;
+  //font-size: 16px;
 }
 .div a:hover {
   cursor: pointer;
 }
 .div a span {
-vertical-align: bottom
+vertical-align: text-top;
+margin-left: 3px;
 }
 .active {
 font-weight: 500;
+}
+.active img{
+  border: 1px solid #000;
+  border-radius: 8px
 }

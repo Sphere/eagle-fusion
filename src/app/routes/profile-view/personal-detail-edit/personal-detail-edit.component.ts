@@ -58,13 +58,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   loadDob = false
   showDesignation = false
   constructor(private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private matSnackBar: MatSnackBar,
-              public dialog: MatDialog,
-              private valueSvc: ValueService,
-              private readonly changeDetectorRef: ChangeDetectorRef,
-              private UserAgentResolverService: UserAgentResolverService,
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private matSnackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private valueSvc: ValueService,
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.personalDetailForm = new FormGroup({
       firstname: new FormControl('', [Validators.required]),
@@ -98,12 +98,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   ngOnInit() {
     this.fetchMeta()
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      console.log(isXSmall, 'ppp')
       if (isXSmall) {
         this.showbackButton = true
         this.showLogOutIcon = true
 
       } else {
-        this.showbackButton = true
+        this.showbackButton = false
         this.showLogOutIcon = false
       }
     })
@@ -303,7 +304,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       // }
 
       if (data.personalDetails && data) {
+        console.log(data.personalDetails)
         this.personalDetailForm.patchValue({
+
           // userName: this.profileUserName,
           firstname: data.personalDetails.firstname,
           surname: data.personalDetails.surname,

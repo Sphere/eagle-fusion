@@ -34,6 +34,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   showLogOutIcon = false
   profileData: any
   navigateTohome = true
+  selectedIndex: string = 'personal';
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -61,6 +62,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      console.log(isXSmall, 'show')
       if (isXSmall) {
         this.showbackButton = true
         this.showLogOutIcon = true
@@ -118,6 +120,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       return result
     }, [])
     this.certificates = issuedCertificates
+    console.log(this.certificates)
   }
 
   openAboutDialog() {

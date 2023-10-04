@@ -3,23 +3,23 @@
 .content {
   padding: 60px 20px 60px;
   font-size: 16px;
-  margin: auto;
+  // margin: auto;
 
-  @include breakpoint-gt-s {
-    max-width: 30%;
-  }
+  // @include breakpoint-gt-s {
+  //   max-width: 30%;
+  // }
 
-  @include breakpoint-gt-m {
-    max-width: 35%;
-  }
+  // @include breakpoint-gt-m {
+  //   max-width: 35%;
+  // }
 
-  @include breakpoint-gt-l {
-    max-width: 30%;
-  }
+  // @include breakpoint-gt-l {
+  //   max-width: 30%;
+  // }
 
-  @include breakpoint-s {
-    max-width: 50%;
-  }
+  // @include breakpoint-s {
+  //   max-width: 50%;
+  // }
 
   @include breakpoint-xs {
     max-width: 90%;
@@ -98,4 +98,8 @@ img.lang-img {
   position: relative;
   margin-right: 8px;
   top: 30px;
+}
+label:before {
+  color: #d32f2f;
+  content: "* ";
 }

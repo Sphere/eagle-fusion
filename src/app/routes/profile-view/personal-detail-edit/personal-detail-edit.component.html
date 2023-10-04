@@ -1,137 +1,170 @@
 <div class="content">
-  <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
-    [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
+  <div [ngStyle]="!showbackButton ? {'display': 'none' } : {}">
+    <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
+      [showLogOutIcon]="No"></ws-mobile-profile-nav>
+  </div>
   <p class="text-2xl mt-3" i18n>Personal Details</p>
 
   <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
-    <!-- <div class="form-group">
+    <div style="width: 55%;">
+      <!-- <div class="form-group">
       <input type="text" formControlName="userName" class="form-control" (change)="fieldChange()"
         placeholder="User's Name*" autocomplete="off">
     </div> -->
-    <div class="form-group">
-      <input type="text" formControlName="firstname" class="form-control" (change)="fieldChange()"
-        placeholder="First Name" autocomplete="off" i18n-placeholder>
-    </div>
-    <div class="form-group">
-      <input type="text" formControlName="surname" class="form-control" (change)="fieldChange()"
-        placeholder="Last Name*" autocomplete="off" i18n-placeholder>
-    </div>
+      <div class="form-group">
+        <label>First name</label>
+        <input type="text" formControlName="firstname" class="form-control" (change)="fieldChange()"
+          placeholder="First Name" autocomplete="off" i18n-placeholder>
+      </div>
+      <div class="form-group">
+        <label>Last name</label>
+        <input type="text" formControlName="surname" class="form-control" (change)="fieldChange()"
+          placeholder="Last Name*" autocomplete="off" i18n-placeholder>
+      </div>
 
-    <div class="form-group mt-4 relative">
-      <!-- <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
+      <div class="form-group mt-4 relative">
+        <label>Date Of Birth</label>
+        <!-- <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
         (dateInput)="onDateChange($event.value)" placeholder="Date of Birth*" name="dob" id="dob-inputfield"
         class="form-control" readonly (click)="picker.open()">
       <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
       <mat-datepicker #picker [startAt]="startDate"></mat-datepicker> -->
-      <ng-container *ngIf="loadDob; else withoutDob">
-        <ws-dropdown-dob (dobValue)="dobData($event)" [dob]="personalDetailForm.get('dob').value ">
-        </ws-dropdown-dob>
-      </ng-container>
-      <ng-template #withoutDob>
-        <ws-dropdown-dob (dobValue)="dobData($event)">
-        </ws-dropdown-dob>
-      </ng-template>
+        <ng-container *ngIf="loadDob; else withoutDob">
+          <ws-dropdown-dob (dobValue)="dobData($event)" [dob]="personalDetailForm.get('dob').value ">
+          </ws-dropdown-dob>
+        </ng-container>
+        <ng-template #withoutDob>
+          <ws-dropdown-dob (dobValue)="dobData($event)">
+          </ws-dropdown-dob>
+        </ng-template>
 
-    </div>
-    <div>
-      <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
-    </div>
-    <!--     <mat-form-field appearance="outline" class="field-fullwidth">
+      </div>
+      <div>
+        <pre *ngIf="invalidDob" class="text-danger">You must be at least 18 years old</pre>
+      </div>
+      <!--     <mat-form-field appearance="outline" class="field-fullwidth">
       <mat-select formControlName="languages" i18n-placeholder placeholder="languages"
         (selectionChange)="langChange($event.value)">
         <mat-option [value]="lang" *ngFor="let lang of langList">{{lang}}</mat-option>
       </mat-select>
     </mat-form-field> -->
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" formControlName="mobile" class="form-control" i18n-placeholder placeholder="Phone Number"
+          autocomplete="off" (change)="fieldChange()">
+      </div>
 
-    <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
-        (selectionChange)="professionalChange($event.value)">
-        <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <div class="form-group" *ngIf="showDesignation">
-      <input type="text" formControlName="designation" class="form-control" placeholder="Please Specify Designation*"
-        autocomplete="off">
-    </div>
+      <div class="form-group">
+        <label>Email ID</label>
+        <input type="text" class="form-control" i18n-placeholder placeholder="Email ID" autocomplete="off">
+      </div>
 
-    <div class="form-group" *ngIf="professionOtherField">
-      <input type="text" formControlName="professionOtherSpecify" class="form-control"
-        placeholder="Please Specify Profession*" i18n-placeholder autocomplete="off">
-    </div>
-
-    <div class="form-group" *ngIf="rnShow">
-      <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" (change)="fieldChange()"
-        i18n-placeholder placeholder="RN/RM Number" autocomplete="off">
-    </div>
-
-    <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgType !== null">
-      <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
-        <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
-          (selectionChange)="orgTypeSelect($event.value);">
-          <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
+      <label>Profession</label>
+      <mat-form-field appearance="outline" class="field-fullwidth">
+        <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
+          (selectionChange)="professionalChange($event.value)">
+          <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
           </mat-option>
         </mat-select>
       </mat-form-field>
-    </div>
 
-    <div class="form-group"
-      *ngIf="orgOthersField || (userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgOtherSpecify)">
-      <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
-        i18n-placeholder autocomplete="off">
-    </div>
-    <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgOtherSpecify'].hasError('pattern')">
-      {{errorMsg}}</mat-error>
+      <div class="form-group" *ngIf="showDesignation">
+        <label>Designation</label>
+        <input type="text" formControlName="designation" class="form-control" placeholder="Please Specify Designation*"
+          autocomplete="off">
+      </div>
 
-    <div class="form-group"
-      *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].name">
-      <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization's Name"
-        i18n-placeholder autocomplete="off" (change)="fieldChange()" i18n-placeholder>
-    </div>
-    <div class="form-group input-box"
-      *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
-      <input type="text" name="block" formControlName="block" class="form-control" placeholder="Block"
-        autocomplete="off" i18n-placeholder>
-    </div>
-    <div class="form-group input-box"
-      *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
-      <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
-        autocomplete="off" i18n-placeholder>
-    </div>
-    <div class="form-group">
-      <input type="text" formControlName="nationality" i18n-placeholder class="form-control" placeholder="Nationality"
-        autocomplete="off" (change)="fieldChange()">
-    </div>
+      <div class="form-group" *ngIf="professionOtherField">
+        <label>Other Profession</label>
+        <input type="text" formControlName="professionOtherSpecify" class="form-control"
+          placeholder="Please Specify Profession*" i18n-placeholder autocomplete="off">
+      </div>
 
-    <div class="form-group">
-      <input type="text" formControlName="domicileMedium" class="form-control" i18n-placeholder
-        placeholder="Mother Tongue" autocomplete="off" (change)="fieldChange()">
-    </div>
+      <div class="form-group" *ngIf="rnShow">
+        <label>RN/RM Number</label>
+        <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" (change)="fieldChange()"
+          i18n-placeholder placeholder="RN/RM Number" autocomplete="off">
+      </div>
 
-    <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="gender" i18n-placeholder placeholder="Gender" (selectionChange)="fieldChange()">
-        <mat-option value="Male" i18n>Male</mat-option>
-        <mat-option value="Female" i18n>Female</mat-option>
-        <mat-option value="Others" i18n>Others</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgType !== null">
+        <label>Organization Type</label>
+        <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
+          <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
+            (selectionChange)="orgTypeSelect($event.value);">
+            <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
 
-    <mat-form-field appearance="outline" class="field-fullwidth">
-      <mat-select formControlName="maritalStatus" i18n-placeholder placeholder="Marital Status"
-        (selectionChange)="fieldChange()">
-        <mat-option value="Single" i18n>Single</mat-option>
-        <mat-option value="Married" i18n>Married</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <div class="form-group"
+        *ngIf="orgOthersField || (userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgOtherSpecify)">
+        <label>Organization Other's Specify</label>
+        <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
+          i18n-placeholder autocomplete="off">
+      </div>
+      <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgOtherSpecify'].hasError('pattern')">
+        {{errorMsg}}</mat-error>
 
-    <div class="form-group">
-      <!-- <label>Preferred Language</label> -->
-      <img alt="logo" src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()">
-      <input formControlName="knownLanguage" disabled type="text" class="form-control" i18n-placeholder
-        placeholder="Known Languages">
-    </div>
+      <div class="form-group"
+        *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].name">
+        <label>Organization Name</label>
+        <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization's Name"
+          i18n-placeholder autocomplete="off" (change)="fieldChange()" i18n-placeholder>
+      </div>
 
-    <!-- <mat-form-field appearance="outline" class="w-full margin-top-xs">
+      <div class="form-group input-box"
+        *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
+        <label>Block</label>
+        <input type="text" name="block" formControlName="block" class="form-control" placeholder="Block"
+          autocomplete="off" i18n-placeholder>
+      </div>
+
+      <div class="form-group input-box"
+        *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
+        <label>Sub Centre</label>
+        <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
+          autocomplete="off" i18n-placeholder>
+      </div>
+
+      <div class="form-group">
+        <label>Nationality</label>
+        <input type="text" formControlName="nationality" i18n-placeholder class="form-control" placeholder="Nationality"
+          autocomplete="off" (change)="fieldChange()">
+      </div>
+
+      <div class="form-group">
+        <label>Mother Tongue</label>
+        <input type="text" formControlName="domicileMedium" class="form-control" i18n-placeholder
+          placeholder="Mother Tongue" autocomplete="off" (change)="fieldChange()">
+      </div>
+
+      <label>Gender</label>
+      <mat-form-field appearance="outline" class="field-fullwidth">
+        <mat-select formControlName="gender" i18n-placeholder placeholder="Gender" (selectionChange)="fieldChange()">
+          <mat-option value="Male" i18n>Male</mat-option>
+          <mat-option value="Female" i18n>Female</mat-option>
+          <mat-option value="Others" i18n>Others</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <label>Marital Status</label>
+      <mat-form-field appearance="outline" class="field-fullwidth">
+        <mat-select formControlName="maritalStatus" i18n-placeholder placeholder="Marital Status"
+          (selectionChange)="fieldChange()">
+          <mat-option value="Single" i18n>Single</mat-option>
+          <mat-option value="Married" i18n>Married</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <div class="form-group">
+        <!-- <label>Preferred Language</label> -->
+        <img alt="logo" src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()">
+        <input formControlName="knownLanguage" disabled type="text" class="form-control" i18n-placeholder
+          placeholder="Known Languages">
+      </div>
+
+      <!-- <mat-form-field appearance="outline" class="w-full margin-top-xs">
       <mat-chip-list #chipList>
         <mat-chip *ngFor="let lang of selectedKnowLangs" [selectable]="true" [removable]="true"
           (removed)="removeKnowLanguage(lang)">
@@ -150,22 +183,24 @@
       </mat-option>
     </mat-autocomplete> -->
 
-    <div class="form-group">
-      <input type="text" formControlName="mobile" class="form-control" i18n-placeholder placeholder="Phone Number"
-        autocomplete="off" (change)="fieldChange()">
-    </div>
 
-    <div class="form-group">
-      <input type="text" formControlName="postalAddress" class="form-control" i18n-placeholder placeholder="Address"
-        autocomplete="off" (change)="fieldChange()">
-    </div>
 
-    <div class="form-group">
-      <input type="text" formControlName="pincode" class="form-control" i18n-placeholder placeholder="Pincode"
-        autocomplete="off" (change)="fieldChange()">
+      <div class="form-group">
+        <label>Postal Address</label>
+        <input type="text" formControlName="postalAddress" class="form-control" i18n-placeholder placeholder="Address"
+          autocomplete="off" (change)="fieldChange()">
+      </div>
+
+      <div class="form-group">
+        <label>Pincode</label>
+        <input type="text" formControlName="pincode" class="form-control" i18n-placeholder placeholder="Pincode"
+          autocomplete="off" (change)="fieldChange()">
+      </div>
     </div>
-    <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
-      [disabled]="personalDetailForm?.invalid || savebtnDisable" i18n>Save</button>
+    <div style="position: absolute;right: 35px;bottom: 80px;">
+      <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
+        [disabled]="personalDetailForm?.invalid || savebtnDisable" i18n>Save</button>
+    </div>
   </form>
   <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"
     value="User profile details updated successfully!" #toastSuccess />
