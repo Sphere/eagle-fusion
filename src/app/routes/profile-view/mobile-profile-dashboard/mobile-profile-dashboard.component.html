@@ -145,6 +145,10 @@
     </div>
     <div *ngIf="selectedIndex === 'organization'" style="width:50%">
       <ws-work-info-list></ws-work-info-list>
+      {{showView | json}}
+      <div *ngIf="showView">
+        <ws-work-info-edit></ws-work-info-edit>
+      </div>
     </div>
     <div *ngIf="selectedIndex === 'academic'" style="width:50%">
       <ws-education-list></ws-education-list>
@@ -166,7 +170,7 @@
         </label>
       </div>
       <button type="submit" class="save-btn" style="    position: absolute;
-    bottom: 0px;
+    bottom: 45px;
     right: 35px;">Save</button>
     </div>
     <div *ngIf="selectedIndex === 'certificates'" style="width:50%">

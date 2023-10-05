@@ -51,6 +51,9 @@ export class WidgetContentService {
   private backSource = new Subject<any>()
   public backMessage = this.backSource.asObservable()
 
+  private workSource = new Subject<any>()
+  public workMessage = this.workSource.asObservable()
+
   public _updateValue = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
   updateValue$ = this._updateValue.asObservable()
@@ -69,6 +72,10 @@ export class WidgetContentService {
   }
   changeBack(message: string) {
     this.backSource.next(message)
+  }
+  changeWork(msg: any) {
+    console.log('came1')
+    this.workSource.next(msg)
   }
   // fetchContent(
   //   contentId: string,

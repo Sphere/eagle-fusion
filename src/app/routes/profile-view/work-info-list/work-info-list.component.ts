@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { Router } from '@angular/router'
+//import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -17,7 +17,7 @@ export class WorkInfoListComponent implements OnInit {
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    private router: Router,
+    //private router: Router,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
   ) { }
@@ -46,14 +46,20 @@ export class WorkInfoListComponent implements OnInit {
     }
   }
   redirectToWorkInfo(isEdit?: any) {
-    this.contentSvc.changeBack('/app/workinfo-list')
-    if (isEdit) {
-      this.router.navigate([`app/workinfo-edit`], {
-        queryParams: { isEdit },
-      })
-    } else {
-      this.router.navigate([`app/workinfo-edit`])
+    let ob = {
+      "type": "work",
+      "edit": isEdit
     }
+    console.log(ob)
+    this.contentSvc.changeWork(ob)
+    // this.contentSvc.changeBack('/app/workinfo-list')
+    // if (isEdit) {
+    //   this.router.navigate([`app/workinfo-edit`], {
+    //     queryParams: { isEdit },
+    //   })
+    // } else {
+    //   this.router.navigate([`app/workinfo-edit`])
+    // }
 
   }
 }

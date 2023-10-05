@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -8,7 +8,7 @@ import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
 import { constructReq } from '../request-util'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-
+import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 @Component({
   selector: 'ws-work-info-edit',
   templateUrl: './work-info-edit.component.html',
@@ -18,7 +18,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
     { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
   ],
 })
-export class WorkInfoEditComponent implements OnInit {
+export class WorkInfoEditComponent implements OnInit, OnDestroy {
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   workInfoForm: FormGroup
@@ -26,6 +26,9 @@ export class WorkInfoEditComponent implements OnInit {
   userID = ''
   showbackButton = false
   showLogOutIcon = false
+  workLog: any
+  change: any
+
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
     private configSvc: ConfigurationsService,
@@ -35,6 +38,7 @@ export class WorkInfoEditComponent implements OnInit {
     private route: ActivatedRoute,
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
+    private contentSvc: WidgetContentService,
   ) {
     this.workInfoForm = new FormGroup({
       doj: new FormControl('', [Validators.required]),
@@ -42,10 +46,19 @@ export class WorkInfoEditComponent implements OnInit {
       designation: new FormControl('', [Validators.required]),
       location: new FormControl('', [Validators.required]),
     })
+    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
+      console.log(data, 'here')
+      this.workLog = await data
+      if (this.workLog) {
+        this.getUserDetails()
+      }
+
+      console.log(this.workLog.edit)
+    })
   }
 
   ngOnInit() {
-    this.getUserDetails()
+    //this.getUserDetails()
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
@@ -76,6 +89,12 @@ export class WorkInfoEditComponent implements OnInit {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
+            if (this.workLog.edit === true) {
+              console.log('true')
+              this.updateForm()
+            } else {
+              this.workInfoForm.reset()
+            }
             this.route.queryParams.subscribe(isEdit => {
               if (isEdit.isEdit) {
                 this.updateForm()
@@ -123,6 +142,11 @@ export class WorkInfoEditComponent implements OnInit {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
+  }
+  ngOnDestroy() {
+    if (this.change) {
+      this.change.unsubscribe()
+    }
   }
 
   private getDateFromText(dateString: string): any {

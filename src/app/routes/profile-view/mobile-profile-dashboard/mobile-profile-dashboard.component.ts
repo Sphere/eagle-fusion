@@ -35,6 +35,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   profileData: any
   navigateTohome = true
   selectedIndex: string = 'personal';
+  showView: any
+  gotData: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -45,9 +47,14 @@ export class MobileProfileDashboardComponent implements OnInit {
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService
   ) {
+    this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
+      console.log(data)
+      this.showView = await data
+    })
   }
 
   ngOnInit() {
+    console.log(this.showView)
     this.userProfileSvc.updateuser$.pipe().subscribe(item => {
       if (item) {
         this.getUserDetails()
@@ -206,6 +213,13 @@ export class MobileProfileDashboardComponent implements OnInit {
     console.log(event)
     this.router.navigate([`app/user/self-assessment`])
   }
+  ngOnDestroy() {
+    console.log('s', this.gotData)
+    if (this.gotData) {
+      this.gotData.unsubscribe()
+    }
+  }
+
   openCompetencyDashboard(event: any) {
     console.log(event)
     this.router.navigate([`app/user/competency`])
