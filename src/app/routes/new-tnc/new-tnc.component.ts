@@ -34,6 +34,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   createUserForm!: FormGroup
   showAcceptbtn = true
   lang: any
+  termsAccepted: any
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -72,16 +73,20 @@ export class NewTncComponent implements OnInit, OnDestroy {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((userDetails: any) => {
         this.userData = userDetails
-        if (userDetails.profileDetails) {
+
+        console.log(userDetails.profileDetails!.profileReq!.personalDetails!.dob)
+        if (userDetails.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
+          this.showAcceptbtn = true
+        } else {
           if (userDetails.tcStatus === 'false') {
             this.showAcceptbtn = true
           } else {
             this.showAcceptbtn = false
           }
-
-        } else {
-          this.showAcceptbtn = true
         }
+        // else {
+        //   this.showAcceptbtn = true
+        // }
       })
     }
 
@@ -224,6 +229,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
           docName: generalTnc.name,
           version: generalTnc.version,
         })
+        this.termsAccepted = generalTnc.version
       }
       if (dataPrivacy) {
         termsAccepted.push({
@@ -257,49 +263,53 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.browserName.setValue(userAgent.browserName || '')
         this.createUserForm.controls.userCookie.setValue(userCookie || '')
       }
-      let Obj: any
+      //let Obj: any
       if (localStorage.getItem('preferedLanguage')) {
         let data: any
         data = localStorage.getItem('preferedLanguage')
         this.lang = JSON.parse(data)
         this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
-        Obj = {
-          preferences: {
-            language: this.lang,
-          },
-        }
+        // Obj = {
+        //   preferences: {
+        //     language: this.lang,
+        //   },
+        // }
       } else {
         this.lang = 'en'
       }
       /* this changes for ebhyass*/
-      if (this.userData!.tcStatus === 'false') {
-        const reqUpdate = {
-          request: {
-            userId: this.userId,
-            profileDetails: Object.assign(this.userData.profileDetails, Obj),
-            tcStatus: 'true',
-          },
-        }
-        this.updateUser(reqUpdate)
+      //if (this.userData!.tcStatus === 'false') {
+      // const reqUpdate = {
+      //   request: {
+      //     userId: this.userId,
+      //     profileDetails: Object.assign(this.userData.profileDetails, Obj),
+      //     tcStatus: 'true',
+      //   },
+      // }
+      // this.updateUser(reqUpdate)
 
-      } else {
-        let profileRequest = this.constructReq(this.createUserForm)
-        const obj = {
-          preferences: {
-            language: this.lang,
-          },
-          personalDetails: profileRequest.profileReq.personalDetails
-        }
-        profileRequest = Object.assign(profileRequest, obj)
-        const reqUpdate = {
-          request: {
-            userId: this.userId,
-            // profileDetails: Object.assign(profileRequest, Obj),
-            profileDetails: profileRequest,
-          },
-        }
-        this.updateUser(reqUpdate)
+      //} else {
+      let profileRequest = this.constructReq(this.createUserForm)
+      const obj = {
+        preferences: {
+          language: this.lang,
+        },
+        personalDetails: profileRequest.profileReq.personalDetails
       }
+      profileRequest = Object.assign(profileRequest, obj)
+      const reqUpdate = {
+        request: {
+          userId: this.userId,
+          // profileDetails: Object.assign(profileRequest, Obj),
+          profileDetails: profileRequest,
+          tncAcceptedVersion: this.termsAccepted,
+          tncAcceptedOn: new Date().getTime()
+        },
+      }
+      console.log(reqUpdate, 'sss')
+      console.log(this.termsAccepted)
+      this.updateUser(reqUpdate)
+      //}
 
     } else {
       this.errorInAccepting = false

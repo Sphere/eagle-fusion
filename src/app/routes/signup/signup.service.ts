@@ -17,6 +17,8 @@ const API_END_POINTS = {
   RESET_PASSWORD: `/apis/public/v8/forgot-password/reset/proxy/password`,
   SETPASSWORD_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
   profilePid: '/apis/proxies/v8/api/user/v2/read',
+  newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
+  validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin'
 }
 
 @Injectable({
@@ -28,6 +30,22 @@ export class SignupService {
   constructor(private http: HttpClient,
     private configSvc: ConfigurationsService
   ) { }
+
+  ssoValidateOTP(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.validateOTP, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+
+  ssoWithMobileEmail(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.newssowithMobileEmail, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
 
   signup(data: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.USER_SIGNUP, data).pipe(

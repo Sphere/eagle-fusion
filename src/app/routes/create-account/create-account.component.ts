@@ -5,6 +5,7 @@ import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
 import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 import { forkJoin } from 'rxjs/internal/observable/forkJoin'
+import { mustMatch } from '../password-validator'
 
 @Component({
   selector: 'ws-create-account',
@@ -48,11 +49,11 @@ export class CreateAccountComponent implements OnInit {
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
-      // password: new FormControl('', [Validators.required,
-      // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^([6-9][0-9]{9})|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/)]),
+      password: new FormControl('', [Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -87,11 +88,11 @@ export class CreateAccountComponent implements OnInit {
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
-      // password: new FormControl('', [Validators.required,
-      // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^([6-9][0-9]{9})|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/)]),
+      password: new FormControl('', [Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -148,38 +149,39 @@ export class CreateAccountComponent implements OnInit {
         firstName: form.value.firstname.trim(),
         lastName: form.value.lastname.trim(),
         email: form.value.emailOrMobile.trim(),
-        // password: form.value.password.trim(),
+        password: form.value.password.trim(),
       }
 
-      this.signupService.signup(reqObj).subscribe(res => {
+      //this.signupService.signup(reqObj).subscribe(res => {
+      this.signupService.ssoWithMobileEmail(reqObj).subscribe(res => {
         console.log(res)
         console.log(res.status)
-        if (res.status_code === 200) {
+        if (res.message = "User successfully created") {
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
-              if (res.msg === 'user created successfully') {
+              if (res.message = "User successfully created") {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
                 this.openSnackbar(msg)
               }
             } else {
-              this.openSnackbar(res.msg)
+              this.openSnackbar(res.message)
             }
           } else {
-            this.openSnackbar(res.msg)
+            this.openSnackbar(res.message)
           }
           // this.generateOtp('email', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true
           // form.reset()
-          localStorage.setItem(`userUUID`, res.userUUId)
+          localStorage.setItem(`userUUID`, res.userId)
         } else if (res.status === 'error') {
-          this.openSnackbar(res.msg)
+          this.openSnackbar(res.message)
         }
       },
         err => {
-          console.log(err)
+          console.log(err, err.error.message, err.error.msg)
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
@@ -189,11 +191,11 @@ export class CreateAccountComponent implements OnInit {
                 this.uploadSaveData = false
               }
             } else {
-              this.openSnackbar(err.error.msg)
+              this.openSnackbar(err.error.msg || err.error.message)
               this.uploadSaveData = false
             }
           } else {
-            this.openSnackbar(err.error.msg)
+            this.openSnackbar(err.error.msg || err.error.message)
             this.uploadSaveData = false
             // form.reset()
           }
@@ -204,23 +206,24 @@ export class CreateAccountComponent implements OnInit {
         firstName: form.value.firstname.trim(),
         lastName: form.value.lastname.trim(),
         phone: form.value.emailOrMobile.trim(),
-        // password: form.value.password.trim(),
+        password: form.value.password.trim(),
       }
 
-      this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
-        if (res.status === 'success') {
+      //this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
+      this.signupService.ssoWithMobileEmail(requestBody).subscribe(res => {
+        if (res.message === 'User successfully created') {
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
-              if (res.msg === 'user created successfully') {
+              if (res.message === 'user created successfully') {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
                 this.openSnackbar(msg)
               }
             } else {
-              this.openSnackbar(res.msg)
+              this.openSnackbar(res.message)
             }
           } else {
-            this.openSnackbar(res.msg)
+            this.openSnackbar(res.message)
           }
           // this.generateOtp('phone', form.value.emailOrMobile)
           this.showAllFields = false
@@ -230,7 +233,7 @@ export class CreateAccountComponent implements OnInit {
           // localStorage.removeItem(`preferedLanguage`)
           localStorage.setItem(`userUUID`, res.userUUId)
         } else if (res.status === 'error') {
-          this.openSnackbar(res.msg)
+          this.openSnackbar(res.message)
         }
       },
         err => {
@@ -243,11 +246,11 @@ export class CreateAccountComponent implements OnInit {
                 this.uploadSaveData = false
               }
             } else {
-              this.openSnackbar(err.error.msg)
+              this.openSnackbar(err.error.msg || err.error.message)
               this.uploadSaveData = false
             }
           } else {
-            this.openSnackbar(err.error.msg)
+            this.openSnackbar(err.error.msg || err.error.message)
             this.uploadSaveData = false
           }
         }
@@ -350,13 +353,14 @@ export class CreateAccountComponent implements OnInit {
         }
         this.timerSubscription = setTimeout(() => {
           this.emailDelaid = false
-        }, 3000)
+        }, 300)
       })
   }
 
   get emailOrMobileErrorStatus() {
     let errorType = ''
     const controll = this.createAccountForm.get('emailOrMobile')
+
     if (controll!.valid) {
       return errorType
     } else if (!this.emailDelaid) {

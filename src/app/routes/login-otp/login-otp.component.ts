@@ -3,7 +3,9 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
-import { v4 as uuid } from 'uuid'
+import { Router } from '@angular/router'
+//import { v4 as uuid } from 'uuid'
+//import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 @Component({
   selector: 'ws-login-otp',
   templateUrl: './login-otp.component.html',
@@ -11,6 +13,7 @@ import { v4 as uuid } from 'uuid'
 })
 export class LoginOtpComponent implements OnInit {
   [x: string]: any
+  isLoading = false
   loginOtpForm: FormGroup
   @Input() signUpdata: any
   @Input() loginData: any
@@ -19,9 +22,12 @@ export class LoginOtpComponent implements OnInit {
   loginVerification = false
   redirectUrl = ''
   constructor(
+    private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private signupService: SignupService
+    private signupService: SignupService,
+    //private userProfileSvc: UserProfileService,
+
   ) {
     this.loginOtpForm = this.fb.group({
       code: new FormControl('', [Validators.required]),
@@ -58,14 +64,15 @@ export class LoginOtpComponent implements OnInit {
   async verifyOtp() {
     let request: any = []
     let phone = this.signUpdata.value.emailOrMobile
+    console.log(this.signUpdata.value)
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
       request = {
-        mobileNumber: this.signUpdata.value.emailOrMobile,
+        mobile: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
-        userUUID: localStorage.getItem(`userUUID`),
+        userId: localStorage.getItem(`userUUID`),
       }
 
     } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
@@ -74,17 +81,20 @@ export class LoginOtpComponent implements OnInit {
         email: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
-        userUUID: localStorage.getItem(`userUUID`),
+        userId: localStorage.getItem(`userUUID`),
       }
     }
-    this.signupService.validateOtp(request).subscribe(
+    this.isLoading = true
+    //this.signupService.validateOtp(request).subscribe(
+    this.signupService.ssoValidateOTP(request).subscribe(
       async (res: any) => {
+        console.log(res)
         let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
-        this.openSnackbar(res.message)
+        this.openSnackbar(res.msg)
         // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
-        const state = uuid()
-        const nonce = uuid()
+        //const state = uuid()
+        //const nonce = uuid()
         sessionStorage.setItem('login-btn', 'clicked')
         if (url.includes('hi')) {
           url = url.replace('hi/', '')
@@ -93,11 +103,64 @@ export class LoginOtpComponent implements OnInit {
         } else {
           this.redirectUrl = `${url}openid/keycloak`
         }
+        if (localStorage.getItem('preferedLanguage')) {
+          let data: any
+          let lang: any
+          data = localStorage.getItem('preferedLanguage')
+          lang = JSON.parse(data)
+          if (lang.id) {
+            lang = lang.id !== 'en' ? lang.id : ''
+            if (url.includes('hi')) {
+              url = url.replace('hi/', '')
+            }
+            url = `${url}${lang}/app/new-tnc`
+            this.isLoading = false
+            window.location.href = url
+            //this.router.navigate([url, 'new-tnc'])
+          }
+        } else {
+          this.isLoading = false
+          this.router.navigate(['app', 'new-tnc'])
+        }
+        // this.signupService.fetchStartUpDetails().then(result => {
+        //   console.log(result)
+        //   if (result.userId) {
+        //     console.log(result.userID)
+        //     setTimeout(() => {
+        //       this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
+        //         (data: any) => {
+        //           console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
+        //           if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
+        //             if (localStorage.getItem('preferedLanguage')) {
+        //               let data: any
+        //               let lang: any
+        //               data = localStorage.getItem('preferedLanguage')
+        //               lang = JSON.parse(data)
+        //               if (lang.id) {
+        //                 lang = lang.id !== 'en' ? lang.id : ''
+        //                 if (url.includes('hi')) {
+        //                   url = url.replace('hi/', '')
+        //                 }
+        //                 url = `${url}${lang.id}/app/new-tnc`
+        //                 this.isLoading = false
+        //                 window.location.href = url
+        //                 //this.router.navigate([url, 'new-tnc'])
+        //               }
+        //             } else {
+        //               this.isLoading = false
+        //               this.router.navigate(['app', 'new-tnc'])
+        //             }
+        //           }
+        //         })
+        //     }, 1000)
+        //   }
+        // })
         // tslint:disable-next-line:max-line-length
-        const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-        window.location.href = keycloakurl
+        //const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+        //window.location.href = keycloakurl
       },
       (err: any) => {
+        this.isLoading = false
         if (localStorage.getItem(`preferedLanguage`)) {
           const reqObj = localStorage.getItem(`preferedLanguage`) || ''
           const lang = JSON.parse(reqObj) || ''
@@ -123,7 +186,7 @@ export class LoginOtpComponent implements OnInit {
         mobileNumber: this.loginData.value.username,
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
-        userUUID: localStorage.getItem(`userUUID`),
+        userId: localStorage.getItem(`userUUID`),
       }
 
     } else {
@@ -131,14 +194,16 @@ export class LoginOtpComponent implements OnInit {
         email: this.loginData.value.username,
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
-        userUUID: localStorage.getItem(`userUUID`),
+        userId: localStorage.getItem(`userUUID`),
       }
     }
-    this.signupService.validateOtp(request).subscribe(
+    //this.signupService.validateOtp(request).subscribe(
+    this.signupService.ssoValidateOTP(request).subscribe(
       async (res: any) => {
+        console.log(res, '2')
         this.openSnackbar(res.message)
         // localStorage.removeItem('preferedLanguage')
-        location.href = '/page/home'
+        //location.href = '/page/home'
         return res
       },
       (err: any) => {
@@ -148,6 +213,7 @@ export class LoginOtpComponent implements OnInit {
   }
 
   resendOTP(emailPhoneType: string) {
+    this.isLoading = true
     let requestBody
     if (emailPhoneType === 'email') {
       requestBody = {
@@ -160,10 +226,12 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
+        this.isLoading = false
         this.openSnackbar(res.message)
         // localStorage.removeItem('preferedLanguage')
       },
       (err: any) => {
+        this.isLoading = false
         this.openSnackbar(`OTP Error`, + err.error.message)
       }
     )
