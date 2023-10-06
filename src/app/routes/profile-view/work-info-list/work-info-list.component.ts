@@ -27,10 +27,10 @@ export class WorkInfoListComponent implements OnInit {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
-        this.showLogOutIcon = true
+        this.showLogOutIcon = false
 
       } else {
-        this.showbackButton = true
+        this.showbackButton = false
         this.showLogOutIcon = false
       }
     })
@@ -45,12 +45,14 @@ export class WorkInfoListComponent implements OnInit {
         })
     }
   }
-  redirectToWorkInfo(isEdit?: any) {
+  redirectToWorkInfo(isEdit: any) {
+
     let ob = {
       "type": "work",
       "edit": isEdit
     }
     console.log(ob)
+    sessionStorage.setItem('work', isEdit)
     this.contentSvc.changeWork(ob)
     // this.contentSvc.changeBack('/app/workinfo-list')
     // if (isEdit) {

@@ -49,6 +49,8 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data, 'here')
       this.workLog = await data
+      let check = sessionStorage.getItem('work')
+      console.log(check)
       if (this.workLog) {
         this.getUserDetails()
       }
@@ -58,7 +60,9 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    //this.getUserDetails()
+    this.workLog = sessionStorage.getItem('work') || null
+    console.log(this.workLog)
+    this.getUserDetails()
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
@@ -89,7 +93,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
-            if (this.workLog.edit === true) {
+            if (this.workLog === 'true' || this.workLog.edit === true) {
               console.log('true')
               this.updateForm()
             } else {

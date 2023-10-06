@@ -24,6 +24,7 @@ export class MobileProfileNavComponent implements OnInit {
         sessionStorage.setItem('clickedUrl', data)
       }
     })
+
   }
 
   ngOnInit() {
@@ -34,6 +35,11 @@ export class MobileProfileNavComponent implements OnInit {
   }
 
   backScreen() {
+    this.contentSvc.workMessage.subscribe(async (data: any) => {
+      console.log(data, 'back')
+      // this.showView = await data
+    })
+
     if (this.trigerrNavigation) {
       this.router.navigate(['/app/profile-view'])
     } else {
@@ -44,9 +50,19 @@ export class MobileProfileNavComponent implements OnInit {
           this.router.navigate(['/page/home'])
         }
       } else {
-        const url = sessionStorage.getItem('clickedUrl') || ''
-        sessionStorage.removeItem('clickedUrl')
-        this.router.navigateByUrl(url)
+        let orgcheck = sessionStorage.getItem('work') || ''
+        console.log(orgcheck)
+        if (orgcheck) {
+          let ob = {
+            "type": "work",
+            "back": true
+          }
+          this.contentSvc.changeWork(ob)
+        } else {
+          const url = sessionStorage.getItem('clickedUrl') || ''
+          sessionStorage.removeItem('clickedUrl')
+          this.router.navigateByUrl(url)
+        }
       }
     }
   }

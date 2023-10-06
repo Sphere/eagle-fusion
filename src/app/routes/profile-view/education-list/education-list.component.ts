@@ -38,21 +38,29 @@ export class EducationListComponent implements OnInit {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
-        this.showLogOutIcon = true
+        this.showLogOutIcon = false
 
       } else {
-        this.showbackButton = true
+        this.showbackButton = false
         this.showLogOutIcon = false
       }
     })
   }
   redirectTo(isEdit?: any, academic?: any) {
-    this.contentSvc.changeBack('/app/education-list')
-    if (isEdit) {
-      this.router.navigate([`app/education-edit`], { queryParams: { ...academic }, skipLocationChange: true })
-    } else {
-      this.router.navigate([`app/education-edit`])
+    let ob = {
+      "type": "academic",
+      "edit": isEdit,
+      'academic': academic
     }
+    console.log(ob)
+    sessionStorage.setItem('academic', JSON.stringify(ob))
+    this.contentSvc.changeWork(ob)
+    // this.contentSvc.changeBack('/app/education-list')
+    // if (isEdit) {
+    //   this.router.navigate([`app/education-edit`], { queryParams: { ...academic }, skipLocationChange: true })
+    // } else {
+    //   this.router.navigate([`app/education-edit`])
+    // }
 
   }
 }

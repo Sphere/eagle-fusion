@@ -35,7 +35,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   profileData: any
   navigateTohome = true
   selectedIndex: string = 'personal';
-  showView: any
+  showView: any = ''
   gotData: any
   constructor(
     private configSvc: ConfigurationsService,
@@ -49,12 +49,17 @@ export class MobileProfileDashboardComponent implements OnInit {
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data)
-      this.showView = await data
+      if (data.type === 'work' || data.type === 'academic') {
+        if (data.back === true) {
+          this.showView = ''
+        } else {
+          this.showView = await data
+        }
+      }
     })
   }
 
   ngOnInit() {
-    console.log(this.showView)
     this.userProfileSvc.updateuser$.pipe().subscribe(item => {
       if (item) {
         this.getUserDetails()
@@ -82,6 +87,14 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     // this.CompetencyConfiService.setConfig(this.profileData)
   }
+  changeFunction(text: string) {
+    console.log(text)
+    if (text === 'organization') {
+      this.showView = ''
+      sessionStorage.removeItem('work')
+    }
+  }
+
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }

@@ -36,22 +36,24 @@
     </button> -->
     <!-- </div> -->
     <div class="div">
-      <a [class.active]="selectedIndex === 'personal'" (click)="selectedIndex = 'personal'">
+      <a [class.active]="selectedIndex === 'personal'" (click)="selectedIndex = 'personal'; changeFunction('personal')">
         <img src="/fusion-assets/images/manage_accounts.svg" width="35" height="18" /><span i18n>Personal
           Details</span>
       </a>
-      <a [class.active]="selectedIndex === 'organization'" (click)="selectedIndex = 'organization'">
+      <a [class.active]="selectedIndex === 'organization'"
+        (click)="selectedIndex = 'organization'; changeFunction('organization')">
         <img src="/fusion-assets/images/corporate.svg" width="35" height="22" /><span i18n>Organization
           Details</span>
       </a>
-      <a [class.active]="selectedIndex === 'academic'" (click)="selectedIndex = 'academic'">
+      <a [class.active]="selectedIndex === 'academic'" (click)="selectedIndex = 'academic'; changeFunction('academic')">
         <img src="/fusion-assets/images/school.svg" width="35" height="23" /><span i18n>Academic Details</span>
       </a>
-      <a [class.active]="selectedIndex === 'language'" (click)="selectedIndex = 'language'">
+      <a [class.active]="selectedIndex === 'language'" (click)="selectedIndex = 'language'; changeFunction('language')">
         <img src="/fusion-assets/images/uil.svg" width="35" height="23" /><span i18n>Language
           Preference</span>
       </a>
-      <a [class.active]="selectedIndex === 'certificates'" (click)="selectedIndex = 'certificates'">
+      <a [class.active]="selectedIndex === 'certificates'"
+        (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
         <img src="/fusion-assets/images/Group.svg" width="35" height="23" /><span i18n>My Certificates</span>
       </a>
       <!-- <a [class.active]="selectedIndex === 'user'" (click)="selectedIndex = 'user'">
@@ -144,14 +146,21 @@
       <ws-personal-detail-edit></ws-personal-detail-edit>
     </div>
     <div *ngIf="selectedIndex === 'organization'" style="width:50%">
-      <ws-work-info-list></ws-work-info-list>
+      <div *ngIf="showView === ''">
+        <ws-work-info-list></ws-work-info-list>
+      </div>
       {{showView | json}}
       <div *ngIf="showView">
         <ws-work-info-edit></ws-work-info-edit>
       </div>
     </div>
     <div *ngIf="selectedIndex === 'academic'" style="width:50%">
-      <ws-education-list></ws-education-list>
+      <div *ngIf="showView === ''">
+        <ws-education-list></ws-education-list>
+      </div>
+      <div *ngIf="showView">
+        <ws-education-edit></ws-education-edit>
+      </div>
     </div>
     <div *ngIf="selectedIndex === 'language'" style="width:50%; margin-top:25px;height:480px">
       <h4 i18n style="font-weight: 420;font-size:16px ">Language Preference</h4>

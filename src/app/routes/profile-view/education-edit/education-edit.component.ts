@@ -7,7 +7,7 @@ import { constructReq } from '../request-util'
 // import * as _ from 'lodash'
 import { ActivatedRoute, Router } from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-
+import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 @Component({
   selector: 'ws-education-edit',
   templateUrl: './education-edit.component.html',
@@ -21,6 +21,8 @@ export class EducationEditComponent implements OnInit {
   showbackButton = false
   showLogOutIcon = false
   cName = ''
+  workLog: any
+  change: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
   constructor(
@@ -31,6 +33,7 @@ export class EducationEditComponent implements OnInit {
     private route: ActivatedRoute,
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
+    private contentSvc: WidgetContentService,
   ) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl('', [Validators.required]),
@@ -57,9 +60,29 @@ export class EducationEditComponent implements OnInit {
       this.cName = selectedValue
     }
     )
+    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
+      console.log(data, 'here')
+      this.workLog = await data
+      let check = sessionStorage.getItem('work')
+      console.log(check)
+      if (this.workLog) {
+        this.getUserDetails()
+      }
+
+      console.log(this.workLog.edit)
+    })
   }
 
   ngOnInit() {
+    let eduLog: any = sessionStorage.getItem('academic') || null
+    this.workLog = JSON.parse(eduLog)
+    console.log(this.workLog)
+    if (this.workLog === 'true' || this.workLog.edit === true) {
+      console.log('true')
+      this.updateForm(this.workLog.academic)
+    } else {
+      this.educationForm.reset()
+    }
     this.getUserDetails()
     this.route.queryParams.subscribe(params => {
       if (params.nameOfInstitute) {
@@ -69,7 +92,7 @@ export class EducationEditComponent implements OnInit {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
-        this.showLogOutIcon = true
+        this.showLogOutIcon = false
 
       } else {
         this.showbackButton = true
