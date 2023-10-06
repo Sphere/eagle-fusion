@@ -149,7 +149,6 @@
       <div *ngIf="showView === ''">
         <ws-work-info-list></ws-work-info-list>
       </div>
-      {{showView | json}}
       <div *ngIf="showView">
         <ws-work-info-edit></ws-work-info-edit>
       </div>
@@ -179,11 +178,11 @@
         </label>
       </div>
       <button type="submit" class="save-btn" style="    position: absolute;
-    bottom: 45px;
+    bottom: 95px;
     right: 35px;">Save</button>
     </div>
     <div *ngIf="selectedIndex === 'certificates'" style="width:50%">
-      <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0" i18n>Certificates received
+      <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0" i18n>My Certificates
       </p>
       <div *ngFor="let certificate of certificates">
         <ng-container *ngIf="certificates && certificates.length>0">

@@ -67,8 +67,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private UserAgentResolverService: UserAgentResolverService,
   ) {
     this.personalDetailForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      surname: new FormControl('', [Validators.required]),
+      firstname: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      surname: new FormControl({ value: '', disabled: true }, [Validators.required]),
       // userName: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       profession: new FormControl(),
@@ -84,7 +84,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       maritalStatus: new FormControl(),
       knownLanguages: new FormControl([], []),
       knownLanguage: new FormControl(this.preferedLanguage),
-      mobile: new FormControl(),
+      mobile: new FormControl({ value: '', disabled: true }),
+      email: new FormControl({ value: '', disabled: true }),
       postalAddress: new FormControl(),
       pincode: new FormControl(),
       languages: new FormControl(),
@@ -318,6 +319,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           maritalStatus: data.personalDetails.maritalStatus,
           knownLanguages: data.personalDetails.knownLanguages,
           mobile: data.personalDetails.mobile,
+          email: data.personalDetails.primaryEmail,
           postalAddress: data.personalDetails.postalAddress,
           pincode: data.personalDetails.pincode,
 

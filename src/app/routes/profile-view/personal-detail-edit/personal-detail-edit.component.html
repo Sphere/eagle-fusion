@@ -21,7 +21,17 @@
         <input type="text" formControlName="surname" class="form-control" (change)="fieldChange()"
           placeholder="Last Name*" autocomplete="off" i18n-placeholder>
       </div>
+      <div class="form-group">
+        <label>Phone Number</label>
+        <input type="text" formControlName="mobile" class="form-control" i18n-placeholder placeholder="Phone Number"
+          autocomplete="off" (change)="fieldChange()">
+      </div>
 
+      <div class="form-group">
+        <label>Email ID</label>
+        <input type="text" class="form-control" formControlName="email" i18n-placeholder placeholder="Email ID"
+          autocomplete="off">
+      </div>
       <div class="form-group mt-4 relative">
         <label>Date Of Birth</label>
         <!-- <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
@@ -48,16 +58,6 @@
         <mat-option [value]="lang" *ngFor="let lang of langList">{{lang}}</mat-option>
       </mat-select>
     </mat-form-field> -->
-      <div class="form-group">
-        <label>Phone Number</label>
-        <input type="text" formControlName="mobile" class="form-control" i18n-placeholder placeholder="Phone Number"
-          autocomplete="off" (change)="fieldChange()">
-      </div>
-
-      <div class="form-group">
-        <label>Email ID</label>
-        <input type="text" class="form-control" i18n-placeholder placeholder="Email ID" autocomplete="off">
-      </div>
 
       <label>Profession</label>
       <mat-form-field appearance="outline" class="field-fullwidth">
@@ -127,17 +127,17 @@
           autocomplete="off" i18n-placeholder>
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Nationality</label>
         <input type="text" formControlName="nationality" i18n-placeholder class="form-control" placeholder="Nationality"
           autocomplete="off" (change)="fieldChange()">
-      </div>
+      </div> -->
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label>Mother Tongue</label>
         <input type="text" formControlName="domicileMedium" class="form-control" i18n-placeholder
           placeholder="Mother Tongue" autocomplete="off" (change)="fieldChange()">
-      </div>
+      </div> -->
 
       <label>Gender</label>
       <mat-form-field appearance="outline" class="field-fullwidth">
@@ -148,21 +148,21 @@
         </mat-select>
       </mat-form-field>
 
-      <label>Marital Status</label>
+      <!-- <label>Marital Status</label>
       <mat-form-field appearance="outline" class="field-fullwidth">
         <mat-select formControlName="maritalStatus" i18n-placeholder placeholder="Marital Status"
           (selectionChange)="fieldChange()">
           <mat-option value="Single" i18n>Single</mat-option>
           <mat-option value="Married" i18n>Married</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
-      <div class="form-group">
-        <!-- <label>Preferred Language</label> -->
-        <img alt="logo" src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()">
+      <!-- <div class="form-group"> -->
+      <!-- <label>Preferred Language</label> -->
+      <!-- <img alt="logo" src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()">
         <input formControlName="knownLanguage" disabled type="text" class="form-control" i18n-placeholder
           placeholder="Known Languages">
-      </div>
+      </div> -->
 
       <!-- <mat-form-field appearance="outline" class="w-full margin-top-xs">
       <mat-chip-list #chipList>
