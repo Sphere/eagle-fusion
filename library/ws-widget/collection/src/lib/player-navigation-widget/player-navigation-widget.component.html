@@ -2,7 +2,7 @@
   <a mat-button class="child mr-1" (click)="navigateToPreResource()" [class.disableButton]="!prevResourceUrl"
     [disabled]="!prevResourceUrl">
     <div>
-      <img src="fusion-assets/icons/go-back.svg" alt="previous">
+      <img src="fusion-assets/icons/go-back.svg" alt="previous" i18n>
       Previous
     </div>
   </a>
@@ -10,7 +10,7 @@
     [routerLink]="isProgressCheck && nextResourceUrl ? nextResourceUrl : firstResourceUrl"
     queryParamsHandling="preserve" [disabled]="!isProgressCheck">
     <div>
-      <img src="fusion-assets/icons/go-next.svg" alt="next">
+      <img src="fusion-assets/icons/go-next.svg" alt="next" i18n>
       Next
     </div>
   </a>

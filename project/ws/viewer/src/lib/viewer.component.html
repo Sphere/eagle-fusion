@@ -79,12 +79,12 @@
     <div *ngIf="(isXSmall$ | async) === true || (isLtMedium$ | async) === true">
       <mat-tab-group animationDuration="0ms" class="minhightab ">
 
-        <mat-tab aria-label label="Modules">
+        <mat-tab i18n-aria-label aria-label label="Modules">
           <viewer-viewer-toc [forPreview]="forPreview" (hidenav)="minimizeBar()">
           </viewer-viewer-toc>
         </mat-tab>
 
-        <mat-tab aria-label class="discussion-container" label="Discussion">
+        <mat-tab i18n-aria-label aria-label class="discussion-container" label="Discussion">
           <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
           </all-discussion-widget>
         </mat-tab>
