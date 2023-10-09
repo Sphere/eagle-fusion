@@ -87,7 +87,8 @@ export class LoginOtpComponent implements OnInit {
     this.isLoading = true
     //this.signupService.validateOtp(request).subscribe(
     this.signupService.ssoValidateOTP(request).subscribe(
-      async (res: any) => {
+      (res: any) => {
+
         console.log(res)
         let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
@@ -96,13 +97,13 @@ export class LoginOtpComponent implements OnInit {
         //const state = uuid()
         //const nonce = uuid()
         sessionStorage.setItem('login-btn', 'clicked')
-        if (url.includes('hi')) {
-          url = url.replace('hi/', '')
-          this.redirectUrl = `${url}openid/keycloak`
-          sessionStorage.setItem('lang', 'hi')
-        } else {
-          this.redirectUrl = `${url}openid/keycloak`
-        }
+        // if (url.includes('hi')) {
+        //   url = url.replace('hi/', '')
+        //   this.redirectUrl = `${url}openid/keycloak`
+        //   sessionStorage.setItem('lang', 'hi')
+        // } else {
+        //   this.redirectUrl = `${url}openid/keycloak`
+        // }
         if (localStorage.getItem('preferedLanguage')) {
           let data: any
           let lang: any
@@ -119,8 +120,9 @@ export class LoginOtpComponent implements OnInit {
             //this.router.navigate([url, 'new-tnc'])
           }
         } else {
+          //this.router.navigate(['app', 'new-tnc'])
+          window.location.href = `${url}app/new-tnc`
           this.isLoading = false
-          this.router.navigate(['app', 'new-tnc'])
         }
         // this.signupService.fetchStartUpDetails().then(result => {
         //   console.log(result)

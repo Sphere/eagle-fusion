@@ -21,7 +21,7 @@
           <div class="form-group mt-4 mb-4 activeLink">
             <span i18n>Did not receive a </span><span *ngIf="emailPhoneType === 'phone'" i18n>OTP?</span><span
               *ngIf="emailPhoneType === 'email'" i18n>mail?</span>
-            <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)" i18n> Click Here</span> <span
+            <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)" i18n> Click Here </span><span
               i18n>to resend</span>
           </div>
           <span *ngIf="!loginVerification">

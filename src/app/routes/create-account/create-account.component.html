@@ -62,8 +62,8 @@
                     </a>
                   </div>
                 </div>
-                <label class="label-text">( <span i18n>Password must contain a minimum of 8 characters including
-                    numerals, lower and upper case alphabets and special characters without space </span>)</label>
+                <label class="label-text"><span i18n>(Password must contain a minimum of 8 characters including
+                    numerals, lower and upper case alphabets and special characters without space)</span></label>
                 <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('required') &&
                   (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
                   This field is required</mat-error>
