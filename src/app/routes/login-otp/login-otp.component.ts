@@ -3,7 +3,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
-import { Router } from '@angular/router'
+//import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
 //import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 @Component({
@@ -22,7 +22,7 @@ export class LoginOtpComponent implements OnInit {
   loginVerification = false
   redirectUrl = ''
   constructor(
-    private router: Router,
+    //private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
