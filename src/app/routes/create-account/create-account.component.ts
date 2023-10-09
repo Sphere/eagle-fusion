@@ -231,7 +231,7 @@ export class CreateAccountComponent implements OnInit {
           this.otpPage = true
           // form.reset()
           // localStorage.removeItem(`preferedLanguage`)
-          localStorage.setItem(`userUUID`, res.userUUId)
+          localStorage.setItem(`userUUID`, res.userId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.message)
         }

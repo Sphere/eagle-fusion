@@ -69,7 +69,7 @@ export class LoginOtpComponent implements OnInit {
     // at least 10 in number
     if (phone.length >= 10) {
       request = {
-        mobile: this.signUpdata.value.emailOrMobile,
+        phone: this.signUpdata.value.emailOrMobile,
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
@@ -183,7 +183,7 @@ export class LoginOtpComponent implements OnInit {
     const username = this.loginData.value.username
     if (!username.includes('@')) {
       request = {
-        mobileNumber: this.loginData.value.username,
+        phone: this.loginData.value.username,
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
@@ -221,7 +221,7 @@ export class LoginOtpComponent implements OnInit {
       }
     } else {
       requestBody = {
-        mobileNumber: this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username,
+        phone: this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username,
       }
     }
     this.signupService.generateOtp(requestBody).subscribe(

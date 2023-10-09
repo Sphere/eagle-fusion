@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import get from 'lodash/get'
-import { Router } from '@angular/router'
+//import { Router } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
 
 @Component({
@@ -18,7 +18,7 @@ export class EducationListComponent implements OnInit {
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    private router: Router,
+    //private router: Router,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
   ) {
