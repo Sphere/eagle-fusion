@@ -30,11 +30,14 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
     )
   }
   getPublicTnc(locale?: string): Observable<NsTnc.ITnc> {
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? `${this.configSvc.sitePath}/tnc.config.${'hi'}.json` : `${this.configSvc.sitePath}/tnc.config.json`
+
     let url = `${this.configSvc.sitePath}/tnc.config.json`
     if (locale) {
       url += `?locale=${locale}`
     }
-    return this.http.get<NsTnc.ITnc>(url)
+    return this.http.get<NsTnc.ITnc>(url1)
   }
 
   assignAdminToDepartment(data: any): Observable<any> {

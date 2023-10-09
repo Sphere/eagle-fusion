@@ -354,10 +354,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           this.showMobileDashboard = false
           this.mobileView = false
-        } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
+        } else if (event.url.includes('/app/about-you')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
           this.mobileView = false
+        } else if (event.url.includes('/app/new-tnc')) {
+          this.hideHeaderFooter = true
         } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player') ||
           event.url.includes('/app/profile/dashboard')) {
           this.mobileView = false
