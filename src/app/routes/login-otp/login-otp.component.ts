@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
 //import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
-//import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 @Component({
   selector: 'ws-login-otp',
   templateUrl: './login-otp.component.html',
@@ -26,7 +26,7 @@ export class LoginOtpComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    //private userProfileSvc: UserProfileService,
+    private userProfileSvc: UserProfileService,
 
   ) {
     this.loginOtpForm = this.fb.group({
@@ -35,6 +35,13 @@ export class LoginOtpComponent implements OnInit {
   }
 
   ngOnInit() {
+    let x = localStorage.getItem(`userUUID`) || ''
+    console.log(x)
+    setTimeout(() => {
+      this.userProfileSvc.getUserdetailsFromRegistry(x).subscribe((result: any) => {
+        console.log(result)
+      })
+    }, 2000)
     if (this.signUpdata || this.loginData) {
       let phone = this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username
       phone = phone.replace(/[^0-9+#]/g, '')

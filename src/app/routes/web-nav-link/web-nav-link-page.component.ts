@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core'
+import { MatDialog } from '@angular/material'
+import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 @Component({
   selector: 'ws-web-nav-link-page',
   templateUrl: './web-nav-link-page.component.html',
@@ -6,10 +8,16 @@ import { Component, OnInit } from '@angular/core'
 })
 export class WebNavLinkPageComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private dialog: MatDialog,
+    private configSvc: ConfigurationsService,
+  ) { }
   linksData: any
-
+  data: any
   ngOnInit() {
+    console.log(this.configSvc.unMappedUser)
+    this.data = this.configSvc.unMappedUser
+    console.log(this.data.firstname)
     this.linksData = [
       {
         linkName: 'Home',
@@ -28,5 +36,7 @@ export class WebNavLinkPageComponent implements OnInit {
       },
     ]
   }
-
+  logout() {
+    this.dialog.open<LogoutComponent>(LogoutComponent)
+  }
 }

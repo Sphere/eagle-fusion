@@ -7,7 +7,7 @@ import {
   INationalityApiData,
   IUserProfileDetailsFromRegistry,
 } from '../models/user-profile.model'
-import { map } from 'rxjs/operators'
+import { map, retry } from 'rxjs/operators'
 
 const API_ENDPOINTS = {
   // updateProfileDetails: '/apis/protected/v8/user/profileRegistry/updateUserRegistry',
@@ -53,7 +53,8 @@ export class UserProfileService {
   // }
   getUserdetailsFromRegistry(wid: string): Observable<[IUserProfileDetailsFromRegistry]> {
     return this.http.get<[IUserProfileDetailsFromRegistry]>(`${API_ENDPOINTS.getUserdetailsFromRegistry}/${wid}`)
-      .pipe(map((res: any) => res.result.response))
+      .pipe(retry(1),
+        map((res: any) => res.result.response))
   }
   getAllDepartments() {
     return this.http.get<INationalityApiData>(API_ENDPOINTS.getAllDepartments)
