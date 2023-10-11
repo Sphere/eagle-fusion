@@ -245,6 +245,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   professionalChange(value: any) {
+    console.log(value)
     this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.rnShow = true
@@ -256,6 +257,10 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       this.professionOtherField = false
       this.rnShow = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+    } else if (value === 'Faculty') {
+      this.orgOthersField = false
+      this.orgTypeField = false
+      this.rnShow = false
     } else if (value === 'Others') {
       this.rnShow = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
@@ -412,13 +417,14 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
-      (res: any) => {
-        if (res) {
-          this.openSnackbar(this.toastSuccess.nativeElement.value)
-          this.router.navigate(['/app/profile-view'])
-        }
-      })
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (res: any) => {
+      console.log(res, 'trye')
+      let result = await res
+      if (result) {
+        this.openSnackbar(this.toastSuccess.nativeElement.value)
+        this.router.navigate(['/app/profile-view'])
+      }
+    })
   }
 
   private openSnackbar(message: string) {

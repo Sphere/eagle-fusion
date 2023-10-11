@@ -12,28 +12,28 @@
         placeholder="User's Name*" autocomplete="off">
     </div> -->
       <div class="form-group">
-        <label>First name</label>
+        <label i18n>First name</label>
         <input type="text" formControlName="firstname" class="form-control" (change)="fieldChange()"
           placeholder="First Name" autocomplete="off" i18n-placeholder>
       </div>
       <div class="form-group">
-        <label>Last name</label>
+        <label i18n>Last name</label>
         <input type="text" formControlName="surname" class="form-control" (change)="fieldChange()"
           placeholder="Last Name*" autocomplete="off" i18n-placeholder>
       </div>
       <div class="form-group">
-        <label>Phone Number</label>
+        <label i18n>Phone Number</label>
         <input type="text" formControlName="mobile" class="form-control" i18n-placeholder placeholder="Phone Number"
           autocomplete="off" (change)="fieldChange()">
       </div>
 
       <div class="form-group">
-        <label>Email ID</label>
+        <label i18n>Email ID</label>
         <input type="text" class="form-control" formControlName="email" i18n-placeholder placeholder="Email ID"
           autocomplete="off">
       </div>
       <div class="form-group mt-4 relative">
-        <label>Date Of Birth</label>
+        <label i18n>Date Of Birth</label>
         <!-- <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
         (dateInput)="onDateChange($event.value)" placeholder="Date of Birth*" name="dob" id="dob-inputfield"
         class="form-control" readonly (click)="picker.open()">
@@ -59,7 +59,7 @@
       </mat-select>
     </mat-form-field> -->
 
-      <label>Profession</label>
+      <label i18n>Profession</label>
       <mat-form-field appearance="outline" class="field-fullwidth">
         <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
           (selectionChange)="professionalChange($event.value)">
@@ -69,25 +69,26 @@
       </mat-form-field>
 
       <div class="form-group" *ngIf="showDesignation">
-        <label>Designation</label>
+        <label i18n>Designation</label>
         <input type="text" formControlName="designation" class="form-control" placeholder="Please Specify Designation*"
-          autocomplete="off">
+          i18n-placeholder autocomplete="off">
       </div>
 
       <div class="form-group" *ngIf="professionOtherField">
-        <label>Other Profession</label>
+        <label i18n>Other Profession</label>
         <input type="text" formControlName="professionOtherSpecify" class="form-control"
           placeholder="Please Specify Profession*" i18n-placeholder autocomplete="off">
       </div>
 
       <div class="form-group" *ngIf="rnShow">
-        <label>RN/RM Number</label>
+        <label i18n>RN/RM Number</label>
         <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" (change)="fieldChange()"
           i18n-placeholder placeholder="RN/RM Number" autocomplete="off">
       </div>
 
-      <div *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgType !== null">
-        <label>Organization Type</label>
+      <div
+        *ngIf="orgTypeField || userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgType !== null">
+        <label i18n>Organization Type</label>
         <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
           <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
             (selectionChange)="orgTypeSelect($event.value);">
@@ -99,7 +100,7 @@
 
       <div class="form-group"
         *ngIf="orgOthersField || (userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgOtherSpecify)">
-        <label>Organization Other's Specify</label>
+        <label i18n>Organization Other's Specify</label>
         <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
           i18n-placeholder autocomplete="off">
       </div>
@@ -108,21 +109,21 @@
 
       <div class="form-group"
         *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].name">
-        <label>Organization Name</label>
+        <label i18n>Organization Name</label>
         <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization's Name"
           i18n-placeholder autocomplete="off" (change)="fieldChange()" i18n-placeholder>
       </div>
 
       <div class="form-group input-box"
         *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
-        <label>Block</label>
+        <label i18n>Block</label>
         <input type="text" name="block" formControlName="block" class="form-control" placeholder="Block"
           autocomplete="off" i18n-placeholder>
       </div>
 
       <div class="form-group input-box"
         *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
-        <label>Sub Centre</label>
+        <label i18n>Sub Centre</label>
         <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
           autocomplete="off" i18n-placeholder>
       </div>
@@ -139,7 +140,7 @@
           placeholder="Mother Tongue" autocomplete="off" (change)="fieldChange()">
       </div> -->
 
-      <label>Gender</label>
+      <label i18n>Gender</label>
       <mat-form-field appearance="outline" class="field-fullwidth">
         <mat-select formControlName="gender" i18n-placeholder placeholder="Gender" (selectionChange)="fieldChange()">
           <mat-option value="Male" i18n>Male</mat-option>
@@ -186,13 +187,13 @@
 
 
       <div class="form-group">
-        <label>Postal Address</label>
+        <label i18n>Postal Address</label>
         <input type="text" formControlName="postalAddress" class="form-control" i18n-placeholder placeholder="Address"
           autocomplete="off" (change)="fieldChange()">
       </div>
 
       <div class="form-group">
-        <label>Pincode</label>
+        <label i18n>Pincode</label>
         <input type="text" formControlName="pincode" class="form-control" i18n-placeholder placeholder="Pincode"
           autocomplete="off" (change)="fieldChange()">
       </div>
