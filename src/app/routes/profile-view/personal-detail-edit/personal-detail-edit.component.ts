@@ -266,6 +266,10 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.professionOtherField = true
       this.orgTypeField = false
+    } else if (value === 'Student') {
+      this.orgOthersField = false
+      this.orgTypeField = false
+      this.rnShow = false
     } else {
       this.orgTypeField = true
       this.rnShow = false

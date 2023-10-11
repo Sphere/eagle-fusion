@@ -202,12 +202,14 @@ export class NewTncComponent implements OnInit, OnDestroy {
       }
     })
     if (this.configSvc.userProfile) {
-      this.userId = this.configSvc.userProfile.userId || ''
+      this.userId = this.configSvc.userProfile.userId
     }
     const profileReq = {
       profileReq: {
-        id: this.userId,
-        userId: this.userId,
+        //id: this.userId,
+        //userId: this.userId,
+        id: this.result.identifier,
+        userId: this.result.identifier,
         personalDetails: userObject,
       },
     }
@@ -254,7 +256,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       const userCookie = this.UserAgentResolverService.generateCookie()
       console.log('userCookie: ', userCookie)
       if (this.configSvc.userProfile) {
-        this.userId = this.configSvc.userProfile.userId || ''
+        this.userId = this.configSvc.userProfile.userId
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
         this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
         this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
@@ -299,7 +301,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       profileRequest = Object.assign(profileRequest, obj)
       const reqUpdate = {
         request: {
-          userId: this.userId,
+          userId: this.result.identifier,
           // profileDetails: Object.assign(profileRequest, Obj),
           profileDetails: profileRequest,
           tncAcceptedVersion: this.termsAccepted,

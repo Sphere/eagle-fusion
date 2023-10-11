@@ -59,7 +59,7 @@
       </mat-select>
     </mat-form-field> -->
 
-      <label i18n>Profession</label>
+      <!-- <label i18n>Profession</label>
       <mat-form-field appearance="outline" class="field-fullwidth">
         <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
           (selectionChange)="professionalChange($event.value)">
@@ -85,20 +85,19 @@
         <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" (change)="fieldChange()"
           i18n-placeholder placeholder="RN/RM Number" autocomplete="off">
       </div>
-
-      <div
-        *ngIf="orgTypeField || userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgType !== null">
+      {{orgTypeField}}--
+      <div *ngIf="orgTypeField">
         <label i18n>Organization Type</label>
-        <mat-form-field [hidden]="orgTypeField" appearance="outline" class="field-fullwidth">
+        <mat-form-field [hidden]=" orgTypeField" appearance="outline" class="field-fullwidth">
           <mat-select formControlName="orgType" i18n-placeholder placeholder="Organization Type"
             (selectionChange)="orgTypeSelect($event.value);">
             <mat-option [value]="orgType" *ngFor="let orgType of orgTypes">{{orgType}}
             </mat-option>
           </mat-select>
         </mat-form-field>
-      </div>
+      </div> -->
 
-      <div class="form-group"
+      <!-- <div class="form-group"
         *ngIf="orgOthersField || (userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].orgOtherSpecify)">
         <label i18n>Organization Other's Specify</label>
         <input type="text" formControlName="orgOtherSpecify" class="form-control " placeholder="Please Specify*"
@@ -126,7 +125,7 @@
         <label i18n>Sub Centre</label>
         <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
           autocomplete="off" i18n-placeholder>
-      </div>
+      </div> -->
 
       <!-- <div class="form-group">
         <label>Nationality</label>
@@ -140,14 +139,14 @@
           placeholder="Mother Tongue" autocomplete="off" (change)="fieldChange()">
       </div> -->
 
-      <label i18n>Gender</label>
+      <!-- <label i18n>Gender</label>
       <mat-form-field appearance="outline" class="field-fullwidth">
         <mat-select formControlName="gender" i18n-placeholder placeholder="Gender" (selectionChange)="fieldChange()">
           <mat-option value="Male" i18n>Male</mat-option>
           <mat-option value="Female" i18n>Female</mat-option>
           <mat-option value="Others" i18n>Others</mat-option>
         </mat-select>
-      </mat-form-field>
+      </mat-form-field> -->
 
       <!-- <label>Marital Status</label>
       <mat-form-field appearance="outline" class="field-fullwidth">

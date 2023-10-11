@@ -3,7 +3,7 @@ import {
   ConfigurationsService,
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
+import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
 import { ActivatedRoute, Router, Data } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
 import forEach from 'lodash/forEach'
@@ -32,12 +32,16 @@ export class OrgComponent implements OnInit, OnDestroy {
   ratingArr: any = []
   index = 0
   constructor(private activateRoute: ActivatedRoute,
-              private orgService: OrgServiceService,
-              private router: Router,
+    private orgService: OrgServiceService,
+    private router: Router,
     // private authSvc: AuthKeycloakService,
-              private configSvc: ConfigurationsService) {
+    private configSvc: ConfigurationsService) {
   }
-
+  @HostListener('window:popstate', ['$event'])
+  onPopState() {
+    //window.location.href = '/public/home'
+    window.history.back()
+  }
   ngOnInit() {
     for (this.index = 0; this.index < this.starCount; this.index++) {
       this.ratingArr.push(this.index)
@@ -152,7 +156,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     if (this.rating >= index + 1) {
       return 'star'
     }
-      return 'star_border'
+    return 'star_border'
 
   }
 

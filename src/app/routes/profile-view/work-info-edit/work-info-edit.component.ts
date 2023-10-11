@@ -41,10 +41,10 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     private contentSvc: WidgetContentService,
   ) {
     this.workInfoForm = new FormGroup({
-      doj: new FormControl('', [Validators.required]),
+      //doj: new FormControl('', [Validators.required]),
       organizationName: new FormControl('', [Validators.required]),
       designation: new FormControl('', [Validators.required]),
-      location: new FormControl('', [Validators.required]),
+      // location: new FormControl('', [Validators.required]),
     })
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data, 'here')
@@ -79,10 +79,10 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     if (this.userProfileData && this.userProfileData.professionalDetails && this.userProfileData.professionalDetails.length > 0) {
       const organisation = this.userProfileData.professionalDetails[0]
       this.workInfoForm.patchValue({
-        doj: this.getDateFromText(organisation.doj),
+        //doj: this.getDateFromText(organisation.doj),
         organizationName: organisation.name,
         designation: organisation.designation,
-        location: organisation.location,
+        //location: organisation.location,
       })
     }
   }
@@ -92,6 +92,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
+            console.log(data.profileDetails.profileReq)
             this.userProfileData = data.profileDetails.profileReq
             if (this.workLog === 'true' || this.workLog.edit === true) {
               console.log('true')
