@@ -45,7 +45,9 @@ export class KeycloakCallbackComponent implements OnInit {
                 // tslint:disable-next-line:no-console
                 console.log(result)
                 let res = await result
-                if (res && res.status === 200 && res.roles.length > 0) {
+                if (res && res.status === 200
+                  //&& res.roles.length > 0
+                ) {
                   if (res.language) {
                     let lang = res.language
                     console.log(`${lang}`)
@@ -106,8 +108,8 @@ export class KeycloakCallbackComponent implements OnInit {
                   // window.location.href = '/public/home'
                 }
                 if (result.status === 419) {
-                  this.authSvc.logout()
                   this.snackBarSvc.open(result.params.errmsg)
+                  this.authSvc.logout()
                   // window.location.href = '/public/home'
                 }
                 // if (localStorage.getItem('url_before_login')) {

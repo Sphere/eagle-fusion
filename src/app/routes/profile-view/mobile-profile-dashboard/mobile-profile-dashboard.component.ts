@@ -75,6 +75,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       console.log(isXSmall, 'show')
+      console.log(this.userProfileData, '184')
       if (isXSmall) {
         this.showbackButton = true
         this.showLogOutIcon = true
@@ -140,7 +141,6 @@ export class MobileProfileDashboardComponent implements OnInit {
       return result
     }, [])
     this.certificates = issuedCertificates
-    console.log(this.certificates)
   }
 
   openAboutDialog() {
@@ -179,6 +179,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
+            console.log(data)
             this.loader = false
             this.userProfileData = data.profileDetails.profileReq
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
