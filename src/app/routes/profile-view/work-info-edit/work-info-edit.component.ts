@@ -154,13 +154,13 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getDateFromText(dateString: string): any {
-    if (dateString) {
-      const splitValues: string[] = dateString.split('-')
-      const [dd, mm, yyyy] = splitValues
-      const dateToBeConverted = `${yyyy}-${mm}-${dd}`
-      return new Date(dateToBeConverted)
-    }
-    return ''
-  }
+  // private getDateFromText(dateString: string): any {
+  //   if (dateString) {
+  //     const splitValues: string[] = dateString.split('-')
+  //     const [dd, mm, yyyy] = splitValues
+  //     const dateToBeConverted = `${yyyy}-${mm}-${dd}`
+  //     return new Date(dateToBeConverted)
+  //   }
+  //   return ''
+  // }
 }
