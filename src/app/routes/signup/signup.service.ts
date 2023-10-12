@@ -120,6 +120,26 @@ export class SignupService {
         return response
       }))
   }
+  async getUserData(): Promise<any> {
+    let userPidProfile: any | null = null
+    try {
+      userPidProfile = await this.http
+        .get<any>(API_END_POINTS.profilePid)
+        .pipe(map((res: any) => res.result.response))
+        .toPromise()
+      console.log(this.configSvc.unMappedUser)
+      console.log(userPidProfile)
+      if (this.configSvc.unMappedUser === undefined) {
+        localStorage.setItem('telemetrySessionId', uuid())
+        this.configSvc.unMappedUser = userPidProfile
+      }
+      return userPidProfile
+    } catch (e) {
+      this.configSvc.userProfile = null
+      return e
+    }
+
+  }
 
   async fetchStartUpDetails(): Promise<any> {
     if (this.configSvc.instanceConfig) {

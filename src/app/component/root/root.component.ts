@@ -231,9 +231,9 @@ export class RootComponent implements OnInit, AfterViewInit {
 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
-          window.location.href = "app/new-tnc"
-        }
+        // if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
+        //   window.location.href = "public/home"
+        // }
         if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
           window.location.href = "page/home"
         }
@@ -354,12 +354,10 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           this.showMobileDashboard = false
           this.mobileView = false
-        } else if (event.url.includes('/app/about-you')) {
+        } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
           this.mobileView = false
-        } else if (event.url.includes('/app/new-tnc')) {
-          this.hideHeaderFooter = true
         } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player') ||
           event.url.includes('/app/profile/dashboard')) {
           this.mobileView = false

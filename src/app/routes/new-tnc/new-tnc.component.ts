@@ -204,12 +204,15 @@ export class NewTncComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId
     }
+    console.log(this.userId)
+    console.log(this.result)
+    console.log(this.configSvc)
     const profileReq = {
       profileReq: {
         //id: this.userId,
         //userId: this.userId,
-        id: this.result.identifier,
-        userId: this.result.identifier,
+        id: this.result.userId,
+        userId: this.result.userId,
         personalDetails: userObject,
       },
     }
@@ -301,7 +304,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       profileRequest = Object.assign(profileRequest, obj)
       const reqUpdate = {
         request: {
-          userId: this.result.identifier,
+          userId: this.result.userId,
           // profileDetails: Object.assign(profileRequest, Obj),
           profileDetails: profileRequest,
           tncAcceptedVersion: this.termsAccepted,
@@ -347,7 +350,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
               } else {
                 if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
                   const url = `page/home`
-                  window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  if (this.lang === 'en') {
+                    window.location.assign(`${location.origin}/${url}`)
+                  } else {
+                    window.location.assign(`${location.origin}/${this.lang}/${url}`)
+                  }
                 }
                 location.href = localStorage.getItem('url_before_login') || ''
               }
@@ -355,7 +362,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
           }
         } else {
           const url = `page/home`
-          window.location.assign(`${location.origin}/${this.lang}/${url}`)
+          if (this.lang === 'en') {
+            window.location.assign(`${location.origin}/${url}`)
+          } else {
+            window.location.assign(`${location.origin}/${this.lang}/${url}`)
+          }
         }
       }
     },
