@@ -10,7 +10,7 @@ import { constructReq } from '../request-util'
 import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
-import { ENTER, COMMA } from '@angular/cdk/keycodes'
+import { ENTER, COMMA, C } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
 import upperFirst from 'lodash/upperFirst'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
@@ -63,7 +63,10 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   countryUrl = '/fusion-assets/files/country.json'
   districtUrl = '/fusion-assets/files/district.json'
   stateUrl = '/fusion-assets/files/state.json'
-  constructor(private configSvc: ConfigurationsService,
+  selectDisable = true
+  countryName: boolean = false
+  constructor(
+    private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
     private matSnackBar: MatSnackBar,
@@ -135,6 +138,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     })
 
     this.http.get(this.stateUrl).subscribe((data: any) => {
+      console.log(data)
       this.states = data.states
     })
   }
@@ -205,13 +209,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       this.selectDisable = false
     } else {
       this.selectDisable = true
-      this.aboutYouForm.controls.state.setValue(null)
-      this.aboutYouForm.controls.distict.setValue(null)
+      this.personalDetailForm.controls.state.setValue(null)
+      this.personalDetailForm.controls.distict.setValue(null)
     }
   }
   setCountryCode(country: string) {
     const selectedCountry = this.countries.filter((e: any) => e.name.toLowerCase() === country.toLowerCase())
-    this.aboutYouForm.controls.countryCode.setValue(selectedCountry[0].countryCode)
+    this.personalDetailForm.controls.countryCode.setValue(selectedCountry[0].countryCode)
   }
   getUserDetails() {
     if (this.configSvc.userProfile) {
@@ -354,7 +358,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       if (data.personalDetails && data) {
         console.log(data.personalDetails)
         this.personalDetailForm.patchValue({
-
           // userName: this.profileUserName,
           firstname: data.personalDetails.firstname,
           surname: data.personalDetails.surname,
@@ -369,8 +372,27 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           email: data.personalDetails.primaryEmail,
           postalAddress: data.personalDetails.postalAddress,
           pincode: data.personalDetails.pincode,
-
         })
+        this.countryName = data.personalDetails.postalAddress.includes('India')
+        console.log(this.countryName)
+        if (this.countryName) {
+          let cName = data.personalDetails.postalAddress
+          let csplit = cName.split(',')
+          this.stateSelect(csplit[1].trim())
+          console.log(csplit)
+          this.personalDetailForm.patchValue({
+            country: csplit[0],
+            state: csplit[1].trim(),
+            distict: csplit[2].trim()
+          })
+        } else {
+          let cName = data.personalDetails.postalAddress
+          let csplit = cName.split(',')
+          console.log(csplit)
+          this.personalDetailForm.patchValue({
+            country: csplit[0]
+          })
+        }
       }
       if (data && data.professionalDetails) {
         (data.professionalDetails[0].orgType === 'Others' && data.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
