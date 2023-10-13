@@ -204,9 +204,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId
     }
-    console.log(this.userId)
-    console.log(this.result)
-    console.log(this.configSvc)
+
     const profileReq = {
       profileReq: {
         //id: this.userId,
@@ -218,7 +216,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
     return profileReq
   }
-
+  homePage() {
+    if (this.result.userId) {
+      location.href = '/page/home'
+    }
+  }
   acceptTnc() {
     if (this.tncData) {
       const generalTnc = this.tncData.termsAndConditions.filter(

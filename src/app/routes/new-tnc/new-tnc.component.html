@@ -1,4 +1,9 @@
 <!-- <ws-header class="tnc-header"></ws-header> -->
+<nav class="navbar navbar-expand-sm light">
+  <a class="navbar-brand cursor-pointer" (click)="homePage()">
+    <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
+  </a>
+</nav>
 <div class="tnc-main">
   <div class="tnc-render-content">
     <ws-tnc-renderer (tncChange)="getTnc($event)" (dpChange)="getDp($event)" [tncData]="tncData">

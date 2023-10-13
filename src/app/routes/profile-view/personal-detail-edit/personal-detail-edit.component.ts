@@ -14,7 +14,7 @@ import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
 import upperFirst from 'lodash/upperFirst'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-
+import { HttpClient } from '@angular/common/http'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -57,6 +57,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   preferedLanguage: any = 'English'
   loadDob = false
   showDesignation = false
+  disticts: any
+  countries: any
+  states: any
+  countryUrl = '/fusion-assets/files/country.json'
+  districtUrl = '/fusion-assets/files/district.json'
+  stateUrl = '/fusion-assets/files/state.json'
   constructor(private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
@@ -65,6 +71,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private valueSvc: ValueService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private UserAgentResolverService: UserAgentResolverService,
+    private http: HttpClient
   ) {
     this.personalDetailForm = new FormGroup({
       firstname: new FormControl({ value: '', disabled: true }, [Validators.required]),
@@ -91,6 +98,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       languages: new FormControl(),
       block: new FormControl(),
       subcentre: new FormControl(),
+      country: new FormControl(),
+      state: new FormControl(),
+      distict: new FormControl()
     })
 
     // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
@@ -120,8 +130,23 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       },
       (_err: any) => {
       })
-  }
+    this.http.get(this.countryUrl).subscribe((data: any) => {
+      this.countries = data.nationalities
+    })
 
+    this.http.get(this.stateUrl).subscribe((data: any) => {
+      this.states = data.states
+    })
+  }
+  stateSelect(option: any) {
+    this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+      statesdata.states.map((item: any) => {
+        if (item.state === option) {
+          this.disticts = item.districts
+        }
+      })
+    })
+  }
   onChangesLanuage(): void {
 
     // tslint:disable-next-line: no-non-null-assertion
@@ -174,7 +199,20 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     }
     return this.masterLanguagesEntries
   }
-
+  countrySelect(option: any) {
+    this.setCountryCode(option)
+    if (option === 'India') {
+      this.selectDisable = false
+    } else {
+      this.selectDisable = true
+      this.aboutYouForm.controls.state.setValue(null)
+      this.aboutYouForm.controls.distict.setValue(null)
+    }
+  }
+  setCountryCode(country: string) {
+    const selectedCountry = this.countries.filter((e: any) => e.name.toLowerCase() === country.toLowerCase())
+    this.aboutYouForm.controls.countryCode.setValue(selectedCountry[0].countryCode)
+  }
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(

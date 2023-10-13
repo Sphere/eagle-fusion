@@ -38,9 +38,12 @@ export class OrgComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService) {
   }
   @HostListener('window:popstate', ['$event'])
-  onPopState() {
+  onPopState(event: any) {
     //window.location.href = '/public/home'
-    window.history.back()
+    console.log(event)
+    alert(event)
+    debugger
+    //window.history.go(-1)
   }
   ngOnInit() {
     for (this.index = 0; this.index < this.starCount; this.index++) {

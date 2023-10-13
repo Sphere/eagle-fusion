@@ -1,4 +1,7 @@
 <div *ngIf="currentOrgData">
+  <button [routerLink]="'/page/home'" mat-icon-button class="back-icon">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
   <div *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'" id="navy-blue-bg"
     [ngClass]="{'mb-5': currentOrgData?.sourceName === 'Indian Nursing Council'}">
     <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5  flex flex-middle main"
@@ -91,7 +94,7 @@
                   <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
                   <p class="cne-content mb-0">32 CNE Points</p>
                 </div> -->
-              <p *ngIf="widget.issueCertification" class="certified-text">Certified</p>
+              <p *ngIf="widget.issueCertification" class="certified-text" i18n>Certified</p>
             </div>
             <div class="border-block" *ngIf="cometencyData && cometencyData[0]">
               <hr class="border-content">
@@ -139,7 +142,7 @@
               <p *ngIf="widget?.sourceName"><span class="fw-500" i18n>Source</span>: {{widget.sourceName}}
               </p>
               <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
-                <div class="fw-500 mb-1">Course Description</div>
+                <div class="fw-500 mb-1" i18n>Course Description</div>
                 {{ widget.description }}
               </div>
 
@@ -156,8 +159,8 @@
       <!-- </div> -->
       <div class="w-100 load-more-block" *ngIf="courseData&&courseData.length > 5">
         <!-- <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a> -->
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5">Load More</button>
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5">Load Less</button>
+        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5" i18n>Load More</button>
+        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5" i18n>Load Less</button>
       </div>
 
     </div>
@@ -166,6 +169,6 @@
 </div>
 <div class="container" *ngIf="!currentOrgData">
   <div class="centered-div">
-    <h3 class="mt-15">No org details found</h3>
+    <h3 class="mt-15" i18n>No org details found</h3>
   </div>
 </div>

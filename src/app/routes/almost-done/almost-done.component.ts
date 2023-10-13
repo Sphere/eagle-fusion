@@ -7,7 +7,7 @@ import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { HttpClient } from '@angular/common/http'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-
+import { SignupService } from 'src/app/routes/signup/signup.service'
 @Component({
   selector: 'ws-almost-done',
   templateUrl: './almost-done.component.html',
@@ -46,6 +46,7 @@ export class AlmostDoneComponent implements OnInit {
   blockEntered = false
   subcentreEntered = false
   hideAsha = false
+  result: any
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -55,13 +56,15 @@ export class AlmostDoneComponent implements OnInit {
     private activateRoute: ActivatedRoute,
     private http: HttpClient,
     private UserAgentResolverService: UserAgentResolverService,
-
+    private signupService: SignupService,
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
+    this.result = await this.signupService.fetchStartUpDetails()
+    console.log(this.result)
     if (this.yourBackground.value.country !== 'India') {
       this.hideAsha = true
     } else {
@@ -410,8 +413,8 @@ export class AlmostDoneComponent implements OnInit {
 
   private constructReq() {
     if (this.configSvc.userProfile) {
-      this.userId = this.configSvc.unMappedUser.id || ''
-      this.email = this.configSvc.userProfile.email || ''
+      this.userId = this.configSvc.unMappedUser.id || this.result.userId,
+        this.email = this.configSvc.userProfile.email || ''
       this.firstName = this.configSvc.userProfile.firstName || ''
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
@@ -440,8 +443,8 @@ export class AlmostDoneComponent implements OnInit {
     })
 
     const profileReq = {
-      id: this.userId,
-      userId: this.userId,
+      id: this.result.userId,
+      userId: this.result.userId,
       personalDetails: userObject,
       academics: this.getAcademics(),
       employmentDetails: {},
@@ -464,8 +467,9 @@ export class AlmostDoneComponent implements OnInit {
   updateProfile() {
     const profileRequest = this.constructReq()
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
-      this.userId = this.configSvc.unMappedUser.id || ''
+      this.userId = this.configSvc.unMappedUser.id || this.result.userId
     }
+    console.log(this.userId, this.result.userId)
     const reqObj = localStorage.getItem(`preferedLanguage`) || ''
     const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
@@ -477,7 +481,7 @@ export class AlmostDoneComponent implements OnInit {
     const userdata = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
-        userId: this.userId,
+        userId: this.result.userId,
         profileDetails: userdata,
       },
     }

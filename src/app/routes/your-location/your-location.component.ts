@@ -49,6 +49,11 @@ export class YourLocationComponent implements OnInit {
   ngOnInit() {
     this.fetchMeta()
   }
+  homePage() {
+    // if (this.result.userId) {
+    location.href = '/page/home'
+    //}
+  }
 
   fetchMeta() {
     this.http.get(this.countryUrl).subscribe((data: any) => {
