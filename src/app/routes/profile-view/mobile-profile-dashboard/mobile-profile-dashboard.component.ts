@@ -13,7 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
-
+import { FormControl, FormGroup } from '@angular/forms'
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
@@ -37,6 +37,9 @@ export class MobileProfileDashboardComponent implements OnInit {
   selectedIndex: string = 'personal';
   showView: any = ''
   gotData: any
+  userForm: FormGroup
+  userData: any
+  //language: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -56,6 +59,9 @@ export class MobileProfileDashboardComponent implements OnInit {
           this.showView = await data
         }
       }
+    })
+    this.userForm = new FormGroup({
+      language: new FormControl()
     })
   }
 
@@ -93,6 +99,9 @@ export class MobileProfileDashboardComponent implements OnInit {
     if (text === 'organization') {
       this.showView = ''
       sessionStorage.removeItem('work')
+    }
+    if (text == 'language') {
+      this.getUserDetails()
     }
   }
 
@@ -174,14 +183,50 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.CompetencyConfiService.setConfig(this.userProfileData, data.profileDetails)
     }
   }
+  saveLanguage(form: any) {
+
+    console.log(form.value.language)
+    const obj = {
+      preferences: {
+        language: form.value.language,
+      }
+    }
+    const userdata = Object.assign(this.userData['profileDetails'], obj)
+    //   // this.chosenLanguage = path.value
+    const reqUpdate = {
+      request: {
+        userId: this.userData.identifier,
+        profileDetails: userdata,
+      },
+    }
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+      (result) => {
+        console.log(result)
+        if (form.value.language === 'en') {
+          // this.chosenLanguage = ''
+          window.location.assign(`${location.origin}/app/profile-view`)
+          // window.location.reload(true)
+        } else {
+          // window.location.reload(true)
+          window.location.assign(`${location.origin}/${form.value.language}/app/profile-view`)
+        }
+      },
+      () => {
+      })
+    // })
+  }
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
+        async (data: any) => {
           if (data) {
             console.log(data)
             this.loader = false
-            this.userProfileData = data.profileDetails.profileReq
+            this.userProfileData = await data.profileDetails.profileReq
+            this.userData = await data
+            let lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+            console.log(lang)
+            this.userForm.patchValue({ language: lang })
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
             }

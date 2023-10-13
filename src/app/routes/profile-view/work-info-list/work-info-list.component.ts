@@ -23,6 +23,7 @@ export class WorkInfoListComponent implements OnInit {
   rnShow = false
   professionOtherField = false
   showDesignation = false
+  showAshaField = false
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -71,6 +72,8 @@ export class WorkInfoListComponent implements OnInit {
               (newData.professionalDetails[0].profession === 'Others' && newData.professionalDetails[0].professionOtherSpecify) ? this.professionOtherField = true : this.professionOtherField = false;
               (newData.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
               newData.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
+              newData.professionalDetails[0].profession === 'ASHA' ? this.showAshaField = true : this.showAshaField = false
+              console.log(newData.professionalDetails[0])
               this.personalDetailForm.patchValue({
                 profession: newData.professionalDetails[0].profession,
                 professionOtherSpecify: newData.professionalDetails[0].professionOtherSpecify,
@@ -81,6 +84,11 @@ export class WorkInfoListComponent implements OnInit {
                 subcentre: newData.professionalDetails[0].subcentre,
                 designation: newData.professionalDetails[0].designation,
               })
+              if (newData.professionalDetails[0].profession === 'Healthcare Worker') {
+                this.personalDetailForm.patchValue({
+                  regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber
+                })
+              }
             }
           }
         })
@@ -94,11 +102,15 @@ export class WorkInfoListComponent implements OnInit {
       this.showDesignation = true
       this.orgTypeField = false
       this.professionOtherField = false
+      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
     } else if (value === 'Healthcare Volunteer') {
       this.orgTypeField = false
       this.professionOtherField = false
+      this.showAshaField = false
       this.rnShow = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+    } else if (value === 'ASHA') {
+      this.showAshaField = true
     } else if (value === 'Faculty') {
       this.orgOthersField = false
       this.orgTypeField = false

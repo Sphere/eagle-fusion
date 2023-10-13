@@ -22,10 +22,12 @@
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;"><span i18n>Position </span>:
+      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;"><span i18n>Position</span> :
         {{userProfileData?.professionalDetails[0].profession === 'Others' ?
-        userProfileData?.professionalDetails[0].professionOtherSpecify :
-        userProfileData?.professionalDetails[0].designation
+        userProfileData?.professionalDetails[0].professionOtherSpecify
+        : userProfileData?.professionalDetails[0].profession === 'ASHA' ?
+        userProfileData?.professionalDetails[0].profession
+        : userProfileData?.professionalDetails[0].designation
         }}</p>
       <!-- <p class="head-2">{{userProfileData?.professionalDetails[0].designation}}</p> -->
     </div>
@@ -163,21 +165,24 @@
     </div>
     <div *ngIf="selectedIndex === 'language'" style="width:50%; margin-top:25px;height:480px">
       <h4 i18n style="font-weight: 420;font-size:16px ">Language Preference</h4>
-      <div class="form-group">
-        <p>
-          <label class="radio">
-            <input type="radio" name="optradio" value='en' [(ngModel)]="en"><span
-              style="font-weight: 500; margin-left:5px" i18n>English
+      <form [formGroup]="userForm">
+        <div class="form-group">
+          <p>
+            <label class="radio">
+              <input type="radio" name="language" value='en' formControlName="language"><span
+                style="font-weight: 500; margin-left:5px" i18n>English
+              </span>
+            </label>
+          </p>
+          <label class="radio-inline">
+            <input type="radio" name="language" value='hi' formControlName="language"><span
+              style="font-weight: 500; margin-left:5px" i18n>Hindi
             </span>
           </label>
-        </p>
-        <label class="radio-inline">
-          <input type="radio" name="optradio" value='hi' [(ngModel)]="hi"><span
-            style="font-weight: 500; margin-left:5px" i18n>Hindi
-          </span>
-        </label>
-      </div>
-      <button type="submit" class="save-btn" style="position: absolute;bottom: 95px;right: 35px;" i18n>Save</button>
+        </div>
+        <button type="submit" class="save-btn" style="position: absolute;bottom: 120px;right: 35px;"
+          (click)="saveLanguage(userForm)" i18n>Save</button>
+      </form>
     </div>
     <div *ngIf="selectedIndex === 'certificates'" style="width:50%">
       <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0" i18n>My Certificates

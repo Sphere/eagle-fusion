@@ -70,23 +70,23 @@
     </div>
 
     <div class="form-group input-box"
-      *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
+      *ngIf="showAshaField || userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
       <label i18n>Block</label>
       <input type="text" name="block" formControlName="block" class="form-control" placeholder="Block"
         autocomplete="off" i18n-placeholder>
     </div>
 
     <div class="form-group input-box"
-      *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
+      *ngIf="showAshaField || userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
       <label i18n>Sub Centre</label>
       <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
         autocomplete="off" i18n-placeholder>
     </div>
   </form>
-  <mat-divider class="mt-2"></mat-divider>
+  <!-- <mat-divider class="mt-2"></mat-divider> -->
 
-  <div class="mt-3">
+  <!-- <div class="mt-3">
     <p class="add-edu-txt inline-block cursor-pointer" (click)="redirectToWorkInfo(false)" i18n>+ Add Work Info</p>
-  </div>
+  </div> -->
 
 </div>
