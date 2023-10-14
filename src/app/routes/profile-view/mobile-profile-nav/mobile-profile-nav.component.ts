@@ -50,7 +50,9 @@ export class MobileProfileNavComponent implements OnInit {
           this.router.navigate(['/page/home'])
         }
       } else {
-        let orgcheck = sessionStorage.getItem('work') || ''
+        let orgcheck = sessionStorage.getItem('work')
+        let academicCheck = sessionStorage.getItem('academic')
+        console.log(academicCheck)
         console.log(orgcheck)
         if (orgcheck) {
           let ob = {
@@ -58,10 +60,16 @@ export class MobileProfileNavComponent implements OnInit {
             "back": true
           }
           this.contentSvc.changeWork(ob)
+        } else if (academicCheck) {
+          let ob = {
+            "type": "academic",
+            "back": true
+          }
+          this.contentSvc.changeWork(ob)
         } else {
           const url = sessionStorage.getItem('clickedUrl') || ''
           sessionStorage.removeItem('clickedUrl')
-          this.router.navigateByUrl(url)
+          //this.router.navigateByUrl(url)
         }
       }
     }
