@@ -3,9 +3,9 @@
     [showLogOutIcon]="showLogOutIcon">
   </ws-mobile-profile-nav>
   <p class="text-2xl mt-2" i18n>Organizational Details</p>
-  <mat-icon *ngIf="userProfileData && userProfileData.professionalDetails" class="float-right pencil cursor-pointer"
+  <!-- <mat-icon *ngIf="userProfileData && userProfileData.professionalDetails" class="float-right pencil cursor-pointer"
     (click)="redirectToWorkInfo(true)">
-    edit</mat-icon>
+    edit</mat-icon> -->
   <div class="mt-3" *ngFor="let profession of userProfileData?.professionalDetails">
     <div class="inline-block">
       <p class="heading pb-1">{{profession.name}}</p>
@@ -16,7 +16,7 @@
   </div>
   <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
     <label i18n style="display: block;">Background</label>
-    <mat-form-field appearance="outline" class="field-fullwidth">
+    <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
       <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
         (selectionChange)="professionalChange($event.value)">
         <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
@@ -69,15 +69,13 @@
         i18n-placeholder autocomplete="off" (change)="fieldChange()" i18n-placeholder>
     </div>
 
-    <div class="form-group input-box"
-      *ngIf="showAshaField || userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
+    <div class="form-group input-box" *ngIf="showAshaField">
       <label i18n>Block</label>
       <input type="text" name="block" formControlName="block" class="form-control" placeholder="Block"
         autocomplete="off" i18n-placeholder>
     </div>
 
-    <div class="form-group input-box"
-      *ngIf="showAshaField || userProfileData?.professionalDetails && userProfileData?.professionalDetails[0].profession === 'ASHA'">
+    <div class="form-group input-box" *ngIf="showAshaField">
       <label i18n>Sub Centre</label>
       <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
         autocomplete="off" i18n-placeholder>
@@ -87,6 +85,8 @@
         [disabled]="personalDetailForm?.invalid || savebtnDisable" i18n>Save</button>
     </div>
   </form>
+  <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"
+    value="User profile details updated successfully!" #toastSuccess />
   <!-- <mat-divider class="mt-2"></mat-divider> -->
 
   <!-- <div class="mt-3">

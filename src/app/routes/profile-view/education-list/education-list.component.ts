@@ -53,6 +53,9 @@ export class EducationListComponent implements OnInit {
       'academic': academic
     }
     console.log(ob)
+    if (sessionStorage.getItem('academic')) {
+      sessionStorage.removeItem(academic)
+    }
     sessionStorage.setItem('academic', JSON.stringify(ob))
     this.contentSvc.changeWork(ob)
     // this.contentSvc.changeBack('/app/education-list')

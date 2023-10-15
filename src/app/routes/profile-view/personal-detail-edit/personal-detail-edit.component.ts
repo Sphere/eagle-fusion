@@ -115,7 +115,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       console.log(isXSmall, 'ppp')
       if (isXSmall) {
         this.showbackButton = true
-        this.showLogOutIcon = false
+        this.showLogOutIcon = true
 
       } else {
         this.showbackButton = false

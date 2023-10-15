@@ -39,6 +39,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   gotData: any
   userForm: FormGroup
   userData: any
+  hideData: boolean = false
   //language: any
   constructor(
     private configSvc: ConfigurationsService,
@@ -53,12 +54,19 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data)
       if (data.type === 'work' || data.type === 'academic') {
-        if (data.back === true) {
+        if (data.back === true || data.edit === 'save') {
           this.showView = ''
         } else {
           this.showView = await data
         }
       }
+      if (data.type === "back" && this.showMobileView) {
+        this.hideData = false
+        this.selectedIndex = 'personal'
+        this.selectedIndex = ''
+      }
+      //sessionStorage.removeItem('academic')
+      sessionStorage.removeItem('currentWindow')
     })
     this.userForm = new FormGroup({
       language: new FormControl()
@@ -67,7 +75,9 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   ngOnInit() {
     this.userProfileSvc.updateuser$.pipe().subscribe(item => {
+      console.log(item)
       if (item) {
+        this.selectedIndex === 'academic'
         this.getUserDetails()
       }
     })
@@ -82,7 +92,9 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       console.log(isXSmall, 'show')
       console.log(this.userProfileData, '184')
+      this.showMobileView = isXSmall
       if (isXSmall) {
+        this.selectedIndex = ''
         this.showbackButton = true
         this.showLogOutIcon = true
 
@@ -97,11 +109,27 @@ export class MobileProfileDashboardComponent implements OnInit {
   changeFunction(text: string) {
     console.log(text)
     if (text === 'organization') {
+      sessionStorage.setItem('currentWindow', 'organization')
       this.showView = ''
       sessionStorage.removeItem('work')
     }
     if (text == 'language') {
+      sessionStorage.setItem('currentWindow', 'language')
       this.getUserDetails()
+    }
+    if (text === 'personal') {
+      sessionStorage.setItem('currentWindow', 'personal')
+    }
+    if (text && this.showMobileView) {
+      console.log('mobileview')
+      this.hideData = true
+    }
+    if (text === 'academic') {
+      sessionStorage.setItem('currentWindow', 'education')
+    }
+
+    if (text === 'certificates') {
+      sessionStorage.setItem('currentWindow', 'certificates')
     }
   }
 

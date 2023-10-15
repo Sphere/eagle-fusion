@@ -5,7 +5,10 @@ import { ConfigurationsService, ValueService } from '../../../../../library/ws-w
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
 // import * as _ from 'lodash'
-import { ActivatedRoute, Router } from '@angular/router'
+import {
+  ActivatedRoute,
+  //Router
+} from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 @Component({
@@ -29,7 +32,7 @@ export class EducationEditComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private snackBar: MatSnackBar,
-    private router: Router,
+    //private router: Router,
     private route: ActivatedRoute,
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
@@ -147,9 +150,16 @@ export class EducationEditComponent implements OnInit {
       (res: any) => {
         if (res) {
           form.reset()
+          console.log(res, 'res')
           this.openSnackbar(this.toastSuccess.nativeElement.value)
           this.userProfileSvc._updateuser.next('true')
-          this.router.navigate(['/app/education-list'])
+          let ob = {
+            "type": "academic",
+            "edit": 'save',
+
+          }
+          this.contentSvc.changeWork(ob)
+          //this.router.navigate(['/app/education-list'])
         }
       })
   }

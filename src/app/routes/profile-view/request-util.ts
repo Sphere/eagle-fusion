@@ -3,7 +3,7 @@ import find from 'lodash/find'
 
 // import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any, userAgent: any, userCookies: any) => {
-  console.log(form)
+
   const userid = userProfileData.userId || userProfileData.id || ''
   const profileReq = {
     id: userid,
@@ -177,26 +177,26 @@ export const getPostDegree = (data: any, userProfileData?: any) => {
 export const getOrganisationsHistory = (form: any, userProfileData: any) => {
   const organisations: any = []
   const org = {
-    orgType: get(form, 'orgType') ? form.orgType : userProfileData.professionalDetails[0].orgType,
-    professionOtherSpecify: get(form, 'professionOtherSpecify') ? form.professionOtherSpecify :
+    orgType: get(form.value, 'orgType') ? form.value.orgType : userProfileData.professionalDetails[0].orgType,
+    professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify :
       userProfileData.professionalDetails[0].professionOtherSpecify,
-    orgOtherSpecify: get(form, 'orgOtherSpecify') ? form.orgOtherSpecify :
+    orgOtherSpecify: get(form.value, 'orgOtherSpecify') ? form.value.orgOtherSpecify :
       userProfileData.professionalDetails[0].orgOtherSpecify,
-    name: get(form, 'organizationName', get(userProfileData, 'professionalDetails[0].name', '')),
-    nameOther: form.orgNameOther,
-    industry: form.industry,
-    industryOther: form.industryOther,
-    designation: get(form, 'designation') ? form.designation : userProfileData.professionalDetails[0].designation,
-    profession: get(form, 'profession') ? form.profession : userProfileData.professionalDetails[0].profession,
-    location: get(form, 'location') ? form.location : userProfileData.professionalDetails[0].location,
+    name: get(form.value, 'organizationName', get(userProfileData, 'professionalDetails[0].name', '')),
+    nameOther: get(form.value, 'orgNameOther') ? form.value.orgNameOther : '',
+    industry: get(form.value, 'industry') ? form.value.industry : '',
+    industryOther: get(form.value, 'industryOther') ? form.value.industryOther : '',
+    designation: get(form.value, 'designation') ? form.value.designation : userProfileData.professionalDetails[0].designation,
+    profession: get(form.value, 'profession') ? form.value.profession : userProfileData.professionalDetails[0].profession,
+    location: get(form.value, 'location') ? form.value.location : userProfileData.professionalDetails[0].location,
     responsibilities: '',
-    doj: get(form, 'doj') ? form.doj : userProfileData.professionalDetails[0].doj,
-    description: form.orgDesc,
+    doj: get(form.value, 'doj') ? form.value.doj : userProfileData.professionalDetails[0].doj,
+    description: get(form.value, 'orgDesc') ? form.value.orgDesc : '',
     completePostalAddress: '',
     additionalAttributes: {},
     osid: get(userProfileData, 'professionalDetails[0].osid') || undefined,
-    block: get(form, 'block') ? form.block : userProfileData.professionalDetails[0].block,
-    subcentre: get(form, 'subcentre') ? form.subcentre : userProfileData.professionalDetails[0].subcentre,
+    block: get(form.value, 'block') ? form.value.block : userProfileData.professionalDetails[0].block,
+    subcentre: get(form.value, 'subcentre') ? form.value.subcentre : userProfileData.professionalDetails[0].subcentre,
   }
   organisations.push(org)
   return organisations

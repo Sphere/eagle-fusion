@@ -35,8 +35,39 @@ export class MobileProfileNavComponent implements OnInit {
   }
 
   backScreen() {
+    console.log('now')
+    let backURL = sessionStorage.getItem('currentWindow')
+    console.log(backURL)
+    if (backURL) {
+      let ob = {
+        "type": "back",
+        "back": true
+      }
+      this.contentSvc.changeWork(ob)
+    } else {
+      let orgcheck = sessionStorage.getItem('work')
+      let academicCheck = sessionStorage.getItem('academic')
+      console.log(academicCheck)
+      console.log(orgcheck)
+      if (orgcheck) {
+        let ob = {
+          "type": "work",
+          "back": true
+        }
+        this.contentSvc.changeWork(ob)
+      } else if (academicCheck) {
+        let ob = {
+          "type": "academic",
+          "back": true
+        }
+        this.contentSvc.changeWork(ob)
+      }
+    }
     this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data, 'back')
+      if (data === undefined) {
+
+      }
       // this.showView = await data
     })
 
@@ -67,8 +98,11 @@ export class MobileProfileNavComponent implements OnInit {
           }
           this.contentSvc.changeWork(ob)
         } else {
+          let backURL = sessionStorage.getItem('currentWindow')
+          console.log(backURL)
           const url = sessionStorage.getItem('clickedUrl') || ''
           sessionStorage.removeItem('clickedUrl')
+          console.log(url)
           //this.router.navigateByUrl(url)
         }
       }

@@ -2,8 +2,8 @@
   <mat-spinner></mat-spinner>
 </div>
 <div class="content" *ngIf="!loader" [ngStyle]="!showbackButton ? {'display': 'flex' } : {}">
-  <div [ngStyle]="!showbackButton ? {'width': '25%' } : {}">
-    <ws-mobile-profile-nav [navigateTohome]="navigateTohome" [showbackButton]="showbackButton"
+  <div [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData">
+    <ws-mobile-profile-nav [hidden]="hideData" [navigateTohome]="navigateTohome" [showbackButton]="showbackButton"
       [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
 
     <div>
@@ -164,6 +164,8 @@
       </div>
     </div>
     <div *ngIf="selectedIndex === 'language'" style="width:50%; margin-top:25px;height:480px">
+      <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
+        [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
       <h4 i18n style="font-weight: 420;font-size:16px ">Language Preference</h4>
       <form [formGroup]="userForm">
         <div class="form-group">
@@ -185,16 +187,20 @@
       </form>
     </div>
     <div *ngIf="selectedIndex === 'certificates'" style="width:50%">
+      <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
+        [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
       <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0" i18n>My Certificates
       </p>
       <div *ngFor="let certificate of certificates">
-        <ng-container *ngIf="certificates && certificates.length>0">
+        <ng-container *ngIf="certificates && certificates.length > 0">
           <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
         </ng-container>
       </div>
-    </div>
-    <!-- <div *ngIf="selectedIndex === 'user'">
+      <div *ngIf="certificates.length === 0" style="margin-top: 15px;text-align: center;">
+        <h2>No Certicates</h2>
+      </div>
+      <!-- <div *ngIf="selectedIndex === 'user'">
       <ws-personal-detail-edit></ws-personal-detail-edit>
     </div> -->
+    </div>
   </div>
-</div>

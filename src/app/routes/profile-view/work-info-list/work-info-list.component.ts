@@ -1,15 +1,19 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
 //import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '@ws-widget/collection'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { constructReq } from '../request-util'
+import { MatSnackBar } from '@angular/material'
 @Component({
   selector: 'ws-work-info-list',
   templateUrl: './work-info-list.component.html',
   styleUrls: ['./work-info-list.component.scss'],
 })
+
 export class WorkInfoListComponent implements OnInit {
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
@@ -24,12 +28,16 @@ export class WorkInfoListComponent implements OnInit {
   professionOtherField = false
   showDesignation = false
   showAshaField = false
+  userID = ''
+  @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     //private router: Router,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
+    private UserAgentResolverService: UserAgentResolverService,
+    private snackBar: MatSnackBar,
   ) {
     this.personalDetailForm = new FormGroup({
       profession: new FormControl(),
@@ -51,7 +59,7 @@ export class WorkInfoListComponent implements OnInit {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
-        this.showLogOutIcon = false
+        this.showLogOutIcon = true
 
       } else {
         this.showbackButton = false
@@ -66,7 +74,7 @@ export class WorkInfoListComponent implements OnInit {
           if (data) {
             console.log(data.profileDetails.profileReq)
             let newData = data.profileDetails.profileReq
-            this.userProfileData = data.profileDetails.profileReq.professionalDetails[0]
+            this.userProfileData = data.profileDetails.profileReq
             if (newData && newData.professionalDetails) {
               (newData.professionalDetails[0].orgType === 'Others' && newData.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
               (newData.professionalDetails[0].profession === 'Others' && newData.professionalDetails[0].professionOtherSpecify) ? this.professionOtherField = true : this.professionOtherField = false;
@@ -151,6 +159,47 @@ export class WorkInfoListComponent implements OnInit {
     }
   }
 
+  onSubmit(form: any) {
+    console.log(form)
+    if (this.configSvc.userProfile) {
+      this.userID = this.configSvc.userProfile.userId || ''
+    }
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
+    console.log(this.userProfileData)
+    let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    const obj = {
+      personalDetails: profileRequest.profileReq.personalDetails
+    }
+    profileRequest = Object.assign(profileRequest, obj)
+    const reqUpdate = {
+      request: {
+        userId: this.userID,
+        profileDetails: profileRequest,
+      },
+    }
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+      (res: any) => {
+        if (res) {
+          //form.reset()
+          console.log(res, 'res')
+          this.openSnackbar(this.toastSuccess.nativeElement.value)
+          //this.userProfileSvc._updateuser.next('true')
+          let ob = {
+            "type": "work",
+            "edit": 'save',
+
+          }
+          this.contentSvc.changeWork(ob)
+          //this.router.navigate(['/app/education-list'])
+        }
+      })
+  }
+  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+    this.snackBar.open(primaryMsg, 'X', {
+      duration,
+    })
+  }
   redirectToWorkInfo(isEdit: any) {
 
     let ob = {
@@ -158,6 +207,9 @@ export class WorkInfoListComponent implements OnInit {
       "edit": isEdit
     }
     console.log(ob)
+    if (sessionStorage.getItem('work')) {
+      sessionStorage.removeItem('work')
+    }
     sessionStorage.setItem('work', isEdit)
     this.contentSvc.changeWork(ob)
     // this.contentSvc.changeBack('/app/workinfo-list')
