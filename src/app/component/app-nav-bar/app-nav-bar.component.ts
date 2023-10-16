@@ -67,6 +67,12 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
       this.showNavLinkPage = false
     }
+    console.log(window.location.href)
+    if (window.location.href.includes('/app/new-tnc')) {
+      this.showNavLinkPage = false
+    } else {
+      this.showNavLinkPage = true
+    }
     if (this.configSvc.restrictedFeatures) {
       this.isHelpMenuRestricted = this.configSvc.restrictedFeatures.has('helpNavBarMenu')
     }

@@ -106,7 +106,7 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (localStorage.getItem(`preferedLanguage`) && location.href.includes('/hi/')) {
+    if (localStorage.getItem(`preferedLanguage`) || location.href.includes('/hi/')) {
       const reqObj = localStorage.getItem(`preferedLanguage`) || ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
@@ -184,9 +184,10 @@ export class CreateAccountComponent implements OnInit {
           console.log(err, err.error.message, err.error.msg)
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
+            console.log(lang.id)
             if (lang.id === 'hi') {
-              if (err.error.msg === 'Email id  already exists.') {
-                const err = 'ईमेल आईडी पहले से मौजूद है।'
+              if (err.error.msg === 'User already exists') {
+                const err = 'उपयोगकर्ता पहले से मौजूद है।'
                 this.openSnackbar(err)
                 this.uploadSaveData = false
               }
@@ -240,8 +241,8 @@ export class CreateAccountComponent implements OnInit {
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
-              if (err.error.msg === 'Email id  already exists.') {
-                const err = 'ईमेल आईडी पहले से मौजूद है।'
+              if (err.error.msg === 'User already exists') {
+                const err = 'उपयोगकर्ता पहले से मौजूद है।'
                 this.openSnackbar(err)
                 this.uploadSaveData = false
               }
@@ -323,21 +324,27 @@ export class CreateAccountComponent implements OnInit {
       },
     })
     this.langDialog.afterClosed().subscribe((result: any) => {
-      this.preferedLanguage = result
-      localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
-      const lang = result.id === 'hi' ? result.id : ''
-      if (this.router.url.includes('hi')) {
-        const lan = this.router.url.split('hi/').join('')
-        if (lang === 'hi') {
-          window.location.assign(`${location.origin}/${lang}${lan}`)
-        } else {
-          window.location.assign(`${location.origin}${lang}${lan}`)
+      console.log(result)
+      if (result) {
+        if (localStorage.getItem('preferedLanguage')) {
+          localStorage.removeItem('preferedLanguage')
         }
-      } else {
-        if (lang === 'hi') {
-          window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+        this.preferedLanguage = result
+        localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
+        const lang = result.id === 'hi' ? result.id : ''
+        if (this.router.url.includes('hi')) {
+          const lan = this.router.url.split('hi/').join('')
+          if (lang === 'hi') {
+            window.location.assign(`${location.origin}/${lang}${lan}`)
+          } else {
+            window.location.assign(`${location.origin}${lang}${lan}`)
+          }
         } else {
-          window.location.assign(`${location.origin}${lang}${this.router.url}`)
+          if (lang === 'hi') {
+            window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+          } else {
+            window.location.assign(`${location.origin}${lang}${this.router.url}`)
+          }
         }
       }
     })
