@@ -82,7 +82,7 @@
     </div>
     <div style="position: absolute;right: 35px;bottom: 100px;">
       <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
-        [disabled]="personalDetailForm?.invalid || savebtnDisable" i18n>Save</button>
+        [disabled]="personalDetailForm?.invalid" i18n>Save</button>
     </div>
   </form>
   <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"
