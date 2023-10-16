@@ -68,8 +68,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
       this.showNavLinkPage = false
     }
-    console.log(window.location.href, 's', location.path())
-    if (window.location.href.includes('/app/new-tnc')) {
+    console.log(location.path())
+    if (location.path().includes('/app/new-tnc')) {
       this.showNavLinkPage = false
     } else {
       this.showNavLinkPage = true
@@ -159,9 +159,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
-    //if (this.showNavLinkPage) {
-    this.router.navigateByUrl('/page/home')
-    //}
+    if (this.showNavLinkPage) {
+      this.router.navigateByUrl('/page/home')
+    }
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {

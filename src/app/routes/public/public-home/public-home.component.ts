@@ -83,6 +83,12 @@ export class PublicHomeComponent extends WidgetBaseComponent
   }
 
   ngOnInit() {
+    if (localStorage.getItem('preferedLanguage')) {
+      localStorage.removeItem('preferedLanguage')
+    }
+    if (localStorage.getItem('url_before_login')) {
+      localStorage.removeItem('url_before_login')
+    }
     this.subscriptionHome = this.activateRoute.data.subscribe(data => {
       this.pageLayout = data.pageData.data.pageLayout
       // todo

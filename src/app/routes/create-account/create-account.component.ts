@@ -58,7 +58,7 @@ export class CreateAccountComponent implements OnInit {
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
-    localStorage.removeItem(`userUUID`)
+    //localStorage.removeItem(`userUUID`)
   }
 
   @HostListener('window:popstate', ['$event'])

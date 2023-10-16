@@ -191,6 +191,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
         this.formatmyCourseResponse(res[0])
       })
+      localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
     }
 
     this.setPageTitle()

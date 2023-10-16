@@ -10,6 +10,7 @@ import { FormGroup } from '@angular/forms'
 import {
   ConfigurationsService
 } from '@ws-widget/utils'
+import { SignupService } from '../signup/signup.service'
 @Component({
   selector: 'ws-tnc',
   templateUrl: './tnc.component.html',
@@ -18,6 +19,7 @@ import {
 export class TncComponent implements OnInit, OnDestroy {
   tncData: NsTnc.ITnc | null = null
   routeSubscription: Subscription | null = null
+  result: any
   // errorFetchingTnc = false
   tncFlag = false
   isAcceptInProgress = false
@@ -38,11 +40,14 @@ export class TncComponent implements OnInit, OnDestroy {
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
     public configSvc: ConfigurationsService,
+    private signupService: SignupService,
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     console.log(this.configSvc)
+    this.result = await this.signupService.fetchStartUpDetails()
+    console.log(this.result)
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
