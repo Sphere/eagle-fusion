@@ -12,7 +12,7 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
-
+import { Location } from '@angular/common'
 @Component({
   selector: 'ws-app-nav-bar',
   templateUrl: './app-nav-bar.component.html',
@@ -60,14 +60,15 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private router: Router,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    location: Location,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
       this.showNavLinkPage = false
     }
-    console.log(window.location.href)
+    console.log(window.location.href, 's', location.path())
     if (window.location.href.includes('/app/new-tnc')) {
       this.showNavLinkPage = false
     } else {
@@ -158,9 +159,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
-    if (this.showNavLinkPage) {
-      this.router.navigateByUrl('/page/home')
-    }
+    //if (this.showNavLinkPage) {
+    this.router.navigateByUrl('/page/home')
+    //}
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
