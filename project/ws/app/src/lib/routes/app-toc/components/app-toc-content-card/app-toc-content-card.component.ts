@@ -52,7 +52,6 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
 
   ngOnInit() {
     this.evaluateImmediateChildrenStructure()
-    console.log(this.content)
     const instanceConfig = this.configSvc.instanceConfig
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent

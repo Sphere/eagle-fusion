@@ -160,7 +160,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
     //if (this.showNavLinkPage) {
-      this.router.navigateByUrl('/page/home')
+    location.href = '/page/home'
     //}
   }
   ngOnChanges(changes: SimpleChanges) {

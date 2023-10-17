@@ -61,7 +61,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
       if (dataResult && dataResult.length) {
         if (this.route && this.route.parent) {
           this.routeSubscription = this.route.parent.data.subscribe((data: Data) => {
-            console.log(data, ';')
             this.initData(data)
           })
         }
@@ -95,7 +94,6 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
 
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data, true)
-    console.log(initData)
     this.content = initData.content
     if (this.content && this.content.gatingEnabled) {
       this.tocSvc.setNode(this.content.gatingEnabled)

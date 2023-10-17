@@ -97,8 +97,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      console.log(isXSmall, 'show')
-      console.log(this.userProfileData, '184')
       this.showMobileView = isXSmall
       if (isXSmall) {
         this.selectedIndex = ''

@@ -43,17 +43,17 @@ export class MobileDashboardComponent implements OnInit {
   preferedLanguage: any = { id: 'en', lang: 'English' }
 
   constructor(private orgService: OrgServiceService,
-              private configSvc: ConfigurationsService,
-              private userProfileSvc: UserProfileService,
-              private userSvc: WidgetUserService,
-              private router: Router,
-              private http: HttpClient,
-              public dialog: MatDialog,
-              private sanitizer: DomSanitizer,
-              private scrollService: ScrollService,
-              private CompetencyConfiService: CompetencyConfiService,
-              private contentSvc: WidgetContentService,
-              private UserAgentResolverService: UserAgentResolverService,
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private userSvc: WidgetUserService,
+    private router: Router,
+    private http: HttpClient,
+    public dialog: MatDialog,
+    private sanitizer: DomSanitizer,
+    private scrollService: ScrollService,
+    private CompetencyConfiService: CompetencyConfiService,
+    private contentSvc: WidgetContentService,
+    private UserAgentResolverService: UserAgentResolverService,
 
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -99,7 +99,6 @@ export class MobileDashboardComponent implements OnInit {
       forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
       this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
         this.setCompetencyConfig(res[0])
-        // console.log("fasdfasdf", res[0])
         this.firstName = res[0].profileDetails!.profileReq!.personalDetails!.firstname
 
       })
@@ -140,7 +139,6 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
-      console.log(value)
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
@@ -148,7 +146,7 @@ export class MobileDashboardComponent implements OnInit {
       result['competencies_v1'] = value.competencies_v1
       return result
 
-    },                           {})
+    }, {})
   }
 
   formatTopCertifiedCourseResponse(res: any) {

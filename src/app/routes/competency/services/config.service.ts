@@ -8,7 +8,6 @@ export class ConfigService {
   constructor(
     public configSvc: ConfigurationsService,
   ) {
-
   }
 
   setConfig(profileData: any, profileDetails: any) {

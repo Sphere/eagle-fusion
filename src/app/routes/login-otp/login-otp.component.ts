@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
 //import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
-import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+//import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 @Component({
   selector: 'ws-login-otp',
   templateUrl: './login-otp.component.html',
@@ -26,7 +26,7 @@ export class LoginOtpComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    private userProfileSvc: UserProfileService,
+    //private userProfileSvc: UserProfileService,
 
   ) {
     this.loginOtpForm = this.fb.group({
@@ -35,14 +35,15 @@ export class LoginOtpComponent implements OnInit {
   }
 
   ngOnInit() {
-    let x = localStorage.getItem(`userUUID`) || ''
-    console.log(x)
-    setTimeout(() => {
-      this.userProfileSvc.getUserdetailsFromRegistry(x).subscribe((result: any) => {
-        console.log(result)
-      })
-    }, 2000)
+    // let x = localStorage.getItem(`userUUID`) || ''
+    // console.log(x)
+    // setTimeout(() => {
+    //   this.userProfileSvc.getUserdetailsFromRegistry(x).subscribe((result: any) => {
+    //     console.log(result)
+    //   })
+    // }, 2000)
     if (this.signUpdata || this.loginData) {
+      sessionStorage.setItem('fromOTPpage', 'true')
       let phone = this.signUpdata ? this.signUpdata.value.emailOrMobile : this.loginData.value.username
       phone = phone.replace(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
@@ -99,7 +100,7 @@ export class LoginOtpComponent implements OnInit {
         console.log(res)
         let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
-        this.openSnackbar(res.msg)
+        //this.openSnackbar(res.msg)
         // this.router.navigate(['app/login'], { queryParams: { source: 'register' } })
         //const state = uuid()
         //const nonce = uuid()
@@ -122,11 +123,25 @@ export class LoginOtpComponent implements OnInit {
               url = url.replace('hi/', '')
             }
             url = `${url}${lang}/app/new-tnc`
+            if (this.preferedLanguage) {
+              const lang = this.preferedLanguage || ''
+              if (lang.id === 'hi') {
+                if (res.msg === 'Success ! User is sucessfully authenticated.') {
+                  const msg = 'सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.'
+                  this.openSnackbar(msg)
+                }
+              } else {
+                this.openSnackbar(res.msg)
+              }
+            } else {
+              this.openSnackbar(res.msg)
+            }
             this.isLoading = false
             window.location.href = url
             //this.router.navigate([url, 'new-tnc'])
           }
         } else {
+          this.openSnackbar(res.msg)
           //this.router.navigate(['app', 'new-tnc'])
           window.location.href = `${url}app/new-tnc`
           this.isLoading = false
@@ -236,12 +251,40 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.generateOtp(requestBody).subscribe(
       (res: any) => {
         this.isLoading = false
-        this.openSnackbar(res.message)
+        //this.openSnackbar(res.message)
+        if (this.preferedLanguage) {
+          const lang = this.preferedLanguage || ''
+          if (lang.id === 'hi') {
+            if (res.message === 'Success ! Please verify the OTP .') {
+              const msg = 'सफलता ! कृपया ओटीपी सत्यापित करें।'
+              this.openSnackbar(msg)
+            }
+          } else {
+            this.openSnackbar(res.message)
+          }
+        } else {
+          this.openSnackbar(res.message)
+        }
         // localStorage.removeItem('preferedLanguage')
       },
       (err: any) => {
         this.isLoading = false
-        this.openSnackbar(`OTP Error`, + err.error.message)
+        if (localStorage.getItem(`preferedLanguage`)) {
+          const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+          const lang = JSON.parse(reqObj) || ''
+          if (lang.id === 'hi') {
+            if (err.error.message === 'Please provide correct otp and try again.') {
+              const err = 'कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।'
+              this.openSnackbar(err)
+            }
+          } else {
+            this.openSnackbar(err.error.error || err.error.message)
+          }
+        } else {
+          this.openSnackbar(err.error.error || err.error.message)
+        }
+
+        // this.openSnackbar(`OTP Error`, + err.error.message)
       }
     )
   }

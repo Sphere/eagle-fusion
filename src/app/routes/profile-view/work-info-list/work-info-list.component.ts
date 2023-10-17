@@ -70,7 +70,7 @@ export class WorkInfoListComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
-            console.log(data.profileDetails.profileReq)
+
             let newData = data.profileDetails.profileReq
             this.userProfileData = data.profileDetails.profileReq
             if (newData && newData.professionalDetails) {
@@ -79,7 +79,7 @@ export class WorkInfoListComponent implements OnInit {
               (newData.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
               newData.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
               newData.professionalDetails[0].profession === 'ASHA' ? this.showAshaField = true : this.showAshaField = false
-              console.log(newData.professionalDetails[0])
+
               this.personalDetailForm.patchValue({
                 profession: newData.professionalDetails[0].profession,
                 professionOtherSpecify: newData.professionalDetails[0].professionOtherSpecify,

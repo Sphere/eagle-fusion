@@ -7,17 +7,15 @@ import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
   styleUrls: ['./web-nav-link-page.component.scss'],
 })
 export class WebNavLinkPageComponent implements OnInit {
-
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
   ) { }
   linksData: any
   data: any
+
   ngOnInit() {
-    console.log(this.configSvc.unMappedUser)
-    this.data = this.configSvc.unMappedUser
-    console.log(this.data.firstname)
+    this.data = this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!.tncAccepted
     this.linksData = [
       {
         linkName: 'Home',

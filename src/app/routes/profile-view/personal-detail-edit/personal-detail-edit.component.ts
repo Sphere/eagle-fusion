@@ -370,13 +370,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           postalAddress: data.personalDetails.postalAddress,
           pincode: data.personalDetails.pincode,
         })
-        this.countryName = data.personalDetails.postalAddress.includes('India')
-        console.log(this.countryName)
+        this.countryName = data.personalDetails!.postalAddress!.includes('India')
+
         if (this.countryName) {
           let cName = data.personalDetails.postalAddress
           let csplit = cName.split(',')
           this.stateSelect(csplit[1].trim())
-          console.log(csplit)
           this.personalDetailForm.patchValue({
             country: csplit[0],
             state: csplit[1].trim(),
@@ -385,7 +384,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         } else {
           let cName = data.personalDetails.postalAddress
           let csplit = cName.split(',')
-          console.log(csplit)
           this.personalDetailForm.patchValue({
             country: csplit[0]
           })
@@ -476,7 +474,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     }
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (res: any) => {
-      console.log(res, 'trye')
       let result = await res
       if (result) {
         this.openSnackbar(this.toastSuccess.nativeElement.value)
@@ -498,7 +495,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     })
 
     this.langDialog.afterClosed().subscribe((result: any) => {
-      console.log(result, !!result)
       if (result) {
         this.preferedLanguage = result
         this.personalDetailForm.controls.
@@ -547,11 +543,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   dobData(event: any) {
-    console.log(event)
     this.personalDetailForm.patchValue({
       dob: event,
     })
-    console.log(this.personalDetailForm)
     this.savebtnDisable = false
   }
   ngAfterViewInit(): void {
