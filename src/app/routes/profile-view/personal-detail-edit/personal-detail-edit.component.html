@@ -1,4 +1,4 @@
-<div class="content">
+<div class="content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
   <div [ngStyle]="!showbackButton ? {'display': 'none' } : {}">
     <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
       [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
@@ -32,7 +32,7 @@
         <input type="text" class="form-control" formControlName="email" i18n-placeholder placeholder="Email ID"
           autocomplete="off">
       </div>
-      <div class="form-group mt-4 relative">
+      <div class="form-group mt-4 relative" [ngStyle]="showbackButton ? {'font-size': '14px' } : {}">
         <label i18n>Date Of Birth</label>
         <!-- <input [matDatepicker]="picker" [min]="minDate" [max]="maxDate" formControlName="dob" autocomplete="off"
         (dateInput)="onDateChange($event.value)" placeholder="Date of Birth*" name="dob" id="dob-inputfield"
@@ -220,7 +220,7 @@
           autocomplete="off" (change)="fieldChange()">
       </div>
     </div>
-    <div style="position: absolute;right: 35px;bottom: 80px;">
+    <div style="position: absolute;right: 35px;bottom: 75px;">
       <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
         [disabled]="personalDetailForm?.invalid || savebtnDisable" i18n>Save</button>
     </div>

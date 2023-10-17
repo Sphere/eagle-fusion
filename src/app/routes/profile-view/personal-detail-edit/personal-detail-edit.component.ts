@@ -112,11 +112,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   ngOnInit() {
     this.fetchMeta()
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      console.log(isXSmall, 'ppp')
       if (isXSmall) {
         this.showbackButton = true
-        this.showLogOutIcon = true
-
+        this.showLogOutIcon = false
       } else {
         this.showbackButton = false
         this.showLogOutIcon = false
@@ -138,7 +136,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     })
 
     this.http.get(this.stateUrl).subscribe((data: any) => {
-      console.log(data)
       this.states = data.states
     })
   }
@@ -447,11 +444,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     // if (form.value.dob) {
     //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
     // }
-    console.log(form.value)
-    console.log(this.userProfileData)
     if (form.value.dob.includes('undefined')) {
       const data = form.value.dob.replace(/\/undefined/g, '')
-      console.log(data)
       form.value.dob = data
     }
     console.log(form.value)

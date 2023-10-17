@@ -1,5 +1,6 @@
 <div *ngIf="currentOrgData">
-  <button [routerLink]="'/page/home'" mat-icon-button class="back-icon">
+  <button (click)="redirect()" mat-icon-button class="back-icon"
+    style="position: absolute;left: 0px;top: 80px;z-index: 1;">
     <mat-icon>chevron_left</mat-icon>
   </button>
   <div *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'" id="navy-blue-bg"

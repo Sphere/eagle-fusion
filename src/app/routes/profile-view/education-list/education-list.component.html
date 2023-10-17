@@ -1,6 +1,6 @@
-<div class="content">
+<div class="content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
 
-  <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
+  <ws-mobile-profile-nav [trigerrNavigation]=" trigerrNavigation" [showbackButton]="showbackButton"
     [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
 
   <p class="text-2xl mt-2 mb-2" i18n>Education</p>

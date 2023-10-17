@@ -66,22 +66,17 @@ export class EducationEditComponent implements OnInit {
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data, 'here')
       this.workLog = await data
-      let check = sessionStorage.getItem('work')
-      console.log(check)
       if (this.workLog) {
         this.getUserDetails()
       }
-
-      console.log(this.workLog.edit)
     })
   }
 
   ngOnInit() {
     let eduLog: any = sessionStorage.getItem('academic') || null
     this.workLog = JSON.parse(eduLog)
-    console.log(this.workLog)
+
     if (this.workLog === 'true' || this.workLog.edit === true) {
-      console.log('true')
       this.updateForm(this.workLog.academic)
     } else {
       this.educationForm.reset()
@@ -128,7 +123,6 @@ export class EducationEditComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    console.log(form)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
@@ -150,7 +144,6 @@ export class EducationEditComponent implements OnInit {
       (res: any) => {
         if (res) {
           form.reset()
-          console.log(res, 'res')
           this.openSnackbar(this.toastSuccess.nativeElement.value)
           this.userProfileSvc._updateuser.next('true')
           let ob = {

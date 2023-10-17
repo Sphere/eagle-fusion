@@ -60,6 +60,11 @@ export class MobileProfileDashboardComponent implements OnInit {
           this.showView = await data
         }
       }
+      if (data.type === 'onListPage') {
+        this.hideData = false
+        this.selectedIndex = 'personal'
+        this.selectedIndex = ''
+      }
       if (data.type === "back" && this.showMobileView) {
         this.hideData = false
         this.selectedIndex = 'personal'
@@ -74,8 +79,10 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (sessionStorage.getItem('currentWindow')) {
+      sessionStorage.removeItem('currentWindow')
+    }
     this.userProfileSvc.updateuser$.pipe().subscribe(item => {
-      console.log(item)
       if (item) {
         this.selectedIndex === 'academic'
         this.getUserDetails()
@@ -107,18 +114,27 @@ export class MobileProfileDashboardComponent implements OnInit {
     // this.CompetencyConfiService.setConfig(this.profileData)
   }
   changeFunction(text: string) {
-    console.log(text)
     if (text === 'organization') {
       sessionStorage.setItem('currentWindow', 'organization')
       this.showView = ''
       sessionStorage.removeItem('work')
+      if (sessionStorage.getItem('onListPage')) {
+        sessionStorage.removeItem('onListPage')
+      }
     }
     if (text == 'language') {
       sessionStorage.setItem('currentWindow', 'language')
+      this.showLogOutIcon = false
       this.getUserDetails()
+      if (sessionStorage.getItem('onListPage')) {
+        sessionStorage.removeItem('onListPage')
+      }
     }
     if (text === 'personal') {
       sessionStorage.setItem('currentWindow', 'personal')
+      if (sessionStorage.getItem('onListPage')) {
+        sessionStorage.removeItem('onListPage')
+      }
     }
     if (text && this.showMobileView) {
       console.log('mobileview')
@@ -130,6 +146,9 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     if (text === 'certificates') {
       sessionStorage.setItem('currentWindow', 'certificates')
+      if (sessionStorage.getItem('onListPage')) {
+        sessionStorage.removeItem('onListPage')
+      }
     }
   }
 
@@ -212,8 +231,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
   saveLanguage(form: any) {
-
-    console.log(form.value.language)
     const obj = {
       preferences: {
         language: form.value.language,
@@ -248,7 +265,6 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         async (data: any) => {
           if (data) {
-            console.log(data)
             this.loader = false
             this.userProfileData = await data.profileDetails.profileReq
             this.userData = await data
@@ -301,7 +317,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.router.navigate([`app/user/self-assessment`])
   }
   ngOnDestroy() {
-    console.log('s', this.gotData)
     if (this.gotData) {
       this.gotData.unsubscribe()
     }

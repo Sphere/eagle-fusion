@@ -22,11 +22,14 @@ export class EducationListComponent implements OnInit {
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
   ) {
-
   }
 
   ngOnInit() {
     if (this.configSvc.userProfile) {
+      sessionStorage.setItem('onListPage', 'true')
+      if (sessionStorage.getItem('academic')) {
+        sessionStorage.removeItem('academic')
+      }
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data && get(data, 'profileDetails.profileReq.academics')) {
@@ -39,7 +42,6 @@ export class EducationListComponent implements OnInit {
       if (isXSmall) {
         this.showbackButton = true
         this.showLogOutIcon = false
-
       } else {
         this.showbackButton = false
         this.showLogOutIcon = false
@@ -52,9 +54,12 @@ export class EducationListComponent implements OnInit {
       "edit": isEdit,
       'academic': academic
     }
-    console.log(ob)
+
+    if (sessionStorage.getItem('onListPage')) {
+      sessionStorage.removeItem('onListPage')
+    }
     if (sessionStorage.getItem('academic')) {
-      sessionStorage.removeItem(academic)
+      sessionStorage.removeItem('academic')
     }
     sessionStorage.setItem('academic', JSON.stringify(ob))
     this.contentSvc.changeWork(ob)

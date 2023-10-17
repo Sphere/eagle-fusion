@@ -31,6 +31,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   color = 'accent'
   ratingArr: any = []
   index = 0
+  link: string = ''
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
     private router: Router,
@@ -39,10 +40,12 @@ export class OrgComponent implements OnInit, OnDestroy {
   }
   @HostListener('window:popstate', ['$event'])
   onPopState(event: any) {
-    //window.location.href = '/public/home'
     console.log(event)
-    alert(event)
-    debugger
+    //window.location.href = '/public/home'
+    let url = sessionStorage.getItem('currentURL')
+    if (url) {
+      location.href = url
+    }
     //window.history.go(-1)
   }
   ngOnInit() {
@@ -107,6 +110,13 @@ export class OrgComponent implements OnInit, OnDestroy {
     // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
+  redirect() {
+    let url = sessionStorage.getItem('currentURL')
+    if (url) {
+      location.href = url
+    }
+  }
+
   toggleCardLimit() {
     if (this.cardLimit === 5) {
       this.cardLimit = this.courseData.length

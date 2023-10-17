@@ -50,8 +50,6 @@ export class WorkInfoListComponent implements OnInit {
       block: new FormControl(),
       subcentre: new FormControl(),
     })
-
-
   }
 
   ngOnInit() {
@@ -59,7 +57,7 @@ export class WorkInfoListComponent implements OnInit {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
-        this.showLogOutIcon = true
+        this.showLogOutIcon = false
 
       } else {
         this.showbackButton = false
@@ -160,13 +158,12 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    console.log(form)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
-    console.log(this.userProfileData)
+
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
     const obj = {
       personalDetails: profileRequest.profileReq.personalDetails

@@ -594,7 +594,7 @@ a.rounded-t:hover span.img-overlay {
   border: 1px solid #ddd;
   padding-top: 7px;
   border-radius: 10px;
-
+  overflow: hidden !important;
   .card-img {
     position: absolute;
     z-index: 2;

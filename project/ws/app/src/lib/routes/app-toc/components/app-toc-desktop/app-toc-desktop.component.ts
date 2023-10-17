@@ -121,6 +121,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnInit() {
+    if (sessionStorage.getItem('currentURL')) {
+      sessionStorage.removeItem('currentURL')
+    }
     this.enrollApi()
     console.log(this.resumeData)
     if (this.content) {
@@ -617,6 +620,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   showOrgprofile(orgId: string) {
+    sessionStorage.setItem('currentURL', location.href)
     this.router.navigate(['/app/org-details'], { queryParams: { orgId } })
   }
 

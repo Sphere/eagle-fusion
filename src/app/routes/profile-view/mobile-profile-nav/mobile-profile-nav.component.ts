@@ -47,6 +47,8 @@ export class MobileProfileNavComponent implements OnInit {
     } else {
       let orgcheck = sessionStorage.getItem('work')
       let academicCheck = sessionStorage.getItem('academic')
+      let eduList = sessionStorage.getItem('onListPage')
+      console.log(eduList)
       console.log(academicCheck)
       console.log(orgcheck)
       if (orgcheck) {
@@ -55,12 +57,20 @@ export class MobileProfileNavComponent implements OnInit {
           "back": true
         }
         this.contentSvc.changeWork(ob)
-      } else if (academicCheck) {
+      } else if (academicCheck && eduList === null) {
         let ob = {
           "type": "academic",
           "back": true
         }
         this.contentSvc.changeWork(ob)
+      } else {
+        if (eduList) {
+          let ob = {
+            "type": "onListPage",
+            "back": true
+          }
+          this.contentSvc.changeWork(ob)
+        }
       }
     }
     this.contentSvc.workMessage.subscribe(async (data: any) => {
