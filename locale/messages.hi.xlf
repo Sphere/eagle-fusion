@@ -8,6 +8,10 @@
           <context context-type="sourcefile">library/ws-widget/utils/src/lib/helpers/horizontal-scroller/horizontal-scroller.component.html</context>
           <context context-type="linenumber">2</context>
         </context-group>
+                <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-navigation-widget/player-navigation-widget.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="f732c304c7433e5a83ffcd862c3dce709a0f4982" datatype="html">
         <source>Next</source>
@@ -15,6 +19,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
           <context context-type="linenumber">37</context>
+        </context-group>
+                <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-navigation-widget/player-navigation-widget.component.html</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e9e2c2392fe275b071273523ee016e8eadbf6ae4" datatype="html">
@@ -1949,9 +1957,25 @@
           <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="8a1b6d6b2314b41996549c94638159222b016a92" datatype="html">
+        <source>Date Of Birth</source>
+        <target>जन्म की तारीख</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="319422109538b86ccda99618bf635a3ec58d1263" datatype="html">
+        <source>No Certicates</source>
+        <target>कोई प्रमाणपत्र नहीं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">203</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="36d9cb9171c6baf81a2bcb2d8eb3fd7b560564b9" datatype="html">
         <source> Click Here </source>
-        <target state="final">यहां क्लिक करें</target>
+        <target state="final">यहां क्लिक करें </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">23</context>
@@ -2064,7 +2088,7 @@
       </trans-unit>
       <trans-unit id="e79f4667301008394b58bbe5c69f3f6ba7121c56" datatype="html">
         <source>mail?</source>
-        <target state="final">फिर से भेजने के लिए</target>
+        <target state="final">फिर से भेजने के लिए </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">22</context>
@@ -2102,6 +2126,14 @@
           <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="62b6c66981335ca6eecc36b331103c60f09d1026" datatype="html">
+        <source>First name</source>
+        <target state="final">पहला नाम</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9a21c0fca5b6a808e90047fe4022618b96026445" datatype="html">
         <source>This field is required</source>
         <target state="final">यह फ़ील्ड आवश्यक है</target>
@@ -2135,6 +2167,14 @@
           <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="6ce3dadf53dda1a1ab0c3167a8ed8dced471b0dc" datatype="html">
+        <source>Last name</source>
+        <target state="final">उपनाम</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="20c7050fe0cb6beea4cc4ab1bc965eb44bb65a8d" datatype="html">
         <source> Invalid name Format</source>
         <target state="final">अमान्य नाम प्रारूप</target>
@@ -2150,6 +2190,26 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="82a20c030eef522198d48a01d81a7911aef5e0d5" datatype="html">
+        <source>Email ID</source>
+       <target state="final">ईमेल आईडी </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+              <trans-unit id="f4b73761d75e38e805dbd99127e3b8122345b6be" datatype="html">
+        <source>District</source>
+        <target>जिला</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">211</context>
+        </context-group>
+      </trans-unit>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
             <trans-unit id="f73829ac964120a1e85d9dfbba990c4aeb1c03e3" datatype="html">
@@ -2541,6 +2601,89 @@
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">164</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">188</context>
+        </context-group>
+         <context-group purpose="location">
+         <context context-type="sourcefile">src/app/routes/mobile-about-popup/mobile-about-popup.component.html</context>
+          <context context-type="linenumber">24</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/work-info-list/work-info-list.component.html</context>
+          <context context-type="linenumber">85</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="1ba7568bba29f8d8e352f93e67002d0b548eb838" datatype="html">
+        <source>Position</source>
+        <target>पद</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="ad619defd721ce7eef2a37a1c665cb7b8d959b9a" datatype="html">
+        <source>Personal
+          Details</source>
+          <target>व्यक्तिगत विवरण</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">42</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="61506dfe37a969bae3276d5413b8bf2eee6f0dcb" datatype="html">
+        <source>Organization
+          Details</source>
+          <target>संगठन विवरण</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a30fb97e73f8d19f62c6244dc542cf42b1606512" datatype="html">
+        <source>Academic Details</source>
+        <target>शैक्षणिक विवरण</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="710db45182fa92bec48484277e8bb9291b0b1ffe" datatype="html">
+        <source>Language
+          Preference</source>
+          <target>भाषा प्राथमिकता</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">54</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="63a351a37658904fdd8bf69d5a06315464ae1219" datatype="html">
+        <source>My Certificates</source>
+        <target>मेरे प्रमाणपत्र</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3cd50ecf141032c9893d6f4597d74c53c07b7b4e" datatype="html">
+        <source>Language Preference</source>
+        <target>भाषा प्राथमिकता</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">171</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="527b7b510b86a67bed1c3a675bb4bc32af5f00ae" datatype="html">
         <source>Device Type</source>
@@ -2668,6 +2811,33 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
           <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="eeb6c9f6c1a7f0ef968a719983057c770351bb5f" datatype="html">
+        <source>My Certificates
+      </source>
+      <target>मेरे प्रमाणपत्र</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">195</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="dd398174bc929d55269aa067a58abae3f7f6141e" datatype="html">
+        <source>English
+              </source>
+              <target>अंग्रेजी</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">177</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="39bef66a22c27184e129929816159fd26a9f89dc" datatype="html">
+        <source>Hindi
+            </source>
+            <target>हिंदी</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d0b580b08b290bf4783178128a053078f96f1e61" datatype="html">
@@ -2831,6 +3001,10 @@
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
           <context context-type="linenumber">26</context>
         </context-group>
+                <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/viewer.component.html</context>
+          <context context-type="linenumber">82</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="84cab7df6d1741d8b5f8c0392f1a4dd66bae1ee8" datatype="html">
         <source>Discussion</source>
@@ -2838,6 +3012,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
           <context context-type="linenumber">33</context>
+        </context-group>
+                <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/viewer.component.html</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7c10acea8f5e2aa0ad8244ed1a75e68b640d4892" datatype="html">
@@ -3336,7 +3514,7 @@
       </trans-unit>
       <trans-unit id="db654f91d847f34e71ffb99268ff3a1807913421" datatype="html">
         <source>Phone Number</source>
-        <target state="final">एनयूआईडी नंबर दर्ज करें</target>
+        <target state="final">फ़ोन नंबर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">150</context>

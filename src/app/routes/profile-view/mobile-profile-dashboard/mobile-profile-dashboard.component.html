@@ -58,6 +58,10 @@
         (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
         <img src="/fusion-assets/images/Group.svg" width="35" height="23" /><span i18n>My Certificates</span>
       </a>
+      <!-- <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
+        <mat-icon>power_settings_new</mat-icon>&nbsp;
+        <span i18n>Logout</span>
+      </a> -->
       <!-- <a [class.active]="selectedIndex === 'user'" (click)="selectedIndex = 'user'">
         <img src="/fusion-assets/images/mdi.svg" width="35" height="15" /><span i18n>User Statistics</span>
       </a> -->
@@ -200,7 +204,7 @@
         </ng-container>
       </div>
       <div *ngIf="certificates.length === 0" style="margin-top: 15px;text-align: center;">
-        <h2>No Certicates</h2>
+        <h2 i18n>No Certicates</h2>
       </div>
       <!-- <div *ngIf="selectedIndex === 'user'">
       <ws-personal-detail-edit></ws-personal-detail-edit>
