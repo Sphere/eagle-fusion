@@ -370,23 +370,28 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           postalAddress: data.personalDetails.postalAddress,
           pincode: data.personalDetails.pincode,
         })
-        this.countryName = data.personalDetails!.postalAddress!.includes('India')
+        if (data.personalDetails!.postalAddress) {
+          this.countryName = data.personalDetails!.postalAddress!.includes('India')
+        }
 
-        if (this.countryName) {
-          let cName = data.personalDetails.postalAddress
-          let csplit = cName.split(',')
-          this.stateSelect(csplit[1].trim())
-          this.personalDetailForm.patchValue({
-            country: csplit[0],
-            state: csplit[1].trim(),
-            distict: csplit[2].trim()
-          })
-        } else {
-          let cName = data.personalDetails.postalAddress
-          let csplit = cName.split(',')
-          this.personalDetailForm.patchValue({
-            country: csplit[0]
-          })
+        console.log(this.countryName)
+        if (data.personalDetails!.postalAddress) {
+          if (this.countryName) {
+            let cName = data.personalDetails.postalAddress
+            let csplit = cName.split(',')
+            this.stateSelect(csplit[1].trim())
+            this.personalDetailForm.patchValue({
+              country: csplit[0],
+              state: csplit[1].trim(),
+              distict: csplit[2].trim()
+            })
+          } else {
+            let cName = data.personalDetails.postalAddress
+            let csplit = cName.split(',')
+            this.personalDetailForm.patchValue({
+              country: csplit[0]
+            })
+          }
         }
       }
       if (data && data.professionalDetails) {
