@@ -15,7 +15,7 @@ export class WebNavLinkPageComponent implements OnInit {
   data: any
 
   ngOnInit() {
-    this.data = this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!.tncAccepted
+    this.data = this.configSvc.unMappedUser!
     this.linksData = [
       {
         linkName: 'Home',

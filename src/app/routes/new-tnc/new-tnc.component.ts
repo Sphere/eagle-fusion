@@ -73,12 +73,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((userDetails: any) => {
         this.userData = userDetails
-        if (userDetails.profileDetails!.profileReq!.personalDetails!.dob === undefined || userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined) {
+        if (userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined) {
           console.log(userDetails.profileDetails!.profileReq!.personalDetails!)
-          console.log(userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined)
-          this.showAcceptbtn = false
-        } else {
+          console.log(userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined, 'a')
           this.showAcceptbtn = true
+        } else {
+          console.log('b')
+          this.showAcceptbtn = false
           // console.log(!userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted)
           // if (!userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted) {
           //   this.showAcceptbtn = false
