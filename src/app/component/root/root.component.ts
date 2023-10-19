@@ -232,9 +232,9 @@ export class RootComponent implements OnInit, AfterViewInit {
 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
-        // if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
-        //   window.location.href = "public/home"
-        // }
+        if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
+          window.location.href = "public/home"
+        }
         if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
           window.location.href = "page/home"
         }

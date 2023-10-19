@@ -3059,7 +3059,6 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
-            </trans-unit>
       <trans-unit id="0bff55758cd0da9aee9e90d4c3a660862a93561d" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{emailPhoneType === &apos;email&apos;? &apos;Code&apos; : &apos;OTP&apos;}}"/></source>
        <target>कोड</target>

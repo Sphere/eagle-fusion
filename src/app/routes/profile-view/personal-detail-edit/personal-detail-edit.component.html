@@ -198,7 +198,7 @@
           <option *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>
         </select>
       </div>
-      <div class="form-group input-box">
+      <div class="form-group input-box" *ngIf="selectDisable">
         <label i18n>State</label>
         <select id="state" formControlName="state" class="form-control select-box" name="state-input-field"
           (change)="stateSelect($event.target.value)">
@@ -207,7 +207,7 @@
         </select>
       </div>
 
-      <div class="form-group input-box">
+      <div class="form-group input-box" *ngIf="selectDisable">
         <label i18n>District</label>
         <select id="distict" formControlName="distict" class="form-control select-box" name="distict-input-field">
           <option [value]=null disabled i18n>City/Distict</option>

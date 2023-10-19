@@ -188,7 +188,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       window.location.href = keycloakurl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
       sessionStorage.clear()
-      localStorage.removeItem('preferedLanguage')
+      //localStorage.removeItem('preferedLanguage')
       localStorage.removeItem('telemetrySessionId')
       localStorage.removeItem('loginbtn')
       localStorage.removeItem('url_before_login')

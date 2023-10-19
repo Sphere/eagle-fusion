@@ -103,7 +103,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       subcentre: new FormControl(),
       country: new FormControl(),
       state: new FormControl(),
-      distict: new FormControl()
+      distict: new FormControl(),
+      countryCode: new FormControl(),
     })
 
     // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
@@ -203,9 +204,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   countrySelect(option: any) {
     this.setCountryCode(option)
     if (option === 'India') {
-      this.selectDisable = false
-    } else {
       this.selectDisable = true
+    } else {
+      this.selectDisable = false
       this.personalDetailForm.controls.state.setValue(null)
       this.personalDetailForm.controls.distict.setValue(null)
     }
@@ -385,12 +386,14 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
               state: csplit[1].trim(),
               distict: csplit[2].trim()
             })
+            this.selectDisable = true
           } else {
             let cName = data.personalDetails.postalAddress
             let csplit = cName.split(',')
             this.personalDetailForm.patchValue({
               country: csplit[0]
             })
+            this.selectDisable = false
           }
         }
       }
