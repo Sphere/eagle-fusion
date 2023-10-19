@@ -3619,7 +3619,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">188</context>
+          <context context-type="linenumber">192</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
@@ -3785,7 +3785,7 @@
         <source>Language Preference</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">171</context>
+          <context context-type="linenumber">175</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dd398174bc929d55269aa067a58abae3f7f6141e" datatype="html">
@@ -3793,7 +3793,7 @@
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">177</context>
+          <context context-type="linenumber">181</context>
         </context-group>
       </trans-unit>
       <trans-unit id="39bef66a22c27184e129929816159fd26a9f89dc" datatype="html">
@@ -3801,7 +3801,7 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">183</context>
+          <context context-type="linenumber">187</context>
         </context-group>
       </trans-unit>
       <trans-unit id="eeb6c9f6c1a7f0ef968a719983057c770351bb5f" datatype="html">
@@ -3809,14 +3809,14 @@
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">195</context>
+          <context context-type="linenumber">199</context>
         </context-group>
       </trans-unit>
       <trans-unit id="319422109538b86ccda99618bf635a3ec58d1263" datatype="html">
-        <source>No Certicates</source>
+        <source>No Certificates</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">203</context>
+          <context context-type="linenumber">207</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ddb23021acde0ce82888106f550fdcd3b8cccea8" datatype="html">
@@ -4056,6 +4056,13 @@
         <source>Course Details</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop-modal/app-toc-desktop-modal.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a3436e2b42eaa4af4b98937ee0e612b53a609f19" datatype="html">
+        <source>Certificate preview of course </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-certificate-modal/app-toc-certificate-modal.component.html</context>
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>

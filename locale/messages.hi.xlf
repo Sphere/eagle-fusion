@@ -1966,7 +1966,7 @@
         </context-group>
       </trans-unit>
             <trans-unit id="319422109538b86ccda99618bf635a3ec58d1263" datatype="html">
-        <source>No Certicates</source>
+        <source>No Certificates</source>
         <target>कोई प्रमाणपत्र नहीं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
@@ -2134,12 +2134,29 @@
           <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="1412b8155d59f7558bc5b2bccf9ef38941783c57" datatype="html">
+        <source>This field is required
+                </source>
+                <target state="final">यह फ़ील्ड आवश्यक है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9a21c0fca5b6a808e90047fe4022618b96026445" datatype="html">
         <source>This field is required</source>
         <target state="final">यह फ़ील्ड आवश्यक है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="a3436e2b42eaa4af4b98937ee0e612b53a609f19" datatype="html">
+        <source>Certificate preview of course </source>
+        <target>बेशक प्रमाणपत्र पूर्वावलोकन </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-certificate-modal/app-toc-certificate-modal.component.html</context>
+          <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d64dd706ee4db84aef18db6372c8615a6c6d796d" datatype="html">
@@ -3042,9 +3059,18 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
+            </trans-unit>
+      <trans-unit id="0bff55758cd0da9aee9e90d4c3a660862a93561d" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{emailPhoneType === &apos;email&apos;? &apos;Code&apos; : &apos;OTP&apos;}}"/></source>
+       <target>कोड</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="9e37e0d06148c7708e88b4a1eb412babbe1a4afc" datatype="html">
         <source>Certificate</source>
-        <target state="final">प्रमाणपत्र</target>
+        <target state="final"> प्रमाणपत्र</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">90</context>
