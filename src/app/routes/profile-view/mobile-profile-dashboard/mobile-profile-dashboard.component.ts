@@ -84,7 +84,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
     this.userProfileSvc.updateuser$.pipe().subscribe(item => {
       if (item) {
-        this.selectedIndex === 'academic'
+        this.selectedIndex = 'academic'
         this.getUserDetails()
       }
     })
