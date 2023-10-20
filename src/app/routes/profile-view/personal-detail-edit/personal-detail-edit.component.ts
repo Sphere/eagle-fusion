@@ -207,8 +207,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       this.selectDisable = true
     } else {
       this.selectDisable = false
-      this.personalDetailForm.controls.state.setValue(null)
-      this.personalDetailForm.controls.distict.setValue(null)
+      //this.personalDetailForm.controls.state.setValue(null)
+      //this.personalDetailForm.controls.distict.setValue(null)
     }
   }
   setCountryCode(country: string) {
