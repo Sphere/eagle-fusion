@@ -3059,9 +3059,17 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
-            <trans-unit id="c19cb2f9f272052e65bb68f9b95d3d07c56688ff" datatype="html">
+            <trans-unit id="c2d0ac9f528bbd5f53fd34269fde8b59e029621b" datatype="html">
+        <source>Apply</source>
+        <target>आवेदन करना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/language-dialog/language-dialog.component.html</context>
+          <context context-type="linenumber">67</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="eec843b5966935390326461652067dfb12c7d692" datatype="html">
         <source>No Certificates</source>
-        <target>कोई प्रमाणपत्र नहीं</target>
+                <target>कोई प्रमाणपत्र नहीं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">207</context>
