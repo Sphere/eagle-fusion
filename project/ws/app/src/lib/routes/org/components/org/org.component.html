@@ -8,7 +8,8 @@
     <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5  flex flex-middle main"
       *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
       <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
-        (click)="goToLink('https://indiannursingcouncil.org/')" /> <span class="ml-5 mylearning">{{currentOrgData.title
+        (click)="goToLink('https://indiannursingcouncil.org/')" alt="inc-logo" /> <span
+        class="ml-5 mylearning">{{currentOrgData.title
         ||
         "e-Learning for Maternal and Newborn Health Care" }}</span>
     </div>

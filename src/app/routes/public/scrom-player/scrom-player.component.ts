@@ -1,4 +1,8 @@
-import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
+import {
+  Component, OnInit,
+  //AfterViewInit,
+  OnDestroy, ViewChild, ElementRef
+} from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'
 import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapter.service'
@@ -8,7 +12,9 @@ import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapte
   templateUrl: './scrom-player.component.html',
   styleUrls: ['./scrom-player.component.scss'],
 })
-export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
+export class ScromPlayerComponent implements OnInit,
+  //AfterViewInit,
+  OnDestroy {
   iframeUrl: any
   isLandscapeModeEnforced = false
   @ViewChild('iframeElem', { static: false }) iframeElem!: ElementRef<HTMLIFrameElement>
@@ -51,8 +57,8 @@ export class ScromPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
 
-  ngAfterViewInit() {
-  }
+  // ngAfterViewInit() {
+  // }
 
   ngOnDestroy() {
     // this.releaseLandscapeModeLock()

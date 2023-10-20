@@ -17,7 +17,7 @@
 .trusted-by-heading{
     /* Header 2 */
     color: #000;
-    font-family: Roboto !important;
+    font-family: 'Roboto' !important;
     font-size: 36px !important;
     font-style: normal !important;
     font-weight: 400 !important;
@@ -29,7 +29,7 @@
     color: #000000;
 
     color: #000;
-    font-family: Roboto;
+    font-family: 'Roboto';
     font-size: 24px;
     font-style: normal;
     font-weight: 400;
@@ -46,7 +46,7 @@ border-radius: 50px;
 border: 1px solid #2E6491 !important;
 color: #2E6491 !important;;
 font-size: 14px;
-font-family: Roboto;
+font-family: 'Roboto';
 @include breakpoint-s{
     padding: 4px 4px;
 }
