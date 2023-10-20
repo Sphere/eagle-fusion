@@ -50,7 +50,12 @@ export class KeycloakCallbackComponent implements OnInit {
                 ) {
                   if (res.language) {
                     let lang = res.language
-                    sessionStorage.setItem(lang, lang)
+                    let obj = {
+                      lang: lang,
+                      res: res.language,
+                      line: 56
+                    }
+                    sessionStorage.setItem('lang1', JSON.stringify(obj))
                     console.log(`${lang}`)
                     lang = lang !== 'en' ? lang : ''
                     let url = localStorage.getItem('url_before_login') || ''
@@ -68,6 +73,12 @@ export class KeycloakCallbackComponent implements OnInit {
                       data = localStorage.getItem('preferedLanguage')
                       lang = JSON.parse(data)
                       lang = lang.id !== 'en' ? lang.id : ''
+                      let obj = {
+                        lang: lang,
+                        line: 79
+                      }
+                      sessionStorage.setItem('lang2', JSON.stringify(obj))
+
                       sessionStorage.setItem(lang, lang)
                       let url = localStorage.getItem('url_before_login') || ''
                       if (localStorage.getItem('url_before_login')) {
