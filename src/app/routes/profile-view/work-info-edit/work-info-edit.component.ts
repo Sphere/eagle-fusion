@@ -59,13 +59,12 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.workLog = sessionStorage.getItem('work') || null
+    this.workLog = sessionStorage.getItem('work') ?? null
     this.getUserDetails()
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.showbackButton = true
+      this.showLogOutIcon = false
       if (isXSmall) {
-        this.showbackButton = true
-        this.showLogOutIcon = false
-      } else {
         this.showbackButton = true
         this.showLogOutIcon = false
       }

@@ -88,11 +88,9 @@ export class EducationEditComponent implements OnInit {
       }
     })
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.showbackButton = true
+      this.showLogOutIcon = false
       if (isXSmall) {
-        this.showbackButton = true
-        this.showLogOutIcon = false
-
-      } else {
         this.showbackButton = true
         this.showLogOutIcon = false
       }

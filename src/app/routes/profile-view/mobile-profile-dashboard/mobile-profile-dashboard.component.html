@@ -39,24 +39,28 @@
     <!-- </div> -->
     <div class="div">
       <a [class.active]="selectedIndex === 'personal'" (click)="selectedIndex = 'personal'; changeFunction('personal')">
-        <img src="/fusion-assets/images/manage_accounts.svg" width="35" height="18" /><span i18n>Personal
+        <img alt="personal details" src="/fusion-assets/images/manage_accounts.svg" width="35" height="18" /><span
+          i18n>Personal
           Details</span>
       </a>
       <a [class.active]="selectedIndex === 'organization'"
         (click)="selectedIndex = 'organization'; changeFunction('organization')">
-        <img src="/fusion-assets/images/corporate.svg" width="35" height="22" /><span i18n>Organization
+        <img alt="Organization details" src="/fusion-assets/images/corporate.svg" width="35" height="22" /><span
+          i18n>Organization
           Details</span>
       </a>
       <a [class.active]="selectedIndex === 'academic'" (click)="selectedIndex = 'academic'; changeFunction('academic')">
-        <img src="/fusion-assets/images/school.svg" width="35" height="23" /><span i18n>Academic Details</span>
+        <img alt="Academic details" src="/fusion-assets/images/school.svg" width="35" height="23" /><span i18n>Academic
+          Details</span>
       </a>
       <a [class.active]="selectedIndex === 'language'" (click)="selectedIndex = 'language'; changeFunction('language')">
-        <img src="/fusion-assets/images/uil.svg" width="35" height="23" /><span i18n>Language
+        <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" /><span i18n>Language
           Preference</span>
       </a>
       <a [class.active]="selectedIndex === 'certificates'"
         (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
-        <img src="/fusion-assets/images/Group.svg" width="35" height="23" /><span i18n>My Certificates</span>
+        <img alt="My Certificates" src="/fusion-assets/images/Group.svg" width="35" height="23" /><span i18n>My
+          Certificates</span>
       </a>
       <!-- <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
         <mat-icon>power_settings_new</mat-icon>&nbsp;
