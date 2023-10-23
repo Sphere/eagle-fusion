@@ -12,8 +12,8 @@
     </a>
   </div>
   <div class="link-block">
-    <a role="button" matRipple routerLink="/app/profile-view" active routerLinkActive="ws-mat-accent-text"
-      class="flex ">
+    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showFontColor }" (click)="redirect()" active
+      routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>Account</span>
     </a>
   </div>

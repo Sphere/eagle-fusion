@@ -24,7 +24,9 @@
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
       <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;"><span i18n>Position</span> :
         {{userProfileData?.professionalDetails[0].profession === 'Others' ?
+        userProfileData?.professionalDetails[0].professionOtherSpecify !== '' ?
         userProfileData?.professionalDetails[0].professionOtherSpecify
+        : userProfileData?.professionalDetails[0].selectBackground
         : userProfileData?.professionalDetails[0].profession === 'ASHA' ?
         userProfileData?.professionalDetails[0].profession
         : userProfileData?.professionalDetails[0].designation

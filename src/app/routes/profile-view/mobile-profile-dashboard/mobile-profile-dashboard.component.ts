@@ -121,6 +121,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       }
     }
     if (text == 'language') {
+      window.scroll(0, 0)
       sessionStorage.setItem('currentWindow', 'language')
       this.showLogOutIcon = false
       this.getUserDetails()
@@ -143,6 +144,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     if (text === 'certificates') {
+      window.scroll(0, 0)
       sessionStorage.setItem('currentWindow', 'certificates')
       if (sessionStorage.getItem('onListPage')) {
         sessionStorage.removeItem('onListPage')
