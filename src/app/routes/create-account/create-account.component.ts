@@ -28,6 +28,7 @@ export class CreateAccountComponent implements OnInit {
   otpPage = false
   languageDialog = false
   createAccountForm: FormGroup
+  createAccountWithPasswordForm: FormGroup
   otpCodeForm: FormGroup
   hide1 = true
   hide2 = true
@@ -37,6 +38,13 @@ export class CreateAccountComponent implements OnInit {
   preferedLanguage: any = { id: 'en', lang: 'English' }
   timerSubscription: any
   emailDelaid = false
+  preferredLanguage = ''
+  preferredLanguageList: any[] = [{ id: 'en', lang: 'English' }, { id: 'hi', lang: 'हिंदी' }]
+  loginSelection: any[] = [{ id: 'otp', val: 'With OTP' }, { id: 'password', val: 'With a password' }]
+  loginSelected: any = ''
+  langPage: boolean = true
+  createAccount: boolean = false
+  confirmPassword: boolean = false
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
@@ -50,11 +58,19 @@ export class CreateAccountComponent implements OnInit {
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
       emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^([6-9][0-9]{9})|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})$/)]),
+      // password: new FormControl('', [Validators.required,
+      // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
+      // confirmPassword: new FormControl('', [Validators.required]),
+    },
+      // { validator: mustMatch('password', 'confirmPassword') }
+    )
+
+    this.createAccountWithPasswordForm = this.spherFormBuilder.group({
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       confirmPassword: new FormControl('', [Validators.required]),
-    }, { validator: mustMatch('password', 'confirmPassword') })
-
+    }, { validator: mustMatch('password', 'confirmPassword') }
+    )
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
@@ -112,8 +128,24 @@ export class CreateAccountComponent implements OnInit {
     }
     this.emailOrMobileValueChange()
   }
+  langChanged() {
+    this.createAccount = true
+    this.langPage = false
+  }
+  optionSelected() {
+    let selectedOption = this.loginSelected
+    if (selectedOption && selectedOption.id === "password") {
+      this.createAccount = false
+      this.confirmPassword = true
+    } else {
+      this.createAccount = false
+      this.confirmPassword = false
+      this.onSubmit(this.createAccountWithPasswordForm, this.createAccountForm)
+    }
 
-  onSubmit(form: any) {
+  }
+
+  onSubmit(form: any, createAccount: any) {
     sessionStorage.setItem('login-btn', 'clicked')
     let phone = this.createAccountForm.controls.emailOrMobile.value
     // const validphone = /^[6-9]\d{9}$/.test(phone)
@@ -146,9 +178,9 @@ export class CreateAccountComponent implements OnInit {
 
     if (this.email) {
       reqObj = {
-        firstName: form.value.firstname.trim(),
-        lastName: form.value.lastname.trim(),
-        email: form.value.emailOrMobile.trim(),
+        firstName: createAccount.value.firstname.trim(),
+        lastName: createAccount.value.lastname.trim(),
+        email: createAccount.value.emailOrMobile.trim(),
         password: form.value.password.trim(),
       }
 
@@ -174,6 +206,7 @@ export class CreateAccountComponent implements OnInit {
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true
+          this.confirmPassword = false
           // form.reset()
           localStorage.setItem(`userUUID`, res.userId)
         } else if (res.status === 'error') {
@@ -182,6 +215,9 @@ export class CreateAccountComponent implements OnInit {
       },
         err => {
           console.log(err, err.error.message, err.error.msg)
+
+          this.createAccount = true
+          this.confirmPassword = false
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             console.log(lang.id)
@@ -204,9 +240,9 @@ export class CreateAccountComponent implements OnInit {
       )
     } else {
       const requestBody = {
-        firstName: form.value.firstname.trim(),
-        lastName: form.value.lastname.trim(),
-        phone: form.value.emailOrMobile.trim(),
+        firstName: createAccount.value.firstname.trim(),
+        lastName: createAccount.value.lastname.trim(),
+        phone: createAccount.value.emailOrMobile.trim(),
         password: form.value.password.trim(),
       }
 
@@ -230,6 +266,7 @@ export class CreateAccountComponent implements OnInit {
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true
+          this.confirmPassword = false
           // form.reset()
           // localStorage.removeItem(`preferedLanguage`)
           localStorage.setItem(`userUUID`, res.userId)
@@ -238,6 +275,10 @@ export class CreateAccountComponent implements OnInit {
         }
       },
         err => {
+          if (this.createAccount) {
+            this.createAccount = true
+            this.confirmPassword = false
+          }
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {

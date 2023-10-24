@@ -1,17 +1,17 @@
 <ws-header></ws-header>
 <!-- Create Account Form -->
-<ng-container *ngIf="!otpPage">
+<ng-container *ngIf="createAccount">
   <div class="login-page-content">
     <div class="login-card">
       <div>
         <div class="lang-subtitle">
           <h1 class="display-3 mb-1" i18n>Create your account</h1>
         </div>
-        <div class="flex gap-2">
+        <!-- <div class="flex gap-2">
           <h3 class="mb-2"><span i18n>Language for Learning </span>: <span
               class="display-language">{{preferedLanguage.lang}}</span></h3>
           <img src="/fusion-assets/icons/lang-icon.png" class="lang-img cursor-pointer" (click)="changeLanguage()" />
-        </div>
+        </div> -->
         <div class="input-content">
           <div class="input-content-wrapper">
             <form [formGroup]="createAccountForm" id="form-login" action="" method="post">
@@ -53,47 +53,16 @@
                   number</mat-error>
               </div>
               <div class="form-group">
-                <div class="input-group pwd" id="show_hide_password_1">
-                  <input class="form-control" i18n formControlName="password" placeholder="Password" id="password-field"
-                    i18n-placeholder [type]="hide1 ? 'password' : 'text'">
-                  <div class="input-group-addon iconPosition1">
-                    <a href="javascript:void(0)" (click)="toggle1()">
-                      <i [ngClass]="iconChange1" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </div>
-                <label class="label-text"><span i18n>(Password must contain a minimum of 8 characters including
-                    numerals, lower and upper case alphabets and special characters without space)</span></label>
-                <mat-error class="text-danger" i18n *ngIf="createAccountForm.controls['password'].hasError('required') &&
-                  (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">
-                  This field is required</mat-error>
-                <mat-error class="text-danger" i18n
-                  *ngIf="createAccountForm.controls['password'].hasError('pattern') &&
-                (createAccountForm.controls['password'].dirty || createAccountForm.controls['password'].touched)">Invalid Password Format</mat-error>
-              </div>
-              <div class="form-group">
-                <div class="input-group pwd">
-                  <input class="form-control" formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'"
-                    i18n-placeholder placeholder="Confirm Password" id="confpassword-field">
-                  <div class="input-group-addon iconPosition1">
-                    <a href="javascript:void(0)" (click)="toggle2()">
-                      <i [ngClass]="iconChange2" aria-hidden="true"></i>
-                    </a>
-                  </div>
-                </div>
-                <mat-error class="text-danger" i18n
-                  *ngIf="createAccountForm.controls['confirmPassword'].hasError('required') &&
-                  (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">This field is required.
-                </mat-error>
-                <mat-error class="text-danger" i18n
-                  *ngIf="createAccountForm.controls['confirmPassword'].hasError('mustMatch') &&
-                (createAccountForm.controls['confirmPassword'].dirty || createAccountForm.controls['confirmPassword'].touched)">Password does not match
-                </mat-error>
+                <mat-selection-list #selected>
+                  <mat-radio-button checkboxPosition="before" *ngFor="let selected of loginSelection" [value]="selected"
+                    (change)="loginSelected = $event.value">
+                    {{selected.val}}
+                  </mat-radio-button>
+                </mat-selection-list>
               </div>
               <div class="next-btn-div">
                 <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
-                  [disabled]="!createAccountForm?.valid"
-                  (click)="onSubmit(createAccountForm);eventTrigger('Create Account Page', 'next-btn', createAccountForm)">Next</button>
+                  [disabled]="!createAccountForm?.valid" (click)="optionSelected()">Next</button>
               </div>
               <div class="rel">
                 <span class="whatsApp">
@@ -114,6 +83,98 @@
 
 </ng-container>
 
+<ng-container *ngIf="confirmPassword">
+  <div class="login-page-content">
+    <div class="login-card">
+      <div>
+        <div class="lang-subtitle">
+          <h1 class="display-3 mb-1" i18n>Set your password</h1>
+        </div>
+        <form [formGroup]="createAccountWithPasswordForm" id="form-login" action="" method="post">
+          <div class="form-group">
+            <div class="input-group pwd" id="show_hide_password_1">
+              <input class="form-control" i18n formControlName="password" placeholder="Password" id="password-field"
+                i18n-placeholder [type]="hide1 ? 'password' : 'text'">
+              <div class="input-group-addon iconPosition1">
+                <a href="javascript:void(0)" (click)="toggle1()">
+                  <i [ngClass]="iconChange1" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <label class="label-text"><span i18n>(Password must contain a minimum of 8 characters including
+                numerals, lower and upper case alphabets and special characters without space)</span></label>
+            <mat-error class="text-danger" i18n
+              *ngIf="createAccountWithPasswordForm.controls['password'].hasError('required') &&
+                                  (createAccountWithPasswordForm.controls['password'].dirty || createAccountWithPasswordForm.controls['password'].touched)">
+              This field is required</mat-error>
+            <mat-error class="text-danger" i18n
+              *ngIf="createAccountWithPasswordForm.controls['password'].hasError('pattern') &&
+                                (createAccountWithPasswordForm.controls['password'].dirty || createAccountWithPasswordForm.controls['password'].touched)">Invalid
+              Password
+              Format</mat-error>
+          </div>
+          <div class="form-group">
+            <div class="input-group pwd">
+              <input class="form-control" formControlName="confirmPassword" [type]="hide2 ? 'password' : 'text'"
+                i18n-placeholder placeholder="Confirm Password" id="confpassword-field">
+              <div class="input-group-addon iconPosition1">
+                <a href="javascript:void(0)" (click)="toggle2()">
+                  <i [ngClass]="iconChange2" aria-hidden="true"></i>
+                </a>
+              </div>
+            </div>
+            <mat-error class="text-danger" i18n
+              *ngIf="createAccountWithPasswordForm.controls['confirmPassword'].hasError('required') &&
+                                  (createAccountWithPasswordForm.controls['confirmPassword'].dirty || createAccountWithPasswordForm.controls['confirmPassword'].touched)">This
+              field is required.
+            </mat-error>
+            <mat-error class="text-danger" i18n
+              *ngIf="createAccountWithPasswordForm.controls['confirmPassword'].hasError('mustMatch') &&
+                                (createAccountWithPasswordForm.controls['confirmPassword'].dirty || createAccountWithPasswordForm.controls['confirmPassword'].touched)">Password
+              does not match
+            </mat-error>
+          </div>
+          <div class="next-btn-div">
+            <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
+              [disabled]="!createAccountWithPasswordForm?.valid"
+              (click)="onSubmit(createAccountWithPasswordForm,createAccountForm);eventTrigger('Create Account Page', 'next-btn', createAccountForm)">Next</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</ng-container>
+<!-- Create Account Form -->
+<ng-container *ngIf="langPage">
+  <div class="login-page-content">
+    <div class="login-card">
+      <div>
+        <div class="lang-subtitle">
+          <h1 class="display-3 mb-1" i18n>Select Language</h1>
+          <h4 class="display-3 mb-1" i18n>The Application will appear in this language</h4>
+        </div>
+        <div class="input-content">
+          <div class="input-content-wrapper">
+            <mat-selection-list #language>
+              <mat-radio-button class="line-bottom" checkboxPosition="before"
+                *ngFor="let language of preferredLanguageList" [value]="language"
+                [checked]="language.id == preferredLanguage" (change)="preferredLanguage = $event.value">
+                {{language.lang}}
+              </mat-radio-button>
+
+            </mat-selection-list>
+            <div class="next-btn-div">
+              <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
+                [disabled]="!preferredLanguage" (click)="langChanged();">Next</button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</ng-container>
 
 <!-- Create Account Form Close-->
 <input type="hidden" i18-value i18-aria-value aria-value="Signup successful" value="Thanks for Signing up"

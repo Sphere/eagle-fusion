@@ -63,7 +63,8 @@ a {
 }
 
 .next-button {
-  width: 100%;
+  margin-top: 45px;
+  width: 35%;
   height: 38px;
   background: #1C5D95;
   border-radius: 50px;
@@ -156,4 +157,14 @@ span.mat-button-wrapper {
   @media screen and (min-height:600px) and (max-height:900px) {
   height: 600px;
   }
+}
+.line-bottom {
+  border-bottom: 1px solid #DDDDDD;
+  text-transform: capitalize;
+}
+
+::ng-deep .mat-list-base {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px;
 }
