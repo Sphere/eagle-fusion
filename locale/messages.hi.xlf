@@ -2678,6 +2678,22 @@
           <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
+       <trans-unit id="65f3c9045a86c9daedfe950eebe44ce2392607de" datatype="html">
+        <source>Select Language</source>
+        <target>भाषा चुने</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a034c91316a3e109f2721eaf01c0f7b97a88c2f5" datatype="html">
+        <source>The Application will appear in this language</source>
+        <target>एप्लिकेशन इस भाषा में दिखाई देगा</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
             <trans-unit id="bc9274b4ce2b85292e97cf15b10b2e6021071d61" datatype="html">
         <source>To request account deletion please send an email to
       </source>
