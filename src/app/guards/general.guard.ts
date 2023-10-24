@@ -150,7 +150,8 @@ export class GeneralGuard implements CanActivate {
               }
             } else {
               if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                if (localStorage.getItem('preferedLanguage')) {
+                console.log('true')
+                if (localStorage.getItem('preferedLanguage') && (sessionStorage.getItem('fromOTPpage'))) {
                   let data: any
                   let lang: any
                   data = localStorage.getItem('preferedLanguage')
@@ -158,9 +159,10 @@ export class GeneralGuard implements CanActivate {
                   if (lang.id) {
                     lang = lang.id !== 'en' ? lang.id : ''
                     const url = `${lang}/app/`
+                    console.log(url)
                     this.router.navigate([url, 'new-tnc'])
                   }
-                  this.router.navigate(['app', 'new-tnc'])
+                  //this.router.navigate(['app', 'new-tnc'])
                 } else {
                   console.log('alerr')
                   this.router.navigate(['app', 'new-tnc'])
