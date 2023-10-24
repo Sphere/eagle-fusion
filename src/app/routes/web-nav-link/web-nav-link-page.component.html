@@ -1,18 +1,19 @@
 <div class="link-container"
   *ngIf="data!.profileDetails!.profileReq!.personalDetails!.tncAccepted || data!.profileDetails!.profileReq!.personalDetails!.dob">
   <div class="link-block">
-    <a role="button" matRipple routerLink="page/home" active routerLinkActive="ws-mat-accent-text" class="flex ">
+    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showHome }" (click)="redirect('home')" active
+      routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>Home</span>
     </a>
   </div>
   <div class="link-block">
-    <a role="button" matRipple routerLink="/app/user/competency" active routerLinkActive="ws-mat-accent-text"
-      class="flex ">
+    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showCompetency }" (click)="redirect('competency')"
+      active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>Competency</span>
     </a>
   </div>
   <div class="link-block">
-    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showFontColor }" (click)="redirect()" active
+    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showProfile }" (click)="redirect('account')" active
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>Account</span>
     </a>

@@ -2678,9 +2678,10 @@
           <context context-type="linenumber">55</context>
         </context-group>
       </trans-unit>
-            <trans-unit id="5f6b5f2322366d487bc77c0b53cb4582a1d96ed0" datatype="html">
-        <source>To request account deletion please send an email to </source>
-        <target>खाता हटाने का अनुरोध करने के लिए कृपया एक ईमेल भेजें </target>
+            <trans-unit id="bc9274b4ce2b85292e97cf15b10b2e6021071d61" datatype="html">
+        <source>To request account deletion please send an email to
+      </source>
+      <target>खाता हटाने का अनुरोध करने के लिए कृपया एक ईमेल भेजें </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">220</context>
