@@ -52,16 +52,15 @@
                 <mat-error class="text-danger" i18n *ngIf="emailOrMobileErrorStatus === 'pattern'">Invalid email or
                   number</mat-error>
               </div>
-              <div class="form-group">
-                <mat-selection-list #selected>
-                  <mat-radio-group style="display: contents;flex-direction: column;" class="radio my-auto"
-                    [(ngModel)]="loginSelected" [ngModelOptions]="{ standalone: true }">
-                    <mat-radio-button class="radioButton" [value]="'otp'" i18n (change)="loginSelected = 'otp'">With
-                      OTP</mat-radio-button>
-                    <mat-radio-button class="radioButton" [value]="'password'" i18n
-                      (change)="loginSelected = 'password'">With a password</mat-radio-button>
-                  </mat-radio-group>
-                </mat-selection-list>
+              <div class="form-group radioBlock">
+                <mat-radio-group style="display: contents;flex-direction: column;" class="radio my-auto"
+                  [(ngModel)]="loginSelected" [ngModelOptions]="{ standalone: true }">
+                  <mat-radio-button style="margin: 15px 0px;" class="radioButton" [value]="'otp'" i18n
+                    (change)="loginSelected = 'otp'">With
+                    OTP</mat-radio-button>
+                  <mat-radio-button class="radioButton" [value]="'password'" i18n
+                    (change)="loginSelected = 'password'">With a password</mat-radio-button>
+                </mat-radio-group>
               </div>
               <div class="next-btn-div">
                 <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
@@ -154,22 +153,20 @@
           <h4 class="display-3 mb-1" i18n>The Application will appear in this language</h4>
         </div>
         <div class="input-content">
-          <div class="input-content-wrapper">
-            <mat-selection-list #language>
-              <mat-radio-group style="display: contents;flex-direction: column;" [(ngModel)]="preferredLanguage"
-                [ngModelOptions]="{ standalone: true }">
-                <mat-radio-button class="line-bottom radioButton" [value]="'en'" i18n
-                  [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'en' }"
-                  (change)="preferredLanguageChange('en')">
-                  English
-                </mat-radio-button>
-                <mat-radio-button class="line-bottom radioButton" [value]="'hi'" i18n
-                  [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'hi' }"
-                  (change)="preferredLanguageChange('hi')">
-                  हिंदी
-                </mat-radio-button>
-              </mat-radio-group>
-            </mat-selection-list>
+          <div class="input-content-wrapper radioBlock">
+            <mat-radio-group style="display: flex;flex-direction: column;" [(ngModel)]="preferredLanguage"
+              [ngModelOptions]="{ standalone: true }">
+              <mat-radio-button style="margin: 15px 0px;" class="line-bottom radioButton" [value]="'en'" i18n
+                [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'en' }"
+                (change)="preferredLanguageChange('en')">
+                English
+              </mat-radio-button>
+              <mat-radio-button class="line-bottom radioButton" [value]="'hi'" i18n
+                [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'hi' }"
+                (change)="preferredLanguageChange('hi')">
+                हिंदी
+              </mat-radio-button>
+            </mat-radio-group>
             <div class="next-btn-div">
               <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
                 [disabled]="!preferredLanguage" (click)="langChanged();">Next</button>
