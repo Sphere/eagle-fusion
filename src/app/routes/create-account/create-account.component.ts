@@ -6,6 +6,7 @@ import { Router } from '@angular/router'
 import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 import { forkJoin } from 'rxjs/internal/observable/forkJoin'
 import { mustMatch } from '../password-validator'
+import { LoaderService } from '@ws/author/src/public-api'
 
 @Component({
   selector: 'ws-create-account',
@@ -38,7 +39,7 @@ export class CreateAccountComponent implements OnInit {
   preferedLanguage: any = { id: 'en', lang: 'English' }
   timerSubscription: any
   emailDelaid = false
-  preferredLanguage = ''
+  preferredLanguage: any = ''
   preferredLanguageList: any[] = [{ id: 'en', lang: 'English' }, { id: 'hi', lang: 'हिंदी' }]
   loginSelection: any[] = [{ id: 'otp', val: 'With OTP' }, { id: 'password', val: 'With a password' }]
   loginSelected: any = ''
@@ -50,8 +51,14 @@ export class CreateAccountComponent implements OnInit {
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private loader: LoaderService,
+
   ) {
+    if (localStorage.getItem('preferedLanguage')) {
+      const storedLanguage = localStorage.getItem('preferedLanguage')
+      this.preferredLanguage = storedLanguage
+    }
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
@@ -134,7 +141,7 @@ export class CreateAccountComponent implements OnInit {
   }
   optionSelected() {
     let selectedOption = this.loginSelected
-    if (selectedOption && selectedOption.id === "password") {
+    if (selectedOption && selectedOption === "password") {
       this.createAccount = false
       this.confirmPassword = true
     } else {
@@ -150,7 +157,7 @@ export class CreateAccountComponent implements OnInit {
     let phone = this.createAccountForm.controls.emailOrMobile.value
     // const validphone = /^[6-9]\d{9}$/.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
-
+    this.loader.changeLoad.next(true)
     // if (!validphone) {
     //   this.otpPage = false
     //   this.openSnackbar('Enter valid Phone Number')
@@ -208,9 +215,11 @@ export class CreateAccountComponent implements OnInit {
           this.otpPage = true
           this.confirmPassword = false
           // form.reset()
+          this.loader.changeLoad.next(false)
           localStorage.setItem(`userUUID`, res.userId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.message)
+          this.loader.changeLoad.next(false)
         }
       },
         err => {
@@ -218,6 +227,7 @@ export class CreateAccountComponent implements OnInit {
 
           this.createAccount = true
           this.confirmPassword = false
+          this.loader.changeLoad.next(false)
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             console.log(lang.id)
@@ -267,11 +277,13 @@ export class CreateAccountComponent implements OnInit {
           this.uploadSaveData = false
           this.otpPage = true
           this.confirmPassword = false
+          this.loader.changeLoad.next(false)
           // form.reset()
           // localStorage.removeItem(`preferedLanguage`)
           localStorage.setItem(`userUUID`, res.userId)
         } else if (res.status === 'error') {
           this.openSnackbar(res.message)
+          this.loader.changeLoad.next(false)
         }
       },
         err => {
@@ -279,6 +291,7 @@ export class CreateAccountComponent implements OnInit {
             this.createAccount = true
             this.confirmPassword = false
           }
+          this.loader.changeLoad.next(false)
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
@@ -404,7 +417,33 @@ export class CreateAccountComponent implements OnInit {
         }, 300)
       })
   }
-
+  preferredLanguageChange(event: any) {
+    console.log("value: ", this.preferredLanguage)
+    let value = event
+    this.preferredLanguage = value
+    if (value) {
+      if (localStorage.getItem('preferedLanguage')) {
+        localStorage.removeItem('preferedLanguage')
+      }
+      this.preferedLanguage = value
+      localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
+      const lang = value === 'hi' ? value : ''
+      if (this.router.url.includes('hi')) {
+        const lan = this.router.url.split('hi/').join('')
+        if (lang === 'hi') {
+          window.location.assign(`${location.origin}/${lang}${lan}`)
+        } else {
+          window.location.assign(`${location.origin}${lang}${lan}`)
+        }
+      } else {
+        if (lang === 'hi') {
+          window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+        } else {
+          window.location.assign(`${location.origin}${lang}${this.router.url}`)
+        }
+      }
+    }
+  }
   get emailOrMobileErrorStatus() {
     let errorType = ''
     const controll = this.createAccountForm.get('emailOrMobile')

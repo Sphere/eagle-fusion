@@ -54,10 +54,16 @@
               </div>
               <div class="form-group">
                 <mat-selection-list #selected>
-                  <mat-radio-button checkboxPosition="before" *ngFor="let selected of loginSelection" [value]="selected"
-                    (change)="loginSelected = $event.value">
-                    {{selected.val}}
-                  </mat-radio-button>
+                  <mat-radio-group style="display: contents;flex-direction: column;" class="radio my-auto"
+                    [(ngModel)]="loginSelected" [ngModelOptions]="{ standalone: true }">
+                    <mat-radio-button class="radioButton" [value]="'otp'" i18n (change)="loginSelected = 'otp'">
+                      With OTP
+                    </mat-radio-button>
+                    <mat-radio-button class="radioButton" [value]="'password'" i18n
+                      (change)="loginSelected = 'password'">
+                      With a password
+                    </mat-radio-button>
+                  </mat-radio-group>
                 </mat-selection-list>
               </div>
               <div class="next-btn-div">
@@ -70,7 +76,8 @@
                 </span>
                 <a href="https://wa.me/919632013414?text=Hi" target="_blank" class="greenButton" mat-button i18n
                   id="whatsApp-createaccount-page"
-                  (click)="eventTrigger('WhatsApp-Help-Create', 'whatsApp-createaccount-page')">Get help on WhatsApp</a>
+                  (click)="eventTrigger('WhatsApp-Help-Create', 'whatsApp-createaccount-page')">Get
+                  help on WhatsApp</a>
               </div>
             </form>
 
@@ -156,12 +163,17 @@
         <div class="input-content">
           <div class="input-content-wrapper">
             <mat-selection-list #language>
-              <mat-radio-button class="line-bottom" checkboxPosition="before"
-                *ngFor="let language of preferredLanguageList" [value]="language"
-                [checked]="language.id == preferredLanguage" (change)="preferredLanguage = $event.value">
-                {{language.lang}}
-              </mat-radio-button>
-
+              <mat-radio-group style="display: contents;flex-direction: column;" class="radio my-auto"
+                [(ngModel)]="preferredLanguage" [ngModelOptions]="{ standalone: true }">
+                <mat-radio-button class="line-bottom radioButton" [value]="'en'" i18n
+                  [checked]="preferredLanguage === 'en'" (change)="preferredLanguageChange('en')">
+                  English
+                </mat-radio-button>
+                <mat-radio-button class="line-bottom radioButton" [value]="'hi'" i18n
+                  [checked]="preferredLanguage === 'hi'" (change)="preferredLanguageChange('hi')">
+                  हिंदी
+                </mat-radio-button>
+              </mat-radio-group>
             </mat-selection-list>
             <div class="next-btn-div">
               <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
