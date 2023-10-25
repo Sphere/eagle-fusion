@@ -496,7 +496,13 @@ export class AlmostDoneComponent implements OnInit {
             localStorage.removeItem('url_before_login')
             this.router.navigate([url])
           } else {
-            this.router.navigate(['page', 'home'])
+            let url = `${document.baseURI}`
+            if (url.includes('hi')) {
+              url = url.replace('hi/', '')
+            }
+            url = `${url}/page/home`
+            location.href = url
+            //this.router.navigate(['page', 'home'])
           }
         })
       }

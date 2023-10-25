@@ -2168,6 +2168,19 @@
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="01b189e7becf5739e047fc9967297781d152e4c2" datatype="html">
+        <source>Invalid name
+                  Format</source>
+                  <target state="final">अमान्य नाम प्रारूप</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="f6c06b8c1d933eaf2eaa81fb8ad83a89dbcfd51c" datatype="html">
         <source>Invalid name Format</source>
         <target state="final">अमान्य नाम प्रारूप</target>
@@ -2705,6 +2718,18 @@
           <context context-type="linenumber">111</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="55513d02a273e68a15c1911965c8ec9a049dd579" datatype="html">
+        <source>Invalid name format</source>
+        <target>अमान्य नाम प्रारूप</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4ce4e528f1568e4d04dbebb6d945d14da6d08f73" datatype="html">
         <source>Invalid
               Password Format</source>
@@ -2714,10 +2739,9 @@
           <context context-type="linenumber">115</context>
         </context-group>
       </trans-unit>
-            <trans-unit id="f9aef44e294018c1debb584a0d9ca47aa4c00c63" datatype="html">
-        <source>With
-                      OTP</source>
-                      <target>ओटीपी के साथ</target>
+            <trans-unit id="094c9f6d6b6e222d553f5d1792200cebe178c2e0" datatype="html">
+        <source>With OTP</source>
+        <target>ओटीपी के साथ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">59</context>
