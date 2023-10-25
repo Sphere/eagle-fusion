@@ -55,11 +55,13 @@ export class CreateAccountComponent implements OnInit {
     private loader: LoaderService,
 
   ) {
-    if (localStorage.getItem('preferredLanguage')) {
-      const storedLanguage = localStorage.getItem('preferredLanguage')
+    if (localStorage.getItem('preferedLanguage')) {
+      let storedLanguage: any = localStorage.getItem('preferedLanguage')
       // localStorage.removeItem('preferedLanguage')
-      this.preferredLanguage = storedLanguage
-
+      let lang = JSON.parse(storedLanguage)
+      if (lang) {
+        this.preferredLanguage = lang.id
+      }
     }
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
@@ -421,15 +423,20 @@ export class CreateAccountComponent implements OnInit {
   }
   preferredLanguageChange(event: any) {
     console.log("value: ", this.preferredLanguage)
-    let value = event
+    let value
+    if (event === 'hi') {
+      value = { id: 'hi', lang: 'हिंदी' }
+    } else {
+      value = { id: 'en', lang: 'English' }
+    }
     this.preferredLanguage = value
     if (value) {
-      if (localStorage.getItem('preferredLanguage')) {
-        localStorage.removeItem('preferredLanguage')
+      if (localStorage.getItem('preferedLanguage')) {
+        localStorage.removeItem('preferedLanguage')
       }
-      this.preferredLanguage = value
-      localStorage.setItem(`preferredLanguage`, this.preferredLanguage)
-      const lang = value === 'hi' ? value : ''
+      this.preferedLanguage = value
+      localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
+      const lang = value.id === 'hi' ? value.id : ''
       if (this.router.url.includes('hi')) {
         const lan = this.router.url.split('hi/').join('')
         if (lang === 'hi') {
