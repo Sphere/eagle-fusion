@@ -156,14 +156,16 @@
         <div class="input-content">
           <div class="input-content-wrapper">
             <mat-selection-list #language>
-              <mat-radio-group style="display: contents;flex-direction: column;" class="radio my-auto"
-                [(ngModel)]="preferredLanguage" [ngModelOptions]="{ standalone: true }">
+              <mat-radio-group style="display: contents;flex-direction: column;" [(ngModel)]="preferredLanguage"
+                [ngModelOptions]="{ standalone: true }">
                 <mat-radio-button class="line-bottom radioButton" [value]="'en'" i18n
-                  [checked]="preferredLanguage === 'en'" (change)="preferredLanguageChange('en')">
+                  [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'en' }"
+                  (change)="preferredLanguageChange('en')">
                   English
                 </mat-radio-button>
                 <mat-radio-button class="line-bottom radioButton" [value]="'hi'" i18n
-                  [checked]="preferredLanguage === 'hi'" (change)="preferredLanguageChange('hi')">
+                  [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'hi' }"
+                  (change)="preferredLanguageChange('hi')">
                   हिंदी
                 </mat-radio-button>
               </mat-radio-group>

@@ -55,9 +55,11 @@ export class CreateAccountComponent implements OnInit {
     private loader: LoaderService,
 
   ) {
-    if (localStorage.getItem('preferedLanguage')) {
-      const storedLanguage = localStorage.getItem('preferedLanguage')
+    if (localStorage.getItem('preferredLanguage')) {
+      const storedLanguage = localStorage.getItem('preferredLanguage')
+      // localStorage.removeItem('preferedLanguage')
       this.preferredLanguage = storedLanguage
+
     }
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
@@ -422,11 +424,11 @@ export class CreateAccountComponent implements OnInit {
     let value = event
     this.preferredLanguage = value
     if (value) {
-      if (localStorage.getItem('preferedLanguage')) {
-        localStorage.removeItem('preferedLanguage')
+      if (localStorage.getItem('preferredLanguage')) {
+        localStorage.removeItem('preferredLanguage')
       }
-      this.preferedLanguage = value
-      localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
+      this.preferredLanguage = value
+      localStorage.setItem(`preferredLanguage`, this.preferredLanguage)
       const lang = value === 'hi' ? value : ''
       if (this.router.url.includes('hi')) {
         const lan = this.router.url.split('hi/').join('')
