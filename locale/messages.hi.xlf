@@ -2229,6 +2229,15 @@
           <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="650fc3fc34e75ddbf77432326a8f8f4f3e287f2d" datatype="html">
+        <source>(Password must contain a minimum of 8 characters including numerals,
+                lower and upper case alphabets and special characters without space)</source>
+                <target>(पासवर्ड में अंक, छोटे और बड़े अक्षर और बिना स्थान के विशेष अक्षर सहित कम से कम 8 अक्षर होने चाहिए)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">107</context>
+        </context-group>
+      </trans-unit>
             <trans-unit id="f73829ac964120a1e85d9dfbba990c4aeb1c03e3" datatype="html">
         <source>(Password must contain a minimum of 8 characters including
                     numerals, lower and upper case alphabets and special characters without space)</source>
@@ -2676,6 +2685,67 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="ce53742ecfa02dd823d75b889a0dcf035614d7bc" datatype="html">
+        <source>This
+              field is required.</source>
+                              <target state="final">यह फ़ील्ड आवश्यक है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="029989cf2c8c2538a832251e39f8cdea14bbe837" datatype="html">
+        <source>
+              This field is required</source>
+                            <target state="final">यह फ़ील्ड आवश्यक है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">111</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4ce4e528f1568e4d04dbebb6d945d14da6d08f73" datatype="html">
+        <source>Invalid
+              Password Format</source>
+              <target>अवैध पासवर्ड प्रारूप</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">115</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="f9aef44e294018c1debb584a0d9ca47aa4c00c63" datatype="html">
+        <source>With
+                      OTP</source>
+                      <target>ओटीपी के साथ</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">59</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="50644006ba48472a7ee418f9bf5f038037d5d630" datatype="html">
+        <source>With a password</source>
+       <target> पासवर्ड के साथ</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d89e6da6a84694f3ea3b76ba409019bb1c10edb3" datatype="html">
+        <source>Password
+              does not match</source>
+                              <target>पासवर्ड मैच नहीं कर रहा है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="b2a39bdc905ef652ae26dee6261e777b69d37712" datatype="html">
+        <source>Set your password</source>
+        <target>अपना पासवर्ड निर्धारित करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
        <trans-unit id="65f3c9045a86c9daedfe950eebe44ce2392607de" datatype="html">
