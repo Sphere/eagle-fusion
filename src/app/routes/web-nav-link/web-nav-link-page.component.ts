@@ -59,16 +59,21 @@ export class WebNavLinkPageComponent implements OnInit {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
     console.log(url1)
+    let url3 = `${document.baseURI}`
+    if (url3.includes('hi')) {
+      url3 = url3.replace(/hi\//g, '')
+    }
+
     if (text === 'home') {
       this.showProfile = false
       this.showHome = true
       let url = '/page/home'
-      location.href = `${url1}${url}`
+      location.href = `${url3}${url1}${url}`
     } else if (text === 'competency') {
       this.showCompetency = true
       this.showProfile = false
       let url = '/app/user/competency'
-      location.href = `${url1}${url}`
+      location.href = `${url3}${url1}${url}`
     } else {
       console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
       let result = await this.signupService.getUserData()
@@ -76,7 +81,7 @@ export class WebNavLinkPageComponent implements OnInit {
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.showProfile = true
         let url = '/app/profile-view'
-        location.href = `${url1}${url}`
+        location.href = `${url3}${url1}${url}`
       } else {
         console.log('p')
         this.showProfile = false
@@ -88,6 +93,10 @@ export class WebNavLinkPageComponent implements OnInit {
         } else {
           this.showProfile = false
           const url = '/page/home'
+          let url4 = `${document.baseURI}`
+          if (url4.includes('hi')) {
+            url1 = ''
+          }
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
         }
       }
