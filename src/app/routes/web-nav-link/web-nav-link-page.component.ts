@@ -17,7 +17,7 @@ export class WebNavLinkPageComponent implements OnInit {
     private signupService: SignupService,
     location: Location,
   ) {
-    console.log('urlchanges')
+    console.log('urlchanges', location.path(), 'path')
     if (location.path().includes('/app/profile-view')) {
       this.showProfile = true
       this.showHome = false
@@ -79,13 +79,14 @@ export class WebNavLinkPageComponent implements OnInit {
         location.href = `${url1}${url}`
       } else {
         console.log('p')
-        this.showProfile = true
+        this.showProfile = false
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
           // const url = `app/about-you`
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
           // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
+          this.showProfile = false
           const url = '/page/home'
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
         }
