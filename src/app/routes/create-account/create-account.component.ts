@@ -186,7 +186,10 @@ export class CreateAccountComponent implements OnInit {
     }
     this.uploadSaveData = true
     let reqObj
-
+    if (localStorage.getItem(`preferedLanguage`) || location.href.includes('/hi/')) {
+      const local = localStorage.getItem(`preferedLanguage`) || ''
+      this.preferedLanguage = JSON.parse(local)
+    }
     if (this.email) {
       reqObj = {
         firstName: createAccount.value.firstname.trim(),
@@ -291,10 +294,10 @@ export class CreateAccountComponent implements OnInit {
         }
       },
         err => {
-          if (this.createAccount) {
-            this.createAccount = true
-            this.confirmPassword = false
-          }
+          // if (this.createAccount) {
+          this.createAccount = true
+          this.confirmPassword = false
+          // }
           this.loader.changeLoad.next(false)
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
