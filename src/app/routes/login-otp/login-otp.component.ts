@@ -95,9 +95,9 @@ export class LoginOtpComponent implements OnInit {
     this.isLoading = true
     //this.signupService.validateOtp(request).subscribe(
     this.signupService.ssoValidateOTP(request).subscribe(
-      (res: any) => {
-
-        console.log(res)
+      async (res: any) => {
+        let res1 = await res
+        console.log(res1)
         let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
         //this.openSnackbar(res.msg)
@@ -123,25 +123,28 @@ export class LoginOtpComponent implements OnInit {
               url = url.replace('hi/', '')
             }
             url = `${url}${lang}/app/new-tnc`
-            if (this.preferedLanguage) {
-              const lang = this.preferedLanguage || ''
-              if (lang.id === 'hi') {
-                if (res.msg === 'Success ! User is sucessfully authenticated.') {
+            console.log(this.preferedLanguage, data)
+            if (lang) {
+
+              console.log(lang)
+              if (lang === 'hi') {
+                console.log('enb')
+                if (res1.msg === 'Success ! User is sucessfully authenticated.') {
                   const msg = 'सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.'
                   this.openSnackbar(msg)
                 }
               } else {
-                this.openSnackbar(res.msg)
+                this.openSnackbar(res1.msg)
               }
             } else {
-              this.openSnackbar(res.msg)
+              this.openSnackbar(res1.msg)
             }
             this.isLoading = false
             window.location.href = url
             //this.router.navigate([url, 'new-tnc'])
           }
         } else {
-          this.openSnackbar(res.msg)
+          this.openSnackbar(res1.msg)
           //this.router.navigate(['app', 'new-tnc'])
           window.location.href = `${url}app/new-tnc`
           this.isLoading = false
@@ -249,21 +252,22 @@ export class LoginOtpComponent implements OnInit {
       }
     }
     this.signupService.generateOtp(requestBody).subscribe(
-      (res: any) => {
+      async (res: any) => {
         this.isLoading = false
+        let res1 = res
         //this.openSnackbar(res.message)
-        if (this.preferedLanguage) {
-          const lang = this.preferedLanguage || ''
+        if (this.preferedLanguage || localStorage.getItem('preferedLanguage')) {
+          const lang = this.preferedLanguage || localStorage.getItem('preferedLanguage')
           if (lang.id === 'hi') {
-            if (res.message === 'Success ! Please verify the OTP .') {
+            if (res1.message === 'Success ! Please verify the OTP .') {
               const msg = 'सफलता ! कृपया ओटीपी सत्यापित करें।'
               this.openSnackbar(msg)
             }
           } else {
-            this.openSnackbar(res.message)
+            this.openSnackbar(res1.message)
           }
         } else {
-          this.openSnackbar(res.message)
+          this.openSnackbar(res1.message)
         }
         // localStorage.removeItem('preferedLanguage')
       },

@@ -2,7 +2,7 @@
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar"
   style="    justify-content: left;">
   <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
-    <a [routerLink]="'/page/home'" i18n-matTooltip matTooltip="Home" class="logo-dim">
+    <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
       <img [src]="appIcon" loading="lazy" i18n alt="Application Logo" id="app-logo" class="app-logo" />
     </a>
   </div>
