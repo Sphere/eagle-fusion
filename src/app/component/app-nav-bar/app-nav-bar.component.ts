@@ -160,7 +160,16 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
     //if (this.showNavLinkPage) {
-    location.href = '/page/home'
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? 'hi' : ""
+    console.log(url1)
+    let url2 = `${document.baseURI}`
+    if (url2.includes('hi')) {
+      url2 = url2.replace(/hi\//g, '')
+    }
+    let url = '/page/home'
+    location.href = `${url2}${url1}${url}`
+    //location.href = '/page/home'
     //}
   }
   ngOnChanges(changes: SimpleChanges) {
