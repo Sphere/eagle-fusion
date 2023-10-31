@@ -136,7 +136,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       }
     }
     if (text && this.showMobileView) {
-      console.log('mobileview')
+      console.log(text, 'mobileview', this.showMobileView)
       this.hideData = true
     }
     if (text === 'academic') {
@@ -144,6 +144,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     if (text === 'certificates') {
+      //this.hideData = true
       window.scroll(0, 0)
       sessionStorage.setItem('currentWindow', 'certificates')
       if (sessionStorage.getItem('onListPage')) {

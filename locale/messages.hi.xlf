@@ -2767,8 +2767,9 @@
           <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="89e1c4a3c882e575be4ae57eb84fa46bcac7e26d" datatype="html">
-        <source>Read Charter</source>
+            <trans-unit id="89e1c4a3c882e575be4ae57eb84fa46bcac7e26d" datatype="html">
+        <source>Read
+    Charter</source>
     <target>चार्टर पढ़ें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-trusted-by-page/mobile-trusted-by-page.component.html</context>
