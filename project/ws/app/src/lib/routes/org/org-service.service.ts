@@ -90,7 +90,7 @@ export class OrgServiceService {
     return this.http.get<any>(`${API_END_POINTS.Sashakt_Auth}?token=${token}&moduleId=${id}`)
   }
   setMaternyId(token: any, id: any): Observable<any> {
-    return this.http.get<any>(`${API_END_POINTS.Maternity_Auth}?token=${token}&moduleId=${id}`)
+    return this.http.post<any>(`${API_END_POINTS.Maternity_Auth}?token=${token}&moduleId=${id}`, {})
   }
   setConnectSid(authCode: any): Observable<any> {
     return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})
