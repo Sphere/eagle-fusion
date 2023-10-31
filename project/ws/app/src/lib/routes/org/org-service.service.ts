@@ -15,6 +15,7 @@ const API_END_POINTS = {
   SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
   Sashakt_Auth: '/apis/public/v8/sashaktAuth/login',
+  Maternity_Auth: '/apis/public/v8/maternityFoundation/login'
 }
 @Injectable({
   providedIn: 'root',
@@ -87,6 +88,9 @@ export class OrgServiceService {
   }
   setSashaktId(token: any, id: any): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.Sashakt_Auth}?token=${token}&moduleId=${id}`)
+  }
+  setMaternyId(token: any, id: any): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.Maternity_Auth}?token=${token}&moduleId=${id}`)
   }
   setConnectSid(authCode: any): Observable<any> {
     return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})

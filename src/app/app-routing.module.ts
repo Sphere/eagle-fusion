@@ -44,6 +44,7 @@ import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
+import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/competency-web/competency'
@@ -334,6 +335,10 @@ const routes: Routes = [
   {
     path: 'openid/sashakt',
     component: SashaktCallbackComponent,
+  },
+  {
+    path: 'openid/maternity',
+    component: MaternityCallbackComponent,
   },
   {
     path: 'openid/sphereapp',
