@@ -41,17 +41,17 @@ export class KeycloakCallbackComponent implements OnInit {
             // sessionStorage.clear()
             sessionStorage.removeItem('code')
             setTimeout(() => {
-              this.signupService.getUserData().then(async result => {
+              this.signupService.fetchStartUpDetails().then(async result => {
                 // tslint:disable-next-line:no-console
                 console.log(result)
                 let res = await result
                 if (res && res.status === 200
                   //&& res.roles.length > 0
                 ) {
-                  if (res.profileDetails.preferences.language) {
-                    let lang = res.profileDetails.preferences.language
+                  if (res.language) {
+                    let lang = res.language
                     let obj = {
-                      lang: res.profileDetails.preferences.language,
+                      lang: lang,
                       res: res.language,
                       line: 56
                     }
