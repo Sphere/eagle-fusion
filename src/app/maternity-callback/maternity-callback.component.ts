@@ -22,6 +22,10 @@ export class MaternityCallbackComponent implements OnInit {
     }
   }
   checkMaternityCallback(token: any, id: any) {
+    let data = {
+      "token": token,
+      "moduleId": id
+    }
     try {
       setTimeout(() => {
         this.orgService.setMaternyId(token, id).subscribe((res: any) => {
