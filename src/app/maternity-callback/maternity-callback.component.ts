@@ -28,8 +28,11 @@ export class MaternityCallbackComponent implements OnInit {
     }
     try {
       setTimeout(() => {
-        this.orgService.setMaternyId(data).subscribe((res: any) => {
-          window.location = res.resRedirectUrl
+        this.orgService.setMaternyId(data).subscribe(async (res: any) => {
+          let loc = await res
+          if (loc) {
+            window.location = loc.resRedirectUrl
+          }
           // tslint:disable-next-line:no-console
           console.log('maternity component.ts', res.resRedirectUrl)
         }, (err: any) => {
