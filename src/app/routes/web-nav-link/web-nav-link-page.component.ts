@@ -23,9 +23,11 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showHome = false
     } else if (location.path().includes('/page/home')) {
       this.showHome = true
-    } else {
+    } else if (location.path().includes('competency')) {
       this.showCompetency = true
       this.showHome = false
+    } else {
+      this.showHome = true
     }
   }
   linksData: any
