@@ -28,7 +28,7 @@ export class MaternityCallbackComponent implements OnInit {
     }
     try {
       setTimeout(() => {
-        this.orgService.setMaternyId(token, id).subscribe((res: any) => {
+        this.orgService.setMaternyId(data).subscribe((res: any) => {
           window.location = res.resRedirectUrl
           // tslint:disable-next-line:no-console
           console.log('maternity component.ts', res.resRedirectUrl)
