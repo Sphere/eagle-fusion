@@ -22,29 +22,32 @@ export class MaternityCallbackComponent implements OnInit {
     }
   }
   checkMaternityCallback(token: any, id: any) {
+    console.log('su')
     let data = {
       "token": token,
       "moduleId": id
     }
     try {
-      setTimeout(() => {
-        this.orgService.setMaternyId(data).subscribe(async (res: any) => {
-          let loc = await res
-          if (loc) {
-            window.location = loc.resRedirectUrl
-          }
-          // tslint:disable-next-line:no-console
-          console.log('maternity component.ts', res.resRedirectUrl)
-        }, (err: any) => {
-          // tslint:disable-next-line:no-console
-          console.log(err)
-          if (err.status === 400 || err.status === 419) {
-            // sessionStorage.clear()
-            this.authSvc.logout()
-            // location.href = '/public/home'
-          }
-        })
-      }, 500)
+      //setTimeout(() => {
+      this.orgService.setMaternyId(data).subscribe(async (res: any) => {
+        let loc = await res
+        console.log(loc, 'oo')
+        localStorage.setItem('loc', JSON.stringify(loc))
+        if (loc.message === 'success') {
+          window.location = loc.resRedirectUrl
+        }
+        // tslint:disable-next-line:no-console
+        console.log('maternity component.ts', res.resRedirectUrl)
+      }, (err: any) => {
+        // tslint:disable-next-line:no-console
+        console.log(err)
+        if (err.status === 400 || err.status === 419) {
+          // sessionStorage.clear()
+          this.authSvc.logout()
+          // location.href = '/public/home'
+        }
+      })
+      //}, 500)
     } catch (err) {
       // tslint:disable-next-line:no-console
       console.log(err)
