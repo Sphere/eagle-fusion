@@ -80,10 +80,10 @@ export class OrgComponent implements OnInit, OnDestroy {
       this.courseCount = this.courseData
       if (this.courseData) {
         this.courseData.forEach((course: any) => {
-          // console.log("course", course)
-          if (course && course.competencies_v1) {
+          console.log("course", course.competencies_v1)
+          if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
             forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-              // console.log("value", value)
+              //console.log("value", value)
               if (value.level) {
                 this.cometencyData.push(
                   {

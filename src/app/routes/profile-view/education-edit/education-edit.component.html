@@ -31,10 +31,10 @@
 
     <button
       *ngIf="educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'GRADUATE' ||  educationForm.controls['courseDegree'].value && educationForm.controls['courseDegree'].value.type === 'POSTGRADUATE'; else normal "
-      style="position: absolute;right: 35px;bottom: 100px;" type="submit" (click)="onSubmit(educationForm)"
+      style="position: absolute;right: 35px;bottom: 130px;" type="submit" (click)="onSubmit(educationForm)"
       class="save-btn" [disabled]="educationForm?.invalid || cName === ''" i18n>Save</button>
     <ng-template #normal>
-      <button type="submit" style="position: absolute;right: 35px;bottom: 100px;" (click)="onSubmit(educationForm)"
+      <button type="submit" style="position: absolute;right: 35px;bottom: 130px;" (click)="onSubmit(educationForm)"
         class="save-btn" [disabled]="educationForm?.invalid" i18n>Save</button>
     </ng-template>
   </form>
