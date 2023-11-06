@@ -28,6 +28,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
   showLogOutIcon = false
   workLog: any
   change: any
+  userlang: any
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
@@ -90,6 +91,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
           if (data) {
             console.log(data.profileDetails.profileReq)
             this.userProfileData = data.profileDetails.profileReq
+            this.userlang = data
             if (this.workLog === 'true' || this.workLog.edit === true) {
               console.log('true')
               this.updateForm()
@@ -133,7 +135,12 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res) {
           this.workInfoForm.reset()
-          this.openSnackbar(this.toastSuccess.nativeElement.value)
+          if (this.userlang.profileDetails.profileReq.preferences!.language === 'en') {
+            this.openSnackbar(this.toastSuccess.nativeElement.value)
+          } else {
+            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
+          }
+          //this.openSnackbar(this.toastSuccess.nativeElement.value)
           this.router.navigate(['/app/workinfo-list'])
         }
       })

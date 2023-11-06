@@ -2755,6 +2755,18 @@
           <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="4183354d6df6ec7b6b4879e50b9647f294613dba" datatype="html">
+        <source>Organizational Details</source>
+        <target>संगठनात्मक विवरण</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/work-info-list/work-info-list.component.html</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+      </trans-unit>
             <trans-unit id="88ae9231aa06ca9e292590cc1f1f5fca4097d9bf" datatype="html">
         <source>We are endorsing the WRAI RMC Charter</source>
         <target>हम WRAI RMC चार्टर का समर्थन कर रहे हैं</target>
@@ -2765,6 +2777,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-trusted-by-page/web-trusted-by-page.component.html</context>
           <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="5e6548eb9cbb0467c307b4079bc989cd21f44355" datatype="html">
+        <source>This field is required</source>
+        <target state="final">यह फ़ील्ड आवश्यक है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
             <trans-unit id="8f1a1baa8b2d1dfc6af07aa23f73ec8972209a31" datatype="html">

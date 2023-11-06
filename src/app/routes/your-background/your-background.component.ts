@@ -106,7 +106,12 @@ export class YourBackgroundComponent implements OnInit {
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
-        this.openSnackbar('User profile details updated successfully!')
+        if (this.configSvc.unMappedUser.profileDetails.preferences!.language === 'en') {
+          this.openSnackbar('User profile details updated successfully!')
+        } else {
+          this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
+        }
+
       }
     })
   }

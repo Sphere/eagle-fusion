@@ -48,6 +48,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   showbackButton = false
   showLogOutIcon = false
   trigerrNavigation = true
+  userlang: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
@@ -221,6 +222,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         (data: any) => {
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
+            this.userlang = data
             console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
             this.updateForm()
             if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences!.language === 'hi') {
@@ -463,9 +465,10 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+
     const obj = {
       preferences: {
-        language: this.personalDetailForm.controls.knownLanguage.value === 'English' ? 'en' : 'hi',
+        language: this.userlang.profileDetails.profileReq.preferences!.language === 'en' ? 'en' : 'hi',
       },
       personalDetails: profileRequest.profileReq.personalDetails,
       // osName: userAgent.OS,
@@ -484,7 +487,11 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (res: any) => {
       let result = await res
       if (result) {
-        this.openSnackbar(this.toastSuccess.nativeElement.value)
+        if (this.userlang.profileDetails.profileReq.preferences!.language === 'en') {
+          this.openSnackbar(this.toastSuccess.nativeElement.value)
+        } else {
+          this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
+        }
         this.router.navigate(['/app/profile-view'])
       }
     })
