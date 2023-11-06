@@ -8,7 +8,8 @@ import { MobileAppsService } from '../../../../../../src/app/services/mobile-app
 // import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
 import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
-
+import { SignupService } from 'src/app/routes/signup/signup.service'
+import { Location } from '@angular/common'
 export const typeMap = {
   cardFull: 'card-full',
   cardMini: 'card-mini',
@@ -50,6 +51,9 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   local = 'en'
   private pinnedAppsChangeSubs?: Subscription
   private navigationSubs?: Subscription
+  currentText = ''
+  // showCompetency = false
+  // showProfile = false
   constructor(
     private events: EventService,
     private configurationsSvc: ConfigurationsService,
@@ -58,11 +62,28 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private mobileSvc: MobileAppsService,
     private configSvc: ConfigurationsService,
     // private tour: CustomTourService,
-    private searchApi: SearchApiService
+    private searchApi: SearchApiService,
+    private signupService: SignupService,
+    location: Location,
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
+    }
+    console.log('urlchanges', location.path(), 'path')
+    if (location.path().includes('/app/profile-view')) {
+      this.currentText = 'profile'
+      //this.showHome = false
+    } else if (location.path().includes('/page/home')) {
+      console.log('p1')
+      this.currentText = 'home'
+    } else if (location.path().includes('competency')) {
+      //this.showCompetency = true
+      this.currentText = 'competency'
+    } else if (location.path().includes('search')) {
+      this.currentText = 'search'
+    } else {
+      this.currentText = ''
     }
   }
 
@@ -80,6 +101,62 @@ export class BtnFeatureComponent extends WidgetBaseComponent
           }
         })
         .catch(_err => { })
+    }
+  }
+  async redirect(text: any) {
+    console.log(text)
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? 'hi' : ""
+    console.log(url1)
+    let url3 = `${document.baseURI}`
+    if (url3.includes('hi')) {
+      url3 = url3.replace(/hi\//g, '')
+    }
+
+    if (text.name === 'home' || text.name === "होम") {
+      this.currentText = 'home'
+      // this.showProfile = false
+      // this.showHome = true
+      let url = '/page/home'
+      location.href = `${url3}${url1}${url}`
+    } else if (text.name === 'competency' || text.name === "योग्यता") {
+      // this.showCompetency = true
+      // this.showProfile = false
+      this.currentText = 'competency'
+      let url = '/app/user/competency'
+      location.href = `${url3}${url1}${url}`
+    } else if (text.name === "खोज" || text.name === "Search") {
+      this.currentText = 'search'
+      let url = `${text.url}`
+      location.href = `${url3}${url1}${url}`
+    } else {
+      console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
+      let result = await this.signupService.getUserData()
+      console.log(result)
+      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        //this.showProfile = true
+        this.currentText = 'profile'
+        let url = '/app/profile-view'
+        location.href = `${url3}${url1}${url}`
+      } else {
+        console.log('p')
+        //this.showProfile = false
+        if (localStorage.getItem('url_before_login')) {
+          const courseUrl = localStorage.getItem('url_before_login')
+          // const url = `app/about-you`
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+          // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
+        } else {
+          //this.showProfile = false
+          this.currentText = ''
+          const url = '/page/home'
+          let url4 = `${document.baseURI}`
+          if (url4.includes('hi')) {
+            url1 = ''
+          }
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+        }
+      }
     }
   }
   search() {

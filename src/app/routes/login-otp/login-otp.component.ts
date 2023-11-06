@@ -257,7 +257,8 @@ export class LoginOtpComponent implements OnInit {
         let res1 = res
         //this.openSnackbar(res.message)
         if (this.preferedLanguage || localStorage.getItem('preferedLanguage')) {
-          const lang = this.preferedLanguage || localStorage.getItem('preferedLanguage')
+          const reqObj = this.preferedLanguage || localStorage.getItem('preferedLanguage')
+          const lang = JSON.parse(reqObj) || ''
           if (lang.id === 'hi') {
             if (res1.message === 'Success ! Please verify the OTP .') {
               const msg = 'सफलता ! कृपया ओटीपी सत्यापित करें।'

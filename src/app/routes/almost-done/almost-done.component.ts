@@ -488,7 +488,11 @@ export class AlmostDoneComponent implements OnInit {
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
-        this.openSnackbar('User profile details updated successfully!')
+        if (obj1.id === 'en') {
+          this.openSnackbar('User profile details updated successfully!')
+        } else {
+          this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
+        }
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
           const url = params.redirect
