@@ -34,13 +34,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   showLogOutIcon = false
   profileData: any
   navigateTohome = true
-  selectedIndex: string = 'personal';
+  selectedIndex = 'personal'
   showView: any = ''
   gotData: any
   userForm: FormGroup
   userData: any
-  hideData: boolean = false
-  //language: any
+  hideData = false
+  // language: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -65,16 +65,16 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.selectedIndex = 'personal'
         this.selectedIndex = ''
       }
-      if (data.type === "back" && this.showMobileView) {
+      if (data.type === 'back' && this.showMobileView) {
         this.hideData = false
         this.selectedIndex = 'personal'
         this.selectedIndex = ''
       }
-      //sessionStorage.removeItem('academic')
+      // sessionStorage.removeItem('academic')
       sessionStorage.removeItem('currentWindow')
     })
     this.userForm = new FormGroup({
-      language: new FormControl()
+      language: new FormControl(),
     })
   }
 
@@ -144,7 +144,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     if (text === 'certificates') {
-      //this.hideData = true
+      // this.hideData = true
       window.scroll(0, 0)
       sessionStorage.setItem('currentWindow', 'certificates')
       if (sessionStorage.getItem('onListPage')) {
@@ -160,7 +160,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), 'identifier')
+    })),                             'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -182,7 +182,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      }, 500)
+      },         500)
     })
 
   }
@@ -190,13 +190,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })), (result: any, value) => {
+    })),                                (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    }, [])
+    },                                  [])
     this.certificates = issuedCertificates
   }
 
@@ -235,7 +235,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     const obj = {
       preferences: {
         language: form.value.language,
-      }
+      },
     }
     const userdata = Object.assign(this.userData['profileDetails'], obj)
     //   // this.chosenLanguage = path.value
@@ -245,8 +245,7 @@ export class MobileProfileDashboardComponent implements OnInit {
         profileDetails: userdata,
       },
     }
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
-      (result) => {
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
         console.log(result)
         if (form.value.language === 'en') {
           // this.chosenLanguage = ''
@@ -257,7 +256,7 @@ export class MobileProfileDashboardComponent implements OnInit {
           window.location.assign(`${location.origin}/${form.value.language}/app/profile-view`)
         }
       },
-      () => {
+                                                                  () => {
       })
     // })
   }
@@ -269,7 +268,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             this.loader = false
             this.userProfileData = await data.profileDetails.profileReq
             this.userData = await data
-            let lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+            const lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
             console.log(lang)
             this.userForm.patchValue({ language: lang })
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {

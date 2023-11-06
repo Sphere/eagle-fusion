@@ -1142,7 +1142,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       this.userID = this.configSvc.userProfile.userId || ''
     }
     const obj = {
-      personalDetails: profileRequest.profileReq.personalDetails
+      personalDetails: profileRequest.profileReq.personalDetails,
     }
     profileRequest = Object.assign(profileRequest, obj)
 

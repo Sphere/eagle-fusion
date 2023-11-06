@@ -476,7 +476,7 @@ export class AlmostDoneComponent implements OnInit {
       preferences: {
         language: obj1.id !== undefined ? obj1.id : 'en',
       },
-      personalDetails: profileRequest.profileReq.personalDetails
+      personalDetails: profileRequest.profileReq.personalDetails,
     }
     const userdata = Object.assign(profileRequest, obj)
     const reqUpdate = {
@@ -502,7 +502,7 @@ export class AlmostDoneComponent implements OnInit {
             }
             url = `${url}/page/home`
             location.href = url
-            //this.router.navigate(['page', 'home'])
+            // this.router.navigate(['page', 'home'])
           }
         })
       }
