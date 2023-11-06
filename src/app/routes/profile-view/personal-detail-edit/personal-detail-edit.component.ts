@@ -471,7 +471,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
 
     const obj = {
       preferences: {
-        language: this.userlang.profileDetails.profileReq.preferences!.language === 'en' ? 'en' : 'hi',
+        language: local === 'en' ? 'en' : 'hi',
       },
       personalDetails: profileRequest.profileReq.personalDetails,
       // osName: userAgent.OS,

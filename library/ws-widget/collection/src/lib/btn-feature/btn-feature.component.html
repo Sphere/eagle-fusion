@@ -107,11 +107,11 @@
   </a>
 </ng-template>
 <ng-template #cardMini let-actionBtn="actionBtn" let-config="config">
-  <!-- <a role="button" *ngIf="actionBtn.name !== 'My Courses' && local === 'en'"
+  <a role="button" *ngIf="actionBtn.name !== 'My Courses' && local === 'en'"
     [style.visibility]="!(actionBtn.name === 'Competency' && isSashakth === true) &&  !(actionBtn.name === 'Search' && isSashakth === true)  ? 'visible' : 'hidden'"
     matRipple (click)="redirect(actionBtn)" active [wsWidgetUrlResolver]="actionBtn.isExternal"
     routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box"
-    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === '' }">
+    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === 'home' }">
     <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
       <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     </ng-container>
@@ -120,8 +120,8 @@
     </ng-container>
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
       'mat-caption'" i18n>{{ actionBtn.name }}</span>
-  </a> -->
-  <a role="button" *ngIf="actionBtn.name === 'home' || actionBtn.name === 'होम'" matRipple (click)="redirect(actionBtn)"
+  </a>
+  <!-- <a role="button" *ngIf="actionBtn.name === 'home' || actionBtn.name === 'होम'" matRipple (click)="redirect(actionBtn)"
     active [wsWidgetUrlResolver]="actionBtn.isExternal" routerLinkActive="ws-mat-accent-text"
     class="flex items-center flex-col px-2 box-sizing-box" style="cursor: pointer;"
     [ngClass]="{'ws-mat-accent-text': currentText === 'home' }">
@@ -147,10 +147,10 @@
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
               'mat-caption'" i18n>{{ actionBtn.name }}</span>
   </a>
-  <a role="button" *ngIf="actionBtn.name === 'search' || actionBtn.name === 'खोज'" matRipple
-    (click)="redirect(actionBtn)" active [wsWidgetUrlResolver]="actionBtn.isExternal"
-    routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box"
-    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === 'search' }">
+  <a role="button" *ngIf="actionBtn.name === 'search'" matRipple (click)="redirect(actionBtn)" active
+    [wsWidgetUrlResolver]="actionBtn.isExternal" routerLinkActive="ws-mat-accent-text"
+    class="flex items-center flex-col px-2 box-sizing-box" style="cursor: pointer;"
+    [ngClass]="{'ws-mat-accent-text': currentText === 'search' }">
     <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
       <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     </ng-container>
@@ -163,7 +163,7 @@
   <a role="button" *ngIf="actionBtn.name === 'Account' || actionBtn.name === 'अकाउंट'" matRipple
     (click)="redirect(actionBtn)" active [wsWidgetUrlResolver]="actionBtn.isExternal"
     routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box"
-    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === 'profile' }">
+    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === 'Account' }">
     <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
       <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     </ng-container>
@@ -172,7 +172,7 @@
     </ng-container>
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
                       'mat-caption'" i18n>{{ actionBtn.name }}</span>
-  </a>
+  </a> -->
 </ng-template>
 <ng-template #featureItem let-actionBtn="actionBtn" let-config="config">
   <div class="relative py-2" id="{{actionBtn?.id}}" *ngIf="desktopVisible" [ngClass]="{
