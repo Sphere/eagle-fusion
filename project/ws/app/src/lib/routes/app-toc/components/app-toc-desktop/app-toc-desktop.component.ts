@@ -349,6 +349,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     // is enrolled?
     if (this.batchData.enrolled) {
       let userId = ''
@@ -402,7 +403,11 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`) && duration <= 30) {
                     this.displayStyle = 'block'
                     // tslint:disable-next-line: max-line-length
-                    this.certificateMsg = `You have already requested a certificate. Please check after ${30 - duration} minutes!`
+                    if (local === 'en') {
+                      this.certificateMsg = `You have already requested a certificate. Please check after ${30 - duration} minutes!`
+                    } else {
+                      this.certificateMsg = `आप पहले ही प्रमाणपत्र का अनुरोध कर चुके हैं. कृपया बाद में जांचें ${30 - duration} मिनट!`
+                    }
                   } else {
                     this.contentSvc.processCertificate(req).subscribe((response: any) => {
                       if (response.responseCode === 'OK') {
@@ -411,17 +416,29 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                         localStorage.setItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`, moment(new Date()).toString())
                         this.displayStyle = 'block'
                         // tslint:disable-next-line: max-line-length
-                        this.certificateMsg = `Your request for certificate has been successfully processed. Please download it after 30 minutes.`
+                        if (local === 'en') {
+                          this.certificateMsg = `Your request for certificate has been successfully processed. Please download it after 30 minutes.`
+                        } else {
+                          this.certificateMsg = `प्रमाणपत्र के लिए आपका अनुरोध सफलतापूर्वक संसाधित कर दिया गया है। कृपया 30 मिनट बाद इसे डाउनलोड करें।`
+                        }
                       } else {
                         this.displayStyle = 'block'
-                        this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        if (local === 'en') {
+                          this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        } else {
+                          this.certificateMsg = 'इस समय प्रमाणपत्र का अनुरोध करने में असमर्थ. बाद में कोशिश करें!'
+                        }
                       }
                     },
                       err => {
                         this.displayStyle = 'block'
                         /* tslint:disable-next-line */
                         console.log(err.error.params.errmsg)
-                        this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        if (local === 'en') {
+                          this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        } else {
+                          this.certificateMsg = 'इस समय प्रमाणपत्र का अनुरोध करने में असमर्थ। बाद में कोशिश करें!'
+                        }
                         // this.openSnackbar(err.error.params.errmsg)
                       })
                   }
@@ -432,14 +449,24 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           })
 
       } else {
-        // tslint:disable-next-line:max-line-length
-        this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
         this.displayStyle = 'block'
+        // tslint:disable-next-line:max-line-length
+        if (local === 'en') {
+          this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
+        } else {
+          this.certificateMsg = 'आपने पाठ्यक्रम के सभी मॉड्यूल समाप्त नहीं किए हैं. प्रमाणपत्र का अनुरोध करने से पहले सभी मॉड्यूल को पूरा करना अनिवार्य है'
+        }
+
       }
     } else {
-      // tslint:disable-next-line: max-line-length
-      this.certificateMsg = 'Please enroll by clicking the Start button, finish all modules and then request for the certificate'
       this.displayStyle = 'block'
+      if (local === 'en') {
+        // tslint:disable-next-line: max-line-length
+        this.certificateMsg = 'Please enroll by clicking the Start button, finish all modules and then request for the certificate'
+      } else {
+        this.certificateMsg = 'कृपया स्टार्ट बटन पर क्लिक करके नामांकन करें, सभी मॉड्यूल समाप्त करें और फिर प्रमाणपत्र के लिए अनुरोध करें'
+      }
+
     }
 
   }
