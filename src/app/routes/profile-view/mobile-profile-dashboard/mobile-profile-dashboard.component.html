@@ -154,7 +154,8 @@
 
   </div>
   <div [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
-    <div *ngIf="selectedIndex === 'personal'" [ngStyle]="showbackButton ? {'width': '100%' } : {}">
+    <div style="margin-bottom: 70px;" *ngIf="selectedIndex === 'personal'"
+      [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ws-personal-detail-edit></ws-personal-detail-edit>
     </div>
     <div *ngIf="selectedIndex === 'organization'" style="width:50%"
@@ -194,8 +195,7 @@
             </span>
           </label>
         </div>
-        <button type="submit" class="save-btn" style="position: absolute;bottom: 130px;right: 35px;"
-          (click)="saveLanguage(userForm)" i18n>Save</button>
+        <button type="submit" class="save-btn" (click)="saveLanguage(userForm)" i18n>Save</button>
       </form>
     </div>
     <div *ngIf="selectedIndex === 'certificates'" style="width:50%"
@@ -216,7 +216,7 @@
       <ws-personal-detail-edit></ws-personal-detail-edit>
     </div> -->
     </div>
-    <div>
+    <div class="margin-top-xs">
       <span style="font-size: 15px;" i18n>To request account deletion please send an email to
       </span><span style="text-decoration: underline;">support@aastrika.org</span>
     </div>

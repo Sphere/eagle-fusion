@@ -38,8 +38,8 @@
 
     <div class="form-group" *ngIf="rnShow">
       <label i18n>RN/RM Number</label>
-      <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" (change)="fieldChange()"
-        i18n-placeholder placeholder="RN/RM Number" autocomplete="off">
+      <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" i18n-placeholder
+        placeholder="RN/RM Number" autocomplete="off">
     </div>
 
     <div *ngIf="orgTypeField">
@@ -80,7 +80,7 @@
       <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
         autocomplete="off" i18n-placeholder>
     </div>
-    <div style="position: absolute;right: 35px;bottom: 100px;">
+    <div>
       <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
         [disabled]="personalDetailForm?.invalid" i18n>Save</button>
     </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
-//import { Router } from '@angular/router'
+// import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -33,7 +33,7 @@ export class WorkInfoListComponent implements OnInit {
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    //private router: Router,
+    // private router: Router,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
     private UserAgentResolverService: UserAgentResolverService,
@@ -71,7 +71,7 @@ export class WorkInfoListComponent implements OnInit {
         (data: any) => {
           if (data) {
 
-            let newData = data.profileDetails.profileReq
+            const newData = data.profileDetails.profileReq
             this.userProfileData = data.profileDetails.profileReq
             if (newData && newData.professionalDetails) {
               (newData.professionalDetails[0].orgType === 'Others' && newData.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
@@ -92,7 +92,7 @@ export class WorkInfoListComponent implements OnInit {
               })
               if (newData.professionalDetails[0].profession === 'Healthcare Worker') {
                 this.personalDetailForm.patchValue({
-                  regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber
+                  regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
                 })
               }
             }
@@ -102,7 +102,7 @@ export class WorkInfoListComponent implements OnInit {
   }
   professionalChange(value: any) {
     console.log(value)
-    //this.savebtnDisable = false
+    // this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.rnShow = true
       this.showDesignation = true
@@ -140,7 +140,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   orgTypeSelect(option: any) {
-    //this.savebtnDisable = false
+    // this.savebtnDisable = false
     if (option !== 'null') {
       this.personalDetailForm.controls.orgType.setValue(option)
     } else {
@@ -158,15 +158,16 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   onSubmit(form: any) {
+    console.log('form submission', form)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
 
-    let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
-      personalDetails: profileRequest.profileReq.personalDetails
+      personalDetails: profileRequest.profileReq.personalDetails,
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
@@ -175,20 +176,21 @@ export class WorkInfoListComponent implements OnInit {
         profileDetails: profileRequest,
       },
     }
+    console.log('request update', reqUpdate)
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
-          //form.reset()
+          // form.reset()
           console.log(res, 'res')
           this.openSnackbar(this.toastSuccess.nativeElement.value)
-          //this.userProfileSvc._updateuser.next('true')
-          let ob = {
-            "type": "work",
-            "edit": 'save',
+          // this.userProfileSvc._updateuser.next('true')
+          const ob = {
+            type: 'work',
+            edit: 'save',
 
           }
           this.contentSvc.changeWork(ob)
-          //this.router.navigate(['/app/education-list'])
+          // this.router.navigate(['/app/education-list'])
         }
       })
   }
@@ -199,9 +201,9 @@ export class WorkInfoListComponent implements OnInit {
   }
   redirectToWorkInfo(isEdit: any) {
 
-    let ob = {
-      "type": "work",
-      "edit": isEdit
+    const ob = {
+      type: 'work',
+      edit: isEdit,
     }
     console.log(ob)
     if (sessionStorage.getItem('work')) {
