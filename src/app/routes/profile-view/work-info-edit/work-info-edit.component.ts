@@ -9,6 +9,7 @@ import { constructReq } from '../request-util'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
+import { locale } from 'moment'
 @Component({
   selector: 'ws-work-info-edit',
   templateUrl: './work-info-edit.component.html',
@@ -121,6 +122,9 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     let userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
     const obj = {
+      preferences: {
+        language: local === 'en' ? 'en' : 'hi',
+      },
       personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
@@ -135,6 +139,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res) {
           this.workInfoForm.reset()
+          console.log(locale)
           if (local === 'en') {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
           } else {

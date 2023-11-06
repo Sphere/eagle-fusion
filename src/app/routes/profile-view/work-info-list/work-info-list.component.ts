@@ -164,10 +164,13 @@ export class WorkInfoListComponent implements OnInit {
     }
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
+      preferences: {
+        language: local === 'en' ? 'en' : 'hi',
+      },
       personalDetails: profileRequest.profileReq.personalDetails,
     }
     profileRequest = Object.assign(profileRequest, obj)

@@ -128,7 +128,12 @@ export class EducationEditComponent implements OnInit {
     const userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    console.log(local)
     const obj = {
+      preferences: {
+        language: local === 'en' ? 'en' : 'hi',
+      },
       personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
@@ -142,7 +147,12 @@ export class EducationEditComponent implements OnInit {
       (res: any) => {
         if (res) {
           form.reset()
-          this.openSnackbar(this.toastSuccess.nativeElement.value)
+          if (local === 'en') {
+            this.openSnackbar(this.toastSuccess.nativeElement.value)
+          } else {
+            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
+          }
+          //this.openSnackbar(this.toastSuccess.nativeElement.value)
           this.userProfileSvc._updateuser.next('true')
           let ob = {
             "type": "academic",
