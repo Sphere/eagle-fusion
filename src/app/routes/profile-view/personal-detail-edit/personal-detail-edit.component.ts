@@ -452,6 +452,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     // if (form.value.dob) {
     //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
     // }
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
+
     if (form.value.dob.includes('undefined')) {
       const data = form.value.dob.replace(/\/undefined/g, '')
       form.value.dob = data
@@ -487,7 +490,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (res: any) => {
       let result = await res
       if (result) {
-        if (this.userlang.profileDetails.profileReq.preferences!.language === 'en') {
+        if (local === 'en') {
           this.openSnackbar(this.toastSuccess.nativeElement.value)
         } else {
           this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')

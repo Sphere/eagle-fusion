@@ -59,12 +59,14 @@ export class YourBackgroundComponent implements OnInit {
 
   updateProfile() {
     if (this.configSvc.userProfile) {
+
       this.userId = this.configSvc.userProfile.userId || ''
       this.email = this.configSvc.userProfile.email || ''
       this.firstName = this.configSvc.userProfile.firstName || ''
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     this.selectedAddress = this.aboutYou.value.country
     if (this.aboutYou.value.state) {
       this.selectedAddress += ', ' + `${this.aboutYou.value.state}`
@@ -106,7 +108,7 @@ export class YourBackgroundComponent implements OnInit {
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
-        if (this.configSvc.unMappedUser.profileDetails.preferences!.language === 'en') {
+        if (local === 'en') {
           this.openSnackbar('User profile details updated successfully!')
         } else {
           this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')

@@ -113,7 +113,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     if (form.doj) {
       form.doj = changeformat(new Date(`${form.doj}`))
     }
-
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
@@ -135,7 +135,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res) {
           this.workInfoForm.reset()
-          if (this.userlang.profileDetails.profileReq.preferences!.language === 'en') {
+          if (local === 'en') {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
           } else {
             this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')

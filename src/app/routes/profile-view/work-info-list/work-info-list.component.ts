@@ -164,6 +164,7 @@ export class WorkInfoListComponent implements OnInit {
     }
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     const obj = {
@@ -182,7 +183,12 @@ export class WorkInfoListComponent implements OnInit {
         if (res) {
           // form.reset()
           console.log(res, 'res')
-          this.openSnackbar(this.toastSuccess.nativeElement.value)
+          if (local === 'en') {
+            this.openSnackbar(this.toastSuccess.nativeElement.value)
+          } else {
+            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
+          }
+
           // this.userProfileSvc._updateuser.next('true')
           const ob = {
             type: 'work',
