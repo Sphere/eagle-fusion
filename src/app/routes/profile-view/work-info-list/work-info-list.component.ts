@@ -109,6 +109,7 @@ export class WorkInfoListComponent implements OnInit {
       this.orgTypeField = false
       this.professionOtherField = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      this.showAshaField = false
     } else if (value === 'Healthcare Volunteer') {
       this.orgTypeField = false
       this.professionOtherField = false
@@ -121,15 +122,18 @@ export class WorkInfoListComponent implements OnInit {
       this.orgOthersField = false
       this.orgTypeField = false
       this.rnShow = false
+      this.showAshaField = false
     } else if (value === 'Others') {
       this.rnShow = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.professionOtherField = true
       this.orgTypeField = false
+      this.showAshaField = false
     } else if (value === 'Student') {
       this.orgOthersField = false
       this.orgTypeField = false
       this.rnShow = false
+      this.showAshaField = false
     } else {
       this.orgTypeField = true
       this.rnShow = false
