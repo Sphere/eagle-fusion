@@ -11,6 +11,7 @@ import { MatSnackBar } from '@angular/material'
 import get from 'lodash/get'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import * as _ from 'lodash'
+import { N } from '@angular/cdk/keycodes'
 
 @Component({
   selector: 'ws-work-info-list',
@@ -21,6 +22,7 @@ import * as _ from 'lodash'
 export class WorkInfoListComponent implements OnInit {
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
+  healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false
   showLogOutIcon = false
@@ -28,12 +30,14 @@ export class WorkInfoListComponent implements OnInit {
   personalDetailForm: FormGroup
   orgTypeField = false
   orgOthersField = false
-  rnShow = false
+  HealthcareWorker = false
   professionOtherField = false
   showDesignation = false
   showAshaField = false
+  professionOthersField = false
   userID = ''
   ePrimaryEmailType = NsUserProfileDetails.EPrimaryEmailType
+  rnFieldDisabled = true
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
     private configSvc: ConfigurationsService,
@@ -54,6 +58,8 @@ export class WorkInfoListComponent implements OnInit {
       organizationName: new FormControl(),
       block: new FormControl(),
       subcentre: new FormControl(),
+      professSelected: new FormControl(),
+      orgName: new FormControl(),
     })
   }
 
@@ -82,7 +88,7 @@ export class WorkInfoListComponent implements OnInit {
               (newData.professionalDetails[0].orgType === 'Others' && newData.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
               (newData.professionalDetails[0].profession === 'Others' && newData.professionalDetails[0].professionOtherSpecify) ? this.professionOtherField = true : this.professionOtherField = false;
               (newData.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
-              newData.professionalDetails[0].profession === 'Healthcare Worker' ? this.rnShow = true : this.rnShow = false
+              newData.professionalDetails[0].profession === 'Healthcare Worker' ? this.HealthcareWorker = true : this.HealthcareWorker = false
               newData.professionalDetails[0].profession === 'ASHA' ? this.showAshaField = true : this.showAshaField = false
 
               this.personalDetailForm.patchValue({
@@ -94,6 +100,7 @@ export class WorkInfoListComponent implements OnInit {
                 block: newData.professionalDetails[0].block,
                 subcentre: newData.professionalDetails[0].subcentre,
                 designation: newData.professionalDetails[0].designation,
+                orgName: newData.professionalDetails[0].name,
               })
               if (newData.professionalDetails[0].profession === 'Healthcare Worker') {
                 this.personalDetailForm.patchValue({
@@ -105,11 +112,33 @@ export class WorkInfoListComponent implements OnInit {
         })
     }
   }
+  professionSelect(option: any) {
+    // if (option !== 'null') {
+    //   this.personalDetailForm.controls.profession.setValue(option)
+    // } else {
+    //   this.personalDetailForm.controls.profession.setValue(null)
+    // }
+
+    if (option === 'Others') {
+      this.professionOthersField = true
+      this.personalDetailForm.controls.professionOtherSpecify.setValidators([Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)])
+    } else {
+      this.professionOthersField = false
+      this.personalDetailForm.controls.professionOtherSpecify.clearValidators()
+      this.personalDetailForm.controls.professionOtherSpecify.setValue(null)
+    }
+
+    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
+      this.rnFieldDisabled = false
+    } else {
+      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      this.rnFieldDisabled = true
+    }
+  }
   professionalChange(value: any) {
     console.log("degree", value, this.userProfileData)
     // this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
-      this.rnShow = true
       this.showDesignation = true
       this.orgTypeField = false
       this.professionOtherField = false
@@ -119,17 +148,14 @@ export class WorkInfoListComponent implements OnInit {
       this.orgTypeField = false
       this.professionOtherField = false
       this.showAshaField = false
-      this.rnShow = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
     } else if (value === 'ASHA') {
       this.showAshaField = true
     } else if (value === 'Faculty') {
       this.orgOthersField = false
       this.orgTypeField = false
-      this.rnShow = false
       this.showAshaField = false
     } else if (value === 'Others') {
-      this.rnShow = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.professionOtherField = true
       this.orgTypeField = false
@@ -137,11 +163,9 @@ export class WorkInfoListComponent implements OnInit {
     } else if (value === 'Student') {
       this.orgOthersField = false
       this.orgTypeField = false
-      this.rnShow = false
       this.showAshaField = false
     } else {
       this.orgTypeField = true
-      this.rnShow = false
       this.professionOtherField = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.personalDetailForm.controls.orgType.setValue(null)
@@ -167,7 +191,8 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    console.log('form submission', form.value, this.userProfileData)
+    debugger
+    console.log('form submission', form.value, this.userProfileData, this.personalDetailForm)
     // console.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
@@ -315,6 +340,7 @@ export class WorkInfoListComponent implements OnInit {
       osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
       block: get(form.value, 'block') ? form.value.block : this.userProfileData.professionalDetails[0].block,
       subcentre: get(form.value, 'subcentre') ? form.value.subcentre : this.userProfileData.professionalDetails[0].subcentre,
+      professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify : this.userProfileData.professionalDetails[0].professionOtherSpecify
     }
     organisations.push(org)
     return organisations
