@@ -43,6 +43,9 @@ export class WorkInfoListComponent implements OnInit {
   ePrimaryEmailType = NsUserProfileDetails.EPrimaryEmailType
   rnFieldDisabled = true
   disticts: any
+  selectedBg: any
+  enableSubmit = false
+
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
     private configSvc: ConfigurationsService,
@@ -69,6 +72,7 @@ export class WorkInfoListComponent implements OnInit {
       instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       locationselect: new FormControl(),
+      selectBackground: new FormControl(),
     })
   }
 
@@ -85,6 +89,35 @@ export class WorkInfoListComponent implements OnInit {
       }
     })
   }
+
+  chooseBackground(data: any) {
+    console.log(data)
+    this.selectedBg = data
+    if (this.selectedBg === 'Mother/Family Members') {
+      this.enableSubmit = false
+    }
+    if (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer') {
+      this.enableSubmit = true
+      this.personalDetailForm.controls.block.setValue(null)
+      this.personalDetailForm.controls.subcentre.setValue(null)
+      let cName = this.userProfileData.personalDetails.postalAddress
+      console.log(cName)
+      let csplit = cName.split(',')
+      let state = csplit[1].trim()
+      this.personalDetailForm.controls.locationselect.setValue(this.userProfileData.professionalDetails[0].locationselect)
+      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+        statesdata.states.map((item: any) => {
+          if (item.state === state) {
+            this.disticts = item.districts
+          }
+        })
+      })
+    }
+    if (this.selectedBg === 'Other') {
+      this.personalDetailForm.controls.profession.setValue(null)
+    }
+  }
+
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
@@ -118,6 +151,7 @@ export class WorkInfoListComponent implements OnInit {
                 designation: newData.professionalDetails[0].designation,
                 orgName: newData.professionalDetails[0].name,
                 courseName: newData.professionalDetails[0].qualification,
+                selectBackground: newData.professionalDetails[0].selectBackground,
 
                 instituteName: newData.professionalDetails[0].instituteName,
                 regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
@@ -130,6 +164,7 @@ export class WorkInfoListComponent implements OnInit {
               }
               console.log(newData.professionalDetails[0], 'a')
               if (newData.professionalDetails[0].profession === "ASHA") {
+                this.selectedBg = newData.professionalDetails[0].selectBackground
                 this.personalDetailForm.controls.locationselect.setValue(newData.professionalDetails[0].locationselect)
                 let cName = newData.personalDetails.postalAddress
                 let csplit = cName.split(',')
@@ -142,6 +177,26 @@ export class WorkInfoListComponent implements OnInit {
                     }
                   })
                 })
+              }
+              if (newData.professionalDetails[0].profession === "Others") {
+                this.professionOtherField = true
+                //if (newData.professionalDetails[0].selectBackground === "Other") {
+                this.selectedBg = newData.professionalDetails[0].selectBackground
+                if (this.selectedBg === "Asha Facilitator" || this.selectedBg === 'Asha Trainer') {
+                  this.personalDetailForm.controls.locationselect.setValue(newData.professionalDetails[0].locationselect)
+                  let cName = newData.personalDetails.postalAddress
+                  let csplit = cName.split(',')
+                  let state = csplit[1].trim()
+                  //let district = csplit[2].trim()
+                  this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+                    statesdata.states.map((item: any) => {
+                      if (item.state === state) {
+                        this.disticts = item.districts
+                      }
+                    })
+                  })
+                }
+                // }
               }
             }
           }
@@ -423,6 +478,8 @@ export class WorkInfoListComponent implements OnInit {
       locationselect: form.value.locationselect,
       qualification: get(form.value, 'courseName') ? form.value.courseName : this.userProfileData.professionalDetails[0].qualification,
       instituteName: get(form.value, 'instituteName') ? form.value.instituteName : this.userProfileData.professionalDetails[0].instituteName,
+      selectBackground: form.value.selectBackground,
+      organizationName: form.value.organizationName,
     }
     organisations.push(org)
     return organisations
