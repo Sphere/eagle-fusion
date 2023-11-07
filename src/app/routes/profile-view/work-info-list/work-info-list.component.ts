@@ -11,7 +11,6 @@ import { MatSnackBar } from '@angular/material'
 import get from 'lodash/get'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import * as _ from 'lodash'
-import { N } from '@angular/cdk/keycodes'
 
 @Component({
   selector: 'ws-work-info-list',
@@ -22,6 +21,7 @@ import { N } from '@angular/cdk/keycodes'
 export class WorkInfoListComponent implements OnInit {
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
   healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false
@@ -31,6 +31,7 @@ export class WorkInfoListComponent implements OnInit {
   orgTypeField = false
   orgOthersField = false
   HealthcareWorker = false
+  HealthcareVolunteer = false
   professionOtherField = false
   showDesignation = false
   showAshaField = false
@@ -90,6 +91,8 @@ export class WorkInfoListComponent implements OnInit {
               (newData.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
               newData.professionalDetails[0].profession === 'Healthcare Worker' ? this.HealthcareWorker = true : this.HealthcareWorker = false
               newData.professionalDetails[0].profession === 'ASHA' ? this.showAshaField = true : this.showAshaField = false
+              newData.professionalDetails[0].profession === 'Healthcare Volunteer' ? this.HealthcareVolunteer = true : this.HealthcareVolunteer = false
+
 
               this.personalDetailForm.patchValue({
                 profession: newData.professionalDetails[0].profession,
@@ -144,11 +147,15 @@ export class WorkInfoListComponent implements OnInit {
       this.professionOtherField = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.showAshaField = false
+      this.HealthcareWorker = true
+      this.HealthcareVolunteer = false
     } else if (value === 'Healthcare Volunteer') {
       this.orgTypeField = false
       this.professionOtherField = false
       this.showAshaField = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      this.HealthcareWorker = false
+      this.HealthcareVolunteer = true
     } else if (value === 'ASHA') {
       this.showAshaField = true
     } else if (value === 'Faculty') {
