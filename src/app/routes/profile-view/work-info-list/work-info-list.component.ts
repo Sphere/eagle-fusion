@@ -86,7 +86,7 @@ export class WorkInfoListComponent implements OnInit {
             this.userProfileData = data.profileDetails.profileReq
             if (newData && newData.professionalDetails) {
               (newData.professionalDetails[0].orgType === 'Others' && newData.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;
-              (newData.professionalDetails[0].profession === 'Others' && newData.professionalDetails[0].professionOtherSpecify) ? this.professionOtherField = true : this.professionOtherField = false;
+              (newData.professionalDetails[0].profession === 'Others' && newData.professionalDetails[0].professionOtherSpecify) ? this.professionOthersField = true : this.professionOthersField = false;
               (newData.professionalDetails[0].designation) ? this.showDesignation = true : this.showDesignation = false
               newData.professionalDetails[0].profession === 'Healthcare Worker' ? this.HealthcareWorker = true : this.HealthcareWorker = false
               newData.professionalDetails[0].profession === 'ASHA' ? this.showAshaField = true : this.showAshaField = false
