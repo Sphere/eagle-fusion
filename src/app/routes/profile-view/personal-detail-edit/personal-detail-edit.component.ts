@@ -208,8 +208,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       this.selectDisable = true
     } else {
       this.selectDisable = false
-      //this.personalDetailForm.controls.state.setValue(null)
-      //this.personalDetailForm.controls.distict.setValue(null)
+      this.personalDetailForm.controls.state.setValue(null)
+      this.personalDetailForm.controls.distict.setValue(null)
     }
   }
   setCountryCode(country: string) {
@@ -469,7 +469,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
-
+    profileRequest.profileReq.personalDetails["postalAddress"] = form.value.country !== 'India' ? form.value.country : form.value.country + ',' + form.value.state + ',' + form.value.distict
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
@@ -487,7 +487,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         profileDetails: profileRequest,
       },
     }
-
+    console.log(reqUpdate)
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (res: any) => {
       let result = await res
       if (result) {
