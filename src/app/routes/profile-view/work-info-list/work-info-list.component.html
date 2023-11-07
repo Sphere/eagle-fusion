@@ -98,6 +98,41 @@
       </div>
 
     </ng-container>
+    <ng-container *ngIf="Student">
+      <div class="form-group input-box">
+        <input type="text" class="form-control" i18n-placeholder formControlName="courseName"
+          placeholder="Qualification"
+          (change)="assignFields('coursename',almostDoneForm.controls['courseName'].value, $event)">
+      </div>
+      <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['courseName'].hasError('pattern')">
+        {{errorMsg}}</mat-error>
+      <div class="form-group mt-4 input-box">
+        <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name"
+          i18n-placeholder
+          (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
+      </div>
+      <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['instituteName'].hasError('pattern')">
+        {{errorMsg}}</mat-error>
+
+    </ng-container>
+    <!-- Background: Faculty -->
+    <ng-container *ngIf="Faculty">
+      <div class="form-group input-box">
+        <input type="text" class="form-control" formControlName="designation" placeholder="Designation"
+          i18n-placeholder>
+      </div>
+      <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['designation'].hasError('pattern')">
+        {{errorMsg}}</mat-error>
+
+      <div class="form-group mt-4 input-box">
+        <input type="text" class="form-control" formControlName="orgName" placeholder="Institution Name*"
+          i18n-placeholder required>
+      </div>
+      <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgName'].hasError('pattern')">
+        {{errorMsg}}</mat-error>
+
+    </ng-container>
+    <!-- Background: Faculty -->
     <div>
       <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn" i18n>Save</button>
     </div>

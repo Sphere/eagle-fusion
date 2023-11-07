@@ -33,6 +33,8 @@ export class WorkInfoListComponent implements OnInit {
   HealthcareWorker = false
   HealthcareVolunteer = false
   professionOtherField = false
+  Student = false
+  Faculty = false
   showDesignation = false
   showAshaField = false
   professionOthersField = false
@@ -50,17 +52,19 @@ export class WorkInfoListComponent implements OnInit {
     private snackBar: MatSnackBar,
   ) {
     this.personalDetailForm = new FormGroup({
-      profession: new FormControl(),
+      profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       designation: new FormControl(),
       professionOtherSpecify: new FormControl(),
-      regNurseRegMidwifeNumber: new FormControl(),
+      regNurseRegMidwifeNumber: new FormControl('', [Validators.pattern(/[^\s]/)]),
       orgType: new FormControl(),
       orgOtherSpecify: new FormControl(),
       organizationName: new FormControl(),
       block: new FormControl(),
       subcentre: new FormControl(),
       professSelected: new FormControl(),
-      orgName: new FormControl(),
+      orgName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
     })
   }
 
@@ -92,7 +96,12 @@ export class WorkInfoListComponent implements OnInit {
               newData.professionalDetails[0].profession === 'Healthcare Worker' ? this.HealthcareWorker = true : this.HealthcareWorker = false
               newData.professionalDetails[0].profession === 'ASHA' ? this.showAshaField = true : this.showAshaField = false
               newData.professionalDetails[0].profession === 'Healthcare Volunteer' ? this.HealthcareVolunteer = true : this.HealthcareVolunteer = false
+              newData.professionalDetails[0].profession === 'Student' ? this.Student = true : this.Student = false
 
+              newData.professionalDetails[0].profession === 'Faculty' ? this.Faculty = true : this.Faculty = false
+
+
+              newData.professionalDetails[0].designation === 'Others' ? this.professionOthersField = true : this.professionOthersField = false
 
               this.personalDetailForm.patchValue({
                 profession: newData.professionalDetails[0].profession,
@@ -104,6 +113,11 @@ export class WorkInfoListComponent implements OnInit {
                 subcentre: newData.professionalDetails[0].subcentre,
                 designation: newData.professionalDetails[0].designation,
                 orgName: newData.professionalDetails[0].name,
+                courseName: newData.professionalDetails[0].qualification,
+
+                instituteName: newData.professionalDetails[0].instituteName,
+                regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
+
               })
               if (newData.professionalDetails[0].profession === 'Healthcare Worker') {
                 this.personalDetailForm.patchValue({
@@ -149,6 +163,9 @@ export class WorkInfoListComponent implements OnInit {
       this.showAshaField = false
       this.HealthcareWorker = true
       this.HealthcareVolunteer = false
+      this.Student = false
+      this.Faculty = false
+
     } else if (value === 'Healthcare Volunteer') {
       this.orgTypeField = false
       this.professionOtherField = false
@@ -156,21 +173,40 @@ export class WorkInfoListComponent implements OnInit {
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.HealthcareWorker = false
       this.HealthcareVolunteer = true
+      this.Student = false
+      this.Faculty = false
+
     } else if (value === 'ASHA') {
       this.showAshaField = true
     } else if (value === 'Faculty') {
       this.orgOthersField = false
       this.orgTypeField = false
       this.showAshaField = false
+      this.HealthcareWorker = false
+      this.HealthcareVolunteer = false
+      this.Student = false
+      this.Faculty = true
+
     } else if (value === 'Others') {
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.professionOtherField = true
       this.orgTypeField = false
       this.showAshaField = false
+      this.HealthcareWorker = false
+      this.HealthcareVolunteer = false
+      this.Student = false
+      this.Faculty = false
+
     } else if (value === 'Student') {
       this.orgOthersField = false
       this.orgTypeField = false
       this.showAshaField = false
+      this.HealthcareWorker = false
+      this.HealthcareVolunteer = false
+      this.Student = true
+      this.Faculty = false
+
+
     } else {
       this.orgTypeField = true
       this.professionOtherField = false
@@ -248,6 +284,7 @@ export class WorkInfoListComponent implements OnInit {
 
 
   private constructReq(form: any) {
+    console.log("feorm0", form.regNurseRegMidwifeNumber, form.value.regNurseRegMidwifeNumber)
     const userid = this.userProfileData.userId || this.userProfileData.id || ''
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
@@ -347,7 +384,9 @@ export class WorkInfoListComponent implements OnInit {
       osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
       block: get(form.value, 'block') ? form.value.block : this.userProfileData.professionalDetails[0].block,
       subcentre: get(form.value, 'subcentre') ? form.value.subcentre : this.userProfileData.professionalDetails[0].subcentre,
-      professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify : this.userProfileData.professionalDetails[0].professionOtherSpecify
+      professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify : this.userProfileData.professionalDetails[0].professionOtherSpecify,
+      qualification: get(form.value, 'courseName') ? form.value.courseName : this.userProfileData.professionalDetails[0].qualification,
+      instituteName: get(form.value, 'instituteName') ? form.value.instituteName : this.userProfileData.professionalDetails[0].instituteName,
     }
     organisations.push(org)
     return organisations
