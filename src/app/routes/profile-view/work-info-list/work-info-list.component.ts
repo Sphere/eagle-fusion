@@ -11,7 +11,7 @@ import { MatSnackBar } from '@angular/material'
 import get from 'lodash/get'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import * as _ from 'lodash'
-
+import { HttpClient } from '@angular/common/http'
 @Component({
   selector: 'ws-work-info-list',
   templateUrl: './work-info-list.component.html',
@@ -23,6 +23,7 @@ export class WorkInfoListComponent implements OnInit {
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
   healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
+  districtUrl = '../../../fusion-assets/files/district.json'
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false
   showLogOutIcon = false
@@ -39,6 +40,7 @@ export class WorkInfoListComponent implements OnInit {
   userID = ''
   ePrimaryEmailType = NsUserProfileDetails.EPrimaryEmailType
   rnFieldDisabled = true
+  disticts: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
     private configSvc: ConfigurationsService,
@@ -48,6 +50,7 @@ export class WorkInfoListComponent implements OnInit {
     private contentSvc: WidgetContentService,
     private UserAgentResolverService: UserAgentResolverService,
     private snackBar: MatSnackBar,
+    private http: HttpClient,
   ) {
     this.personalDetailForm = new FormGroup({
       profession: new FormControl(),
@@ -61,6 +64,7 @@ export class WorkInfoListComponent implements OnInit {
       subcentre: new FormControl(),
       professSelected: new FormControl(),
       orgName: new FormControl(),
+      locationselect: new FormControl(),
     })
   }
 
@@ -110,6 +114,21 @@ export class WorkInfoListComponent implements OnInit {
                   regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
                 })
               }
+              console.log(newData.professionalDetails[0], 'a')
+              if (newData.professionalDetails[0].profession === "ASHA") {
+                this.personalDetailForm.controls.locationselect.setValue(newData.professionalDetails[0].locationselect)
+                let cName = newData.personalDetails.postalAddress
+                let csplit = cName.split(',')
+                let state = csplit[1].trim()
+                //let district = csplit[2].trim()
+                this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+                  statesdata.states.map((item: any) => {
+                    if (item.state === state) {
+                      this.disticts = item.districts
+                    }
+                  })
+                })
+              }
             }
           }
         })
@@ -145,7 +164,7 @@ export class WorkInfoListComponent implements OnInit {
       this.showDesignation = true
       this.orgTypeField = false
       this.professionOtherField = false
-      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      this.personalDetailForm.controls.designation.setValue(null)
       this.showAshaField = false
       this.HealthcareWorker = true
       this.HealthcareVolunteer = false
@@ -153,11 +172,12 @@ export class WorkInfoListComponent implements OnInit {
       this.orgTypeField = false
       this.professionOtherField = false
       this.showAshaField = false
-      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      this.personalDetailForm.controls.designation.setValue(null)
       this.HealthcareWorker = false
       this.HealthcareVolunteer = true
     } else if (value === 'ASHA') {
       this.showAshaField = true
+      this.HealthcareWorker = false
     } else if (value === 'Faculty') {
       this.orgOthersField = false
       this.orgTypeField = false
@@ -171,6 +191,7 @@ export class WorkInfoListComponent implements OnInit {
       this.orgOthersField = false
       this.orgTypeField = false
       this.showAshaField = false
+      this.HealthcareVolunteer = false
     } else {
       this.orgTypeField = true
       this.professionOtherField = false
@@ -198,7 +219,6 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    debugger
     console.log('form submission', form.value, this.userProfileData, this.personalDetailForm)
     // console.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
@@ -208,6 +228,21 @@ export class WorkInfoListComponent implements OnInit {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
     let profileRequest = this.constructReq(form)
+    if (form.value.locationselect) {
+      let cName
+      if (this.userProfileData.personalDetails!.postalAddress) {
+        cName = this.userProfileData.personalDetails!.postalAddress!.includes('India')
+      }
+
+      console.log(cName)
+      if (cName) {
+        let cName1 = this.userProfileData.personalDetails.postalAddress
+        let csplit = cName1.split(',')
+        let country = csplit[0].trim()
+        let state = csplit[1].trim()
+        profileRequest.profileReq.personalDetails.postalAddress = country + ',' + state + ',' + form.value.locationselect
+      }
+    }
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
@@ -278,7 +313,7 @@ export class WorkInfoListComponent implements OnInit {
         primaryEmail: this.userProfileData.personalDetails.primaryEmail,
         officialEmail: '',
         personalEmail: '',
-        postalAddress: this.userProfileData.personalDetails.residenceAddress,
+        postalAddress: this.userProfileData.personalDetails.postalAddress,
         pincode: this.userProfileData.personalDetails.pincode,
         osName: this.userProfileData.personalDetails.osName ? this.userProfileData.personalDetails.osName : userAgent.OS,
         browserName: this.userProfileData.personalDetails.browserName ? this.userProfileData.personalDetails.browserName : userAgent.browserName,
@@ -328,6 +363,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   private getOrganisationsHistory(form: any) {
+    console.log(form.value)
     const organisations: any = []
     const org = {
       name: form.value.orgName,
@@ -347,7 +383,8 @@ export class WorkInfoListComponent implements OnInit {
       osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
       block: get(form.value, 'block') ? form.value.block : this.userProfileData.professionalDetails[0].block,
       subcentre: get(form.value, 'subcentre') ? form.value.subcentre : this.userProfileData.professionalDetails[0].subcentre,
-      professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify : this.userProfileData.professionalDetails[0].professionOtherSpecify
+      professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify : this.userProfileData.professionalDetails[0].professionOtherSpecify,
+      locationselect: form.value.locationselect
     }
     organisations.push(org)
     return organisations
