@@ -6,8 +6,12 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 import { WidgetContentService } from '@ws-widget/collection'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-import { constructReq } from '../request-util'
+// import { constructReq } from '../request-util'
 import { MatSnackBar } from '@angular/material'
+import get from 'lodash/get'
+import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
+import * as _ from 'lodash'
+
 @Component({
   selector: 'ws-work-info-list',
   templateUrl: './work-info-list.component.html',
@@ -29,6 +33,7 @@ export class WorkInfoListComponent implements OnInit {
   showDesignation = false
   showAshaField = false
   userID = ''
+  ePrimaryEmailType = NsUserProfileDetails.EPrimaryEmailType
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
     private configSvc: ConfigurationsService,
@@ -101,7 +106,7 @@ export class WorkInfoListComponent implements OnInit {
     }
   }
   professionalChange(value: any) {
-    console.log(value)
+    console.log("degree", value, this.userProfileData)
     // this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.rnShow = true
@@ -162,15 +167,15 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    console.log('form submission', form)
+    console.log('form submission', form.value, this.userProfileData)
+    // console.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const userAgent = this.UserAgentResolverService.getUserAgent()
-    const userCookie = this.UserAgentResolverService.generateCookie()
+
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
-    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    let profileRequest = this.constructReq(form)
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
@@ -184,7 +189,7 @@ export class WorkInfoListComponent implements OnInit {
         profileDetails: profileRequest,
       },
     }
-    console.log('request update', reqUpdate)
+    console.log('request update', reqUpdate, get(form.value, 'profession'))
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
@@ -207,6 +212,114 @@ export class WorkInfoListComponent implements OnInit {
         }
       })
   }
+
+
+
+  private constructReq(form: any) {
+    const userid = this.userProfileData.userId || this.userProfileData.id || ''
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
+    const profileReq = {
+      id: userid,
+      userId: userid,
+      photo: form.value.photo,
+      personalDetails: {
+        firstname: this.userProfileData.personalDetails.firstname,
+        middlename: this.userProfileData.personalDetails.middlename,
+        surname: this.userProfileData.personalDetails.surname,
+        about: this.userProfileData.personalDetails.about,
+        dob: this.userProfileData.personalDetails.dob,
+        nationality: this.userProfileData.personalDetails.nationality,
+        domicileMedium: this.userProfileData.personalDetails.domicileMedium,
+        regNurseRegMidwifeNumber: form.value.regNurseRegMidwifeNumber,
+        nationalUniqueId: this.userProfileData.personalDetails.nationalUniqueId,
+        doctorRegNumber: this.userProfileData.personalDetails.doctorRegNumber,
+        instituteName: this.userProfileData.personalDetails.instituteName,
+        nursingCouncil: this.userProfileData.personalDetails.nursingCouncil,
+        gender: this.userProfileData.personalDetails.gender,
+        maritalStatus: this.userProfileData.personalDetails.maritalStatus,
+        category: this.userProfileData.personalDetails.category,
+        knownLanguages: this.userProfileData.personalDetails.knownLanguages,
+        countryCode: this.userProfileData.personalDetails.countryCode,
+        mobile: this.userProfileData.personalDetails.mobile,
+        telephone: this.userProfileData.personalDetails.telephone,
+        primaryEmail: this.userProfileData.personalDetails.primaryEmail,
+        officialEmail: '',
+        personalEmail: '',
+        postalAddress: this.userProfileData.personalDetails.residenceAddress,
+        pincode: this.userProfileData.personalDetails.pincode,
+        osName: this.userProfileData.personalDetails.osName ? this.userProfileData.personalDetails.osName : userAgent.OS,
+        browserName: this.userProfileData.personalDetails.browserName ? this.userProfileData.personalDetails.browserName : userAgent.browserName,
+        userCookie: this.userProfileData.personalDetails.userCookie ? this.userProfileData.personalDetails.userCookie : userCookie,
+      },
+      academics: this.userProfileData.academics,
+      employmentDetails: {
+        service: this.userProfileData.personalDetails.service,
+        cadre: this.userProfileData.personalDetails.cadre,
+        allotmentYearOfService: this.userProfileData.personalDetails.allotmentYear,
+        dojOfService: this.userProfileData.personalDetails.otherDetailsDoj,
+        payType: this.userProfileData.personalDetails.payType,
+        civilListNo: this.userProfileData.personalDetails.civilListNo,
+        employeeCode: this.userProfileData.personalDetails.employeeCode,
+        officialPostalAddress: this.userProfileData.personalDetails.otherDetailsOfficeAddress,
+        pinCode: this.userProfileData.personalDetails.otherDetailsOfficePinCode,
+      },
+      professionalDetails: [
+        ...this.getOrganisationsHistory(form),
+      ],
+      skills: {
+        additionalSkills: this.userProfileData.personalDetails.skillAquiredDesc,
+        certificateDetails: this.userProfileData.personalDetails.certificationDesc,
+      },
+      interests: {
+        professional: this.userProfileData.personalDetails.interests,
+        hobbies: this.userProfileData.personalDetails.hobbies,
+      },
+    }
+    if (this.userProfileData.personalDetails.primaryEmailType === this.ePrimaryEmailType.OFFICIAL) {
+      profileReq.personalDetails.officialEmail = this.userProfileData.personalDetails.primaryEmail
+    } else {
+      profileReq.personalDetails.officialEmail = ''
+    }
+    profileReq.personalDetails.personalEmail = this.userProfileData.personalDetails.secondaryEmail
+
+    // let approvalData
+    // _.forOwn(this.approvalConfig, (v, k) => {
+    //   if (!v.approvalRequired) {
+    //     _.set(profileReq, k, this.getDataforK(k, form))
+    //   } else {
+    //     _.set(profileReq, k, this.getDataforKRemove(k, v.approvalFiels, form))
+    //     approvalData = this.getDataforKAdd(k, v.approvalFiels, form)
+    //   }
+    // })
+    return { profileReq }
+  }
+
+  private getOrganisationsHistory(form: any) {
+    const organisations: any = []
+    const org = {
+      name: form.value.orgName,
+      orgType: form.value.orgType,
+      orgOtherSpecify: form.value.orgOtherSpecify,
+      nameOther: form.value.orgNameOther,
+      industry: form.value.industry,
+      industryOther: form.value.industryOther,
+      designation: form.value.designation,
+      profession: form.value.profession,
+      location: form.value.location,
+      responsibilities: '',
+      doj: form.value.doj,
+      description: form.value.orgDesc,
+      completePostalAddress: '',
+      additionalAttributes: {},
+      osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
+      block: get(form.value, 'block') ? form.value.block : this.userProfileData.professionalDetails[0].block,
+      subcentre: get(form.value, 'subcentre') ? form.value.subcentre : this.userProfileData.professionalDetails[0].subcentre,
+    }
+    organisations.push(org)
+    return organisations
+  }
+
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,

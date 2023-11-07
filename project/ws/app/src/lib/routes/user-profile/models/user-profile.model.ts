@@ -30,7 +30,9 @@ export interface IUserProfileDetailsFromRegistry {
   'personalDetails': any,
   'professionalDetails': any,
   'skills': any,
-  'interests': any
+  'interests': any,
+  'userId': any,
+  'id': any
 }
 
 export interface IUserProfileFields2 {
