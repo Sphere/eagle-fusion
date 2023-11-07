@@ -356,7 +356,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       // }
 
       if (data.personalDetails && data) {
-        console.log(data.personalDetails)
+        console.log(data)
+        console.log(this.userlang)
         this.personalDetailForm.patchValue({
           // userName: this.profileUserName,
           firstname: data.personalDetails.firstname,
@@ -368,7 +369,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           gender: data.personalDetails.gender,
           maritalStatus: data.personalDetails.maritalStatus,
           knownLanguages: data.personalDetails.knownLanguages,
-          mobile: data.personalDetails.mobile,
+          mobile: data.personalDetails.mobile !== undefined ? data.personalDetails.mobile : this.userlang.phone,
           email: data.personalDetails.primaryEmail,
           postalAddress: data.personalDetails.postalAddress,
           pincode: data.personalDetails.pincode,
