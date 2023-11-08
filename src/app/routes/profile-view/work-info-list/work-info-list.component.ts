@@ -260,18 +260,30 @@ export class WorkInfoListComponent implements OnInit {
       this.personalDetailForm.controls.subcentre.setValue(null)
       let cName = this.userProfileData.personalDetails.postalAddress
       console.log(cName)
-      let csplit = cName.split(',')
-      let state = csplit[1].trim()
-      let dist = csplit[2].trim()
+      let state: string = ''
+      let dist: string = ''
+      if (cName) {
+        let csplit = cName.split(',')
+        state = csplit[1].trim()
+        dist = csplit[2].trim()
+      }
+
       let location = this.userProfileData.professionalDetails[0].locationselect !== undefined ? this.userProfileData.professionalDetails[0].locationselect : dist
       this.personalDetailForm.controls.locationselect.setValue(location)
-      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-        statesdata.states.map((item: any) => {
-          if (item.state === state) {
-            this.disticts = item.districts
-          }
+      if (state) {
+        this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+          statesdata.states.map((item: any) => {
+            if (item.state === state) {
+              this.disticts = item.districts
+            }
+          })
         })
-      })
+      }
+      this.HealthcareWorker = false
+      this.HealthcareVolunteer = false
+      this.Student = false
+      this.Faculty = false
+      this.professionOtherField = false
     } else if (value === 'Faculty') {
       this.orgOthersField = false
       this.orgTypeField = false
@@ -280,7 +292,7 @@ export class WorkInfoListComponent implements OnInit {
       this.HealthcareVolunteer = false
       this.Student = false
       this.Faculty = true
-
+      this.professionOtherField = false
     } else if (value === 'Others') {
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.personalDetailForm.controls.selectBackground.setValue(null)
@@ -300,7 +312,7 @@ export class WorkInfoListComponent implements OnInit {
       this.HealthcareWorker = false
       this.Student = true
       this.Faculty = false
-
+      this.professionOtherField = false
 
     } else {
       this.orgTypeField = true
