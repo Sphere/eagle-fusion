@@ -73,6 +73,7 @@ export class WorkInfoListComponent implements OnInit {
       courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       locationselect: new FormControl(),
       selectBackground: new FormControl(),
+      professionOther: new FormControl(),
     })
   }
 
@@ -116,7 +117,7 @@ export class WorkInfoListComponent implements OnInit {
       })
     }
     if (this.selectedBg === 'Other') {
-      this.personalDetailForm.controls.profession.setValue(null)
+      this.personalDetailForm.controls.professionOther.setValue(null)
     }
   }
 
@@ -154,7 +155,7 @@ export class WorkInfoListComponent implements OnInit {
                 orgName: newData.professionalDetails[0].name,
                 courseName: newData.professionalDetails[0].qualification,
                 selectBackground: newData.professionalDetails[0].selectBackground,
-
+                professionOther: newData.professionalDetails[0].profession,
                 instituteName: newData.professionalDetails[0].instituteName,
                 regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
 
@@ -282,6 +283,7 @@ export class WorkInfoListComponent implements OnInit {
 
     } else if (value === 'Others') {
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      this.personalDetailForm.controls.selectBackground.setValue(null)
       this.professionOtherField = true
       this.orgTypeField = false
       this.showAshaField = false
