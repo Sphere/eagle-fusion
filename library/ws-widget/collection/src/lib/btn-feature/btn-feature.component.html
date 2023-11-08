@@ -111,12 +111,12 @@
     [style.visibility]="!(actionBtn.name === 'Competency' && isSashakth === true) &&  !(actionBtn.name === 'Search' && isSashakth === true)  ? 'visible' : 'hidden'"
     matRipple (click)="redirect(actionBtn)" active [wsWidgetUrlResolver]="actionBtn.isExternal"
     routerLinkActive="ws-mat-accent-text" class="flex items-center flex-col px-2 box-sizing-box"
-    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === 'home' }">
+    style="cursor: pointer;" [ngClass]="{'ws-mat-accent-text': currentText === actionBtn.name }">
     <ng-container *ngIf="actionBtn.iconType === 'mat-icon'">
       <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     </ng-container>
     <ng-container *ngIf="actionBtn.iconType === 'image'">
-      <img class="feature-icon-img" [src]="actionBtn.src">
+      <img [src]="actionBtn.src">
     </ng-container>
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
       'mat-caption'" i18n>{{ actionBtn.name }}</span>

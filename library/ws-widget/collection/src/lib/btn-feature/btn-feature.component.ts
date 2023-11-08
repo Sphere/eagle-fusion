@@ -52,8 +52,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   private pinnedAppsChangeSubs?: Subscription
   private navigationSubs?: Subscription
   currentText = ''
-  // showCompetency = false
-  // showProfile = false
   constructor(
     private events: EventService,
     private configurationsSvc: ConfigurationsService,
@@ -70,18 +68,15 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
     }
-    console.log('urlchanges', location.path(), 'path')
+
     if (location.path().includes('/app/profile-view')) {
-      this.currentText = 'profile'
-      //this.showHome = false
+      this.currentText = 'Account'
     } else if (location.path().includes('/page/home')) {
-      console.log('p1')
-      this.currentText = 'home'
+      this.currentText = 'Home'
     } else if (location.path().includes('competency')) {
-      //this.showCompetency = true
-      this.currentText = 'competency'
+      this.currentText = 'Competency'
     } else if (location.path().includes('search')) {
-      this.currentText = 'search'
+      this.currentText = 'Search'
     } else {
       this.currentText = ''
     }
@@ -113,20 +108,16 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       url3 = url3.replace(/hi\//g, '')
     }
 
-    if (text.name === 'home' || text.name === "होम") {
-      this.currentText = 'home'
-      // this.showProfile = false
-      // this.showHome = true
+    if (text.name === 'Home' || text.name === "होम") {
+      this.currentText = text.name
       let url = '/page/home'
       location.href = `${url3}${url1}${url}`
-    } else if (text.name === 'competency' || text.name === "योग्यता") {
-      // this.showCompetency = true
-      // this.showProfile = false
-      this.currentText = 'competency'
+    } else if (text.name === 'Competency' || text.name === "योग्यता") {
+      this.currentText = text.name
       let url = '/app/user/competency'
       location.href = `${url3}${url1}${url}`
     } else if (text.name === "खोज" || text.name === "Search") {
-      this.currentText = 'search'
+      this.currentText = text.name
       let url = `${text.url}`
       location.href = `${url3}${url1}${url}`
     } else {
@@ -134,21 +125,16 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       let result = await this.signupService.getUserData()
       console.log(result)
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        //this.showProfile = true
-        this.currentText = 'profile'
+        this.currentText = text.name
         let url = '/app/profile-view'
         location.href = `${url3}${url1}${url}`
       } else {
-        console.log('p')
-        //this.showProfile = false
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
-          // const url = `app/about-you`
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
           // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
-          //this.showProfile = false
-          this.currentText = ''
+          this.currentText = 'Home'
           const url = '/page/home'
           let url4 = `${document.baseURI}`
           if (url4.includes('hi')) {
