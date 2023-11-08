@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core'
 // import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
@@ -26,6 +26,7 @@ export class WorkInfoListComponent implements OnInit {
   districtUrl = '../../../fusion-assets/files/district.json'
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false
+  @Output() passProfession = new EventEmitter<string>();
   showLogOutIcon = false
   trigerrNavigation = true
   personalDetailForm: FormGroup
@@ -229,8 +230,10 @@ export class WorkInfoListComponent implements OnInit {
       this.rnFieldDisabled = true
     }
   }
+
   professionalChange(value: any) {
     console.log("degree", value, this.userProfileData)
+
     // this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.showDesignation = true
@@ -379,6 +382,7 @@ export class WorkInfoListComponent implements OnInit {
       },
     }
     console.log('request update', reqUpdate, get(form.value, 'profession'))
+    this.passProfession.emit(get(form.value, 'profession'))
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {

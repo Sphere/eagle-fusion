@@ -40,6 +40,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   userForm: FormGroup
   userData: any
   hideData = false
+  currentProfession: any
   // language: any
   constructor(
     private configSvc: ConfigurationsService,
@@ -160,7 +161,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                             'identifier')
+    })), 'identifier')
     this.formateRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
@@ -182,7 +183,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             })
           }
         })
-      },         500)
+      }, 500)
     })
 
   }
@@ -190,13 +191,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   formateRequest(data: any) {
     const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
       return certificate.length > 0
-    })),                                (result: any, value) => {
+    })), (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
       })
       return result
-    },                                  [])
+    }, [])
     this.certificates = issuedCertificates
   }
 
@@ -216,9 +217,13 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
     }
   }
+  assignProfession(data: any) {
+    this.currentProfession = data
+  }
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
+      this.currentProfession = this.userProfileData.professionalDetails[0].profession
       if (_.get(this.userProfileData, 'personalDetails')) {
         this.photoUrl = this.userProfileData.personalDetails.photo
       } else {
@@ -246,17 +251,17 @@ export class MobileProfileDashboardComponent implements OnInit {
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
-        console.log(result)
-        if (form.value.language === 'en') {
-          // this.chosenLanguage = ''
-          window.location.assign(`${location.origin}/app/profile-view`)
-          // window.location.reload(true)
-        } else {
-          // window.location.reload(true)
-          window.location.assign(`${location.origin}/${form.value.language}/app/profile-view`)
-        }
-      },
-                                                                  () => {
+      console.log(result)
+      if (form.value.language === 'en') {
+        // this.chosenLanguage = ''
+        window.location.assign(`${location.origin}/app/profile-view`)
+        // window.location.reload(true)
+      } else {
+        // window.location.reload(true)
+        window.location.assign(`${location.origin}/${form.value.language}/app/profile-view`)
+      }
+    },
+      () => {
       })
     // })
   }
@@ -268,6 +273,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             this.loader = false
             this.userProfileData = await data.profileDetails.profileReq
             this.userData = await data
+            this.currentProfession = this.userProfileData.professionalDetails[0].profession
             const lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
             console.log(lang)
             this.userForm.patchValue({ language: lang })
