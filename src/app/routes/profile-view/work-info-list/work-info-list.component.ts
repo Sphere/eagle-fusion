@@ -104,7 +104,9 @@ export class WorkInfoListComponent implements OnInit {
       console.log(cName)
       let csplit = cName.split(',')
       let state = csplit[1].trim()
-      this.personalDetailForm.controls.locationselect.setValue(this.userProfileData.professionalDetails[0].locationselect)
+      let dist = csplit[2].trim()
+      let location = this.userProfileData.professionalDetails[0].locationselect !== undefined ? this.userProfileData.professionalDetails[0].locationselect : dist
+      this.personalDetailForm.controls.locationselect.setValue(location)
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
         statesdata.states.map((item: any) => {
           if (item.state === state) {
@@ -253,6 +255,22 @@ export class WorkInfoListComponent implements OnInit {
     } else if (value === 'ASHA') {
       this.showAshaField = true
       this.HealthcareWorker = false
+      this.personalDetailForm.controls.block.setValue(null)
+      this.personalDetailForm.controls.subcentre.setValue(null)
+      let cName = this.userProfileData.personalDetails.postalAddress
+      console.log(cName)
+      let csplit = cName.split(',')
+      let state = csplit[1].trim()
+      let dist = csplit[2].trim()
+      let location = this.userProfileData.professionalDetails[0].locationselect !== undefined ? this.userProfileData.professionalDetails[0].locationselect : dist
+      this.personalDetailForm.controls.locationselect.setValue(location)
+      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+        statesdata.states.map((item: any) => {
+          if (item.state === state) {
+            this.disticts = item.districts
+          }
+        })
+      })
     } else if (value === 'Faculty') {
       this.orgOthersField = false
       this.orgTypeField = false
