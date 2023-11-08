@@ -172,19 +172,19 @@
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
-      <h4 i18n style="font-weight: bold;font-size:16px ">Language Preference</h4>
+      <h4 i18n style="font-size:16px ">Language Preference</h4>
       <form [formGroup]="userForm">
         <div class="form-group">
           <p>
             <label class="radio">
-              <input type="radio" name="language" value='en' formControlName="language"><span
-                style="font-weight: bold; margin-left:5px" i18n>English
+              <input type="radio" name="language" value='en' formControlName="language"><span style="margin-left:5px"
+                i18n>English
               </span>
             </label>
           </p>
           <label class="radio-inline">
-            <input type="radio" name="language" value='hi' formControlName="language"><span
-              style="font-weight: bold; margin-left:5px" i18n>Hindi
+            <input type="radio" name="language" value='hi' formControlName="language"><span style=" margin-left:5px"
+              i18n>Hindi
             </span>
           </label>
         </div>
