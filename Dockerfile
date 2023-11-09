@@ -5,7 +5,7 @@ COPY . .
 
 #RUN npm i yarn
 #RUN yarn global add @angular/cli@latest
-RUN npm install -g @angular/cli
+RUN npm install -g @angular/cli@8.3.27
 
 RUN yarn && yarn add moment && yarn add vis-util && npm run build --prod --build-optimizer
 RUN ng build --prod --stats-json --outputPath=dist/www/en --baseHref=/ --i18nLocale=en --verbose=true
