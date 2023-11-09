@@ -119,7 +119,7 @@
       <img [src]="actionBtn.src" alt="Image Source">
     </ng-container>
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
-      'mat-caption'" i18n>{{ actionBtn.name }}</span>
+      'mat-caption'">{{ actionBtn.name }}</span>
   </a>
   <!-- <a role="button" *ngIf="actionBtn.name === 'home' || actionBtn.name === 'होम'" matRipple (click)="redirect(actionBtn)"
     active [wsWidgetUrlResolver]="actionBtn.isExternal" routerLinkActive="ws-mat-accent-text"
