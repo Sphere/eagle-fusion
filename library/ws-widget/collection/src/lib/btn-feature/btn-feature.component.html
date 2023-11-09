@@ -116,7 +116,7 @@
       <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     </ng-container>
     <ng-container *ngIf="actionBtn.iconType === 'image'">
-      <img [src]="actionBtn.src">
+      <img [src]="actionBtn.src" alt="Image Source">
     </ng-container>
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
       'mat-caption'" i18n>{{ actionBtn.name }}</span>
