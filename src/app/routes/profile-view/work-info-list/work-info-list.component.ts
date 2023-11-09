@@ -46,7 +46,7 @@ export class WorkInfoListComponent implements OnInit {
   disticts: any
   selectedBg: any
   enableSubmit = false
-
+  hideAsha = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
     private configSvc: ConfigurationsService,
@@ -167,6 +167,17 @@ export class WorkInfoListComponent implements OnInit {
                 })
               }
               console.log(newData.professionalDetails[0], 'a')
+              if (newData.personalDetails.postalAddress) {
+                let cName = newData.personalDetails.postalAddress
+                let csplit = cName.split(',')
+                let country = csplit[0].trim()
+                if (country !== 'India') {
+                  this.professions = ['Healthcare Worker', 'Healthcare Volunteer', 'Student', 'Faculty', 'Others']
+                  this.hideAsha = true
+                } else {
+                  this.hideAsha = false
+                }
+              }
               if (newData.professionalDetails[0].profession === "ASHA") {
                 this.selectedBg = newData.professionalDetails[0].selectBackground
                 this.personalDetailForm.controls.locationselect.setValue(newData.professionalDetails[0].locationselect)
