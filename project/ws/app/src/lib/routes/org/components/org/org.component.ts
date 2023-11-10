@@ -32,6 +32,8 @@ export class OrgComponent implements OnInit, OnDestroy {
   ratingArr: any = []
   index = 0
   link: string = ''
+  competency_offered: any = 0
+  orgUserCourseEnrolled: any = 0
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
     private router: Router,
@@ -72,7 +74,14 @@ export class OrgComponent implements OnInit, OnDestroy {
         }
       }
     })
+    this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
+      console.log("user", userEnrolled)
+      if (userEnrolled) {
+        this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users
+        this.competency_offered = userEnrolled[0].competency_offered
 
+      }
+    })
     this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
       this.courseData = result.result.content.filter(
         (org: any) => org.sourceName === this.orgName

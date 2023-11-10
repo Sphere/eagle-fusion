@@ -39,9 +39,17 @@
       <div class="org-details">Nationwide Quality Of Care Network</div>
     </div> -->
     <div class="org-details-block" *ngIf="courseCount&&courseCount.length">
-      <img src="/fusion-assets/icons/material-symbols_book-outline.svg">
       <div class="org-details">
+        <img alt="icon" src="/fusion-assets/icons/ion_people-sharp.svg">
+        {{orgUserCourseEnrolled === 1 ? '1 Leaner enrolled': orgUserCourseEnrolled + ' Leaners enrolled'}}
+      </div>
+      <div class="org-details">
+        <img alt="icon" src="/fusion-assets/icons/material-symbols_book-outline.svg">
         {{courseCount === 1 ? '1 Course offered': courseCount.length + ' Courses offered'}}
+      </div>
+      <div class="org-details">
+        <img alt="icon" src="/fusion-assets/icons/ph_medal.svg">
+        {{competency_offered === 1 ? '1 Course offered': competency_offered + ' Competencies offered'}}
       </div>
     </div>
     <!-- <div class="org-details-block">

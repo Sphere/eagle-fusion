@@ -15,7 +15,8 @@ const API_END_POINTS = {
   SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
   Sashakt_Auth: '/apis/public/v8/sashaktAuth/login',
-  Maternity_Auth: '/apis/public/v8/maternityFoundation/login'
+  Maternity_Auth: '/apis/public/v8/maternityFoundation/login',
+  ENROLLED_USER: 'apis/protected/v8/userEnrolledInSource',
 }
 @Injectable({
   providedIn: 'root',
@@ -70,6 +71,9 @@ export class OrgServiceService {
   getDatabyOrgId(): Promise<any> {
     const url = `${this.configSvc.sitePath}/page/course.json`
     return this.http.get<any>(`${url}`).toPromise()
+  }
+  getEnroledUserForCourses(sourceName: any): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.ENROLLED_USER}?sourceName=${sourceName}`)
   }
 
   getLiveSearchResults(lang?: any): Observable<any> {
