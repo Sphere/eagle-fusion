@@ -9,7 +9,7 @@ import { MobileAppsService } from '../../../../../../../src/app/services/mobile-
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
 // import { Interval, Observable, Subscription } from 'rxjs'
 import { ViewerUtilService } from '../../../../../../../project/ws/viewer/src/lib/viewer-util.service'
-
+import * as dayjs from 'dayjs'
 @Component({
   selector: 'viewer-plugin-html',
   templateUrl: './html.component.html',
@@ -34,7 +34,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   iframeName = `piframe_${Date.now()}`
   urlContains = ''
   mimeType = ''
-
+  contentData: any
   @HostListener('window:blur', ['$event'])
   onBlur(): void {
     if (this.urlContains.includes('youtube') && this.htmlContent !== null) {
@@ -154,6 +154,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
   ngOnChanges() {
     if (this.htmlContent && this.htmlContent.identifier) {
+
       this.urlContains = this.htmlContent.artifactUrl
       const courseId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
@@ -172,7 +173,55 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     }
 
     if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
-
+      let userId
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req: NsContent.IContinueLearningDataReq = {
+        request: {
+          userId,
+          batchId: this.activatedRoute.snapshot.queryParams.batchId,
+          courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+          contentIds: [],
+          fields: ['progressdetails'],
+        },
+      }
+      console.log(req)
+      this.contentSvc.fetchContentHistoryV2(req).subscribe(
+        async data => {
+          if (this.htmlContent) {
+            this.contentData = []
+            console.log(this.htmlContent.identifier)
+            this.contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
+            console.log(this.contentData, this.htmlContent)
+            if (this.contentData === undefined || this.contentData.completionPercentage === 0) {
+              let req: any
+              if (this.configSvc.userProfile) {
+                req = {
+                  request: {
+                    userId: this.configSvc.userProfile.userId || '',
+                    contents: [
+                      {
+                        contentId: this.htmlContent!.identifier,
+                        batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+                        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+                        status: 1,
+                        lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+                        progressdetails: {},
+                        completionPercentage: 0
+                      }
+                    ],
+                  },
+                }
+                console.log(req)
+                //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '217')
+                this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
+                  console.log(data)
+                })
+              }
+            }
+          }
+        })
       this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
 

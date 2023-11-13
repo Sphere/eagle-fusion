@@ -245,8 +245,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         },
       }
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
-        result => {
-          this.contentData = result['result']['contentList'].find((obj: any) => obj.contentId === identifier)
+        async result => {
+          this.contentData = await result['result']['contentList'].find((obj: any) => obj.contentId === identifier)
           const temp = data.current
           const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / data.max_size) * 100

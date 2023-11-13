@@ -145,7 +145,9 @@ export class ViewerUtilService {
       return 1
     }
   }
-
+  initUpdate(req: any) {
+    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
+  }
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
     let req: any
     if (this.configservice.userProfile) {
