@@ -15,7 +15,6 @@
     "build:stats": "ng build --prod --stats-json",
     "start:eagle-dev": "node --max_old_space_size=12288 ./node_modules/@angular/cli/bin/ng serve --proxy-config proxy/eagle-dev-ip.proxy.json -o",
     "analyze": "webpack-bundle-analyzer ./dist/www/fusion/stats.json",
-    "test": "ng test",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
     "e2e": "ng e2e",
@@ -23,7 +22,10 @@
     "i18n": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng xi18n --output-path locale",
     "tailwind": "./node_modules/.bin/tailwind build ./src/tailwind-build.scss  -o ./src/styles.scss",
     "prestart": "npm run tailwind",
-    "bundle:report": "source-map-explorer dist/www/fusion/**/*.js"
+    "bundle:report": "source-map-explorer dist/www/fusion/**/*.js",
+    "test": "jest",
+    "test-watch": "jest --watch",
+    "test-coverage": "jest  --coverage"
   },
   "private": true,
   "dependencies": {
@@ -88,6 +90,13 @@
     "vis-util": "^5.0.1",
     "zone.js": "~0.10.1"
   },
+  "jest": {
+    "preset": "jest-preset-angular",
+    "roots": [
+      "<rootDir>/src/"
+    ],
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setup-jest.ts"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.23",
     "@angular-devkit/build-ng-packagr": "~0.802.1",
@@ -122,6 +131,11 @@
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "~3.5.3",
     "typescript-tslint-plugin": "^0.5.4",
-    "webpack-bundle-analyzer": "^3.4.1"
+    "webpack-bundle-analyzer": "^3.4.1",
+    "jest": "^26.0.0",
+    "jest-environment-node": "^26.0.0",
+    "jest-config": "^26.0.0",
+    "jest-preset-angular": "^8.4.0",
+    "@types/jest": "^26.0.14"
   }
 }
