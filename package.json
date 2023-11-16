@@ -25,7 +25,9 @@
     "bundle:report": "source-map-explorer dist/www/fusion/**/*.js",
     "test": "jest",
     "test-watch": "jest --watch",
-    "test-coverage": "jest  --coverage"
+    "test-coverage": "jest  --coverage",
+    "jest-cache": " jest --clearCache",
+    "testRunner": "jest --testRunner='jest-circus/runner'"
   },
   "private": true,
   "dependencies": {
@@ -73,6 +75,7 @@
     "moment": "^2.29.1",
     "mustache": "^3.0.2",
     "ng-circle-progress": "1.5.1",
+    "ng-mocks": "^14.5.0",
     "ngx-chips": "2.0.2",
     "ngx-extended-pdf-viewer": "9.0.0-alpha.4",
     "ngx-image-cropper": "^3.0.3",
@@ -105,6 +108,7 @@
     "@angular/language-service": "~8.2.1",
     "@types/jasmine": "~3.4.0",
     "@types/jasminewd2": "~2.0.6",
+    "@types/jest": "^26.0.14",
     "@types/mustache": "^0.8.32",
     "@types/node": "^12.7.12",
     "@types/pdfjs-dist": "^2.1.3",
@@ -116,6 +120,11 @@
     "gzipper": "^2.8.1",
     "jasmine-core": "~3.4.0",
     "jasmine-spec-reporter": "~4.2.1",
+    "jest": "^26.0.0",
+    "jest-circus": "^29.7.0",
+    "jest-config": "^26.0.0",
+    "jest-environment-node": "^26.0.0",
+    "jest-preset-angular": "^8.4.0",
     "karma": "~4.2.0",
     "karma-chrome-launcher": "~3.0.0",
     "karma-coverage-istanbul-reporter": "~2.1.0",
@@ -129,13 +138,8 @@
     "tslint": "~5.18.0",
     "tslint-angular": "^3.0.2",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "~3.5.3",
+    "typescript": "~3.8.3",
     "typescript-tslint-plugin": "^0.5.4",
-    "webpack-bundle-analyzer": "^3.4.1",
-    "jest": "^26.0.0",
-    "jest-environment-node": "^26.0.0",
-    "jest-config": "^26.0.0",
-    "jest-preset-angular": "^8.4.0",
-    "@types/jest": "^26.0.14"
+    "webpack-bundle-analyzer": "^3.4.1"
   }
 }
