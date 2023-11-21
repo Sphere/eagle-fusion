@@ -40,17 +40,14 @@ describe('OrgComponent', () => {
     orgService = TestBed.get(OrgServiceService) // Inject the service
     fixture.detectChanges()
   })
-
   it('should create', fakeAsync(() => {
     tick()
     fixture.detectChanges()
-
-    console.log('Component:', fixture.componentInstance.competency_offered)
     expect(fixture.componentInstance).toBeTruthy()
   }))
 
   it('should get enrolled user data and competency data for an organisation', (done) => {
-    const orgName = 'Indian Nursing Council' // Replace with the actual orgName you want to test
+    const orgName = 'Indian Nursing Council'
 
     // Assume that getEnroledUserForCourses returns an observable
     spyOn(orgService, 'getEnroledUserForCourses').and.returnValue(of([
@@ -58,10 +55,9 @@ describe('OrgComponent', () => {
     ]))
 
     orgService.getEnroledUserForCourses(orgName).subscribe((userEnrolled) => {
-      console.log("userEnrolled[0].enrolled_users", userEnrolled[0].enrolled_users)
       expect(userEnrolled[0].enrolled_users).toEqual('4866')
       expect(userEnrolled[0].competency_offered).toEqual('0')
-      done()
+      done() // Call done() to signal that the asynchronous operation is complete
     })
   })
 })
