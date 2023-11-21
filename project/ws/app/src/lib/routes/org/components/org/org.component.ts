@@ -75,11 +75,9 @@ export class OrgComponent implements OnInit, OnDestroy {
       }
     })
     this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
-      console.log("user", userEnrolled)
-      if (userEnrolled) {
-        this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users
-        this.competency_offered = userEnrolled[0].competency_offered
-
+      if (userEnrolled && userEnrolled.length > 0) {
+        this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
+        this.competency_offered = userEnrolled[0].competency_offered || undefined
       }
     })
     this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
@@ -89,7 +87,6 @@ export class OrgComponent implements OnInit, OnDestroy {
       this.courseCount = this.courseData
       if (this.courseData) {
         this.courseData.forEach((course: any) => {
-          console.log("course", course.competencies_v1)
           if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
             forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
               //console.log("value", value)
@@ -115,7 +112,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   this.courseData = data
     //   this.courseCount = this.courseData.result.length
     // })
-    console.log(this.configSvc)
+    // console.log(this.configSvc)
     // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
@@ -168,6 +165,10 @@ export class OrgComponent implements OnInit, OnDestroy {
     // }
   }
   ngOnDestroy() {
+    this.orgService.hideHeaderFooter.next(false)
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe()
+    }
     this.orgService.hideHeaderFooter.next(false)
   }
   goToLink(a: string) {

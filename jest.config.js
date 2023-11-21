@@ -9,4 +9,8 @@ globalThis.ngJest = {
 module.exports = {
   preset: 'jest-preset-angular',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  moduleNameMapper: {
+    '^@ws-widget/utils$': '<rootDir>/library/ws-widget/utils',
+    '^@ws-widget/utils$': '<rootDir>/library/ws-widget/utils/src/lib/services/configurations.service.ts'
+  }
 }

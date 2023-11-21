@@ -98,7 +98,66 @@
     "roots": [
       "<rootDir>/src/"
     ],
-    "setupTestFrameworkScriptFile": "<rootDir>/src/setup-jest.ts"
+    "setupTestFrameworkScriptFile": "<rootDir>/src/setup-jest.ts",
+    "paths": {
+      "@ws-widget/resolver": [
+        "library/ws-widget/resolver"
+      ],
+      "@ws-widget/resolver/*": [
+        "library/ws-widget/resolver/*"
+      ],
+      "@ws-widget/collection": [
+        "library/ws-widget/collection"
+      ],
+      "@ws-widget/collection/*": [
+        "library/ws-widget/collection/*"
+      ],
+      "@ws-widget/utils": [
+        "library/ws-widget/utils"
+      ],
+      "@ws-widget/util": [
+        "library/ws-widget/utils/src/public-api.ts"
+      ],
+      "@ws-widget/utils/*": [
+        "library/ws-widget/utils/*"
+      ],
+      "@ws/app": [
+        "project/ws/app"
+      ],
+      "@ws/app/*": [
+        "project/ws/app/*"
+      ],
+      "@ws/author": [
+        "project/ws/author"
+      ],
+      "@ws/author/*": [
+        "project/ws/author/*"
+      ],
+      "@ws/admin": [
+        "project/ws/admin"
+      ],
+      "@ws/admin/*": [
+        "project/ws/admin/*"
+      ],
+      "@ws/analytics": [
+        "project/ws/analytics"
+      ],
+      "@ws/analytics/*": [
+        "project/ws/analytics/*"
+      ],
+      "@ws/viewer": [
+        "project/ws/viewer"
+      ],
+      "@ws/viewer/*": [
+        "project/ws/viewer/*"
+      ],
+      "@ws/learning-hub": [
+        "project/ws/learning-hub"
+      ],
+      "@ws/learning-hub/*": [
+        "project/ws/learning-hub/*"
+      ]
+    }
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^0.803.23",
@@ -138,7 +197,7 @@
     "tslint": "~5.18.0",
     "tslint-angular": "^3.0.2",
     "tslint-config-airbnb": "^5.11.1",
-    "typescript": "~3.8.3",
+    "typescript": "~3.5.3",
     "typescript-tslint-plugin": "^0.5.4",
     "webpack-bundle-analyzer": "^3.4.1"
   }
