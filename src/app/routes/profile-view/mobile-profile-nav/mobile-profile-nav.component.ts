@@ -3,6 +3,7 @@ import { MatDialog } from '@angular/material'
 import { Router } from '@angular/router'
 import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
+import { ConfigurationsService } from '@ws-widget/utils'
 
 @Component({
   selector: 'ws-mobile-profile-nav',
@@ -17,6 +18,7 @@ export class MobileProfileNavComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public router: Router,
+    private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
   ) {
     this.contentSvc.backMessage.subscribe((data: any) => {
@@ -37,6 +39,12 @@ export class MobileProfileNavComponent implements OnInit {
   backScreen() {
     console.log('now')
     let backURL = sessionStorage.getItem('currentWindow')
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? 'hi' : ""
+    let url3 = `${document.baseURI}`
+    if (url3.includes('hi')) {
+      url3 = url3.replace(/hi\//g, '')
+    }
     console.log(backURL)
     if (backURL) {
       let ob = {
@@ -88,7 +96,11 @@ export class MobileProfileNavComponent implements OnInit {
         if (localStorage.getItem('orgValue') === 'nhsrc') {
           this.router.navigateByUrl('/organisations/home')
         } else {
-          this.router.navigate(['/page/home'])
+          console.log("fasdfasdwew")
+          // this.currentText = text.name
+          let url = '/page/home'
+          location.href = `${url3}${url1}${url}`
+          // this.router.navigate(['/page/home'])
         }
       } else {
         let orgcheck = sessionStorage.getItem('work')
