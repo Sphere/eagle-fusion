@@ -18,7 +18,8 @@ export class WebNavLinkPageComponent implements OnInit {
     location: Location,
   ) {
     console.log('urlchanges', location.path(), 'path')
-    if (location.path().includes('/app/profile-view')) {
+    if (location.path().includes('/app/profile-view') || location.path().includes('/app/about-you')) {
+      console.log("yes here 1")
       this.showProfile = true
       this.showHome = false
     } else if (location.path().includes('/page/home')) {
@@ -27,6 +28,8 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showCompetency = true
       this.showHome = false
     } else {
+      console.log("yes here 2")
+
       this.showHome = true
     }
   }
@@ -60,7 +63,7 @@ export class WebNavLinkPageComponent implements OnInit {
   async redirect(text: string) {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1)
+    console.log(url1, text)
     let url3 = `${document.baseURI}`
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
@@ -90,6 +93,7 @@ export class WebNavLinkPageComponent implements OnInit {
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
           // const url = `app/about-you`
+          this.showProfile = true
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
           // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
