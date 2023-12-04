@@ -41,6 +41,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   userData: any
   hideData = false
   currentProfession: any
+  showLogOutBtn = false
   // language: any
   constructor(
     private configSvc: ConfigurationsService,
@@ -103,10 +104,12 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.selectedIndex = ''
         this.showbackButton = true
         this.showLogOutIcon = true
+        this.showLogOutBtn = false
 
       } else {
         this.showbackButton = false
         this.showLogOutIcon = false
+        this.showLogOutBtn = true
       }
     })
 
