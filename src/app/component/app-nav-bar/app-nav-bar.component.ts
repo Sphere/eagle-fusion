@@ -13,6 +13,8 @@ import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
 import { Location } from '@angular/common'
+import { appNavBarService } from './app-nav-bar.service'
+
 @Component({
   selector: 'ws-app-nav-bar',
   templateUrl: './app-nav-bar.component.html',
@@ -62,6 +64,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private valueSvc: ValueService,
     public dialog: MatDialog,
     location: Location,
+    public navOption: appNavBarService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
@@ -104,6 +107,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           if (e.url.includes('/search/home') || (e.url.includes('/app/new-tnc'))) {
             this.showSearchIcon = false
           } else {
+            this.navOption.changeNavBarActive('search')
             this.showSearchIcon = true
           }
         }

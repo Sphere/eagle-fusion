@@ -4,6 +4,7 @@ import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
 import { SignupService } from '../signup/signup.service'
 import { Location } from '@angular/common'
+import { appNavBarService } from '../../component/app-nav-bar/app-nav-bar.service'
 @Component({
   selector: 'ws-web-nav-link-page',
   templateUrl: './web-nav-link-page.component.html',
@@ -16,7 +17,16 @@ export class WebNavLinkPageComponent implements OnInit {
     private router: Router,
     private signupService: SignupService,
     location: Location,
+    public navOption: appNavBarService
+
   ) {
+    console.log("yesting")
+    this.navOption.currentOption.subscribe((option: any) => {
+      if (option === 'search') {
+        console.log("option: ", option)
+        // this.currentText = ''
+      }
+    })
     console.log('urlchanges', location.path(), 'path')
     if (location.path().includes('/app/profile-view') || location.path().includes('/app/about-you')) {
       console.log("yes here 1")
@@ -30,7 +40,7 @@ export class WebNavLinkPageComponent implements OnInit {
     } else {
       console.log("yes here 2")
 
-      this.showHome = true
+      this.showHome = false
     }
   }
   linksData: any
