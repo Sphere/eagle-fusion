@@ -70,25 +70,25 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
 
     if (location.path().includes('/app/profile-view')) {
-      if (location.path().includes('hi/app/profile-view')) {
+      if (location.path().includes('/hi/app/profile-view')) {
         this.currentText = 'अकाउंट'
       } else {
         this.currentText = 'Account'
       }
     } else if (location.path().includes('/page/home')) {
-      if (location.path().includes('hi/page/home')) {
+      if (location.path().includes('/hi/page/home')) {
         this.currentText = 'होम'
       } else {
         this.currentText = 'Home'
       }
     } else if (location.path().includes('competency')) {
-      if (location.path().includes('hi/competency')) {
+      if (location.path().includes('/hi/competency')) {
         this.currentText = 'योग्यता'
       } else {
         this.currentText = 'Competency'
       }
     } else if (location.path().includes('search')) {
-      if (location.path().includes('hi/search')) {
+      if (location.path().includes('/hi/search')) {
         this.currentText = 'खोज'
       } else {
         this.currentText = 'Search'
