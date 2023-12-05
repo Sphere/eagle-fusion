@@ -25,6 +25,11 @@ export class WebNavLinkPageComponent implements OnInit {
       if (option === 'search') {
         console.log("option: ", option)
         // this.currentText = ''
+        if (location.path().includes('/app/search/learning')) {
+          this.showProfile = false
+          this.showHome = false
+          this.showCompetency = false
+        }
       }
     })
     console.log('urlchanges', location.path(), 'path')
@@ -78,6 +83,7 @@ export class WebNavLinkPageComponent implements OnInit {
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
     }
+    console.log("text", text)
 
     if (text === 'home') {
       this.showProfile = false
@@ -107,7 +113,9 @@ export class WebNavLinkPageComponent implements OnInit {
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
           // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
-          this.showProfile = false
+          this.showProfile = true
+          this.showHome = false
+          this.showCompetency = false
           const url = '/page/home'
           let url4 = `${document.baseURI}`
           if (url4.includes('hi')) {
