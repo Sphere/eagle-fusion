@@ -62,6 +62,24 @@ export class CreateAccountComponent implements OnInit {
       if (lang) {
         this.preferredLanguage = lang.id
       }
+
+      if (lang.id === 'hi') {
+        const langs = lang.id
+        if (this.router.url.includes('hi')) {
+          const lan = this.router.url.split('hi/').join('')
+          if (lang === 'hi') {
+            window.location.assign(`${location.origin}/${langs}${lan}`)
+          } else {
+            window.location.assign(`${location.origin}${langs}${lan}`)
+          }
+        } else {
+          if (lang === 'hi') {
+            window.location.assign(`${location.origin}/${langs}${this.router.url}`)
+          } else {
+            window.location.assign(`${location.origin}${langs}${this.router.url}`)
+          }
+        }
+      }
     }
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
