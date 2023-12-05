@@ -43,9 +43,9 @@
         <img alt="icon" src="/fusion-assets/icons/ion_people-sharp.svg">
         {{orgUserCourseEnrolled === 1 ? '1 Leaner enrolled': orgUserCourseEnrolled + ' Leaners enrolled'}}
       </div>
-      <div class="org-details" *ngIf="courseCount>0">
+      <div class="org-details" *ngIf="courseCount.length>0">
         <img alt="icon" src="/fusion-assets/icons/material-symbols_book-outline.svg">
-        {{courseCount === 1 ? '1 Course offered': courseCount.length + ' Courses offered'}}
+        {{courseCount.length === 1 ? '1 Course offered': courseCount.length + ' Courses offered'}}
       </div>
       <div class="org-details" *ngIf="competency_offered>0">
         <img alt="icon" src="/fusion-assets/icons/ph_medal.svg">
