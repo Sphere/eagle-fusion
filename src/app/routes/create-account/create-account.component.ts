@@ -63,7 +63,7 @@ export class CreateAccountComponent implements OnInit {
         this.preferredLanguage = lang.id
       }
 
-      if (lang.id === 'hi') {
+      if (lang.id === 'hi' && !this.router.url.includes('hi')) {
         window.location.assign(`${location.origin}/${lang}${this.router.url}`)
       }
     }
