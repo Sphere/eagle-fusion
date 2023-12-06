@@ -62,10 +62,6 @@ export class CreateAccountComponent implements OnInit {
       if (lang) {
         this.preferredLanguage = lang.id
       }
-
-      if (lang.id === 'hi' && !this.router.url.includes('hi')) {
-        window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-      }
     }
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({

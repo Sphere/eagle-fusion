@@ -142,6 +142,9 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   createAcct() {
+    if (localStorage.getItem('preferedLanguage')) {
+      localStorage.removeItem('preferedLanguage')
+    }
     this.router.navigateByUrl('app/create-account')
   }
 
