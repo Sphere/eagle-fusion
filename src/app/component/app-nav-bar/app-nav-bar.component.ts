@@ -141,6 +141,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       }
       this.primaryNavbarBackground = this.configSvc.primaryNavBar
       this.pageNavbar = this.configSvc.pageNavBar
+      console.log(this.configSvc.primaryNavBarConfig)
       this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
     }
     if (this.configSvc.appsConfig) {

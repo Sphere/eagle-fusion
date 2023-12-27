@@ -42,9 +42,12 @@ export class WebNavLinkPageComponent implements OnInit {
     } else if (location.path().includes('competency')) {
       this.showCompetency = true
       this.showHome = false
+    } else if (location.path().includes('user/my_courses')) {
+      this.mycourses = true
+      this.showCompetency = false
+      this.showHome = false
     } else {
       console.log("yes here 2")
-
       this.showHome = false
     }
   }
@@ -53,6 +56,7 @@ export class WebNavLinkPageComponent implements OnInit {
   showHome = true
   showCompetency = false
   showProfile = false
+  mycourses = false
   ngOnInit() {
     console.log(this.router.url)
     this.data = this.configSvc.unMappedUser!
@@ -90,6 +94,19 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showHome = true
       let url = '/page/home'
       location.href = `${url3}${url1}${url}`
+    } else if (text === 'mycourses') {
+      let url = '/app/user/my_courses'
+      let result = await this.signupService.getUserData()
+      console.log(result)
+      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        location.href = `${url3}${url1}${url}`
+      } else {
+        this.mycourses = true
+        this.showProfile = false
+        this.showHome = false
+        this.showCompetency = false
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+      }
     } else if (text === 'competency') {
       this.showCompetency = true
       this.showProfile = false

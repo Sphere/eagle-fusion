@@ -51,7 +51,7 @@ import { CompetencyDashboardComponent } from '@aastrika_npmjs/competency-web/com
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
-
+import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -215,6 +215,10 @@ const routes: Routes = [
   {
     path: 'app/user/competency', component: CompetencyDashboardComponent,
     canActivate: [GeneralGuard],
+  },
+  {
+    path: 'app/user/my_courses', component: MyCoursesComponent,
+    canActivate: [GeneralGuard]
   },
   // {
   //   path: 'app/video-player',

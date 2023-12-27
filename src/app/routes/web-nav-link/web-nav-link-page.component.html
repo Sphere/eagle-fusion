@@ -7,6 +7,12 @@
     </a>
   </div>
   <div class="link-block">
+    <a role="button" matRipple (click)="redirect('mycourses')" [ngClass]="{'ws-mat-accent-text': mycourses }" active
+      routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
+      <span class="link-text" i18n>My Courses</span>
+    </a>
+  </div>
+  <div class="link-block">
     <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showCompetency }" (click)="redirect('competency')"
       active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>Competency</span>

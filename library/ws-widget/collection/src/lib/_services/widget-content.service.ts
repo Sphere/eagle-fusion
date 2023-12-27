@@ -39,6 +39,8 @@ const API_END_POINTS = {
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     // tslint:disable-next-line: max-line-length
     `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+  COURSE_RECOMENDATION: (profession: string) =>
+    `${PUBLIC_SLAG}/mobileApp/courseRemommendationv2?profession=${profession}`,
 }
 
 @Injectable({
@@ -376,6 +378,18 @@ export class WidgetContentService {
           (data: any) => data.result.response
         )
       )
+  }
+  fetchCourseRemommendations(profession: any): Observable<NsContent.ICourse[]> {
+    let path = API_END_POINTS.COURSE_RECOMENDATION(profession)
+    return this.http
+      .get(path)
+      .pipe(
+        catchError(this.handleError),
+        map(
+          (data: any) => data
+        )
+      )
+
   }
 
   getLatestCourse() {

@@ -130,7 +130,8 @@ import { PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemov
 import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { VideoPopupComponent } from './routes/how-does-it-works-popup/how-does-it-works-popup.component'
-import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
+import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component';
+import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
@@ -256,6 +257,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     WebCourseViewComponent,
     ScromPlayerComponent,
     MaternityCallbackComponent,
+    MyCoursesComponent,
     // SettingsComponent
   ],
   imports: [

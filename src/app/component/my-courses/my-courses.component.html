@@ -1,0 +1,202 @@
+<div class="pt-80">
+  <h2 id="heading" i18n>My Courses</h2>
+  <mat-tab-group>
+    <mat-tab label="Started ({{this.startedCourse.length}})" i18n-label>
+      <!--Started -->
+      <div class="resource-container" *ngFor="let data of startedCourse">
+        <div class="mr-2 position-relative">
+          <img class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
+            [src]="data.thumbnail || data.appIcon">
+          <ng-container>
+            <div class="video-circle flex items-center justify-center" (click)="navigateToToc(data.identifier)">
+              <img class="video-icon" src="fusion-assets/icons/polygon4.svg">
+            </div>
+          </ng-container>
+        </div>
+        <div class="flex-container w-full details-container">
+          <div class="px-2">
+            <a class="cursor-pointer" (click)="navigateToToc(data.identifier)">
+              <span class="card-title" name="content-heading">{{data?.name}}</span>
+            </a>
+            <ng-container>
+              <div class="flex flex-between items-center mt-2">
+                <div class="flex-item-left">
+                  <mat-progress-bar [mode]="'determinate'" [value]="data?.completionPercentage" class="progress-bar"
+                    [attr.aria-labelledby]="'m-c-' + data?.identifier" i18n-aria-label>
+                    {{data?.completionPercentage}}%
+                  </mat-progress-bar>
+                  <span class="value mt-2">{{ data?.completionPercentage ?
+                    data?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
+                </div>
+                <div class="hideLower">
+                  <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18>Continue Course</a>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+      <div class="flex justify-center flex-col no-content" *ngIf="this.startedCourse.length === 0">
+        <h3 class="mt15" i18n>You have not started any courses.</h3>
+        <div class="text-center">
+          <button class="outline-btn cursor-pointer" i18n (click)="tabClick()">Check out courses for
+            you
+          </button>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="For You ({{this.coursesForYou.length}})" id="trig" i18n-label>
+      <!-- For You -->
+
+      <div class="flex justify-center flex-col no-content" *ngIf="this.coursesForYou.length === 0">
+        <h3 class="mt15" i18n>You have no courses.</h3>
+      </div>
+
+      <section class="pb-1 px-4 myCoursesList" *ngIf="coursesForYou && coursesForYou.length>0">
+        <h3 id="recommendHeading" i18n>Recommended based on your profile</h3>
+        <div *ngFor="let courseData of coursesForYou" style="float: left;width:270px; margin: 10px;height: 220px; ">
+          <ng-container *ngIf="coursesForYou && coursesForYou.length>0">
+            <ng-container *ngIf="displayConfig?.displayType" [ngSwitch]="displayConfig?.displayType">
+              <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardBadges"></ng-container>
+              <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardStandard"></ng-container>
+            </ng-container>
+
+            <ng-template #cardBadges>
+              <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+                <a (click)="navigateToToc(courseData.course_id)">
+                  <div class="box">
+                    <div class="text-over">
+                      <img class="appIcon fitsize"
+                        src="{{courseData.course_thumbnail? courseData.course_thumbnail : courseData.course_appIcon}}">
+                      <ng-container>
+                        <div class="topStyle">{{courseData.course_sourceName}}</div>
+                      </ng-container>
+                      <ng-container *ngIf="courseData.course_issueCertification">
+                        <div class="bottomStyle">
+                          <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector" i18n>
+                          Certified
+                        </div>
+                      </ng-container>
+                    </div>
+                    <div class="heightBox">
+                      <p class="name">{{courseData.course_name}}</p>
+                      <!-- <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p> -->
+
+                      <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
+                    </div>
+                    <div *ngIf="enableConfig" class="p-2">
+                      <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+                    </div>
+                    <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
+                      <div class="competency-card flex m-3">
+                        <img class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
+                        <div>
+                          <span>{{cometencyData[0]?.name}}, </span>
+                          <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                            <span>{{competency.levels}}</span>
+                            <span *ngIf="!last">, </span>
+                          </ng-container>
+                        </div>
+                      </div>
+
+                    </ng-container>
+                    <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
+                      <div class="mt-2 px-1">
+
+                        <span class="value"
+                          *ngIf="courseData?.completionPercentage">{{courseData?.completionPercentage}}%</span>
+                      </div>
+                    </ng-container>
+                  </div>
+                </a>
+              </section>
+            </ng-template>
+
+            <ng-template #cardStandard>
+              <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+                <a (click)="navigateToToc(courseData.course_id)">
+                  <div class="box">
+                    <div class="text-center">
+                      <img class="appIcon"
+                        src="{{courseData.course_thumbnail? courseData.course_thumbnail : courseData.course_appIcon}}">
+                    </div>
+                    <div class="pl-3 pt-3">
+                      <!-- <p class="name">{{courseData.name}}</p> -->
+                      <!-- <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p> -->
+
+                      <!-- <p class="description" *ngIf="enableConfig">{{courseData.description}}</p> -->
+                    </div>
+                    <div *ngIf="enableConfig" class="p-2">
+                      <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+                    </div>
+                    <ng-container
+                      *ngIf="courseData.competencies_v1 && cometencyData.length > 0  && showCompentencyDetails">
+                      <div class="flex flex-col m-3 ">
+                        <div><span class="font-medium" i18n>Competency Name: </span> {{cometencyData[0].name}}</div>
+                        <div class="flex flex-row">
+                          <span class="font-medium" i18n>Levels : </span>
+                          <ng-container *ngFor="let competency of cometencyData; let last = last; ">
+                            <div>{{competency.levels}}
+                              <span *ngIf="!last">, </span>
+                            </div>
+                          </ng-container>
+                        </div>
+                      </div>
+
+                    </ng-container>
+                    <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
+                      <div class="mt-2 px-1">
+                        <span class="value"
+                          *ngIf="courseData?.completionPercentage">{{courseData?.completionPercentage}}%</span>
+                      </div>
+                    </ng-container>
+                  </div>
+                </a>
+              </section>
+            </ng-template>
+          </ng-container>
+        </div>
+      </section>
+    </mat-tab>
+    <mat-tab label="Completed ({{this.completedCourse.length}})" i18n-label>
+      <!-- Completed -->
+      <div class="flex justify-center flex-col no-content" *ngIf="this.completedCourse.length === 0">
+        <h3 class="mt15" i18n>You have not completed any courses.</h3>
+      </div>
+      <div class="resource-container" *ngFor="let data of completedCourse">
+        <div class="mr-2 position-relative">
+          <img class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
+            [src]="data.thumbnail || data.appIcon">
+          <ng-container>
+            <div class="video-circle flex items-center justify-center" (click)="navigateToToc(data.identifier)">
+              <img class="video-icon" src="fusion-assets/icons/polygon4.svg">
+            </div>
+          </ng-container>
+        </div>
+        <div class="flex-container w-full details-container">
+          <div class="px-2">
+            <a class="cursor-pointer" (click)="navigateToToc(data.identifier)">
+              <span class="card-title" name="content-heading">{{data?.name}}</span>
+            </a>
+            <ng-container>
+              <div class="flex flex-between items-center mt-2">
+                <!-- <div class="flex-item-left">
+                  <mat-progress-bar [mode]="'determinate'" [value]="data?.completionPercentage" class="progress-bar"
+                    [attr.aria-labelledby]="'m-c-' + data?.identifier" i18n-aria-label>
+                    {{data?.completionPercentage}}%
+                  </mat-progress-bar>
+                  <span class="value mt-2">{{ data?.completionPercentage ?
+                    data?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
+                </div> -->
+                <div class="hideLower">
+                  <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18>View Course
+                    Details</a>
+                </div>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div>

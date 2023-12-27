@@ -75,6 +75,12 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       } else {
         this.currentText = 'Account'
       }
+    } else if (location.path().includes('user/my_courses')) {
+      if (location.path().includes('/hi/app/user/my_courses')) {
+        this.currentText = 'आपके पाठ्यक्रम'
+      } else {
+        this.currentText = 'My Courses'
+      }
     } else if (location.path().includes('/page/home')) {
       if (location.path().includes('/hi/page/home')) {
         this.currentText = 'होम'
@@ -127,6 +133,10 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     if (text.name === 'Home' || text.name === "होम") {
       this.currentText = text.name
       let url = '/page/home'
+      location.href = `${url3}${url1}${url}`
+    } else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
+      this.currentText = text.name
+      let url = text.url
       location.href = `${url3}${url1}${url}`
     } else if (text.name === 'Competency' || text.name === "योग्यता") {
       this.currentText = text.name
@@ -182,6 +192,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.widgetData.actionBtnId &&
       this.configurationsSvc.appsConfig
     ) {
+      console.log(this.widgetData.actionBtnId)
       this.widgetData.actionBtn = this.configurationsSvc.appsConfig.features[this.widgetData.actionBtnId]
 
       if (this.widgetData.actionBtn && this.widgetData.actionBtn.badgeEndpoint) {

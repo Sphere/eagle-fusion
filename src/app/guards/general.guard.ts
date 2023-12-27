@@ -143,7 +143,7 @@ export class GeneralGuard implements CanActivate {
           // }
           console.log(data.profileDetails!.profileReq!.personalDetails)
 
-          if (data.profileDetails!.profileReq!.personalDetails) {
+          if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
             if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
               if (data.profileDetails!.profileReq!.personalDetails!.dob !== undefined) {
                 console.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
@@ -174,6 +174,9 @@ export class GeneralGuard implements CanActivate {
                 }
               }
             }
+          } else {
+            localStorage.setItem('datanow', JSON.stringify(data))
+            this.router.navigate(['app', 'new-tnc'])
           }
         },
         (_err: any) => {
