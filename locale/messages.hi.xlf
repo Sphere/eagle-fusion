@@ -4765,6 +4765,79 @@
           <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="bf612b44e3ba6c05c219aceac6a6ed6c37df1dc4" datatype="html">
+        <source>Complete</source>
+                 <target state="final">पूरा</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0e090371325e4b07a054bca8432614ff946e141c" datatype="html">
+        <source>You have not started any courses.</source>
+                 <target state="final">आपने कोई पाठ्यक्रम प्रारंभ नहीं किया है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="264b7691b64285c201181a4105a6e22b5da4b400" datatype="html">
+        <source>Check out courses for you
+          </source>
+                   <target state="final">अपने लिए पाठ्यक्रम देखें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5b5587dd6f22ca19e3ae7f93c0e2e09c6b36abc4" datatype="html">
+        <source>Started (<x id="INTERPOLATION" equiv-text="{{this.startedCourse.length}}"/>)</source>
+                 <target state="final">शुरू कर दिया (<x id="INTERPOLATION" equiv-text="{{this.startedCourse.length}}"/>)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cd3cbb4ba3cc7d31b26e462bf6bf86035124e0c3" datatype="html">
+        <source>You have no courses.</source>
+                 <target state="final">आपके पास कोई पाठ्यक्रम नहीं है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8b1a4ba258ceed945d51b608a90be2c7565fcec0" datatype="html">
+        <source>Recommended based on your profile</source>
+                 <target state="final">आपकी प्रोफ़ाइल के आधार पर अनुशंसित</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">56</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9cfb935090450e9c3de563f18120c2deb58ae661" datatype="html">
+        <source>For You (<x id="INTERPOLATION" equiv-text="{{this.coursesForYou.length}}"/>)</source>
+                 <target state="final">आपके लिए (<x id="INTERPOLATION" equiv-text="{{this.coursesForYou.length}}"/>)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1f0f0b28fc3dcb10de9af897465995d077fbc7ae" datatype="html">
+        <source>You have not completed any courses.</source>
+                 <target state="final">आपने कोई पाठ्यक्रम प्रारंभ नहीं किया है.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1a05f612f40c89a9301e133c306204ddfb814fdd" datatype="html">
+        <source>Completed (<x id="INTERPOLATION" equiv-text="{{this.completedCourse.length}}"/>)</source>
+                 <target state="final">पुरा होना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="6bec7734cb3740b324966b003c0f45f0148a70e8" datatype="html">
         <source>search</source>
               <target state="final">सर्च करें</target>

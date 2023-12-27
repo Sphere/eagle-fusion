@@ -3,7 +3,8 @@
   <mat-tab-group>
     <mat-tab label="Started ({{this.startedCourse.length}})" i18n-label>
       <!--Started -->
-      <div class="resource-container" *ngFor="let data of startedCourse">
+      <div class="resource-container" *ngFor="let data of startedCourse; let last = last"
+        [ngClass]="{'last-child1': last}">
         <div class="mr-2 position-relative">
           <img class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
             [src]="data.thumbnail || data.appIcon">
@@ -47,14 +48,14 @@
     </mat-tab>
     <mat-tab label="For You ({{this.coursesForYou.length}})" id="trig" i18n-label>
       <!-- For You -->
-
       <div class="flex justify-center flex-col no-content" *ngIf="this.coursesForYou.length === 0">
         <h3 class="mt15" i18n>You have no courses.</h3>
       </div>
 
       <section class="pb-1 px-4 myCoursesList" *ngIf="coursesForYou && coursesForYou.length>0">
         <h3 id="recommendHeading" i18n>Recommended based on your profile</h3>
-        <div *ngFor="let courseData of coursesForYou" style="float: left;width:270px; margin: 10px;height: 220px; ">
+        <div *ngFor="let courseData of coursesForYou; let last = last"
+          style="float: left;width:270px; margin: 10px;height: 220px; " [ngClass]="{'last-child2': last}">
           <ng-container *ngIf="coursesForYou && coursesForYou.length>0">
             <ng-container *ngIf="displayConfig?.displayType" [ngSwitch]="displayConfig?.displayType">
               <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardBadges"></ng-container>
@@ -163,7 +164,8 @@
       <div class="flex justify-center flex-col no-content" *ngIf="this.completedCourse.length === 0">
         <h3 class="mt15" i18n>You have not completed any courses.</h3>
       </div>
-      <div class="resource-container" *ngFor="let data of completedCourse">
+      <div class="resource-container" *ngFor="let data of completedCourse; let last = last"
+        [ngClass]="{'last-child3': last}">
         <div class="mr-2 position-relative">
           <img class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
             [src]="data.thumbnail || data.appIcon">
