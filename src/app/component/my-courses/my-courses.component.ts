@@ -12,6 +12,7 @@ export class MyCoursesComponent implements OnInit {
   startedCourse: any[] = []
   completedCourse: any[] = []
   coursesForYou: any[] = []
+  isLoading = false
   displayConfig = {
     displayType: 'card-badges',
     badges: {
@@ -34,6 +35,7 @@ export class MyCoursesComponent implements OnInit {
       userId = this.configSvc.userProfile.userId || ''
     }
     console.log()
+    this.isLoading = true
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
         console.log(courses)
@@ -50,6 +52,7 @@ export class MyCoursesComponent implements OnInit {
             }
 
             this.startedCourse.push(myCourseObject)
+            this.isLoading = false
           } else {
             const completedCourseObject = {
               identifier: key.content.identifier,
@@ -61,11 +64,11 @@ export class MyCoursesComponent implements OnInit {
             }
 
             this.completedCourse.push(completedCourseObject)
-
           }
         })
         console.log(this.startedCourse, 'c', this.startedCourse.length)
         console.log(this.completedCourse, 'aa', this.completedCourse.length)
+
       })
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
       const professionalDetails = this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails[0]

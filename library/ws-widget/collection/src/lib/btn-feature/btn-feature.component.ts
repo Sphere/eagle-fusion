@@ -68,7 +68,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
     }
-
+    console.log(location.path(), 'btn-feature')
     if (location.path().includes('/app/profile-view')) {
       if (location.path().includes('/hi/app/profile-view')) {
         this.currentText = 'अकाउंट'
@@ -192,7 +192,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.widgetData.actionBtnId &&
       this.configurationsSvc.appsConfig
     ) {
-      console.log(this.widgetData.actionBtnId)
       this.widgetData.actionBtn = this.configurationsSvc.appsConfig.features[this.widgetData.actionBtnId]
 
       if (this.widgetData.actionBtn && this.widgetData.actionBtn.badgeEndpoint) {
