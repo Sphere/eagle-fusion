@@ -4824,10 +4824,27 @@
       </trans-unit>
       <trans-unit id="1f0f0b28fc3dcb10de9af897465995d077fbc7ae" datatype="html">
         <source>You have not completed any courses.</source>
-                 <target state="final">आपने कोई पाठ्यक्रम प्रारंभ नहीं किया है.</target>
+                 <target state="final">आपने कोई पाठ्यक्रम प्रारंभ नहीं किया है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
           <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="b7c8b2200a92592fad7dd7b302efd9e349622bcc" datatype="html">
+        <source>Continue Course</source>
+          <target state="final">पाठ्यक्रम जारी रखें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="22f8fbe7cfc2aaed6dd3c19e352262d81f713192" datatype="html">
+        <source>View Course
+                    Details</source>
+                    <target>पाठ्यक्रम जारी रखें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">194</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1a05f612f40c89a9301e133c306204ddfb814fdd" datatype="html">

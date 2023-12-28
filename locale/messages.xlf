@@ -4722,6 +4722,13 @@
           <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="b7c8b2200a92592fad7dd7b302efd9e349622bcc" datatype="html">
+        <source>Continue Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="0e090371325e4b07a054bca8432614ff946e141c" datatype="html">
         <source>You have not started any courses.</source>
         <context-group purpose="location">
@@ -4771,6 +4778,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
           <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="22f8fbe7cfc2aaed6dd3c19e352262d81f713192" datatype="html">
+        <source>View Course
+                    Details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
+          <context context-type="linenumber">194</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1a05f612f40c89a9301e133c306204ddfb814fdd" datatype="html">
