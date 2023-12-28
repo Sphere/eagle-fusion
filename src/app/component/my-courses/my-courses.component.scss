@@ -1,7 +1,7 @@
 @import 'ws-mixins';
 
-.pt-80 {
-  padding-top: 0px;
+.paddingView {
+  padding: 20px;
 
   @include breakpoint-xs {
     padding-top: 80px;
@@ -55,6 +55,12 @@
   #recommendHeading {
     display: none !important;
   }
+  .desktopView {
+    width: 74%;
+  }
+.pt-80 {
+
+}
 }
 
 .blue-btn {
@@ -288,4 +294,8 @@
     height: 78px;
     opacity: 0;
   }
+}
+::ng-deep .mat-tab-label {
+  //padding: 0px !important; // adjust this to whatever padding you need
+  justify-content: left !important;
 }

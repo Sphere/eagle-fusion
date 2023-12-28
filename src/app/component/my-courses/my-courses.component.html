@@ -1,4 +1,4 @@
-<div class="pt-80">
+<div class="paddingView">
   <h2 id="heading" i18n>My Courses</h2>
   <mat-tab-group>
     <mat-tab label="Started ({{this.startedCourse.length}})" i18n-label>
@@ -15,10 +15,16 @@
           </ng-container>
         </div>
         <div class="flex-container w-full details-container">
-          <div class="px-2">
-            <a class="cursor-pointer" (click)="navigateToToc(data.identifier)">
-              <span class="card-title" name="content-heading">{{data?.name}}</span>
-            </a>
+          <div class="px-2" style="width: inherit;">
+            <div class="desktopView">
+              <a class="cursor-pointer" (click)="navigateToToc(data.identifier)">
+                <span class="card-title" name="content-heading">{{data?.name}}</span>
+              </a>
+            </div>
+            <div class="hideLower" style="float: right;margin-top: -15px;">
+              <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>Continue Course</a>
+            </div>
+
             <ng-container>
               <div class="flex flex-between items-center mt-2">
                 <div class="flex-item-left">
@@ -29,9 +35,9 @@
                   <span class="value mt-2">{{ data?.completionPercentage ?
                     data?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
                 </div>
-                <div class="hideLower">
+                <!-- <div class="hideLower">
                   <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>Continue Course</a>
-                </div>
+                </div> -->
               </div>
             </ng-container>
           </div>
@@ -176,13 +182,17 @@
           </ng-container>
         </div>
         <div class="flex-container w-full details-container">
-          <div class="px-2">
+          <div class="px-2" style="width: inherit;">
             <a class="cursor-pointer" (click)="navigateToToc(data.identifier)">
               <span class="card-title" name="content-heading">{{data?.name}}</span>
             </a>
-            <ng-container>
-              <div class="flex flex-between items-center mt-2">
-                <!-- <div class="flex-item-left">
+            <div class="hideLower" style="float: right;margin-top: -15px;">
+              <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>View Course
+                Details</a>
+            </div>
+            <!-- <ng-container>
+              <div class="flex flex-between items-center mt-2"> -->
+            <!-- <div class="flex-item-left">
                   <mat-progress-bar [mode]="'determinate'" [value]="data?.completionPercentage" class="progress-bar"
                     [attr.aria-labelledby]="'m-c-' + data?.identifier" i18n-aria-label>
                     {{data?.completionPercentage}}%
@@ -190,12 +200,9 @@
                   <span class="value mt-2">{{ data?.completionPercentage ?
                     data?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
                 </div> -->
-                <div class="hideLower">
-                  <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>View Course
-                    Details</a>
-                </div>
-              </div>
-            </ng-container>
+
+            <!-- </div>
+            </ng-container> -->
           </div>
         </div>
       </div>
