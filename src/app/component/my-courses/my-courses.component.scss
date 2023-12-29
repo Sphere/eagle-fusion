@@ -21,12 +21,21 @@
 }
 
 @media (max-width: 767px) {
+  #heading {
+    margin-left: 15px;
+    margin-bottom: 10px;
+  }
+
   .hideLower {
     display: none !important;
   }
 
   .paddingView {
     padding: 80px 0px 0px 0px;
+  }
+
+  .resource-container {
+    margin: 20px 0px 8px 5px !important;
   }
 
   #recommendHeading {
@@ -54,6 +63,10 @@
     padding: 10px 100px 10px 60px;
   }
 
+  .resource-container {
+    margin: 20px 0px 8px 1px !important;
+  }
+
   ::ng-deep .mat-tab-label {
     padding: 0px !important; // adjust this to whatever padding you need
     justify-content: left !important;
@@ -63,6 +76,10 @@
 @media (min-width: 1280px) {
   .paddingView {
     padding: 10px 315px 10px 60px;
+  }
+
+  .resource-container {
+    margin: 20px 0px 8px 1px !important;
   }
 
   ::ng-deep .mat-tab-label {
@@ -100,7 +117,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  margin: 20px 0px 8px 1px !important;
+  //margin: 20px 0px 8px 1px !important;
   align-items: flex-start !important;
 
   .card-thumbnail {
@@ -250,7 +267,7 @@
 .heightBox {
   height: 60px;
   text-align: left;
-  padding: 15px 5px;
+  padding: 16px 5px;
   overflow: hidden;
 }
 
