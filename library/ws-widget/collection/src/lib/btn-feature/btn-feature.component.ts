@@ -102,6 +102,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     } else {
       this.currentText = ''
     }
+    console.log(this.currentText, 'btn')
   }
 
   updateBadge() {

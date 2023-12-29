@@ -30,6 +30,9 @@ export class MyCoursesComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (sessionStorage.getItem('cURL')) {
+      sessionStorage.removeItem('cURL')
+    }
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
@@ -90,8 +93,8 @@ export class MyCoursesComponent implements OnInit {
 
   }
 
-
   async navigateToToc(contentIdentifier: any) {
+    sessionStorage.setItem('cURL', location.href)
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
     let url3 = `${document.baseURI}`

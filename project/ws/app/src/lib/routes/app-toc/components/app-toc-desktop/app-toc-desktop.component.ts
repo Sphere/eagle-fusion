@@ -117,7 +117,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   @HostListener('window:popstate', ['$event'])
   onPopState() {
-    window.location.href = '/page/home'
+    let url = sessionStorage.getItem('cURL') || '/page/home'
+    if (url) {
+      location.href = url
+    }
+
+
   }
 
   ngOnInit() {
@@ -238,6 +243,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   get showSubtitleOnBanner() {
     return this.tocSvc.subtitleOnBanners
+  }
+  redirect() {
+    let url = sessionStorage.getItem('cURL') || '/page/home'
+    if (url) {
+      location.href = url
+    }
   }
 
   // resumeBtn() {
