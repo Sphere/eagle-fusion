@@ -1,5 +1,5 @@
 <div class="paddingView">
-  <h2 id="heading" i18n>My Courses</h2>
+  <h1 id="heading" i18n>My Courses</h1>
   <mat-tab-group>
     <mat-tab label="Started ({{this.startedCourse.length}})" i18n-label>
       <!--Started -->
@@ -21,7 +21,7 @@
                 <span class="card-title" name="content-heading">{{data?.name}}</span>
               </a>
             </div>
-            <div class="hideLower" style="float: right;margin-top: -15px;">
+            <div class="hideLower" style="float: right;margin-top: -15px;margin-right: -8px;">
               <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>Continue Course</a>
             </div>
 
@@ -183,12 +183,13 @@
         </div>
         <div class="flex-container w-full details-container">
           <div class="px-2" style="width: inherit;">
-            <a class="cursor-pointer" (click)="navigateToToc(data.identifier)">
-              <span class="card-title" name="content-heading">{{data?.name}}</span>
-            </a>
-            <div class="hideLower" style="float: right;margin-top: -15px;">
-              <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>View Course
-                Details</a>
+            <div class="desktopView">
+              <a class="cursor-pointer" (click)="navigateToToc(data.identifier)">
+                <span class="card-title" name="content-heading">{{data?.name}}</span>
+              </a>
+            </div>
+            <div class="hideLower" style="float: right;margin-top: -15px; margin-right: -8px;">
+              <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>View Course Details</a>
             </div>
             <!-- <ng-container>
               <div class="flex flex-between items-center mt-2"> -->

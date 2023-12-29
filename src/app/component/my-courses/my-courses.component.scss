@@ -1,15 +1,9 @@
 @import 'ws-mixins';
 
-.paddingView {
-  padding: 20px;
 
-  @include breakpoint-xs {
-    padding-top: 80px;
-  }
-}
 
 #heading {
-  margin-left: 20px;
+  //margin-left: 20px;
   margin-top: 20px;
   margin-bottom: 0px;
 
@@ -26,9 +20,13 @@
   }
 }
 
-@media (max-width: 800px) {
+@media (max-width: 767px) {
   .hideLower {
     display: none !important;
+  }
+
+  .paddingView {
+    padding: 80px 0px 0px 0px;
   }
 
   #recommendHeading {
@@ -51,16 +49,41 @@
   }
 }
 
-@media (min-width: 801px) {
+@media (min-width: 768px) and (max-width: 1279px) {
+  .paddingView {
+    padding: 10px 100px 10px 60px;
+  }
+
+  ::ng-deep .mat-tab-label {
+    padding: 0px !important; // adjust this to whatever padding you need
+    justify-content: left !important;
+  }
+}
+
+@media (min-width: 1280px) {
+  .paddingView {
+    padding: 10px 315px 10px 60px;
+  }
+
+  ::ng-deep .mat-tab-label {
+    padding: 0px !important; // adjust this to whatever padding you need
+    justify-content: left !important;
+  }
+}
+
+@media (min-width: 768px) {
+
+
   #recommendHeading {
     display: none !important;
   }
-  .desktopView {
-    width: 74%;
-  }
-.pt-80 {
 
-}
+  .desktopView {
+    width: 74% !important;
+    white-space: pre-line;
+  }
+
+
 }
 
 .blue-btn {
@@ -77,7 +100,7 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  margin: 16px 8px 8px 8px !important;
+  margin: 20px 0px 8px 1px !important;
   align-items: flex-start !important;
 
   .card-thumbnail {
@@ -294,8 +317,4 @@
     height: 78px;
     opacity: 0;
   }
-}
-::ng-deep .mat-tab-label {
-  //padding: 0px !important; // adjust this to whatever padding you need
-  justify-content: left !important;
 }

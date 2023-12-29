@@ -19,21 +19,21 @@
 }
 
 
-@media (min-width:320px)  {
+@media (min-width:320px) and (max-width: 374px)  {
   .navbar-gap{
-  gap: 0px 7px;
+  gap: 0px 3px;
 }
 }
 @media (min-width:375px)  {
   .navbar-gap{
-  gap: 0px 13px;
-}
-}
-@media (min-width:425px)  {
-  .navbar-gap{
   gap: 0px 10px;
 }
 }
+// @media (min-width:425px)  {
+//   .navbar-gap{
+//   gap: 0px 10px;
+// }
+// }
 .custom {
   height: 80px;
 
