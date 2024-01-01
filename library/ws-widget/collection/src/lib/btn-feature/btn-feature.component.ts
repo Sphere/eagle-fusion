@@ -68,33 +68,33 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
     }
-    console.log(location.path(), 'btn-feature')
-    if (location.path().includes('/app/profile-view')) {
-      if (location.path().includes('/hi/app/profile-view')) {
+    console.log(location.path(), window.location.href, 'btn-feature')
+    if (window.location.href.includes('/app/profile-view')) {
+      if (window.location.href.includes('/hi/app/profile-view')) {
         this.currentText = 'अकाउंट'
       } else {
         this.currentText = 'Account'
       }
-    } else if (location.path().includes('user/my_courses')) {
-      if (location.path().includes('/hi/app/user/my_courses')) {
+    } else if (window.location.href.includes('user/my_courses')) {
+      if (window.location.href.includes('/hi/app/user/my_courses')) {
         this.currentText = 'आपके पाठ्यक्रम'
       } else {
         this.currentText = 'My Courses'
       }
-    } else if (location.path().includes('/page/home')) {
-      if (location.path().includes('/hi/page/home')) {
+    } else if (window.location.href.includes('/page/home')) {
+      if (window.location.href.includes('/hi/page/home')) {
         this.currentText = 'होम'
       } else {
         this.currentText = 'Home'
       }
-    } else if (location.path().includes('competency')) {
-      if (location.path().includes('/hi/competency')) {
+    } else if (window.location.href.includes('competency')) {
+      if (window.location.href.includes('/hi/competency')) {
         this.currentText = 'योग्यता'
       } else {
         this.currentText = 'Competency'
       }
-    } else if (location.path().includes('search')) {
-      if (location.path().includes('/hi/search')) {
+    } else if (window.location.href.includes('search')) {
+      if (window.location.href.includes('/hi/search')) {
         this.currentText = 'खोज'
       } else {
         this.currentText = 'Search'
@@ -102,7 +102,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     } else {
       this.currentText = ''
     }
-    console.log(this.currentText, 'btn')
+    console.log(this.currentText, 'btn-105')
   }
 
   updateBadge() {

@@ -30,6 +30,11 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showHome = false
           this.showCompetency = false
         }
+        if (location.path().includes('/app/profile-view')) {
+          this.showProfile = true
+          this.showHome = false
+          this.showCompetency = false
+        }
       }
     })
     console.log('urlchanges', location.path(), 'path')
