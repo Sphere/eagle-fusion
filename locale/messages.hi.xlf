@@ -1760,6 +1760,18 @@
           <context context-type="linenumber">61</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="cfbbf38d875ce6dff37ac65448bbc9bcf67e33a3" datatype="html">
+        <source>2024</source>
+                <target state="final">२०२४</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
+          <context context-type="linenumber">114</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
+          <context context-type="linenumber">65</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="615f9c0ee29276ad4baeb478eee0bd5c5695cc4e" datatype="html">
         <source>AastarUrmika Health Systems ("Aastrika Foundation") </source>
         <target state="final">आस्टारउर्मिका हेल्थ सिस्टम्स ("आस्ट्रिका फाउंडेशन")</target>
@@ -4856,7 +4868,7 @@
       </trans-unit>
       <trans-unit id="1a05f612f40c89a9301e133c306204ddfb814fdd" datatype="html">
         <source>Completed (<x id="INTERPOLATION" equiv-text="{{this.completedCourse.length}}"/>)</source>
-                 <target state="final">पुरा होना</target>
+                 <target state="final">पुरा होना (<x id="INTERPOLATION" equiv-text="{{this.completedCourse.length}}"/>)</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
           <context context-type="linenumber">162</context>
