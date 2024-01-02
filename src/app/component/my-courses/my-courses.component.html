@@ -6,11 +6,11 @@
       <div class="resource-container" *ngFor="let data of startedCourse; let last = last"
         [ngClass]="{'last-child1': last}">
         <div class="mr-2 position-relative">
-          <img class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
+          <img alt="thumbnail" class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
             [src]="data.thumbnail || data.appIcon">
           <ng-container>
             <div class="video-circle flex items-center justify-center" (click)="navigateToToc(data.identifier)">
-              <img class="video-icon" src="fusion-assets/icons/polygon4.svg">
+              <img class="video-icon" alt="polygon" src="/fusion-assets/icons/polygon4.svg">
             </div>
           </ng-container>
         </div>
@@ -73,14 +73,15 @@
                 <a (click)="navigateToToc(courseData.course_id)">
                   <div class="box">
                     <div class="text-over">
-                      <img class="appIcon fitsize"
+                      <img class="appIcon fitsize" alt="thumbnail"
                         src="{{courseData.course_thumbnail? courseData.course_thumbnail : courseData.course_appIcon}}">
                       <ng-container>
                         <div class="topStyle">{{courseData.course_sourceName}}</div>
                       </ng-container>
                       <ng-container *ngIf="courseData.course_issueCertification">
                         <div class="bottomStyle">
-                          <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector" i18n>
+                          <img alt="thumbnail" src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector"
+                            i18n>
                           Certified
                         </div>
                       </ng-container>
@@ -96,7 +97,7 @@
                     </div>
                     <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
                       <div class="competency-card flex m-3">
-                        <img class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
+                        <img alt="image" class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
                         <div>
                           <span>{{cometencyData[0]?.name}}, </span>
                           <ng-container *ngFor="let competency of cometencyData; let last = last;">
@@ -124,7 +125,7 @@
                 <a (click)="navigateToToc(courseData.course_id)">
                   <div class="box">
                     <div class="text-center">
-                      <img class="appIcon"
+                      <img class="appIcon" alt="thumbnail"
                         src="{{courseData.course_thumbnail? courseData.course_thumbnail : courseData.course_appIcon}}">
                     </div>
                     <div class="pl-3 pt-3">
@@ -173,11 +174,11 @@
       <div class="resource-container" *ngFor="let data of completedCourse; let last = last"
         [ngClass]="{'last-child3': last}">
         <div class="mr-2 position-relative">
-          <img class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
+          <img alt="thumbnail" class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
             [src]="data.thumbnail || data.appIcon">
           <ng-container>
             <div class="video-circle flex items-center justify-center" (click)="navigateToToc(data.identifier)">
-              <img class="video-icon" src="fusion-assets/icons/polygon4.svg">
+              <img alt="thumbnail" class="video-icon" alt="polygon" src="/fusion-assets/icons/polygon4.svg">
             </div>
           </ng-container>
         </div>

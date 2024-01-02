@@ -277,10 +277,24 @@ export class InitService {
   }
 
   private async fetchAppsConfig(): Promise<NsAppsConfig.IAppsConfig> {
-    const local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    console.log(local, 'local', this.configSvc.unMappedUser.profileDetails.preferences.language, location.href.includes('/hi/'))
-    const url = local === 'hi' ? `/feature/apps.${'hi'}.json` : `/feature/apps.json`
+    let local: any
+    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) {
+      local = this.configSvc.unMappedUser.profileDetails.preferences.language
+      local === 'hi' ? 'hi' : ''
+      if (location.href.includes('/hi/')) {
+        local = 'hi'
+      }
+    } else {
+      if (location.href.includes('/hi/')) {
+        local = 'hi'
+      } else {
+        local = ''
+      }
+    }
+    // local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
+    const url = local === 'hi' ? `/feature/apps.${'hi'}.json` : `/feature/apps.json`
+    console.log(local, 'local', url)
     const appsConfig = await this.http
       .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}${url}`)
       .toPromise()

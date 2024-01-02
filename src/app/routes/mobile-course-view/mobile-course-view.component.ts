@@ -37,6 +37,9 @@ export class MobileCourseViewComponent implements OnInit {
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
     if (this.configSvc.userProfile) {
+      if (sessionStorage.getItem('cURL')) {
+        sessionStorage.removeItem('cURL')
+      }
       this.isLoggedIn = true
     } else {
       this.isLoggedIn = false
@@ -90,6 +93,7 @@ export class MobileCourseViewComponent implements OnInit {
       // this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
+        sessionStorage.setItem('cURL', location.href)
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
