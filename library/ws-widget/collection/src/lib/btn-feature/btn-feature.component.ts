@@ -10,6 +10,8 @@ import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Location } from '@angular/common'
+import { appNavBarService } from 'src/app/component/app-nav-bar/app-nav-bar.service'
+
 export const typeMap = {
   cardFull: 'card-full',
   cardMini: 'card-mini',
@@ -36,7 +38,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   @Input() widgetData!: NsPage.INavLink
   @Input() showFixedLength = false
   profileImage!: string | null
-  givenName = ''
+  givenName: any
   // @Input()
   // @HostBinding('id')
   // public id!: string
@@ -63,11 +65,26 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private searchApi: SearchApiService,
     private signupService: SignupService,
     location: Location,
+    public navOption: appNavBarService
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
     }
+    this.navOption.currentOption.subscribe((option: any) => {
+      console.log('options', option, window.location.href)
+      if (window.location.href.includes('/app/profile-view')) {
+        if (window.location.href.includes('/hi/app/profile-view')) {
+          this.currentText = 'अकाउंट'
+        } else {
+          this.currentText = 'Account'
+        }
+      }
+      if (window.location.href.includes('/app/toc')) {
+        this.currentText = ''
+      }
+    })
+
     console.log(location.path(), window.location.href, 'btn-feature')
     if (window.location.href.includes('/app/profile-view')) {
       if (window.location.href.includes('/hi/app/profile-view')) {
@@ -102,7 +119,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     } else {
       this.currentText = ''
     }
-    console.log(this.currentText, 'btn-105')
+    console.log(this.currentText, 'btn-122')
   }
 
   updateBadge() {
@@ -144,6 +161,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       let url = '/app/user/competency'
       location.href = `${url3}${url1}${url}`
     } else if (text.name === "खोज" || text.name === "Search") {
+      this.navOption.changeNavBarActive('search')
       this.currentText = text.name
       let url = `${text.url}`
       location.href = `${url3}${url1}${url}`
