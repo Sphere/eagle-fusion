@@ -88,13 +88,13 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         this.currentText = 'Home'
       }
     } else if (window.location.href.includes('competency')) {
-      if (window.location.href.includes('/hi/competency')) {
+      if (window.location.href.includes('/hi/app/user/competency')) {
         this.currentText = 'योग्यता'
       } else {
         this.currentText = 'Competency'
       }
     } else if (window.location.href.includes('search')) {
-      if (window.location.href.includes('/hi/search')) {
+      if (window.location.href.includes('/hi/app/search/home')) {
         this.currentText = 'खोज'
       } else {
         this.currentText = 'Search'
