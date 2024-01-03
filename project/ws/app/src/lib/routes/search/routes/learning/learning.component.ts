@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
+import { ActivatedRoute, Router, NavigationEnd } from '@angular/router'
 import { NsContent, NsError, NSSearch, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, ValueService, UtilityService } from '@ws-widget/utils'
@@ -115,7 +115,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   translatedFilters: any = {}
   isIntranetAllowedSettings = false
   prefChangeSubscription: Subscription | null = null
-
+  withoutFilter: boolean = false
   filtersResponse: IFilterUnitResponse[] = []
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
@@ -235,6 +235,15 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+    this.router.events.subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        if (event.url.includes('/learning')) {
+          this.withoutFilter = true
+        }
+      }
+    })
+    console.log("view", this.withoutFilter)
+
     this.searchServ.searchConfig = this.activated.snapshot.data.pageData.data
     this.prefChangeSubscription = this.configSvc.prefChangeNotifier.subscribe(() => {
       this.isIntranetAllowedSettings = this.configSvc.isIntranetAllowed
@@ -802,8 +811,9 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   removeLanguage() {
-
-    this.searchRequest.lang = ''
+    this.contact = this.lang = ''
+    this.searchRequest.filters['lang'] = []
+    console.log('filter', this.searchRequest)
     this.router.navigate([], {
       queryParams: { f: JSON.stringify(this.searchRequest.filters), q: this.searchRequestObject.request.query, lang: null },
 

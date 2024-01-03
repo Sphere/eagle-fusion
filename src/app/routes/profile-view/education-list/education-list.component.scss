@@ -2,23 +2,23 @@
 
 .content {
   padding: 60px 20px 30px;
-  margin: auto;
+  //margin: auto;
 
-  @include breakpoint-gt-s {
-    max-width: 30%;
-  }
+  // @include breakpoint-gt-s {
+  //   max-width: 30%;
+  // }
 
-  @include breakpoint-gt-m {
-    max-width: 35%;
-  }
+  // @include breakpoint-gt-m {
+  //   max-width: 35%;
+  // }
 
-  @include breakpoint-gt-l {
-    max-width: 30%;
-  }
+  // @include breakpoint-gt-l {
+  //   max-width: 30%;
+  // }
 
-  @include breakpoint-s {
-    max-width: 50%;
-  }
+  // @include breakpoint-s {
+  //   max-width: 50%;
+  // }
 
   @include breakpoint-xs {
     max-width: 90%;

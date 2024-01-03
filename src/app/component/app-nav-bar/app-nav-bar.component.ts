@@ -12,6 +12,8 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
+import { Location } from '@angular/common'
+import { appNavBarService } from './app-nav-bar.service'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -52,6 +54,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   preferedLanguage: any = ['english']
   hideCreateButton = true
   hideSearch = false
+  showNavLinkPage = true
   constructor(
     private domSanitizer: DomSanitizer,
     public configSvc: ConfigurationsService,
@@ -59,10 +62,21 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private router: Router,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    location: Location,
+    public navOption: appNavBarService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
+    if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
+      this.showNavLinkPage = false
+    }
+    console.log(location.path())
+    if (location.path().includes('/app/new-tnc')) {
+      this.showNavLinkPage = false
+    } else {
+      this.showNavLinkPage = true
+    }
     if (this.configSvc.restrictedFeatures) {
       this.isHelpMenuRestricted = this.configSvc.restrictedFeatures.has('helpNavBarMenu')
     }
@@ -93,6 +107,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
           if (e.url.includes('/search/home') || (e.url.includes('/app/new-tnc'))) {
             this.showSearchIcon = false
           } else {
+            this.navOption.changeNavBarActive('search')
             this.showSearchIcon = true
           }
         }
@@ -148,7 +163,18 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
-    this.router.navigateByUrl('/page/home')
+    //if (this.showNavLinkPage) {
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? 'hi' : ""
+    console.log(url1)
+    let url2 = `${document.baseURI}`
+    if (url2.includes('hi')) {
+      url2 = url2.replace(/hi\//g, '')
+    }
+    let url = '/page/home'
+    location.href = `${url2}${url1}${url}`
+    //location.href = '/page/home'
+    //}
   }
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {

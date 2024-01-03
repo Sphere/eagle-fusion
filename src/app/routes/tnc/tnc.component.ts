@@ -7,7 +7,10 @@ import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { FormGroup } from '@angular/forms'
-
+import {
+  ConfigurationsService
+} from '@ws-widget/utils'
+import { SignupService } from '../signup/signup.service'
 @Component({
   selector: 'ws-tnc',
   templateUrl: './tnc.component.html',
@@ -16,12 +19,13 @@ import { FormGroup } from '@angular/forms'
 export class TncComponent implements OnInit, OnDestroy {
   tncData: NsTnc.ITnc | null = null
   routeSubscription: Subscription | null = null
+  result: any
   // errorFetchingTnc = false
   tncFlag = false
   isAcceptInProgress = false
   errorInAccepting = false
   isPublic = false
-  userId = ''
+  userId = false
   createUserForm!: FormGroup
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
@@ -35,10 +39,15 @@ export class TncComponent implements OnInit, OnDestroy {
     private router: Router,
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
+    public configSvc: ConfigurationsService,
+    private signupService: SignupService,
   ) {
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    console.log(this.configSvc)
+    this.result = await this.signupService.fetchStartUpDetails()
+    console.log(this.result)
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
@@ -49,9 +58,16 @@ export class TncComponent implements OnInit, OnDestroy {
         // this.errorFetchingTnc = true
       }
     })
+    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails) {
+      this.userId = true
+    } else {
+      this.userId = false
+    }
     // this.createUserForm = this.createTncFormFields()
   }
-
+  homePage() {
+    console.log(this.configSvc)
+  }
   // createTncFormFields() {
   //   return new FormGroup({
   //     tncAccepted: new FormControl(''),

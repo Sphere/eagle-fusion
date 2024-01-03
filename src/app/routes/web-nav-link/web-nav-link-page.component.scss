@@ -3,17 +3,23 @@
     flex-wrap: wrap;
     margin: 10px 10px 10px 20px;
 }
-
+@media only screen and (max-width: 900px) {
+    .link-container{
+        // display: flex;
+        // flex-wrap: wrap;
+        margin: 10px 10px 10px 10px;
+    }
+}
 ::ng-deep .link-container .ws-mat-accent-text {
 
     color: #2E6491 !important;
     border-bottom: 2px solid #2E6491;
 }
 .link-text{
-    font-family: 'Roboto';
+    font-family: sans-serif, 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 15px;
     line-height: 24px;
     /* or 150% */
     letter-spacing: -0.02em;
@@ -26,4 +32,15 @@
 .link-block{
     margin: 0px 10px;
 }
+}
+.save-btn {
+  width: 88px;
+  height: 38px;
+  background-color: #1C5D95;
+  border-radius: 24px;
+  color: #fff;
+  border:0;
+  font-size: 14px;
+  line-height: 19px;
+  cursor: pointer;
 }

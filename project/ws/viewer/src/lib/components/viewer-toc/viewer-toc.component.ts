@@ -23,7 +23,7 @@ import { delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
-import isNull from 'lodash/isNull'
+import { isNull, isEmpty } from 'lodash'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 interface IViewerTocCard {
   identifier: string
@@ -125,7 +125,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   progresSub: Subscription | null = null
   message!: string
   subscription: Subscription | null = null
-  isLoading = false
+  isLoading = true
   // tslint:disable-next-line
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
@@ -167,10 +167,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
-        if (this.currentContentType == "Video") {
+        if (this.currentContentType == 'Video') {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
-            if (!isNull(nextResource)) {
+            if (!(isNull(nextResource) || isEmpty(nextResource))) {
               this.router.navigate([nextResource], { preserveQueryParams: true })
               this.playerStateService.trigger$.complete()
 
@@ -209,7 +209,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
               const nextResource = this.playerStateService.getNextResource()
-              if (!isNull(nextResource)) {
+              if (!(isNull(nextResource) || isEmpty(nextResource))) {
                 this.router.navigate([nextResource], { preserveQueryParams: true })
                 this.playerStateService.trigger$.complete()
 
@@ -231,10 +231,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   downloadResource(content: any) {
     const fileUrl = content.artifactUrl
-    console.log("fileUrl: ", content)
+    console.log('fileUrl: ', content)
     // Make the HTTP GET request
     this.http.get(fileUrl, {
-      responseType: 'blob' // Set the response type as blob
+      responseType: 'blob', // Set the response type as blob
     })
       .subscribe((response: Blob) => {
         // Save the file using FileSaver
@@ -250,13 +250,13 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         collectionType.toLowerCase() ===
         NsContent.EMiscPlayerSupportedCollectionTypes.PLAYLIST.toLowerCase()
       ) {
-        this.collection = await this.getPlaylistContent(collectionId, collectionType)
+        // this.collection = await this.getPlaylistContent(collectionId, collectionType)
       } else if (
         collectionType.toLowerCase() === NsContent.EContentTypes.MODULE.toLowerCase() ||
         collectionType.toLowerCase() === NsContent.EContentTypes.COURSE.toLowerCase() ||
         collectionType.toLowerCase() === NsContent.EContentTypes.PROGRAM.toLowerCase()
       ) {
-        this.collection = await this.getCollection(collectionId, collectionType)
+        // this.collection = await this.getCollection(collectionId, collectionType)
       } else {
         this.isErrorOccurred = true
       }
@@ -277,9 +277,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   ngOnChanges() {
     this.change = this.contentSvc.currentMessage.subscribe(async (data: any) => {
       if (data) {
+        this.isLoading = true
         this.currentContentType = await data.type
         this.processCollectionForTree(data)
-        //this.ngOnInit()
+        // this.ngOnInit()
       }
     })
   }
@@ -333,6 +334,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   //   // this.searchModelChange.emit(this.searchModel)
   // }
   sendStatus(content: any) {
+    content['openOverviewDialog'] = content.type === 'Assessment'
     this.viewSvc.editResourceData(content)
   }
 
@@ -543,7 +545,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     return url
   }
   async processData(data?: any) {
-
+    this.isLoading = true
     if (this.collection) {
       this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
     }
@@ -580,7 +582,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             }
           } else {
             if (element[index + 1]) {
-              element[index + 1].disabledNode = true
+              element[index + 1].disabledNode = this.viewerDataSvc.getNode()
             }
           }
 
@@ -648,20 +650,24 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       mergeData(this.collection.children)
     }
+    // this.isLoading = false
     this.updateResourceChange()
   }
   private async processCollectionForTree(content?: any) {
-    if (content) {
+    console.log(content, 'processCollectionForTree')
+    if (content && content.contentList) {
       console.log(content)
       await this.processData(content.contentList)
-      if (content.type === "Video" || content.type === "Scorm") {
+      if (content.type === 'Video' || content.type === 'Scorm') {
         if (this.playerStateService.isResourceCompleted()) {
           const nextResource = this.playerStateService.getNextResource()
 
-          if (!isNull(nextResource)) {
-            this.router.navigate([nextResource], { preserveQueryParams: true })
-            this.playerStateService.trigger$.complete()
-          } else {
+          if (!(isEmpty(nextResource) || isNull(nextResource))) {
+            if (content.type === "Scorm") {
+              this.router.navigate([nextResource], { preserveQueryParams: true })
+              this.playerStateService.trigger$.complete()
+            }
+          } else if (this.contentSvc.showConformation) {
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
               panelClass: 'overview-modal',
@@ -689,9 +695,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           })
         }
       } else {
-
         if (this.playerStateService.isResourceCompleted()) {
-          if (isNull(this.playerStateService.getNextResource())) {
+          if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
+            && this.contentSvc.showConformation) {
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
               width: '542px',
               panelClass: 'overview-modal',
@@ -750,21 +756,21 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         //   }
         // }, 2000)
       }
-      //this.nestedDataSource.data = content
-      //this.processCurrentResourceChange()
+      // this.nestedDataSource.data = content
+      // this.processCurrentResourceChange()
       // this.collection = content.contentList
-      //this.nestedDataSource = content
-      //this.updateResourceChange()
-      //this.pathSet = new Set()
+      // this.nestedDataSource = content
+      // this.updateResourceChange()
+      // this.pathSet = new Set()
       // if (this.resourceId && this.tocMode === 'TREE') {
       // if (this.resourceId) {
       //   of(true)
       //     .pipe(delay(200))
       //     .subscribe(() => {
-      //this.expandThePath()
-      //this.isLoading = false
-      //})
-      //}
+      // this.expandThePath()
+      // this.isLoading = false
+      // })
+      // }
     } else {
       if (this.collection && this.collection.children) {
         this.isLoading = true
@@ -816,7 +822,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   }
                 } else {
                   if (element[index + 1]) {
-                    element[index + 1].disabledNode = true
+                    element[index + 1].disabledNode = this.viewerDataSvc.getNode()
                   }
                 }
 
@@ -901,7 +907,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             .pipe(delay(200))
             .subscribe(() => {
               this.expandThePath()
-              this.isLoading = false
+
             })
         }
       }
@@ -909,19 +915,22 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   updateResourceChange() {
     const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
+    const firstResource = this.queue[0].viewerUrl
     const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
     const nextContentId = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].identifier : null
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
-    const currentPercentage = currentIndex < this.queue.length ? this.queue[currentIndex]!.completionPercentage! : null
+    const currentPercentage = currentIndex < this.queue.length && this.queue[currentIndex] ? this.queue[currentIndex]!.completionPercentage! : null
+    console.log(this.queue[currentIndex]!.completionPercentage)
     const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
     // tslint:disable-next-line:object-shorthand-properties-first
     this.playerStateService.setState({
       isValid: Boolean(this.collection),
       // tslint:disable-next-line:object-shorthand-properties-first
-      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId,
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource
     })
+    this.isLoading = false
   }
 
   resourceContentTypeFunct(type: any): void {
@@ -949,6 +958,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       path.forEach((node: IViewerTocCard) => {
         this.nestedTreeControl.expand(node)
       })
+      // this.isLoading = false
     }
   }
 

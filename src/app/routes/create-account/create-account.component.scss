@@ -35,7 +35,7 @@
 
 .login-card {
   margin: 0;
-  padding: 20px 20px 30px 20px;
+  padding: 0px 20px 30px 20px;
   color: #000;
   font-size: 14px;
   line-height: 17px;
@@ -63,7 +63,8 @@ a {
 }
 
 .next-button {
-  width: 100%;
+  margin-top: 45px;
+  width: 35%;
   height: 38px;
   background: #1C5D95;
   border-radius: 50px;
@@ -144,10 +145,30 @@ span.mat-button-wrapper {
 .whatsApp {
   position: absolute;
     z-index: 6;
-    left: 53px;
+    left: 38px;
     top: 3px;
     cursor: pointer;
      @include breakpoint-xs{
     left: 21px;
   }
+}
+.otp-page{
+  min-height: 600px;
+  @media screen and (min-height:600px) and (max-height:900px) {
+  height: 600px;
+  }
+}
+.line-bottom {
+  border-bottom: 1px solid #DDDDDD;
+  // text-transform: capitalize;
+}
+
+::ng-deep .mat-list-base {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 10px;
+}
+.radioBlock{
+  display: flex;
+  flex-direction: column;
 }

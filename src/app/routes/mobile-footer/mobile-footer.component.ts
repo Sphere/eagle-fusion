@@ -10,7 +10,7 @@ import { Router } from '@angular/router'
 })
 
 export class MobileFooterComponent implements OnInit {
-  @Input() isHomePage!: any
+  @Input() createAcc!: any
   isXSmall = false
   termsOfUser = true
   appIcon: SafeUrl | null = null

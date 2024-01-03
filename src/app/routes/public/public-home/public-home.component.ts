@@ -83,6 +83,15 @@ export class PublicHomeComponent extends WidgetBaseComponent
   }
 
   ngOnInit() {
+    if (sessionStorage.getItem('fromOTPpage') === null && localStorage.getItem('preferedLanguage')) {
+      localStorage.removeItem('preferedLanguage')
+    }
+    if (localStorage.getItem('url_before_login')) {
+      localStorage.removeItem('url_before_login')
+    }
+    if (sessionStorage.getItem('academic')) {
+      sessionStorage.removeItem('academic')
+    }
     this.subscriptionHome = this.activateRoute.data.subscribe(data => {
       this.pageLayout = data.pageData.data.pageLayout
       // todo

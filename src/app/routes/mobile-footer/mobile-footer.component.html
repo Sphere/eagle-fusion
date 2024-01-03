@@ -1,4 +1,4 @@
-<div style="background-image:url('/fusion-assets/images/Group-people.png')" *ngIf="isHomePage"
+<div style="background-image:url('/fusion-assets/images/Group-people.png')" *ngIf="!createAcc"
   class="flex footer-container">
   <div class="transform-header" i18n>
     Transform your Healthcare career through Sphere!
@@ -28,11 +28,11 @@
   <img class="footer-logo" src="/fusion-assets/images/sphere-new-logo.svg">
   <div class="flex flex-column link-container">
     <a class="footer-heading" i18n>Quick Links</a>
-    <a class="link-text" routerLink="/public/tnc" i18n>Privacy policy </a>
-    <a class="link-text" routerLink="/public/tnc" i18n>Terms of use</a>
+    <a class="link-text" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}" i18n>Privacy policy </a>
+    <a class="link-text" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}" i18n>Terms of use</a>
     <hr class="new1">
     <a class="footer-heading" i18n>Help and Contact</a>
-    <a class="link-text" href="mail-to:support@aastrika.org">support@aastrika.org</a>
+    <a class="link-text" href="mailto:support@aastrika.org">support@aastrika.org</a>
     <a i18n class="whatsapp-logo-container" href="https://wa.me/919632013414?text=Hi" target="_blank">
       <img class="fa fa-whatsapp whatsapp-logo" src="/fusion-assets/icons/whatsapp.png" />
       Talk to us on WhatAapp
@@ -40,26 +40,30 @@
     <hr class="new1">
     <div class="flex flex-column">
       <span class="footer-heading" i18n>Additional Links</span>
-      <div class="foundation-link"> <span i18n>Aastrika Foundation </span> : https:www.aastrika.org</div>
+      <div class="foundation-link"> <span i18n>Aastrika Foundation </span> : <a target="_blank" class="foundation-text"
+          href="https://www.aastrika.org/">
+          https://www.aastrika.org/
+        </a></div>
     </div>
     <div class="footer-social-icon">
       <a class="" href="https://twitter.com/aastrika_fndn?s=21&t=I9xN5rzMahavP0R1Fp7VwA" target="_blank">
-        <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/twitter.svg" />
+        <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-twitter.svg" />
       </a>
       <a class="" href="https://www.facebook.com/aastrikasphere?mibextid=LQQJ4d" target="_blank">
-        <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/facebook.svg" />
+        <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-facebook.svg" />
       </a>
       <a class="" href="https://instagram.com/sphere.aastrika?igshid=MmJiY2I4NDBkZg==" target="_blank">
-        <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/Instagram-Logo.wine.svg" />
+        <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-instagram.svg" />
       </a>
       <a class="" href="https://www.linkedin.com/company/aastrika-foundation/" target="_blank">
-        <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/linked-in.svg" />
+        <img class="fa fa-whatsapp social-logo" alt="aastrika-foundation"
+          src="../../../fusion-assets/icons/icons8-linkedin.svg" />
       </a>
     </div>
     <div class="footer-text-container">
-      <div i18n class="footer-text">
-        &copy; <span>2023</span>
-        <span>AastarUrmika Health Systems ("Aastrika Foundation") </span>
+      <div class="footer-text">
+        &copy; <span style="margin-right: 3px;" i18n>2024</span>
+        <span i18n>AastarUrmika Health Systems ("Aastrika Foundation") </span>
       </div>
     </div>
   </div>

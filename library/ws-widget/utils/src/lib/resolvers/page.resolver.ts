@@ -123,7 +123,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
     //   }
     // }
     // tslint:disable-next-line:no-console
-    console.log(this.locale, url)
+    // console.log(this.locale, url)
     const pageRequest = [
       (equivalentId ? this.setS3Cookie(equivalentId) : of(true)).pipe(
         mergeMap(() =>

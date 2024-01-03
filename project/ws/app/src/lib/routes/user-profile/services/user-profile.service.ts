@@ -7,7 +7,7 @@ import {
   INationalityApiData,
   IUserProfileDetailsFromRegistry,
 } from '../models/user-profile.model'
-import { map } from 'rxjs/operators'
+import { map, retry } from 'rxjs/operators'
 
 const API_ENDPOINTS = {
   // updateProfileDetails: '/apis/protected/v8/user/profileRegistry/updateUserRegistry',
@@ -53,7 +53,8 @@ export class UserProfileService {
   // }
   getUserdetailsFromRegistry(wid: string): Observable<[IUserProfileDetailsFromRegistry]> {
     return this.http.get<[IUserProfileDetailsFromRegistry]>(`${API_ENDPOINTS.getUserdetailsFromRegistry}/${wid}`)
-      .pipe(map((res: any) => res.result.response))
+      .pipe(retry(1),
+        map((res: any) => res.result.response))
   }
   getAllDepartments() {
     return this.http.get<INationalityApiData>(API_ENDPOINTS.getAllDepartments)
@@ -66,5 +67,44 @@ export class UserProfileService {
       serviceName: 'profile',
       applicationStatus: 'SEND_FOR_APPROVAL',
     })
+  }
+
+  isBackgroundDetailsFilled(profileReq: any): boolean {
+    let isFilled = true
+    if (profileReq && profileReq.personalDetails && profileReq.professionalDetails && profileReq.professionalDetails[0]) {
+      const personalDetails = profileReq.personalDetails
+      const professionalDetails = profileReq.professionalDetails[0]
+      if (!(personalDetails.dob
+        && personalDetails.postalAddress
+        && professionalDetails.profession)) {
+        isFilled = false
+      }
+      switch (professionalDetails.profession) {
+        case 'ASHA':
+          isFilled = professionalDetails.block ? isFilled : false
+          break
+        case 'Others':
+          isFilled = professionalDetails.selectBackground ? isFilled : false
+          if (professionalDetails.selectBackground === 'Asha Facilitator') {
+            isFilled = professionalDetails.block ? isFilled : false
+          }
+          break
+        case 'Student':
+          isFilled = professionalDetails.qualification ? isFilled : false
+          break
+        case 'Healthcare Volunteer':
+          isFilled = professionalDetails.designation ? isFilled : false
+          break
+        case 'Healthcare Worker':
+          isFilled = professionalDetails.designation ? isFilled : false
+          break
+        case 'Faculty':
+          isFilled = professionalDetails.designation ? isFilled : false
+          break
+      }
+    } else {
+      isFilled = false
+    }
+    return isFilled
   }
 }

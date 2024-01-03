@@ -1,5 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core'
 import { ScrollService } from '../../services/scroll.service'
+import { MatDialog } from '@angular/material'
+import { VideoPopupComponent } from '../how-does-it-works-popup/how-does-it-works-popup.component'
 
 @Component({
   selector: 'ws-mobile-how-does-work',
@@ -11,7 +13,7 @@ export class MobileHowDoesWorkComponent implements OnInit {
   /** to listen the eevnt **/
   @Output() openPlayer = new EventEmitter()
 
-  constructor(private scrollService: ScrollService, private elementRef: ElementRef) { }
+  constructor(private scrollService: ScrollService, private elementRef: ElementRef, public dialog: MatDialog,) { }
 
   ngOnInit() {
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
@@ -28,4 +30,9 @@ export class MobileHowDoesWorkComponent implements OnInit {
   //   }
   //   this.openPlayer.emit(emitData)
   // }
+  openVideoPopup(number: any) {
+    this.dialog.open(VideoPopupComponent, {
+      data: { 'number': number },
+    })
+  }
 }

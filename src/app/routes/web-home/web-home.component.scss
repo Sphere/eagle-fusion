@@ -9,34 +9,52 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 500;
-    font-size: 32px;
-    line-height: 38px;
+    font-size: 36px;
+    line-height: 40px;
     letter-spacing: -0.02em;
     color: #000000;
 }
 .banner-mini-heading{
     padding-left: 15px;
-
-    /* Body */
-
+    color: #000000;
+    /* Header 2 */
     font-family: 'Roboto';
+    font-size: 20px;
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    /* or 150% */
-
-    letter-spacing: -0.02em;
-
-    color: #000000;
+    line-height: 20px;
+    letter-spacing: -0.48px;
 }
 // @media only screen and (max-width: 599px)
 // .info-container[_ngcontent-sxu-c23] {
 //     width: 160px;
 // }
+@media only screen and (min-width: 600px) and (max-width: 959px){
 .banner-image{
-    width: 475px;
-    height: 350px
+    width: 400px !important;
+    height: 300px !important;
+}
+.banner-heading {
+    font-size: 24px !important;
+    line-height: 28.8px !important;
+}
+.banner-mini-heading{
+    font-size: 18px !important;
+}
+.box-sizing-box{
+    margin-top: 10px !important;
+}
+.info-number{
+    font-size: 24px !important;
+}
+.tutorials-text{
+    font-size: 20px !important;
+}
+}
+.banner-image{
+    width: 600px;
+    // height: 350px
+    height:325px;
 }
 
 .info-block{
@@ -49,7 +67,7 @@
     justify-content: center;
     align-items: center;
     flex: 1 0 25%;
-    height: 95px;
+    height: 100px;
     box-sizing: border-box;
     flex-direction: column;
 }
@@ -63,8 +81,8 @@
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 24px;
-    line-height: 43px;
+    font-size: 30px;
+    line-height: 40px;
     /* or 180% */
 
     letter-spacing: -0.02em;
@@ -72,12 +90,12 @@
     color: #14446C;
 }
 .info-text{
-    margin-top: 5px !important;
+    // margin-top: 5px !important;
     text-align: center;
     font-family: 'Roboto';
-    font-style: italic;
+    font-style: normal;
     font-weight: 400;
-    font-size: 14px;
+    font-size: 16px;
     line-height: 18px;
     /* or 129% */
     letter-spacing: -0.02em;
@@ -90,14 +108,14 @@
     justify-content: center;
     align-items: center;
     background: #469788;
-    height: 51px;
+    height: 50px;
 }
 .tutorials-text{
     /* Body */
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
-    font-size: 16px;
+    font-size: 22px;
     line-height: 24px;
     /* or 150% */
     text-align: center;
@@ -106,8 +124,8 @@
     margin: 0px !important;
 }
 .count-sphere-icons{
-    width: 25px;
-    height: 25px;
+    width: 28px;
+    height: 28px;
 }
 .info-box{
     align-items: center;
@@ -115,5 +133,6 @@
 .banner-heading-container{
     display: flex;
     flex-direction: column;
+     flex-basis: 30%;
 }
 

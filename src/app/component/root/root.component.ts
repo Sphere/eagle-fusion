@@ -87,11 +87,13 @@ export class RootComponent implements OnInit, AfterViewInit {
   isInIframe = false
   appStartRaised = false
   isSetupPage = false
+  createAcc = false
   isHomePage = false
   showNavigation = true
   hideHeaderFooter = false
   isLoggedIn = false
   mobileView = true
+  showmobileFooter = true
   showMobileDashboard = true
   isCommonChatEnabled = true
   online$: Observable<boolean>
@@ -189,6 +191,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
         this.formatmyCourseResponse(res[0])
       })
+      localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
     }
 
     this.setPageTitle()
@@ -214,7 +217,8 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.appStartRaised = true
 
     } else {
-      if ((window.location.href).indexOf('register') > 0 || (window.location.href).indexOf('forgot-password') > 0) {
+      if ((window.location.href).indexOf('register') > 0 ||
+        (window.location.href).indexOf('forgot-password') > 0 || window.location.href.indexOf('scrom-player') > 0) {
         this.showNavigation = false
       } else if ((window.location.href).indexOf('login') > 0) {
         this.showNavigation = true
@@ -228,8 +232,18 @@ export class RootComponent implements OnInit, AfterViewInit {
 
     this.router.events.subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
+        if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
+          window.location.href = "public/home"
+        }
+        if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
+          window.location.href = "page/home"
+        }
         if (event.url.includes('/setup/')) {
           this.isSetupPage = true
+        }
+        if (event.url.includes('/app/create-account')) {
+          this.showNavigation = false
+          this.createAcc = true
         }
         if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {
           this.isHomePage = true
@@ -242,6 +256,16 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.isNavBarRequired = false
       }
       if (event instanceof NavigationStart) {
+
+        if (event.url.includes('/public/scrom-player')) {
+          this.showmobileFooter = false
+        }
+        if (event.url.includes('/app/create-account')) {
+          this.showmobileFooter = false
+        }
+        // if (window.location.href.indexOf('scrom-player') > 0) {
+        //   this.showmobileFooter = false
+        // }
         // tslint:disable-next-line: max-line-length
         if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')) {
           this.isNavBarRequired = false
@@ -257,23 +281,39 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = true
           // this.showNavigation = true
           this.isLoggedIn = true
-          localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
-            }` + `/overview`)
+          let lang = `${document.baseURI}`
+          lang = lang.includes('hi') ? 'hi/' : ''
+          if (lang === 'hi') {
+            localStorage.setItem(`url_before_login`, `hi/app/toc/` + `${split(event.url, '/')[3]
+              }` + `/overview`)
+          } else {
+            localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
+              }` + `/overview`)
+          }
           sessionStorage.setItem('login-btn', 'clicked')
+
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
-
-                const redirectUrl = `${document.baseURI}openid/keycloak`
+                // this.authSvc.logout()
+                let url = `${document.baseURI}`
+                let redirectUrl = `${document.baseURI}openid/keycloak`
                 const state = uuid()
                 const nonce = uuid()
+                if (url.includes('hi')) {
+                  url = url.replace('hi/', '')
+                  redirectUrl = `${url}openid/keycloak`
+                  sessionStorage.setItem('lang', 'hi')
+                } else {
+                  redirectUrl = `${url}openid/keycloak`
+                }
                 // tslint:disable-next-line:max-line-length
-                const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
                 window.location.href = keycloakurl
               }
             })
 
-          }, 10)
+          }, 100)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -290,13 +330,13 @@ export class RootComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
-
-                const redirectUrl = `${document.baseURI}openid/keycloak`
-                const state = uuid()
-                const nonce = uuid()
-                // tslint:disable-next-line:max-line-length
-                const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-                window.location.href = keycloakurl
+                this.authSvc.logout()
+                // const redirectUrl = `${document.baseURI}openid/keycloak`
+                // const state = uuid()
+                // const nonce = uuid()
+                // // tslint:disable-next-line:max-line-length
+                // const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+                // window.location.href = keycloakurl
               } else {
                 this.router.navigateByUrl('/page/home')
               }
@@ -318,7 +358,12 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.isNavBarRequired = false
           this.showMobileDashboard = false
           this.mobileView = false
-        } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
+        } else if (event.url.includes('public/tnc')) {
+          this.isNavBarRequired = false
+          this.hideHeaderFooter = true
+        }
+
+        else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
           this.mobileView = false
@@ -372,17 +417,16 @@ export class RootComponent implements OnInit, AfterViewInit {
       // }
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
-        console.log("yes telemetry")
         const paramMap = this.activatedRoute.snapshot.queryParamMap
         const params = {}
 
         paramMap.keys.forEach((key: any) => {
-          var paramValue = paramMap.get(key)
+          const paramValue = paramMap.get(key)
           params[key] = paramValue
         })
 
         this.paramsJSON = JSON.stringify(params)
-        let userAgent = this.UserAgentResolverService.getUserAgent()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
 
         this.telemetrySvc.paramTriggerImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         if (this.appStartRaised) {
@@ -443,8 +487,6 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
         this.setCompetencyConfig(res[0])
       })
-      console.log("this.configSvc.userProfile", this.configSvc.userProfile)
-
     }
   }
   formatmyCourseResponse(res: any) {
@@ -467,9 +509,6 @@ export class RootComponent implements OnInit, AfterViewInit {
   getReferrerUrl(): string {
     return this._renderer2 && this._renderer2['data'].referrer || ''
   }
-
-
-
 
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
@@ -527,7 +566,6 @@ export class RootComponent implements OnInit, AfterViewInit {
   }
   setCompetencyConfig(data: any) {
     if (data.profileDetails) {
-      console.log("data login", data)
       this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
     }
   }

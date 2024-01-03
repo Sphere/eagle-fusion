@@ -163,7 +163,7 @@
       <mat-card-content>
         <div class="mat-subheading-1" [innerHTML]="content?.preRequisites"></div>
         <div class="margin-top-s" *ngIf="content?.softwareRequirements?.length">
-          <h3 class="mat-h3 margin-bottom-xs" i18n>Software Requirements</h3>
+          <h3 class="mat-h3 margin-bottom-xs">Software Requirements</h3>
           <ng-container *ngFor="let requirement of content?.softwareRequirements">
             <a *ngIf="requirement.url" class="margin-right-s" mat-stroked-button target="_blank"
               [href]="requirement.url">
@@ -178,16 +178,16 @@
 
     <!-- Training (LHub) -->
     <div *ngIf="trainingLHubEnabled && trainingLHubCount$ | async as trainingLHubCount" class="unit-meta-item">
-      <h2 i18n>Trainings</h2>
+      <h2>Trainings</h2>
       <h4 class="mat-h4">
         <ng-container>{{ trainingLHubCount }}</ng-container>
-        <ng-container i18n *ngIf="trainingLHubCount > 1">
+        <ng-container *ngIf="trainingLHubCount > 1">
           trainings available</ng-container>
-        <ng-container i18n *ngIf="trainingLHubCount === 1">
+        <ng-container *ngIf="trainingLHubCount === 1">
           training available</ng-container>
       </h4>
       <div>
-        <a mat-flat-button [color]="'primary'" [routerLink]="['/app/infy/training/', content?.identifier]" i18n>View
+        <a mat-flat-button [color]="'primary'" [routerLink]="['/app/infy/training/', content?.identifier]">View
           Trainings
         </a>
       </div>
@@ -206,8 +206,8 @@
         </div>
         <div *ngIf="content?.topics?.length > 6" class="text-right margin-top-xs">
           <a mat-button (click)="viewMoreRelatedTopics = !viewMoreRelatedTopics">
-            <span *ngIf="!viewMoreRelatedTopics" i18n>View More</span>
-            <span *ngIf="viewMoreRelatedTopics" i18n>View Less</span>
+            <span *ngIf="!viewMoreRelatedTopics">View More</span>
+            <span *ngIf="viewMoreRelatedTopics">View Less</span>
           </a>
         </div>
       </mat-card-content>
@@ -233,8 +233,8 @@
 
     <ng-template #creators let-authors="authors" let-title="title">
       <div class="unit-meta-item">
-        <h2 i18n *ngIf="title === 'AUTHOR'">Authors</h2>
-        <h2 i18n *ngIf="title === 'CONTACT'">Curator/Contact</h2>
+        <h2 *ngIf="title === 'AUTHOR'">Authors</h2>
+        <h2 *ngIf="title === 'CONTACT'">Curator/Contact</h2>
         <mat-divider></mat-divider>
         <div *ngFor="let author of authors" class="author">
           <ws-widget-user-image class="author-image" [imageType]="'name-initial'" [userName]="author.name || ''"
@@ -255,7 +255,7 @@
 
     <div class="margin-bottom-m" *ngIf="objKeys(contentParents).length">
       <mat-card>
-        <h2 i18n>This content is part of</h2>
+        <h2>This content is part of</h2>
       </mat-card>
       <mat-accordion>
         <ng-container *ngFor="let key of objKeys(contentParents)">

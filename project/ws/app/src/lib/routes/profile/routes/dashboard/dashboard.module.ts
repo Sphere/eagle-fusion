@@ -4,7 +4,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component'
 import { HorizontalScrollerModule, PipeDurationTransformModule, DefaultThumbnailModule } from '@ws-widget/utils'
 import {
   UserImageModule,
-  //CardKnowledgeModule
+  // CardKnowledgeModule
 } from '@ws-widget/collection'
 // import { InterestModule } from './../interest/interest.module'
 // import { LearningModule } from './../learning/learning.module'
@@ -42,7 +42,7 @@ import { UserProfileService } from '../../../user-profile/services/user-profile.
     PipeDurationTransformModule,
     CalendarModule,
     RouterModule,
-    //CardKnowledgeModule,
+    // CardKnowledgeModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
     // InterestModule,

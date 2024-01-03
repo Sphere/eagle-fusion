@@ -6,40 +6,39 @@
     High quality content from experts
   </div>
   <img class="banner-image" src="/fusion-assets/images/Mask_group.svg" alt="Banner image" loading="lazy">
-
 </div>
 <div class="flex info-block">
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number">{{bannerStatus.learner_onboard}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}+</div>
     </div>
     <p class="info-text" i18n>Learners onboarded</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number">{{bannerStatus.course}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}+</div>
     </div>
     <p class="info-text" i18n>Number of courses</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" i18n>{{bannerStatus.cert_course}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cert_course}}+</div>
     </div>
     <p class="info-text" i18n>Certificate Courses</p>
   </div>
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number">{{bannerStatus.certificates_issues}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}+</div>
     </div>
     <p class="info-text" i18n>Total certificate issued</p>
   </div>
 </div>
 <div class="tutorials-container" (click)="scrollToHowSphereWorks()">
-  <p class="tutorials-text" i18n>Watch tutorials on how sphere works ></p>
+  <p class="tutorials-text" i18n>Learn about how Sphere works ></p>
 </div>
 <div class="create-account">
   <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple

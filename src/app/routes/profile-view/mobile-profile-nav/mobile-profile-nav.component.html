@@ -1,7 +1,8 @@
 <div class="row justify-content-between cursor-pointer">
   <mat-icon *ngIf="showbackButton" class="" (click)="backScreen()">chevron_left</mat-icon>
 
-  <div class="logout" *ngIf="showLogOutIcon" (click)="logout()">
-    <p i18n class="text-1xl">Logout</p>
+  <div class="logout" *ngIf="showLogOutIcon">
+    <!-- <p i18n class="text-1xl">Logout</p> -->
+    <button type="submit" (click)="logout()" class="save-btn" i18n>Logout</button>
   </div>
 </div>

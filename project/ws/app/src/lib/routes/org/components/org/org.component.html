@@ -1,5 +1,20 @@
 <div *ngIf="currentOrgData">
-  <div class="banner-container">
+  <button (click)="redirect()" mat-icon-button class="back-icon"
+    style="position: absolute;left: 0px;top: 80px;z-index: 1;">
+    <mat-icon>chevron_left</mat-icon>
+  </button>
+  <div *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'" id="navy-blue-bg"
+    [ngClass]="{'mb-5': currentOrgData?.sourceName === 'Indian Nursing Council'}">
+    <div class="px-4 sm:px-20 md:px-20 xl:px-40 md:py-5  flex flex-middle main"
+      *ngIf="currentOrgData?.sourceName === 'Indian Nursing Council'">
+      <img src="../../../fusion-assets/logos/inc-logo.png" class="inc-logo"
+        (click)="goToLink('https://indiannursingcouncil.org/')" alt="inc-logo" /> <span
+        class="ml-5 mylearning">{{currentOrgData.title
+        ||
+        "e-Learning for Maternal and Newborn Health Care" }}</span>
+    </div>
+  </div>
+  <div class="banner-container" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
     <div class="default-banner">
       <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" *ngIf="!currentOrgData.bgImage" />
     </div>
@@ -13,21 +28,28 @@
   </div>
 
 
-  <div class="org-body ">
+  <div [ngClass]="{'mt-5': currentOrgData?.sourceName === 'Indian Nursing Council','org-body': true}">
     <p class="org-name mb-0">
       {{currentOrgData.sourceName}}
     </p>
-    <p class="org-desc mb-1">
-      {{currentOrgData?.about}}
+    <p class="org-desc mb-1" [innerHTML]="currentOrgData?.about">
     </p>
     <!-- <div class="org-details-block">
       <img src="/fusion-assets/icons/ion_people-sharp.svg" />
       <div class="org-details">Nationwide Quality Of Care Network</div>
     </div> -->
     <div class="org-details-block" *ngIf="courseCount&&courseCount.length">
-      <img src="/fusion-assets/icons/material-symbols_book-outline.svg">
-      <div class="org-details">
-        {{courseCount === 1 ? '1 Course offered': courseCount.length + ' Courses offered'}}
+      <div class="org-details" *ngIf="orgUserCourseEnrolled>0">
+        <img alt="icon" src="/fusion-assets/icons/ion_people-sharp.svg">
+        {{orgUserCourseEnrolled === 1 ? '1 Learner enrolled': orgUserCourseEnrolled + ' Learners enrolled'}}
+      </div>
+      <div class="org-details" *ngIf="courseCount.length>0">
+        <img alt="icon" src="/fusion-assets/icons/material-symbols_book-outline.svg">
+        {{courseCount.length === 1 ? '1 Course offered': courseCount.length + ' Courses offered'}}
+      </div>
+      <div class="org-details" *ngIf="competency_offered>0">
+        <img alt="icon" src="/fusion-assets/icons/ph_medal.svg">
+        {{competency_offered === 1 ? '1 Course offered': competency_offered + ' Competencies offered'}}
       </div>
     </div>
     <!-- <div class="org-details-block">
@@ -45,28 +67,28 @@
     </div>
 
     <div class="mt-4 course-body" *ngIf="courseData">
-      <div>
-        <ng-container *ngFor="let widget of courseData.slice(0,cardLimit)">
-          <div class="card-standard-container mr-8 mb-6 1 cursor-pointer">
-            <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
-              #target="mdePopoverTrigger" i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1"
-              mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
-              [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-340"
-              (mouseover)="showTarget($event)">
-              <div class="flex">
-                <img [src]="widget.thumbnail" [id]="'card_' + widget.identifier"
-                  class="card-img no-prog ws-mat-primary-lite-background" [alt]="widget.name" />
-                <span class="img-overlay"></span>
-                <ng-container class="source-div mt-4">
-                </ng-container>
-                <div class="course-name">
-                  {{ widget.name }}
-                </div>
+      <!-- <div> -->
+      <ng-container *ngFor="let widget of courseData.slice(0,cardLimit)">
+        <div class="card-standard-container mr-8 mb-6 1 cursor-pointer">
+          <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
+            #target="mdePopoverTrigger" i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1"
+            mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
+            [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-340"
+            (mouseover)="showTarget($event)">
+            <div class="flex">
+              <img [src]="widget.thumbnail" [id]="'card_' + widget.identifier"
+                class="card-img no-prog ws-mat-primary-lite-background" [alt]="widget.name" />
+              <span class="img-overlay"></span>
+              <ng-container class="source-div mt-4">
+              </ng-container>
+              <div class="course-name">
+                {{ widget.name }}
               </div>
-              <div>
-                <p class="by-org-name mb-1"> by {{currentOrgData.sourceName}}</p>
-              </div>
-              <!-- <div class="rating-block">
+            </div>
+            <div>
+              <p class="by-org-name mb-1"> by {{currentOrgData.sourceName}}</p>
+            </div>
+            <!-- <div class="rating-block">
                 <div class="rating">{{rating}}
                 </div>
                 <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr; index as i"
@@ -77,78 +99,78 @@
                 </button>
 
               </div> -->
-              <div class="flex cne-container">
-                <!-- <div class="flex cne-block mr-1">
+            <div class="flex cne-container">
+              <!-- <div class="flex cne-block mr-1">
                   <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
                   <p class="cne-content mb-0">32 CNE Points</p>
                 </div> -->
-                <p *ngIf="widget.issueCertification" class="certified-text">Certified</p>
+              <p *ngIf="widget.issueCertification" class="certified-text" i18n>Certified</p>
+            </div>
+            <div class="border-block" *ngIf="cometencyData && cometencyData[0]">
+              <hr class="border-content">
+            </div>
+            <div class="competency-block" *ngIf="cometencyData && cometencyData[0]">
+              <img src="/fusion-assets/icons/ph_medal.svg">
+              <div>
+                <span>{{cometencyData[0]?.name}}, </span>
+                <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                  <span *ngIf="competency.identifier==widget.identifier">{{competency.levels}}</span>
+                  <span *ngIf="!last && competency.identifier==widget.identifier"> </span>
+                </ng-container>
               </div>
-              <div class="border-block" *ngIf="cometencyData && cometencyData[0]">
-                <hr class="border-content">
+            </div>
+
+          </a>
+        </div>
+
+        <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
+          <mat-card class="popover-card xs-hidden">
+            <mat-card-content>
+              <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
+                {{ widget.name }}
               </div>
-              <div class="competency-block" *ngIf="cometencyData && cometencyData[0]">
-                <img src="/fusion-assets/icons/ph_medal.svg">
-                <div>
-                  <span>{{cometencyData[0]?.name}}, </span>
-                  <ng-container *ngFor="let competency of cometencyData; let last = last;">
-                    <span *ngIf="competency.identifier==widget.identifier">{{competency.levels}}</span>
-                    <span *ngIf="!last && competency.identifier==widget.identifier"> </span>
-                  </ng-container>
-                </div>
+              <div class="description-text ws-mat-text-block-fade-gradient mb-2" title="Sub title">
+                {{ widget.subTitle }}
               </div>
 
-            </a>
-          </div>
+              <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span i18n>Published on</span>:
+                {{widget?.lastPublishedOn | date }}</div>
+              <div *ngIf="widget.duration" class="duration mb-2" title="Duration">
+                <span class="mr-1 orange-text" i18n>Duration</span>:
+                <mat-icon>access_time</mat-icon>
+                <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
+                <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
 
-          <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
-            <mat-card class="popover-card xs-hidden">
-              <mat-card-content>
-                <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
-                  {{ widget.name }}
-                </div>
-                <div class="description-text ws-mat-text-block-fade-gradient mb-2" title="Sub title">
-                  {{ widget.subTitle }}
-                </div>
+                </span>
+              </div>
+              <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.childNodes?.length}}</p>
+              <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+                widget?.creatorContacts[0]?.name}}</p>
 
-                <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span i18n>Published on</span>:
-                  {{widget?.lastPublishedOn | date }}</div>
-                <div *ngIf="widget.duration" class="duration mb-2" title="Duration">
-                  <span class="mr-1 orange-text" i18n>Duration</span>:
-                  <mat-icon>access_time</mat-icon>
-                  <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
-                  <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
+              <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
+                {{widget?.uniqueUsersCount}}</p>
+              <p *ngIf="widget?.sourceName"><span class="fw-500" i18n>Source</span>: {{widget.sourceName}}
+              </p>
+              <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
+                <div class="fw-500 mb-1" i18n>Course Description</div>
+                {{ widget.description }}
+              </div>
 
-                  </span>
-                </div>
-                <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.childNodes?.length}}</p>
-                <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
-                  widget?.creatorContacts[0]?.name}}</p>
+              <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
+                <button mat-raised-button class="ws-mat-primary-background mat-button-base"
+                  (click)="loginRedirect(widget.identifier)"> {{btnText}}
+                </button>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </mde-popover>
+      </ng-container>
 
-                <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
-                  {{widget?.uniqueUsersCount}}</p>
-                <p *ngIf="widget?.sourceName"><span class="fw-500" i18n>Source</span>: {{widget.sourceName}}
-                </p>
-                <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
-                  <div class="fw-500 mb-1">Course Description</div>
-                  {{ widget.description }}
-                </div>
-
-                <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
-                  <button mat-raised-button class="ws-mat-primary-background mat-button-base"
-                    (click)="loginRedirect(widget.identifier)"> {{btnText}}
-                  </button>
-                </div>
-              </mat-card-content>
-            </mat-card>
-          </mde-popover>
-        </ng-container>
-
-      </div>
+      <!-- </div> -->
       <div class="w-100 load-more-block" *ngIf="courseData&&courseData.length > 5">
         <!-- <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a> -->
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5">Load More</button>
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5">Load Less</button>
+        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5" i18n>Load More</button>
+        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5" i18n>Load Less</button>
       </div>
 
     </div>
@@ -157,6 +179,6 @@
 </div>
 <div class="container" *ngIf="!currentOrgData">
   <div class="centered-div">
-    <h3 class="mt-15">No org details found</h3>
+    <h3 class="mt-15" i18n>No org details found</h3>
   </div>
 </div>

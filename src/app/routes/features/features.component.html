@@ -1,10 +1,10 @@
 <mat-toolbar class="sec-nav-bar" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
   <!-- <ws-widget-btn-page-back [widgetData]="{ url: '/',titles:[{title:'Features',url:'none'}] }"></ws-widget-btn-page-back> -->
-  <!-- <h1 i18n>Features</h1> -->
+  <!-- <h1 >Features</h1> -->
   <span class="spacer"></span>
   <mat-form-field floatLabel="never" class="search-container">
-    <input name="query" matInput [formControl]="queryControl" i18n-placeholder placeholder="Find Features"
-      autocomplete="off" accesskey="f" />
+    <input name="query" matInput [formControl]="queryControl" placeholder="Find Features" autocomplete="off"
+      accesskey="f" />
     <mat-icon *ngIf="!queryControl.value" matSuffix>find_in_page</mat-icon>
     <button *ngIf="queryControl.value" matSuffix mat-icon-button (click)="clear()">
       <mat-icon>close</mat-icon>
@@ -29,7 +29,7 @@
 </section>
 <section *ngIf="featureGroups !== null" [hidden]="featureGroups?.length" class="mat-card warn-card">
   <mat-icon class="warn-icon" color="warn">warning</mat-icon>
-  <span i18n>No features matches your query</span>
+  <span>No features matches your query</span>
 </section>
 
 <div class="my-4 mx-6 flex flex-wrapped">
@@ -55,7 +55,7 @@
   <!-- <div class="logout">
     <button (click)="logout()" color="warn" mat-button>
       <mat-icon>power_settings_new</mat-icon>&nbsp;
-      <span i18n>Logout</span>
+      <span >Logout</span>
     </button>
   </div> -->
 </div>

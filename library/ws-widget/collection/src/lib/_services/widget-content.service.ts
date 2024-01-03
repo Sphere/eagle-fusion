@@ -39,6 +39,8 @@ const API_END_POINTS = {
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     // tslint:disable-next-line: max-line-length
     `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+  COURSE_RECOMENDATION: (profession: string) =>
+    `${PUBLIC_SLAG}/mobileApp/courseRemommendationv2?profession=${profession}`,
 }
 
 @Injectable({
@@ -51,9 +53,13 @@ export class WidgetContentService {
   private backSource = new Subject<any>()
   public backMessage = this.backSource.asObservable()
 
+  private workSource = new Subject<any>()
+  public workMessage = this.workSource.asObservable()
+
   public _updateValue = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
   updateValue$ = this._updateValue.asObservable()
+  _showConformation: any
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
@@ -68,6 +74,10 @@ export class WidgetContentService {
   }
   changeBack(message: string) {
     this.backSource.next(message)
+  }
+  changeWork(msg: any) {
+    console.log('came1')
+    this.workSource.next(msg)
   }
   // fetchContent(
   //   contentId: string,
@@ -282,7 +292,6 @@ export class WidgetContentService {
     )
   }
   searchV6(req: any) {
-    console.log(req)
     const url = location.href
     if (url.includes('/hi/')) {
       req.request.filters.lang = 'hi'
@@ -297,7 +306,6 @@ export class WidgetContentService {
   }
 
   publicContentSearch(req: any) {
-    console.log(req)
     const url = location.href
     if (url.includes('/hi/')) {
       req.request.filters.lang = 'hi'
@@ -371,8 +379,33 @@ export class WidgetContentService {
         )
       )
   }
+  fetchCourseRemommendations(profession: any): Observable<NsContent.ICourse[]> {
+    let path = API_END_POINTS.COURSE_RECOMENDATION(profession)
+    return this.http
+      .get(path)
+      .pipe(
+        catchError(this.handleError),
+        map(
+          (data: any) => data
+        )
+      )
+
+  }
 
   getLatestCourse() {
     return this.http.get<any>(`${API_END_POINTS.LATEST_HOMEPAGE_COURSE}`)
+  }
+
+  set showConformation(completionPersentage: any) {
+    this._showConformation = completionPersentage !== 100 ? true : false
+    localStorage.setItem('showConformation', this._showConformation)
+  }
+
+  get showConformation() {
+    if (this._showConformation === undefined) {
+      let showConformation = localStorage.getItem('showConformation')
+      this._showConformation = showConformation === 'false' ? false : true
+    }
+    return this._showConformation
   }
 }

@@ -3,17 +3,17 @@
   <mat-accordion [multi]="false">
     <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.ACTIVE_USERS)" [expanded]="true">
       <mat-expansion-panel-header>
-        <mat-panel-title i18n>Learners</mat-panel-title>
+        <mat-panel-title>Learners</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
         <div *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS]">
-          <h3 *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS].hasError" class="mat-error text-center" i18n>
+          <h3 *ngIf="cohortResults[cohortTypesEnum.ACTIVE_USERS].hasError" class="mat-error text-center">
             Failed to fetch active users
           </h3>
           <h3 *ngIf="
               !cohortResults[cohortTypesEnum.ACTIVE_USERS].hasError &&
               !cohortResults[cohortTypesEnum.ACTIVE_USERS].contents.length
-            " class="text-center" i18n>
+            " class="text-center">
             None
           </h3>
           <div *ngFor="let cohort of cohortResults[cohortTypesEnum.ACTIVE_USERS].contents"
@@ -26,17 +26,17 @@
     </mat-expansion-panel>
     <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.TOP_PERFORMERS)">
       <mat-expansion-panel-header>
-        <mat-panel-title i18n>Top performers</mat-panel-title>
+        <mat-panel-title>Top performers</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
         <div *ngIf="cohortResults[cohortTypesEnum.TOP_PERFORMERS]">
-          <h3 *ngIf="cohortResults[cohortTypesEnum.TOP_PERFORMERS].hasError" class="mat-error text-center" i18n>
+          <h3 *ngIf="cohortResults[cohortTypesEnum.TOP_PERFORMERS].hasError" class="mat-error text-center">
             Failed to fetch top performers
           </h3>
           <h3 *ngIf="
               !cohortResults[cohortTypesEnum.TOP_PERFORMERS].hasError &&
               !cohortResults[cohortTypesEnum.TOP_PERFORMERS].contents.length
-            " class="text-center" i18n>
+            " class="text-center">
             None
           </h3>
           <div *ngFor="let cohort of cohortResults[cohortTypesEnum.TOP_PERFORMERS].contents"
@@ -49,14 +49,14 @@
     </mat-expansion-panel>
     <!-- <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.COMMON_GOALS)">
       <mat-expansion-panel-header>
-        <mat-panel-title i18n>Shares same goal</mat-panel-title>
+        <mat-panel-title >Shares same goal</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
         <div *ngIf="cohortResults[cohortTypesEnum.COMMON_GOALS]">
           <h3
             *ngIf="cohortResults[cohortTypesEnum.COMMON_GOALS].hasError"
             class="mat-error text-center"
-            i18n
+
           >
             Failed to fetch users with same goals
           </h3>
@@ -66,7 +66,7 @@
               !cohortResults[cohortTypesEnum.COMMON_GOALS].contents.length
             "
             class="text-center"
-            i18n
+
           >
             None
           </h3>
@@ -83,17 +83,17 @@
     </mat-expansion-panel> -->
     <mat-expansion-panel (opened)="fetchCohorts(cohortTypesEnum.AUTHORS)">
       <mat-expansion-panel-header>
-        <mat-panel-title i18n>Authors</mat-panel-title>
+        <mat-panel-title>Authors</mat-panel-title>
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
         <div *ngIf="cohortResults[cohortTypesEnum.AUTHORS]">
-          <h3 *ngIf="cohortResults[cohortTypesEnum.AUTHORS].hasError" class="mat-error text-center" i18n>
+          <h3 *ngIf="cohortResults[cohortTypesEnum.AUTHORS].hasError" class="mat-error text-center">
             Failed to fetch authors
           </h3>
           <h3 *ngIf="
               !cohortResults[cohortTypesEnum.AUTHORS].hasError &&
               !cohortResults[cohortTypesEnum.AUTHORS].contents.length
-            " class="text-center" i18n>
+            " class="text-center">
             None
           </h3>
           <div *ngFor="let cohort of cohortResults[cohortTypesEnum.AUTHORS].contents" [ngTemplateOutlet]="unitCohort"
@@ -110,13 +110,13 @@
       </mat-expansion-panel-header>
       <ng-template matExpansionPanelContent>
         <div *ngIf="cohortResults[cohortTypesEnum.EDUCATORS]">
-          <h3 *ngIf="cohortResults[cohortTypesEnum.EDUCATORS].hasError" class="mat-error text-center" i18n>
+          <h3 *ngIf="cohortResults[cohortTypesEnum.EDUCATORS].hasError" class="mat-error text-center" >
             Failed to fetch educators
           </h3>
           <h3 *ngIf="
               !cohortResults[cohortTypesEnum.EDUCATORS].hasError &&
               !cohortResults[cohortTypesEnum.EDUCATORS].contents.length
-            " class="text-center" i18n>
+            " class="text-center" >
             None
           </h3>
           <div *ngFor="let cohort of cohortResults[cohortTypesEnum.EDUCATORS].contents" [ngTemplateOutlet]="unitCohort" [ngTemplateOutletContext]="{ user: cohort }"></div>

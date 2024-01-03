@@ -163,7 +163,8 @@
       <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->
       <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
         <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock">
-          <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams">
+          <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams"
+            (click)="setConfirmDialogStatus(content?.completionPercentage)">
             <h2 class="margin-remove text-truncate card-title" name="content-heading">{{ content?.name }}</h2>
           </a>
         </ng-container>

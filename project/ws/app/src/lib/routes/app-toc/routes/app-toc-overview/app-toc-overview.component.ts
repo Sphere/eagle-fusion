@@ -104,7 +104,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
       }
     },
-      (err: HttpErrorResponse) => {
+                                                            (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }

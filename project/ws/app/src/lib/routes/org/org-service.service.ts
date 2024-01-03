@@ -15,6 +15,8 @@ const API_END_POINTS = {
   SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
   Sashakt_Auth: '/apis/public/v8/sashaktAuth/login',
+  Maternity_Auth: '/apis/public/v8/maternityFoundation/login',
+  ENROLLED_USER: 'apis/protected/v8/userEnrolledInSource',
 }
 @Injectable({
   providedIn: 'root',
@@ -42,12 +44,12 @@ export class OrgServiceService {
     const req = {
       request: {
         filters: {
-          primaryCategory: ['Course'], contentType: ['Course'], "status": [
-            "Live"
+          primaryCategory: ['Course'], contentType: ['Course'], status: [
+            'Live',
           ],
-          "sourceName": source
-        }
-      }, query: '', sort: [{ lastUpdatedOn: 'desc' }]
+          sourceName: source,
+        },
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
@@ -56,12 +58,12 @@ export class OrgServiceService {
     const req = {
       request: {
         filters: {
-          primaryCategory: ['Course'], contentType: ['Course'], "status": [
-            "Live"
+          primaryCategory: ['Course'], contentType: ['Course'], status: [
+            'Live',
           ],
-          "identifier": identifier
-        }
-      }, query: '', sort: [{ lastUpdatedOn: 'desc' }]
+          identifier,
+        },
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
@@ -70,9 +72,11 @@ export class OrgServiceService {
     const url = `${this.configSvc.sitePath}/page/course.json`
     return this.http.get<any>(`${url}`).toPromise()
   }
+  getEnroledUserForCourses(sourceName: any): Observable<any> {
+    return this.http.get<any>(`${API_END_POINTS.ENROLLED_USER}?sourceName=${sourceName}`)
+  }
 
   getLiveSearchResults(lang?: any): Observable<any> {
-    console.log(lang)
     // tslint:disable-next-line:max-line-length
     const req = {
       request: {
@@ -80,7 +84,7 @@ export class OrgServiceService {
           primaryCategory: ['Course'],
           contentType: ['Course'],
           status: ['Live'],
-          "lang": lang
+          lang,
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }
@@ -88,6 +92,10 @@ export class OrgServiceService {
   }
   setSashaktId(token: any, id: any): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.Sashakt_Auth}?token=${token}&moduleId=${id}`)
+  }
+  setMaternyId(data: any): Observable<any> {
+    console.log(data)
+    return this.http.post<any>(`${API_END_POINTS.Maternity_Auth}`, data)
   }
   setConnectSid(authCode: any): Observable<any> {
     return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})

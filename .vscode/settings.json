@@ -1,7 +1,7 @@
 {
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "[javascript]": {
-    "editor.defaultFormatter": "esbenp.prettier-vscode"
+    "editor.defaultFormatter": "vscode.typescript-language-features"
   },
   "[typescript]": {
     "editor.codeActionsOnSave": {
@@ -12,7 +12,7 @@
   "editor.autoIndent": "advanced",
   "editor.codeLens": true,
   "editor.cursorBlinking": "solid",
-  "editor.cursorSmoothCaretAnimation": true,
+  "editor.cursorSmoothCaretAnimation": "on",
   "editor.cursorStyle": "line",
   // "editor.fontFamily": "Dank Mono, Operator Mono, Fira Code, Inconsolata, Menlo, Consolas",
   "editor.fontLigatures": true,

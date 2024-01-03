@@ -7,6 +7,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import forEach from 'lodash/forEach'
 import { Title } from '@angular/platform-browser'
+import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-mobile-course-view',
@@ -25,7 +26,7 @@ export class MobileCourseViewComponent implements OnInit {
     badges: {
       orgIcon: true,
       certification: true,
-    }
+    },
   }
   constructor(private router: Router,
     private configSvc: ConfigurationsService,
@@ -36,6 +37,9 @@ export class MobileCourseViewComponent implements OnInit {
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
     if (this.configSvc.userProfile) {
+      if (sessionStorage.getItem('cURL')) {
+        sessionStorage.removeItem('cURL')
+      }
       this.isLoggedIn = true
     } else {
       this.isLoggedIn = false
@@ -70,11 +74,11 @@ export class MobileCourseViewComponent implements OnInit {
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
   }
   redirectPage(course: any) {
-    if (this.isLoggedIn == true) {
-      console.log("yes here")
+    if (this.isLoggedIn) {
+      console.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log("else")
+      console.log('else')
       this.login(course)
     }
   }
@@ -89,10 +93,11 @@ export class MobileCourseViewComponent implements OnInit {
       // this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
+        sessionStorage.setItem('cURL', location.href)
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
-          if (userDetails.profileDetails.profileReq.personalDetails.dob !== undefined) {
+          if (this.userProfileSvc.isBackgroundDetailsFilled(_.get(userDetails, 'profileDetails.profileReq'))) {
 
             // location.href = url
             this.router.navigateByUrl(url)

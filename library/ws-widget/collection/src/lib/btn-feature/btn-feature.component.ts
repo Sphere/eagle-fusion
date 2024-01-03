@@ -8,6 +8,9 @@ import { MobileAppsService } from '../../../../../../src/app/services/mobile-app
 // import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
 import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
+import { SignupService } from 'src/app/routes/signup/signup.service'
+import { Location } from '@angular/common'
+import { appNavBarService } from 'src/app/component/app-nav-bar/app-nav-bar.service'
 
 export const typeMap = {
   cardFull: 'card-full',
@@ -35,7 +38,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   @Input() widgetData!: NsPage.INavLink
   @Input() showFixedLength = false
   profileImage!: string | null
-  givenName = ''
+  givenName: any
   // @Input()
   // @HostBinding('id')
   // public id!: string
@@ -46,8 +49,11 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   instanceVal = ''
   isPinFeatureAvailable = true
   searchButton = true
+  isSashakth = false
+  local = 'en'
   private pinnedAppsChangeSubs?: Subscription
   private navigationSubs?: Subscription
+  currentText = ''
   constructor(
     private events: EventService,
     private configurationsSvc: ConfigurationsService,
@@ -56,12 +62,64 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private mobileSvc: MobileAppsService,
     private configSvc: ConfigurationsService,
     // private tour: CustomTourService,
-    private searchApi: SearchApiService
+    private searchApi: SearchApiService,
+    private signupService: SignupService,
+    location: Location,
+    public navOption: appNavBarService
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
     }
+    this.navOption.currentOption.subscribe((option: any) => {
+      console.log('options', option, window.location.href)
+      if (window.location.href.includes('/app/profile-view')) {
+        if (window.location.href.includes('/hi/app/profile-view')) {
+          this.currentText = 'अकाउंट'
+        } else {
+          this.currentText = 'Account'
+        }
+      }
+      if (window.location.href.includes('/app/toc')) {
+        this.currentText = ''
+      }
+    })
+
+    console.log(location.path(), window.location.href, 'btn-feature')
+    if (window.location.href.includes('/app/profile-view')) {
+      if (window.location.href.includes('/hi/app/profile-view')) {
+        this.currentText = 'अकाउंट'
+      } else {
+        this.currentText = 'Account'
+      }
+    } else if (window.location.href.includes('user/my_courses')) {
+      if (window.location.href.includes('/hi/app/user/my_courses')) {
+        this.currentText = 'आपके पाठ्यक्रम'
+      } else {
+        this.currentText = 'My Courses'
+      }
+    } else if (window.location.href.includes('/page/home')) {
+      if (window.location.href.includes('/hi/page/home')) {
+        this.currentText = 'होम'
+      } else {
+        this.currentText = 'Home'
+      }
+    } else if (window.location.href.includes('competency')) {
+      if (window.location.href.includes('/hi/app/user/competency')) {
+        this.currentText = 'योग्यता'
+      } else {
+        this.currentText = 'Competency'
+      }
+    } else if (window.location.href.includes('search')) {
+      if (window.location.href.includes('/hi/app/search/home')) {
+        this.currentText = 'खोज'
+      } else {
+        this.currentText = 'Search'
+      }
+    } else {
+      this.currentText = ''
+    }
+    console.log(this.currentText, 'btn-122')
   }
 
   updateBadge() {
@@ -78,6 +136,58 @@ export class BtnFeatureComponent extends WidgetBaseComponent
           }
         })
         .catch(_err => { })
+    }
+  }
+  async redirect(text: any) {
+    console.log(text)
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? 'hi' : ""
+    console.log(url1)
+    let url3 = `${document.baseURI}`
+    if (url3.includes('hi')) {
+      url3 = url3.replace(/hi\//g, '')
+    }
+
+    if (text.name === 'Home' || text.name === "होम") {
+      this.currentText = text.name
+      let url = '/page/home'
+      location.href = `${url3}${url1}${url}`
+    } else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
+      this.currentText = text.name
+      let url = text.url
+      location.href = `${url3}${url1}${url}`
+    } else if (text.name === 'Competency' || text.name === "योग्यता") {
+      this.currentText = text.name
+      let url = '/app/user/competency'
+      location.href = `${url3}${url1}${url}`
+    } else if (text.name === "खोज" || text.name === "Search") {
+      this.navOption.changeNavBarActive('search')
+      this.currentText = text.name
+      let url = `${text.url}`
+      location.href = `${url3}${url1}${url}`
+    } else {
+      console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
+      let result = await this.signupService.getUserData()
+      console.log(result)
+      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        this.currentText = text.name
+        let url = '/app/profile-view'
+        location.href = `${url3}${url1}${url}`
+      } else {
+        if (localStorage.getItem('url_before_login')) {
+          const courseUrl = localStorage.getItem('url_before_login')
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+          // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
+        } else {
+          this.currentText = 'Home'
+          const url = '/page/home'
+          let url4 = `${document.baseURI}`
+          if (url4.includes('hi')) {
+            url1 = ''
+          }
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+        }
+      }
     }
   }
   search() {
@@ -102,12 +212,24 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.configurationsSvc.appsConfig
     ) {
       this.widgetData.actionBtn = this.configurationsSvc.appsConfig.features[this.widgetData.actionBtnId]
+
       if (this.widgetData.actionBtn && this.widgetData.actionBtn.badgeEndpoint) {
         this.navigationSubs = this.router.events.subscribe((e: Event) => {
           if (e instanceof NavigationEnd) {
             // this.updateBadge()
           }
         })
+      }
+
+      const sashakt_token = sessionStorage.getItem('sashakt_token') || null
+      const sashakt_moduleId = sessionStorage.getItem('sashakt_moduleId') || null
+
+      if (sashakt_token && sashakt_moduleId) {
+        this.isSashakth = true
+        this.local = 'hi'
+        // this.local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+      } else {
+        this.isSashakth = false
       }
     }
 

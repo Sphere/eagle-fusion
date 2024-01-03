@@ -32,6 +32,13 @@
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/competency-web/assets",
                 "output": "./assets/comptency"
+              },
+              "src/favicon.ico",
+              "src/assets",
+              {
+                "glob": "**/*",
+                "input": "node_modules/ngx-extended-pdf-viewer/bleeding-edge/",
+                "output": "/bleeding-edge/"
               }
             ],
             "stylePreprocessorOptions": {
@@ -122,28 +129,6 @@
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
             "browserTarget": "fusion:build"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "src/test.ts",
-            "polyfills": "src/polyfills.ts",
-            "tsConfig": "tsconfig.spec.json",
-            "karmaConfig": "karma.conf.js",
-            "assets": [
-              "src/favicon.ico",
-              "src/fusion-assets",
-              {
-                "glob": "**/*.*",
-                "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
-                "output": "./assets/discussion-ui"
-              }
-            ],
-            "styles": [
-              "src/styles.scss"
-            ],
-            "scripts": []
           }
         },
         "lint": {

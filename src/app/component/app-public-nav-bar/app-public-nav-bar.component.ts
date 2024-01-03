@@ -142,6 +142,9 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   createAcct() {
+    if (localStorage.getItem('preferedLanguage')) {
+      localStorage.removeItem('preferedLanguage')
+    }
     this.router.navigateByUrl('app/create-account')
   }
 
@@ -175,7 +178,6 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       }
     })
   }
-
 
   login(key: 'E' | 'N' | 'S') {
     if (localStorage.getItem('login_url')) {

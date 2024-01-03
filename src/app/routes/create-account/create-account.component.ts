@@ -5,6 +5,8 @@ import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
 import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 import { forkJoin } from 'rxjs/internal/observable/forkJoin'
+import { mustMatch } from '../password-validator'
+import { LoaderService } from '@ws/author/src/public-api'
 
 @Component({
   selector: 'ws-create-account',
@@ -27,6 +29,7 @@ export class CreateAccountComponent implements OnInit {
   otpPage = false
   languageDialog = false
   createAccountForm: FormGroup
+  createAccountWithPasswordForm: FormGroup
   otpCodeForm: FormGroup
   hide1 = true
   hide2 = true
@@ -34,28 +37,55 @@ export class CreateAccountComponent implements OnInit {
   iconChange2 = 'fas fa-eye-slash'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
+  timerSubscription: any
+  emailDelaid = false
+  preferredLanguage: any = ''
+  preferredLanguageList: any[] = [{ id: 'en', lang: 'English' }, { id: 'hi', lang: 'हिंदी' }]
+  loginSelection: any[] = [{ id: 'otp', val: 'With OTP' }, { id: 'password', val: 'With a password' }]
+  loginSelected: any = ''
+  langPage: boolean = true
+  createAccount: boolean = false
+  confirmPassword: boolean = false
   constructor(
     private spherFormBuilder: FormBuilder,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private loader: LoaderService,
+
   ) {
+    if (localStorage.getItem('preferedLanguage')) {
+      let storedLanguage: any = localStorage.getItem('preferedLanguage')
+      // localStorage.removeItem('preferedLanguage')
+      let lang = JSON.parse(storedLanguage)
+      if (lang) {
+        this.preferredLanguage = lang.id
+      }
+    }
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+    },
+      // { validator: mustMatch('password', 'confirmPassword') }
+    )
 
+    this.createAccountWithPasswordForm = this.spherFormBuilder.group({
+      password: new FormControl('', [Validators.required,
+      Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
+      confirmPassword: new FormControl('', [Validators.required]),
+    }, { validator: mustMatch('password', 'confirmPassword') }
+    )
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
     })
-    localStorage.removeItem(`userUUID`)
+    //localStorage.removeItem(`userUUID`)
   }
 
   @HostListener('window:popstate', ['$event'])
@@ -83,13 +113,8 @@ export class CreateAccountComponent implements OnInit {
   initializeFormFields() {
     this.createAccountForm = this.spherFormBuilder.group({
       firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
-      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
-      // tslint:disable-next-line:max-line-length
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
-      // password: new FormControl('', [Validators.required,
-      // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
-    }, {})
+      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)])
+    })
 
     this.otpCodeForm = this.spherFormBuilder.group({
       otpCode: new FormControl('', [Validators.required]),
@@ -103,18 +128,35 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (localStorage.getItem(`preferedLanguage`)) {
+    if (localStorage.getItem(`preferedLanguage`) || location.href.includes('/hi/')) {
       const reqObj = localStorage.getItem(`preferedLanguage`) || ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
+    this.emailOrMobileValueChange()
+  }
+  langChanged() {
+    this.createAccount = true
+    this.langPage = false
+  }
+  optionSelected() {
+    let selectedOption = this.loginSelected
+    if (selectedOption && selectedOption === "password") {
+      this.createAccount = false
+      this.confirmPassword = true
+    } else {
+      this.createAccount = false
+      this.confirmPassword = false
+      this.onSubmit(this.createAccountWithPasswordForm, this.createAccountForm)
+    }
+
   }
 
-  onSubmit(form: any) {
+  onSubmit(form: any, createAccount: any) {
     sessionStorage.setItem('login-btn', 'clicked')
     let phone = this.createAccountForm.controls.emailOrMobile.value
     // const validphone = /^[6-9]\d{9}$/.test(phone)
     phone = phone.replace(/[^0-9+#]/g, '')
-
+    this.loader.changeLoad.next(true)
     // if (!validphone) {
     //   this.otpPage = false
     //   this.openSnackbar('Enter valid Phone Number')
@@ -139,60 +181,70 @@ export class CreateAccountComponent implements OnInit {
     }
     this.uploadSaveData = true
     let reqObj
-
+    if (localStorage.getItem(`preferedLanguage`) || location.href.includes('/hi/')) {
+      const local = localStorage.getItem(`preferedLanguage`) || ''
+      this.preferedLanguage = JSON.parse(local)
+    }
     if (this.email) {
       reqObj = {
-        firstName: form.value.firstname.trim(),
-        lastName: form.value.lastname.trim(),
-        email: form.value.emailOrMobile.trim(),
-        // password: form.value.password.trim(),
+        firstName: createAccount.value.firstname.trim(),
+        lastName: createAccount.value.lastname.trim(),
+        email: createAccount.value.emailOrMobile.trim(),
+        password: form.value.password.trim(),
       }
 
-      this.signupService.signup(reqObj).subscribe(res => {
+      //this.signupService.signup(reqObj).subscribe(res => {
+      this.signupService.ssoWithMobileEmail(reqObj).subscribe(res => {
         console.log(res)
         console.log(res.status)
-        if (res.status_code === 200) {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+        if (res.message = "User successfully created") {
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
-              if (res.msg === 'user created successfully') {
+              if (res.message = "User successfully created") {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
                 this.openSnackbar(msg)
               }
             } else {
-              this.openSnackbar(res.msg)
+              this.openSnackbar(res.message)
             }
           } else {
-            this.openSnackbar(res.msg)
+            this.openSnackbar(res.message)
           }
           // this.generateOtp('email', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true
+          this.confirmPassword = false
           // form.reset()
-          localStorage.setItem(`userUUID`, res.userUUId)
+          this.loader.changeLoad.next(false)
+          localStorage.setItem(`userUUID`, res.userId)
         } else if (res.status === 'error') {
-          this.openSnackbar(res.msg)
+          this.openSnackbar(res.message)
+          this.loader.changeLoad.next(false)
         }
       },
         err => {
-          console.log(err)
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          console.log(err, err.error.message, err.error.msg)
+
+          this.createAccount = true
+          this.confirmPassword = false
+          this.loader.changeLoad.next(false)
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
+            console.log(lang.id)
             if (lang.id === 'hi') {
-              if (err.error.msg === 'Email id  already exists.') {
-                const err = 'ईमेल आईडी पहले से मौजूद है।'
+              if (err.error.msg === 'User already exists') {
+                const err = 'उपयोगकर्ता पहले से मौजूद है।'
                 this.openSnackbar(err)
                 this.uploadSaveData = false
               }
             } else {
-              this.openSnackbar(err.error.msg)
+              this.openSnackbar(err.error.msg || err.error.message)
               this.uploadSaveData = false
             }
           } else {
-            this.openSnackbar(err.error.msg)
+            this.openSnackbar(err.error.msg || err.error.message)
             this.uploadSaveData = false
             // form.reset()
           }
@@ -200,55 +252,62 @@ export class CreateAccountComponent implements OnInit {
       )
     } else {
       const requestBody = {
-        firstName: form.value.firstname.trim(),
-        lastName: form.value.lastname.trim(),
-        phone: form.value.emailOrMobile.trim(),
-        // password: form.value.password.trim(),
+        firstName: createAccount.value.firstname.trim(),
+        lastName: createAccount.value.lastname.trim(),
+        phone: createAccount.value.emailOrMobile.trim(),
+        password: form.value.password.trim(),
       }
 
-      this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
-        if (res.status === 'success') {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+      //this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
+      this.signupService.ssoWithMobileEmail(requestBody).subscribe(res => {
+        if (res.message === 'User successfully created') {
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
-              if (res.msg === 'user created successfully') {
+              if (res.message === 'user created successfully') {
                 const msg = 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
                 this.openSnackbar(msg)
               }
             } else {
-              this.openSnackbar(res.msg)
+              this.openSnackbar(res.message)
             }
           } else {
-            this.openSnackbar(res.msg)
+            this.openSnackbar(res.message)
           }
           // this.generateOtp('phone', form.value.emailOrMobile)
           this.showAllFields = false
           this.uploadSaveData = false
           this.otpPage = true
+          this.confirmPassword = false
+          this.loader.changeLoad.next(false)
           // form.reset()
           // localStorage.removeItem(`preferedLanguage`)
-          localStorage.setItem(`userUUID`, res.userUUId)
+          localStorage.setItem(`userUUID`, res.userId)
         } else if (res.status === 'error') {
-          this.openSnackbar(res.msg)
+          this.openSnackbar(res.message)
+          this.loader.changeLoad.next(false)
         }
       },
         err => {
-          if (localStorage.getItem(`preferedLanguage`)) {
-            const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-            const lang = JSON.parse(reqObj) || ''
+          // if (this.createAccount) {
+          this.createAccount = true
+          this.confirmPassword = false
+          // }
+          this.loader.changeLoad.next(false)
+          if (this.preferedLanguage) {
+            const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
-              if (err.error.msg === 'Email id  already exists.') {
-                const err = 'ईमेल आईडी पहले से मौजूद है।'
+              if (err.error.msg === 'User already exists') {
+                const err = 'उपयोगकर्ता पहले से मौजूद है।'
                 this.openSnackbar(err)
                 this.uploadSaveData = false
               }
             } else {
-              this.openSnackbar(err.error.msg)
+              this.openSnackbar(err.error.msg || err.error.message)
               this.uploadSaveData = false
             }
           } else {
-            this.openSnackbar(err.error.msg)
+            this.openSnackbar(err.error.msg || err.error.message)
             this.uploadSaveData = false
           }
         }
@@ -274,21 +333,21 @@ export class CreateAccountComponent implements OnInit {
     //   "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""]
     // }
     // const userInfo = Object.assign(userdata, obj2)
-    //console.log(userInfo)
-    let obj3 = {
-      "FormInfoDetails": {
-        "FormId": 7,
-        "OTPFormId": 0,
-        "FormType": 1,
-        "BannerId": 0,
-        "RedirectUrl": "",
-        "Name": "",
-        "EmailId": ""
+    // console.log(userInfo)
+    const obj3 = {
+      FormInfoDetails: {
+        FormId: 7,
+        OTPFormId: 0,
+        FormType: 1,
+        BannerId: 0,
+        RedirectUrl: '',
+        Name: '',
+        EmailId: '',
       },
-      "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""],
-      "MainVisitorDetails": userdata
+      answerDetails: [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === 'email' ? form.value.emailOrMobile.trim() : '', this.emailPhoneType === 'phone' ? form.value.emailOrMobile.trim() : ''],
+      MainVisitorDetails: userdata,
     }
-    //const data = Object.assign(obj3, userInfo)
+    // const data = Object.assign(obj3, userInfo)
     console.log(obj3)
     // this.signupService.plumb5SendEvent(userInfo).subscribe((res: any) => {
     //   // @ts-ignore: Unreachable code error
@@ -321,9 +380,61 @@ export class CreateAccountComponent implements OnInit {
       },
     })
     this.langDialog.afterClosed().subscribe((result: any) => {
-      this.preferedLanguage = result
+      console.log(result)
+      if (result) {
+        if (localStorage.getItem('preferedLanguage')) {
+          localStorage.removeItem('preferedLanguage')
+        }
+        this.preferedLanguage = result
+        localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
+        const lang = result.id === 'hi' ? result.id : ''
+        if (this.router.url.includes('hi')) {
+          const lan = this.router.url.split('hi/').join('')
+          if (lang === 'hi') {
+            window.location.assign(`${location.origin}/${lang}${lan}`)
+          } else {
+            window.location.assign(`${location.origin}${lang}${lan}`)
+          }
+        } else {
+          if (lang === 'hi') {
+            window.location.assign(`${location.origin}/${lang}${this.router.url}`)
+          } else {
+            window.location.assign(`${location.origin}${lang}${this.router.url}`)
+          }
+        }
+      }
+    })
+  }
+
+  emailOrMobileValueChange() {
+    this.createAccountForm.get('emailOrMobile')!.valueChanges
+      .subscribe(() => {
+        this.emailDelaid = true
+        if (this.timerSubscription) {
+          clearTimeout(this.timerSubscription)
+          this.timerSubscription = null
+        }
+        this.timerSubscription = setTimeout(() => {
+          this.emailDelaid = false
+        }, 300)
+      })
+  }
+  preferredLanguageChange(event: any) {
+    console.log("value: ", this.preferredLanguage)
+    let value
+    if (event === 'hi') {
+      value = { id: 'hi', lang: 'हिंदी' }
+    } else {
+      value = { id: 'en', lang: 'English' }
+    }
+    this.preferredLanguage = value
+    if (value) {
+      if (localStorage.getItem('preferedLanguage')) {
+        localStorage.removeItem('preferedLanguage')
+      }
+      this.preferedLanguage = value
       localStorage.setItem(`preferedLanguage`, JSON.stringify(this.preferedLanguage))
-      const lang = result.id === 'hi' ? result.id : ''
+      const lang = value.id === 'hi' ? value.id : ''
       if (this.router.url.includes('hi')) {
         const lan = this.router.url.split('hi/').join('')
         if (lang === 'hi') {
@@ -338,6 +449,21 @@ export class CreateAccountComponent implements OnInit {
           window.location.assign(`${location.origin}${lang}${this.router.url}`)
         }
       }
-    })
+    }
+  }
+  get emailOrMobileErrorStatus() {
+    let errorType = ''
+    const controll = this.createAccountForm.get('emailOrMobile')
+
+    if (controll!.valid) {
+      return errorType
+    } else if (!this.emailDelaid) {
+      if (controll!.hasError('required') && (controll!.dirty || controll!.touched)) {
+        errorType = 'required'
+      } else if (controll!.hasError('pattern')) {
+        errorType = 'pattern'
+      }
+    }
+    return errorType
   }
 }

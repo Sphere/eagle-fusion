@@ -5,8 +5,8 @@ import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
   // ContentProgressService,
   NsContent,
-  //NsGoal,
-  //NsPlaylist,
+  // NsGoal,
+  // NsPlaylist,
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
@@ -23,7 +23,7 @@ import { FormControl, Validators } from '@angular/forms'
 // import * as dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
-//import * as FileSaver from 'file-saver'
+// import * as FileSaver from 'file-saver'
 import moment from 'moment'
 
 import { DOCUMENT } from '@angular/common'
@@ -65,8 +65,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   editButton = false
   reviewButton = false
   // analyticsDataClient: any = null
-  //btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
-  //btnGoalsConfig: NsGoal.IBtnGoal | null = null
+  // btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
+  // btnGoalsConfig: NsGoal.IBtnGoal | null = null
   isRegistrationSupported = false
   checkRegistrationSources: Set<string> = new Set([
     'SkillSoft Digitalization',
@@ -117,10 +117,18 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   @HostListener('window:popstate', ['$event'])
   onPopState() {
-    window.location.href = '/page/home'
+    let url = sessionStorage.getItem('cURL') || '/page/home'
+    if (url) {
+      location.href = url
+    }
+
+
   }
 
   ngOnInit() {
+    if (sessionStorage.getItem('currentURL')) {
+      sessionStorage.removeItem('currentURL')
+    }
     this.enrollApi()
     console.log(this.resumeData)
     if (this.content) {
@@ -201,6 +209,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
+  setConfirmDialogStatus(percentage: any) {
+    this.contentSvc.showConformation = percentage
+  }
+
   get showIntranetMsg() {
     if (this.isMobile) {
       return true
@@ -231,6 +243,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   get showSubtitleOnBanner() {
     return this.tocSvc.subtitleOnBanners
+  }
+  redirect() {
+    let url = sessionStorage.getItem('cURL') || '/page/home'
+    if (url) {
+      location.href = url
+    }
   }
 
   // resumeBtn() {
@@ -342,6 +360,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     // is enrolled?
     if (this.batchData.enrolled) {
       let userId = ''
@@ -382,9 +401,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   return course
                 })
                 if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
-                  //this.displayStyle = 'block'
+                  // this.displayStyle = 'block'
                   // tslint:disable-next-line: max-line-length
-                  //this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
+                  // this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
                   this.sendApi()
                   // trigger this.downloadCertificate
 
@@ -395,7 +414,11 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`) && duration <= 30) {
                     this.displayStyle = 'block'
                     // tslint:disable-next-line: max-line-length
-                    this.certificateMsg = `You have already requested a certificate. Please check after ${30 - duration} minutes!`
+                    if (local === 'en') {
+                      this.certificateMsg = `You have already requested a certificate. Please check after ${30 - duration} minutes!`
+                    } else {
+                      this.certificateMsg = `आप पहले ही प्रमाणपत्र का अनुरोध कर चुके हैं. कृपया बाद में जांचें ${30 - duration} मिनट!`
+                    }
                   } else {
                     this.contentSvc.processCertificate(req).subscribe((response: any) => {
                       if (response.responseCode === 'OK') {
@@ -404,17 +427,29 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                         localStorage.setItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`, moment(new Date()).toString())
                         this.displayStyle = 'block'
                         // tslint:disable-next-line: max-line-length
-                        this.certificateMsg = `Your request for certificate has been successfully processed. Please download it after 30 minutes.`
+                        if (local === 'en') {
+                          this.certificateMsg = `Your request for certificate has been successfully processed. Please download it after 30 minutes.`
+                        } else {
+                          this.certificateMsg = `प्रमाणपत्र के लिए आपका अनुरोध सफलतापूर्वक संसाधित कर दिया गया है। कृपया 30 मिनट बाद इसे डाउनलोड करें।`
+                        }
                       } else {
                         this.displayStyle = 'block'
-                        this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        if (local === 'en') {
+                          this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        } else {
+                          this.certificateMsg = 'इस समय प्रमाणपत्र का अनुरोध करने में असमर्थ. बाद में कोशिश करें!'
+                        }
                       }
                     },
                       err => {
                         this.displayStyle = 'block'
                         /* tslint:disable-next-line */
                         console.log(err.error.params.errmsg)
-                        this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        if (local === 'en') {
+                          this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
+                        } else {
+                          this.certificateMsg = 'इस समय प्रमाणपत्र का अनुरोध करने में असमर्थ। बाद में कोशिश करें!'
+                        }
                         // this.openSnackbar(err.error.params.errmsg)
                       })
                   }
@@ -425,14 +460,24 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           })
 
       } else {
-        // tslint:disable-next-line:max-line-length
-        this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
         this.displayStyle = 'block'
+        // tslint:disable-next-line:max-line-length
+        if (local === 'en') {
+          this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
+        } else {
+          this.certificateMsg = 'आपने पाठ्यक्रम के सभी मॉड्यूल समाप्त नहीं किए हैं. प्रमाणपत्र का अनुरोध करने से पहले सभी मॉड्यूल को पूरा करना अनिवार्य है'
+        }
+
       }
     } else {
-      // tslint:disable-next-line: max-line-length
-      this.certificateMsg = 'Please enroll by clicking the Start button, finish all modules and then request for the certificate'
       this.displayStyle = 'block'
+      if (local === 'en') {
+        // tslint:disable-next-line: max-line-length
+        this.certificateMsg = 'Please enroll by clicking the Start button, finish all modules and then request for the certificate'
+      } else {
+        this.certificateMsg = 'कृपया स्टार्ट बटन पर क्लिक करके नामांकन करें, सभी मॉड्यूल समाप्त करें और फिर प्रमाणपत्र के लिए अनुरोध करें'
+      }
+
     }
 
   }
@@ -476,7 +521,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         // let enrolledCourse: NsContent.ICourse | undefined
         if (this.content && this.content.identifier && !this.forPreview) {
           // tslint:disable-next-line:no-this-assignment
-          //const self = this
+          // const self = this
           if (courses && courses.length) {
             this.enrolledCourse = courses.find(course => {
               const identifier = this.content && this.content.identifier || ''
@@ -488,7 +533,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               const name = this.enrolledCourse.courseName
-              console.log(certID, name)
               this.openPopup(certID, name)
               // this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
               //   if (response.responseCode) {
@@ -527,7 +571,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               //   }
               // })
             } else {
-              //this.displayStyle = 'block'
+              // this.displayStyle = 'block'
             }
           }
         }
@@ -613,6 +657,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   showOrgprofile(orgId: string) {
+    sessionStorage.setItem('currentURL', location.href)
     this.router.navigate(['/app/org-details'], { queryParams: { orgId } })
   }
 
@@ -919,8 +964,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   // }
   openPopup(content: any, tocConfig: any) {
     this.dialog.open(AppTocCertificateModalComponent, {
-      width: "100vw",
-      height: "80vh",
+      width: '100vw',
+      height: '80vh',
       data: { content, tocConfig, type: 'DETAILS' },
       disableClose: false,
     })

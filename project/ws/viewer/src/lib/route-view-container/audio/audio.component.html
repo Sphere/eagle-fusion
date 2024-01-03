@@ -8,9 +8,13 @@
         <mat-card>
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player">
-              <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverAudioData"></ng-container>
-              <div class="player-nav-links">
-                <div class="flex justify-between html">
+              <span class="audio">
+                <ng-container *ngIf="isFetchingDataComplete"
+                  [wsResolverWidget]="widgetResolverAudioData"></ng-container>
+              </span>
+              <div>
+                <app-player-navigation-widget></app-player-navigation-widget>
+                <!-- <div class="flex justify-between html">
                   <div class="prev-button">
                     <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
                       accesskey="<" [disabled]="!prevResourceUrl">
@@ -33,7 +37,7 @@
                       </span>
                     </a>
                   </div>
-                </div>
+                </div> -->
               </div>
             </div>
           </mat-card-content>

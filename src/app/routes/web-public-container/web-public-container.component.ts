@@ -26,7 +26,7 @@ export class WebPublicComponent implements OnInit {
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
-  //languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  // languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig = {
@@ -34,7 +34,7 @@ export class WebPublicComponent implements OnInit {
     badges: {
       orgIcon: true,
       certification: true,
-    }
+    },
   }
   constructor(
     private router: Router,
@@ -43,26 +43,24 @@ export class WebPublicComponent implements OnInit {
     private orgService: OrgServiceService,
   ) {
 
-
   }
 
   async ngOnInit() {
     forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
     await this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
-      console.log("res", res)
+
       this.homeFeature = res[0].userLoggedInSection
       this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
-      console.log("this.topCertifiedCourseIdentifier", this.topCertifiedCourseIdentifier)
+
       this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
       if (res[0].result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(res[0])
         this.formatFeaturedCourseResponse(res[0])
-        console.log("this.formatTopCertifiedCourseResponse", this.topCertifiedCourse, this.featuredCourse)
+
       }
     })
 
   }
-
 
   formatFeaturedCourseResponse(res: any) {
     const featuredCourse = filter(res.result.content, ckey => {

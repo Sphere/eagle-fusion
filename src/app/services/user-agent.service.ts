@@ -9,26 +9,25 @@ export class UserAgentResolverService {
   ) { }
 
   getUserAgent(): any {
-    let userAgent = navigator.userAgent
+    const userAgent = navigator.userAgent
     let browserName
 
     if (userAgent.match(/chrome|chromium|crios/i)) {
-      browserName = "chrome"
+      browserName = 'chrome'
     } else if (userAgent.match(/firefox|fxios/i)) {
-      browserName = "firefox"
+      browserName = 'firefox'
     } else if (userAgent.match(/safari/i)) {
-      browserName = "safari"
+      browserName = 'safari'
     } else if (userAgent.match(/opr\//i)) {
-      browserName = "opera"
+      browserName = 'opera'
     } else if (userAgent.match(/edg/i)) {
-      browserName = "edge"
+      browserName = 'edge'
     } else {
-      browserName = "No browser detection"
+      browserName = 'No browser detection'
     }
 
-    let OS = this.getOsInfo()
+    const OS = this.getOsInfo()
     return { OS, browserName }
-
 
   }
 
@@ -41,26 +40,26 @@ export class UserAgentResolverService {
       os = null
 
     if (macosPlatforms.test(userAgent)) {
-      os = "MacOS"
+      os = 'MacOS'
     } else if (iosPlatforms.test(userAgent)) {
-      os = "iOS"
+      os = 'iOS'
     } else if (windowsPlatforms.test(userAgent)) {
-      os = "Windows"
+      os = 'Windows'
     } else if (/android/.test(userAgent)) {
-      os = "Android"
+      os = 'Android'
     } else if (!os && /linux/.test(userAgent)) {
-      os = "Linux"
+      os = 'Linux'
     }
 
     return os
 
-  };
+  }
   generateCookie(): any {
-    var cookie: any
+    let cookie: any
     if (this.isCookieExpired('USERUID')) {
-      var timestamp = new Date().getTime().toString(36)
-      var randomString = Math.random().toString(36).substring(2, 9)
-      var uniqueId = timestamp + randomString
+      const timestamp = new Date().getTime().toString(36)
+      const randomString = Math.random().toString(36).substring(2, 9)
+      const uniqueId = timestamp + randomString
       cookie = this.setCookie('USERUID', uniqueId, 1)
     } else {
       cookie = this.getCookie('USERUID')
@@ -73,7 +72,7 @@ export class UserAgentResolverService {
     const cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`
     document.cookie = cookie
     return cookie
-  };
+  }
 
   isCookieExpired(cookieName: any) {
     const cookieValue = this.getCookie(cookieName)

@@ -13,7 +13,7 @@ export class MobileHomeComponent implements OnInit {
   bannerStatus: any
   constructor(private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
 
-    private scrollService: ScrollService
+              private scrollService: ScrollService
   ) { }
 
   ngOnInit() {

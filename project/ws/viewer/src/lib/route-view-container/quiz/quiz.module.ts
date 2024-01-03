@@ -17,14 +17,14 @@ import {
   // BtnContentFeedbackModule,
   // BtnContentLikeModule,
   BtnContentShareModule,
-  //BtnGoalsModule,
-  //BtnPlaylistModule,
+  // BtnGoalsModule,
+  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  //UserContentRatingModule,
-  //BtnContentFeedbackV2Module,
+  // UserContentRatingModule,
+  // BtnContentFeedbackV2Module,
   BtnPageBackModule,
-  //PlayerBriefModule,
+  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -39,6 +39,7 @@ import { QuizComponent } from './quiz.component'
 import { QuizRoutingModule } from './quiz-routing.module'
 
 import { QuizModule as QuizPluginModule } from '../../plugins/quiz/quiz.module'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 
 @NgModule({
   declarations: [QuizComponent],
@@ -57,18 +58,19 @@ import { QuizModule as QuizPluginModule } from '../../plugins/quiz/quiz.module'
     // BtnContentFeedbackModule,
     // BtnContentLikeModule,
     BtnContentShareModule,
-    //BtnGoalsModule,
-    //BtnPlaylistModule,
+    // BtnGoalsModule,
+    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     PipeDurationTransformModule,
     PipeLimitToModule,
     PipePartialContentModule,
     WidgetResolverModule,
-    //UserContentRatingModule,
-    //BtnContentFeedbackV2Module,
+    // UserContentRatingModule,
+    // BtnContentFeedbackV2Module,
     BtnPageBackModule,
     //PlayerBriefModule,
+    SharedModule
   ],
   exports: [
     QuizComponent,

@@ -30,11 +30,31 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
     )
   }
   getPublicTnc(locale?: string): Observable<NsTnc.ITnc> {
-    let url = `${this.configSvc.sitePath}/tnc.config.json`
-    if (locale) {
-      url += `?locale=${locale}`
+    console.log(locale)
+    let data: any
+    let lang: any
+    let url1: any
+    if (localStorage.getItem('preferedLanguage')) {
+      data = localStorage.getItem('preferedLanguage')
+      lang = JSON.parse(data)
+      if (lang.id) {
+        lang = lang.id !== 'en' ? lang.id : ''
+      }
+      console.log(lang)
     }
-    return this.http.get<NsTnc.ITnc>(url)
+    if (lang === 'hi') {
+      url1 = `${this.configSvc.sitePath}/tnc.config.${'hi'}.json`
+    } else {
+      let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+      url1 = local === 'hi' ? `${this.configSvc.sitePath}/tnc.config.${'hi'}.json` : `${this.configSvc.sitePath}/tnc.config.json`
+    }
+
+
+    //let url = `${this.configSvc.sitePath}/tnc.config.json`
+    // if (locale) {
+    //   url += `?locale=${locale}`
+    // }
+    return this.http.get<NsTnc.ITnc>(url1)
   }
 
   assignAdminToDepartment(data: any): Observable<any> {

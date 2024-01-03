@@ -142,3 +142,8 @@ a {
 .blue {
   filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
 }
+.ws-mat-accent-text {
+    color: #1c5d95;
+    cursor: pointer;
+    filter: invert(.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
+}

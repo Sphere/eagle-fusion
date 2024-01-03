@@ -1,10 +1,10 @@
 import { Injectable, EventEmitter } from '@angular/core'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScrollService {
-  scrollToDivEvent: EventEmitter<string> = new EventEmitter<string>();
+  scrollToDivEvent: EventEmitter<string> = new EventEmitter<string>()
 
   constructor() { }
 }

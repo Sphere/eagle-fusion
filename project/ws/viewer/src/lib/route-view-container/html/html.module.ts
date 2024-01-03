@@ -18,13 +18,13 @@ import {
   // BtnContentLikeModule,
   BtnContentShareModule,
   BtnFullscreenModule,
-  //BtnGoalsModule,
-  //BtnPlaylistModule,
+  // BtnGoalsModule,
+  // BtnPlaylistModule,
   DisplayContentTypeModule,
-  //UserContentRatingModule,
+  // UserContentRatingModule,
   UserImageModule,
-  //BtnContentFeedbackV2Module,
-  //PlayerBriefModule,
+  // BtnContentFeedbackV2Module,
+  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -40,6 +40,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import { HtmlModule as HtmlPluginModule } from '../../plugins/html/html.module'
 
 import { HtmlComponent } from './html.component'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 // import { ViewerCourseInfoModule } from '../../plugins/viewer-course-info/viewer-course-info.module'
 
 @NgModule({
@@ -58,8 +59,8 @@ import { HtmlComponent } from './html.component'
     // BtnContentLikeModule,
     BtnContentShareModule,
     BtnFullscreenModule,
-    //BtnGoalsModule,
-    //BtnPlaylistModule,
+    // BtnGoalsModule,
+    // BtnPlaylistModule,
     DisplayContentTypeModule,
     UserImageModule,
     MatCardModule,
@@ -68,10 +69,11 @@ import { HtmlComponent } from './html.component'
     MatIconModule,
     MatChipsModule,
     MatSnackBarModule,
-    //UserContentRatingModule,
-    //BtnContentFeedbackV2Module,
-    //PlayerBriefModule,
+    // UserContentRatingModule,
+    // BtnContentFeedbackV2Module,
+    // PlayerBriefModule,
     // ViewerCourseInfoModule,
+    SharedModule
   ],
   providers: [PipeLimitToPipe],
   exports: [HtmlComponent],

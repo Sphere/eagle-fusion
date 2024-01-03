@@ -6,31 +6,8 @@
           <mat-card-content>
             <div id="fullScreenContainer" class="video-player">
               <ng-container *ngIf="isFetchingDataComplete" [wsResolverWidget]="widgetResolverPdfData"></ng-container>
-              <div #navpdf class="pdf player-nav-links">
-                <div class="flex justify-between html">
-                  <div class="pdf prev-button">
-                    <a mat-button class="width-auto" [routerLink]="prevResourceUrl" queryParamsHandling="preserve"
-                      accesskey="<" [disabled]="!prevResourceUrl">
-                      <span class="material-icons align-left-arrow">
-                        chevron_left
-                      </span>
-                    </a>
-                    <span class="title" *ngIf="prevTitle"><span class="fs-small">Previous
-                        Chapter</span>{{ (prevTitle.length>22)? (prevTitle | slice:0:22)+'..':(prevTitle)}}
-                    </span>
-                  </div>
-                  <div class="pdf next-button">
-                    <span class="title" *ngIf="nextTitle"><span class="fs-small">Next
-                        Chapter</span>{{ (nextTitle.length>22) ? (nextTitle | slice: 0:22)+'..' : (nextTitle) }}</span>
-                    <a mat-button class="width-auto mr-10"
-                      [routerLink]="isProgressCheck() ? nextResourceUrl : stopPropagation()"
-                      queryParamsHandling="preserve" accesskey=">" [disabled]="!isProgressCheck()">
-                      <span class="material-icons align-right-arrow">
-                        chevron_right
-                      </span>
-                    </a>
-                  </div>
-                </div>
+              <div #navpdf class="pdf">
+                <app-player-navigation-widget></app-player-navigation-widget>
               </div>
             </div>
 

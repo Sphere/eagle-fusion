@@ -12,7 +12,7 @@ import { GeneralGuard } from './guards/general.guard'
 import { LoginGuard } from './guards/login.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
-//import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
+// import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
@@ -34,7 +34,7 @@ import { YourLocationComponent as AboutYou } from './routes/your-location/your-l
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
-//import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
+// import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
 import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
 import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
@@ -44,12 +44,14 @@ import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { KeycloakCallbackComponent } from './routes/public/keycloak-callback/keycloak-callback.component'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
+import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { OrgHomeComponent } from '../organisations/org-home/org-home.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { CompetencyDashboardComponent } from '@aastrika_npmjs/competency-web/competency'
 import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
-
+import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
+import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -212,6 +214,11 @@ const routes: Routes = [
   },
   {
     path: 'app/user/competency', component: CompetencyDashboardComponent,
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'app/user/my_courses', component: MyCoursesComponent,
+    canActivate: [GeneralGuard]
   },
   // {
   //   path: 'app/video-player',
@@ -332,6 +339,10 @@ const routes: Routes = [
   {
     path: 'openid/sashakt',
     component: SashaktCallbackComponent,
+  },
+  {
+    path: 'openid/maternity',
+    component: MaternityCallbackComponent,
   },
   {
     path: 'openid/sphereapp',
@@ -479,6 +490,10 @@ const routes: Routes = [
     path: 'public/faq/:tab',
     component: PublicFaqComponent,
   },
+  {
+    path: 'public/scrom-player',
+    component: ScromPlayerComponent,
+  },
   { path: 'resources', redirectTo: 'page/home', pathMatch: 'full' },
   {
     path: 'viewer',
@@ -517,7 +532,5 @@ export class AppRoutingModule {
   constructor() {
 
   }
-
-
 
 }

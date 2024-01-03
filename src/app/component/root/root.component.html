@@ -28,12 +28,12 @@
     </section>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
-      <h3 class="mt-15">You're offline. Check your internet connection</h3>
+      <h3 class="mt-15" i18n>You're offline. Check your internet connection</h3>
     </div>
   </div>
 
   <!-- Mobile Footer -->
-  <ws-mobile-footer [isHomePage]="isHomePage" *ngIf="(isXSmall$ | async) === true && !isLoggedIn"
+  <ws-mobile-footer [createAcc]="createAcc" *ngIf="(isXSmall$ | async) === true && !isLoggedIn && showmobileFooter"
     class="hide-in-desktop app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
   </ws-mobile-footer>
 
@@ -65,14 +65,14 @@
 
   <!-- Desktop trusted by section -->
   <ng-container *ngIf="(isXSmall$ | async) === false && !isLoggedIn&&isHomePage">
-    <div class="px-4">
+    <div>
       <ws-web-trusted-by-page></ws-web-trusted-by-page>
     </div>
   </ng-container>
 
   <!-- Desktop How does it Works -->
   <ng-container *ngIf="(isXSmall$ | async) === false &&isHomePage">
-    <div class="px-4 mt-8">
+    <div class="mt-8">
       <ws-web-how-does-work class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
         *ngIf="showNavbar && !hideHeaderFooter" [data]="videoData"></ws-web-how-does-work>
     </div>
@@ -81,7 +81,7 @@
 
   <!-- Desktop Footer -->
   <ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
-    *ngIf="showNavbar && !hideHeaderFooter">
+    *ngIf="showNavbar && !hideHeaderFooter && showmobileFooter">
   </ws-app-footer>
 
   <ng-container>

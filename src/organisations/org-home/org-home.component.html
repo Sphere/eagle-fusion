@@ -82,13 +82,13 @@
     <div class="row g-5">
       <div class="col-lg-3 col-md-6">
         <img class="img-fluid  img-responsive footer-logo" src="./../../fusion-assets/images/sphere-new-logo.svg">
-        <img class="img-fluid  img-responsive footer-logo" src="./../../fusion-assets/images/Asha-E-ABhyass-logo.svg">
+        <!-- <img class="img-fluid  img-responsive footer-logo" src="./../../fusion-assets/images/Asha-E-ABhyass-logo.svg"> -->
       </div>
 
       <div class="col-lg-3 col-md-6 footer-alignment">
         <a class="btn btn-link" routerLink="/public/about">About Us</a><br>
-        <a class="btn btn-link" routerLink="/public/tnc">Privacy Policy</a><br>
-        <a class="btn btn-link" routerLink="/public/tnc">Terms of use</a><br>
+        <a class="btn btn-link" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}">Privacy Policy</a><br>
+        <a class="btn btn-link" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}">Terms of use</a><br>
         <!-- <a class="btn btn-link" href="https://www.aastrika.org/team/" target="_blank" id=footer-team>Team</a>
         <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n id="footer-help-contact"
           class="list-item">Help & Contact</a>
@@ -110,7 +110,7 @@
           <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-3.svg">
         </a>
         <br>
-        <div class="text-dark mt-1">© 2022
+        <div class="text-dark mt-1" i18n>© 2024
           AastarUrmika Health Systems Pvt Ltd. All rights reserved.
           <br><br> <br>
         </div>

@@ -13,6 +13,9 @@ export class AppInterceptorService implements HttpInterceptor {
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    if (req.url.endsWith('/api/course/v1/content/state/read') || req.url.endsWith("/apis/public/v8/mobileApp/v2/updateProgress")) {
+      return next.handle(req)
+    }
     const lang = [this.locale.replace('en-US', 'en')]
     if (this.configSvc.userPreference) {
       (this.configSvc.userPreference.selectedLangGroup || '')
@@ -44,6 +47,7 @@ export class AppInterceptorService implements HttpInterceptor {
           if (error instanceof HttpErrorResponse) {
             switch (error.status) {
               case 419: // login
+                window.location.href = '/public/home'
                 // const localUrl = location.origin
                 // tslint:disable-next-line: prefer-template
                 // Now we commenting this one, Later now we will remove it

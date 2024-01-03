@@ -38,12 +38,12 @@
       <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
         <mat-list-item class="link-header" i18n> Quick Links </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/public/tnc" i18n>
+          <a class="list-item" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}" i18n>
             Privacy policy
           </a>
         </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/public/tnc" i18n>
+          <a class="list-item" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}" i18n>
             Terms of Use
           </a>
         </mat-list-item>
@@ -55,7 +55,7 @@
         </mat-list-item>
         <!-- <mat-list-item> <a routerLink="/app/social/blogs" i18n>Blog</a> </mat-list-item> -->
         <mat-list-item style="margin-top: 10px;">
-          <a class="link-text" href="mail-to:support@aastrika.org">support@aastrika.org</a>
+          <a class="link-text" href="mailto:support@aastrika.org">support@aastrika.org</a>
         </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
           <a i18n class="whatsapp-logo-container" href="https://wa.me/919632013414?text=Hi" target="_blank">
@@ -87,17 +87,17 @@
         <mat-list-item class="social-logo-container">
           <a class="social-logo-block" href="https://twitter.com/aastrika_fndn?s=21&t=I9xN5rzMahavP0R1Fp7VwA"
             target="_blank">
-            <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/twitter.svg" />
+            <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-twitter.svg" />
           </a>
           <a class="social-logo-block" href="https://www.facebook.com/aastrikasphere?mibextid=LQQJ4d" target="_blank">
-            <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/facebook.svg" />
+            <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-facebook.svg" />
           </a>
           <a class="social-logo-block" href="https://instagram.com/sphere.aastrika?igshid=MmJiY2I4NDBkZg=="
             target="_blank">
-            <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/Instagram-Logo.wine.svg" />
+            <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-instagram.svg" />
           </a>
           <a class="social-logo-block" href="https://www.linkedin.com/company/aastrika-foundation/" target="_blank">
-            <img class="fa fa-whatsapp social-logo" src="/fusion-assets/icons/linked-in.svg" />
+            <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-linkedin.svg" />
           </a>
         </mat-list-item>
       </mat-list>
@@ -111,8 +111,8 @@
     </div> -->
     <div class="docs-footer-copyright flex-1">
       <div>
-        <div class="footer-alignment" i18n>&copy; <span>2023</span>
-          <span>AastarUrmika Health Systems ("Aastrika Foundation") </span>
+        <div class="footer-alignment">&copy; <span style="margin-right: 3px;" i18n>2024</span>
+          <span i18n>AastarUrmika Health Systems ("Aastrika Foundation") </span>
         </div>
       </div>
     </div>

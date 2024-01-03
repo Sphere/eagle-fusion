@@ -3,12 +3,11 @@ import {
   ConfigurationsService,
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
-import { Component, OnInit, ViewChild, OnDestroy } from '@angular/core'
+import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
 import { ActivatedRoute, Router, Data } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
-
 
 @Component({
   selector: 'ws-app-org',
@@ -25,20 +24,32 @@ export class OrgComponent implements OnInit, OnDestroy {
   showEndPopup = false
   btnText = ''
   courseCount = 0
-  cardLimit: number = 5;
+  cardLimit = 5
   cometencyData: { identifier: string, name: any; levels: string }[] = []
-  rating: number = 4;
-  starCount: number = 5;
-  color: string = 'accent';
-  ratingArr: any = [];
-  index: number = 0;
+  rating = 4
+  starCount = 5
+  color = 'accent'
+  ratingArr: any = []
+  index = 0
+  link: string = ''
+  competency_offered: any = 0
+  orgUserCourseEnrolled: any = 0
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
     private router: Router,
     // private authSvc: AuthKeycloakService,
     private configSvc: ConfigurationsService) {
   }
-
+  @HostListener('window:popstate', ['$event'])
+  onPopState(event: any) {
+    console.log(event)
+    //window.location.href = '/public/home'
+    let url = sessionStorage.getItem('currentURL')
+    if (url) {
+      location.href = url
+    }
+    //window.history.go(-1)
+  }
   ngOnInit() {
     for (this.index = 0; this.index < this.starCount; this.index++) {
       this.ratingArr.push(this.index)
@@ -63,7 +74,12 @@ export class OrgComponent implements OnInit, OnDestroy {
         }
       }
     })
-
+    this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
+      if (userEnrolled && userEnrolled.length > 0) {
+        this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
+        this.competency_offered = userEnrolled[0].competency_offered || undefined
+      }
+    })
     this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
       this.courseData = result.result.content.filter(
         (org: any) => org.sourceName === this.orgName
@@ -71,16 +87,15 @@ export class OrgComponent implements OnInit, OnDestroy {
       this.courseCount = this.courseData
       if (this.courseData) {
         this.courseData.forEach((course: any) => {
-          // console.log("course", course)
-          if (course && course.competencies_v1) {
+          if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
             forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-              // console.log("value", value)
+              //console.log("value", value)
               if (value.level) {
                 this.cometencyData.push(
                   {
                     identifier: course.identifier,
                     name: value.competencyName,
-                    levels: ` Level ${value.level}`
+                    levels: ` Level ${value.level}`,
                   }
                 )
               }
@@ -97,9 +112,17 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   this.courseData = data
     //   this.courseCount = this.courseData.result.length
     // })
-
-    this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
+    // console.log(this.configSvc)
+    // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
+    this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
+  redirect() {
+    let url = sessionStorage.getItem('currentURL')
+    if (url) {
+      location.href = url
+    }
+  }
+
   toggleCardLimit() {
     if (this.cardLimit === 5) {
       this.cardLimit = this.courseData.length
@@ -143,6 +166,10 @@ export class OrgComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.orgService.hideHeaderFooter.next(false)
+    if (this.routeSubscription) {
+      this.routeSubscription.unsubscribe()
+    }
+    this.orgService.hideHeaderFooter.next(false)
   }
   goToLink(a: string) {
     window.open(a, '_blank')
@@ -151,10 +178,9 @@ export class OrgComponent implements OnInit, OnDestroy {
 
     if (this.rating >= index + 1) {
       return 'star'
-    } else {
-      return 'star_border'
     }
-  }
+    return 'star_border'
 
+  }
 
 }

@@ -1,18 +1,48 @@
 <section id="scrollToHowSphereWorks">
   <p class="header2 mb-0" i18n>How Sphere works</p>
   <p class="lable1 grey-color" i18n>3 simple steps</p>
-  <div class="mt-2" *ngFor="let video of data;let videoIndex = index ">
-    <div class="how-work-content">
+  <div class="mt-2">
+    <div class="how-work-content" (click)="openVideoPopup('0')">
 
       <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
         <source src="{{video.url}}" type="video/mp4">
       </video> -->
-      <iframe class="how-work-iframe" [src]="video.url" allowfullscreen webkitallowfullscreen mozAllowFullScreen
-        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" frameborder="0"
-        [title]="video.title"></iframe>
+      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/1fqlys8mkHg" allowfullscreen
+        webkitallowfullscreen mozAllowFullScreen style="border:none"
+        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Register for a course"></iframe>
       <div class="video-div">
-        <p class="videoTitle">{{video.title}}</p>
-        <p class="leading-snug videoDes">{{video.description}}
+        <p class="videoTitle" i18n>Register for a course</p>
+        <p class="leading-snug videoDes" i18n>Explore various courses and pick the ones you like
+        </p>
+      </div>
+
+    </div>
+    <div class="how-work-content" (click)="openVideoPopup('1')">
+
+      <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
+            <source src="{{video.url}}" type="video/mp4">
+          </video> -->
+      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/Kl28R7m2k50" allowfullscreen
+        webkitallowfullscreen mozAllowFullScreen style="border:none"
+        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Take the course"></iframe>
+      <div class="video-div">
+        <p class="videoTitle" i18n>Take the course</p>
+        <p class="leading-snug videoDes" i18n>Access the course anytime, at your convinience
+        </p>
+      </div>
+
+    </div>
+    <div class="how-work-content" (click)="openVideoPopup('2')">
+
+      <!-- <video width="125" height="85" controls preload="auto" poster="{{video.url}}">
+            <source src="{{video.url}}" type="video/mp4">
+          </video> -->
+      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/JTGzCkEXlmU" allowfullscreen
+        webkitallowfullscreen mozAllowFullScreen style="border:none"
+        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Get certified"></iframe>
+      <div class="video-div">
+        <p class="videoTitle" i18n>Get certified</p>
+        <p class="leading-snug videoDes" i18n>Receive downloadable and shareable certificates
         </p>
       </div>
 

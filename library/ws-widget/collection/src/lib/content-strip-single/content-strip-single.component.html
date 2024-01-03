@@ -1,6 +1,4 @@
-<ng-container
-  *ngIf="showNoData && isFromAuthoring; then authoringTemplate; else normalTemplate"
-></ng-container>
+<ng-container *ngIf="showNoData && isFromAuthoring; then authoringTemplate; else normalTemplate"></ng-container>
 
 <ng-template #normalTemplate>
   <div *ngIf="loader" class="text-center my-2">
@@ -10,16 +8,11 @@
   <ng-container *ngIf="showNoData" [wsResolverWidget]="widgetData.noDataWidget"></ng-container>
   <ng-container *ngIf="stripsResultDataMap && stripsResultDataMap.length">
     <div class="h-full flex flex-col">
-      <div
-        style="background-size: cover; background-repeat: no-repeat;"
+      <div style="background-size: cover; background-repeat: no-repeat;"
         [ngStyle]="{ 'background-image': 'url(' + widgetData.image + ')' }"
-        class="flex items-center justify-end height-50"
-        [id]="widgetData.key"
-      >
-        <span
-          style="background: rgba(0, 97, 135, 0.8);"
-          class="text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6"
-        >
+        class="flex items-center justify-end height-50" [id]="widgetData.key">
+        <span style="background: rgba(0, 97, 135, 0.8);"
+          class="text-white text-2xl font-semibold bg-blue-400 pl-4 pr-3 py-6">
           {{ widgetData.title }}
         </span>
       </div>
@@ -41,11 +34,11 @@
   <mat-card>
     <div class="w-full">
       <div class="p-4">
-        <div class="text-3xl font-semibold text-center leading-tight" i18n>
+        <div class="text-3xl font-semibold text-center leading-tight">
           Content not available
         </div>
         <br />
-        <div class="text-base font-medium text-center leading-normal" i18n>
+        <div class="text-base font-medium text-center leading-normal">
           Please try different keywords or change the search query.
         </div>
       </div>

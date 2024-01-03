@@ -14,7 +14,7 @@
       <mat-sidenav [ngClass]="isTypeOfCollection?'viewer-sidenav':'viewer-sidenav-standalone'" position="end"
         [opened]="sideNavBarOpened" [mode]="mode">
         <!-- <mat-tab-group>
-        <mat-tab *ngIf="isTypeOfCollection" i18n-label label="Contents"> -->
+        <mat-tab *ngIf="isTypeOfCollection" -label label="Contents"> -->
         <viewer-viewer-toc [forPreview]="forPreview" (hidenav)="minimizeBar()">
         </viewer-viewer-toc>
 
@@ -25,39 +25,39 @@
           <div *ngIf="errorWidgetData?.widgetData?.errorType" [wsResolverWidget]="errorWidgetData"></div>
           <div *ngIf="error.errorType === errorType.mimeTypeMismatch">
             <mat-card>
-              <mat-card-title i18n>Looks like we are having some issues in our content.</mat-card-title>
+              <mat-card-title>Looks like we are having some issues in our content.</mat-card-title>
               <mat-card-content>
                 <div class="mat-caption">
-                  <ng-container i18n>
+                  <ng-container>
                     Debug Message: This content is of a different mimeType (
                   </ng-container>
                   <ng-container>
                     {{ error?.mimeType }}
                   </ng-container>
-                  <ng-container i18n>
+                  <ng-container>
                     )
                   </ng-container>
                 </div>
                 <div>
-                  <strong i18n>Possible Link: </strong>
+                  <strong>Possible Link: </strong>
                   <a [routerLink]="error.probableUrl">
                     {{ error.probableUrl }}
                   </a>
                 </div>
                 <div class="margin-top-m text-center">
-                  <a class="ws-mat-primary-text" [routerLink]="'/feedback/bug'" i18n>Report to us</a>
-                  <span i18n> and we will make it work</span>
+                  <a class="ws-mat-primary-text" [routerLink]="'/feedback/bug'">Report to us</a>
+                  <span> and we will make it work</span>
                 </div>
               </mat-card-content>
             </mat-card>
           </div>
           <div *ngIf="error.errorType === errorType.previewUnAuthorised">
             <mat-card class="margin-m">
-              <mat-card-title i18n>Looks like you are not authorized to preview this content.</mat-card-title>
+              <mat-card-title>Looks like you are not authorized to preview this content.</mat-card-title>
               <mat-card-content>
                 <div>
-                  <a class="ws-mat-primary-text" [routerLink]="'/feedback/bug'" i18n>Report to us</a>
-                  <span i18n> and we will make it work</span>
+                  <a class="ws-mat-primary-text" [routerLink]="'/feedback/bug'">Report to us</a>
+                  <span> and we will make it work</span>
                 </div>
               </mat-card-content>
             </mat-card>
@@ -79,12 +79,12 @@
     <div *ngIf="(isXSmall$ | async) === true || (isLtMedium$ | async) === true">
       <mat-tab-group animationDuration="0ms" class="minhightab ">
 
-        <mat-tab i18n-label label="Modules">
+        <mat-tab i18n-label aria-label label="Modules">
           <viewer-viewer-toc [forPreview]="forPreview" (hidenav)="minimizeBar()">
           </viewer-viewer-toc>
         </mat-tab>
 
-        <mat-tab i18n-label class="discussion-container" label="Discussion">
+        <mat-tab i18n-label aria-label class="discussion-container" label="Discussion">
           <all-discussion-widget style=' width: 100%;' [config]="discussionConfig">
           </all-discussion-widget>
         </mat-tab>

@@ -12,11 +12,11 @@
           <ng-container>
             <div class="topStyle">{{courseData.sourceName}}</div>
           </ng-container>
-          <ng-container *ngIf="displayConfig?.badges?.certification">
-            <!-- <div class="bottomStyle">
+          <ng-container *ngIf="displayConfig?.badges?.certification&&courseData.issueCertification">
+            <div class="bottomStyle">
               <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector">
-              32 CNE Points | Certified
-            </div> -->
+              Certified
+            </div>
           </ng-container>
         </div>
         <div class="pl-3 pt-3">
@@ -44,8 +44,7 @@
         <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
           <div class="mt-2 px-1">
 
-            <span class="value" *ngIf="courseData?.completionPercentage"
-              i18n>{{courseData?.completionPercentage}}%</span>
+            <span class="value" *ngIf="courseData?.completionPercentage">{{courseData?.completionPercentage}}%</span>
           </div>
         </ng-container>
       </div>
@@ -85,8 +84,7 @@
         </ng-container>
         <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
           <div class="mt-2 px-1">
-            <span class="value" *ngIf="courseData?.completionPercentage"
-              i18n>{{courseData?.completionPercentage}}%</span>
+            <span class="value" *ngIf="courseData?.completionPercentage">{{courseData?.completionPercentage}}%</span>
           </div>
         </ng-container>
       </div>

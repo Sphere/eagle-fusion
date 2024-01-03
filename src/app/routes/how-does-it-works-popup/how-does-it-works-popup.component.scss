@@ -1,0 +1,79 @@
+.dialog-content {
+  padding: 20px; /* Adjust the padding value as needed */
+}
+.cdk-global-overlay-wrapper .mat-dialog-container {
+    border-radius: 30px;
+}
+@media (min-width:320px)  {
+.mat-dialog-container {
+ padding: 0px 15px 5px !important;
+}
+
+.youtubeLink-iframe{
+width: 210px !important;
+    height: 176px !important;
+}
+}
+@media (min-width:375px)  {
+.mat-dialog-container {
+ padding: 0px 15px 5px !important;
+}
+
+.youtubeLink-iframe{
+  width: 256px !important;
+  height: 230px !important;
+}
+}
+@media (min-width:390px)  {
+.mat-dialog-container {
+ padding: 0px 15px 10px !important;
+}
+
+.youtubeLink-iframe{
+  width:275px  !important;
+  height: 250px !important;
+}
+}
+@media (min-width:414px)  {
+.mat-dialog-container {
+ padding: 0px 15px 10px !important;
+}
+
+.youtubeLink-iframe{
+  width:295px !important;
+  height: 250px !important;
+}
+}
+@media (min-width:425px)  {
+.mat-dialog-container {
+ padding: 0px 35px 20px !important;
+}
+
+.youtubeLink-iframe{
+  width:305px !important;
+  height: 250px !important;
+}
+}
+.mat-dialog-container {
+ padding: 0px 35px 20px;
+}
+@media (min-width:980px)  {
+.youtubeLink-iframe{
+  width:750px !important;
+  height: 350px !important;
+}
+}
+
+.closeBtn {
+  display: block;
+  color: #000000;
+  cursor: pointer;
+  justify-content: end;
+  margin-top: -15px;
+}
+
+.mat-dialog-content {
+  overflow: hidden !important;
+  max-height: none !important;
+  text-align: center !important;
+}

@@ -5,9 +5,12 @@ import { ConfigurationsService, ValueService } from '../../../../../library/ws-w
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
 // import * as _ from 'lodash'
-import { ActivatedRoute, Router } from '@angular/router'
+import {
+  ActivatedRoute,
+  //Router
+} from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-
+import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 @Component({
   selector: 'ws-education-edit',
   templateUrl: './education-edit.component.html',
@@ -21,16 +24,19 @@ export class EducationEditComponent implements OnInit {
   showbackButton = false
   showLogOutIcon = false
   cName = ''
+  workLog: any
+  change: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private snackBar: MatSnackBar,
-    private router: Router,
+    //private router: Router,
     private route: ActivatedRoute,
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
+    private contentSvc: WidgetContentService,
   ) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl('', [Validators.required]),
@@ -53,15 +59,28 @@ export class EducationEditComponent implements OnInit {
 
       },
     ]
-    this.educationForm.controls['courseName'].valueChanges.subscribe(
-      (selectedValue) => {
-        this.cName = selectedValue
-      }
+    this.educationForm.controls['courseName'].valueChanges.subscribe(selectedValue => {
+      this.cName = selectedValue
+    }
     )
+    this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
+      console.log(data, 'here')
+      this.workLog = await data
+      if (this.workLog) {
+        this.getUserDetails()
+      }
+    })
   }
 
-
   ngOnInit() {
+    let eduLog: any = sessionStorage.getItem('academic') || null
+    this.workLog = JSON.parse(eduLog)
+
+    if (this.workLog === 'true' || this.workLog.edit === true) {
+      this.updateForm(this.workLog.academic)
+    } else {
+      this.educationForm.reset()
+    }
     this.getUserDetails()
     this.route.queryParams.subscribe(params => {
       if (params.nameOfInstitute) {
@@ -69,11 +88,9 @@ export class EducationEditComponent implements OnInit {
       }
     })
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.showbackButton = true
+      this.showLogOutIcon = false
       if (isXSmall) {
-        this.showbackButton = true
-        this.showLogOutIcon = true
-
-      } else {
         this.showbackButton = true
         this.showLogOutIcon = false
       }
@@ -107,11 +124,19 @@ export class EducationEditComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
 
-    let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
-
+    let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    console.log(local)
+    const obj = {
+      preferences: {
+        language: local === 'en' ? 'en' : 'hi',
+      },
+      personalDetails: profileRequest.profileReq.personalDetails
+    }
+    profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userID,
@@ -122,9 +147,20 @@ export class EducationEditComponent implements OnInit {
       (res: any) => {
         if (res) {
           form.reset()
-          this.openSnackbar(this.toastSuccess.nativeElement.value)
+          if (local === 'en') {
+            this.openSnackbar(this.toastSuccess.nativeElement.value)
+          } else {
+            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
+          }
+          //this.openSnackbar(this.toastSuccess.nativeElement.value)
           this.userProfileSvc._updateuser.next('true')
-          this.router.navigate(['/app/education-list'])
+          let ob = {
+            "type": "academic",
+            "edit": 'save',
+
+          }
+          this.contentSvc.changeWork(ob)
+          //this.router.navigate(['/app/education-list'])
         }
       })
   }

@@ -38,7 +38,7 @@ export class MobileDashboardComponent implements OnInit {
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
-  //languageIcon = '../../../fusion-assets/images/lang-icon.png'
+  // languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
 
@@ -94,12 +94,14 @@ export class MobileDashboardComponent implements OnInit {
       },
     ]
     if (this.configSvc.userProfile) {
-      this.firstName = this.configSvc.userProfile
+
+      // this.firstName = this.configSvc.userProfile
       forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
       this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
         this.setCompetencyConfig(res[0])
+        this.firstName = res[0].profileDetails!.profileReq!.personalDetails!.firstname
+
       })
-      console.log("this.configSvc.userProfile", this.configSvc.userProfile)
 
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
@@ -137,7 +139,6 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
-      console.log(value)
       result['identifier'] = value.identifier
       result['appIcon'] = value.appIcon
       result['name'] = value.name
@@ -213,8 +214,8 @@ export class MobileDashboardComponent implements OnInit {
       const lang = result.id === 'hi' ? result.id : 'en'
       let user: any
       const userid = this.configSvc.userProfileV2!.userId
-      let userAgent = this.UserAgentResolverService.getUserAgent()
-      let userCookie = this.UserAgentResolverService.generateCookie()
+      const userAgent = this.UserAgentResolverService.getUserAgent()
+      const userCookie = this.UserAgentResolverService.generateCookie()
 
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
         user = data
@@ -224,7 +225,7 @@ export class MobileDashboardComponent implements OnInit {
           },
           osName: userAgent.OS,
           browserName: userAgent.browserName,
-          userCookie: userCookie,
+          userCookie,
         }
         const userdata = Object.assign(user['profileDetails'], obj)
         const reqUpdate = {

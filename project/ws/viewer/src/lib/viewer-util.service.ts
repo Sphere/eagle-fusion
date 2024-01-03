@@ -2,8 +2,8 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import {
-  //noop,
-  Observable, BehaviorSubject
+  // noop,
+  Observable, BehaviorSubject,
 } from 'rxjs'
 import * as dayjs from 'dayjs'
 import { NsContent } from '../../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
@@ -145,7 +145,9 @@ export class ViewerUtilService {
       return 1
     }
   }
-
+  initUpdate(req: any) {
+    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
+  }
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
     let req: any
     if (this.configservice.userProfile) {
@@ -176,7 +178,7 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    console.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`)
+    // console.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`)
     return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
 
   }

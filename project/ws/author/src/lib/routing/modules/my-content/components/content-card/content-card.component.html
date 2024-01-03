@@ -67,20 +67,23 @@
         data.description
       }}</span> -->
     <p class="fs-13 margin-remove flex items-center">
-     <span class="mr-1 max-width-name"> by {{ data.creatorContacts[0].name}} </span> <span class="mr-1" *ngIf="data?.publishedOn"> on
-        {{ data?.publishedOn | date }},</span> 
-        <span class="mr-1" *ngIf="!data?.publishedOn && data?.lastUpdatedOn"> on
-          {{ data?.lastUpdatedOn | date }},</span>
+      <span class="mr-1 max-width-name"> by {{ data.creatorContacts[0].name}} </span> <span class="mr-1"
+        *ngIf="data?.publishedOn"> on
+        {{ data?.publishedOn | date }},</span>
+      <span class="mr-1" *ngIf="!data?.publishedOn && data?.lastUpdatedOn"> on
+        {{ data?.lastUpdatedOn | date }},</span>
 
-      <span class="mr-1"> {{data.viewCount}} Views, </span> <span  class="mr-1"> {{data.uniqueUsersCount}} Learners </span>
+      <span class="mr-1"> {{data.viewCount}} Views, </span> <span class="mr-1"> {{data.uniqueUsersCount}} Learners
+      </span>
       <span class="flex items-center ml-3 mr-2">
         <mat-icon class="mr-1" *ngIf="data.totalRating == 5" color="accent">star</mat-icon>
         <mat-icon class="mr-1" *ngIf="data.totalRating && data.totalRating != 5" color="accent">
           star_half</mat-icon>
         <mat-icon class="mr-1" *ngIf="!data.totalRating">star_border</mat-icon>
-       {{ data.totalRating | number: '1.1-1' }}
+        {{ data.totalRating | number: '1.1-1' }}
       </span>
-      <span *ngIf="data.duration" class="flex items-center ml-3 mr-2"><mat-icon>access_time</mat-icon> {{ data.duration | pipeDurationTransform: 'hms'}}</span>
+      <span *ngIf="data.duration" class="flex items-center ml-3 mr-2"><mat-icon>access_time</mat-icon> {{ data.duration
+        | pipeDurationTransform: 'hms'}}</span>
     </p>
   </div>
 
@@ -105,36 +108,36 @@
 <mat-menu #moreMenu="matMenu">
   <a *ngIf="showMenuItem('edit')" mat-menu-item (click)="takeAction('edit')">
     <mat-icon>edit</mat-icon>
-    <span i18n>Edit </span>
+    <span>Edit </span>
   </a>
   <a *ngIf="showMenuItem('delete')" mat-menu-item (click)="takeAction('delete')">
     <mat-icon>delete</mat-icon>
-    <span i18n>Delete </span>
+    <span>Delete </span>
   </a>
   <a *ngIf="showMenuItem('publish')" mat-menu-item (click)="takeAction('publish')">
     <mat-icon>publish</mat-icon>
-    <span i18n>Publish</span>
+    <span>Publish</span>
   </a>
   <a *ngIf="showMenuItem('unpublish')" mat-menu-item (click)="takeAction('unpublish')">
     <mat-icon>reply</mat-icon>
-    <span i18n>Unpublish content</span>
+    <span>Unpublish content</span>
   </a>
   <a *ngIf="showMenuItem('review')" mat-menu-item (click)="takeAction('review')">
     <mat-icon>rate_review</mat-icon>
-    <span i18n>Review</span>
+    <span>Review</span>
   </a>
   <a *ngIf="showMenuItem('moveToDraft')" mat-menu-item (click)="takeAction('moveToDraft')">
     <mat-icon>reply</mat-icon>
-    <span i18n>Recall content to draft</span>
+    <span>Recall content to draft</span>
   </a>
   <a *ngIf="showMenuItem('moveToInReview')" mat-menu-item (click)="takeAction('moveToInReview')">
     <mat-icon>reply</mat-icon>
-    <span i18n>Send content to previous state</span>
+    <span>Send content to previous state</span>
   </a>
   <ng-container>
     <a *ngIf="showMenuItem('lang')" mat-menu-item [matMenuTriggerFor]="langMenu">
       <mat-icon>translate</mat-icon>
-      <span i18n>Languages</span>
+      <span>Languages</span>
     </a>
   </ng-container>
 </mat-menu>
@@ -146,7 +149,7 @@
   </ng-container>
   <a mat-menu-item [matMenuTriggerFor]="ordinalsLangMenu">
     <mat-icon>add</mat-icon>
-    <span i18n>Add language</span>
+    <span>Add language</span>
   </a>
 </mat-menu>
 <mat-menu #ordinalsLangMenu="matMenu">

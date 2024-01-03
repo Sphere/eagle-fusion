@@ -28,7 +28,7 @@
             </p> -->
           <!-- </div> -->
           <div *ngIf="generalTnc?.version">
-            <ng-container i18n>T&C Version: </ng-container>
+            <ng-container i18n>T&C Version : </ng-container>
             <span class="ws-mat-primary-text">{{ generalTnc?.version }}</span>
           </div>
           <!-- <button mat-button [matMenuTriggerFor]="tncLangMenu">
@@ -46,7 +46,7 @@
         </div> -->
       </div>
       <article [innerHTML]="generalTnc?.content" class="text-justify"></article>
-      <mat-action-row>
+      <mat-action-row *ngIf="dpTnc === 'Data Privacy'">
         <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n>
           View Privacy Policy
         </button>

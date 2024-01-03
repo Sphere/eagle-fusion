@@ -27,13 +27,13 @@ export class HtmlComponent implements OnInit, OnChanges {
   isLtMedium = false
   isScormContent = false
   isRestricted = false
-  prevResourceUrl: string | null = null
-  nextResourceUrl: string | null = null
+  // prevResourceUrl: string | null = null
+  // nextResourceUrl: string | null = null
   currentCompletionPercentage: number | null = null
   collectionType: any
   viewerDataServiceSubscription: any
-  prevTitle: string | null | undefined
-  nextTitle: string | null | undefined
+  // prevTitle: string | null | undefined
+  // nextTitle: string | null | undefined
   collectionIdentifier: any
 
   constructor(
@@ -59,10 +59,9 @@ export class HtmlComponent implements OnInit, OnChanges {
     this.isTypeOfCollection = this.activatedRoute.snapshot.queryParams.collectionType ? true : false
     this.collectionType = this.activatedRoute.snapshot.queryParams.collectionType
     this.viewerDataServiceSubscription = this.viewerDataSvc.playerState.subscribe(data => {
-      this.prevTitle = data.previousTitle
-      this.nextTitle = data.nextResTitle
-      this.prevResourceUrl = data.prevResource
-      this.nextResourceUrl = data.nextResource
+      // this.prevTitle = data.previousTitle
+      // this.nextTitle = data.nextResTitlenavigatetoOverview
+      // this.prevResourceUrl = data.prevResourceprevTitle
       this.currentCompletionPercentage = data.currentCompletionPercentage
     })
     if (this.configSvc.restrictedFeatures) {
@@ -109,13 +108,13 @@ export class HtmlComponent implements OnInit, OnChanges {
     }
     return true
   }
-  stopPropagation() {
-    return
-  }
+  // stopPropagation() {
+  //   return
+  // }
 
-  navigatetoOverview() {
-    if (!this.nextResourceUrl) {
-      this.router.navigate([`/app/toc/${this.collectionIdentifier}/overview`])
-    }
-  }
+  // navigatetoOverview() {
+  //   if (!this.nextResourceUrl) {
+  //     this.router.navigate([`/app/toc/${this.collectionIdentifier}/overview`])
+  //   }
+  // }
 }

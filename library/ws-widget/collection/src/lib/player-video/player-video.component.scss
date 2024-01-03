@@ -1,6 +1,6 @@
 :host.video-full {
   .video-js {
-    height: 100%;
+    height: calc(100% - 60px);
     width: 98%;
     margin: 0 auto;
   }

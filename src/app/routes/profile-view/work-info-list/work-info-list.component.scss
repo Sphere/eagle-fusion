@@ -2,22 +2,22 @@
 
 .content {
   padding: 60px 20px 30px;
-  margin: auto;
+  //margin: auto;
 
-  @include breakpoint-gt-s {
-    max-width: 30%;
-  }
+  // @include breakpoint-gt-s {
+  //   max-width: 30%;
+  // }
 
-  @include breakpoint-gt-m {
-    max-width: 35%;
-  }
+  // @include breakpoint-gt-m {
+  //   max-width: 35%;
+  // }
 
-  @include breakpoint-gt-l {
-    max-width: 30%;
-  }
+  // @include breakpoint-gt-l {
+  //   max-width: 30%;
+  // }
 
   @include breakpoint-s {
-    max-width: 50%;
+    max-width: 100%;
   }
 
   @include breakpoint-xs {
@@ -67,4 +67,16 @@
 .add-icon {
   color: #1C5D95;
   font-size: 20px;
+}
+.save-btn {
+  width: 88px;
+  height: 38px;
+  background-color: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border: 0;
+  font-size: 16px;
+  line-height: 19px;
+  float: right;
+  cursor: pointer;
 }

@@ -15,13 +15,13 @@ import {
   // BtnContentFeedbackModule,
   // BtnContentLikeModule,
   BtnContentShareModule,
-  //BtnGoalsModule,
-  //BtnPlaylistModule,
+  // BtnGoalsModule,
+  // BtnPlaylistModule,
   DisplayContentTypeModule,
   UserImageModule,
-  //UserContentRatingModule,
-  //BtnContentFeedbackV2Module,
-  //PlayerBriefModule,
+  // UserContentRatingModule,
+  // BtnContentFeedbackV2Module,
+  // PlayerBriefModule,
 } from '@ws-widget/collection'
 
 import {
@@ -34,6 +34,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 
 import { VideoComponent } from './video.component'
 import { RouterModule } from '@angular/router'
+import { SharedModule } from '../../../../../author/src/lib/modules/shared/shared.module'
 
 @NgModule({
   declarations: [VideoComponent],
@@ -50,17 +51,18 @@ import { RouterModule } from '@angular/router'
     PipeLimitToModule,
     PipePartialContentModule,
     PipeDurationTransformModule,
-    //BtnContentDownloadModule,
-    //BtnContentLikeModule,
+    // BtnContentDownloadModule,
+    // BtnContentLikeModule,
     BtnContentShareModule,
-    //BtnGoalsModule,
-    //BtnPlaylistModule,
+    // BtnGoalsModule,
+    // BtnPlaylistModule,
     UserImageModule,
-    //BtnContentFeedbackModule,
+    // BtnContentFeedbackModule,
     DisplayContentTypeModule,
     //UserContentRatingModule,
     //BtnContentFeedbackV2Module,
     //PlayerBriefModule,
+    SharedModule
   ],
   exports: [
     VideoComponent,

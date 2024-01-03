@@ -1,8 +1,8 @@
 <ng-container *ngIf="postId">
   <ng-container *ngIf="voteType === 'downVote'">
     <button name="discussion-forum-downvote-button" *ngIf="iconType === 'thumbs'" [disabled]="isUpdating"
-      (click)="downVote(invalidUser.value)" type="button" mat-icon-button i18n-aria-label aria-label="down vote"
-      i18n-matTooltip matTooltip="Down vote" [ngClass]="{ highlight: activity.userActivity.downVote }">
+      (click)="downVote(invalidUser.value)" type="button" mat-icon-button aria-label="down vote" matTooltip="Down vote"
+      [ngClass]="{ highlight: activity.userActivity.downVote }">
       <mat-icon [matBadgeHidden]="!activity?.activityData.downVote" [matBadge]="activity?.activityData.downVote"
         matBadgeSize="small" matBadgeColor="accent">thumb_down</mat-icon>
     </button>
@@ -19,8 +19,8 @@
   </ng-container>
   <ng-container *ngIf="voteType === 'upVote'">
     <button name="discussion-forum-upvote-button" *ngIf="iconType === 'thumbs'" [disabled]="isUpdating"
-      (click)="upVote(invalidUser.value)" type="button" mat-icon-button i18n-aria-label aria-label="Up vote"
-      i18n-matTooltip matTooltip="Up vote" [ngClass]="{ highlight: activity.userActivity.upVote }">
+      (click)="upVote(invalidUser.value)" type="button" mat-icon-button aria-label="Up vote" matTooltip="Up vote"
+      [ngClass]="{ highlight: activity.userActivity.upVote }">
       <mat-icon [matBadgeHidden]="!activity?.activityData.upVote" [matBadge]="activity?.activityData.upVote"
         matBadgeColor="accent" matBadgeSize="small" class="thumb-icon">thumb_up</mat-icon>
     </button>
@@ -36,4 +36,4 @@
   </ng-container>
 </ng-container>
 
-<input type="hidden" i18n-value value="You cannot vote your own post" #invalidUser />
+<input type="hidden" i value="You cannot vote your own post" #invalidUser />

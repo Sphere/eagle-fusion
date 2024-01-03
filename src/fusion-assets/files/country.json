@@ -5,10 +5,6 @@
       "countryCode": "+91"
     },
     {
-      "name": "Bhutan",
-      "countryCode": "+975"
-    },
-    {
       "name": "Afghanistan",
       "countryCode": "+93"
     },
@@ -83,6 +79,10 @@
     {
       "name": "Benin",
       "countryCode": "+229"
+    },
+    {
+      "name": "Bhutan",
+      "countryCode": "+975"
     },
     {
       "name": "Bolivia",
@@ -311,6 +311,10 @@
     {
       "name": "Iceland",
       "countryCode": "+354"
+    },
+    {
+      "name": "India",
+      "countryCode": "+91"
     },
     {
       "name": "Indonesia",

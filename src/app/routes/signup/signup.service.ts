@@ -17,6 +17,8 @@ const API_END_POINTS = {
   RESET_PASSWORD: `/apis/public/v8/forgot-password/reset/proxy/password`,
   SETPASSWORD_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
   profilePid: '/apis/proxies/v8/api/user/v2/read',
+  newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
+  validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin'
 }
 
 @Injectable({
@@ -28,6 +30,22 @@ export class SignupService {
   constructor(private http: HttpClient,
     private configSvc: ConfigurationsService
   ) { }
+
+  ssoValidateOTP(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.validateOTP, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+
+  ssoWithMobileEmail(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.newssowithMobileEmail, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
 
   signup(data: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.USER_SIGNUP, data).pipe(
@@ -56,15 +74,15 @@ export class SignupService {
   generateOtp(data: any): Observable<any> {
     if (this.someDataObservable) {
       return this.someDataObservable
-    } else {
-      this.someDataObservable = this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(share())
-      return this.someDataObservable
-      // .pipe(
-      //   map(response => {
-      //     return response
-      //   })
-      // )
     }
+    this.someDataObservable = this.http.post<any>(API_END_POINTS.GENERATE_OTP, data).pipe(share())
+    return this.someDataObservable
+    // .pipe(
+    //   map(response => {
+    //     return response
+    //   })
+    // )
+
   }
   plumb5SendEvent(data: any) {
     return this.http.post<any>(`https://track.plumb5.com/EventDetails/SaveEventDetails`, data).pipe(
@@ -101,6 +119,26 @@ export class SignupService {
       map((response: any) => {
         return response
       }))
+  }
+  async getUserData(): Promise<any> {
+    let userPidProfile: any | null = null
+    try {
+      userPidProfile = await this.http
+        .get<any>(API_END_POINTS.profilePid)
+        .pipe(map((res: any) => res.result.response))
+        .toPromise()
+      console.log(this.configSvc.unMappedUser)
+      console.log(userPidProfile)
+      if (this.configSvc.unMappedUser === undefined) {
+        localStorage.setItem('telemetrySessionId', uuid())
+        this.configSvc.unMappedUser = userPidProfile
+      }
+      return userPidProfile
+    } catch (e) {
+      this.configSvc.userProfile = null
+      return e
+    }
+
   }
 
   async fetchStartUpDetails(): Promise<any> {
@@ -163,6 +201,7 @@ export class SignupService {
           tncStatus: !(isUndefined(this.configSvc.unMappedUser)),
           isActive: !!!userPidProfile.isDeleted,
           userId: userPidProfile.userId,
+          language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language) ? userPidProfile.profileDetails.preferences.language : 'en',
           status: 200,
         }
         this.configSvc.hasAcceptedTnc = details.tncStatus
@@ -201,7 +240,7 @@ export class SignupService {
     } else {
       redirectUrl = `${url}openid/keycloak`
     }
-    console.log(url, redirectUrl)
+    // console.log(url, redirectUrl)
     const state = uuid()
     const nonce = uuid()
     sessionStorage.setItem('login-btn', 'clicked')
@@ -211,5 +250,3 @@ export class SignupService {
   }
 
 }
-
-

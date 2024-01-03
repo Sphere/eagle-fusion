@@ -12,7 +12,7 @@ import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { Platform } from '@angular/cdk/platform'
-
+import * as dayjs from 'dayjs'
 @Component({
   selector: 'viewer-video',
   templateUrl: './video.component.html',
@@ -57,6 +57,7 @@ export class VideoComponent implements OnInit, OnDestroy {
       this.viewerDataSubscription = this.viewerSvc
         .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
         .subscribe(data => {
+          console.log(data, '')
           this.videoData = data
           if (this.videoData) {
             this.formDiscussionForumWidget(this.videoData)
@@ -79,6 +80,54 @@ export class VideoComponent implements OnInit, OnDestroy {
           this.videoData = data.content.data
           if (this.videoData) {
             this.formDiscussionForumWidget(this.videoData)
+            let userId
+            if (this.configSvc.userProfile) {
+              userId = this.configSvc.userProfile.userId || ''
+            }
+            const req: NsContent.IContinueLearningDataReq = {
+              request: {
+                userId,
+                batchId: this.batchId,
+                courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+                contentIds: [],
+                fields: ['progressdetails'],
+              },
+            }
+            this.contentSvc.fetchContentHistoryV2(req).subscribe(
+              async data => {
+                if (data && data.result && data.result.contentList.length) {
+                  let contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
+                  console.log(contentData)
+                  if (contentData === undefined || contentData.completionPercentage === 0) {
+                    console.log('contentData')
+                    let req: any
+                    if (this.configSvc.userProfile) {
+                      req = {
+                        request: {
+                          userId: this.configSvc.userProfile.userId || '',
+                          contents: [
+                            {
+                              contentId: this.videoData!.identifier,
+                              batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+                              courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+                              status: 1,
+                              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+                              progressdetails: {},
+                              completionPercentage: 0
+                            }
+                          ],
+                        },
+                      }
+                      console.log(req)
+                      //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
+                      this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
+                        console.log(data)
+                      })
+                    }
+                  }
+                }
+              })
+
           }
           this.widgetResolverVideoData = this.initWidgetResolverVideoData(this.videoData as any)
           if (this.videoData && this.videoData.identifier) {

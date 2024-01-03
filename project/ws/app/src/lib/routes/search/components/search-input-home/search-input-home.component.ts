@@ -70,24 +70,24 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
       this.searchInputElem.nativeElement.focus()
     }
     this.activated.queryParamMap.subscribe(queryParam => {
-      if (queryParam.has('q')) {
-        // this.queryControl.setValue(queryParam.get('q') || 'all')
+      if (this.router.url.includes('search/learning') && queryParam.has('q')) {
         this.queryControl.setValue(queryParam.get('q') || '')
       } else {
+        this.queryControl.setValue('')
         // this.updateQuery('all')
       }
-      if (queryParam.has('lang')) {
-        this.searchLocale = queryParam.get('lang') || this.getActiveLocale()
-      } else {
-        this.searchLocale = this.getActiveLocale()
-      }
-      const isAutoCompleteAllowed = this.route.snapshot.data.searchPageData ?
-        this.route.snapshot.data.searchPageData.data.search.isAutoCompleteAllowed
-        : false
-      if (typeof isAutoCompleteAllowed === 'undefined' ||
-        (typeof isAutoCompleteAllowed === 'boolean' && isAutoCompleteAllowed)) {
-        this.getSearchAutoCompleteResults(this.queryControl.value)
-      }
+      // if (queryParam.has('lang')) {
+      //   this.searchLocale = queryParam.get('lang') || this.getActiveLocale()
+      // } else {
+      //   this.searchLocale = this.getActiveLocale()
+      // }
+      // const isAutoCompleteAllowed = this.route.snapshot.data.searchPageData ?
+      //   this.route.snapshot.data.searchPageData.data.search.isAutoCompleteAllowed
+      //   : false
+      // if (typeof isAutoCompleteAllowed === 'undefined' ||
+      //   (typeof isAutoCompleteAllowed === 'boolean' && isAutoCompleteAllowed)) {
+      //   this.getSearchAutoCompleteResults(this.queryControl.value)
+      // }
     })
     this.languageSearch = this.route.snapshot.data.searchPageData && this.route.snapshot.data.searchPageData.data.search.languageSearch.map(
       (u: string) => u.toLowerCase(),
@@ -107,7 +107,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
       }
     }).then(() => {
       // this.autoFilter()
-      // this.init()
+      this.init()
     })
     // } else {
     //   this.autoFilter();

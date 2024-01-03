@@ -14,7 +14,7 @@ export class WebHomeComponent implements OnInit {
 
   constructor(private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
 
-    private scrollService: ScrollService
+              private scrollService: ScrollService
   ) { }
 
   ngOnInit() {
