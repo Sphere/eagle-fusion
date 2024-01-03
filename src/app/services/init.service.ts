@@ -279,8 +279,8 @@ export class InitService {
   private async fetchAppsConfig(): Promise<NsAppsConfig.IAppsConfig> {
     let local: any
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) {
-      local = this.configSvc.unMappedUser.profileDetails.preferences.language
-      local === 'hi' ? 'hi' : ''
+      local = this.configSvc.unMappedUser.profileDetails.preferences.language === 'hi' ? 'hi' : ''
+      //local === 'hi' ? 'hi' : ''
       if (location.href.includes('/hi/')) {
         local = 'hi'
       }
