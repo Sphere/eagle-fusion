@@ -18,14 +18,16 @@ export class MaternityCallbackComponent implements OnInit {
     const maternity_moduleId = sessionStorage.getItem('maternity_moduleId') || null
     if (maternity_token && maternity_moduleId) {
       this.isLoading = true
-      this.checkMaternityCallback(maternity_token, maternity_moduleId)
+      //this.checkMaternityCallback(maternity_token, maternity_moduleId)
+      this.checkMaternityCallback(maternity_token)
     }
   }
-  checkMaternityCallback(token: any, id: any) {
+  //checkMaternityCallback(token: any, id?: any) {
+  checkMaternityCallback(token: any) {
     console.log('su')
     let data = {
       "token": token,
-      "moduleId": id
+      //"moduleId": id
     }
     try {
       //setTimeout(() => {

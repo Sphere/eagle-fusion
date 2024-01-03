@@ -81,7 +81,16 @@ export class MyCoursesComponent implements OnInit {
           .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
             console.log(res, 'res')
             this.coursesForYou = res
-          })
+            this.isLoading = false
+          }, err => {
+            console.log(err, err.status === 500)
+            if (err.status === 500 || err.status === 400 || err.status === 419) {
+              this.coursesForYou = []
+              this.isLoading = false
+            }
+          }
+
+          )
       }
     }
   }
