@@ -253,6 +253,7 @@ export class LoginOtpComponent implements OnInit {
     }
     this.signupService.generateOtp(requestBody).subscribe(
       async (res: any) => {
+        this.loginOtpForm.patchValue({ code: '' })
         this.isLoading = false
         let res1 = res
         //this.openSnackbar(res.message)
