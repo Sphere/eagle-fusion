@@ -47,7 +47,6 @@ export class AppInterceptorService implements HttpInterceptor {
           if (error instanceof HttpErrorResponse) {
             switch (error.status) {
               case 419: // login
-                window.location.href = '/public/home'
                 // const localUrl = location.origin
                 // tslint:disable-next-line: prefer-template
                 // Now we commenting this one, Later now we will remove it

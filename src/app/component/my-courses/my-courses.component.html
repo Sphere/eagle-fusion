@@ -58,10 +58,10 @@
         <h3 class="mt15" i18n>You have no courses.</h3>
       </div>
 
-      <section class="pb-1 px-4 myCoursesList" *ngIf="coursesForYou && coursesForYou.length>0">
+      <section class="myCoursesList" *ngIf="coursesForYou && coursesForYou.length>0">
         <h3 id="recommendHeading" i18n>Recommended based on your profile</h3>
-        <div *ngFor="let courseData of coursesForYou; let last = last"
-          style="float: left;width:270px; margin: 10px;height: 220px; " [ngClass]="{'last-child2': last}">
+        <div *ngFor="let courseData of coursesForYou; let last = last" class="responsiveDiv"
+          style="width:270px;height: 220px; " [ngClass]="{'last-child2': last}">
           <ng-container *ngIf="coursesForYou && coursesForYou.length>0">
             <ng-container *ngIf="displayConfig?.displayType" [ngSwitch]="displayConfig?.displayType">
               <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardBadges"></ng-container>

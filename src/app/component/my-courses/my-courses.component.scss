@@ -26,6 +26,11 @@
     margin-bottom: 10px;
   }
 
+  .responsiveDiv {
+    margin: 10px auto;
+    display: table;
+  }
+
   .hideLower {
     display: none !important;
   }
@@ -42,6 +47,7 @@
     display: block !important;
     margin-left: 20px;
     margin-top: 15px;
+    text-align: center;
   }
 
   .card-title {
@@ -86,10 +92,17 @@
     padding: 0px !important; // adjust this to whatever padding you need
     justify-content: left !important;
   }
+
+  .myCoursesList {
+    padding-right: 1.5rem !important;
+  }
 }
 
 @media (min-width: 768px) {
-
+  .responsiveDiv {
+    float: left;
+    margin: 20px 20px 10px 6px;
+  }
 
   #recommendHeading {
     display: none !important;
@@ -99,13 +112,10 @@
     width: 74% !important;
     white-space: pre-line;
   }
-
-
 }
 
 .blue-btn {
   background: #1C5D95 !important;
-  // border: none;
   font-size: 14px;
   border-radius: 50px;
   color: #fff !important;
@@ -117,7 +127,6 @@
   display: flex;
   justify-content: space-between;
   flex-direction: row;
-  //margin: 20px 0px 8px 1px !important;
   align-items: flex-start !important;
 
   .card-thumbnail {
@@ -173,8 +182,6 @@
   width: 30px;
   height: 30px;
   position: absolute;
-  // top: calc(50% - 15px);
-  // left: 37px;
   left: 35%;
   top: 30%;
   border-radius: 50%;
@@ -226,26 +233,17 @@
   box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
   border-radius: 12px;
   height: auto;
-  //margin: 15px 15px 15px 0px;
-  //float: left;
-  //width: 270px;
 }
 
 .course-container .name {
   color: #1C5D95;
   font-weight: 400;
   font-size: 14.5px;
-  //margin-bottom: 0 !important;
-  //padding-bottom: 15px;
 }
 
 .flex-container {
   display: flex;
   flex-direction: row;
-}
-
-.myCoursesList {
-  //width: 900px;
 }
 
 .mt15 {
