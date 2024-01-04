@@ -7,9 +7,6 @@ import { BehaviorSubject } from 'rxjs'
 export class appNavBarService {
 
   initial = ''
-
-  constructor() { }
-
   private navOption = new BehaviorSubject(this.initial)
   currentOption = this.navOption.asObservable()
 

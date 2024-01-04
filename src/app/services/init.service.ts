@@ -166,7 +166,7 @@ export class InitService {
       /*
        * Wait for the apps config and after that
        */
-      const appsConfig = await appsConfigPromise
+      const appsConfig = appsConfigPromise
       this.configSvc.appsConfig = this.processAppsConfig(appsConfig)
       if (this.configSvc.instanceConfig) {
         this.configSvc.instanceConfig.featuredApps = this.configSvc.instanceConfig.featuredApps.filter(
