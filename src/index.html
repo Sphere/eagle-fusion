@@ -122,10 +122,10 @@
 
   console.log("href", window.location.href)
   if (url.includes('token') && url.includes('moduleId')) {
-    // const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
-    // sessionStorage.setItem('sashakt_token', sashakt_token)
-    // const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
-    // sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
+    const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
+    sessionStorage.setItem('sashakt_token', sashakt_token)
+    const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
+    sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
     const maternity_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
     sessionStorage.setItem('maternity_token', maternity_token)
     const maternity_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
