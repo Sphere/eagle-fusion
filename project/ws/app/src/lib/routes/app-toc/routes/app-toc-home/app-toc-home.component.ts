@@ -29,6 +29,14 @@ export class AppTocHomeComponent implements OnInit {
     viewContainerRef.createComponent(componentFactory)
   }
 
+  testFunction(){
+  console.log('Hello')
+  const a = 1;
+    const b = 2;
+    return a+b;
+  }
+  
+
   ngOnInit() {
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
@@ -40,5 +48,6 @@ export class AppTocHomeComponent implements OnInit {
       })
     }
     this.loadComponent()
+    this.testFunction()
   }
 }
