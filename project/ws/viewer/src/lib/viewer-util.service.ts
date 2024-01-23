@@ -178,7 +178,7 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    // console.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`)
+    console.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '181')
     return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
 
   }

@@ -913,9 +913,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     }
   }
-  updateResourceChange() {
-    const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
-    const firstResource = this.queue[0].viewerUrl
+  async updateResourceChange() {
+    const currentIndex = await this.queue.findIndex(c => c.identifier === this.resourceId)
+    const firstResource = (this.queue && this.queue[0]) ? this.queue[0].viewerUrl : ''
     const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
     const nextContentId = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].identifier : null
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null
