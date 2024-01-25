@@ -4,7 +4,7 @@
 </ng-container>
 
 <ng-template #cardBadges>
-  <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+  <section class="course-container" [ngClass]="{ ' bg-cont-white': enableConfig }">
     <a (click)="redirectPage(courseData)">
       <div class="box">
         <div class="text-over">
@@ -59,7 +59,7 @@
       <div class="box">
         <div class="text-center">
           <img class="appIcon"
-            src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon || || '/fusion-assets/images/frame-156.svg'}}">
+            src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon ||  '/fusion-assets/images/frame-156.svg'}}">
         </div>
         <div class="pl-3 pt-3">
           <!-- <p class="name">{{courseData.name}}</p> -->
