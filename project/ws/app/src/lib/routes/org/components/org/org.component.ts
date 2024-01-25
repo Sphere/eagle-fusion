@@ -16,6 +16,7 @@ import get from 'lodash/get'
 })
 export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger
+  defaultUrl = '/fusion-assets/images/frame-156.svg'
   orgName!: string
   courseData!: any
   routeSubscription: any
@@ -116,6 +117,10 @@ export class OrgComponent implements OnInit, OnDestroy {
     // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
+  add(a: number, b: number): number {
+    return a + b
+  }
+
   redirect() {
     let url = sessionStorage.getItem('currentURL')
     if (url) {
