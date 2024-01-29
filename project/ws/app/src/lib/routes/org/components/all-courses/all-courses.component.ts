@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 export class AllCoursesComponent implements OnInit {
   orgName: any
   courseData = []
-  defaultUrl = '/fusion-assets/images/frame-156.svg'
+  //defaultUrl = '/fusion-assets/images/frame-156.svg'
   array = []
   sum = 15
   throttle = 300

@@ -16,7 +16,7 @@ import get from 'lodash/get'
 })
 export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger
-  defaultUrl = '/fusion-assets/images/frame-156.svg'
+  //defaultUrl = '/fusion-assets/images/frame-156.svg'
   orgName!: string
   courseData!: any
   routeSubscription: any

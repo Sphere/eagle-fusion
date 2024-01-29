@@ -6,12 +6,12 @@
 
   @include breakpoint-gt-s {
     //max-width: 30%;
-        padding: 0px 45px 50px;
+    padding: 0px 45px 50px;
   }
 
   @include breakpoint-gt-m {
     //max-width: 35%;
-        padding: 0px 45px 50px;
+    padding: 0px 45px 50px;
   }
 
   @include breakpoint-gt-l {
@@ -19,8 +19,8 @@
   }
 
   @include breakpoint-s {
-   // max-width: 50%;
-   padding: 0px 45px 50px;
+    // max-width: 50%;
+    padding: 0px 45px 50px;
   }
 
   @include breakpoint-xs {
@@ -120,34 +120,37 @@
   padding: 10px;
 
 }
-.log-o{
-display: flex;
-flex-direction: row;
-justify-content: center;
-align-items: center;
-padding: 8px 32px;
-gap: 8px;
-position: absolute;
-width: 114px;
-height: 35px;
-background: #2E6491 !important;
-border-radius: 50px;
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-/* identical to box height */
-color: #FFFFFF !important;
-mix-blend-mode: normal;
-/* Inside auto layout */
-flex: none;
-order: 0;
-flex-grow: 0;
+
+.log-o {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 32px;
+  gap: 8px;
+  position: absolute;
+  width: 114px;
+  height: 35px;
+  background: #2E6491 !important;
+  border-radius: 50px;
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  /* identical to box height */
+  color: #FFFFFF !important;
+  mix-blend-mode: normal;
+  /* Inside auto layout */
+  flex: none;
+  order: 0;
+  flex-grow: 0;
 }
-.mt-5{
-margin-top: 2.5rem;
+
+.mt-5 {
+  margin-top: 2.5rem;
 }
+
 .div {
   display: inline-grid;
 }
@@ -156,43 +159,70 @@ margin-top: 2.5rem;
   margin-bottom: 15px;
   //font-size: 16px;
 }
+
 .div a:hover {
   cursor: pointer;
 }
+
 .div a span {
-vertical-align: text-top;
-margin-left: 3px;
+  vertical-align: text-top;
+  margin-left: 3px;
 }
+
 .active {
-// font-weight: 500;
-font-weight: bold;
+  // font-weight: 500;
+  font-weight: bold;
 }
-.active img{
+
+.active img {
   border: 1px solid #000;
   border-radius: 8px
 }
+
 .save-btn {
   width: 88px;
   height: 38px;
   background-color: #1C5D95;
   border-radius: 50px;
   color: #fff;
-  border:0;
+  border: 0;
   font-size: 16px;
   line-height: 19px;
   //float: right;
   cursor: pointer;
 }
 
-.logout-btn{
+.logout-btn {
   width: 80px;
-    height: 25px;
-    background-color: #1C5D95;
-    border-radius: 50px;
-    color: #fff;
-    border: 0;
-    font-size: 14px;
-    line-height: 19px;
-    cursor: pointer;
-    margin-left: 8px;
+  height: 25px;
+  background-color: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border: 0;
+  font-size: 14px;
+  line-height: 19px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.btnActive {
+  background-color: #2E6491;
+  width: 95px;
+  height: 30px;
+  border: 1px solid #3f51b5;
+  border-radius: 20px;
+  color: #FFFFFF;
+  font-size: small;
+  margin-right: 5px;
+}
+
+.nonActive {
+  background-color: white;
+  width: 95px;
+  height: 30px;
+  border: 1px solid #2E6491;
+  border-radius: 20px;
+  color: #2E6491;
+  font-size: small;
+  justify-content: center;
 }

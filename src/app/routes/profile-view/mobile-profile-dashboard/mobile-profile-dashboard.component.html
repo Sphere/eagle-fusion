@@ -22,8 +22,35 @@
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;"><span i18n>Position</span> :
+      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;    margin-bottom: 5px;"><span
+          i18n>Position</span> :
         {{currentProfession }}</p>
+
+      <p *ngIf="showbackButton" style="font-size:14px;line-height:18.75px;">
+        <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" style="    border: 1px solid #000;    margin-right: 5px;
+    border-radius: 16px;" /><span i18n>Language Preference</span>
+      </p>
+      <!-- <form [formGroup]="userForm"> -->
+      <div class="form-group" *ngIf="showbackButton">
+        <button [ngClass]="{'btnActive': language === 'en', 'nonActive' : language != 'en'}"
+          (click)="storeLanguage('en')" i18n>English</button>
+        <button [ngClass]="{'btnActive': language === 'hi', 'nonActive' : language != 'hi'}"
+          (click)="storeLanguage('hi')" i18n>हिंदी</button>
+        <!-- <p>
+            <label class="radio cursor-pointer">
+              <input type="radio" name="language" value='en' formControlName="language"><span style="margin-left:5px"
+                i18n>English
+              </span>
+            </label>
+          </p> -->
+        <!-- <label class="radio-inline cursor-pointer">
+            <input type="radio" name="language" value='hi' formControlName="language"><span style=" margin-left:5px"
+              i18n>Hindi
+            </span>
+          </label> -->
+      </div>
+      <!-- <button type="submit" class="save-btn" (click)="saveLanguage(userForm)" i18n>Save</button> -->
+      <!-- </form> -->
       <!-- <p class="head-2">{{userProfileData?.professionalDetails[0].designation}}</p> -->
     </div>
     <!-- <div class="d-flex gap-3">
@@ -48,7 +75,8 @@
         <img alt="Academic details" src="/fusion-assets/images/school.svg" width="35" height="23" /><span i18n>Academic
           Details</span>
       </a>
-      <a [class.active]="selectedIndex === 'language'" (click)="selectedIndex = 'language'; changeFunction('language')">
+      <a *ngIf="!showbackButton" [class.active]="selectedIndex === 'language'"
+        (click)="selectedIndex = 'language'; changeFunction('language')">
         <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" /><span i18n>Language
           Preference</span>
       </a>

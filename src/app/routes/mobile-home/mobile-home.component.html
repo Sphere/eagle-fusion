@@ -41,8 +41,9 @@
   <p class="tutorials-text" i18n>Learn about how Sphere works ></p>
 </div>
 <div class="create-account">
+  <h3 i18n class="text-center" style="font-weight: 550;margin-top: 5px;margin-bottom: 5px;">New User?</h3>
   <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
-    class="flex items-center flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+    class="flex items-center flex-col mt px-2 box-sizing-box" (click)="createAcct()" active
     [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
     <ng-container>
       <button mat-raised-button [ngStyle]="{

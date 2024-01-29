@@ -42,7 +42,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   hideData = false
   currentProfession: any
   showLogOutBtn = false
-  // language: any
+  language: any
+  userInfo: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -92,8 +93,13 @@ export class MobileProfileDashboardComponent implements OnInit {
     })
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+
+      console.log(res)
       this.loader = false
       this.profileData = _.get(res[0], 'profileDetails.profileReq')
+      this.userInfo = res[0]
+      const lang = (res[0] && res[0].profileDetails && res[0].profileDetails!.preferences && res[0].profileDetails!.preferences!.language !== undefined) ? res[0].profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
+      this.language = lang
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })
@@ -239,7 +245,39 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.CompetencyConfiService.setConfig(this.userProfileData, data.profileDetails)
     }
   }
+  storeLanguage(lang: string) {
+    const obj = {
+      preferences: {
+        language: lang,
+      },
+      personalDetails: this.userInfo.profileDetails.profileReq.personalDetails,
+    }
+    const userdata = Object.assign(this.userInfo.profileDetails, obj)
+    console.log(userdata, 'p')
+    //   // this.chosenLanguage = path.value
+    const reqUpdate = {
+      request: {
+        userId: userdata.profileReq.id,
+        profileDetails: userdata,
+      },
+    }
+
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
+      console.log(result)
+      if (lang === 'en') {
+        // this.chosenLanguage = ''
+        window.location.assign(`${location.origin}/app/profile-view`)
+        // window.location.reload(true)
+      } else {
+        // window.location.reload(true)
+        window.location.assign(`${location.origin}/${lang}/app/profile-view`)
+      }
+    },
+      () => {
+      })
+  }
   saveLanguage(form: any) {
+    console.log(form)
     const obj = {
       preferences: {
         language: form.value.language,
@@ -278,7 +316,8 @@ export class MobileProfileDashboardComponent implements OnInit {
             this.userData = await data
             this.currentProfession = this.userProfileData.professionalDetails[0].profession
             const lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
-            console.log(lang)
+            this.language = lang
+            console.log(lang, 'oo')
             this.userForm.patchValue({ language: lang })
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics

@@ -16,7 +16,8 @@
         <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
           i18n-aria-label="Content | Click to view">
           <div style="position: relative; z-index: 1;">
-            <img mat-card-image style="position: absolute; z-index: 2; " [src]="widget.appIcon || defaultUrl"
+            <img mat-card-image style="position: absolute; z-index: 2; "
+              src="{{widget.thumbnail? widget.thumbnail : widget.appIcon || '/fusion-assets/images/frame-156.svg'}}"
               [id]="'card_' + widget.identifier" class="card-img no-prog ws-mat-primary-lite-background"
               [alt]="widget.name" />
             <span class="img-overlay"></span>
