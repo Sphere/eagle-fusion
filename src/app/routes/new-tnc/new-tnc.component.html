@@ -12,7 +12,7 @@
 
   <div class="tnc-bottom-navbar" *ngIf="showAcceptbtn">
     <div class="decline-div">
-      <button id="decline" class="decline-btn cursor-pointer" (click)="gotoLogin()">
+      <button [disabled]="!shouldScrollToBottom" id="decline" class="decline-btn cursor-pointer" (click)="gotoLogin()">
         <ng-container i18n>Decline</ng-container>
       </button>
     </div>

@@ -111,14 +111,12 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
 
   handleScroll(isScrolled: boolean): void {
+    console.log('User is scrolling within the div!', isScrolled)
     if (isScrolled) {
-      console.log('User is scrolling within the div!', isScrolled)
-      if (isScrolled) {
-        console.log('Scrolled to the bottom of the page!')
-        this.shouldScrollToBottom = true
-      } else {
-        this.shouldScrollToBottom = false
-      }
+      console.log('Scrolled to the bottom of the page!')
+      this.shouldScrollToBottom = true
+    } else {
+      this.shouldScrollToBottom = false
     }
   }
   createTncFormFields() {

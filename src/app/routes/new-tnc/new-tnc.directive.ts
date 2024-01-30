@@ -13,8 +13,6 @@ export class ScrollDetectorDirective {
     const isScrolled = element.scrollHeight - element.scrollTop === element.clientHeight
     console.log(isScrolled)
     // Emit the event indicating whether the user has scrolled
-    if (isScrolled) {
-      this.scrolled.emit(isScrolled)
-    }
+    this.scrolled.emit(isScrolled)
   }
 }
