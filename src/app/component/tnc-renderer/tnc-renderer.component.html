@@ -12,6 +12,7 @@
           </h2>
         </mat-panel-title>
       </mat-expansion-panel-header>
+      <p class="text" i18n>Scroll down to the end before agreeing to the terms of use.</p>
       <div class="mat-app-background padding-s margin-bottom-s">
         <h3 *ngIf="!generalTnc?.isAccepted && generalTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
           Terms and Conditions have been updated.
@@ -28,7 +29,7 @@
             </p> -->
           <!-- </div> -->
           <div *ngIf="generalTnc?.version">
-            <ng-container i18n>T&C Version : </ng-container>
+            <ng-container i18n><span style="margin-left: -12px !important">T&C Version : </span></ng-container>
             <span class="ws-mat-primary-text">{{ generalTnc?.version }}</span>
           </div>
           <!-- <button mat-button [matMenuTriggerFor]="tncLangMenu">

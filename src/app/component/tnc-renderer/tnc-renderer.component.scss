@@ -4,15 +4,19 @@
 .tnc-container {
   padding: $size-l;
   margin: auto;
+
   @include breakpoint-xs {
     padding: 0;
   }
+
   @include breakpoint-gt-xs {
     max-width: 90%;
   }
+
   @include breakpoint-gt-s {
     max-width: 80%;
   }
+
   @include breakpoint-gt-m {
     max-width: 1024px;
   }
@@ -27,7 +31,30 @@
   align-items: center;
   margin: 0;
 }
+
 ::ng-deep .mat-expansion-panel-header {
   border-bottom: solid 1px #424242;
-    border-radius: 0 !important;
+  border-radius: 0 !important;
+}
+
+::ng-deep .mat-expansion-panel-body {
+  padding: 0px !important;
+}
+
+::ng-deep .mat-expansion-panel-header {
+  padding: 0 13px !important;
+}
+
+.text {
+  background: #FFFCC8;
+  font-size: 14px;
+  padding: 5px 12px;
+}
+
+::ng-deep #tnc .mat-app-background {
+  padding: 5px 23px !important;
+}
+
+article {
+  padding: 0 12px;
 }
