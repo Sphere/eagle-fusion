@@ -1573,6 +1573,22 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="6eef0465598291c104da1951f44b9bd703848da8" datatype="html">
+        <source>New User?</source>
+           <target state="final">नए उपयोगकर्ता ?</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="73e3b278707611d092a3a6ef8c662bfd4913bac6" datatype="html">
+        <source>Scroll down to the end before agreeing to the terms of use.</source>
+               <target state="final">उपयोग की शर्तों से सहमत होने से पहले अंत तक स्क्रॉल करें।</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="c666e37b0835a97248028d079e54b039dce14d21" datatype="html">
         <source>
       New User</source>
@@ -1758,6 +1774,18 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
           <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="b70141bccbde5fcb1302268cc39285eb3bcd7b63" datatype="html">
+       <source>© 2024
+          AastarUrmika Health Systems Pvt Ltd. All rights reserved.
+        </source>
+        <target state="final">© २०२४
+        आस्टारउर्मिका हेल्थ सिस्टम्स प्राइवेट लिमिटेड. सर्वाधिकार सुरक्षित
+        </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/organisations/org-home/org-home.component.html</context>
+          <context context-type="linenumber">113</context>
         </context-group>
       </trans-unit>
             <trans-unit id="cfbbf38d875ce6dff37ac65448bbc9bcf67e33a3" datatype="html">
@@ -2852,6 +2880,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
           <context context-type="linenumber">99</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="dca7d274cb7c7b3c42608e3dd6b8bc03e2f4f48f" datatype="html">
+        <source>T&amp;C Version : </source>
+             <target>टी एंड सी संस्करण :</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
             <trans-unit id="ca1856356e09b69ffabbdbf88b7763cf4cf27510" datatype="html">
