@@ -1,5 +1,55 @@
 @import 'ws-mixins';
+.terms-block{
+  display: flex;
+  flex-direction: column;
+      padding: 15px 15px 10px 30px;
+}
+.ul-class{
+  padding-left: 18px !important;
+}
+.terms-text{
+  font-family: Roboto;
+font-size: 24px;
+font-weight: 400;
+line-height: 28px;
+letter-spacing: 0em;
+text-align: left;
 
+}
+.tick-text{
+  //styleName: Body;
+font-family: Roboto;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: -0.02em;
+text-align: left;
+
+}
+
+/* Change the color of the checked state to blue */
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #1C5D95 !important;
+}
+
+::ng-deep .theme-igot.day-mode .mat-checkbox {
+margin-top: -10px;
+}
+.link-text{
+text-decoration: underline;
+color: #1C5D95 !important;
+font-family: Roboto;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: -0.02em;
+text-align: left;
+
+}
+.tnc-image{
+  width: 165px !important;
+  height: 141px !important;
+}
 .tnc-bottom-navbar {
   padding: 12px;
   background-color: #DFEDF9;

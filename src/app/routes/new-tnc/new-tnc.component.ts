@@ -37,7 +37,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
   lang: any
   termsAccepted: any
   shouldScrollToBottom: boolean = false; // Set this to enable/disable scrolling
-
+  tncAcceptedBtn: boolean = false
+  showTnc: boolean = false
+  showTerms: string = ''
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -99,7 +101,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.result = await this.signupService.fetchStartUpDetails()
     this.createUserForm = this.createTncFormFields()
   }
-
+  tncChecked() {
+    this.tncAcceptedBtn = !this.tncAcceptedBtn
+  }
   handleScrollToBottom(isAtBottom: boolean): void {
     console.log(isAtBottom)
     if (isAtBottom) {
@@ -109,7 +113,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
       this.shouldScrollToBottom = false
     }
   }
-
+  showTncPage(name: string) {
+    this.showTnc = true
+    this.showTerms = name
+  }
+  backToTncHome() {
+    this.showTnc = false
+  }
   handleScroll(isScrolled: boolean): void {
     console.log('User is scrolling within the div!', isScrolled)
     if (isScrolled) {
