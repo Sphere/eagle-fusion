@@ -30,6 +30,7 @@ text-align: left;
 /* Change the color of the checked state to blue */
 ::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
   background-color: #1C5D95 !important;
+   margin-top:4px;
 }
 
 ::ng-deep .theme-igot.day-mode .mat-checkbox {
@@ -102,13 +103,16 @@ text-align: left;
     margin-top: 0.8rem;
     width: 70%;
   }
-
+   ::ng-deep .theme-igot.day-mode .mat-checkbox  {
+    margin-top:7px !important;
+  }
   // .tnc-bottom-navbar {
   //   margin-top: 3rem;
   // }
 }
 
 @media screen and (min-width:1600px) {
+
   .tnc-main {
     margin-top: 2rem;
     width: 60%;
