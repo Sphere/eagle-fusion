@@ -15,14 +15,14 @@
     </div>
   </div>
   <article *ngIf="showTerms==='terms'" [innerHTML]="generalTnc?.content" class="text-justify"></article>
-  <mat-action-row *ngIf="dpTnc === 'Data Privacy'">
+  <!-- <mat-action-row *ngIf="dpTnc === 'Data Privacy'">
     <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n>
       View Privacy Policy
     </button>
     <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'" i18n>
       Data Privacy
     </button>
-  </mat-action-row>
+  </mat-action-row> -->
 
   <div *ngIf="showTerms==='privacy'" class="mat-app-background padding-s margin-bottom-s">
     <h3 *ngIf=" dpTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
