@@ -59,6 +59,7 @@ export class MobileDashboardComponent implements OnInit {
       "bg-color": "#469788;;"
     }
   ]
+  lang: any = 'en'
   @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
 
   constructor(private orgService: OrgServiceService,
@@ -82,6 +83,8 @@ export class MobileDashboardComponent implements OnInit {
     this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
   }
   ngOnInit() {
+    this.lang = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       if (targetDivId === 'scrollToCneCourses') {
         this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)

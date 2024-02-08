@@ -45,6 +45,7 @@ export class WebDashboardComponent implements OnInit {
   currentSlideIndex = 0;
   currentIndex = 0;
   private intervalId: any
+  lang: any = 'en'
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -58,6 +59,8 @@ export class WebDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.lang = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
     this.startCarousel()
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
       this.userData = await data

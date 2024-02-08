@@ -14,6 +14,7 @@ export class MobileHomeComponent implements OnInit {
   currentSlideIndex = 0;
   currentIndex = 0;
   private intervalId: any
+  lang: any = 'en'
   dataCarousel: any = [
     {
       "title": "Check out courses with CNE Hours",
@@ -36,6 +37,8 @@ export class MobileHomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    this.lang = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
     this.startCarousel()
     this.bannerStatus = this.configSvc.bannerStats
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
