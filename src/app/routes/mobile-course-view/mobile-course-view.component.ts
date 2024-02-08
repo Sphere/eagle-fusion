@@ -17,6 +17,8 @@ import * as _ from 'lodash'
 export class MobileCourseViewComponent implements OnInit {
 
   @Input() courseData: any
+  @Input() cnePoints: any = false
+
   @Input() enableConfig = false
   isLoggedIn = false
 
@@ -44,6 +46,7 @@ export class MobileCourseViewComponent implements OnInit {
     } else {
       this.isLoggedIn = false
     }
+    console.log("cnePoints", this.cnePoints)
     if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
       forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {

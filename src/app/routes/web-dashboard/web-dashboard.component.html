@@ -1,18 +1,51 @@
 <!--page banner-->
 <div class="banner-container">
   <!--upskill now section-->
-  <div class="banner-heading-container">
-    <div class="banner-heading"><span i18n>Welcome </span><span>{{firstName?firstName:''}}!</span></div>
-    <div class="banner-mini-heading" i18n>
-      Continue
-      Learning
+  <div class="carousel">
+    <div class="banner-heading-container">
+      <div class="banner-heading" i18n>Access free Healthcare courses</div>
+      <div class="banner-mini-heading" i18n>
+        Learn at your own pace & Get Certified
+      </div>
+      <div class="create-account">
+        <a role="button" matRipple class="flex flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+          [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+          <ng-container>
+            <button mat-raised-button [ngStyle]="{
+                                          'width':'160px',
+                                          'height':'auto',
+                                              'background-color': '#2E6491',
+                                              'border': '1px solid #2E6491',
+                                              'border-radius': '20px',
+                                              'color': 'white',
+                                              'font-size': '16px',
+                                              'font-weight': '400'}" i18n>
+              Create Account</button>
+          </ng-container>
+        </a>
+      </div>
     </div>
-    <!-- <div>
-      <button class="view-course">View Course For you</button>
-    </div> -->
+    <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
+      <div class="slide" *ngFor="let data of dataCarousel; let i = index">
+
+        <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content"
+          [class.active]="i === currentSlideIndex">
+          <img class="banner-image" [src]="data.img" alt="Carousel Image" loading="lazy">
+        </div>
+      </div>
+    </div>
   </div>
-  <img class="banner-image" src="/fusion-assets/images/Mask_group.svg" alt="Banner image" loading="lazy">
 </div>
-<div class="tutorials-container" (click)="scrollToHowSphereWorks()">
-  <p class="tutorials-text" i18n>Learn about how Sphere works ></p>
+<div *ngFor="let data of dataCarousel; let i = index">
+  <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
+    <div [className]="data.scrollEmit">
+      <p class="tutorials-text">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> > </span> </p>
+      <!-- <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span
+              (click)="scrollToContent(data.scrollEmit)"> > </span> </p> -->
+      <div class="round-buttons">
+        <button *ngFor="let _ of dataCarousel; let i = index" class="round-button"
+          [class.active]="i === currentSlideIndex" (click)="goToSlide(i)"></button>
+      </div>
+    </div>
+  </div>
 </div>

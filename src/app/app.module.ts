@@ -89,6 +89,7 @@ import { CompleteProfileComponent } from './routes/complete-profile/complete-pro
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
+
 // import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 // import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
@@ -133,6 +134,8 @@ import { VideoPopupComponent } from './routes/how-does-it-works-popup/how-does-i
 import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
+import { CarouselComponentComponent } from '../app/routes/carousel-banner/carousel-component.component'
+
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -258,7 +261,8 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     ScromPlayerComponent,
     MaternityCallbackComponent,
     MyCoursesComponent,
-    ScrollDetectorDirective
+    ScrollDetectorDirective,
+    CarouselComponentComponent
     // SettingsComponent
   ],
   imports: [

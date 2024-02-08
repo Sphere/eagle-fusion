@@ -1,19 +1,13 @@
-import { Component, OnInit, HostListener } from '@angular/core'
-import { Router } from '@angular/router'
-import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { Component, Input, OnInit } from '@angular/core'
 import { ScrollService } from '../../services/scroll.service'
 
 @Component({
-  selector: 'ws-mobile-home',
-  templateUrl: './mobile-home.component.html',
-  styleUrls: ['./mobile-home.component.scss'],
+  selector: 'app-carousel-component',
+  templateUrl: './carousel-component.component.html',
+  styleUrls: ['./carousel-component.component.scss'],
 })
-export class MobileHomeComponent implements OnInit {
-  showCreateBtn = false
-  bannerStatus: any
-  currentSlideIndex = 0;
-  currentIndex = 0;
-  private intervalId: any
+export class CarouselComponentComponent implements OnInit {
+
   dataCarousel: any = [
     {
       "title": "Check out courses with CNE Hours",
@@ -30,25 +24,31 @@ export class MobileHomeComponent implements OnInit {
       "bg-color": "#469788;;"
     }
   ]
-  constructor(private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
+  @Input() lang: any
+  currentIndex = 0;
+  private intervalId: any
 
-    private scrollService: ScrollService,
+  // images: string[] = [
+  //   'https://example.com/image1.jpg',
+  //   'https://example.com/image2.jpg',
+  //   'https://example.com/image3.jpg'
+  // ];
+
+  currentSlideIndex = 0;
+
+  constructor(
+    private scrollService: ScrollService
   ) { }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    console.log("data caurosel", this.dataCarousel)
     this.startCarousel()
-    this.bannerStatus = this.configSvc.bannerStats
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
   }
+
   ngOnDestroy(): void {
     this.clearInterval()
   }
+
   startCarousel(): void {
     this.intervalId = setInterval(() => {
       this.nextSlide()
@@ -70,6 +70,11 @@ export class MobileHomeComponent implements OnInit {
     this.currentSlideIndex = (this.currentSlideIndex - 1 + this.dataCarousel.length) % this.dataCarousel.length
   }
 
+  // scrollToContent(data) {
+  //   console.log("emit data", data)
+  //   this.scrollService.scrollToDivEvent.emit(data)
+  // }
+
   goToSlide(index: number): void {
     this.currentIndex = index
     this.clearInterval() // Stop automatic sliding when manually navigating
@@ -81,19 +86,4 @@ export class MobileHomeComponent implements OnInit {
   scrollToHowSphereWorks(value: string) {
     this.scrollService.scrollToDivEvent.emit(value)
   }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
-  }
-  createAcct() {
-    this.router.navigateByUrl('app/create-account')
-  }
-
 }

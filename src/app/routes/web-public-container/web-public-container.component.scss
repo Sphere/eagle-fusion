@@ -3,7 +3,21 @@
 .top-course-container {
   margin-bottom: 45px !important;
 }
-
+.cne-block{
+  display: flex;
+  flex-direction: column;
+}
+.curated-text{
+  color: #000;
+margin-top: 5px;
+/* Body */
+font-family: Roboto;
+font-size: 18px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 150% */
+letter-spacing: -0.32px;
+}
 .view-all-course {
   cursor: pointer;
   display: inline-flex;

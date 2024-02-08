@@ -41,21 +41,19 @@
     max-width: 400px;
 }
 
-@media (min-width:320px) {
-    .banner-image {
+@media (min-width:320px)  {
+    .banner-image{
         max-width: 300px;
     }
-
     .info-container {
         width: 160px;
     }
 }
 
-@media (min-width:375px) {
-    .banner-image {
+@media (min-width:375px)  {
+    .banner-image{
         max-width: 360px;
     }
-
     .info-container {
         width: 187.5px;
     }
@@ -84,11 +82,10 @@
 }
 
 
-@media (min-width:425px) {
-    .banner-image {
+@media (min-width:425px)  {
+     .banner-image{
         max-width: 410px;
     }
-
     .info-container {
         width: 212.5px;
     }
@@ -189,4 +186,90 @@
     line-height: 19px;
     letter-spacing: 0em;
     text-align: center;
+}
+
+/* carousel.component.css */
+
+.carousel {
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.slides {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  //padding: 0 10px;
+  /* Adjust padding as needed */
+}
+
+.slide-content {
+  display: none;
+}
+
+.slide-content.active {
+  display: block;
+}
+
+
+.round-buttons {
+//   display: flex;
+//   // flex-direction: column;
+//   justify-content: center;
+//  // margin-top: 10px;
+//   gap: 5px;
+//   background: #469788;
+}
+
+.round-button {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.round-button.active {
+  background-color: rgba(0, 0, 0, 0.978);
+}
+.scrollToCneCourses{
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #D7AC5C;
+    height: 51px;
+    margin-bottom: 12px !important;
+    margin-top: 0px !important;
+    flex-direction: column;
+}
+.scrollToHowSphereWorks{
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    background: #469788;
+    height: 51px;
+    margin-bottom: 12px !important;
+    margin-top: 0px !important;
+    flex-direction: column;
+}
+.banner-image {
+    width: 400px;
+    height: 200px;
 }

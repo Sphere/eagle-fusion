@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { delay } from 'rxjs/operators'
 import { DomSanitizer } from '@angular/platform-browser'
@@ -9,6 +9,7 @@ import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 // import reduce from 'lodash/reduce'
 import uniqBy from 'lodash/uniqBy'
+import { ScrollService } from '../../services/scroll.service'
 @Component({
   selector: 'ws-mobile-page',
   templateUrl: './mobile-page.component.html',
@@ -27,15 +28,25 @@ export class MobilePageComponent implements OnInit {
   featuredCourseIdentifier: any = []
   topCertifiedCourse: any = []
   featuredCourse: any = []
+  cneCoursesIdentifier: any = []
+  cneCourse: any = []
+  @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
   constructor(
     private router: Router,
     private http: HttpClient,
     private sanitizer: DomSanitizer,
     private orgService: OrgServiceService,
+    private scrollService: ScrollService,
 
   ) { }
 
   async ngOnInit() {
+    this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
+      if (targetDivId === 'scrollToCneCourses') {
+        console.log("test")
+        this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
+      }
+    })
     this.videoData = [
       {
         url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
@@ -63,12 +74,22 @@ export class MobilePageComponent implements OnInit {
       this.homeFeature = res[0].userLoggedInSection
       this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
       this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
+      this.cneCoursesIdentifier = res[1].cneCoursesIdentifier
       if (res[0].result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(res[0])
         this.formatFeaturedCourseResponse(res[0])
+        this.formatcneCourseResponse(res[0])
         // console.log('this.formatTopCertifiedCourseResponse', this.featuredCourse)
       }
     })
+  }
+  formatcneCourseResponse(res: any) {
+
+    const cneCourse = filter(res.result.content, ckey => {
+      return includes(this.cneCoursesIdentifier, ckey.identifier)
+    })
+
+    this.cneCourse = uniqBy(cneCourse, 'identifier')
   }
   formatFeaturedCourseResponse(res: any) {
     // const featuredCourse = filter(res.result.content, ckey => {
