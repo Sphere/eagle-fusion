@@ -37,9 +37,12 @@ export class AlmostDoneComponent implements OnInit {
   selectedAddress = ''
   enableSubmit = false
   errorMsg = 'Invalid.Please correct and try again'
-  healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
-  healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
+  healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Pharmacist', 'Community Health Officer (CHO)', 'ANM/MPW', 'NA', 'NA']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Others', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
+  ashaList = ['ASHA']
+  facultyList = ['Nursing Faculty', 'Medical Faculty', 'Other']
+  studentList = ['Bsc nursing', 'GNM', 'ANM/MPW', 'Midwife', 'Medical Student', 'Other']
   districtUrl = '../../../fusion-assets/files/district.json'
   disticts: any
   selectedBg = ''
@@ -71,6 +74,7 @@ export class AlmostDoneComponent implements OnInit {
       this.hideAsha = false
     }
     if (this.backgroundSelect === 'ASHA') {
+      this.almostDoneForm.controls.professSelected.setValue('ASHA')
       this.enableSubmit = true
       this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
@@ -202,7 +206,7 @@ export class AlmostDoneComponent implements OnInit {
       this.almostDoneForm.controls.professionOtherSpecify.setValue(null)
     }
 
-    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
+    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse' || option === 'ANM/MPW') {
       this.rnFieldDisabled = false
     } else {
       this.almostDoneForm.controls.rnNumber.setValue(null)
@@ -305,6 +309,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'ASHA') {
       // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
+        console.log(value)
         if (value.block && value.subcentre) {
           this.enableSubmit = false
         } else {

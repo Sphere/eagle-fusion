@@ -35,6 +35,11 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showHome = false
           this.showCompetency = false
         }
+        if (location.path().includes('/overview')) {
+          this.showProfile = false
+          this.showHome = true
+          this.showCompetency = false
+        }
       }
     })
     console.log('urlchanges', location.path(), 'path')

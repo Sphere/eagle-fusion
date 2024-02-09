@@ -14,7 +14,7 @@
               <select id="profession" formControlName="professSelected" class="form-control select-box"
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)"
                 required>
-                <option [value]="null" style="color:#808080;" i18n>Profession*</option>
+                <option [value]="null" style="color:#808080;" i18n>Designation*</option>
                 <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>
@@ -63,6 +63,14 @@
 
           <div *ngIf="backgroundSelect === 'ASHA'">
             <div class="form-group input-box">
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
+                <option [value]="null" i18n>Designation*</option>
+                <option *ngFor="let profession of ashaList" [value]="profession">{{ profession }}
+                </option>
+              </select>
+            </div>
+            <div class="form-group input-box">
               <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
                 (change)="assignFields('locationselect', $event.target.value, $event)">
                 <option [value]=null disabled i18n>City/Distict</option>
@@ -85,7 +93,7 @@
             <div class="form-group input-box">
               <select id="profession" formControlName="professSelected" class="form-control select-box" required
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
-                <option [value]="null" i18n>Profession*</option>
+                <option [value]="null" i18n>Designation*</option>
                 <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>
@@ -126,6 +134,14 @@
 
           <!-- Background: Student -->
           <div *ngIf="backgroundSelect ==='Student'">
+            <div class="form-group input-box">
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
+                <option [value]="null" i18n>Designation*</option>
+                <option *ngFor="let profession of studentList" [value]="profession">{{ profession }}
+                </option>
+              </select>
+            </div>
             <div class="form-group mt-4 input-box">
               <input type="text" class="form-control" i18n-placeholder formControlName="courseName"
                 placeholder="Qualification"
@@ -146,11 +162,18 @@
 
           <!-- Background: Faculty -->
           <div *ngIf="backgroundSelect ==='Faculty'">
-
-            <div class="form-group mt-4 input-box">
+            <div class="form-group input-box">
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
+                <option [value]="null" i18n>Designation*</option>
+                <option *ngFor="let profession of facultyList" [value]="profession">{{ profession }}
+                </option>
+              </select>
+            </div>
+            <!-- <div class="form-group mt-4 input-box">
               <input type="text" class="form-control" formControlName="profession" placeholder="Designation"
                 i18n-placeholder>
-            </div>
+            </div> -->
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['profession'].hasError('pattern')">
               {{errorMsg}}</mat-error>
 
