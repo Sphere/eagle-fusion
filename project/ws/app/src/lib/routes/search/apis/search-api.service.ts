@@ -13,6 +13,7 @@ const API_END_POINTS = {
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
   // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
   SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
+  SEARCH_V7PUBLIC: `${PROTECTED_SLAG_V8}/recommendationEngineV2/publicSearch/getcourse`,
 
 }
 
@@ -131,9 +132,11 @@ export class SearchApiService {
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
+
   getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
+        console.log("res getSearchV6Results", res)
         const tempArray = Array()
         if (res.result.facets.length > 0) {
           searchconfig.forEach((ele: any) => {
@@ -167,6 +170,51 @@ export class SearchApiService {
             break
           }
         }
+        return res
+      }))
+  }
+
+  getSearchV7Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<any> {
+    debugger
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, body)
+      .pipe(map((res: any) => {
+
+        const tempArray = Array()
+        if (res.result.content.length > 0) {
+          searchconfig.forEach((ele: any) => {
+            const temp: NSSearch.IFacet = {
+              displayName: '',
+              type: '',
+              content: [],
+            }
+
+            temp.displayName = ele.displayname
+            temp.type = ele.name
+            console.log("res getSearchV7Results", res, temp)
+
+            if (ele.values.length > 0) {
+              ele.values.forEach((subEle: any) => {
+                temp.content.push({
+                  displayName: subEle.name,
+                  type: subEle.name,
+                  count: subEle.count,
+                  id: '',
+                })
+              })
+            }
+            tempArray.push(temp)
+          })
+        }
+        res = tempArray
+        for (const filter of res.filters) {
+          if (filter.type === 'catalogPaths') {
+            if (filter.content.length === 1) {
+              filter.content = filter.content[0].children || []
+            }
+            break
+          }
+        }
+
         return res
       }))
   }
