@@ -2560,9 +2560,17 @@
           <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="783945bcd32ae118a093a367621aecb6b25d4da1" datatype="html">
+            <trans-unit id="783945bcd32ae118a093a367621aecb6b25d4da1" datatype="html">
         <source>Organization Name</source>
-        <target state="final">ऑर्गनाइज़ेशन का नाम</target>
+                <target state="final">ऑर्गनाइज़ेशन का नाम</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
+          <context context-type="linenumber">224</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/work-info-list/work-info-list.component.html</context>
+          <context context-type="linenumber">134</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
           <context context-type="linenumber">8</context>

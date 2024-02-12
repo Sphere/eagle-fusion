@@ -156,7 +156,7 @@ export class WorkInfoListComponent implements OnInit {
                 orgName: newData.professionalDetails[0].name,
                 courseName: newData.professionalDetails[0].qualification,
                 selectBackground: newData.professionalDetails[0].selectBackground,
-                professionOther: newData.professionalDetails[0].profession,
+                professionOther: newData.professionalDetails[0].professionOther,
                 instituteName: newData.professionalDetails[0].instituteName,
                 regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
 
@@ -420,7 +420,7 @@ export class WorkInfoListComponent implements OnInit {
 
 
   private constructReq(form: any) {
-    console.log("feorm0", form.regNurseRegMidwifeNumber, form.value.regNurseRegMidwifeNumber)
+    console.log("feorm0", form, form.value.regNurseRegMidwifeNumber)
     const userid = this.userProfileData.userId || this.userProfileData.id || ''
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
@@ -521,6 +521,7 @@ export class WorkInfoListComponent implements OnInit {
       osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
       block: get(form.value, 'block') ? form.value.block : this.userProfileData.professionalDetails[0].block,
       subcentre: get(form.value, 'subcentre') ? form.value.subcentre : this.userProfileData.professionalDetails[0].subcentre,
+      professionOther: get(form.value, 'professionOther') ? form.value.professionOther : '',
       professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify : this.userProfileData.professionalDetails[0].professionOtherSpecify,
       locationselect: form.value.locationselect,
       qualification: get(form.value, 'courseName') ? form.value.courseName : this.userProfileData.professionalDetails[0].qualification,

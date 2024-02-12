@@ -379,6 +379,7 @@ export class AlmostDoneComponent implements OnInit {
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block
       org['subcentre'] = this.almostDoneForm.value.subcentre
+      org['designation'] = this.almostDoneForm.value.professSelected
     }
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
@@ -390,6 +391,7 @@ export class AlmostDoneComponent implements OnInit {
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block
       org['subcentre'] = this.almostDoneForm.value.subcentre
+      org['designation'] = this.almostDoneForm.value.selectBackground
     }
     if (this.backgroundSelect === 'Student') {
       org['qualification'] = this.almostDoneForm.value.courseName
