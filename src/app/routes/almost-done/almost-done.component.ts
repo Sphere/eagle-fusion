@@ -37,8 +37,8 @@ export class AlmostDoneComponent implements OnInit {
   selectedAddress = ''
   enableSubmit = false
   errorMsg = 'Invalid.Please correct and try again'
-  healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Pharmacist', 'Community Health Officer (CHO)', 'ANM/MPW', 'NA', 'NA']
-  healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Others', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse']
+  healthWorkerProfessions = ['Midwives', 'GNM', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Pharmacist', 'Community Health Officer (CHO)', 'BSC Nurse', 'ANM/MPW', 'Others']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   ashaList = ['ASHA']
   facultyList = ['Nursing Faculty', 'Medical Faculty', 'Other']

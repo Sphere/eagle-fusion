@@ -1781,7 +1781,7 @@
           AastarUrmika Health Systems Pvt Ltd. All rights reserved.
         </source>
         <target state="final">© २०२४
-        आस्टारउर्मिका हेल्थ सिस्टम्स प्राइवेट लिमिटेड. सर्वाधिकार सुरक्षित
+        आस्टारउर्मिका हेल्थ सिस्टम्स प्राइवेट लिमिटेड. सर्वाधिकार सुरक्षित.
         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/organisations/org-home/org-home.component.html</context>
