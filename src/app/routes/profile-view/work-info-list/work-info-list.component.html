@@ -107,8 +107,10 @@
         </div>
       </div>
       <div *ngIf="selectedBg === 'Other'">
+        <input type="text" class="form-control" formControlName="designation" placeholder="Designation"
+          i18n-placeholder>
         <div class="form-group mt-4 input-box">
-          <input type="text" class="form-control" i18n-placeholder formControlName="professionOther"
+          <input type="text" class="form-control" i18n-placeholder formControlName="nameOther"
             placeholder="Please Specify Profession*" required>
         </div>
         <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['profession'].hasError('pattern')">

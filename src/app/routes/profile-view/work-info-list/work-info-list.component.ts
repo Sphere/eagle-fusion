@@ -74,7 +74,7 @@ export class WorkInfoListComponent implements OnInit {
       courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       locationselect: new FormControl(),
       selectBackground: new FormControl(),
-      professionOther: new FormControl(),
+      nameOther: new FormControl(),
     })
   }
 
@@ -156,7 +156,7 @@ export class WorkInfoListComponent implements OnInit {
                 orgName: newData.professionalDetails[0].name,
                 courseName: newData.professionalDetails[0].qualification,
                 selectBackground: newData.professionalDetails[0].selectBackground,
-                professionOther: newData.professionalDetails[0].professionOther,
+                nameOther: newData.professionalDetails[0].nameOther,
                 instituteName: newData.professionalDetails[0].instituteName,
                 regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
 
@@ -501,13 +501,12 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   private getOrganisationsHistory(form: any) {
-    console.log(form.value)
+    console.log(form.value, form.value.nameOther)
     const organisations: any = []
     const org = {
       name: form.value.orgName,
       orgType: form.value.orgType,
       orgOtherSpecify: form.value.orgOtherSpecify,
-      nameOther: form.value.orgNameOther,
       industry: form.value.industry,
       industryOther: form.value.industryOther,
       designation: form.value.designation,
@@ -521,7 +520,7 @@ export class WorkInfoListComponent implements OnInit {
       osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
       block: get(form.value, 'block') ? form.value.block : this.userProfileData.professionalDetails[0].block,
       subcentre: get(form.value, 'subcentre') ? form.value.subcentre : this.userProfileData.professionalDetails[0].subcentre,
-      professionOther: get(form.value, 'professionOther') ? form.value.professionOther : '',
+      nameOther: get(form.value, 'nameOther') ? form.value.nameOther : '',
       professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify : this.userProfileData.professionalDetails[0].professionOtherSpecify,
       locationselect: form.value.locationselect,
       qualification: get(form.value, 'courseName') ? form.value.courseName : this.userProfileData.professionalDetails[0].qualification,
