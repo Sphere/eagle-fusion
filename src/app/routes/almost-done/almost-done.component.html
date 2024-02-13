@@ -52,7 +52,7 @@
               {{errorMsg}}</mat-error>
 
             <div class="form-group input-box">
-              <input type="text" name="orgName" formControlName="orgName" i18n class="form-control"
+              <input type="text" name="orgName" formControlName="orgName" i18n-placeholder class="form-control"
                 placeholder="Organization Name" autocomplete="off"
                 (change)="assignFields('organizationName',almostDoneForm.controls['orgName'].value, $event)">
             </div>
@@ -123,7 +123,7 @@
               {{errorMsg}}</mat-error>
 
             <div class="form-group input-box">
-              <input type="text" name="orgName" i18n formControlName="orgName" class="form-control"
+              <input type="text" name="orgName" i18n-placeholder formControlName="orgName" class="form-control"
                 placeholder="Organization Name" autocomplete="off"
                 (change)="assignFields('organizationName',almostDoneForm.controls['orgName'].value, $event)">
             </div>
