@@ -2576,6 +2576,134 @@
           <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="8996d1eabe536ca6cf75410c7e421217d79a0592" datatype="html">
+        <source>
+    Start
+  </source>
+         <target state="final">शुरू करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-toc-banner/public-toc-banner.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="053e81597467a642e04109eebe934c84e6a1f467" datatype="html">
+        <source>or</source>
+        <target>या</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-toc-banner/public-toc-banner.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="6449fa3a2cd28a381755f1681af2196297573ed2" datatype="html">
+        <source>Curated Courses to get you started</source>
+            <target>आपको आरंभ करने के लिए क्यूरेटेड पाठ्यक्रम</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="23782e3ef6d44553bf0ae8ea6d7046e754c35add" datatype="html">
+        <source>Curated Courses to get
+      you started</source>
+    <target>आपको आरंभ करने के लिए क्यूरेटेड पाठ्यक्रम</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-page/mobile-page.component.html</context>
+          <context context-type="linenumber">44</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="f0a76ef4545f9c6ddf6a990e90fd2d9beda9a377" datatype="html">
+        <source>CNE Courses</source>
+        <target>सीएनई पाठ्यक्रम</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-page/mobile-page.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5600fb9632505c8d29bb4daee2cd2d0c09c3e371" datatype="html">
+        <source>Login/create an account to start the course</source>
+        <target>पाठ्यक्रम शुरू करने के लिए लॉगिन करें/एक खाता बनाएं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-toc-banner/public-toc-banner.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="a59beb97f1b2f0d8cf4e7df77dab55205cfa9f47" datatype="html">
+        <source>
+        Learn at your own pace &amp; Get Certified
+      </source>
+      <target>अपनी गति से सीखें और प्रमाणित हों</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="f2c62a6439979b109ceb766ee69de2a9999753f6" datatype="html">
+        <source>CNE Hours</source>
+        <target>सीएनई घंटे</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
+          <context context-type="linenumber">78</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-home/web-home.component.html</context>
+          <context context-type="linenumber">74</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="bfe83c60bc11de6657c9792d919d15b9fb6aa5e0" datatype="html">
+        <source>
+        High quality content from experts
+      </source>
+      <target>विशेषज्ञों से उच्च गुणवत्ता वाली सामग्री</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-home/mobile-home.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="9f2c75d42d77167f88c45623c18dcb6758198221" datatype="html">
+        <source>Preview Certificate</source>
+        <target>पूर्वावलोकन प्रमाणपत्र</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b9aa56c112946abe350837e71710715a98a879cd" datatype="html">
+        <source>
+            Login
+          </source>
+          <target state="final">लॉग इन करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-toc-banner/public-toc-banner.component.html</context>
+          <context context-type="linenumber">41</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a8b24f2c3a5d0edfeed7074907536ed10540cba6" datatype="html">
+        <source>
+            Create a new account
+          </source>
+          <target>एक नया खाता बनाएं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-toc-banner/public-toc-banner.component.html</context>
+          <context context-type="linenumber">46</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="bb1c0819f95bbffd924aa290a21db89cf6c2974a" datatype="html">
+        <source>View
+    License Terms</source>
+            <target state="final">लाइसेंस शर्तें देखें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-toc-banner/public-toc-banner.component.html</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
             <trans-unit id="acf8c2b67bb71ac7db22c94297c2d9fc69e88d74" datatype="html">
         <source>Welcome</source>
     <target state="final">स्वागत </target>
