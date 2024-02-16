@@ -13,6 +13,8 @@ export class TncRendererComponent implements OnInit, OnChanges {
   @Input() tncData: NsTnc.ITnc | null = null
   @Output() tncChange = new EventEmitter<string>()
   @Output() dpChange = new EventEmitter<string>()
+  @Output() backBtn = new EventEmitter<string>()
+  @Input() showTerms: any = 'terms'
 
   generalTnc: NsTnc.ITncUnit | null = null
   dpTnc: NsTnc.ITncUnit | null = null
@@ -29,7 +31,7 @@ export class TncRendererComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-
+    console.log("showTerms", this.showTerms)
     if (this.tncData) {
       const tncData = this.tncData
       this.assignGeneralAndDp()
@@ -77,6 +79,9 @@ export class TncRendererComponent implements OnInit, OnChanges {
   }
   changeDpLang(locale: string) {
     this.dpChange.emit(locale)
+  }
+  backBtnClick() {
+    this.backBtn.emit()
   }
 
 }
