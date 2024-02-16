@@ -1,5 +1,26 @@
 @import 'ws-mixins';
+.cne-text{
+  color: #000;
 
+/* Header 2 */
+font-family: Roboto;
+font-size: 24px;
+font-style: normal;
+font-weight: 400;
+line-height: 28.8px; /* 120% */
+letter-spacing: -0.48px;
+}
+.cne-info{
+  color: #000;
+
+/* Body */
+font-family: Roboto;
+font-size: 16px;
+font-style: normal;
+font-weight: 400;
+line-height: 24px; /* 150% */
+letter-spacing: -0.32px;
+}
 .banner-container{
     display: flex;
     flex-wrap: wrap;

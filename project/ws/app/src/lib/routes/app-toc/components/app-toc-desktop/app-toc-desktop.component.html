@@ -5,12 +5,16 @@
         <mat-icon>chevron_left</mat-icon>
       </button>
 
-      <div>
+    </div>
+    <div class="cne-duration-block margin-bottpm">
+      <div><span class="cne-block" *ngIf="content?.cneName" style="word-wrap: break-word;" [title]="content?.name">
+          CNE hours: {{ content.cnePoints }} </span></div>
+
+      <div class="duration-block">
         <img loading="lazy" src=".\fusion-assets\icons\clock.svg" alt="clock"> {{ content?.duration |
         pipeDurationTransform: 'hms' }}
       </div>
     </div>
-
 
     <div class="title"><span style="word-wrap: break-word;" [title]="content?.name">
         {{ content?.name }} </span></div>

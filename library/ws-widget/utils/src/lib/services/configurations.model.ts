@@ -158,6 +158,7 @@ export namespace NsInstanceConfig {
     lang_options: string
     cne_points: string
     cert_course: string
+    cne_course: string
     learner_onboard: string
 
   }

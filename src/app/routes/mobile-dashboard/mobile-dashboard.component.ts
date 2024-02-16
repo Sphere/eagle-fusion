@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { delay } from 'rxjs/operators'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
@@ -38,9 +38,29 @@ export class MobileDashboardComponent implements OnInit {
   firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
+  cneCoursesIdentifier: any = []
   // languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
+  cneCourse: any = []
+  dataCarousel: any = [
+    {
+      "title": "Check out courses with CNE Hours",
+      "titleHi": "सीएनई आवर्स के साथ पाठ्यक्रम देखें",
+      "img": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/cne.svg",
+      "scrollEmit": "scrollToCneCourses",
+      "bg-color": "#D7AC5C;"
+    },
+    {
+      "title": "Watch tutorials on how sphere works",
+      "titleHi": "जानिए स्फीयर कैसे काम करता है",
+      "img": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/how_works.svg",
+      "scrollEmit": "scrollToHowSphereWorks",
+      "bg-color": "#469788;;"
+    }
+  ]
+  lang: any = 'en'
+  @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
 
   constructor(private orgService: OrgServiceService,
     private configSvc: ConfigurationsService,
@@ -54,7 +74,6 @@ export class MobileDashboardComponent implements OnInit {
     private CompetencyConfiService: CompetencyConfiService,
     private contentSvc: WidgetContentService,
     private UserAgentResolverService: UserAgentResolverService,
-
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
@@ -64,6 +83,13 @@ export class MobileDashboardComponent implements OnInit {
     this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
   }
   ngOnInit() {
+    this.lang = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
+    this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
+      if (targetDivId === 'scrollToCneCourses') {
+        this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
+      }
+    })
     if (localStorage.getItem('preferedLanguage')) {
       let data: any
       data = localStorage.getItem('preferedLanguage')
@@ -109,10 +135,12 @@ export class MobileDashboardComponent implements OnInit {
         this.homeFeature = res[2].userLoggedInSection
         this.topCertifiedCourseIdentifier = res[2].topCertifiedCourseIdentifier
         this.featuredCourseIdentifier = res[2].featuredCourseIdentifier
+        this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
         this.formatmyCourseResponse(res[0])
         if (res[1].result.content.length > 0) {
           this.formatTopCertifiedCourseResponse(res[1])
           this.formatFeaturedCourseResponse(res[1])
+          this.formatcneCourseResponse(res[1])
         }
       })
     } else {
@@ -120,9 +148,12 @@ export class MobileDashboardComponent implements OnInit {
       this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
         this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
         this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
+        this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
+
         if (res[0].result.content.length > 0) {
           this.formatTopCertifiedCourseResponse(res[0])
           this.formatFeaturedCourseResponse(res[0])
+          this.formatcneCourseResponse(res[0])
         }
       })
     }
@@ -132,7 +163,14 @@ export class MobileDashboardComponent implements OnInit {
       this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)
     }
   }
+  formatcneCourseResponse(res: any) {
 
+    const cneCourse = filter(res.result.content, ckey => {
+      return includes(this.cneCoursesIdentifier, ckey.identifier)
+    })
+
+    this.cneCourse = uniqBy(cneCourse, 'identifier')
+  }
   formatFeaturedCourseResponse(res: any) {
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)

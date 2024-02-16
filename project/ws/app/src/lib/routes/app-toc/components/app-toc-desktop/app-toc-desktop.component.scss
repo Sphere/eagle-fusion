@@ -8,7 +8,27 @@
     padding: $size-m $size-l;
   }
 }
-
+.cne-duration-block{
+  display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 10px;
+}
+.cne-block{
+  padding: 10px 15px;
+  width: 133px;
+// height: 27px;
+flex-shrink: 0;
+border-radius: 100px;
+background: #DCFAFF;
+color: #035F7C;
+font-family: Roboto;
+font-size: 14px;
+font-style: normal;
+font-weight: 400;
+line-height: 16.8px; /* 120% */
+letter-spacing: -0.28px;
+}
 .visibility-0 {
   // visibility: hidden;
   display: none !important;

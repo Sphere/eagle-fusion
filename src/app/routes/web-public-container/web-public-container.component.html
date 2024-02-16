@@ -2,8 +2,8 @@
   <!-- Top certified courses -->
   <section class="mt-4 view-all-course-container" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
     <div class="flex scroller-container">
-      <p class="mat-h1 header-font margin-remove inline-block ng-star-inserted header1 mb-4" i18n>Top Courses</p><button
-        i18n (click)="viewAllCourse()" class="view-all-course">
+      <p class="mat-h1 header-font margin-remove inline-block ng-star-inserted header1 mb-4" i18n>Top Courses</p>
+      <button i18n (click)="viewAllCourse()" class="view-all-course">
         View all courses
       </button>
     </div>
@@ -29,7 +29,25 @@
     </div>
   </ws-utils-horizontal-scroller>
 </section>
-
+<!-- Top CNE courses -->
+<section #scrollToCneCourses class="scrollToCneCourses mt-4 view-all-course-container"
+  *ngIf="cneCourse && cneCourse.length>0">
+  <div class="flex scroller-container">
+    <div class="cne-block">
+      <p class="mat-h1 header-font margin-remove inline-block ng-star-inserted header1 mb-4" i18n>CNE Courses</p>
+      <p class="curated-text" i18n>Curated Courses to get
+        you started</p>
+    </div>
+  </div>
+  <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
+    <div *ngFor="let course of cneCourse">
+      <ng-container *ngIf="cneCourse && cneCourse.length>0">
+        <ws-web-course-view [cnePoints]="'yes'" [displayConfig]="displayConfig"
+          [courseData]="course"></ws-web-course-view>
+      </ng-container>
+    </div>
+  </ws-utils-horizontal-scroller>
+</section>
 
 <div class="py-1 px-4">
   <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">

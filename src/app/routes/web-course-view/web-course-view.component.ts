@@ -17,6 +17,7 @@ import get from 'lodash/get'
 export class WebCourseViewComponent implements OnInit {
   isUserLoggedIn = false
   @Input() widgetData!: any
+  @Input() cnePoints: any = false
   @Input() courseData: any
   @Input() enableConfig = false
   @Input()

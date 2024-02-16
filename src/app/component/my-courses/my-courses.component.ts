@@ -69,6 +69,20 @@ export class MyCoursesComponent implements OnInit {
             this.completedCourse.push(completedCourseObject)
           }
         })
+
+        // Sort courses based on dateTime in descending order
+        this.startedCourse.sort((a, b) => {
+          const dateTimeA = new Date(a.dateTime).getTime()
+          const dateTimeB = new Date(b.dateTime).getTime()
+          return dateTimeB - dateTimeA
+        })
+
+        this.completedCourse.sort((a, b) => {
+          const dateTimeA = new Date(a.dateTime).getTime()
+          const dateTimeB = new Date(b.dateTime).getTime()
+          return dateTimeB - dateTimeA
+        })
+
         console.log(this.startedCourse, 'c', this.startedCourse.length)
         console.log(this.completedCourse, 'aa', this.completedCourse.length)
 
