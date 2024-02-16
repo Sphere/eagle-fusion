@@ -74,7 +74,7 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.selectedIndex = ''
       }
       // sessionStorage.removeItem('academic')
-      sessionStorage.removeItem('currentWindow')
+      // sessionStorage.removeItem('currentWindow')
     })
     this.userForm = new FormGroup({
       language: new FormControl(),

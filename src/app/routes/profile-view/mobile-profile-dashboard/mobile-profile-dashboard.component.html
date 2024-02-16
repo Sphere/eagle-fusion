@@ -22,16 +22,16 @@
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;    margin-bottom: 5px;"><span
+      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;"><span
           i18n>Position</span> :
         {{currentProfession }}</p>
 
-      <p *ngIf="showbackButton" style="font-size:14px;line-height:18.75px;">
+      <p *ngIf="showbackButton" style="font-size:14px;line-height:18.75px;margin-bottom: 10px;">
         <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" style="    border: 1px solid #000;    margin-right: 5px;
     border-radius: 16px;" /><span i18n>Language Preference</span>
       </p>
       <!-- <form [formGroup]="userForm"> -->
-      <div class="form-group" *ngIf="showbackButton">
+      <div class="form-group" *ngIf="showbackButton" style="margin-top: 5px;">
         <button [ngClass]="{'btnActive': language === 'en', 'nonActive' : language != 'en'}"
           (click)="storeLanguage('en')" i18n>English</button>
         <button [ngClass]="{'btnActive': language === 'hi', 'nonActive' : language != 'hi'}"
