@@ -1,0 +1,140 @@
+.custom-wrapper {
+  font-family: 'Roboto' !important;
+
+  .login-section {
+    width: 375px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .custom-wrapper {
+    min-height: 58vh;
+    /* justify-content: flex-start; */
+    /* margin-left: -30px; */
+    margin-top: 15px;
+  }
+
+  .max-container {
+    width: 100%;
+  }
+
+  .custom-wrapper .custom-grid .left-box {
+    display: none !important;
+  }
+
+  .custom-wrapper .custom-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .whatsApp-otp {
+    left: 26px !important;
+  }
+}
+
+.ui.raised.segment,
+.ui.raised.segments {
+  box-shadow: 0 1px 3px rgba(0, 0, 0, .075)
+}
+
+.type-container {
+  display: flex;
+}
+
+.greenButton {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  color: #4BCA59 !important;
+  background-color: #fff !important;
+  border: 1px solid #4BCA59 !important;
+  border-radius: 50px;
+  width: 100%;
+  transition: all .25s ease-in;
+}
+
+.rel {
+  position: relative;
+  margin-top: 10px;
+}
+
+.whatsApp {
+  position: absolute;
+  z-index: 6;
+  left: 38px;
+  top: 3px;
+  cursor: pointer;
+
+  // @include breakpoint-xs {
+  //   left: 21px;
+  // }
+}
+
+.blueButton {
+  color: #FFFFFF !important;
+  background-color: #1C5D95 !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  border: 1px solid #1C5D95 !important;
+  line-height: 25px;
+  height: 40px;
+  border-radius: 50px;
+  transition: all .25s ease-in;
+  width: 100%;
+  margin: 15px 0px;
+  cursor: pointer;
+}
+
+.whiteButton {
+  font-family: 'Roboto' !important;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  color: #1C5D95 !important;
+  background-color: #fff !important;
+  border: 1px solid #1C5D95 !important;
+  line-height: 25px;
+  height: 40px;
+  border-radius: 50px;
+  transition: all .25s ease-in;
+  cursor: pointer;
+}
+
+.greenButton {
+  /* font-family: 'Roboto' !important; */
+  font-style: normal;
+  font-weight: 500;
+  font-size: 15px;
+  color: #4BCA59 !important;
+  background-color: #fff !important;
+  border: 1px solid #4BCA59 !important;
+  //line-height: 25px;
+  height: 40px;
+  border-radius: 50px;
+  transition: all .25s ease-in;
+  margin-top: 20px !important;
+  position: relative !important;
+  cursor: pointer;
+}
+
+.forgetPasswordLink {
+  color: rgb(0, 116, 182, 1) !important;
+  cursor: pointer;
+  //font-size: 12px;
+  /* line-height: 17px;
+    position: absolute; */
+  /* right: 0;
+    top: 97px; */
+  transition: all .25s ease-in;
+}
+
+.blueButton:disabled {
+  opacity: 0.5 !important;
+}
+
+.whatsApp1 {
+  position: absolute;
+  left: 60px;
+  z-index: 6;
+  top: 23px;
+}

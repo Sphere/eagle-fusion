@@ -77,8 +77,8 @@
             <!-- sendApi() -->
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" data-toggle="modal" class="button-border"
-              matTooltip="Preview Certificate">
-              <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download" i18n-matTooltip
+              i18n-matTooltip matTooltip="Preview Certificate">
+              <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
                 style="background-color: cornflowerblue;width: 25px;height: auto;">
             </button>
             <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>

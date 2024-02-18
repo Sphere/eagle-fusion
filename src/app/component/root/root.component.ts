@@ -245,6 +245,10 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.showNavigation = false
           this.createAcc = true
         }
+
+        if (event.url.includes('/public/login')) {
+          this.showNavigation = false
+        }
         if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {
           this.isHomePage = true
         } else {
@@ -261,6 +265,9 @@ export class RootComponent implements OnInit, AfterViewInit {
           this.showmobileFooter = false
         }
         if (event.url.includes('/app/create-account')) {
+          this.showmobileFooter = false
+        }
+        if (event.url.includes('/public/login')) {
           this.showmobileFooter = false
         }
         // if (window.location.href.indexOf('scrom-player') > 0) {
@@ -330,7 +337,7 @@ export class RootComponent implements OnInit, AfterViewInit {
           setTimeout(() => {
             this.signupService.fetchStartUpDetails().then(result => {
               if (result && result.status !== 200) {
-                this.authSvc.logout()
+                //this.authSvc.logout()
                 // const redirectUrl = `${document.baseURI}openid/keycloak`
                 // const state = uuid()
                 // const nonce = uuid()
@@ -364,6 +371,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
 
         else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
+          console.log('sss')
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
           this.mobileView = false
