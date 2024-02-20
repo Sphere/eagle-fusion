@@ -9,7 +9,7 @@ import { IWSPublicLoginConfig } from '../login/login.model'
 import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 // import { HttpClient } from '@angular/common/http'
-import { SignupService } from '../../routes/signup/signup.service'
+//import { SignupService } from '../../routes/signup/signup.service'
 @Component({
   selector: 'ws-app-public-nav-bar',
   templateUrl: './app-public-nav-bar.component.html',
@@ -47,7 +47,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService,
-    private signUpSvc: SignupService,
+    //private signUpSvc: SignupService,
     // private http: HttpClient,
     private authSvc: AuthKeycloakService) {
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -189,7 +189,8 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     }
     // localStorage.removeItem('url_before_login')
     // this.router.navigateByUrl('app/login')
-    this.signUpSvc.keyClockLogin()
+    this.router.navigateByUrl('/public/login')
+    //this.signUpSvc.keyClockLogin()
     // const state = uuid()
     // const nonce = uuid()
     // sessionStorage.setItem('login-btn', 'clicked')

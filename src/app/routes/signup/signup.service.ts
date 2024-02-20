@@ -20,7 +20,8 @@ const API_END_POINTS = {
   newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
   validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin',
   sendUserOTP: '/apis/public/v8/ssoLogin/otp/sendOtp',
-  newLogin: '/apis/public/v8/ssoLogin/login'
+  newLogin: '/apis/public/v8/ssoLogin/login',
+  resendOTP: '/apis/public/v8/ssoLogin/otp/resendOtp'
 }
 
 @Injectable({
@@ -42,6 +43,13 @@ export class SignupService {
   }
   sendOTP(data: any) {
     return this.http.post<any>(API_END_POINTS.sendUserOTP, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+  resendOTP(data: any) {
+    return this.http.post<any>(API_END_POINTS.resendOTP, data).pipe(
       map(response => {
         return response
       }),

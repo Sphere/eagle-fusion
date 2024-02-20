@@ -10,7 +10,10 @@ import { MatSnackBar } from '@angular/material'
 export class PublicLoginComponent implements OnInit {
   loginForm: FormGroup
   loginPwdForm: FormGroup
+  OTPForm: FormGroup
   selectedField = 'otp'
+  otpPage = false
+  userID = ''
   constructor(
     private spherFormBuilder: FormBuilder,
     private signupService: SignupService,
@@ -30,6 +33,9 @@ export class PublicLoginComponent implements OnInit {
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
+    })
+    this.OTPForm = this.spherFormBuilder.group({
+      OTPcode: new FormControl('', [Validators.required, Validators.pattern(/^\s*(\d{6}\s*,\s*)*\d{6}\s*$/)]),
     })
   }
 
@@ -83,6 +89,95 @@ export class PublicLoginComponent implements OnInit {
       })
     }
   }
+  resendOTP() {
+    if ((this.loginForm.status === 'VALID')) {
+      let phone = this.loginForm.controls.emailOrMobile.value
+      let type = ''
+      phone = phone.replace(/[^0-9+#]/g, '')
+      if (phone.length >= 10) {
+        type = 'phone'
+      } else {
+        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+          this.loginForm.controls.emailOrMobile.value
+        )
+        type = 'email'
+        console.log(check, 'check')
+      }
+      let req = {}
+      if (type === 'email') {
+        req = {
+          "userEmail": this.loginForm.controls.emailOrMobile.value,
+          "userId": this.userID
+        }
+      }
+      if (type === 'phone') {
+        req = {
+          "userPhone": this.loginForm.controls.emailOrMobile.value,
+          "userId": this.userID
+        }
+      }
+      console.log(req, type)
+      this.signupService.resendOTP(req).subscribe(res => {
+        console.log(res)
+        this.openSnackbar(res.msg || res.message)
+        // if (localStorage.getItem('url_before_login')) {
+        //   const url = localStorage.getItem('url_before_login') || ''
+        //   location.href = url
+        // } else {
+        //   window.location.href = '/page/home'
+        // }
+      }, err => {
+        console.log(err)
+        this.openSnackbar(err.error.msg || err.error.message)
+      })
+    }
+  }
+  otpSubmit() {
+    console.log('otp', this.loginForm.controls.emailOrMobile.value, this.OTPForm.controls.OTPcode.value)
+    if ((this.loginForm.status === 'VALID') && this.OTPForm.status === 'VALID') {
+      let phone = this.loginForm.controls.emailOrMobile.value
+      let type = ''
+      phone = phone.replace(/[^0-9+#]/g, '')
+      if (phone.length >= 10) {
+        type = 'phone'
+      } else {
+        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+          this.loginForm.controls.emailOrMobile.value
+        )
+        type = 'email'
+        console.log(check, 'check')
+      }
+      let req = {}
+      if (type === 'email') {
+        req = {
+          "userEmail": this.loginForm.controls.emailOrMobile.value,
+          "typeOfLogin": "otp",
+          "otp": this.OTPForm.controls.OTPcode.value.trim()
+        }
+      }
+      if (type === 'phone') {
+        req = {
+          "userPhone": this.loginForm.controls.emailOrMobile.value,
+          "typeOfLogin": "otp",
+          "otp": this.OTPForm.controls.OTPcode.value.trim()
+        }
+      }
+      console.log(req, type)
+      this.signupService.loginAPI(req).subscribe(res => {
+        console.log(res)
+        this.openSnackbar(res.msg || res.message)
+        if (localStorage.getItem('url_before_login')) {
+          const url = localStorage.getItem('url_before_login') || ''
+          location.href = url
+        } else {
+          window.location.href = '/page/home'
+        }
+      }, err => {
+        console.log(err)
+        this.openSnackbar(err.error.msg || err.error.message)
+      })
+    }
+  }
   otpClick(form: any) {
     console.log(form)
     if (form.status === "VALID") {
@@ -116,13 +211,15 @@ export class PublicLoginComponent implements OnInit {
       }
       this.signupService.sendOTP(req).subscribe(res => {
         console.log(res)
+        this.userID = res.userId
         this.openSnackbar(res.msg || res.message)
-        if (localStorage.getItem('url_before_login')) {
-          const url = localStorage.getItem('url_before_login') || ''
-          location.href = url
-        } else {
-          window.location.href = '/page/home'
-        }
+        this.otpPage = true
+        // if (localStorage.getItem('url_before_login')) {
+        //   const url = localStorage.getItem('url_before_login') || ''
+        //   location.href = url
+        // } else {
+        //   window.location.href = '/page/home'
+        // }
       }, err => {
         console.log(err)
         this.openSnackbar(err.error.msg || err.error.message)

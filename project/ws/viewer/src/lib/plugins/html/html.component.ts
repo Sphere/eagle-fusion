@@ -261,16 +261,16 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                         contentId: this.htmlContent!.identifier,
                         batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                         courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                        status: 1,
+                        status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                         lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                         progressdetails: {},
-                        completionPercentage: 0
+                        completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                       }
                     ],
                   },
                 }
                 console.log(req)
-                console.log(`}`, '217')
+                console.log(`}`, '273')
                 this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                   let res = await data
                   console.log(res)
@@ -293,7 +293,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                           contentId: this.htmlContent!.identifier,
                           batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                           courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                          status: 1,
+                          status: 2,
                           lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                           progressdetails: {},
                           completionPercentage: 100
@@ -321,19 +321,24 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                             contentId: this.htmlContent!.identifier,
                             batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                             courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                            status: 1,
+                            status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                             progressdetails: {},
-                            completionPercentage: 0
+                            completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                           }
                         ],
                       },
                     }
                     console.log(req)
-                    console.log(`{hey}`, '324')
+                    console.log(`{hey}`, '333')
                     this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                       let res = await data
                       console.log(res)
+                      if (res) {
+                        let result = {}
+                        result["type"] = 'scorm'
+                        this.contentSvc.changeMessage(result)
+                      }
                     })
                   }
                 } else {
