@@ -1666,6 +1666,10 @@
           <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
           <context context-type="linenumber">65</context>
         </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="abfbf9c9ac42e5d3e59cf1d6b4e9f88831b61e12" datatype="html">
         <source>Data Privacy</source>
@@ -2269,8 +2273,11 @@
               <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
               <context context-type="linenumber">31</context>
           </context-group>
+      <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">32</context>
+      </context-group>
       </trans-unit>
-
       <trans-unit id="f4b73761d75e38e805dbd99127e3b8122345b6be" datatype="html">
           <source>District</source>
           <target>जिला</target>
@@ -2279,11 +2286,6 @@
               <context context-type="linenumber">211</context>
           </context-group>
       </trans-unit>
-
-      <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
-          <context context-type="linenumber">32</context>
-      </context-group>
             <trans-unit id="650fc3fc34e75ddbf77432326a8f8f4f3e287f2d" datatype="html">
         <source>(Password must contain a minimum of 8 characters including numerals,
                 lower and upper case alphabets and special characters without space)</source>
@@ -4919,14 +4921,6 @@
           <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
-            <trans-unit id="52d091913ab19e06c3c1d60c858deee3ca585754" datatype="html">
-        <source>Terms of use</source>
-             <target state="final">उपयोग की शर्तें</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
-          <context context-type="linenumber">32</context>
-        </context-group>
-      </trans-unit>
 
             <trans-unit id="0cb240b6cfb7346b18ebe456e6bdc80d1c5478e4" datatype="html">
         <source>
@@ -5260,6 +5254,48 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-how-does-work/web-how-does-work.component.html</context>
           <context context-type="linenumber">53</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52d091913ab19e06c3c1d60c858deee3ca585754" datatype="html">
+        <source>Terms of use</source>
+        <target state="final">उपयोग की शर्तें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
+          <context context-type="linenumber">10</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9a8801e2d7a85990542097dadff0d05f6e4b2e6b" datatype="html">
+        <source>By ticking the box below, you acknowledge that you have read and agree to the</source>
+         <target state="final">नीचे दिए गए बॉक्स पर टिक करके, आप स्वीकार करते हैं कि आपने इसे पढ़ लिया है और इससे सहमत हैं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
+          <context context-type="linenumber">12</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8fe3a723a4e0ad529288e169b9e5cc754639100c" datatype="html">
+        <source>
+          I have read and agree to the Terms of use &amp; Privacy policy
+        </source>
+         <target state="final">मैंने उपयोग की शर्तें पढ़ ली हैं और उनसे सहमत हूं। गोपनीयता नीति</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="6fc5e65900ae1415d3170d5d2842f0dcae1b6645" datatype="html">
+        <source>Accept</source>
+        <target state="final">स्वीकार करना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
     </body>

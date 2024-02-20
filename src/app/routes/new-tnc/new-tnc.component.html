@@ -7,20 +7,20 @@
 <div class="tnc-main">
   <div class="tnc-render-content" appScrollDetector (scrolled)="handleScroll($event)">
     <div class="terms-block" *ngIf="!showTnc">
-      <span class="terms-text">Terms of use</span>
+      <span class="terms-text" i18n>Terms of use</span>
       <img class="tnc-image margin-top-m margin-bottom-m" alt="" src="fusion-assets/images/t&c.svg" />
-      <span class="tick-text">By ticking the box below, you acknowledge that you have read and agree to the</span>
+      <span class="tick-text" i18n>By ticking the box below, you acknowledge that you have read and agree to the</span>
       <ul class="ul-class margin-top-m">
         <li>
-          <span class="link-text" (click)="showTncPage('terms')">Terms of use</span>
+          <span class="link-text" (click)="showTncPage('terms')" i18n>Terms of use</span>
         </li>
         <li>
-          <span class="link-text margin-top-m" (click)="showTncPage('privacy')">Privacy Policy</span>
+          <span class="link-text margin-top-m" (click)="showTncPage('privacy')" i18n>Privacy Policy</span>
         </li>
       </ul>
       <div class="flex flex-middle margin-top-xs">
         <mat-checkbox class="tnc-checkbox" [checked]="tncAcceptedBtn" (change)="tncChecked();"></mat-checkbox>
-        <p class="margin-left-xs read-and-agree-top-margin margin-remove-bottom cons-text">
+        <p class="margin-left-xs read-and-agree-top-margin margin-remove-bottom cons-text" i18n>
           I have read and agree to the Terms of use & Privacy policy
         </p>
       </div>
