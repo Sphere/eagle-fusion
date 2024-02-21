@@ -142,7 +142,7 @@
 
     <ng-container *ngIf="HealthcareVolunteer">
       <div class="form-group input-box">
-        <select id="profession" formControlName="designation" class="form-control select-box"
+        <select id="designation" formControlName="designation" class="form-control select-box"
           (change)="professionSelect($event.target.value);" required>
           <option [value]="null" style="color:#808080;" disabled i18n>Profession*</option>
           <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
@@ -177,6 +177,13 @@
     </ng-container>
     <ng-container *ngIf="Student">
       <div class="form-group input-box">
+        <select id="profession" formControlName="designation" class="form-control select-box" required>
+          <option [value]="null" i18n disabled>Designation*</option>
+          <option *ngFor="let profession of studentList" [value]="profession">{{ profession }}
+          </option>
+        </select>
+      </div>
+      <div>
         <input type="text" class="form-control" i18n-placeholder formControlName="courseName"
           placeholder="Qualification"
           (change)="assignFields('coursename',almostDoneForm.controls['courseName'].value, $event)">
@@ -195,8 +202,13 @@
     <!-- Background: Faculty -->
     <ng-container *ngIf="Faculty">
       <div class="form-group input-box">
-        <input type="text" class="form-control" formControlName="designation" placeholder="Designation"
-          i18n-placeholder>
+        <select id="profession" formControlName="designation" class="form-control select-box" required>
+          <option [value]="null" i18n disabled>Designation*</option>
+          <option *ngFor="let profession of facultyList" [value]="profession">{{ profession }}
+          </option>
+        </select>
+        <!-- <input type="text" class="form-control" formControlName="designation" placeholder="Designation"
+          i18n-placeholder> -->
       </div>
       <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['designation'].hasError('pattern')">
         {{errorMsg}}</mat-error>

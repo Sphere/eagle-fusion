@@ -121,7 +121,7 @@ export class WorkInfoListComponent implements OnInit {
       })
     }
     if (this.selectedBg === 'Other') {
-      this.personalDetailForm.controls.professionOther.setValue(null)
+      this.personalDetailForm.controls.designation.setValue(null)
     }
   }
 
@@ -168,6 +168,11 @@ export class WorkInfoListComponent implements OnInit {
                 this.personalDetailForm.patchValue({
                   regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
                 })
+                if (newData.professionalDetails[0].designation === 'ANM') {
+                  this.personalDetailForm.patchValue({
+                    designation: 'ANM/MPW',
+                  })
+                }
               }
               console.log(newData.professionalDetails[0], 'a')
               if (newData.personalDetails.postalAddress) {
@@ -237,7 +242,7 @@ export class WorkInfoListComponent implements OnInit {
       this.personalDetailForm.controls.professionOtherSpecify.setValue(null)
     }
 
-    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
+    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse' || option === 'ANM/MPW') {
       this.rnFieldDisabled = false
     } else {
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
@@ -247,7 +252,7 @@ export class WorkInfoListComponent implements OnInit {
 
   professionalChange(value: any) {
     console.log("degree", value, this.userProfileData)
-
+    // this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
     // this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.showDesignation = true
@@ -302,6 +307,7 @@ export class WorkInfoListComponent implements OnInit {
       this.Faculty = false
       this.professionOtherField = false
     } else if (value === 'Faculty') {
+      console.log('lll')
       this.orgOthersField = false
       this.orgTypeField = false
       this.showAshaField = false
@@ -309,10 +315,16 @@ export class WorkInfoListComponent implements OnInit {
       this.HealthcareVolunteer = false
       this.Student = false
       this.Faculty = true
+      this.personalDetailForm.controls.designation.setValue(null)
       this.professionOtherField = false
     } else if (value === 'Others') {
-      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
-      this.personalDetailForm.controls.selectBackground.setValue(null)
+      if (!this.userProfileData.professionalDetails[0].selectBackground) {
+        this.personalDetailForm.controls.selectBackground.setValue(null)
+      }
+      if (!this.userProfileData.personalDetails.regNurseRegMidwifeNumber) {
+        this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      }
+
       this.professionOtherField = true
       this.orgTypeField = false
       this.showAshaField = false
@@ -330,12 +342,16 @@ export class WorkInfoListComponent implements OnInit {
       this.Student = true
       this.Faculty = false
       this.professionOtherField = false
-
+      this.personalDetailForm.controls.designation.setValue(null)
     } else {
       this.orgTypeField = true
       this.professionOtherField = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.personalDetailForm.controls.orgType.setValue(null)
+    }
+    if (value === this.userProfileData.professionalDetails[0].profession) {
+      console.log('profession')
+      this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
     }
   }
 
