@@ -27,7 +27,7 @@
       <div class="form-group input-box">
         <select id="profession" formControlName="designation" class="form-control select-box"
           (change)="professionSelect($event.target.value);" required>
-          <option [value]="null" style="color:#808080;" i18n>Designation*</option>
+          <option [value]="null" style="color:#808080;" disabled i18n>Designation*</option>
           <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }}
           </option>
         </select>
@@ -47,7 +47,7 @@
       <div class="form-group input-box">
         <select id="orgType" formControlName="orgType" class="form-control select-box"
           (change)="orgTypeSelect($event.target.value);" required>
-          <option [value]="null" i18n>Organization Type*</option>
+          <option [value]="null" i18n disabled>Organization Type*</option>
           <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
         </select>
       </div>
@@ -83,7 +83,7 @@
       <div class="form-group input-box">
         <select id="selectBackground" formControlName="selectBackground" class="form-control select-box"
           (change)="chooseBackground($event.target.value)" required>
-          <option [value]="null" i18n>Select Background</option>
+          <option [value]="null" i18n disabled>Select Background</option>
           <option value="Mother/Family Members">Mother/Family Members</option>
           <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>
           <option value="Asha Trainer" *ngIf='!hideAsha'>Asha Trainer</option>
@@ -119,7 +119,7 @@
         <div class="form-group input-box">
           <select id="orgType" formControlName="orgType" class="form-control select-box"
             (change)="orgTypeSelect($event.target.value)" required>
-            <option [value]="null" i18n>Organization Type*</option>
+            <option [value]="null" i18n disabled>Organization Type*</option>
             <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
           </select>
         </div>
@@ -144,7 +144,7 @@
       <div class="form-group input-box">
         <select id="profession" formControlName="designation" class="form-control select-box"
           (change)="professionSelect($event.target.value);" required>
-          <option [value]="null" style="color:#808080;" i18n>Profession*</option>
+          <option [value]="null" style="color:#808080;" disabled i18n>Profession*</option>
           <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
           </option>
         </select>
@@ -159,7 +159,7 @@
       <div class="form-group input-box">
         <select id="orgType" formControlName="orgType" class="form-control select-box"
           (change)="orgTypeSelect($event.target.value);" required>
-          <option [value]="null" i18n>Organization Type*</option>
+          <option [value]="null" i18n disabled>Organization Type*</option>
           <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
         </select>
       </div>

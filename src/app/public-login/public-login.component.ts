@@ -85,7 +85,7 @@ export class PublicLoginComponent implements OnInit {
         }
       }, err => {
         console.log(err)
-        this.openSnackbar(err.error.msg || err.error.message)
+        this.openSnackbar(err.error.msg || err.error.error)
       })
     }
   }
@@ -173,7 +173,7 @@ export class PublicLoginComponent implements OnInit {
           window.location.href = '/page/home'
         }
       }, err => {
-        console.log(err)
+        console.log(err.error)
         this.openSnackbar(err.error.msg || err.error.message)
       })
     }

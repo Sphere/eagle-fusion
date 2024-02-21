@@ -21,8 +21,11 @@ import { HttpClient } from '@angular/common/http'
 export class WorkInfoListComponent implements OnInit {
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
-  healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
-  healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse', 'Others']
+  healthWorkerProfessions = ['Midwives', 'GNM', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Pharmacist', 'Community Health Officer (CHO)', 'BSC Nurse', 'ANM/MPW', 'Others']
+  ashaList = ['ASHA']
+  facultyList = ['Nursing Faculty', 'Medical Faculty', 'Other']
+  studentList = ['Bsc nursing', 'GNM', 'ANM/MPW', 'Midwife', 'Medical Student', 'Other']
   districtUrl = '../../../fusion-assets/files/district.json'
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false

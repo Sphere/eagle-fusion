@@ -20,9 +20,10 @@
           </div> -->
           <div class="field  type-container mw-100">
             <div style="    margin-right: 25px;">
-              <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB" class=""
+              <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
                 style="cursor: pointer;" checked="true">&nbsp;
-              <label id="useOTPLabel" for="useOTPRB" class="" i18n style="cursor: pointer;">
+              <label id="useOTPLabel" for="useOTPRB" class="" i18n style="cursor: pointer;"
+                [ngClass]="{'font-weight-500': selectedField === 'otp'}">
                 Login with OTP
               </label>
 
@@ -30,7 +31,8 @@
             <div style="cursor: pointer;">
               <input type="radio" (click)="passwordOrOtp('password');" name="usePasswordOrOTP" id="usePasswordRB"
                 style="cursor: pointer;">&nbsp;
-              <label id="usePasswordLabel" for="usePasswordRB" class="" i18n style="cursor: pointer;">
+              <label id="usePasswordLabel" for="usePasswordRB" class="" i18n style="cursor: pointer;"
+                [ngClass]="{'font-weight-500': selectedField === 'password'}">
                 Login with Password
               </label>
             </div>
@@ -180,7 +182,7 @@
                     <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
                   </span>
                   <a class="ui fluid btn greenButton" href="https://wa.me/919632013414?text=Hi" target="_blank"
-                    id="WhatsApp-loginOTP" style="display: block;" i18n>Get Help on
+                    id="WhatsApp-loginOTP" style="display: block;margin-bottom: 25px;" i18n>Get Help on
                     WhatsApp?</a>
                 </div>
               </form>

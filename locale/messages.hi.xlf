@@ -5398,6 +5398,58 @@
           <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
+
+      <trans-unit id="c2f7479c5dde0f8e29ff667da15e7b0c55b1eebf" datatype="html">
+        <source> Check your Email/SMS for OTP!</source>
+        <target>ओटीपी के लिए अपना ईमेल/एसएमएस जांचें!</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">155</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e731d2ee52ec7851ec5f2cde9dd794f8dc3c9ee5" datatype="html">
+        <source>Invalid code should be 6 digits</source>
+        <target>अमान्य कोड 6 अंकों का होना चाहिए</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">162</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c78515a7401fffd2375f1495f811d01b783861a6" datatype="html">
+        <source>OTP Expires in </source>
+        <target>ओटीपी समाप्त हो रहा है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="62d9cf34f3f4a2204593c85f0222f0c050fa81f1" datatype="html">
+        <source>10 Minutes</source>
+        <target> १० मिनट </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">166</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f40951acd2d210277abf1ae59c3b61e3964f2276" datatype="html">
+        <source>Resend
+                    OTP</source>
+                    <target>ओटीपी पुनः भेजें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">175</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="bf9e5f14a8a178cfcb5bb83d1674229ee1f64f71" datatype="html">
+        <source>Get Help on
+                    WhatsApp?</source>
+        <target state="final">व्हाट्सएप पर सहायता प्राप्त करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">183</context>
+        </context-group>
+      </trans-unit>
+
     </body>
   </file>
 </xliff>
