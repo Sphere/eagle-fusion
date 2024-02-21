@@ -286,6 +286,8 @@ export class MobileScromAdapterService {
             // tslint:disable-next-line: no-console
             console.log('loaded data', loadDatas)
             this.store.setAll(loadDatas)
+          } else {
+            this.initzeroProgress()
           }
         }
       }
@@ -353,5 +355,39 @@ export class MobileScromAdapterService {
       payload: req,
     }
     return this.http.post(options.url, options.payload, { headers })
+  }
+
+  initzeroProgress() {
+
+    let req: any
+    req = {
+      request: {
+        userId: this.getProperty('userId') || '',
+        contents: [
+          {
+            contentId: this.getProperty('contentId'),
+            batchId: this.getProperty('batchId') || '',
+            courseId: this.getProperty('courseId') || '',
+            status: 1,
+            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+            progressdetails: null,
+            completionPercentage: 0
+          },
+        ],
+      },
+    }
+
+
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${this.getProperty('authorization')}`,
+      'X-authenticated-user-token': this.getProperty('userToken'),
+      'Content-Type': 'application/json',
+    })
+    const options = {
+      url: `${API_END_POINTS.PROGRESS_UPDATE}`,
+      payload: req,
+    }
+    return this.http.post(options.url, options.payload, { headers })
+
   }
 }
