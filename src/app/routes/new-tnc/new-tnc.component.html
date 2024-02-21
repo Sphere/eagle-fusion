@@ -12,11 +12,11 @@
       <span class="tick-text" i18n>By ticking the box below, you acknowledge that you have read and agree to the</span>
       <ul class="ul-class margin-top-m">
         <li>
-          <span class="link-text" (click)="showTncPage('terms')" i18n>Terms of use</span>
+          <span class="link-text" (click)="showTncPage('terms')" i18n>Terms of use and Privacy Policy</span>
         </li>
-        <li>
+        <!-- <li>
           <span class="link-text margin-top-m" (click)="showTncPage('privacy')" i18n>Privacy Policy</span>
-        </li>
+        </li> -->
       </ul>
       <div class="flex flex-middle margin-top-xs">
         <mat-checkbox class="tnc-checkbox" [checked]="tncAcceptedBtn" (change)="tncChecked();"></mat-checkbox>

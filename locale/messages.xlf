@@ -2608,22 +2608,6 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="6b9fdc222256e056dcfb76be755af80f329b4e7c" datatype="html">
-        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>Terms of use<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
-          <context context-type="linenumber">10</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="e076f031891a87de673f62bc15a20d5e5bbe9c0d" datatype="html">
-        <source><x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>T&amp;C Version :<x id="INTERPOLATION" equiv-text="{{
-            generalTnc?.version }}"/>
-          <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/component/tnc-renderer/tnc-renderer.component.html</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="af70f8cef71b8a9c5dba5131162636c75824cb64" datatype="html">
         <source>
       Data privacy has been upgraded.
@@ -3452,10 +3436,6 @@
           <context context-type="linenumber">10</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
-          <context context-type="linenumber">15</context>
-        </context-group>
-        <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-footer/mobile-footer.component.html</context>
           <context context-type="linenumber">32</context>
         </context-group>
@@ -3467,11 +3447,11 @@
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="b8d10cd55fae4e4ad4f87d28e18251694f159bf7" datatype="html">
-        <source>Privacy Policy</source>
+      <trans-unit id="c363205b8cf0e46f4ab16c44f591b7fa660c1c56" datatype="html">
+        <source>Terms of use and Privacy Policy</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8fe3a723a4e0ad529288e169b9e5cc754639100c" datatype="html">

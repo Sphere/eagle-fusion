@@ -5,14 +5,14 @@
     <h3 *ngIf="!generalTnc?.isAccepted && generalTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
       Terms and Conditions have been updated.
     </h3>
-    <div class="flex items-center justify-between">
+    <!-- <div class="flex items-center justify-between">
       <div style="display: flex;flex-direction: column;" *ngIf="generalTnc?.version">
-        <ng-container i18n><span style="margin-left: -12px !important">Terms of use</span></ng-container>
-        <ng-container i18n><span style="margin-left: -12px !important;margin-top: 10px;">T&C Version :{{
+        <ng-container i18n><span style="margin-left: -12px !important" i18n>Terms of use</span></ng-container>
+        <ng-container i18n><span style="margin-left: -12px !important;margin-top: 10px;" i18n>T&C Version :{{
             generalTnc?.version }}
           </span></ng-container>
       </div>
-    </div>
+    </div> -->
   </div>
   <article *ngIf="showTerms==='terms'" [innerHTML]="generalTnc?.content" class="text-justify"></article>
   <!-- <mat-action-row *ngIf="dpTnc === 'Data Privacy'">
