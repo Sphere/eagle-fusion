@@ -1,10 +1,10 @@
 <ng-container *ngIf="content">
   <ng-container *ngIf="isCollection">
     <div class="card-collection">
-      <img loading="lazy" class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
-        [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+      <!-- <img loading="lazy" class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
+        [wsUtilsDefaultThumbnail]="defaultThumbnail" /> -->
       <div class="width-expand">
-        <div class="text-truncate cursor-pointer 1">
+        <div class="ml-2 text-truncate cursor-pointer 1">
           <h2 class="margin-remove text-truncate card-title">{{ content?.name }}</h2>
           <div class="flex flex-between items-center">
             <!-- <span class="mat-body-strong">{{ resourceContentType }}</span> -->
@@ -154,14 +154,14 @@
         </ng-template>
       </div>
     </ng-container>
-    <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
+    <!-- <img *ngIf="resourceContentType !== 'Assessment'" class="card-thumbnail ws-mat-primary-lite-background"
       loading="lazy"
       src="{{content.posterImage ? content.posterImage : content.thumbnail? content.thumbnail : content.appIcon}}"
       alt="Thumbnail" name="thumbnail-banner-img" (click)="viewChildren = !viewChildren;"
-      [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+      [wsUtilsDefaultThumbnail]="defaultThumbnail" /> -->
     <div class="resource-contents" *ngIf="resourceContentType !== 'Assessment'">
       <!-- <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock"> -->
-      <div class="text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
+      <div class="ml-2 text-truncate cursor-pointer 1" (click)="viewChildren = !viewChildren">
         <ng-container *ngIf="content?.completionPercentage > 0; else elseRouterLock">
           <a [routerLink]="resourceLink.url" [queryParams]="resourceLink.queryParams"
             (click)="setConfirmDialogStatus(content?.completionPercentage)">
