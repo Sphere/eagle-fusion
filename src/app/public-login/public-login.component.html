@@ -19,14 +19,13 @@
             <div id="error-msg" class="ui text error hide">error</div>
           </div> -->
           <div class="field  type-container mw-100">
-            <div style="    margin-right: 25px;">
+            <div class="heading" style="margin-right: 35px;">
               <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
                 style="cursor: pointer;" checked="true">&nbsp;
               <label id="useOTPLabel" for="useOTPRB" class="" i18n style="cursor: pointer;"
                 [ngClass]="{'font-weight-500': selectedField === 'otp'}">
                 Login with OTP
               </label>
-
             </div>
             <div style="cursor: pointer;">
               <input type="radio" (click)="passwordOrOtp('password');" name="usePasswordOrOTP" id="usePasswordRB"
@@ -164,8 +163,8 @@
                     i18n>Invalid code should be 6 digits</mat-error>
                 </div>
                 <div class="field">
-                  <p style="text-align: right !important; margin-top: 10px;"><span i18n>OTP Expires in </span><span
-                      class="warnText" i18n>10 Minutes</span>
+                  <p style="text-align: right !important; margin-top: 10px;font-weight: 500;">
+                    <span i18n>OTP Expires in </span><span class="warnText" i18n>10 Minutes</span>
                   </p>
                 </div>
                 <div class="field">
@@ -206,7 +205,5 @@
         </ng-container>
       </div>
     </div>
-
   </div>
-
 </div>

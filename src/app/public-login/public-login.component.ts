@@ -166,6 +166,23 @@ export class PublicLoginComponent implements OnInit {
       this.signupService.loginAPI(req).subscribe(res => {
         console.log(res)
         this.openSnackbar(res.msg || res.message)
+        setTimeout(() => {
+          this.signupService.fetchStartUpDetails().then(async (result: any) => {
+            let res = await result
+            console.log(res, 'res')
+            if (res && res.status === 200) {
+              if (res.language) {
+                let lang = res.language
+                let obj = {
+                  lang: lang,
+                  res: res.language,
+                  line: 56
+                }
+                sessionStorage.setItem('lang123', JSON.stringify(obj))
+              }
+            }
+          })
+        }, 1000)
         if (localStorage.getItem('url_before_login')) {
           const url = localStorage.getItem('url_before_login') || ''
           location.href = url
@@ -221,7 +238,7 @@ export class PublicLoginComponent implements OnInit {
         //   window.location.href = '/page/home'
         // }
       }, err => {
-        console.log(err)
+        console.log(err.error.msg, err.error.message)
         this.openSnackbar(err.error.msg || err.error.message)
       })
     }
