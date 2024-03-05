@@ -39,7 +39,7 @@ import split from 'lodash/split'
 import { Plugins } from '@capacitor/core'
 //import { v4 as uuid } from 'uuid'
 const { App } = Plugins
-import { SignupService } from 'src/app/routes/signup/signup.service'
+//import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -114,7 +114,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
-    private signupService: SignupService,
+    //private signupService: SignupService,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
     private _renderer2: Renderer2,
