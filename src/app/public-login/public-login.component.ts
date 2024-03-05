@@ -35,7 +35,7 @@ export class PublicLoginComponent implements OnInit {
       // confirmPassword: new FormControl('', [Validators.required]),
     })
     this.OTPForm = this.spherFormBuilder.group({
-      OTPcode: new FormControl('', [Validators.required, Validators.pattern(/^\s*(\d{6}\s*,\s*)*\d{6}\s*$/)]),
+      OTPcode: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{4,6}$/)])
     })
   }
 
@@ -75,8 +75,15 @@ export class PublicLoginComponent implements OnInit {
         }
       }
       this.signupService.loginAPI(req).subscribe(res => {
-        console.log(res)
+        console.log(res.status)
         this.openSnackbar(res.msg || res.message)
+        setTimeout(() => {
+          this.signupService.fetchStartUpDetails().then(async (result: any) => {
+            let res = await result
+            console.log(res, 'res')
+            localStorage.setItem('lang131', JSON.stringify(res))
+          })
+        }, 500)
         if (localStorage.getItem('url_before_login')) {
           const url = localStorage.getItem('url_before_login') || ''
           location.href = url
@@ -178,11 +185,11 @@ export class PublicLoginComponent implements OnInit {
                   res: res.language,
                   line: 56
                 }
-                sessionStorage.setItem('lang123', JSON.stringify(obj))
+                localStorage.setItem('lang123', JSON.stringify(obj))
               }
             }
           })
-        }, 1000)
+        }, 500)
         if (localStorage.getItem('url_before_login')) {
           const url = localStorage.getItem('url_before_login') || ''
           location.href = url
