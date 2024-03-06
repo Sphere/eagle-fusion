@@ -33,7 +33,6 @@ export class BtnContentShareDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(window.location.href)
     let cUrl = window.location.href
     let id = cUrl.split('/')[5]
     let newUrl = `${document.baseURI}`
@@ -41,7 +40,7 @@ export class BtnContentShareDialogComponent implements OnInit {
       newUrl = newUrl.replace(/hi\//g, '')
     }
     let url = `public/toc/overview?courseId=${id}`
-    console.log(`${newUrl}${url}`)
+
     this.qrdata = `${newUrl}${url}`
 
     this.shareSvc.fetchConfigFile().subscribe((data: ICommon) => {
@@ -62,7 +61,6 @@ export class BtnContentShareDialogComponent implements OnInit {
   }
 
   saveAsImage(code: any) {
-    console.log(code)
     domToImage.toPng(code.qrcElement.nativeElement)
       .then((dataUrl: string) => {
         const link = document.createElement('a')

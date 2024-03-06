@@ -109,7 +109,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   }
   ngAfterViewInit() {
-    console.log('soood')
+
     this.scormAdapterService.contentId = this.htmlContent!.identifier
     this.scormAdapterService.htmlName = this.htmlContent!.name
     this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent!.parent : undefined
@@ -158,9 +158,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     }
   }
   async ngOnChanges() {
-    console.log('dei')
     if (this.htmlContent && this.htmlContent.identifier) {
-      console.log('soood')
+
       this.scormAdapterService.contentId = this.htmlContent!.identifier
       this.scormAdapterService.htmlName = this.htmlContent!.name
       this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent!.parent : undefined
@@ -282,7 +281,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent.parent : undefined
               console.log('scorm here')
               if (contentData && contentData.completionPercentage === 100) {
-                console.log('1000000000000')
                 let req: any
                 if (this.configSvc.userProfile) {
                   req = {
@@ -309,7 +307,6 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   })
                 }
               } else {
-                console.log('000000000000', contentData)
                 if (contentData === undefined) {
                   let req: any
                   if (this.configSvc.userProfile) {
@@ -330,7 +327,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                       },
                     }
                     console.log(req)
-                    console.log(`{hey}`, '333')
+                    console.log(`{}`, '333')
                     this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                       let res = await data
                       console.log(res)
@@ -342,7 +339,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                     })
                   }
                 } else {
-                  console.log('hey123')
+                  console.log('342')
                   this.scormAdapterService.loadDataV2()
                 }
               }
