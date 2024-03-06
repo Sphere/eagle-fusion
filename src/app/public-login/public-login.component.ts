@@ -42,7 +42,6 @@ export class PublicLoginComponent implements OnInit {
   ngOnInit() {
   }
   submitDetails(form: any) {
-    console.log(form)
     if (form.status === "VALID") {
       let phone = this.loginPwdForm.controls.emailOrMobile.value
       let type = ''
@@ -140,7 +139,7 @@ export class PublicLoginComponent implements OnInit {
     }
   }
   otpSubmit() {
-    console.log('otp', this.loginForm.controls.emailOrMobile.value, this.OTPForm.controls.OTPcode.value)
+
     if ((this.loginForm.status === 'VALID') && this.OTPForm.status === 'VALID') {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
@@ -203,7 +202,6 @@ export class PublicLoginComponent implements OnInit {
     }
   }
   otpClick(form: any) {
-    console.log(form)
     if (form.status === "VALID") {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
@@ -256,19 +254,16 @@ export class PublicLoginComponent implements OnInit {
     })
   }
   passwordOrOtp(text: any) {
-    console.log('p', text)
     this.selectedField = text
   }
-  checkMobileEmail(val: any) {
-    console.log(val)
+  checkMobileEmail() {
     this.loginForm.controls.emailOrMobile.setValidators([Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)])
   }
-  checkMobileEmail2(val: any) {
-    console.log(val)
+  checkMobileEmail2() {
     this.loginPwdForm.controls.emailOrMobile.setValidators([Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)])
   }
-  checkPassword(val: any) {
-    console.log(val)
+  checkPassword() {
+
     this.loginPwdForm.controls.password.setValidators([Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)])
   }
 

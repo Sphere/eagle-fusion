@@ -40,8 +40,8 @@
             <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
               <div class="form-group">
                 <input class="mt-8" class="form-control" id="emailOrMobile" name="emailOrMobile" i18n-placeholder
-                  (input)="checkMobileEmail2($event.target.value)" formControlName="emailOrMobile"
-                  placeholder="Phone Number/Email ID" type="text" autofocus="" autocomplete="off">
+                  (input)="checkMobileEmail2()" formControlName="emailOrMobile" placeholder="Phone Number/Email ID"
+                  type="text" autofocus="" autocomplete="off">
               </div>
               <div class="field">
                 <div>
@@ -51,7 +51,7 @@
                 </div>
                 <input placeholder="Enter Password" class=" mt-8" id="password" class="form-control" i18n-placeholder
                   formControlName="password" name="password" autocomplete="new-password" type="password"
-                  (input)="checkPassword($event.target.value)">
+                  (input)="checkPassword()">
                 <p i18n style="margin-top: 5px;">(Password must contain a minimum of 8 characters including
                   numerals, lower and upper case alphabets and special characters without space)</p>
                 <mat-error class="text-danger" i18n
@@ -106,7 +106,7 @@
               <div class="field">
                 <input tabindex="0" required="" id="emailOrMobile" i18n-placeholder placeholder="Phone Number/Email ID"
                   class="form-control" name="emailOrMobile" formControlName="emailOrMobile" type="text" autofocus=""
-                  autocomplete="off" (input)="checkMobileEmail($event.target.value)">
+                  autocomplete="off" (input)="checkMobileEmail()">
                 <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
                   i18n>Invalid email or number</mat-error>
               </div>
