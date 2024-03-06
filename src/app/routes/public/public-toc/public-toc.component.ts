@@ -45,6 +45,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
           }
         }, (err: any) => {
           console.log(err)
+          this.isLoading = false
           if (err.status === '404' || err.status === '419') {
             console.log(err.status, '50')
           }

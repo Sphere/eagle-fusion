@@ -302,7 +302,7 @@ export class RootComponent implements OnInit, AfterViewInit {
             location.href = '/public/login'
           }
           // setTimeout(() => {
-          //   this.signupService.fetchStartUpDetails().then(result => {
+          // this.signupService.fetchStartUpDetails().then(result => {
           //     if (result && result.status !== 200) {
           //       this.authSvc.logout()
           //       //this.router.navigate(['/public/login'])
@@ -377,6 +377,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           //   this.isNavBarRequired = false
           // }
           // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('/public/home')) {
+          this.showNavigation = true
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
           event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
           event.url.includes('/app/create-account')) {
@@ -390,7 +392,6 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
 
         else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
-          console.log('sss')
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
           this.mobileView = false
