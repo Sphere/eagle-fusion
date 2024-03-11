@@ -256,7 +256,7 @@ describe('PublicLoginComponent', () => {
 
   it('should call open with provided message, action, and config', () => {
     setTimeout(() => {
-      const mockSnackBar = TestBed.get(MatSnackBar)
+      //const mockSnackBar = TestBed.get(MatSnackBar)
       const message = 'Test message'
       const action = 'Retry'
       const config = { duration: 3000 }
