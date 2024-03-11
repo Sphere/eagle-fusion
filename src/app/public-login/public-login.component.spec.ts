@@ -37,7 +37,7 @@ class MockSignupService {
 describe('PublicLoginComponent', () => {
   let component: PublicLoginComponent
   let fixture: ComponentFixture<PublicLoginComponent>
-  let mockSnackBar: MockMatSnackBar
+  let mockSnackBar1: MockMatSnackBar
   //let service: SignupService
   //let http: HttpClient
   // Mocked API call simulating a successful response
@@ -61,7 +61,7 @@ describe('PublicLoginComponent', () => {
   })
 
   beforeEach(() => {
-    mockSnackBar = new MockMatSnackBar()
+    mockSnackBar1 = new MockMatSnackBar()
   })
 
   // it('should handle successful API response', async () => {
@@ -255,17 +255,17 @@ describe('PublicLoginComponent', () => {
   // })
 
   it('should call open with provided message, action, and config', () => {
-    setTimeout(() => {
-      //const mockSnackBar = TestBed.get(MatSnackBar)
-      const message = 'Test message'
-      const action = 'Retry'
-      const config = { duration: 3000 }
 
-      spyOn(mockSnackBar, 'open')
-      mockSnackBar.open(message, action, config)
+    //const mockSnackBar1 = TestBed.get(MatSnackBar)
+    const message = 'Test message'
+    const action = 'Retry'
+    const config = { duration: 3000 }
 
-      expect(mockSnackBar.open).toHaveBeenCalledWith(message, action, config)
-    })
+    spyOn(mockSnackBar1, 'open')
+    mockSnackBar1.open(message, action, config)
+
+    expect(mockSnackBar1.open).toHaveBeenCalledWith(message, action, config)
+
   })
 
   // it('should log the message, action, and config when open is called', () => {
