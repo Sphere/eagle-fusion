@@ -24,12 +24,12 @@ export class BtnContentShareDialogComponent implements OnInit {
   qrdata = ''
   sendStatus: 'INVALID_IDS_ALL' | 'SUCCESS' | 'INVALID_ID_SOME' | 'ANY' | 'NONE' = 'NONE'
   constructor(
-    private events: EventService,
-    private snackBar: MatSnackBar,
+    public events: EventService,
+    public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<BtnContentShareDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { content: NsContent.IContent },
-    private shareSvc: WidgetContentShareService,
-    private configSvc: ConfigurationsService,
+    public shareSvc: WidgetContentShareService,
+    public configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {
