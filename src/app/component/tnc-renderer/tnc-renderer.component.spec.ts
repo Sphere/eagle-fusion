@@ -36,6 +36,10 @@ describe('TncRendererComponent', () => {
     fixture.detectChanges()
   })
 
+  it('should create the component', () => {
+    expect(component).toBeTruthy()
+  })
+
   it('should emit the selected locale when changeTncLang is called', () => {
     const locale = 'en'
     spyOn(component.tncChange, 'emit')

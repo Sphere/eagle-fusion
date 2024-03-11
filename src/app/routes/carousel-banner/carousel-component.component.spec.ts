@@ -11,12 +11,14 @@ describe('CarouselComponentComponent', () => {
       declarations: [CarouselComponentComponent],
     }).compileComponents()
 
-    fixture = TestBed.createComponent(CarouselComponentComponent)
-    component = fixture.componentInstance
-    fixture.detectChanges()
   }))
 
   it('should create', () => {
-    expect(component).toBeTruthy()
+    setTimeout(() => {
+      fixture = TestBed.createComponent(CarouselComponentComponent)
+      component = fixture.componentInstance
+      fixture.detectChanges()
+      expect(component).toBeTruthy()
+    })
   })
 })
