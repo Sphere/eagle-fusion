@@ -31,7 +31,6 @@ export class TncRendererComponent implements OnInit, OnChanges {
   }
 
   ngOnInit() {
-    console.log("showTerms", this.showTerms)
     if (this.tncData) {
       const tncData = this.tncData
       this.assignGeneralAndDp()

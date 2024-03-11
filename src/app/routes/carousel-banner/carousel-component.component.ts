@@ -41,7 +41,6 @@ export class CarouselComponentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log("data caurosel", this.dataCarousel)
     this.startCarousel()
   }
 
