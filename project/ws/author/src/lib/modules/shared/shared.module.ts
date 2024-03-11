@@ -54,6 +54,8 @@ import { ShowHideToolTipDirective } from './directives/show-hide-tool-tip.direct
 import { StatusTrackComponent } from './components/status-track/status-track.component'
 import { PlayerNavigationWidgetComponent } from '../../../../../../../library/ws-widget/collection/src/lib/player-navigation-widget/player-navigation-widget.component'
 import { RouterModule } from '@angular/router'
+import { CourseRatingDialogComponent } from './components/course-rating/course-rating-dialog.component'
+
 @NgModule({
   declarations: [
     RelativeUrlPipe,
@@ -64,6 +66,7 @@ import { RouterModule } from '@angular/router'
     ErrorParserComponent,
     StatusDisplayComponent,
     DeleteDialogComponent,
+    CourseRatingDialogComponent,
     RestoreDialogComponent,
     UnpublishDialogComponent,
     ShowHideToolTipDirective,
@@ -149,6 +152,7 @@ import { RouterModule } from '@angular/router'
     PipeContentRouteModule,
     StatusDisplayComponent,
     DeleteDialogComponent,
+    CourseRatingDialogComponent,
     RestoreDialogComponent,
     UnpublishDialogComponent,
     ShowHideToolTipDirective,
@@ -170,6 +174,7 @@ import { RouterModule } from '@angular/router'
     ConfirmDialogComponent,
     ErrorParserComponent,
     DeleteDialogComponent,
+    CourseRatingDialogComponent,
     RestoreDialogComponent,
     UnpublishDialogComponent,
     StatusTrackComponent,

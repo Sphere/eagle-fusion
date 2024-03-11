@@ -98,7 +98,7 @@
           <span class="btn-tittle" i18n>Share</span>
         </div>
       </div>
-      <ng-container>
+      <div class="flex gap-1">
         <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
           (click)="enrollUser(batchData.content)" i18n>
           Start
@@ -111,7 +111,11 @@
           <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
             {{resumeData?"Resume":"Resume"}}
           </ng-container>
+
         </a>
+        <button id="start-btn" class="banner-btn cursor-pointer" (click)="giveRating(batchData.content)" i18n>
+          Rating
+        </button>
         <!-- #if cetification ininrollment api -->
         <!-- <ng-container *ngIf="issueCertificate === true; else download ">
           <button *ngIf="content?.issueCertification === true" (click)="sendApi()"
@@ -125,7 +129,7 @@
             <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
           </button>
         </ng-template> -->
-      </ng-container>
+      </div>
 
 
     </div>

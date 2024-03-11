@@ -29,6 +29,7 @@ import moment from 'moment'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
+import { CourseRatingDialogComponent } from '../../../../../../../author/src/lib/modules/shared/components/course-rating/course-rating-dialog.component'
 
 @Component({
   selector: 'ws-app-app-toc-desktop',
@@ -925,6 +926,29 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         count: 0,
       }
     }
+  }
+  giveRating(batchData: any) {
+    let userId = ''
+    if (batchData) {
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const data = {
+        request: {
+          userId,
+          courseId: batchData[0].courseId,
+          batchId: batchData[0].batchId,
+        },
+      }
+      this.dialog.open(CourseRatingDialogComponent, {
+        width: '300px',
+        height: '350px',
+        data: data,
+        disableClose: false,
+      })
+
+    }
+
   }
   enrollUser(batchData: any) {
     let userId = ''
