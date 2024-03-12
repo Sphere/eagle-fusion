@@ -22,7 +22,16 @@ module.exports = {
     '^@ws/app/src/lib/routes/search/services/search-serv.service$': '<rootDir>/project/ws/app/src/lib/routes/search/services/search-serv.service.ts',
     '^project/ws/viewer/src/lib/viewer-data.service': '<rootDir>/project/ws/viewer/src/lib/viewer-data.service.ts',
     '^project/ws/app/src/lib/routes/user-profile/services/user-profile.service': '<rootDir>/project/ws/app/src/lib/routes/user-profile/services/user-profile.service.ts',
-    '@ws-widget/resolver/src/public-api$': '<rootDir>/library/ws-widget/resolver/src/public-api.ts'
+    '@ws-widget/resolver/src/public-api$': '<rootDir>/library/ws-widget/resolver/src/public-api.ts',
+    '@ws/app/src/lib/routes/user-profile/models/NsUserProfile': '<rootDir>/project/ws/app/src/lib/routes/user-profile/models/NsUserProfile.ts',
+    '^library/ws-widget/utils/src/lib/services/auth-keycloak.service': '<rootDir>/library/ws-widget/utils/src/lib/services/auth-keycloak.service.ts',
+    '@ws-widget/utils/src/public-api': '<rootDir>/library/ws-widget/utils/src/public-api.ts',
+    '@ws/author/src/lib/routing/modules/home/home.module': '<rootDir>/project/ws/author/src/lib/routing/modules/home/home.module.ts',
+    '@ws/author/src/lib/modules/shared/shared.module': '<rootDir>/project/ws/author/src/lib/modules/shared/shared.module.ts',
+    '@ws/author/src/lib/modules/shared/services/condition-check.service': '<rootDir>/project/ws/author/src/lib/modules/shared/services/condition-check.service.ts',
+
+
+
 
   }
 }

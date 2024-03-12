@@ -44,14 +44,14 @@ export class WebDashboardComponent implements OnInit {
   userId: any
   currentSlideIndex = 0;
   currentIndex = 0;
-  private intervalId: any
+  public intervalId: any
   lang: any = 'en'
   constructor(
-    private router: Router,
+    public router: Router,
     public dialog: MatDialog,
-    private scrollService: ScrollService,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
+    public scrollService: ScrollService,
+    public configSvc: ConfigurationsService,
+    public userProfileSvc: UserProfileService,
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
