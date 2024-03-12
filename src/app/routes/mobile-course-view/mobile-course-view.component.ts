@@ -16,7 +16,7 @@ import * as _ from 'lodash'
 })
 export class MobileCourseViewComponent implements OnInit {
 
-  @Input() courseData: any
+  @Input() courseData: any = {};
   @Input() cnePoints: any = false
 
   @Input() enableConfig = false
@@ -30,11 +30,11 @@ export class MobileCourseViewComponent implements OnInit {
       certification: true,
     },
   }
-  constructor(private router: Router,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private signUpSvc: SignupService,
-    private titleService: Title
+  constructor(public router: Router,
+    public configSvc: ConfigurationsService,
+    public userProfileSvc: UserProfileService,
+    public signUpSvc: SignupService,
+    public titleService: Title
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
@@ -46,7 +46,6 @@ export class MobileCourseViewComponent implements OnInit {
     } else {
       this.isLoggedIn = false
     }
-    console.log("cnePoints", this.cnePoints)
     if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
       forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {
@@ -78,10 +77,8 @@ export class MobileCourseViewComponent implements OnInit {
   }
   redirectPage(course: any) {
     if (this.isLoggedIn) {
-      console.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log('else')
       this.login(course)
     }
   }
