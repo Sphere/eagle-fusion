@@ -48,12 +48,33 @@ describe('PublicLoginComponent', () => {
     jest.clearAllMocks()
   })
 
-
-
   it('should create the component', () => {
     expect(component).toBeTruthy()
   })
 
+  it('should mark login form as invalid when email is empty', () => {
+    const emailControl: any = component.loginForm.get('emailOrMobile')
+    emailControl.setValue('')
+    expect(emailControl.errors['required']).toBeTruthy()
+  })
+
+  it('should mark login form as invalid when email format is incorrect', () => {
+    const emailControl: any = component.loginForm.get('emailOrMobile')
+    emailControl.setValue('invalid_email')
+    expect(emailControl.errors['pattern']).toBeTruthy()
+  })
+
+  it('should mark login form as invalid when password is empty', () => {
+    const passwordControl: any = component.loginPwdForm.get('password')
+    passwordControl.setValue('')
+    expect(passwordControl.errors['required']).toBeTruthy()
+  })
+
+  it('should mark login form as invalid when password does not meet complexity requirements', () => {
+    const passwordControl: any = component.loginPwdForm.get('password')
+    passwordControl.setValue('weakPassword')
+    expect(passwordControl.errors['pattern']).toBeTruthy()
+  })
 
   it('should set email validation error on invalid email format', () => {
     const emailControl: any = component.loginForm.get('emailOrMobile')
