@@ -44,6 +44,7 @@ describe('WebDashboardComponent', () => {
         { provide: ScrollService, useValue: mockScrollService },
         { provide: ConfigurationsService, useValue: mockConfigService },
         { provide: UserProfileService, useValue: mockSignupService },
+        { provide: Router, useValue: router },
 
         { provide: MatSnackBar, useValue: jest.fn() }
       ],

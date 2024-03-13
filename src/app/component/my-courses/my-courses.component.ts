@@ -26,7 +26,7 @@ export class MyCoursesComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
-    private router: Router,
+    public router: Router,
   ) { }
 
   ngOnInit() {
@@ -39,61 +39,59 @@ export class MyCoursesComponent implements OnInit {
     }
 
     this.isLoading = true
-    this.contentSvc.fetchUserBatchList(userId).subscribe(
-      (courses: NsContent.ICourse[]) => {
-        console.log(courses)
+    if (this.contentSvc && typeof this.contentSvc.fetchUserBatchList === 'function') {
+      this.contentSvc.fetchUserBatchList(userId).subscribe(
+        (courses: NsContent.ICourse[]) => {
+          // console.log(courses)
 
-        courses.forEach((key) => {
-          if (key.completionPercentage !== 100) {
-            const myCourseObject = {
-              identifier: key.content.identifier,
-              appIcon: key.content.appIcon,
-              thumbnail: key.content.thumbnail,
-              name: key.content.name,
-              dateTime: key.dateTime,
-              completionPercentage: key.completionPercentage,
+          courses.forEach((key) => {
+            if (key.completionPercentage !== 100) {
+              const myCourseObject = {
+                identifier: key.content.identifier,
+                appIcon: key.content.appIcon,
+                thumbnail: key.content.thumbnail,
+                name: key.content.name,
+                dateTime: key.dateTime,
+                completionPercentage: key.completionPercentage,
+              }
+
+              this.startedCourse.push(myCourseObject)
+              this.isLoading = false
+            } else {
+              const completedCourseObject = {
+                identifier: key.content.identifier,
+                appIcon: key.content.appIcon,
+                thumbnail: key.content.thumbnail,
+                name: key.content.name,
+                dateTime: key.dateTime,
+                completionPercentage: key.completionPercentage,
+              }
+
+              this.completedCourse.push(completedCourseObject)
             }
+          })
 
-            this.startedCourse.push(myCourseObject)
-            this.isLoading = false
-          } else {
-            const completedCourseObject = {
-              identifier: key.content.identifier,
-              appIcon: key.content.appIcon,
-              thumbnail: key.content.thumbnail,
-              name: key.content.name,
-              dateTime: key.dateTime,
-              completionPercentage: key.completionPercentage,
-            }
+          // Sort courses based on dateTime in descending order
+          this.startedCourse.sort((a, b) => {
+            const dateTimeA = new Date(a.dateTime).getTime()
+            const dateTimeB = new Date(b.dateTime).getTime()
+            return dateTimeB - dateTimeA
+          })
 
-            this.completedCourse.push(completedCourseObject)
-          }
+          this.completedCourse.sort((a, b) => {
+            const dateTimeA = new Date(a.dateTime).getTime()
+            const dateTimeB = new Date(b.dateTime).getTime()
+            return dateTimeB - dateTimeA
+          })
         })
-
-        // Sort courses based on dateTime in descending order
-        this.startedCourse.sort((a, b) => {
-          const dateTimeA = new Date(a.dateTime).getTime()
-          const dateTimeB = new Date(b.dateTime).getTime()
-          return dateTimeB - dateTimeA
-        })
-
-        this.completedCourse.sort((a, b) => {
-          const dateTimeA = new Date(a.dateTime).getTime()
-          const dateTimeB = new Date(b.dateTime).getTime()
-          return dateTimeB - dateTimeA
-        })
-
-        console.log(this.startedCourse, 'c', this.startedCourse.length)
-        console.log(this.completedCourse, 'aa', this.completedCourse.length)
-
-      })
+    }
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
       const professionalDetails = this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails[0]
       if (professionalDetails) {
         const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
         this.contentSvc
           .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
-            console.log(res, 'res')
+            // console.log(res, 'res')
             this.coursesForYou = res
             this.isLoading = false
           }, err => {
