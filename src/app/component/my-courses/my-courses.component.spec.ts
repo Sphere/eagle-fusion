@@ -61,6 +61,9 @@ describe('PublicLoginComponent', () => {
     fixture = TestBed.createComponent(MyCoursesComponent)
     component = fixture.componentInstance
     fixture.detectChanges()
+    const courses = [{ completionPercentage: 50 }];
+    (mockWidgetContentService.fetchUserBatchList as jest.Mock).mockReturnValue(of(courses))
+
   })
   beforeEach(() => {
     jest.clearAllMocks()
@@ -74,6 +77,33 @@ describe('PublicLoginComponent', () => {
     expect(component.startedCourse.length).toBe(0)
     expect(component.completedCourse.length).toBe(0)
     expect(component.coursesForYou.length).toBe(0)
+  })
+
+  it('should handle no user batch list on init', () => {
+    (mockWidgetContentService.fetchUserBatchList as jest.Mock).mockReturnValue(of([]))
+    component.ngOnInit()
+    expect(mockWidgetContentService.fetchUserBatchList).toHaveBeenCalledWith('123')
+    expect(component.startedCourse.length).toBe(0)
+    expect(component.completedCourse.length).toBe(0)
+  })
+
+  it('should not trigger click event when element does not exist in the DOM', () => {
+    const existingElement = document.getElementById('mat-tab-label-0-1')
+    if (existingElement) {
+      existingElement.remove()
+    }
+    component.tabClick()
+    expect(document.getElementById('mat-tab-label-0-1')).toBeNull()
+  })
+
+
+  it('should handle user profile with empty professional details', () => {
+    mockConfigService.userProfile = { userId: '123' }; // Reset user profile
+    (mockConfigService.unMappedUser.profileDetails.profileReq.professionalDetails[0] as any).designation = '';
+    (mockWidgetContentService.fetchCourseRemommendations as jest.Mock).mockReturnValue(of([]))
+    component.ngOnInit()
+    expect(mockWidgetContentService.fetchCourseRemommendations).toHaveBeenCalled()
+    expect(component.coursesForYou).toEqual([])
   })
 
 })

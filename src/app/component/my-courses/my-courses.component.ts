@@ -39,52 +39,54 @@ export class MyCoursesComponent implements OnInit {
     }
 
     this.isLoading = true
-    if (this.contentSvc && typeof this.contentSvc.fetchUserBatchList === 'function') {
-      this.contentSvc.fetchUserBatchList(userId).subscribe(
-        (courses: NsContent.ICourse[]) => {
-          // console.log(courses)
+    this.contentSvc.fetchUserBatchList(userId).subscribe(
+      (courses: NsContent.ICourse[]) => {
+        // console.log(courses)
 
-          courses.forEach((key) => {
-            if (key.completionPercentage !== 100) {
-              const myCourseObject = {
-                identifier: key.content.identifier,
-                appIcon: key.content.appIcon,
-                thumbnail: key.content.thumbnail,
-                name: key.content.name,
-                dateTime: key.dateTime,
-                completionPercentage: key.completionPercentage,
-              }
-
-              this.startedCourse.push(myCourseObject)
-              this.isLoading = false
-            } else {
-              const completedCourseObject = {
-                identifier: key.content.identifier,
-                appIcon: key.content.appIcon,
-                thumbnail: key.content.thumbnail,
-                name: key.content.name,
-                dateTime: key.dateTime,
-                completionPercentage: key.completionPercentage,
-              }
-
-              this.completedCourse.push(completedCourseObject)
+        courses.forEach((key) => {
+          if (key.completionPercentage !== 100) {
+            const myCourseObject = {
+              identifier: key.content.identifier,
+              appIcon: key.content.appIcon,
+              thumbnail: key.content.thumbnail,
+              name: key.content.name,
+              dateTime: key.dateTime,
+              completionPercentage: key.completionPercentage,
             }
-          })
 
-          // Sort courses based on dateTime in descending order
-          this.startedCourse.sort((a, b) => {
-            const dateTimeA = new Date(a.dateTime).getTime()
-            const dateTimeB = new Date(b.dateTime).getTime()
-            return dateTimeB - dateTimeA
-          })
+            this.startedCourse.push(myCourseObject)
+            this.isLoading = false
+          } else {
+            const completedCourseObject = {
+              identifier: key.content.identifier,
+              appIcon: key.content.appIcon,
+              thumbnail: key.content.thumbnail,
+              name: key.content.name,
+              dateTime: key.dateTime,
+              completionPercentage: key.completionPercentage,
+            }
 
-          this.completedCourse.sort((a, b) => {
-            const dateTimeA = new Date(a.dateTime).getTime()
-            const dateTimeB = new Date(b.dateTime).getTime()
-            return dateTimeB - dateTimeA
-          })
+            this.completedCourse.push(completedCourseObject)
+          }
         })
-    }
+
+        // Sort courses based on dateTime in descending order
+        this.startedCourse.sort((a, b) => {
+          const dateTimeA = new Date(a.dateTime).getTime()
+          const dateTimeB = new Date(b.dateTime).getTime()
+          return dateTimeB - dateTimeA
+        })
+
+        this.completedCourse.sort((a, b) => {
+          const dateTimeA = new Date(a.dateTime).getTime()
+          const dateTimeB = new Date(b.dateTime).getTime()
+          return dateTimeB - dateTimeA
+        })
+
+        // console.log(this.startedCourse, 'c', this.startedCourse.length)
+        // console.log(this.completedCourse, 'aa', this.completedCourse.length)
+
+      })
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
       const professionalDetails = this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails[0]
       if (professionalDetails) {
@@ -107,12 +109,12 @@ export class MyCoursesComponent implements OnInit {
     }
   }
   tabClick() {
-    let ee = document.getElementById('mat-tab-label-0-1')
-    console.log(ee)
-    // @ts-ignore: Object is possibly 'null'.
-    document.getElementById('mat-tab-label-0-1').click()
-
+    const tabElement = document.getElementById('mat-tab-label-0-1')
+    if (tabElement) {
+      tabElement.click()
+    }
   }
+
 
   async navigateToToc(contentIdentifier: any) {
     sessionStorage.setItem('cURL', location.href)
@@ -128,7 +130,7 @@ export class MyCoursesComponent implements OnInit {
     // this.commonUtilService.removeLoader()
     if (this.configSvc.unMappedUser) {
       //this.commonUtilService.addLoader()
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+      if (result && result.profileDetails!.profileReq && result.profileDetails!.profileReq!.personalDetails!.dob) {
         location.href = `${url3}${url1}${url}`
       } else {
         if (localStorage.getItem('url_before_login')) {
