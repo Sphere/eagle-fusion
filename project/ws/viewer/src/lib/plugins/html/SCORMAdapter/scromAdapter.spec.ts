@@ -108,6 +108,10 @@ describe('SCORMAdapterService', () => {
     expect(service.getPercentage(postData)).toEqual(100)
   })
 
+  it('should get percentage 0 if status is failed properly', () => {
+    const postData = { 'cmi.core.lesson_status': 'failed' }
+    expect(service.getPercentage(postData)).toEqual(0)
+  })
   it('should get status properly', () => {
     const postData = { 'cmi.core.lesson_status': 'completed' }
     expect(service.getStatus(postData)).toEqual(2)
