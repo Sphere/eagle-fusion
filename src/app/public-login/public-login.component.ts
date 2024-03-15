@@ -16,8 +16,8 @@ export class PublicLoginComponent implements OnInit {
   userID = ''
   constructor(
     private spherFormBuilder: FormBuilder,
-    private signupService: SignupService,
-    private snackBar: MatSnackBar
+    public signupService: SignupService,
+    public snackBar: MatSnackBar
   ) {
     this.loginForm = this.spherFormBuilder.group({
       // firstName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
@@ -42,6 +42,7 @@ export class PublicLoginComponent implements OnInit {
   ngOnInit() {
   }
   submitDetails(form: any) {
+    console.log(form.status)
     if (form.status === "VALID") {
       let phone = this.loginPwdForm.controls.emailOrMobile.value
       let type = ''
@@ -56,7 +57,7 @@ export class PublicLoginComponent implements OnInit {
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
-        console.log(check, 'check')
+        console.log(check)
       }
       let req = {}
       if (type === 'email') {
@@ -73,6 +74,7 @@ export class PublicLoginComponent implements OnInit {
           "userPassword": this.loginPwdForm.controls.password.value
         }
       }
+      console.log(type, 'check')
       this.signupService.loginAPI(req).subscribe(res => {
         console.log(res.status)
         this.openSnackbar(res.msg || res.message)
@@ -93,9 +95,12 @@ export class PublicLoginComponent implements OnInit {
         console.log(err)
         this.openSnackbar(err.error.msg || err.error.error)
       })
+    } else {
+      console.log('alert')
     }
   }
-  resendOTP() {
+  resendOTP(form?: any) {
+    console.log(form.status)
     if ((this.loginForm.status === 'VALID')) {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
@@ -231,11 +236,13 @@ export class PublicLoginComponent implements OnInit {
           "userPhone": this.loginForm.controls.emailOrMobile.value
         }
       }
+      console.log(req, 'res', type)
       this.signupService.sendOTP(req).subscribe(res => {
         console.log(res)
         this.userID = res.userId
         this.openSnackbar(res.msg || res.message)
         this.otpPage = true
+        console.log(this.otpPage)
         // if (localStorage.getItem('url_before_login')) {
         //   const url = localStorage.getItem('url_before_login') || ''
         //   location.href = url
@@ -248,7 +255,7 @@ export class PublicLoginComponent implements OnInit {
       })
     }
   }
-  private openSnackbar(primaryMsg: string, duration: number = 3000) {
+  openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
