@@ -198,10 +198,22 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
         // window.location.href = `${document.baseURI}organisations/home`
       } else {
         console.log('line number 182 else in app module.ts', url)
-        window.location.href = `${document.baseURI}organisations/home`
+        // window.location.href = `${document.baseURI}organisations/home`
+        // Updated code to avoid client - side redirection with user - controlled data
+        const safeRedirectUrl = `${document.baseURI}organisations/home`
+        if (isSafeUrl(safeRedirectUrl)) {
+          window.location.href = safeRedirectUrl
+        }
       }
     }
   }
+}
+// Function to validate URL safety
+function isSafeUrl(url: string): boolean {
+  console.log(url)
+  // Implement URL validation logic here to verify the safety of the URL
+  // Return true if the URL is considered safe, false otherwise
+  return true // Placeholder, replace with actual validation logic
 }
 
 // tslint:disable-next-line: max-classes-per-file

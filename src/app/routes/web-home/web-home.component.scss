@@ -211,7 +211,6 @@
     margin: 0 5px;
     cursor: pointer;
     border: none;
-    border: none;
 }
 
 .round-button.active {
@@ -246,7 +245,7 @@
 
 .tutorials-text {
     /* Body */
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;

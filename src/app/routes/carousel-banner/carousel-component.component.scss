@@ -27,12 +27,12 @@
 
 
 .round-buttons {
-//   display: flex;
-//   // flex-direction: column;
-//   justify-content: center;
-//  // margin-top: 10px;
-//   gap: 5px;
-//   background: #469788;
+  //   display: flex;
+  //   // flex-direction: column;
+  //   justify-content: center;
+  //  // margin-top: 10px;
+  //   gap: 5px;
+  //   background: #469788;
 }
 
 .round-button {
@@ -63,7 +63,7 @@
 
 .tutorials-text {
   /* Body */
-  font-family: 'Roboto';
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -80,10 +80,10 @@
   height: 200px;
 }
 
-.yellow-bg{
-background-color: #D7AC5C;
+.yellow-bg {
+  background-color: #D7AC5C;
 }
 
-.green-bg{
-  background-color: #469788 ;
+.green-bg {
+  background-color: #469788;
 }
