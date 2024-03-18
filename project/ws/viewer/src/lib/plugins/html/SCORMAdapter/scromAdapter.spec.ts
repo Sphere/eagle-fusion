@@ -40,39 +40,7 @@ describe('SCORMAdapterService', () => {
     expect(service.parentName).toEqual('Parent Name')
   })
 
-  // it('should initialize Initialized status properly', () => {
-  //   service.LMSInitialize()
-  //   expect(service['_isInitialized']()).toBe(true)
-  // })
 
-  // it('should finish and clear data properly', () => {
-  //   service.LMSInitialize()
-  //   service.LMSFinish()
-  //   expect(service['_isInitialized']()).toBe(false)
-  // })
-
-  // it('should get value properly', () => {
-  //   service.LMSInitialize()
-  //   service.LMSSetValue('key', 'value')
-  //   expect(service.LMSGetValue('key')).toEqual('value')
-  // })
-
-  // it('should set value properly', () => {
-  //   service.LMSInitialize()
-  //   service.LMSSetValue('key', 'value')
-  //   expect(service.LMSGetValue('key')).toEqual('value')
-  // })
-
-  // it('should commit data properly', () => {
-  //   service.LMSInitialize()
-  //   service.LMSSetValue('key', 'value')
-  //   expect(service.LMSCommit()).toBe(true)
-  // })
-
-  // it('should get last error properly', () => {
-  //   service
-  //   expect(service.LMSGetLastError()).toEqual(404)
-  // })
 
   it('should get error string properly', () => {
     expect(service.LMSGetErrorString(404)).toEqual('')
@@ -82,21 +50,6 @@ describe('SCORMAdapterService', () => {
     expect(service.LMSGetDiagnostic(404)).toEqual('')
   })
 
-  // it('should handle error when not initialized', () => {
-  //   expect(service.LMSGetValue('key')).toEqual(false)
-  // })
-
-  // it('should handle error when setting value and not initialized', () => {
-  //   expect(service.LMSSetValue('key', 'value')).toEqual(false)
-  // })
-
-  // it('should handle error when committing and not initialized', () => {
-  //   expect(service.LMSCommit()).toEqual(false)
-  // })
-
-  // it('should handle error when finishing and not initialized', () => {
-  //   expect(service.LMSFinish()).toEqual(false)
-  // })
 
   it('should unsubscribe when destroyed', () => {
     service.ngOnDestroy()
