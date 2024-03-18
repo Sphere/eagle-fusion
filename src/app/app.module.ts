@@ -136,7 +136,7 @@ import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
 import { CarouselComponentComponent } from '../app/routes/carousel-banner/carousel-component.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
-import { PixelModule } from "ngx-multi-pixel";
+
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -324,7 +324,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PipeCountTransformModule,
     PipeHtmlTagRemovalModule,
     HorizontalScrollerModule,
-    PixelModule.forRoot({ enabled: true, pixelId: ["1495349214377708"] }),
+
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,

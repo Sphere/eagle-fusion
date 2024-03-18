@@ -21,7 +21,7 @@ import each from 'lodash/each'
 import toInteger from 'lodash/toInteger'
 
 import moment from 'moment'
-import { PixelService } from 'ngx-multi-pixel';
+
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -120,7 +120,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
     private discussiConfig: DiscussConfigResolve,
-    private pixel: PixelService
+
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
@@ -167,11 +167,17 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
         this.tocSvc.showDescription = data.pageData.data.showDescription || false
         this.tocConfig = data.pageData.data
+
+        try {
+
+          (window as any).fbq('track', 'VIEW_CONTENT', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName?"CNE":"Non CNE", value: data.content.data.cneName})
+        }
+        catch(e){0
+          console.log("fb pixel error")
+        }
         this.initData(data)
-        this.pixel.track("ViewContent", {
-          content_ids: [data.content.data.identifier] // Item SKUs
-        });
-      //  window.fbq('track', 'Purchase', { currency: "USD", value: 30.00 });
+
+
       })
     }
 
