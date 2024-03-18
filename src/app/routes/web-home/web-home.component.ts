@@ -38,7 +38,7 @@ export class WebHomeComponent implements OnInit {
 
   ngOnInit() {
     this.lang = this.configSvc!.unMappedUser
-      ? (this.configSvc.unMappedUser.profileDetails!.preferences!.language || 'en')
+      ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
       : location.href.includes('/hi/') ? 'hi' : 'en'
 
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {

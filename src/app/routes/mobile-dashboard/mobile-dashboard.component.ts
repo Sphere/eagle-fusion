@@ -83,8 +83,8 @@ export class MobileDashboardComponent implements OnInit {
     this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
   }
   ngOnInit() {
-    this.lang = this.configSvc.unMappedUser!.profileDetails!.preferences!.language
-      ? this.configSvc.unMappedUser.profileDetails.preferences.language
+    this.lang = this.configSvc!.unMappedUser
+      ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
       : location.href.includes('/hi/') ? 'hi' : 'en'
 
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
