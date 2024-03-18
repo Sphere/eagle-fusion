@@ -19,7 +19,7 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 // import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
-import { FormControl, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 // import * as dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
@@ -940,13 +940,54 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           batchId: batchData[0].batchId,
         },
       }
-      this.dialog.open(CourseRatingDialogComponent, {
+      const dialogRef = this.dialog.open(CourseRatingDialogComponent, {
         width: '300px',
         height: '350px',
         data: data,
         disableClose: false,
       })
 
+      dialogRef.afterClosed().subscribe((data: { ratingsForm: FormGroup, rating: number }) => {
+        this.submitRating(data.ratingsForm, data.rating)
+      })
+    }
+
+  }
+  submitRating(ratingsForm: any, rating: number) {
+    console.log("rating submission", ratingsForm, rating)
+    let userId = ''
+    if (ratingsForm) {
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req = {
+        request: {
+          activityId: ratingsForm[0].courseId,
+          userId,
+          activityType: "Course",
+          rating: rating,
+          review: "not nice course",
+          recommended: "no",
+
+        },
+      }
+      this.contentSvc.submitCourseRating(req).then((data: any) => {
+
+        if (data && data.result && data.result.response === 'SUCCESS') {
+
+          this.openSnackbar('Rating Submitted Successfully!')
+          this.disableEnrollBtn = false
+
+
+        } else {
+          this.openSnackbar('Something went wrong, please try again later!')
+          this.disableEnrollBtn = false
+        }
+      })
+        .catch((err: any) => {
+
+          this.openSnackbar(err.error.params.errmsg)
+        })
     }
 
   }

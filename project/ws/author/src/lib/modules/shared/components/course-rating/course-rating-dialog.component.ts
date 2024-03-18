@@ -39,65 +39,10 @@ export class CourseRatingDialogComponent implements OnInit {
     this.selectedRating = rating
   }
   submitData() {
-
+    if (
+      this.ratingsForm.controls.review.value && this.selectedRating) {
+      this.dialogRef.close({ ratingsForm: this.ratingsForm, rating: this.selectedRating })
+    }
   }
 
-  // deleteContent() {
-  //   this.onAction = true
-  //   const observable =
-  //     this.accessService.getCategory(this.contentMeta) === 'Knowledge Board'
-  //       ? this.apiService.delete(
-  //         `${CONTENT_DELETE}/${this.contentMeta.identifier}/kb${this.accessService.orgRootOrgAsQuery}`,
-  //       )
-  //       : this.apiService.post(`${CONTENT_DELETE}${this.accessService.orgRootOrgAsQuery}`, {
-  //         identifier: this.contentMeta.identifier,
-  //         author: this.accessService.userId,
-  //         isAdmin: this.accessService.hasRole(['editor', 'admin']),
-  //         actorName: this.accessService.userName,
-  //         action: 'deleted',
-  //         comment: this.commentsForm.value.comments,
-  //       })
-  //   observable.pipe(
-  //     mergeMap(() =>
-  //       this.notificationSvc
-  //         .deleteContent(
-  //           this.contentMeta as any,
-  //           this.commentsForm.value.comments,
-  //         )
-  //         .pipe(
-  //           catchError(() => {
-  //             return of({} as any)
-  //           }),
-  //         ),
-  //     ),
-  //   ).subscribe(
-  //     () => {
-  //       this.dialogRef.close(true)
-  //       this.snackBar.openFromComponent(NotificationComponent, {
-  //         data: {
-  //           type: Notify.SUCCESS,
-  //         },
-  //         duration: NOTIFICATION_TIME * 1000,
-  //       })
-  //     },
-  //     error => {
-  //       this.onAction = false
-  //       if (error.status === 409) {
-  //         this.dialog.open(ErrorParserComponent, {
-  //           width: this.isMobile ? '90vw' : '600px',
-  //           height: 'auto',
-  //           data: {
-  //             errorFromBackendData: error.error,
-  //           },
-  //         })
-  //       }
-  //       this.snackBar.openFromComponent(NotificationComponent, {
-  //         data: {
-  //           type: Notify.CONTENT_FAIL,
-  //         },
-  //         duration: NOTIFICATION_TIME * 1000,
-  //       })
-  //     },
-  //   )
-  // }
 }
