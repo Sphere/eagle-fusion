@@ -21,6 +21,7 @@ import each from 'lodash/each'
 import toInteger from 'lodash/toInteger'
 
 import moment from 'moment'
+import { PixelService } from 'ngx-multi-pixel';
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -118,7 +119,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
-    private discussiConfig: DiscussConfigResolve
+    private discussiConfig: DiscussConfigResolve,
+    private pixel: PixelService
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
@@ -166,6 +168,10 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         this.tocSvc.showDescription = data.pageData.data.showDescription || false
         this.tocConfig = data.pageData.data
         this.initData(data)
+        this.pixel.track("ViewContent", {
+          content_ids: [data.content.data.identifier] // Item SKUs
+        });
+      //  window.fbq('track', 'Purchase', { currency: "USD", value: 30.00 });
       })
     }
 
@@ -182,6 +188,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         console.log('error on batchSubscription')
       },
     )
+
   }
 
   showContents() {
