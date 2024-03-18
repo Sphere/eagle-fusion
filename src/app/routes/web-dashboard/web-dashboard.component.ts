@@ -59,7 +59,9 @@ export class WebDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lang = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    this.lang = this.configSvc.unMappedUser!.profileDetails!.preferences!.language
+      ? this.configSvc.unMappedUser.profileDetails.preferences.language
+      : location.href.includes('/hi/') ? 'hi' : 'en'
 
     this.startCarousel()
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {

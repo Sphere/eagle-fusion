@@ -26,9 +26,8 @@
     </div>
     <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-
-        <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content"
-          [class.active]="i === currentSlideIndex">
+        <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
+          class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
           <img class="banner-image" [src]="data.img" alt="Carousel Image" loading="lazy">
         </div>
       </div>
