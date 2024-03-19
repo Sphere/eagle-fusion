@@ -1,6 +1,7 @@
 <div>
   <div>
-    <img class="cursor-pointer" src="../../../../fusion-assets/icons/close-vector.png" (click)="closeDialog()">
+    <img alt="logo" class="cursor-pointer" src="../../../../fusion-assets/icons/close-vector.png"
+      (click)="closeDialog()">
   </div>
   <p class="profile-title" i18n>Profile Picture</p>
   <p clas="pick-text" i18n>Pick from the following</p>
@@ -8,7 +9,7 @@
   <div class="py-2 pl-0 row">
     <div *ngFor="let img of imgJson">
       <div class="col-xs-4 p-2 img" (click)="selectProfile(img.url)">
-        <img [src]="img.url">
+        <img alt="logo" [src]="img.url">
       </div>
     </div>
   </div>
@@ -20,7 +21,7 @@
       <div class="camera-bg p-2" (click)="uploadProfilePic.click(); $event.stopPropagation()"
         (keydown.enter)="uploadProfilePic.click(); $event.stopPropagation()">
 
-        <img class="camer-icon cursor-pointer" src="../../../../fusion-assets/images/camera.png">
+        <img alt="logo" class="camer-icon cursor-pointer" src="../../../../fusion-assets/images/camera.png">
 
         <input id="uploadProfile" name="uploadProfileName" type="file" #uploadProfilePic class="hidden"
           (change)="uploadProfileImg($event.target.files[0]); uploadProfilePic.value = null" style="display: none;"

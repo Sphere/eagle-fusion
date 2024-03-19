@@ -57,7 +57,7 @@
                 </div>
 
                 <span class="content-top" *ngIf="node?.progress * 100 === 100; else elseChapterPercentage">
-                  <img [src]="greenTickIcon" class="image" />
+                  <img alt="logo" [src]="greenTickIcon" class="image" />
 
                 </span>
                 <ng-template #elseChapterPercentage>
@@ -177,14 +177,14 @@
           <ng-container *ngIf="content.type">
             <div [ngSwitch]="content.type | lowercase">
               <div *ngSwitchCase="'pdf'">
-                <img src=".\fusion-assets\icons\pdf-icon.png">
+                <img alt="logo" src=".\fusion-assets\icons\pdf-icon.png">
                 <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
                   (click)="downloadResource(content)" mat-icon-button matTooltip="Download Resource" i18n-matTooltip>
                   <mat-icon matTooltip="Download Resource">get_app</mat-icon>
                 </button>
               </div>
               <div *ngSwitchCase="'lecture'">
-                <img src=".\fusion-assets\icons\pdf-icon.png">
+                <img alt="logo" src=".\fusion-assets\icons\pdf-icon.png">
                 <button title="Download Resource" matTooltip="Download Resource" aria-label="Download Resource"
                   *ngIf="content.showDownloadBtn=='Yes'" (click)="downloadResource(content)" mat-icon-button
                   i18n-matTooltip>
@@ -192,17 +192,17 @@
                 </button>
               </div>
               <div *ngSwitchCase="'video'">
-                <img src=".\fusion-assets\icons\video-icon.png">
+                <img alt="logo" src=".\fusion-assets\icons\video-icon.png">
                 <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
                   (click)="downloadResource(content)" mat-icon-button matTooltip="Download Resource" i18n-matTooltip>
                   <mat-icon matTooltip="Download Resource">get_app</mat-icon>
                 </button>
               </div>
               <div *ngSwitchCase="'scorm'">
-                <img src=".\fusion-assets\icons\video-icon.png">
+                <img alt="logo" src=".\fusion-assets\icons\video-icon.png">
               </div>
               <div *ngSwitchCase="'link'">
-                <img src=".\fusion-assets\icons\link-icon.png">
+                <img alt="logo" src=".\fusion-assets\icons\link-icon.png">
               </div>
               <div *ngSwitchDefault>{{content.type}}</div>
             </div>
@@ -234,7 +234,7 @@
             </ng-template>
             <ng-template #elseResourseLock>
               <ng-container *ngIf="content.disabledNode">
-                <img src=".\fusion-assets\icons\lock.png">
+                <img alt="logo" src=".\fusion-assets\icons\lock.png">
               </ng-container>
             </ng-template>
           </div>

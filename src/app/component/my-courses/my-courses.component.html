@@ -6,7 +6,7 @@
       <div class="resource-container" *ngFor="let data of startedCourse; let last = last"
         [ngClass]="{'last-child1': last}">
         <div class="mr-2 position-relative">
-          <img alt="thumbnail" class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
+          <img alt="thumbnail" class="card-thumbnail ws-mat-primary-lite-background"
             [src]="data.thumbnail || data.appIcon">
           <ng-container>
             <div class="video-circle flex items-center justify-center" (click)="navigateToToc(data.identifier)">
@@ -97,7 +97,7 @@
                     </div>
                     <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
                       <div class="competency-card flex m-3">
-                        <img alt="image" class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
+                        <img alt="logo" class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
                         <div>
                           <span>{{cometencyData[0]?.name}}, </span>
                           <ng-container *ngFor="let competency of cometencyData; let last = last;">
@@ -174,7 +174,7 @@
       <div class="resource-container" *ngFor="let data of completedCourse; let last = last"
         [ngClass]="{'last-child3': last}">
         <div class="mr-2 position-relative">
-          <img alt="thumbnail" class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
+          <img alt="thumbnail" class="card-thumbnail ws-mat-primary-lite-background"
             [src]="data.thumbnail || data.appIcon">
           <ng-container>
             <div class="video-circle flex items-center justify-center" (click)="navigateToToc(data.identifier)">

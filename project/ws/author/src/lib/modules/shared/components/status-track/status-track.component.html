@@ -1,28 +1,14 @@
 <div mat-dialog-title class="relative">
-  <h2 mat-dialog-title >Action History</h2>
-  <button
-
-    [matTooltip]="'Close'"
-    *ngIf="isDialog"
-    mat-button
-    class="close-icon"
-    mat-dialog-close
-  >
+  <h2 mat-dialog-title>Action History</h2>
+  <button [matTooltip]="'Close'" *ngIf="isDialog" mat-button class="close-icon" mat-dialog-close>
     <mat-icon>close</mat-icon>
   </button>
 </div>
 <mat-dialog-content>
   <div class="progress" *ngIf="workFlow.length">
-    <div
-      class="progress-step"
-      [class.active]="state.isActive"
-      [class.complete]="state.isCompleted"
-      *ngFor="let state of workFlow; let i = index"
-    >
-      <ws-auth-status-display
-        [needStyle]="false"
-        [status]="state.processName"
-      ></ws-auth-status-display>
+    <div class="progress-step" [class.active]="state.isActive" [class.complete]="state.isCompleted"
+      *ngFor="let state of workFlow; let i = index">
+      <ws-auth-status-display [needStyle]="false" [status]="state.processName"></ws-auth-status-display>
       <div class="info" *ngIf="state.isCompleted && state.name">
         - {{ state.name }} <br />
         on {{ state.date | date }}
@@ -33,11 +19,7 @@
       </div>
     </div>
   </div>
-  <div
-    *ngIf="isClient1"
-    (click)="showModal = true"
-    class="flex w-full justify-end ws-mat-primary-text my-4 pointer"
-  >
+  <div *ngIf="isClient1" (click)="showModal = true" class="flex w-full justify-end ws-mat-primary-text my-4 pointer">
     <span class="cursor-pointer">Complete Flow</span>
   </div>
   <div [ngClass]="{ 'my-4': !isClient1 }" class="custom-height custom-scroll">
@@ -47,22 +29,20 @@
         <div class="w-full pb-2 text-base">
           <span class="circle pr-2"></span>
           <span>
-            <ng-container *ngIf="comment.action === 'approved'" >Approved</ng-container>
-            <ng-container *ngIf="comment.action === 'rejected'" >Rejected</ng-container>
-            <ng-container *ngIf="comment.action === 'deleted'" >Deleted</ng-container>
-            <ng-container *ngIf="comment.action === 'submitted'" >Submitted</ng-container>
-            <ng-container *ngIf="comment.action === 'retrieved'" >Moved to Draft</ng-container>
-            <ng-container *ngIf="comment.action === 'expired'" >Expired</ng-container>
-            <ng-container *ngIf="comment.action === 'markedForDeletion'"
-              >Marked For Deletion</ng-container
-            >
-            <ng-container *ngIf="comment.action === 'unPublished'" >Unpublished</ng-container>
-            <ng-container *ngIf="comment.action === 'restored'" >Moved to Draft</ng-container>
-            <ng-container *ngIf="comment.action === 'pulledBack'" >Moved to Draft</ng-container>
+            <ng-container *ngIf="comment.action === 'approved'">Approved</ng-container>
+            <ng-container *ngIf="comment.action === 'rejected'">Rejected</ng-container>
+            <ng-container *ngIf="comment.action === 'deleted'">Deleted</ng-container>
+            <ng-container *ngIf="comment.action === 'submitted'">Submitted</ng-container>
+            <ng-container *ngIf="comment.action === 'retrieved'">Moved to Draft</ng-container>
+            <ng-container *ngIf="comment.action === 'expired'">Expired</ng-container>
+            <ng-container *ngIf="comment.action === 'markedForDeletion'">Marked For Deletion</ng-container>
+            <ng-container *ngIf="comment.action === 'unPublished'">Unpublished</ng-container>
+            <ng-container *ngIf="comment.action === 'restored'">Moved to Draft</ng-container>
+            <ng-container *ngIf="comment.action === 'pulledBack'">Moved to Draft</ng-container>
           </span>
-          <span > by </span>
+          <span> by </span>
           <span>{{ comment.name || 'System' }}</span>
-          <span > on </span>
+          <span> on </span>
           <span>{{ comment.date | date }}</span>
         </div>
         <div class="pl-5">
@@ -70,7 +50,7 @@
         </div>
       </mat-card>
     </ng-container>
-    <ng-container *ngIf="!workFlowLog.length" >
+    <ng-container *ngIf="!workFlowLog.length">
       <div class="ws-mat-warn-text pt-4">
         No Logs found.
       </div>
@@ -80,5 +60,5 @@
 
 <div class="custom-modal" [class.showModal]="showModal">
   <span (click)="showModal = false" class="modal-close cursor-pointer">&times;</span>
-  <img src="/assets/images/authoring/client1.png" class="modal-image" />
+  <img alt="logo" src="/assets/images/authoring/client1.png" class="modal-image" />
 </div>

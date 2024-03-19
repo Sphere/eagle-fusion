@@ -102,14 +102,7 @@ export class WebDashboardComponent implements OnInit {
     this.currentSlideIndex = (this.currentSlideIndex - 1 + this.dataCarousel.length) % this.dataCarousel.length
   }
 
-  goToSlide(index: number): void {
-    this.currentIndex = index
-    this.clearInterval() // Stop automatic sliding when manually navigating
-    setTimeout(() => {
-      this.currentSlideIndex = index // Set the current slide index manually after a short delay
-    }, 0)
-    console.log('Navigating to slide:', index)
-  }
+
   scrollToHowSphereWorks(value: string) {
     this.scrollService.scrollToDivEvent.emit(value)
   }

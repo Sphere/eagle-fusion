@@ -3,8 +3,8 @@
     <form (submit)="updateQuery(queryControl.value)">
       <mat-form-field appearance="none" class="autocomplete-form" color="primary" [floatLabel]="'never'">
         <input type="search" id="search-field" #searchInput class="ml-2 search-placeholder"
-          i18n-placeholder="search content" placeholder="What do you want to learn today ?" i18-aria-label aria-label="Query" matInput
-          [formControl]="queryControl" [matAutocomplete]="auto" accesskey="F" />
+          i18n-placeholder="search content" placeholder="What do you want to learn today ?" i18-aria-label
+          aria-label="Query" matInput [formControl]="queryControl" [matAutocomplete]="auto" accesskey="F" />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
           (optionSelected)="updateQuery($event.option.value)">
           <mat-option *ngIf="queryControl.value" [value]="queryControl.value">{{ queryControl.value }}
@@ -31,9 +31,9 @@
       <button mat-menu-item (click)="searchLanguage(lang)">
         <span class="flex items-center w-full">
           <span class="mr-2 flex items-center">
-            <img *ngIf="lang.split(',').length > 1" [ngStyle]="{ height: '17px' ,width :'17px'}"
+            <img alt="logo" *ngIf="lang.split(',').length > 1" [ngStyle]="{ height: '17px' ,width :'17px'}"
               src="/assets/common/flags/pref.png">
-            <img *ngIf="lang.split(',').length === 1" [ngStyle]="{
+            <img alt="logo" *ngIf="lang.split(',').length === 1" [ngStyle]="{
             height: lang === 'all' ? '17px': '14px',
              width: lang === 'all' ? '17px': '20px'
           }" src="/assets/common/flags/{{lang}}.png">
