@@ -214,14 +214,24 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
   getStarImage(index: number): string {
-    if (index + 1 <= this.averageRating) {
-      return '/fusion-assets/icons/toc_star.png'
-    } else if (index + 0.5 === this.averageRating) {
-      return '/fusion-assets/icons/Half_star1.svg'
+    const fullStarUrl = '/fusion-assets/icons/toc_star.png'
+    const halfStarUrl = '/fusion-assets/icons/Half_star1.svg'
+    const emptyStarUrl = '/fusion-assets/icons/empty_star.png'
+    console.log("index", index, this.averageRating)
+
+    const decimalPart = this.averageRating - Math.floor(this.averageRating) // Calculate the decimal part of the average rating
+
+    if (index + 1 <= Math.floor(this.averageRating)) {
+      return fullStarUrl // Full star
+    } else if (decimalPart >= 0.1 && decimalPart <= 0.9 && index === Math.floor(this.averageRating)) {
+      return halfStarUrl // Half star
     } else {
-      return '/fusion-assets/icons/Half_star1.svg'
+      return emptyStarUrl // Empty star
     }
   }
+
+
+
   setConfirmDialogStatus(percentage: any) {
     this.contentSvc.showConformation = percentage
   }
