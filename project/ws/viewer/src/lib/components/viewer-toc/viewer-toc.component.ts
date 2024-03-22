@@ -668,11 +668,16 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               this.playerStateService.trigger$.complete()
             }
           } else if (this.contentSvc.showConformation) {
+            const data = {
+              courseId: this.collectionId,
+            }
+            console.log("data", this.collectionId, data)
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              width: '542px',
+              width: '300px',
+              height: '405px',
               panelClass: 'overview-modal',
               disableClose: true,
-              data: 'Congratulations!, you have completed the course',
+              data: { request: data, message: 'Congratulations!, you have completed the course' },
             })
             confirmdialog.afterClosed().subscribe((res: any) => {
               if (res && res.event === 'CONFIRMED') {
@@ -698,11 +703,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.playerStateService.isResourceCompleted()) {
           if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
             && this.contentSvc.showConformation) {
+            const data = {
+              courseId: this.collectionId,
+            }
+            console.log("data", this.collectionId, data)
+
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              width: '542px',
+              width: '300px',
+              height: '405px',
               panelClass: 'overview-modal',
               disableClose: true,
-              data: 'Congratulations!, you have completed the course',
+              data: { request: data, message: 'Congratulations!, you have completed the course' },
             })
             confirmdialog.afterClosed().subscribe((res: any) => {
               if (res && res.event === 'CONFIRMED') {

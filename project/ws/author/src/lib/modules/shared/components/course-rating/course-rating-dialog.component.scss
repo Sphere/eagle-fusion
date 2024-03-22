@@ -25,14 +25,11 @@
   padding: 0px !important;
 }
 .star-rating {
-  gap: 5px;
-  display: flex !important;
-  // width: 40px;
-  height: 42px;
-  color: #D9D9D9 !important;
-  justify-self: center;
-  // text-align: center;
-      // display: inline-block;
+ gap: 2px;
+    display: flex !important;
+    height: 42px;
+    color: #D9D9D9 !important;
+    justify-content: center !important;
     }
     .star {
       cursor: pointer;

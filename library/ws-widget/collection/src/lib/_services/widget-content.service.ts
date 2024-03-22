@@ -35,6 +35,8 @@ const API_END_POINTS = {
   COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
   ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
   COURSE_RATING: `apis/protected/v8/ratings/upsert`,
+  READ_COURSE_RATING: `apis/protected/v8/ratings/v2/read`,
+  READ_COURSE_RATING_SUMMARY: `apis/protected/v8/ratings/summary`,
   GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
   LOGIN_USER: `/apis/public/v8/emailMobile/auth`,
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
@@ -193,6 +195,16 @@ export class WidgetContentService {
   submitCourseRating(req: any) {
     return this.http
       .post(API_END_POINTS.COURSE_RATING, req)
+      .toPromise()
+  }
+  readCourseRating(req: any) {
+    return this.http
+      .post(API_END_POINTS.READ_COURSE_RATING, req)
+      .toPromise()
+  }
+  readCourseRatingSummary(req: any) {
+    return this.http
+      .get(`${API_END_POINTS.READ_COURSE_RATING_SUMMARY}?courseId=${req.activityId}`)
       .toPromise()
   }
   fetchContentLikes(contentIds: { content_id: string[] }) {

@@ -19,7 +19,7 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 // import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { FormControl, Validators } from '@angular/forms'
 // import * as dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
@@ -29,7 +29,7 @@ import moment from 'moment'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
-import { CourseRatingDialogComponent } from '../../../../../../../author/src/lib/modules/shared/components/course-rating/course-rating-dialog.component'
+// import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 
 @Component({
   selector: 'ws-app-app-toc-desktop',
@@ -58,6 +58,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   validPaths = new Set(['overview', 'contents',
     // 'analytics'
   ])
+  averageRating: any = ''
+  totalRatings: any = ''
   routerParamSubscription: Subscription | null = null
   routeSubscription: Subscription | null = null
   firstResourceLink: { url: string; queryParams: { [key: string]: any } } | null = null
@@ -98,7 +100,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   enrolledCourse: any
   lastCourseID: any
   certificateMsg?: any
-
+  stars: number[] = [1, 2, 3, 4, 5];
   constructor(
     private sanitizer: DomSanitizer,
     private router: Router,
@@ -134,6 +136,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.enrollApi()
     console.log(this.resumeData, this.content)
     if (this.content) {
+      this.readCourseRatingSummary()
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
@@ -210,7 +213,15 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       // }
     }
   }
-
+  getStarImage(index: number): string {
+    if (index + 1 <= this.averageRating) {
+      return '/fusion-assets/icons/toc_star.png'
+    } else if (index + 0.5 === this.averageRating) {
+      return '/fusion-assets/icons/Half_star1.svg'
+    } else {
+      return '/fusion-assets/icons/Half_star1.svg'
+    }
+  }
   setConfirmDialogStatus(percentage: any) {
     this.contentSvc.showConformation = percentage
   }
@@ -927,56 +938,48 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
   }
-  giveRating(batchData: any) {
+  // giveRating(batchData: any) {
+  //   if (batchData) {
+  //     const data = {
+  //       courseId: batchData[0].courseId,
+  //     }
+  //     const dialogRef = this.dialog.open(ConfirmmodalComponent, {
+  //       width: '300px',
+  //       height: '400px',
+  //       data: { request: data, message: 'Congratulations!, you have completed the course' },
+  //       disableClose: false,
+  //     })
+
+  //     dialogRef.afterClosed().subscribe((data: { ratingsForm: FormGroup, rating: number }) => {
+  //       console.log("data: ", data)
+  //     })
+  //   }
+
+  // }
+  readCourseRating(data: any) {
+    console.log("read rating", data)
     let userId = ''
-    if (batchData) {
+    if (data) {
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
       }
-      const data = {
-        request: {
-          userId,
-          courseId: batchData[0].courseId,
-          batchId: batchData[0].batchId,
-        },
+      let req
+      if (this.content) {
+        req = {
+          request: {
+            userId,
+            activityId: data.courseId,
+            activityType: "Course",
+          },
+        }
       }
-      const dialogRef = this.dialog.open(CourseRatingDialogComponent, {
-        width: '300px',
-        height: '350px',
-        data: data,
-        disableClose: false,
-      })
 
-      dialogRef.afterClosed().subscribe((data: { ratingsForm: FormGroup, rating: number }) => {
-        this.submitRating(data.ratingsForm, data.rating)
-      })
-    }
+      this.contentSvc.readCourseRating(req).then((data: any) => {
 
-  }
-  submitRating(ratingsForm: any, rating: number) {
-    console.log("rating submission", ratingsForm, rating)
-    let userId = ''
-    if (ratingsForm) {
-      if (this.configSvc.userProfile) {
-        userId = this.configSvc.userProfile.userId || ''
-      }
-      const req = {
-        request: {
-          activityId: ratingsForm[0].courseId,
-          userId,
-          activityType: "Course",
-          rating: rating,
-          review: "not nice course",
-          recommended: "no",
+        if (data && data.result && data.result.count > 0) {
 
-        },
-      }
-      this.contentSvc.submitCourseRating(req).then((data: any) => {
 
-        if (data && data.result && data.result.response === 'SUCCESS') {
-
-          this.openSnackbar('Rating Submitted Successfully!')
-          this.disableEnrollBtn = false
+          console.log("data: " + data.result.content[0])
 
 
         } else {
@@ -985,12 +988,42 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         }
       })
         .catch((err: any) => {
-
-          this.openSnackbar(err.error.params.errmsg)
+          console.log("err", err)
+          this.openSnackbar(err.error.message)
         })
     }
 
   }
+  readCourseRatingSummary() {
+    if (this.content) {
+
+      let req
+      req = { activityId: this.content.identifier }
+      console.log("req", req)
+      this.contentSvc.readCourseRatingSummary(req).then((data: any) => {
+
+        if (data && data.result && data.result.message === 'Successful') {
+          if (data.result.response) {
+            let res = data.result.response
+            this.averageRating = (res.sum_of_total_ratings / res.total_number_of_ratings).toFixed(1)
+            this.totalRatings = res.total_number_of_ratings
+            console.log("data: ", res, data.result.response, this.totalRatings)
+          }
+
+
+        } else {
+          this.openSnackbar('Something went wrong, please try again later!')
+          this.disableEnrollBtn = false
+        }
+      })
+        .catch((err: any) => {
+          console.log("err", err)
+          this.openSnackbar(err.error.message)
+        })
+    }
+
+  }
+
   enrollUser(batchData: any) {
     let userId = ''
     if (batchData) {

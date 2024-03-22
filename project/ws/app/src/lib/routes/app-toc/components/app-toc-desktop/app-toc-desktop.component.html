@@ -40,6 +40,13 @@
     </div> -->
     <!-- <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
       View License Terms</div> -->
+    <div class="rating-block mb-2">
+      <span class="average-rating">{{averageRating}}</span>
+      <ng-container *ngIf="averageRating>0">
+        <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i)" alt="Star">
+      </ng-container>
+      <span *ngIf="totalRatings>0" class="total-rating">( {{totalRatings}} )</span>
+    </div>
     <div *ngIf="content?.completionPercentage > 0" class="mt-2">
       <mat-progress-bar [mode]="'determinate'" [value]="
         content?.completionPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
@@ -113,9 +120,9 @@
           </ng-container>
 
         </a>
-        <button id="start-btn" class="banner-btn cursor-pointer" (click)="giveRating(batchData.content)" i18n>
+        <!-- <button id="start-btn" class="banner-btn cursor-pointer" (click)="giveRating(batchData.content)" i18n>
           Rating
-        </button>
+        </button> -->
         <!-- #if cetification ininrollment api -->
         <!-- <ng-container *ngIf="issueCertificate === true; else download ">
           <button *ngIf="content?.issueCertification === true" (click)="sendApi()"

@@ -253,3 +253,30 @@ letter-spacing: -0.28px;
 .modal {
   overflow: inherit !important;
 }
+.rating-block{
+  display: flex;
+  align-items: center;
+    gap: 6px;
+}
+.average-rating{
+font-family: Roboto;
+font-size: 12px;
+font-weight: 400;
+line-height: 13.53px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #747474;
+padding-top: 3px !important;
+
+}
+.total-rating{
+  //styleName: Label 1;
+font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.8px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #000000;
+
+}
