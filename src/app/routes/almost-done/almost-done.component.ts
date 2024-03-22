@@ -51,14 +51,14 @@ export class AlmostDoneComponent implements OnInit {
   hideAsha = false
   result: any
   constructor(
-    private configSvc: ConfigurationsService,
+    public configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
-    private snackBar: MatSnackBar,
+    public snackBar: MatSnackBar,
     private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     private http: HttpClient,
-    private UserAgentResolverService: UserAgentResolverService,
+    public UserAgentResolverService: UserAgentResolverService,
     private signupService: SignupService,
   ) {
   }
@@ -96,14 +96,16 @@ export class AlmostDoneComponent implements OnInit {
     }
     if (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer') {
       this.enableSubmit = true
-      this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
-      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-        statesdata.states.map((item: any) => {
-          if (item.state === this.yourBackground.value.state) {
-            this.disticts = item.districts
-          }
+      if (this.yourBackground && this.yourBackground.value) {
+        this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
+        this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+          statesdata.states.map((item: any) => {
+            if (item.state === this.yourBackground.value.state) {
+              this.disticts = item.districts
+            }
+          })
         })
-      })
+      }
     }
   }
 
@@ -360,7 +362,7 @@ export class AlmostDoneComponent implements OnInit {
     console.log(this.backgroundSelect, this.selectedBg)
   }
 
-  private getOrganisationsHistory() {
+  public getOrganisationsHistory() {
     const organisations: any = []
     console.log(this.almostDoneForm.value.orgOtherSpecify)
     const org = {
@@ -412,13 +414,13 @@ export class AlmostDoneComponent implements OnInit {
     })
     return formatedDegrees
   }
-  private getAcademics() {
+  public getAcademics() {
     const academics = []
     academics.push(...this.getDegree('GRADUATE'))
     return academics
   }
 
-  private constructReq() {
+  public constructReq() {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId,
         this.email = this.configSvc.userProfile.email || ''
@@ -520,7 +522,7 @@ export class AlmostDoneComponent implements OnInit {
     })
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 2000) {
+  public openSnackbar(primaryMsg: string, duration: number = 2000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

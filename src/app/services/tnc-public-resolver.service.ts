@@ -30,8 +30,6 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
     )
   }
   getPublicTnc(locale?: string): Observable<NsTnc.ITnc> {
-    console.log(locale)
-
     location.href.includes('/hi/')
     let data: any
     let lang: any
@@ -45,9 +43,7 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
       if (lang.id) {
         lang = lang.id !== 'en' ? lang.id : ''
       }
-      console.log(lang)
     }
-    console.log("lang: ", lang)
     if (lang === 'hi') {
       url1 = `${this.configSvc.sitePath}/tnc.config.${'hi'}.json`
     } else {

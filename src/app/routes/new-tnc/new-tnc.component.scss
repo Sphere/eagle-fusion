@@ -1,29 +1,33 @@
 @import 'ws-mixins';
-.terms-block{
+
+.terms-block {
   display: flex;
   flex-direction: column;
-      padding: 15px 15px 10px 30px;
+  padding: 15px 15px 10px 30px;
 }
-.ul-class{
+
+.ul-class {
   padding-left: 18px !important;
 }
-.terms-text{
-  font-family: Roboto;
-font-size: 24px;
-font-weight: 400;
-line-height: 28px;
-letter-spacing: 0em;
-text-align: left;
+
+.terms-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
 
 }
-.tick-text{
+
+.tick-text {
   //styleName: Body;
-font-family: Roboto;
-font-size: 16px;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: -0.02em;
-text-align: left;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  text-align: left;
 
 }
 
@@ -33,24 +37,27 @@ text-align: left;
 }
 
 ::ng-deep .theme-igot.day-mode .mat-checkbox {
-margin-top: -10px;
+  margin-top: -10px;
 }
-.link-text{
+
+.link-text {
   cursor: pointer;
-text-decoration: underline;
-color: #1C5D95 !important;
-font-family: Roboto;
-font-size: 16px;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: -0.02em;
-text-align: left;
+  text-decoration: underline;
+  color: #1C5D95 !important;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  text-align: left;
 
 }
-.tnc-image{
+
+.tnc-image {
   width: 165px !important;
   height: 141px !important;
 }
+
 .tnc-bottom-navbar {
   padding: 12px;
   background-color: #DFEDF9;
@@ -104,9 +111,11 @@ text-align: left;
     margin-top: 0.8rem;
     width: 70%;
   }
-   ::ng-deep .theme-igot.day-mode .mat-checkbox  {
-    margin-top:7px !important;
+
+  ::ng-deep .theme-igot.day-mode .mat-checkbox {
+    margin-top: 7px !important;
   }
+
   // .tnc-bottom-navbar {
   //   margin-top: 3rem;
   // }

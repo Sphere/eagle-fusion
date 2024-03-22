@@ -1,289 +1,259 @@
-import { TestBed, ComponentFixture } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { PublicLoginComponent } from './public-login.component'
-import { RouterModule } from '@angular/router'
-import { ReactiveFormsModule } from '@angular/forms'
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatInputModule } from '@angular/material/input'
+import { RouterModule } from '@angular/router'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { RouterTestingModule } from '@angular/router/testing'
+import { of } from 'rxjs'
 
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
-import { HttpClientTestingModule } from '@angular/common/http/testing'
-import { of, throwError } from 'rxjs'
-import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 
-
-class MockMatSnackBar {
-  open(message?: string, action?: string, config?: any) {
-    // Optional: Simulate behavior for testing purposes (e.g., console.log)
-    // Mock implementation
-    console.log('Mock MatSnackBar open called', message, action, config)
-
-  }
+let mockSignupService: Partial<SignupService> = {
+  sendOTP: jest.fn(),
+  loginAPI: jest.fn().mockReturnValue(of({ status: 200, message: 'Login successful' }))
 }
-class MockSignupService {
-  loginAPI() {
-    // Return a mock observable for testing
-    return of([])
-  }
-
-  fetchStartUpDetails() {
-    // Return a mock observable for testing
-    return of([])
-  }
-  sendOTP() {
-    return of([])
-  }
+const mockFormBuilder: Partial<FormBuilder> = {
+  group: jest.fn()
+}
+const mockMatSnackBar: Partial<MatSnackBar> = {
+  open: jest.fn()
 }
 
 describe('PublicLoginComponent', () => {
   let component: PublicLoginComponent
   let fixture: ComponentFixture<PublicLoginComponent>
-  let mockSnackBar1: MockMatSnackBar
-  //let service: SignupService
-  //let http: HttpClient
-  // Mocked API call simulating a successful response
-  //const mockApiSuccess = () => of([])
 
-  // Mocked API call simulating an error
-  //const mockApiError = () => throwError(new Error('API error'))
+  beforeAll(() => {
+    component = new PublicLoginComponent(
+      mockFormBuilder as FormBuilder,
+      mockSignupService as SignupService,
+      mockMatSnackBar as MatSnackBar
+    )
+  })
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PublicLoginComponent],
-      imports: [RouterModule, ReactiveFormsModule, MatInputModule, HttpClientTestingModule, MatSnackBarModule],
+      imports: [RouterModule, MatInputModule, MatSnackBarModule, BrowserAnimationsModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
-        { provide: SignupService, useClass: MockSignupService },
-        { provide: MatSnackBar, useClass: MockMatSnackBar },
-        { provide: HttpClient, useValue: { get: jest.fn(), post: jest.fn() } },
-      ] // Add MatSnackBar to the providers array
-    }).compileComponents()
-    //service = TestBed.get(SignupService)
-    //http = TestBed.get(HttpClient)
+        FormBuilder,
+        { provide: SignupService, useValue: { mockSignupService } },
+        { provide: MatSnackBar, useValue: mockMatSnackBar }
+      ],
+    })
+      .compileComponents()
+    mockSignupService = TestBed.get(SignupService)
   })
-
   beforeEach(() => {
-    mockSnackBar1 = new MockMatSnackBar()
+    fixture = TestBed.createComponent(PublicLoginComponent)
+    component = fixture.componentInstance
+    fixture.detectChanges()
   })
-
-  // it('should handle successful API response', async () => {
-  //   // Mock the API call using jest.spyOn (or similar)
-
-  //   jest.spyOn(service, 'fetchStartUpDetails').mockReturnValue(Promise.resolve(mockApiSuccess))
-
-  //   const observable = of(service.fetchStartUpDetails()) // Call the function that uses the mocked API
-  //   console.log(observable)
-  //   // Use async/await with toPromise() to test the emitted value
-  //   const data = await observable.toPromise()
-
-  //   console.log(data) // Output: [1, 2, 3] (array of emitted values)
-
-  //   expect(data).toEqual({ data: data })
-  // })
-
-  // it('should call getBook method and return results', () => {
-  //   const getBookResponse = {
-  //     data: [{ id: 1, title: 'Book 1' }, { id: 2, title: 'Book 2' }]
-  //   }
-
-  //   const response = cold('-a|', { a: getBookResponse })
-  //   const expected = cold('-b|', { b: getBookResponse.data })
-  //   http.get = jest.fn(() => response)
-
-  //   expect(service.fetchStartUpDetails()).toBeObservable(expected)
-  // })
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
   it('should create the component', () => {
-    setTimeout(() => {
-      fixture = TestBed.createComponent(PublicLoginComponent)
-      component = fixture.componentInstance
-      console.log(component, 'c')
-      fixture.detectChanges()
-      expect(component).toBeTruthy()
-    })
-  })
-  // it('should open snack bar on login failure', () => {
-  //   setTimeout(() => {
-  //     const mockSnackBar = TestBed.get(MatSnackBar)
-  //     console.log(component, 'c111')
-  //     const mockData = { some: 'data' }
-  //     component.otpClick(mockData)
-  //     spyOn(mockSnackBar, 'open')
-
-  //     expect(mockSnackBar.open).toHaveBeenCalledWith(
-  //       'Login failed!',
-  //       'Retry',
-  //       { duration: 3000 }
-  //     )
-  //   })
-  // })
-
-  it('should handle error during POST1', async () => {
-    setTimeout(async () => {
-      fixture = TestBed.createComponent(PublicLoginComponent)
-      component = fixture.componentInstance
-      console.log(component)
-      const mockData = { some: 'data' }
-      const expectedError = new HttpErrorResponse({ error: 'Something went wrong' }) // Define the expected error
-      const httpTestingController = TestBed.get(HttpClientTestingModule)
-
-      // Call your component's method that triggers the POST request
-      component.otpClick(mockData)
-
-      // Intercept the POST request using HttpTestingController
-      const req = httpTestingController.expectOne('/apis/public/v8/ssoLogin/otp/sendOtp') // Replace with your endpoint URL
-      expect(req.request.method).toEqual('POST')
-      expect(req.request.body).toEqual(mockData)
-
-      // Respond with the mocked error response
-      req.flush(expectedError, { status: 400, statusText: 'Bad Request' }) // Set error status and text
-
-      // Assert that your component handles the error as expected
-      try {
-        await component.otpClick(mockData) // Should throw an error
-        fail('Expected an error to be thrown')
-      } catch (error) {
-        expect(error).toEqual(expectedError) // Compare the received error with the expected error
-      }
-
-      // Verify that all requests have been handled
-      httpTestingController.verify()
-    })
-  })
-  // it('should call createBook method - Success Response', () => {
-  //   const createBookArg: CreateBook = {
-  //     name: 'Test Book'
-  //   }
-  //   const createBookResponse = {
-  //     data: {
-  //       message: 'Book Created Successfully'
-  //     },
-  //   }
-
-  //   const response = cold('-a|', { a: createBookResponse })
-  //   const expected = cold('-b|', { b: createBookResponse.data })
-  //   http.post = jest.fn(() => response)
-
-  //   expect(service.createBook(createBookArg)).toBeObservable(expected)
-  // })
-  it('should handle error during POST', async () => {
-    setTimeout(async () => {
-      const mockData = { "userEmail": "sprakashg@yopmail.com", "userPhone": "" }
-      const expectedError = new HttpErrorResponse({ error: 'Something went wrong' })
-
-      TestBed.get(HttpClientTestingModule).handle = (request: any) => {
-        console.log(request)
-        return throwError(expectedError)
-      }
-
-      // Call your component's method that triggers the POST request
-      try {
-        await component.otpClick(mockData)
-        fail('Expected an error to be thrown')
-      } catch (error) {
-        console.log(error, 'eror')
-        expect(error).toEqual(expectedError)
-      }
-    })
+    expect(component).toBeTruthy()
   })
 
-  it('should handle successful POST response', async () => {
-    setTimeout(() => {
-      const mockData = { "userEmail": "sprakashg@yopmail.com", "userPhone": "" }
-      const expectedResponse = {
-        "message": "User otp successfully sent",
-        "userId": "36911d5d-9a4c-4b20-8195-42f40fc5f7b3"
-      }
-
-      const httpTestingController = TestBed.get(HttpClientTestingModule)
-
-      // Call your component's method that triggers the POST request
-      component.otpClick(mockData)
-
-      // Use HttpTestingController to intercept and handle the request
-      const req = httpTestingController.expectOne('/apis/public/v8/ssoLogin/otp/sendOtp') // Replace with your endpoint URL
-      expect(req.request.method).toEqual('POST')
-      expect(req.request.body).toEqual(mockData)
-
-      req.flush(expectedResponse) // Respond with the mocked response
-
-      // Assert that your component handles the response as expected
-      // ... your assertions here
-
-      httpTestingController.verify() // Verify that all requests have been handled
-    })
+  it('should mark login form as invalid when email is empty', () => {
+    const emailControl: any = component.loginForm.get('emailOrMobile')
+    emailControl.setValue('')
+    expect(emailControl.errors['required']).toBeTruthy()
   })
 
-  // it('should handle successful POST response', async () => {
-  //   const mockData = { some: 'data' }
-  //   const expectedResponse = { result: 'success' }
+  it('should mark login form as invalid when email format is incorrect', () => {
+    const emailControl: any = component.loginForm.get('emailOrMobile')
+    emailControl.setValue('invalid_email')
+    expect(emailControl.errors['pattern']).toBeTruthy()
+  })
 
-  //   // Assuming `getHttpBackend` is available in your version
-  //   const httpBackend = TestBed.get(HttpBackend)
+  it('should mark login form as invalid when password is empty', () => {
+    const passwordControl: any = component.loginPwdForm.get('password')
+    passwordControl.setValue('')
+    expect(passwordControl.errors['required']).toBeTruthy()
+  })
 
-  //   spyOn(httpBackend, 'handle').and.callFake((request: any, next: any) => {
-  //     expect(request.url).toEqual('/your-api-endpoint') // Replace with your endpoint URL
-  //     expect(request.method).toEqual('POST')
-  //     expect(request.body).toEqual(mockData)
+  it('should mark login form as invalid when password does not meet complexity requirements', () => {
+    const passwordControl: any = component.loginPwdForm.get('password')
+    passwordControl.setValue('weakPassword')
+    expect(passwordControl.errors['pattern']).toBeTruthy()
+  })
 
-  //     return new HttpResponse({ status: 200, body: expectedResponse })
-  //   })
+  it('should set email validation error on invalid email format', () => {
+    const emailControl: any = component.loginForm.get('emailOrMobile')
+    emailControl.setValue('invalid_email')
+    emailControl.updateValueAndValidity()
+    expect(emailControl.errors['pattern']).toBeTruthy()
+  })
 
-  //   // Call your component's method that triggers the POST request
-  //   component.yourMethodThatPostsData(mockData)
+  it('should set phone number validation error on invalid phone format', () => {
+    const phoneControl: any = component.loginForm.get('emailOrMobile')
+    phoneControl.setValue('123')
+    phoneControl.updateValueAndValidity()
+    expect(phoneControl.errors['pattern']).toBeTruthy()
+  })
 
-  //   // Assert that your component handles the response as expected
-  //   // ... your assertions here
-  // })
 
-  // it('should handle successful POST response', async () => {
-  //   const mockData = { some: 'data' }
-  //   const expectedResponse = { result: 'success' }
+  it('should call signupService.loginAPI on valid form submission', () => {
+    const form: any = component.loginPwdForm
 
-  //   TestBed.get(HttpClientTestingModule).getHttpHandler().handle = (request: any) => {
-  //     // Assert that the request is correct (optional)
-  //     expect(request.url).toEqual('/your-api-endpoint') // Replace with your endpoint URL
-  //     expect(request.method).toEqual('POST')
-  //     expect(request.body).toEqual(mockData)
+    form.controls['emailOrMobile'].setValue('valid@email.com')
+    form.controls['password'].setValue('Sunbird@123')
 
-  //     return new HttpResponse({ status: 200, body: expectedResponse })
-  //   }
+    const req = {
+      "userEmail": form.controls.emailOrMobile.value,
+      "typeOfLogin": "password",
+      "userPassword": form.controls.password.value
+    }
+    component.submitDetails(req)
+  })
 
-  //   // Call your component's method that triggers the POST request
-  //   component.otpClick(mockData)
+  it('should submit phone login details and call loginAPI on form validation', () => {
+    component.loginPwdForm.controls.emailOrMobile.setValue('9986250780')
+    component.loginPwdForm.controls.password.setValue('password123')
 
-  //   // Assert that your component handles the response as expected
-  //   // ... your assertions here
-  // })
+    component.loginPwdForm.controls.emailOrMobile.setErrors(null)
+    component.loginPwdForm.controls.password.setErrors(null)
+    mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.submitDetails({ status: 'VALID' })
+    expect(mockSignupService.loginAPI).toHaveBeenCalled()
+  })
 
-  it('should call open with provided message, action, and config', () => {
+  it('should submit email login details and call loginAPI on form validation', () => {
+    component.loginPwdForm.controls.emailOrMobile.setValue('spra@yopmail.com')
+    component.loginPwdForm.controls.password.setValue('password123')
 
-    //const mockSnackBar1 = TestBed.get(MatSnackBar)
-    const message = 'Test message'
-    const action = 'Retry'
-    const config = { duration: 3000 }
+    component.loginPwdForm.controls.emailOrMobile.setErrors(null)
+    component.loginPwdForm.controls.password.setErrors(null)
+    mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.submitDetails({ status: 'VALID' })
+    expect(mockSignupService.loginAPI).toHaveBeenCalled()
+  })
 
-    spyOn(mockSnackBar1, 'open')
-    mockSnackBar1.open(message, action, config)
+  it('should not call loginAPI for invalid form status', () => {
+    const consoleLogSpy = jest.spyOn(console, 'log')
+    // Mock loginPwdForm with invalid status (not 'VALID')
+    component.loginPwdForm.controls.emailOrMobile.setValue('9986250738')
+    component.loginPwdForm.controls.password.setValue('password123')
+    component.loginPwdForm.controls.emailOrMobile.setErrors(null)
+    component.loginPwdForm.controls.password.setErrors(null)
+    mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.submitDetails({ status: 'INVALID' })
+    // Verify that loginAPI method was not called
+    expect(mockSignupService.loginAPI).not.toHaveBeenCalled()
+    expect(consoleLogSpy).toHaveBeenCalledWith('alert')
+  })
 
-    expect(mockSnackBar1.open).toHaveBeenCalledWith(message, action, config)
+  it('should submit phone details and call resendOTP on form validation', () => {
+    component.loginForm.controls.emailOrMobile.setValue('9986250739')
+    component.loginForm.controls.emailOrMobile.setErrors(null)
+    mockSignupService.resendOTP = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.resendOTP({ status: 'VALID' })
+    expect(mockSignupService.resendOTP).toHaveBeenCalled()
+  })
+
+  it('should submit email details and call resendOTP on form validation', () => {
+    component.loginForm.controls.emailOrMobile.setValue('spra@yopmail.com')
+    component.loginForm.controls.emailOrMobile.setErrors(null)
+    mockSignupService.resendOTP = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.resendOTP({ status: 'VALID' })
+    expect(mockSignupService.resendOTP).toHaveBeenCalled()
+  })
+
+  it('should submit email details and call otpClick on form validation', () => {
+    component.loginForm.controls.emailOrMobile.setValue('creator@yopmail.com')
+    component.loginForm.controls.emailOrMobile.setErrors(null)
+
+    mockSignupService.sendOTP = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.otpClick({ status: 'VALID' })
+    expect(mockSignupService.sendOTP).toHaveBeenCalled()
 
   })
 
-  // it('should log the message, action, and config when open is called', () => {
-  //   setTimeout(() => {
-  //     const message = 'Test message'
-  //     const action = 'Retry'
-  //     const config = { duration: 3000 }
+  it('should submit phone details and call otpClick on form validation', () => {
+    component.loginForm.controls.emailOrMobile.setValue('9986350738')
+    component.loginForm.controls.emailOrMobile.setErrors(null)
 
-  //     spyOn(console, 'log')
-  //     mockSnackBar.open(message, action, config)
+    mockSignupService.sendOTP = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.otpClick({ status: 'VALID' })
+    expect(mockSignupService.sendOTP).toHaveBeenCalled()
 
-  //     expect(console.log).toHaveBeenCalledWith(
-  //       'Mock MatSnackBar open called:',
-  //       message,
-  //       action,
-  //       config
-  //     )
-  //   })
-  // })
+  })
 
+  it('should submit email details and call otpSubmit on form validation', () => {
+    component.loginForm.controls.emailOrMobile.setValue('creator@yopmail.com')
+    component.OTPForm.controls.OTPcode.setValue('123456')
+    component.loginForm.controls.emailOrMobile.setErrors(null)
+    component.OTPForm.controls.OTPcode.setErrors(null)
+    mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.otpSubmit()
+    expect(mockSignupService.loginAPI).toHaveBeenCalled()
+
+  })
+
+  it('should submit phone details and call otpSubmit on form validation', () => {
+    component.loginForm.controls.emailOrMobile.setValue('9986350738')
+    component.OTPForm.controls.OTPcode.setValue('123456')
+    component.loginForm.controls.emailOrMobile.setErrors(null)
+    component.OTPForm.controls.OTPcode.setErrors(null)
+    mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+    component.otpSubmit()
+    expect(mockSignupService.loginAPI).toHaveBeenCalled()
+  })
+
+  it('should send OTP for valid phone number and handle response', () => {
+    // Simulate VALID form status with a phone number input
+    component.loginForm.controls.emailOrMobile.setValue('0845678901')
+
+    mockSignupService.sendOTP = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+
+    component.otpClick({ status: 'VALID' })
+
+    // Verify that sendOTP was called with the correct request
+    expect(mockSignupService.sendOTP).toHaveBeenCalledWith({ userPhone: '0845678901', userEmail: '' })
+
+    // Verify the sendOTP method was called
+    expect(mockSignupService.sendOTP).toHaveBeenCalled()
+  })
+  it('should send OTP for valid email address and handle response', () => {
+    // Simulate VALID form status with a email address input
+    component.loginForm.controls.emailOrMobile.setValue('yahoo@yopmail.com')
+
+    mockSignupService.sendOTP = jest.fn().mockImplementation(() => ({
+      subscribe: jest.fn() // Mocking the subscribe method
+    }))
+
+    component.otpClick({ status: 'VALID' })
+
+    // Verify that sendOTP was called with the correct request
+    expect(mockSignupService.sendOTP).toHaveBeenCalledWith({ userPhone: '', userEmail: 'yahoo@yopmail.com' })
+
+    // Verify the sendOTP method was called
+    expect(mockSignupService.sendOTP).toHaveBeenCalled()
+  })
 })
+

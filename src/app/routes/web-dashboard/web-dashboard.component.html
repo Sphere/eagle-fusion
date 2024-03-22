@@ -4,16 +4,12 @@
   <div class="carousel">
     <div class="banner-heading-container">
       <div class="banner-heading"><span i18n>Welcome </span><span>{{firstName?firstName:''}}!</span></div>
-      <div class="banner-mini-heading" i18n>
-        Continue
-        Learning
-      </div>
+      <div class="banner-mini-heading" i18n>Continue Learning</div>
     </div>
     <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-
-        <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content"
-          [class.active]="i === currentSlideIndex">
+        <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
+          class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
           <img class="banner-image" [src]="data.img" alt="Carousel" loading="lazy">
         </div>
       </div>

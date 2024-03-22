@@ -52,14 +52,14 @@ export class WorkInfoListComponent implements OnInit {
   hideAsha = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
+    public configSvc: ConfigurationsService,
+    public userProfileSvc: UserProfileService,
     // private router: Router,
-    private valueSvc: ValueService,
-    private contentSvc: WidgetContentService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private snackBar: MatSnackBar,
-    private http: HttpClient,
+    public valueSvc: ValueService,
+    public contentSvc: WidgetContentService,
+    public UserAgentResolverService: UserAgentResolverService,
+    public snackBar: MatSnackBar,
+    public http: HttpClient,
   ) {
     this.personalDetailForm = new FormGroup({
       profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
@@ -374,7 +374,6 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    console.log('form submission', form.value, this.userProfileData, this.personalDetailForm)
     // console.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
@@ -438,8 +437,7 @@ export class WorkInfoListComponent implements OnInit {
 
 
 
-  private constructReq(form: any) {
-    console.log("feorm0", form, form.value.regNurseRegMidwifeNumber)
+  public constructReq(form: any) {
     const userid = this.userProfileData.userId || this.userProfileData.id || ''
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
@@ -551,7 +549,7 @@ export class WorkInfoListComponent implements OnInit {
     return organisations
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  public openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

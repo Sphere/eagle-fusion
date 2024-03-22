@@ -26,7 +26,7 @@ export class MyCoursesComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
-    private router: Router,
+    public router: Router,
   ) { }
 
   ngOnInit() {
@@ -41,7 +41,7 @@ export class MyCoursesComponent implements OnInit {
     this.isLoading = true
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        console.log(courses)
+        // console.log(courses)
 
         courses.forEach((key) => {
           if (key.completionPercentage !== 100) {
@@ -83,8 +83,8 @@ export class MyCoursesComponent implements OnInit {
           return dateTimeB - dateTimeA
         })
 
-        console.log(this.startedCourse, 'c', this.startedCourse.length)
-        console.log(this.completedCourse, 'aa', this.completedCourse.length)
+        // console.log(this.startedCourse, 'c', this.startedCourse.length)
+        // console.log(this.completedCourse, 'aa', this.completedCourse.length)
 
       })
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
@@ -93,7 +93,7 @@ export class MyCoursesComponent implements OnInit {
         const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
         this.contentSvc
           .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
-            console.log(res, 'res')
+            // console.log(res, 'res')
             this.coursesForYou = res
             this.isLoading = false
           }, err => {
@@ -109,12 +109,12 @@ export class MyCoursesComponent implements OnInit {
     }
   }
   tabClick() {
-    let ee = document.getElementById('mat-tab-label-0-1')
-    console.log(ee)
-    // @ts-ignore: Object is possibly 'null'.
-    document.getElementById('mat-tab-label-0-1').click()
-
+    const tabElement = document.getElementById('mat-tab-label-0-1')
+    if (tabElement) {
+      tabElement.click()
+    }
   }
+
 
   async navigateToToc(contentIdentifier: any) {
     sessionStorage.setItem('cURL', location.href)
@@ -130,7 +130,7 @@ export class MyCoursesComponent implements OnInit {
     // this.commonUtilService.removeLoader()
     if (this.configSvc.unMappedUser) {
       //this.commonUtilService.addLoader()
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+      if (result && result.profileDetails!.profileReq && result.profileDetails!.profileReq!.personalDetails!.dob) {
         location.href = `${url3}${url1}${url}`
       } else {
         if (localStorage.getItem('url_before_login')) {

@@ -37,7 +37,7 @@ export class CarouselComponentComponent implements OnInit {
   currentSlideIndex = 0;
 
   constructor(
-    private scrollService: ScrollService
+    public scrollService: ScrollService
   ) { }
 
   ngOnInit(): void {
