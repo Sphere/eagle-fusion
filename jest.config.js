@@ -45,6 +45,7 @@ module.exports = {
     '@ws-widget/collection/src/lib/_constants/widget-content.constants': '<rootDir>/library/ws-widget/collection/src/lib/_constants/widget-content.constants.ts',
     '@ws/author/src/public-api': '<rootDir>/project/ws/author/src/public-api.ts',
     '@ws/author$': '<rootDir>/project/ws/author/src/public-api.ts',
+    '@ws-widget/utils/src/lib/services/utility.service': '<rootDir>/library/ws-widget/utils/src/lib/services/utility.service.ts'
 
 
 
