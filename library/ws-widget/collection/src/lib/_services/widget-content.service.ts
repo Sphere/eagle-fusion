@@ -34,7 +34,7 @@ const API_END_POINTS = {
   MARK_AS_COMPLETE_META: (contentId: string) => `${PROTECTED_SLAG_V8}/user/progress/${contentId}`,
   COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
   ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
-  COURSE_RATING: `apis/protected/v8/ratings/upsert`,
+  COURSE_RATING: `/apis/protected/v8/ratings/upsert`,
   READ_COURSE_RATING: `/apis/protected/v8/ratings/v2/read`,
   READ_COURSE_RATING_SUMMARY: `/apis/protected/v8/ratings/summary`,
   GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
