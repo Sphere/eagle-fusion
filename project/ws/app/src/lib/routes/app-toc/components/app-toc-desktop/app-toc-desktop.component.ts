@@ -1021,13 +1021,11 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
 
         } else {
-          this.openSnackbar('Something went wrong, please try again later!')
           this.disableEnrollBtn = false
         }
       })
         .catch((err: any) => {
           console.log("err", err)
-          this.openSnackbar(err.error.message)
         })
     }
 
