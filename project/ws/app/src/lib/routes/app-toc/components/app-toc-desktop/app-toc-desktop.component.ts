@@ -365,6 +365,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           },
         }
         this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+          let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
           if (data && data.result && data.result.response === 'SUCCESS') {
             this.batchData = {
               content: [batch],
@@ -377,10 +379,22 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 queryParams: { batchId: batch.batchId },
                 queryParamsHandling: 'merge',
               })
-            this.openSnackbar('Enrolled Successfully!')
+            let message
+            if (local === 'en') {
+              message = `Enrolled Successfully!`
+            } else {
+              message = `सफलतापूर्वक नामांकित!`
+            }
+            this.openSnackbar(message)
             this.disableEnrollBtn = false
           } else {
-            this.openSnackbar('Something went wrong, please try again later!')
+            let message
+            if (local === 'en') {
+              message = `Something went wrong, please try again later!`
+            } else {
+              message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
+            }
+            this.openSnackbar(message)
             this.disableEnrollBtn = false
           }
         })
@@ -1045,6 +1059,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+        let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
         if (data && data.result && data.result.response === 'SUCCESS') {
           // this.batchData = {
@@ -1058,7 +1073,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               queryParams: { batchId: batchData[0].batchId },
               queryParamsHandling: 'merge',
             })
-          this.openSnackbar('Enrolled Successfully!')
+          let message
+          if (local === 'en') {
+            message = `Enrolled Successfully!`
+          } else {
+            message = `सफलतापूर्वक नामांकित!`
+          }
+          this.openSnackbar(message)
           this.disableEnrollBtn = false
           setTimeout(() => {
             if (this.resumeData && this.resumeDataLink) {
@@ -1071,7 +1092,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           }, 500)
 
         } else {
-          this.openSnackbar('Something went wrong, please try again later!')
+          let message
+          if (local === 'en') {
+            message = `Something went wrong, please try again later!`
+          } else {
+            message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
+          }
+          this.openSnackbar(message)
           this.disableEnrollBtn = false
         }
       })
