@@ -217,7 +217,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     const fullStarUrl = '/fusion-assets/icons/toc_star.png'
     const halfStarUrl = '/fusion-assets/icons/Half_star1.svg'
     const emptyStarUrl = '/fusion-assets/icons/empty_star.png'
-    console.log("index", index, this.averageRating)
 
     const decimalPart = this.averageRating - Math.floor(this.averageRating) // Calculate the decimal part of the average rating
 
