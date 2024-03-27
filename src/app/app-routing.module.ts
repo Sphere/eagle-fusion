@@ -52,6 +52,7 @@ import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
+import { PublicLoginComponent } from './public-login/public-login.component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -125,6 +126,10 @@ const routes: Routes = [
   {
     path: 'app/login',
     component: loginComponent,
+  },
+  {
+    path: 'public/login',
+    component: PublicLoginComponent,
   },
   {
     path: 'app/mobile-otp',

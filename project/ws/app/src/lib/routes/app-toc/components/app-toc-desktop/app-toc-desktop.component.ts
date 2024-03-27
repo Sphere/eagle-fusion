@@ -45,6 +45,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   // @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
   @Input() batchData!: any
+  @Input() enrollCourse!: any
   @Input() resumeResource: NsContent.IContinueLearningData | null = null
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
@@ -130,7 +131,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       sessionStorage.removeItem('currentURL')
     }
     this.enrollApi()
-    console.log(this.resumeData)
+    console.log(this.resumeData, this.content)
     if (this.content) {
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
@@ -289,16 +290,44 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (this.resumeData && this.content) {
       const resumeDataV2 = this.getResumeDataFromList()
-      this.resumeDataLink = viewerRouteGenerator(
-        resumeDataV2.identifier,
-        resumeDataV2.mimeType,
-        this.isResource ? undefined : this.content.identifier,
-        this.isResource ? undefined : this.content.contentType,
-        this.forPreview,
-        // this.content.primaryCategory
-        'Learning Resource',
-        this.getBatchId()
-      )
+      let lastResource = ''
+      let lastResourceMimeType: any
+      console.log(resumeDataV2, this.enrollCourse)
+      let eCourse = this.enrollCourse.contentStatus
+      if (Object.keys(eCourse).length > 0) {
+        lastResource = Object.keys(eCourse)[Object.keys(eCourse).length - 1]
+        this.content.children.filter((item: any) => {
+          if (lastResource === item.identifier) {
+            lastResourceMimeType = item.mimeType
+          }
+        })
+      }
+
+      if (resumeDataV2.identifier === '' && resumeDataV2.mimeType === undefined ||
+        resumeDataV2.identifier === '' && resumeDataV2.mimeType === '') {
+        console.log(lastResource, 'lr', this.content, lastResourceMimeType)
+        this.resumeDataLink = viewerRouteGenerator(
+          lastResource,
+          lastResourceMimeType,
+          this.isResource ? undefined : this.content.identifier,
+          this.isResource ? undefined : this.content.contentType,
+          this.forPreview,
+          // this.content.primaryCategory
+          'Learning Resource',
+          this.getBatchId()
+        )
+      } else {
+        this.resumeDataLink = viewerRouteGenerator(
+          resumeDataV2.identifier,
+          resumeDataV2.mimeType,
+          this.isResource ? undefined : this.content.identifier,
+          this.isResource ? undefined : this.content.contentType,
+          this.forPreview,
+          // this.content.primaryCategory
+          'Learning Resource',
+          this.getBatchId()
+        )
+      }
     }
     this.batchControl.valueChanges.subscribe((batch: NsContent.IBatch) => {
       this.disableEnrollBtn = true

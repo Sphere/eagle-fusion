@@ -14,7 +14,7 @@
               <select id="profession" formControlName="professSelected" class="form-control select-box"
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)"
                 required>
-                <option [value]="null" style="color:#808080;" i18n>Profession*</option>
+                <option [value]="null" style="color:#808080;" i18n disabled>Designation*</option>
                 <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>
@@ -39,7 +39,7 @@
               <select id="orgType" formControlName="orgType" class="form-control select-box"
                 (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value, $event)"
                 required>
-                <option [value]="null" i18n>Organization Type*</option>
+                <option [value]="null" i18n disabled>Organization Type*</option>
                 <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
               </select>
             </div>
@@ -52,7 +52,7 @@
               {{errorMsg}}</mat-error>
 
             <div class="form-group input-box">
-              <input type="text" name="orgName" formControlName="orgName" i18n class="form-control"
+              <input type="text" name="orgName" formControlName="orgName" i18n-placeholder class="form-control"
                 placeholder="Organization Name" autocomplete="off"
                 (change)="assignFields('organizationName',almostDoneForm.controls['orgName'].value, $event)">
             </div>
@@ -62,6 +62,14 @@
           <!-- Background: Healthcare Worker -->
 
           <div *ngIf="backgroundSelect === 'ASHA'">
+            <div class="form-group input-box">
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
+                <option [value]="null" i18n disabled>Designation*</option>
+                <option *ngFor="let profession of ashaList" [value]="profession">{{ profession }}
+                </option>
+              </select>
+            </div>
             <div class="form-group input-box">
               <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
                 (change)="assignFields('locationselect', $event.target.value, $event)">
@@ -85,7 +93,7 @@
             <div class="form-group input-box">
               <select id="profession" formControlName="professSelected" class="form-control select-box" required
                 (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
-                <option [value]="null" i18n>Profession*</option>
+                <option [value]="null" i18n disabled>Designation*</option>
                 <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>
@@ -102,7 +110,7 @@
             <div class="form-group input-box">
               <select id="orgType" formControlName="orgType" class="form-control select-box" required
                 (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value, $event)">
-                <option [value]="null" i18n>Organization Type*</option>
+                <option [value]="null" i18n disabled>Organization Type*</option>
                 <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
               </select>
             </div>
@@ -115,7 +123,7 @@
               {{errorMsg}}</mat-error>
 
             <div class="form-group input-box">
-              <input type="text" name="orgName" i18n formControlName="orgName" class="form-control"
+              <input type="text" name="orgName" i18n-placeholder formControlName="orgName" class="form-control"
                 placeholder="Organization Name" autocomplete="off"
                 (change)="assignFields('organizationName',almostDoneForm.controls['orgName'].value, $event)">
             </div>
@@ -126,6 +134,14 @@
 
           <!-- Background: Student -->
           <div *ngIf="backgroundSelect ==='Student'">
+            <div class="form-group input-box">
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
+                <option [value]="null" i18n disabled>Designation*</option>
+                <option *ngFor="let profession of studentList" [value]="profession">{{ profession }}
+                </option>
+              </select>
+            </div>
             <div class="form-group mt-4 input-box">
               <input type="text" class="form-control" i18n-placeholder formControlName="courseName"
                 placeholder="Qualification"
@@ -146,11 +162,15 @@
 
           <!-- Background: Faculty -->
           <div *ngIf="backgroundSelect ==='Faculty'">
-
-            <div class="form-group mt-4 input-box">
-              <input type="text" class="form-control" formControlName="profession" placeholder="Designation"
-                i18n-placeholder>
+            <div class="form-group input-box">
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
+                <option [value]="null" i18n disabled>Designation*</option>
+                <option *ngFor="let profession of facultyList" [value]="profession">{{ profession }}
+                </option>
+              </select>
             </div>
+
             <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['profession'].hasError('pattern')">
               {{errorMsg}}</mat-error>
 
@@ -169,7 +189,7 @@
             <div class="form-group input-box">
               <select id="selectBackground" formControlName="selectBackground" class="form-control select-box"
                 (change)="chooseBackground($event.target.value)" required>
-                <option [value]="null" i18n>Select Background</option>
+                <option [value]="null" i18n disabled>Select Background</option>
                 <option value="Mother/Family Members">Mother/Family Members</option>
                 <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>
                 <option value="Asha Trainer" *ngIf='!hideAsha'>Asha Trainer</option>
@@ -206,7 +226,7 @@
               <div class="form-group input-box">
                 <select id="orgType" formControlName="orgType" class="form-control select-box"
                   (change)="orgTypeSelect($event.target.value)" required>
-                  <option [value]="null" i18n>Organization Type*</option>
+                  <option [value]="null" i18n disabled>Organization Type*</option>
                   <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
                 </select>
               </div>

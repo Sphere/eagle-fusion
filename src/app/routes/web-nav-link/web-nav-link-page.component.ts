@@ -35,6 +35,16 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showHome = false
           this.showCompetency = false
         }
+        if (location.path().includes('/overview')) {
+          this.showProfile = false
+          this.showHome = true
+          this.showCompetency = false
+        }
+        if (location.path().includes('/page/home')) {
+          this.showProfile = false
+          this.showHome = true
+        }
+
       }
     })
     console.log('urlchanges', location.path(), 'path')
@@ -43,17 +53,23 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showProfile = true
       this.showHome = false
     } else if (location.path().includes('/page/home')) {
+      this.showProfile = false
       this.showHome = true
     } else if (location.path().includes('competency')) {
+      this.showProfile = false
       this.showCompetency = true
       this.showHome = false
     } else if (location.path().includes('user/my_courses')) {
+      this.showProfile = false
       this.mycourses = true
       this.showCompetency = false
       this.showHome = false
     } else {
       console.log("yes here 2")
-      this.showHome = false
+      this.showProfile = false
+      this.mycourses = false
+      this.showCompetency = false
+      this.showHome = true
     }
   }
   linksData: any

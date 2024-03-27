@@ -5,7 +5,7 @@ import {
   // noop,
   Observable, BehaviorSubject,
 } from 'rxjs'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { NsContent } from '../../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
 
 @Injectable({

@@ -21,18 +21,28 @@ export class BtnContentShareDialogComponent implements OnInit {
   sendInProgress = false
   message = ''
   isSocialMediaShareEnabled = false
-  qrdata = window.location.href
+  qrdata = ''
   sendStatus: 'INVALID_IDS_ALL' | 'SUCCESS' | 'INVALID_ID_SOME' | 'ANY' | 'NONE' = 'NONE'
   constructor(
-    private events: EventService,
-    private snackBar: MatSnackBar,
+    public events: EventService,
+    public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<BtnContentShareDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { content: NsContent.IContent },
-    private shareSvc: WidgetContentShareService,
-    private configSvc: ConfigurationsService,
+    public shareSvc: WidgetContentShareService,
+    public configSvc: ConfigurationsService,
   ) { }
 
   ngOnInit() {
+    let cUrl = window.location.href
+    let id = cUrl.split('/')[5]
+    let newUrl = `${document.baseURI}`
+    if (newUrl.includes('hi')) {
+      newUrl = newUrl.replace(/hi\//g, '')
+    }
+    let url = `public/toc/overview?courseId=${id}`
+
+    this.qrdata = `${newUrl}${url}`
+
     this.shareSvc.fetchConfigFile().subscribe((data: ICommon) => {
       if (data && data.shareMessage) {
         this.message = data.shareMessage

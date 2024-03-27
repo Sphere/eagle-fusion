@@ -5,12 +5,63 @@
     <div class="subtitle">{{ content?.name }}</div>
     <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
       <span i18n>Duration </span>:
-      {{ content?.duration | pipeDurationTransform: 'hms' }}</div>
+      {{ content?.duration | pipeDurationTransform: 'hms' }}
+    </div>
     <div class="details" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
       <span i18n>Last updated on</span> : {{ content?.lastUpdatedOn | date }}
     </div>
     <div class="details"><span i18n>Source</span> : {{content?.sourceName}}</div>
     <div class="details" *ngIf="content?.creator"><span i18n>Author</span> : {{content?.creator}}</div>
   </div>
-  <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsUtilsRetain i18n>View License Terms</div>
+  <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsUtilsRetain i18n>View
+    License Terms</div>
+  <button name="start" color="primary" i18n (click)="showPopup()" class="login-btn header-btn  mat-button-base">
+    Start
+  </button>
+</div>
+<div class="modal fade" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': '50%'}">
+  <div class="modal-dialog modal-sm">
+    <div class="modal-content" style="    font-size: 17px;
+    border-radius: 24px;
+    padding: 0px 3px;
+    overflow: hidden;">
+
+      <!-- Modal Header -->
+      <div class="">
+        <!--<h4 class="modal-title">Modal Heading</h4> -->
+        <button type="button" class="close" data-dismiss="modal" (click)="closePopup()"
+          style="padding-top: 10px;padding-right: 10px;">&times;</button>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body text-center" style="padding: 0px;">
+        <div>
+          <h3 i18n style="  color: #000 !important;font-weight: 500;">Login/create an account to start the course</h3>
+          <button name="start" color="primary" i18n (click)="login()" style="width: 200px !important;"
+            class="header-btn  mat-button-base">
+            Login
+          </button>
+          <p style="margin-top: 10px;font-weight: 400;" i18n>or</p>
+          <button name="start" stye="padding: 8px 22px;    width: 200px;
+    font-size: 16px !important;" color="primary" i18n (click)="createAcct()" class="new-user-btn">
+            Create a new account
+          </button>
+        </div>
+      </div>
+      <!-- Modal footer -->
+      <div>
+        <div>
+          <div style="float: left;">
+            <img src="/fusion-assets/icons/Frame-149.svg">
+          </div>
+          <div style="float: right;">
+            <img src="/fusion-assets/icons/Frame-150.svg">
+          </div>
+        </div>
+        <!-- <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()"
+          i18n>Close</button> -->
+      </div>
+
+    </div>
+  </div>
 </div>

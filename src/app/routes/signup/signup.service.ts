@@ -18,7 +18,10 @@ const API_END_POINTS = {
   SETPASSWORD_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
   profilePid: '/apis/proxies/v8/api/user/v2/read',
   newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
-  validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin'
+  validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin',
+  sendUserOTP: '/apis/public/v8/ssoLogin/otp/sendOtp',
+  newLogin: '/apis/public/v8/ssoLogin/login',
+  resendOTP: '/apis/public/v8/ssoLogin/otp/resendOtp'
 }
 
 @Injectable({
@@ -38,7 +41,27 @@ export class SignupService {
       }),
     )
   }
-
+  sendOTP(data: any) {
+    return this.http.post<any>(API_END_POINTS.sendUserOTP, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+  resendOTP(data: any) {
+    return this.http.post<any>(API_END_POINTS.resendOTP, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+  loginAPI(data: any) {
+    return this.http.post<any>(API_END_POINTS.newLogin, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
   ssoWithMobileEmail(data: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.newssowithMobileEmail, data).pipe(
       map(response => {
@@ -230,23 +253,24 @@ export class SignupService {
   }
 
   keyClockLogin() {
-    let url = `${document.baseURI}`
-    let redirectUrl = ''
-    sessionStorage.setItem('url', url)
-    if (url.includes('hi')) {
-      url = url.replace('hi/', '')
-      redirectUrl = `${url}openid/keycloak`
-      sessionStorage.setItem('lang', 'hi')
-    } else {
-      redirectUrl = `${url}openid/keycloak`
-    }
-    // console.log(url, redirectUrl)
-    const state = uuid()
-    const nonce = uuid()
-    sessionStorage.setItem('login-btn', 'clicked')
-    // tslint:disable-next-line:max-line-length
-    const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-    window.location.href = keycloakurl
+    location.href = '/public/login'
+    // let url = `${document.baseURI}`
+    // let redirectUrl = ''
+    // sessionStorage.setItem('url', url)
+    // if (url.includes('hi')) {
+    //   url = url.replace('hi/', '')
+    //   redirectUrl = `${url}openid/keycloak`
+    //   sessionStorage.setItem('lang', 'hi')
+    // } else {
+    //   redirectUrl = `${url}openid/keycloak`
+    // }
+    // // console.log(url, redirectUrl)
+    // const state = uuid()
+    // const nonce = uuid()
+    // sessionStorage.setItem('login-btn', 'clicked')
+    // // tslint:disable-next-line:max-line-length
+    // const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+    // window.location.href = keycloakurl
   }
 
 }

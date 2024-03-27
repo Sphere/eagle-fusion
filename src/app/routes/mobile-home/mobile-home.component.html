@@ -26,16 +26,13 @@
     </div>
     <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-
-        <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content"
-          [class.active]="i === currentSlideIndex">
-          <img class="banner-image" [src]="data.img" alt="Carousel Image" loading="lazy">
+        <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
+          class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
+          <img class="banner-image" [src]="data.img" alt="Carousel" loading="lazy">
         </div>
       </div>
     </div>
   </div>
-
-  <!-- <app-carousel-component></app-carousel-component> -->
 </div>
 
 
@@ -44,9 +41,9 @@
 <div *ngFor="let data of dataCarousel; let i = index">
   <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
-      <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
+      <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
         </span> </p>
-      <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
+      <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
           > </span> </p>
       <div class="round-buttons">
         <button *ngFor="let _ of dataCarousel; let i = index" class="round-button"
@@ -85,9 +82,6 @@
     <p class="info-text" i18n>Total certificate issued</p>
   </div>
 </div>
-<!-- <div class="tutorials-container" (click)="scrollToHowSphereWorks()">
-  <p class="tutorials-text" i18n>Learn about how Sphere works ></p>
-</div> -->
 <div class="create-account">
   <h3 i18n class="text-center" style="font-weight: 550;margin-top: 5px;margin-bottom: 5px;">New User?</h3>
   <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple

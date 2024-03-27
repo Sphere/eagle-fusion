@@ -1,10 +1,11 @@
-.banner-container{
+.banner-container {
     display: flex;
     padding: 50px 10px 0px 10px;
     align-items: center;
     justify-content: space-evenly;
 }
-.banner-heading{
+
+.banner-heading {
     padding-left: 15px;
     font-family: 'Roboto';
     font-style: normal;
@@ -14,7 +15,8 @@
     letter-spacing: -0.02em;
     color: #000000;
 }
-.banner-mini-heading{
+
+.banner-mini-heading {
     padding-left: 15px;
     color: #000000;
     /* Header 2 */
@@ -25,43 +27,51 @@
     line-height: 20px;
     letter-spacing: -0.48px;
 }
+
 // @media only screen and (max-width: 599px)
 // .info-container[_ngcontent-sxu-c23] {
 //     width: 160px;
 // }
-@media only screen and (min-width: 600px) and (max-width: 959px){
-.banner-image{
-    width: 400px !important;
-    height: 300px !important;
-}
-.banner-heading {
-    font-size: 24px !important;
-    line-height: 28.8px !important;
-}
-.banner-mini-heading{
-    font-size: 18px !important;
-}
-.box-sizing-box{
-    margin-top: 10px !important;
-}
-.info-number{
-    font-size: 24px !important;
-}
-.tutorials-text{
-    font-size: 20px !important;
-}
-}
-.banner-image{
-    width: 600px;
-    // height: 350px
-    height:325px;
+@media only screen and (min-width: 600px) and (max-width: 959px) {
+    .banner-image {
+        width: 400px !important;
+        height: 300px !important;
+    }
+
+    .banner-heading {
+        font-size: 24px !important;
+        line-height: 28.8px !important;
+    }
+
+    .banner-mini-heading {
+        font-size: 18px !important;
+    }
+
+    .box-sizing-box {
+        margin-top: 10px !important;
+    }
+
+    .info-number {
+        font-size: 24px !important;
+    }
+
+    .tutorials-text {
+        font-size: 20px !important;
+    }
 }
 
-.info-block{
+.banner-image {
+    width: 600px;
+    // height: 350px
+    height: 325px;
+}
+
+.info-block {
     flex-wrap: wrap;
     margin-top: -19px;
 }
-.info-container{
+
+.info-container {
     padding: 10px;
     display: flex;
     justify-content: center;
@@ -71,13 +81,16 @@
     box-sizing: border-box;
     flex-direction: column;
 }
-.info-disaplay-bg1{
+
+.info-disaplay-bg1 {
     background: #F1E7E3;
 }
-.info-disaplay-bg2{
+
+.info-disaplay-bg2 {
     background: #F5F5F5;
 }
-.info-number{
+
+.info-number {
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
@@ -89,7 +102,8 @@
 
     color: #14446C;
 }
-.info-text{
+
+.info-text {
     // margin-top: 5px !important;
     text-align: center;
     font-family: 'Roboto';
@@ -101,7 +115,8 @@
     letter-spacing: -0.02em;
     color: #14446C;
 }
-.tutorials-container{
+
+.tutorials-container {
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
@@ -110,7 +125,8 @@
     background: #469788;
     height: 50px;
 }
-.tutorials-text{
+
+.tutorials-text {
     /* Body */
     font-family: 'Roboto';
     font-style: normal;
@@ -123,82 +139,73 @@
     color: #FFFFFF !important;
     margin: 0px !important;
 }
-.count-sphere-icons{
+
+.count-sphere-icons {
     width: 28px;
     height: 28px;
 }
-.info-box{
+
+.info-box {
     align-items: center;
 }
-.banner-heading-container{
+
+.banner-heading-container {
     display: flex;
     flex-direction: column;
-     flex-basis: 30%;
+    flex-basis: 30%;
 }
 
 /* carousel.component.css */
 
 .carousel {
-  overflow: hidden;
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    overflow: hidden;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .slides {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
+    display: flex;
+    transition: transform 0.5s ease-in-out;
 }
 
 .slide {
-  flex: 0 0 100%;
-  box-sizing: border-box;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  //padding: 0 10px;
-  /* Adjust padding as needed */
+    flex: 0 0 100%;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    //padding: 0 10px;
+    /* Adjust padding as needed */
 }
 
 .slide-content {
-  display: none;
+    display: none;
 }
 
 .slide-content.active {
-  display: block;
+    display: block;
 }
 
 
-.round-buttons {
-//   display: flex;
-//   // flex-direction: column;
-//   justify-content: center;
-//  // margin-top: 10px;
-//   gap: 5px;
-//   background: #469788;
-//     width: 20px; /* Adjust size as needed */
-//   height: 20px; /* Adjust size as needed */
-//   border-radius: 50%; /* Makes the element round */
-//   background-color: #333; /* Color of the dot */
-//   display: inline-block;
-}
+
 
 .round-button {
-  width: 10px;
-  height: 10px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.25);
-  margin: 0 5px;
-  cursor: pointer;
-  border: none;
-  border: none;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.25);
+    margin: 0 5px;
+    cursor: pointer;
+    border: none;
 }
 
 .round-button.active {
-  background-color: rgba(0, 0, 0, 0.978);
+    background-color: rgba(0, 0, 0, 0.978);
 }
-.scrollToCneCourses{
+
+.scrollToCneCourses {
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
@@ -210,7 +217,8 @@
     margin-top: -1px;
     flex-direction: column;
 }
-.scrollToHowSphereWorks{
+
+.scrollToHowSphereWorks {
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
@@ -222,9 +230,10 @@
     margin-top: -12px;
     flex-direction: column;
 }
-.tutorials-text{
+
+.tutorials-text {
     /* Body */
-    font-family: 'Roboto';
+    font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -235,6 +244,3 @@
     color: #FFFFFF !important;
     margin: 0px !important;
 }
-
-
-

@@ -37,9 +37,12 @@ export class AlmostDoneComponent implements OnInit {
   selectedAddress = ''
   enableSubmit = false
   errorMsg = 'Invalid.Please correct and try again'
-  healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
-  healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
+  healthWorkerProfessions = ['Midwives', 'GNM', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Pharmacist', 'Community Health Officer (CHO)', 'BSC Nurse', 'ANM/MPW', 'Others']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
+  ashaList = ['ASHA']
+  facultyList = ['Nursing Faculty', 'Medical Faculty', 'Other']
+  studentList = ['Bsc nursing', 'GNM', 'ANM/MPW', 'Midwife', 'Medical Student', 'Other']
   districtUrl = '../../../fusion-assets/files/district.json'
   disticts: any
   selectedBg = ''
@@ -48,14 +51,14 @@ export class AlmostDoneComponent implements OnInit {
   hideAsha = false
   result: any
   constructor(
-    private configSvc: ConfigurationsService,
+    public configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private router: Router,
-    private snackBar: MatSnackBar,
+    public snackBar: MatSnackBar,
     private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     private http: HttpClient,
-    private UserAgentResolverService: UserAgentResolverService,
+    public UserAgentResolverService: UserAgentResolverService,
     private signupService: SignupService,
   ) {
   }
@@ -71,6 +74,7 @@ export class AlmostDoneComponent implements OnInit {
       this.hideAsha = false
     }
     if (this.backgroundSelect === 'ASHA') {
+      this.almostDoneForm.controls.professSelected.setValue('ASHA')
       this.enableSubmit = true
       this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
@@ -92,14 +96,16 @@ export class AlmostDoneComponent implements OnInit {
     }
     if (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer') {
       this.enableSubmit = true
-      this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
-      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-        statesdata.states.map((item: any) => {
-          if (item.state === this.yourBackground.value.state) {
-            this.disticts = item.districts
-          }
+      if (this.yourBackground && this.yourBackground.value) {
+        this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
+        this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+          statesdata.states.map((item: any) => {
+            if (item.state === this.yourBackground.value.state) {
+              this.disticts = item.districts
+            }
+          })
         })
-      })
+      }
     }
   }
 
@@ -202,7 +208,7 @@ export class AlmostDoneComponent implements OnInit {
       this.almostDoneForm.controls.professionOtherSpecify.setValue(null)
     }
 
-    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
+    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse' || option === 'ANM/MPW') {
       this.rnFieldDisabled = false
     } else {
       this.almostDoneForm.controls.rnNumber.setValue(null)
@@ -305,6 +311,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'ASHA') {
       // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
+        console.log(value)
         if (value.block && value.subcentre) {
           this.enableSubmit = false
         } else {
@@ -355,7 +362,7 @@ export class AlmostDoneComponent implements OnInit {
     console.log(this.backgroundSelect, this.selectedBg)
   }
 
-  private getOrganisationsHistory() {
+  public getOrganisationsHistory() {
     const organisations: any = []
     console.log(this.almostDoneForm.value.orgOtherSpecify)
     const org = {
@@ -374,6 +381,7 @@ export class AlmostDoneComponent implements OnInit {
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block
       org['subcentre'] = this.almostDoneForm.value.subcentre
+      org['designation'] = this.almostDoneForm.value.professSelected
     }
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
@@ -385,6 +393,7 @@ export class AlmostDoneComponent implements OnInit {
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block
       org['subcentre'] = this.almostDoneForm.value.subcentre
+      org['designation'] = this.almostDoneForm.value.selectBackground
     }
     if (this.backgroundSelect === 'Student') {
       org['qualification'] = this.almostDoneForm.value.courseName
@@ -405,13 +414,13 @@ export class AlmostDoneComponent implements OnInit {
     })
     return formatedDegrees
   }
-  private getAcademics() {
+  public getAcademics() {
     const academics = []
     academics.push(...this.getDegree('GRADUATE'))
     return academics
   }
 
-  private constructReq() {
+  public constructReq() {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId,
         this.email = this.configSvc.userProfile.email || ''
@@ -513,7 +522,7 @@ export class AlmostDoneComponent implements OnInit {
     })
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 2000) {
+  public openSnackbar(primaryMsg: string, duration: number = 2000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

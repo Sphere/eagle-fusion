@@ -44,14 +44,14 @@ export class WebDashboardComponent implements OnInit {
   userId: any
   currentSlideIndex = 0;
   currentIndex = 0;
-  private intervalId: any
+  public intervalId: any
   lang: any = 'en'
   constructor(
-    private router: Router,
+    public router: Router,
     public dialog: MatDialog,
-    private scrollService: ScrollService,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
+    public scrollService: ScrollService,
+    public configSvc: ConfigurationsService,
+    public userProfileSvc: UserProfileService,
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
@@ -59,7 +59,9 @@ export class WebDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.lang = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    this.lang = this.configSvc!.unMappedUser
+      ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
+      : location.href.includes('/hi/') ? 'hi' : 'en'
 
     this.startCarousel()
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {

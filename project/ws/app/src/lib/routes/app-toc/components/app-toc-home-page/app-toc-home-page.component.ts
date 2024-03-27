@@ -22,6 +22,7 @@ import toInteger from 'lodash/toInteger'
 
 import moment from 'moment'
 
+
 export enum ErrorType {
   internalServer = 'internalServer'
   , serviceUnavailable = 'serviceUnavailable',
@@ -118,7 +119,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
-    private discussiConfig: DiscussConfigResolve
+    private discussiConfig: DiscussConfigResolve,
+
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
@@ -165,7 +167,17 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
         this.tocSvc.showDescription = data.pageData.data.showDescription || false
         this.tocConfig = data.pageData.data
+
+        try {
+
+          (window as any).fbq('track', 'VIEW_CONTENT', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName?"CNE":"Non CNE", value: data.content.data.cneName})
+        }
+        catch(e){0
+          console.log("fb pixel error")
+        }
         this.initData(data)
+
+
       })
     }
 
@@ -182,6 +194,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         console.log('error on batchSubscription')
       },
     )
+
   }
 
   showContents() {

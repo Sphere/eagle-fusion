@@ -21,8 +21,11 @@ import { HttpClient } from '@angular/common/http'
 export class WorkInfoListComponent implements OnInit {
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
-  healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
-  healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse', 'Others']
+  healthWorkerProfessions = ['Midwives', 'GNM', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Pharmacist', 'Community Health Officer (CHO)', 'BSC Nurse', 'ANM/MPW', 'Others']
+  ashaList = ['ASHA']
+  facultyList = ['Nursing Faculty', 'Medical Faculty', 'Other']
+  studentList = ['Bsc nursing', 'GNM', 'ANM/MPW', 'Midwife', 'Medical Student', 'Other']
   districtUrl = '../../../fusion-assets/files/district.json'
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false
@@ -49,14 +52,14 @@ export class WorkInfoListComponent implements OnInit {
   hideAsha = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   constructor(
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
+    public configSvc: ConfigurationsService,
+    public userProfileSvc: UserProfileService,
     // private router: Router,
-    private valueSvc: ValueService,
-    private contentSvc: WidgetContentService,
-    private UserAgentResolverService: UserAgentResolverService,
-    private snackBar: MatSnackBar,
-    private http: HttpClient,
+    public valueSvc: ValueService,
+    public contentSvc: WidgetContentService,
+    public UserAgentResolverService: UserAgentResolverService,
+    public snackBar: MatSnackBar,
+    public http: HttpClient,
   ) {
     this.personalDetailForm = new FormGroup({
       profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
@@ -74,7 +77,7 @@ export class WorkInfoListComponent implements OnInit {
       courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       locationselect: new FormControl(),
       selectBackground: new FormControl(),
-      professionOther: new FormControl(),
+      nameOther: new FormControl(),
     })
   }
 
@@ -118,7 +121,7 @@ export class WorkInfoListComponent implements OnInit {
       })
     }
     if (this.selectedBg === 'Other') {
-      this.personalDetailForm.controls.professionOther.setValue(null)
+      this.personalDetailForm.controls.designation.setValue(null)
     }
   }
 
@@ -156,7 +159,7 @@ export class WorkInfoListComponent implements OnInit {
                 orgName: newData.professionalDetails[0].name,
                 courseName: newData.professionalDetails[0].qualification,
                 selectBackground: newData.professionalDetails[0].selectBackground,
-                professionOther: newData.professionalDetails[0].profession,
+                nameOther: newData.professionalDetails[0].nameOther,
                 instituteName: newData.professionalDetails[0].instituteName,
                 regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
 
@@ -165,6 +168,11 @@ export class WorkInfoListComponent implements OnInit {
                 this.personalDetailForm.patchValue({
                   regNurseRegMidwifeNumber: newData.personalDetails.regNurseRegMidwifeNumber,
                 })
+                if (newData.professionalDetails[0].designation === 'ANM') {
+                  this.personalDetailForm.patchValue({
+                    designation: 'ANM/MPW',
+                  })
+                }
               }
               console.log(newData.professionalDetails[0], 'a')
               if (newData.personalDetails.postalAddress) {
@@ -234,7 +242,7 @@ export class WorkInfoListComponent implements OnInit {
       this.personalDetailForm.controls.professionOtherSpecify.setValue(null)
     }
 
-    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
+    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse' || option === 'ANM/MPW') {
       this.rnFieldDisabled = false
     } else {
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
@@ -244,7 +252,7 @@ export class WorkInfoListComponent implements OnInit {
 
   professionalChange(value: any) {
     console.log("degree", value, this.userProfileData)
-
+    // this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
     // this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.showDesignation = true
@@ -299,6 +307,7 @@ export class WorkInfoListComponent implements OnInit {
       this.Faculty = false
       this.professionOtherField = false
     } else if (value === 'Faculty') {
+      console.log('lll')
       this.orgOthersField = false
       this.orgTypeField = false
       this.showAshaField = false
@@ -306,10 +315,16 @@ export class WorkInfoListComponent implements OnInit {
       this.HealthcareVolunteer = false
       this.Student = false
       this.Faculty = true
+      this.personalDetailForm.controls.designation.setValue(null)
       this.professionOtherField = false
     } else if (value === 'Others') {
-      this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
-      this.personalDetailForm.controls.selectBackground.setValue(null)
+      if (!this.userProfileData.professionalDetails[0].selectBackground) {
+        this.personalDetailForm.controls.selectBackground.setValue(null)
+      }
+      if (!this.userProfileData.personalDetails.regNurseRegMidwifeNumber) {
+        this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
+      }
+
       this.professionOtherField = true
       this.orgTypeField = false
       this.showAshaField = false
@@ -327,12 +342,16 @@ export class WorkInfoListComponent implements OnInit {
       this.Student = true
       this.Faculty = false
       this.professionOtherField = false
-
+      this.personalDetailForm.controls.designation.setValue(null)
     } else {
       this.orgTypeField = true
       this.professionOtherField = false
       this.personalDetailForm.controls.regNurseRegMidwifeNumber.setValue(null)
       this.personalDetailForm.controls.orgType.setValue(null)
+    }
+    if (value === this.userProfileData.professionalDetails[0].profession) {
+      console.log('profession')
+      this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
     }
   }
 
@@ -355,7 +374,6 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    console.log('form submission', form.value, this.userProfileData, this.personalDetailForm)
     // console.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
@@ -419,8 +437,7 @@ export class WorkInfoListComponent implements OnInit {
 
 
 
-  private constructReq(form: any) {
-    console.log("feorm0", form.regNurseRegMidwifeNumber, form.value.regNurseRegMidwifeNumber)
+  public constructReq(form: any) {
     const userid = this.userProfileData.userId || this.userProfileData.id || ''
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
@@ -501,13 +518,12 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   private getOrganisationsHistory(form: any) {
-    console.log(form.value)
+    console.log(form.value, form.value.nameOther)
     const organisations: any = []
     const org = {
       name: form.value.orgName,
       orgType: form.value.orgType,
       orgOtherSpecify: form.value.orgOtherSpecify,
-      nameOther: form.value.orgNameOther,
       industry: form.value.industry,
       industryOther: form.value.industryOther,
       designation: form.value.designation,
@@ -521,6 +537,7 @@ export class WorkInfoListComponent implements OnInit {
       osid: _.get(this.userProfileData, 'professionalDetails[0].osid') || undefined,
       block: get(form.value, 'block') ? form.value.block : this.userProfileData.professionalDetails[0].block,
       subcentre: get(form.value, 'subcentre') ? form.value.subcentre : this.userProfileData.professionalDetails[0].subcentre,
+      nameOther: get(form.value, 'nameOther') ? form.value.nameOther : '',
       professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify : this.userProfileData.professionalDetails[0].professionOtherSpecify,
       locationselect: form.value.locationselect,
       qualification: get(form.value, 'courseName') ? form.value.courseName : this.userProfileData.professionalDetails[0].qualification,
@@ -532,7 +549,7 @@ export class WorkInfoListComponent implements OnInit {
     return organisations
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  public openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

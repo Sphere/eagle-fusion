@@ -135,6 +135,7 @@ import { MaternityCallbackComponent } from './maternity-callback/maternity-callb
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
 import { CarouselComponentComponent } from '../app/routes/carousel-banner/carousel-component.component'
+import { PublicLoginComponent } from './public-login/public-login.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
@@ -262,7 +263,8 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MaternityCallbackComponent,
     MyCoursesComponent,
     ScrollDetectorDirective,
-    CarouselComponentComponent
+    CarouselComponentComponent,
+    PublicLoginComponent
     // SettingsComponent
   ],
   imports: [
@@ -322,6 +324,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PipeCountTransformModule,
     PipeHtmlTagRemovalModule,
     HorizontalScrollerModule,
+
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,

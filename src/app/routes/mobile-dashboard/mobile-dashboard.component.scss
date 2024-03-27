@@ -1,65 +1,76 @@
 @import 'ws-mixins';
-.cne-text{
+
+.cne-text {
   color: #000;
 
-/* Header 2 */
-font-family: Roboto;
-font-size: 24px;
-font-style: normal;
-font-weight: 400;
-line-height: 28.8px; /* 120% */
-letter-spacing: -0.48px;
+  /* Header 2 */
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 28.8px;
+  /* 120% */
+  letter-spacing: -0.48px;
 }
-.cne-info{
+
+.cne-info {
   color: #000;
 
-/* Body */
-font-family: Roboto;
-font-size: 16px;
-font-style: normal;
-font-weight: 400;
-line-height: 24px; /* 150% */
-letter-spacing: -0.32px;
+  /* Body */
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 24px;
+  /* 150% */
+  letter-spacing: -0.32px;
 }
-.banner-container{
-    display: flex;
-    flex-wrap: wrap;
-}
-.banner-heading{
-    font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 24px;
-line-height: 29px;
-/* or 120% */
-padding: 65px 0px 0px 15px !important;
-letter-spacing: -0.02em;
 
-color: #000000;
+.banner-container {
+  display: flex;
+  flex-wrap: wrap;
 }
-.banner-mini-heading{
-font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 16px;
-line-height: 19px;
-letter-spacing: -0.02em;
-padding-left: 15px;
 
-color: #000000;
+.banner-heading {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 24px;
+  line-height: 29px;
+  /* or 120% */
+  padding: 65px 0px 0px 15px !important;
+  letter-spacing: -0.02em;
+
+  color: #000000;
 }
+
+.banner-mini-heading {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: -0.02em;
+  padding-left: 15px;
+
+  color: #000000;
+}
+
 p {
   margin: 0 !important;
   font-weight: 400;
 }
-.mb-6{
+
+.mb-6 {
   margin-bottom: 6rem;
 }
+
 .blue-color {
-  color:#1C5D95;
+  color: #1C5D95;
 }
+
 .grey-color {
-  color:#808080
+  color: #808080
 }
 
 .follow-btn {
@@ -71,6 +82,7 @@ p {
   color: #1C5D95;
   cursor: pointer;
 }
+
 .card {
   margin-top: 10px;
   box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
@@ -78,21 +90,24 @@ p {
   padding: 20px 0;
   border: none;
 }
+
 .follow-card {
   margin-top: 10px;
-  border-radius: 10px;
   width: 185px;
   text-align: center;
   padding: 15px 0;
   margin-right: 15px;
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%); border-radius: 10px;
+  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  border-radius: 10px;
 }
+
 .follow-img {
   border: 1px solid grey;
   border-radius: 50%;
   position: relative;
   left: 30%;
 }
+
 .horizontal-scroll-content {
   overflow-x: auto;
   height: 100%;
@@ -113,105 +128,120 @@ p {
   min-width: 276px;
   max-width: 276px;
 }
+
 .box {
   margin: 20px 0;
   padding-bottom: 5px;
 }
+
 .courseName {
-  color:#1C5D95;
+  color: #1C5D95;
   font-weight: 400;
-  font-size:16px;
+  font-size: 16px;
   margin-bottom: 0 !important;
 }
 
 span.language-text {
-    /* background-color: #bcdede; */
-    padding: 6px;
-    color: #277cc8 !important;
+  /* background-color: #bcdede; */
+  padding: 6px;
+  color: #277cc8 !important;
 }
+
 img.lang-img {
   width: 35px;
   height: 24px;
 }
-.banner-image{
-    max-width: 400px;
+
+.banner-image {
+  max-width: 400px;
 }
-@media (min-width:320px)  {
-    .banner-image{
-        max-width: 300px;
-    }
-    .info-container {
-        width: 160px;
-    }
+
+@media (min-width:320px) {
+  .banner-image {
+    max-width: 300px;
+  }
+
+  .info-container {
+    width: 160px;
+  }
 }
-@media (min-width:375px)  {
-    .banner-image{
-        max-width: 360px;
-    }
-    .info-container {
-        width: 187.5px;
-    }
+
+@media (min-width:375px) {
+  .banner-image {
+    max-width: 360px;
+  }
+
+  .info-container {
+    width: 187.5px;
+  }
 }
-@media (min-width:425px)  {
-     .banner-image{
-        max-width: 410px;
-    }
-    .info-container {
-        width: 212.5px;
-    }
+
+@media (min-width:425px) {
+  .banner-image {
+    max-width: 410px;
+  }
+
+  .info-container {
+    width: 212.5px;
+  }
 }
-.tutorials-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    background: #469788;
-    height: 51px;
-    margin-top: -11px;
+
+.tutorials-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  background: #469788;
+  height: 51px;
+  margin-top: -11px;
 }
-.tutorials-text{
-    /* Body */
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    /* or 150% */
-    text-align: center;
-    letter-spacing: -0.02em;
-    color: #FFFFFF !important;
-    margin: 0px !important;
+
+.tutorials-text {
+  /* Body */
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  /* or 150% */
+  text-align: center;
+  letter-spacing: -0.02em;
+  color: #FFFFFF !important;
+  margin: 0px !important;
 }
-.header2{
-  font-family: 'Roboto';
+
+.header2 {
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 24px;
   line-height: 29px;
 }
-.lable1{
-  font-family: 'Roboto';
+
+.lable1 {
+  font-family: 'Roboto', sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
 }
-.view-all-course{
-  font-family: 'Roboto';
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 16px;
 
-color: #2E6491;
+.view-all-course {
+  font-family: 'Roboto', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
 
-mix-blend-mode: normal;
-    display: flex;
-    justify-content: center;
-    border: 1px solid #2E6491;
-    padding: 8px 18px;
-    border-radius: 30px;
-    color: #2E6491;
-    background-color: #FFFFFF;
-    margin: auto;
+  color: #2E6491;
+
+  mix-blend-mode: normal;
+  display: flex;
+  justify-content: center;
+  border: 1px solid #2E6491;
+  padding: 8px 18px;
+  border-radius: 30px;
+  color: #2E6491;
+  background-color: #FFFFFF;
+  margin: auto;
 }

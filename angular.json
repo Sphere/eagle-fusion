@@ -173,14 +173,6 @@
             "project": "library/ws-widget/resolver/ng-package.json"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "library/ws-widget/resolver/src/test.ts",
-            "tsConfig": "library/ws-widget/resolver/tsconfig.spec.json",
-            "karmaConfig": "library/ws-widget/resolver/karma.conf.js"
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
@@ -206,14 +198,6 @@
           "options": {
             "tsConfig": "library/ws-widget/collection/tsconfig.lib.json",
             "project": "library/ws-widget/collection/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "library/ws-widget/collection/src/test.ts",
-            "tsConfig": "library/ws-widget/collection/tsconfig.spec.json",
-            "karmaConfig": "library/ws-widget/collection/karma.conf.js"
           }
         },
         "lint": {
@@ -243,14 +227,6 @@
             "project": "library/ws-widget/utils/ng-package.json"
           }
         },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "library/ws-widget/utils/src/test.ts",
-            "tsConfig": "library/ws-widget/utils/tsconfig.spec.json",
-            "karmaConfig": "library/ws-widget/utils/karma.conf.js"
-          }
-        },
         "lint": {
           "builder": "@angular-devkit/build-angular:tslint",
           "options": {
@@ -276,14 +252,6 @@
           "options": {
             "tsConfig": "project/ws/app/tsconfig.lib.json",
             "project": "project/ws/app/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "project/ws/app/src/test.ts",
-            "tsConfig": "project/ws/app/tsconfig.spec.json",
-            "karmaConfig": "project/ws/app/karma.conf.js"
           }
         },
         "lint": {
@@ -312,14 +280,6 @@
             "tsConfig": "project/ws/author/tsconfig.lib.json",
             "project": "project/ws/author/ng-package.json"
           }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "project/ws/author/src/test.ts",
-            "tsConfig": "project/ws/author/tsconfig.spec.json",
-            "karmaConfig": "project/ws/author/karma.conf.js"
-          }
         }
       }
     },
@@ -334,14 +294,6 @@
           "options": {
             "tsConfig": "project/ws/admin/tsconfig.lib.json",
             "project": "project/ws/admin/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "project/ws/admin/src/test.ts",
-            "tsConfig": "project/ws/admin/tsconfig.spec.json",
-            "karmaConfig": "project/ws/admin/karma.conf.js"
           }
         }
       }
@@ -358,14 +310,6 @@
             "tsConfig": "project/ws/analytics/tsconfig.lib.json",
             "project": "project/ws/analytics/ng-package.json"
           }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "project/ws/analytics/src/test.ts",
-            "tsConfig": "project/ws/analytics/tsconfig.spec.json",
-            "karmaConfig": "project/ws/analytics/karma.conf.js"
-          }
         }
       }
     },
@@ -380,14 +324,6 @@
           "options": {
             "tsConfig": "project/ws/viewer/tsconfig.lib.json",
             "project": "project/ws/viewer/ng-package.json"
-          }
-        },
-        "test": {
-          "builder": "@angular-devkit/build-angular:karma",
-          "options": {
-            "main": "project/ws/viewer/src/test.ts",
-            "tsConfig": "project/ws/viewer/tsconfig.spec.json",
-            "karmaConfig": "project/ws/viewer/karma.conf.js"
           }
         },
         "lint": {

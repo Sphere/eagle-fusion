@@ -37,13 +37,13 @@ export class WebHomeComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.lang = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    this.lang = this.configSvc!.unMappedUser
+      ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
+      : location.href.includes('/hi/') ? 'hi' : 'en'
 
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       console.log("yes here scroll", targetDivId)
-      if (targetDivId === 'scrollToHowSphereWorks') {
-        this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' })
-      } else if (targetDivId === 'scrollToCneCourses') {
+      if (['scrollToHowSphereWorks', 'scrollToCneCourses'].includes(targetDivId)) {
         this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' })
       }
     })

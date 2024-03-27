@@ -109,6 +109,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   }
   ngAfterViewInit() {
+
+    this.scormAdapterService.contentId = this.htmlContent!.identifier
+    this.scormAdapterService.htmlName = this.htmlContent!.name
+    this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent!.parent : undefined
   }
 
   ngOnDestroy() {
@@ -156,6 +160,9 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   async ngOnChanges() {
     if (this.htmlContent && this.htmlContent.identifier) {
 
+      this.scormAdapterService.contentId = this.htmlContent!.identifier
+      this.scormAdapterService.htmlName = this.htmlContent!.name
+      this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent!.parent : undefined
       let userId
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
@@ -169,16 +176,16 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           fields: ['progressdetails'],
         },
       }
-      console.log(req)
+      console.log(req, 'req')
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         async data => {
           if (this.htmlContent && data) {
             this.contentData = []
             console.log(this.htmlContent.identifier)
             this.contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-            console.log(this.contentData, this.htmlContent, 'wee')
-            this.ent = true
-            if (this.contentData === undefined || (this.contentData && this.contentData.completionPercentage === 100)) {
+            //console.log(this.contentData, this.contentData.completionPercentage, 'wee')
+            //this.ent = true
+            if ((this.contentData && this.contentData.completionPercentage === 100 && this.htmlContent.mimeType !== 'application/vnd.ekstep.html-archive')) {
               const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
                 this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
               const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
@@ -235,13 +242,14 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       }
       // console.log(req)
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
-        data => {
+        async data => {
           if (this.htmlContent && data) {
-            //this.contentData = []
-            console.log(this.htmlContent.identifier, data['result']['contentList'])
+            let contentData: any
+            contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
+            console.log(this.htmlContent.identifier, contentData, '1')
             // this.contentData =  data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-            console.log(this.contentData, this.htmlContent, this.ent, 'ent')
-            if (this.contentData && this.contentData.completionPercentage === 0 && this.ent === true) {
+            console.log(contentData, this.htmlContent, this.ent, 'ent')
+            if (contentData && contentData.completionPercentage === 0) {
               let req: any
               if (this.configSvc.userProfile) {
                 req = {
@@ -252,16 +260,16 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                         contentId: this.htmlContent!.identifier,
                         batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                         courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                        status: 1,
+                        status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                         lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                         progressdetails: {},
-                        completionPercentage: 0
+                        completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                       }
                     ],
                   },
                 }
                 console.log(req)
-                console.log(`}`, '217')
+                console.log(`}`, '273')
                 this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                   let res = await data
                   console.log(res)
@@ -272,7 +280,69 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               this.scormAdapterService.htmlName = this.htmlContent.name
               this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent.parent : undefined
               console.log('scorm here')
-              this.scormAdapterService.loadDataV2()
+              if (contentData && contentData.completionPercentage === 100) {
+                let req: any
+                if (this.configSvc.userProfile) {
+                  req = {
+                    request: {
+                      userId: this.configSvc.userProfile.userId || '',
+                      contents: [
+                        {
+                          contentId: this.htmlContent!.identifier,
+                          batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+                          courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+                          status: 2,
+                          lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+                          progressdetails: {},
+                          completionPercentage: 100
+                        }
+                      ],
+                    },
+                  }
+                  console.log(req)
+                  console.log(`{}`, '296')
+                  this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
+                    let res = await data
+                    console.log(res)
+                  })
+                }
+              } else {
+                if (contentData === undefined) {
+                  let req: any
+                  if (this.configSvc.userProfile) {
+                    req = {
+                      request: {
+                        userId: this.configSvc.userProfile.userId || '',
+                        contents: [
+                          {
+                            contentId: this.htmlContent!.identifier,
+                            batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+                            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+                            status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
+                            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+                            progressdetails: {},
+                            completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
+                          }
+                        ],
+                      },
+                    }
+                    console.log(req)
+                    console.log(`{}`, '333')
+                    this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
+                      let res = await data
+                      console.log(res)
+                      if (res) {
+                        let result = {}
+                        result["type"] = 'scorm'
+                        this.contentSvc.changeMessage(result)
+                      }
+                    })
+                  }
+                } else {
+                  console.log('342')
+                  this.scormAdapterService.loadDataV2()
+                }
+              }
             }
           }
         })

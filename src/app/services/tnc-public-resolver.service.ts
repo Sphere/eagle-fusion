@@ -30,17 +30,19 @@ export class TncPublicResolverService implements Resolve<Observable<IResolveResp
     )
   }
   getPublicTnc(locale?: string): Observable<NsTnc.ITnc> {
-    console.log(locale)
+    location.href.includes('/hi/')
     let data: any
     let lang: any
     let url1: any
+    if (locale === null || locale === undefined) {
+      lang = location.href.includes('/hi/') === true ? 'hi' : 'en'
+    }
     if (localStorage.getItem('preferedLanguage')) {
       data = localStorage.getItem('preferedLanguage')
       lang = JSON.parse(data)
       if (lang.id) {
         lang = lang.id !== 'en' ? lang.id : ''
       }
-      console.log(lang)
     }
     if (lang === 'hi') {
       url1 = `${this.configSvc.sitePath}/tnc.config.${'hi'}.json`
