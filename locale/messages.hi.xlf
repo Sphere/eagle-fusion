@@ -2738,6 +2738,10 @@
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">4</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="84026b0b828aee0ec5676866379f2f2a0e9f0f52" datatype="html">
         <source>Start Learning</source>
@@ -5048,12 +5052,20 @@
           <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
-            <trans-unit id="4e6fb73cc5277c8f7ade9cfc2b483a11bd98df77" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="{{data}}"/></source>
+            <trans-unit id="ee0012c695d3bc5a345827bb5ac88477a5fed4b2" datatype="html">
+        <source><x id="INTERPOLATION"  equiv-text="{{data.message}}"/></source>
         <target>बधाई हो!, आपने पाठ्यक्रम पूरा कर लिया है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
-          <context context-type="linenumber">2</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="80ed5b776a26a78099e230e0e89d96c33ba44e24" datatype="html">
+        <source>Submit your feedback</source>
+           <target state="final">अपनी प्रतिक्रिया सबमिट करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
+          <context context-type="linenumber">14</context>
         </context-group>
       </trans-unit>
             <trans-unit id="80ed5b776a26a78099e230e0e89d96c33ba44e24" datatype="html">
