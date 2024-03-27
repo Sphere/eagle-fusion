@@ -174,48 +174,16 @@ export class SearchApiService {
       }))
   }
 
-  getSearchV7Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<any> {
-    debugger
+  getSearchV7Results(body: NSSearch.ISearchV6RequestV2): Observable<any> {
     return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, body)
       .pipe(map((res: any) => {
 
-        const tempArray = Array()
         if (res.result.content.length > 0) {
-          searchconfig.forEach((ele: any) => {
-            const temp: NSSearch.IFacet = {
-              displayName: '',
-              type: '',
-              content: [],
-            }
-
-            temp.displayName = ele.displayname
-            temp.type = ele.name
-            console.log("res getSearchV7Results", res, temp)
-
-            if (ele.values.length > 0) {
-              ele.values.forEach((subEle: any) => {
-                temp.content.push({
-                  displayName: subEle.name,
-                  type: subEle.name,
-                  count: subEle.count,
-                  id: '',
-                })
-              })
-            }
-            tempArray.push(temp)
-          })
-        }
-        res = tempArray
-        for (const filter of res.filters) {
-          if (filter.type === 'catalogPaths') {
-            if (filter.content.length === 1) {
-              filter.content = filter.content[0].children || []
-            }
-            break
-          }
+          console.log("v6", res)
+          return res
         }
 
-        return res
+
       }))
   }
 

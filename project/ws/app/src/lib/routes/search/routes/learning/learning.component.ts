@@ -62,7 +62,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       content: [],
     },
   }
-  searchResults: NSSearch.ISearchV6ApiResultV2 = {
+  searchResults: any = {
     id: '',
     ver: '',
     ts: '',
@@ -404,7 +404,7 @@ export class LearningComponent implements OnInit, OnDestroy {
           // if (this.searchRequestObject && this.searchRequestObject.pageNo) {
           //   this.searchRequestObject.pageNo = 0
           // }
-          this.newSearchResults = {
+          this.searchResults = {
             responseCode: '',
             result: {
               count: 0,
@@ -793,7 +793,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     } else if (withQuotes && this.newSearchRequestObject.query.indexOf(' ') > -1) {
       this.exactResult.applied = true
       this.newSearchRequestObject.query = this.newSearchRequestObject.query.replace(/['"]+/g, '')
-      this.newSearchResults.result.content = []
+      this.searchResults.result.content = []
       this.exactResult.show = false
       // this.searchRequestObject.request.pageNo = 0
       this.exactResult.old = this.newSearchRequestObject.query
@@ -803,82 +803,86 @@ export class LearningComponent implements OnInit, OnDestroy {
       this.newSearchRequestObject.query,
       '', '',
     )
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
-    this.newSearchRequestObject.language = 'hi'
+    this.newSearchRequestObject.language = local
     if (localStorage.getItem('orgValue') === 'nhsrc') {
     }
-    debugger
     this.searchResultsSubscription = this.searchServ
       .getsearchLearning(this.newSearchRequestObject)
       .subscribe(
         data => {
-          debugger
-          this.newSearchResults.result.count = data.result.count
+          if (data && data.result && data.result.count) {
+            this.searchResults.result.count = data.result.count
+            this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
+
+          }
+
           this.searchServ.raiseNewSearchResponseEvent(
             this.newSearchRequestObject.query,
-            this.newSearchResults.result.count,
+            this.searchResults.result.count,
             '',
           )
-          console.log("data", data)
-          this.newSearchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
 
           if (
-            this.newSearchResults.result.count === 0 && this.isDefaultFilterApplied
+            this.searchResults.result.count === 0 && this.isDefaultFilterApplied
           ) {
             this.removeDefaultFiltersApplied()
             this.getSearchResults(undefined, didYouMean)
             return
-          } if (this.newSearchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
+          } if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
             this.searchWithPreferredLanguage()
             this.getSearchResults(undefined, didYouMean)
             return
           } if (
-            this.newSearchResults.result.count === 0 &&
+            this.searchResults.result.count === 0 &&
             this.searchRequestObject.request.query.indexOf(' ') === -1
           ) {
             this.noContent = true
           } else if ( // No results with phrase search disabled and space separated words
-            this.newSearchResults.result.count === 0 &&
+            this.searchResults.result.count === 0 &&
             this.searchRequestObject.request.query.indexOf(' ') > -1 &&
             !this.applyPhraseSearch
           ) {
             this.noContent = true
           } else if (
-            this.newSearchResults.result.count === 0 &&
+            this.searchResults.result.count === 0 &&
             this.searchRequestObject.request.query.indexOf(' ') > -1 &&
             withQuotes
           ) {
             this.noContent = true
           } else if (
-            this.newSearchResults.result.count === 0 &&
+            this.searchResults.result.count === 0 &&
             this.searchRequestObject.request.query.indexOf(' ') > -1 && this.applyPhraseSearch
           ) {
             this.getSearchResults(true, didYouMean)
             return
           } else if (
-            this.newSearchResults.result.count === 0 &&
+            this.searchResults.result.count === 0 &&
             this.searchRequestObject.request.query.indexOf(' ') === -1 // &&
           ) {
 
             this.getSearchResults(true, didYouMean)
             return
           } else if (
-            this.newSearchResults.result.count > 0 &&
+            this.searchResults.result.count > 0 &&
             this.searchRequestObject.request.query.indexOf(' ') > -1 &&
             !this.exactResult.applied
           ) {
             this.exactResult.show = true
             this.exactResult.text = this.searchRequestObject.request.query.replace(/['"]+/g, '')
           }
-          if (this.newSearchResults.result.content.length < this.newSearchResults.result.count) {
+          if (this.searchResults.result.content.length < this.searchResults.result.count) {
             this.searchRequestStatus = 'hasMore'
           } else {
             this.searchRequestStatus = 'done'
           }
-          if (this.newSearchResults.result.content.length < this.newSearchResults.result.count) {
+          if (this.searchResults.result.content.length < this.searchResults.result.count) {
           }
-
-          this.getTrainingsLHub2(this.newSearchResults)
+          if (data && data.result && data.result.count) {
+            this.searchRequestStatus = 'done'
+          }
+          this.getTrainingsLHub2(this.searchResults)
         },
         error => {
           this.error.load = true

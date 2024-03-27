@@ -78,7 +78,7 @@ export class SearchServService {
       query: request.query,
       language: request.language,
     }
-    return this.searchApi.getSearchV7Results(v6Request, this.searchConfig.defaultsearch)
+    return this.searchApi.getSearchV7Results(v6Request)
   }
   searchV6Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     // this.searchConfig.search['visibleFiltersV2'] = {
