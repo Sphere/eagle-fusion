@@ -52,6 +52,8 @@ export class ConfirmmodalComponent implements OnInit {
   }
 
   submitRating(ratingsForm: any) {
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
     let userId = ''
     if (ratingsForm.value.review) {
       if (this.configSvc.userProfile) {
@@ -72,18 +74,38 @@ export class ConfirmmodalComponent implements OnInit {
       this.contentSvc.submitCourseRating(req)
         .then((data: any) => {
           if (data && data.params && data.params.status === 'Successful') {
-            this.openSnackbar('Thank You for your feedback!')
+            let message
+            if (local === 'en') {
+              message = `Thank You for your feedback!`
+            } else {
+              message = `आपकी प्रतिक्रिया के लिए आपका धन्यवाद!`
+            }
+            this.openSnackbar(message)
             this.dialogRef.close({ event: 'CONFIRMED' })
           } else {
+            let message
+            if (local === 'en') {
+              message = `Something went wrong, please try again later!`
+            } else {
+              message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
+            }
             this.dialogRef.close({ event: 'CONFIRMED' })
-            this.openSnackbar('Something went wrong, please try again later!')
+            this.openSnackbar(message)
           }
         })
         .catch((err: any) => {
+
+          let message
+          if (local === 'en') {
+            message = `An error occurred, please try again later!`
+          } else {
+            message = `एक त्रुटि घटित हुई है, कृपया बाद में पुन: प्रयास करें!`
+          }
           if (err && err.error && err.error.message) {
             this.openSnackbar(err.error.message)
           } else {
-            this.openSnackbar('An error occurred, please try again later!')
+            this.openSnackbar(message)
+
           }
         })
     }

@@ -11,7 +11,7 @@
 
     <div mat-dialog-title class="relative m-0">
 
-        <h2 class="m-0 center-align title" mat-dialog-title>Submit your feedback</h2>
+        <h2 class="m-0 center-align title" mat-dialog-title i18n>Submit your feedback</h2>
     </div>
     <mat-dialog-content>
         <form [formGroup]="ratingsForm">
@@ -33,7 +33,7 @@
             <div class="margin-top-s margin-bottom-s center-align">
                 <button class="margin-left-s submit-btn" (click)="submitData()"
                     [disabled]="ratingsForm?.invalid || !selectedRating" color="primary">
-                    <ng-container>Submit</ng-container>
+                    <ng-container i18n>Submit</ng-container>
                 </button>
             </div>
         </form>
