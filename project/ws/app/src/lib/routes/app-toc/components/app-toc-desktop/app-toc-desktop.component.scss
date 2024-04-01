@@ -169,7 +169,13 @@
 
 
 }
-
+.pencil{
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px !important;
+    cursor: pointer;
+}
 .banner-btn-active {
   display: flex;
   color: #1c5d95 !important;

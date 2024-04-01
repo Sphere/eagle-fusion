@@ -21,6 +21,7 @@ export class ConfirmmodalComponent implements OnInit {
   isMobile = false
   stars: number[] = [1, 2, 3, 4, 5];
   selectedRating!: number
+  isMandatory: boolean = false
 
   constructor(
     public snackBar: MatSnackBar,
@@ -31,22 +32,55 @@ export class ConfirmmodalComponent implements OnInit {
     private valueSvc: ValueService,
     public contentSvc: WidgetContentService,
   ) {
+
     dialogRef.disableClose = true
   }
 
   ngOnInit() {
+    console.log("data", this.data)
     this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
     this.ratingsForm = this.formBuilder.group({
       review: ['', Validators.required],
     })
+    if (
+      this.data.request.courseRating &&
+      this.data.request.courseRating.content &&
+      this.data.request.courseRating.content.length > 0
+    ) {
+      console.log("Data available:", this.data)
+
+      const firstContent = this.data.request.courseRating.content[0]
+      if (firstContent.rating) {
+        console.log("Rating:", firstContent.rating)
+        console.log("Review:", firstContent.review)
+
+        this.selectedRating = firstContent.rating
+        if (firstContent.rating <= 3 && !firstContent.review) {
+          this.isMandatory = true
+        }
+        this.ratingsForm.controls.review.setValue(firstContent.review)
+      } else {
+        console.error("Missing rating or review in content:", firstContent)
+      }
+    } else {
+      console.error("No course rating content available:", this.data.request.courseRating)
+    }
+
   }
 
   setRating(rating: number) {
     this.selectedRating = rating
+    console.log("rating:", rating, this.ratingsForm.controls.review.value)
+    if (rating <= 3 && (this.ratingsForm.controls.review.value === '' || this.ratingsForm.controls.review.value === null)) {
+      this.isMandatory = true
+    } else {
+      this.isMandatory = false
+    }
   }
 
   submitData() {
-    if (this.ratingsForm.controls.review.value && this.selectedRating) {
+    if (!this.isMandatory && this.selectedRating) {
+      console.log("yes here")
       this.submitRating(this.ratingsForm)
     }
   }
@@ -55,7 +89,7 @@ export class ConfirmmodalComponent implements OnInit {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
     let userId = ''
-    if (ratingsForm.value.review) {
+    if (this.selectedRating) {
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
       }
@@ -66,7 +100,7 @@ export class ConfirmmodalComponent implements OnInit {
           userId,
           activityType: 'Course',
           rating: this.selectedRating,
-          review: ratingsForm.value.review,
+          review: ratingsForm.value.review ? ratingsForm.value.review : null,
           recommended: this.selectedRating >= 3 ? 'yes' : 'no',
         }
       }

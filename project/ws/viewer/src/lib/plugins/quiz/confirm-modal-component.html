@@ -23,16 +23,16 @@
                 </div>
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
-                <textarea i18n i18n-placeholder style="height: 96px;padding: 10px;" rows="4" matInput
-                    placeholder=" Tell us more about what you felt" name="name" formControlName="review"
-                    required></textarea>
+                <textarea (input)="setRating(selectedRating)" i18n i18n-placeholder style="height: 96px;padding: 10px;"
+                    rows="4" matInput placeholder=" Tell us more about what you felt" name="name"
+                    formControlName="review" required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
                     Comments is mandatory
                 </mat-error>
             </div>
             <div class="margin-top-s margin-bottom-s center-align">
-                <button class="margin-left-s submit-btn" (click)="submitData()"
-                    [disabled]="ratingsForm?.invalid || !selectedRating" color="primary">
+                <button class="margin-left-s submit-btn" (click)="submitData()" [disabled]="isMandatory"
+                    color="primary">
                     <ng-container i18n>Submit</ng-container>
                 </button>
             </div>

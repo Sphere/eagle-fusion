@@ -19,7 +19,7 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 // import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
-import { FormControl, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 // import * as dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
@@ -29,7 +29,9 @@ import moment from 'moment'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
+import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 // import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
+import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 
 @Component({
   selector: 'ws-app-app-toc-desktop',
@@ -114,6 +116,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
+    private loader: LoaderService,
 
     // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document
@@ -979,7 +982,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   //   }
 
   // }
-  readCourseRating(data: any) {
+  openRating(data: any) {
     console.log("read rating", data)
     let userId = ''
     if (data) {
@@ -990,29 +993,49 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       if (this.content) {
         req = {
           request: {
-            userId,
-            activityId: data.courseId,
+            userId: [userId],
+            activityId: data,
             activityType: "Course",
           },
         }
       }
+      this.loader.changeLoad.next(true)
 
-      this.contentSvc.readCourseRating(req).then((data: any) => {
+      this.contentSvc.readCourseRating(req).then((res: any) => {
+        if (res && res.params.status === 'success') {
+          console.log("response", res)
 
-        if (data && data.result && data.result.count > 0) {
+          const courseData = {
+            courseId: data,
+            courseRating: res.result
+          }
+          this.loader.changeLoad.next(false)
 
+          const dialogRef = this.dialog.open(ConfirmmodalComponent, {
+            width: '300px',
+            height: '410px',
+            data: { request: courseData, message: 'Congratulations!, you have completed the course' },
+            disableClose: false,
+          })
 
-          console.log("data: " + data.result.content[0])
+          dialogRef.afterClosed().subscribe((data: { event: any, ratingsForm: FormGroup, rating: number }) => {
+            console.log("data: ", data)
+            if (data && data.event && data.event === "CONFIRMED")
+              this.readCourseRatingSummary()
+          })
 
 
         } else {
+          this.loader.changeLoad.next(false)
+
           this.openSnackbar('Something went wrong, please try again later!')
           this.disableEnrollBtn = false
         }
       })
         .catch((err: any) => {
+          this.loader.changeLoad.next(false)
           console.log("err", err)
-          this.openSnackbar(err.error.message)
+          this.openSnackbar('Something went wrong, please try again later!')
         })
     }
 
