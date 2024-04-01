@@ -46,7 +46,7 @@
         <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i)" alt="Star">
       </ng-container>
       <span *ngIf="totalRatings>0" class="total-rating">( {{totalRatings}} )</span>
-      <div *ngIf="content?.completionPercentage === 100"
+      <div *ngIf="content?.completionPercentage === 100 && averageRating > 0"
         class="flex flex-col gap-1 justify-content-center align-items-center">
         <mat-icon class="float-right pencil cursor-pointer" (click)="openRating(content?.identifier)"
           matTooltip="Edit Rating">edit</mat-icon>
