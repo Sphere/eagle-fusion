@@ -25,6 +25,13 @@ export class PublicTocComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.activeRoute.queryParams.subscribe(params => {
+      try {
+
+        (window as any).fbq('track', 'ViewContent', { "contentId": params['courseid'], "content_category": "Public TOC" })
+      }
+      catch (e) {
+        console.log("fb pixel error")
+      }
       // console.log(params)
       this.courseid = params['courseid'] !== undefined ? params['courseid'] : params['courseId']
       if (localStorage.getItem('userUUID')) {

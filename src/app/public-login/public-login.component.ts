@@ -42,8 +42,15 @@ export class PublicLoginComponent implements OnInit {
   ngOnInit() {
   }
   submitDetails(form: any) {
-    console.log(form.status)
+
     if (form.status === "VALID") {
+      try {
+
+        (window as any).fbq('track', 'SubmitApplication')
+      }
+      catch (e) {
+        console.log("fb pixel error")
+      }
       let phone = this.loginPwdForm.controls.emailOrMobile.value
       let type = ''
       // const validphone = /^[6-9]\d{9}$/.test(phone)
