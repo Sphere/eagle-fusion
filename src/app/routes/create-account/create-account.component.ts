@@ -152,6 +152,8 @@ export class CreateAccountComponent implements OnInit {
   }
 
   onSubmit(form: any, createAccount: any) {
+
+
     sessionStorage.setItem('login-btn', 'clicked')
     let phone = this.createAccountForm.controls.emailOrMobile.value
     // const validphone = /^[6-9]\d{9}$/.test(phone)
@@ -198,6 +200,13 @@ export class CreateAccountComponent implements OnInit {
         console.log(res)
         console.log(res.status)
         if (res.message = "User successfully created") {
+          try {
+
+            (window as any).fbq('track', 'CompleteRegistration', { content_category: 'email' })
+          }
+          catch (e) {
+            console.log("fb pixel error")
+          }
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
@@ -261,6 +270,13 @@ export class CreateAccountComponent implements OnInit {
       //this.signupService.registerWithMobile(requestBody).subscribe((res: any) => {
       this.signupService.ssoWithMobileEmail(requestBody).subscribe(res => {
         if (res.message === 'User successfully created') {
+          try {
+
+            (window as any).fbq('track', 'CompleteRegistration', { content_category: 'mobile' })
+          }
+          catch (e) {
+            console.log("fb pixel error")
+          }
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {

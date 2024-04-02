@@ -170,9 +170,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
         try {
 
-          (window as any).fbq('track', 'VIEW_CONTENT', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName?"CNE":"Non CNE", value: data.content.data.cneName})
+          (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName?"CNE":"Non CNE", value: data.content.data.cneName})
         }
-        catch(e){0
+        catch(e){
           console.log("fb pixel error")
         }
         this.initData(data)
