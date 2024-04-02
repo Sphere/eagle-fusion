@@ -100,7 +100,7 @@ export class PublicLoginComponent implements OnInit {
     }
   }
   resendOTP(form?: any) {
-    console.log(form.status)
+    console.log(form)
     if ((this.loginForm.status === 'VALID')) {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
