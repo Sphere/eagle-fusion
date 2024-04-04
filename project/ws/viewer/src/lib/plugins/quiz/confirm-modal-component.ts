@@ -51,6 +51,10 @@ export class ConfirmmodalComponent implements OnInit {
     }
   }
 
+  done() {
+    this.dialogRef.close({ event: 'CONFIRMED' })
+  }
+
   submitRating(ratingsForm: any) {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
