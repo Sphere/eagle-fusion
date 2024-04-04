@@ -1,5 +1,8 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
-import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
+import {
+  APP_BASE_HREF, PlatformLocation,
+  //CommonModule
+} from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import {
@@ -136,6 +139,8 @@ import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
 import { CarouselComponentComponent } from '../app/routes/carousel-banner/carousel-component.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
+//import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
+import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
@@ -205,6 +210,33 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
   }
 }
 
+// const dbConfig: DBConfig = {
+//   name: 'optimistic-ui-online-store',
+//   version: 1,
+//   objectStoresMeta: [
+//     {
+//       store: 'onlineCourseProgress',
+//       storeConfig: { keyPath: 'id', autoIncrement: true },
+//       storeSchema: [
+//         { name: 'courseId', keypath: 'courseId', options: { unique: false } },
+//         { name: 'contentId', keypath: 'contentId', options: { unique: false } },
+//         { name: 'userId', keypath: 'userId', options: { unique: false } },
+//         // Add more properties as needed
+//       ]
+//     },
+//     {
+//       store: 'userEnrollCourse',
+//       storeConfig: { keyPath: 'id', autoIncrement: true },
+//       storeSchema: [
+//         { name: 'courseId', keypath: 'courseId', options: { unique: false } },
+//         { name: 'contentId', keypath: 'contentId', options: { unique: false } },
+//         { name: 'userId', keypath: 'userId', options: { unique: false } },
+//         // Add more properties as needed
+//       ]
+//     }
+//   ]
+// }
+
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
   declarations: [
@@ -264,13 +296,15 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MyCoursesComponent,
     ScrollDetectorDirective,
     CarouselComponentComponent,
-    PublicLoginComponent
+    PublicLoginComponent,
+    TnaiCallbackComponent
     // SettingsComponent
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
+    //CommonModule,
     HttpClientModule,
     HttpClientJsonpModule,
     BrowserAnimationsModule,
@@ -324,7 +358,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PipeCountTransformModule,
     PipeHtmlTagRemovalModule,
     HorizontalScrollerModule,
-
+    //NgxIndexedDBModule.forRoot(dbConfig)
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,

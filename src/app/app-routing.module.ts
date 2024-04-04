@@ -53,6 +53,7 @@ import { AppCallBackComponent } from './component/app-call-back/app-call-back.co
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
+import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -353,6 +354,10 @@ const routes: Routes = [
     path: 'openid/sphereapp',
     component: AppCallBackComponent,
 
+  },
+  {
+    path: 'openid/tnai',
+    component: TnaiCallbackComponent,
   },
   {
     path: 'organisations',
