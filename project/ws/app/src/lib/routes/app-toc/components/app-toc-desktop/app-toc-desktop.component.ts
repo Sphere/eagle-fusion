@@ -136,7 +136,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.enrollApi()
     console.log(this.resumeData, this.content)
     if (this.content) {
-      this.readCourseRatingSummary()
+      //this.readCourseRatingSummary()
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
