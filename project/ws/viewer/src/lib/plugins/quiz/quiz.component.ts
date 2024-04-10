@@ -299,6 +299,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           artifactUrl: this.artifactUrl,
           name: this.name,
           collectionId: this.collectionId,
+          gating: this.viewerDataSvc.gatingEnabled
         },
 
       },
@@ -515,11 +516,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           artifactUrl: this.artifactUrl,
           name: this.name,
           collectionId: this.collectionId,
+          gating: this.viewerDataSvc.gatingEnabled
         },
 
       },
     })
     this.dialogQuiz.afterClosed().subscribe((result: any) => {
+      console.log(result, 'res')
       if (result) {
         if (result.event === 'CLOSE') {
           this.closeQuizBtnDialog(result.event)
