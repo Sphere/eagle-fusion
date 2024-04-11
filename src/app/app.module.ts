@@ -93,6 +93,7 @@ import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 
+import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 // import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 // import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
@@ -257,6 +258,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MobileLoginComponent,
     LoginOtpComponent,
     CreateAccountComponent,
+    BnrcRegisterComponent,
     YourLocationComponent,
     NewTncComponent,
     YourBackgroundComponent,

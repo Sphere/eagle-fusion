@@ -1,0 +1,192 @@
+<ws-header></ws-header>
+<div class="content bnrc-page-content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
+  <p class="text-2xl mt-2" i18n>E-kshamata Registration</p>
+  <form [formGroup]="bnrcDetailForm" class="mt-3 mb-5">
+    <label i18n for="profession" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
+    <div class="form-group input-box">
+      <input pattern="[a-zA-Z\s]+" type="text" name="firstname" formControlName="firstname" i18n class="form-control"
+        placeholder="First Name" autocomplete="off">
+    </div>
+    <label i18n for="profession" style="display: block;">Last Name / उपनाम <span class="red-icon">*</span></label>
+    <div class="form-group input-box">
+      <input pattern="[a-zA-Z\s]+" type="text" name="surname" formControlName="surname" i18n class="form-control"
+        placeholder="Last Name" autocomplete="off">
+    </div>
+    <label i18n for="profession" style="display: block;">Phone Number / मोबाइल नंबर <span
+        class="red-icon">*</span></label>
+    <div class="form-group input-box">
+      <input pattern="[a-zA-Z\s]+" type="text" name="mobile" formControlName="mobile" i18n class="form-control"
+        placeholder="First Name" autocomplete="off">
+    </div>
+    <label i18n for="profession" style="display: block;">Email / ईमेल <span class="red-icon">*</span></label>
+    <div class="form-group input-box">
+      <input pattern="[a-zA-Z\s]+" type="text" name="email" formControlName="email" i18n class="form-control"
+        placeholder="Email Id" autocomplete="off">
+    </div>
+    <label i18n for="profession" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
+
+    <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-select formControlName="district" i18n-placeholder placeholder="District">
+        <mat-option [value]="district" *ngFor="let district of districts">{{district}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <label i18n for="profession" style="display: block;">Division / विभाजन <span class="red-icon">*</span></label>
+    <div class="form-group input-box">
+      <input pattern="[a-zA-Z\s]+" type="text" name="division" formControlName="division" i18n class="form-control"
+        placeholder="Division" autocomplete="off">
+    </div>
+    <label i18n for="profession" style="display: block;">Role <span class="red-icon">*</span> </label>
+
+    <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-select formControlName="profession" i18n-placeholder placeholder="Role"
+        (selectionChange)="professionalChange($event.value)">
+        <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <ng-container *ngIf="Student">
+      <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
+          class="red-icon">*</span></label>
+
+      <div class="form-group mt-4 input-box">
+        <input pattern="[a-zA-Z\s]+" type="text" class="form-control" formControlName="instituteName"
+          placeholder="Name of Institute" i18n-placeholder
+          (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
+      </div>
+      <mat-error class="text-danger mb-4" *ngIf="bnrcDetailForm.controls['instituteName'].hasError('pattern')">
+        {{errorMsg}}</mat-error>
+
+      <label i18n for="profession" style="display: block;">Type of Institute /संस्थान का प्रकार <span
+          class="red-icon">*</span></label>
+
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
+          <mat-option [value]="profession" *ngFor="let profession of instituteType">{{profession}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <label i18n for="profession" style="display: block;">Course Selection / पाठ्यक्रम चयन <span
+          class="red-icon">*</span></label>
+
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="courseSelection" i18n-placeholder placeholder="Course selection">
+          <mat-option [value]="profession" *ngFor="let profession of courseSelection">{{profession}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+    </ng-container>
+    <!-- Background: Faculty -->
+    <ng-container *ngIf="Faculty">
+      <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
+          class="red-icon">*</span></label>
+
+      <div class="form-group mt-4 input-box">
+        <input pattern="[a-zA-Z\s]+" type="text" class="form-control" formControlName="instituteName"
+          placeholder="Name of Institute" i18n-placeholder
+          (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
+      </div>
+      <mat-error class="text-danger mb-4" *ngIf="bnrcDetailForm.controls['instituteName'].hasError('pattern')">
+        {{errorMsg}}</mat-error>
+      <label i18n for="profession" style="display: block;">Type of Institute / संस्थान का प्रकार <span
+          class="red-icon">*</span></label>
+
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
+          <mat-option [value]="profession" *ngFor="let profession of instituteType">{{profession}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <label i18n for="profession" style="display: block;">Type Of Faculty / संकाय का प्रकार <span
+          class="red-icon">*</span></label>
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="facultyList" i18n-placeholder placeholder=" Type Of Faculty">
+          <mat-option [value]="profession" *ngFor="let profession of facultyList">{{profession}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-error class="text-danger mb-4" *ngIf="bnrcDetailForm.controls['designation'].hasError('pattern')">
+        {{errorMsg}}</mat-error>
+
+
+      <div class="form-group">
+        <label for="regNurseRegMidwifeNumber" i18n>HRMS/Manav Sampada id <span class="red-icon">*</span></label>
+        <input type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
+          placeholder="HRMS/Manav Sampada id " autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="regNurseRegMidwifeNumber" i18n>BNRC Registration number <span class="red-icon">*</span></label>
+        <input type="text" formControlName="bnrcNumber" class="form-control" i18n-placeholder
+          placeholder="BNRC Registration number" autocomplete="off">
+      </div>
+
+
+    </ng-container>
+    <ng-container *ngIf="inService">
+      <label i18n for="profession" style="display: block;">Role for Inservice Nurse <span
+          class="red-icon">*</span></label>
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="courseSelection" i18n-placeholder placeholder="Role for Inservice Nurse">
+          <mat-option [value]="profession" *ngFor="let profession of inserviceList">{{profession}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+    <div *ngIf="publicHealthFacility">
+      <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="position" i18n-placeholder placeholder="Position">
+          <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <div class="form-group">
+        <label for="facilityName" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
+        <input pattern="[a-zA-Z\s]+" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
+          placeholder="Name of Facility" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="hrmsId" i18n>HRMS/Manav Sampada id <span class="red-icon">*</span></label>
+        <input type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
+          placeholder="HRMS/Manav Sampada id " autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="bnrcNumber" i18n>BNRC Registration number <span class="red-icon">*</span></label>
+        <input type="text" formControlName="bnrcNumber" class="form-control" i18n-placeholder
+          placeholder="BNRC Registration number" autocomplete="off">
+      </div>
+
+
+    </div>
+    <div *ngIf="privateHealthFacility">
+      <div class="form-group">
+        <label for="facilityName" i18n>Position / पद<span class="red-icon">*</span></label>
+        <input pattern="[a-zA-Z\s]+" type="text" formControlName="position" class="form-control" i18n-placeholder
+          placeholder="Position" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="facilityName" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
+        <input pattern="[a-zA-Z\s]+" pattern="[a-zA-Z\s]+" type="text" formControlName="facilityName"
+          class="form-control" i18n-placeholder placeholder="Name of Facility" autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="hrmsId" i18n>HRMS/Manav Sampada id <span class="red-icon">*</span></label>
+        <input pattern="[a-zA-Z\s]+" type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
+          placeholder="HRMS/Manav Sampada id " autocomplete="off">
+      </div>
+      <div class="form-group">
+        <label for="bnrcNumber" i18n>BNRC Registration number <span class="red-icon">*</span></label>
+        <input pattern="[a-zA-Z\s]+" type="text" formControlName="bnrcNumber" class="form-control" i18n-placeholder
+          placeholder="BNRC Registration number" autocomplete="off">
+      </div>
+    </div>
+    <div>
+      <button type="submit" (click)="onSubmit(bnrcDetailForm)" class="save-btn" i18n>Save</button>
+    </div>
+  </form>
+  <input type="hidden" #toastSuccess />
+
+</div>
