@@ -299,6 +299,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           artifactUrl: this.artifactUrl,
           name: this.name,
           collectionId: this.collectionId,
+          gating: this.viewerDataSvc.gatingEnabled
         },
 
       },
@@ -367,8 +368,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                         courseId: this.collectionId,
                       }
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        width: '300px',
-                        height: '405px',
+                        // width: '300px',
+                        //height: '405px',
+                        width: "542px",
                         panelClass: 'overview-modal',
                         disableClose: true,
                         data: { request: data, message: 'Congratulations!, you have completed the course' },
@@ -421,8 +423,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             courseId: this.collectionId,
           }
           const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-            width: '300px',
-            height: '405px',
+            //width: '300px',
+            //height: '405px',
+            width: '542px',
             panelClass: 'overview-modal',
             disableClose: true,
             data: { request: data, message: 'Congratulations!, you have completed the course' },
@@ -513,11 +516,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           artifactUrl: this.artifactUrl,
           name: this.name,
           collectionId: this.collectionId,
+          gating: this.viewerDataSvc.gatingEnabled
         },
 
       },
     })
     this.dialogQuiz.afterClosed().subscribe((result: any) => {
+      console.log(result, 'res')
       if (result) {
         if (result.event === 'CLOSE') {
           this.closeQuizBtnDialog(result.event)
@@ -562,8 +567,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
                       && this.contentSvc.showConformation) {
                       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        width: '300px',
-                        height: '405px',
+                        // width: '300px',
+                        //height: '405px',
+                        width: '542px',
                         panelClass: 'overview-modal',
                         disableClose: true,
                         data: 'Congratulations!, you have completed the course',

@@ -673,8 +673,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             }
             console.log("data", this.collectionId, data)
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              width: '300px',
-              height: '405px',
+              //width: '300px',
+              //height: '405px',
+              width: '542px',
               panelClass: 'overview-modal',
               disableClose: true,
               data: { request: data, message: 'Congratulations!, you have completed the course' },
@@ -709,8 +710,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             console.log("data", this.collectionId, data)
 
             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              width: '300px',
-              height: '405px',
+              //width: '300px',
+              //height: '405px',
+              width: '542px',
               panelClass: 'overview-modal',
               disableClose: true,
               data: { request: data, message: 'Congratulations!, you have completed the course' },

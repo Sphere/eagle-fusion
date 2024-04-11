@@ -40,6 +40,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   userAnswer: any
   showAnswer = false
   disableSubmit = true
+  disableContinue = false
   /*
 * to unsubscribe the observable
 */
@@ -175,8 +176,15 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
+        console.log(this.result, this.passPercentage)
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
+        }
+
+        if (this.assesmentdata.generalData.gating && this.result < this.passPercentage) {
+          this.disableContinue = true
+        } else {
+          this.disableContinue = false
         }
       },
       (_error: any) => {
@@ -345,7 +353,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.updateQuestionType(false)
       }
-    },         500)
+    }, 500)
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion
