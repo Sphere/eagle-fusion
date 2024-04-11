@@ -140,15 +140,7 @@ export class BnrcRegisterComponent implements OnInit {
       position: new FormControl('', [Validators.required]),
     })
   }
-  englishWordValidator(control: FormControl) {
-    const englishRegex = /^[a-zA-Z\s]*$/ // Regex pattern to match English letters and spaces
 
-    if (!englishRegex.test(control.value)) {
-      return { notEnglish: true }
-    }
-
-    return null
-  }
   ngOnInit() {
     console.log("districts", this.districts)
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -228,13 +220,17 @@ export class BnrcRegisterComponent implements OnInit {
 
   }
 
-  onSubmit(form: any) {
+  onSubmit() {
+    const formValues = this.bnrcDetailForm.value
     const reqUpdate = {
       request: {
-        form
+        formValues
+
       },
     }
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+
+    console.log("role", reqUpdate)
+    this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
         }

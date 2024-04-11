@@ -51,7 +51,7 @@
           class="red-icon">*</span></label>
 
       <div class="form-group mt-4 input-box">
-        <input pattern="[a-zA-Z\s]+" type="text" class="form-control" formControlName="instituteName"
+        <input autocomplete="off" pattern="[a-zA-Z\s]+" type="text" class="form-control" formControlName="instituteName"
           placeholder="Name of Institute" i18n-placeholder
           (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
       </div>
@@ -84,7 +84,7 @@
           class="red-icon">*</span></label>
 
       <div class="form-group mt-4 input-box">
-        <input pattern="[a-zA-Z\s]+" type="text" class="form-control" formControlName="instituteName"
+        <input autocomplete="off" pattern="[a-zA-Z\s]+" type="text" class="form-control" formControlName="instituteName"
           placeholder="Name of Institute" i18n-placeholder
           (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
       </div>
