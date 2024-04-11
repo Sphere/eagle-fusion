@@ -69,7 +69,7 @@ export class ViewerUtilService {
           //   // if percentage is greater than 95% make it 100
           //   percent = 100
           // }
-        } if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'Quiz') {
+        } if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'application/json') {
           return 100
         } if (mimeType === NsContent.EMimeTypes.ZIP) {
           return 100
@@ -114,7 +114,7 @@ export class ViewerUtilService {
         if (Math.ceil(percentage) >= 95) {
           return 2
         }
-      } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'Quiz') {
+      } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'application/json') {
         // if (current === 1) {
         //   return 0
         // }

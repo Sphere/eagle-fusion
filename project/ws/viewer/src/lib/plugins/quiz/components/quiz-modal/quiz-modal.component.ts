@@ -192,7 +192,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
           const data2 = {
             current: 10,
             max_size: 10,
-            mime_type: 'Quiz'
+            mime_type: "application/json"
           }
           this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
             console.log(data)
