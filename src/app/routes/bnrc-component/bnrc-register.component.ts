@@ -18,10 +18,8 @@ import { HttpClient } from '@angular/common/http'
 })
 
 export class BnrcRegisterComponent implements OnInit {
-  professions = ['Student', 'Faculty', 'In Service', 'Public Health Facility', 'Private Health Facility']
+  professions = ['Student', 'Faculty', 'In Service']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
-  healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse', 'Others']
-  healthWorkerProfessions = ['Midwives', 'GNM', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Pharmacist', 'Community Health Officer (CHO)', 'BSC Nurse', 'ANM/MPW', 'Others']
   inserviceList = ['Public Health Facility', 'Private Health Facility']
   facultyList = ['Diploma', 'Degree']
   courseSelection = ['ANM', 'GNM', 'BSc Nursing', 'PBBSc Nursing', 'MSc Nursing']
@@ -109,35 +107,23 @@ export class BnrcRegisterComponent implements OnInit {
     public http: HttpClient,
   ) {
     this.bnrcDetailForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      surname: new FormControl('', [Validators.required]),
-      mobile: new FormControl('', [Validators.required]),
-      email: new FormControl('', [Validators.required]),
-      profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      designation: new FormControl('', [Validators.required]),
-      professionOtherSpecify: new FormControl('', [Validators.required]),
-      regNurseRegMidwifeNumber: new FormControl('', [Validators.pattern(/[^\s]/)]),
-      orgType: new FormControl('', [Validators.required]),
-      orgOtherSpecify: new FormControl('', [Validators.required]),
-      organizationName: new FormControl('', [Validators.required]),
-      block: new FormControl('', [Validators.required]),
-      subcentre: new FormControl('', [Validators.required]),
-      professSelected: new FormControl('', [Validators.required]),
-      orgName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/)]),
+      email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      role: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      locationselect: new FormControl('', [Validators.required]),
-      selectBackground: new FormControl('', [Validators.required]),
-      nameOther: new FormControl('', [Validators.required]),
       district: new FormControl('', [Validators.required]),
       division: new FormControl('', [Validators.required]),
       courseSelection: new FormControl('', [Validators.required]),
       instituteType: new FormControl('', [Validators.required]),
-      bnrcNumber: new FormControl('', [Validators.required]),
+      bnrcRegistrationNumber: new FormControl('', [Validators.required]),
       hrmsId: new FormControl('', [Validators.required]),
-      facultyList: new FormControl('', [Validators.required]),
+      facultyType: new FormControl('', [Validators.required]),
       facilityName: new FormControl('', [Validators.required]),
-      position: new FormControl('', [Validators.required]),
+      roleForInService: new FormControl('', [Validators.required]),
+      publicFacilityType: new FormControl('', [Validators.required]),
+      privateFacilityType: new FormControl('', [Validators.required]),
     })
   }
 
@@ -182,12 +168,14 @@ export class BnrcRegisterComponent implements OnInit {
     } else if (value === 'In Service') {
       this.showDesignation = true
 
+      this.bnrcDetailForm.controls.courseSelection.setValue(null)
 
       this.Student = false
       this.Faculty = false
       this.inService = true
       this.publicHealthFacility = false
       this.privateHealthFacility = false
+
     } else if (value === 'Public Health Facility') {
       this.showDesignation = true
 
@@ -233,6 +221,7 @@ export class BnrcRegisterComponent implements OnInit {
     this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
+          this.openSnackbar('User registration successfull')
         }
       })
   }
