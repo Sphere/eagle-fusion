@@ -305,6 +305,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     })
     this.dialogAssesment.afterClosed().subscribe((result: any) => {
+      console.log(result.event)
       if (result) {
         if (result.event === 'NEXT_COMPETENCY' && result.competency) {
           this.nextCompetency()
@@ -360,6 +361,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+                  console.log(data, this.contentSvc.showConformation)
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
@@ -572,7 +574,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                         width: '542px',
                         panelClass: 'overview-modal',
                         disableClose: true,
-                        data: 'Congratulations!, you have completed the course',
+                        data: { request: data, message: 'Congratulations!, you have completed the course' },
                       })
                       confirmdialog.afterClosed().subscribe((res: any) => {
                         if (res.event === 'CONFIRMED') {
@@ -583,6 +585,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                             },
                           })
                         }
+                      })
+                    } else {
+                      console.log('last')
+                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                        queryParams: {
+                          primaryCategory: 'Course',
+                          batchId: this.route.snapshot.queryParams.batchId,
+                        },
                       })
                     }
                     // else {

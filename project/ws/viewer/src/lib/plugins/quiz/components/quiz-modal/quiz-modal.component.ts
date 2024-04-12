@@ -145,7 +145,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   submitQuiz() {
     this.ngOnDestroy()
-
+    this.isCompleted = true
     const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
     this.fetchingResultsStatus = 'fetching'
     const requestData: NSQuiz.IQuizSubmitRequest = this.quizService.createAssessmentSubmitRequest(
@@ -198,7 +198,6 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
             console.log(data)
             if (data.params.status === "success") {
               this.disableContinue = false
-              this.isCompleted = true
             }
           })
         }
