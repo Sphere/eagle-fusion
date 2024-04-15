@@ -111,8 +111,8 @@ export class BnrcRegisterComponent implements OnInit {
       lastName: new FormControl('', [Validators.required]),
       phone: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]*$/)]),
       email: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
-      role: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      role: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      instituteName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
       district: new FormControl('', [Validators.required]),
       division: new FormControl('', [Validators.required]),
       courseSelection: new FormControl('', [Validators.required]),
@@ -209,21 +209,31 @@ export class BnrcRegisterComponent implements OnInit {
   }
 
   onSubmit() {
-    const formValues = this.bnrcDetailForm.value
-    const reqUpdate = {
-      request: {
-        formValues
+    // Trigger form validation
+    this.bnrcDetailForm.markAllAsTouched()
+    console.log("error", this.bnrcDetailForm.errors)
+    // Check if the form is valid
+    if (this.bnrcDetailForm.valid) {
+      const formValues = this.bnrcDetailForm.value
+      const reqUpdate = {
+        request: {
+          formValues
 
-      },
+        },
+      }
+
+      console.log("role", reqUpdate)
+      this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
+        (res: any) => {
+          if (res) {
+            this.openSnackbar('User registration successfull')
+          }
+        })
+      console.log('Form is valid. Saving data...')
+    } else {
+      // Form is invalid, display validation errors
+      console.log('Form is invalid. Please check the fields.')
     }
-
-    console.log("role", reqUpdate)
-    this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
-      (res: any) => {
-        if (res) {
-          this.openSnackbar('User registration successfull')
-        }
-      })
   }
 
   public openSnackbar(primaryMsg: string, duration: number = 5000) {
