@@ -52,6 +52,7 @@
   align-items: center;
   margin: $size-xs 0;
   justify-content: space-between;
+
   .card-thumbnail {
     $image-height: 65px;
     height: $image-height;
@@ -120,7 +121,7 @@
   display: flex;
   align-items: center;
   margin: $size-s 0;
-  // border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px solid #E7F2FA;
 
   ws-display-content-type-icon {
     display: flex;
@@ -188,6 +189,7 @@
 .text-truncate {
   white-space: normal !important;
 }
-.ml-2{
+
+.ml-2 {
   margin-left: 20px;
 }

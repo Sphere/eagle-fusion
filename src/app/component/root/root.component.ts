@@ -345,10 +345,11 @@ export class RootComponent implements OnInit, AfterViewInit {
             if (localStorage.getItem('url_before_login')) {
               const url = localStorage.getItem('url_before_login') || ''
               location.href = url
-            } else {
+            } else if (this.configSvc.unMappedUser) {
               window.location.href = '/page/home'
             }
           }
+
           // setTimeout(() => {
           //   this.signupService.fetchStartUpDetails().then(result => {
           //     if (result && result.status !== 200) {

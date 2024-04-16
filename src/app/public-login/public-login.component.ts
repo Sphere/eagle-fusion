@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatSnackBar } from '@angular/material'
+
 @Component({
   selector: 'ws-public-login',
   templateUrl: './public-login.component.html',
@@ -17,7 +18,7 @@ export class PublicLoginComponent implements OnInit {
   constructor(
     private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
   ) {
     this.loginForm = this.spherFormBuilder.group({
       // firstName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
@@ -40,6 +41,12 @@ export class PublicLoginComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    sessionStorage.clear()
+    localStorage.removeItem('preferedLanguage')
+    localStorage.removeItem('loginbtn')
+    localStorage.removeItem('userUUID')
+    localStorage.clear()
   }
   submitDetails(form: any) {
 
