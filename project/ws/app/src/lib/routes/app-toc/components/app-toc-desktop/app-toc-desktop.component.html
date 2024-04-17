@@ -6,7 +6,7 @@
       </button>
     </div>
     <div class="cne-duration-block margin-bottpm">
-      <div><span class="cne-block" *ngIf="content?.cneName" style="word-wrap: break-word;">
+      <div><span class="cne-block" *ngIf="content?.cneName && content?.cneName != ' '" style="word-wrap: break-word;">
           CNE hours: {{ content.cneName }} </span></div>
 
       <div class="duration-block">
