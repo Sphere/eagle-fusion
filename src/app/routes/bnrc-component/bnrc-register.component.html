@@ -136,7 +136,8 @@
 
 
       <div class="form-group">
-        <label for="regNurseRegMidwifeNumber" i18n>HRMS/Manav Sampada id <span class="red-icon">*</span></label>
+        <label for="regNurseRegMidwifeNumber" i18n>HRMS/Manav Sampada id <span *ngIf="hrmsErr"
+            class="red-icon">*</span></label>
         <input type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
           placeholder="HRMS/Manav Sampada id " autocomplete="off">
         <mat-error *ngIf="bnrcDetailForm.get('hrmsId')?.invalid && bnrcDetailForm.get('hrmsId')?.touched">
@@ -144,7 +145,8 @@
         </mat-error>
       </div>
       <div class="form-group">
-        <label for="regNurseRegMidwifeNumber" i18n>BNRC Registration number <span class="red-icon">*</span></label>
+        <label for="regNurseRegMidwifeNumber" i18n>BNRC Registration number <span *ngIf="bnrcErr"
+            class="red-icon">*</span></label>
         <input type="text" formControlName="bnrcRegistrationNumber" class="form-control" i18n-placeholder
           placeholder="BNRC Registration number" autocomplete="off">
         <mat-error

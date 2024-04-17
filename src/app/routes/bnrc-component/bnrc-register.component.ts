@@ -193,7 +193,8 @@ export class BnrcRegisterComponent implements OnInit {
       }
     } else if (value === 'Faculty') {
       this.showDesignation = true
-
+      this.hrmsErr = false
+      this.bnrcErr = true
 
       this.Student = false
       this.Faculty = true
@@ -299,27 +300,27 @@ export class BnrcRegisterComponent implements OnInit {
     console.log("error", this.bnrcDetailForm.errors)
     // Check if the form is valid
 
-    if (this.bnrcDetailForm.valid) {
-      const formValues = this.bnrcDetailForm.value
-      const reqUpdate = {
-        request: {
-          formValues
+    // if (this.bnrcDetailForm.valid) {
+    const formValues = this.bnrcDetailForm.value
+    const reqUpdate = {
+      request: {
+        formValues
 
-        },
-      }
-
-      console.log("role", reqUpdate)
-      this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
-        (res: any) => {
-          if (res) {
-            this.openSnackbar('User registration successfull')
-          }
-        })
-      console.log('Form is valid. Saving data...')
-    } else {
-      //   // Form is invalid, display validation errors
-      console.log('Form is invalid. Please check the fields.')
+      },
     }
+
+    console.log("role", reqUpdate)
+    this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
+      (res: any) => {
+        if (res) {
+          this.openSnackbar('User registration successfull')
+        }
+      })
+    console.log('Form is valid. Saving data...')
+    // } else {
+    //   //   // Form is invalid, display validation errors
+    //   console.log('Form is invalid. Please check the fields.')
+    // }
   }
 
   public openSnackbar(primaryMsg: string, duration: number = 5000) {
