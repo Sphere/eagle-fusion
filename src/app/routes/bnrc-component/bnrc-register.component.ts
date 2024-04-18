@@ -98,6 +98,7 @@ export class BnrcRegisterComponent implements OnInit {
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   hrmsErr: boolean = false
   bnrcErr: boolean = false
+  showMessage: boolean = false
   constructor(
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
@@ -335,6 +336,11 @@ export class BnrcRegisterComponent implements OnInit {
       (res: any) => {
         if (res.message) {
           this.message = res.message
+          this.showMessage = true
+          // Hide the message after 5 seconds
+          setTimeout(() => {
+            this.showMessage = false
+          }, 10000)
         } else {
           this.openSnackbar('Something went wrong, Please try again')
         }

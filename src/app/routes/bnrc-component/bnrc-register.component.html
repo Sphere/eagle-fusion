@@ -294,7 +294,7 @@
         </mat-error>
       </div>
     </div>
-    <span *ngIf="message" [innerHTML]="message"></span>
+    <span *ngIf="showMessage" [innerHTML]="message"></span>
 
     <div style="margin: 10px 0px;">
       <button type="submit" (click)="onSubmit()" class="save-btn" i18n>Save</button>
