@@ -358,10 +358,10 @@ export class BnrcRegisterComponent implements OnInit {
     this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
       (res: any) => {
         if (res.message) {
+          this.openSnackbar('User successfully registered')
           this.message = res.message
           this.showMessage = true
           this.bnrcDetailForm.reset() // Reset the form
-
         } else {
           this.openSnackbar('Something went wrong, Please try again')
         }

@@ -11,7 +11,9 @@ a.blue {
 :host ::ng-deep .blue {
   color: #1C5D95 !important;
 }
-
+.cursor-pointer {
+  cursor: pointer;
+}
 a.blue,
 ::ng-deep .theme-igot.day-mode a[href^="/"][target=_self],
 ::ng-deep .theme-igot.day-mode a[href^=http],
