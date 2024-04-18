@@ -116,6 +116,14 @@ export class WidgetContentService {
     return apiData
   }
 
+  readContentV2(id: string): Observable<NsContent.IContent> {
+    let url = `/apis/proxies/v8/action/content/v3/read/${id}`
+    const apiData = this.http
+      .get<NsContent.IContent>(url)
+      .pipe(retry(1))
+    return apiData
+  }
+
   processCertificate(req: any): Observable<any> {
     const url = `/apis/proxies/v8/course/batch/cert/v1/issue/`
     return this.http.post<any>(url, req)
