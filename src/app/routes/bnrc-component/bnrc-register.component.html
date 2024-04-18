@@ -22,11 +22,11 @@
     <label i18n for="profession" style="display: block;">Phone Number / मोबाइल नंबर <span
         class="red-icon">*</span></label>
     <div class="form-group input-box">
-      <input type="number" name="mobile" formControlName="phone" i18n class="form-control" placeholder="Phone Number"
+      <input type="text" name="mobile" formControlName="phone" i18n class="form-control" placeholder="Phone Number"
         autocomplete="off">
     </div>
     <mat-error *ngIf="bnrcDetailForm.get('phone')?.invalid && bnrcDetailForm.get('phone')?.touched">
-      Phone Number is required.
+      Phone Number is required / Phone number is invalid
     </mat-error>
     <label i18n for="profession" style="display: block;">Email / ईमेल </label>
     <div class="form-group input-box">
@@ -294,6 +294,7 @@
         </mat-error>
       </div>
     </div>
+    <span *ngIf="message">{{message}}</span>
     <div style="margin: 10px 0px;">
       <button type="submit" (click)="onSubmit()" class="save-btn" i18n>Save</button>
     </div>
