@@ -408,7 +408,8 @@ export class BnrcRegisterComponent implements OnInit {
       console.log("role", reqUpdate)
       this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
         (res: any) => {
-          if (res.message) {
+          console.log("test", res)
+          if (res.status === 'SUCCESS') {
             this.loader.changeLoad.next(false)
 
             // this.openSnackbar('User successfully registered')
@@ -423,19 +424,19 @@ export class BnrcRegisterComponent implements OnInit {
               data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
             })
           } else {
-            this.loader.changeLoad.next(false)
+            console.log('Form is valid. Saving data...', res)
 
-            this.openSnackbar('Something went wrong, Please try again')
+            this.loader.changeLoad.next(false)
+            this.openSnackbar(res.message)
           }
         })
-      console.log('Form is valid. Saving data...')
     } else {
       // this.openSnackbar('Form is invalid. Please refresh the page.')
       console.log('Form is invalid. Please check the fields.')
     }
   }
 
-  public openSnackbar(primaryMsg: string, duration: number = 5000) {
+  public openSnackbar(primaryMsg: string, duration: number = 10000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
