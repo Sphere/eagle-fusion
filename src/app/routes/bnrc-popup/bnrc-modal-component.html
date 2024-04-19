@@ -1,0 +1,19 @@
+<div class="overview-container">
+    <div class="header-block">
+        <img alt="" src="./../../../fusion-assets/icons/success.svg" />
+        <span class="header">Registration successful!</span>
+        <button mat-button class="close-icon" mat-dialog-close>
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <div class="flex text-center">
+        <p i18n class="message-text">{{data.message}}</p>
+    </div>
+    <div class="btn-block">
+        <button class="btn btn-active btn-main download-btn" mat-raised-button (click)="done('download')" i18n>Download
+            e-Kshamata</button>
+        <button class="btn btn-active btn-main continue-btn" mat-raised-button (click)="done('continue')"
+            i18n>Continue</button>
+
+    </div>
+</div>

@@ -5,7 +5,7 @@
 </nav>
 <div class="content bnrc-page-content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
   <p class="text-2xl mt-2" i18n>E-kshamata Registration</p>
-  <form [formGroup]="bnrcDetailForm" class="mt-3 mb-5">
+  <form [formGroup]="bnrcDetailForm" class="mt-3 mb-10">
     <label i18n for="profession" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
     <div class="form-group input-box">
       <input pattern="[a-zA-Z\s]+" type="text" name="firstName" formControlName="firstName" i18n class="form-control"
@@ -298,10 +298,18 @@
         </mat-error>
       </div>
     </div>
-    <span *ngIf="showMessage" [innerHTML]="message"></span>
 
-    <div style="margin: 10px 0px;">
-      <button type="submit" (click)="onSubmit()" class="save-btn" i18n>Submit</button>
+    <!-- <div style="
+    border-radius: 10px;
+    background: #6f68c0;
+    padding: 14px; text-align: center;
+"><span style="text-align: center;
+    color: white;" *ngIf="showMessage" [innerHTML]="message"></span></div> -->
+
+    <div style="margin: 10px 0px;    display: flex;
+    justify-content: center;
+">
+      <button [disabled]="isSubmitting" type="submit" (click)="onSubmit()" class="save-btn" i18n>Submit</button>
     </div>
   </form>
   <input type="hidden" #toastSuccess />

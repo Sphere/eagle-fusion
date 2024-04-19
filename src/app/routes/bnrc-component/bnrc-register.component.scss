@@ -1,15 +1,17 @@
 @import 'ws-mixins';
 @import 'ws-common';
 a.blue {
-  color: #1C5D95 !important;
+  color:#8BC34A !important;
 }
-
+.mb-10{
+  margin-bottom: 6rem !important;
+}
 ::ng-deep .theme-igot.day-mode a[href^="/"][target=_self], .theme-igot.day-mode a[href^=http], .theme-igot.day-mode a[href^=mailto], .theme-igot.day-mode a[target=_blank]{
-    color: #1C5D95 !important;
+    color: #8BC34A !important
 
 }
 :host ::ng-deep .blue {
-  color: #1C5D95 !important;
+    color: #8BC34A !important
 }
 .cursor-pointer {
   cursor: pointer;

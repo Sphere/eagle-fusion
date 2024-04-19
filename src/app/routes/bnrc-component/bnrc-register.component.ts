@@ -7,10 +7,12 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 // import { constructReq } from '../request-util'
-import { MatSnackBar } from '@angular/material'
+import { MatDialog, MatSnackBar } from '@angular/material'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
+import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
+import { LoaderService } from '../../../../project/ws/author/src/public-api'
 @Component({
   selector: 'ws-bnrc-register',
   templateUrl: './bnrc-register.component.html',
@@ -94,6 +96,8 @@ export class BnrcRegisterComponent implements OnInit {
     "Vaishali",
     "West Champaran"
   ]
+  isSubmitting = false;
+
   message: string = ''
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   hrmsErr: boolean = false
@@ -108,7 +112,10 @@ export class BnrcRegisterComponent implements OnInit {
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private dialog: MatDialog,
+    private loader: LoaderService,
+
   ) {
     this.bnrcDetailForm = this.formBuilder.group({
       firstName: new FormControl('', [Validators.required]),
@@ -345,6 +352,7 @@ export class BnrcRegisterComponent implements OnInit {
   onSubmit() {
     this.bnrcDetailForm.markAllAsTouched()
     console.log("error", this.bnrcDetailForm)
+    this.loader.changeLoad.next(true)
 
     // if (this.bnrcDetailForm.valid) {
     const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
@@ -353,16 +361,35 @@ export class BnrcRegisterComponent implements OnInit {
         formValues
       },
     }
+    this.isSubmitting = true
+
+    // Simulate an asynchronous operation (e.g., HTTP request)
+    setTimeout(() => {
+      // After some time, enable the button again
+      this.isSubmitting = false
+    }, 2000)
+
 
     console.log("role", reqUpdate)
     this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
       (res: any) => {
         if (res.message) {
+          this.loader.changeLoad.next(false)
+
           this.openSnackbar('User successfully registered')
           this.message = res.message
           this.showMessage = true
           this.bnrcDetailForm.reset() // Reset the form
+          this.dialog.open(BnrcmodalComponent, {
+            width: '350px',
+            height: '300px',
+            panelClass: 'overview-modal',
+            disableClose: true,
+            data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
+          })
         } else {
+          this.loader.changeLoad.next(false)
+
           this.openSnackbar('Something went wrong, Please try again')
         }
       })

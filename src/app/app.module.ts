@@ -142,7 +142,7 @@ import { CarouselComponentComponent } from '../app/routes/carousel-banner/carous
 import { PublicLoginComponent } from './public-login/public-login.component'
 //import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
-
+import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -299,8 +299,9 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     ScrollDetectorDirective,
     CarouselComponentComponent,
     PublicLoginComponent,
-    TnaiCallbackComponent
+    TnaiCallbackComponent,
     // SettingsComponent
+    BnrcmodalComponent
   ],
   imports: [
     FormsModule,
@@ -369,6 +370,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
   ],
   bootstrap: [RootComponent],
   entryComponents: [
+    BnrcmodalComponent,
     DialogConfirmComponent,
     LoginComponent,
     ProfileSelectComponent,
