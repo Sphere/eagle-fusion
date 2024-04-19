@@ -207,7 +207,22 @@ export class BnrcRegisterComponent implements OnInit {
       this.bnrcDetailForm.controls.facilityName.setValue(null)
       this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
-
+      const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
+      if (publicFacilityTypeControl) {
+        publicFacilityTypeControl.setValidators([])
+      }
+      const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
+      if (roleForInServiceControl) {
+        roleForInServiceControl.setValidators([])
+      }
+      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
+      if (serviceTypeControl) {
+        serviceTypeControl.setValidators([])
+      }
+      const facilityNameControl = this.bnrcDetailForm.get('facilityName')
+      if (facilityNameControl) {
+        facilityNameControl.setValidators([])
+      }
     } else if (value === 'Faculty') {
       this.showDesignation = true
       this.hrmsErr = false
@@ -236,6 +251,22 @@ export class BnrcRegisterComponent implements OnInit {
       const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
       if (courseSelectionControl) {
         courseSelectionControl.setValidators([])
+      }
+      const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
+      if (publicFacilityTypeControl) {
+        publicFacilityTypeControl.setValidators([])
+      }
+      const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
+      if (roleForInServiceControl) {
+        roleForInServiceControl.setValidators([])
+      }
+      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
+      if (serviceTypeControl) {
+        serviceTypeControl.setValidators([])
+      }
+      const facilityNameControl = this.bnrcDetailForm.get('facilityName')
+      if (facilityNameControl) {
+        facilityNameControl.setValidators([])
       }
       this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
       this.bnrcDetailForm.controls.roleForInService.setValue(null)
@@ -298,6 +329,10 @@ export class BnrcRegisterComponent implements OnInit {
       if (facilityNameControl) {
         facilityNameControl.setValidators([Validators.required])
       }
+      const privateFacilityTypeControl = this.bnrcDetailForm.get('privateFacilityType')
+      if (privateFacilityTypeControl) {
+        privateFacilityTypeControl.setValidators([])
+      }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
 
@@ -354,50 +389,50 @@ export class BnrcRegisterComponent implements OnInit {
     console.log("error", this.bnrcDetailForm)
     this.loader.changeLoad.next(true)
 
-    // if (this.bnrcDetailForm.valid) {
-    const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
-    const reqUpdate = {
-      request: {
-        formValues
-      },
+    if (this.bnrcDetailForm.valid) {
+      const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
+      const reqUpdate = {
+        request: {
+          formValues
+        },
+      }
+      this.isSubmitting = true
+
+      // Simulate an asynchronous operation (e.g., HTTP request)
+      setTimeout(() => {
+        // After some time, enable the button again
+        this.isSubmitting = false
+      }, 2000)
+
+
+      console.log("role", reqUpdate)
+      this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
+        (res: any) => {
+          if (res.message) {
+            this.loader.changeLoad.next(false)
+
+            // this.openSnackbar('User successfully registered')
+            // this.message = res.message
+            this.showMessage = true
+            this.bnrcDetailForm.reset() // Reset the form
+            this.dialog.open(BnrcmodalComponent, {
+              width: '350px',
+              height: '300px',
+              panelClass: 'overview-modal',
+              disableClose: true,
+              data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
+            })
+          } else {
+            this.loader.changeLoad.next(false)
+
+            this.openSnackbar('Something went wrong, Please try again')
+          }
+        })
+      console.log('Form is valid. Saving data...')
+    } else {
+      // this.openSnackbar('Form is invalid. Please refresh the page.')
+      console.log('Form is invalid. Please check the fields.')
     }
-    this.isSubmitting = true
-
-    // Simulate an asynchronous operation (e.g., HTTP request)
-    setTimeout(() => {
-      // After some time, enable the button again
-      this.isSubmitting = false
-    }, 2000)
-
-
-    console.log("role", reqUpdate)
-    this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
-      (res: any) => {
-        if (res.message) {
-          this.loader.changeLoad.next(false)
-
-          this.openSnackbar('User successfully registered')
-          this.message = res.message
-          this.showMessage = true
-          this.bnrcDetailForm.reset() // Reset the form
-          this.dialog.open(BnrcmodalComponent, {
-            width: '350px',
-            height: '300px',
-            panelClass: 'overview-modal',
-            disableClose: true,
-            data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
-          })
-        } else {
-          this.loader.changeLoad.next(false)
-
-          this.openSnackbar('Something went wrong, Please try again')
-        }
-      })
-    console.log('Form is valid. Saving data...')
-    // } else {
-    //   // this.openSnackbar('Form is invalid. Please refresh the page.')
-    //   console.log('Form is invalid. Please check the fields.')
-    // }
   }
 
   public openSnackbar(primaryMsg: string, duration: number = 5000) {

@@ -5,21 +5,29 @@
 </nav>
 <div class="content bnrc-page-content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
   <p class="text-2xl mt-2" i18n>E-kshamata Registration</p>
+  <p>Note: Please fill the form in English</p>
   <form [formGroup]="bnrcDetailForm" class="mt-3 mb-10">
     <label i18n for="profession" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
     <div class="form-group input-box">
       <input pattern="[a-zA-Z\s]+" type="text" name="firstName" formControlName="firstName" i18n class="form-control"
         placeholder="First Name" autocomplete="off">
     </div>
-    <mat-error *ngIf="bnrcDetailForm.get('firstName')?.invalid && bnrcDetailForm.get('firstName')?.touched">
+    <mat-error
+      *ngIf="bnrcDetailForm.get('firstName')?.hasError('required') && bnrcDetailForm.get('firstName')?.touched">
       First Name is required.
+    </mat-error>
+    <mat-error *ngIf="bnrcDetailForm.get('firstName')?.hasError('pattern') && bnrcDetailForm.get('firstName')?.touched">
+      First Name should be in English.
     </mat-error>
     <label i18n for="profession" style="display: block;">Last Name / उपनाम <span class="red-icon">*</span></label>
     <div class="form-group input-box">
       <input pattern="[a-zA-Z\s]+" type="text" name="lastName" formControlName="lastName" i18n class="form-control"
         placeholder="Last Name" autocomplete="off">
     </div>
-    <mat-error *ngIf="bnrcDetailForm.get('lastName')?.invalid && bnrcDetailForm.get('lastName')?.touched">
+    <mat-error *ngIf="bnrcDetailForm.get('lastName')?.hasError('pattern') && bnrcDetailForm.get('lastName')?.touched">
+      Last Name should be in English.
+    </mat-error>
+    <mat-error *ngIf="bnrcDetailForm.get('lastName')?.hasError('required') && bnrcDetailForm.get('lastName')?.touched">
       Last Name is required.
     </mat-error>
 
@@ -29,15 +37,20 @@
       <input type="text" name="mobile" formControlName="phone" i18n class="form-control" placeholder="Phone Number"
         autocomplete="off">
     </div>
-    <mat-error *ngIf="bnrcDetailForm.get('phone')?.invalid && bnrcDetailForm.get('phone')?.touched">
-      Phone Number is required / Phone number is invalid
+    <mat-error *ngIf="bnrcDetailForm.get('phone')?.hasError('required') && bnrcDetailForm.get('phone')?.touched">
+      Phone Number is required
+    </mat-error>
+    <mat-error *ngIf="bnrcDetailForm.get('phone')?.hasError('pattern') && bnrcDetailForm.get('phone')?.touched">
+      Phone number is invalid
     </mat-error>
     <label i18n for="profession" style="display: block;">Email / ईमेल </label>
     <div class="form-group input-box">
       <input type="text" name="email" formControlName="email" i18n class="form-control" placeholder="Email Id"
         autocomplete="off">
     </div>
-
+    <mat-error *ngIf="bnrcDetailForm.get('email')?.hasError('pattern') && bnrcDetailForm.get('email')?.touched">
+      Email number is invalid
+    </mat-error>
     <label i18n for="profession" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
 
     <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -70,9 +83,15 @@
           placeholder="Name of Institute" i18n-placeholder
           (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
       </div>
-
-      <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.invalid && bnrcDetailForm.get('instituteName')?.touched">
+      <mat-error
+        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
         Name of Institute is required.
+      </mat-error>
+      <mat-error
+        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
+        Last Name should be in English.
+      </mat-error>
+      <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.invalid && bnrcDetailForm.get('instituteName')?.touched">
       </mat-error>
       <label i18n for="profession" style="display: block;">Type of Institute /संस्थान का प्रकार <span
           class="red-icon">*</span></label>
@@ -110,8 +129,13 @@
           placeholder="Name of Institute" i18n-placeholder
           (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
       </div>
-      <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.invalid && bnrcDetailForm.get('instituteName')?.touched">
+      <mat-error
+        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
         Name of Institute is required.
+      </mat-error>
+      <mat-error
+        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
+        Last Name should be in English.
       </mat-error>
 
       <label i18n for="profession" style="display: block;">Type of Institute / संस्थान का प्रकार <span
@@ -227,8 +251,13 @@
         <label for="facilityName" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
         <input pattern="[a-zA-Z\s]+" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
           placeholder="Name of Facility" autocomplete="off">
-        <mat-error *ngIf="bnrcDetailForm.get('facilityName')?.invalid && bnrcDetailForm.get('facilityName')?.touched">
+        <mat-error
+          *ngIf="bnrcDetailForm.get('facilityName')?.hasError('required') && bnrcDetailForm.get('facilityName')?.touched">
           Name of Facility is required.
+        </mat-error>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('facilityName')?.hasError('pattern') && bnrcDetailForm.get('facilityName')?.touched">
+          Name of Facility should be in English.
         </mat-error>
       </div>
       <div class="form-group">
@@ -283,8 +312,13 @@
         <label for="facilityName" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
         <input pattern="[a-zA-Z\s]+" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
           placeholder="Name of Facility" autocomplete="off">
-        <mat-error *ngIf="bnrcDetailForm.get('facilityName')?.invalid && bnrcDetailForm.get('facilityName')?.touched">
+        <mat-error
+          *ngIf="bnrcDetailForm.get('facilityName')?.hasError('required') && bnrcDetailForm.get('facilityName')?.touched">
           Name of Facility is required.
+        </mat-error>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('facilityName')?.hasError('pattern') && bnrcDetailForm.get('facilityName')?.touched">
+          Name of Facility should be in English.
         </mat-error>
       </div>
 
