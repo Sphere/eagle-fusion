@@ -94,6 +94,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isLoggedIn = false
   mobileView = true
   showmobileFooter = true
+  disableChatForBnrc = false
   showMobileDashboard = true
   isCommonChatEnabled = true
   online$: Observable<boolean>
@@ -272,6 +273,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         }
         if (event.url.includes('/bnrc/register')) {
           this.showmobileFooter = false
+          this.disableChatForBnrc = true
         }
         // if (window.location.href.indexOf('scrom-player') > 0) {
         //   this.showmobileFooter = false
