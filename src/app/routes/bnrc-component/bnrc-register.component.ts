@@ -137,6 +137,39 @@ export class BnrcRegisterComponent implements OnInit {
       serviceType: new FormControl('', []),
     })
   }
+  // Define the form group creation in a separate method
+  createFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      firstName: new FormControl('', [Validators.required]),
+      lastName: new FormControl('', [Validators.required]),
+      phone: new FormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
+      email: new FormControl('', [Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      role: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      district: new FormControl('', [Validators.required]),
+      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseSelection: new FormControl('', []),
+      instituteType: new FormControl('', []),
+      bnrcRegistrationNumber: new FormControl('', []),
+      hrmsId: new FormControl('', []),
+      facultyType: new FormControl('', []),
+      facilityName: new FormControl('', []),
+      roleForInService: new FormControl('', []),
+      publicFacilityType: new FormControl('', []),
+      privateFacilityType: new FormControl('', []),
+      serviceType: new FormControl('', []),
+    })
+  }
+
+  // Use the resetForm method to reset the form
+  resetForm(): void {
+    this.bnrcDetailForm.reset()
+    this.Student = false
+    this.Faculty = false
+    this.inService = false
+    this.publicHealthFacility = false
+    this.privateHealthFacility = false
+    this.bnrcDetailForm = this.createFormGroup() // Create a new form group with initial values and validators
+  }
 
   ngOnInit() {
 
@@ -363,6 +396,10 @@ export class BnrcRegisterComponent implements OnInit {
       if (bnrcRegistrationNumberControl) {
         bnrcRegistrationNumberControl.setValidators([Validators.required])
       }
+      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
+      if (serviceTypeControl) {
+        serviceTypeControl.setValidators([])
+      }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
       this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
@@ -387,7 +424,7 @@ export class BnrcRegisterComponent implements OnInit {
   onSubmit() {
     this.bnrcDetailForm.markAllAsTouched()
     this.loader.changeLoad.next(true)
-
+    console.log("this.bnrcDetailForm.valid", this.bnrcDetailForm)
     if (this.bnrcDetailForm.valid) {
       const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
       const reqUpdate = {
@@ -408,7 +445,7 @@ export class BnrcRegisterComponent implements OnInit {
           if (res.status === 'SUCCESS') {
             this.loader.changeLoad.next(false)
             this.showMessage = true
-            this.bnrcDetailForm.reset() // Reset the form
+            this.resetForm()
             this.dialog.open(BnrcmodalComponent, {
               width: '350px',
               height: '300px',
