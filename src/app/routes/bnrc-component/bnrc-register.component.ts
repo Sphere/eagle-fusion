@@ -386,7 +386,6 @@ export class BnrcRegisterComponent implements OnInit {
 
   onSubmit() {
     this.bnrcDetailForm.markAllAsTouched()
-    console.log("error", this.bnrcDetailForm)
     this.loader.changeLoad.next(true)
 
     if (this.bnrcDetailForm.valid) {
@@ -398,22 +397,16 @@ export class BnrcRegisterComponent implements OnInit {
       }
       this.isSubmitting = true
 
-      // Simulate an asynchronous operation (e.g., HTTP request)
       setTimeout(() => {
-        // After some time, enable the button again
         this.isSubmitting = false
       }, 2000)
 
 
-      console.log("role", reqUpdate)
       this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
         (res: any) => {
           console.log("test", res)
           if (res.status === 'SUCCESS') {
             this.loader.changeLoad.next(false)
-
-            // this.openSnackbar('User successfully registered')
-            // this.message = res.message
             this.showMessage = true
             this.bnrcDetailForm.reset() // Reset the form
             this.dialog.open(BnrcmodalComponent, {
@@ -428,11 +421,36 @@ export class BnrcRegisterComponent implements OnInit {
 
             this.loader.changeLoad.next(false)
             this.openSnackbar(res.message)
+
+          }
+        },
+        (error) => {
+          console.error('HTTP Error:', error.error.message)
+
+          this.loader.changeLoad.next(false)
+          this.openSnackbar(error.error.message)
+
+        }
+      )
+
+    } else {
+      if (this.bnrcDetailForm.errors && this.bnrcDetailForm.errors.required) {
+        const missingFields: string[] = []
+        Object.keys(this.bnrcDetailForm.controls).forEach(controlName => {
+          const control = this.bnrcDetailForm.get(controlName)
+          if (control && control.errors && control.errors.required) {
+            missingFields.push(controlName)
           }
         })
-    } else {
-      // this.openSnackbar('Form is invalid. Please refresh the page.')
-      console.log('Form is invalid. Please check the fields.')
+
+        if (missingFields.length > 0) {
+          const errorMessage = `The following fields are required: ${missingFields.join(', ')}.`
+          this.openSnackbar(errorMessage)
+        } else {
+          this.openSnackbar('Some fields are required. Please check the form.')
+        }
+      }
+
     }
   }
 
