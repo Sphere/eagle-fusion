@@ -10,7 +10,7 @@
     <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
       <div *ngFor="let course of topCertifiedCourse">
         <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
-          <ws-web-course-view [displayConfig]="displayConfig" [courseData]="course"></ws-web-course-view>
+          <ws-web-course-card [displayConfig]="displayConfig" [courseData]="course"></ws-web-course-card>
         </ng-container>
       </div>
     </ws-utils-horizontal-scroller>
@@ -24,8 +24,8 @@
       <ws-web-featured-course [courseData]="course" *ngIf="featuredCourse.length==1"
         class="hide-in-mobile app-footer mt-8"
         [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"></ws-web-featured-course>
-      <ws-web-course-view *ngIf="featuredCourse.length>1" [displayConfig]="displayConfig"
-        [courseData]="course"></ws-web-course-view>
+      <ws-web-course-card *ngIf="featuredCourse.length>1" [displayConfig]="displayConfig"
+        [courseData]="course"></ws-web-course-card>
     </div>
   </ws-utils-horizontal-scroller>
 </section>
@@ -42,8 +42,8 @@
   <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
     <div *ngFor="let course of cneCourse">
       <ng-container *ngIf="cneCourse && cneCourse.length>0">
-        <ws-web-course-view [cnePoints]="'yes'" [displayConfig]="displayConfig"
-          [courseData]="course"></ws-web-course-view>
+        <ws-web-course-card [cnePoints]="'yes'" [displayConfig]="displayConfig"
+          [courseData]="course"></ws-web-course-card>
       </ng-container>
     </div>
   </ws-utils-horizontal-scroller>

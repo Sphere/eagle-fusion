@@ -8,6 +8,7 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { HttpClient } from '@angular/common/http'
 import { HorizontalScrollerComponent } from '../../../../library/ws-widget/utils/src/lib/helpers/horizontal-scroller/horizontal-scroller.component'
 import { WebCourseViewComponent } from '../web-course-view/web-course-view.component'
+import { WebCourseCardComponent } from '../web-course-card/web-course-card.component'
 import { WebFeaturedCourseComponent } from '../web-featured-course/web-featured-course.component'
 import { MatCardModule, MatIconModule, MatProgressSpinnerModule } from '@angular/material'
 import { MdePopoverModule } from '@material-extended/mde'
@@ -49,7 +50,7 @@ describe('WebPublicComponent', () => {
   })
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MockPipeDurationTransform, BtnContentShareComponent, WebPublicComponent, HorizontalScrollerComponent, WebCourseViewComponent, WebFeaturedCourseComponent],
+      declarations: [MockPipeDurationTransform, BtnContentShareComponent, WebPublicComponent, HorizontalScrollerComponent, WebCourseCardComponent, WebCourseViewComponent, WebFeaturedCourseComponent],
       imports: [RouterTestingModule, HttpClientTestingModule, MatIconModule, // Add MatIconModule
         MatProgressSpinnerModule, MdePopoverModule, MatCardModule],
       providers: [
