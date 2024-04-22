@@ -271,6 +271,17 @@ export class BnrcRegisterComponent implements OnInit {
         facilityNameControl.updateValueAndValidity()
 
       }
+      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
+      if (bnrcRegistrationNumberControl) {
+        bnrcRegistrationNumberControl.clearValidators()
+        bnrcRegistrationNumberControl.updateValueAndValidity()
+
+      }
+      const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')
+      if (hrmsIdControl) {
+        hrmsIdControl.clearValidators()
+        hrmsIdControl.updateValueAndValidity()
+      }
     } else if (value === 'Faculty') {
       this.showDesignation = true
       this.hrmsErr = false
@@ -303,6 +314,11 @@ export class BnrcRegisterComponent implements OnInit {
         bnrcRegistrationNumberControl.setValidators([Validators.required])
         bnrcRegistrationNumberControl.updateValueAndValidity()
 
+      }
+      const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')
+      if (hrmsIdControl) {
+        hrmsIdControl.clearValidators()
+        hrmsIdControl.updateValueAndValidity()
       }
       const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
       if (courseSelectionControl) {
