@@ -134,12 +134,20 @@ export namespace NSSearch {
     result: ISearchData
     filters: IFilterUnitResponse[]
   }
+  export interface ISearchV6ApiResultV3 {
+    responseCode: string
+    result: INewSearchData
+  }
   export interface IParamsContent {
     resmsgid: string
     msgid: string
     status: string
     err: string
     errmsg: string
+  }
+  export interface INewSearchData {
+    count: number
+    content: NsContent.IContent[]
   }
   export interface ISearchData {
     count: number

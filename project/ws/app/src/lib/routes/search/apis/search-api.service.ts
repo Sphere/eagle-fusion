@@ -13,6 +13,7 @@ const API_END_POINTS = {
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
   // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
   SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
+  SEARCH_V7PUBLIC: `/apis/public/v8/courseRecommendation/publicSearch/getcourse`,
 
 }
 
@@ -131,9 +132,11 @@ export class SearchApiService {
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
 
+
   getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
+        console.log("res getSearchV6Results", res)
         const tempArray = Array()
         if (res.result.facets.length > 0) {
           searchconfig.forEach((ele: any) => {
@@ -168,6 +171,19 @@ export class SearchApiService {
           }
         }
         return res
+      }))
+  }
+
+  getSearchV7Results(body: NSSearch.ISearchV6RequestV2): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, body)
+      .pipe(map((res: any) => {
+
+        if (res.result.content.length > 0) {
+          console.log("v6", res)
+          return res
+        }
+
+
       }))
   }
 

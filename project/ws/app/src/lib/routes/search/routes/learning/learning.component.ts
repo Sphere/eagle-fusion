@@ -8,7 +8,7 @@ import { Subscription } from 'rxjs'
 // import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { FilterDisplayComponent } from '../../components/filter-display/filter-display.component'
 // import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
-import { IFilterUnitResponse, ISearchRequestV2, ISearchTab } from '../../models/search.model'
+import { IFilterUnitResponse, ISearchRequestV2, ISearchTab, ISearchRequestV3 } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
@@ -55,7 +55,14 @@ export class LearningComponent implements OnInit, OnDestroy {
   //   excludeSourceFields: [],
   // }
 
-  searchResults: NSSearch.ISearchV6ApiResultV2 = {
+  newSearchResults: NSSearch.ISearchV6ApiResultV3 = {
+    responseCode: '',
+    result: {
+      count: 0,
+      content: [],
+    },
+  }
+  searchResults: any = {
     id: '',
     ver: '',
     ts: '',
@@ -73,6 +80,12 @@ export class LearningComponent implements OnInit, OnDestroy {
       content: [],
       facets: [],
     },
+  }
+  newSearchRequestObject: ISearchRequestV3 = {
+
+    query: '',
+    language: ''
+
   }
   searchRequestObject: ISearchRequestV2 = {
     request: {
@@ -324,7 +337,12 @@ export class LearningComponent implements OnInit, OnDestroy {
             }
           }
         }
-
+        if (queryParams.has('q')) {
+          if (this.newSearchRequestObject.query !== queryParams.get('q') && queryParams.get('competency') == 'true') {
+            this.expandToPrefLang = true
+          }
+          this.newSearchRequestObject.query = queryParams.get('q') || ''
+        }
         // filters
         if (queryParams.has('f')) {
           const filters = JSON.parse(queryParams.get('f') || '{}')
@@ -387,6 +405,14 @@ export class LearningComponent implements OnInit, OnDestroy {
           //   this.searchRequestObject.pageNo = 0
           // }
           this.searchResults = {
+            responseCode: '',
+            result: {
+              count: 0,
+              content: [],
+            },
+
+          }
+          this.searchResults = {
             id: '',
             ver: '',
             ts: '',
@@ -406,12 +432,12 @@ export class LearningComponent implements OnInit, OnDestroy {
             },
           }
         }
-        const updatedFilterSet = this.searchServ.updateSelectedFiltersSet(this.searchRequest.filters)
-        this.selectedFilterSet = updatedFilterSet.filterSet
+        // const updatedFilterSet = this.searchServ.updateSelectedFiltersSet(this.searchRequest.filters)
+        // this.selectedFilterSet = updatedFilterSet.filterSet
 
-        this.filtersResetAble = updatedFilterSet.filterReset
+        // this.filtersResetAble = updatedFilterSet.filterReset
         // Modify filters
-        this.getResults(undefined)
+        this.getSearchResults(undefined)
       }
     })
     // }
@@ -580,7 +606,6 @@ export class LearningComponent implements OnInit, OnDestroy {
     )
 
   }
-
   getResults(withQuotes?: boolean, didYouMean = true) {
     console.log('getResults', withQuotes)
     // this.searchRequestObject.didYouMean = didYouMean
@@ -638,6 +663,7 @@ export class LearningComponent implements OnInit, OnDestroy {
           // this.searchResults.doYouMean = data.doYouMean
           // this.searchResults.queryUsed = data.queryUsed
           // this.handleFilters(this.searchResults.filters)
+          console.log("this.searchResults.result.content", this.searchResults.result.content)
           const filteR = this.searchServ.handleFilters(
             this.searchResults.filters,
             this.selectedFilterSet,
@@ -745,6 +771,126 @@ export class LearningComponent implements OnInit, OnDestroy {
         },
       )
   }
+  // new search API integration
+  getSearchResults(withQuotes?: boolean, didYouMean = true) {
+    console.log('getResults', withQuotes)
+    // this.searchRequestObject.didYouMean = didYouMean
+    if (this.searchResultsSubscription) {
+      this.searchResultsSubscription.unsubscribe()
+    }
+    this.searchRequestStatus = 'fetching'
+    this.exactResult.show = false
+    if (this.exactResult.old !== this.newSearchRequestObject.query) {
+      this.exactResult.applied = false
+    }
+    if (
+      withQuotes === undefined &&
+      this.newSearchRequestObject.query.indexOf(' ') > -1 &&
+      !this.exactResult.applied // &&
+      // this.searchRequestObject.pageNo === 0 && this.applyPhraseSearch
+    ) {
+      this.newSearchRequestObject.query = `${this.newSearchRequestObject.query}`
+    } else if (withQuotes && this.newSearchRequestObject.query.indexOf(' ') > -1) {
+      this.exactResult.applied = true
+      this.newSearchRequestObject.query = this.newSearchRequestObject.query.replace(/['"]+/g, '')
+      this.searchResults.result.content = []
+      this.exactResult.show = false
+      // this.searchRequestObject.request.pageNo = 0
+      this.exactResult.old = this.newSearchRequestObject.query
+    }
+
+    this.searchServ.raiseSearchEvent(
+      this.newSearchRequestObject.query,
+      '', '',
+    )
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
+    this.newSearchRequestObject.language = local
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+    }
+    this.searchResultsSubscription = this.searchServ
+      .getsearchLearning(this.newSearchRequestObject)
+      .subscribe(
+        data => {
+          if (data && data.result && data.result.count) {
+            this.searchResults.result.count = data.result.count
+            this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
+
+          }
+
+          this.searchServ.raiseNewSearchResponseEvent(
+            this.newSearchRequestObject.query,
+            this.searchResults.result.count,
+            '',
+          )
+
+          if (
+            this.searchResults.result.count === 0 && this.isDefaultFilterApplied
+          ) {
+            this.removeDefaultFiltersApplied()
+            this.getSearchResults(undefined, didYouMean)
+            return
+          } if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
+            this.searchWithPreferredLanguage()
+            this.getSearchResults(undefined, didYouMean)
+            return
+          } if (
+            this.searchResults.result.count === 0 &&
+            this.searchRequestObject.request.query.indexOf(' ') === -1
+          ) {
+            this.noContent = true
+          } else if ( // No results with phrase search disabled and space separated words
+            this.searchResults.result.count === 0 &&
+            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
+            !this.applyPhraseSearch
+          ) {
+            this.noContent = true
+          } else if (
+            this.searchResults.result.count === 0 &&
+            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
+            withQuotes
+          ) {
+            this.noContent = true
+          } else if (
+            this.searchResults.result.count === 0 &&
+            this.searchRequestObject.request.query.indexOf(' ') > -1 && this.applyPhraseSearch
+          ) {
+            this.getSearchResults(true, didYouMean)
+            return
+          } else if (
+            this.searchResults.result.count === 0 &&
+            this.searchRequestObject.request.query.indexOf(' ') === -1 // &&
+          ) {
+
+            this.getSearchResults(true, didYouMean)
+            return
+          } else if (
+            this.searchResults.result.count > 0 &&
+            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
+            !this.exactResult.applied
+          ) {
+            this.exactResult.show = true
+            this.exactResult.text = this.searchRequestObject.request.query.replace(/['"]+/g, '')
+          }
+          if (this.searchResults.result.content.length < this.searchResults.result.count) {
+            this.searchRequestStatus = 'hasMore'
+          } else {
+            this.searchRequestStatus = 'done'
+          }
+          if (this.searchResults.result.content.length < this.searchResults.result.count) {
+          }
+          if (data && data.result && data.result.count) {
+            this.searchRequestStatus = 'done'
+          }
+          this.getTrainingsLHub2(this.searchResults)
+        },
+        error => {
+          this.error.load = true
+          this.error.message = error
+          this.searchRequestStatus = 'done'
+        },
+      )
+  }
 
   contentTrackBy(item: NsContent.IContent) {
     return item.identifier
@@ -796,7 +942,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   searchInsteadFor() {
     // this.searchResults.result = []
     this.searchResults.result.content = []
-    this.getResults(undefined, false)
+    this.getSearchResults(undefined, false)
   }
 
   removeFilters() {
@@ -828,6 +974,15 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   private getTrainingsLHub(_searchResults: NSSearch.ISearchV6ApiResultV2) {
+    const restrictedFeatures = this.configSvc.restrictedFeatures
+    const trainingLHubEnabled = restrictedFeatures && !restrictedFeatures.has('trainingLHub')
+
+    if (trainingLHubEnabled) {
+      // this.trainingSvc.getTrainingCountsForSearchResults(searchResults)
+    }
+  }
+
+  private getTrainingsLHub2(_searchResults: NSSearch.ISearchV6ApiResultV3) {
     const restrictedFeatures = this.configSvc.restrictedFeatures
     const trainingLHubEnabled = restrictedFeatures && !restrictedFeatures.has('trainingLHub')
 
