@@ -21,6 +21,8 @@ const API_ENDPOINTS = {
   getAllDepartments: '/apis/protected/v8/portal/listDeptNames',
   approveRequest: '/apis/protected/v8/workflowhandler/transition',
   getPendingFields: '/apis/protected/v8/workflowhandler/userWFApplicationFieldsSearch',
+  bnrcRegistration: '/apis/public/v8/bnrcUserCreation/createUser',
+
   // getProfilePageMeta: '/apis/protected/v8/user/profileDetails/getProfilePageMeta',
 }
 
@@ -38,6 +40,9 @@ export class UserProfileService {
   }
   getUserdetails(email: string | undefined): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.getUserdetails, { email })
+  }
+  bnrcRegistration(value: any): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcRegistration, { value })
   }
   getMasterLanguages(): Observable<ILanguagesApiData> {
     return this.http.get<ILanguagesApiData>(API_ENDPOINTS.getMasterLanguages)

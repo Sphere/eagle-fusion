@@ -94,6 +94,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isLoggedIn = false
   mobileView = true
   showmobileFooter = true
+  disableChatForBnrc = false
   showMobileDashboard = true
   isCommonChatEnabled = true
   online$: Observable<boolean>
@@ -270,6 +271,10 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (event.url.includes('/public/login')) {
           this.showmobileFooter = false
         }
+        if (event.url.includes('/bnrc/register')) {
+          this.showmobileFooter = false
+          this.disableChatForBnrc = true
+        }
         // if (window.location.href.indexOf('scrom-player') > 0) {
         //   this.showmobileFooter = false
         // }
@@ -342,10 +347,11 @@ export class RootComponent implements OnInit, AfterViewInit {
             if (localStorage.getItem('url_before_login')) {
               const url = localStorage.getItem('url_before_login') || ''
               location.href = url
-            } else {
+            } else if (this.configSvc.unMappedUser) {
               window.location.href = '/page/home'
             }
           }
+
           // setTimeout(() => {
           //   this.signupService.fetchStartUpDetails().then(result => {
           //     if (result && result.status !== 200) {

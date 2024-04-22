@@ -43,22 +43,24 @@
   </script>
 
   <!-- Meta Pixel Code -->
-<script>
-!function(f,b,e,v,n,t,s)
-{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-n.queue=[];t=b.createElement(e);t.async=!0;
-t.src=v;s=b.getElementsByTagName(e)[0];
-s.parentNode.insertBefore(t,s)}(window, document,'script',
-'https://connect.facebook.net/en_US/fbevents.js');
-fbq('init', '1495349214377708');
-fbq('track', 'PageView');
-</script>
-<noscript><img height="1" width="1" style="display:none"
-src="https://www.facebook.com/tr?id=1495349214377708&ev=PageView&noscript=1"
-/></noscript>
-<!-- End Meta Pixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      }
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0'
+      n.queue = []; t = b.createElement(e); t.async = !0
+      t.src = v; s = b.getElementsByTagName(e)[0]
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js')
+    fbq('init', '1495349214377708')
+    fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+      src="https://www.facebook.com/tr?id=1495349214377708&ev=PageView&noscript=1" /></noscript>
+  <!-- End Meta Pixel Code -->
   <script defer src="/assets/env.js"></script>
 </head>
 
@@ -133,8 +135,12 @@ src="https://www.facebook.com/tr?id=1495349214377708&ev=PageView&noscript=1"
     sessionStorage.setItem('maternity_token', maternity_token)
     const maternity_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
     sessionStorage.setItem('maternity_moduleId', maternity_moduleId)
+  } else {
+    if (url.includes('token')) {
+      const tnai_token = url.slice(url.indexOf('?token=') + 7)
+      sessionStorage.setItem('tnai_token', tnai_token)
+    }
   }
-
 
 </script>
 <script>

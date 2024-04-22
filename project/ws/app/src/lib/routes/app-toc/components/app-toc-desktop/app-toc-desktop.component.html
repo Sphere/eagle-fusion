@@ -6,7 +6,7 @@
       </button>
     </div>
     <div class="cne-duration-block margin-bottpm">
-      <div><span class="cne-block" *ngIf="content?.cneName" style="word-wrap: break-word;">
+      <div><span class="cne-block" *ngIf="content?.cneName && content?.cneName != ' '" style="word-wrap: break-word;">
           CNE hours: {{ content.cneName }} </span></div>
 
       <div class="duration-block">
@@ -40,6 +40,13 @@
     </div> -->
     <!-- <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
       View License Terms</div> -->
+    <!-- <div class="rating-block mb-2">
+      <span class="average-rating">{{averageRating}}</span>
+      <ng-container *ngIf="averageRating>0">
+        <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i)" alt="Star">
+      </ng-container>
+      <span *ngIf="totalRatings>0" class="total-rating">( {{totalRatings}} )</span>
+    </div> -->
     <div *ngIf="content?.completionPercentage > 0" class="mt-2">
       <mat-progress-bar [mode]="'determinate'" [value]="
         content?.completionPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
@@ -98,7 +105,7 @@
           <span class="btn-tittle" i18n>Share</span>
         </div>
       </div>
-      <ng-container>
+      <div class="flex gap-1">
         <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
           (click)="enrollUser(batchData.content)" i18n>
           Start
@@ -111,7 +118,11 @@
           <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
             {{resumeData?"Resume":"Resume"}}
           </ng-container>
+
         </a>
+        <!-- <button id="start-btn" class="banner-btn cursor-pointer" (click)="giveRating(batchData.content)" i18n>
+          Rating
+        </button> -->
         <!-- #if cetification ininrollment api -->
         <!-- <ng-container *ngIf="issueCertificate === true; else download ">
           <button *ngIf="content?.issueCertification === true" (click)="sendApi()"
@@ -125,7 +136,7 @@
             <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
           </button>
         </ng-template> -->
-      </ng-container>
+      </div>
 
 
     </div>

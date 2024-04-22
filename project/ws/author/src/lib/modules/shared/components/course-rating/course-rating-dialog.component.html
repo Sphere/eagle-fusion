@@ -1,0 +1,30 @@
+<div mat-dialog-title class="relative m-0">
+  <button [disabled]="onAction" [matTooltip]="'Close'" mat-button class="close-icon" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+  <h2 class="m-0 center-align title" mat-dialog-title>Submit your feedback</h2>
+</div>
+<mat-dialog-content>
+  <form [formGroup]="ratingsForm">
+    <div class="margin-top-s center-align">
+      <div class="star-rating">
+        <img *ngFor="let star of stars; let i = index"
+          [src]="star <= selectedRating ? '/fusion-assets/icons/star-filled.png' : '/fusion-assets/icons/star.png'"
+          alt="Star" (click)="setRating(i + 1)">
+      </div>
+    </div>
+    <div class="rating-comment width-1-1 margin-top-m">
+      <textarea style="height: 96px;padding: 10px;" rows="4" matInput placeholder=" Tell us more about what you felt"
+        name="name" formControlName="review" required></textarea>
+      <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
+        Comments is mandatory
+      </mat-error>
+    </div>
+    <div class="margin-top-s margin-bottom-s center-align">
+      <button class="margin-left-s submit-btn" (click)="submitData()" [disabled]="onAction" color="primary">
+        <mat-spinner [diameter]="25" color="primary" *ngIf="onAction"></mat-spinner>
+        <ng-container *ngIf="!onAction">Submit</ng-container>
+      </button>
+    </div>
+  </form>
+</mat-dialog-content>

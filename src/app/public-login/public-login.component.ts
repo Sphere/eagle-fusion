@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatSnackBar } from '@angular/material'
+
 @Component({
   selector: 'ws-public-login',
   templateUrl: './public-login.component.html',
@@ -17,7 +18,7 @@ export class PublicLoginComponent implements OnInit {
   constructor(
     private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
-    public snackBar: MatSnackBar
+    public snackBar: MatSnackBar,
   ) {
     this.loginForm = this.spherFormBuilder.group({
       // firstName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
@@ -40,10 +41,23 @@ export class PublicLoginComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    sessionStorage.clear()
+    localStorage.removeItem('preferedLanguage')
+    localStorage.removeItem('loginbtn')
+    localStorage.removeItem('userUUID')
+    localStorage.clear()
   }
   submitDetails(form: any) {
-    console.log(form.status)
+
     if (form.status === "VALID") {
+      try {
+
+        (window as any).fbq('track', 'SubmitApplication')
+      }
+      catch (e) {
+        console.log("fb pixel error")
+      }
       let phone = this.loginPwdForm.controls.emailOrMobile.value
       let type = ''
       // const validphone = /^[6-9]\d{9}$/.test(phone)
@@ -100,7 +114,8 @@ export class PublicLoginComponent implements OnInit {
     }
   }
   resendOTP(form?: any) {
-    console.log(form.status)
+
+    console.log(form)
     if ((this.loginForm.status === 'VALID')) {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''

@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import { FormsModule } from '@angular/forms'
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { NgCircleProgressModule } from 'ng-circle-progress'
 import {
   MatCardModule,
@@ -16,6 +16,7 @@ import {
   MatSnackBarModule,
   MatTabsModule,
   MatInputModule,
+  MatDialogModule
 } from '@angular/material'
 
 import { ViewerRoutingModule } from './viewer-routing.module'
@@ -91,6 +92,8 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     // PlayerBriefModule,
     ViewerTopBarModule,
     FormsModule,
+    MatDialogModule,
+    ReactiveFormsModule,
     // BtnMailUserModule,
     UserImageModule,
     AppTocModule,

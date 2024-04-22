@@ -30,6 +30,7 @@ import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-s
 import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
+import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 import { YourLocationComponent as AboutYou } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
@@ -53,6 +54,7 @@ import { AppCallBackComponent } from './component/app-call-back/app-call-back.co
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
+import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -82,6 +84,10 @@ const routes: Routes = [
     resolve: {
       pageData: PageResolve,
     },
+  },
+  {
+    path: 'bnrc/register',
+    component: BnrcRegisterComponent,
   },
   {
     path: 'app/about-you',
@@ -353,6 +359,10 @@ const routes: Routes = [
     path: 'openid/sphereapp',
     component: AppCallBackComponent,
 
+  },
+  {
+    path: 'openid/tnai',
+    component: TnaiCallbackComponent,
   },
   {
     path: 'organisations',

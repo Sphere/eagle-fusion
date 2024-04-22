@@ -29,6 +29,7 @@ import moment from 'moment'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
+// import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 
 @Component({
   selector: 'ws-app-app-toc-desktop',
@@ -57,6 +58,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   validPaths = new Set(['overview', 'contents',
     // 'analytics'
   ])
+  averageRating: any = ''
+  totalRatings: any = ''
   routerParamSubscription: Subscription | null = null
   routeSubscription: Subscription | null = null
   firstResourceLink: { url: string; queryParams: { [key: string]: any } } | null = null
@@ -97,7 +100,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   enrolledCourse: any
   lastCourseID: any
   certificateMsg?: any
-
+  stars: number[] = [1, 2, 3, 4, 5];
   constructor(
     private sanitizer: DomSanitizer,
     private router: Router,
@@ -133,6 +136,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.enrollApi()
     console.log(this.resumeData, this.content)
     if (this.content) {
+      //this.readCourseRatingSummary()
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
@@ -209,6 +213,23 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       // }
     }
   }
+  getStarImage(index: number): string {
+    const fullStarUrl = '/fusion-assets/icons/toc_star.png'
+    const halfStarUrl = '/fusion-assets/icons/Half_star1.svg'
+    const emptyStarUrl = '/fusion-assets/icons/empty_star.png'
+
+    const decimalPart = this.averageRating - Math.floor(this.averageRating) // Calculate the decimal part of the average rating
+
+    if (index + 1 <= Math.floor(this.averageRating)) {
+      return fullStarUrl // Full star
+    } else if (decimalPart >= 0.1 && decimalPart <= 0.9 && index === Math.floor(this.averageRating)) {
+      return halfStarUrl // Half star
+    } else {
+      return emptyStarUrl // Empty star
+    }
+  }
+
+
 
   setConfirmDialogStatus(percentage: any) {
     this.contentSvc.showConformation = percentage
@@ -926,6 +947,90 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
   }
+  // giveRating(batchData: any) {
+  //   if (batchData) {
+  //     const data = {
+  //       courseId: batchData[0].courseId,
+  //     }
+  //     const dialogRef = this.dialog.open(ConfirmmodalComponent, {
+  //       width: '300px',
+  //       height: '400px',
+  //       data: { request: data, message: 'Congratulations!, you have completed the course' },
+  //       disableClose: false,
+  //     })
+
+  //     dialogRef.afterClosed().subscribe((data: { ratingsForm: FormGroup, rating: number }) => {
+  //       console.log("data: ", data)
+  //     })
+  //   }
+
+  // }
+  readCourseRating(data: any) {
+    console.log("read rating", data)
+    let userId = ''
+    if (data) {
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      let req
+      if (this.content) {
+        req = {
+          request: {
+            userId,
+            activityId: data.courseId,
+            activityType: "Course",
+          },
+        }
+      }
+
+      this.contentSvc.readCourseRating(req).then((data: any) => {
+
+        if (data && data.result && data.result.count > 0) {
+
+
+          console.log("data: " + data.result.content[0])
+
+
+        } else {
+          this.openSnackbar('Something went wrong, please try again later!')
+          this.disableEnrollBtn = false
+        }
+      })
+        .catch((err: any) => {
+          console.log("err", err)
+          this.openSnackbar(err.error.message)
+        })
+    }
+
+  }
+  readCourseRatingSummary() {
+    if (this.content) {
+
+      let req
+      req = { activityId: this.content.identifier }
+      console.log("req", req)
+      this.contentSvc.readCourseRatingSummary(req).then((data: any) => {
+
+        if (data && data.result && data.result.message === 'Successful') {
+          if (data.result.response) {
+            let res = data.result.response
+            this.averageRating = (res.sum_of_total_ratings / res.total_number_of_ratings).toFixed(1)
+            this.totalRatings = res.total_number_of_ratings
+            console.log("data: ", res, data.result.response, this.totalRatings)
+          }
+
+
+        } else {
+          this.disableEnrollBtn = false
+        }
+      })
+        .catch((err: any) => {
+          console.log("err", err)
+        })
+    }
+
+  }
+
   enrollUser(batchData: any) {
     let userId = ''
     if (batchData) {

@@ -6,7 +6,7 @@ import { map } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
-
+import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
@@ -40,6 +40,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   userAnswer: any
   showAnswer = false
   disableSubmit = true
+  disableContinue = false
   /*
 * to unsubscribe the observable
 */
@@ -55,10 +56,12 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     public route: ActivatedRoute,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
+    private viewerSvc: ViewerUtilService,
   ) {
 
   }
   ngAfterViewInit() {
+    console.log(this.assesmentdata, 'qui')
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
@@ -142,7 +145,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   submitQuiz() {
     this.ngOnDestroy()
-
+    this.isCompleted = true
     const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
     this.fetchingResultsStatus = 'fetching'
     const requestData: NSQuiz.IQuizSubmitRequest = this.quizService.createAssessmentSubmitRequest(
@@ -175,9 +178,32 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
-        if (this.result >= this.passPercentage) {
-          this.isCompleted = true
+        console.log(this.result, this.passPercentage)
+        // if (this.result >= this.passPercentage) {
+        //   this.isCompleted = true
+        // }
+        // console.log(this.assesmentdata)
+        if (this.result >= 0) {
+          this.disableContinue = true
+          let Id = this.assesmentdata.generalData.identifier
+          let collectionId = this.assesmentdata.generalData.collectionId
+          const batchId = this.route.snapshot.queryParams.batchId
+
+          const data2 = {
+            current: 10,
+            max_size: 10,
+            mime_type: "application/json"
+          }
+          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
+            console.log(data)
+            if (data.params.status === "success") {
+              this.disableContinue = false
+            }
+          })
         }
+        // else {
+        //   this.disableContinue = false
+        // }
       },
       (_error: any) => {
         this.openSnackbar('Something went wrong! Unable to submit.')
@@ -345,7 +371,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       } else {
         this.updateQuestionType(false)
       }
-    },         500)
+    }, 500)
   }
   previousQuestion() {
     this.progressbarValue -= 100 / this.totalQuestion

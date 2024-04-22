@@ -14,7 +14,7 @@ import { Platform } from '@angular/cdk/platform'
 export class ViewerResolve
   implements
   Resolve<
-  Observable<IResolveResponse<NsContent.IContent>> | IResolveResponse<NsContent.IContent> | null
+    Observable<IResolveResponse<NsContent.IContent>> | IResolveResponse<NsContent.IContent> | null
   > {
   constructor(
     private contentSvc: WidgetContentService,
@@ -121,7 +121,7 @@ export class ViewerResolve
     const forPreview = window.location.href.includes('/author/') || route.queryParamMap.get('preview') === 'true'
     return (forPreview
       ? this.contentSvc.fetchAuthoringContent(this.viewerDataSvc.resourceId)
-      : this.contentSvc.fetchHierarchyContent(this.viewerDataSvc.resourceId)
+      : this.contentSvc.readContentV2(this.viewerDataSvc.resourceId)
       // this.contentSvc.fetchContent(
       //   this.viewerDataSvc.resourceId,
       //   'detail',

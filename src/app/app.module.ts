@@ -1,5 +1,8 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
-import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
+import {
+  APP_BASE_HREF, PlatformLocation,
+  //CommonModule
+} from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import {
@@ -90,6 +93,7 @@ import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 
+import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 // import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 // import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
@@ -136,7 +140,9 @@ import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
 import { CarouselComponentComponent } from '../app/routes/carousel-banner/carousel-component.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
-
+//import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
+import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
+import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -205,6 +211,33 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
   }
 }
 
+// const dbConfig: DBConfig = {
+//   name: 'optimistic-ui-online-store',
+//   version: 1,
+//   objectStoresMeta: [
+//     {
+//       store: 'onlineCourseProgress',
+//       storeConfig: { keyPath: 'id', autoIncrement: true },
+//       storeSchema: [
+//         { name: 'courseId', keypath: 'courseId', options: { unique: false } },
+//         { name: 'contentId', keypath: 'contentId', options: { unique: false } },
+//         { name: 'userId', keypath: 'userId', options: { unique: false } },
+//         // Add more properties as needed
+//       ]
+//     },
+//     {
+//       store: 'userEnrollCourse',
+//       storeConfig: { keyPath: 'id', autoIncrement: true },
+//       storeSchema: [
+//         { name: 'courseId', keypath: 'courseId', options: { unique: false } },
+//         { name: 'contentId', keypath: 'contentId', options: { unique: false } },
+//         { name: 'userId', keypath: 'userId', options: { unique: false } },
+//         // Add more properties as needed
+//       ]
+//     }
+//   ]
+// }
+
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
   declarations: [
@@ -225,6 +258,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MobileLoginComponent,
     LoginOtpComponent,
     CreateAccountComponent,
+    BnrcRegisterComponent,
     YourLocationComponent,
     NewTncComponent,
     YourBackgroundComponent,
@@ -264,13 +298,16 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     MyCoursesComponent,
     ScrollDetectorDirective,
     CarouselComponentComponent,
-    PublicLoginComponent
+    PublicLoginComponent,
+    TnaiCallbackComponent,
     // SettingsComponent
+    BnrcmodalComponent
   ],
   imports: [
     FormsModule,
     ReactiveFormsModule,
     BrowserModule,
+    //CommonModule,
     HttpClientModule,
     HttpClientJsonpModule,
     BrowserAnimationsModule,
@@ -324,7 +361,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     PipeCountTransformModule,
     PipeHtmlTagRemovalModule,
     HorizontalScrollerModule,
-
+    //NgxIndexedDBModule.forRoot(dbConfig)
   ],
   exports: [
     TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
@@ -333,6 +370,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
   ],
   bootstrap: [RootComponent],
   entryComponents: [
+    BnrcmodalComponent,
     DialogConfirmComponent,
     LoginComponent,
     ProfileSelectComponent,

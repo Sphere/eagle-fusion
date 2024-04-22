@@ -1,0 +1,143 @@
+@import 'ws-mixins';
+@import 'ws-common';
+a.blue {
+  color:#8BC34A !important;
+}
+.mb-10{
+  margin-bottom: 6rem !important;
+}
+::ng-deep .theme-igot.day-mode a[href^="/"][target=_self], .theme-igot.day-mode a[href^=http], .theme-igot.day-mode a[href^=mailto], .theme-igot.day-mode a[target=_blank]{
+    color: #8BC34A !important
+
+}
+:host ::ng-deep .blue {
+    color: #8BC34A !important
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+a.blue,
+::ng-deep .theme-igot.day-mode a[href^="/"][target=_self],
+::ng-deep .theme-igot.day-mode a[href^=http],
+::ng-deep .theme-igot.day-mode a[href^=mailto],
+::ng-deep .theme-igot.day-mode a[target=_blank] {
+    color: #1C5D95 !important;
+}
+
+.red-icon{
+  color: #d32f2f
+}
+.theme-igot.day-mode .mat-error{
+  margin: -8px 0px 8px 0px !important;
+}
+.bnrc-page-content {
+  box-sizing: border-box;
+  // padding: $size-m;
+  @extend %page-center;
+  @extend %height-mat-toolbar-sibling;
+  padding: 0;
+  box-sizing: border-box;
+
+  @include breakpoint-gt-s {
+    max-width: 30%;
+  }
+
+  @include breakpoint-gt-m {
+    max-width: 25%;
+  }
+
+  @include breakpoint-gt-l {
+    max-width: 20%;
+  }
+
+  @include breakpoint-s {
+    max-width: 50%;
+    padding: 12px;
+  }
+
+  @include breakpoint-xs {
+    max-width: 90%;
+    margin: auto;
+  }
+}
+.content {
+  padding: 10px 20px 30px;
+  //margin: auto;
+
+  // @include breakpoint-gt-s {
+  //   max-width: 30%;
+  // }
+
+  // @include breakpoint-gt-m {
+  //   max-width: 35%;
+  // }
+
+  // @include breakpoint-gt-l {
+  //   max-width: 30%;
+  // }
+
+  @include breakpoint-s {
+    max-width: 100%;
+  }
+
+  @include breakpoint-xs {
+    max-width: 90%;
+  }
+}
+
+.heading,
+.head-2,
+.head-3 {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: -0.02em;
+  margin: 0 !important;
+}
+
+.heading {
+  font-size: 12px;
+  color: #808080;
+}
+
+.head-2 {
+  font-size: 16px;
+  line-height: 19px;
+}
+
+.head-3 {
+  font-size: 12px;
+  line-height: 14px;
+}
+
+.add-edu-txt {
+  font-family: 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  color: #1C5D95;
+}
+
+.pencil {
+  font-size: 1.2rem !important;
+}
+
+.add-icon {
+  color: #1C5D95;
+  font-size: 20px;
+}
+
+.save-btn {
+  width: 88px;
+  height: 38px;
+  background-color: #1C5D95;
+  border-radius: 50px;
+  color: #fff;
+  border: 0;
+  font-size: 16px;
+  line-height: 19px;
+  float: right;
+  cursor: pointer;
+}
