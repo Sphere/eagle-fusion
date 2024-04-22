@@ -196,11 +196,11 @@ export class BnrcRegisterComponent implements OnInit {
         this.hrmsErr = true
         this.bnrcErr = false
         hrmsIdControl.setValidators([Validators.required])
-        bnrcRegistrationNumberControl.setValidators([])
+        bnrcRegistrationNumberControl.clearValidators()
       } else {
         this.hrmsErr = false
         this.bnrcErr = true
-        hrmsIdControl.setValidators([])
+        hrmsIdControl.clearValidators()
         bnrcRegistrationNumberControl.setValidators([Validators.required])
       }
 
@@ -223,14 +223,20 @@ export class BnrcRegisterComponent implements OnInit {
       const instituteNameControl = this.bnrcDetailForm.get('instituteName')
       if (instituteNameControl) {
         instituteNameControl.setValidators([Validators.required])
+        instituteNameControl.updateValueAndValidity()
+
       }
       const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
       if (instituteTypeControl) {
         instituteTypeControl.setValidators([Validators.required])
+        instituteTypeControl.updateValueAndValidity()
+
       }
       const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
       if (courseSelectionControl) {
         courseSelectionControl.setValidators([Validators.required])
+        courseSelectionControl.updateValueAndValidity()
+
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.bnrcRegistrationNumber.setValue(null)
@@ -242,19 +248,28 @@ export class BnrcRegisterComponent implements OnInit {
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
       const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
       if (publicFacilityTypeControl) {
-        publicFacilityTypeControl.setValidators([])
+        publicFacilityTypeControl.clearValidators()
+        publicFacilityTypeControl.updateValueAndValidity()
+
+
       }
       const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
       if (roleForInServiceControl) {
-        roleForInServiceControl.setValidators([])
+        roleForInServiceControl.clearValidators()
+        roleForInServiceControl.updateValueAndValidity()
+
       }
       const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
       if (serviceTypeControl) {
-        serviceTypeControl.setValidators([])
+        serviceTypeControl.clearValidators()
+        serviceTypeControl.updateValueAndValidity()
+
       }
       const facilityNameControl = this.bnrcDetailForm.get('facilityName')
       if (facilityNameControl) {
-        facilityNameControl.setValidators([])
+        facilityNameControl.clearValidators()
+        facilityNameControl.updateValueAndValidity()
+
       }
     } else if (value === 'Faculty') {
       this.showDesignation = true
@@ -268,38 +283,56 @@ export class BnrcRegisterComponent implements OnInit {
       const instituteNameControl = this.bnrcDetailForm.get('instituteName')
       if (instituteNameControl) {
         instituteNameControl.setValidators([Validators.required])
+        instituteNameControl.updateValueAndValidity()
+
       }
       const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
       if (instituteTypeControl) {
         instituteTypeControl.setValidators([Validators.required])
+        instituteTypeControl.updateValueAndValidity()
+
       }
       const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
       if (facultyTypeControl) {
         facultyTypeControl.setValidators([Validators.required])
+        facultyTypeControl.updateValueAndValidity()
+
       }
       const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
       if (bnrcRegistrationNumberControl) {
         bnrcRegistrationNumberControl.setValidators([Validators.required])
+        bnrcRegistrationNumberControl.updateValueAndValidity()
+
       }
       const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
       if (courseSelectionControl) {
-        courseSelectionControl.setValidators([])
+        courseSelectionControl.clearValidators()
+        courseSelectionControl.updateValueAndValidity()
+
       }
       const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
       if (publicFacilityTypeControl) {
-        publicFacilityTypeControl.setValidators([])
+        publicFacilityTypeControl.clearValidators()
+        publicFacilityTypeControl.updateValueAndValidity()
+
       }
       const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
       if (roleForInServiceControl) {
-        roleForInServiceControl.setValidators([])
+        roleForInServiceControl.clearValidators()
+        roleForInServiceControl.updateValueAndValidity()
+
       }
       const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
       if (serviceTypeControl) {
-        serviceTypeControl.setValidators([])
+        serviceTypeControl.clearValidators()
+        serviceTypeControl.updateValueAndValidity()
+
       }
       const facilityNameControl = this.bnrcDetailForm.get('facilityName')
       if (facilityNameControl) {
-        facilityNameControl.setValidators([])
+        facilityNameControl.clearValidators()
+        facilityNameControl.updateValueAndValidity()
+
       }
       this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
       this.bnrcDetailForm.controls.roleForInService.setValue(null)
@@ -330,41 +363,60 @@ export class BnrcRegisterComponent implements OnInit {
       this.privateHealthFacility = false
       const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
       if (courseSelectionControl) {
-        courseSelectionControl.setValidators([])
+        courseSelectionControl.clearValidators()
+        courseSelectionControl.updateValueAndValidity()
+
       }
+
       const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
       if (instituteTypeControl) {
-        instituteTypeControl.setValidators([])
+        instituteTypeControl.clearValidators() // Clear existing validators
+        instituteTypeControl.updateValueAndValidity() // Update the form control
       }
+
       const instituteNameControl = this.bnrcDetailForm.get('instituteName')
       if (instituteNameControl) {
-        instituteNameControl.setValidators([])
+        console.log("test", instituteTypeControl)
+        instituteNameControl.clearValidators()
+        instituteNameControl.updateValueAndValidity() // Update the form control
+
       }
 
       const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
       if (publicFacilityTypeControl) {
         publicFacilityTypeControl.setValidators([Validators.required])
+        publicFacilityTypeControl.updateValueAndValidity()
+
       }
       const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
       if (facultyTypeControl) {
-        facultyTypeControl.setValidators([])
+        facultyTypeControl.clearValidators()
+        facultyTypeControl.updateValueAndValidity() // Update the form control
       }
       const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
       if (roleForInServiceControl) {
         roleForInServiceControl.setValidators([Validators.required])
+        roleForInServiceControl.updateValueAndValidity()
+
       }
 
       const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
       if (serviceTypeControl) {
         serviceTypeControl.setValidators([Validators.required])
+        serviceTypeControl.updateValueAndValidity()
+
       }
       const facilityNameControl = this.bnrcDetailForm.get('facilityName')
       if (facilityNameControl) {
         facilityNameControl.setValidators([Validators.required])
+        facilityNameControl.updateValueAndValidity()
+
       }
       const privateFacilityTypeControl = this.bnrcDetailForm.get('privateFacilityType')
       if (privateFacilityTypeControl) {
-        privateFacilityTypeControl.setValidators([])
+        privateFacilityTypeControl.clearValidators()
+        privateFacilityTypeControl.updateValueAndValidity()
+
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
@@ -378,27 +430,39 @@ export class BnrcRegisterComponent implements OnInit {
       this.privateHealthFacility = true
       const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
       if (courseSelectionControl) {
-        courseSelectionControl.setValidators([])
+        courseSelectionControl.clearValidators()
+        courseSelectionControl.updateValueAndValidity()
+
       }
       const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
       if (facultyTypeControl) {
-        facultyTypeControl.setValidators([])
+        facultyTypeControl.clearValidators()
+        facultyTypeControl.updateValueAndValidity()
+
       }
       const privateFacilityTypeControl = this.bnrcDetailForm.get('privateFacilityType')
       if (privateFacilityTypeControl) {
         privateFacilityTypeControl.setValidators([Validators.required])
+        privateFacilityTypeControl.updateValueAndValidity()
+
       }
       const facilityNameControl = this.bnrcDetailForm.get('facilityName')
       if (facilityNameControl) {
         facilityNameControl.setValidators([Validators.required])
+        facilityNameControl.updateValueAndValidity()
+
       }
       const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
       if (bnrcRegistrationNumberControl) {
         bnrcRegistrationNumberControl.setValidators([Validators.required])
+        bnrcRegistrationNumberControl.updateValueAndValidity()
+
       }
       const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
       if (serviceTypeControl) {
-        serviceTypeControl.setValidators([])
+        serviceTypeControl.clearValidators()
+        serviceTypeControl.updateValueAndValidity()
+
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
