@@ -20,12 +20,14 @@ export class WebCourseCardComponent implements OnInit {
   @Input() cnePoints: any = false
   @Input() courseData: any
   @Input() enableConfig = false
-  @Input()
-  displayConfig = {
+  @Input() displayConfig = {
     displayType: 'card-badges',
     badges: {
       orgIcon: true,
       certification: true,
+      sourceName: true,
+      rating: true,
+      cnePoints: true
     },
   }
   isLoggedIn = false
@@ -37,6 +39,8 @@ export class WebCourseCardComponent implements OnInit {
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
+    console.log('CNE Points:', this.displayConfig.badges.cnePoints)
+
     if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
       this.isUserLoggedIn = true
     } else {

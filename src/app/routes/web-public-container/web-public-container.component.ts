@@ -38,6 +38,10 @@ export class WebPublicComponent implements OnInit {
     badges: {
       orgIcon: true,
       certification: true,
+      sourceName: true,
+      rating: true,
+      cnePoints: false,
+      certificate: true
     },
   }
   @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef

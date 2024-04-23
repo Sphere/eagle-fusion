@@ -12,15 +12,23 @@
         <div class="text-over">
           <img class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
           <ng-container>
-            <div class="topStyle">{{courseData.sourceName}}</div>
-          </ng-container>
-          <ng-container *ngIf="displayConfig?.badges?.certification&&courseData.issueCertification">
-            <div *ngIf="!cnePoints&&!courseData.cnePoints" class="bottomStyle">
-              <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg" alt="vector">
-              Certified
+            <div *ngIf="displayConfig?.badges?.cnePoints === true" class="topStyle">
+              CNE: 3.5
             </div>
-            <div *ngIf="cnePoints&&courseData.cnePoints" class="cne-points">
-              {{courseData.cnePoints}}
+          </ng-container>
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.certificate === true" class="topStyle">
+              Certificate
+            </div>
+          </ng-container>
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.rating === true" class="rightStyle">
+              4.2 <img class="star-icon" src="/fusion-assets/icons/card_star.svg" alt="star" />
+            </div>
+          </ng-container>
+          <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
+            <div *ngIf="courseData.sourceName" class="sourceName">
+              {{courseData.sourceName}}
             </div>
           </ng-container>
         </div>

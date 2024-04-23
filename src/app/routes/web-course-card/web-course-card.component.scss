@@ -86,8 +86,7 @@
 .fitsize {
   width: 100%;
   max-width: 100% !important;
-  border-top-left-radius: 10px;
-  border-top-right-radius: 10px;
+  border-radius: 4px !important;
 }
 
 .text-over {
@@ -100,31 +99,39 @@
   padding: 5px;
   background-color: #D68480;
   color: #FFFFFF;
-  border-top-left-radius: 10px;
-  border-bottom-right-radius: 10px;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
 }
+.rightStyle{
+  display: flex;
 
-.bottomStyle {
-  position: absolute;
-  bottom: -15px;
+   position: absolute;
+  top: 0px;
   right: 0px;
   padding: 5px;
-  background-color: #519DB2;
+  background-color: #D68480;
   color: #FFFFFF;
-  border-top-left-radius: 10px;
-  border-bottom-left-radius: 10px;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: 4px;
+      justify-content: center;
+    align-items: center;
+    gap: 8px;
 }
+.star-icon{
+  width: 14px;
+height: 14px;
 
-.cne-points {
+
+}
+.sourceName {
   position: absolute;
-  bottom: -15px;
+  bottom: 0px;
   right: 0px;
   padding: 5px;
   color: #FFFFFF;
-  // border-top-left-radius: 10px;
-  // border-bottom-left-radius: 10px;
-  border-radius: 5px 0px;
-  background: #DCFAFF;
+  border-radius: 4px 0px 4px 0px !important;
+  background: #519DB2;
+
 }
 
 
