@@ -25,9 +25,14 @@
         </span> </p>
       <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
           > </span> </p>
-      <div class="round-buttons">
-        <button *ngFor="let _ of dataCarousel; let i = index" class="round-button"
-          [class.active]="i === currentSlideIndex" (click)="goToSlide(i)"></button>
+      <div>
+        <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
+          (click)="goToSlide(i)" class="round-buttons">
+          <img class="dot-icon" *ngIf="i === currentSlideIndex" src="/fusion-assets/icons/active_dot.svg"
+            alt="Active Dot">
+          <img class="dot-icon" *ngIf="i !== currentSlideIndex" src="/fusion-assets/icons/gray_dot.svg"
+            alt="Inactive Dot">
+        </button>
       </div>
     </div>
   </div>
