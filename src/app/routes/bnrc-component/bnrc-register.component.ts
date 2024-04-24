@@ -514,13 +514,12 @@ export class BnrcRegisterComponent implements OnInit {
       }
       this.isSubmitting = true
 
-      setTimeout(() => {
-        this.isSubmitting = false
-      }, 2000)
+
 
 
       this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
         (res: any) => {
+          this.isSubmitting = false
           console.log("test", res)
           if (res.status === 'SUCCESS') {
             this.loader.changeLoad.next(false)
@@ -542,6 +541,7 @@ export class BnrcRegisterComponent implements OnInit {
           }
         },
         (error) => {
+          this.isSubmitting = false
           console.error('HTTP Error:', error.error.message)
 
           this.loader.changeLoad.next(false)
