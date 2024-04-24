@@ -16,6 +16,25 @@
     color: #000000;
 }
 
+.round-buttons {
+ background: none;
+    border: none;
+     padding: 0px 0px 0px 4px !important;
+
+}
+.dot-icon{
+      width: 10px;
+    height: 10px;
+}
+.round-button {
+ width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+}
 .banner-mini-heading {
     padding-left: 15px;
 
@@ -226,55 +245,25 @@
 }
 
 
-.round-buttons {
-    display: flex;
-    //   display: flex;
-    //   // flex-direction: column;
-    //   justify-content: center;
-    //  // margin-top: 10px;
-    //   gap: 5px;
-    //   background: #469788;
-}
 
 /* Styles for high-density displays */
 @media all and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
 
     /* Apply styles for high-density displays here */
-    .round-button {
-        // width: 5px !important;
-        // height: 5px !important;
-        // background-color: red !important;
-        // border-radius: 20px !important;
-        width: 1em;
-        /* Diameter of the circle */
-        height: 1em;
-        border-radius: 50%;
-        /* Make the square element a circle */
-        background-color: rgba(0, 0, 0, 0.25);
-        /* Blue color for the circle */
-        display: inline-block;
-        /* Display as inline-block to avoid line breaks */
-        margin-right: 10px;
-        /* Margin between circles */
-        border: none;
-    }
+
+.round-button {
+ width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+}
 
     /* Other styles specific to high-density displays */
 }
 
-.round-button {
-    // width: 10px;
-    // height: 10px;
-    // border-radius: 50%;
-    // background-color: rgba(0, 0, 0, 0.25);
-    // margin: 0 5px;
-    // cursor: pointer;
-    // border: none;
-}
-
-.round-button.active {
-    background-color: rgba(0, 0, 0, 0.978);
-}
 
 .scrollToCneCourses {
     cursor: pointer;

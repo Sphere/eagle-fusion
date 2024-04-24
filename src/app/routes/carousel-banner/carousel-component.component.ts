@@ -41,7 +41,7 @@ export class CarouselComponentComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.startCarousel()
+    // this.startCarousel()
   }
 
   ngOnDestroy(): void {

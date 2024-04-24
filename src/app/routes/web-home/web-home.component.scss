@@ -191,14 +191,24 @@
 
 
 
-.round-button {
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.25);
-    margin: 0 5px;
-    cursor: pointer;
+.round-buttons {
+ background: none;
     border: none;
+     padding: 0px 0px 0px 4px !important;
+
+}
+.dot-icon{
+      width: 10px;
+    height: 10px;
+}
+.round-button {
+ width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
 }
 
 .round-button.active {
