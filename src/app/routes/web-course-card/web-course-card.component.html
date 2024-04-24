@@ -3,7 +3,7 @@
   <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardStandard"></ng-container>
 </ng-container>
 
-<ng-template #cardBadges>
+<!-- <ng-template #cardBadges>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
     <a [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
       [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
@@ -34,8 +34,6 @@
         </div>
         <div class="pl-1 pt-1">
           <p class="name">{{courseData.name}}</p>
-          <!-- <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p> -->
-
           <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
         </div>
         <div *ngIf="enableConfig" class="p-2">
@@ -63,7 +61,7 @@
       </div>
     </a>
   </section>
-</ng-template>
+</ng-template> -->
 <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
   <mat-card class="popover-card xs-hidden">
     <mat-card-content>
@@ -117,41 +115,40 @@
     </mat-card-content>
   </mat-card>
 </mde-popover>
-<ng-template #cardStandard>
-  <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a (click)="redirectPage(courseData)">
-      <div class="box">
-        <div class="text-center">
-          <img class="appIcon" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+<ng-template #cardBadges>
+  <section class="mini-card-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+    <a [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+      [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
+      [mdePopoverOffsetY]="-340" (click)="redirectPage(courseData)" class="card-block">
+      <div class="card-long">
+        <div class="img-block">
+          <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.certificate === true" class="certificate-name">
+              Certificate
+            </div>
+          </ng-container>
         </div>
-        <div class="pl-3 pt-3">
-          <!-- <p class="name">{{courseData.name}}</p> -->
-          <!-- <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p> -->
-
-          <!-- <p class="description" *ngIf="enableConfig">{{courseData.description}}</p> -->
-        </div>
-        <div *ngIf="enableConfig" class="p-2">
-          <a class="btn start-btn" i18n>{{'Start now!' }}</a>
-        </div>
-        <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0  && showCompentencyDetails">
-          <div class="flex flex-col m-3 ">
-            <div><span class="font-medium" i18n>Competency Name: </span> {{cometencyData[0].name}}</div>
-            <div class="flex flex-row">
-              <span class="font-medium" i18n>Levels : </span>
-              <ng-container *ngFor="let competency of cometencyData; let last = last; ">
-                <div>{{competency.levels}}
-                  <span *ngIf="!last">, </span>
-                </div>
-              </ng-container>
+        <div class="text-block-mini">
+          <div class="text-main">
+            <div class="course-name-block">
+              <p class="course-name-mini">{{courseData.name}}</p>
+            </div>
+            <div class="course-rating-block" *ngIf="displayConfig?.badges?.rating === true">
+              4.2 <img class="rating-icon-mini" src="/fusion-assets/icons/toc_star.png" alt="star" />
             </div>
           </div>
-
-        </ng-container>
-        <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
-          <div class="mt-2 px-1">
-            <span class="value" *ngIf="courseData?.completionPercentage">{{courseData?.completionPercentage}}%</span>
-          </div>
-        </ng-container>
+          <div class="progress-block-mini">
+            <mat-progress-bar [mode]="'determinate'" [value]="courseData?.completionPercentage" class="progress-bar"
+              [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
+              {{courseData?.completionPercentage}}%
+            </mat-progress-bar>
+            <div class="">
+              <span class="value mt-2">{{ courseData?.completionPercentage ?
+                courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
+            </div>
+          </div> <!-- *ngIf="showProgress && courseData?.completionPercentage !== undefined" -->
+        </div>
       </div>
     </a>
   </section>

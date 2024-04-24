@@ -11,7 +11,16 @@
   margin-right: 23px;
   border: 1px solid #00000014;
 }
+.card-block{
+  width: 644px;
+height: 125px;
+top: 8px;
+left: 8px;
+gap: 0px;
+border-radius: 10px 0px 0px 0px;
+opacity: 0px;
 
+}
 .course-container .appIcon {
   // .mat-card-image {
   width: calc(100% + 32px);
@@ -27,14 +36,30 @@
   margin-bottom: 20px;
   padding-bottom: 5px;
 }
+.card-long{
+  padding: 5px;
+  display: flex;
+  width: 644px !important;
+height: 125px !important;
+top: 8px !important;
+left: 8px !important;
+gap: 0px !important;
+border-radius: 10px!important;
+opacity: 0px;
+box-shadow: 0px 0px 8px 0px #00000073;
+margin: 5px 10px 5px 0px !important;
 
+
+}
 .course-container .name {
   color: #1C5D95;
   font-weight: 400;
   font-size: 16px;
   margin-bottom: 0 !important;
 }
-
+.text-main{
+  display: flex;
+}
 .course-container .creator {
   font-weight: 400;
   font-size: 12px;
@@ -49,7 +74,15 @@
   letter-spacing: -0.02em;
   color: #404040;
 }
-
+.text-block-mini{
+  display: flex;
+  padding: 0px 15px 0px 15px;
+  flex-direction: column;
+}
+.progress-block-mini{
+   display: flex;
+  flex-direction: column;
+}
 .start-btn {
   border-radius: 20px;
   font-size: 14px;
@@ -58,7 +91,23 @@
   color: #fff !important;
   cursor: pointer;
 }
+.course-name-mini{
+  font-family: Roboto;
+font-size: 24px;
+font-weight: 400;
+line-height: 28.13px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #1C5D95 !important;
 
+}
+.img-block{
+  position: relative;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 0px 0px 5px;
+}
 .bg-cont-white {
   background-color: #fff;
 }
@@ -84,9 +133,17 @@
 }
 
 .fitsize {
-  width: 100%;
-  max-width: 100% !important;
+  // width: 100%;
+  // max-width: 100% !important;
   border-radius: 4px !important;
+  width: 145px;
+height: 109px;
+top: 16px;
+left: 24px;
+gap: 0px;
+border-radius: 5px 0px 0px 0px;
+opacity: 0px;
+
 }
 
 .text-over {
@@ -130,8 +187,16 @@ height: 14px;
   padding: 5px;
   color: #FFFFFF;
   border-radius: 4px 0px 4px 0px !important;
-  background: #519DB2;
+  background: #D68480 !important;
 
+}
+.certificate-name{
+  position: absolute;
+  bottom: 3px;
+  right: 0px;
+  color: #FFFFFF;
+  border-radius: 4px 0px 4px 0px !important;
+  background: #D68480 !important;
 }
 
 
