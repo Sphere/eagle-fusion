@@ -267,7 +267,19 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return this.tocSvc.subtitleOnBanners
   }
   redirect() {
-    let url = sessionStorage.getItem('cURL') || '/page/home'
+    console.log(this.configSvc, 'key')
+    let local = (
+      this.configSvc.unMappedUser &&
+      this.configSvc.unMappedUser.profileDetails &&
+      this.configSvc.unMappedUser.profileDetails.preferences &&
+      this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined
+    )
+      ? this.configSvc.unMappedUser.profileDetails.preferences.language
+      : (location.href.includes('/hi/') ? 'hi' : 'en')
+    local === 'en' ? '' : 'hi'
+    console.log(local)
+    let url = sessionStorage.getItem('cURL') || `${local}/page/home`
+    console.log(url)
     if (url) {
       location.href = url
     }
