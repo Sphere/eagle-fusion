@@ -275,8 +275,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined
     )
       ? this.configSvc.unMappedUser.profileDetails.preferences.language
-      : (location.href.includes('/hi/') ? 'hi' : 'en')
-    local === 'en' ? '' : 'hi'
+      : (location.href.includes('/hi/') ? 'hi' : '')
+    local = local === 'en' ? '' : 'hi'
     console.log(local)
     let url = sessionStorage.getItem('cURL') || `${local}/page/home`
     console.log(url)
