@@ -4,11 +4,11 @@
       <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
         class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
         <img class="banner-image" [src]="data.img" alt="Carousel Image" loading="lazy">
-        <div class="tutorials-container" [ngClass]="data.scrollEmit == 'scrollToCneCourses' ? 'yellow-bg' : 'green-bg'">
-          <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span
+        <div class="tutorials-container">
+          <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span
               (click)="scrollToContent(data.scrollEmit)"> > </span> </p>
           <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span
-              (click)="scrollToContent(data.scrollEmit)"> > </span> </p>
+              (click)="scrollToContent(data.scrollEmit)"> > </span> </p> -->
           <div>
             <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
               (click)="goToSlide(i)" class="round-buttons">

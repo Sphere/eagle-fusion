@@ -22,7 +22,8 @@
     <!-- Featured Section-->
     <section *ngIf="(isXSmall$ | async) === false&&isHomePage&&userEnrollCourse&&userEnrollCourse.length==0">
       <ng-container>
-        <ws-web-public-container *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+        <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+          *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
       </ng-container>
 
     </section>
@@ -41,7 +42,8 @@
   <!-- Featured Section-->
   <section *ngIf="(isXSmall$ | async) === false&&isHomePage&&!isLoggedIn">
     <ng-container>
-      <ws-web-public-container *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+        *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
     </ng-container>
   </section>
 
@@ -49,7 +51,8 @@
   <!-- Featured Section-->
   <section *ngIf="(isXSmall$ | async) === false&&isHomePage&&userEnrollCourse&&userEnrollCourse.length>0">
     <ng-container>
-      <ws-web-public-container *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+        *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
     </ng-container>
 
   </section>
@@ -73,14 +76,15 @@
   <!-- Desktop How does it Works -->
   <ng-container *ngIf="(isXSmall$ | async) === false &&isHomePage">
     <div class="mt-8">
-      <ws-web-how-does-work class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
-        *ngIf="showNavbar && !hideHeaderFooter" [data]="videoData"></ws-web-how-does-work>
+      <ws-web-how-does-work class="hide-in-mobile bg-color app-footer mt-8"
+        [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}" *ngIf="showNavbar && !hideHeaderFooter"
+        [data]="videoData"></ws-web-how-does-work>
     </div>
   </ng-container>
 
 
   <!-- Desktop Footer -->
-  <ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+  <ws-app-footer class="hide-in-mobile app-footer " [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
     *ngIf="showNavbar && !hideHeaderFooter && showmobileFooter">
   </ws-app-footer>
 

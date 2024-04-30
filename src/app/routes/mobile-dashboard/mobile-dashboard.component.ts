@@ -8,7 +8,6 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { forkJoin } from 'rxjs'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
-import reduce from 'lodash/reduce'
 import uniqBy from 'lodash/uniqBy'
 import forEach from 'lodash/forEach'
 
@@ -59,6 +58,12 @@ export class MobileDashboardComponent implements OnInit {
       "bg-color": "#469788;;"
     }
   ]
+  topCertifiedCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
+  topCNECourseDisplayConfig: { displayType: string; badges: { cneName: boolean; rating: boolean; sourceName: boolean } } | undefined
+  myCourseDisplayConfig: any
+  showAllItems: boolean = false;
+  userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
+  showAllCourses: boolean = false;
   lang: any = 'en'
   @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
 
@@ -172,21 +177,34 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.cneCourse = uniqBy(cneCourse, 'identifier')
+    if (this.cneCourse.length > 0) {
+      this.topCNECourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          cneName: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   formatFeaturedCourseResponse(res: any) {
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
 
-    this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
-      result['identifier'] = value.identifier
-      result['appIcon'] = value.appIcon
-      result['name'] = value.name
-      result['sourceName'] = value.sourceName
-      result['competencies_v1'] = value.competencies_v1
-      return result
+    this.featuredCourse = uniqBy(featuredCourse, 'identifier')
 
-    }, {})
+    if (this.featuredCourse.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
 
   formatTopCertifiedCourseResponse(res: any) {
@@ -196,23 +214,58 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
+    console.log("yes here", this.topCertifiedCourse)
+    if (this.topCertifiedCourse.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
-    forEach(res, key => {
-      if (res.completionPercentage !== 100) {
+    res.forEach((key: any) => {
+      if (key.completionPercentage !== 100) {
         myCourseObject = {
           identifier: key.content.identifier,
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
-          sourceName: key.content.sourceName,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
         }
-        myCourse.push(myCourseObject)
+
+      } else {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+        }
+
       }
+      myCourse.push(myCourseObject)
+
     })
+
+
     this.userEnrollCourse = myCourse
+    if (this.userEnrollCourse.length > 0) {
+      this.myCourseDisplayConfig = {
+        displayType: 'card-mini',
+        badges: {
+          rating: true,
+          completionPercentage: true
+        },
+      }
+    }
   }
   mobileJsonData() {
     this.http.get(`assets/configurations/mobile-home.json`).pipe(delay(500)).subscribe((res: any) => {
@@ -230,7 +283,22 @@ export class MobileDashboardComponent implements OnInit {
   viewAllCourse() {
     this.router.navigateByUrl(`app/search/learning`)
   }
-
+  viewAllItems(): void {
+    this.showAllItems = !this.showAllItems
+    // You can also update specific items here if needed
+  }
+  getDisplayedItems(items: any[]): any[] {
+    if (this.showAllItems) {
+      return items
+    } else {
+      if (items.length > 5) {
+        return items.slice(0, 5)
+      } else {
+        return items
+      }
+      // Show only a limited number of items, like the first 5
+    }
+  }
   openIframe(video: any) {
     const navigationExtras: NavigationExtras = {
       queryParams: {

@@ -21,6 +21,7 @@ border-radius: 10px 0px 0px 0px;
 opacity: 0px;
 
 }
+
 .course-container .appIcon {
   // .mat-card-image {
   width: calc(100% + 32px);
@@ -29,6 +30,7 @@ opacity: 0px;
   // min-width: 276px;
   // max-width: 276px;
   height: 150px;
+  border-radius: 4px;
 }
 
 .course-container .box {
@@ -39,7 +41,7 @@ opacity: 0px;
 .card-long{
   padding: 5px;
   display: flex;
-  width: 644px !important;
+  width: 600px !important;
 height: 125px !important;
 top: 8px !important;
 left: 8px !important;
@@ -59,6 +61,8 @@ margin: 5px 10px 5px 0px !important;
 }
 .text-main{
   display: flex;
+  margin-bottom: 5px;
+  flex: 60%;
 }
 .course-container .creator {
   font-weight: 400;
@@ -74,14 +78,48 @@ margin: 5px 10px 5px 0px !important;
   letter-spacing: -0.02em;
   color: #404040;
 }
+
+.course-name-block{
+    display: flex;
+  flex: 75%;
+}
 .text-block-mini{
   display: flex;
   padding: 0px 15px 0px 15px;
   flex-direction: column;
 }
+.rating-icon-mini{
+  width: 16px;
+
+height: 16px;
+}
+.course-rating-block{
+  display: flex;
+      gap: 6px;
+  flex: 25%;
+    justify-content: end;
+}
 .progress-block-mini{
    display: flex;
-  flex-direction: column;
+   flex: 40%;
+       flex-direction: column;
+    gap: 7px;
+  // flex-direction: column;
+  // bottom: 0px;
+  //   position: absolute;
+  //   justify-content: end;
+  //   align-items: flex-start;
+  //   gap: 11px;
+}
+
+.completionPercentage{
+  font-family: Roboto;
+font-size: 20px;
+font-weight: 400;
+line-height: 23.44px;
+letter-spacing: -0.02em;
+text-align: left;
+
 }
 .start-btn {
   border-radius: 20px;
@@ -99,6 +137,7 @@ line-height: 28.13px;
 letter-spacing: -0.02em;
 text-align: left;
 color: #1C5D95 !important;
+margin: 0px !important;
 
 }
 .img-block{
@@ -110,6 +149,12 @@ color: #1C5D95 !important;
 }
 .bg-cont-white {
   background-color: #fff;
+}
+:host ::ng-deep .theme-igot.day-mode .mat-progress-bar-fill::after {
+    background: #469788 !important;
+}
+::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
+  background-color: #DCDCDC !important;
 }
 
 .value {
@@ -131,10 +176,14 @@ color: #1C5D95 !important;
 ::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
   background-color: #EDEDED;
 }
-
 .fitsize {
-  // width: 100%;
-  // max-width: 100% !important;
+  width: 100%;
+  max-width: 100% !important;
+
+
+}
+.fitsizeMini {
+
   border-radius: 4px !important;
   width: 145px;
 height: 109px;
@@ -187,7 +236,7 @@ height: 14px;
   padding: 5px;
   color: #FFFFFF;
   border-radius: 4px 0px 4px 0px !important;
-  background: #D68480 !important;
+  background: #519DB2 !important;
 
 }
 .certificate-name{

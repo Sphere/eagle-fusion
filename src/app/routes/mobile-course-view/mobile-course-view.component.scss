@@ -1,18 +1,61 @@
 /************/
 
+
 .course-container {
+
   box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
-  border-radius: 10px;
-  height: auto;
+  border-radius: 8px;
+  padding: 10px !important;
+  position: relative;
+  width: auto !important;;
+  height: 100%;
+  margin-bottom: 15px !important;
+  border: 1px solid #00000014;
 }
 .course-container .appIcon {
   min-width: 272px;
   max-width: 272px;
 }
+
 .course-container .box {
   // height: 250px;
-  margin: 20px 0;
-  padding-bottom: 5px;
+  // margin: 10px 0;
+  // padding-bottom: 5px;
+}
+.topStyle {
+  position: absolute;
+  top: 0px;
+  padding: 5px;
+  background-color: #D68480;
+  color: #FFFFFF;
+  border-top-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+.rightStyle{
+  display: flex;
+
+   position: absolute;
+  top: 0px;
+  right: 0px;
+  padding: 5px;
+  background-color: #D68480;
+  color: #FFFFFF;
+  border-bottom-left-radius: 4px;
+  border-top-right-radius: 4px;
+      justify-content: center;
+    align-items: center;
+    gap: 8px;
+}
+
+.sourceName {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  padding: 5px;
+  color: #FFFFFF;
+  border-radius: 4px 0px 4px 0px !important;
+  background: #519DB2 !important;
+
 }
 .course-container .name {
   color:#1C5D95;
@@ -46,7 +89,57 @@
 .bg-cont-white {
   background-color: #fff;
 }
+.card-block{
+  width: 312px;
+height: 81px;
+gap: 0px;
+border-radius: 10px 0px 0px 0px;
+opacity: 0px;
 
+top: 8px;
+left: 8px;
+gap: 0px;
+opacity: 0px;
+
+}
+.mini-card-container {
+  margin-bottom: 15px !important;
+}
+.card-long{
+  padding: 5px;
+  display: flex;
+width: 100%;
+height: 81px;
+top: 8px !important;
+left: 8px !important;
+gap: 0px !important;
+border-radius: 10px!important;
+opacity: 0px;
+box-shadow: 0px 0px 8px 0px #00000073;
+margin: 5px 10px 5px 0px !important;
+
+
+}
+.img-block{
+  position: relative;
+  display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 0px 0px 5px;
+}
+.fitsizeMini {
+width: 91px;
+height: 69px;
+top: 6px;
+left: 6px;
+
+
+  border-radius: 4px !important;
+
+gap: 0px;
+opacity: 0px;
+
+}
 .value {
   position: relative;
   bottom: 19px;
@@ -56,7 +149,50 @@
   display: flex;
   justify-content: center;
 }
+.certificate-name{
+  position: absolute;
+  bottom: 3px;
+  right: 0px;
+  color: #FFFFFF;
+  border-radius: 4px 0px 4px 0px !important;
+  background: #D68480 !important;
+}
+.text-block-mini{
+  display: flex;
+  padding: 0px 15px 0px 15px;
+  flex-direction: column;
+}
+.text-main{
+  display: flex;
+  margin-bottom: 5px;
+  flex: 60%;
+}
+.course-name-block{
+    display: flex;
+  flex: 75%;
+}
+.course-name-mini{
+font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.41px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #1C5D95 !important;
+margin: 0px !important;
 
+}
+.course-rating-block{
+  display: flex;
+      gap: 6px;
+  flex: 25%;
+    justify-content: end;
+}
+.rating-icon-mini{
+  width: 16px;
+
+height: 16px;
+}
 .mat-progress-bar {
   width: 100%;
   border-radius: 40px;
@@ -99,10 +235,12 @@
   border-bottom-left-radius: 10px;
 }
 
+// .name {
+//   padding-top: 0.5rem;
+// }
 .name {
-  padding-top: 0.5rem;
+  padding-top: 1rem;
 }
-
 .competency-card {
   border-top: 1px solid #DCDCDC;
   margin-top: 15px;

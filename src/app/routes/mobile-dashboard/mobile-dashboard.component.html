@@ -1,6 +1,6 @@
 <div class="content">
-  <p class="banner-heading text-2xl py-2 text-base text-capitalize"><span i18n>Welcome
-    </span>{{firstName?firstName:''}}!
+  <p class="banner-heading text-2xl py-2 text-base text-capitalize"><span i18n>Welcome !
+    </span>{{firstName?firstName:''}}
   </p>
   <p class="banner-mini-heading" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue
     Learning</p>
@@ -14,54 +14,85 @@
   </div> -->
 
 
-  <div class="py-1 px-4 mt-8">
-    <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>1">
-      <p class="text-2xl" style="padding-top:10px" i18n>My Courses</p>
-      <ws-mobile-course-view [courseData]="userEnrollCourse[1]"></ws-mobile-course-view>
+  <div class="py-1 px-4 mt-2">
+    <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length > 1">
+      <div class="line-label bg-green" i18n>
+        <span class="header1 header0" i18n>CONTINUE LEARNING</span>
+      </div>
+      <div *ngFor="let course of getDisplayedItems(userEnrollCourse)">
+        <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length > 0">
+          <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
+        </ng-container>
+      </div>
+      <button i18n *ngIf="userEnrollCourse.length > 5" (click)="viewAllItems()" class="view-all-course">
+        {{ showAllItems ? 'Hide' : 'View all' }}
+        <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+      </button>
     </ng-container>
+
+
   </div>
   <!-- Top certified courses -->
   <section class="mt-4 py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
-    <p class="text-2xl" i18n>Top Courses</p>
-    <div *ngFor="let course of topCertifiedCourse">
+    <div class="line-label orange" i18n>
+      <span class="header1 " i18n>Top Courses</span>
+    </div>
+
+    <div *ngFor="let course of getDisplayedItems(topCertifiedCourse)">
       <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
-        <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
+        <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+          [courseData]="course"></ws-mobile-course-view>
       </ng-container>
     </div>
-    <button i18n (click)="viewAllCourse()" class="view-all-course">
-      View all courses
+    <button *ngIf="topCertifiedCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
+      {{ showAllItems ? 'Hide' : 'View all' }}
+      <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
     </button>
   </section>
 </div>
 
 <!-- Featured Section-->
-<section *ngIf="featuredCourse" class="mt-4 py-1 px-4 p-4" style="background-color: #F7F7F7;">
-  <p class="text-2xl" i18n>Featured</p>
-  <ng-container style="background-color: #FFF;">
-    <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
-  </ng-container>
-
-</section>
-<!-- Top CNE points courses -->
-<section #scrollToCneCourses id="scrollToCneCourses" class="scrollToCneCourses" class="mt-4 py-1 px-4"
-  *ngIf="cneCourse && cneCourse.length>0">
-  <p class="cne-text" style="padding-top:10px" i18n>CNE Courses</p>
-  <p class="cne-info" style="padding-top:10px" i18n>Curated Courses to get you started</p>
-
-  <div *ngFor="let course of cneCourse">
-    <ng-container *ngIf="cneCourse && cneCourse.length>0">
-      <ws-mobile-course-view [cnePoints]="'yes'" [courseData]="course"></ws-mobile-course-view>
+<section *ngIf="featuredCourse" class="mt-4 py-1 px-4 p-4">
+  <div class="line-label orange" i18n>
+    <span class="header1 " i18n>Featured</span>
+  </div>
+  <div *ngFor="let course of getDisplayedItems(featuredCourse)">
+    <ng-container *ngIf="featuredCourse && featuredCourse.length>0">
+      <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+        [courseData]="course"></ws-mobile-course-view>
     </ng-container>
   </div>
-  <!-- <button i18n (click)="viewAllCourse()" class="view-all-course">
-        View all courses
-      </button> -->
+  <button *ngIf="featuredCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
+    {{ showAllItems ? 'Hide' : 'View all' }}
+    <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+  </button>
 </section>
-<div class="py-1 px-4 mb-6">
+<!-- <ng-container>
+    <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig" [enableConfig]="true"
+      [courseData]="featuredCourse"></ws-mobile-course-view>
+  </ng-container> -->
+
+<!-- Top CNE points courses -->
+<section #scrollToCneCourses id="scrollToCneCourses" class="scrollToCneCourses" class="py-1 px-4"
+  *ngIf="cneCourse && cneCourse.length>0">
+  <div class="line-label orange" i18n>
+    <span class="header1 cne-text " i18n>CNE Courses</span>
+  </div>
+  <div *ngFor="let course of getDisplayedItems(cneCourse)">
+    <ng-container *ngIf=" cneCourse && cneCourse.length>0">
+      <ws-mobile-course-view [displayConfig]="topCNECourseDisplayConfig" [cnePoints]="'yes'"
+        [courseData]="course"></ws-mobile-course-view>
+    </ng-container>
+  </div>
+  <button *ngIf="cneCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
+    {{ showAllItems ? 'Hide' : 'View all' }}
+    <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+  </button>
+</section>
+<div class="py-1 px-4 mb-6" style="background-color: #DCEFEC;">
   <!-- How does it work section -->
   <section class="mt-4">
     <ng-container>
-
       <ws-mobile-how-does-work [data]="videoData"></ws-mobile-how-does-work>
     </ng-container>
   </section>

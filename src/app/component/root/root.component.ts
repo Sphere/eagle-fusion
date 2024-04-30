@@ -55,7 +55,6 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-import forEach from 'lodash/forEach'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
@@ -190,6 +189,8 @@ export class RootComponent implements OnInit, AfterViewInit {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
+
+        console.log("res: ", res)
         this.formatmyCourseResponse(res[0])
       })
       localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
@@ -526,18 +527,33 @@ export class RootComponent implements OnInit, AfterViewInit {
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
-    forEach(res, (key: { content: { identifier: any; appIcon: any; thumbnail: any; name: any; sourceName: any } }) => {
-      if (res.completionPercentage !== 100) {
+
+    res.forEach((key: any) => {
+      if (key.completionPercentage !== 100) {
         myCourseObject = {
           identifier: key.content.identifier,
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
-          sourceName: key.content.sourceName,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
         }
-        myCourse.push(myCourseObject)
+
+      } else {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+        }
+
       }
+      myCourse.push(myCourseObject)
+
     })
+
     this.userEnrollCourse = myCourse
   }
   getReferrerUrl(): string {

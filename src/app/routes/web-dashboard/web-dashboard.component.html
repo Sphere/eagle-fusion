@@ -3,8 +3,8 @@
   <!--upskill now section-->
   <div class="carousel">
     <div class="banner-heading-container">
-      <div class="banner-heading"><span i18n>Welcome </span><span>{{firstName?firstName:''}}!</span></div>
-      <div class="banner-mini-heading" i18n>Continue Learning</div>
+      <div class="banner-mini-heading" i18n>Welcome !</div>
+      <div class="banner-heading"><span i18n>{{ firstName ? firstName : '' }}</span></div>
     </div>
     <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
@@ -19,7 +19,7 @@
 
 
 <div *ngFor="let data of dataCarousel; let i = index">
-  <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
+  <div class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
       <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
         </span> </p>

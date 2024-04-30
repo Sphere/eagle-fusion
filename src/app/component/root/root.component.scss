@@ -4,7 +4,10 @@
 ws-app-nav-bar {
   z-index: 1000;
 }
-
+.bg-color{
+  background: #DCEFEC;
+padding: 10px 0px !important;
+}
 .route-change {
   position: fixed;
   top: 0;
@@ -40,7 +43,7 @@ ws-app-nav-bar {
 }
 
 .height-adjust {
-  min-height: calc(100vh - (56px + 125px));
+  min-height: calc(100vh - (56px + 235px));
 
   @include breakpoint-xs {
     // height: 650px;

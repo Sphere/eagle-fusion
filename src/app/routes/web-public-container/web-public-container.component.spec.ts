@@ -16,6 +16,7 @@ import { ElementRef, Pipe, PipeTransform } from '@angular/core'
 import { Router } from '@angular/router'
 import { BtnContentShareComponent } from '../../../../library/ws-widget/collection/src/lib/btn-content-share/btn-content-share.component'
 import { of } from 'rxjs'
+import { ConfigurationsService } from '@ws-widget/utils'
 
 @Pipe({ name: 'pipeDurationTransform' })
 class MockPipeDurationTransform implements PipeTransform {
@@ -28,6 +29,10 @@ class MockPipeDurationTransform implements PipeTransform {
 const mockScrollServiceService: Partial<ScrollService> = {
   scrollToElement: jest.fn()
 }
+const mockConfigServiceService: Partial<ScrollService> = {
+  scrollToElement: jest.fn()
+}
+
 const mockOrgService: Partial<OrgServiceService> = { getLiveSearchResults: jest.fn().mockReturnValue(of({ result: { content: [] } })) }
 const mockRouterService: Partial<Router> = { navigate: jest.fn(), navigateByUrl: jest.fn() }
 const mockHttpService: Partial<HttpClient> = {}
@@ -45,6 +50,7 @@ describe('WebPublicComponent', () => {
       mockDialogBar as MatDialog,
       mockOrgService as OrgServiceService,
       mockScrollServiceService as ScrollService,
+      mockConfigServiceService as ConfigurationsService,
 
     )
   })

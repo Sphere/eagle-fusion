@@ -1,19 +1,21 @@
 <ng-container *ngIf="displayConfig?.displayType" [ngSwitch]="displayConfig?.displayType">
-  <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardBadges"></ng-container>
-  <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardStandard"></ng-container>
+  <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardLarge"></ng-container>
+  <ng-container *ngSwitchCase="'card-mini'" [ngTemplateOutlet]="cardMini"></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardLarge"></ng-container>
 </ng-container>
 
-<!-- <ng-template #cardBadges>
+
+<ng-template #cardLarge>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
     <a [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
       [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
       [mdePopoverOffsetY]="-340" (click)="redirectPage(courseData)">
       <div class="box">
         <div class="text-over">
-          <img class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
           <ng-container>
-            <div *ngIf="displayConfig?.badges?.cnePoints === true" class="topStyle">
-              CNE: 3.5
+            <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
+              CNE: {{courseData.cneName}}
             </div>
           </ng-container>
           <ng-container>
@@ -41,7 +43,7 @@
         </div>
         <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
           <div class="competency-card flex m-3">
-            <img class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
+            <img alt="" class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
             <div>
               <span>{{cometencyData[0]?.name}}, </span>
               <ng-container *ngFor="let competency of cometencyData; let last = last;">
@@ -61,7 +63,7 @@
       </div>
     </a>
   </section>
-</ng-template> -->
+</ng-template>
 <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
   <mat-card class="popover-card xs-hidden">
     <mat-card-content>
@@ -115,14 +117,15 @@
     </mat-card-content>
   </mat-card>
 </mde-popover>
-<ng-template #cardBadges>
+<ng-template #cardMini>
   <section class="mini-card-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
     <a [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
       [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
       [mdePopoverOffsetY]="-340" (click)="redirectPage(courseData)" class="card-block">
       <div class="card-long">
         <div class="img-block">
-          <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <img alt="" class="appIcon fitsizeMini"
+            src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
           <ng-container>
             <div *ngIf="displayConfig?.badges?.certificate === true" class="certificate-name">
               Certificate
@@ -131,20 +134,23 @@
         </div>
         <div class="text-block-mini">
           <div class="text-main">
-            <div class="course-name-block">
-              <p class="course-name-mini">{{courseData.name}}</p>
+            <div class="course-name-block ">
+              <p [title]="courseData.name" class="course-name-mini">{{ courseData.name.length > 30 ?
+                courseData.name.slice(0, 50) + '...' :
+                courseData.name }}
+              </p>
             </div>
-            <div class="course-rating-block" *ngIf="displayConfig?.badges?.rating === true">
+            <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true">
               4.2 <img class="rating-icon-mini" src="/fusion-assets/icons/toc_star.png" alt="star" />
             </div>
           </div>
-          <div class="progress-block-mini">
+          <div class="progress-block-mini" *ngIf="displayConfig?.badges?.completionPercentage === true">
             <mat-progress-bar [mode]="'determinate'" [value]="courseData?.completionPercentage" class="progress-bar"
               [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
               {{courseData?.completionPercentage}}%
             </mat-progress-bar>
             <div class="">
-              <span class="value mt-2">{{ courseData?.completionPercentage ?
+              <span class="completionPercentage">{{ courseData?.completionPercentage ?
                 courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
             </div>
           </div> <!-- *ngIf="showProgress && courseData?.completionPercentage !== undefined" -->
