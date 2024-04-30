@@ -9,8 +9,6 @@ import { forkJoin } from 'rxjs'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 import uniqBy from 'lodash/uniqBy'
-import forEach from 'lodash/forEach'
-
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
