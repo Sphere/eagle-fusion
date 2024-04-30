@@ -19,14 +19,14 @@ export class WebHomeComponent implements OnInit {
     {
       "title": "Check out courses with CNE Hours",
       "titleHi": "सीएनई आवर्स के साथ पाठ्यक्रम देखें",
-      "img": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/cne.svg",
+      "img": "/fusion-assets/images/banner_1_cne.png",
       "scrollEmit": "scrollToCneCourses",
       "bg-color": "#D7AC5C;"
     },
     {
       "title": "Watch tutorials on how sphere works",
       "titleHi": "जानिए स्फीयर कैसे काम करता है",
-      "img": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/how_works.svg",
+      "img": "/fusion-assets/images/banner_2.png",
       "scrollEmit": "scrollToHowSphereWorks",
       "bg-color": "#469788;;"
     }
@@ -47,7 +47,7 @@ export class WebHomeComponent implements OnInit {
         this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' })
       }
     })
-    this.startCarousel()
+    // this.startCarousel()
     this.bannerStatus = this.configSvc.bannerStats
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall && (this.configSvc.userProfile === null)) {

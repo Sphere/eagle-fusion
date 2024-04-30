@@ -7,18 +7,11 @@
         Learn at your own pace & Get Certified
       </div>
       <div class="create-account">
-        <a role="button" matRipple class="flex flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+        <a role="button" matRipple class="flex  mt-8 px-2 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
-            <button mat-raised-button [ngStyle]="{
-                                          'width':'160px',
-                                          'height':'auto',
-                                              'background-color': '#2E6491',
-                                              'border': '1px solid #2E6491',
-                                              'border-radius': '20px',
-                                              'color': 'white',
-                                              'font-size': '16px',
-                                              'font-weight': '400'}" i18n>
+            <span class="new-user-txt">New user?</span>
+            <button class="create-btn" mat-raised-button i18n>
               Create Account</button>
           </ng-container>
         </a>
@@ -39,10 +32,10 @@
 <div *ngFor="let data of dataCarousel; let i = index">
   <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
-      <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
+      <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
         </span> </p>
       <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
-          > </span> </p>
+          > </span> </p> -->
       <div>
         <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
           (click)="goToSlide(i)" class="round-buttons">

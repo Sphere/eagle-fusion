@@ -1,10 +1,19 @@
-.banner-container {
+.banner-container{
     display: flex;
-    padding: 50px 10px 0px 10px;
+    margin-top: 45px;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
+.new-user-txt{
+font-family: Roboto;
+font-size: 18px;
+font-weight: 400;
+line-height: 28.13px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #000000;
 
+}
 .banner-heading {
     padding-left: 15px;
     font-family: 'Roboto';
@@ -61,9 +70,8 @@
 }
 
 .banner-image {
-    width: 600px;
-    // height: 350px
-    height: 325px;
+  width: 100%; /* Ensure images fill their container */
+  height: auto; /* Maintain aspect ratio */
 }
 
 .info-block {
@@ -149,10 +157,12 @@
     align-items: center;
 }
 
-.banner-heading-container {
-    display: flex;
+.banner-heading-container{
+  display: flex;
     flex-direction: column;
-    flex-basis: 30%;
+    flex: 1;
+    justify-content: center;
+    align-items: center;
 }
 
 /* carousel.component.css */
@@ -166,8 +176,9 @@
 }
 
 .slides {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
+  display: flex;
+  flex: 1;
+  transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
 }
 
 .slide {
@@ -189,7 +200,17 @@
 }
 
 
-
+.create-btn{
+    width:'160px';
+    height:'auto';
+    background-color: '#2E6491';
+    border: '1px solid #2E6491';
+    border-radius: '20px';
+    color: 'white';
+    font-size: '16px';
+    font-weight: '400';
+    background-color: #2E6491;
+}
 
 .round-buttons {
  background: none;
@@ -221,7 +242,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background: #D7AC5C;
+    background: #ffffff;
     height: 51px;
     margin-bottom: 20px;
     margin-top: -1px;
@@ -234,7 +255,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background: #469788;
+    background: #ffffff;
     height: 51px;
     margin-bottom: 20px;
     margin-top: -12px;
