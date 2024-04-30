@@ -4,7 +4,31 @@
     align-items: center;
     justify-content: space-around;
 }
+.box-sizing-box {
+
+        gap: 15px !important;
+    }
+.login-btn {
+    padding: 8px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background-color: #2E6491 !important;
+    border-radius: 50px;
+    color: #FFFFFF !important;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    border: none;
+    cursor: pointer;
+
+}
 .new-user-txt{
+    display: flex;
+    justify-content: center;
+    align-items: center;
 font-family: Roboto;
 font-size: 18px;
 font-weight: 400;
@@ -201,15 +225,16 @@ color: #000000;
 
 
 .create-btn{
-    width:'160px';
-    height:'auto';
-    background-color: '#2E6491';
-    border: '1px solid #2E6491';
-    border-radius: '20px';
-    color: 'white';
-    font-size: '16px';
-    font-weight: '400';
-    background-color: #2E6491;
+    width:'160px' !important;
+    height:'auto'!important;
+    background-color: '#2E6491'!important;
+    border: '1px solid #2E6491'!important;
+    border-radius: '20px'!important;
+    color: 'white'!important;
+    font-size: '16px'!important;
+    font-weight: '400'!important;
+    background-color: #2E6491 !important;
+    color: #FFFFFF !important;
 }
 
 .round-buttons {

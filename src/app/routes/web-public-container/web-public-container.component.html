@@ -39,7 +39,7 @@
 </div>
 <!-- Top Course -->
 <div class="top-course-container content">
-  <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse && userEnrollCourse.length>0">
+  <section class="mt-4 view-all-course-container" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
     <div class="line-label orange flex scroller-container">
       <div i18n>
         <span class="header1" i18n>TOP COURSES</span>
@@ -49,8 +49,8 @@
       </button>
     </div>
     <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of userEnrollCourse">
-        <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
+      <div *ngFor="let course of topCertifiedCourse">
+        <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
           <ws-web-course-card [displayConfig]="forYouCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
         </ng-container>
       </div>

@@ -54,7 +54,7 @@ export class WebPublicComponent implements OnInit {
   }
 
   async ngOnInit() {
-    if (this.userEnrollCourse.length > 0) {
+    if (this.userEnrollCourse && this.userEnrollCourse.length > 0) {
       this.userEnrolledDisplayConfig = {
         displayType: 'card-mini',
         badges: {
@@ -170,6 +170,16 @@ export class WebPublicComponent implements OnInit {
     })
 
     this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
+    if (this.topCertifiedCourse.length > 0) {
+      this.forYouCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
 
   // For opening Course Page

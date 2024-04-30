@@ -35,7 +35,9 @@
           </ng-container>
         </div>
         <div class="pl-1 pt-1">
-          <p class="name">{{courseData.name}}</p>
+          <p class="name" [title]="courseData.name">{{ courseData.name.length > 60 ?
+            courseData.name.slice(0, 60) + '...' :
+            courseData.name }}</p>
           <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
         </div>
         <div *ngIf="enableConfig" class="p-2">
