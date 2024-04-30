@@ -141,3 +141,14 @@ a.blue,
   float: right;
   cursor: pointer;
 }
+.save-btn:disabled, .save-btn[disabled] {
+  width: 88px;
+  height: 38px;
+  background-color: #bcc2c6;
+  border-radius: 50px;
+  color: #0e0d0d;
+  border: 0;
+  font-size: 16px;
+  line-height: 19px;
+  float: right;
+}
