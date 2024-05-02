@@ -207,14 +207,14 @@ export class PublicLoginComponent implements OnInit {
                 localStorage.setItem('lang123', JSON.stringify(obj))
               }
             }
+            if (localStorage.getItem('url_before_login')) {
+              const url = localStorage.getItem('url_before_login') || ''
+              location.href = url
+            } else {
+              window.location.href = '/page/home'
+            }
           })
         }, 500)
-        if (localStorage.getItem('url_before_login')) {
-          const url = localStorage.getItem('url_before_login') || ''
-          location.href = url
-        } else {
-          window.location.href = '/page/home'
-        }
       }, err => {
         console.log(err.error)
         this.openSnackbar(err.error.msg || err.error.message)
