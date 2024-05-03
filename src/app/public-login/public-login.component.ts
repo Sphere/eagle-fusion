@@ -207,6 +207,7 @@ export class PublicLoginComponent implements OnInit {
                 localStorage.setItem('lang123', JSON.stringify(obj))
               }
             }
+            localStorage.setItem('res', JSON.stringify(res))
             if (localStorage.getItem('url_before_login')) {
               const url = localStorage.getItem('url_before_login') || ''
               location.href = url

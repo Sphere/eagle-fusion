@@ -95,7 +95,7 @@ export class UserProfileService {
           }
           break
         case 'Student':
-          isFilled = professionalDetails.qualification ? isFilled : false
+          isFilled = professionalDetails.designation ? isFilled : false
           break
         case 'Healthcare Volunteer':
           isFilled = professionalDetails.designation ? isFilled : false
