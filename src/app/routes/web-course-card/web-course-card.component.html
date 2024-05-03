@@ -7,9 +7,7 @@
 
 <ng-template #cardLarge>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
-      [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
-      [mdePopoverOffsetY]="-340" (click)="redirectPage(courseData)">
+    <a (click)="redirectPage(courseData)">
       <div class="box">
         <div class="text-over">
           <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
@@ -19,15 +17,15 @@
             </div>
           </ng-container>
           <ng-container>
-            <div *ngIf="displayConfig?.badges?.certificate === true" class="topStyle">
+            <div *ngIf="displayConfig?.badges?.certification === true&&courseData.issueCertification" class="topStyle">
               Certificate
             </div>
           </ng-container>
-          <ng-container>
+          <!-- <ng-container>
             <div *ngIf="displayConfig?.badges?.rating === true" class="rightStyle">
               4.2 <img class="star-icon" src="/fusion-assets/icons/card_star.svg" alt="star" />
             </div>
-          </ng-container>
+          </ng-container> -->
           <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
             <div *ngIf="courseData.sourceName" class="sourceName">
               {{courseData.sourceName}}
@@ -66,7 +64,7 @@
     </a>
   </section>
 </ng-template>
-<mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
+<!-- <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
   <mat-card class="popover-card xs-hidden">
     <mat-card-content>
       <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
@@ -81,15 +79,10 @@
         <span class="mr-1 orange-text" i18n>Duration</span>:
         <mat-icon>access_time</mat-icon>
         <span class="time-text fs-13">{{ courseData.duration| pipeDurationTransform: 'hms' }}</span>
-        <!--<span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
-            <div class="flex items-start">
-              <ng-container [ngTemplateOutlet]="rating"></ng-container>
-            </div>
-          </span> -->
+
       </div>
       <p *ngIf="courseData?.completionPercentage"><span class="fw-500" i18n>Progress</span>: {{
         courseData?.completionPercentage}} %</p>
-      <!-- <p><span class="fw-500">Number of modules:</span> {{ courseData?.childNodes?.length}}</p> -->
       <p *ngIf="courseData?.creator"><span class="fw-500" i18n>Author</span>: {{
         courseData?.creator}}
       </p>
@@ -101,10 +94,7 @@
       <p *ngIf="courseData?.sourceName"><span class="fw-500" i18n>Source</span>:
         {{courseData.sourceName}}
       </p>
-      <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
-          <div class="fw-500 mb-1">Course Description</div>
-          {{ courseData.description | pipeHtmlTagRemoval }}
-        </div> -->
+
       <div class="mt-0 flex">
         <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
           class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
@@ -118,18 +108,17 @@
       </div>
     </mat-card-content>
   </mat-card>
-</mde-popover>
+</mde-popover> -->
 <ng-template #cardMini>
   <section class="mini-card-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
-      [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
-      [mdePopoverOffsetY]="-340" (click)="redirectPage(courseData)" class="card-block">
+    <a (click)="redirectPage(courseData)" class="card-block">
       <div class="card-long">
         <div class="img-block">
           <img alt="" class="appIcon fitsizeMini"
             src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
           <ng-container>
-            <div *ngIf="displayConfig?.badges?.certificate === true" class="certificate-name">
+            <div *ngIf="displayConfig?.badges?.certification === true&&courseData.issueCertification"
+              class="certificate-name">
               Certificate
             </div>
           </ng-container>
@@ -142,9 +131,9 @@
                 courseData.name }}
               </p>
             </div>
-            <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true">
+            <!-- <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true">
               4.2 <img class="rating-icon-mini" src="/fusion-assets/icons/toc_star.png" alt="star" />
-            </div>
+            </div> -->
           </div>
           <div class="progress-block-mini" *ngIf="displayConfig?.badges?.completionPercentage === true">
             <mat-progress-bar [mode]="'determinate'" [value]="courseData?.completionPercentage" class="progress-bar"

@@ -1,7 +1,9 @@
 @import 'ws-mixins';
 
 
-
+::ng-deep .card-long{
+  width: 100px !important;
+}
 #heading {
   //margin-left: 20px;
   margin-top: 20px;
@@ -40,7 +42,7 @@
   }
 
   .resource-container {
-    margin: 20px 0px 8px 5px !important;
+    margin: 20px 15px 10px 15px !important;
   }
 
   #recommendHeading {
@@ -124,10 +126,10 @@
 }
 
 .resource-container {
-  display: flex;
-  justify-content: space-between;
-  flex-direction: row;
-  align-items: flex-start !important;
+  // display: flex;
+  // justify-content: space-between;
+  // flex-direction: row;
+  // align-items: flex-start !important;
 
   .card-thumbnail {
     $image-height: 65px;

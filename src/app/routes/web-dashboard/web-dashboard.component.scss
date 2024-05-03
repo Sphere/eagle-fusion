@@ -7,9 +7,9 @@
 .banner-heading-container{
   display: flex;
     flex-direction: column;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
+    flex: 35%;
+    justify-content: left;
+        padding-left: 85px;
 }
 .banner-heading{
 font-family: Roboto;
@@ -19,7 +19,7 @@ line-height: 56.25px;
 letter-spacing: -0.02em;
 text-align: left;
 
-  padding-left: 51px;
+  // padding-left: 51px;
     font-style: normal;
     color: #000000;
 }
@@ -35,7 +35,7 @@ text-align: left;
 
 // color: #000000;
 
- padding-left: 51px;
+//  padding-left: 51px;
     color: #000000;
     /* Header 2 */
     font-style: normal;
@@ -120,7 +120,7 @@ text-align: left;
 
 .slides {
   display: flex;
-  flex: 1;
+  flex: 65%;
   transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
 }
 

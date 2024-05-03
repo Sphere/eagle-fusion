@@ -18,7 +18,7 @@
   bottom:50%;
   left: 50%;
   transform: translateX(-50%);
-  width: 118%;
+  width: 112%;
   height: 2px; /* Adjust thickness as needed */
   background-color: #000; /* Adjust color as needed */
 }
@@ -34,10 +34,13 @@
 
     z-index: 9;
     color: #4B4B4B;
-    font-weight: 500;
-    font-size: 14px;
-    line-height: 28.8px;
-    font-family: "Roboto";
+    font-family: Roboto;
+font-size: 24px;
+font-weight: 500;
+line-height: 28.8px;
+letter-spacing: 0.02em;
+
+
 }
 
 .top-course-container {
@@ -124,7 +127,7 @@ height: 42px;
   color:#4B4B4B !important;
 }
 .view-all-course-container {
-  padding: 0px 157px;
+  padding: 0px 85px;
 }
 
 .featuredCourse-section {

@@ -1,11 +1,11 @@
 <div class="content">
-  <p class="banner-heading text-2xl py-2 text-base text-capitalize"><span i18n>Welcome !
+  <p class="banner-heading text-2xl px-2 py-2 text-base text-capitalize"><span i18n>Welcome !
     </span>{{firstName?firstName:''}}
   </p>
-  <p class="banner-mini-heading" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue
+  <p class="banner-mini-heading px-2" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue
     Learning</p>
   <ng-template #start>
-    <p class="text-2xl banner-mini-heading" i18n>Start Learning</p>
+    <p class="text-2xl px-2 banner-mini-heading" i18n>Start Learning</p>
   </ng-template>
   <!-- <img class="banner-image" src="/fusion-assets/images/Mask_group.svg" alt="Banner image" loading="lazy"> -->
   <app-carousel-component [lang]="lang"></app-carousel-component>
@@ -14,7 +14,7 @@
   </div> -->
 
 
-  <div class="py-1 px-4 mt-2">
+  <div class="py-1 px-4 ">
     <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length > 1">
       <div class="line-label bg-green" i18n>
         <span class="header1 header0" i18n>CONTINUE LEARNING</span>
@@ -52,7 +52,7 @@
 </div>
 
 <!-- Featured Section-->
-<section *ngIf="featuredCourse" class="mt-4 py-1 px-4 p-4">
+<!-- <section *ngIf="featuredCourse" class="mt-4 py-1 px-4 p-4">
   <div class="line-label orange" i18n>
     <span class="header1 " i18n>Featured</span>
   </div>
@@ -66,7 +66,7 @@
     {{ showAllItems ? 'Hide' : 'View all' }}
     <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
-</section>
+</section> -->
 <!-- <ng-container>
     <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig" [enableConfig]="true"
       [courseData]="featuredCourse"></ws-mobile-course-view>

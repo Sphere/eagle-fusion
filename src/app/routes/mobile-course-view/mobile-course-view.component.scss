@@ -57,6 +57,16 @@
   background: #519DB2 !important;
 
 }
+:host ::ng-deep {
+  .mat-progress-bar-fill:after {
+    background: #469788 !important;
+    // border-radius: 10px;
+  }
+
+  .mat-progress-bar-buffer {
+    background-color: #DCDCDC !important
+  }
+}
 .course-container .name {
   color:#1C5D95;
   font-weight: 400;
@@ -196,7 +206,7 @@ height: 16px;
 .mat-progress-bar {
   width: 100%;
   border-radius: 40px;
-  height: 20px;
+  height: 8px;
 }
 
 ::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {

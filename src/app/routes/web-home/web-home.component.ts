@@ -47,7 +47,7 @@ export class WebHomeComponent implements OnInit {
         this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' })
       }
     })
-    // this.startCarousel()
+    this.startCarousel()
     this.bannerStatus = this.configSvc.bannerStats
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall && (this.configSvc.userProfile === null)) {

@@ -101,7 +101,7 @@ export class WebPublicComponent implements OnInit {
       this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
       if (res[0].result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(res[0])
-        this.formatFeaturedCourseResponse(res[0])
+        // this.formatFeaturedCourseResponse(res[0])
         this.formatcneCourseResponse(res[0])
 
       }
@@ -119,7 +119,7 @@ export class WebPublicComponent implements OnInit {
         thumbnail: key.course_thumbnail,
         name: key.course_name,
         sourceName: key.course_sourceName,
-        certificate: key.course_issueCertification
+        issueCertification: key.course_issueCertification
       }
 
       myCourse.push(myCourseObject)

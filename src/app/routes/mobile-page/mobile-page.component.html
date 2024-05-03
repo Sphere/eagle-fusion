@@ -3,66 +3,67 @@
   <ws-mobile-home></ws-mobile-home>
 </div>
 
-<!--latest course-->
-<!-- <div class="bg-grey pt-3">
-  <ng-container [wsResolverWidget]="pageLayout">
-  </ng-container>
-</div> -->
-<!-- Top certified courses -->
+
 <section class="mt-4 py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
-  <p class="text-2xl" i18n>Top Courses</p>
-  <div *ngFor="let course of topCertifiedCourse">
-    <ng-container>
-      <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
+  <div class="line-label orange" i18n>
+    <span class="header1 " i18n>Top Courses</span>
+  </div>
+
+  <div *ngFor="let course of getDisplayedItems(topCertifiedCourse)">
+    <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
+      <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+        [courseData]="course"></ws-mobile-course-view>
     </ng-container>
   </div>
-  <button i18n (click)="viewAllCourse()" class="view-all-course">
-    View all courses
+  <button *ngIf="topCertifiedCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
+    {{ showAllItems ? 'Hide' : 'View all' }}
+    <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
 </section>
 
-<!-- Featured Section-->
-<section *ngIf="featuredCourse && featuredCourse.length>0" class="mt-4 py-1 px-4 p-4"
-  style="background-color: #F7F7F7;">
-  <p class="text-2xl" i18n>Featured</p>
-  <div *ngFor="let course of featuredCourse">
-    <ng-container>
-      <ws-mobile-course-view [enableConfig]="true" [courseData]="course"></ws-mobile-course-view>
+
+<!-- <section *ngIf="featuredCourse" class="py-1 px-4 p-4">
+  <div class="line-label orange" i18n>
+    <span class="header1 " i18n>Featured</span>
+  </div>
+  <div *ngFor="let course of getDisplayedItems(featuredCourse)">
+    <ng-container *ngIf="featuredCourse && featuredCourse.length>0">
+      <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+        [courseData]="course"></ws-mobile-course-view>
     </ng-container>
   </div>
-  <!-- <ng-container style="background-color: #FFF;">
-    <ws-mobile-course-view [enableConfig]="true" [courseData]="featuredCourse"></ws-mobile-course-view>
-  </ng-container> -->
+  <button *ngIf="featuredCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
+    {{ showAllItems ? 'Hide' : 'View all' }}
+    <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+  </button>
+</section> -->
 
-</section>
 
-
-<!-- Top certified courses -->
-<section #scrollToCneCourses id="scrollToCneCourses" class="mt-4 py-1 px-4" *ngIf="cneCourse && cneCourse.length>0">
-  <div class="cne-block">
-    <p class="mat-h1 header-font margin-remove inline-block ng-star-inserted header1 mb-4" i18n>CNE Courses</p>
-    <p class="curated-text" i18n>Curated Courses to get
-      you started</p>
+<section #scrollToCneCourses id="scrollToCneCourses" class="scrollToCneCourses" class="py-1 px-4"
+  *ngIf="cneCourse && cneCourse.length>0">
+  <div class="line-label orange" i18n>
+    <span class="header1 cne-text " i18n>CNE Courses</span>
   </div>
-  <div *ngFor="let course of cneCourse">
-    <ng-container>
-      <ws-mobile-course-view [courseData]="course"></ws-mobile-course-view>
+  <div *ngFor="let course of getDisplayedItems(cneCourse)">
+    <ng-container *ngIf=" cneCourse && cneCourse.length>0">
+      <ws-mobile-course-view [displayConfig]="topCNECourseDisplayConfig" [cnePoints]="'yes'"
+        [courseData]="course"></ws-mobile-course-view>
     </ng-container>
   </div>
-  <button i18n (click)="viewAllCourse()" class="view-all-course">
-    View all courses
+  <button *ngIf="cneCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
+    {{ showAllItems ? 'Hide' : 'View all' }}
+    <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
 </section>
-
 
 <div class="mx-4">
 
-  <section class="mt-4">
+  <section class="mt-4 mb-4">
     <ws-mobile-trusted-by-page></ws-mobile-trusted-by-page>
   </section>
 
   <!--50+ organization-->
-  <section class="mt-4" [hidden]="true">
+  <section class="mt-4 mb-4" [hidden]="true">
     <ws-mobile-organization></ws-mobile-organization>
   </section>
 
@@ -75,7 +76,7 @@
   </div> -->
 
 </div>
-<div class="content">
+<div class="content bg-green">
   <!-- How does it work section -->
   <section class="mt-4">
     <!-- <ng-container> -->

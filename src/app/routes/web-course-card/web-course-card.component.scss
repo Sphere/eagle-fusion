@@ -23,7 +23,16 @@ border-radius: 10px 0px 0px 0px;
 opacity: 0px;
 
 }
+:host ::ng-deep {
+  .mat-progress-bar-fill:after {
+    background: #469788 !important;
+    // border-radius: 10px;
+  }
 
+  .mat-progress-bar-buffer {
+    background-color: #DCDCDC !important
+  }
+}
 .course-container .appIcon {
   // .mat-card-image {
   width: calc(100% + 32px);
@@ -43,7 +52,7 @@ opacity: 0px;
 .card-long{
   padding: 5px;
   display: flex;
-  width: 600px !important;
+  width: 600px ;
 height: 125px !important;
 top: 8px !important;
 left: 8px !important;
@@ -115,12 +124,13 @@ height: 16px;
 }
 
 .completionPercentage{
-  font-family: Roboto;
+font-family: Roboto;
 font-size: 20px;
 font-weight: 400;
 line-height: 23.44px;
 letter-spacing: -0.02em;
 text-align: left;
+color: #000000;
 
 }
 .start-btn {
@@ -172,7 +182,7 @@ margin: 0px !important;
 .mat-progress-bar {
   width: 100%;
   border-radius: 40px;
-  height: 20px;
+  height: 15px;
 }
 
 ::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {

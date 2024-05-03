@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
 @Component({
@@ -21,12 +21,14 @@ export class MyCoursesComponent implements OnInit {
       isCertified: true
     }
   }
-
+  isXSmall$ = this.valueSvc.isXSmall$
+  myCourseDisplayConfig: any
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
     public router: Router,
+    private valueSvc: ValueService,
   ) { }
 
   ngOnInit() {
@@ -82,7 +84,15 @@ export class MyCoursesComponent implements OnInit {
           const dateTimeB = new Date(b.dateTime).getTime()
           return dateTimeB - dateTimeA
         })
-
+        if (this.completedCourse.length > 0) {
+          this.myCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              rating: true,
+              completionPercentage: true
+            },
+          }
+        }
         // console.log(this.startedCourse, 'c', this.startedCourse.length)
         // console.log(this.completedCourse, 'aa', this.completedCourse.length)
 

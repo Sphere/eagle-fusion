@@ -30,35 +30,44 @@
     justify-content: center;
     align-items: center;
 font-family: Roboto;
-font-size: 18px;
+font-size: 24px;
 font-weight: 400;
 line-height: 28.13px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #000000;
+
 
 }
 .banner-heading {
-    padding-left: 15px;
-    font-family: 'Roboto';
+
+
     font-style: normal;
-    font-weight: 500;
-    font-size: 36px;
+
+
     line-height: 40px;
     letter-spacing: -0.02em;
     color: #000000;
+    font-family: Roboto;
+font-size: 50px;
+font-weight: 500;
+line-height: 55px;
+letter-spacing: -0.02em;
+text-align: left;
+
 }
 
 .banner-mini-heading {
-    padding-left: 15px;
+
     color: #000000;
     /* Header 2 */
-    font-family: 'Roboto';
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-    letter-spacing: -0.48px;
+    //styleName: Header 2;
+font-family: Roboto;
+font-size: 24px;
+font-weight: 400;
+line-height: 28.8px;
+letter-spacing: -0.02em;
+text-align: left;
+
 }
 
 // @media only screen and (max-width: 599px)
@@ -123,29 +132,35 @@ color: #000000;
 }
 
 .info-number {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 40px;
-    /* or 180% */
+   //styleName: Display 1;
+font-family: Roboto;
+font-size: 48px;
+font-weight: 400;
+line-height: 57.6px;
+letter-spacing: -0.02em;
+text-align: left;
 
-    letter-spacing: -0.02em;
 
     color: #14446C;
 }
 
 .info-text {
     // margin-top: 5px !important;
-    text-align: center;
-    font-family: 'Roboto';
+
     font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 18px;
+
+
     /* or 129% */
     letter-spacing: -0.02em;
     color: #14446C;
+    //styleName: Header 3;
+font-family: Roboto;
+font-size: 20px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: -0.02em;
+text-align: center;
+
 }
 
 .tutorials-container {
@@ -184,12 +199,11 @@ color: #000000;
 .banner-heading-container{
   display: flex;
     flex-direction: column;
-    flex: 1;
-    justify-content: center;
-    align-items: center;
+    flex: 35%;
+    justify-content: left;
+        padding-left: 85px;
 }
 
-/* carousel.component.css */
 
 .carousel {
     overflow: hidden;
@@ -201,7 +215,7 @@ color: #000000;
 
 .slides {
   display: flex;
-  flex: 1;
+  flex: 65%;
   transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
 }
 

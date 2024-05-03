@@ -1,7 +1,7 @@
 @import 'ws-mixins';
 
 .scrollHowSphereWorks{
-  padding: 0px 157px;
+  padding: 0px 85px;
   margin-top: 10px;
 }
 .how-work-content {
@@ -55,7 +55,8 @@ video::-webkit-media-controls-play-button {
 .scrollHowSphereWorks-block{
   display: flex;
   flex-wrap: wrap;
-    padding: 0px 149px;
+    padding: 0px 85px;
+    gap: 85px !important ;
 
 }
 .m-10{
@@ -79,6 +80,14 @@ font-style: normal;
 font-weight: 400;
 line-height: 24px;
 letter-spacing: -0.32px;
+}
+.block-container{
+  width: 376px;
+height: 297px;
+
+border-radius: 20px 0px 0px 0px;
+opacity: 0px;
+
 }
 @media only screen and (min-width: 600px) and (max-width: 959px){
 .scrollHowSphereWorks{

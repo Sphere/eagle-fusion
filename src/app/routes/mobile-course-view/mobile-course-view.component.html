@@ -20,11 +20,11 @@
               Certificate
             </div>
           </ng-container>
-          <ng-container>
+          <!-- <ng-container>
             <div *ngIf="displayConfig?.badges?.rating === true" class="rightStyle">
               4.2 <img class="star-icon" src="/fusion-assets/icons/card_star.svg" alt="star" />
             </div>
-          </ng-container>
+          </ng-container> -->
           <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
             <div *ngIf="courseData.sourceName" class="sourceName">
               {{courseData.sourceName}}
@@ -84,9 +84,9 @@
                 courseData.name }}
               </p>
             </div>
-            <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true">
+            <!-- <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true">
               4.2 <img class="rating-icon-mini" src="/fusion-assets/icons/toc_star.png" alt="star" />
-            </div>
+            </div> -->
           </div>
           <div class="progress-block-mini" *ngIf="displayConfig?.badges?.completionPercentage === true">
             <mat-progress-bar [mode]="'determinate'" [value]="courseData?.completionPercentage" class="progress-bar"

@@ -5,43 +5,11 @@
       <!--Started -->
       <div class="resource-container" *ngFor="let data of startedCourse; let last = last"
         [ngClass]="{'last-child1': last}">
-        <div class="mr-2 position-relative">
-          <img alt="thumbnail" class="card-thumbnail ws-mat-primary-lite-background" name="thumbnail-banner-img"
-            [src]="data.thumbnail || data.appIcon">
-          <ng-container>
-            <div class="video-circle flex items-center justify-center" (click)="navigateToToc(data.identifier)">
-              <img class="video-icon" alt="polygon" src="/fusion-assets/icons/polygon4.svg">
-            </div>
-          </ng-container>
-        </div>
-        <div class="flex-container w-full details-container">
-          <div class="px-2" style="width: inherit;">
-            <div class="desktopView">
-              <a class="cursor-pointer" (click)="navigateToToc(data.identifier)">
-                <span class="card-title" name="content-heading">{{data?.name}}</span>
-              </a>
-            </div>
-            <div class="hideLower" style="float: right;margin-top: -15px;margin-right: -8px;">
-              <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>Continue Course</a>
-            </div>
+        <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="myCourseDisplayConfig"
+          [courseData]="data"></ws-mobile-course-view>
+        <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="myCourseDisplayConfig"
+          [courseData]="data"></ws-web-course-card>
 
-            <ng-container>
-              <div class="flex flex-between items-center mt-2">
-                <div class="flex-item-left">
-                  <mat-progress-bar [mode]="'determinate'" [value]="data?.completionPercentage" class="progress-bar"
-                    [attr.aria-labelledby]="'m-c-' + data?.identifier" i18n-aria-label>
-                    {{data?.completionPercentage}}%
-                  </mat-progress-bar>
-                  <span class="value mt-2">{{ data?.completionPercentage ?
-                    data?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
-                </div>
-                <!-- <div class="hideLower">
-                  <a class="cursor-pointer blue-btn" (click)="navigateToToc(data.identifier)" i18n>Continue Course</a>
-                </div> -->
-              </div>
-            </ng-container>
-          </div>
-        </div>
       </div>
       <div class="flex justify-center flex-col no-content" *ngIf="this.startedCourse.length === 0">
         <h3 class="mt15" i18n>You have not started any courses.</h3>

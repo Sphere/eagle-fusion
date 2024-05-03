@@ -31,6 +31,12 @@ export class MobilePageComponent implements OnInit {
   cneCoursesIdentifier: any = []
   cneCourse: any = []
   @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
+  topCertifiedCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
+  topCNECourseDisplayConfig: { displayType: string; badges: { cneName: boolean; rating: boolean; sourceName: boolean } } | undefined
+  myCourseDisplayConfig: any
+  showAllItems: boolean = false;
+  userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
+  showAllCourses: boolean = false;
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -77,7 +83,7 @@ export class MobilePageComponent implements OnInit {
       this.cneCoursesIdentifier = res[1].cneCoursesIdentifier
       if (res[0].result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(res[0])
-        this.formatFeaturedCourseResponse(res[0])
+        // this.formatFeaturedCourseResponse(res[0])
         this.formatcneCourseResponse(res[0])
         // console.log('this.formatTopCertifiedCourseResponse', this.featuredCourse)
       }
@@ -90,29 +96,34 @@ export class MobilePageComponent implements OnInit {
     })
 
     this.cneCourse = uniqBy(cneCourse, 'identifier')
+    if (this.cneCourse.length > 0) {
+      this.topCNECourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          cneName: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   formatFeaturedCourseResponse(res: any) {
-    // const featuredCourse = filter(res.result.content, ckey => {
-    //   return includes(this.featuredCourseIdentifier, ckey.identifier)
-    // })
-
-    // this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
-    //   console.log(value)
-    //   result['identifier'] = value.identifier
-    //   result['appIcon'] = value.appIcon
-    //   result['name'] = value.name
-    //   result['sourceName'] = value.sourceName
-    //   result['competencies_v1'] = value.competencies_v1
-    //   return result
-
-    // }, {})
-
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
 
     this.featuredCourse = uniqBy(featuredCourse, 'identifier')
 
+    if (this.featuredCourse.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
 
   formatTopCertifiedCourseResponse(res: any) {
@@ -122,6 +133,17 @@ export class MobilePageComponent implements OnInit {
     })
 
     this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
+    console.log("yes here", this.topCertifiedCourse)
+    if (this.topCertifiedCourse.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   openIframe(video: any) {
     const navigationExtras: NavigationExtras = {
@@ -138,5 +160,21 @@ export class MobilePageComponent implements OnInit {
   }
   viewAllCourse() {
     this.router.navigateByUrl(`app/search/learning`)
+  }
+  viewAllItems(): void {
+    this.showAllItems = !this.showAllItems
+    // You can also update specific items here if needed
+  }
+  getDisplayedItems(items: any[]): any[] {
+    if (this.showAllItems) {
+      return items
+    } else {
+      if (items.length > 5) {
+        return items.slice(0, 5)
+      } else {
+        return items
+      }
+      // Show only a limited number of items, like the first 5
+    }
   }
 }
