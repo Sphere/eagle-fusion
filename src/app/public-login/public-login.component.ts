@@ -196,7 +196,7 @@ export class PublicLoginComponent implements OnInit {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             console.log(res, 'res')
-            if (res && res.status === 200) {
+            if (res && res.status) {
               if (res.language) {
                 let lang = res.language
                 let obj = {
@@ -206,13 +206,14 @@ export class PublicLoginComponent implements OnInit {
                 }
                 localStorage.setItem('lang123', JSON.stringify(obj))
               }
-            }
-            localStorage.setItem('res', JSON.stringify(res))
-            if (localStorage.getItem('url_before_login')) {
-              const url = localStorage.getItem('url_before_login') || ''
-              location.href = url
-            } else {
-              window.location.href = '/page/home'
+
+              localStorage.setItem('res', JSON.stringify(res))
+              if (localStorage.getItem('url_before_login')) {
+                const url = localStorage.getItem('url_before_login') || ''
+                location.href = url
+              } else {
+                window.location.href = '/page/home'
+              }
             }
           })
         }, 500)
