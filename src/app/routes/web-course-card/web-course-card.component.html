@@ -10,6 +10,8 @@
     <a (click)="redirectPage(courseData)">
       <div class="box">
         <div class="text-over">
+          <!-- <img alt="" class="appIcon fitsize" [src]="courseData?.thumbnail ? courseData.thumbnail : courseData.appIcon"> -->
+
           <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
           <ng-container>
             <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
@@ -135,16 +137,29 @@
               4.2 <img class="rating-icon-mini" src="/fusion-assets/icons/toc_star.png" alt="star" />
             </div> -->
           </div>
-          <div class="progress-block-mini" *ngIf="displayConfig?.badges?.completionPercentage === true">
-            <mat-progress-bar [mode]="'determinate'" [value]="courseData?.completionPercentage" class="progress-bar"
-              [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
-              {{courseData?.completionPercentage}}%
-            </mat-progress-bar>
-            <div class="">
+          <div class="progress-block-mini"
+            *ngIf="displayConfig?.badges?.completionPercentage === true || displayConfig?.badges?.viewAll === true">
+            <div class="progress-block" [ngClass]="{'with-progress': displayConfig?.badges?.viewAll === true}">
+              <mat-progress-bar *ngIf="displayConfig?.badges?.completionPercentage === true" [mode]="'determinate'"
+                [value]="courseData?.completionPercentage" class="progress-bar"
+                [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
+                {{courseData?.completionPercentage}}%
+              </mat-progress-bar>
+
+              <div class="button-container">
+                <button *ngIf="displayConfig?.badges?.viewAll === true" class="resumne-btn">View course details</button>
+
+                <button *ngIf="displayConfig?.badges?.resume === true" class="resumne-btn">Resume</button>
+              </div>
+            </div>
+
+            <div *ngIf="displayConfig?.badges?.completionPercentage === true" class="">
               <span class="completionPercentage">{{ courseData?.completionPercentage ?
                 courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
             </div>
-          </div> <!-- *ngIf="showProgress && courseData?.completionPercentage !== undefined" -->
+          </div>
+          <!-- *ngIf="showProgress && courseData?.completionPercentage !== undefined" -->
+
         </div>
       </div>
     </a>

@@ -2,7 +2,28 @@
 
 
 ::ng-deep .card-long{
-  width: 100px !important;
+  width: 100% !important;
+}
+::ng-deep .text-block-mini{
+  flex: 75%;
+}
+::ng-deep .with-progress .button-container {
+  margin-left: auto; /* Align buttons to the right when progress bar is displayed */
+}
+::ng-deep .button-container {
+  display: flex;
+}
+::ng-deep .mat-tab-body-content{
+  padding: 0px 5px 0px 1px !important;
+
+}
+::ng-deep .progress-block{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+::ng-deep .mat-progress-bar{
+  width: 50% !important;
 }
 #heading {
   //margin-left: 20px;

@@ -160,6 +160,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   createAcct() {
     this.router.navigateByUrl('app/create-account')
   }
+  navigate() {
+    this.router.navigateByUrl('app/profile-view')
+  }
 
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')

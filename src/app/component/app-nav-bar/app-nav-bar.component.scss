@@ -6,7 +6,10 @@
   flex-direction: row;
   cursor: pointer;
 }
-
+.burger-menu{
+  width: 25px;
+  height: 25px;
+}
 .fix-ww {
   // margin-left: auto;
   // margin-right: auto;
@@ -15,7 +18,7 @@
 
   // align-items: center;
   @media (min-width:320px) and (max-width:600px) {
-    justify-content: center;
+    justify-content: end;
   }
 }
 

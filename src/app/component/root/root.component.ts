@@ -77,7 +77,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   featuredCourseIdentifier: any = []
   topCertifiedCourse: any = []
   userEnrollCourse: any
-
+  isProfile: any = false
   isXSmall$ = this.valueSvc.isXSmall$
   routeChangeInProgress = false
   showNavbar = false
@@ -237,6 +237,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
           window.location.href = "public/home"
         }
+        if (this.router.url === 'profile-view') {
+          this.isProfile = true
+        }
         if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
           window.location.href = "page/home"
         }
@@ -262,7 +265,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.isNavBarRequired = false
       }
       if (event instanceof NavigationStart) {
-
+        if (this.router.url === 'profile-view') {
+          this.isProfile = true
+        }
         if (event.url.includes('/public/scrom-player')) {
           this.showmobileFooter = false
         }
@@ -437,7 +442,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.currentUrl = event.url
         this.changeDetector.detectChanges()
       }
-
+      if (this.router.url === 'profile-view') {
+        this.isProfile = true
+      }
       // if (localStorage.getItem('loginbtn') || (localStorage.getItem('url_before_login'))) {
       //   this.isNavBarRequired = true
       //   this.showNavigation = false

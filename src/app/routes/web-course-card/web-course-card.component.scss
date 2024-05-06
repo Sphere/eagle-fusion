@@ -122,7 +122,13 @@ height: 16px;
   //   align-items: flex-start;
   //   gap: 11px;
 }
-
+.progress-block{
+   display: flex;
+align-items: center;
+}
+.with-progress{
+  justify-content: end;
+}
 .completionPercentage{
 font-family: Roboto;
 font-size: 20px;
@@ -899,4 +905,14 @@ $title-line-count: 2;
 .competency-icon {
   height: 15px !important;
   margin-right: 5px;
+}
+.resumne-btn{
+cursor: pointer;
+padding: 8px 32px 8px 32px;
+gap: 8px;
+border-radius: 50px ;
+border: none !important;
+opacity: 0px;
+background-color: #2E6491;
+color: #FFFFFF;
 }

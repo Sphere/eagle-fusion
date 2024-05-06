@@ -3,6 +3,7 @@ import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
+import { Certificate } from 'crypto'
 @Component({
   selector: 'ws-my-courses',
   templateUrl: './my-courses.component.html',
@@ -23,6 +24,10 @@ export class MyCoursesComponent implements OnInit {
   }
   isXSmall$ = this.valueSvc.isXSmall$
   myCourseDisplayConfig: any
+  myCourseWebDisplayConfig: any
+  coursesForYouDisplayConfig: any
+  completedWebCourseDisplayConfig: any
+  completedCourseDisplayConfig: any
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
@@ -43,7 +48,7 @@ export class MyCoursesComponent implements OnInit {
     this.isLoading = true
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        // console.log(courses)
+        console.log("courses", courses)
 
         courses.forEach((key) => {
           if (key.completionPercentage !== 100) {
@@ -84,12 +89,35 @@ export class MyCoursesComponent implements OnInit {
           const dateTimeB = new Date(b.dateTime).getTime()
           return dateTimeB - dateTimeA
         })
-        if (this.completedCourse.length > 0) {
+        if (this.startedCourse.length > 0) {
           this.myCourseDisplayConfig = {
             displayType: 'card-mini',
             badges: {
               rating: true,
               completionPercentage: true
+            },
+          }
+          this.myCourseWebDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              rating: true,
+              completionPercentage: true,
+              resume: true
+            },
+          }
+        }
+        if (this.completedCourse.length > 0) {
+          this.completedCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              rating: true,
+            },
+          }
+          this.completedWebCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              rating: true,
+              viewAll: true
             },
           }
         }
@@ -106,6 +134,36 @@ export class MyCoursesComponent implements OnInit {
             // console.log(res, 'res')
             this.coursesForYou = res
             this.isLoading = false
+
+            const myCourse: any = []
+            let myCourseObject = {}
+
+            res.forEach((key: any) => {
+              myCourseObject = {
+                identifier: key.course_id,
+                appIcon: key.course_appIcon,
+                thumbnail: key.course_thumbnail,
+                name: key.course_name,
+                sourceName: key.course_sourceName,
+                issueCertification: key.course_issueCertification
+              }
+
+              myCourse.push(myCourseObject)
+
+            })
+
+            this.coursesForYou = myCourse
+            if (this.coursesForYou.length > 0) {
+              this.coursesForYouDisplayConfig = {
+                displayType: 'card-badges',
+                badges: {
+                  certificate: true,
+                  sourceName: true,
+                  rating: true
+                },
+              }
+
+            }
           }, err => {
             console.log(err, err.status === 500)
             if (err.status === 500 || err.status === 400 || err.status === 419) {
