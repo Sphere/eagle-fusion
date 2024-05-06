@@ -196,6 +196,7 @@ export class PublicLoginComponent implements OnInit {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             console.log(res, 'res')
+            localStorage.setItem('res123', JSON.stringify(res))
             if (res && res.status) {
               if (res.language) {
                 let lang = res.language
