@@ -127,7 +127,9 @@ height: 16px;
 align-items: center;
 }
 .with-progress{
-  justify-content: end;
+  justify-content: space-between;
+  // flex: 100%;
+
 }
 .completionPercentage{
 font-family: Roboto;
@@ -188,7 +190,7 @@ margin: 0px !important;
 .mat-progress-bar {
   width: 100%;
   border-radius: 40px;
-  height: 15px;
+  height: 8px;
 }
 
 ::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
@@ -915,4 +917,18 @@ border: none !important;
 opacity: 0px;
 background-color: #2E6491;
 color: #FFFFFF;
+}
+.top-border{
+border-top: 1px solid #DCDCDC;
+}
+.mobile-source-name{
+  // flex: 100%;
+  font-family: Roboto;
+font-size: 20px;
+font-weight: 400;
+line-height: 23.44px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #808080 !important;
+padding: 5px 0px 0px 0px;
 }

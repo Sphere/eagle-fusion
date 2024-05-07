@@ -544,6 +544,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           name: key.content.name,
           dateTime: key.dateTime,
           completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification
         }
 
       } else {
@@ -554,13 +556,15 @@ export class RootComponent implements OnInit, AfterViewInit {
           name: key.content.name,
           dateTime: key.dateTime,
           completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification
+
         }
 
       }
       myCourse.push(myCourseObject)
 
     })
-
     this.userEnrollCourse = myCourse
   }
   getReferrerUrl(): string {

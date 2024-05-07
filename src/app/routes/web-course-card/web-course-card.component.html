@@ -23,11 +23,11 @@
               Certificate
             </div>
           </ng-container>
-          <!-- <ng-container>
-            <div *ngIf="displayConfig?.badges?.rating === true" class="rightStyle">
-              4.2 <img class="star-icon" src="/fusion-assets/icons/card_star.svg" alt="star" />
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.rating === true&&courseData.averageRating" class="rightStyle">
+              {{courseData.averageRating}} <img class="star-icon" src="/fusion-assets/icons/card_star.svg" alt="star" />
             </div>
-          </ng-container> -->
+          </ng-container>
           <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
             <div *ngIf="courseData.sourceName" class="sourceName">
               {{courseData.sourceName}}
@@ -124,18 +124,24 @@
               Certificate
             </div>
           </ng-container>
+          <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
+            <div *ngIf="courseData.sourceName" class="sourceName">
+              {{courseData.sourceName}}
+            </div>
+          </ng-container>
         </div>
         <div class="text-block-mini">
           <div class="text-main">
             <div class="course-name-block ">
-              <p [title]="courseData.name" class="course-name-mini">{{ courseData.name.length > 30 ?
+              <p [title]="courseData.name" class="course-name-mini">{{ courseData.name.length > 50 ?
                 courseData.name.slice(0, 50) + '...' :
                 courseData.name }}
               </p>
             </div>
-            <!-- <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true">
-              4.2 <img class="rating-icon-mini" src="/fusion-assets/icons/toc_star.png" alt="star" />
-            </div> -->
+            <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true&&courseData.averageRating">
+              {{courseData.averageRating}} <img class="rating-icon-mini" src="/fusion-assets/icons/toc_star.png"
+                alt="star" />
+            </div>
           </div>
           <div class="progress-block-mini"
             *ngIf="displayConfig?.badges?.completionPercentage === true || displayConfig?.badges?.viewAll === true">
@@ -145,7 +151,11 @@
                 [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
                 {{courseData?.completionPercentage}}%
               </mat-progress-bar>
-
+              <ng-container *ngIf="displayConfig?.badges?.mobilesourceName&&courseData.sourceName">
+                <div [ngClass]="{'top-border': displayConfig?.badges?.sourceLine}" class="mobile-source-name">
+                  {{courseData.sourceName}}
+                </div>
+              </ng-container>
               <div class="button-container">
                 <button *ngIf="displayConfig?.badges?.viewAll === true" class="resumne-btn">View course details</button>
 
@@ -157,6 +167,7 @@
               <span class="completionPercentage">{{ courseData?.completionPercentage ?
                 courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
             </div>
+
           </div>
           <!-- *ngIf="showProgress && courseData?.completionPercentage !== undefined" -->
 

@@ -236,6 +236,8 @@ export class MobileDashboardComponent implements OnInit {
           name: key.content.name,
           dateTime: key.dateTime,
           completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification
         }
 
       } else {
@@ -246,6 +248,8 @@ export class MobileDashboardComponent implements OnInit {
           name: key.content.name,
           dateTime: key.dateTime,
           completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification
         }
 
       }
@@ -260,7 +264,9 @@ export class MobileDashboardComponent implements OnInit {
         displayType: 'card-mini',
         badges: {
           rating: true,
-          completionPercentage: true
+          completionPercentage: true,
+          certification: true,
+          mobilesourceName: true
         },
       }
     }

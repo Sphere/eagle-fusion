@@ -161,7 +161,7 @@ opacity: 0px;
 }
 .certificate-name{
   position: absolute;
-  bottom: 3px;
+  bottom: 1px;
   right: 0px;
   color: #FFFFFF;
   border-radius: 4px 0px 4px 0px !important;
@@ -261,4 +261,18 @@ height: 16px;
 .competency-icon {
   height: 15px !important;
   margin-right: 5px;
+}
+
+.top-border{
+border-top: 1px solid #DCDCDC;
+}
+.mobile-source-name{
+  font-family: Roboto;
+font-size: 12px;
+font-weight: 400;
+line-height: 14.06px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #808080 !important;
+padding: 5px 0px 0px 0px;
 }

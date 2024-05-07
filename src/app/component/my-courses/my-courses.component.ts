@@ -59,6 +59,8 @@ export class MyCoursesComponent implements OnInit {
               name: key.content.name,
               dateTime: key.dateTime,
               completionPercentage: key.completionPercentage,
+              sourceName: key.content.sourceName,
+              issueCertification: key.content.issueCertification
             }
 
             this.startedCourse.push(myCourseObject)
@@ -71,6 +73,8 @@ export class MyCoursesComponent implements OnInit {
               name: key.content.name,
               dateTime: key.dateTime,
               completionPercentage: key.completionPercentage,
+              sourceName: key.content.sourceName,
+              issueCertification: key.content.issueCertification
             }
 
             this.completedCourse.push(completedCourseObject)
@@ -93,16 +97,19 @@ export class MyCoursesComponent implements OnInit {
           this.myCourseDisplayConfig = {
             displayType: 'card-mini',
             badges: {
+              certification: true,
               rating: true,
-              completionPercentage: true
+              completionPercentage: true,
+              mobilesourceName: true
             },
           }
           this.myCourseWebDisplayConfig = {
             displayType: 'card-mini',
             badges: {
+              certification: true,
               rating: true,
               completionPercentage: true,
-              resume: true
+              resume: true,
             },
           }
         }
@@ -111,13 +118,17 @@ export class MyCoursesComponent implements OnInit {
             displayType: 'card-mini',
             badges: {
               rating: true,
+              mobilesourceName: true,
+              sourceLine: true,
             },
           }
           this.completedWebCourseDisplayConfig = {
             displayType: 'card-mini',
             badges: {
               rating: true,
-              viewAll: true
+              viewAll: true,
+              mobilesourceName: true,
+              sourceLine: true,
             },
           }
         }
@@ -157,7 +168,7 @@ export class MyCoursesComponent implements OnInit {
               this.coursesForYouDisplayConfig = {
                 displayType: 'card-badges',
                 badges: {
-                  certificate: true,
+                  certification: true,
                   sourceName: true,
                   rating: true
                 },
