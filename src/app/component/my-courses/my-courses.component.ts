@@ -3,7 +3,7 @@ import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
-import { Certificate } from 'crypto'
+
 @Component({
   selector: 'ws-my-courses',
   templateUrl: './my-courses.component.html',
