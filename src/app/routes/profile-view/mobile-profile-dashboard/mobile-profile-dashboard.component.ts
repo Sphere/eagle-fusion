@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Renderer2, Inject } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -14,12 +14,16 @@ import { map, mergeMap } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
 import { FormControl, FormGroup } from '@angular/forms'
+import { DOCUMENT } from '@angular/common'
+
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
   styleUrls: ['./mobile-profile-dashboard.component.scss'],
 })
 export class MobileProfileDashboardComponent implements OnInit {
+  firstName!: string
+  lastName!: string
   showMobileView = false
   showAcademicElse = false
   userProfileData!: IUserProfileDetailsFromRegistry
@@ -44,6 +48,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   showLogOutBtn = false
   language: any
   userInfo: any
+  isCommonChatEnabled = true
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -52,7 +57,10 @@ export class MobileProfileDashboardComponent implements OnInit {
     private contentSvc: WidgetContentService,
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
-    private CompetencyConfiService: CompetencyConfiService
+    private CompetencyConfiService: CompetencyConfiService,
+    private _renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document: Document
+
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data)
@@ -163,6 +171,34 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
 
+  showSocialChats() {
+    try {
+      setTimeout(() => {
+        this.isCommonChatEnabled = false
+        window.fcWidget.init()
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
+        window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      }, 300)
+      // window.fcWidget.show()
+      // this.isCommonChatEnabled = false
+      const script = this._renderer2.createElement('script')
+      script.src = '//in.fw-cdn.com/30492305/271953.js'
+      this._renderer2.appendChild(this._document.body, script)
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
+  backToChatIcon() {
+    try {
+      this.isCommonChatEnabled = true
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+      window.fcWidget.init()
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
@@ -325,6 +361,11 @@ export class MobileProfileDashboardComponent implements OnInit {
             if (this.userProfileData.personalDetails.photo) {
               this.photoUrl = this.userProfileData.personalDetails.photo
             }
+            if (this.userProfileData.personalDetails.firstname) {
+              this.firstName = this.userProfileData.personalDetails.firstname
+              this.lastName = this.userProfileData.personalDetails.surname
+            }
+
           }
         })
     }

@@ -2,7 +2,94 @@
   <mat-spinner></mat-spinner>
 </div>
 <div class="content" *ngIf="!loader" [ngStyle]="!showbackButton ? {'display': 'flex' } : {}">
-  <div [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData">
+
+
+
+  <div *ngIf="showbackButton" [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''"
+    [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData">
+    <ws-mobile-profile-nav *ngIf="!showbackButton" [hidden]="hideData" [navigateTohome]="navigateTohome"
+      [showbackButton]="showbackButton" [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
+
+
+    <div class="user-basic-details">
+      <span i18n class="profile-user-name">
+        {{ userProfileData?.personalDetails.firstname }}
+        {{userProfileData?.personalDetails.middlename }}
+        {{userProfileData?.personalDetails.surname}}</span>
+      <span i18n class="profile-user-position">
+        POSITION : {{ currentProfession }}
+      </span>
+    </div>
+    <div class="flex justify-center">
+      <button class="help-btn mt-4 mb-4" (click)="showSocialChats()">
+        Help and Support
+        <img src="/fusion-assets/icons/support-agent.svg" alt="" />
+      </button>
+    </div>
+
+    <div class="div mobile-div">
+      <a class="border-btm" [class.active]="selectedIndex === 'language'"
+        (click)="selectedIndex = 'language'; changeFunction('language')">
+        <div>
+          <img alt="Language Preference" src="/fusion-assets/icons/language-icon.svg" width="35" height="23" /><span
+            class="options" i18n>Language
+            Preference</span>
+        </div>
+
+        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
+      </a>
+      <a class="border-btm" [class.active]="selectedIndex === 'certificates'"
+        (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
+        <div>
+          <img alt="My Certificates" src="/fusion-assets/icons/certificate-icon1.svg" width="35" height="23" /><span
+            class="options" i18n>My
+            Certificates</span>
+        </div>
+
+        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
+      </a>
+      <a class="border-btm" [class.active]="selectedIndex === 'personal'"
+        (click)="selectedIndex = 'personal'; changeFunction('personal')">
+        <div>
+          <img alt="personal details" src="/fusion-assets/icons/personal-details.svg" width="35" height="18" /><span
+            i18n class="options">Profile
+            Details</span>
+        </div>
+
+        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
+      </a>
+      <a class="border-btm" [class.active]="selectedIndex === 'organization'"
+        (click)="selectedIndex = 'organization'; changeFunction('organization')">
+        <div>
+          <img alt="Organization details" src="/fusion-assets/icons/org-profile.svg" width="35" height="22" /><span i18n
+            class="options">Organization
+            Details</span>
+        </div>
+
+        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
+      </a>
+      <a class="last-option" [class.active]="selectedIndex === 'academic'"
+        (click)="selectedIndex = 'academic'; changeFunction('academic')">
+        <div>
+          <img alt="Academic details" src="/fusion-assets/icons/academic-icon.svg" width="35" height="23" /><span
+            class="options" i18n>Academic
+            Details</span>
+
+        </div>
+        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
+      </a>
+      <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit" i18n>Logout</button>
+    </div>
+    <div *ngIf="showbackButton" class="logout-bg">
+      <button class="btn-logout" type="submit" (click)="logout()">
+        Logout
+      </button>
+    </div>
+  </div>
+
+
+
+  <div *ngIf="!showbackButton" [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData">
     <ws-mobile-profile-nav [hidden]="hideData" [navigateTohome]="navigateTohome" [showbackButton]="showbackButton"
       [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
 
@@ -175,7 +262,7 @@
     </a> -->
 
   </div>
-  <div [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
+  <div class="main-block" [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
     <div style="margin-bottom: 70px;" *ngIf="selectedIndex === 'personal'"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ws-personal-detail-edit></ws-personal-detail-edit>
@@ -238,8 +325,19 @@
       <ws-personal-detail-edit></ws-personal-detail-edit>
     </div> -->
     </div>
-    <div class="margin-top-xs">
+    <!-- <div class="margin-top-xs">
       <span style="font-size: 15px;" i18n>To request account deletion please send an email to
       </span><span style="text-decoration: underline;">support@aastrika.org</span>
-    </div>
+    </div> -->
+  </div>
+  <div *ngIf="!isCommonChatEnabled">
+    <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross image" (click)="backToChatIcon()" />
+    <a href="https://wa.me/919632013414?text=Hi" target="_blank">
+      <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp image" />
+      <div>
+        <p class="whtsapp-text" i18n>Chat with us on WhatsApp</p>
+      </div>
+    </a>
+    <a class="fcapp-text cursor-pointer" onclick="window.fcWidget.open();window.fcWidget.show();" i18n>Connect with
+      us</a>
   </div>
