@@ -20,7 +20,7 @@ top: 8px;
 left: 8px;
 gap: 0px;
 border-radius: 10px 0px 0px 0px;
-opacity: 0px;
+// opacity: 0px;
 
 }
 :host ::ng-deep {
@@ -58,7 +58,6 @@ top: 8px !important;
 left: 8px !important;
 gap: 0px !important;
 border-radius: 10px!important;
-opacity: 0px;
 box-shadow: 0px 0px 8px 0px #00000073;
 margin: 5px 10px 5px 0px !important;
 
@@ -211,7 +210,7 @@ top: 16px;
 left: 24px;
 gap: 0px;
 border-radius: 5px 0px 0px 0px;
-opacity: 0px;
+// opacity: 0px;
 
 }
 
@@ -914,7 +913,7 @@ padding: 8px 32px 8px 32px;
 gap: 8px;
 border-radius: 50px ;
 border: none !important;
-opacity: 0px;
+// opacity: 0px;
 background-color: #2E6491;
 color: #FFFFFF;
 }
