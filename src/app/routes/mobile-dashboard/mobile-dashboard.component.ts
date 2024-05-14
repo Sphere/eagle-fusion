@@ -17,6 +17,7 @@ import { ScrollService } from '../../services/scroll.service'
 import { ConfigService as CompetencyConfiService } from '../competency/services/config.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -133,10 +134,16 @@ export class MobileDashboardComponent implements OnInit {
         this.firstName = res[0].profileDetails!.profileReq!.personalDetails!.firstname
 
       })
+      let url: string
 
+      if (environment.production) {
+        url = "mobile-home.json" // For production environment
+      } else {
+        url = "mobile-home-stage.json" // For non-production (development) environment
+      }
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-      this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
+      this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
         this.homeFeature = res[2].userLoggedInSection
         this.topCertifiedCourseIdentifier = res[2].topCertifiedCourseIdentifier
         this.featuredCourseIdentifier = res[2].featuredCourseIdentifier
@@ -149,8 +156,15 @@ export class MobileDashboardComponent implements OnInit {
         }
       })
     } else {
+      let url: string
+
+      if (environment.production) {
+        url = "mobile-home.json" // For production environment
+      } else {
+        url = "mobile-home-stage.json" // For non-production (development) environment
+      }
       forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-      this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
+      this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
         this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
         this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
         this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
@@ -272,7 +286,14 @@ export class MobileDashboardComponent implements OnInit {
     }
   }
   mobileJsonData() {
-    this.http.get(`assets/configurations/mobile-home.json`).pipe(delay(500)).subscribe((res: any) => {
+    let url: string
+
+    if (environment.production) {
+      url = "mobile-home.json" // For production environment
+    } else {
+      url = "mobile-home-stage.json" // For non-production (development) environment
+    }
+    this.http.get(`assets/configurations/` + url).pipe(delay(500)).subscribe((res: any) => {
       this.homeFeature = res.userLoggedInSection
       this.topCertifiedCourseIdentifier = res.topCertifiedCourseIdentifier
       this.featuredCourseIdentifier = res.featuredCourseIdentifier

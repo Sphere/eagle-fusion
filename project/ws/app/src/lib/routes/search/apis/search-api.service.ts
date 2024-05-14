@@ -12,9 +12,8 @@ const API_END_POINTS = {
   // `${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
   SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
   // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
-  SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
-  SEARCH_V7PUBLIC: `/apis/public/v8/courseRecommendation/publicSearch/getcourse`,
-
+  SEARCH_V6PUBLIC: '/apis/public/v8/ratingsSearch/getCourses',
+  SEARCH_V7PUBLIC: `/apis/public/v8/ratingsSearch/recommendation/publicSearch/getcourse`,
 }
 
 // const facetsOb = {

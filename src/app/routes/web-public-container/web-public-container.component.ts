@@ -11,6 +11,7 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WidgetContentService } from '@ws-widget/collection'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'ws-web-public-container',
@@ -46,7 +47,7 @@ export class WebPublicComponent implements OnInit {
     private http: HttpClient,
     public dialog: MatDialog,
     private orgService: OrgServiceService,
-    private scrollService: ScrollService,
+    public scrollService: ScrollService,
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     // private elementRef: ElementRef
@@ -91,8 +92,18 @@ export class WebPublicComponent implements OnInit {
         this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
       }
     })
+    let url: string
+
+    if (environment.production) {
+      url = "mobile-home.json" // For production environment
+    } else {
+      url = "mobile-home-stage.json" // For non-production (development) environment
+    }
+
     forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-    await this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
+    await this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
+
+      // await this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
 
       this.homeFeature = res[0].userLoggedInSection
       this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier

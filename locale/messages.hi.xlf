@@ -980,20 +980,17 @@
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="d51557b32f5cc23c209819a11c0673876c353666" datatype="html">
-        <source>Competency Name: </source>
-        <target state="final">योग्यता का नाम:</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/web-course-view/web-course-view.component.html</context>
-          <context context-type="linenumber">127</context>
-        </context-group>
-      </trans-unit>
+
       <trans-unit id="1e96758036cfd06244f46dfed7179ff20be23465" datatype="html">
         <source>Levels : </source>
         <target state="final">स्तर :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-view/web-course-view.component.html</context>
           <context context-type="linenumber">129</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-course-view/web-course-view.component.html</context>
+          <context context-type="linenumber">132</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f4e5648c91dc2b60e83d03278c812783251b1ba1" datatype="html">
@@ -2815,27 +2812,15 @@
           <context context-type="linenumber">63</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="c79b31b48912d434a4f19a03b0105be1f5ab22a3" datatype="html">
-        <source>My Courses</source>
-        <target state="final">आपके पाठ्यक्रम</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
-          <context context-type="linenumber">36</context>
-        </context-group>
-      </trans-unit>
+
       <trans-unit id="aa0e93750e3db232743d1552310b0a71e87c3383" datatype="html">
         <source>
       View all courses</source>
         <target state="final">सभी पाठ्यक्रम देखें</target>
-        <context-group purpose="location">
+         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">44</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="aa0e93750e3db232743d1552310b0a71e87c3383" datatype="html">
-        <source>
-      View all courses</source>
-        <target state="final">सभी पाठ्यक्रम देखें</target>
        <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
           <context context-type="linenumber">7</context>
@@ -5429,6 +5414,10 @@
           <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
           <context context-type="linenumber">2</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="9a8801e2d7a85990542097dadff0d05f6e4b2e6b" datatype="html">
         <source>By ticking the box below, you acknowledge that you have read and agree to the</source>
@@ -5599,17 +5588,12 @@
           <context context-type="sourcefile">src/app/routes/web-course-view/web-course-view.component.html</context>
           <context context-type="linenumber">130</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="1e96758036cfd06244f46dfed7179ff20be23465" datatype="html">
-        <source>Levels : </source>
-         <target state="final">स्तरों
-
-         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-view/web-course-view.component.html</context>
-          <context context-type="linenumber">132</context>
+          <context context-type="linenumber">127</context>
         </context-group>
       </trans-unit>
+
       <trans-unit id="00e5e7200762f6bdf138f817cad2fd88f984578a" datatype="html">
         <source>Login with your Aastrika account</source>
         <target>अपने आस्ट्रिका खाते से लॉगिन करें</target>

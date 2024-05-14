@@ -10,6 +10,8 @@ import includes from 'lodash/includes'
 // import reduce from 'lodash/reduce'
 import uniqBy from 'lodash/uniqBy'
 import { ScrollService } from '../../services/scroll.service'
+import { environment } from 'src/environments/environment'
+
 @Component({
   selector: 'ws-mobile-page',
   templateUrl: './mobile-page.component.html',
@@ -74,8 +76,15 @@ export class MobilePageComponent implements OnInit {
     this.http.get(`assets/configurations/mobile-public.json`).pipe(delay(500)).subscribe((res: any) => {
       this.pageLayout = res.pageLayout
     })
+    let url: string
+
+    if (environment.production) {
+      url = "mobile-home.json" // For production environment
+    } else {
+      url = "mobile-home-stage.json" // For non-production (development) environment
+    }
     forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-    await this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
+    await this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
       console.log('res', res)
       this.homeFeature = res[0].userLoggedInSection
       this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier

@@ -25,7 +25,12 @@
     max-width: 90%;
   }
 }
-
+ @media (min-width:320px) and (max-width:600px) {
+    .personal-btn{
+      margin-top: 10px;
+      margin-bottom: 80px;
+    }
+  }
 ::placeholder {
   color: #bebebe !important;
 }
