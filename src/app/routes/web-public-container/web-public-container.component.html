@@ -1,7 +1,7 @@
 <div class="top-course-container content">
   <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse && userEnrollCourse.length>0">
     <div class=" line-label bg-green flex scroller-container">
-      <div i18n>
+      <div>
         <span class="header1 header0" i18n>CONTINUE LEARNING</span>
       </div>
       <button i18n (click)="viewAllCourse()" class="view-all-course">
@@ -21,7 +21,7 @@
 <div class="top-course-container content">
   <section class="mt-4 view-all-course-container" *ngIf="coursesForYou && coursesForYou.length>0">
     <div class="line-label orange flex scroller-container">
-      <div i18n>
+      <div>
         <span class="header1" i18n>FOR YOU</span>
       </div>
       <button i18n (click)="viewAllCourse()" class="view-all-course">
@@ -41,7 +41,7 @@
 <div class="top-course-container content">
   <section class="mt-4 view-all-course-container" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
     <div class="line-label orange flex scroller-container">
-      <div i18n>
+      <div>
         <span class="header1" i18n>TOP COURSES</span>
       </div>
       <button i18n (click)="viewAllCourse()" class="view-all-course">

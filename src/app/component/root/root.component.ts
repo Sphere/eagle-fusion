@@ -545,7 +545,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           dateTime: key.dateTime,
           completionPercentage: key.completionPercentage,
           sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
         }
 
       } else {
@@ -557,7 +558,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           dateTime: key.dateTime,
           completionPercentage: key.completionPercentage,
           sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
 
         }
 

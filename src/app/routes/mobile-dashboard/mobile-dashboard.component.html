@@ -16,7 +16,7 @@
 
   <div class="py-1 px-4 ">
     <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length > 1">
-      <div class="line-label bg-green" i18n>
+      <div class="line-label bg-green">
         <span class="header1 header0" i18n>CONTINUE LEARNING</span>
       </div>
       <div *ngFor="let course of getDisplayedItems(userEnrollCourse)">
@@ -34,7 +34,7 @@
   </div>
   <!-- Top certified courses -->
   <section class="mt-4 py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
-    <div class="line-label orange" i18n>
+    <div class="line-label orange">
       <span class="header1 " i18n>Top Courses</span>
     </div>
 
@@ -75,7 +75,7 @@
 <!-- Top CNE points courses -->
 <section #scrollToCneCourses id="scrollToCneCourses" class="scrollToCneCourses" class="py-1 px-4"
   *ngIf="cneCourse && cneCourse.length>0">
-  <div class="line-label orange" i18n>
+  <div class="line-label orange">
     <span class="header1 cne-text " i18n>CNE Courses</span>
   </div>
   <div *ngFor="let course of getDisplayedItems(cneCourse)">
