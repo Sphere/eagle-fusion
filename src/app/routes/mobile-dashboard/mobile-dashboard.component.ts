@@ -251,7 +251,8 @@ export class MobileDashboardComponent implements OnInit {
           dateTime: key.dateTime,
           completionPercentage: key.completionPercentage,
           sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
         }
 
       } else {
@@ -263,7 +264,8 @@ export class MobileDashboardComponent implements OnInit {
           dateTime: key.dateTime,
           completionPercentage: key.completionPercentage,
           sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
         }
 
       }
