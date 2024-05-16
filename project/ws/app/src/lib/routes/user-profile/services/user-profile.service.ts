@@ -22,6 +22,7 @@ const API_ENDPOINTS = {
   approveRequest: '/apis/protected/v8/workflowhandler/transition',
   getPendingFields: '/apis/protected/v8/workflowhandler/userWFApplicationFieldsSearch',
   bnrcRegistration: '/apis/public/v8/bnrcUserCreation/createUser',
+  upsmfRegistration: '/apis/public/v8/upsmfUserCreation/createUser',
 
   // getProfilePageMeta: '/apis/protected/v8/user/profileDetails/getProfilePageMeta',
 }
@@ -44,6 +45,10 @@ export class UserProfileService {
   bnrcRegistration(value: any): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcRegistration, { value })
   }
+  upsmfRegistration(value: any): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.upsmfRegistration, { value })
+  }
+
   getMasterLanguages(): Observable<ILanguagesApiData> {
     return this.http.get<ILanguagesApiData>(API_ENDPOINTS.getMasterLanguages)
   }

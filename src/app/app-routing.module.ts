@@ -31,6 +31,8 @@ import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mo
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
+import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
+
 import { YourLocationComponent as AboutYou } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
@@ -88,6 +90,10 @@ const routes: Routes = [
   {
     path: 'bnrc/register',
     component: BnrcRegisterComponent,
+  },
+  {
+    path: 'upsmf/register',
+    component: UpsmfRegisterComponent,
   },
   {
     path: 'app/about-you',
