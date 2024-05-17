@@ -267,31 +267,12 @@ export class UpsmfRegisterComponent implements OnInit {
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.upsmfRegistrationNumber.setValue(null)
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.roleForInService.setValue(null)
-      this.bnrcDetailForm.controls.serviceType.setValue(null)
-      this.bnrcDetailForm.controls.facilityName.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
+
+
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
-      const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
-      if (publicFacilityTypeControl) {
-        publicFacilityTypeControl.clearValidators()
-        publicFacilityTypeControl.updateValueAndValidity()
 
 
-      }
-      const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
-      if (roleForInServiceControl) {
-        roleForInServiceControl.clearValidators()
-        roleForInServiceControl.updateValueAndValidity()
 
-      }
-      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
-      if (serviceTypeControl) {
-        serviceTypeControl.clearValidators()
-        serviceTypeControl.updateValueAndValidity()
-
-      }
       const facilityNameControl = this.bnrcDetailForm.get('facilityName')
       if (facilityNameControl) {
         facilityNameControl.clearValidators()
@@ -377,11 +358,8 @@ export class UpsmfRegisterComponent implements OnInit {
         facilityNameControl.updateValueAndValidity()
 
       }
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.roleForInService.setValue(null)
-      this.bnrcDetailForm.controls.serviceType.setValue(null)
-      this.bnrcDetailForm.controls.facilityName.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
+
+
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
       this.bnrcDetailForm.controls.courseSelection.setValue(null)
 
@@ -462,7 +440,6 @@ export class UpsmfRegisterComponent implements OnInit {
 
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
 
     } else if (value === 'Private Health Facility') {
       this.showDesignation = true
@@ -509,7 +486,7 @@ export class UpsmfRegisterComponent implements OnInit {
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
+
       this.bnrcDetailForm.controls.serviceType.setValue(null)
       this.bnrcDetailForm.controls.instituteName.setValue(null)
       this.bnrcDetailForm.controls.instituteType.setValue(null)
