@@ -2,8 +2,9 @@
 
 
 .course-container {
+box-shadow: 0px 0px 8px 0px #00000073;
 
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  // box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
   border-radius: 8px;
   padding: 10px !important;
   position: relative;
@@ -123,7 +124,7 @@ left: 8px !important;
 gap: 0px !important;
 border-radius: 10px!important;
 box-shadow: 0px 0px 8px 0px #00000073;
-margin: 5px 10px 5px 0px !important;
+margin: 5px 15px 5px 0px !important;
 }
 .img-block{
   position: relative;
@@ -137,6 +138,7 @@ width: 91px;
 height: 69px;
 top: 6px;
 left: 6px;
+box-shadow: 0px 0px 3px 0px #00000073;
 
 
   border-radius: 4px !important;
@@ -166,6 +168,7 @@ gap: 0px;
   display: flex;
   padding: 0px 15px 0px 15px;
   flex-direction: column;
+  width: 100%;
 }
 .text-main{
   display: flex;
@@ -213,6 +216,8 @@ height: 16px;
   max-width: 100% !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  box-shadow: 0px 0px 3px 0px #00000073;
+
 }
 
 .text-over {

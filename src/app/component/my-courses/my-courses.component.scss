@@ -22,9 +22,7 @@
   align-items: center;
   justify-content: space-between;
 }
-::ng-deep .mat-progress-bar{
-  width: 50% !important;
-}
+
 #heading {
   //margin-left: 20px;
   margin-top: 20px;
@@ -96,7 +94,9 @@
   .resource-container {
     margin: 20px 0px 8px 1px !important;
   }
-
+  ::ng-deep .mat-progress-bar{
+    width: 50% !important;
+  }
   ::ng-deep .mat-tab-label {
     padding: 0px !important; // adjust this to whatever padding you need
     justify-content: left !important;
@@ -226,6 +226,8 @@
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
   height: 150px;
+  box-shadow: 0px 0px 3px 0px #00000073;
+
 }
 
 .text-over {

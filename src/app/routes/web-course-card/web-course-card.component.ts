@@ -39,7 +39,7 @@ export class WebCourseCardComponent implements OnInit {
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
-    console.log("this.courseData", this.courseData, this.displayConfig)
+    // console.log("this.courseData", this.courseData, this.displayConfig)
     if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
       this.isUserLoggedIn = true
     } else {
