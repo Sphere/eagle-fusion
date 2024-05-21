@@ -22,7 +22,8 @@
           </ng-container>
           <ng-container>
             <div *ngIf="displayConfig?.badges?.rating === true &&courseData.averageRating" class="rightStyle">
-              {{courseData.averageRating}} <img class="star-icon" src="/fusion-assets/icons/card_star.svg" alt="star" />
+              {{ courseData.averageRating.toFixed(1) }} <img class="star-icon" src="/fusion-assets/icons/card_star.svg"
+                alt="star" />
             </div>
           </ng-container>
           <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
@@ -85,8 +86,8 @@
               </p>
             </div>
             <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true&&courseData.averageRating">
-              {{courseData.averageRating}} <img class="rating-icon-mini" src="/fusion-assets/icons/toc_star.png"
-                alt="star" />
+              {{ courseData.averageRating.toFixed(1) }} <img class="rating-icon-mini"
+                src="/fusion-assets/icons/toc_star.png" alt="star" />
             </div>
           </div>
           <div class="progress-block-mini"
