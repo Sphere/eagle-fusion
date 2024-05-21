@@ -7,7 +7,8 @@
 .how-work-content {
     background: #FFFF !important;
   cursor: pointer;
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  box-shadow: 0px 0px 8px 0px #00000073;
+
   border-radius: 5px;
   padding: 10px;
   display: flex;
@@ -100,6 +101,8 @@ border-radius: 20px 0px 0px 0px;
   width: 208px;
 }
 .how-work-content{
+  box-shadow: 0px 0px 8px 0px #00000073;
+
   height: 275px;
   background: #FFFF !important;
 }
