@@ -1,11 +1,11 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import { delay } from 'rxjs/operators'
+import { catchError, delay, switchMap } from 'rxjs/operators'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import { forkJoin } from 'rxjs'
+import { forkJoin, of } from 'rxjs'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 import uniqBy from 'lodash/uniqBy'
@@ -141,20 +141,40 @@ export class MobileDashboardComponent implements OnInit {
       } else {
         url = "mobile-home-stage.json" // For non-production (development) environment
       }
-      this.userId = this.configSvc.userProfile.userId || ''
-      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-      this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
-        this.homeFeature = res[2].userLoggedInSection
-        this.topCertifiedCourseIdentifier = res[2].topCertifiedCourseIdentifier
-        this.featuredCourseIdentifier = res[2].featuredCourseIdentifier
-        this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
-        this.formatmyCourseResponse(res[0])
-        if (res[1].result.content.length > 0) {
-          this.formatTopCertifiedCourseResponse(res[1])
-          this.formatFeaturedCourseResponse(res[1])
-          this.formatcneCourseResponse(res[1])
+
+      this.http.get(`assets/configurations/` + url).pipe(
+        switchMap((configData: any) => {
+          const identifiers = [
+            ...configData.topCertifiedCourseIdentifier,
+            ...configData.cneCoursesIdentifier,
+            ...configData.featuredCourseIdentifier
+          ]
+
+          return forkJoin([
+            this.userSvc.fetchUserBatchList(this.userId),
+            this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id),
+            of(configData) // Wrap configData in an observable for consistency with forkJoin
+          ])
+        }),
+        catchError((error) => {
+          // Handle error if needed
+          return of(error) // Returning a default observable in case of error
+        })
+      ).subscribe(([userBatchList, liveSearchResults, configData]: [any, any, any]) => {
+        this.homeFeature = configData.userLoggedInSection
+        this.topCertifiedCourseIdentifier = configData.topCertifiedCourseIdentifier
+        this.featuredCourseIdentifier = configData.featuredCourseIdentifier
+        this.cneCoursesIdentifier = configData.cneCoursesIdentifier
+
+        this.formatmyCourseResponse(userBatchList) // Assuming this method accepts user batch list response
+
+        if (liveSearchResults.result.content.length > 0) {
+          this.formatTopCertifiedCourseResponse(liveSearchResults)
+          this.formatFeaturedCourseResponse(liveSearchResults)
+          this.formatcneCourseResponse(liveSearchResults)
         }
       })
+
     } else {
       let url: string
 
@@ -163,18 +183,48 @@ export class MobileDashboardComponent implements OnInit {
       } else {
         url = "mobile-home-stage.json" // For non-production (development) environment
       }
-      forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-      this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
-        this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
-        this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
-        this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
 
-        if (res[0].result.content.length > 0) {
-          this.formatTopCertifiedCourseResponse(res[0])
-          this.formatFeaturedCourseResponse(res[0])
-          this.formatcneCourseResponse(res[0])
+
+      this.http.get(`assets/configurations/` + url).pipe(
+        switchMap((configData: any) => {
+          const identifiers = [
+            ...configData.topCertifiedCourseIdentifier,
+            ...configData.cneCoursesIdentifier,
+            ...configData.featuredCourseIdentifier
+          ]
+          this.topCertifiedCourseIdentifier = configData.topCertifiedCourseIdentifier
+          this.cneCoursesIdentifier = configData.cneCoursesIdentifier
+          this.featuredCourseIdentifier = configData.featuredCourseIdentifier
+          return this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id)
+        }),
+        catchError((error) => {
+          // Handle error if needed
+          return of(error) // Returning a default observable in case of error
+        })
+      ).subscribe((results: any) => {
+        if (results.result.content.length > 0) {
+          this.formatTopCertifiedCourseResponse(results)
+          // this.formatFeaturedCourseResponse(res[0])
+          this.formatcneCourseResponse(results)
+
         }
+
       })
+
+
+
+      // forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
+      // this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
+      //   this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
+      //   this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
+      //   this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
+
+      //   if (res[0].result.content.length > 0) {
+      //     this.formatTopCertifiedCourseResponse(res[0])
+      //     this.formatFeaturedCourseResponse(res[0])
+      //     this.formatcneCourseResponse(res[0])
+      //   }
+      // })
     }
   }
   setCompetencyConfig(data: any) {

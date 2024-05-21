@@ -6,12 +6,13 @@ import includes from 'lodash/includes'
 // import reduce from 'lodash/reduce'
 import uniqBy from 'lodash/uniqBy'
 import { MatDialog } from '@angular/material'
-import { forkJoin } from 'rxjs'
+import { of } from 'rxjs'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WidgetContentService } from '@ws-widget/collection'
 import { environment } from 'src/environments/environment'
+import { catchError, switchMap } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-web-public-container',
@@ -100,22 +101,30 @@ export class WebPublicComponent implements OnInit {
       url = "mobile-home-stage.json" // For non-production (development) environment
     }
 
-    forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-    await this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
-
-      // await this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
-
-      this.homeFeature = res[0].userLoggedInSection
-      this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
-      this.cneCoursesIdentifier = res[1].cneCoursesIdentifier
-
-      this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
-      if (res[0].result.content.length > 0) {
-        this.formatTopCertifiedCourseResponse(res[0])
+    this.http.get(`assets/configurations/` + url).pipe(
+      switchMap((configData: any) => {
+        const identifiers = [
+          ...configData.topCertifiedCourseIdentifier,
+          ...configData.cneCoursesIdentifier,
+          ...configData.featuredCourseIdentifier
+        ]
+        this.topCertifiedCourseIdentifier = configData.topCertifiedCourseIdentifier
+        this.cneCoursesIdentifier = configData.cneCoursesIdentifier
+        this.featuredCourseIdentifier = configData.featuredCourseIdentifier
+        return this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id)
+      }),
+      catchError((error) => {
+        // Handle error if needed
+        return of(error) // Returning a default observable in case of error
+      })
+    ).subscribe((results: any) => {
+      if (results.result.content.length > 0) {
+        this.formatTopCertifiedCourseResponse(results)
         // this.formatFeaturedCourseResponse(res[0])
-        this.formatcneCourseResponse(res[0])
+        this.formatcneCourseResponse(results)
 
       }
+
     })
 
   }

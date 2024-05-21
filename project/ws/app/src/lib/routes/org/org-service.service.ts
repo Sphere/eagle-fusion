@@ -91,6 +91,22 @@ export class OrgServiceService {
     }
     return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
   }
+  getTopLiveSearchResults(identifiers: any, lang?: any): Observable<any> {
+    // tslint:disable-next-line:max-line-length
+    const req = {
+      request: {
+        filters: {
+          primaryCategory: ['Course'],
+          contentType: ['Course'],
+          identifier: identifiers,
+
+          status: ['Live'],
+          lang,
+        },
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
+    }
+    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+  }
   setSashaktId(token: any, id: any): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.Sashakt_Auth}?token=${token}&moduleId=${id}`)
   }

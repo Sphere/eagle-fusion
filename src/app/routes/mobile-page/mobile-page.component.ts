@@ -1,9 +1,9 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import { delay } from 'rxjs/operators'
+import { catchError, delay, switchMap } from 'rxjs/operators'
 import { DomSanitizer } from '@angular/platform-browser'
-import { forkJoin } from 'rxjs'
+import { of } from 'rxjs'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
@@ -83,19 +83,32 @@ export class MobilePageComponent implements OnInit {
     } else {
       url = "mobile-home-stage.json" // For non-production (development) environment
     }
-    forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-    await this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
-      console.log('res', res)
-      this.homeFeature = res[0].userLoggedInSection
-      this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
-      this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
-      this.cneCoursesIdentifier = res[1].cneCoursesIdentifier
-      if (res[0].result.content.length > 0) {
-        this.formatTopCertifiedCourseResponse(res[0])
+
+
+    this.http.get(`assets/configurations/` + url).pipe(
+      switchMap((configData: any) => {
+        const identifiers = [
+          ...configData.topCertifiedCourseIdentifier,
+          ...configData.cneCoursesIdentifier,
+          ...configData.featuredCourseIdentifier
+        ]
+        this.topCertifiedCourseIdentifier = configData.topCertifiedCourseIdentifier
+        this.cneCoursesIdentifier = configData.cneCoursesIdentifier
+        this.featuredCourseIdentifier = configData.featuredCourseIdentifier
+        return this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id)
+      }),
+      catchError((error) => {
+        // Handle error if needed
+        return of(error) // Returning a default observable in case of error
+      })
+    ).subscribe((results: any) => {
+      if (results.result.content.length > 0) {
+        this.formatTopCertifiedCourseResponse(results)
         // this.formatFeaturedCourseResponse(res[0])
-        this.formatcneCourseResponse(res[0])
-        // console.log('this.formatTopCertifiedCourseResponse', this.featuredCourse)
+        this.formatcneCourseResponse(results)
+
       }
+
     })
   }
   formatcneCourseResponse(res: any) {
