@@ -5273,7 +5273,7 @@
       </trans-unit>
             <trans-unit id="70f9c68215ebba475c49d58bf0168f0520ef2945" datatype="html">
         <source>
-            <x id="INTERPOLATION" equiv-text="{{resumeData?&quot;Resume&quot;:&quot;Resume&quot;}}"/>
+            <x id="INTERPOLATION" equiv-text="{{resumeData?&quot;Start again&quot;:&quot;Start again&quot;}}"/>
           </source>
                <target>दोबारा शुरू करें</target>
         <context-group purpose="location">

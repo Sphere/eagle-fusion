@@ -4680,7 +4680,7 @@
       </trans-unit>
       <trans-unit id="70f9c68215ebba475c49d58bf0168f0520ef2945" datatype="html">
         <source>
-            <x id="INTERPOLATION" equiv-text="{{resumeData?&quot;Resume&quot;:&quot;Resume&quot;}}"/>
+            <x id="INTERPOLATION" equiv-text="{{resumeData?&quot;Start again&quot;:&quot;Start again&quot;}}"/>
           </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
