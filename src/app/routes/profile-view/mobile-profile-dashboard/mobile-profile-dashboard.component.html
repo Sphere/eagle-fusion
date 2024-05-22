@@ -16,7 +16,7 @@
         {{ userProfileData?.personalDetails.firstname }}
         {{userProfileData?.personalDetails.middlename }}
         {{userProfileData?.personalDetails.surname}}</span>
-      <span i18n class="profile-user-position">
+      <span *ngIf="currentProfession" i18n class="profile-user-position">
         Position : {{ currentProfession }}
       </span>
     </div>
@@ -73,10 +73,14 @@
         </div>
         <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
       </a>
+      <div class="margin-top-xs">
+        <span style="font-size: 15px;" i18n>To request account deletion please send an email to
+        </span><span style="text-decoration: underline;">support@aastrika.org</span>
+      </div>
       <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit" i18n>Logout</button>
     </div>
     <div *ngIf="showbackButton" class="logout-bg">
-      <button class="btn-logout" type="submit" (click)="logout()">
+      <button class="btn-logout" type="submit" (click)="logout()" i18n>
         Logout
       </button>
     </div>
@@ -320,10 +324,7 @@
       <ws-personal-detail-edit></ws-personal-detail-edit>
     </div> -->
     </div>
-    <!-- <div class="margin-top-xs">
-      <span style="font-size: 15px;" i18n>To request account deletion please send an email to
-      </span><span style="text-decoration: underline;">support@aastrika.org</span>
-    </div> -->
+
   </div>
   <div *ngIf="!isCommonChatEnabled">
     <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross image" (click)="backToChatIcon()" />

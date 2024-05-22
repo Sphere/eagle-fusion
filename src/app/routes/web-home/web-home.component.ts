@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener, ElementRef } from '@angular/core'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ScrollService } from '../../services/scroll.service'
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'ws-web-home',
@@ -31,7 +32,7 @@ export class WebHomeComponent implements OnInit {
       "bg-color": "#469788;;"
     }
   ]
-  constructor(private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
+  constructor(private http: HttpClient, private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
 
     private scrollService: ScrollService, private elementRef: ElementRef
   ) { }
@@ -48,7 +49,12 @@ export class WebHomeComponent implements OnInit {
       }
     })
     this.startCarousel()
-    this.bannerStatus = this.configSvc.bannerStats
+
+    this.http.get('https://aastar-app-assets.s3.ap-south-1.amazonaws.com/sphere-home-content.json').subscribe(async (results: any) => {
+      this.bannerStatus = results.public.bannerStats
+    })
+
+    // this.bannerStatus = this.configSvc.bannerStats
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall && (this.configSvc.userProfile === null)) {
         this.showCreateBtn = true
