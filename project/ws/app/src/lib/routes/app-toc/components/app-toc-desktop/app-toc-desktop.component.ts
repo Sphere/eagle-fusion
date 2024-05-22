@@ -25,7 +25,7 @@ import { FormControl, Validators } from '@angular/forms'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 // import * as FileSaver from 'file-saver'
 import moment from 'moment'
-
+import { IndexedDBService } from 'src/app/online-indexed-db.service'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
@@ -48,10 +48,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() batchData!: any
   @Input() enrollCourse!: any
   @Input() resumeResource: NsContent.IContinueLearningData | null = null
+  @Input() optmisticPercentage: number | null = null
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
   isTocBanner = true
   issueCertificate = false
+  updatedContentFound: any
+  updatedContentStatus = false
   // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
@@ -114,6 +117,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
+    private onlineIndexedDbService: IndexedDBService,
 
     // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document
@@ -135,7 +139,24 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
     this.enrollApi()
     console.log(this.resumeData, this.content)
+    console.log(this.optmisticPercentage, 'optmisticPercentage')
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
+      console.log('Record:', record.contentId, this.enrollCourse!.lastReadContentId, this.resumeResource)
+      if (record.contentId) {
+        this.updatedContentStatus = true
+        this.updatedContentFound = record
+      } else {
+        this.updatedContentStatus = false
+      }
+      // this.rowData = await record
+      // let dat = JSON.parse(this.rowData.data)
+    }, (error) => {
+      console.log(error)
+      console.log(this.resumeResource)
+    }
+    )
     if (this.content) {
+
       //this.readCourseRatingSummary()
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
@@ -331,6 +352,32 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       let lastResource = ''
       let lastResourceMimeType: any
       console.log(resumeDataV2, this.enrollCourse)
+      this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content.identifier).subscribe(async (record) => {
+        console.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
+        if (record.contentId) {
+          this.updatedContentStatus = true
+          //this.updatedContentFound = record
+        } else {
+          this.updatedContentStatus = false
+        }
+        let rowData = await record
+        console.log(typeof (rowData.url))
+        let data = JSON.parse(rowData.data)
+        console.log(data.contents[0])
+        let url1 = ''
+        if (rowData.url.includes('/chapters')) {
+          console.log(rowData.url)
+          if (data.contents[0].progressdetails.mimeType === "application/pdf") {
+            url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
+            console.log(url1, 'url')
+            this.updatedContentFound = url1
+          }
+        } else {
+          this.updatedContentFound = record.url
+        }
+
+      })
+
       let eCourse = this.enrollCourse.contentStatus
       if (Object.keys(eCourse).length > 0) {
         lastResource = Object.keys(eCourse)[Object.keys(eCourse).length - 1]
@@ -420,6 +467,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   //   return enrollmentEndDate ? dayjs(enrollmentEndDate).isBefore(systemDate) : false
   // }
 
+  redirectPage(updatedContentFound: any) {
+    console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
+    location.href = updatedContentFound
+  }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
@@ -882,6 +933,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   generateQuery(type: 'RESUME' | 'START_OVER' | 'START'): { [key: string]: string } {
+
     if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
       let qParams: { [key: string]: string } = {
         ...this.firstResourceLink.queryParams,
