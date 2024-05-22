@@ -5226,11 +5226,26 @@
           <context context-type="linenumber">132</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="b95defb629b247bb80b3cfd7453094ec056829be" datatype="html">
+        <source>View course
+                  details</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4cd979821c89535df23df1c8ac8f260673610d90" datatype="html">
+        <source>Resume</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
+          <context context-type="linenumber">164</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="bf612b44e3ba6c05c219aceac6a6ed6c37df1dc4" datatype="html">
         <source>Complete</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">169</context>
+          <context context-type="linenumber">170</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0e090371325e4b07a054bca8432614ff946e141c" datatype="html">

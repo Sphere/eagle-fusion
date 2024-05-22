@@ -604,7 +604,7 @@
         <target state="final">लॉग आउट</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">80</context>
         </context-group>
          <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
@@ -2927,6 +2927,16 @@
           <context context-type="linenumber">108</context>
         </context-group>
       </trans-unit>
+       <trans-unit id="96e86cbca8d0381418b1a14b33604f98ecbca4de" datatype="html">
+        <source>
+        Position : <x id="INTERPOLATION" equiv-text="{{ currentProfession }}"/>
+      </source>
+       <target>पद</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
+          <context context-type="linenumber">20</context>
+        </context-group>
+      </trans-unit>
             <trans-unit id="ad619defd721ce7eef2a37a1c665cb7b8d959b9a" datatype="html">
         <source>Personal
           Details</source>
@@ -3400,6 +3410,7 @@
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">195</context>
         </context-group>
+
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">44</context>
@@ -5590,8 +5601,20 @@
         <source> Welcome! </source>
           <target state="final">स्वागत </target>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">15</context>
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">2</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="33e8ce031786d4d6c0794a25c0cafb26407d041c" datatype="html">
+        <source>Welcome !</source>
+        <target state="final">स्वागत !</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-dashboard/web-dashboard.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
        <trans-unit id="a00797899f656404c9bfb49198d2a9496c239f10" datatype="html">
@@ -5630,6 +5653,51 @@
           <context context-type="linenumber">86</context>
         </context-group>
       </trans-unit>
+        <trans-unit id="fde4d922c6b19c30ccb9688f4a285a22c271917a" datatype="html">
+        <source>
+        View all <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+      </source>
+       <target state="final">सभी को देखें         </target>
+          <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="aae40d0e4c22bf5cc5e6029ce435d3997cd8a813" datatype="html">
+        <source>
+    <x id="INTERPOLATION" equiv-text="{{ showAllItems ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
+    <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+  </source>
+  <target state="final">सभी को देखें         </target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-page/mobile-page.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-page/mobile-page.component.html</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">28</context>
+        </context-group>
+          <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">48</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
        <trans-unit id="d51557b32f5cc23c209819a11c0673876c353666" datatype="html">
         <source>Competency Name: </source>
         <target state="final">योग्यता का नाम
@@ -5661,6 +5729,24 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
           <context context-type="linenumber">26</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="b95defb629b247bb80b3cfd7453094ec056829be" datatype="html">
+        <source>View course
+                  details</source>
+                   <target>पाठ्यक्रम देखें
+                  विवरण</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
+          <context context-type="linenumber">161</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="4cd979821c89535df23df1c8ac8f260673610d90" datatype="html">
+        <source>Resume</source>
+        <target>दोबारा शुरू करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
+          <context context-type="linenumber">164</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51f66cb310de71f53570a39ebf74c20389e75ee8" datatype="html">
