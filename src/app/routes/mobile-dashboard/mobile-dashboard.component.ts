@@ -41,6 +41,9 @@ export class MobileDashboardComponent implements OnInit {
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   cneCourse: any = []
+  showAllUserEnrollCourses: boolean = false;
+  showAllTopCertifiedCourses: boolean = false;
+  showAllCneCourses: boolean = false;
   dataCarousel: any = [
     {
       "title": "Check out courses with CNE Hours",
@@ -360,12 +363,21 @@ export class MobileDashboardComponent implements OnInit {
   viewAllCourse() {
     this.router.navigateByUrl(`app/search/learning`)
   }
-  viewAllItems(): void {
-    this.showAllItems = !this.showAllItems
-    // You can also update specific items here if needed
+  viewAllItems(section: string): void {
+    switch (section) {
+      case 'userEnrollCourses':
+        this.showAllUserEnrollCourses = !this.showAllUserEnrollCourses
+        break
+      case 'topCertifiedCourses':
+        this.showAllTopCertifiedCourses = !this.showAllTopCertifiedCourses
+        break
+      case 'cneCourses':
+        this.showAllCneCourses = !this.showAllCneCourses
+        break
+    }
   }
-  getDisplayedItems(items: any[]): any[] {
-    if (this.showAllItems) {
+  getDisplayedItems(items: any[], showAll: boolean): any[] {
+    if (showAll) {
       return items
     } else {
       if (items.length > 5) {
@@ -373,7 +385,6 @@ export class MobileDashboardComponent implements OnInit {
       } else {
         return items
       }
-      // Show only a limited number of items, like the first 5
     }
   }
   openIframe(video: any) {

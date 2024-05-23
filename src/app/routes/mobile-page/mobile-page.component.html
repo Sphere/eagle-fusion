@@ -9,14 +9,14 @@
     <span class="header1 " i18n>Top Courses</span>
   </div>
 
-  <div *ngFor="let course of getDisplayedItems(topCertifiedCourse)">
-    <ng-container *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
-      <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
-        [courseData]="course"></ws-mobile-course-view>
-    </ng-container>
+  <div *ngFor="let course of getDisplayedItems(topCertifiedCourse, showAllTopCertifiedCourses)">
+    <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+      [courseData]="course"></ws-mobile-course-view>
   </div>
-  <button *ngIf="topCertifiedCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
-    {{ showAllItems ? 'Hide' : 'View all' }}
+
+  <button i18n *ngIf="topCertifiedCourse.length > 5" (click)="viewAllItems('topCertifiedCourses')"
+    class="view-all-course">
+    {{ showAllTopCertifiedCourses ? 'Hide' : 'View all' }}
     <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
 </section>
@@ -44,14 +44,12 @@
   <div class="line-label orange">
     <span class="header1 cne-text " i18n>CNE Courses</span>
   </div>
-  <div *ngFor="let course of getDisplayedItems(cneCourse)">
-    <ng-container *ngIf=" cneCourse && cneCourse.length>0">
-      <ws-mobile-course-view [displayConfig]="topCNECourseDisplayConfig" [cnePoints]="'yes'"
-        [courseData]="course"></ws-mobile-course-view>
-    </ng-container>
+  <div *ngFor="let course of getDisplayedItems(cneCourse, showAllCneCourses)">
+    <ws-mobile-course-view [displayConfig]="topCNECourseDisplayConfig" [cnePoints]="'yes'"
+      [courseData]="course"></ws-mobile-course-view>
   </div>
-  <button *ngIf="cneCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
-    {{ showAllItems ? 'Hide' : 'View all' }}
+  <button i18n *ngIf="cneCourse.length > 5" (click)="viewAllItems('cneCourses')" class="view-all-course">
+    {{ showAllCneCourses ? 'Hide' : 'View all' }}
     <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
 </section>

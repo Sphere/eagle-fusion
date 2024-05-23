@@ -1260,10 +1260,6 @@
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">80</context>
         </context-group>
-         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">84</context>
-        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">174</context>
@@ -1497,25 +1493,17 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">38</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="aae40d0e4c22bf5cc5e6029ce435d3997cd8a813" datatype="html">
+      <trans-unit id="1d58244dfaae4f88d7c0065ee321bd9956bd96fd" datatype="html">
         <source>
-    <x id="INTERPOLATION" equiv-text="{{ showAllItems ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
+    <x id="INTERPOLATION" equiv-text="{{ showAllTopCertifiedCourses ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
     <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
   </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-page/mobile-page.component.html</context>
           <context context-type="linenumber">18</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mobile-page/mobile-page.component.html</context>
-          <context context-type="linenumber">53</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f0a76ef4545f9c6ddf6a990e90fd2d9beda9a377" datatype="html">
@@ -1526,7 +1514,21 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">79</context>
+          <context context-type="linenumber">77</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9a632fc79ed4690c911a1d53f1002afe0a61c408" datatype="html">
+        <source>
+    <x id="INTERPOLATION" equiv-text="{{ showAllCneCourses ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
+    <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-page/mobile-page.component.html</context>
+          <context context-type="linenumber">51</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5c07c122c45c1a20c75f6d3a3ea394e561d24261" datatype="html">
@@ -4061,24 +4063,24 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="94a7ddbf4e3b54393ca1063873e21af13bbee0aa" datatype="html">
+      <trans-unit id="8b78091492f5aacf12294ac3d2722024c923b146" datatype="html">
         <source>
-        <x id="INTERPOLATION" equiv-text="{{ showAllItems ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
+        <x id="INTERPOLATION" equiv-text="{{ showAllUserEnrollCourses ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
         <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">26</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="88a243b6c2d44790bec49a808835490410f1b2e8" datatype="html">
+      <trans-unit id="fd0542fea88cd7ff047076faa239da006d556017" datatype="html">
         <source>
-      <x id="INTERPOLATION" equiv-text="{{ showAllItems ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
+      <x id="INTERPOLATION" equiv-text="{{ showAllTopCertifiedCourses ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
       <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d4b2c4ca3538e5b2f8a747d63ab8381a2cf4002d" datatype="html">
@@ -4299,7 +4301,7 @@
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a0843de0a64adcc7ee6a946408b6876cd8abdcae" datatype="html">
