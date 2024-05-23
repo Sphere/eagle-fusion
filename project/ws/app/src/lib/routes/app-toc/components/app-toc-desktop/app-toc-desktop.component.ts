@@ -141,10 +141,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     console.log(this.resumeData, this.content)
     console.log(this.optmisticPercentage, 'optmisticPercentage')
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
-      console.log('Record:', record.contentId, this.enrollCourse!.lastReadContentId, this.resumeResource)
+      console.log('Record:', record.contentId, this.resumeResource)
       if (record.contentId) {
         this.updatedContentStatus = true
-        this.updatedContentFound = record
+        this.updatedContentFound = record.url
       } else {
         this.updatedContentStatus = false
       }
@@ -361,11 +361,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           this.updatedContentStatus = false
         }
         let rowData = await record
-        console.log(typeof (rowData.url))
+        console.log(rowData.url)
         let data = JSON.parse(rowData.data)
-        console.log(data.contents[0])
         let url1 = ''
-        if (rowData.url.includes('/chapters')) {
+        if (rowData.url.includes('/chapters') || rowData.url.includes('/overview?primaryCategory=Course')) {
           console.log(rowData.url)
           if (data.contents[0].progressdetails.mimeType === "application/pdf") {
             url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
@@ -373,6 +372,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             this.updatedContentFound = url1
           }
         } else {
+          console.log('opp')
           this.updatedContentFound = record.url
         }
 

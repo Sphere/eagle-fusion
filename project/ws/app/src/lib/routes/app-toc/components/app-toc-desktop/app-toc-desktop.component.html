@@ -49,7 +49,7 @@
     </div> -->
 
     <div
-      *ngIf="(content && content.completionPercentage && optmisticPercentage) && optmisticPercentage >= content!.completionPercentage; else elseBlock">
+      *ngIf="optmisticPercentage !== null && content !== undefined &&  optmisticPercentage >= content!.completionPercentage; else elseBlock">
       <!-- Content goes here -->
       <div *ngIf="optmisticPercentage > 0" class="mt-2">
         <mat-progress-bar [mode]="'determinate'" [value]="

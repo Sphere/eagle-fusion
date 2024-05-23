@@ -1,29 +1,34 @@
 @import 'ws-mixins';
-.overview-container{
-      display: flex;
-    flex-direction: column;
-    gap: 17px;
+
+.overview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
 
 }
+
 .flex {
   display: flex;
 
 }
-.header-block{
-display: flex;
-gap: 14px !important;
-}
-.btn-block{
-display: flex;
-flex-direction: column;
-gap: 12px;
-}
-.btn-main{
+
+.header-block {
   display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100% !important;
-    margin: 0px !important;
+  gap: 14px !important;
+}
+
+.btn-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  margin: 0px !important;
 }
 
 .text-center {
@@ -58,12 +63,12 @@ gap: 12px;
 }
 
 .message-text {
-font-family: Roboto;
-font-size: 16px;
-font-weight: 400;
-line-height: 18.75px;
-letter-spacing: 0.02em;
-text-align: left;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18.75px;
+  letter-spacing: 0.02em;
+  text-align: left;
 
 
 }
@@ -79,7 +84,7 @@ text-align: left;
 
 .close-icon {
   display: flex;
-    justify-content: end;
+  justify-content: flex-end;
 
   padding: 0px !important;
 }
@@ -110,6 +115,7 @@ text-align: left;
   border: none !important;
   height: 40px !important;
 }
+
 .continue-btn {
 
   cursor: pointer;
@@ -127,6 +133,7 @@ text-align: left;
   text-align: center !important;
   height: 40px !important;
 }
+
 .submit-btn[disabled] {
   background-color: #d3d3d3 !important;
 }
@@ -142,11 +149,11 @@ text-align: left;
 
 .header {
   font-family: Roboto;
-font-size: 24px;
-font-weight: 400;
-line-height: 28.13px;
-letter-spacing: 0.02em;
-text-align: center;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28.13px;
+  letter-spacing: 0.02em;
+  text-align: center;
 
 
 }

@@ -243,6 +243,13 @@ export class ViewerUtilService {
       )
 
 
+    }, (error) => {
+      console.log(error, '247')
+      this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+        (dat: any) => {
+          console.log('Data inserted successfully1', dat)
+
+        })
     })
     return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
   }
