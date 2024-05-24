@@ -483,7 +483,7 @@ export class AlmostDoneComponent implements OnInit {
     const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
       preferences: {
-        language: obj1.id !== undefined ? obj1.id : 'en',
+        language: this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language : 'en',
       },
       personalDetails: profileRequest.profileReq.personalDetails,
     }
@@ -495,25 +495,32 @@ export class AlmostDoneComponent implements OnInit {
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-      if (data) {
-        if (obj1.id === 'en') {
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (data) => {
+      console.log(data, 'data')
+      let status = await data.params.status
+      if (data && status === 'SUCCESS') {
+        if (this.configSvc.unMappedUser.profileDetails.preferences.language === 'en') {
           this.openSnackbar('User profile details updated successfully!')
         } else {
           this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
         }
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
+          let lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' : ''
           const url = params.redirect
-          if (url) {
+          const url2 = `${lang}${params.redirect}`
+
+          if (url && url !== '/app/user/my_courses') {
             localStorage.removeItem('url_before_login')
-            this.router.navigate([url])
+            this.router.navigate([url2])
           } else {
             let url = `${document.baseURI}`
             if (url.includes('hi')) {
               url = url.replace('hi/', '')
             }
-            url = `${url}/page/home`
+
+            url = `${url}${lang}page/home`
+            console.log(url)
             location.href = url
             // this.router.navigate(['page', 'home'])
           }
