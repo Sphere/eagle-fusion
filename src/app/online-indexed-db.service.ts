@@ -71,7 +71,8 @@ export class IndexedDBService {
 
         request.onsuccess = () => {
           const record = request.result
-          if (record) {
+          console.log(record, 'record')
+          if (record && record.userID === userID) {
             observer.next(record)
           } else {
             observer.error(`Record with key ${key} not found in ${tableName}`)

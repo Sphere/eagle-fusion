@@ -141,18 +141,21 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     console.log(this.resumeData, this.content)
     console.log(this.optmisticPercentage, 'optmisticPercentage')
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
-      console.log('Record:', record.contentId, this.resumeResource)
+      console.log('Record:', record, this.resumeResource)
       if (record.contentId) {
         this.updatedContentStatus = true
         this.updatedContentFound = record.url
       } else {
         this.updatedContentStatus = false
       }
-      // this.rowData = await record
-      // let dat = JSON.parse(this.rowData.data)
     }, (error) => {
       console.log(error)
-      console.log(this.resumeResource)
+      console.log(this.resumeResource, this.firstResourceLink!.url)
+      if (error && this.resumeResource === null) {
+        let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.content!.batches[0].batchId}`
+        console.log(url1, 'url')
+        this.updatedContentFound = url1
+      }
     }
     )
     if (this.content) {
