@@ -302,14 +302,17 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       : (location.href.includes('/hi/') ? 'hi' : '')
     local = local === 'en' ? '' : 'hi'
     console.log(local)
-    let url = sessionStorage.getItem('cURL') || local === '' ? `${local}page/home` : `${local}/page/home`
-    //`${local}/page/home`
-    console.log(url)
-    let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
-    }
-    if (url) {
+    let url = ''
+    if (sessionStorage.getItem('cURL')) {
+      url = sessionStorage.getItem('cURL') || ''
+      location.href = url
+    } else {
+      url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
+      console.log(url)
+      let url3 = `${document.baseURI}`
+      if (url3.includes('hi')) {
+        url3 = url3.replace(/hi\//g, '')
+      }
       location.href = `${url3}${url}`
     }
   }

@@ -479,8 +479,8 @@ export class AlmostDoneComponent implements OnInit {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId
     }
     console.log(this.userId, this.result.userId)
-    const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-    const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
+    //const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+    //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
       preferences: {
         language: this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language : 'en',
