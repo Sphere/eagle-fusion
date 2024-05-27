@@ -52,14 +52,12 @@ export class BnrcLoginOtpComponent implements OnInit {
     this.userProfileSvc.bnrcValidateOtp(request).subscribe(
       (res: any) => {
         if (res.status === 'success') {
-          this.otpPage = true
           this.openSnackbar(res.message.message)
           this.redirectToParent.emit(res)
           return res
         }
       },
       (error: any) => {
-        this.isSubmitting = false
         const errorMessage = error.error && error.error.message ? error.error.message : (error.message || 'An unexpected error occurred')
         this.openSnackbar(errorMessage)  // Handle error response
       }
