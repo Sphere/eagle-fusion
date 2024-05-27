@@ -131,8 +131,10 @@ export class WebNavLinkPageComponent implements OnInit {
     } else if (text === 'competency') {
       this.showCompetency = true
       this.showProfile = false
-      let url = '/app/user/competency'
-      location.href = `${url3}${url1}${url}`
+      //let url = '/app/user/competency'
+      //location.href = `${url3}${url1}${url}`
+      let url = '/page/home'
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
     } else {
       console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
       let result = await this.signupService.getUserData()
