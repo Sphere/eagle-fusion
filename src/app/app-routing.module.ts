@@ -29,6 +29,8 @@ import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components
 import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-service.service'
 import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+
+import { BnrcLoginOtpComponent } from './routes/bnrc-login-otp/bnrc-login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
@@ -118,6 +120,10 @@ const routes: Routes = [
   {
     path: 'app/email-otp',
     component: LoginOtpComponent,
+  },
+  {
+    path: 'app/bnrc-email-otp',
+    component: BnrcLoginOtpComponent,
   },
   {
     path: 'app/features',

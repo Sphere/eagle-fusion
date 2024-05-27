@@ -83,6 +83,7 @@ import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components
 import { MdePopoverModule } from '@material-extended/mde'
 import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+import { BnrcLoginOtpComponent } from './routes/bnrc-login-otp/bnrc-login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { YourLocationComponent } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
@@ -259,6 +260,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     OrgComponent,
     MobileLoginComponent,
     LoginOtpComponent,
+    BnrcLoginOtpComponent,
     CreateAccountComponent,
     BnrcRegisterComponent,
     UpsmfRegisterComponent,
