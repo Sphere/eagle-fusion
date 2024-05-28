@@ -571,7 +571,7 @@ export class UpsmfRegisterComponent implements OnInit {
             height: '300px',
             panelClass: 'overview-modal',
             disableClose: true,
-            data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
+            data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.', from: 'Upsmf' },
           })
         } else {
           console.log('Form is valid. Saving data...', res)
