@@ -5501,6 +5501,27 @@
           <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="ee0012c695d3bc5a345827bb5ac88477a5fed4b2" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{data.message}}"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="dae8f36b8d1b72a3c69edb972c81af4c88f965a6" datatype="html">
+        <source>Submit your feedback</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0857ec5f09521fad33321e20572f995b62dbd75f" datatype="html">
+        <source> Tell us more about what you felt</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="d1294fe727e5293836ae367db2cfcecbda78ae61" datatype="html">
         <source>
       Unsupported Collection Type

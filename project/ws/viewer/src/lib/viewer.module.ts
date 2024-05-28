@@ -52,10 +52,8 @@ import { FilterResourcePipe } from './pipes/filter-resource.pipe'
 // import { BtnMailUserModule } from './../../../../../library/ws-widget/collection/src/lib/btn-mail-user/btn-mail-user.module'
 import { UserImageModule } from './../../../../../library/ws-widget/collection/src/lib/_common/user-image/user-image.module'
 import { AppTocModule } from '@ws/app'
-import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 @NgModule({
-  declarations: [ViewerComponent, ViewerTocComponent, FilterResourcePipe, ConfirmmodalComponent],
-  entryComponents: [ConfirmmodalComponent],
+  declarations: [ViewerComponent, ViewerTocComponent, FilterResourcePipe],
   imports: [
     CommonModule,
     MatCardModule,

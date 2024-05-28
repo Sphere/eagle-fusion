@@ -4,12 +4,12 @@
             <mat-icon>close</mat-icon>
         </button>
     </div>
-    <div class="flex text-center">
+    <div *ngIf="data.message" class="flex text-center">
         <p i18n class="message-text">{{data.message}}</p>
     </div>
-    <button class="btn btn-active" mat-raised-button (click)="done()" i18n>Done</button>
 
-    <!-- <div mat-dialog-title class="relative m-0">
+
+    <div mat-dialog-title class="relative m-0">
 
         <h2 class="m-0 center-align title" mat-dialog-title i18n>Submit your feedback</h2>
     </div>
@@ -23,19 +23,19 @@
                 </div>
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
-                <textarea style="height: 96px;padding: 10px;" rows="4" matInput
-                    placeholder=" Tell us more about what you felt" name="name" formControlName="review"
-                    required></textarea>
+                <textarea (input)="setRating(selectedRating)" i18n i18n-placeholder style="height: 96px;padding: 10px;"
+                    rows="4" matInput placeholder=" Tell us more about what you felt" name="name"
+                    formControlName="review" required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
                     Comments is mandatory
                 </mat-error>
             </div>
             <div class="margin-top-s margin-bottom-s center-align">
-                <button class="margin-left-s submit-btn" (click)="submitData()"
-                    [disabled]="ratingsForm?.invalid || !selectedRating" color="primary">
+                <button class="margin-left-s submit-btn" (click)="submitData()" [disabled]="isMandatory"
+                    color="primary">
                     <ng-container i18n>Submit</ng-container>
                 </button>
             </div>
         </form>
-    </mat-dialog-content> -->
+    </mat-dialog-content>
 </div>

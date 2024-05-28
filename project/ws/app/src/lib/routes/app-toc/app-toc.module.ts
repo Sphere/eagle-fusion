@@ -114,8 +114,10 @@ import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-des
 import { AssessmentDetailComponent } from './components/assessment-detail/assessment-detail.component'
 import { AppTocDesktopModalComponent } from './components/app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from './components/app-toc-certificate-modal/app-toc-certificate-modal.component'
+import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 @NgModule({
   declarations: [
+    ConfirmmodalComponent,
     // AppTocAnalyticsComponent,
     AppTocContentsComponent,
     AppTocHomeComponent,
@@ -229,6 +231,7 @@ import { AppTocCertificateModalComponent } from './components/app-toc-certificat
   ],
   exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
   entryComponents: [
+    ConfirmmodalComponent,
     // AppTocDialogIntroVideoComponent,
     AppTocOverviewComponent,
     AppTocHomeComponent,

@@ -9,7 +9,7 @@ import {
   ViewChild, ViewChildren,
 } from '@angular/core'
 import { Location } from '@angular/common'
-import { MatDialog, MatSidenav } from '@angular/material'
+import { MatDialog, MatDialogRef, MatSidenav } from '@angular/material'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map, takeUntil, first } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'
@@ -369,24 +369,33 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                       const data = {
                         courseId: this.collectionId,
                       }
-                      const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        // width: '300px',
-                        //height: '405px',
-                        width: "542px",
-                        panelClass: 'overview-modal',
-                        disableClose: true,
-                        data: { request: data, message: 'Congratulations!, you have completed the course' },
-                      })
-                      confirmdialog.afterClosed().subscribe((res: any) => {
-                        if (res.event === 'CONFIRMED') {
-                          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                            queryParams: {
-                              primaryCategory: 'Course',
-                              batchId: this.route.snapshot.queryParams.batchId,
-                            },
-                          })
-                        }
-                      })
+                      const isDialogOpen = this.dialog.openDialogs.length > 0
+                      let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+                      // If the dialog is not already open, open it
+                      if (!isDialogOpen) {
+                        confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                          width: '300px',
+                          height: '405px',
+                          panelClass: 'overview-modal',
+                          disableClose: true,
+                          data: { request: data, message: 'Congratulations!, you have completed the course' },
+                        })
+                      }
+
+                      if (confirmdialog) {
+                        confirmdialog.afterClosed().subscribe((res: any) => {
+                          if (res.event === 'CONFIRMED') {
+                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                              queryParams: {
+                                primaryCategory: 'Course',
+                                batchId: this.route.snapshot.queryParams.batchId,
+                              },
+                            })
+                          }
+                        })
+                      }
+
                     } else {
                       this.dialog.closeAll()
                       this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -424,19 +433,28 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           const data = {
             courseId: this.collectionId,
           }
-          const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-            //width: '300px',
-            //height: '405px',
-            width: '542px',
-            panelClass: 'overview-modal',
-            disableClose: true,
-            data: { request: data, message: 'Congratulations!, you have completed the course' },
-          })
-          confirmdialog.afterClosed().subscribe((res: any) => {
-            if (res.event === 'CONFIRMED') {
-              this.router.navigate([`/app/user/competency`])
-            }
-          })
+          const isDialogOpen = this.dialog.openDialogs.length > 0
+          let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+          // If the dialog is not already open, open it
+          if (!isDialogOpen) {
+            confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+              width: '300px',
+              height: '405px',
+              panelClass: 'overview-modal',
+              disableClose: true,
+              data: { request: data, message: 'Congratulations!, you have completed the course' },
+            })
+          }
+
+          if (confirmdialog) {
+            confirmdialog.afterClosed().subscribe((res: any) => {
+              if (res.event === 'CONFIRMED') {
+                this.router.navigate([`/app/user/competency`])
+              }
+            })
+          }
+
         } else {
           this.router.navigate([`/app/user/competency`])
         }
@@ -568,32 +586,33 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
                       && this.contentSvc.showConformation) {
-                      const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                        // width: '300px',
-                        //height: '405px',
-                        width: '542px',
-                        panelClass: 'overview-modal',
-                        disableClose: true,
-                        data: { request: data, message: 'Congratulations!, you have completed the course' },
-                      })
-                      confirmdialog.afterClosed().subscribe((res: any) => {
-                        if (res.event === 'CONFIRMED') {
-                          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                            queryParams: {
-                              primaryCategory: 'Course',
-                              batchId: this.route.snapshot.queryParams.batchId,
-                            },
-                          })
-                        }
-                      })
-                    } else {
-                      console.log('last')
-                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                        queryParams: {
-                          primaryCategory: 'Course',
-                          batchId: this.route.snapshot.queryParams.batchId,
-                        },
-                      })
+                      const isDialogOpen = this.dialog.openDialogs.length > 0
+                      let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+                      // If the dialog is not already open, open it
+                      if (!isDialogOpen) {
+                        confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                          width: '300px',
+                          height: '405px',
+                          panelClass: 'overview-modal',
+                          disableClose: true,
+                          data: { request: data, message: 'Congratulations!, you have completed the course' },
+                        })
+                      }
+
+                      if (confirmdialog) {
+                        confirmdialog.afterClosed().subscribe((res: any) => {
+                          if (res.event === 'CONFIRMED') {
+                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                              queryParams: {
+                                primaryCategory: 'Course',
+                                batchId: this.route.snapshot.queryParams.batchId,
+                              },
+                            })
+                          }
+                        })
+                      }
+
                     }
                     // else {
                     //   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {

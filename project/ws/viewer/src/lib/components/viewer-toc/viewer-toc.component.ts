@@ -3,7 +3,7 @@ import {
   NgModule,
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
-import { MatTreeNestedDataSource, MatTooltipModule, MatDialog } from '@angular/material'
+import { MatTreeNestedDataSource, MatTooltipModule, MatDialog, MatDialogRef } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
@@ -672,25 +672,34 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               courseId: this.collectionId,
             }
             console.log("data", this.collectionId, data)
-            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              //width: '300px',
-              //height: '405px',
-              width: '542px',
-              panelClass: 'overview-modal',
-              disableClose: true,
-              data: { request: data, message: 'Congratulations!, you have completed the course' },
-            })
-            confirmdialog.afterClosed().subscribe((res: any) => {
-              if (res && res.event === 'CONFIRMED') {
-                this.dialog.closeAll()
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.batchId,
-                  },
-                })
-              }
-            })
+            const isDialogOpen = this.dialog.openDialogs.length > 0
+            let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+            // If the dialog is not already open, open it
+            if (!isDialogOpen) {
+              confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                width: '300px',
+                height: '405px',
+                panelClass: 'overview-modal',
+                disableClose: true,
+                data: { request: data, message: 'Congratulations!, you have completed the course' },
+              })
+            }
+
+            if (confirmdialog) {
+              confirmdialog.afterClosed().subscribe((res: any) => {
+                if (res && res.event === 'CONFIRMED') {
+                  this.dialog.closeAll()
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.batchId,
+                    },
+                  })
+                }
+              })
+            }
+
           }
         } else {
           this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -708,26 +717,34 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               courseId: this.collectionId,
             }
             console.log("data", this.collectionId, data)
+            // Check if the dialog is already open
+            const isDialogOpen = this.dialog.openDialogs.length > 0
+            let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
-            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              //width: '300px',
-              //height: '405px',
-              width: '542px',
-              panelClass: 'overview-modal',
-              disableClose: true,
-              data: { request: data, message: 'Congratulations!, you have completed the course' },
-            })
-            confirmdialog.afterClosed().subscribe((res: any) => {
-              if (res && res.event === 'CONFIRMED') {
-                this.dialog.closeAll()
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.batchId,
-                  },
-                })
-              }
-            })
+            // If the dialog is not already open, open it
+            if (!isDialogOpen) {
+              confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                width: '300px',
+                height: '405px',
+                panelClass: 'overview-modal',
+                disableClose: true,
+                data: { request: data, message: 'Congratulations!, you have completed the course' },
+              })
+            }
+
+            if (confirmdialog) {
+              confirmdialog.afterClosed().subscribe((res: any) => {
+                if (res && res.event === 'CONFIRMED') {
+                  this.dialog.closeAll()
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.batchId,
+                    },
+                  })
+                }
+              })
+            }
           } else {
             console.log('lll')
             // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {

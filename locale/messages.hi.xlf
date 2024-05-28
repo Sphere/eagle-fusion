@@ -5260,6 +5260,14 @@
           <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="0857ec5f09521fad33321e20572f995b62dbd75f" datatype="html">
+        <source> Tell us more about what you felt</source>
+        <target state="final">आपने क्या महसूस किया इसके बारे में हमें और बताएं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
             <trans-unit id="daa270cc2a991c512132584412bae45681a1037b" datatype="html">
         <source>flag</source>
          <target state="final">झंडा</target>
