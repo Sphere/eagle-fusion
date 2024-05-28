@@ -2,7 +2,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material'
-//import { Router } from '@angular/router'
+import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 @Component({
@@ -21,7 +21,7 @@ export class BnrcLoginOtpComponent implements OnInit {
   loginVerification = false
   redirectUrl = ''
   constructor(
-    //private router: Router,
+    private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private userProfileSvc: UserProfileService,
@@ -45,11 +45,17 @@ export class BnrcLoginOtpComponent implements OnInit {
   async loginVerifyOtp() {
     let request: any = []
     request = {
-      phone: this.loginData.value.phone || '9481966613',
+      phone: this.loginData.value.phone,
       otp: this.loginOtpForm.value.code,
     }
+    const currentUrl = this.router.url
+    console.log("url", currentUrl.includes('upsmf/register'))
 
-    this.userProfileSvc.bnrcValidateOtp(request).subscribe(
+    const validateOtpMethod = currentUrl.includes('upsmf/register')
+      ? this.userProfileSvc.upsmfValidateOtp.bind(this.userProfileSvc)
+      : this.userProfileSvc.bnrcValidateOtp.bind(this.userProfileSvc)
+
+    validateOtpMethod(request).subscribe(
       (res: any) => {
         if (res.status === 'success') {
           this.openSnackbar(res.message.message)
@@ -71,7 +77,14 @@ export class BnrcLoginOtpComponent implements OnInit {
     const request = {
       phone: this.loginData.value.phone,
     }
-    this.userProfileSvc.bnrcResendOtp(request).subscribe(
+    const currentUrl = this.router.url
+    console.log("url", currentUrl.includes('upsmf/register'))
+
+    const resendOtpMethod = currentUrl.includes('upsmf/register')
+      ? this.userProfileSvc.upsmfResendOtp.bind(this.userProfileSvc)
+      : this.userProfileSvc.bnrcResendOtp.bind(this.userProfileSvc)
+
+    resendOtpMethod(request).subscribe(
       async (res: any) => {
         this.loginOtpForm.patchValue({ code: '' })
         this.isLoading = false
