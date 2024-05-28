@@ -277,10 +277,11 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (event.url.includes('/public/login')) {
           this.showmobileFooter = false
         }
-        if (event.url.includes('/bnrc/register')) {
+        if (event.url.includes('/bnrc/register') || event.url.includes('/upsmf/register')) {
           this.showmobileFooter = false
           this.disableChatForBnrc = true
         }
+
         // if (window.location.href.indexOf('scrom-player') > 0) {
         //   this.showmobileFooter = false
         // }

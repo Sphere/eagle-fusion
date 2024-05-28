@@ -22,6 +22,10 @@ const API_ENDPOINTS = {
   approveRequest: '/apis/protected/v8/workflowhandler/transition',
   getPendingFields: '/apis/protected/v8/workflowhandler/userWFApplicationFieldsSearch',
   bnrcRegistration: '/apis/public/v8/bnrcUserCreation/createUser',
+  upsmfRegistration: '/apis/public/v8/upsmfUserCreation/createUser',
+  bnrcSendOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/sendOtp',
+  bnrcReSendOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/resendOtp',
+  bnrcValidateOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/validateOtp',
 
   // getProfilePageMeta: '/apis/protected/v8/user/profileDetails/getProfilePageMeta',
 }
@@ -44,6 +48,24 @@ export class UserProfileService {
   bnrcRegistration(value: any): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcRegistration, { value })
   }
+
+  // bnrcSendOtp(value: any): Observable<[IUserProfileDetails]> {
+  //   return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcSendOtpRegistration, { value })
+  // }
+  bnrcSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
+    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.bnrcSendOtpRegistration, phone)
+  }
+  bnrcResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcReSendOtpRegistration, phone)
+  }
+
+  bnrcValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
+    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.bnrcValidateOtpRegistration, value)
+  }
+  upsmfRegistration(value: any): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.upsmfRegistration, { value })
+  }
+
   getMasterLanguages(): Observable<ILanguagesApiData> {
     return this.http.get<ILanguagesApiData>(API_ENDPOINTS.getMasterLanguages)
   }

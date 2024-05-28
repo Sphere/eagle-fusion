@@ -83,6 +83,7 @@ import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components
 import { MdePopoverModule } from '@material-extended/mde'
 import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+import { BnrcLoginOtpComponent } from './routes/bnrc-login-otp/bnrc-login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { YourLocationComponent } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
@@ -94,6 +95,8 @@ import { GoogleCallbackComponent } from './routes/google-callback/google-callbac
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 
 import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
+import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
+
 // import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 // import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
@@ -259,8 +262,10 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     OrgComponent,
     MobileLoginComponent,
     LoginOtpComponent,
+    BnrcLoginOtpComponent,
     CreateAccountComponent,
     BnrcRegisterComponent,
+    UpsmfRegisterComponent,
     YourLocationComponent,
     NewTncComponent,
     YourBackgroundComponent,

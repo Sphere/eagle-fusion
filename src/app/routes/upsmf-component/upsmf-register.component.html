@@ -3,7 +3,7 @@
     <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/icons/aastrika-foundation-logo.svg">
   </a>
 </nav>
-<div *ngIf="!otpPage" class="content bnrc-page-content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
+<div class="content bnrc-page-content" [ngStyle]="showbackButton ? {'padding': '0' } : {}">
   <p class="text-2xl mt-2" i18n>E-kshamata Registration</p>
   <p>Note - Please fill up this form in English only/ कृपया यह फॉर्म केवल अंग्रेजी में भरें</p>
   <form [formGroup]="bnrcDetailForm" class="mt-3 mb-10">
@@ -173,13 +173,13 @@
         </mat-error>
       </div>
       <div class="form-group">
-        <label for="regNurseRegMidwifeNumber" i18n>BNRC Registration number <span *ngIf="bnrcErr"
+        <label for="regNurseRegMidwifeNumber" i18n>UPSMF Registration number <span *ngIf="bnrcErr"
             class="red-icon">*</span></label>
-        <input type="text" formControlName="bnrcRegistrationNumber" class="form-control" i18n-placeholder
-          placeholder="BNRC Registration number" autocomplete="off">
+        <input type="text" formControlName="upsmfRegistrationNumber" class="form-control" i18n-placeholder
+          placeholder="UPSMF Registration number" autocomplete="off">
         <mat-error
-          *ngIf="bnrcDetailForm.get('bnrcRegistrationNumber')?.invalid && bnrcDetailForm.get('bnrcRegistrationNumber')?.touched">
-          BNRC Registration number is required.
+          *ngIf="bnrcDetailForm.get('upsmfRegistrationNumber')?.invalid && bnrcDetailForm.get('upsmfRegistrationNumber')?.touched">
+          UPSMF Registration number is required.
         </mat-error>
       </div>
 
@@ -269,12 +269,12 @@
         </mat-error>
       </div>
       <div class="form-group">
-        <label for="bnrcRegistrationNumber" i18n>BNRC Registration number <span *ngIf="bnrcErr"
+        <label for="upsmfRegistrationNumber" i18n>BNRC Registration number <span *ngIf="bnrcErr"
             class="red-icon">*</span></label>
-        <input type="text" formControlName="bnrcRegistrationNumber" class="form-control" i18n-placeholder
+        <input type="text" formControlName="upsmfRegistrationNumber" class="form-control" i18n-placeholder
           placeholder="BNRC Registration number" autocomplete="off">
         <mat-error
-          *ngIf="bnrcDetailForm.get('bnrcRegistrationNumber')?.invalid && bnrcDetailForm.get('bnrcRegistrationNumber')?.touched">
+          *ngIf="bnrcDetailForm.get('upsmfRegistrationNumber')?.invalid && bnrcDetailForm.get('upsmfRegistrationNumber')?.touched">
           BNRC Registration number is required.
         </mat-error>
       </div>
@@ -323,11 +323,11 @@
       </div>
 
       <div class="form-group">
-        <label for="bnrcRegistrationNumber" i18n>BNRC Registration number <span class="red-icon">*</span></label>
-        <input type="text" formControlName="bnrcRegistrationNumber" class="form-control" i18n-placeholder
+        <label for="upsmfRegistrationNumber" i18n>BNRC Registration number <span class="red-icon">*</span></label>
+        <input type="text" formControlName="upsmfRegistrationNumber" class="form-control" i18n-placeholder
           placeholder="BNRC Registration number" autocomplete="off">
         <mat-error
-          *ngIf="bnrcDetailForm.get('bnrcRegistrationNumber')?.invalid && bnrcDetailForm.get('bnrcRegistrationNumber')?.touched">
+          *ngIf="bnrcDetailForm.get('upsmfRegistrationNumber')?.invalid && bnrcDetailForm.get('upsmfRegistrationNumber')?.touched">
           BNRC Registration number is required.
         </mat-error>
       </div>
@@ -346,9 +346,5 @@
       <button [disabled]="isSubmitting" type="submit" (click)="onSubmit()" class="save-btn" i18n>Submit</button>
     </div>
   </form>
-
   <input type="hidden" #toastSuccess />
-</div>
-<div *ngIf="otpPage">
-  <ws-bnrc-login-otp [loginData]="bnrcDetailForm" (redirectToParent)="createUser($event)"></ws-bnrc-login-otp>
 </div>

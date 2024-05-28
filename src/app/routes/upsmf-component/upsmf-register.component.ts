@@ -14,17 +14,17 @@ import { HttpClient } from '@angular/common/http'
 import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
 @Component({
-  selector: 'ws-bnrc-register',
-  templateUrl: './bnrc-register.component.html',
-  styleUrls: ['./bnrc-register.component.scss'],
+  selector: 'ws-upsmf-register',
+  templateUrl: './upsmf-register.component.html',
+  styleUrls: ['./upsmf-register.component.scss'],
 })
 
-export class BnrcRegisterComponent implements OnInit {
-  professions = ['Student', 'Faculty', 'In Service']
+export class UpsmfRegisterComponent implements OnInit {
+  professions = ['Student', 'Faculty']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   inserviceList = ['Public Health Facility', 'Private Health Facility']
   facultyList = ['Diploma', 'Degree']
-  courseSelection = ['ANM', 'GNM', 'BSc Nursing', 'PBBSc Nursing', 'MSc Nursing']
+  courseSelection = ['ANM']
   districtUrl = '../../../fusion-assets/files/district.json'
   Position = ['ANM', 'Staff Nurse', 'Doctor']
   instituteType = ['Government', 'Private']
@@ -45,7 +45,7 @@ export class BnrcRegisterComponent implements OnInit {
   inService = false
   publicHealthFacility = false
   privateHealthFacility = false
-  otpPage = false
+
   showDesignation = false
   showAshaField = false
   professionOthersField = false
@@ -57,44 +57,81 @@ export class BnrcRegisterComponent implements OnInit {
   enableSubmit = false
   hideAsha = false
   districts: any = [
-    "Araria",
-    "Arwal",
-    "Aurangabad",
-    "Banka",
-    "Begusarai",
-    "Bhagalpur",
-    "Bhojpur",
-    "Buxar",
-    "Darbhanga",
-    "East Champaran (Motihari)",
-    "Gaya",
-    "Gopalganj",
-    "Jamui",
-    "Jehanabad",
-    "Kaimur (Bhabua)",
-    "Katihar",
-    "Khagaria",
-    "Kishanganj",
-    "Lakhisarai",
-    "Madhepura",
-    "Madhubani",
-    "Munger (Monghyr)",
-    "Muzaffarpur",
-    "Nalanda",
-    "Nawada",
-    "Patna",
-    "Purnia (Purnea)",
-    "Rohtas",
-    "Saharsa",
-    "Samastipur",
-    "Saran",
-    "Sheikhpura",
-    "Sheohar",
-    "Sitamarhi",
-    "Siwan",
-    "Supaul",
-    "Vaishali",
-    "West Champaran"
+    "Agra",
+    "Aligarh",
+    "Allahabad",
+    "Ambedkar Nagar",
+    "Amethi (Chatrapati Sahuji Mahraj Nagar)",
+    "Amroha (J.P. Nagar)",
+    "Auraiya",
+    "Azamgarh",
+    "Baghpat",
+    "Bahraich",
+    "Ballia",
+    "Balrampur",
+    "Banda",
+    "Barabanki",
+    "Bareilly",
+    "Basti",
+    "Bhadohi",
+    "Bijnor",
+    "Budaun",
+    "Bulandshahr",
+    "Chandauli",
+    "Chitrakoot",
+    "Deoria",
+    "Etah",
+    "Etawah",
+    "Faizabad",
+    "Farrukhabad",
+    "Fatehpur",
+    "Firozabad",
+    "Gautam Buddha Nagar",
+    "Ghaziabad",
+    "Ghazipur",
+    "Gonda",
+    "Gorakhpur",
+    "Hamirpur",
+    "Hapur (Panchsheel Nagar)",
+    "Hardoi",
+    "Hathras",
+    "Jalaun",
+    "Jaunpur",
+    "Jhansi",
+    "Kannauj",
+    "Kanpur Dehat",
+    "Kanpur Nagar",
+    "Kanshiram Nagar (Kasganj)",
+    "Kaushambi",
+    "Kushinagar (Padrauna)",
+    "Lakhimpur - Kheri",
+    "Lalitpur",
+    "Lucknow",
+    "Maharajganj",
+    "Mahoba",
+    "Mainpuri",
+    "Mathura",
+    "Mau",
+    "Meerut",
+    "Mirzapur",
+    "Moradabad",
+    "Muzaffarnagar",
+    "Pilibhit",
+    "Pratapgarh",
+    "RaeBareli",
+    "Rampur",
+    "Saharanpur",
+    "Sambhal (Bhim Nagar)",
+    "Sant Kabir Nagar",
+    "Shahjahanpur",
+    "Shamali (Prabuddh Nagar)",
+    "Shravasti",
+    "Siddharth Nagar",
+    "Sitapur",
+    "Sonbhadra",
+    "Sultanpur",
+    "Unnao",
+    "Varanasi"
   ]
   isSubmitting = false;
 
@@ -127,14 +164,9 @@ export class BnrcRegisterComponent implements OnInit {
       instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       courseSelection: new FormControl('', []),
       instituteType: new FormControl('', []),
-      bnrcRegistrationNumber: new FormControl('', []),
+      upsmfRegistrationNumber: new FormControl('', []),
       hrmsId: new FormControl('', []),
       facultyType: new FormControl('', []),
-      facilityName: new FormControl('', []),
-      roleForInService: new FormControl('', []),
-      publicFacilityType: new FormControl('', []),
-      privateFacilityType: new FormControl('', []),
-      serviceType: new FormControl('', []),
     })
   }
   // Define the form group creation in a separate method
@@ -149,14 +181,9 @@ export class BnrcRegisterComponent implements OnInit {
       instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
       courseSelection: new FormControl('', []),
       instituteType: new FormControl('', []),
-      bnrcRegistrationNumber: new FormControl('', []),
+      upsmfRegistrationNumber: new FormControl('', []),
       hrmsId: new FormControl('', []),
       facultyType: new FormControl('', []),
-      facilityName: new FormControl('', []),
-      roleForInService: new FormControl('', []),
-      publicFacilityType: new FormControl('', []),
-      privateFacilityType: new FormControl('', []),
-      serviceType: new FormControl('', []),
     })
   }
 
@@ -189,7 +216,7 @@ export class BnrcRegisterComponent implements OnInit {
   serviceTypeChange(value: string) {
     console.log("regulating service type", value)
     const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')
-    const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
+    const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('upsmfRegistrationNumber')
 
     if (hrmsIdControl && bnrcRegistrationNumberControl) {
       if (value === 'Regular') {
@@ -239,39 +266,20 @@ export class BnrcRegisterComponent implements OnInit {
 
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
-      this.bnrcDetailForm.controls.bnrcRegistrationNumber.setValue(null)
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.roleForInService.setValue(null)
-      this.bnrcDetailForm.controls.serviceType.setValue(null)
-      this.bnrcDetailForm.controls.facilityName.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
+      this.bnrcDetailForm.controls.upsmfRegistrationNumber.setValue(null)
+
+
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
-      const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
-      if (publicFacilityTypeControl) {
-        publicFacilityTypeControl.clearValidators()
-        publicFacilityTypeControl.updateValueAndValidity()
 
 
-      }
-      const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
-      if (roleForInServiceControl) {
-        roleForInServiceControl.clearValidators()
-        roleForInServiceControl.updateValueAndValidity()
 
-      }
-      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
-      if (serviceTypeControl) {
-        serviceTypeControl.clearValidators()
-        serviceTypeControl.updateValueAndValidity()
-
-      }
       const facilityNameControl = this.bnrcDetailForm.get('facilityName')
       if (facilityNameControl) {
         facilityNameControl.clearValidators()
         facilityNameControl.updateValueAndValidity()
 
       }
-      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
+      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('upsmfRegistrationNumber')
       if (bnrcRegistrationNumberControl) {
         bnrcRegistrationNumberControl.clearValidators()
         bnrcRegistrationNumberControl.updateValueAndValidity()
@@ -309,7 +317,7 @@ export class BnrcRegisterComponent implements OnInit {
         facultyTypeControl.updateValueAndValidity()
 
       }
-      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
+      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('upsmfRegistrationNumber')
       if (bnrcRegistrationNumberControl) {
         bnrcRegistrationNumberControl.setValidators([Validators.required])
         bnrcRegistrationNumberControl.updateValueAndValidity()
@@ -350,11 +358,8 @@ export class BnrcRegisterComponent implements OnInit {
         facilityNameControl.updateValueAndValidity()
 
       }
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.roleForInService.setValue(null)
-      this.bnrcDetailForm.controls.serviceType.setValue(null)
-      this.bnrcDetailForm.controls.facilityName.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
+
+
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
       this.bnrcDetailForm.controls.courseSelection.setValue(null)
 
@@ -435,7 +440,6 @@ export class BnrcRegisterComponent implements OnInit {
 
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
 
     } else if (value === 'Private Health Facility') {
       this.showDesignation = true
@@ -468,7 +472,7 @@ export class BnrcRegisterComponent implements OnInit {
         facilityNameControl.updateValueAndValidity()
 
       }
-      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
+      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('upsmfRegistrationNumber')
       if (bnrcRegistrationNumberControl) {
         bnrcRegistrationNumberControl.setValidators([Validators.required])
         bnrcRegistrationNumberControl.updateValueAndValidity()
@@ -482,7 +486,7 @@ export class BnrcRegisterComponent implements OnInit {
       }
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
+
       this.bnrcDetailForm.controls.serviceType.setValue(null)
       this.bnrcDetailForm.controls.instituteName.setValue(null)
       this.bnrcDetailForm.controls.instituteType.setValue(null)
@@ -504,24 +508,52 @@ export class BnrcRegisterComponent implements OnInit {
   onSubmit() {
     this.bnrcDetailForm.markAllAsTouched()
     this.loader.changeLoad.next(true)
+    console.log("this.bnrcDetailForm.valid", this.bnrcDetailForm)
     if (this.bnrcDetailForm.valid) {
-
-      const phone = {
-        phone: this.bnrcDetailForm.value.phone
+      const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
+      const reqUpdate = {
+        request: {
+          formValues
+        },
       }
       this.isSubmitting = true
-      this.otpPage = true
-      this.userProfileSvc.bnrcSendOtp(phone).subscribe((res: any) => {
-        if (res.status === 'success') {
-          this.otpPage = true
-          this.openSnackbar(res.message)
-        }
-      },
+
+
+
+
+      this.userProfileSvc.upsmfRegistration(reqUpdate).subscribe(
+        (res: any) => {
+          this.isSubmitting = false
+          console.log("test", res)
+          if (res.status === 'SUCCESS') {
+            this.loader.changeLoad.next(false)
+            this.showMessage = true
+            this.resetForm()
+            this.dialog.open(BnrcmodalComponent, {
+              width: '350px',
+              height: '300px',
+              panelClass: 'overview-modal',
+              disableClose: true,
+              data: { from: "Upsmf", message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
+            })
+          } else {
+            console.log('Form is valid. Saving data...', res)
+
+            this.loader.changeLoad.next(false)
+            this.openSnackbar(res.message)
+
+          }
+        },
         (error) => {
           this.isSubmitting = false
+          console.error('HTTP Error:', error.error.message)
+
           this.loader.changeLoad.next(false)
           this.openSnackbar(error.error.message)
-        })
+
+        }
+      )
+
     } else {
       if (this.bnrcDetailForm.errors && this.bnrcDetailForm.errors.required) {
         const missingFields: string[] = []
@@ -542,47 +574,7 @@ export class BnrcRegisterComponent implements OnInit {
 
     }
   }
-  createUser(event: any) {
-    console.log("event", event)
-    const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
-    const reqUpdate = {
-      request: {
-        formValues
-      },
-    }
-    this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
-      (res: any) => {
-        this.isSubmitting = false
-        console.log("test", res)
-        if (res.status === 'SUCCESS') {
-          this.loader.changeLoad.next(false)
-          this.showMessage = true
-          this.resetForm()
-          this.dialog.open(BnrcmodalComponent, {
-            width: '350px',
-            height: '300px',
-            panelClass: 'overview-modal',
-            disableClose: true,
-            data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
-          })
-        } else {
-          console.log('Form is valid. Saving data...', res)
 
-          this.loader.changeLoad.next(false)
-          this.openSnackbar(res.message)
-
-        }
-      },
-      (error) => {
-        this.isSubmitting = false
-        console.error('HTTP Error:', error.error.message)
-
-        this.loader.changeLoad.next(false)
-        this.openSnackbar(error.error.message)
-
-      }
-    )
-  }
   public openSnackbar(primaryMsg: string, duration: number = 10000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,

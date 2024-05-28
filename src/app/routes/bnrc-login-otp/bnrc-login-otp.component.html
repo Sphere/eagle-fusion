@@ -1,0 +1,40 @@
+<div class="login-page-content">
+  <div class="login-card">
+    <div class="check-email-text mt-6"><span i18n>Check your </span> <span *ngIf="emailPhoneType === 'email'"
+        i18n>email</span>
+      <span *ngIf="emailPhoneType === 'phone'" i18n>SMS</span>!
+    </div>
+    <div class="enter-code-text mt-2 mb-4"><span i18n>Enter the </span><span *ngIf="emailPhoneType === 'email'"
+        i18n>Code</span>
+      <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span>
+    </div>
+    <div class="input-content">
+      <div class="input-content-wrapper">
+        <form [formGroup]="loginOtpForm" id="form-login" action="" method="post">
+          <div class="form-group">
+            <input tabindex="1" id="code" i18n class="form-control input-box" formControlName="code" type="text"
+              i18n-placeholder autocomplete="off" placeholder="{{emailPhoneType === 'email'? 'Code' : 'OTP'}}">
+          </div>
+          <div class="form-group mt-4 mb-4 activeLink">
+            <span i18n>Did not receive a </span><span *ngIf="emailPhoneType === 'phone'" i18n>OTP?</span><span
+              *ngIf="emailPhoneType === 'email'" i18n>mail?</span>
+            <span class="resend-text cursor-pointer" (click)="resendOTP()" i18n> Click Here </span><span i18n>to
+              resend</span>
+          </div>
+          <span>
+            <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
+              type="submit" (click)="loginVerifyOtp()" i18n>Submit</button>
+          </span>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="overlay" *ngIf="isLoading">
+  <div class="loader-container">
+    <div class="loader-ripple">
+      <div></div>
+      <div></div>
+    </div>
+  </div>
+</div>

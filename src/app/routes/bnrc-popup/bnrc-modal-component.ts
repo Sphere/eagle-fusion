@@ -19,10 +19,11 @@ export class BnrcmodalComponent implements OnInit {
 
   ) {
     dialogRef.disableClose = true
+    console.log("yes here", this.data.from)
   }
 
   ngOnInit() {
-
+    console.log("yes here", this.data.from)
   }
 
 
@@ -33,7 +34,11 @@ export class BnrcmodalComponent implements OnInit {
     if (value === 'download') {
       window.location.href = 'https://bit.ly/E-kshamataApp'
     } else {
-      window.location.href = 'https://bnrc.aastrika.org/'
+      if (this.data.from === 'Upsmf') {
+        window.location.href = 'https://upsmf.aastrika.org/'
+      } else {
+        window.location.href = 'https://bnrc.aastrika.org/'
+      }
     }
   }
 
