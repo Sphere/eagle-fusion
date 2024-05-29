@@ -2,7 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { MatSnackBar } from '@angular/material'
-import { Router, ActivatedRoute } from '@angular/router'
+import {
+  //Router,
+  ActivatedRoute
+} from '@angular/router'
 import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { HttpClient } from '@angular/common/http'
@@ -53,7 +56,7 @@ export class AlmostDoneComponent implements OnInit {
   constructor(
     public configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    private router: Router,
+    //private router: Router,
     public snackBar: MatSnackBar,
     private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
