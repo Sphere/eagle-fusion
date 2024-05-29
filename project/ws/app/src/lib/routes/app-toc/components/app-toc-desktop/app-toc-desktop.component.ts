@@ -151,7 +151,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }, (error) => {
       console.log(error)
       console.log(this.resumeResource, this.firstResourceLink!.url)
-      if (error && this.resumeResource === null) {
+      console.log(this.content, 'this.content!')
+      if (error && this.resumeResource === null && this.content!.batches && this.content!.batches[0].batchId) {
         let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.content!.batches[0].batchId}`
         console.log(url1, 'url')
         this.updatedContentFound = url1
@@ -1107,6 +1108,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   enrollUser(batchData: any) {
+    console.log("enrollUser", batchData)
     let userId = ''
     if (batchData) {
       if (this.configSvc.userProfile) {
