@@ -45,7 +45,7 @@ export class BnrcRegisterComponent implements OnInit {
   inService = false
   publicHealthFacility = false
   privateHealthFacility = false
-
+  otpPage = false
   showDesignation = false
   showAshaField = false
   professionOthersField = false
@@ -504,52 +504,24 @@ export class BnrcRegisterComponent implements OnInit {
   onSubmit() {
     this.bnrcDetailForm.markAllAsTouched()
     this.loader.changeLoad.next(true)
-    console.log("this.bnrcDetailForm.valid", this.bnrcDetailForm)
     if (this.bnrcDetailForm.valid) {
-      const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
-      const reqUpdate = {
-        request: {
-          formValues
-        },
+
+      const phone = {
+        phone: this.bnrcDetailForm.value.phone
       }
       this.isSubmitting = true
-
-
-
-
-      this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
-        (res: any) => {
-          this.isSubmitting = false
-          console.log("test", res)
-          if (res.status === 'SUCCESS') {
-            this.loader.changeLoad.next(false)
-            this.showMessage = true
-            this.resetForm()
-            this.dialog.open(BnrcmodalComponent, {
-              width: '350px',
-              height: '300px',
-              panelClass: 'overview-modal',
-              disableClose: true,
-              data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
-            })
-          } else {
-            console.log('Form is valid. Saving data...', res)
-
-            this.loader.changeLoad.next(false)
-            this.openSnackbar(res.message)
-
-          }
-        },
+      this.otpPage = true
+      this.userProfileSvc.bnrcSendOtp(phone).subscribe((res: any) => {
+        if (res.status === 'success') {
+          this.otpPage = true
+          this.openSnackbar(res.message)
+        }
+      },
         (error) => {
           this.isSubmitting = false
-          console.error('HTTP Error:', error.error.message)
-
           this.loader.changeLoad.next(false)
           this.openSnackbar(error.error.message)
-
-        }
-      )
-
+        })
     } else {
       if (this.bnrcDetailForm.errors && this.bnrcDetailForm.errors.required) {
         const missingFields: string[] = []
@@ -570,7 +542,47 @@ export class BnrcRegisterComponent implements OnInit {
 
     }
   }
+  createUser(event: any) {
+    console.log("event", event)
+    const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
+    const reqUpdate = {
+      request: {
+        formValues
+      },
+    }
+    this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
+      (res: any) => {
+        this.isSubmitting = false
+        console.log("test", res)
+        if (res.status === 'SUCCESS') {
+          this.loader.changeLoad.next(false)
+          this.showMessage = true
+          this.resetForm()
+          this.dialog.open(BnrcmodalComponent, {
+            width: '350px',
+            height: '300px',
+            panelClass: 'overview-modal',
+            disableClose: true,
+            data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.', from: 'Bnrc' },
+          })
+        } else {
+          console.log('Form is valid. Saving data...', res)
 
+          this.loader.changeLoad.next(false)
+          this.openSnackbar(res.message)
+
+        }
+      },
+      (error) => {
+        this.isSubmitting = false
+        console.error('HTTP Error:', error.error.message)
+
+        this.loader.changeLoad.next(false)
+        this.openSnackbar(error.error.message)
+
+      }
+    )
+  }
   public openSnackbar(primaryMsg: string, duration: number = 10000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,

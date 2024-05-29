@@ -56,6 +56,7 @@ export class UpsmfRegisterComponent implements OnInit {
   selectedBg: any
   enableSubmit = false
   hideAsha = false
+  otpPage = false
   districts: any = [
     "Agra",
     "Aligarh",
@@ -510,49 +511,22 @@ export class UpsmfRegisterComponent implements OnInit {
     this.loader.changeLoad.next(true)
     console.log("this.bnrcDetailForm.valid", this.bnrcDetailForm)
     if (this.bnrcDetailForm.valid) {
-      const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
-      const reqUpdate = {
-        request: {
-          formValues
-        },
+      const phone = {
+        phone: this.bnrcDetailForm.value.phone
       }
       this.isSubmitting = true
-
-
-
-
-      this.userProfileSvc.upsmfRegistration(reqUpdate).subscribe(
-        (res: any) => {
-          this.isSubmitting = false
-          console.log("test", res)
-          if (res.status === 'SUCCESS') {
-            this.loader.changeLoad.next(false)
-            this.showMessage = true
-            this.resetForm()
-            this.dialog.open(BnrcmodalComponent, {
-              width: '350px',
-              height: '300px',
-              panelClass: 'overview-modal',
-              disableClose: true,
-              data: { from: "Upsmf", message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.' },
-            })
-          } else {
-            console.log('Form is valid. Saving data...', res)
-
-            this.loader.changeLoad.next(false)
-            this.openSnackbar(res.message)
-
-          }
-        },
+      this.otpPage = true
+      this.userProfileSvc.upsmfSendOtp(phone).subscribe((res: any) => {
+        if (res.status === 'success') {
+          this.otpPage = true
+          this.openSnackbar(res.message)
+        }
+      },
         (error) => {
           this.isSubmitting = false
-          console.error('HTTP Error:', error.error.message)
-
           this.loader.changeLoad.next(false)
           this.openSnackbar(error.error.message)
-
-        }
-      )
+        })
 
     } else {
       if (this.bnrcDetailForm.errors && this.bnrcDetailForm.errors.required) {
@@ -574,7 +548,49 @@ export class UpsmfRegisterComponent implements OnInit {
 
     }
   }
+  createUser(event: any) {
+    console.log("event", event)
+    const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
+    const reqUpdate = {
+      request: {
+        formValues
+      },
+    }
+    this.isSubmitting = true
 
+    this.userProfileSvc.upsmfRegistration(reqUpdate).subscribe(
+      (res: any) => {
+        this.isSubmitting = false
+        console.log("test", res)
+        if (res.status === 'SUCCESS') {
+          this.loader.changeLoad.next(false)
+          this.showMessage = true
+          this.resetForm()
+          this.dialog.open(BnrcmodalComponent, {
+            width: '350px',
+            height: '300px',
+            panelClass: 'overview-modal',
+            disableClose: true,
+            data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.', from: 'Upsmf' },
+          })
+        } else {
+          console.log('Form is valid. Saving data...', res)
+
+          this.loader.changeLoad.next(false)
+          this.openSnackbar(res.message)
+
+        }
+      },
+      (error) => {
+        this.isSubmitting = false
+        console.error('HTTP Error:', error.error.message)
+
+        this.loader.changeLoad.next(false)
+        this.openSnackbar(error.error.message)
+
+      }
+    )
+  }
   public openSnackbar(primaryMsg: string, duration: number = 10000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
