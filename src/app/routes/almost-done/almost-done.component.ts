@@ -511,16 +511,20 @@ export class AlmostDoneComponent implements OnInit {
         this.activateRoute.queryParams.subscribe(params => {
           let lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' : ''
           console.log(params.redirect, 'redirect')
-          const url = params.redirect
-          const url2 = `${lang}${params.redirect}`
-          let url1 = `${document.baseURI}`
+          let url1 = params.redirect
           if (url1.includes('hi')) {
-            url1 = url1.replace('hi/', '')
+            url1 = url1.replace('hi', '')
           }
-          if (url && url !== '/app/user/my_courses') {
+          const url2 = `${lang}${url1}`
+          let url3 = `${document.baseURI}`
+          if (url3.includes('hi')) {
+            url3 = url3.replace('hi/', '')
+          }
+          if (url1 && url1 !== '/app/user/my_courses') {
             localStorage.removeItem('url_before_login')
-            url1 = `${url1}${url2}`
-            location.href = url1
+            url3 = `${url3}${url2}`
+            console.log(url3)
+            location.href = url3
             //this.router.navigate([url2])
           } else {
             let url = `${document.baseURI}`
