@@ -520,7 +520,7 @@ export class AlmostDoneComponent implements OnInit {
           if (url3.includes('hi')) {
             url3 = url3.replace('hi/', '')
           }
-          if (url1 && url1 !== '/app/user/my_courses') {
+          if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
             localStorage.removeItem('url_before_login')
             url3 = `${url3}${url2}`
             console.log(url3)
@@ -531,8 +531,8 @@ export class AlmostDoneComponent implements OnInit {
             if (url.includes('hi')) {
               url = url.replace('hi/', '')
             }
-
-            url = `${url}${lang}page/home`
+            let urlnew = lang === 'hi' ? '/page/home' : 'page/home'
+            url = `${url}${lang}${urlnew}`
             console.log(url)
             location.href = url
             // this.router.navigate(['page', 'home'])
