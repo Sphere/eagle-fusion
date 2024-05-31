@@ -138,27 +138,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       sessionStorage.removeItem('currentURL')
     }
     this.enrollApi()
-    console.log(this.resumeData, this.content)
-    console.log(this.optmisticPercentage, 'optmisticPercentage')
-    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
-      console.log('Record:', record, this.resumeResource)
-      if (record.contentId) {
-        this.updatedContentStatus = true
-        this.updatedContentFound = record.url
-      } else {
-        this.updatedContentStatus = false
-      }
-    }, (error) => {
-      console.log(error)
-      console.log(this.resumeResource, this.firstResourceLink!.url)
-      console.log(this.content, 'this.content!')
-      if (error && this.resumeResource === null && this.content!.batches && this.content!.batches[0].batchId) {
-        let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.content!.batches[0].batchId}`
-        console.log(url1, 'url')
-        this.updatedContentFound = url1
-      }
-    }
-    )
+
     if (this.content) {
 
       //this.readCourseRatingSummary()
@@ -368,15 +348,29 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           this.updatedContentStatus = false
         }
         let rowData = await record
-        console.log(rowData.url)
+        console.log(rowData)
         let data = JSON.parse(rowData.data)
+        console.log(data)
         let url1 = ''
         if (rowData.url.includes('/chapters') || rowData.url.includes('/overview?primaryCategory=Course')) {
-          console.log(rowData.url)
+          console.log(rowData)
           if (data.contents[0].progressdetails.mimeType === "application/pdf") {
             url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
             console.log(url1, 'url')
             this.updatedContentFound = url1
+          } else if (data.contents[0].progressdetails.mimeType === "video/mp4") {
+            url1 = `/viewer/video/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
+            console.log(url1, 'url')
+            this.updatedContentFound = url1
+          } else if (data.contents[0].progressdetails.mimeType === "application/json") {
+            url1 = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+            console.log(url1)
+            this.updatedContentFound = url1
+          } else if (data.contents[0].progressdetails.mimeType === "application/vnd.ekstep.html-archive" || data.contents[0].progressdetails.mimeType === "text/x-url") {
+            url1 = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+            console.log(url1)
+            this.updatedContentFound = url1
+
           }
         } else {
           console.log('opp')
@@ -631,9 +625,65 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse) {
               this.resumeData = this.enrolledCourse.lastReadContentId
             }
+            console.log(this.resumeData, this.content)
+            console.log(this.optmisticPercentage, 'optmisticPercentage')
+            this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
+              console.log('Record:', record)
+              if (record.contentId) {
+                this.updatedContentStatus = true
+                this.updatedContentFound = record.url
+              } else {
+                // this.updatedContentStatus = false
+              }
+            }, async (error) => {
+              this.updatedContentStatus = true
+              if (error && this.enrolledCourse!.batchId) {
+                console.log('ewrwer')
+                if (this.enrolledCourse.lastReadContentId) {
+                  let url = ''
+                  let data = await this.findObjectById(this.content!.children, this.enrolledCourse.lastReadContentId)
+                  console.log(data, 'datahoooooray')
+                  if (data.mimeType === "video/mp4") {
+                    url = `/viewer/video/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                    console.log(url)
+                  } else if (data.mimeType === "application/pdf") {
+                    url = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                    console.log(url)
+                  } else if (data.mimeType === "application/json") {
+                    url = `/viewer/quiz/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                    console.log(url)
+                  } else if (data.mimeType === "application/vnd.ekstep.html-archive" || data.mimeType === "text/x-url") {
+                    url = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                    console.log(url)
+                  }
+                  this.updatedContentFound = url
+                } else {
+                  let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                  console.log(url1, 'url')
+                  this.updatedContentFound = url1
+                }
+              }
+            }
+            )
           }
         }
       })
+  }
+
+  findObjectById(array: any, id: any): any {
+    console.log(array, id)
+    for (const item of array) {
+      if (item.identifier === id) {
+        return item
+      }
+      if (item.children) {
+        const result = this.findObjectById(item.children, id)
+        if (result) {
+          return result
+        }
+      }
+    }
+    return null
   }
 
   sendApi() {
