@@ -150,16 +150,28 @@ export class BtnFeatureComponent extends WidgetBaseComponent
 
     if (text.name === 'Home' || text.name === "होम") {
       this.currentText = text.name
-      let url = '/page/home'
+      let url = url1 === 'hi' ? '/page/home' : 'page/home'
       location.href = `${url3}${url1}${url}`
+
     } else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
       this.currentText = text.name
-      let url = text.url
-      location.href = `${url3}${url1}${url}`
+      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
+      let result = await this.signupService.getUserData()
+      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        location.href = `${url3}${url1}${url}`
+      } else {
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+      }
     } else if (text.name === 'Competency' || text.name === "योग्यता") {
       this.currentText = text.name
-      let url = '/app/user/competency'
-      location.href = `${url3}${url1}${url}`
+      let result = await this.signupService.getUserData()
+      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
+        location.href = `${url3}${url1}${url}`
+      } else {
+        let url = url1 === 'hi' ? '/page/home' : 'page/home'
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+      }
     } else if (text.name === "खोज" || text.name === "Search") {
       this.navOption.changeNavBarActive('search')
       this.currentText = text.name
