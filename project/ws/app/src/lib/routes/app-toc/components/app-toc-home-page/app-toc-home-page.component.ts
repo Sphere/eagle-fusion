@@ -573,7 +573,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
     console.log('Aggregate value:', aggregateValue)
     console.log(this.content, 'content')
-    let percentage = Math.round((aggregateValue) / (this.content!.leafNodesCount * 100) * 100)
+    let percentage = Math.round((aggregateValue) / (this.content!.childNodes.length * 100) * 100)
     console.log(percentage, 'percentage')
     return percentage
   }

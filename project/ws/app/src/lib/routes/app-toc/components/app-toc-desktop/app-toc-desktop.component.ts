@@ -357,24 +357,24 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           if (data.contents[0].progressdetails.mimeType === "application/pdf") {
             url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
             console.log(url1, 'url')
-            this.updatedContentFound = url1
+            //this.updatedContentFound = url1
           } else if (data.contents[0].progressdetails.mimeType === "video/mp4") {
             url1 = `/viewer/video/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
             console.log(url1, 'url')
-            this.updatedContentFound = url1
+            //this.updatedContentFound = url1
           } else if (data.contents[0].progressdetails.mimeType === "application/json") {
             url1 = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
             console.log(url1)
-            this.updatedContentFound = url1
+            //this.updatedContentFound = url1
           } else if (data.contents[0].progressdetails.mimeType === "application/vnd.ekstep.html-archive" || data.contents[0].progressdetails.mimeType === "text/x-url") {
             url1 = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
             console.log(url1)
-            this.updatedContentFound = url1
+            // this.updatedContentFound = url1
 
           }
         } else {
           console.log('opp')
-          this.updatedContentFound = record.url
+          //this.updatedContentFound = record.url
         }
 
       })
@@ -470,7 +470,14 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   redirectPage(updatedContentFound: any) {
     console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
+    console.log(this.enrolledCourse, this.getBatchId())
+    // if (updatedContentFound === undefined) {
+    //   let batchId = this.getBatchId()
+    //   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
+    //   console.log(url1, 'url')
+    // } else {
     location.href = updatedContentFound
+    //}
   }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
@@ -637,7 +644,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               }
             }, async (error) => {
               this.updatedContentStatus = true
-              if (error && this.enrolledCourse!.batchId) {
+              console.log(this.enrolledCourse, 'this.enrolledCourse!')
+              if (error && this.enrolledCourse && this.enrolledCourse!.batchId) {
                 console.log('ewrwer')
                 if (this.enrolledCourse.lastReadContentId) {
                   let url = ''
@@ -660,8 +668,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 } else {
                   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
                   console.log(url1, 'url')
-                  this.updatedContentFound = url1
+                  //this.updatedContentFound = url1
                 }
+              } else {
+                let batchId = this.getBatchId()
+                let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
+                console.log(url1, 'url13123')
+                this.updatedContentFound = url1
               }
             }
             )
