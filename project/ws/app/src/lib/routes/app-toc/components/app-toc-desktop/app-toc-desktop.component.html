@@ -133,7 +133,7 @@
             [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
             class="banner-btn resumeButton">
             <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
-              {{resumeData?"Resume":"Resume"}}
+              {{resumeData?"Resume":"Resume1"}}
             </ng-container>
           </a>
         </ng-container>
@@ -141,7 +141,7 @@
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
             <ng-container i18n>
-              Resume
+              Resume2
             </ng-container>
           </a>
         </ng-template>

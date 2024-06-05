@@ -471,13 +471,26 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   redirectPage(updatedContentFound: any) {
     console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
     console.log(this.enrolledCourse, this.getBatchId())
-    // if (updatedContentFound === undefined) {
-    //   let batchId = this.getBatchId()
-    //   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
-    //   console.log(url1, 'url')
-    // } else {
-    location.href = updatedContentFound
-    //}
+    if (updatedContentFound === undefined) {
+      let batchId = this.getBatchId()
+      console.log(batchId, 'batchId')
+      if (!batchId) {
+        let u1 = `${document.baseURI}`
+        console.log(u1)
+        let u2 = u1.split("&")
+        console.log(u2)
+        let u3 = u2[0].split("Id=")
+        console.log(u3)
+        batchId = u3[1]
+        console.log(batchId, 'batchId')
+      }
+      let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
+      console.log(url1, 'url13123')
+      this.updatedContentFound = url1
+      location.href = url1
+    } else {
+      location.href = updatedContentFound
+    }
   }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
@@ -668,14 +681,26 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 } else {
                   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
                   console.log(url1, 'url')
-                  //this.updatedContentFound = url1
+                  this.updatedContentFound = url1
                 }
-              } else {
-                let batchId = this.getBatchId()
-                let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
-                console.log(url1, 'url13123')
-                this.updatedContentFound = url1
               }
+              // else {
+              //   let batchId = await this.getBatchId()
+              //   console.log(batchId, 'batchId')
+              //   if (!batchId) {
+              //     let u1 = `${document.baseURI}`
+              //     console.log(u1)
+              //     let u2 = u1.split("&")
+              //     console.log(u2)
+              //     let u3 = u2[0].split("Id=")
+              //     console.log(u3)
+              //     batchId = u3[1]
+              //     console.log(batchId, 'batchId')
+              //   }
+              //   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
+              //   console.log(url1, 'url13123')
+              //   this.updatedContentFound = url1
+              // }
             }
             )
           }
