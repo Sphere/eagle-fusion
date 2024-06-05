@@ -12,8 +12,18 @@ export class IndexedDBService {
 
   constructor() { }
 
+  isIndexedDBSupported(): boolean {
+    return 'indexedDB' in window
+  }
+
   openOrCreateDatabase(): Observable<IDBDatabase> {
     return new Observable((observer: Observer<IDBDatabase>) => {
+      if (!this.isIndexedDBSupported()) {
+        console.warn('IndexedDB is not supported. Falling back to localStorage.')
+        observer.error('IndexedDB is not supported')
+        observer.complete()
+        return
+      }
       const request = indexedDB.open(this.dbName, this.dbVersion)
 
       request.onupgradeneeded = (event) => {
@@ -85,6 +95,7 @@ export class IndexedDBService {
           observer.error(`Failed to retrieve record with key ${key} from ${tableName}`)
         }
       }, (error) => {
+        alert(error)
         console.error('Error opening database:', error)
         observer.error('Error opening database')
       })

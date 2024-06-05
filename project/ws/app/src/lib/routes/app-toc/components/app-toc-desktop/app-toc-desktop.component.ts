@@ -683,6 +683,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   console.log(url1, 'url')
                   this.updatedContentFound = url1
                 }
+              } else {
+                alert('error')
               }
               // else {
               //   let batchId = await this.getBatchId()
