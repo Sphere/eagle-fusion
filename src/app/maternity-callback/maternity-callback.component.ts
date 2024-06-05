@@ -15,8 +15,8 @@ export class MaternityCallbackComponent implements OnInit {
 
   ngOnInit() {
     const maternity_token = sessionStorage.getItem('maternity_token') || null
-    const maternity_moduleId = sessionStorage.getItem('maternity_moduleId') || null
-    if (maternity_token && maternity_moduleId) {
+    //const maternity_moduleId = sessionStorage.getItem('maternity_moduleId') || null
+    if (maternity_token) {
       this.isLoading = true
       //this.checkMaternityCallback(maternity_token, maternity_moduleId)
       this.checkMaternityCallback(maternity_token)
