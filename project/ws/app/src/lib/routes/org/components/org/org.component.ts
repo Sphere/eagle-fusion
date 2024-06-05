@@ -81,6 +81,7 @@ export class OrgComponent implements OnInit, OnDestroy {
         this.competency_offered = userEnrolled[0].competency_offered || undefined
       }
     })
+    console.log("this.currentOrgData", this.currentOrgData)
     if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
       console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
       this.orgService.getSearchResultsById(this.currentOrgData.closedCoursesList).subscribe((result: any) => {
@@ -114,7 +115,9 @@ export class OrgComponent implements OnInit, OnDestroy {
           (org: any) => org.sourceName === this.orgName
         )
         this.courseCount = this.courseData
-        if (this.courseData) {
+        console.log("this.courseData", this.courseData)
+        if (this.courseData && this.courseData.length > 0) {
+          console.log('l')
           this.courseData.forEach((course: any) => {
             if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
               forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
@@ -134,6 +137,36 @@ export class OrgComponent implements OnInit, OnDestroy {
           })
           // console.log("this.cometencyData", this.cometencyData)
 
+        } else {
+          console.log("this.courseData", this.courseData)
+
+          this.orgService.getSearchResults(this.currentOrgData.taggedSourceName).subscribe((result: any) => {
+            this.courseData = result.result.content.filter(
+              (org: any) => org.sourceName === this.currentOrgData.taggedSourceName
+            )
+            this.courseCount = this.courseData
+            console.log("this.courseData", this.courseData)
+            if (this.courseData && this.courseData.length > 0) {
+              console.log('l')
+              this.courseData.forEach((course: any) => {
+                if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
+                  forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
+                    //console.log("value", value)
+                    if (value.level) {
+                      this.cometencyData.push(
+                        {
+                          identifier: course.identifier,
+                          name: value.competencyName,
+                          levels: ` Level ${value.level}`,
+                        }
+                      )
+                    }
+                    return this.cometencyData
+                  })
+                }
+              })
+            }
+          })
         }
       })
     }
