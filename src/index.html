@@ -131,12 +131,14 @@
     sessionStorage.setItem('sashakt_token', sashakt_token)
     const sashakt_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
     sessionStorage.setItem('sashakt_moduleId', sashakt_moduleId)
-    const maternity_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
-    sessionStorage.setItem('maternity_token', maternity_token)
-    const maternity_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
-    sessionStorage.setItem('maternity_moduleId', maternity_moduleId)
+    // const maternity_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
+    // sessionStorage.setItem('maternity_token', maternity_token)
+    // const maternity_moduleId = url.slice(url.indexOf('&moduleId=') + 10)
+    // sessionStorage.setItem('maternity_moduleId', maternity_moduleId)
   } else {
     if (url.includes('token')) {
+      const maternity_token = url.slice(url.indexOf('?token=') + 7)
+      sessionStorage.setItem('maternity_token', maternity_token)
       const tnai_token = url.slice(url.indexOf('?token=') + 7)
       sessionStorage.setItem('tnai_token', tnai_token)
     }
