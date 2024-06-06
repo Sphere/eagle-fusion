@@ -110,23 +110,24 @@
     <h2 class="mat-h2" i18n>No result</h2>
     <h3 class="mat-h3" i18n>You may try</h3>
     <div class="padding-left-s">
-      <!-- <h4 [hidden]="!filtersResetAble">
-        <ng-container> Removing Filters </ng-container>
-        <button (click)="removeFilters()" type="button" mat-icon-button>
-          <mat-icon>restore</mat-icon>
-        </button>
-      </h4> -->
-      <h4 *ngIf="searchRequest?.lang?.split(',').length === 1">
-        <ng-container i18n> Removing Language </ng-container>
-        <button (click)="removeLanguage()" type="button" mat-icon-button>
-          <mat-icon>restore</mat-icon>
-        </button>
-      </h4>
       <!-- <h4>
             <span >Browsing</span>&nbsp;
             <a [routerLink]="'/catalog'"  class="catalog-link">Catalog</a>
           </h4> -->
       <h4 i18n>Different keywords</h4>
+      <h4 *ngIf="(isXSmall$ | async) === false">
+        <ng-container>Clear search results</ng-container>
+        <button (click)="removeSearch()" type="button" mat-icon-button>
+          <mat-icon>restore</mat-icon>
+        </button>
+      </h4>
+
+      <h4 *ngIf="(isXSmall$ | async) === true && searchRequest?.lang?.split(',').length === 1">
+        <ng-container i18n> Removing Language </ng-container>
+        <button (click)="removeLanguage()" type="button" mat-icon-button>
+          <mat-icon>restore</mat-icon>
+        </button>
+      </h4>
     </div>
   </div>
 

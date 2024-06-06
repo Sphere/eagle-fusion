@@ -469,6 +469,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   // }
 
   redirectPage(updatedContentFound: any) {
+    alert(updatedContentFound)
     console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
     console.log(this.enrolledCourse, this.getBatchId())
     if (updatedContentFound === undefined) {
@@ -487,6 +488,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
       console.log(url1, 'url13123')
       this.updatedContentFound = url1
+      alert(url1)
       location.href = url1
     } else {
       location.href = updatedContentFound
@@ -683,8 +685,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   console.log(url1, 'url')
                   this.updatedContentFound = url1
                 }
-              } else {
-                alert('error')
               }
               // else {
               //   let batchId = await this.getBatchId()
