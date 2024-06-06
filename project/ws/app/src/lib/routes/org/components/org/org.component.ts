@@ -117,7 +117,6 @@ export class OrgComponent implements OnInit, OnDestroy {
         this.courseCount = this.courseData
         console.log("this.courseData", this.courseData)
         if (this.courseData && this.courseData.length > 0) {
-          console.log('l')
           this.courseData.forEach((course: any) => {
             if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
               forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
@@ -136,7 +135,6 @@ export class OrgComponent implements OnInit, OnDestroy {
             }
           })
           // console.log("this.cometencyData", this.cometencyData)
-
         } else {
           console.log("this.courseData", this.courseData)
 
