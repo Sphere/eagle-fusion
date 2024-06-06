@@ -489,9 +489,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       console.log(url1, 'url13123')
       this.updatedContentFound = url1
       alert(url1)
-      location.href = url1
+      //location.href = url1
+      this.router.navigateByUrl(url1)
     } else {
-      location.href = updatedContentFound
+      alert('here')
+      this.router.navigateByUrl(updatedContentFound)
+      //location.href = updatedContentFound
     }
   }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
