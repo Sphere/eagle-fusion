@@ -984,7 +984,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     //   // queryParamsHandling: 'merge',
     //   relativeTo: this.activated.parent,
     // })
-    location.href = '/app/search/home'
+    this.router.navigateByUrl('/app/search/home')
   }
 
   removeSearch() {
