@@ -46,7 +46,7 @@ export class PublicLoginComponent implements OnInit {
     localStorage.removeItem('preferedLanguage')
     localStorage.removeItem('loginbtn')
     localStorage.removeItem('userUUID')
-    localStorage.clear()
+    //localStorage.clear()
   }
   submitDetails(form: any) {
 
