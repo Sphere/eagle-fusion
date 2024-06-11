@@ -490,15 +490,18 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       //location.href = url1
       this.router.navigateByUrl(url1)
     } else {
-      let url1 = updatedContentFound.includes(document.baseURI)
+      let url2 = document.baseURI
+      console.log(url2, 'url2')
+      if (url2.includes('hi')) {
+        url2 = url2.replace(/hi\//g, '')
+      }
+      let url1 = updatedContentFound.includes(url2)
       if (url1) {
         let u1 = updatedContentFound.split(document.baseURI).pop()
         this.router.navigateByUrl(u1)
       } else {
         this.router.navigateByUrl(updatedContentFound)
       }
-
-
       //location.href = updatedContentFound
     }
   }
