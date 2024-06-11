@@ -144,12 +144,6 @@
               Resume
             </ng-container>
           </a>
-          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage === 100 || content!.completionPercentage === 100;"
-            [routerLink]="firstResourceLink?.url" class="banner-btn resumeButton cursor-pointer">
-            <ng-container i18n>
-              Start Again
-            </ng-container>
-          </a>
         </ng-template>
         <!-- <button id="start-btn" class="banner-btn cursor-pointer" (click)="giveRating(batchData.content)" i18n>
           Rating
