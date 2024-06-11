@@ -813,11 +813,11 @@ export class LearningComponent implements OnInit, OnDestroy {
     let paramsString = url.split('?')[1] || ''
     let params = new URLSearchParams(paramsString)
 
-    let lang = 'en' // Default value
+    let lang = '' // Default value
 
     // Check if 'lang' parameter exists
     if (params.has('lang')) {
-      lang = params.get('lang') || 'en'
+      lang = params.get('lang') || ''
     }
     console.log(lang)
     this.newSearchRequestObject.language = lang
