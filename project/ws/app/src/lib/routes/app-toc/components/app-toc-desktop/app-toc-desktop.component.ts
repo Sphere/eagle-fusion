@@ -498,6 +498,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       let url1 = updatedContentFound.includes(url2)
       if (url1) {
         let u1 = updatedContentFound.split(url2).pop()
+        if (u1.includes('hi')) {
+          u1 = u1.replace(/(\/hi\/)+/g, '/hi/')
+        }
         this.router.navigateByUrl(u1)
       } else {
         this.router.navigateByUrl(updatedContentFound)
