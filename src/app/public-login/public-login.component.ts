@@ -95,7 +95,7 @@ export class PublicLoginComponent implements OnInit {
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
-            let lang = (result.response.profileDetails && result.response.profileDetails.preferences && result.response.profileDetails.preferences.language !== undefined) ? result.response.profileDetails.preferences.language : 'en'
+            let lang = (result && result.language !== undefined) ? result.language : 'en'
             lang = lang === 'en' ? '' : 'hi'
             console.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
@@ -203,7 +203,7 @@ export class PublicLoginComponent implements OnInit {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             console.log(res, 'res')
-            let lang = (result.response.profileDetails && result.response.profileDetails.preferences && result.response.profileDetails.preferences.language !== undefined) ? result.response.profileDetails.preferences.language : 'en'
+            let lang = (result && result.language !== undefined) ? result.language : 'en'
             lang = lang === 'en' ? '' : 'hi'
             localStorage.setItem('res123', JSON.stringify(res))
             if (res && res.status) {
