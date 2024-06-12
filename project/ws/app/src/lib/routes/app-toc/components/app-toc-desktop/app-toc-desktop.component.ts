@@ -29,6 +29,7 @@ import { IndexedDBService } from 'src/app/online-indexed-db.service'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
+import { A } from '@angular/cdk/keycodes'
 // import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 
 @Component({
@@ -498,8 +499,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       let url1 = updatedContentFound.includes(url2)
       if (url1) {
         let u1 = updatedContentFound.split(url2).pop()
-        if (u1.includes('hi')) {
-          u1 = u1.replace(/(\/hi\/)+/g, '/hi/')
+        if (u1.includes('hi') && document.baseURI.includes('hi')) {
+          u1 = u1.replace(/hi\//g, '')
+          alert(u1)
+        } else {
+          if (u1.includes('hi')) {
+            u1 = u1.replace(/(\/hi\/)+/g, '/hi/')
+          }
         }
         this.router.navigateByUrl(u1)
       } else {
