@@ -500,7 +500,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         let u1 = updatedContentFound.split(url2).pop()
         if (u1.includes('hi') && document.baseURI.includes('hi')) {
           u1 = u1.replace(/hi\//g, '')
-          alert(u1)
         } else {
           if (u1.includes('hi')) {
             u1 = u1.replace(/(\/hi\/)+/g, '/hi/')

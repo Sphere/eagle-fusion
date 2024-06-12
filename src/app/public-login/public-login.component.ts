@@ -95,16 +95,23 @@ export class PublicLoginComponent implements OnInit {
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
+            let lang = (result.response.profileDetails && result.response.profileDetails.preferences && result.response.profileDetails.preferences.language !== undefined) ? result.response.profileDetails.preferences.language : 'en'
+            lang = lang === 'en' ? '' : 'hi'
             console.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
+
+            if (localStorage.getItem('url_before_login')) {
+              let url = localStorage.getItem('url_before_login') || ''
+              url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+              location.href = url
+            } else {
+              let url = '/page/home'
+              url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+              window.location.href = url
+            }
           })
         }, 500)
-        if (localStorage.getItem('url_before_login')) {
-          const url = localStorage.getItem('url_before_login') || ''
-          location.href = url
-        } else {
-          window.location.href = '/page/home'
-        }
+
       }, err => {
         console.log(err)
         this.openSnackbar(err.error.msg || err.error.error)
@@ -196,7 +203,8 @@ export class PublicLoginComponent implements OnInit {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             console.log(res, 'res')
-            debugger
+            let lang = (result.response.profileDetails && result.response.profileDetails.preferences && result.response.profileDetails.preferences.language !== undefined) ? result.response.profileDetails.preferences.language : 'en'
+            lang = lang === 'en' ? '' : 'hi'
             localStorage.setItem('res123', JSON.stringify(res))
             if (res && res.status) {
               if (res.language) {
@@ -211,10 +219,13 @@ export class PublicLoginComponent implements OnInit {
 
               localStorage.setItem('res', JSON.stringify(res))
               if (localStorage.getItem('url_before_login')) {
-                const url = localStorage.getItem('url_before_login') || ''
+                let url = localStorage.getItem('url_before_login') || ''
+                url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
                 location.href = url
               } else {
-                window.location.href = '/page/home'
+                let url = '/page/home'
+                url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+                window.location.href = url
               }
             }
           })
