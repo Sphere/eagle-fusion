@@ -4,3 +4,13 @@ button:focus {
 .action-icons{
   padding: 0px;
 }
+
+.disabled {
+  opacity: 0.5; /* Example style to indicate disabled state */
+  pointer-events: none; /* Prevent interactions */
+}
+
+.enabled {
+  opacity: 1; /* Full opacity for enabled state */
+  pointer-events: auto; /* Allow interactions */
+}

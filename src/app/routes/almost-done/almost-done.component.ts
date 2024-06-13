@@ -486,7 +486,13 @@ export class AlmostDoneComponent implements OnInit {
     //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
       preferences: {
-        language: this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language : 'en',
+        language: this.configSvc &&
+          this.configSvc.unMappedUser &&
+          this.configSvc.unMappedUser.profileDetails &&
+          this.configSvc.unMappedUser.profileDetails.preferences &&
+          this.configSvc.unMappedUser.profileDetails.preferences.language
+          ? this.configSvc.unMappedUser.profileDetails.preferences.language
+          : 'en',
       },
       personalDetails: profileRequest.profileReq.personalDetails,
     }
