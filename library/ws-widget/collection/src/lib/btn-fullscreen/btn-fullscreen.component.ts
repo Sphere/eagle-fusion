@@ -62,7 +62,9 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
       this.fsState.emit(true)
       try {
         this.widgetData.fsContainer.classList.add('mat-app-background')
-      } catch (err) { }
+      } catch (err) {
+        alert(err)
+      }
     }
 
   }
