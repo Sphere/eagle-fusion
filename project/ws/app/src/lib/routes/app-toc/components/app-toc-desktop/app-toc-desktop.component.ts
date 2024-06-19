@@ -30,8 +30,7 @@ import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 // import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
-import { Location } from '@angular/common'
-
+import { WindowService } from 'src/app/services/navigation-history.service'
 @Component({
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
@@ -119,7 +118,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
     private onlineIndexedDbService: IndexedDBService,
-    private location: Location,
+    private navService: WindowService,
     // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document
   ) {
@@ -289,7 +288,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       url = sessionStorage.getItem('cURL') || ''
       location.href = url
     } else {
-      this.location.back()
+
+      this.navService.nativeWindow.history.back()
       // url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
       // console.log(url)
       // let url3 = `${document.baseURI}`

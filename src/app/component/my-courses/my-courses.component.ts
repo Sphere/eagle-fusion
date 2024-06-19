@@ -93,7 +93,7 @@ export class MyCoursesComponent implements OnInit {
         const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
         this.contentSvc
           .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
-            // console.log(res, 'res')
+            //console.log(res, 'res')
             this.coursesForYou = res
             this.isLoading = false
           }, err => {
@@ -106,6 +106,9 @@ export class MyCoursesComponent implements OnInit {
 
           )
       }
+    } else {
+      this.coursesForYou = []
+      this.isLoading = false
     }
   }
   tabClick() {
