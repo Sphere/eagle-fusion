@@ -268,7 +268,14 @@ export class MobileProfileDashboardComponent implements OnInit {
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
-      this.currentProfession = this.userProfileData.professionalDetails[0].profession
+      if (this.userProfileData
+        && this.userProfileData.professionalDetails
+        && this.userProfileData.professionalDetails.length > 0) {
+        this.currentProfession = this.userProfileData.professionalDetails[0].profession
+      } else {
+        this.currentProfession = 'Not specified'
+      }
+      //this.currentProfession = this.userProfileData.professionalDetails[0].profession
       if (_.get(this.userProfileData, 'personalDetails')) {
         this.photoUrl = this.userProfileData.personalDetails.photo
       } else {
@@ -350,7 +357,14 @@ export class MobileProfileDashboardComponent implements OnInit {
             this.loader = false
             this.userProfileData = await data.profileDetails.profileReq
             this.userData = await data
-            this.currentProfession = this.userProfileData.professionalDetails[0].profession
+            //this.currentProfession = this.userProfileData.professionalDetails[0].profession
+            if (this.userProfileData
+              && this.userProfileData.professionalDetails
+              && this.userProfileData.professionalDetails.length > 0) {
+              this.currentProfession = this.userProfileData.professionalDetails[0].profession
+            } else {
+              this.currentProfession = 'Not specified'
+            }
             const lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
             this.language = lang
             console.log(lang, 'oo')

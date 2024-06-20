@@ -130,6 +130,7 @@ export class WebNavLinkPageComponent implements OnInit {
         this.showProfile = false
         this.showHome = false
         this.showCompetency = false
+        let url = url1 === 'hi' ? '/page/home' : 'page/home'
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
       }
     } else if (text === 'competency') {
