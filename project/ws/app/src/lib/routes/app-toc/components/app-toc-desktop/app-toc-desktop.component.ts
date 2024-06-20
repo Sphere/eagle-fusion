@@ -19,7 +19,7 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 // import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
-import { FormControl, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 // import * as dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
@@ -29,7 +29,10 @@ import { IndexedDBService } from 'src/app/online-indexed-db.service'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
+import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 // import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
+import { LoaderService } from '@ws/author/src/lib/services/loader.service'
+
 import { WindowService } from 'src/app/services/navigation-history.service'
 @Component({
   selector: 'ws-app-app-toc-desktop',
@@ -117,6 +120,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
+    private loader: LoaderService,
+
     private onlineIndexedDbService: IndexedDBService,
     private navService: WindowService,
     // private authAccessService: AccessControlService,
@@ -140,8 +145,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.enrollApi()
 
     if (this.content) {
-
-      //this.readCourseRatingSummary()
+      this.readCourseRatingSummary()
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
@@ -432,6 +436,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           },
         }
         this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+          let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
           if (data && data.result && data.result.response === 'SUCCESS') {
             this.batchData = {
               content: [batch],
@@ -444,10 +450,22 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 queryParams: { batchId: batch.batchId },
                 queryParamsHandling: 'merge',
               })
-            this.openSnackbar('Enrolled Successfully!')
+            let message
+            if (local === 'en') {
+              message = `Enrolled Successfully!`
+            } else {
+              message = `सफलतापूर्वक नामांकित!`
+            }
+            this.openSnackbar(message)
             this.disableEnrollBtn = false
           } else {
-            this.openSnackbar('Something went wrong, please try again later!')
+            let message
+            if (local === 'en') {
+              message = `Something went wrong, please try again later!`
+            } else {
+              message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
+            }
+            this.openSnackbar(message)
             this.disableEnrollBtn = false
           }
         })
@@ -1151,7 +1169,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   //   }
 
   // }
-  readCourseRating(data: any) {
+  openRating(data: any) {
     console.log("read rating", data)
     let userId = ''
     if (data) {
@@ -1162,29 +1180,49 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       if (this.content) {
         req = {
           request: {
-            userId,
-            activityId: data.courseId,
+            userId: [userId],
+            activityId: data,
             activityType: "Course",
           },
         }
       }
+      this.loader.changeLoad.next(true)
 
-      this.contentSvc.readCourseRating(req).then((data: any) => {
+      this.contentSvc.readCourseRating(req).then((res: any) => {
+        if (res && res.params.status === 'success') {
+          console.log("response", res)
 
-        if (data && data.result && data.result.count > 0) {
+          const courseData = {
+            courseId: data,
+            courseRating: res.result
+          }
+          this.loader.changeLoad.next(false)
 
+          const dialogRef = this.dialog.open(ConfirmmodalComponent, {
+            width: '300px',
+            height: '410px',
+            data: { request: courseData, message: 'Congratulations!, you have completed the course' },
+            disableClose: false,
+          })
 
-          console.log("data: " + data.result.content[0])
+          dialogRef.afterClosed().subscribe((data: { event: any, ratingsForm: FormGroup, rating: number }) => {
+            console.log("data: ", data)
+            if (data && data.event && data.event === "CONFIRMED")
+              this.readCourseRatingSummary()
+          })
 
 
         } else {
+          this.loader.changeLoad.next(false)
+
           this.openSnackbar('Something went wrong, please try again later!')
           this.disableEnrollBtn = false
         }
       })
         .catch((err: any) => {
+          this.loader.changeLoad.next(false)
           console.log("err", err)
-          this.openSnackbar(err.error.message)
+          this.openSnackbar('Something went wrong, please try again later!')
         })
     }
 
@@ -1232,6 +1270,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+        let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
         if (data && data.result && data.result.response === 'SUCCESS') {
           // this.batchData = {
@@ -1245,7 +1284,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               queryParams: { batchId: batchData[0].batchId },
               queryParamsHandling: 'merge',
             })
-          this.openSnackbar('Enrolled Successfully!')
+          let message
+          if (local === 'en') {
+            message = `Enrolled Successfully!`
+          } else {
+            message = `सफलतापूर्वक नामांकित!`
+          }
+          this.openSnackbar(message)
           this.disableEnrollBtn = false
           setTimeout(() => {
             if (this.resumeData && this.resumeDataLink) {
@@ -1258,7 +1303,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           }, 500)
 
         } else {
-          this.openSnackbar('Something went wrong, please try again later!')
+          let message
+          if (local === 'en') {
+            message = `Something went wrong, please try again later!`
+          } else {
+            message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
+          }
+          this.openSnackbar(message)
           this.disableEnrollBtn = false
         }
       })

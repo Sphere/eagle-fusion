@@ -12,7 +12,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 // }
 const API_END_POINTS = {
   // SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
-  SEARCH_V6PUBLIC: '/apis/public/v8/publicSearch/getCourses',
+  SEARCH_V6PUBLIC: '/apis/public/v8/ratingsSearch/getCourses',
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
   Sashakt_Auth: '/apis/public/v8/sashaktAuth/login',
   Maternity_Auth: '/apis/public/v8/maternityFoundation/login',
@@ -84,6 +84,22 @@ export class OrgServiceService {
         filters: {
           primaryCategory: ['Course'],
           contentType: ['Course'],
+          status: ['Live'],
+          lang,
+        },
+      }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
+    }
+    return this.http.post<any>(API_END_POINTS.SEARCH_V6PUBLIC, req)
+  }
+  getTopLiveSearchResults(identifiers: any, lang?: any): Observable<any> {
+    // tslint:disable-next-line:max-line-length
+    const req = {
+      request: {
+        filters: {
+          primaryCategory: ['Course'],
+          contentType: ['Course'],
+          identifier: identifiers,
+
           status: ['Live'],
           lang,
         },

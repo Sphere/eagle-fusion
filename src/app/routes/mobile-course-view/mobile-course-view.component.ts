@@ -38,6 +38,8 @@ export class MobileCourseViewComponent implements OnInit {
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
+    // console.log("this.courseData", this.courseData, this.displayConfig)
+
     if (this.configSvc.userProfile) {
       if (sessionStorage.getItem('cURL')) {
         sessionStorage.removeItem('cURL')

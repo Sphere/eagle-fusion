@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
+
 @Component({
   selector: 'ws-my-courses',
   templateUrl: './my-courses.component.html',
@@ -21,12 +22,18 @@ export class MyCoursesComponent implements OnInit {
       isCertified: true
     }
   }
-
+  isXSmall$ = this.valueSvc.isXSmall$
+  myCourseDisplayConfig: any
+  myCourseWebDisplayConfig: any
+  coursesForYouDisplayConfig: any
+  completedWebCourseDisplayConfig: any
+  completedCourseDisplayConfig: any
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
     public router: Router,
+    private valueSvc: ValueService,
   ) { }
 
   ngOnInit() {
@@ -41,7 +48,7 @@ export class MyCoursesComponent implements OnInit {
     this.isLoading = true
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        // console.log(courses)
+        console.log("courses", courses)
 
         courses.forEach((key) => {
           if (key.completionPercentage !== 100) {
@@ -52,6 +59,8 @@ export class MyCoursesComponent implements OnInit {
               name: key.content.name,
               dateTime: key.dateTime,
               completionPercentage: key.completionPercentage,
+              sourceName: key.content.sourceName,
+              issueCertification: key.content.issueCertification
             }
 
             this.startedCourse.push(myCourseObject)
@@ -64,6 +73,8 @@ export class MyCoursesComponent implements OnInit {
               name: key.content.name,
               dateTime: key.dateTime,
               completionPercentage: key.completionPercentage,
+              sourceName: key.content.sourceName,
+              issueCertification: key.content.issueCertification
             }
 
             this.completedCourse.push(completedCourseObject)
@@ -82,7 +93,45 @@ export class MyCoursesComponent implements OnInit {
           const dateTimeB = new Date(b.dateTime).getTime()
           return dateTimeB - dateTimeA
         })
-
+        if (this.startedCourse.length > 0) {
+          this.myCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              certification: true,
+              rating: true,
+              completionPercentage: true,
+              mobilesourceName: true
+            },
+          }
+          this.myCourseWebDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              certification: true,
+              rating: true,
+              completionPercentage: true,
+              resume: true,
+            },
+          }
+        }
+        if (this.completedCourse.length > 0) {
+          this.completedCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              rating: true,
+              mobilesourceName: true,
+              sourceLine: true,
+            },
+          }
+          this.completedWebCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              rating: true,
+              viewAll: true,
+              mobilesourceName: true,
+              sourceLine: true,
+            },
+          }
+        }
         // console.log(this.startedCourse, 'c', this.startedCourse.length)
         // console.log(this.completedCourse, 'aa', this.completedCourse.length)
 
@@ -96,6 +145,36 @@ export class MyCoursesComponent implements OnInit {
             //console.log(res, 'res')
             this.coursesForYou = res
             this.isLoading = false
+
+            const myCourse: any = []
+            let myCourseObject = {}
+
+            res.forEach((key: any) => {
+              myCourseObject = {
+                identifier: key.course_id,
+                appIcon: key.course_appIcon,
+                thumbnail: key.course_thumbnail,
+                name: key.course_name,
+                sourceName: key.course_sourceName,
+                issueCertification: key.course_issueCertification
+              }
+
+              myCourse.push(myCourseObject)
+
+            })
+
+            this.coursesForYou = myCourse
+            if (this.coursesForYou.length > 0) {
+              this.coursesForYouDisplayConfig = {
+                displayType: 'card-badges',
+                badges: {
+                  certification: true,
+                  sourceName: true,
+                  rating: true
+                },
+              }
+
+            }
           }, err => {
             console.log(err, err.status === 500)
             if (err.status === 500 || err.status === 400 || err.status === 419) {

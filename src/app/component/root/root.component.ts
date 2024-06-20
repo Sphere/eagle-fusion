@@ -55,7 +55,6 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-import forEach from 'lodash/forEach'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
@@ -78,7 +77,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   featuredCourseIdentifier: any = []
   topCertifiedCourse: any = []
   userEnrollCourse: any
-
+  isProfile: any = false
   isXSmall$ = this.valueSvc.isXSmall$
   routeChangeInProgress = false
   showNavbar = false
@@ -190,6 +189,8 @@ export class RootComponent implements OnInit, AfterViewInit {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
+
+        console.log("res: ", res)
         this.formatmyCourseResponse(res[0])
       })
       localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
@@ -236,6 +237,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
           window.location.href = "public/home"
         }
+        if (this.router.url === 'profile-view') {
+          this.isProfile = true
+        }
         if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
           window.location.href = "page/home"
         }
@@ -261,7 +265,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.isNavBarRequired = false
       }
       if (event instanceof NavigationStart) {
-
+        if (this.router.url === 'profile-view') {
+          this.isProfile = true
+        }
         if (event.url.includes('/public/scrom-player')) {
           this.showmobileFooter = false
         }
@@ -437,7 +443,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.currentUrl = event.url
         this.changeDetector.detectChanges()
       }
-
+      if (this.router.url === 'profile-view') {
+        this.isProfile = true
+      }
       // if (localStorage.getItem('loginbtn') || (localStorage.getItem('url_before_login'))) {
       //   this.isNavBarRequired = true
       //   this.showNavigation = false
@@ -527,17 +535,38 @@ export class RootComponent implements OnInit, AfterViewInit {
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
-    forEach(res, (key: { content: { identifier: any; appIcon: any; thumbnail: any; name: any; sourceName: any } }) => {
-      if (res.completionPercentage !== 100) {
+
+    res.forEach((key: any) => {
+      if (key.completionPercentage !== 100) {
         myCourseObject = {
           identifier: key.content.identifier,
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
           sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
         }
-        myCourse.push(myCourseObject)
+
+      } else {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
+
+        }
+
       }
+      myCourse.push(myCourseObject)
+
     })
     this.userEnrollCourse = myCourse
   }

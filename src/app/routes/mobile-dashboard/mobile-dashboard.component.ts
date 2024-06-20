@@ -1,17 +1,14 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
-import { delay } from 'rxjs/operators'
+import { catchError, delay, switchMap } from 'rxjs/operators'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import { forkJoin } from 'rxjs'
+import { forkJoin, of } from 'rxjs'
 import filter from 'lodash/filter'
 import includes from 'lodash/includes'
-import reduce from 'lodash/reduce'
 import uniqBy from 'lodash/uniqBy'
-import forEach from 'lodash/forEach'
-
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -20,6 +17,7 @@ import { ScrollService } from '../../services/scroll.service'
 import { ConfigService as CompetencyConfiService } from '../competency/services/config.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { environment } from 'src/environments/environment'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -43,6 +41,9 @@ export class MobileDashboardComponent implements OnInit {
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   cneCourse: any = []
+  showAllUserEnrollCourses: boolean = false;
+  showAllTopCertifiedCourses: boolean = false;
+  showAllCneCourses: boolean = false;
   dataCarousel: any = [
     {
       "title": "Check out courses with CNE Hours",
@@ -59,6 +60,12 @@ export class MobileDashboardComponent implements OnInit {
       "bg-color": "#469788;;"
     }
   ]
+  topCertifiedCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
+  topCNECourseDisplayConfig: { displayType: string; badges: { cneName: boolean; rating: boolean; sourceName: boolean } } | undefined
+  myCourseDisplayConfig: any
+  showAllItems: boolean = false;
+  userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
+  showAllCourses: boolean = false;
   lang: any = 'en'
   @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
 
@@ -140,34 +147,97 @@ export class MobileDashboardComponent implements OnInit {
         this.firstName = res[0].profileDetails!.profileReq!.personalDetails!.firstname
 
       })
+      let url: string
 
-      this.userId = this.configSvc.userProfile.userId || ''
-      forkJoin([this.userSvc.fetchUserBatchList(this.userId), this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-      this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
-        this.homeFeature = res[2].userLoggedInSection
-        this.topCertifiedCourseIdentifier = res[2].topCertifiedCourseIdentifier
-        this.featuredCourseIdentifier = res[2].featuredCourseIdentifier
-        this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
-        this.formatmyCourseResponse(res[0])
-        if (res[1].result.content.length > 0) {
-          this.formatTopCertifiedCourseResponse(res[1])
-          this.formatFeaturedCourseResponse(res[1])
-          this.formatcneCourseResponse(res[1])
+      if (environment.production) {
+        url = "mobile-home.json" // For production environment
+      } else {
+        url = "mobile-home-stage.json" // For non-production (development) environment
+      }
+
+      this.http.get(`assets/configurations/` + url).pipe(
+        switchMap((configData: any) => {
+          const identifiers = [
+            ...configData.topCertifiedCourseIdentifier,
+            ...configData.cneCoursesIdentifier,
+            ...configData.featuredCourseIdentifier
+          ]
+
+          return forkJoin([
+            this.userSvc.fetchUserBatchList(this.userId),
+            this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id),
+            of(configData) // Wrap configData in an observable for consistency with forkJoin
+          ])
+        }),
+        catchError((error) => {
+          // Handle error if needed
+          return of(error) // Returning a default observable in case of error
+        })
+      ).subscribe(([userBatchList, liveSearchResults, configData]: [any, any, any]) => {
+        this.homeFeature = configData.userLoggedInSection
+        this.topCertifiedCourseIdentifier = configData.topCertifiedCourseIdentifier
+        this.featuredCourseIdentifier = configData.featuredCourseIdentifier
+        this.cneCoursesIdentifier = configData.cneCoursesIdentifier
+
+        this.formatmyCourseResponse(userBatchList) // Assuming this method accepts user batch list response
+
+        if (liveSearchResults.result.content.length > 0) {
+          this.formatTopCertifiedCourseResponse(liveSearchResults)
+          this.formatFeaturedCourseResponse(liveSearchResults)
+          this.formatcneCourseResponse(liveSearchResults)
         }
       })
+
     } else {
-      forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
-      this.http.get(`assets/configurations/mobile-home.json`)]).pipe().subscribe((res: any) => {
-        this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
-        this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
-        this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
+      let url: string
 
-        if (res[0].result.content.length > 0) {
-          this.formatTopCertifiedCourseResponse(res[0])
-          this.formatFeaturedCourseResponse(res[0])
-          this.formatcneCourseResponse(res[0])
+      if (environment.production) {
+        url = "mobile-home.json" // For production environment
+      } else {
+        url = "mobile-home-stage.json" // For non-production (development) environment
+      }
+
+
+      this.http.get(`assets/configurations/` + url).pipe(
+        switchMap((configData: any) => {
+          const identifiers = [
+            ...configData.topCertifiedCourseIdentifier,
+            ...configData.cneCoursesIdentifier,
+            ...configData.featuredCourseIdentifier
+          ]
+          this.topCertifiedCourseIdentifier = configData.topCertifiedCourseIdentifier
+          this.cneCoursesIdentifier = configData.cneCoursesIdentifier
+          this.featuredCourseIdentifier = configData.featuredCourseIdentifier
+          return this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id)
+        }),
+        catchError((error) => {
+          // Handle error if needed
+          return of(error) // Returning a default observable in case of error
+        })
+      ).subscribe((results: any) => {
+        if (results.result.content.length > 0) {
+          this.formatTopCertifiedCourseResponse(results)
+          // this.formatFeaturedCourseResponse(res[0])
+          this.formatcneCourseResponse(results)
+
         }
+
       })
+
+
+
+      // forkJoin([this.orgService.getLiveSearchResults(this.preferedLanguage.id),
+      // this.http.get(`assets/configurations/` + url)]).pipe().subscribe((res: any) => {
+      //   this.topCertifiedCourseIdentifier = res[1].topCertifiedCourseIdentifier
+      //   this.featuredCourseIdentifier = res[1].featuredCourseIdentifier
+      //   this.cneCoursesIdentifier = res[2].cneCoursesIdentifier
+
+      //   if (res[0].result.content.length > 0) {
+      //     this.formatTopCertifiedCourseResponse(res[0])
+      //     this.formatFeaturedCourseResponse(res[0])
+      //     this.formatcneCourseResponse(res[0])
+      //   }
+      // })
     }
   }
   setCompetencyConfig(data: any) {
@@ -182,21 +252,34 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.cneCourse = uniqBy(cneCourse, 'identifier')
+    if (this.cneCourse.length > 0) {
+      this.topCNECourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          cneName: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   formatFeaturedCourseResponse(res: any) {
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
 
-    this.featuredCourse = reduce(uniqBy(featuredCourse, 'identifier'), (result, value) => {
-      result['identifier'] = value.identifier
-      result['appIcon'] = value.appIcon
-      result['name'] = value.name
-      result['sourceName'] = value.sourceName
-      result['competencies_v1'] = value.competencies_v1
-      return result
+    this.featuredCourse = uniqBy(featuredCourse, 'identifier')
 
-    }, {})
+    if (this.featuredCourse.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
 
   formatTopCertifiedCourseResponse(res: any) {
@@ -206,26 +289,76 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
+    console.log("yes here", this.topCertifiedCourse)
+    if (this.topCertifiedCourse.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
-    forEach(res, key => {
-      if (res.completionPercentage !== 100) {
+    res.forEach((key: any) => {
+      if (key.completionPercentage !== 100) {
         myCourseObject = {
           identifier: key.content.identifier,
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
           sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
         }
-        myCourse.push(myCourseObject)
+
+      } else {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
+        }
+
       }
+      myCourse.push(myCourseObject)
+
     })
+
+
     this.userEnrollCourse = myCourse
+    if (this.userEnrollCourse.length > 0) {
+      this.myCourseDisplayConfig = {
+        displayType: 'card-mini',
+        badges: {
+          rating: true,
+          completionPercentage: true,
+          certification: true,
+          mobilesourceName: true
+        },
+      }
+    }
   }
   mobileJsonData() {
-    this.http.get(`assets/configurations/mobile-home.json`).pipe(delay(500)).subscribe((res: any) => {
+    let url: string
+
+    if (environment.production) {
+      url = "mobile-home.json" // For production environment
+    } else {
+      url = "mobile-home-stage.json" // For non-production (development) environment
+    }
+    this.http.get(`assets/configurations/` + url).pipe(delay(500)).subscribe((res: any) => {
       this.homeFeature = res.userLoggedInSection
       this.topCertifiedCourseIdentifier = res.topCertifiedCourseIdentifier
       this.featuredCourseIdentifier = res.featuredCourseIdentifier
@@ -240,7 +373,30 @@ export class MobileDashboardComponent implements OnInit {
   viewAllCourse() {
     this.router.navigateByUrl(`app/search/learning`)
   }
-
+  viewAllItems(section: string): void {
+    switch (section) {
+      case 'userEnrollCourses':
+        this.showAllUserEnrollCourses = !this.showAllUserEnrollCourses
+        break
+      case 'topCertifiedCourses':
+        this.showAllTopCertifiedCourses = !this.showAllTopCertifiedCourses
+        break
+      case 'cneCourses':
+        this.showAllCneCourses = !this.showAllCneCourses
+        break
+    }
+  }
+  getDisplayedItems(items: any[], showAll: boolean): any[] {
+    if (showAll) {
+      return items
+    } else {
+      if (items.length > 5) {
+        return items.slice(0, 5)
+      } else {
+        return items
+      }
+    }
+  }
   openIframe(video: any) {
     const navigationExtras: NavigationExtras = {
       queryParams: {

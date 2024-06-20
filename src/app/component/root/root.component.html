@@ -22,7 +22,8 @@
     <!-- Featured Section-->
     <section *ngIf="(isXSmall$ | async) === false&&isHomePage&&userEnrollCourse&&userEnrollCourse.length==0">
       <ng-container>
-        <ws-web-public-container *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+        <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+          *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
       </ng-container>
 
     </section>
@@ -34,14 +35,15 @@
 
   <!-- Mobile Footer -->
   <ws-mobile-footer [createAcc]="createAcc" *ngIf="(isXSmall$ | async) === true && !isLoggedIn && showmobileFooter"
-    class="hide-in-desktop app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
+    class="hide-in-desktop app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
   </ws-mobile-footer>
 
   <!-- Desktop Featured Course fpr non logged in -->
   <!-- Featured Section-->
   <section *ngIf="(isXSmall$ | async) === false&&isHomePage&&!isLoggedIn">
     <ng-container>
-      <ws-web-public-container *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+        *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
     </ng-container>
   </section>
 
@@ -49,7 +51,8 @@
   <!-- Featured Section-->
   <section *ngIf="(isXSmall$ | async) === false&&isHomePage&&userEnrollCourse&&userEnrollCourse.length>0">
     <ng-container>
-      <ws-web-public-container *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+        *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
     </ng-container>
 
   </section>
@@ -73,14 +76,15 @@
   <!-- Desktop How does it Works -->
   <ng-container *ngIf="(isXSmall$ | async) === false &&isHomePage">
     <div class="mt-8">
-      <ws-web-how-does-work class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
-        *ngIf="showNavbar && !hideHeaderFooter" [data]="videoData"></ws-web-how-does-work>
+      <ws-web-how-does-work class="hide-in-mobile bg-color app-footer mt-8"
+        [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}" *ngIf="showNavbar && !hideHeaderFooter"
+        [data]="videoData"></ws-web-how-does-work>
     </div>
   </ng-container>
 
 
   <!-- Desktop Footer -->
-  <ws-app-footer class="hide-in-mobile app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+  <ws-app-footer class="hide-in-mobile app-footer " [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
     *ngIf="showNavbar && !hideHeaderFooter && showmobileFooter">
   </ws-app-footer>
 
@@ -97,24 +101,24 @@
 </div>
 
 <!--Chat icon-->
-<div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&isLoggedIn&&(isXSmall$ | async) === true">
+<!-- <div *ngIf="!isProfile&&!disableChatForBnrc&&isCommonChatEnabled&&isLoggedIn&&(isXSmall$ | async) === true">
   <img src="/fusion-assets/images/Get-help.svg" class="chat-icon" (click)="showSocialChats()" alt="chat image" />
-</div>
+</div> -->
 
 <!--Chat icon-->
-<div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&!isLoggedIn&&(isXSmall$ | async) === true">
+<!-- <div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&!isLoggedIn&&(isXSmall$ | async) === true">
   <img src="/fusion-assets/images/Get-help.svg" class="public-chat-icon" (click)="showSocialChats()" alt="chat image" />
-</div>
+</div> -->
 
 <!--Chat icon-->
-<div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&isLoggedIn&&(isXSmall$ | async) === false">
+<!-- <div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&isLoggedIn&&(isXSmall$ | async) === false">
   <img src="/fusion-assets/images/Get-help.svg" class="web-chat-icon" (click)="showSocialChats()" alt="chat image" />
-</div>
+</div> -->
 <!--Chat icon-->
-<div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&!isLoggedIn&&(isXSmall$ | async) === false">
+<!-- <div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&!isLoggedIn&&(isXSmall$ | async) === false">
   <img src="/fusion-assets/images/Get-help.svg" class="web-public-chat-icon" (click)="showSocialChats()"
     alt="chat image" />
-</div>
+</div> -->
 
 <div *ngIf="!isCommonChatEnabled">
   <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross image" (click)="backToChatIcon()" />

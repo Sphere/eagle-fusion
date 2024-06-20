@@ -3,6 +3,7 @@
 .carousel {
   overflow: hidden;
   width: 100%;
+  padding-left: 1rem;
 }
 
 .slides {
@@ -57,7 +58,7 @@
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
-  background: #469788;
+  background: #FFFFFF;
   height: 51px;
 }
 
@@ -76,8 +77,8 @@
 }
 
 .banner-image {
-  width: 400px;
-  height: 200px;
+  width: 100%;
+  height: 100%;
 }
 
 .yellow-bg {

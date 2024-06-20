@@ -2,24 +2,19 @@
   <!--upskill now section-->
   <div class="carousel">
     <div class="banner-heading-container">
-      <div class="banner-heading" i18n>Access free Healthcare courses</div>
+      <div class="banner-heading" i18n>Access free</div>
+      <div class="banner-heading" i18n>Healthcare courses</div>
       <div class="banner-mini-heading" i18n>
         Learn at your own pace & Get Certified
       </div>
       <div class="create-account">
-        <a role="button" matRipple class="flex flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+        <a role="button" matRipple class="flex  mt-8  box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
-            <button mat-raised-button [ngStyle]="{
-                                          'width':'160px',
-                                          'height':'auto',
-                                              'background-color': '#2E6491',
-                                              'border': '1px solid #2E6491',
-                                              'border-radius': '20px',
-                                              'color': 'white',
-                                              'font-size': '16px',
-                                              'font-weight': '400'}" i18n>
-              Create Account</button>
+            <span class="new-user-txt">New user?</span>
+            <button name="login_client_button" color="primary" class="login-btn header-btn  mat-button-base">
+              Create Account
+            </button>
           </ng-container>
         </a>
       </div>
@@ -39,10 +34,10 @@
 <div *ngFor="let data of dataCarousel; let i = index">
   <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
-      <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
+      <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
         </span> </p>
       <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
-          > </span> </p>
+          > </span> </p> -->
       <div>
         <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
           (click)="goToSlide(i)" class="round-buttons">
@@ -59,28 +54,28 @@
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/iconoir.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}</div>
     </div>
     <p class="info-text" i18n>Learners onboarded</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/Frame 92@2x.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}</div>
     </div>
     <p class="info-text" i18n>Number of courses</p>
   </div>
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/carbon_course@2x.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_course}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_points}}</div>
     </div>
     <p class="info-text" i18n>CNE Hours</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/Frame 152@2x.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}</div>
     </div>
     <p class="info-text" i18n>Total certificate issued</p>
   </div>

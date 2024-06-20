@@ -1,7 +1,7 @@
 <!--page banner-->
 <div class="banner-container">
   <div class="carousel">
-    <div class="banner-heading-container">
+    <div class="banner-heading-container px-4">
       <div class="banner-heading" i18n>Access free Healthcare courses</div>
       <div class="banner-mini-heading" i18n>
         High quality content from experts
@@ -25,13 +25,14 @@
       </div>
     </div>
     <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
-      <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-        <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
-          class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
+      <ng-container *ngFor="let data of dataCarousel; let i = index">
+        <div class="slide" [class.active]="i === currentSlideIndex" (click)="scrollToHowSphereWorks(data.scrollEmit)">
           <img class="banner-image" [src]="data.img" alt="Carousel" loading="lazy">
         </div>
-      </div>
+      </ng-container>
     </div>
+
+
   </div>
 </div>
 
@@ -41,10 +42,10 @@
 <div *ngFor="let data of dataCarousel; let i = index">
   <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
-      <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
+      <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
         </span> </p>
       <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
-          > </span> </p>
+          > </span> </p> -->
       <div>
         <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
           (click)="goToSlide(i)" class="round-buttons">
@@ -61,28 +62,28 @@
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}</div>
     </div>
     <p class="info-text" i18n>Learners onboarded</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}</div>
     </div>
     <p class="info-text" i18n>Number of courses</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_course}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_points}}</div>
     </div>
     <p class="info-text" i18n>CNE Hours</p>
   </div>
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}</div>
     </div>
     <p class="info-text" i18n>Total certificate issued</p>
   </div>

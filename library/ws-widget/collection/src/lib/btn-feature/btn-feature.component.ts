@@ -9,7 +9,6 @@ import { MobileAppsService } from '../../../../../../src/app/services/mobile-app
 import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
-import { Location } from '@angular/common'
 import { appNavBarService } from 'src/app/component/app-nav-bar/app-nav-bar.service'
 
 export const typeMap = {
@@ -64,7 +63,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     // private tour: CustomTourService,
     private searchApi: SearchApiService,
     private signupService: SignupService,
-    location: Location,
     public navOption: appNavBarService
   ) {
     super()
@@ -85,7 +83,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       }
     })
 
-    console.log(location.path(), window.location.href, 'btn-feature')
     if (window.location.href.includes('/app/profile-view')) {
       if (window.location.href.includes('/hi/app/profile-view')) {
         this.currentText = 'अकाउंट'
@@ -119,7 +116,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     } else {
       this.currentText = ''
     }
-    console.log(this.currentText, 'btn-122')
   }
 
   updateBadge() {
@@ -141,7 +137,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   async redirect(text: any) {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1)
     let url3 = `${document.baseURI}`
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
@@ -178,9 +173,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       let url = `${text.url}`
       location.href = `${url3}${url1}${url}`
     } else {
-      console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
       let result = await this.signupService.getUserData()
-      console.log(result)
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.currentText = text.name
         let url = '/app/profile-view'

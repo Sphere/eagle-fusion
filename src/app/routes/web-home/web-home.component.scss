@@ -1,31 +1,73 @@
-.banner-container {
+.banner-container{
     display: flex;
-    padding: 50px 10px 0px 10px;
+    margin-top: 45px;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: space-around;
 }
+.box-sizing-box {
 
-.banner-heading {
-    padding-left: 15px;
-    font-family: 'Roboto';
+        gap: 15px !important;
+    }
+.login-btn {
+    padding: 8px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background-color: #2E6491 !important;
+    border-radius: 50px;
+    color: #FFFFFF !important;
+    font-family: "Roboto";
     font-style: normal;
-    font-weight: 500;
-    font-size: 36px;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 16px;
+    border: none;
+    cursor: pointer;
+
+}
+.new-user-txt{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+font-family: Roboto;
+font-size: 24px;
+font-weight: 400;
+line-height: 28.13px;
+letter-spacing: -0.02em;
+text-align: left;
+
+
+}
+.banner-heading {
+
+
+    font-style: normal;
+
+
     line-height: 40px;
     letter-spacing: -0.02em;
     color: #000000;
+    font-family: Roboto;
+font-size: 50px;
+font-weight: 500;
+line-height: 55px;
+letter-spacing: -0.02em;
+text-align: left;
+
 }
 
 .banner-mini-heading {
-    padding-left: 15px;
+
     color: #000000;
     /* Header 2 */
-    font-family: 'Roboto';
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
-    letter-spacing: -0.48px;
+    //styleName: Header 2;
+font-family: Roboto;
+font-size: 24px;
+font-weight: 400;
+line-height: 28.8px;
+letter-spacing: -0.02em;
+text-align: left;
+
 }
 
 // @media only screen and (max-width: 599px)
@@ -61,9 +103,8 @@
 }
 
 .banner-image {
-    width: 600px;
-    // height: 350px
-    height: 325px;
+  width: 100%; /* Ensure images fill their container */
+  height: auto; /* Maintain aspect ratio */
 }
 
 .info-block {
@@ -91,29 +132,35 @@
 }
 
 .info-number {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 30px;
-    line-height: 40px;
-    /* or 180% */
+   //styleName: Display 1;
+font-family: Roboto;
+font-size: 40px;
+font-weight: 400;
+line-height: 57.6px;
+letter-spacing: -0.02em;
+text-align: left;
 
-    letter-spacing: -0.02em;
 
     color: #14446C;
 }
 
 .info-text {
     // margin-top: 5px !important;
-    text-align: center;
-    font-family: 'Roboto';
+
     font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 18px;
+
+
     /* or 129% */
     letter-spacing: -0.02em;
     color: #14446C;
+    //styleName: Header 3;
+font-family: Roboto;
+font-size: 20px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: -0.02em;
+text-align: center;
+
 }
 
 .tutorials-container {
@@ -141,21 +188,22 @@
 }
 
 .count-sphere-icons {
-    width: 28px;
-    height: 28px;
+    width: 30px;
+    height: 30px;
 }
 
 .info-box {
     align-items: center;
 }
 
-.banner-heading-container {
-    display: flex;
+.banner-heading-container{
+  display: flex;
     flex-direction: column;
-    flex-basis: 30%;
+    flex: 35%;
+    justify-content: left;
+        padding-left: 85px;
 }
 
-/* carousel.component.css */
 
 .carousel {
     overflow: hidden;
@@ -166,8 +214,9 @@
 }
 
 .slides {
-    display: flex;
-    transition: transform 0.5s ease-in-out;
+  display: flex;
+  flex: 65%;
+  transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
 }
 
 .slide {
@@ -189,7 +238,18 @@
 }
 
 
-
+.create-btn{
+    width:'160px' !important;
+    height:'auto'!important;
+    background-color: '#2E6491'!important;
+    border: '1px solid #2E6491'!important;
+    border-radius: '20px'!important;
+    color: 'white'!important;
+    font-size: '16px'!important;
+    font-weight: '400'!important;
+    background-color: #2E6491 !important;
+    color: #FFFFFF !important;
+}
 
 .round-buttons {
  background: none;
@@ -221,7 +281,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background: #D7AC5C;
+    background: #ffffff;
     height: 51px;
     margin-bottom: 20px;
     margin-top: -1px;
@@ -234,7 +294,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background: #469788;
+    background: #ffffff;
     height: 51px;
     margin-bottom: 20px;
     margin-top: -12px;

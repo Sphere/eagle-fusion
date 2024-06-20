@@ -1,0 +1,180 @@
+<ng-container *ngIf="displayConfig?.displayType" [ngSwitch]="displayConfig?.displayType">
+  <ng-container *ngSwitchCase="'card-badges'" [ngTemplateOutlet]="cardLarge"></ng-container>
+  <ng-container *ngSwitchCase="'card-mini'" [ngTemplateOutlet]="cardMini"></ng-container>
+  <ng-container *ngSwitchDefault [ngTemplateOutlet]="cardLarge"></ng-container>
+</ng-container>
+
+
+<ng-template #cardLarge>
+  <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+    <a (click)="redirectPage(courseData)">
+      <div class="box">
+        <div class="text-over">
+          <!-- <img alt="" class="appIcon fitsize" [src]="courseData?.thumbnail ? courseData.thumbnail : courseData.appIcon"> -->
+
+          <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
+              CNE: {{courseData.cneName}}
+            </div>
+          </ng-container>
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.certification === true&&courseData.issueCertification" class="topStyle">
+              Certificate
+            </div>
+          </ng-container>
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.rating === true && courseData.averageRating" class="rightStyle">
+              {{ courseData.averageRating.toFixed(1) }}
+              <img class="star-icon" src="/fusion-assets/icons/card_star.svg" alt="star" />
+            </div>
+          </ng-container>
+          <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
+            <div *ngIf="courseData.sourceName" class="sourceName">
+              {{courseData.sourceName}}
+            </div>
+          </ng-container>
+        </div>
+        <div class="pl-1 pt-1">
+          <p class="name" [title]="courseData.name">{{ courseData.name.length > 60 ?
+            courseData.name.slice(0, 60) + '...' :
+            courseData.name }}</p>
+          <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
+        </div>
+        <div *ngIf="enableConfig" class="p-2">
+          <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+        </div>
+        <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
+          <div class="competency-card flex m-3">
+            <img alt="" class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
+            <div>
+              <span>{{cometencyData[0]?.name}}, </span>
+              <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                <span>{{competency.levels}}</span>
+                <span *ngIf="!last">, </span>
+              </ng-container>
+            </div>
+          </div>
+
+        </ng-container>
+        <ng-container *ngIf="showProgress && courseData?.completionPercentage !== undefined">
+          <div class="mt-2 px-1">
+
+            <span class="value" *ngIf="courseData?.completionPercentage">{{courseData?.completionPercentage}}%</span>
+          </div>
+        </ng-container>
+      </div>
+    </a>
+  </section>
+</ng-template>
+<!-- <mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
+  <mat-card class="popover-card xs-hidden">
+    <mat-card-content>
+      <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
+        {{ courseData.name }}
+      </div>
+      <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+        {{ courseData.subTitle }}
+      </div>
+      <div class="mb-2" *ngIf="courseData?.lastPublishedOn"><span class="fw-500" i18n>Published On</span>:
+        {{courseData?.lastPublishedOn | date }}</div>
+      <div *ngIf="courseData.duration" class="duration mb-2" i18n-title title="Duration">
+        <span class="mr-1 orange-text" i18n>Duration</span>:
+        <mat-icon>access_time</mat-icon>
+        <span class="time-text fs-13">{{ courseData.duration| pipeDurationTransform: 'hms' }}</span>
+
+      </div>
+      <p *ngIf="courseData?.completionPercentage"><span class="fw-500" i18n>Progress</span>: {{
+        courseData?.completionPercentage}} %</p>
+      <p *ngIf="courseData?.creator"><span class="fw-500" i18n>Author</span>: {{
+        courseData?.creator}}
+      </p>
+      <p *ngIf="courseData?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+        courseData?.creatorContacts[0]?.name}}</p>
+
+      <p *ngIf="courseData?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
+        {{courseData?.uniqueUsersCount}}</p>
+      <p *ngIf="courseData?.sourceName"><span class="fw-500" i18n>Source</span>:
+        {{courseData.sourceName}}
+      </p>
+
+      <div class="mt-0 flex">
+        <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
+          class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
+          View Course</button>
+        <button *ngIf="isUserLoggedIn === false" mat-raised-button i18n
+          class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
+          View Course </button>
+        <div class="flex">
+          <ws-widget-btn-content-share [widgetData]="courseData"></ws-widget-btn-content-share>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</mde-popover> -->
+<ng-template #cardMini>
+  <section class="mini-card-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
+    <a (click)="redirectPage(courseData)" class="card-block">
+      <div class="card-long">
+        <div class="img-block">
+          <img alt="" class="appIcon fitsizeMini"
+            src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <ng-container>
+            <div *ngIf="displayConfig?.badges?.certification === true&&courseData.issueCertification"
+              class="certificate-name">
+              Certificate
+            </div>
+          </ng-container>
+          <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
+            <div *ngIf="courseData.sourceName" class="sourceName">
+              {{courseData.sourceName}}
+            </div>
+          </ng-container>
+        </div>
+        <div class="text-block-mini">
+          <div class="text-main">
+            <div class="course-name-block ">
+              <p [title]="courseData.name" class="course-name-mini">{{ courseData.name.length > 50 ?
+                courseData.name.slice(0, 50) + '...' :
+                courseData.name }}
+              </p>
+            </div>
+            <div class="course-rating-block " *ngIf="displayConfig?.badges?.rating === true&&courseData.averageRating">
+              {{ courseData.averageRating.toFixed(1) }}<img class="rating-icon-mini"
+                src="/fusion-assets/icons/toc_star.png" alt="star" />
+            </div>
+          </div>
+          <div class="progress-block-mini"
+            *ngIf="displayConfig?.badges?.completionPercentage === true || displayConfig?.badges?.viewAll === true">
+            <div class="progress-block" [ngClass]="{'with-progress': displayConfig?.badges?.viewAll === true}">
+              <mat-progress-bar *ngIf="displayConfig?.badges?.completionPercentage === true" [mode]="'determinate'"
+                [value]="courseData?.completionPercentage" class="progress-bar"
+                [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
+                {{courseData?.completionPercentage}}%
+              </mat-progress-bar>
+              <ng-container *ngIf="displayConfig?.badges?.mobilesourceName&&courseData.sourceName">
+                <div [ngClass]="{'top-border': displayConfig?.badges?.sourceLine}" class="mobile-source-name">
+                  {{courseData.sourceName}}
+                </div>
+              </ng-container>
+              <div class="button-container">
+                <button *ngIf="displayConfig?.badges?.viewAll === true" class="resumne-btn" i18n>View course
+                  details</button>
+
+                <button *ngIf="displayConfig?.badges?.resume === true" class="resumne-btn" i18n>Resume</button>
+              </div>
+            </div>
+
+            <div *ngIf="displayConfig?.badges?.completionPercentage === true" class="">
+              <span class="completionPercentage">{{ courseData?.completionPercentage ?
+                courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
+            </div>
+
+          </div>
+          <!-- *ngIf="showProgress && courseData?.completionPercentage !== undefined" -->
+
+        </div>
+      </div>
+    </a>
+  </section>
+</ng-template>

@@ -11,7 +11,7 @@ const API_END_POINTS = {
     `${PROTECTED_SLAG_V8}/user/group/fetchUserGroup?userId=${userId}`,
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     // tslint:disable-next-line: max-line-length
-    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license,sourceName,issueCertification&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
   // tslint:disable-next-line:max-line-length
   FETCH_USER_ENROLLMENT_LIST_V2: (userId: string | undefined, orgdetails: string, licenseDetails: string, fields: string, batchDetails: string) =>
     // tslint:disable-next-line:max-line-length

@@ -175,6 +175,7 @@ export class GeneralGuard implements CanActivate {
               }
             }
           } else {
+            console.log("afdssssssssssssss")
             localStorage.setItem('datanow', JSON.stringify(data))
             this.router.navigate(['app', 'new-tnc'])
           }

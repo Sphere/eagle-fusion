@@ -1,9 +1,10 @@
 .how-work-content {
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  box-shadow: 0px 0px 8px 0px #00000073;
   border-radius: 5px;
   padding: 10px;
   display: flex;
   margin-bottom: 15px;
+  background-color: #FFFFFF;
 }
 .header2{
   font-family: 'Roboto';
@@ -48,6 +49,7 @@ video::-webkit-media-controls-play-button {
 }
 
 .how-work-iframe{
+  border-radius: 10px;
       display: flex;
     width: 125px;
     height: 100px;

@@ -4,25 +4,23 @@
     align-items: center;
     justify-content: space-around;
 }
+.banner-heading-container{
+  display: flex;
+    flex-direction: column;
+    flex: 35%;
+    justify-content: left;
+        padding-left: 85px;
+}
 .banner-heading{
-//     line-height: 38px;
-//     color: #000000;
+font-family: Roboto;
+font-size: 48px;
+font-weight: 500;
+line-height: 56.25px;
+letter-spacing: -0.02em;
+text-align: left;
 
-//     font-family: 'Roboto';
-//   font-style: normal;
-//   font-weight: 500;
-//   font-size: 50px;
-//   line-height: 48px;
-//   /* or 96% */
-
-//   letter-spacing: -0.02em;
-  padding-left: 51px;
-    font-family: 'Roboto';
+  // padding-left: 51px;
     font-style: normal;
-    font-weight: 500;
-     font-size: 36px;
-    line-height: 40px;
-    letter-spacing: -0.02em;
     color: #000000;
 }
 .banner-mini-heading{
@@ -37,15 +35,19 @@
 
 // color: #000000;
 
- padding-left: 51px;
+//  padding-left: 51px;
     color: #000000;
     /* Header 2 */
-    font-family: 'Roboto';
-    font-size: 20px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
     letter-spacing: -0.48px;
+
+    font-family: Roboto;
+font-size: 32px;
+font-weight: 400;
+line-height: 37.5px;
+letter-spacing: -0.02em;
+text-align: left;
+
 }
 .scrollToCneCourses{
     cursor: pointer;
@@ -53,7 +55,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background: #D7AC5C;
+    // background: #D7AC5C;
     height: 51px;
     margin-bottom: 20px;
     margin-top: -1px;
@@ -65,7 +67,7 @@
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background: #469788;
+    // background: #469788;
     height: 51px;
     margin-bottom: 20px;
     margin-top: -12px;
@@ -85,10 +87,8 @@
     margin: 0px !important;
 }
 .banner-image{
-    // max-width: 400px;
-    width: 600px;
-    // height: 350px
-    height: 325px;
+    // width: 600px;
+    // height: 325px;
 }
 @media only screen and (min-width: 600px) and (max-width: 959px){
 .banner-image{
@@ -118,6 +118,20 @@
 
 }
 
+.slides {
+  display: flex;
+  flex: 65%;
+  transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
+}
+
+.slide {
+  flex: 0 0 100%; /* Ensure each slide takes the full width of the container */
+}
+
+.banner-image {
+  width: 100%; /* Ensure images fill their container */
+  height: auto; /* Maintain aspect ratio */
+}
 
 /* carousel.component.css */
 
@@ -125,14 +139,10 @@
   overflow: hidden;
   width: 100%;
   display: flex;
-  justify-content: space-around;
   align-items: center;
 }
 
-.slides {
-  display: flex;
-  transition: transform 0.5s ease-in-out;
-}
+
 
 .slide {
   flex: 0 0 100%;
