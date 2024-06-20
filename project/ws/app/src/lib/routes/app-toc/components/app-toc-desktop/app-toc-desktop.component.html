@@ -138,7 +138,7 @@
           </a>
         </ng-container>
         <ng-template #elseBlock1>
-          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage < 100 || content!.completionPercentage < 100;"
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage <= 100 || content!.completionPercentage <= 100;"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
             <ng-container i18n>
               Resume
