@@ -5372,6 +5372,26 @@
           <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
+       <trans-unit id="d3bda827a11fe96ae90662e02cd7352785d0dc8e" datatype="html">
+        <source>
+              <x id="INTERPOLATION" equiv-text="{{resumeData?&quot;Resume&quot;:&quot;Resume&quot;}}"/>
+            </source>
+                 <target>दोबारा शुरू करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">135</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b22fdb3529dc5d9026981cb88a5e4a14cb3014b9" datatype="html">
+        <source>
+              Resume
+            </source>
+                 <target>दोबारा शुरू करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
             <trans-unit id="70f9c68215ebba475c49d58bf0168f0520ef2945" datatype="html">
         <source>
             <x id="INTERPOLATION" equiv-text="{{resumeData?&quot;Start again&quot;:&quot;Resume&quot;}}"/>

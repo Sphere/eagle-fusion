@@ -46,7 +46,7 @@ export class PublicLoginComponent implements OnInit {
     localStorage.removeItem('preferedLanguage')
     localStorage.removeItem('loginbtn')
     localStorage.removeItem('userUUID')
-    localStorage.clear()
+    //localStorage.clear()
   }
   submitDetails(form: any) {
 
@@ -95,16 +95,23 @@ export class PublicLoginComponent implements OnInit {
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
+            let lang = (result && result.language !== undefined) ? result.language : 'en'
+            lang = lang === 'en' ? '' : 'hi'
             console.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
+
+            if (localStorage.getItem('url_before_login')) {
+              let url = localStorage.getItem('url_before_login') || ''
+              url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+              location.href = url
+            } else {
+              let url = '/page/home'
+              url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+              window.location.href = url
+            }
           })
         }, 500)
-        if (localStorage.getItem('url_before_login')) {
-          const url = localStorage.getItem('url_before_login') || ''
-          location.href = url
-        } else {
-          window.location.href = '/page/home'
-        }
+
       }, err => {
         console.log(err)
         this.openSnackbar(err.error.msg || err.error.error)
@@ -196,7 +203,10 @@ export class PublicLoginComponent implements OnInit {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             console.log(res, 'res')
-            if (res && res.status === 200) {
+            let lang = (result && result.language !== undefined) ? result.language : 'en'
+            lang = lang === 'en' ? '' : 'hi'
+            localStorage.setItem('res123', JSON.stringify(res))
+            if (res && res.status) {
               if (res.language) {
                 let lang = res.language
                 let obj = {
@@ -206,15 +216,20 @@ export class PublicLoginComponent implements OnInit {
                 }
                 localStorage.setItem('lang123', JSON.stringify(obj))
               }
+
+              localStorage.setItem('res', JSON.stringify(res))
+              if (localStorage.getItem('url_before_login')) {
+                let url = localStorage.getItem('url_before_login') || ''
+                url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+                location.href = url
+              } else {
+                let url = '/page/home'
+                url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+                window.location.href = url
+              }
             }
           })
         }, 500)
-        if (localStorage.getItem('url_before_login')) {
-          const url = localStorage.getItem('url_before_login') || ''
-          location.href = url
-        } else {
-          window.location.href = '/page/home'
-        }
       }, err => {
         console.log(err.error)
         this.openSnackbar(err.error.msg || err.error.message)

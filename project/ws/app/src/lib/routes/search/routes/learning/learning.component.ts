@@ -13,6 +13,7 @@ import { SearchServService } from '../../services/search-serv.service'
 import isEmpty from 'lodash/isEmpty'
 import orderBy from 'lodash/orderBy'
 import { SearchApiService } from '../../apis/search-api.service'
+
 @Component({
   selector: 'ws-app-learning',
   templateUrl: './learning.component.html',
@@ -648,6 +649,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       .getLearning(this.searchRequestObject)
       .subscribe(
         data => {
+          console.log(data)
           this.searchResults.result.count = data.result.count
           this.searchServ.raiseSearchResponseEvent(
             this.searchRequestObject.request.query,
@@ -803,9 +805,22 @@ export class LearningComponent implements OnInit, OnDestroy {
       this.newSearchRequestObject.query,
       '', '',
     )
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
-    this.newSearchRequestObject.language = local
+    let url = window.location.href
+
+    // Extract the query parameters part of the URL
+    let paramsString = url.split('?')[1] || ''
+    let params = new URLSearchParams(paramsString)
+
+    let lang = '' // Default value
+
+    // Check if 'lang' parameter exists
+    if (params.has('lang')) {
+      lang = params.get('lang') || ''
+    }
+    console.log(lang)
+    this.newSearchRequestObject.language = lang
     if (localStorage.getItem('orgValue') === 'nhsrc') {
     }
     this.searchResultsSubscription = this.searchServ
@@ -813,9 +828,13 @@ export class LearningComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           if (data && data.result && data.result.count) {
+            console.log(data, 'data')
             this.searchResults.result.count = data.result.count
             this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
 
+          } else {
+            this.searchResults.result.count = data.result.count
+            console.log(data, 'data123')
           }
 
           this.searchServ.raiseNewSearchResponseEvent(
@@ -957,16 +976,20 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   removeLanguage() {
+    // this.contact = this.lang = ''
+    // this.searchRequest.filters['lang'] = []
+    // console.log('filter', this.searchRequest)
+    // this.router.navigate([], {
+    //   queryParams: { f: JSON.stringify(this.searchRequest.filters), q: this.searchRequestObject.request.query, lang: null },
+    //   // queryParamsHandling: 'merge',
+    //   relativeTo: this.activated.parent,
+    // })
+    this.router.navigateByUrl('/app/search/home')
+  }
+
+  removeSearch() {
     this.contact = this.lang = ''
-    this.searchRequest.filters['lang'] = []
-    console.log('filter', this.searchRequest)
-    this.router.navigate([], {
-      queryParams: { f: JSON.stringify(this.searchRequest.filters), q: this.searchRequestObject.request.query, lang: null },
-
-      // queryParamsHandling: 'merge',
-      relativeTo: this.activated.parent,
-    })
-
+    this.router.navigateByUrl('/app/search/learning?q=')
   }
 
   closeFilter(value: boolean) {

@@ -180,6 +180,9 @@ export class SearchApiService {
         if (res.result.content.length > 0) {
           console.log("v6", res)
           return res
+        } else {
+          console.log("v7", res)
+          return res
         }
 
 

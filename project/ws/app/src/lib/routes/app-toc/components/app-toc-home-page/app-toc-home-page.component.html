@@ -6,8 +6,8 @@
 </ws-app-toc-banner> -->
 
 <ws-app-app-toc-desktop role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
-  [resumeData]="resumeData" [enrollCourse]="enrolledCourse" [resumeResource]="resumeResource"
-  [batchData]="batchData"></ws-app-app-toc-desktop>
+  [resumeData]="resumeData" [enrollCourse]="enrolledCourse" [batchData]="batchData"
+  [optmisticPercentage]="optmisticPercentage"></ws-app-app-toc-desktop>
 
 <ng-container>
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">

@@ -5,6 +5,8 @@ import { BehaviorSubject, Observable } from 'rxjs'
 import get from 'lodash/get'
 import filter from 'lodash/filter'
 import toLower from 'lodash/toLower'
+import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { ConfigurationsService } from '@ws-widget/utils'
 
 const API_END_POINTS = {
   // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
@@ -23,10 +25,49 @@ export class QuizService {
   public updateMtf$ = this.updateMtf.asObservable()
   constructor(
     private http: HttpClient,
+    private configservice: ConfigurationsService,
+    private onlineIndexedDbService: IndexedDBService
   ) {
 
   }
-  submitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {
+  submitQuizV2(req: any): Observable<NSQuiz.IQuizSubmitResponse> {
+    console.log(req, 'req')
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe((record) => {
+      console.log(record, '36')
+
+      let cUrl = window.location.href
+      console.log(cUrl.split('/'))
+      let id = cUrl.split('/')[5]
+      console.log(id)
+      this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.courseId).subscribe(
+        (message: any) => { // 'next' callback
+          console.log('Record deleted successfully', message)
+
+          this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
+            async (dat: any) => {
+              console.log('Data inserted successfully2', dat)
+              let msg = await dat
+              if (msg) {
+              }
+            },
+            (error: any) => { // 'error' callback for insertProgressData
+              console.error('Error inserting progress data:', error)
+            }
+          )
+        },
+        (error: any) => { // 'error' callback for deleteRecordByKey
+          console.error('Error deleting record:', error)
+        }
+      )
+    }, (error) => {
+      console.log(error, '63')
+      this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
+        (dat: any) => {
+          console.log('Data inserted successfully1', dat)
+
+        })
+    })
+
     return this.http.post<NSQuiz.IQuizSubmitResponse>(API_END_POINTS.ASSESSMENT_SUBMIT_V2, req)
   }
   competencySubmitQuizV2(req: NSQuiz.IQuizSubmitRequest): Observable<NSQuiz.IQuizSubmitResponse> {

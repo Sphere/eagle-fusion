@@ -162,8 +162,7 @@ export class GeneralGuard implements CanActivate {
                     if (url4.includes('hi')) {
                       lang = ''
                     }
-                    console.log("afdssssssssssssss")
-                    const url = `${lang}/app/new-tnc`
+                    const url = lang === '' ? `${lang}app/new-tnc` : `${lang}/app/new-tnc`
                     console.log(url)
                     location.href = `${url}`
                     //this.router.navigate([url, 'new-tnc'])

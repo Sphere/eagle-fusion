@@ -11,6 +11,7 @@ import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service
 import { Subscription } from 'rxjs'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { first } from 'rxjs/operators'
+import { IndexedDBService } from 'src/app/online-indexed-db.service'
 
 const API_END_POINTS = {
   SCROM_ADD_UPDTE: '/apis/protected/v8/scrom/add',
@@ -39,7 +40,8 @@ export class SCORMAdapterService {
     private viewerDataSvc: ViewerDataService,
     private router: Router,
     private contentSvc: WidgetContentService,
-    private telemetrySvc: TelemetryService
+    private telemetrySvc: TelemetryService,
+    private onlineIndexedDbService: IndexedDBService
   ) {
     this.http = new HttpClient(handler)
   }
@@ -444,7 +446,46 @@ export class SCORMAdapterService {
 
           //if(Object.keys(postData).length > 3) {
           //return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
-          console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '327')
+          this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.activatedRoute.snapshot.queryParams.collectionId).subscribe((record) => {
+            console.log(record, '450')
+
+            let cUrl = window.location.href
+            console.log(cUrl.split('/'))
+            let id = cUrl.split('/')[5]
+            console.log(id)
+            this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
+              (message: any) => { // 'next' callback
+                console.log('Record deleted successfully', message)
+
+                this.onlineIndexedDbService.insertProgressData(this.configSvc.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+                  async (dat: any) => {
+                    console.log('Data inserted successfully2', dat)
+                    let msg = await dat
+                    if (msg) {
+
+                    }
+                  },
+                  (error: any) => { // 'error' callback for insertProgressData
+                    console.error('Error inserting progress data:', error)
+                  }
+                )
+              },
+              (error: any) => { // 'error' callback for deleteRecordByKey
+                console.error('Error deleting record:', error)
+              }
+            )
+
+
+          }, (error) => {
+            console.log(error, '480')
+            this.onlineIndexedDbService.insertProgressData(this.configSvc.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+              (dat: any) => {
+                console.log('Data inserted successfully1', dat)
+
+              })
+          })
+
+          console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '488')
           this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
             let result = await response.result
             result["type"] = 'scorm'

@@ -227,6 +227,11 @@ const routes: Routes = [
     canActivate: [GeneralGuard],
   },
   {
+    path: 'hi/app/toc',
+    loadChildren: () => import('./routes/route-app-toc.module').then(u => u.RouteAppTocModule),
+    canActivate: [GeneralGuard],
+  },
+  {
     path: 'app/user-profile',
     loadChildren: () =>
       import('./routes/route-user-profile-app.module').then(u => u.RouteUserProfileAppModule),
@@ -524,6 +529,14 @@ const routes: Routes = [
   { path: 'resources', redirectTo: 'page/home', pathMatch: 'full' },
   {
     path: 'viewer',
+    data: {
+      topBar: ETopBar.NONE,
+    },
+    loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'hi/viewer',
     data: {
       topBar: ETopBar.NONE,
     },

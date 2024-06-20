@@ -174,7 +174,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (url2.includes('hi')) {
       url2 = url2.replace(/hi\//g, '')
     }
-    let url = '/page/home'
+    let url = url1 === 'hi' ? '/page/home' : 'page/home'
     location.href = `${url2}${url1}${url}`
     //location.href = '/page/home'
     //}

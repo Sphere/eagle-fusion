@@ -142,7 +142,7 @@ export class MyCoursesComponent implements OnInit {
         const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
         this.contentSvc
           .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
-            // console.log(res, 'res')
+            //console.log(res, 'res')
             this.coursesForYou = res
             this.isLoading = false
 
@@ -185,6 +185,9 @@ export class MyCoursesComponent implements OnInit {
 
           )
       }
+    } else {
+      this.coursesForYou = []
+      this.isLoading = false
     }
   }
   tabClick() {
@@ -203,7 +206,7 @@ export class MyCoursesComponent implements OnInit {
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
     }
-    let url = `/app/toc/` + `${contentIdentifier}` + `/overview`
+    let url = url1 === 'hi' ? `/app/toc/` + `${contentIdentifier}` + `/overview` : `app/toc/` + `${contentIdentifier}` + `/overview`
     //this.commonUtilService.addLoader()
     const result = await this.signupService.getUserData()
     // this.commonUtilService.removeLoader()
