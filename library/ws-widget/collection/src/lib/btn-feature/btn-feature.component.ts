@@ -139,7 +139,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
   }
   async redirect(text: any) {
-    console.log(text)
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
     console.log(url1)
@@ -160,6 +159,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         location.href = `${url3}${url1}${url}`
       } else {
+        let url = url1 === 'hi' ? '/page/home' : 'page/home'
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
       }
     } else if (text.name === 'Competency' || text.name === "योग्यता") {
@@ -192,8 +192,9 @@ export class BtnFeatureComponent extends WidgetBaseComponent
           // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
           this.currentText = 'Home'
-          const url = '/page/home'
+          //const url = '/page/home'
           let url4 = `${document.baseURI}`
+          let url = url1 === 'hi' ? '/page/home' : 'page/home'
           if (url4.includes('hi')) {
             url1 = ''
           }

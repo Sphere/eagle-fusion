@@ -186,6 +186,18 @@ export class OrgComponent implements OnInit, OnDestroy {
     let url = sessionStorage.getItem('currentURL')
     if (url) {
       location.href = url
+    } else {
+
+      let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+      let url1 = local === 'hi' ? 'hi' : ""
+      console.log(url1)
+      let url3 = `${document.baseURI}`
+      if (url3.includes('hi')) {
+        url3 = url3.replace(/hi\//g, '')
+      }
+      let url = url1 === 'hi' ? '/page/home' : 'page/home'
+      this.router.navigateByUrl(`${url1}${url}`)
+      //location.href = `${url3}${url1}${url}`
     }
   }
 
@@ -197,6 +209,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
   }
   gotoOverview(identifier: any) {
+    sessionStorage.setItem('cURL', location.href)
     // if (this.configSvc.isAuthenticated) {
     this.router.navigate([`/app/toc/${identifier}/overview`])
     // } else {
