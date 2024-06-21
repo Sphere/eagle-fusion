@@ -34,7 +34,7 @@ describe('PublicLoginComponent', () => {
     component = new AlmostDoneComponent(
       mockConfigService as ConfigurationsService,
       mockUserProfileService as UserProfileService,
-      mockRouterService as Router,
+      // mockRouterService as Router,
       mockMatSnackBar as MatSnackBar,
       mockFormBuilder as FormBuilder,
       mockActivatedRouteService as ActivatedRoute,

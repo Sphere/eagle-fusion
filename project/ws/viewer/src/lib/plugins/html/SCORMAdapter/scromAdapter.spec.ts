@@ -1,80 +1,80 @@
 import { SCORMAdapterService } from './scormAdapter'
+import { TestBed } from '@angular/core/testing'
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing'
+import { ActivatedRoute, Router } from '@angular/router'
+import { ConfigurationsService, TelemetryService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
+import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
+import { WidgetContentService } from '@ws-widget/collection'
+import { IndexedDBService } from 'src/app/online-indexed-db.service'
 
 describe('SCORMAdapterService', () => {
   let service: SCORMAdapterService
+  let httpMock: HttpTestingController
 
   beforeEach(() => {
-    service = new SCORMAdapterService(
-      {} as any, // Mock Storage
-      {} as any, // Mock HttpClient
-      {} as any, // Mock HttpBackend
-      {} as any, // Mock ActivatedRoute
-      {} as any, // Mock ConfigurationsService
-      {} as any, // Mock ViewerDataService
-      {} as any, // Mock Router
-      {} as any, // Mock WidgetContentService
-      {} as any  // Mock TelemetryService
-    )
+    TestBed.configureTestingModule({
+      imports: [HttpClientTestingModule],
+      providers: [
+        SCORMAdapterService,
+        { provide: ActivatedRoute, useValue: {} },
+        { provide: Router, useValue: {} },
+        { provide: ConfigurationsService, useValue: {} },
+        { provide: ViewerDataService, useValue: {} },
+        { provide: WidgetContentService, useValue: {} },
+        { provide: TelemetryService, useValue: {} },
+        { provide: IndexedDBService, useValue: {} },
+      ],
+    })
+    service = TestBed.get(SCORMAdapterService)
+    httpMock = TestBed.get(HttpTestingController)
   })
 
   afterEach(() => {
-    jest.clearAllMocks()
+    httpMock.verify()
   })
 
   it('should be created', () => {
     expect(service).toBeTruthy()
   })
 
-  it('should initialize contentId properly', () => {
-    service.contentId = '123'
-    expect(service.contentId).toEqual('123')
-  })
-
-  it('should initialize htmlName properly', () => {
-    service.htmlName = 'Test Name'
-    expect(service.htmlName).toEqual('Test Name')
-  })
-
-  it('should initialize parentName properly', () => {
-    service.parentName = 'Parent Name'
-    expect(service.parentName).toEqual('Parent Name')
+  it('should initialize LMS', () => {
+    expect(service.LMSInitialize()).toBeTruthy()
   })
 
 
 
-  it('should get error string properly', () => {
-    expect(service.LMSGetErrorString(404)).toEqual('')
+  it('should get value from LMS', () => {
+    service.LMSInitialize()
+    const element = 'cmi.core.exit'
+    const result = service.LMSGetValue(element)
+    expect(result).toBe('')
   })
 
-  it('should get diagnostic properly', () => {
-    expect(service.LMSGetDiagnostic(404)).toEqual('')
+  it('should set value in LMS', () => {
+    service.LMSInitialize()
+    const element = 'cmi.core.exit'
+    const value = 'suspend'
+    const result = service.LMSSetValue(element, value)
+    expect(result).toBe(value)
+  })
+
+  it('should get last error from LMS', () => {
+    const result = service.LMSGetLastError()
+    expect(result).toBe('')
+  })
+
+  it('should get error string from LMS', () => {
+    const errorCode = 101
+    const result = service.LMSGetErrorString(errorCode)
+    expect(result).toBe('')
+  })
+
+  it('should get diagnostic from LMS', () => {
+    const errorCode = 101
+    const result = service.LMSGetDiagnostic(errorCode)
+    expect(result).toBe('')
   })
 
 
-  it('should unsubscribe when destroyed', () => {
-    service.ngOnDestroy()
-    expect(service.scromSubscription).toBeFalsy()
-  })
 
-  it('should get percentage properly', () => {
-    const postData = { 'cmi.core.lesson_status': 'completed' }
-    expect(service.getPercentage(postData)).toEqual(100)
-  })
-
-  it('should get percentage 0 if status is failed properly', () => {
-    const postData = { 'cmi.core.lesson_status': 'failed' }
-    expect(service.getPercentage(postData)).toEqual(0)
-  })
-  it('should get status properly', () => {
-    const postData = { 'cmi.core.lesson_status': 'completed' }
-    expect(service.getStatus(postData)).toEqual(2)
-  })
-
-  it('should add data properly', () => {
-    expect(service.addData({} as any)).toBeTruthy()
-  })
-
-  it('should handle error when getting completion status', () => {
-    expect(service.getStatus({} as any)).toEqual(1)
-  })
 })

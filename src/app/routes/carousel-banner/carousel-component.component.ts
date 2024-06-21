@@ -80,7 +80,6 @@ export class CarouselComponentComponent implements OnInit {
     setTimeout(() => {
       this.currentSlideIndex = index // Set the current slide index manually after a short delay
     }, 0)
-    console.log('Navigating to slide:', index)
   }
   scrollToHowSphereWorks(value: string) {
     this.scrollService.scrollToDivEvent.emit(value)

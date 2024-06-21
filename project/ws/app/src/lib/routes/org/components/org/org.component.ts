@@ -81,7 +81,6 @@ export class OrgComponent implements OnInit, OnDestroy {
         this.competency_offered = userEnrolled[0].competency_offered || undefined
       }
     })
-    console.log("this.currentOrgData", this.currentOrgData)
     if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
       console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
       this.orgService.getSearchResultsById(this.currentOrgData.closedCoursesList).subscribe((result: any) => {

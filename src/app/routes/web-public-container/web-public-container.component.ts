@@ -99,12 +99,10 @@ export class WebPublicComponent implements OnInit {
         const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
         this.contentSvc.fetchCourseRemommendations(designation).subscribe(
           (res) => {
-            console.log(res, 'res')
             this.formatForYouCourses(res)
             this.isLoading = false
           },
           (err) => {
-            console.log(err, err.status === 500)
             if ([500, 400, 419].includes(err.status)) {
               this.coursesForYou = []
               this.isLoading = false
@@ -184,7 +182,6 @@ export class WebPublicComponent implements OnInit {
     const cneCourse = filter(res.result.content, ckey => {
       return includes(this.cneCoursesIdentifier, ckey.identifier)
     })
-    console.log("yes course", cneCourse)
     this.cneCourse = uniqBy(cneCourse, 'identifier')
     if (this.cneCourse.length > 0) {
       this.CNECourseDisplayConfig = {
