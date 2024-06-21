@@ -56,6 +56,20 @@ export class WebPublicComponent implements OnInit {
   }
 
   async ngOnInit() {
+    // Set up user enrolled display configurations
+    this.setUserEnrolledDisplayConfig()
+
+    // Fetch course recommendations if professional details are available
+    this.fetchCourseRecommendations()
+
+    // Handle scroll events
+    this.handleScrollEvents()
+
+    // Fetch configuration data based on the environment
+    this.fetchEnvironmentConfigurations()
+  }
+
+  private setUserEnrolledDisplayConfig() {
     if (this.userEnrollCourse && this.userEnrollCourse.length > 0) {
       this.userEnrolledDisplayConfig = {
         displayType: 'card-mini',
@@ -63,45 +77,55 @@ export class WebPublicComponent implements OnInit {
           certification: true,
           rating: true,
           completionPercentage: true
-        },
+        }
+      }
+    } else {
+      this.userEnrolledDisplayConfig = {
+        displayType: 'card-mini',
+        badges: {
+          certification: true,
+          rating: true,
+          completionPercentage: true
+        }
       }
     }
-    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
-      const professionalDetails = this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails[0]
+  }
+
+  private fetchCourseRecommendations() {
+    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.profileReq && this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails) {
+      const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
       if (professionalDetails) {
         this.isLoading = true
         const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
-        this.contentSvc
-          .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
+        this.contentSvc.fetchCourseRemommendations(designation).subscribe(
+          (res) => {
             console.log(res, 'res')
             this.formatForYouCourses(res)
             this.isLoading = false
-          }, err => {
+          },
+          (err) => {
             console.log(err, err.status === 500)
-            if (err.status === 500 || err.status === 400 || err.status === 419) {
+            if ([500, 400, 419].includes(err.status)) {
               this.coursesForYou = []
               this.isLoading = false
             }
           }
-          )
+        )
       }
     }
+  }
 
-
+  private handleScrollEvents() {
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       if (targetDivId === 'scrollToCneCourses') {
         this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
       }
     })
-    let url: string
+  }
 
-    if (environment.production) {
-      url = "mobile-home.json" // For production environment
-    } else {
-      url = "mobile-home-stage.json" // For non-production (development) environment
-    }
-
-    this.http.get(`assets/configurations/` + url).pipe(
+  private fetchEnvironmentConfigurations() {
+    const url = environment.production ? 'mobile-home.json' : 'mobile-home-stage.json'
+    this.http.get(`assets/configurations/${url}`).pipe(
       switchMap((configData: any) => {
         const identifiers = [
           ...configData.topCertifiedCourseIdentifier,
@@ -120,14 +144,11 @@ export class WebPublicComponent implements OnInit {
     ).subscribe((results: any) => {
       if (results.result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(results)
-        // this.formatFeaturedCourseResponse(res[0])
         this.formatcneCourseResponse(results)
-
       }
-
     })
-
   }
+
   formatForYouCourses(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
