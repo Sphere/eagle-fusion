@@ -194,6 +194,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.formatmyCourseResponse(res[0])
       })
       localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
+      if (sessionStorage.getItem('cURL')) {
+        sessionStorage.removeItem('cURL')
+      }
     }
 
     this.setPageTitle()
