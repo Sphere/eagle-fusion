@@ -148,13 +148,12 @@ export class MobileDashboardComponent implements OnInit {
 
       })
       let url: string
-
       if (environment.production) {
         url = "mobile-home.json" // For production environment
       } else {
         url = "mobile-home-stage.json" // For non-production (development) environment
       }
-
+      url = 'mobile-home.json'
       this.http.get(`assets/configurations/` + url).pipe(
         switchMap((configData: any) => {
           const identifiers = [
@@ -196,6 +195,7 @@ export class MobileDashboardComponent implements OnInit {
       } else {
         url = "mobile-home-stage.json" // For non-production (development) environment
       }
+      url = 'mobile-home.json'
 
 
       this.http.get(`assets/configurations/` + url).pipe(
@@ -352,12 +352,13 @@ export class MobileDashboardComponent implements OnInit {
   }
   mobileJsonData() {
     let url: string
-
     if (environment.production) {
       url = "mobile-home.json" // For production environment
     } else {
       url = "mobile-home-stage.json" // For non-production (development) environment
     }
+    url = 'mobile-home.json'
+
     this.http.get(`assets/configurations/` + url).pipe(delay(500)).subscribe((res: any) => {
       this.homeFeature = res.userLoggedInSection
       this.topCertifiedCourseIdentifier = res.topCertifiedCourseIdentifier

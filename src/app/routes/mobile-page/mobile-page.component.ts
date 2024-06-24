@@ -83,6 +83,7 @@ export class MobilePageComponent implements OnInit {
     } else {
       url = "mobile-home-stage.json" // For non-production (development) environment
     }
+    url = 'mobile-home.json'
 
 
     this.http.get(`assets/configurations/` + url).pipe(

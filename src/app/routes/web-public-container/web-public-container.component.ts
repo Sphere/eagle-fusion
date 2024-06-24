@@ -122,7 +122,11 @@ export class WebPublicComponent implements OnInit {
   }
 
   private fetchEnvironmentConfigurations() {
-    const url = environment.production ? 'mobile-home.json' : 'mobile-home-stage.json'
+
+
+    // const url = environment.production ? 'mobile-home.json' : 'mobile-home-stage.json'
+    const url = 'mobile-home.json'
+
     this.http.get(`assets/configurations/${url}`).pipe(
       switchMap((configData: any) => {
         const identifiers = [
