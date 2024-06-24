@@ -11,7 +11,7 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WidgetContentService } from '@ws-widget/collection'
-import { environment } from 'src/environments/environment'
+// import { environment } from 'src/environments/environment'
 import { catchError, switchMap } from 'rxjs/operators'
 
 @Component({
