@@ -11,7 +11,7 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WidgetContentService } from '@ws-widget/collection'
-import { environment } from 'src/environments/environment'
+// import { environment } from 'src/environments/environment'
 import { catchError, switchMap } from 'rxjs/operators'
 
 @Component({
@@ -122,7 +122,11 @@ export class WebPublicComponent implements OnInit {
   }
 
   private fetchEnvironmentConfigurations() {
-    const url = environment.production ? 'mobile-home.json' : 'mobile-home-stage.json'
+
+
+    // const url = environment.production ? 'mobile-home.json' : 'mobile-home-stage.json'
+    const url = 'mobile-home.json'
+
     this.http.get(`assets/configurations/${url}`).pipe(
       switchMap((configData: any) => {
         const identifiers = [

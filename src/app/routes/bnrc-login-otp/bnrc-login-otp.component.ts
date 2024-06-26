@@ -21,7 +21,7 @@ export class BnrcLoginOtpComponent implements OnInit {
   loginVerification = false
   redirectUrl = ''
   constructor(
-    private router: Router,
+    public router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private userProfileSvc: UserProfileService,
@@ -128,7 +128,7 @@ export class BnrcLoginOtpComponent implements OnInit {
     )
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 3000) {
+  openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
