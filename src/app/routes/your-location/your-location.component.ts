@@ -85,8 +85,8 @@ export class YourLocationComponent implements OnInit {
     }
   }
   disableNextBtn() {
-    console.log(this.aboutYouForm.controls.dob)
-    if (this.aboutYouForm.controls.dob.value) {
+    console.log(this.aboutYouForm.controls)
+    if (this.aboutYouForm.controls.dob.value && this.aboutYouForm.controls.country.value) {
       if (this.aboutYouForm.controls.country.value !== 'India') {
         this.nextBtnDisable = false
       } else if (this.aboutYouForm.controls.country.value === 'India') {

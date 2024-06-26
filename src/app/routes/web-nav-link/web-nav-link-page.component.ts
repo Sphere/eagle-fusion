@@ -22,6 +22,7 @@ export class WebNavLinkPageComponent implements OnInit {
   ) {
 
     this.navOption.currentOption.subscribe((option: any) => {
+      console.log(option, 'open')
       if (option === 'search') {
         console.log("option: ", option)
         console.log(location.path(), 'location.path()')
@@ -41,10 +42,11 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showHome = true
           this.showCompetency = false
         }
-        if (location.path().includes('/page/home')) {
+        if (location.path().includes('/page/home') || location.path().includes('/app/toc')) {
           this.showProfile = false
           this.showHome = true
           this.showCompetency = false
+          this.mycourses = false
         }
 
       }

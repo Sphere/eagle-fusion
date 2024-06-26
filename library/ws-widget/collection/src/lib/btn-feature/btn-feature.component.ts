@@ -79,7 +79,12 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         }
       }
       if (window.location.href.includes('/app/toc')) {
-        this.currentText = ''
+        //this.currentText = ''
+        if (window.location.href.includes('/hi/app/toc')) {
+          this.currentText = 'होम'
+        } else {
+          this.currentText = 'Home'
+        }
       }
     })
 
