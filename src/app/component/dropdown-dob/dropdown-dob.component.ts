@@ -35,12 +35,20 @@ export class DropdownDobComponent implements OnInit {
       monthField: new FormControl('', Validators.required),
       yearField: new FormControl('', Validators.required),
     })
+    this.dobForm.get('monthField')!.valueChanges.subscribe(month => this.updateDays(month))
+    this.dobForm.get('yearField')!.valueChanges.subscribe(() => {
+      const month = this.dobForm.get('monthField')!.value
+      if (month) {
+        this.updateDays(month)
+      }
+    })
   }
+
 
   ngOnInit() {
     setTimeout(() => {
       this.updateForm()
-    },         500)
+    }, 500)
 
   }
   /* function to update the form if input is there*/
@@ -55,6 +63,17 @@ export class DropdownDobComponent implements OnInit {
     }
   }
 
+
+  updateDays(month: number) {
+    const year = this.dobForm.get('yearField')!.value
+    const daysInMonth = new Date(year || 2020, month, 0).getDate() // Use 2020 as a leap year example
+    this.dateValue = Array.from({ length: daysInMonth }, (_, i) => i + 1)
+
+    // Reset the date field if the current value exceeds the new number of days in the month
+    if (this.dobForm.get('dateField')!.value > daysInMonth) {
+      this.dobForm.patchValue({ dateField: '' })
+    }
+  }
   countrySelect() {
     if (this.dobForm.value.dateField && this.dobForm.value.monthField && this.dobForm.value.yearField) {
       const dob = `${this.dobForm.value.dateField}/${this.dobForm.value.monthField}/${this.dobForm.value.yearField}`
