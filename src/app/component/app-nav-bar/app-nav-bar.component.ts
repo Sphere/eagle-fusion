@@ -161,7 +161,21 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     this.router.navigateByUrl('app/create-account')
   }
   navigate() {
-    this.router.navigateByUrl('app/profile-view')
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? 'hi' : ""
+    // let url3 = `${document.baseURI}`
+    // if (url3.includes('hi')) {
+    //   url3 = url3.replace(/hi\//g, '')
+    // }
+
+    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails.profileReq!.personalDetails!.dob) {
+      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
+      this.router.navigateByUrl(`${url}`)
+    } else {
+      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+    }
+
   }
 
   goHomePage() {
