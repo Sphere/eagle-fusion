@@ -77,7 +77,7 @@ export class HomeComponent implements OnInit {
       this.router.navigate(['/app/search/home'], {
         queryParams: {
           q: this.searchQuery.q,
-          lang: this.searchQuery.l,
+          lang: e,
           f: JSON.stringify({ contentType: ['Course'] }),
         },
       })
