@@ -573,7 +573,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
     console.log('Aggregate value:', aggregateValue)
     console.log(this.content, 'content')
-    let percentage = Math.round((aggregateValue) / (this.content!.childNodes.length * 100) * 100)
+    let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
+    console.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
+    let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
     console.log(percentage, 'percentage')
     return percentage
   }
@@ -582,6 +584,23 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     console.log(val)
     return val
   }
+
+  uniqueIdsByContentType(obj: any, contentType: any, uniqueIds = new Set()) {
+    // Check if the current object is an array
+    if (Array.isArray(obj)) {
+      // If array, recursively call extractUniqueIds for each element
+      obj.forEach(item => this.uniqueIdsByContentType(item, contentType, uniqueIds))
+    } else if (typeof obj === 'object' && obj !== null) {
+      // If object, check if it has contentType and add id to uniqueIds if contentType matches
+      if (obj.contentType === contentType && obj.identifier !== undefined) {
+        uniqueIds.add(obj.identifier)
+      }
+      // Recursively call extractUniqueIds for each property value
+      Object.values(obj).forEach(value => this.uniqueIdsByContentType(value, contentType, uniqueIds))
+    }
+    // Return uniqueIds as an array (if needed)
+    return [...uniqueIds]
+  };
 
   enrollUser(batchData: any) {
     let userId = ''
