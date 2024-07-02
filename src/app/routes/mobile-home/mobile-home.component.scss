@@ -66,9 +66,9 @@ text-align: left;
 .banner-image {
     max-width: 400px;
     display: flex;
-    justify-content: end;
-    align-items: end;
-    align-content: end;
+    justify-content: flex-end ;
+    align-items: flex-end ;
+    align-content: flex-end ;
     float: right;
 }
 

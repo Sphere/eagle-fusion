@@ -212,7 +212,7 @@
             | pipeDurationTransform: 'hms' }}</div>
           <div class="align-rt progrss-box">
             <span class="content-check"
-              *ngIf="content?.completionPercentage === 100 && content?.completionStatus == 2; else elseResourcePercentage">
+              *ngIf="content?.completionPercentage === 100 && content?.completionStatus; else elseResourcePercentage">
               <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
               <mat-icon>check</mat-icon>
 
@@ -244,7 +244,7 @@
           <ws-app-assessment-detail [content]="content"></ws-app-assessment-detail>
           <div class="align-rt progrss-box">
             <span class="content-check"
-              *ngIf="content?.completionPercentage === 100 && content?.completionStatus == 2; else elseResourcePercentage">
+              *ngIf="content?.completionPercentage === 100 && content?.completionStatus; else elseResourcePercentage">
               <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
               <mat-icon>check</mat-icon>
 

@@ -6,7 +6,7 @@
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
-    <div role="link" tabindex="0" class="mb-2"
+    <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
       [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
       <span class="mt-1" *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
       <span class="mt-1" *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.content.length }} </span>
@@ -122,7 +122,7 @@
         </button>
       </h4>
 
-      <h4 *ngIf="(isXSmall$ | async) === true && searchRequest?.lang?.split(',').length === 1">
+      <h4 *ngIf="(isXSmall$ | async) === true">
         <ng-container i18n> Removing Language </ng-container>
         <button (click)="removeLanguage()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>

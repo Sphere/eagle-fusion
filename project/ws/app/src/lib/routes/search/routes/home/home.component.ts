@@ -55,15 +55,26 @@ export class HomeComponent implements OnInit {
   }
 
   search(query?: string, lang?: string) {
-    console.log(lang)
+    console.log(lang, query)
     console.log(this.searchQuery.l)
+    let url = window.location.href
+
+    // Extract the query parameters part of the URL
+    let paramsString = url.split('?')[1] || ''
+    let params = new URLSearchParams(paramsString)
+
+    let lang1 = '' // Default value
+    // Check if 'lang' parameter exists
+    if (params.has('lang')) {
+      lang1 = params.get('lang') || ''
+    }
     this.router.navigate(['/app/search/home'], {
-      queryParams: { lang, q: query || this.searchQuery.q },
+      queryParams: { lang1, q: query || this.searchQuery.q },
     }).then(() => {
       this.router.navigate(['/app/search/learning'], {
         queryParams: {
           q: query || this.searchQuery.q,
-          lang: this.searchQuery.l,
+          lang: lang1,
           f: JSON.stringify({ contentType: ['Course'] }),
         },
       })

@@ -126,6 +126,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     message: '',
   }
   routeComp = ''
+  langPresent: boolean = false
   translatedFilters: any = {}
   isIntranetAllowedSettings = false
   prefChangeSubscription: Subscription | null = null
@@ -257,6 +258,16 @@ export class LearningComponent implements OnInit, OnDestroy {
       }
     })
     console.log("view", this.withoutFilter)
+
+    let url = window.location.href
+    // Extract the query parameters part of the URL
+    let paramsString = url.split('?')[1] || ''
+    let params = new URLSearchParams(paramsString)
+    // Check if 'lang' parameter exists
+    if (params.has('lang')) {
+      console.log(params.get('lang'))
+      this.langPresent = true
+    }
 
     this.searchServ.searchConfig = this.activated.snapshot.data.pageData.data
     this.prefChangeSubscription = this.configSvc.prefChangeNotifier.subscribe(() => {
@@ -984,7 +995,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     //   // queryParamsHandling: 'merge',
     //   relativeTo: this.activated.parent,
     // })
-    this.router.navigateByUrl('/app/search/home')
+    this.router.navigateByUrl('/app/search/home?f=')
   }
 
   removeSearch() {
