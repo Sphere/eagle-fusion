@@ -68,7 +68,7 @@ export class SCORMAdapterService {
 
   LMSInitialize() {
     this.store.contentKey = this.contentId
-    // this.loadDataV2();
+    this.loadDataV2()
     // this.loadDataAsync().subscribe((response) => {
     //   const data = response.result.data
     //   const loadDatas: IScromData = {
@@ -132,7 +132,7 @@ export class SCORMAdapterService {
 
   LMSCommit() {
     let data = this.store.getAll()
-   
+
     if (data) {
       delete data['errors']
       // delete data['Initialized']
@@ -147,7 +147,7 @@ export class SCORMAdapterService {
       if (data["cmi.core.lesson_status"] === 'incomplete') {
 
         this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
-          console.log('intereim progress response',response)
+          console.log('intereim progress response', response)
           if (data) {
             this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
               this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
@@ -279,23 +279,46 @@ export class SCORMAdapterService {
       `${API_END_POINTS.SCROM_FETCH_PROGRESS}/${req.request.courseId}`, req
     ).subscribe(
       data => {
+       // let loadDatas: IScromData = {}
         // tslint:disable-next-line: no-console
-        console.log(data)
+
         if (data && data.result && data.result.contentList.length) {
-          for (const content of data.result.contentList) {
-            if (content.contentId === this.contentId && content.progressdetails) {
-              const data = content.progressdetails
-              const loadDatas: IScromData = {
-                "cmi.core.exit": data["cmi.core.exit"],
-                "cmi.core.lesson_status": data["cmi.core.lesson_status"],
-                "cmi.core.session_time": data["cmi.core.session_time"],
-                "cmi.suspend_data": data["cmi.suspend_data"],
-                Initialized: data["Initialized"],
-                // errors: data["errors"]
-              }
+          const listOfContent = data.result.contentList
+          console.log(listOfContent)
+         const self = this
+          const progressDetails = listOfContent.filter( (item: any) =>{
+            if (item.contentId === self.contentId) {
+              return item
+            }
+          })
+        //  let loadDatas: IScromData = {}
+          console.log('PD', progressDetails)
+          if (progressDetails.length > 0) {
+            const data = progressDetails[0]
+            if (data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data")) {
+             const loadDatas:IScromData = {};
+             loadDatas["cmi.suspend_data"] = data.progressdetails['cmi.suspend_data']
+              // console.log(loadDatas)
               this.store.setAll(loadDatas)
             }
+          } else {
+            console.log('No initial data found')
           }
+
+          //   }
+          // for (const content of data.result.contentList) {
+
+          //   if (content.contentId === this.contentId && content.progressdetails) {
+          //     const data = content.progressdetails
+          //     console.log(data)
+          //     if (data.hasOwnProperty('cmi.suspend_data')) {
+          //       loadDatas["cmi.suspend_data"] = data['cmi.suspend_data']
+          //     }
+
+          //     console.log('progress data',loadDatas)
+          //     this.store.setAll(loadDatas)
+          //   }
+          // }
         }
       },
     )
