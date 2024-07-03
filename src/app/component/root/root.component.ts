@@ -277,7 +277,7 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (event.url.includes('/app/create-account')) {
           this.showmobileFooter = false
         }
-        if (event.url.includes('/public/login')) {
+        if (event.url.includes('/public/login') || event.url.includes('app/new-tnc')) {
           this.showmobileFooter = false
         }
         if (event.url.includes('/bnrc/register') || event.url.includes('/upsmf/register')) {
