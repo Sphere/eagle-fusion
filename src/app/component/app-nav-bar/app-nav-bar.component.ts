@@ -55,6 +55,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   hideCreateButton = true
   hideSearch = false
   showNavLinkPage = true
+  langPresent: boolean = false
+
   constructor(
     private domSanitizer: DomSanitizer,
     public configSvc: ConfigurationsService,
@@ -72,6 +74,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       this.showNavLinkPage = false
     }
     console.log(location.path())
+    if (location.path().includes('/hi/')) {
+      this.langPresent = true
+    }
     if (location.path().includes('/app/new-tnc')) {
       this.showNavLinkPage = false
     } else {

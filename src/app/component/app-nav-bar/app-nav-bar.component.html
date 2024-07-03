@@ -7,6 +7,7 @@
     </a>
 
   </div>
+
   <div class="fix-ww">
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
 
@@ -71,7 +72,8 @@
       </ng-container>
     </ng-container>
 
-    <div class="flex navbar-gap justify-between items-center" *ngIf="mode === 'bottom'">
+    <div class="flex navbar-gap justify-between items-center" [ngStyle]="{'gap': langPresent ? '0px 8px' : '0px 3px'}"
+      *ngIf="mode === 'bottom'">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">

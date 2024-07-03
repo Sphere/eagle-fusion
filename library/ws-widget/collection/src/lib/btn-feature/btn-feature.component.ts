@@ -175,13 +175,13 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     } else if (text.name === "खोज" || text.name === "Search") {
       this.navOption.changeNavBarActive('search')
       this.currentText = text.name
-      let url = `${text.url}`
+      let url = url1 === 'hi' ? '/app/search/home' : 'app/search/home'
       location.href = `${url3}${url1}${url}`
     } else {
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.currentText = text.name
-        let url = '/app/profile-view'
+        let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
         location.href = `${url3}${url1}${url}`
       } else {
         if (localStorage.getItem('url_before_login')) {
