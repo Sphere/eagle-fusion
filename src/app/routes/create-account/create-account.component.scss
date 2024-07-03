@@ -60,15 +60,7 @@
   right: 5px;
   top: 10px;
 }
-.login-page-content {
-     max-width: 100%;
-    margin: auto;
-    margin: 0px !important;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 40px 40px 0px 0px;
-    display: block;
 
-}
 .text-success {
   color: green; /* Change to your preferred success color */
 }
@@ -147,12 +139,21 @@ a {
 }
 
 @media screen and (max-width:600px) {
+  .login-page-content {
+     max-width: 100%;
+    margin: auto;
+    margin: 0px !important;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 40px 40px 0px 0px;
+    display: block;
+
+}
     .top-blue-color{
 
     background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
 }
 .btm-blue-color{
-      background: linear-gradient(180deg, #f9f3e4 45%, #DCEFEC 118.46%, #FFFCC8 108.57%, #F9F3E8 98.36%);
+      background: linear-gradient(180deg, #e7f5e9 45%, #ffffff 118.46%, #FFFCC8 108.57%, #F9F3E8 98.36%);
 
 }
   .top-block{
@@ -168,7 +169,6 @@ a {
         color: #2E6491;
         border-radius: 63px;
         border: 1px 0px 0px 0px;
-        opacity: 0px;
         font-family: Roboto;
         font-size: 14px;
         font-weight: 400;
@@ -187,21 +187,22 @@ text-align: left;
 
 }
 
-.nav-bar-bg{
+.nav-bar-bg {
   display: flex;
   flex-direction: column;
-    height: 300px;
-    gap: 0px;
-    opacity: 0px;
-    background: linear-gradient(180deg, #EFF6FC 0%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
-    align-items: baseline;
+  height: 300px;
+  gap: 0px;
+  opacity: 1; /* Ensure the nav bar is visible */
+  background:  url('../../../fusion-assets/icons/ocean_themed_gradient_blur_background_0509 2.png');
+  background-size: cover; /* Adjust as needed */
+  align-items: baseline;
 }
+
 .nav-bar-bg1{
   display: flex;
   flex-direction: column;
   height: 100px;
   gap: 0px;
-  opacity: 0px;
   background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
   align-items: baseline;
 }
@@ -216,7 +217,6 @@ height: 66px;
 top: 574px;
 left: 71px;
 gap: 0px;
-opacity: 0.5px;
 
 }
 .lang-top-bg{
@@ -225,7 +225,6 @@ height: 172.29px;
 top: 80px;
 left: 71px;
 gap: 0px;
-opacity: 0px;
 
 }
 
