@@ -34,6 +34,8 @@ export class LoginOtpComponent implements OnInit {
   otpInputs: string[] = ['', '', '', '']
   isXSmall$: Observable<boolean>
   isBelowOneMinute: boolean = false;
+  langDialog: any
+
   constructor(
     //private router: Router,
     private fb: FormBuilder,
