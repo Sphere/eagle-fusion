@@ -21,7 +21,7 @@ const API_END_POINTS = {
   FETCH_WEB_MODULE_FILES: `${PROTECTED_SLAG_V8}/content/getWebModuleFiles`,
   MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
   CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
-  PUBLIC_CONTENT_SEARCH: `${PUBLIC_SLAG}/publicSearch/getCourses`,
+  PUBLIC_CONTENT_SEARCH: `${PUBLIC_SLAG}/ratingsSearch/getCourses`,
   CONTENT_SEARCH_V6: `/apis/proxies/v8/sunbirdigot/read`,
   CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
   CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
@@ -34,11 +34,14 @@ const API_END_POINTS = {
   MARK_AS_COMPLETE_META: (contentId: string) => `${PROTECTED_SLAG_V8}/user/progress/${contentId}`,
   COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
   ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
+  COURSE_RATING: `/apis/protected/v8/ratings/upsert`,
+  READ_COURSE_RATING: `/apis/protected/v8/ratings/v2/read`,
+  READ_COURSE_RATING_SUMMARY: `/apis/protected/v8/ratings/summary`,
   GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
   LOGIN_USER: `/apis/public/v8/emailMobile/auth`,
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     // tslint:disable-next-line: max-line-length
-    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
   COURSE_RECOMENDATION: (profession: string) =>
     `${PUBLIC_SLAG}/mobileApp/courseRemommendationv2?profession=${profession}`,
 }
@@ -107,6 +110,14 @@ export class WidgetContentService {
 
   fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
     const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=detail`
+    const apiData = this.http
+      .get<NsContent.IContent>(url)
+      .pipe(retry(1))
+    return apiData
+  }
+
+  readContentV2(id: string): Observable<NsContent.IContent> {
+    let url = `/apis/proxies/v8/action/content/v3/read/${id}`
     const apiData = this.http
       .get<NsContent.IContent>(url)
       .pipe(retry(1))
@@ -189,7 +200,21 @@ export class WidgetContentService {
       .post(API_END_POINTS.ENROLL_BATCH, req)
       .toPromise()
   }
-
+  submitCourseRating(req: any) {
+    return this.http
+      .post(API_END_POINTS.COURSE_RATING, req)
+      .toPromise()
+  }
+  readCourseRating(req: any) {
+    return this.http
+      .post(API_END_POINTS.READ_COURSE_RATING, req)
+      .toPromise()
+  }
+  readCourseRatingSummary(req: any) {
+    return this.http
+      .get(`${API_END_POINTS.READ_COURSE_RATING_SUMMARY}?courseId=${req.activityId}`)
+      .toPromise()
+  }
   fetchContentLikes(contentIds: { content_id: string[] }) {
     return this.http
       .post<{ [identifier: string]: number }>(API_END_POINTS.CONTENT_LIKES, contentIds)

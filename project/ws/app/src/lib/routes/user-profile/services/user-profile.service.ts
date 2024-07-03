@@ -21,6 +21,16 @@ const API_ENDPOINTS = {
   getAllDepartments: '/apis/protected/v8/portal/listDeptNames',
   approveRequest: '/apis/protected/v8/workflowhandler/transition',
   getPendingFields: '/apis/protected/v8/workflowhandler/userWFApplicationFieldsSearch',
+  bnrcRegistration: '/apis/public/v8/bnrcUserCreation/createUser',
+  bnrcSendOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/sendOtp',
+  bnrcReSendOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/resendOtp',
+  bnrcValidateOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/validateOtp',
+  upsmfRegistration: '/apis/public/v8/upsmfUserCreation/createUser',
+  upsmfSendOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/sendOtp',
+  upsmfReSendOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/resendOtp',
+  upsmfValidateOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/validateOtp',
+
+
   // getProfilePageMeta: '/apis/protected/v8/user/profileDetails/getProfilePageMeta',
 }
 
@@ -38,6 +48,36 @@ export class UserProfileService {
   }
   getUserdetails(email: string | undefined): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.getUserdetails, { email })
+  }
+  bnrcRegistration(value: any): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcRegistration, { value })
+  }
+
+  // bnrcSendOtp(value: any): Observable<[IUserProfileDetails]> {
+  //   return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcSendOtpRegistration, { value })
+  // }
+  bnrcSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
+    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.bnrcSendOtpRegistration, phone)
+  }
+  bnrcResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcReSendOtpRegistration, phone)
+  }
+
+  bnrcValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
+    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.bnrcValidateOtpRegistration, value)
+  }
+  upsmfRegistration(value: any): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.upsmfRegistration, { value })
+  }
+  upsmfSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
+    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.upsmfSendOtpRegistration, phone)
+  }
+  upsmfResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.upsmfReSendOtpRegistration, phone)
+  }
+
+  upsmfValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
+    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.upsmfValidateOtpRegistration, value)
   }
   getMasterLanguages(): Observable<ILanguagesApiData> {
     return this.http.get<ILanguagesApiData>(API_ENDPOINTS.getMasterLanguages)
@@ -90,7 +130,7 @@ export class UserProfileService {
           }
           break
         case 'Student':
-          isFilled = professionalDetails.qualification ? isFilled : false
+          isFilled = professionalDetails.designation ? isFilled : false
           break
         case 'Healthcare Volunteer':
           isFilled = professionalDetails.designation ? isFilled : false

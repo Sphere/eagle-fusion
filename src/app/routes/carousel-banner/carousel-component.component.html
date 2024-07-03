@@ -1,0 +1,25 @@
+<div class="carousel">
+  <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
+    <div class="slide" *ngFor="let data of dataCarousel; let i = index">
+      <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
+        class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
+        <img class="banner-image" [src]="data.img" alt="Carousel Image" loading="lazy">
+        <div class="tutorials-container">
+          <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span
+              (click)="scrollToContent(data.scrollEmit)"> > </span> </p>
+          <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span
+              (click)="scrollToContent(data.scrollEmit)"> > </span> </p> -->
+          <div>
+            <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
+              (click)="goToSlide(i)" class="round-buttons">
+              <img class="dot-icon" *ngIf="i === currentSlideIndex" src="/fusion-assets/icons/active_dot.svg"
+                alt="Active Dot">
+              <img class="dot-icon" *ngIf="i !== currentSlideIndex" src="/fusion-assets/icons/gray_dot.svg"
+                alt="Inactive Dot">
+            </button>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>

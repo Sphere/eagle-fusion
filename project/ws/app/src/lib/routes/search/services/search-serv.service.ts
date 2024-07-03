@@ -9,7 +9,7 @@ import { SearchApiService } from '../apis/search-api.service'
 // import { IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequest,
 // ISearchRequestV2, ISearchSocialSearchPartialRequest, ISocialSearchRequest } from '../models/search.model'
 import {
-  IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequestV2,
+  IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequestV2, ISearchRequestV3,
   ISearchSocialSearchPartialRequest, ISocialSearchRequest,
 } from '../models/search.model'
 
@@ -70,7 +70,16 @@ export class SearchServService {
   getLearning(request: ISearchRequestV2): Observable<NSSearch.ISearchV6ApiResultV2> {
     return this.searchV6Wrapper(request)
   }
-
+  getsearchLearning(request: ISearchRequestV3): Observable<NSSearch.ISearchV6ApiResultV3> {
+    return this.searchV7Wrapper(request)
+  }
+  searchV7Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV3> {
+    const v6Request: any = {
+      query: request.query,
+      language: request.language,
+    }
+    return this.searchApi.getSearchV7Results(v6Request)
+  }
   searchV6Wrapper(request: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     // this.searchConfig.search['visibleFiltersV2'] = {
     //   primaryCategory: {
@@ -517,6 +526,22 @@ export class SearchServService {
       data: {
         query,
         filters,
+        locale,
+        eventSubType: WsEvents.EnumTelemetrySubType.Search,
+        size: totalHits,
+        type: 'search',
+      },
+      from: 'search',
+      to: 'telemetry',
+    })
+  }
+  raiseNewSearchResponseEvent(query: string, totalHits: number, locale: any) {
+    this.events.dispatchEvent<WsEvents.IWsEventTelemetrySearch>({
+      eventType: WsEvents.WsEventType.Telemetry,
+      eventLogLevel: WsEvents.WsEventLogLevel.Warn,
+      data: {
+        query,
+        // filters,
         locale,
         eventSubType: WsEvents.EnumTelemetrySubType.Search,
         size: totalHits,

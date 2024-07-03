@@ -9,7 +9,6 @@ import { MobileAppsService } from '../../../../../../src/app/services/mobile-app
 import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
-import { Location } from '@angular/common'
 import { appNavBarService } from 'src/app/component/app-nav-bar/app-nav-bar.service'
 
 export const typeMap = {
@@ -64,7 +63,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     // private tour: CustomTourService,
     private searchApi: SearchApiService,
     private signupService: SignupService,
-    location: Location,
     public navOption: appNavBarService
   ) {
     super()
@@ -81,11 +79,15 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         }
       }
       if (window.location.href.includes('/app/toc')) {
-        this.currentText = ''
+        //this.currentText = ''
+        if (window.location.href.includes('/hi/app/toc')) {
+          this.currentText = 'होम'
+        } else {
+          this.currentText = 'Home'
+        }
       }
     })
 
-    console.log(location.path(), window.location.href, 'btn-feature')
     if (window.location.href.includes('/app/profile-view')) {
       if (window.location.href.includes('/hi/app/profile-view')) {
         this.currentText = 'अकाउंट'
@@ -119,7 +121,6 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     } else {
       this.currentText = ''
     }
-    console.log(this.currentText, 'btn-122')
   }
 
   updateBadge() {
@@ -139,10 +140,8 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
   }
   async redirect(text: any) {
-    console.log(text)
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1)
     let url3 = `${document.baseURI}`
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
@@ -150,25 +149,36 @@ export class BtnFeatureComponent extends WidgetBaseComponent
 
     if (text.name === 'Home' || text.name === "होम") {
       this.currentText = text.name
-      let url = '/page/home'
+      let url = url1 === 'hi' ? '/page/home' : 'page/home'
       location.href = `${url3}${url1}${url}`
+
     } else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
       this.currentText = text.name
-      let url = text.url
-      location.href = `${url3}${url1}${url}`
+      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
+      let result = await this.signupService.getUserData()
+      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        location.href = `${url3}${url1}${url}`
+      } else {
+        let url = url1 === 'hi' ? '/page/home' : 'page/home'
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+      }
     } else if (text.name === 'Competency' || text.name === "योग्यता") {
       this.currentText = text.name
-      let url = '/app/user/competency'
-      location.href = `${url3}${url1}${url}`
+      let result = await this.signupService.getUserData()
+      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
+        location.href = `${url3}${url1}${url}`
+      } else {
+        let url = url1 === 'hi' ? '/page/home' : 'page/home'
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+      }
     } else if (text.name === "खोज" || text.name === "Search") {
       this.navOption.changeNavBarActive('search')
       this.currentText = text.name
       let url = `${text.url}`
       location.href = `${url3}${url1}${url}`
     } else {
-      console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
       let result = await this.signupService.getUserData()
-      console.log(result)
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.currentText = text.name
         let url = '/app/profile-view'
@@ -180,8 +190,9 @@ export class BtnFeatureComponent extends WidgetBaseComponent
           // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
           this.currentText = 'Home'
-          const url = '/page/home'
+          //const url = '/page/home'
           let url4 = `${document.baseURI}`
+          let url = url1 === 'hi' ? '/page/home' : 'page/home'
           if (url4.includes('hi')) {
             url1 = ''
           }

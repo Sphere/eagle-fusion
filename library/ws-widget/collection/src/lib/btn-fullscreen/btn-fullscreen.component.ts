@@ -7,6 +7,7 @@ import {
   requestFullScreen,
   // hasFullScreenSupport,
 } from './fullscreen.util'
+import { Router } from '@angular/router'
 
 @Component({
   selector: 'ws-widget-btn-fullscreen',
@@ -17,7 +18,13 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<{ fsContainer: HTMLElement | null }> {
   @Input() widgetData!: { fsContainer: HTMLElement | null }
   @Output() fsState: EventEmitter<boolean> = new EventEmitter()
-
+  containsQuizAssessment = false;
+  constructor(private router: Router) {
+    super()
+    console.log(this.router.url.includes('quiz'))
+    this.containsQuizAssessment = this.router.url.includes('quiz')
+    console.log(this.containsQuizAssessment)
+  }
   // isFullScreenSupported = true
   isInFs = false
   fsChangeSubs: Subscription | null = null
@@ -55,7 +62,9 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
       this.fsState.emit(true)
       try {
         this.widgetData.fsContainer.classList.add('mat-app-background')
-      } catch (err) { }
+      } catch (err) {
+        alert(err)
+      }
     }
 
   }

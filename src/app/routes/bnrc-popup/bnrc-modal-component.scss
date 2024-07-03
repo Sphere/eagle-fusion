@@ -1,0 +1,159 @@
+@import 'ws-mixins';
+
+.overview-container {
+  display: flex;
+  flex-direction: column;
+  gap: 17px;
+
+}
+
+.flex {
+  display: flex;
+
+}
+
+.header-block {
+  display: flex;
+  gap: 14px !important;
+}
+
+.btn-block {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.btn-main {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100% !important;
+  margin: 0px !important;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.justify-center {
+  justify-content: center;
+}
+
+.btn {
+  margin-left: 20px;
+  border-radius: 50px;
+  height: 38px !important;
+  color: #1c5d95 !important;
+  // border-color: #1C5D95 !important;
+  border: 1px solid #1c5d95 !important;
+
+  @include breakpoint-xs {
+    margin-left: 12px;
+  }
+}
+
+.btn-active {
+  background-color: #1c5d95 !important;
+  color: #ffffff !important;
+}
+
+
+.center-align {
+  text-align: center !important;
+}
+
+.message-text {
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 18.75px;
+  letter-spacing: 0.02em;
+  text-align: left;
+
+
+}
+
+.mat-dialog-content {
+  overflow: hidden !important;
+  max-height: none !important;
+}
+
+.example-container {
+  margin: 4px 0px;
+}
+
+.close-icon {
+  display: flex;
+  justify-content: flex-end;
+
+  padding: 0px !important;
+}
+
+.mat-dialog-container {
+  padding-bottom: 0px;
+}
+
+.no-padding {
+  padding: 0px !important;
+}
+
+
+
+.download-btn {
+
+  cursor: pointer;
+  background: #2E6491 !important;
+  color: #FFFFFF !important;
+  padding: 8px 32px 8px 32px;
+  border-radius: 50px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center !important;
+  border: none !important;
+  height: 40px !important;
+}
+
+.continue-btn {
+
+  cursor: pointer;
+
+  background: #FFFFFF !important;
+  color: #2E6491 !important;
+  border: 1px solid #2E6491 !important;
+  padding: 8px 32px 8px 32px;
+  border-radius: 50px;
+  font-family: Roboto;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center !important;
+  height: 40px !important;
+}
+
+.submit-btn[disabled] {
+  background-color: #d3d3d3 !important;
+}
+
+.relative {
+  display: flex;
+  flex-direction: column;
+}
+
+.m-0 {
+  margin: 0px !important;
+}
+
+.header {
+  font-family: Roboto;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28.13px;
+  letter-spacing: 0.02em;
+  text-align: center;
+
+
+}

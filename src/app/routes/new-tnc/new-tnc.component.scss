@@ -1,8 +1,66 @@
 @import 'ws-mixins';
 
+.terms-block {
+  display: flex;
+  flex-direction: column;
+  padding: 15px 15px 10px 30px;
+}
+
+.ul-class {
+  padding-left: 18px !important;
+}
+
+.terms-text {
+  font-family: 'Roboto', sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 28px;
+  letter-spacing: 0em;
+  text-align: left;
+
+}
+
+.tick-text {
+  //styleName: Body;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  text-align: left;
+
+}
+
+/* Change the color of the checked state to blue */
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+  background-color: #1C5D95 !important;
+}
+
+::ng-deep .theme-igot.day-mode .mat-checkbox {
+  margin-top: -10px;
+}
+
+.link-text {
+  cursor: pointer;
+  text-decoration: underline;
+  color: #1C5D95 !important;
+  font-family: 'Roboto', sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  text-align: left;
+
+}
+
+.tnc-image {
+  width: 165px !important;
+  height: 141px !important;
+}
+
 .tnc-bottom-navbar {
-  padding: 12px 0;
-  background-color: #fff;
+  padding: 12px;
+  background-color: #DFEDF9;
   text-align: right;
 }
 
@@ -34,6 +92,7 @@
   padding: 8px 32px;
   font-size: 16px;
   line-height: 19px;
+  font-weight: 500;
 }
 
 .tnc-render-content {
@@ -53,12 +112,17 @@
     width: 70%;
   }
 
+  ::ng-deep .theme-igot.day-mode .mat-checkbox {
+    margin-top: 7px !important;
+  }
+
   // .tnc-bottom-navbar {
   //   margin-top: 3rem;
   // }
 }
 
 @media screen and (min-width:1600px) {
+
   .tnc-main {
     margin-top: 2rem;
     width: 60%;
@@ -73,7 +137,7 @@
   .tnc-render-content {
     border: none;
     height: unset;
-    max-height: calc(100vh - 170px);
+    max-height: calc(100vh - 125px);
   }
 
   .tnc-main {
@@ -84,11 +148,22 @@
     z-index: 100;
     position: fixed;
     bottom: 0;
+    left: 0px;
     width: 100%;
-    padding-bottom: 50px;
+    padding: 20px;
   }
 
   .accept-div {
     margin-right: 10px;
   }
+}
+
+#decline:disabled {
+  opacity: 0.7;
+  color: grey;
+}
+
+#agree:disabled {
+  opacity: 0.7;
+  background-color: grey;
 }

@@ -6,7 +6,7 @@
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
-    <div role="link" tabindex="0" class="mb-2"
+    <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
       [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
       <span class="mt-1" *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
       <span class="mt-1" *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.content.length }} </span>
@@ -110,23 +110,24 @@
     <h2 class="mat-h2" i18n>No result</h2>
     <h3 class="mat-h3" i18n>You may try</h3>
     <div class="padding-left-s">
-      <!-- <h4 [hidden]="!filtersResetAble">
-        <ng-container> Removing Filters </ng-container>
-        <button (click)="removeFilters()" type="button" mat-icon-button>
-          <mat-icon>restore</mat-icon>
-        </button>
-      </h4> -->
-      <h4 *ngIf="searchRequest?.lang?.split(',').length === 1">
-        <ng-container i18n> Removing Language </ng-container>
-        <button (click)="removeLanguage()" type="button" mat-icon-button>
-          <mat-icon>restore</mat-icon>
-        </button>
-      </h4>
       <!-- <h4>
             <span >Browsing</span>&nbsp;
             <a [routerLink]="'/catalog'"  class="catalog-link">Catalog</a>
           </h4> -->
       <h4 i18n>Different keywords</h4>
+      <h4 *ngIf="(isXSmall$ | async) === false">
+        <ng-container>Clear search results</ng-container>
+        <button (click)="removeSearch()" type="button" mat-icon-button>
+          <mat-icon>restore</mat-icon>
+        </button>
+      </h4>
+
+      <h4 *ngIf="(isXSmall$ | async) === true">
+        <ng-container i18n> Removing Language </ng-container>
+        <button (click)="removeLanguage()" type="button" mat-icon-button>
+          <mat-icon>restore</mat-icon>
+        </button>
+      </h4>
     </div>
   </div>
 

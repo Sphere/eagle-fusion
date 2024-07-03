@@ -1,108 +1,45 @@
 <div class="tnc-container" id="tnc">
-  <mat-accordion [multi]="false">
-    <mat-expansion-panel [expanded]="currentPanel === 'tnc'" (opened)="currentPanel = 'tnc'"
-      (closed)="currentPanel = 'dp'" *ngIf="generalTnc">
-      <mat-expansion-panel-header class="tnc">
-        <mat-panel-title>
-          <h2 class="mat-title tnc-title">
-            <mat-icon *ngIf="generalTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
-            </mat-icon>
-            <ng-container i18n *ngIf="termsOfUser">Terms of Use</ng-container>
-            <ng-container i18n *ngIf="!termsOfUser">Terms & Conditions</ng-container>
-          </h2>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div class="mat-app-background padding-s margin-bottom-s">
-        <h3 *ngIf="!generalTnc?.isAccepted && generalTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
-          Terms and Conditions have been updated.
-        </h3>
-        <div class="flex items-center justify-between">
-          <!-- <div> -->
-          <!-- <p class="margin-remove">
-              <ng-container i18n>Showing in</ng-container>
-              '{{generalTnc?.language}}'
-            </p> -->
-          <!-- <p class="margin-remove" *ngIf="generalTnc?.acceptedLanguage?.length">
-              <ng-container i18n> Accepted Language: </ng-container>
-              '{{generalTnc?.acceptedLanguage}}'
-            </p> -->
-          <!-- </div> -->
-          <div *ngIf="generalTnc?.version">
-            <ng-container i18n>T&C Version : </ng-container>
-            <span class="ws-mat-primary-text">{{ generalTnc?.version }}</span>
-          </div>
-          <!-- <button mat-button [matMenuTriggerFor]="tncLangMenu">
-            <ng-container i18n>Available Languages</ng-container>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </button> -->
-        </div>
-        <!-- <div *ngIf="generalTnc?.isAccepted">
-          <ng-container i18n>Accepted on </ng-container>
-          <span class="ws-mat-primary-text">{{ generalTnc?.acceptedDate | date }}</span>
-        </div> -->
-        <!-- <div *ngIf="!generalTnc?.isAccepted && generalTnc?.acceptedVersion.length">
-          <ng-container i18n>Accepted Version: </ng-container>
-          <span class="ws-mat-primary-text">{{ generalTnc?.acceptedVersion }}</span>
-        </div> -->
+  <button (click)="backBtnClick()" mat-icon-button
+    class="back-icon text-left"><mat-icon>chevron_left</mat-icon></button>
+  <div *ngIf="showTerms==='terms'" class="mat-app-background padding-s margin-bottom-s">
+    <h3 *ngIf="!generalTnc?.isAccepted && generalTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
+      Terms and Conditions have been updated.
+    </h3>
+    <!-- <div class="flex items-center justify-between">
+      <div style="display: flex;flex-direction: column;" *ngIf="generalTnc?.version">
+        <ng-container i18n><span style="margin-left: -12px !important" i18n>Terms of use</span></ng-container>
+        <ng-container i18n><span style="margin-left: -12px !important;margin-top: 10px;" i18n>T&C Version :{{
+            generalTnc?.version }}
+          </span></ng-container>
       </div>
-      <article [innerHTML]="generalTnc?.content" class="text-justify"></article>
-      <mat-action-row *ngIf="dpTnc === 'Data Privacy'">
-        <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n>
-          View Privacy Policy
-        </button>
-        <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'" i18n>
-          Data Privacy
-        </button>
-      </mat-action-row>
-    </mat-expansion-panel>
-    <mat-expansion-panel [expanded]="currentPanel === 'dp'" (closed)="currentPanel = 'tnc'"
-      (opened)="currentPanel = 'dp'" (afterExpand)="reCenterPanel()" *ngIf="dpTnc">
-      <mat-expansion-panel-header class="tnc">
-        <mat-panel-title>
-          <h2 class="mat-title tnc-title">
-            <mat-icon *ngIf="dpTnc?.isAccepted" class="accept-btn-icon ws-mat-green-text">check_circle_outline
-            </mat-icon>
-            <ng-container i18n *ngIf="termsOfUser">Privacy Policy</ng-container>
-            <ng-container i18n *ngIf="!termsOfUser">Data Privacy</ng-container>
-          </h2>
-        </mat-panel-title>
-      </mat-expansion-panel-header>
-      <div class="mat-app-background padding-s margin-bottom-s">
-        <h3 *ngIf="!dpTnc?.isAccepted && dpTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
-          Data privacy has been upgraded.
-        </h3>
-        <div class="flex items-center justify-between">
-          <!-- <div> -->
-          <!-- <p class="margin-remove">
-              <ng-container i18n>Showing in</ng-container>
-              '{{dpTnc?.language}}'
-            </p> -->
-          <!-- <p class="margin-remove" *ngIf="dpTnc?.acceptedLanguage?.length">
-              <ng-container i18n> Accepted Language: </ng-container>
-              '{{dpTnc?.acceptedLanguage}}'
-            </p> -->
-          <!-- </div> -->
-          <div *ngIf="dpTnc?.version">
-            <ng-container i18n>Data Privacy Version: </ng-container>
-            <span class="ws-mat-primary-text">{{ dpTnc?.version }}</span>
-          </div>
-          <!-- <button mat-button [matMenuTriggerFor]="dpLangMenu">
-            <ng-container i18n>Available Languages</ng-container>
-            <mat-icon>keyboard_arrow_down</mat-icon>
-          </button> -->
-        </div>
-        <!-- <div *ngIf="dpTnc?.isAccepted">
-          <ng-container i18n>Accepted on </ng-container>
-          <span class="ws-mat-primary-text">{{ dpTnc?.acceptedDate | date }}</span>
-        </div> -->
-        <!-- <div *ngIf="!dpTnc?.isAccepted && dpTnc?.acceptedVersion.length">
-          <ng-container i18n>Accepted Version: </ng-container>
-          <span class="ws-mat-primary-text">{{ dpTnc?.acceptedVersion }}</span>
-        </div> -->
+    </div> -->
+  </div>
+  <article *ngIf="showTerms==='terms'" [innerHTML]="generalTnc?.content" class="text-justify"></article>
+  <!-- <mat-action-row *ngIf="dpTnc === 'Data Privacy'">
+    <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n>
+      View Privacy Policy
+    </button>
+    <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'" i18n>
+      Data Privacy
+    </button>
+  </mat-action-row> -->
+
+  <div *ngIf="showTerms==='privacy'" class="mat-app-background padding-s margin-bottom-s">
+    <h3 *ngIf=" dpTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
+      Data privacy has been upgraded.
+    </h3>
+    <div class="flex items-center justify-between">
+
+      <div *ngIf="dpTnc?.version">
+        <ng-container i18n>Data Privacy Version: </ng-container>
+        <span class="ws-mat-primary-text">{{ dpTnc?.version }}</span>
       </div>
-      <article [innerHTML]="dpTnc?.content | pipeSafeSanitizer: 'html'" class="text-justify"></article>
-    </mat-expansion-panel>
-  </mat-accordion>
+
+    </div>
+  </div>
+  <article *ngIf="showTerms==='privacy'" [innerHTML]="dpTnc?.content | pipeSafeSanitizer: 'html'" class="text-justify">
+  </article>
+
 </div>
 
 

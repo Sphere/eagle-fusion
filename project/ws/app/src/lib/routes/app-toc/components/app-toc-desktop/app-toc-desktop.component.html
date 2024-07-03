@@ -4,13 +4,16 @@
       <button (click)="redirect()" mat-icon-button [disableRipple]="true" class="back-icon">
         <mat-icon>chevron_left</mat-icon>
       </button>
+    </div>
+    <div class="cne-duration-block margin-bottpm">
+      <div><span class="cne-block" *ngIf="content?.cneName && content?.cneName != ' '" style="word-wrap: break-word;">
+          CNE hours: {{ content.cneName }} </span></div>
 
-      <div>
+      <div class="duration-block">
         <img loading="lazy" src=".\fusion-assets\icons\clock.svg" alt="clock"> {{ content?.duration |
         pipeDurationTransform: 'hms' }}
       </div>
     </div>
-
 
     <div class="title"><span style="word-wrap: break-word;" [title]="content?.name">
         {{ content?.name }} </span></div>
@@ -37,15 +40,41 @@
     </div> -->
     <!-- <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>
       View License Terms</div> -->
-    <div *ngIf="content?.completionPercentage > 0" class="mt-2">
-      <mat-progress-bar [mode]="'determinate'" [value]="
-        content?.completionPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
-        [ngClass]="{ 'visibility-0': content?.completionPercentage === undefined, 'thick': content?.completionPercentage}"
-        i18n-aria-label>
-        {{content?.completionPercentage}} %
-      </mat-progress-bar>
-      <span class="value" *ngIf="content?.completionPercentage">{{content?.completionPercentage}}%</span>
+    <div class="rating-block mb-2">
+      <span class="average-rating">{{averageRating}}</span>
+      <ng-container *ngIf="averageRating>0">
+        <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i)" alt="Star">
+      </ng-container>
+      <span *ngIf="totalRatings>0" class="total-rating">( {{totalRatings}} )</span>
+      <div *ngIf="content?.completionPercentage === 100 && averageRating > 0"
+        class="flex flex-col gap-1 justify-content-center align-items-center">
+        <mat-icon class="float-right pencil cursor-pointer" (click)="openRating(content?.identifier)"
+          matTooltip="Edit Rating">edit</mat-icon>
+      </div>
     </div>
+    <div *ngIf="optmisticPercentage !== null && content !== undefined">
+      <!-- Content goes here -->
+      <div *ngIf="optmisticPercentage >= content!.completionPercentage; else elseBlock" class="mt-2">
+        <mat-progress-bar [mode]="'determinate'" [value]="
+                    optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+          [ngClass]="{ 'visibility-0': optmisticPercentage === null || optmisticPercentage === 0, 'thick': optmisticPercentage}"
+          i18n-aria-label>
+          {{optmisticPercentage}} %
+        </mat-progress-bar>
+        <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
+      </div>
+    </div>
+    <ng-template #elseBlock>
+      <div *ngIf="content?.completionPercentage > 0" class="mt-2">
+        <mat-progress-bar [mode]="'determinate'" [value]="
+        content?.completionPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+          [ngClass]="{ 'visibility-0': content?.completionPercentage === undefined, 'thick': content?.completionPercentage}"
+          i18n-aria-label>
+          {{content?.completionPercentage}} %
+        </mat-progress-bar>
+        <span class="value" *ngIf="content?.completionPercentage">{{content?.completionPercentage}}%</span>
+      </div>
+    </ng-template>
     <!-- <ws-widget-content-progress [isDesktop]='true' *ngIf="content?.identifier" [forPreview]="forPreview"
       [contentId]="content?.identifier" [className]="'thick'" [progress]="content?.completionPercentage">
     </ws-widget-content-progress> -->
@@ -65,15 +94,13 @@
           <span class="btn-tittle" i18n>Competency</span>
         </div>
 
-
-
         <!-- #if cetification ininrollment api -->
         <div class="flex flex-col gap-1 justify-content-center align-items-center">
           <ng-container *ngIf="issueCertificate === true; else download ">
             <!-- sendApi() -->
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" data-toggle="modal" class="button-border"
-              matTooltip="Preview Certificate">
+              i18n-matTooltip matTooltip="Preview Certificate">
               <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
                 style="background-color: cornflowerblue;width: 25px;height: auto;">
             </button>
@@ -83,7 +110,7 @@
           <ng-template #download>
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" class="button-border" data-toggle="modal"
-              matTooltip="Preview Certificate">
+              i18n-matTooltip matTooltip="Preview Certificate">
               <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
                 style="background-color: cornflowerblue;width: 25px;height: auto;">
             </button>
@@ -97,20 +124,34 @@
           <span class="btn-tittle" i18n>Share</span>
         </div>
       </div>
-      <ng-container>
+      <div class="flex gap-1">
         <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
           (click)="enrollUser(batchData.content)" i18n>
           Start
         </button>
         <!--(click)="resumeBtn()" -->
-        <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
-          (click)="setConfirmDialogStatus(content?.completionPercentage)"
-          [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
-          [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')" class="banner-btn resumeButton">
-          <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
-            {{resumeData?"Resume":"Resume"}}
-          </ng-container>
-        </a>
+        <ng-container *ngIf="!updatedContentStatus; else elseBlock1">
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
+            (click)="setConfirmDialogStatus(content?.completionPercentage)"
+            [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
+            [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
+            class="banner-btn resumeButton">
+            <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
+              {{resumeData?"Resume":"Resume"}}
+            </ng-container>
+          </a>
+        </ng-container>
+        <ng-template #elseBlock1>
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage < 100 || content!.completionPercentage < 100;"
+            (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
+            <ng-container i18n>
+              Resume
+            </ng-container>
+          </a>
+        </ng-template>
+        <!-- <button id="start-btn" class="banner-btn cursor-pointer" (click)="giveRating(batchData.content)" i18n>
+          Rating
+        </button> -->
         <!-- #if cetification ininrollment api -->
         <!-- <ng-container *ngIf="issueCertificate === true; else download ">
           <button *ngIf="content?.issueCertification === true" (click)="sendApi()"
@@ -124,7 +165,7 @@
             <mat-icon>file_download</mat-icon><span i18n>Certificate</span>
           </button>
         </ng-template> -->
-      </ng-container>
+      </div>
 
 
     </div>
@@ -186,8 +227,8 @@
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal"
-          (click)="closePopup()">Close</button>
+        <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()"
+          i18n>Close</button>
       </div>
 
     </div>

@@ -4,40 +4,46 @@
   // display: flex;
   // width: 284.556px;
   // height: 169.984px;
-  box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
+  box-shadow: 0px 0px 8px 0px #00000073;
+
+  // box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
   border-radius: 10px;
   padding-bottom: 0px !important;
-    position: relative;
-    width: 276px;
-    height: 100%;
-    margin-right: 23px;
-    border: 1px solid #00000014;
+  position: relative;
+  width: 276px;
+  height: 100%;
+  margin-right: 23px;
+  border: 1px solid #00000014;
 }
+
 .course-container .appIcon {
   // .mat-card-image {
-    width: calc(100% + 32px);
-    // margin: 0 -16px 16px -16px;
-// }
+  width: calc(100% + 32px);
+  // margin: 0 -16px 16px -16px;
+  // }
   // min-width: 276px;
   // max-width: 276px;
   height: 150px;
 }
+
 .course-container .box {
   // height: 250px;
   margin-bottom: 20px;
   padding-bottom: 5px;
 }
+
 .course-container .name {
-  color:#1C5D95;
+  color: #1C5D95;
   font-weight: 400;
-  font-size:16px;
+  font-size: 16px;
   margin-bottom: 0 !important;
 }
 
 .course-container .creator {
   font-weight: 400;
-  font-size:12px;
+  font-size: 12px;
 }
+
 .course-container .description {
   font-family: 'Roboto';
   font-style: normal;
@@ -56,6 +62,7 @@
   color: #fff !important;
   cursor: pointer;
 }
+
 .bg-cont-white {
   background-color: #fff;
 }
@@ -85,6 +92,8 @@
   max-width: 100% !important;
   border-top-left-radius: 10px;
   border-top-right-radius: 10px;
+  box-shadow: 0px 0px 3px 0px #00000073;
+
 }
 
 .text-over {
@@ -111,6 +120,19 @@
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }
+
+.cne-points {
+  position: absolute;
+  bottom: -15px;
+  right: 0px;
+  padding: 5px;
+  color: #FFFFFF;
+  // border-top-left-radius: 10px;
+  // border-bottom-left-radius: 10px;
+  border-radius: 5px 0px;
+  background: #DCFAFF;
+}
+
 
 .name {
   padding-top: 1rem;
@@ -165,6 +187,7 @@
     }
   }
 }
+
 a {
   cursor: pointer;
 }
@@ -339,6 +362,7 @@ a {
     line-height: $description-line-height;
     font-size: 13px;
   }
+
   .fs-13 {
     font-size: 13px;
   }
@@ -466,6 +490,7 @@ a {
     line-height: 24px;
     padding-bottom: 0;
   }
+
   .basic {
     margin: auto 0;
   }
@@ -568,7 +593,7 @@ a {
     overflow: hidden;
     height: $title-line-count * $title-line-height;
     line-height: $title-line-height;
-    color: #424242 ;
+    color: #424242;
   }
 
   .author-image {
@@ -621,12 +646,15 @@ $title-line-count: 2;
 .mat-icon {
   font-size: 21px;
 }
+
 .theme-igot.day-mode .mat-card {
   box-shadow: none !important;
 }
+
 .theme-igot.day-mode .mat-card-content {
   font-size: 13px;
 }
+
 .duration {
   padding-top: 2px;
   display: flex;
@@ -635,6 +663,7 @@ $title-line-count: 2;
   padding-bottom: 0;
   font-weight: 500;
 }
+
 .popover-card {
   min-width: 350px;
   max-width: 350px;
@@ -642,6 +671,7 @@ $title-line-count: 2;
   box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
   background-color: #fff;
 }
+
 .mat-h1,
 .fw-500,
 .mat-raised-button {
@@ -651,6 +681,7 @@ $title-line-count: 2;
 .mat-raised-button {
   font-size: 16px;
 }
+
 .mat-typography {
   font: 400 14px/20px Roboto;
 }
@@ -672,10 +703,10 @@ $title-line-count: 2;
 
 
 @media only screen and (max-width: 600px) {
-  .title-text{
-    color:#1C5D95 !important ;
+  .title-text {
+    color: #1C5D95 !important;
     font-weight: 400 !important;
-    font-size:16px !important;
+    font-size: 16px !important;
     margin-bottom: 0 !important;
   }
 
@@ -689,6 +720,7 @@ $title-line-count: 2;
   padding-top: 7px;
   border-radius: 10px;
   overflow: hidden !important;
+
   .card-img {
     position: absolute;
     z-index: 2;
@@ -698,18 +730,18 @@ $title-line-count: 2;
 }
 
 .foundation {
-    background-color: #D68480;
-    width: 205px;
-    height: 35px;
-    position: absolute;
-    top: -31px;
-    left: -15px;
-    z-index: 3;
-    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
-    border-radius: 10px 0px;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 10px;
+  background-color: #D68480;
+  width: 205px;
+  height: 35px;
+  position: absolute;
+  top: -31px;
+  left: -15px;
+  z-index: 3;
+  box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+  border-radius: 10px 0px;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 10px;
 }
 
 .points {

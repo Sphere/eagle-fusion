@@ -5,8 +5,9 @@ import {
   // noop,
   Observable, BehaviorSubject,
 } from 'rxjs'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 import { NsContent } from '../../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
+import { IndexedDBService } from 'src/app/online-indexed-db.service'
 
 @Injectable({
   providedIn: 'root',
@@ -23,7 +24,9 @@ export class ViewerUtilService {
   authoringBase = '/apis/authContent/'
   competencyAsessment = new BehaviorSubject<any>(false)
   competencyAsessment$ = this.competencyAsessment.asObservable()
-  constructor(private http: HttpClient, private configservice: ConfigurationsService) { }
+  constructor(private http: HttpClient, private configservice: ConfigurationsService,
+    private onlineIndexedDbService: IndexedDBService
+  ) { }
 
   private currentResource = new BehaviorSubject<NsContent.IContent | null>(null)
   castResource = this.currentResource.asObservable()
@@ -69,7 +72,7 @@ export class ViewerUtilService {
           //   // if percentage is greater than 95% make it 100
           //   percent = 100
           // }
-        } if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+        } if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'application/json') {
           return 100
         } if (mimeType === NsContent.EMimeTypes.ZIP) {
           return 100
@@ -114,7 +117,7 @@ export class ViewerUtilService {
         if (Math.ceil(percentage) >= 95) {
           return 2
         }
-      } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB) {
+      } else if (mimeType === NsContent.EMimeTypes.TEXT_WEB || mimeType === 'application/json') {
         // if (current === 1) {
         //   return 0
         // }
@@ -146,6 +149,37 @@ export class ViewerUtilService {
     }
   }
   initUpdate(req: any) {
+    console.log(req.request.contents[0])
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, req.request.contents[0].courseId).subscribe((record) => {
+      console.log(record, '153')
+      let cUrl = window.location.href
+      console.log(cUrl.split('/'))
+      let id = cUrl.split('/')[5]
+      console.log(id)
+      this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe({
+        next: (next) => {
+          console.log('Record deleted successfully', next)
+          if (next) {
+
+          }
+          this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+            (dat: any) => {
+              console.log('Data inserted successfully2', dat)
+
+            })
+        },
+        error: (error) => {
+          console.error('Error deleting record:', error)
+        }
+      })
+    }, (error) => {
+      console.log(error, '156',)
+      this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+        (dat: any) => {
+          console.log('Data inserted successfully1', dat)
+
+        })
+    })
     return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
   }
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
@@ -178,9 +212,46 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    // console.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`)
-    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
+    console.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '215')
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe((record) => {
+      console.log(record, '217')
 
+      let cUrl = window.location.href
+      console.log(cUrl.split('/'))
+      let id = cUrl.split('/')[5]
+      console.log(id)
+      this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
+        (message: any) => { // 'next' callback
+          console.log('Record deleted successfully', message)
+
+          this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+            async (dat: any) => {
+              console.log('Data inserted successfully2', dat)
+              let msg = await dat
+              if (msg) {
+
+              }
+            },
+            (error: any) => { // 'error' callback for insertProgressData
+              console.error('Error inserting progress data:', error)
+            }
+          )
+        },
+        (error: any) => { // 'error' callback for deleteRecordByKey
+          console.error('Error deleting record:', error)
+        }
+      )
+
+
+    }, (error) => {
+      console.log(error, '247')
+      this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+        (dat: any) => {
+          console.log('Data inserted successfully1', dat)
+
+        })
+    })
+    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
   }
 
   realTimeProgressUpdateQuiz(contentId: string, collectionId?: string, batchId?: string, status?: number) {

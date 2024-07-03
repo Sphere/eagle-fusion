@@ -15,7 +15,7 @@
     </div>
   </div> -->
   <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
-    <label i18n style="display: block;">Background</label>
+    <label i18n for="profession" style="display: block;">Background</label>
     <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
       <mat-select formControlName="profession" i18n-placeholder placeholder="Profession"
         (selectionChange)="professionalChange($event.value)">
@@ -27,7 +27,7 @@
       <div class="form-group input-box">
         <select id="profession" formControlName="designation" class="form-control select-box"
           (change)="professionSelect($event.target.value);" required>
-          <option [value]="null" style="color:#808080;" i18n>Designation*</option>
+          <option [value]="null" style="color:#808080;" disabled i18n>Designation*</option>
           <option *ngFor="let profession of healthWorkerProfessions" [value]="profession">{{ profession }}
           </option>
         </select>
@@ -40,14 +40,14 @@
         *ngIf="personalDetailForm.controls['professionOtherSpecify'].hasError('pattern')">
         {{errorMsg}}</mat-error>
       <div class="form-group">
-        <label i18n>RN/RM Number</label>
+        <label for="regNurseRegMidwifeNumber" i18n>RN/RM Number</label>
         <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control" i18n-placeholder
           placeholder="RN/RM Number" autocomplete="off">
       </div>
       <div class="form-group input-box">
         <select id="orgType" formControlName="orgType" class="form-control select-box"
           (change)="orgTypeSelect($event.target.value);" required>
-          <option [value]="null" i18n>Organization Type*</option>
+          <option [value]="null" i18n disabled>Organization Type*</option>
           <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
         </select>
       </div>
@@ -83,7 +83,7 @@
       <div class="form-group input-box">
         <select id="selectBackground" formControlName="selectBackground" class="form-control select-box"
           (change)="chooseBackground($event.target.value)" required>
-          <option [value]="null" i18n>Select Background</option>
+          <option [value]="null" i18n disabled>Select Background</option>
           <option value="Mother/Family Members">Mother/Family Members</option>
           <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>
           <option value="Asha Trainer" *ngIf='!hideAsha'>Asha Trainer</option>
@@ -107,8 +107,10 @@
         </div>
       </div>
       <div *ngIf="selectedBg === 'Other'">
+        <input type="text" class="form-control" formControlName="designation" placeholder="Designation"
+          i18n-placeholder>
         <div class="form-group mt-4 input-box">
-          <input type="text" class="form-control" i18n-placeholder formControlName="professionOther"
+          <input type="text" class="form-control" i18n-placeholder formControlName="nameOther"
             placeholder="Please Specify Profession*" required>
         </div>
         <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['profession'].hasError('pattern')">
@@ -117,7 +119,7 @@
         <div class="form-group input-box">
           <select id="orgType" formControlName="orgType" class="form-control select-box"
             (change)="orgTypeSelect($event.target.value)" required>
-            <option [value]="null" i18n>Organization Type*</option>
+            <option [value]="null" i18n disabled>Organization Type*</option>
             <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
           </select>
         </div>
@@ -140,9 +142,9 @@
 
     <ng-container *ngIf="HealthcareVolunteer">
       <div class="form-group input-box">
-        <select id="profession" formControlName="designation" class="form-control select-box"
+        <select id="designation" formControlName="designation" class="form-control select-box"
           (change)="professionSelect($event.target.value);" required>
-          <option [value]="null" style="color:#808080;" i18n>Profession*</option>
+          <option [value]="null" style="color:#808080;" disabled i18n>Profession*</option>
           <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
           </option>
         </select>
@@ -157,7 +159,7 @@
       <div class="form-group input-box">
         <select id="orgType" formControlName="orgType" class="form-control select-box"
           (change)="orgTypeSelect($event.target.value);" required>
-          <option [value]="null" i18n>Organization Type*</option>
+          <option [value]="null" i18n disabled>Organization Type*</option>
           <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
         </select>
       </div>
@@ -175,6 +177,13 @@
     </ng-container>
     <ng-container *ngIf="Student">
       <div class="form-group input-box">
+        <select id="profession" formControlName="designation" class="form-control select-box" required>
+          <option [value]="null" i18n disabled>Designation*</option>
+          <option *ngFor="let profession of studentList" [value]="profession">{{ profession }}
+          </option>
+        </select>
+      </div>
+      <div>
         <input type="text" class="form-control" i18n-placeholder formControlName="courseName"
           placeholder="Qualification"
           (change)="assignFields('coursename',almostDoneForm.controls['courseName'].value, $event)">
@@ -193,8 +202,11 @@
     <!-- Background: Faculty -->
     <ng-container *ngIf="Faculty">
       <div class="form-group input-box">
-        <input type="text" class="form-control" formControlName="designation" placeholder="Designation"
-          i18n-placeholder>
+        <select id="profession" formControlName="designation" class="form-control select-box" required>
+          <option [value]="null" i18n disabled>Designation*</option>
+          <option *ngFor="let profession of facultyList" [value]="profession">{{ profession }}
+          </option>
+        </select>
       </div>
       <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['designation'].hasError('pattern')">
         {{errorMsg}}</mat-error>

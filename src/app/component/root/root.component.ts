@@ -37,9 +37,9 @@ import { ExploreResolverService } from './../../../../library/ws-widget/resolver
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import split from 'lodash/split'
 import { Plugins } from '@capacitor/core'
-import { v4 as uuid } from 'uuid'
+//import { v4 as uuid } from 'uuid'
 const { App } = Plugins
-import { SignupService } from 'src/app/routes/signup/signup.service'
+//import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material'
@@ -55,7 +55,6 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-import forEach from 'lodash/forEach'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 
 @Component({
@@ -78,7 +77,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   featuredCourseIdentifier: any = []
   topCertifiedCourse: any = []
   userEnrollCourse: any
-
+  isProfile: any = false
   isXSmall$ = this.valueSvc.isXSmall$
   routeChangeInProgress = false
   showNavbar = false
@@ -94,6 +93,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   isLoggedIn = false
   mobileView = true
   showmobileFooter = true
+  disableChatForBnrc = false
   showMobileDashboard = true
   isCommonChatEnabled = true
   online$: Observable<boolean>
@@ -114,7 +114,7 @@ export class RootComponent implements OnInit, AfterViewInit {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
-    private signupService: SignupService,
+    //private signupService: SignupService,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
     private _renderer2: Renderer2,
@@ -189,9 +189,14 @@ export class RootComponent implements OnInit, AfterViewInit {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
+
+        console.log("res: ", res)
         this.formatmyCourseResponse(res[0])
       })
       localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
+      if (sessionStorage.getItem('cURL')) {
+        sessionStorage.removeItem('cURL')
+      }
     }
 
     this.setPageTitle()
@@ -235,6 +240,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
           window.location.href = "public/home"
         }
+        if (this.router.url === 'profile-view') {
+          this.isProfile = true
+        }
         if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
           window.location.href = "page/home"
         }
@@ -244,6 +252,10 @@ export class RootComponent implements OnInit, AfterViewInit {
         if (event.url.includes('/app/create-account')) {
           this.showNavigation = false
           this.createAcc = true
+        }
+
+        if (event.url.includes('/public/login')) {
+          this.showNavigation = false
         }
         if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {
           this.isHomePage = true
@@ -256,13 +268,23 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.isNavBarRequired = false
       }
       if (event instanceof NavigationStart) {
-
+        if (this.router.url === 'profile-view') {
+          this.isProfile = true
+        }
         if (event.url.includes('/public/scrom-player')) {
           this.showmobileFooter = false
         }
         if (event.url.includes('/app/create-account')) {
           this.showmobileFooter = false
         }
+        if (event.url.includes('/public/login')) {
+          this.showmobileFooter = false
+        }
+        if (event.url.includes('/bnrc/register') || event.url.includes('/upsmf/register')) {
+          this.showmobileFooter = false
+          this.disableChatForBnrc = true
+        }
+
         // if (window.location.href.indexOf('scrom-player') > 0) {
         //   this.showmobileFooter = false
         // }
@@ -291,29 +313,32 @@ export class RootComponent implements OnInit, AfterViewInit {
               }` + `/overview`)
           }
           sessionStorage.setItem('login-btn', 'clicked')
+          if (!localStorage.getItem('userUUID')) {
+            location.href = '/public/login'
+          }
+          // setTimeout(() => {
+          // this.signupService.fetchStartUpDetails().then(result => {
+          //     if (result && result.status !== 200) {
+          //       this.authSvc.logout()
+          //       //this.router.navigate(['/public/login'])
+          //       // let url = `${document.baseURI}`
+          //       // let redirectUrl = `${document.baseURI}openid/keycloak`
+          //       // const state = uuid()
+          //       // const nonce = uuid()
+          //       // if (url.includes('hi')) {
+          //       //   url = url.replace('hi/', '')
+          //       //   redirectUrl = `${url}openid/keycloak`
+          //       //   sessionStorage.setItem('lang', 'hi')
+          //       // } else {
+          //       //   redirectUrl = `${url}openid/keycloak`
+          //       // }
+          //       // // tslint:disable-next-line:max-line-length
+          //       // const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+          //       // window.location.href = keycloakurl
+          //     }
+          //   })
 
-          setTimeout(() => {
-            this.signupService.fetchStartUpDetails().then(result => {
-              if (result && result.status !== 200) {
-                // this.authSvc.logout()
-                let url = `${document.baseURI}`
-                let redirectUrl = `${document.baseURI}openid/keycloak`
-                const state = uuid()
-                const nonce = uuid()
-                if (url.includes('hi')) {
-                  url = url.replace('hi/', '')
-                  redirectUrl = `${url}openid/keycloak`
-                  sessionStorage.setItem('lang', 'hi')
-                } else {
-                  redirectUrl = `${url}openid/keycloak`
-                }
-                // tslint:disable-next-line:max-line-length
-                const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-                window.location.href = keycloakurl
-              }
-            })
-
-          }, 100)
+          // }, 100)
           // if (this.configSvc.userProfile === null) {
           //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
           //     }` + `/overview`)
@@ -326,24 +351,41 @@ export class RootComponent implements OnInit, AfterViewInit {
           //   // this.router.navigateByUrl('app/login')
           // }
 
-        } else if (event.url.includes('login')) {
-          setTimeout(() => {
-            this.signupService.fetchStartUpDetails().then(result => {
-              if (result && result.status !== 200) {
-                this.authSvc.logout()
-                // const redirectUrl = `${document.baseURI}openid/keycloak`
-                // const state = uuid()
-                // const nonce = uuid()
-                // // tslint:disable-next-line:max-line-length
-                // const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-                // window.location.href = keycloakurl
-              } else {
-                this.router.navigateByUrl('/page/home')
-              }
-            })
+        }
+        else if (event.url.includes('login')) {
+          if (localStorage.getItem('userUUID')) {
+            if (localStorage.getItem('url_before_login')) {
+              const url = localStorage.getItem('url_before_login') || ''
+              location.href = url
+            } else if (this.configSvc.unMappedUser) {
+              window.location.href = '/page/home'
+            }
+          }
 
-          }, 10)
-        } else if (event.url.includes('page/home')) {
+          // setTimeout(() => {
+          //   this.signupService.fetchStartUpDetails().then(result => {
+          //     if (result && result.status !== 200) {
+          //       //this.router.navigate(['/public/login'])
+          //       this.authSvc.logout()
+          //       // const redirectUrl = `${document.baseURI}openid/keycloak`
+          //       // const state = uuid()
+          //       // const nonce = uuid()
+          //       // // tslint:disable-next-line:max-line-length
+          //       // const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
+          //       // window.location.href = keycloakurl
+          //     } else {
+          //       this.router.navigateByUrl('/page/home')
+          //     }
+          //   }, (err: any) => {
+          //     console.log(err)
+          //     if (err.status === 419) {
+          //       this.router.navigate(['/public/login'])
+          //     }
+          //   })
+
+          // }, 10)
+        }
+        else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           this.mobileView = true
@@ -351,6 +393,8 @@ export class RootComponent implements OnInit, AfterViewInit {
           //   this.isNavBarRequired = false
           // }
           // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('/public/home')) {
+          this.showNavigation = true
         } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
           event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
           event.url.includes('/app/create-account')) {
@@ -402,7 +446,9 @@ export class RootComponent implements OnInit, AfterViewInit {
         this.currentUrl = event.url
         this.changeDetector.detectChanges()
       }
-
+      if (this.router.url === 'profile-view') {
+        this.isProfile = true
+      }
       // if (localStorage.getItem('loginbtn') || (localStorage.getItem('url_before_login'))) {
       //   this.isNavBarRequired = true
       //   this.showNavigation = false
@@ -492,17 +538,38 @@ export class RootComponent implements OnInit, AfterViewInit {
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
-    forEach(res, (key: { content: { identifier: any; appIcon: any; thumbnail: any; name: any; sourceName: any } }) => {
-      if (res.completionPercentage !== 100) {
+
+    res.forEach((key: any) => {
+      if (key.completionPercentage !== 100) {
         myCourseObject = {
           identifier: key.content.identifier,
           appIcon: key.content.appIcon,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
           sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
         }
-        myCourse.push(myCourseObject)
+
+      } else {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
+
+        }
+
       }
+      myCourse.push(myCourseObject)
+
     })
     this.userEnrollCourse = myCourse
   }

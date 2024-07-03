@@ -261,3 +261,8 @@ export interface ISearchRequestV2 {
     facets: string[]
   }
 }
+
+export interface ISearchRequestV3 {
+  language: string,
+  query: string,
+}

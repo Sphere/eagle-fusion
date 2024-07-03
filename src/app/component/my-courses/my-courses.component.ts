@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
+
 @Component({
   selector: 'ws-my-courses',
   templateUrl: './my-courses.component.html',
@@ -21,12 +22,18 @@ export class MyCoursesComponent implements OnInit {
       isCertified: true
     }
   }
-
+  isXSmall$ = this.valueSvc.isXSmall$
+  myCourseDisplayConfig: any
+  myCourseWebDisplayConfig: any
+  coursesForYouDisplayConfig: any
+  completedWebCourseDisplayConfig: any
+  completedCourseDisplayConfig: any
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
-    private router: Router,
+    public router: Router,
+    private valueSvc: ValueService,
   ) { }
 
   ngOnInit() {
@@ -41,7 +48,7 @@ export class MyCoursesComponent implements OnInit {
     this.isLoading = true
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        console.log(courses)
+        console.log("courses", courses)
 
         courses.forEach((key) => {
           if (key.completionPercentage !== 100) {
@@ -52,6 +59,8 @@ export class MyCoursesComponent implements OnInit {
               name: key.content.name,
               dateTime: key.dateTime,
               completionPercentage: key.completionPercentage,
+              sourceName: key.content.sourceName,
+              issueCertification: key.content.issueCertification
             }
 
             this.startedCourse.push(myCourseObject)
@@ -64,13 +73,67 @@ export class MyCoursesComponent implements OnInit {
               name: key.content.name,
               dateTime: key.dateTime,
               completionPercentage: key.completionPercentage,
+              sourceName: key.content.sourceName,
+              issueCertification: key.content.issueCertification
             }
 
             this.completedCourse.push(completedCourseObject)
           }
         })
-        console.log(this.startedCourse, 'c', this.startedCourse.length)
-        console.log(this.completedCourse, 'aa', this.completedCourse.length)
+
+        // Sort courses based on dateTime in descending order
+        this.startedCourse.sort((a, b) => {
+          const dateTimeA = new Date(a.dateTime).getTime()
+          const dateTimeB = new Date(b.dateTime).getTime()
+          return dateTimeB - dateTimeA
+        })
+
+        this.completedCourse.sort((a, b) => {
+          const dateTimeA = new Date(a.dateTime).getTime()
+          const dateTimeB = new Date(b.dateTime).getTime()
+          return dateTimeB - dateTimeA
+        })
+        if (this.startedCourse.length > 0) {
+          this.myCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              certification: true,
+              rating: true,
+              completionPercentage: true,
+              mobilesourceName: true
+            },
+          }
+          this.myCourseWebDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              certification: true,
+              rating: true,
+              completionPercentage: true,
+              resume: true,
+            },
+          }
+        }
+        if (this.completedCourse.length > 0) {
+          this.completedCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              rating: true,
+              mobilesourceName: true,
+              sourceLine: true,
+            },
+          }
+          this.completedWebCourseDisplayConfig = {
+            displayType: 'card-mini',
+            badges: {
+              rating: true,
+              viewAll: true,
+              mobilesourceName: true,
+              sourceLine: true,
+            },
+          }
+        }
+        // console.log(this.startedCourse, 'c', this.startedCourse.length)
+        // console.log(this.completedCourse, 'aa', this.completedCourse.length)
 
       })
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
@@ -79,9 +142,39 @@ export class MyCoursesComponent implements OnInit {
         const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
         this.contentSvc
           .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
-            console.log(res, 'res')
+            //console.log(res, 'res')
             this.coursesForYou = res
             this.isLoading = false
+
+            const myCourse: any = []
+            let myCourseObject = {}
+
+            res.forEach((key: any) => {
+              myCourseObject = {
+                identifier: key.course_id,
+                appIcon: key.course_appIcon,
+                thumbnail: key.course_thumbnail,
+                name: key.course_name,
+                sourceName: key.course_sourceName,
+                issueCertification: key.course_issueCertification
+              }
+
+              myCourse.push(myCourseObject)
+
+            })
+
+            this.coursesForYou = myCourse
+            if (this.coursesForYou.length > 0) {
+              this.coursesForYouDisplayConfig = {
+                displayType: 'card-badges',
+                badges: {
+                  certification: true,
+                  sourceName: true,
+                  rating: true
+                },
+              }
+
+            }
           }, err => {
             console.log(err, err.status === 500)
             if (err.status === 500 || err.status === 400 || err.status === 419) {
@@ -92,15 +185,18 @@ export class MyCoursesComponent implements OnInit {
 
           )
       }
+    } else {
+      this.coursesForYou = []
+      this.isLoading = false
     }
   }
   tabClick() {
-    let ee = document.getElementById('mat-tab-label-0-1')
-    console.log(ee)
-    // @ts-ignore: Object is possibly 'null'.
-    document.getElementById('mat-tab-label-0-1').click()
-
+    const tabElement = document.getElementById('mat-tab-label-0-1')
+    if (tabElement) {
+      tabElement.click()
+    }
   }
+
 
   async navigateToToc(contentIdentifier: any) {
     sessionStorage.setItem('cURL', location.href)
@@ -110,13 +206,13 @@ export class MyCoursesComponent implements OnInit {
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
     }
-    let url = `/app/toc/` + `${contentIdentifier}` + `/overview`
+    let url = url1 === 'hi' ? `/app/toc/` + `${contentIdentifier}` + `/overview` : `app/toc/` + `${contentIdentifier}` + `/overview`
     //this.commonUtilService.addLoader()
     const result = await this.signupService.getUserData()
     // this.commonUtilService.removeLoader()
     if (this.configSvc.unMappedUser) {
       //this.commonUtilService.addLoader()
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+      if (result && result.profileDetails!.profileReq && result.profileDetails!.profileReq!.personalDetails!.dob) {
         location.href = `${url3}${url1}${url}`
       } else {
         if (localStorage.getItem('url_before_login')) {

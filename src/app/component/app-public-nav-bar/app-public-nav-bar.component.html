@@ -50,19 +50,19 @@
   </div> -->
 
   <div class="flex justify-center">
-    <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
+    <!-- <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
       color="primary" i18n (click)="createAcct()" class="new-user-btn header-btn  mat-button-base">
       New User
-    </button>
+    </button> -->
     <button *ngIf="(isXSmall$ | async) === false && (this.configSvc.userProfile === null)" name="login_client_button"
       color="primary" i18n="login: client" (click)="login('S')" class="login-btn header-btn  mat-button-base">
       Log in
     </button>
-    <button *ngIf="(isXSmall$ | async) === true && (this.configSvc.userProfile === null)" name="login_client_button"
+    <!-- <button *ngIf="(isXSmall$ | async) === true && (this.configSvc.userProfile === null)" name="login_client_button"
       [ngStyle]="{'background-color': '#2E6491',  'width': '95px','height':'30px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#FFFFFF', 'font-size': 'small'}"
       mat-raised-button i18n="login: client" (click)="createAcct()" class="new-user-btn login-btn-xs">
       New User
-    </button>
+    </button> -->
     <button *ngIf="(isXSmall$ | async) === true && (this.configSvc.userProfile === null)" name="login_client_button"
       [ngStyle]="{'background-color': '#2E6491',  'width': '75px','height':'30px', 'border' :'1px solid #3f51b5', 'border-radius': '20px', 'color' : '#FFFFFF', 'font-size': 'small','justify-content':'center'}"
       mat-raised-button i18n="login: client" (click)="login('S')" class="login-btn-xs">

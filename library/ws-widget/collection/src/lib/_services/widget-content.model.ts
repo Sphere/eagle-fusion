@@ -205,6 +205,8 @@ export namespace NsContent {
     progress: number
     status: number
     userId: string
+    sourceName: string
+    issueCertificate: any
   }
 
   export interface IContentMinimal {

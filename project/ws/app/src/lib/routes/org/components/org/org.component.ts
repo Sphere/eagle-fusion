@@ -16,6 +16,7 @@ import get from 'lodash/get'
 })
 export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger
+  //defaultUrl = '/fusion-assets/images/frame-156.svg'
   orgName!: string
   courseData!: any
   routeSubscription: any
@@ -80,33 +81,93 @@ export class OrgComponent implements OnInit, OnDestroy {
         this.competency_offered = userEnrolled[0].competency_offered || undefined
       }
     })
-    this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
-      this.courseData = result.result.content.filter(
-        (org: any) => org.sourceName === this.orgName
-      )
-      this.courseCount = this.courseData
-      if (this.courseData) {
-        this.courseData.forEach((course: any) => {
-          if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
-            forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-              //console.log("value", value)
-              if (value.level) {
-                this.cometencyData.push(
-                  {
-                    identifier: course.identifier,
-                    name: value.competencyName,
-                    levels: ` Level ${value.level}`,
-                  }
-                )
-              }
-              return this.cometencyData
-            })
-          }
-        })
-        // console.log("this.cometencyData", this.cometencyData)
+    if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
+      console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
+      this.orgService.getSearchResultsById(this.currentOrgData.closedCoursesList).subscribe((result: any) => {
+        this.courseData = result.result.content
+        this.courseCount = this.courseData
+        if (this.courseData) {
+          this.courseData.forEach((course: any) => {
+            if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
+              forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
+                //console.log("value", value)
+                if (value.level) {
+                  this.cometencyData.push(
+                    {
+                      identifier: course.identifier,
+                      name: value.competencyName,
+                      levels: ` Level ${value.level}`,
+                    }
+                  )
+                }
+                return this.cometencyData
+              })
+            }
+          })
+          // console.log("this.cometencyData", this.cometencyData)
 
-      }
-    })
+        }
+      })
+    } else {
+      this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
+        this.courseData = result.result.content.filter(
+          (org: any) => org.sourceName === this.orgName
+        )
+        this.courseCount = this.courseData
+        console.log("this.courseData", this.courseData)
+        if (this.courseData && this.courseData.length > 0) {
+          this.courseData.forEach((course: any) => {
+            if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
+              forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
+                //console.log("value", value)
+                if (value.level) {
+                  this.cometencyData.push(
+                    {
+                      identifier: course.identifier,
+                      name: value.competencyName,
+                      levels: ` Level ${value.level}`,
+                    }
+                  )
+                }
+                return this.cometencyData
+              })
+            }
+          })
+          // console.log("this.cometencyData", this.cometencyData)
+        } else {
+          console.log("this.courseData", this.courseData)
+
+          this.orgService.getSearchResults(this.currentOrgData.taggedSourceName).subscribe((result: any) => {
+            this.courseData = result.result.content.filter(
+              (org: any) => org.sourceName === this.currentOrgData.taggedSourceName
+            )
+            this.courseCount = this.courseData
+            console.log("this.courseData", this.courseData)
+            if (this.courseData && this.courseData.length > 0) {
+              console.log('l')
+              this.courseData.forEach((course: any) => {
+                if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
+                  forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
+                    //console.log("value", value)
+                    if (value.level) {
+                      this.cometencyData.push(
+                        {
+                          identifier: course.identifier,
+                          name: value.competencyName,
+                          levels: ` Level ${value.level}`,
+                        }
+                      )
+                    }
+                    return this.cometencyData
+                  })
+                }
+              })
+            }
+          })
+        }
+      })
+    }
+
     // this.orgService.getDatabyOrgId().then((data: any) => {
     //   console.log(data)
     //   this.courseData = data
@@ -116,10 +177,26 @@ export class OrgComponent implements OnInit, OnDestroy {
     // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
+  add(a: number, b: number): number {
+    return a + b
+  }
+
   redirect() {
     let url = sessionStorage.getItem('currentURL')
     if (url) {
       location.href = url
+    } else {
+
+      let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+      let url1 = local === 'hi' ? 'hi' : ""
+      console.log(url1)
+      let url3 = `${document.baseURI}`
+      if (url3.includes('hi')) {
+        url3 = url3.replace(/hi\//g, '')
+      }
+      let url = url1 === 'hi' ? '/page/home' : 'page/home'
+      this.router.navigateByUrl(`${url1}${url}`)
+      //location.href = `${url3}${url1}${url}`
     }
   }
 
@@ -131,6 +208,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
   }
   gotoOverview(identifier: any) {
+    sessionStorage.setItem('cURL', location.href)
     // if (this.configSvc.isAuthenticated) {
     this.router.navigate([`/app/toc/${identifier}/overview`])
     // } else {

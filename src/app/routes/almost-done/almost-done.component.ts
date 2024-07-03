@@ -2,7 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { MatSnackBar } from '@angular/material'
-import { Router, ActivatedRoute } from '@angular/router'
+import {
+  //Router,
+  ActivatedRoute
+} from '@angular/router'
 import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { HttpClient } from '@angular/common/http'
@@ -37,9 +40,12 @@ export class AlmostDoneComponent implements OnInit {
   selectedAddress = ''
   enableSubmit = false
   errorMsg = 'Invalid.Please correct and try again'
-  healthWorkerProfessions = ['Midwives', 'ANM', 'GNM', 'BSC Nurse', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Others']
-  healthVolunteerProfessions = ['Anganwadi Workers', 'Teachers', 'Others']
+  healthWorkerProfessions = ['Midwives', 'GNM', 'Doctors', 'Public Health Professionals', 'Paramedical', 'Pharmacist', 'Community Health Officer (CHO)', 'BSC Nurse', 'ANM/MPW', 'Others']
+  healthVolunteerProfessions = ['Anganwadi Workers', 'Mukhya Sevika (MS)', 'Child Development Project Officer (CDPO)', 'District Programme Officer (DPO)', 'BSC Nurse', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
+  ashaList = ['ASHA']
+  facultyList = ['Nursing Faculty', 'Medical Faculty', 'Other']
+  studentList = ['Bsc nursing', 'GNM', 'ANM/MPW', 'Midwife', 'Medical Student', 'Other']
   districtUrl = '../../../fusion-assets/files/district.json'
   disticts: any
   selectedBg = ''
@@ -48,14 +54,14 @@ export class AlmostDoneComponent implements OnInit {
   hideAsha = false
   result: any
   constructor(
-    private configSvc: ConfigurationsService,
+    public configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    private router: Router,
-    private snackBar: MatSnackBar,
+    //private router: Router,
+    public snackBar: MatSnackBar,
     private fb: FormBuilder,
     private activateRoute: ActivatedRoute,
     private http: HttpClient,
-    private UserAgentResolverService: UserAgentResolverService,
+    public UserAgentResolverService: UserAgentResolverService,
     private signupService: SignupService,
   ) {
   }
@@ -71,6 +77,7 @@ export class AlmostDoneComponent implements OnInit {
       this.hideAsha = false
     }
     if (this.backgroundSelect === 'ASHA') {
+      this.almostDoneForm.controls.professSelected.setValue('ASHA')
       this.enableSubmit = true
       this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
@@ -92,14 +99,16 @@ export class AlmostDoneComponent implements OnInit {
     }
     if (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer') {
       this.enableSubmit = true
-      this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
-      this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-        statesdata.states.map((item: any) => {
-          if (item.state === this.yourBackground.value.state) {
-            this.disticts = item.districts
-          }
+      if (this.yourBackground && this.yourBackground.value) {
+        this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
+        this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+          statesdata.states.map((item: any) => {
+            if (item.state === this.yourBackground.value.state) {
+              this.disticts = item.districts
+            }
+          })
         })
-      })
+      }
     }
   }
 
@@ -202,7 +211,7 @@ export class AlmostDoneComponent implements OnInit {
       this.almostDoneForm.controls.professionOtherSpecify.setValue(null)
     }
 
-    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse') {
+    if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse' || option === 'ANM/MPW') {
       this.rnFieldDisabled = false
     } else {
       this.almostDoneForm.controls.rnNumber.setValue(null)
@@ -305,6 +314,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'ASHA') {
       // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
+        console.log(value)
         if (value.block && value.subcentre) {
           this.enableSubmit = false
         } else {
@@ -355,7 +365,7 @@ export class AlmostDoneComponent implements OnInit {
     console.log(this.backgroundSelect, this.selectedBg)
   }
 
-  private getOrganisationsHistory() {
+  public getOrganisationsHistory() {
     const organisations: any = []
     console.log(this.almostDoneForm.value.orgOtherSpecify)
     const org = {
@@ -374,6 +384,7 @@ export class AlmostDoneComponent implements OnInit {
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block
       org['subcentre'] = this.almostDoneForm.value.subcentre
+      org['designation'] = this.almostDoneForm.value.professSelected
     }
     if (this.backgroundSelect === 'Others') {
       org['selectBackground'] = this.almostDoneForm.value.selectBackground
@@ -385,6 +396,7 @@ export class AlmostDoneComponent implements OnInit {
       org['locationselect'] = this.almostDoneForm.value.locationselect
       org['block'] = this.almostDoneForm.value.block
       org['subcentre'] = this.almostDoneForm.value.subcentre
+      org['designation'] = this.almostDoneForm.value.selectBackground
     }
     if (this.backgroundSelect === 'Student') {
       org['qualification'] = this.almostDoneForm.value.courseName
@@ -405,13 +417,13 @@ export class AlmostDoneComponent implements OnInit {
     })
     return formatedDegrees
   }
-  private getAcademics() {
+  public getAcademics() {
     const academics = []
     academics.push(...this.getDegree('GRADUATE'))
     return academics
   }
 
-  private constructReq() {
+  public constructReq() {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId,
         this.email = this.configSvc.userProfile.email || ''
@@ -470,11 +482,17 @@ export class AlmostDoneComponent implements OnInit {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId
     }
     console.log(this.userId, this.result.userId)
-    const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-    const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
+    //const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+    //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
       preferences: {
-        language: obj1.id !== undefined ? obj1.id : 'en',
+        language: this.configSvc &&
+          this.configSvc.unMappedUser &&
+          this.configSvc.unMappedUser.profileDetails &&
+          this.configSvc.unMappedUser.profileDetails.preferences &&
+          this.configSvc.unMappedUser.profileDetails.preferences.language
+          ? this.configSvc.unMappedUser.profileDetails.preferences.language
+          : 'en',
       },
       personalDetails: profileRequest.profileReq.personalDetails,
     }
@@ -486,25 +504,42 @@ export class AlmostDoneComponent implements OnInit {
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-      if (data) {
-        if (obj1.id === 'en') {
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (data) => {
+      console.log(data, 'data')
+      let status = await data.params.status
+      if (data && status === 'SUCCESS') {
+        if (this.configSvc.unMappedUser.profileDetails.preferences.language === 'en') {
           this.openSnackbar('User profile details updated successfully!')
         } else {
           this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
         }
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
-          const url = params.redirect
-          if (url) {
+          let lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' : ''
+          console.log(params.redirect, 'redirect')
+          let url1 = params.redirect
+          if (url1.includes('hi')) {
+            url1 = url1.replace('hi', '')
+          }
+          const url2 = `${lang}${url1}`
+          let url3 = `${document.baseURI}`
+          if (url3.includes('hi')) {
+            url3 = url3.replace('hi/', '')
+          }
+          if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
             localStorage.removeItem('url_before_login')
-            this.router.navigate([url])
+            url3 = `${url3}${url2}`
+            console.log(url3)
+            location.href = url3
+            //this.router.navigate([url2])
           } else {
             let url = `${document.baseURI}`
             if (url.includes('hi')) {
               url = url.replace('hi/', '')
             }
-            url = `${url}/page/home`
+            let urlnew = lang === 'hi' ? '/page/home' : 'page/home'
+            url = `${url}${lang}${urlnew}`
+            console.log(url)
             location.href = url
             // this.router.navigate(['page', 'home'])
           }
@@ -513,7 +548,7 @@ export class AlmostDoneComponent implements OnInit {
     })
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 2000) {
+  public openSnackbar(primaryMsg: string, duration: number = 2000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

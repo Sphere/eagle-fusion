@@ -24,6 +24,7 @@ import get from 'lodash/get'
   styleUrls: ['./new-tnc.component.scss'],
 })
 export class NewTncComponent implements OnInit, OnDestroy {
+  //@ViewChild('scrollContainer') scrollContainer: ElementRef
   tncData: NsTnc.ITnc | null = null
   routeSubscription: Subscription | null = null
   isAcceptInProgress = false
@@ -35,6 +36,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
   showAcceptbtn = true
   lang: any
   termsAccepted: any
+  shouldScrollToBottom: boolean = false; // Set this to enable/disable scrolling
+  tncAcceptedBtn: boolean = false
+  showTnc: boolean = false
+  showTerms: string = ''
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -96,7 +101,34 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.result = await this.signupService.fetchStartUpDetails()
     this.createUserForm = this.createTncFormFields()
   }
-
+  tncChecked() {
+    this.tncAcceptedBtn = !this.tncAcceptedBtn
+  }
+  handleScrollToBottom(isAtBottom: boolean): void {
+    console.log(isAtBottom)
+    if (isAtBottom) {
+      console.log('Scrolled to the bottom of the page!')
+      this.shouldScrollToBottom = true
+    } else {
+      this.shouldScrollToBottom = false
+    }
+  }
+  showTncPage(name: string) {
+    this.showTnc = true
+    this.showTerms = name
+  }
+  backToTncHome() {
+    this.showTnc = false
+  }
+  handleScroll(isScrolled: boolean): void {
+    console.log('User is scrolling within the div!', isScrolled)
+    if (isScrolled) {
+      console.log('Scrolled to the bottom of the page!')
+      this.shouldScrollToBottom = true
+    } else {
+      this.shouldScrollToBottom = false
+    }
+  }
   createTncFormFields() {
     return new FormGroup({
       tncAccepted: new FormControl(''),

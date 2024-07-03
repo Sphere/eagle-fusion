@@ -19,17 +19,21 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 // import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
-import { FormControl, Validators } from '@angular/forms'
+import { FormControl, FormGroup, Validators } from '@angular/forms'
 // import * as dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
 // import * as FileSaver from 'file-saver'
 import moment from 'moment'
-
+import { IndexedDBService } from 'src/app/online-indexed-db.service'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
+import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
+// import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
+import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 
+import { WindowService } from 'src/app/services/navigation-history.service'
 @Component({
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
@@ -45,17 +49,23 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   // @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
   @Input() batchData!: any
+  @Input() enrollCourse!: any
   @Input() resumeResource: NsContent.IContinueLearningData | null = null
+  @Input() optmisticPercentage: number | null = null
   batchControl = new FormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
   isTocBanner = true
   issueCertificate = false
+  updatedContentFound: any
+  updatedContentStatus = false
   // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
   validPaths = new Set(['overview', 'contents',
     // 'analytics'
   ])
+  averageRating: any = ''
+  totalRatings: any = ''
   routerParamSubscription: Subscription | null = null
   routeSubscription: Subscription | null = null
   firstResourceLink: { url: string; queryParams: { [key: string]: any } } | null = null
@@ -96,7 +106,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   enrolledCourse: any
   lastCourseID: any
   certificateMsg?: any
-
+  stars: number[] = [1, 2, 3, 4, 5];
   constructor(
     private sanitizer: DomSanitizer,
     private router: Router,
@@ -110,7 +120,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
+    private loader: LoaderService,
 
+    private onlineIndexedDbService: IndexedDBService,
+    private navService: WindowService,
     // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document
   ) {
@@ -130,8 +143,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       sessionStorage.removeItem('currentURL')
     }
     this.enrollApi()
-    console.log(this.resumeData)
+
     if (this.content) {
+      this.readCourseRatingSummary()
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
@@ -208,6 +222,23 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       // }
     }
   }
+  getStarImage(index: number): string {
+    const fullStarUrl = '/fusion-assets/icons/toc_star.png'
+    const halfStarUrl = '/fusion-assets/icons/Half_star1.svg'
+    const emptyStarUrl = '/fusion-assets/icons/empty_star.png'
+
+    const decimalPart = this.averageRating - Math.floor(this.averageRating) // Calculate the decimal part of the average rating
+
+    if (index + 1 <= Math.floor(this.averageRating)) {
+      return fullStarUrl // Full star
+    } else if (decimalPart >= 0.1 && decimalPart <= 0.9 && index === Math.floor(this.averageRating)) {
+      return halfStarUrl // Half star
+    } else {
+      return emptyStarUrl // Empty star
+    }
+  }
+
+
 
   setConfirmDialogStatus(percentage: any) {
     this.contentSvc.showConformation = percentage
@@ -245,9 +276,31 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return this.tocSvc.subtitleOnBanners
   }
   redirect() {
-    let url = sessionStorage.getItem('cURL') || '/page/home'
-    if (url) {
+    console.log(this.configSvc, 'key')
+    let local = (
+      this.configSvc.unMappedUser &&
+      this.configSvc.unMappedUser.profileDetails &&
+      this.configSvc.unMappedUser.profileDetails.preferences &&
+      this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined
+    )
+      ? this.configSvc.unMappedUser.profileDetails.preferences.language
+      : (location.href.includes('/hi/') ? 'hi' : '')
+    local = local === 'en' ? '' : 'hi'
+    console.log(local)
+    let url = ''
+    if (sessionStorage.getItem('cURL')) {
+      url = sessionStorage.getItem('cURL') || ''
       location.href = url
+    } else {
+
+      this.navService.nativeWindow.history.back()
+      // url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
+      // console.log(url)
+      // let url3 = `${document.baseURI}`
+      // if (url3.includes('hi')) {
+      //   url3 = url3.replace(/hi\//g, '')
+      // }
+      // location.href = `${url3}${url}`
     }
   }
 
@@ -289,16 +342,84 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
     if (this.resumeData && this.content) {
       const resumeDataV2 = this.getResumeDataFromList()
-      this.resumeDataLink = viewerRouteGenerator(
-        resumeDataV2.identifier,
-        resumeDataV2.mimeType,
-        this.isResource ? undefined : this.content.identifier,
-        this.isResource ? undefined : this.content.contentType,
-        this.forPreview,
-        // this.content.primaryCategory
-        'Learning Resource',
-        this.getBatchId()
-      )
+      let lastResource = ''
+      let lastResourceMimeType: any
+      console.log(resumeDataV2, this.enrollCourse)
+      this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content.identifier).subscribe(async (record) => {
+        console.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
+        if (record.contentId) {
+          this.updatedContentStatus = true
+          //this.updatedContentFound = record
+        } else {
+          this.updatedContentStatus = false
+        }
+        let rowData = await record
+        console.log(rowData)
+        let data = JSON.parse(rowData.data)
+        console.log(data)
+        let url1 = ''
+        if (rowData.url.includes('/chapters') || rowData.url.includes('/overview?primaryCategory=Course')) {
+          console.log(rowData)
+          if (data.contents[0].progressdetails.mimeType === "application/pdf") {
+            url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
+            console.log(url1, 'url')
+            this.updatedContentFound = url1
+          } else if (data.contents[0].progressdetails.mimeType === "video/mp4") {
+            url1 = `/viewer/video/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
+            console.log(url1, 'url')
+            this.updatedContentFound = url1
+          } else if (data.contents[0].progressdetails.mimeType === "application/json") {
+            url1 = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+            console.log(url1)
+            this.updatedContentFound = url1
+          } else if (data.contents[0].progressdetails.mimeType === "application/vnd.ekstep.html-archive" || data.contents[0].progressdetails.mimeType === "text/x-url") {
+            url1 = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+            console.log(url1)
+            this.updatedContentFound = url1
+
+          }
+        } else {
+          console.log('opp')
+          this.updatedContentFound = record.url
+        }
+
+      })
+
+      let eCourse = this.enrollCourse.contentStatus
+      if (Object.keys(eCourse).length > 0) {
+        lastResource = Object.keys(eCourse)[Object.keys(eCourse).length - 1]
+        this.content.children.filter((item: any) => {
+          if (lastResource === item.identifier) {
+            lastResourceMimeType = item.mimeType
+          }
+        })
+      }
+
+      if (resumeDataV2.identifier === '' && resumeDataV2.mimeType === undefined ||
+        resumeDataV2.identifier === '' && resumeDataV2.mimeType === '') {
+        console.log(lastResource, 'lr', this.content, lastResourceMimeType)
+        this.resumeDataLink = viewerRouteGenerator(
+          lastResource,
+          lastResourceMimeType,
+          this.isResource ? undefined : this.content.identifier,
+          this.isResource ? undefined : this.content.contentType,
+          this.forPreview,
+          // this.content.primaryCategory
+          'Learning Resource',
+          this.getBatchId()
+        )
+      } else {
+        this.resumeDataLink = viewerRouteGenerator(
+          resumeDataV2.identifier,
+          resumeDataV2.mimeType,
+          this.isResource ? undefined : this.content.identifier,
+          this.isResource ? undefined : this.content.contentType,
+          this.forPreview,
+          // this.content.primaryCategory
+          'Learning Resource',
+          this.getBatchId()
+        )
+      }
     }
     this.batchControl.valueChanges.subscribe((batch: NsContent.IBatch) => {
       this.disableEnrollBtn = true
@@ -315,6 +436,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           },
         }
         this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+          let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
           if (data && data.result && data.result.response === 'SUCCESS') {
             this.batchData = {
               content: [batch],
@@ -327,10 +450,22 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 queryParams: { batchId: batch.batchId },
                 queryParamsHandling: 'merge',
               })
-            this.openSnackbar('Enrolled Successfully!')
+            let message
+            if (local === 'en') {
+              message = `Enrolled Successfully!`
+            } else {
+              message = `सफलतापूर्वक नामांकित!`
+            }
+            this.openSnackbar(message)
             this.disableEnrollBtn = false
           } else {
-            this.openSnackbar('Something went wrong, please try again later!')
+            let message
+            if (local === 'en') {
+              message = `Something went wrong, please try again later!`
+            } else {
+              message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
+            }
+            this.openSnackbar(message)
             this.disableEnrollBtn = false
           }
         })
@@ -353,6 +488,50 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   //   return enrollmentEndDate ? dayjs(enrollmentEndDate).isBefore(systemDate) : false
   // }
 
+  redirectPage(updatedContentFound: any) {
+    console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
+    console.log(this.enrolledCourse, this.getBatchId())
+    if (updatedContentFound === undefined) {
+      let batchId = this.getBatchId()
+      console.log(batchId, 'batchId')
+      if (!batchId) {
+        let u1 = `${document.baseURI}`
+        console.log(u1)
+        let u2 = u1.split("&")
+        console.log(u2)
+        let u3 = u2[0].split("Id=")
+        console.log(u3)
+        batchId = u3[1]
+        console.log(batchId, 'batchId')
+      }
+      let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
+      console.log(url1, 'url13123')
+      this.updatedContentFound = url1
+      //location.href = url1
+      this.router.navigateByUrl(url1)
+    } else {
+      let url2 = document.baseURI
+      console.log(url2, 'url2')
+      if (url2.includes('hi')) {
+        url2 = url2.replace(/hi\//g, '')
+      }
+      let url1 = updatedContentFound.includes(url2)
+      if (url1) {
+        let u1 = updatedContentFound.split(url2).pop()
+        if (u1.includes('hi') && document.baseURI.includes('hi')) {
+          u1 = u1.replace(/hi\//g, '')
+        } else {
+          if (u1.includes('hi')) {
+            u1 = u1.replace(/(\/hi\/)+/g, '/hi/')
+          }
+        }
+        this.router.navigateByUrl(u1)
+      } else {
+        this.router.navigateByUrl(updatedContentFound)
+      }
+      //location.href = updatedContentFound
+    }
+  }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
@@ -506,9 +685,83 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse) {
               this.resumeData = this.enrolledCourse.lastReadContentId
             }
+            console.log(this.resumeData, this.content)
+            console.log(this.optmisticPercentage, 'optmisticPercentage')
+            this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
+              console.log('Record:', record)
+              if (record.contentId) {
+                this.updatedContentStatus = true
+                this.updatedContentFound = record.url
+              } else {
+                // this.updatedContentStatus = false
+              }
+            }, async (error) => {
+              this.updatedContentStatus = true
+              console.log(this.enrolledCourse, 'this.enrolledCourse!')
+              if (error && this.enrolledCourse && this.enrolledCourse!.batchId) {
+                console.log('ewrwer')
+                if (this.enrolledCourse.lastReadContentId) {
+                  let url = ''
+                  let data = await this.findObjectById(this.content!.children, this.enrolledCourse.lastReadContentId)
+                  console.log(data, 'datahoooooray')
+                  if (data.mimeType === "video/mp4") {
+                    url = `/viewer/video/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                    console.log(url)
+                  } else if (data.mimeType === "application/pdf") {
+                    url = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                    console.log(url)
+                  } else if (data.mimeType === "application/json") {
+                    url = `/viewer/quiz/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                    console.log(url)
+                  } else if (data.mimeType === "application/vnd.ekstep.html-archive" || data.mimeType === "text/x-url") {
+                    url = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                    console.log(url)
+                  }
+                  this.updatedContentFound = url
+                } else {
+                  let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                  console.log(url1, 'url')
+                  this.updatedContentFound = url1
+                }
+              }
+              // else {
+              //   let batchId = await this.getBatchId()
+              //   console.log(batchId, 'batchId')
+              //   if (!batchId) {
+              //     let u1 = `${document.baseURI}`
+              //     console.log(u1)
+              //     let u2 = u1.split("&")
+              //     console.log(u2)
+              //     let u3 = u2[0].split("Id=")
+              //     console.log(u3)
+              //     batchId = u3[1]
+              //     console.log(batchId, 'batchId')
+              //   }
+              //   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
+              //   console.log(url1, 'url13123')
+              //   this.updatedContentFound = url1
+              // }
+            }
+            )
           }
         }
       })
+  }
+
+  findObjectById(array: any, id: any): any {
+    console.log(array, id)
+    for (const item of array) {
+      if (item.identifier === id) {
+        return item
+      }
+      if (item.children) {
+        const result = this.findObjectById(item.children, id)
+        if (result) {
+          return result
+        }
+      }
+    }
+    return null
   }
 
   sendApi() {
@@ -815,6 +1068,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   generateQuery(type: 'RESUME' | 'START_OVER' | 'START'): { [key: string]: string } {
+
     if (this.firstResourceLink && (type === 'START' || type === 'START_OVER')) {
       let qParams: { [key: string]: string } = {
         ...this.firstResourceLink.queryParams,
@@ -897,7 +1151,112 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
   }
+  // giveRating(batchData: any) {
+  //   if (batchData) {
+  //     const data = {
+  //       courseId: batchData[0].courseId,
+  //     }
+  //     const dialogRef = this.dialog.open(ConfirmmodalComponent, {
+  //       width: '300px',
+  //       height: '400px',
+  //       data: { request: data, message: 'Congratulations!, you have completed the course' },
+  //       disableClose: false,
+  //     })
+
+  //     dialogRef.afterClosed().subscribe((data: { ratingsForm: FormGroup, rating: number }) => {
+  //       console.log("data: ", data)
+  //     })
+  //   }
+
+  // }
+  openRating(data: any) {
+    console.log("read rating", data)
+    let userId = ''
+    if (data) {
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      let req
+      if (this.content) {
+        req = {
+          request: {
+            userId: [userId],
+            activityId: data,
+            activityType: "Course",
+          },
+        }
+      }
+      this.loader.changeLoad.next(true)
+
+      this.contentSvc.readCourseRating(req).then((res: any) => {
+        if (res && res.params.status === 'success') {
+          console.log("response", res)
+
+          const courseData = {
+            courseId: data,
+            courseRating: res.result
+          }
+          this.loader.changeLoad.next(false)
+
+          const dialogRef = this.dialog.open(ConfirmmodalComponent, {
+            width: '300px',
+            height: '410px',
+            data: { request: courseData, message: 'Congratulations!, you have completed the course' },
+            disableClose: false,
+          })
+
+          dialogRef.afterClosed().subscribe((data: { event: any, ratingsForm: FormGroup, rating: number }) => {
+            console.log("data: ", data)
+            if (data && data.event && data.event === "CONFIRMED")
+              this.readCourseRatingSummary()
+          })
+
+
+        } else {
+          this.loader.changeLoad.next(false)
+
+          this.openSnackbar('Something went wrong, please try again later!')
+          this.disableEnrollBtn = false
+        }
+      })
+        .catch((err: any) => {
+          this.loader.changeLoad.next(false)
+          console.log("err", err)
+          this.openSnackbar('Something went wrong, please try again later!')
+        })
+    }
+
+  }
+  readCourseRatingSummary() {
+    if (this.content) {
+
+      let req
+      req = { activityId: this.content.identifier }
+      console.log("req", req)
+      this.contentSvc.readCourseRatingSummary(req).then((data: any) => {
+
+        if (data && data.result && data.result.message === 'Successful') {
+          if (data.result.response) {
+            let res = data.result.response
+            this.averageRating = (res.sum_of_total_ratings / res.total_number_of_ratings).toFixed(1)
+            this.totalRatings = res.total_number_of_ratings
+            console.log("data: ", res, data.result.response, this.totalRatings)
+          }
+
+
+        } else {
+          this.disableEnrollBtn = false
+        }
+      })
+        .catch((err: any) => {
+          console.log("err", err)
+        })
+    }
+
+  }
+
   enrollUser(batchData: any) {
+    console.log("enrollUser", batchData)
     let userId = ''
     if (batchData) {
       if (this.configSvc.userProfile) {
@@ -911,6 +1270,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
+        let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
         if (data && data.result && data.result.response === 'SUCCESS') {
           // this.batchData = {
@@ -924,7 +1284,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               queryParams: { batchId: batchData[0].batchId },
               queryParamsHandling: 'merge',
             })
-          this.openSnackbar('Enrolled Successfully!')
+          let message
+          if (local === 'en') {
+            message = `Enrolled Successfully!`
+          } else {
+            message = `सफलतापूर्वक नामांकित!`
+          }
+          this.openSnackbar(message)
           this.disableEnrollBtn = false
           setTimeout(() => {
             if (this.resumeData && this.resumeDataLink) {
@@ -937,7 +1303,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           }, 500)
 
         } else {
-          this.openSnackbar('Something went wrong, please try again later!')
+          let message
+          if (local === 'en') {
+            message = `Something went wrong, please try again later!`
+          } else {
+            message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
+          }
+          this.openSnackbar(message)
           this.disableEnrollBtn = false
         }
       })

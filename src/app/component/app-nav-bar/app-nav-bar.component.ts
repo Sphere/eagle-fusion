@@ -160,6 +160,23 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   createAcct() {
     this.router.navigateByUrl('app/create-account')
   }
+  navigate() {
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? 'hi' : ""
+    // let url3 = `${document.baseURI}`
+    // if (url3.includes('hi')) {
+    //   url3 = url3.replace(/hi\//g, '')
+    // }
+
+    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails.profileReq!.personalDetails!.dob) {
+      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
+      this.router.navigateByUrl(`${url}`)
+    } else {
+      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+    }
+
+  }
 
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
@@ -171,7 +188,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (url2.includes('hi')) {
       url2 = url2.replace(/hi\//g, '')
     }
-    let url = '/page/home'
+    let url = url1 === 'hi' ? '/page/home' : 'page/home'
     location.href = `${url2}${url1}${url}`
     //location.href = '/page/home'
     //}

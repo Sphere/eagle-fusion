@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, Renderer2, Inject } from '@angular/core'
 import { MatDialog } from '@angular/material'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -14,12 +14,16 @@ import { map, mergeMap } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
 import { FormControl, FormGroup } from '@angular/forms'
+import { DOCUMENT } from '@angular/common'
+
 @Component({
   selector: 'ws-mobile-profile-dashboard',
   templateUrl: './mobile-profile-dashboard.component.html',
   styleUrls: ['./mobile-profile-dashboard.component.scss'],
 })
 export class MobileProfileDashboardComponent implements OnInit {
+  firstName!: string
+  lastName!: string
   showMobileView = false
   showAcademicElse = false
   userProfileData!: IUserProfileDetailsFromRegistry
@@ -42,7 +46,9 @@ export class MobileProfileDashboardComponent implements OnInit {
   hideData = false
   currentProfession: any
   showLogOutBtn = false
-  // language: any
+  language: any
+  userInfo: any
+  isCommonChatEnabled = true
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -51,7 +57,10 @@ export class MobileProfileDashboardComponent implements OnInit {
     private contentSvc: WidgetContentService,
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
-    private CompetencyConfiService: CompetencyConfiService
+    private CompetencyConfiService: CompetencyConfiService,
+    private _renderer2: Renderer2,
+    @Inject(DOCUMENT) private _document: Document
+
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data)
@@ -73,7 +82,7 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.selectedIndex = ''
       }
       // sessionStorage.removeItem('academic')
-      sessionStorage.removeItem('currentWindow')
+      // sessionStorage.removeItem('currentWindow')
     })
     this.userForm = new FormGroup({
       language: new FormControl(),
@@ -92,8 +101,13 @@ export class MobileProfileDashboardComponent implements OnInit {
     })
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
+
+      console.log(res)
       this.loader = false
       this.profileData = _.get(res[0], 'profileDetails.profileReq')
+      this.userInfo = res[0]
+      const lang = (res[0] && res[0].profileDetails && res[0].profileDetails!.preferences && res[0].profileDetails!.preferences!.language !== undefined) ? res[0].profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
+      this.language = lang
       this.setAcademicDetail(res[0])
       this.processCertiFicate(res[1])
     })
@@ -157,6 +171,34 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
 
+  showSocialChats() {
+    try {
+      setTimeout(() => {
+        this.isCommonChatEnabled = false
+        window.fcWidget.init()
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
+        window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+      }, 300)
+      // window.fcWidget.show()
+      // this.isCommonChatEnabled = false
+      const script = this._renderer2.createElement('script')
+      script.src = '//in.fw-cdn.com/30492305/271953.js'
+      this._renderer2.appendChild(this._document.body, script)
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
+  backToChatIcon() {
+    try {
+      this.isCommonChatEnabled = true
+      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+      window.fcWidget.init()
+    } catch (error) {
+      // tslint:disable-next-line:no-console
+      console.log(error)
+    }
+  }
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
@@ -226,7 +268,14 @@ export class MobileProfileDashboardComponent implements OnInit {
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
-      this.currentProfession = this.userProfileData.professionalDetails[0].profession
+      if (this.userProfileData
+        && this.userProfileData.professionalDetails
+        && this.userProfileData.professionalDetails.length > 0) {
+        this.currentProfession = this.userProfileData.professionalDetails[0].profession
+      } else {
+        this.currentProfession = 'Not specified'
+      }
+      //this.currentProfession = this.userProfileData.professionalDetails[0].profession
       if (_.get(this.userProfileData, 'personalDetails')) {
         this.photoUrl = this.userProfileData.personalDetails.photo
       } else {
@@ -239,7 +288,39 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.CompetencyConfiService.setConfig(this.userProfileData, data.profileDetails)
     }
   }
+  storeLanguage(lang: string) {
+    const obj = {
+      preferences: {
+        language: lang,
+      },
+      personalDetails: this.userInfo.profileDetails.profileReq.personalDetails,
+    }
+    const userdata = Object.assign(this.userInfo.profileDetails, obj)
+    console.log(userdata, 'p')
+    //   // this.chosenLanguage = path.value
+    const reqUpdate = {
+      request: {
+        userId: userdata.profileReq.id,
+        profileDetails: userdata,
+      },
+    }
+
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
+      console.log(result)
+      if (lang === 'en') {
+        // this.chosenLanguage = ''
+        window.location.assign(`${location.origin}/app/profile-view`)
+        // window.location.reload(true)
+      } else {
+        // window.location.reload(true)
+        window.location.assign(`${location.origin}/${lang}/app/profile-view`)
+      }
+    },
+      () => {
+      })
+  }
   saveLanguage(form: any) {
+    console.log(form)
     const obj = {
       preferences: {
         language: form.value.language,
@@ -276,9 +357,17 @@ export class MobileProfileDashboardComponent implements OnInit {
             this.loader = false
             this.userProfileData = await data.profileDetails.profileReq
             this.userData = await data
-            this.currentProfession = this.userProfileData.professionalDetails[0].profession
+            //this.currentProfession = this.userProfileData.professionalDetails[0].profession
+            if (this.userProfileData
+              && this.userProfileData.professionalDetails
+              && this.userProfileData.professionalDetails.length > 0) {
+              this.currentProfession = this.userProfileData.professionalDetails[0].profession
+            } else {
+              this.currentProfession = 'Not specified'
+            }
             const lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
-            console.log(lang)
+            this.language = lang
+            console.log(lang, 'oo')
             this.userForm.patchValue({ language: lang })
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
@@ -286,6 +375,11 @@ export class MobileProfileDashboardComponent implements OnInit {
             if (this.userProfileData.personalDetails.photo) {
               this.photoUrl = this.userProfileData.personalDetails.photo
             }
+            if (this.userProfileData.personalDetails.firstname) {
+              this.firstName = this.userProfileData.personalDetails.firstname
+              this.lastName = this.userProfileData.personalDetails.surname
+            }
+
           }
         })
     }

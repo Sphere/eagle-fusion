@@ -162,7 +162,7 @@ export class GeneralGuard implements CanActivate {
                     if (url4.includes('hi')) {
                       lang = ''
                     }
-                    const url = `${lang}/app/new-tnc`
+                    const url = lang === '' ? `${lang}app/new-tnc` : `${lang}/app/new-tnc`
                     console.log(url)
                     location.href = `${url}`
                     //this.router.navigate([url, 'new-tnc'])
@@ -175,6 +175,7 @@ export class GeneralGuard implements CanActivate {
               }
             }
           } else {
+            console.log("afdssssssssssssss")
             localStorage.setItem('datanow', JSON.stringify(data))
             this.router.navigate(['app', 'new-tnc'])
           }

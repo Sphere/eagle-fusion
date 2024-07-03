@@ -140,7 +140,9 @@ export class LoginOtpComponent implements OnInit {
               this.openSnackbar(res1.msg)
             }
             this.isLoading = false
+            console.log("afdadssssssssssssssssssssssss")
             window.location.href = url
+
             //this.router.navigate([url, 'new-tnc'])
           }
         } else {

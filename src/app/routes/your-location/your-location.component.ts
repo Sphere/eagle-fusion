@@ -60,6 +60,7 @@ export class YourLocationComponent implements OnInit {
     })
   }
   countrySelect(option: any) {
+    console.log(this.aboutYouForm.controls)
     this.setCountryCode(option)
     if (option === 'India') {
       this.selectDisable = false
@@ -84,7 +85,8 @@ export class YourLocationComponent implements OnInit {
     }
   }
   disableNextBtn() {
-    if (this.aboutYouForm.controls.dob) {
+    console.log(this.aboutYouForm.controls)
+    if (this.aboutYouForm.controls.dob.value && this.aboutYouForm.controls.country.value) {
       if (this.aboutYouForm.controls.country.value !== 'India') {
         this.nextBtnDisable = false
       } else if (this.aboutYouForm.controls.country.value === 'India') {
@@ -94,7 +96,7 @@ export class YourLocationComponent implements OnInit {
           this.nextBtnDisable = true
         }
       } else {
-        this.nextBtnDisable = true
+        this.nextBtnDisable = false
       }
     } else {
       this.nextBtnDisable = true
@@ -117,8 +119,11 @@ export class YourLocationComponent implements OnInit {
   }
 
   dobData(event: any) {
+    console.log(event)
+    console.log(this.aboutYouForm.controls)
     this.aboutYouForm.patchValue({
       dob: event,
     })
+    this.disableNextBtn()
   }
 }

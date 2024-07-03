@@ -96,12 +96,12 @@
             </div>
           </div>
         </a>
-        <mat-card-content style="margin: 0px;">
+        <mat-card-content style="margin: 0px; cursor: pointer;" (click)="raiseTelemetry()">
           <div class="mat-title title-text ws-mat-text-block-fade-gradient" style="margin-top:75px !important;">
             {{ widgetData.content.name }}
           </div>
           <ng-container *ngIf="widgetData.content.description">
-            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title style="margin-left: -11px;">
+            <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title>
               {{ widgetData.content.description | pipeHtmlTagRemoval }}
             </div>
           </ng-container>

@@ -4,25 +4,23 @@
     align-items: center;
     justify-content: space-around;
 }
+.banner-heading-container{
+  display: flex;
+    flex-direction: column;
+    flex: 35%;
+    justify-content: left;
+        padding-left: 85px;
+}
 .banner-heading{
-//     line-height: 38px;
-//     color: #000000;
+font-family: Roboto;
+font-size: 48px;
+font-weight: 500;
+line-height: 56.25px;
+letter-spacing: -0.02em;
+text-align: left;
 
-//     font-family: 'Roboto';
-//   font-style: normal;
-//   font-weight: 500;
-//   font-size: 50px;
-//   line-height: 48px;
-//   /* or 96% */
-
-//   letter-spacing: -0.02em;
-  padding-left: 51px;
-    font-family: 'Roboto';
+  // padding-left: 51px;
     font-style: normal;
-    font-weight: 500;
-     font-size: 36px;
-    line-height: 40px;
-    letter-spacing: -0.02em;
     color: #000000;
 }
 .banner-mini-heading{
@@ -37,26 +35,43 @@
 
 // color: #000000;
 
- padding-left: 51px;
+//  padding-left: 51px;
     color: #000000;
     /* Header 2 */
-    font-family: 'Roboto';
-    font-size: 20px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 20px;
     letter-spacing: -0.48px;
+
+    font-family: Roboto;
+font-size: 32px;
+font-weight: 400;
+line-height: 37.5px;
+letter-spacing: -0.02em;
+text-align: left;
+
 }
-.tutorials-container{
+.scrollToCneCourses{
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    background: #469788;
+    // background: #D7AC5C;
+    height: 51px;
+    margin-bottom: 20px;
+    margin-top: -1px;
+    flex-direction: column;
+}
+.scrollToHowSphereWorks{
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    // background: #469788;
     height: 51px;
     margin-bottom: 20px;
     margin-top: -12px;
+    flex-direction: column;
 }
 .tutorials-text{
     /* Body */
@@ -72,10 +87,8 @@
     margin: 0px !important;
 }
 .banner-image{
-    // max-width: 400px;
-    width: 600px;
-    // height: 350px
-    height: 325px;
+    // width: 600px;
+    // height: 325px;
 }
 @media only screen and (min-width: 600px) and (max-width: 959px){
 .banner-image{
@@ -104,3 +117,76 @@
   border: none !important;
 
 }
+
+.slides {
+  display: flex;
+  flex: 65%;
+  transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
+}
+
+.slide {
+  flex: 0 0 100%; /* Ensure each slide takes the full width of the container */
+}
+
+.banner-image {
+  width: 100%; /* Ensure images fill their container */
+  height: auto; /* Maintain aspect ratio */
+}
+
+/* carousel.component.css */
+
+.carousel {
+  overflow: hidden;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+
+
+.slide {
+  flex: 0 0 100%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  //padding: 0 10px;
+  /* Adjust padding as needed */
+}
+
+.slide-content {
+  display: none;
+}
+
+.slide-content.active {
+  display: block;
+}
+
+
+.round-buttons {
+ background: none;
+    border: none;
+     padding: 0px 0px 0px 4px !important;
+
+}
+.dot-icon{
+      width: 10px;
+    height: 10px;
+}
+.round-button {
+ width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: rgba(0, 0, 0, 0.25);
+  margin: 0 5px;
+  cursor: pointer;
+  border: none;
+}
+
+.round-button.active {
+  background-color: rgba(0, 0, 0, 0.978);
+}
+
+
+
+

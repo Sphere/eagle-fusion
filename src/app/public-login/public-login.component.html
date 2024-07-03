@@ -1,0 +1,195 @@
+<div class="custom-wrapper">
+  <div class="ui raised shadow container segment  login-section">
+    <div class="ui one column grid stackable">
+      <div class="ui column height-fix">
+        <div class="logo">
+          <a name="application-logo" class="padding-remove-small application-logo" [routerLink]="'/public/home'"
+            i18n-matTooltip matTooltip="Home">
+            <img loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg" width="auto" height="70"
+              style="margin-left: -15px;" />
+          </a>
+        </div>
+        <div class="max-container" *ngIf="!otpPage">
+          <div class="ui header mtb">
+            <h1 i18n> Welcome! </h1>
+          </div>
+          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n>Login with your Aastrika account</h4>
+          <!-- <div class="formMsg  textCenter">
+            <div id="success-msg" class="ui text success hide">suceess</div>
+            <div id="error-msg" class="ui text error hide">error</div>
+          </div> -->
+          <div class="field  type-container mw-100">
+            <div class="heading" style="margin-right: 35px;">
+              <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
+                style="cursor: pointer;" checked="true">&nbsp;
+              <label id="useOTPLabel" for="useOTPRB" class="" i18n style="cursor: pointer;"
+                [ngClass]="{'font-weight-500': selectedField === 'otp'}">
+                Login with OTP
+              </label>
+            </div>
+            <div style="cursor: pointer;">
+              <input type="radio" (click)="passwordOrOtp('password');" name="usePasswordOrOTP" id="usePasswordRB"
+                style="cursor: pointer;">&nbsp;
+              <label id="usePasswordLabel" for="usePasswordRB" class="" i18n style="cursor: pointer;"
+                [ngClass]="{'font-weight-500': selectedField === 'password'}">
+                Login with Password
+              </label>
+            </div>
+          </div>
+          <div id="usePasswordDiv" class="mw-100" *ngIf="selectedField === 'password'">
+            <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
+              <div class="form-group">
+                <input class="mt-8" class="form-control" id="emailOrMobile" name="emailOrMobile" i18n-placeholder
+                  (input)="checkMobileEmail2()" formControlName="emailOrMobile" placeholder="Phone Number/Email ID"
+                  type="text" autofocus="" autocomplete="off">
+              </div>
+              <div class="field">
+                <div>
+                  <label id="passwordLabel" for="password" class="" i18n>
+                    Password
+                  </label>
+                </div>
+                <input placeholder="Enter Password" class=" mt-8" id="password" class="form-control" i18n-placeholder
+                  formControlName="password" name="password" autocomplete="new-password" type="password"
+                  (input)="checkPassword()">
+                <p i18n style="margin-top: 5px;">(Password must contain a minimum of 8 characters including
+                  numerals, lower and upper case alphabets and special characters without space)</p>
+                <mat-error class="text-danger" i18n
+                  *ngIf="loginPwdForm.controls['password'].hasError('required') &&
+                                                              (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">
+                  This field is required</mat-error>
+                <mat-error class="text-danger" i18n
+                  *ngIf="loginPwdForm.controls['password'].hasError('pattern') &&
+                                            (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">Invalid
+                  Password Format</mat-error>
+
+              </div>
+              <div class="field">
+              </div>
+              <div>
+                <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
+                  href="/public/forgot-password?value=true&amp;version=null">Forgot
+                  Password?</a>
+              </div>
+              <div class="field">
+                <button id="login-username-password" class="ui fluid button blueButton"
+                  (click)="submitDetails(loginPwdForm)" [disabled]="!loginPwdForm?.valid" i18n>Login</button>
+              </div>
+              <div class="field or-container">
+                <div class="or-holder" id="or-holder" style="margin-bottom: 10px; text-align: center;">
+                  <span class=""></span>
+                  <span class="" i18n>OR</span>
+                </div>
+              </div>
+
+              <div id="kc-registration" class="field">
+                <div class="ui content '/fusion-assets/images/frame-156.svg' signUpMsg">
+                  <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
+                    style="display: block;" i18n>Create an Account</a>
+                  <div class="rel">
+                    <span class="whatsApp1">
+                      <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
+                    </span>
+                    <a href="https://wa.me/919632013414?text=Hi" target="_blank" class="greenButton" mat-button i18n
+                      rel="noopener" id="whatsApp-createaccount-page">Get
+                      help on WhatsApp</a>
+                  </div>
+                  <!-- </span> -->
+                  <div id="selfSingUp" style="height: 30px;">
+                  </div>
+                </div>
+              </div>
+            </form>
+          </div>
+          <div id="useOTPDiv" class="mw-100" *ngIf="selectedField === 'otp'">
+            <form [formGroup]="loginForm" id="kc-form-login" class=" ui form" action="" method="post" method="post">
+              <div class="field">
+                <input tabindex="0" required="" id="emailOrMobile" i18n-placeholder placeholder="Phone Number/Email ID"
+                  class="form-control" name="emailOrMobile" formControlName="emailOrMobile" type="text" autofocus=""
+                  autocomplete="off" (input)="checkMobileEmail()">
+                <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
+                  i18n>Invalid email or number</mat-error>
+              </div>
+
+              <div class="mdc-card__actions">
+                <div class="field">
+                  <button tabindex="0" name="otp-login" id="otp-login" type="submit" class="ui fluid btn blueButton"
+                    (click)="otpClick(loginForm)" [disabled]="!loginForm?.valid" i18n>Get OTP</button>
+                </div>
+                <div class="field or-container">
+                  <div class="or-holder" id="or-holder" style="margin-bottom: 10px; text-align: center;">
+                    <span class=""></span>
+                    <span class="" i18n>OR</span>
+                  </div>
+                </div>
+
+                <div id="kc-registration" class="field">
+                  <div class="ui content '/fusion-assets/images/frame-156.svg' signUpMsg">
+                    <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
+                      style="display: block;" i18n>Create an Account</a>
+                    <div class="rel">
+                      <span class="whatsApp">
+                        <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
+                      </span>
+                      <a class="ui fluid btn greenButton" href="https://wa.me/919632013414?text=Hi" target="_blank"
+                        rel="noopener" id="WhatsApp-loginOTP" style="display: block;" i18n>Get Help on
+                        WhatsApp?</a>
+                    </div>
+                  </div>
+                </div>
+                <div id="selfSingUp" style="height: 30px;">
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+        <ng-container>
+          <!-- OTP Form -->
+          <div class="otp-page">
+            <div class="max-container" *ngIf="otpPage">
+              <div class="logo text-center">
+                <a id="otp-anchor" href="/public/home">
+                  <img loading="lazy" alt="Logo" src="/fusion-assets/images/SMS.svg" width="auto">
+                </a>
+              </div>
+              <div class="signInHead mt-27">
+                <h4 i18n> Check your Email/SMS for OTP!</h4>
+              </div>
+              <form [formGroup]="OTPForm" class="ui form" action="" method="post" method="post" id="kc-totp-login-form">
+                <div class="field">
+                  <input id="totp" name="OTPcode" i18n-placeholder placeholder="Enter OTP" type="text"
+                    class="form-control" name="OTPcode" formControlName="OTPcode" />
+                  <mat-error class="text-danger mb-4" *ngIf="OTPForm.controls['OTPcode'].hasError('pattern')"
+                    i18n>Invalid code should be 6 digits</mat-error>
+                </div>
+                <div class="field">
+                  <p style="text-align: right !important; margin-top: 10px;font-weight: 500;">
+                    <span i18n>OTP Expires in </span><span class="warnText" i18n>10 Minutes</span>
+                  </p>
+                </div>
+                <div class="field">
+                  <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid" class="ui fluid submit button blueButton"
+                    name="submit-OTP" id="submit-OTP" type="submit" i18n>Submit</button>
+                </div>
+                <div class="field">
+                  <button (click)="resendOTP()" style="width: 100%;" class="ui fluid submit btn button whiteButton"
+                    name="resend-OTP" id="resend-OTP" type="submit" i18n>Resend
+                    OTP</button>
+                </div>
+                <div class="rel">
+                  <span class="whatsApp">
+                    <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
+                  </span>
+                  <a class="ui fluid btn greenButton" href="https://wa.me/919632013414?text=Hi" target="_blank"
+                    rel="noopener" id="WhatsApp-loginOTP" style="display: block;margin-bottom: 25px;" i18n>Get Help on
+                    WhatsApp?</a>
+                </div>
+              </form>
+            </div>
+          </div>
+          <!-- OTP Form Close-->
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</div>

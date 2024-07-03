@@ -18,6 +18,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
 import { MobileHomeComponent } from '../../../routes/mobile-home/mobile-home.component'
 import { MobileTrustedByPageComponent } from '../../../routes/mobile-trusted-by-page/mobile-trusted-by-page.component'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
 
 import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
 import { MobileLatestCommentComponent } from '../../../routes/mobile-latest-comment/mobile-latest-comment.component'
@@ -56,6 +57,7 @@ import { WebHomeComponent } from '../../../routes/web-home/web-home.component'
 
   ],
   imports: [
+    MatProgressBarModule,
     CommonModule,
     MatToolbarModule,
     MatDividerModule,

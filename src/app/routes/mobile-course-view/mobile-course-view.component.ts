@@ -16,7 +16,9 @@ import * as _ from 'lodash'
 })
 export class MobileCourseViewComponent implements OnInit {
 
-  @Input() courseData: any
+  @Input() courseData: any = {};
+  @Input() cnePoints: any = false
+
   @Input() enableConfig = false
   isLoggedIn = false
 
@@ -28,14 +30,16 @@ export class MobileCourseViewComponent implements OnInit {
       certification: true,
     },
   }
-  constructor(private router: Router,
-    private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService,
-    private signUpSvc: SignupService,
-    private titleService: Title
+  constructor(public router: Router,
+    public configSvc: ConfigurationsService,
+    public userProfileSvc: UserProfileService,
+    public signUpSvc: SignupService,
+    public titleService: Title
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
+    // console.log("this.courseData", this.courseData, this.displayConfig)
+
     if (this.configSvc.userProfile) {
       if (sessionStorage.getItem('cURL')) {
         sessionStorage.removeItem('cURL')
@@ -75,10 +79,8 @@ export class MobileCourseViewComponent implements OnInit {
   }
   redirectPage(course: any) {
     if (this.isLoggedIn) {
-      console.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log('else')
       this.login(course)
     }
   }

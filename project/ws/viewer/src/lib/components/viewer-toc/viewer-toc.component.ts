@@ -3,7 +3,7 @@ import {
   NgModule,
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
-import { MatTreeNestedDataSource, MatTooltipModule, MatDialog } from '@angular/material'
+import { MatTreeNestedDataSource, MatTooltipModule, MatDialog, MatDialogRef } from '@angular/material'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
@@ -668,23 +668,38 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               this.playerStateService.trigger$.complete()
             }
           } else if (this.contentSvc.showConformation) {
-            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              width: '542px',
-              panelClass: 'overview-modal',
-              disableClose: true,
-              data: 'Congratulations!, you have completed the course',
-            })
-            confirmdialog.afterClosed().subscribe((res: any) => {
-              if (res && res.event === 'CONFIRMED') {
-                this.dialog.closeAll()
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.batchId,
-                  },
-                })
-              }
-            })
+            const data = {
+              courseId: this.collectionId,
+            }
+            console.log("data", this.collectionId, data)
+            const isDialogOpen = this.dialog.openDialogs.length > 0
+            let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+            // If the dialog is not already open, open it
+            if (!isDialogOpen) {
+              confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                width: '300px',
+                height: '405px',
+                panelClass: 'overview-modal',
+                disableClose: true,
+                data: { request: data, message: 'Congratulations!, you have completed the course' },
+              })
+            }
+
+            if (confirmdialog) {
+              confirmdialog.afterClosed().subscribe((res: any) => {
+                if (res && res.event === 'CONFIRMED') {
+                  this.dialog.closeAll()
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.batchId,
+                    },
+                  })
+                }
+              })
+            }
+
           }
         } else {
           this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -698,23 +713,38 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.playerStateService.isResourceCompleted()) {
           if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
             && this.contentSvc.showConformation) {
-            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              width: '542px',
-              panelClass: 'overview-modal',
-              disableClose: true,
-              data: 'Congratulations!, you have completed the course',
-            })
-            confirmdialog.afterClosed().subscribe((res: any) => {
-              if (res && res.event === 'CONFIRMED') {
-                this.dialog.closeAll()
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.batchId,
-                  },
-                })
-              }
-            })
+            const data = {
+              courseId: this.collectionId,
+            }
+            console.log("data", this.collectionId, data)
+            // Check if the dialog is already open
+            const isDialogOpen = this.dialog.openDialogs.length > 0
+            let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+            // If the dialog is not already open, open it
+            if (!isDialogOpen) {
+              confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                width: '300px',
+                height: '405px',
+                panelClass: 'overview-modal',
+                disableClose: true,
+                data: { request: data, message: 'Congratulations!, you have completed the course' },
+              })
+            }
+
+            if (confirmdialog) {
+              confirmdialog.afterClosed().subscribe((res: any) => {
+                if (res && res.event === 'CONFIRMED') {
+                  this.dialog.closeAll()
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.batchId,
+                    },
+                  })
+                }
+              })
+            }
           } else {
             console.log('lll')
             // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -836,6 +866,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       child2.completionStatus = foundContent2.status
 
                       // tslint:disable-next-line:max-line-length
+                    } else if (this.viewerDataSvc.getNode() && this.viewerDataSvc.resourceId === child2.identifier) {
+                      console.log('entered')
+                      child2.disabledNode = false
+
                     } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
                       if (element[index].children.length > 0) {
                         if (cindex === 0) {
@@ -913,9 +947,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     }
   }
-  updateResourceChange() {
-    const currentIndex = this.queue.findIndex(c => c.identifier === this.resourceId)
-    const firstResource = this.queue[0].viewerUrl
+  async updateResourceChange() {
+    const currentIndex = await this.queue.findIndex(c => c.identifier === this.resourceId)
+    const firstResource = (this.queue && this.queue[0]) ? this.queue[0].viewerUrl : ''
     const next = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].viewerUrl : null
     const nextContentId = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].identifier : null
     const prev = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].viewerUrl : null

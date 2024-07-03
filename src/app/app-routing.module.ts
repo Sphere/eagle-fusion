@@ -29,7 +29,12 @@ import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components
 import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-service.service'
 import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+
+import { BnrcLoginOtpComponent } from './routes/bnrc-login-otp/bnrc-login-otp.component'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
+import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
+import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
+
 import { YourLocationComponent as AboutYou } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
@@ -52,6 +57,8 @@ import { SelfAssessmentGuard } from './guards/self-assessment.guard'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
+import { PublicLoginComponent } from './public-login/public-login.component'
+import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -83,6 +90,14 @@ const routes: Routes = [
     },
   },
   {
+    path: 'bnrc/register',
+    component: BnrcRegisterComponent,
+  },
+  {
+    path: 'upsmf/register',
+    component: UpsmfRegisterComponent,
+  },
+  {
     path: 'app/about-you',
     component: AboutYou,
   },
@@ -107,6 +122,10 @@ const routes: Routes = [
     component: LoginOtpComponent,
   },
   {
+    path: 'app/bnrc-email-otp',
+    component: BnrcLoginOtpComponent,
+  },
+  {
     path: 'app/features',
     component: FeaturesComponent,
     canActivate: [GeneralGuard],
@@ -125,6 +144,10 @@ const routes: Routes = [
   {
     path: 'app/login',
     component: loginComponent,
+  },
+  {
+    path: 'public/login',
+    component: PublicLoginComponent,
   },
   {
     path: 'app/mobile-otp',
@@ -200,6 +223,11 @@ const routes: Routes = [
   },
   {
     path: 'app/toc',
+    loadChildren: () => import('./routes/route-app-toc.module').then(u => u.RouteAppTocModule),
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'hi/app/toc',
     loadChildren: () => import('./routes/route-app-toc.module').then(u => u.RouteAppTocModule),
     canActivate: [GeneralGuard],
   },
@@ -350,6 +378,10 @@ const routes: Routes = [
 
   },
   {
+    path: 'openid/tnai',
+    component: TnaiCallbackComponent,
+  },
+  {
     path: 'organisations',
     loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
     canActivate: [GeneralGuard],
@@ -497,6 +529,14 @@ const routes: Routes = [
   { path: 'resources', redirectTo: 'page/home', pathMatch: 'full' },
   {
     path: 'viewer',
+    data: {
+      topBar: ETopBar.NONE,
+    },
+    loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'hi/viewer',
     data: {
       topBar: ETopBar.NONE,
     },

@@ -21,6 +21,7 @@ import each from 'lodash/each'
 import toInteger from 'lodash/toInteger'
 
 import moment from 'moment'
+import { IndexedDBService } from 'src/app/online-indexed-db.service'
 
 export enum ErrorType {
   internalServer = 'internalServer'
@@ -68,6 +69,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   currentFragment = 'overview'
   batchId!: string
   sticky = false
+  databaseAndTablesExist: boolean = false;
+  rowData: any
   license = 'CC BY'
   errorWidgetData: NsWidgetResolver.IRenderConfigWithTypedData<any> = {
     widgetType: 'errorResolver',
@@ -97,6 +100,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   result: any
   matspinner = true
   resumeDataLink: any
+  rowDetails: any | undefined
+  optmisticPercentage: number = 0
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -118,10 +123,12 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
-    private discussiConfig: DiscussConfigResolve
+    private discussiConfig: DiscussConfigResolve,
+    private onlineIndexedDbService: IndexedDBService
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
+      this.show()
       this.discussionConfig = {
         // menuOptions: [{ route: 'categories', enable: true }],
         userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
@@ -165,6 +172,14 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
         this.tocSvc.showDescription = data.pageData.data.showDescription || false
         this.tocConfig = data.pageData.data
+
+        try {
+
+          (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName ? "CNE" : "Non CNE", value: data.content.data.cneName })
+        }
+        catch (e) {
+          console.log("fb pixel error")
+        }
         this.initData(data)
       })
     }
@@ -182,6 +197,34 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         console.log('error on batchSubscription')
       },
     )
+  }
+  async show() {
+    try {
+      this.databaseAndTablesExist = await this.onlineIndexedDbService.checkDatabaseTablesExists()
+      console.log(this.databaseAndTablesExist)
+      if (!this.databaseAndTablesExist) {
+        console.log('Database or tables do not exist in IndexedDB, creating...')
+        await this.createDatabaseAndTables()
+        console.log('Database and tables created in IndexedDB')
+      } else {
+        console.log('Database and tables already exist in IndexedDB')
+        await this.checkData()
+      }
+    } catch (error) {
+      console.error('Error checking/creating database and tables in IndexedDB:', error)
+    }
+  }
+  async refreshTable() {
+    try {
+      const tableName = 'onlineCourseProgress' // Specify the table name
+      let tableData = await this.onlineIndexedDbService.getData(tableName)
+      console.log(tableData)
+    } catch (error) {
+      console.error('Error fetching data from IndexedDB:', error)
+    }
+  }
+  checkData() {
+    console.log('ppp')
   }
 
   showContents() {
@@ -395,10 +438,13 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
   private getContinueLearningData(contentId: string, batchId?: string) {
     this.resumeData = null
-    let userId
+    let userId = ''
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
+    const targetUrl = this.router.url
+    const urlParams = targetUrl.split('/')
+    let courseId = urlParams[3]
     // this.route.data.subscribe(data => {
     //   userId = data.profileData.data.userId
     // })
@@ -415,6 +461,38 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       data => {
 
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
+          console.log('datatta', data)
+          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
+            console.log('Record:', record)
+            this.rowData = await record
+            let dat = JSON.parse(this.rowData.data)
+            if (dat && dat.length) {
+              this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+              console.log(this.optmisticPercentage, 'foundContent')
+            }
+          }, (error) => {
+            console.error('Error:', error, data.result.contentList)
+            this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
+              (dat: any) => {
+                console.log('Data inserted successfully1', dat)
+                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
+                  console.log('Record:', record)
+                  this.rowData = await record
+                  let dat = JSON.parse(this.rowData.data)
+                  if (dat && dat.length) {
+                    this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+                    console.log(this.optmisticPercentage, 'foundContent')
+                  }
+                }, (error) => {
+                  console.error('Error:', error)
+                })
+              },
+              (error) => {
+                console.error('Error inserting data:', error)
+              }
+            )
+          })
+
           this.resumeData = get(data, 'result.contentList')
           this.resumeData = map(this.resumeData, rr => {
             // tslint:disable-next-line
@@ -433,7 +511,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           this.resumeResource = this.resumeData.filter((item: any) => {
             return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
           })
-
+          console.log(this.enrolledCourse, 'enrolledCourse')
+          console.log(this.resumeResource[0], 'me')
+          console.log(this.resumeData)
           const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
           if (progress.length < totalCount) {
             const diff = totalCount - progress.length
@@ -451,6 +531,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
+          console.log('no data')
           this.resumeData = null
         }
       },
@@ -459,6 +540,67 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       },
     )
   }
+
+  updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
+    const targetUrl = this.router.url
+    const urlParams = targetUrl.split('/')
+    let courseId = urlParams[3]
+    let userID = this.configSvc.userProfile!.userId
+    //let cId = this.activatedRoute.snapshot.queryParams.contentId
+
+    arr2.forEach((obj2: any) => {
+      const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
+
+      if (obj1) {
+        // Update the existing object in arr1 if the keyToUpdate value is different
+        if (obj1[keyToUpdate] !== obj2[keyToUpdate]) {
+          obj1[keyToUpdate] = obj2[keyToUpdate]
+        }
+      } else {
+        // Add the new object from arr2 to arr1
+        arr1.push(obj2)
+      }
+    })
+    console.log(arr1, 'arr1')
+    this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).subscribe(
+      () => {
+        console.log('Data inserted successfully2')
+      },
+      (error) => {
+        console.error('Error inserting data:', error)
+      }
+    )
+    const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
+    console.log('Aggregate value:', aggregateValue)
+    console.log(this.content, 'content')
+    let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
+    console.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
+    let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
+    console.log(percentage, 'percentage')
+    return percentage
+  }
+  calculateAggregate(arr: any, field: string): number {
+    let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
+    console.log(val)
+    return val
+  }
+
+  uniqueIdsByContentType(obj: any, contentType: any, uniqueIds = new Set()) {
+    // Check if the current object is an array
+    if (Array.isArray(obj)) {
+      // If array, recursively call extractUniqueIds for each element
+      obj.forEach(item => this.uniqueIdsByContentType(item, contentType, uniqueIds))
+    } else if (typeof obj === 'object' && obj !== null) {
+      // If object, check if it has contentType and add id to uniqueIds if contentType matches
+      if (obj.contentType === contentType && obj.identifier !== undefined) {
+        uniqueIds.add(obj.identifier)
+      }
+      // Recursively call extractUniqueIds for each property value
+      Object.values(obj).forEach(value => this.uniqueIdsByContentType(value, contentType, uniqueIds))
+    }
+    // Return uniqueIds as an array (if needed)
+    return [...uniqueIds]
+  };
 
   enrollUser(batchData: any) {
     let userId = ''

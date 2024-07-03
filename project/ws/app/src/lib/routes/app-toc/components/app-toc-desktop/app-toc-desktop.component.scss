@@ -9,6 +9,30 @@
   }
 }
 
+.cne-duration-block {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cne-block {
+  padding: 10px 15px;
+  width: 133px;
+  // height: 27px;
+  flex-shrink: 0;
+  border-radius: 100px;
+  background: #DCFAFF;
+  color: #035F7C;
+  font-family: 'Roboto', sans-serif !important;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 16.8px;
+  /* 120% */
+  letter-spacing: -0.28px;
+}
+
 .visibility-0 {
   // visibility: hidden;
   display: none !important;
@@ -145,7 +169,13 @@
 
 
 }
-
+.pencil{
+      display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 17px !important;
+    cursor: pointer;
+}
 .banner-btn-active {
   display: flex;
   color: #1c5d95 !important;
@@ -232,4 +262,31 @@
 
 .modal {
   overflow: inherit !important;
+}
+.rating-block{
+  display: flex;
+  align-items: center;
+    gap: 6px;
+}
+.average-rating{
+font-family: Roboto;
+font-size: 12px;
+font-weight: 400;
+line-height: 13.53px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #747474;
+padding-top: 3px !important;
+
+}
+.total-rating{
+  //styleName: Label 1;
+font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.8px;
+letter-spacing: -0.02em;
+text-align: left;
+color: #000000;
+
 }

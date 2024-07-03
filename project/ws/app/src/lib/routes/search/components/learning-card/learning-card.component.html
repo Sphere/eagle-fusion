@@ -38,8 +38,8 @@
               ?'Module'
               :(content?.contentType==='Learning Path'?'Program':content?.contentType)">
             </ws-widget-display-content-type>
-            <span *ngIf="content.complexityLevel">
-              | {{ content.complexityLevel | titlecase }} </span>
+            <!-- <span *ngIf="content.complexityLevel">
+              | {{ content.complexityLevel | titlecase }} </span> -->
             <span *ngIf="content.exclusiveContent">
               | <span class="ws-mat-primary-text font-normal" i18n>Paid Content</span></span>
           </span>

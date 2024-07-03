@@ -1,48 +1,97 @@
 <!--page banner-->
 <div class="banner-container">
-  <!--upskill now section-->
-  <div class="banner-heading" i18n>Access free Healthcare courses</div>
-  <div class="banner-mini-heading" i18n>
-    High quality content from experts
+  <div class="carousel">
+    <div class="banner-heading-container px-4">
+      <div class="banner-heading" i18n>Access free Healthcare courses</div>
+      <div class="banner-mini-heading" i18n>
+        High quality content from experts
+      </div>
+      <div class="create-account">
+        <a role="button" matRipple class="flex flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+          [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+          <ng-container>
+            <button mat-raised-button [ngStyle]="{
+                                          'width':'160px',
+                                          'height':'auto',
+                                              'background-color': '#2E6491',
+                                              'border': '1px solid #2E6491',
+                                              'border-radius': '20px',
+                                              'color': 'white',
+                                              'font-size': '16px',
+                                              'font-weight': '400'}" i18n>
+              Create Account</button>
+          </ng-container>
+        </a>
+      </div>
+    </div>
+    <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
+      <ng-container *ngFor="let data of dataCarousel; let i = index">
+        <div class="slide" [class.active]="i === currentSlideIndex" (click)="scrollToHowSphereWorks(data.scrollEmit)">
+          <img class="banner-image" [src]="data.img" alt="Carousel" loading="lazy">
+        </div>
+      </ng-container>
+    </div>
+
+
   </div>
-  <img class="banner-image" src="/fusion-assets/images/Mask_group.svg" alt="Banner image" loading="lazy">
+</div>
+
+
+
+
+<div *ngFor="let data of dataCarousel; let i = index">
+  <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
+    <div [className]="data.scrollEmit">
+      <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
+        </span> </p>
+      <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
+          > </span> </p> -->
+      <div>
+        <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
+          (click)="goToSlide(i)" class="round-buttons">
+          <img class="dot-icon" *ngIf="i === currentSlideIndex" src="/fusion-assets/icons/active_dot.svg"
+            alt="Active Dot">
+          <img class="dot-icon" *ngIf="i !== currentSlideIndex" src="/fusion-assets/icons/gray_dot.svg"
+            alt="Inactive Dot">
+        </button>
+      </div>
+    </div>
+  </div>
 </div>
 <div class="flex info-block">
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}</div>
     </div>
     <p class="info-text" i18n>Learners onboarded</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}</div>
     </div>
     <p class="info-text" i18n>Number of courses</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cert_course}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_points}}</div>
     </div>
-    <p class="info-text" i18n>Certificate Courses</p>
+    <p class="info-text" i18n>CNE Hours</p>
   </div>
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}+</div>
+      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}</div>
     </div>
     <p class="info-text" i18n>Total certificate issued</p>
   </div>
 </div>
-<div class="tutorials-container" (click)="scrollToHowSphereWorks()">
-  <p class="tutorials-text" i18n>Learn about how Sphere works ></p>
-</div>
 <div class="create-account">
+  <h3 i18n class="text-center" style="font-weight: 550;margin-top: 5px;margin-bottom: 5px;">New User?</h3>
   <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
-    class="flex items-center flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
+    class="flex items-center flex-col mt px-2 box-sizing-box" (click)="createAcct()" active
     [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
     <ng-container>
       <button mat-raised-button [ngStyle]="{

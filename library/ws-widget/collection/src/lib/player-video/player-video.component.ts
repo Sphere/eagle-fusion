@@ -273,6 +273,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               // this.contentSvc.changeMessage('Video')
             }
           }
+
           if (this.contentData === undefined && percent > 95) {
             const data1: any = {
               courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -292,6 +293,26 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                 this.contentSvc.changeMessage(result)
               })
             // this.contentSvc.changeMessage('Video')
+          } else {
+            if (this.contentData && this.contentData.completionPercentage && percent > 95) {
+              const data1: any = {
+                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+                  this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+                contentId: this.widgetData.identifier,
+                name: this.viewerDataSvc.resource!.name,
+                moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+              }
+              this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
+                this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+
+              this.viewerSvc
+                .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
+
+                  const result = data.result
+                  result['type'] = 'Video'
+                  this.contentSvc.changeMessage(result)
+                })
+            }
           }
 
         })
