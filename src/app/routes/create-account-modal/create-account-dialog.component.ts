@@ -10,6 +10,8 @@ import { DOCUMENT } from '@angular/common'
 export class CreateAccountDialogComponent implements OnInit {
 
   name = ''
+  firstName: string = '';
+  lastName: string = '';
   constructor(
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,
@@ -23,6 +25,13 @@ export class CreateAccountDialogComponent implements OnInit {
       this.showSocialChats()
     }
     this.name = this.selectedData.selected
+    if (this.selectedData.selected === 'name') {
+      console.log("this.selectedData.details.firstName", this.selectedData.details)
+      this.firstName = this.selectedData.details.firstname
+      this.lastName = this.selectedData.details.lastname
+    }
+
+
   }
 
   showSocialChats() {

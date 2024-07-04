@@ -2,7 +2,7 @@
   <img src="/fusion-assets/icons/info_icon-acc.png" class="info-icon" alt="" />
   <div>
     <div class="language">
-      <h1 class="mb-1 firstName" i18n>First name Last name</h1>
+      <h1 class="mb-1 firstName" i18n>{{ firstName }} {{ lastName }}</h1>
     </div>
     <div>
       <p class="info" i18n>will be displayed on the certificate.</p>
@@ -64,7 +64,7 @@
       </div>
     </a>
     <a class=" flex align-items-center fcapp-text cursor-pointer ca-block" (click)="showSocialChats()"
-      onclick="window.fcWidget.open();window.fcWidget.show();" i18n>
+      onclick="window.fcWidget.open();window.fcWidget.show();">
       <img src="/fusion-assets/icons/chat-wa.png" class="whatsapp-icon" alt="whatsapp" />
       <div>
         <p class="ca-text m-0" i18n>Chat with us</p>

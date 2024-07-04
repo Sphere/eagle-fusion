@@ -391,9 +391,9 @@
 
           <div class="input-content">
             <div class="input-content-wrapper">
-              <form [formGroup]="loginOtpForm" id="form-login" action="" method="post">
+              <form [formGroup]="OTPForm" id="form-login" action="" method="post">
                 <div class="form-group">
-                  <div *ngIf="emailPhoneType === 'phone'" [formGroup]="loginOtpForm" class="otp-input-container">
+                  <div *ngIf="emailPhoneType === 'phone'" [formGroup]="OTPForm" class="otp-input-container">
                     <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
                       (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
                     <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
@@ -403,22 +403,11 @@
                     <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
                       (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
                   </div>
-                  <div *ngIf="emailPhoneType === 'email'" [formGroup]="loginOtpForm" class="otp-input-container">
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
-                      (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
-                      (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
-                      (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
-                      (input)="moveFocus(otp4, otp5)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp5" #otp5
-                      (input)="moveFocus(otp5, otp6)" (keydown)="backSpaceEvent($event, otp5, otp4)" />
-                    <input class="otp-input" type="text" maxlength="1" formControlName="otp6" #otp6
-                      (input)="moveFocus(otp6, null)" (keydown)="backSpaceEvent($event, otp6, otp5)" />
+                  <div *ngIf="emailPhoneType === 'email'" [formGroup]="OTPForm" class="otp-input-container">
+                    <input id="totp" name="OTPcode" i18n-placeholder placeholder="Enter OTP" type="text"
+                      class="form-control" name="OTPcode" formControlName="OTPcode" />
                   </div>
-                  <!-- <input tabindex="1" id="code" i18n class="form-control input-box" formControlName="code" type="text"
-                      i18n-placeholder autocomplete="off" placeholder="{{emailPhoneType === 'email'? 'Code' : 'OTP'}}"> -->
+
                 </div>
                 <div class="field">
                   <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid" class="ui fluid submit button blueButton"

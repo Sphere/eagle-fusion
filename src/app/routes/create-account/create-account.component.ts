@@ -207,14 +207,24 @@ export class CreateAccountComponent implements OnInit {
   }
 
   optionSelected() {
+    let firstname = 'First Name'
+    let lastname = 'Last Name'
+
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',
       width: '312px',
       height: '186px',
       data: {
         selected: "name",
-      },
+        details: {
+          firstname,
+          lastname,
+        }
+      }
     })
+
+
+
 
     this.langDialog.afterClosed().subscribe((data: any) => {
       if (data === "confirm") {

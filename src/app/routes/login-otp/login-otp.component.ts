@@ -83,14 +83,7 @@ export class LoginOtpComponent implements OnInit {
   initializeForm(): void {
     if (this.emailPhoneType === 'email') {
       this.loginOtpForm = this.fb.group({
-        otp1: ['', Validators.required],
-        otp2: ['', Validators.required],
-        otp3: ['', Validators.required],
-        otp4: ['', Validators.required],
-        otp5: ['', Validators.required],
-        otp6: ['', Validators.required],
-
-        code: [''] // This control will store the combined OTP code
+        code: ['', Validators.required] // This control will store the combined OTP code
       })
     } else {
       this.loginOtpForm = this.fb.group({
@@ -130,17 +123,12 @@ export class LoginOtpComponent implements OnInit {
     const otp2Control = this.loginOtpForm.get('otp2')
     const otp3Control = this.loginOtpForm.get('otp3')
     const otp4Control = this.loginOtpForm.get('otp4')
-    const otp5Control = this.emailPhoneType !== 'phone' ? this.loginOtpForm.get('otp5') : null
-    const otp6Control = this.emailPhoneType !== 'phone' ? this.loginOtpForm.get('otp6') : null
-    console.log("yes here", otp4Control, otp5Control)
-    if (otp1Control && otp2Control && otp3Control && otp4Control && (this.emailPhoneType === 'phone' || otp5Control || otp6Control)) {
+    if (otp1Control && otp2Control && otp3Control && otp4Control) {
       const otp1 = otp1Control.value
       const otp2 = otp2Control.value
       const otp3 = otp3Control.value
       const otp4 = otp4Control.value
-      const otp5 = otp5Control ? otp5Control.value : ''
-      const otp6 = otp6Control ? otp6Control.value : ''
-      const code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6
+      const code = otp1 + otp2 + otp3 + otp4
       this.loginOtpForm.controls['code'].setValue(code)
     } else {
       console.error('One or more OTP controls are missing')
@@ -369,8 +357,6 @@ export class LoginOtpComponent implements OnInit {
       otp2: '',
       otp3: '',
       otp4: '',
-      otp5: '',
-      otp6: '',
       code: ''
     })
     this.signupService.generateOtp(requestBody).subscribe(

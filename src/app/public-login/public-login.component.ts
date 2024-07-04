@@ -16,7 +16,6 @@ import { Router } from '@angular/router'
 })
 export class PublicLoginComponent implements OnInit {
   loginForm: FormGroup
-  loginOtpForm!: FormGroup
   loginPwdForm: FormGroup
   OTPForm: FormGroup
   selectedField = 'otp'
@@ -58,8 +57,9 @@ export class PublicLoginComponent implements OnInit {
       // confirmPassword: new FormControl('', [Validators.required]),
     })
     this.OTPForm = this.spherFormBuilder.group({
-      OTPcode: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{4,6}$/)])
+      OTPcode: new FormControl('', [Validators.required])
     })
+    this.initializeForm()
   }
 
   ngOnInit() {
@@ -85,43 +85,39 @@ export class PublicLoginComponent implements OnInit {
     this.updateOtpCode()
   }
   initializeForm(): void {
-    if (this.emailPhoneType === 'email') {
-      this.loginOtpForm = this.spherFormBuilder.group({
+    if (this.emailPhoneType === 'phone') {
+      this.OTPForm = this.spherFormBuilder.group({
         otp1: ['', Validators.required],
         otp2: ['', Validators.required],
         otp3: ['', Validators.required],
         otp4: ['', Validators.required],
-        otp5: ['', Validators.required],
-        otp6: ['', Validators.required],
       })
     } else {
-      this.loginOtpForm = this.spherFormBuilder.group({
-        otp1: ['', Validators.required],
-        otp2: ['', Validators.required],
-        otp3: ['', Validators.required],
-        otp4: ['', Validators.required]
+      console.log("email type")
+      this.OTPForm = this.spherFormBuilder.group({
+        OTPcode: ['', Validators.required]
       })
     }
 
   }
   updateOtpCode(): void {
-    const otp1Control = this.loginOtpForm.get('otp1')
-    const otp2Control = this.loginOtpForm.get('otp2')
-    const otp3Control = this.loginOtpForm.get('otp3')
-    const otp4Control = this.loginOtpForm.get('otp4')
-    const otp5Control = this.emailPhoneType !== 'phone' ? this.loginOtpForm.get('otp5') : null
-    const otp6Control = this.emailPhoneType !== 'phone' ? this.loginOtpForm.get('otp6') : null
-    console.log("yes here", otp4Control, otp5Control)
-    if (otp1Control && otp2Control && otp3Control && otp4Control && (this.emailPhoneType === 'phone' || otp5Control || otp6Control)) {
+    const otp1Control = this.OTPForm.get('otp1')
+    const otp2Control = this.OTPForm.get('otp2')
+    const otp3Control = this.OTPForm.get('otp3')
+    const otp4Control = this.OTPForm.get('otp4')
+    const code = this.OTPForm.get('OTPcode')
+    console.log("yes here", otp4Control)
+    if (otp1Control && otp2Control && otp3Control && otp4Control) {
       const otp1 = otp1Control.value
       const otp2 = otp2Control.value
       const otp3 = otp3Control.value
       const otp4 = otp4Control.value
-      const otp5 = otp5Control ? otp5Control.value : ''
-      const otp6 = otp6Control ? otp6Control.value : ''
-      const code = otp1 + otp2 + otp3 + otp4 + otp5 + otp6
+      const code = otp1 + otp2 + otp3 + otp4
       this.OTPForm.controls['OTPcode'].setValue(code)
+      console.error('1 One or more OTP controls are missing')
+
     } else {
+      this.OTPForm.controls['OTPcode'].setValue(code)
       console.error('One or more OTP controls are missing')
     }
   }
@@ -283,13 +279,11 @@ export class PublicLoginComponent implements OnInit {
         }
       }
       this.startTimer()
-      this.loginOtpForm.reset({
+      this.OTPForm.reset({
         otp1: '',
         otp2: '',
         otp3: '',
         otp4: '',
-        otp5: '',
-        otp6: '',
         code: ''
       })
       console.log(req, type)
@@ -414,6 +408,8 @@ export class PublicLoginComponent implements OnInit {
       if (window.location.href.includes('email-otp')) {
         this.emailPhoneType = 'email'
       }
+      this.initializeForm()
+
       console.log(req, 'res', type)
       this.signupService.sendOTP(req).subscribe(res => {
         console.log(res)
