@@ -364,7 +364,15 @@ export class LoginOtpComponent implements OnInit {
       }
     }
     this.startTimer()
-
+    this.loginOtpForm.reset({
+      otp1: '',
+      otp2: '',
+      otp3: '',
+      otp4: '',
+      otp5: '',
+      otp6: '',
+      code: ''
+    })
     this.signupService.generateOtp(requestBody).subscribe(
       async (res: any) => {
         this.loginOtpForm.patchValue({ code: '' })

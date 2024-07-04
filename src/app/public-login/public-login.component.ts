@@ -283,6 +283,15 @@ export class PublicLoginComponent implements OnInit {
         }
       }
       this.startTimer()
+      this.loginOtpForm.reset({
+        otp1: '',
+        otp2: '',
+        otp3: '',
+        otp4: '',
+        otp5: '',
+        otp6: '',
+        code: ''
+      })
       console.log(req, type)
       this.signupService.resendOTP(req).subscribe(res => {
         console.log(res)
