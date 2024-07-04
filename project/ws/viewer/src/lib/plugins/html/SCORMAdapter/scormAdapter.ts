@@ -72,7 +72,7 @@ export class SCORMAdapterService {
 
   LMSInitialize() {
     this.store.contentKey = this.contentId
-    this.loadDataV2();
+    this.loadDataV2()
     // this.loadDataAsync().subscribe((response) => {
     //   const data = response.result.data
     //   const loadDatas: IScromData = {
@@ -111,6 +111,16 @@ export class SCORMAdapterService {
     this.store.clearAll()
     return _return
   }
+
+  initValue() {
+    let data = this.store.getAll()
+    console.log('data', data)
+    if (data) {
+      return data
+    }
+    return
+  }
+
 
   LMSGetValue(element: any) {
     if (!this._isInitialized()) {
@@ -274,7 +284,7 @@ export class SCORMAdapterService {
     return this.http.get(url, { responseType: 'blob' })
   }
 
- loadDataV2() {
+  loadDataV2() {
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
