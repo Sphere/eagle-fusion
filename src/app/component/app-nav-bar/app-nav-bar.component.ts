@@ -12,7 +12,6 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material'
-import { Location } from '@angular/common'
 import { appNavBarService } from './app-nav-bar.service'
 
 @Component({
@@ -65,7 +64,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private accessService: AccessControlService,
     private valueSvc: ValueService,
     public dialog: MatDialog,
-    location: Location,
+    //location: Location,
     public navOption: appNavBarService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -73,11 +72,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
       this.showNavLinkPage = false
     }
-    console.log(location.path())
-    if (location.path().includes('/hi/')) {
+    console.log(location.href)
+    if (location.href.includes('/hi/')) {
       this.langPresent = true
     }
-    if (location.path().includes('/app/new-tnc')) {
+    if (location.href.includes('/app/new-tnc')) {
       this.showNavLinkPage = false
     } else {
       this.showNavLinkPage = true
