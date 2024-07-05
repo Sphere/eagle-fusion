@@ -77,22 +77,28 @@
     <ng-container *ngIf="Student">
       <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
           class="red-icon">*</span></label>
-
-      <div class="form-group mt-4 input-box">
-        <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
-          formControlName="instituteName" placeholder="Name of Institute" i18n-placeholder
-          (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
+      <div class="form-group mt-4 input-box" style="position: relative;">
+        <input autocomplete="off" type="text" class="form-control" formControlName="instituteName"
+          placeholder="Name of Institute" i18n-placeholder (input)="filterInstitutions($event.target.value)" required>
+        <!-- Autocomplete dropdown list -->
+        <div class="autocomplete-list" *ngIf="filteredInstitutions.length > 0">
+          <div class="autocomplete-item" *ngFor="let institution of filteredInstitutions"
+            (click)="selectInstitution(institution)">
+            {{ institution }}
+          </div>
+        </div>
+        <!-- Validation errors -->
+        <mat-error
+          *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
+          Name of Institute is required.
+        </mat-error>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
+          Name of Institute should not start with a space.
+        </mat-error>
       </div>
-      <mat-error
-        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
-        Name of Institute is required.
-      </mat-error>
-      <mat-error
-        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
-        Name of Institute should be in English and should not start with a space.
-      </mat-error>
-      <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.invalid && bnrcDetailForm.get('instituteName')?.touched">
-      </mat-error>
+
+
       <label i18n for="profession" style="display: block;">Type of Institute /संस्थान का प्रकार <span
           class="red-icon">*</span></label>
 
@@ -123,20 +129,27 @@
     <ng-container *ngIf="Faculty">
       <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
           class="red-icon">*</span></label>
-
-      <div class="form-group mt-4 input-box">
-        <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
-          formControlName="instituteName" placeholder="Name of Institute" i18n-placeholder
-          (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
+      <div class="form-group mt-4 input-box" style="position: relative;">
+        <input autocomplete="off" type="text" class="form-control" formControlName="instituteName"
+          placeholder="Name of Institute" i18n-placeholder (input)="filterInstitutions($event.target.value)" required>
+        <!-- Autocomplete dropdown list -->
+        <div class="autocomplete-list" *ngIf="filteredInstitutions.length > 0">
+          <div class="autocomplete-item" *ngFor="let institution of filteredInstitutions"
+            (click)="selectInstitution(institution)">
+            {{ institution }}
+          </div>
+        </div>
+        <!-- Validation errors -->
+        <mat-error
+          *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
+          Name of Institute is required.
+        </mat-error>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
+          Name of Institute should be in English and should not start with a space.
+        </mat-error>
       </div>
-      <mat-error
-        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
-        Name of Institute is required.
-      </mat-error>
-      <mat-error
-        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
-        Name of Institute should be in English and should not start with a space.
-      </mat-error>
+
 
       <label i18n for="profession" style="display: block;">Type of Institute / संस्थान का प्रकार <span
           class="red-icon">*</span></label>

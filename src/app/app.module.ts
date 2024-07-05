@@ -72,6 +72,7 @@ import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 import { AppInterceptorService } from './services/app-interceptor.service'
 import { AppRetryInterceptorService } from './services/app-retry-interceptor.service'
@@ -313,6 +314,7 @@ const dbConfig: DBConfig = {
   ],
   imports: [
     FormsModule,
+    MatSnackBarModule,
     ReactiveFormsModule,
     BrowserModule,
     CommonModule,

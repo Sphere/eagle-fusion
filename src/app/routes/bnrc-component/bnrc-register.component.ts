@@ -13,6 +13,7 @@ import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
+
 @Component({
   selector: 'ws-bnrc-register',
   templateUrl: './bnrc-register.component.html',
@@ -26,12 +27,15 @@ export class BnrcRegisterComponent implements OnInit {
   facultyList = ['Diploma', 'Degree']
   courseSelection = ['ANM', 'GNM', 'BSc Nursing', 'PBBSc Nursing', 'MSc Nursing']
   districtUrl = '../../../fusion-assets/files/district.json'
+  bnrcInstituteName = '../../../fusion-assets/files/bnrc-institute-name.json'
+
   Position = ['ANM', 'Staff Nurse', 'Doctor']
   instituteType = ['Government', 'Private']
   serviceType = ['Regular', 'Contractual']
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false
   @Output() passProfession = new EventEmitter<string>();
+
   showLogOutIcon = false
   trigerrNavigation = true
   bnrcDetailForm: FormGroup
@@ -57,45 +61,11 @@ export class BnrcRegisterComponent implements OnInit {
   enableSubmit = false
   hideAsha = false
   districts: any = [
-    "Araria",
-    "Arwal",
-    "Aurangabad",
-    "Banka",
-    "Begusarai",
-    "Bhagalpur",
-    "Bhojpur",
-    "Buxar",
-    "Darbhanga",
-    "East Champaran (Motihari)",
-    "Gaya",
-    "Gopalganj",
-    "Jamui",
-    "Jehanabad",
-    "Kaimur (Bhabua)",
-    "Katihar",
-    "Khagaria",
-    "Kishanganj",
-    "Lakhisarai",
-    "Madhepura",
-    "Madhubani",
-    "Munger (Monghyr)",
-    "Muzaffarpur",
-    "Nalanda",
-    "Nawada",
-    "Patna",
-    "Purnia (Purnea)",
-    "Rohtas",
-    "Saharsa",
-    "Samastipur",
-    "Saran",
-    "Sheikhpura",
-    "Sheohar",
-    "Sitamarhi",
-    "Siwan",
-    "Supaul",
-    "Vaishali",
-    "West Champaran"
+    "Araria", "Arwal", "Aurangabad", "Banka", "Begusarai", "Bhagalpur", "Bhojpur", "Buxar", "Darbhanga", "East Champaran (Motihari)",
+    "Gaya", "Gopalganj", "Jamui", "Jehanabad", "Kaimur (Bhabua)", "Katihar", "Khagaria", "Kishanganj", "Lakhisarai", "Madhepura", "Madhubani", "Munger (Monghyr)", "Muzaffarpur", "Nalanda", "Nawada",
+    "Patna", "Purnia (Purnea)", "Rohtas", "Saharsa", "Samastipur", "Saran", "Sheikhpura", "Sheohar", "Sitamarhi", "Siwan", "Supaul", "Vaishali", "West Champaran"
   ]
+  bnrcInstitution: any[] = [];
   isSubmitting = false;
 
   message: string = ''
@@ -103,6 +73,7 @@ export class BnrcRegisterComponent implements OnInit {
   hrmsErr: boolean = false
   bnrcErr: boolean = false
   showMessage: boolean = false
+  filteredInstitutions: any[] = []
   constructor(
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
@@ -172,7 +143,15 @@ export class BnrcRegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.http.get(this.bnrcInstituteName).subscribe(
+      (data: any) => {
+        this.bnrcInstitution = data
+        console.log('Data received:', data)
+      },
+      (error) => {
+        console.error('Error fetching data:', error)
+      }
+    )
     console.log("districts", this.districts)
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
@@ -184,6 +163,34 @@ export class BnrcRegisterComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
+  }
+  filterInstitutions(value: string): void {
+    if (value.trim() === '') {
+      this.filteredInstitutions = []
+      return
+    }
+
+    if (Array.isArray(this.bnrcInstitution)) {
+      this.filteredInstitutions = this.bnrcInstitution.filter(institution =>
+        institution.toLowerCase().includes(value.toLowerCase())
+      )
+    } else {
+      this.filteredInstitutions = []
+    }
+  }
+
+
+  selectInstitution(institution: any): void {
+    console.log("Selected Institution:", institution)
+
+    // Ensure instituteName control exists and set its value
+    const instituteNameControl = this.bnrcDetailForm.get('instituteName')
+    if (instituteNameControl) {
+      instituteNameControl.setValue(institution)
+    }
+
+    // Clear the dropdown list
+    this.filteredInstitutions = []
   }
 
   serviceTypeChange(value: string) {
@@ -363,6 +370,7 @@ export class BnrcRegisterComponent implements OnInit {
       this.showDesignation = true
 
       this.bnrcDetailForm.controls.courseSelection.setValue(null)
+      this.bnrcDetailForm.controls.instituteName.setValue(null)
 
       this.Student = false
       this.Faculty = false

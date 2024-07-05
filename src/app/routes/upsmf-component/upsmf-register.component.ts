@@ -58,83 +58,20 @@ export class UpsmfRegisterComponent implements OnInit {
   hideAsha = false
   otpPage = false
   districts: any = [
-    "Agra",
-    "Aligarh",
-    "Allahabad",
-    "Ambedkar Nagar",
-    "Amethi (Chatrapati Sahuji Mahraj Nagar)",
-    "Amroha (J.P. Nagar)",
-    "Auraiya",
-    "Azamgarh",
-    "Baghpat",
-    "Bahraich",
-    "Ballia",
-    "Balrampur",
-    "Banda",
-    "Barabanki",
-    "Bareilly",
-    "Basti",
-    "Bhadohi",
-    "Bijnor",
-    "Budaun",
-    "Bulandshahr",
-    "Chandauli",
-    "Chitrakoot",
-    "Deoria",
-    "Etah",
-    "Etawah",
-    "Faizabad",
-    "Farrukhabad",
-    "Fatehpur",
-    "Firozabad",
-    "Gautam Buddha Nagar",
-    "Ghaziabad",
-    "Ghazipur",
-    "Gonda",
-    "Gorakhpur",
-    "Hamirpur",
-    "Hapur (Panchsheel Nagar)",
-    "Hardoi",
-    "Hathras",
-    "Jalaun",
-    "Jaunpur",
-    "Jhansi",
-    "Kannauj",
-    "Kanpur Dehat",
-    "Kanpur Nagar",
-    "Kanshiram Nagar (Kasganj)",
-    "Kaushambi",
-    "Kushinagar (Padrauna)",
-    "Lakhimpur - Kheri",
-    "Lalitpur",
-    "Lucknow",
-    "Maharajganj",
-    "Mahoba",
-    "Mainpuri",
-    "Mathura",
-    "Mau",
-    "Meerut",
-    "Mirzapur",
-    "Moradabad",
-    "Muzaffarnagar",
-    "Pilibhit",
-    "Pratapgarh",
-    "RaeBareli",
-    "Rampur",
-    "Saharanpur",
-    "Sambhal (Bhim Nagar)",
-    "Sant Kabir Nagar",
-    "Shahjahanpur",
-    "Shamali (Prabuddh Nagar)",
-    "Shravasti",
-    "Siddharth Nagar",
-    "Sitapur",
-    "Sonbhadra",
-    "Sultanpur",
-    "Unnao",
-    "Varanasi"
+    "Agra", "Aligarh", "Allahabad", "Ambedkar Nagar", "Amethi (Chatrapati Sahuji Mahraj Nagar)", "Amroha (J.P. Nagar)",
+    "Auraiya", "Azamgarh", "Baghpat", "Bahraich", "Ballia", "Balrampur", "Banda", "Barabanki", "Bareilly",
+    "Basti", "Bhadohi", "Bijnor", "Budaun", "Bulandshahr", "Chandauli", "Chitrakoot", "Deoria",
+    "Etah", "Etawah", "Faizabad", "Farrukhabad", "Fatehpur", "Firozabad", "Gautam Buddha Nagar", "Ghaziabad",
+    "Ghazipur", "Gonda", "Gorakhpur", "Hamirpur", "Hapur (Panchsheel Nagar)", "Hardoi", "Hathras", "Jalaun", "Jaunpur",
+    "Jhansi", "Kannauj", "Kanpur Dehat", "Kanpur Nagar", "Kanshiram Nagar (Kasganj)", "Kaushambi", "Kushinagar (Padrauna)", "Lakhimpur - Kheri",
+    "Lalitpur", "Lucknow", "Maharajganj", "Mahoba", "Mainpuri", "Mathura", "Mau", "Meerut", "Mirzapur", "Moradabad", "Muzaffarnagar",
+    "Pilibhit", "Pratapgarh", "RaeBareli", "Rampur", "Saharanpur", "Sambhal (Bhim Nagar)", "Sant Kabir Nagar", "Shahjahanpur",
+    "Shamali (Prabuddh Nagar)", "Shravasti", "Siddharth Nagar", "Sitapur", "Sonbhadra", "Sultanpur", "Unnao", "Varanasi"
   ]
   isSubmitting = false;
+  upsmfInstituteName = '../../../fusion-assets/files/upsmf-institute-name.json'
+  upsmfInstitution: any[] = [];
+  filteredInstitutions: any[] = []
 
   message: string = ''
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -200,7 +137,15 @@ export class UpsmfRegisterComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    this.http.get(this.upsmfInstituteName).subscribe(
+      (data: any) => {
+        this.upsmfInstitution = data
+        console.log('Data received:', data)
+      },
+      (error) => {
+        console.error('Error fetching data:', error)
+      }
+    )
     console.log("districts", this.districts)
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
@@ -213,7 +158,34 @@ export class UpsmfRegisterComponent implements OnInit {
       }
     })
   }
+  filterInstitutions(value: string): void {
+    if (value.trim() === '') {
+      this.filteredInstitutions = []
+      return
+    }
 
+    if (Array.isArray(this.upsmfInstitution)) {
+      this.filteredInstitutions = this.upsmfInstitution.filter(institution =>
+        institution.toLowerCase().includes(value.toLowerCase())
+      )
+    } else {
+      this.filteredInstitutions = []
+    }
+  }
+
+
+  selectInstitution(institution: any): void {
+    console.log("Selected Institution:", institution)
+
+    // Ensure instituteName control exists and set its value
+    const instituteNameControl = this.bnrcDetailForm.get('instituteName')
+    if (instituteNameControl) {
+      instituteNameControl.setValue(institution)
+    }
+
+    // Clear the dropdown list
+    this.filteredInstitutions = []
+  }
   serviceTypeChange(value: string) {
     console.log("regulating service type", value)
     const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')

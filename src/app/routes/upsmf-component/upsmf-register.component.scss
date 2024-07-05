@@ -16,6 +16,26 @@ a.blue {
 .cursor-pointer {
   cursor: pointer;
 }
+.autocomplete-list {
+  position: absolute;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  width: calc(100% - 2px); /* Adjust width to match the input field */
+}
+
+.autocomplete-item {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.autocomplete-item:hover {
+  background-color: #f1f1f1;
+}
 a.blue,
 ::ng-deep .theme-igot.day-mode a[href^="/"][target=_self],
 ::ng-deep .theme-igot.day-mode a[href^=http],
