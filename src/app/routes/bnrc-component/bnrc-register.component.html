@@ -96,6 +96,9 @@
           *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
           Name of Institute should not start with a space.
         </mat-error>
+        <mat-error *ngIf="notResult">
+          Please select from the list
+        </mat-error>
       </div>
 
 
@@ -147,6 +150,9 @@
         <mat-error
           *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
           Name of Institute should be in English and should not start with a space.
+        </mat-error>
+        <mat-error *ngIf="notResult">
+          Please select from the list
         </mat-error>
       </div>
 
@@ -356,7 +362,8 @@
     <div style="margin: 10px 0px;    display: flex;
     justify-content: center;
 ">
-      <button [disabled]="isSubmitting" type="submit" (click)="onSubmit()" class="save-btn" i18n>Submit</button>
+      <button [disabled]="isSubmitting || notResult" type="submit" (click)="onSubmit()" class="save-btn"
+        i18n>Submit</button>
     </div>
   </form>
 

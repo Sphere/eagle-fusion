@@ -67,7 +67,7 @@ export class BnrcRegisterComponent implements OnInit {
   ]
   bnrcInstitution: any[] = [];
   isSubmitting = false;
-
+  notResult = false;
   message: string = ''
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   hrmsErr: boolean = false
@@ -176,6 +176,11 @@ export class BnrcRegisterComponent implements OnInit {
       )
     } else {
       this.filteredInstitutions = []
+    }
+    if (this.filteredInstitutions.length === 0) {
+      this.notResult = true
+    } else {
+      this.notResult = false
     }
   }
 
@@ -368,6 +373,7 @@ export class BnrcRegisterComponent implements OnInit {
 
     } else if (value === 'In Service') {
       this.showDesignation = true
+      this.notResult = false
 
       this.bnrcDetailForm.controls.courseSelection.setValue(null)
       this.bnrcDetailForm.controls.instituteName.setValue(null)
@@ -379,6 +385,8 @@ export class BnrcRegisterComponent implements OnInit {
       this.privateHealthFacility = false
 
     } else if (value === 'Public Health Facility') {
+      this.notResult = false
+
       this.showDesignation = true
       this.Student = false
       this.Faculty = false
@@ -446,6 +454,8 @@ export class BnrcRegisterComponent implements OnInit {
       this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
 
     } else if (value === 'Private Health Facility') {
+      this.notResult = false
+
       this.showDesignation = true
       this.Student = false
       this.Faculty = false
@@ -512,6 +522,7 @@ export class BnrcRegisterComponent implements OnInit {
   onSubmit() {
     this.bnrcDetailForm.markAllAsTouched()
     this.loader.changeLoad.next(true)
+    console.log("asdfasdf", this.notResult)
     if (this.bnrcDetailForm.valid) {
 
       const phone = {

@@ -45,6 +45,7 @@ export class UpsmfRegisterComponent implements OnInit {
   inService = false
   publicHealthFacility = false
   privateHealthFacility = false
+  notResult = false;
 
   showDesignation = false
   showAshaField = false
@@ -170,6 +171,11 @@ export class UpsmfRegisterComponent implements OnInit {
       )
     } else {
       this.filteredInstitutions = []
+    }
+    if (this.filteredInstitutions.length === 0) {
+      this.notResult = true
+    } else {
+      this.notResult = false
     }
   }
 
