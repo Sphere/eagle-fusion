@@ -243,8 +243,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       // console.log(req)
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         async data => {
-          let z = this.scormAdapterService.LMSInitialize()
-          console.log(z, 'z')
+          let scorminit = this.scormAdapterService.LMSInitialize()
+          console.log(scorminit, 'scorminit')
           if (this.htmlContent && data) {
             let progressData: any
             progressData = await this.scormAdapterService.initValue()
