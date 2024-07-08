@@ -661,6 +661,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   }
 
+  redirectFirstResource(url: any) {
+    let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${url.queryParams!.collectionId}&collectionType=Course&batchId=${url.queryParams!.batchId}`
+    this.router.navigateByUrl(url1)
+  }
+
+
   enrollApi() {
     let userId
     if (this.configSvc.userProfile) {
