@@ -44,7 +44,7 @@
 
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label>First Name</mat-label>
+                  <mat-label i18n>First Name</mat-label>
                   <input id="firstname" required="" type="text" class="input-field" matInput formControlName="firstname"
                     #firstname i18n-placeholder />
                   <mat-error class="text-danger" i18n
@@ -59,7 +59,7 @@
               </div>
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label>Last Name</mat-label>
+                  <mat-label i18n>Last Name</mat-label>
                   <input id="lastname" required="" type="text" class="input-field" matInput formControlName="lastname"
                     #lastname i18n-placeholder />
                   <mat-error class="text-danger" i18n
@@ -74,7 +74,7 @@
               </div>
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label>Phone Number (or) Email ID</mat-label>
+                  <mat-label i18n>Phone Number (or) Email ID</mat-label>
                   <input id="email-field" required="" type="text" class="input-field" matInput
                     formControlName="emailOrMobile" #emailOrMobile i18n-placeholder autocomplete="off" />
                   <mat-error class="text-danger" i18n *ngIf="emailOrMobileErrorStatus === 'required'">This field is

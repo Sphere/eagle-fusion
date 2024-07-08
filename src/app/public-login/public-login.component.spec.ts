@@ -8,7 +8,12 @@ import { RouterModule } from '@angular/router'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
 import { of } from 'rxjs'
-
+import {
+  ConfigurationsService,
+  ValueService
+} from '@ws-widget/utils'
+import { MatDialog } from '@angular/material/dialog'
+import { Router } from '@angular/router'
 
 let mockSignupService: Partial<SignupService> = {
   sendOTP: jest.fn(),
@@ -20,6 +25,15 @@ const mockFormBuilder: Partial<FormBuilder> = {
 const mockMatSnackBar: Partial<MatSnackBar> = {
   open: jest.fn()
 }
+let mockValueService: Partial<ValueService> = {}
+let mockConfigurationsService: Partial<ConfigurationsService> = {}
+const mockDialogBar: Partial<MatDialog> = {
+  open: jest.fn()
+}
+const mockRouterService: Partial<Router> = {
+  navigate: jest.fn(), // Add this line
+  navigateByUrl: jest.fn(),
+}
 
 describe('PublicLoginComponent', () => {
   let component: PublicLoginComponent
@@ -29,7 +43,12 @@ describe('PublicLoginComponent', () => {
     component = new PublicLoginComponent(
       mockFormBuilder as FormBuilder,
       mockSignupService as SignupService,
-      mockMatSnackBar as MatSnackBar
+      mockMatSnackBar as MatSnackBar,
+      mockValueService as ValueService,
+      mockDialogBar as MatDialog,
+      mockConfigurationsService as ConfigurationsService,
+      mockRouterService as Router,
+
     )
   })
 
