@@ -155,6 +155,24 @@
           <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="e62235b89d240a16560e0b2418d34cfc6d451540" datatype="html">
+        <source>Clear search results</source>
+              <target state="final">खोज परिणाम साफ़ करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
+          <context context-type="linenumber">119</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="e7bec1f8b6e16ccb232d0611dfe4bdc1dee86684" datatype="html">
+        <source>
+            Start Again
+          </source>
+          <target state="final">फिर से शुरू करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">154</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="f4e529ae5ffd73001d1ff4bbdeeb0a72e342e5c8" datatype="html">
         <source>Close</source>
         <target state="final">बंद करें</target>

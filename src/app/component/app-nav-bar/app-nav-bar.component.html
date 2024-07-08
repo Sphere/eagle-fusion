@@ -3,10 +3,12 @@
   style="    justify-content: left;">
   <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
     <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
-      <img [src]="appIcon" loading="lazy" i18n alt="Application Logo" id="app-logo" class="app-logo" />
+      <img [src]="appIcon" loading="lazy" i18n alt="Application Logo" id="app-logo" class="app-logo"
+        style="position: relative;" />
     </a>
 
   </div>
+
   <div class="fix-ww">
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
 
@@ -16,8 +18,8 @@
         </ng-container> -->
         <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
           [ref]="'home'"></ws-app-search-input-home>
-        <img (click)="navigate()" class="burger-menu" *ngIf="isXSmall" alt="icon"
-          src="/fusion-assets/icons/Hamburger_menu-svg.svg">
+        <img (click)="navigate()" style="position: absolute;right: 18px;" class="burger-menu" *ngIf="isXSmall"
+          alt="icon" src="/fusion-assets/icons/Hamburger_menu-svg.svg">
 
 
         <!-- <span class="spacer"></span> -->
@@ -71,7 +73,8 @@
       </ng-container>
     </ng-container>
 
-    <div class="flex navbar-gap justify-between items-center" *ngIf="mode === 'bottom'">
+    <div class="flex navbar-gap justify-between items-center" [ngStyle]="{'gap': langPresent ? '0px 8px' : '0px 3px'}"
+      *ngIf="mode === 'bottom'">
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">

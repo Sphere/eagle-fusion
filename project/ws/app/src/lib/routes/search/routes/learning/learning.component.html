@@ -116,7 +116,7 @@
           </h4> -->
       <h4 i18n>Different keywords</h4>
       <h4 *ngIf="(isXSmall$ | async) === false">
-        <ng-container>Clear search results</ng-container>
+        <ng-container i18n>Clear search results</ng-container>
         <button (click)="removeSearch()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>
         </button>

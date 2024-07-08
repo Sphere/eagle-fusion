@@ -101,7 +101,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   matspinner = true
   resumeDataLink: any
   rowDetails: any | undefined
-  optmisticPercentage: number = 0
+  optmisticPercentage: any
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
