@@ -274,5 +274,31 @@ describe('PublicLoginComponent', () => {
     // Verify the sendOTP method was called
     expect(mockSignupService.sendOTP).toHaveBeenCalled()
   })
+
+
+  it('should validate mobile pattern in loginForm', () => {
+    const control = component.loginForm.controls.emailOrMobile
+    control.setValue('9876543210')
+    expect(control.valid).toBeTruthy()
+  })
+
+  it('should validate email pattern in loginForm', () => {
+    const control = component.loginForm.controls.emailOrMobile
+    control.setValue('test@example.com')
+    expect(control.valid).toBeTruthy()
+  })
+
+  it('should open snackbar with message', () => {
+    const spy = jest.spyOn(mockMatSnackBar, 'open')
+    component.openSnackbar('Test Message')
+    expect(spy).toHaveBeenCalledWith('Test Message', undefined, { duration: 3000 })
+  })
+
+  it('should set selectedField to given value', () => {
+    component.passwordOrOtp('password')
+    expect(component.selectedField).toBe('password')
+  })
+
+
 })
 

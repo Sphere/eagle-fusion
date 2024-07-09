@@ -211,7 +211,7 @@
           <div class="next-btn-div">
             <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
               [disabled]="!createAccountWithPasswordForm?.valid"
-              (click)="onSubmit(createAccountWithPasswordForm,createAccountForm);eventTrigger('Create Account Page', 'next-btn', createAccountForm)">Next</button>
+              (click)="onSubmit(createAccountWithPasswordForm,createAccountForm); eventTrigger('Create Account Page', 'next-btn', createAccountForm)">Next</button>
           </div>
         </form>
       </div>

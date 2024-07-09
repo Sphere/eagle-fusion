@@ -15,7 +15,7 @@ button.primary-color.mat-raised-button.mat-button-base.mat-primary {
 }
 .language{
   display: flex;
-
+  justify-content: center;
 }
 :host ::ng-deep .fc-widget-small,
 :host ::ng-deep .fc-widget-small body {

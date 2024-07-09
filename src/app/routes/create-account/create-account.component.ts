@@ -59,7 +59,7 @@ export class CreateAccountComponent implements OnInit {
   isXSmall$: Observable<boolean>
   constructor(
     private spherFormBuilder: FormBuilder,
-    private snackBar: MatSnackBar,
+    public snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router,
     public dialog: MatDialog,
@@ -207,9 +207,8 @@ export class CreateAccountComponent implements OnInit {
   }
 
   optionSelected() {
-    let firstname = 'First Name'
-    let lastname = 'Last Name'
-
+    let firstname = this.createAccountForm.controls.firstname.value
+    let lastname = this.createAccountForm.controls.lastname.value
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',
       width: '312px',
