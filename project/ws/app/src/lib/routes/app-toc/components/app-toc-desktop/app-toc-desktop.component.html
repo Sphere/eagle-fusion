@@ -142,19 +142,13 @@
           </a>
         </ng-container>
         <ng-template #elseBlock1>
-          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled &&  optmisticPercentage < 100 || (optmisticPercentage < 100 && content && content!.completionPercentage < 100) || (showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage === undefined)"
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage <= 100 || content!.completionPercentage <= 100;"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
             <ng-container i18n>
               Resume
             </ng-container>
           </a>
         </ng-template>
-        <a *ngIf="batchData?.enrolled && optmisticPercentage && optmisticPercentage === 100 || content!.completionPercentage === 100;"
-          (click)="redirectFirstResource(firstResourceLink)" class="banner-btn resumeButton cursor-pointer">
-          <ng-container i18n>
-            Start Again
-          </ng-container>
-        </a>
         <!-- <button id="start-btn" class="banner-btn cursor-pointer" (click)="giveRating(batchData.content)" i18n>
           Rating
         </button> -->
