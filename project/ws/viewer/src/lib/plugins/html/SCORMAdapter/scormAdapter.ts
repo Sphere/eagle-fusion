@@ -164,7 +164,8 @@ export class SCORMAdapterService {
       let _return = false
       //if(Object.keys(data).length >= 0) {
       console.log((splitUrl2[1] === this.contentId), splitUrl2[1], this.contentId, this.contentData)
-      if (data["cmi.core.lesson_status"] === 'incomplete') {
+      console.log(data, 'data.recieved')
+      if (data["cmi.core.lesson_status"] === 'incomplete' || data['cmi.suspend_data']) {
         console.log('hey')
         this.addDataV2(data)
         // this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
