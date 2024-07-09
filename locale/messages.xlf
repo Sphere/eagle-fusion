@@ -226,7 +226,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">237</context>
+          <context context-type="linenumber">231</context>
         </context-group>
       </trans-unit>
       <trans-unit id="af8eaaf109e153e66de3b5f49fbe5ecb59d948da" datatype="html">
@@ -3103,6 +3103,23 @@
           <context context-type="linenumber">70</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="b4c15d181803ce0f3635bc4998772e2fc92c360e" datatype="html">
+        <source>Help
+        <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="b49526241d3936e44e8414619c258b03ffca7ca0" datatype="html">
         <source>Check your </source>
         <context-group purpose="location">
@@ -3459,6 +3476,46 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">186</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="152f3ade51f61a913d97812f116f22fb1e650711" datatype="html">
+        <source>
+              <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+              Minimum 8 characters
+            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">194</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d00106abf31ca47f1e8d21bea5587e57bb5e9796" datatype="html">
+        <source>
+              <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+              One capital letter
+            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">198</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ea82eb8f40515ecdba2f7e0ba3bea8ee5a6cd4fc" datatype="html">
+        <source>
+              <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+              One number
+            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">202</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="52ebf25c83d1073b9b7e8c86edb4e735611afe3e" datatype="html">
+        <source>
+              <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+              One special character
+            </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">206</context>
         </context-group>
       </trans-unit>
       <trans-unit id="65f3c9045a86c9daedfe950eebe44ce2392607de" datatype="html">
@@ -5110,15 +5167,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">147</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="e7bec1f8b6e16ccb232d0611dfe4bdc1dee86684" datatype="html">
-        <source>
-            Start Again
-          </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">154</context>
         </context-group>
       </trans-unit>
       <trans-unit id="41e62daa962947c0d23ded0981975d1bddf0bf38" datatype="html">
