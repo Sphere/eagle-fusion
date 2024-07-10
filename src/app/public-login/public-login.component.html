@@ -41,7 +41,7 @@
               <div class="form-group">
                 <input class="mt-8" class="form-control" id="emailOrMobile" name="emailOrMobile" i18n-placeholder
                   (input)="checkMobileEmail2()" formControlName="emailOrMobile" placeholder="Phone Number/Email ID"
-                  type="text" autofocus="" autocomplete="off">
+                  type="text" autofocus="" autocomplete="off" i18n>
               </div>
               <div class="field">
                 <div>
@@ -51,7 +51,7 @@
                 </div>
                 <input placeholder="Enter Password" class=" mt-8" id="password" class="form-control" i18n-placeholder
                   formControlName="password" name="password" autocomplete="new-password" type="password"
-                  (input)="checkPassword()">
+                  (input)="checkPassword()" i18n>
                 <p i18n style="margin-top: 5px;">(Password must contain a minimum of 8 characters including
                   numerals, lower and upper case alphabets and special characters without space)</p>
                 <mat-error class="text-danger" i18n
@@ -206,7 +206,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn">Help
+      <div (click)="help()" class="help-btn" i18n>Help
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -241,7 +241,7 @@
       <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
         <div class="field-edit-width">
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-            <mat-label>Phone Number (or) Email ID</mat-label>
+            <mat-label i18n>Phone Number (or) Email ID</mat-label>
             <input autofocus="" tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail2()" type="text"
               class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile
               i18n-placeholder />
@@ -258,7 +258,7 @@
         <div class="field">
           <div class="field-edit-width">
             <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-              <mat-label>Enter Password</mat-label>
+              <mat-label i18n>Enter Password</mat-label>
               <input autofocus="" tabindex="0" id="emailOrMobile" required="" [type]="hide2 ? 'password' : 'text'"
                 (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
                 #emailOrMobile i18n-placeholder />
@@ -325,7 +325,7 @@
       <form [formGroup]="loginForm" id="kc-form-login" class=" ui form" action="" method="post" method="post">
         <div class="field-edit-width">
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-            <mat-label>Phone Number (or) Email ID</mat-label>
+            <mat-label i18n>Phone Number (or) Email ID</mat-label>
             <input tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail()" type="text"
               class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile
               i18n-placeholder />
@@ -368,7 +368,7 @@
               <mat-icon>chevron_left</mat-icon>
             </button>
           </div>
-          <div (click)="help()" class="help-btn">Help
+          <div (click)="help()" class="help-btn" i18n>Help
             <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
           </div>
         </div>
@@ -385,7 +385,7 @@
             <img alt="" width="250" height="240" src="../../../fusion-assets/images/Frame150.svg">
           </div>
           <div class="login-timer">
-            <span class="login-timer-text">OTP expires in</span>&nbsp;<span
+            <span class="login-timer-text" i18n>OTP expires in</span>&nbsp;<span
               class="login-timer-count">{{resendTimerText}}</span>&nbsp;minutes
           </div>
 

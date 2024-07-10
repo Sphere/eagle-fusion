@@ -3119,6 +3119,10 @@
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">123</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">209</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="b49526241d3936e44e8414619c258b03ffca7ca0" datatype="html">
         <source>Check your </source>
@@ -3393,6 +3397,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">77</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">244</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">328</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b73dcecb545fe9ab4cdf1526bb896b5f76115280" datatype="html">
@@ -5847,6 +5859,10 @@
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
           <context context-type="linenumber">52</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">261</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="bf155f05cb588fdcc4dbefe8b8b164550614c484" datatype="html">
         <source>(Password must contain a minimum of 8 characters including
@@ -6035,11 +6051,27 @@
           <context context-type="linenumber">299</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="d188bef8f00cbe129391ff0d85e4fc5550ca99b5" datatype="html">
+        <source>Help
+            <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+          </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">371</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="976fa36d952739140bf66489d332e108cc4e1fee" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{loginForm.value.emailOrMobile}}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
           <context context-type="linenumber">381</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="820cc0390ede994647a854d63a57fad114f2767a" datatype="html">
+        <source>OTP expires in</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">388</context>
         </context-group>
       </trans-unit>
       <trans-unit id="84cab7df6d1741d8b5f8c0392f1a4dd66bae1ee8" datatype="html">

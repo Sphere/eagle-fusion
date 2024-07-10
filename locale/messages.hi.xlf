@@ -2408,6 +2408,10 @@
         <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
       </source>
        <target state="final">मदद</target>
+          <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">209</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">14</context>
@@ -3462,6 +3466,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">148</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1d22c61911ebd2904ac0412aebbd0580d2f86242" datatype="html">
+        <source>will be displayed on the certificate.</source>
+        <target>प्रमाणपत्र पर प्रदर्शित किया जाएगा.</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account-modal/create-account-dialog.component.html</context>
+          <context context-type="linenumber">8</context>
         </context-group>
       </trans-unit>
        <trans-unit id="ea082d757ddc356c156053028197a0e88031b93b" datatype="html">
@@ -6180,7 +6192,17 @@
         <target>अपने आस्ट्रिका खाते से लॉगिन करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">17</context>
+          <context context-type="linenumber">16</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4307c541c57812ea33d864288bc964391395a24b" datatype="html">
+        <source>
+          By Password
+        </source>
+        <target>पासवर्ड द्वारा</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">235</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3d0417900c55ceb396ddee511f9f0dba4f46441c" datatype="html">
@@ -6242,9 +6264,31 @@
       <trans-unit id="e13796974274fd6b6bbc61a60fac4e14e6e29b6d" datatype="html">
         <source>Enter Password</source>
         <target>पास वर्ड दर्ज करें</target>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">261</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
           <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d188bef8f00cbe129391ff0d85e4fc5550ca99b5" datatype="html">
+        <source>Help
+            <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+          </source>
+          <target>मदद</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">371</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="820cc0390ede994647a854d63a57fad114f2767a" datatype="html">
+        <source>OTP expires in</source>
+        <target>ओटीपी समाप्त हो रहा है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">388</context>
         </context-group>
       </trans-unit>
       <trans-unit id="14d9bc2ef3bfa5252d76b793a018b7b990b125ea" datatype="html">
@@ -6253,6 +6297,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">77</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">244</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">328</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c2f7479c5dde0f8e29ff667da15e7b0c55b1eebf" datatype="html">
