@@ -1,4 +1,4 @@
-<mat-toolbar *ngIf="this.configSvc.userProfile !== null" [color]="primaryNavbarBackground?.color"
+<mat-toolbar *ngIf="this.configSvc.userProfile !== null&&!hideSearch" [color]="primaryNavbarBackground?.color"
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar"
   style="    justify-content: left;">
   <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">

@@ -2237,7 +2237,12 @@
           <context context-type="sourcefile">src/app/routes/mobile-login/mobile-login.component.html</context>
           <context context-type="linenumber">53</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">138</context>
+        </context-group>
       </trans-unit>
+
       <trans-unit id="3a8e04b34236be1cb450987973bcb7b33d483e35" datatype="html">
         <source>Forgot password?</source>
         <target state="final">पासवर्ड भूल गए?</target>
@@ -2246,6 +2251,7 @@
           <context context-type="linenumber">67</context>
         </context-group>
       </trans-unit>
+
             <trans-unit id="8a1b6d6b2314b41996549c94638159222b016a92" datatype="html">
         <source>Date Of Birth</source>
         <target>जन्म की तारीख</target>
@@ -2377,7 +2383,7 @@
       </trans-unit>
         <trans-unit id="7df6f6401d1ea30cce7c8caa4670822678062683" datatype="html">
         <source>We have sent an OTP to </source>
-        <target state="final">हमने एक OTP भेजा है</target>
+        <target state="final">हमने एक OTP भेजा है </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
           <context context-type="linenumber">24</context>
@@ -2637,6 +2643,50 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">77</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">172</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="41f3b637fb49d7eb6a0ab5bb316f743b1d521554" datatype="html">
+        <source>Password Requirements:</source>
+        <target>पासवर्ड आवश्यकताएँ</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">193</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5bd4658c1ba4987c522465ac6e00ee9b23ec847b" datatype="html">
+        <source>Minimum 8 characters</source>
+        <target>न्यूनतम 8 अक्षर</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">196</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="1f98ce57e75e0c63f71fb37b785167f9fc257125" datatype="html">
+        <source>One capital letter</source>
+        <target>एक बड़ा अक्षर</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">200</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ca7ffb7f094339a2159a3196187f858740cdf306" datatype="html">
+        <source>One number</source>
+        <target>एक नंबर</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">204</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="156fdfa04531d492b2ad8ccaf1b1780746333778" datatype="html">
+        <source>One special character</source>
+        <target>एक विशेष पात्र</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">208</context>
         </context-group>
       </trans-unit>
             <trans-unit id="fedcdd54125b38b1807f3bd6edf83757e8423eb8" datatype="html">
@@ -6283,9 +6333,29 @@
           <context context-type="linenumber">371</context>
         </context-group>
       </trans-unit>
+         <trans-unit id="85b79c9064aed1ead31ace985f31aa1363f6bdaf" datatype="html">
+        <source>Help</source>
+         <target>मदद</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">123</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
        <trans-unit id="820cc0390ede994647a854d63a57fad114f2767a" datatype="html">
         <source>OTP expires in</source>
         <target>ओटीपी समाप्त हो रहा है</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
           <context context-type="linenumber">388</context>

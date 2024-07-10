@@ -23,7 +23,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn" i18n>Help
+      <div (click)="help()" class="help-btn"><span i18n>Help</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -120,7 +120,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn" i18n>Help
+      <div (click)="help()" class="help-btn"><span i18n>Help</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -135,7 +135,7 @@
 
           <div class="field-edit-width">
             <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-              <mat-label>Password</mat-label>
+              <mat-label i18n>Password</mat-label>
               <input id="password-field" [type]="hide1 ? 'password' : 'text'" class="input-field" matInput
                 formControlName="password" #password i18n-placeholder />
               <div class="input-group-addon iconPosition1">
@@ -169,7 +169,7 @@
 
           <div class="field-edit-width">
             <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-              <mat-label>Confirm Password</mat-label>
+              <mat-label i18n>Confirm Password</mat-label>
               <input id="confpassword-field" [type]="hide2 ? 'password' : 'text'" class="input-field" matInput
                 formControlName="confirmPassword" #password i18n-placeholder />
               <div class="input-group-addon iconPosition1">
@@ -190,22 +190,22 @@
           </div>
 
           <div class="flex flex-col">
-            <span class="mt-3 mb-3">Password Requirements:</span>
-            <span class="mb-2" i18n>
+            <span class="mt-3 mb-3" i18n>Password Requirements:</span>
+            <span class="mb-2">
               <img class="gray-dot mr-2" alt="" [src]="passwordLengthImage" />
-              Minimum 8 characters
+              <span i18n>Minimum 8 characters</span>
             </span>
-            <span class="mb-2" i18n>
+            <span class="mb-2">
               <img class="gray-dot mr-2" alt="" [src]="passwordUppercaseImage" />
-              One capital letter
+              <span i18n>One capital letter</span>
             </span>
-            <span class="mb-2" i18n>
+            <span class="mb-2">
               <img class="gray-dot mr-2" alt="" [src]="passwordNumberImage" />
-              One number
+              <span i18n>One number</span>
             </span>
-            <span class="mb-2" i18n>
+            <span class="mb-2">
               <img class="gray-dot mr-2" alt="" [src]="passwordSpecialCharImage" />
-              One special character
+              <span i18n>One special character</span>
             </span>
           </div>
           <div class="next-btn-div">

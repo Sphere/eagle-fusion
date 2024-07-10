@@ -12,7 +12,7 @@
 <div class="tnc-main">
   <div class="tnc-render-content" appScrollDetector (scrolled)="handleScroll($event)">
     <div *ngIf="(isXSmall$ | async) === true " class="flex justify-content-end">
-      <div (click)="help()" class="help-btn">Help
+      <div (click)="help()" class="help-btn"><span i18n>Help</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
