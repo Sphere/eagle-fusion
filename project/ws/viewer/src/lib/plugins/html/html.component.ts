@@ -272,7 +272,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                         courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                         status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                         lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                        progressdetails: progressData,
+                        progressdetails: Object.keys(contentData.progressdetails).length > 1 ? contentData.progressdetails : progressData,
                         completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                       }
                     ],

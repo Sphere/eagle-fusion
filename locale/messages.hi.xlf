@@ -143,6 +143,16 @@
           <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
+            <trans-unit id="5a435f5cd8f4f55efd6f3fd0b640f61754411616" datatype="html">
+        <source>
+              Start Again
+            </source>
+                      <target state="final">फिर से शुरू करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">153</context>
+        </context-group>
+      </trans-unit>
             <trans-unit id="e7bec1f8b6e16ccb232d0611dfe4bdc1dee86684" datatype="html">
         <source>
             Start Again

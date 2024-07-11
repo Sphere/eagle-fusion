@@ -576,8 +576,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
     console.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
     let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    console.log(percentage, 'percentage')
-    return percentage
+    console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
+    let progress = Math.min(Math.max(percentage, 0), 100)
+    return progress
   }
   calculateAggregate(arr: any, field: string): number {
     let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
