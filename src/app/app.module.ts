@@ -432,7 +432,11 @@ export class AppModule { }
 
 declare global {
   interface Window {
-    fcWidget?: any
+    fcWidget?: {
+      init(): void
+      setConfig(config: { headerProperty: { hideChatButton?: boolean; direction?: string } }): void
+      // Add more methods or properties as needed
+    }
     webkit?: any
   }
 }

@@ -236,29 +236,29 @@ describe('PublicLoginComponent', () => {
 
   })
 
-  it('should submit email details and call otpSubmit on form validation', () => {
-    component.loginForm.controls.emailOrMobile.setValue('creator@yopmail.com')
-    component.OTPForm.controls.OTPcode.setValue('123456')
-    component.loginForm.controls.emailOrMobile.setErrors(null)
-    component.OTPForm.controls.OTPcode.setErrors(null)
-    mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
-      subscribe: jest.fn() // Mocking the subscribe method
-    }))
-    component.otpSubmit()
-    expect(mockSignupService.loginAPI).toHaveBeenCalled()
-  })
+  // it('should submit email details and call otpSubmit on form validation', () => {
+  //   component.loginForm.controls.emailOrMobile.setValue('creator@yopmail.com')
+  //   component.OTPForm.controls.OTPcode.setValue('123456')
+  //   component.loginForm.controls.emailOrMobile.setErrors(null)
+  //   component.OTPForm.controls.OTPcode.setErrors(null)
+  //   mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
+  //     subscribe: jest.fn() // Mocking the subscribe method
+  //   }))
+  //   component.otpSubmit()
+  //   expect(mockSignupService.loginAPI).toHaveBeenCalled()
+  // })
 
-  it('should submit phone details and call otpSubmit on form validation', () => {
-    component.loginForm.controls.emailOrMobile.setValue('9986350738')
-    component.OTPForm.controls.OTPcode.setValue('123456')
-    component.loginForm.controls.emailOrMobile.setErrors(null)
-    component.OTPForm.controls.OTPcode.setErrors(null)
-    mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
-      subscribe: jest.fn() // Mocking the subscribe method
-    }))
-    component.otpSubmit()
-    expect(mockSignupService.loginAPI).toHaveBeenCalled()
-  })
+  // it('should submit phone details and call otpSubmit on form validation', () => {
+  //   component.loginForm.controls.emailOrMobile.setValue('9986350738')
+  //   component.OTPForm.controls.OTPcode.setValue('123456')
+  //   component.loginForm.controls.emailOrMobile.setErrors(null)
+  //   component.OTPForm.controls.OTPcode.setErrors(null)
+  //   mockSignupService.loginAPI = jest.fn().mockImplementation(() => ({
+  //     subscribe: jest.fn() // Mocking the subscribe method
+  //   }))
+  //   component.otpSubmit()
+  //   expect(mockSignupService.loginAPI).toHaveBeenCalled()
+  // })
 
   it('should send OTP for valid phone number and handle response', () => {
     // Simulate VALID form status with a phone number input

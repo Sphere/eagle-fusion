@@ -50,8 +50,10 @@ export class CreateAccountDialogComponent implements OnInit {
   }
   backToChatIcon() {
     try {
-      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
-      window.fcWidget.init()
+      if (window.fcWidget) {
+        window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
+        window.fcWidget.init()
+      }
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)
