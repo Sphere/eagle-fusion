@@ -38,11 +38,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">214</context>
+          <context context-type="linenumber">213</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">255</context>
+          <context context-type="linenumber">254</context>
         </context-group>
       </trans-unit>
       <trans-unit id="569095b9cac38a5429e1e3ae3f1c9429defda49e" datatype="html">
@@ -2239,7 +2239,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">137</context>
         </context-group>
       </trans-unit>
 
@@ -2646,7 +2646,7 @@
         </context-group>
          <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="41f3b637fb49d7eb6a0ab5bb316f743b1d521554" datatype="html">
@@ -2654,7 +2654,7 @@
         <target>पासवर्ड आवश्यकताएँ</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">193</context>
+          <context context-type="linenumber">192</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5bd4658c1ba4987c522465ac6e00ee9b23ec847b" datatype="html">
@@ -2662,7 +2662,7 @@
         <target>न्यूनतम 8 अक्षर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">196</context>
+          <context context-type="linenumber">195</context>
         </context-group>
       </trans-unit>
             <trans-unit id="1f98ce57e75e0c63f71fb37b785167f9fc257125" datatype="html">
@@ -2670,7 +2670,7 @@
         <target>एक बड़ा अक्षर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">200</context>
+          <context context-type="linenumber">199</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ca7ffb7f094339a2159a3196187f858740cdf306" datatype="html">
@@ -2678,7 +2678,7 @@
         <target>एक नंबर</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">204</context>
+          <context context-type="linenumber">203</context>
         </context-group>
       </trans-unit>
       <trans-unit id="156fdfa04531d492b2ad8ccaf1b1780746333778" datatype="html">
@@ -2686,7 +2686,7 @@
         <target>एक विशेष पात्र</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">208</context>
+          <context context-type="linenumber">207</context>
         </context-group>
       </trans-unit>
             <trans-unit id="fedcdd54125b38b1807f3bd6edf83757e8423eb8" datatype="html">
@@ -3377,6 +3377,10 @@
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">155</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">243</context>
+        </context-group>
       </trans-unit>
             <trans-unit id="eda1a562d6eac8ea2cae7cc17577472aa840edaf" datatype="html">
         <source>
@@ -3386,6 +3390,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">160</context>
+        </context-group>
+          <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">248</context>
         </context-group>
       </trans-unit>
             <trans-unit id="fac040b63c8f3bee626381ab7bf01d61e20843c4" datatype="html">
@@ -3490,6 +3498,10 @@
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">94</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">130</context>
+        </context-group>
       </trans-unit>
        <trans-unit id="65f3c9045a86c9daedfe950eebe44ce2392607de" datatype="html">
         <source>Select Language</source>
@@ -3497,6 +3509,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">153</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
+          <context context-type="linenumber">234</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a034c91316a3e109f2721eaf01c0f7b97a88c2f5" datatype="html">
@@ -3515,7 +3531,7 @@
               <target>यह फ़ील्ड आवश्यक है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">147</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1d22c61911ebd2904ac0412aebbd0580d2f86242" datatype="html">
@@ -3534,7 +3550,7 @@
               <target>पासवर्ड आवश्यक मानदंडों को पूरा नहीं करता है.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">154</context>
+          <context context-type="linenumber">153</context>
         </context-group>
       </trans-unit>
         <trans-unit id="f4a7f700ee3b86d41df1c815c82342f28c4a18b2" datatype="html">
@@ -3545,7 +3561,7 @@
               <target>पासवर्ड आवश्यक मानदंडों को पूरा करता है. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">161</context>
+          <context context-type="linenumber">160</context>
         </context-group>
       </trans-unit>
         <trans-unit id="11156b066485e0488f9998c0a82c9eb7b3661173" datatype="html">
@@ -3554,7 +3570,7 @@
                 <target>यह ये स्थान भरा जाना है. </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">182</context>
+          <context context-type="linenumber">181</context>
         </context-group>
       </trans-unit>
        <trans-unit id="0dfb4c1813e6f99692a350957c6e5b9fc8e56d95" datatype="html">
@@ -3564,7 +3580,7 @@
                 मिलता जुलता नहीं है </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">186</context>
+          <context context-type="linenumber">185</context>
         </context-group>
       </trans-unit>
             <trans-unit id="bc9274b4ce2b85292e97cf15b10b2e6021071d61" datatype="html">
@@ -6346,7 +6362,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">123</context>
+          <context context-type="linenumber">122</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
