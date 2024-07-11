@@ -4,9 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatDialog, MatSnackBar } from '@angular/material'
 import { SignupService } from '../signup/signup.service'
 import { Observable } from 'rxjs'
-import {
-  ValueService
-} from '@ws-widget/utils'
+import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 //import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
@@ -40,7 +38,7 @@ export class LoginOtpComponent implements OnInit {
     //private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private signupService: SignupService,
+    public signupService: SignupService,
     //private userProfileSvc: UserProfileService,
     private valueSvc: ValueService,
     public dialog: MatDialog,

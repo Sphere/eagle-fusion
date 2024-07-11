@@ -7,10 +7,7 @@ import { LanguageDialogComponent } from '../language-dialog/language-dialog.comp
 import { forkJoin } from 'rxjs/internal/observable/forkJoin'
 import { mustMatch } from '../password-validator'
 import { LoaderService } from '@ws/author/src/public-api'
-import {
-  ConfigurationsService,
-  ValueService
-} from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 import { Observable } from 'rxjs'
 

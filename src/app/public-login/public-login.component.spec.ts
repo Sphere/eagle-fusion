@@ -8,17 +8,24 @@ import { RouterModule } from '@angular/router'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
 import { of } from 'rxjs'
-import {
-  ConfigurationsService,
-  ValueService
-} from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
+
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
+
+
+import { MatDialogModule } from '@angular/material'
+import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field'
+
+import { MatButtonModule } from '@angular/material/button'
+
 
 let mockSignupService: Partial<SignupService> = {
   sendOTP: jest.fn(),
   loginAPI: jest.fn().mockReturnValue(of({ status: 200, message: 'Login successful' }))
-}
+} as jest.Mocked<Partial<SignupService>>
 const mockFormBuilder: Partial<FormBuilder> = {
   group: jest.fn()
 }
@@ -55,7 +62,18 @@ describe('PublicLoginComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [PublicLoginComponent],
-      imports: [RouterModule, MatInputModule, MatSnackBarModule, BrowserAnimationsModule, ReactiveFormsModule, RouterTestingModule],
+      imports: [
+        MatButtonModule,
+        MatFormFieldModule,
+        MatIconModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        RouterModule,
+        MatInputModule,
+        MatSnackBarModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        RouterTestingModule],
       providers: [
         FormBuilder,
         { provide: SignupService, useValue: { mockSignupService } },
@@ -68,7 +86,8 @@ describe('PublicLoginComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PublicLoginComponent)
     component = fixture.componentInstance
-    fixture.detectChanges()
+    component.ngOnInit() // Ensure form groups are initialized
+    jest.clearAllMocks()
   })
   beforeEach(() => {
     jest.clearAllMocks()
@@ -117,7 +136,7 @@ describe('PublicLoginComponent', () => {
   })
 
 
-  it('should call signupService.loginAPI on valid form submission', () => {
+  it('should call mockSignupService.loginAPI on valid form submission', () => {
     const form: any = component.loginPwdForm
 
     form.controls['emailOrMobile'].setValue('valid@email.com')
@@ -227,7 +246,6 @@ describe('PublicLoginComponent', () => {
     }))
     component.otpSubmit()
     expect(mockSignupService.loginAPI).toHaveBeenCalled()
-
   })
 
   it('should submit phone details and call otpSubmit on form validation', () => {
@@ -299,6 +317,17 @@ describe('PublicLoginComponent', () => {
     expect(component.selectedField).toBe('password')
   })
 
+  // User can toggle password visibility
+  it('should toggle password visibility when the toggle2 method is called', () => {
+
+    component.toggle2()
+    expect(component.hide2).toBe(false)
+    expect(component.iconChange2).toBe('fas fa-eye')
+  })
 
 })
+
+
+
+
 

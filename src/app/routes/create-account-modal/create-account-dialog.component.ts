@@ -26,12 +26,9 @@ export class CreateAccountDialogComponent implements OnInit {
     }
     this.name = this.selectedData.selected
     if (this.selectedData.selected === 'name') {
-      console.log("this.selectedData.details.firstName", this.selectedData.details)
       this.firstName = this.selectedData.details.firstname
       this.lastName = this.selectedData.details.lastname
     }
-
-
   }
 
   showSocialChats() {

@@ -3,12 +3,11 @@ import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatDialog, MatSnackBar } from '@angular/material'
 import { CreateAccountDialogComponent } from '../routes/create-account-modal/create-account-dialog.component'
-import {
-  ConfigurationsService,
-  ValueService
-} from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
+
 import { Observable } from 'rxjs'
 import { Router } from '@angular/router'
+
 @Component({
   selector: 'ws-public-login',
   templateUrl: './public-login.component.html',

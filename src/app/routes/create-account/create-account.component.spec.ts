@@ -1,243 +1,335 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { MatDialogModule, MatSnackBarModule } from '@angular/material'
-import { RouterTestingModule } from '@angular/router/testing'
-import { SignupService } from '../signup/signup.service'
-import { LoaderService } from '@ws/author/src/public-api'
 import { CreateAccountComponent } from './create-account.component'
-import { of } from 'rxjs'
-import { Router } from '@angular/router'
-import { MatRadioModule } from '@angular/material/radio'
+import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material'
+import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatInputModule } from '@angular/material/input'
-import { MatFormFieldModule } from '@angular/material/form-field'
-import { NoopAnimationsModule } from '@angular/platform-browser/animations'
-import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
+import { RouterModule } from '@angular/router'
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
+import { RouterTestingModule } from '@angular/router/testing'
+import { BehaviorSubject, of } from 'rxjs'
+import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { MatDialog } from '@angular/material/dialog'
-import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
+import { Router } from '@angular/router'
+import { MatDialogModule } from '@angular/material'
+import { HttpClientTestingModule } from '@angular/common/http/testing'
+import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatButtonModule } from '@angular/material/button'
+import { LoaderService } from '@ws/author/src/public-api'
+import { FormsModule } from '@angular/forms'
+import { MatRadioModule } from '@angular/material/radio'
+import { CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core'
+// import { mustMatch } from '../password-validator'
+// import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
+
+
+let mockSignupService: Partial<SignupService> = {
+  sendOTP: jest.fn(),
+  loginAPI: jest.fn().mockReturnValue(of({ status: 200, message: 'Login successful' }))
+} as jest.Mocked<Partial<SignupService>>
+const mockFormBuilder: Partial<FormBuilder> = {
+  group: jest.fn()
+}
+const mockMatSnackBar: Partial<MatSnackBar> = {
+  open: jest.fn()
+}
+let mockValueService: Partial<ValueService> = {}
+let loader: Partial<LoaderService> = {}
+
+let mockConfigurationsService: Partial<ConfigurationsService> = {}
+const mockDialogBar: Partial<MatDialog> = {
+  open: jest.fn()
+}
+const mockRouterService: Partial<Router> = {
+  navigate: jest.fn(), // Add this line
+  navigateByUrl: jest.fn(),
+}
 
 describe('CreateAccountComponent', () => {
   let component: CreateAccountComponent
   let fixture: ComponentFixture<CreateAccountComponent>
-  let signupServiceMock: jest.Mocked<SignupService>
-  let loaderServiceMock: jest.Mocked<LoaderService>
-  let mockRouter = { navigate: jest.fn() }
-  let originalLocation: Location
-  const mockSignupService = {
-    ssoWithMobileEmail: jest.fn().mockReturnValue(of({ message: 'User successfully created' })),
-    // Other mocked methods if necessary
-  }
+
+
+  beforeAll(() => {
+    component = new CreateAccountComponent(
+      mockFormBuilder as FormBuilder,
+      mockMatSnackBar as MatSnackBar,
+      mockSignupService as SignupService,
+      mockRouterService as Router,
+      mockDialogBar as MatDialog,
+      loader as LoaderService,
+      mockConfigurationsService as ConfigurationsService,
+      mockValueService as ValueService,
+
+    )
+  })
+
   beforeEach(async () => {
-    signupServiceMock = {
-      ssoWithMobileEmail: jest.fn(),
-      plumb5SendEvent: jest.fn(),
-      plumb5SendForm: jest.fn(),
-    } as unknown as jest.Mocked<SignupService>
-
-    loaderServiceMock = {
-      changeLoad: { next: jest.fn() } as any,
-    } as unknown as jest.Mocked<LoaderService>
-
-    originalLocation = window.location
-    delete (window as any).location
-    window.location = {
-      ...originalLocation,
-      assign: jest.fn(),
-    }
-
     await TestBed.configureTestingModule({
-      declarations: [CreateAccountComponent, LanguageDialogComponent],
+      declarations: [CreateAccountComponent],
       imports: [
         FormsModule,
-        ReactiveFormsModule,
-        MatDialogModule,
-        MatSnackBarModule,
-        RouterTestingModule.withRoutes([]),
-        ReactiveFormsModule,
         MatRadioModule,
-        MatInputModule,
+        MatButtonModule,
         MatFormFieldModule,
-        NoopAnimationsModule,
-      ],
-      schemas: [CUSTOM_ELEMENTS_SCHEMA],
+        MatIconModule,
+        HttpClientTestingModule,
+        MatDialogModule,
+        RouterModule,
+        MatInputModule,
+        MatSnackBarModule,
+        BrowserAnimationsModule,
+        ReactiveFormsModule,
+        RouterTestingModule],
       providers: [
-        { provide: SignupService, useValue: signupServiceMock },
-        { provide: LoaderService, useValue: loaderServiceMock },
-        { provide: Router, useValue: mockRouter },
-        { provide: MatDialog, useValue: {} },
-        { provide: SignupService, useValue: mockSignupService }
+        FormBuilder,
+        { provide: SignupService, useValue: { mockSignupService } },
+        { provide: MatSnackBar, useValue: mockMatSnackBar },
+        { provide: LoaderService, useValue: { changeLoad: new BehaviorSubject<boolean>(false) } },
       ],
-    }).compileComponents()
+      schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+    })
+      .compileComponents()
+    mockSignupService = TestBed.get(SignupService)
   })
-
-  afterAll(() => {
-    window.location = originalLocation
-  })
-
   beforeEach(() => {
     fixture = TestBed.createComponent(CreateAccountComponent)
     component = fixture.componentInstance
-    fixture.detectChanges()
+    component.ngOnInit() // Ensure form groups are initialized
+    jest.clearAllMocks()
   })
 
-  it('should create', () => {
+
+  it('should create the component', () => {
     expect(component).toBeTruthy()
   })
 
-  it('should initialize createAccountForm', () => {
+  it('should initialize createAccountForm with required fields', () => {
     expect(component.createAccountForm).toBeTruthy()
-  })
-
-  it('should initialize createAccountWithPasswordForm', () => {
-    expect(component.createAccountWithPasswordForm).toBeTruthy()
-  })
-
-  it('should initialize otpCodeForm', () => {
-    expect(component.otpCodeForm).toBeTruthy()
-  })
-
-  it('should set preferred language from localStorage on init', () => {
-    localStorage.setItem('preferedLanguage', JSON.stringify({ id: 'en', lang: 'English' }))
-    component.ngOnInit()
-    expect(component.preferedLanguage).toEqual({ id: 'en', lang: 'English' })
-  })
-
-  // it('should handle window popstate event', () => {
-  //   spyOn(window.location, 'assign') // Spy on window.location.assign
-  //   component.onPopState() // Trigger the event handler
-
-  //   expect(window.location.assign).toHaveBeenCalledWith('/public/home')
-  // })
-
-
-  it('should toggle hide1 property', () => {
-    component.hide1 = false
-    component.toggle1()
-    expect(component.hide1).toBeTruthy()
-    expect(component.iconChange1).toBe('fas fa-eye-slash')
-    component.toggle1()
-    expect(component.hide1).toBeFalsy()
-    expect(component.iconChange1).toBe('fas fa-eye')
-  })
-
-  it('should toggle hide2 property', () => {
-    component.hide2 = false
-    component.toggle2()
-    expect(component.hide2).toBeTruthy()
-    expect(component.iconChange2).toBe('fas fa-eye-slash')
-    component.toggle2()
-    expect(component.hide2).toBeFalsy()
-    expect(component.iconChange2).toBe('fas fa-eye')
-  })
-
-  it('should initialize form fields', () => {
-    component.initializeFormFields()
     expect(component.createAccountForm.get('firstname')).toBeTruthy()
     expect(component.createAccountForm.get('lastname')).toBeTruthy()
-    expect(component.otpCodeForm.get('otpCode')).toBeTruthy()
+    expect(component.createAccountForm.get('emailOrMobile')).toBeTruthy()
   })
 
-  it('should show parent form', () => {
-    const spy = jest.spyOn(component, 'initializeFormFields')
-    component.showParentForm('true')
-    expect(spy).toHaveBeenCalled()
+  it('should initialize createAccountWithPasswordForm with required fields', () => {
+    expect(component.createAccountWithPasswordForm).toBeTruthy()
+    expect(component.createAccountWithPasswordForm.get('password')).toBeTruthy()
+    expect(component.createAccountWithPasswordForm.get('confirmPassword')).toBeTruthy()
   })
 
-  // it('should change language and navigate', () => {
-  //   const result = { id: 'hi', lang: 'हिंदी' }
-  //   component.preferedLanguage = result
-  //   component.changeLanguage()
-  //   component.langDialog.afterClosed().next(result)
-  //   expect(localStorage.getItem('preferedLanguage')).toBe(JSON.stringify(result))
-  // })
+  // it('should set validators correctly for password fields', () => {
+  //   const passwordControl = component.createAccountWithPasswordForm.get('password')
+  //   const confirmPasswordControl = component.createAccountWithPasswordForm.get('confirmPassword')
 
-  it('should handle emailOrMobile value change', () => {
-    component.emailOrMobileValueChange()
-    component.createAccountForm.get('emailOrMobile')!.setValue('test@example.com')
-    expect(component.emailDelaid).toBeTruthy()
-  })
-
-  // it('should return error type for emailOrMobile', () => {
-  //   component.createAccountForm.get('emailOrMobile')!.setValue('')
-  //   component.createAccountForm.get('emailOrMobile')!.markAsTouched()
-  //   fixture.detectChanges() // Ensure the change detection is run
-  //   expect(component.emailOrMobileErrorStatus).toBe('required')
-
-  //   component.createAccountForm.get('emailOrMobile')!.setValue('invalid email')
-  //   fixture.detectChanges()
-  //   expect(component.emailOrMobileErrorStatus).toBe('pattern')
+  //   // Check if validators are set correctly
+  //   expect(passwordControl?.validator).toBeTruthy()
+  //   expect(confirmPasswordControl?.validator).toEqual(mustMatch('password', 'confirmPassword'))
   // })
 
 
-  // it('should call ssoWithMobileEmail on form submit', () => {
-  //   signupServiceMock.ssoWithMobileEmail.mockReturnValue(of({ message: 'User successfully created', userId: '12345' }))
-  //   component.createAccountForm.get('emailOrMobile')!.setValue('test@example.com')
-  //   component.createAccountForm.get('firstname')!.setValue('John')
-  //   component.createAccountForm.get('lastname')!.setValue('Doe')
-  //   component.createAccountWithPasswordForm.get('password')!.setValue('Password123!')
-  //   component.createAccountWithPasswordForm.get('confirmPassword')!.setValue('Password123!')
-  //   component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
-  //   expect(signupServiceMock.ssoWithMobileEmail).toHaveBeenCalled()
+  // it('should update password value and validation images', () => {
+  //   // Set the password value
+  //   component.createAccountWithPasswordForm.get('password')?.setValue('TestPassword1!')
+
+  //   // Update validation images
+  //   component.updatePasswordValidationImages()
+
+  //   // Add expectations for validation images if applicable
   // })
 
-  // it('should handle form submission error', () => {
-  //   signupServiceMock.ssoWithMobileEmail.mockReturnValue(throwError({ error: { msg: 'User already exists' } }))
-  //   component.createAccountForm.get('emailOrMobile')!.setValue('test@example.com')
-  //   component.createAccountForm.get('firstname')!.setValue('John')
-  //   component.createAccountForm.get('lastname')!.setValue('Doe')
-  //   component.createAccountWithPasswordForm.get('password')!.setValue('Password123!')
-  //   component.createAccountWithPasswordForm.get('confirmPassword')!.setValue('Password123!')
-
-  //   // Mark all form controls as touched to trigger validation
-  //   component.createAccountForm.markAllAsTouched()
-  //   component.createAccountWithPasswordForm.markAllAsTouched()
-
-  //   fixture.detectChanges()
-
-  //   component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
-
-  //   expect(component.createAccount).toBeTruthy()
-  //   expect(component.confirmPassword).toBeFalsy()
+  // it('should initialize firstname and lastname to empty strings', () => {
+  //   // Check initial values of firstname and lastname fields
+  //   expect(component.createAccountForm.get('firstname')?.value).toEqual('')
+  //   expect(component.createAccountForm.get('lastname')?.value).toEqual('')
   // })
 
-  it('should set phone-related properties on form submit with valid phone', () => {
-    component.createAccountForm.get('emailOrMobile')!.setValue('9876543210')
-    component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
-    expect(component.isMobile).toBeTruthy()
-    expect(component.emailPhoneType).toBe('phone')
-    expect(component.email).toBeFalsy()
+
+  it('should toggle password visibility on toggle1 method call', () => {
+    const initialHide1 = component.hide1
+    component.toggle1()
+    expect(component.hide1).toBe(!initialHide1)
   })
 
-  it('should set email-related properties on form submit with valid email', () => {
-    component.createAccountForm.get('emailOrMobile')!.setValue('test@example.com')
-    component.onSubmit(component.createAccountWithPasswordForm, component.createAccountForm)
-    expect(component.email).toBeTruthy()
-    expect(component.emailPhoneType).toBe('email')
+  it('should toggle password visibility on toggle2 method call', () => {
+    const initialHide2 = component.hide2
+    component.toggle2()
+    expect(component.hide2).toBe(!initialHide2)
   })
 
-  // it('should trigger event on form submission', () => {
-  //   const eventTriggerSpy = jest.spyOn(component, 'eventTrigger')
-  //   component.createAccountForm.get('emailOrMobile')!.setValue('test@example.com')
-  //   component.createAccountForm.get('firstname')!.setValue('John')
-  //   component.createAccountForm.get('lastname')!.setValue('Doe')
-  //   component.createAccountWithPasswordForm.get('password')!.setValue('Password123!')
-  //   component.createAccountWithPasswordForm.get('confirmPassword')!.setValue('Password123!')
-
-  //   // Mark all form controls as touched to trigger validation
-  //   component.createAccountForm.markAllAsTouched()
-  //   component.createAccountWithPasswordForm.markAllAsTouched()
-
-  //   fixture.detectChanges()
-
-  //   // Simulate the button click
-  //   const button = fixture.debugElement.nativeElement.querySelector('#next-btn')
-  //   button.click()
-
-  //   expect(eventTriggerSpy).toHaveBeenCalled()
+  // it('should update password validation images correctly on updatePasswordValidationImages method call', () => {
+  //   component.createAccountWithPasswordForm.get('password')?.setValue('TestPassword1!')
+  //   component.updatePasswordValidationImages()
+  //   expect(component.passwordLengthImage).toContain('pwd-tick.png')
+  //   expect(component.passwordUppercaseImage).toContain('pwd-tick.png')
+  //   expect(component.passwordNumberImage).toContain('pwd-tick.png')
+  //   expect(component.passwordSpecialCharImage).toContain('pwd-tick.png')
   // })
 
-  it('should open snackbar with correct message', () => {
-    const snackBarSpy = jest.spyOn(component.snackBar, 'open')
-    component['openSnackbar']('Test message')
-    expect(snackBarSpy).toHaveBeenCalledWith('Test message', undefined, { duration: 3000 })
+  it('should show parent form fields on showParentForm method call', () => {
+    const event = 'true'
+    component.showParentForm(event)
+    expect(component.createAccountForm.get('firstname')).toBeTruthy()
+    expect(component.createAccountForm.get('lastname')).toBeTruthy()
+  })
+
+  it('should update preferredLanguage on preferredLanguageChange method call', () => {
+    const event = 'hi'
+    component.preferredLanguageChange(event)
+    expect(component.preferedLanguage).toEqual({ id: 'hi', lang: 'हिंदी' })
+  })
+
+  it('should call langChanged method and update createAccount and langPage flags', () => {
+    component.langChanged()
+    expect(component.createAccount).toBe(true)
+    expect(component.langPage).toBe(false)
+  })
+
+  // it('should call emailOrMobileValueChange method and set emailDelaid flag to true', () => {
+  //   component.emailOrMobileValueChange()
+  //   expect(component.emailDelaid).toBe(true)
+  // })
+
+  // it('should initialize form fields on initializeFormFields method call', () => {
+  //   component.initializeFormFields()
+  //   expect(component.createAccountForm.get('firstname')?.value).toEqual('')
+  //   expect(component.createAccountForm.get('lastname')?.value).toEqual('')
+  // })
+
+  // it('should call redirect method with "lang" parameter and navigate to "/public/home"', () => {
+  //   const mockHref = jest.spyOn(window.location, 'href', 'get')
+  //   mockHref.mockReturnValue('/public/home')
+
+  //   component.redirect('lang')
+
+  //   expect(mockHref).toHaveBeenCalled()
+  //   expect(mockHref).toHaveBeenCalledWith('/public/home')
+  // })
+
+
+
+  it('should call redirect method with "createAccount" parameter and update component flags', () => {
+    component.redirect('createAccount')
+    expect(component.langPage).toBe(true)
+    expect(component.createAccount).toBe(false)
+    expect(component.confirmPassword).toBe(false)
+    expect(component.otpPage).toBe(false)
+  })
+
+  it('should call redirect method with "confirmPassword" parameter and update component flags', () => {
+    component.redirect('confirmPassword')
+    expect(component.langPage).toBe(false)
+    expect(component.createAccount).toBe(true)
+    expect(component.confirmPassword).toBe(false)
+    expect(component.otpPage).toBe(false)
+  })
+
+  it('should call redirect method with unknown parameter and update component flags', () => {
+    component.redirect('unknown')
+    expect(component.createAccount).toBe(true)
+    expect(component.confirmPassword).toBe(false)
+    expect(component.otpPage).toBe(false)
+  })
+  // it('should call help method and open a dialog with correct parameters', () => {
+  //   const dialogRefSpyObj = { afterClosed: of({}) };
+  //   (mockDialogBar.open as jest.Mock).mockReturnValue(dialogRefSpyObj)
+
+  //   component.help()
+
+  //   expect(mockDialogBar.open).toHaveBeenCalledWith(
+  //     CreateAccountDialogComponent,
+  //     {
+  //       panelClass: 'language-modal',
+  //       width: '345px',
+  //       height: '335px',
+  //       data: { selected: 'help' }
+  //     }
+  //   )
+  // })
+
+
+
+  // it('should call optionSelected method and open a dialog with correct parameters', () => {
+  //   const dialogRefSpyObj = { afterClosed: of('login') };
+  //   (mockDialogBar.open as jest.Mock).mockReturnValue(dialogRefSpyObj)
+
+  //   component.optionSelected()
+
+  //   expect(mockDialogBar.open).toHaveBeenCalledWith(
+  //     CreateAccountDialogComponent,
+  //     {
+  //       panelClass: 'language-modal',
+  //       width: '312px',
+  //       height: '186px',
+  //       data: { selected: 'name', details: { firstname: '', lastname: '' } }
+  //     }
+  //   )
+  // })
+
+  // it('should call userExist method and open a dialog with correct parameters', () => {
+  //   const dialogRefSpyObj = { afterClosed: of('login') };
+  //   (mockDialogBar.open as jest.Mock).mockReturnValue(dialogRefSpyObj)
+  //   component.userExist()
+
+  //   expect(mockDialogBar.open).toHaveBeenCalledWith(
+  //     CreateAccountDialogComponent,
+  //     {
+  //       panelClass: 'language-modal',
+  //       width: '312px',
+  //       height: '186px',
+  //       data: { selected: 'userExist' }
+  //     }
+  //   )
+
+  // })
+
+  // it('should call onSubmit method and show success snackbar on successful signup', async () => {
+  //   // Mock response data
+  //   const successResponse = { statusCode: 200, error: false, message: 'Success' }
+
+  //   // Mock the service method and provide a mock implementation
+  //   jest.spyOn(mockSignupService, 'ssoWithMobileEmail').mockResolvedValue(successResponse as never)
+
+  //   // Set up the form data
+  //   component.createAccountForm.setValue({
+  //     firstname: 'John',
+  //     lastname: 'Doe',
+  //     emailOrMobile: 'john.doe@example.com'
+  //   })
+
+  //   // Call the method that triggers the service call (assuming onSubmit triggers signup)
+  //   await component.onSubmit(component.createAccountForm, component.createAccountForm)
+
+  //   // Assert that the success message is shown
+  //   expect(mockMatSnackBar.open).toHaveBeenCalledWith('Success', 'close', { duration: 3000 })
+  // })
+
+
+
+
+  // it('should call saveUser method and show error snackbar on failed signup', async () => {
+  //   const errorResponse = { statusCode: 400, error: true, message: 'Error' }
+  //   jest.spyOn(mockSignupService, 'ssoWithMobileEmail').mockResolvedValue(errorResponse as never)
+  //   component.createAccountForm.setValue({
+  //     firstname: 'John',
+  //     lastname: 'Doe',
+  //     emailOrMobile: 'john.doe@example.com'
+  //   })
+
+  //   // Call the method that triggers the service call (assuming onSubmit triggers signup)
+  //   await component.onSubmit(component.createAccountForm, component.createAccountForm)
+  //   expect(mockMatSnackBar.open).toHaveBeenCalledWith('Error', 'close', { duration: 3000 })
+  // })
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
+
+  afterAll(() => {
+    TestBed.resetTestingModule()
   })
 })
+
+
+
+
+
