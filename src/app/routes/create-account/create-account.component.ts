@@ -559,7 +559,6 @@ export class CreateAccountComponent implements OnInit {
       })
   }
   preferredLanguageChange(event: any) {
-    console.log("value: ", this.preferredLanguage)
     let value
     if (event === 'hi') {
       value = { id: 'hi', lang: 'हिंदी' }

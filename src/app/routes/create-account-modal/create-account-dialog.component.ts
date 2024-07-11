@@ -34,9 +34,11 @@ export class CreateAccountDialogComponent implements OnInit {
   showSocialChats() {
     try {
       setTimeout(() => {
-        window.fcWidget.init()
-        window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
-        window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+        if (window.fcWidget) {
+          window.fcWidget.init()
+          window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
+          window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+        }
       }, 300)
       const script = this._renderer2.createElement('script')
       script.src = '//in.fw-cdn.com/30492305/271953.js'

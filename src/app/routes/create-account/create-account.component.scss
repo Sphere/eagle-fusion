@@ -126,7 +126,7 @@ a {
   font-size: 16px;
   line-height: 19px;
   cursor: pointer;
-  z-index: 9999;
+  // z-index: 9999;
   position: relative;
 }
 
@@ -151,6 +151,9 @@ a {
 }
 
 @media screen and (max-width:600px) {
+  .z-btn{
+  z-index: 9999;
+}
   .login-page-content {
      max-width: 100%;
     margin: auto;
