@@ -111,8 +111,7 @@
   </div>
 
 </div>
-
-<ng-container *ngIf="confirmPassword">
+<div class="top-blue-color" *ngIf="confirmPassword">
   <div class="login-page-content">
     <div *ngIf="(isXSmall$ | async) === true" class="flex justify-content-between top-block">
       <div class="flex justify-content-between align-items-center back-btn">
@@ -217,7 +216,7 @@
       </div>
     </div>
   </div>
-</ng-container>
+</div>
 <!-- Create Account Form -->
 <div class="btm-blue-color" *ngIf="langPage">
 

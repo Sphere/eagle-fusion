@@ -41,7 +41,7 @@
 
 .login-card {
   margin: 0;
-  padding: 0px 20px 30px 30px;
+  padding: 0px 20px 0px 30px;
   color: #000;
   font-size: 14px;
   line-height: 17px;
@@ -101,6 +101,7 @@
     justify-content: center;
     align-items: center;
     width: 100%;
+    z-index: 0000;
 }
 .btm-bg{
   width: 216px;
@@ -125,6 +126,8 @@ a {
   font-size: 16px;
   line-height: 19px;
   cursor: pointer;
+  z-index: 9999;
+  position: relative;
 }
 
 .next-button:disabled {
@@ -136,6 +139,15 @@ a {
 .next-btn-div {
   text-align: right;
   margin: 1rem 0;
+}
+@media screen and (max-height: 700px) {
+  /* Adjust the height for mobile screens */
+  .nav-bar-bg1 {
+    height: 65px !important; /* Set the height to 60px */
+  }
+  .nav-bar-bg {
+    height: 266px !important; /* Set the height to 266px */
+  }
 }
 
 @media screen and (max-width:600px) {

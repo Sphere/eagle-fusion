@@ -11,7 +11,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn" i18n>Help
+      <div (click)="help()" class="help-btn"><span i18n>Help</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -26,7 +26,7 @@
         <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
       </div>
       <div class="img-box">
-        <img alt="" width="250" height="240" src="../../../fusion-assets/images/Frame150.svg">
+        <img class="otp-image" alt="" src="../../../fusion-assets/images/Frame150.svg">
       </div>
       <div class="login-timer">
         <span class="login-timer-text" i18n>OTP expires in</span>&nbsp;<span class="login-timer-count"
