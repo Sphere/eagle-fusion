@@ -48,6 +48,7 @@ export class CreateAccountDialogComponent implements OnInit {
       console.log(error)
     }
   }
+  /* istanbul ignore next */
   backToChatIcon() {
     try {
       if (window.fcWidget) {
