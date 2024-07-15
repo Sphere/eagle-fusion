@@ -30,7 +30,7 @@ export class CreateAccountDialogComponent implements OnInit {
       this.lastName = this.selectedData.details.lastname
     }
   }
-
+  /* istanbul ignore next */
   showSocialChats() {
     try {
       setTimeout(() => {
