@@ -7,6 +7,9 @@ import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
+import {
+  WidgetContentService,
+} from '@ws-widget/collection'
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
@@ -57,6 +60,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
     private viewerSvc: ViewerUtilService,
+    private contentSvc: WidgetContentService,
   ) {
 
   }
@@ -198,6 +202,10 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
             console.log(data)
             if (data.params.status === "success") {
               this.disableContinue = false
+              const result = data.result
+              result['type'] = 'quiz'
+              this.contentSvc.changeMessage(result)
+
             }
           })
         }

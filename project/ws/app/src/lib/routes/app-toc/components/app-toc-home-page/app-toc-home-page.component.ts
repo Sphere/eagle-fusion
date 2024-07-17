@@ -102,6 +102,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   resumeDataLink: any
   rowDetails: any | undefined
   optmisticPercentage: number = 0
+  finishedPercentage: any | undefined
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -468,7 +469,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             let dat = JSON.parse(this.rowData.data)
             if (dat && dat.length) {
               this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              console.log(this.optmisticPercentage, 'foundContent')
+              this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+              console.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
             }
           }, (error) => {
             console.error('Error:', error, data.result.contentList)
@@ -481,7 +483,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
                   let dat = JSON.parse(this.rowData.data)
                   if (dat && dat.length) {
                     this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    console.log(this.optmisticPercentage, 'foundContent')
+                    this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+                    console.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
                   }
                 }, (error) => {
                   console.error('Error:', error)

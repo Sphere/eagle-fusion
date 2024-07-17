@@ -361,10 +361,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-                  console.log(data, this.contentSvc.showConformation)
+                  console.log(data, this.contentSvc.showConformation, '364', this.playerStateService.isResourceCompleted())
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
-                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
+                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.playerStateService.isResourceCompleted()
                       && this.contentSvc.showConformation) {
                       const data = {
                         courseId: this.collectionId,
@@ -384,6 +384,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                       }
 
                       if (confirmdialog) {
+
                         confirmdialog.afterClosed().subscribe((res: any) => {
                           if (res.event === 'CONFIRMED') {
                             this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -448,6 +449,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           }
 
           if (confirmdialog) {
+
             confirmdialog.afterClosed().subscribe((res: any) => {
               if (res.event === 'CONFIRMED') {
                 this.router.navigate([`/app/user/competency`])
@@ -581,10 +583,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   this.showCompletionMsg = false
                 }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-
+                  console.log(data, 'data', this.contentSvc.showConformation, this.playerStateService.isResourceCompleted())
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
-                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
+                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100 && this.playerStateService.isResourceCompleted()
                       && this.contentSvc.showConformation) {
                       const isDialogOpen = this.dialog.openDialogs.length > 0
                       let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
@@ -601,7 +603,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                       }
 
                       if (confirmdialog) {
+
                         confirmdialog.afterClosed().subscribe((res: any) => {
+
                           if (res.event === 'CONFIRMED') {
                             this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                               queryParams: {
@@ -613,6 +617,16 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                         })
                       }
 
+                    } else {
+                      console.log(isNull(data.nextResource))
+                      if (isNull(data.nextResource)) {
+                        this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                          queryParams: {
+                            primaryCategory: 'Course',
+                            batchId: this.route.snapshot.queryParams.batchId,
+                          },
+                        })
+                      }
                     }
                     // else {
                     //   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {

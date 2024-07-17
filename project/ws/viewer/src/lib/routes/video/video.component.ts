@@ -124,6 +124,31 @@ export class VideoComponent implements OnInit, OnDestroy {
                         console.log(data)
                       })
                     }
+                  } else {
+                    let req: any
+                    if (this.configSvc.userProfile) {
+                      req = {
+                        request: {
+                          userId: this.configSvc.userProfile.userId || '',
+                          contents: [
+                            {
+                              contentId: this.videoData!.identifier,
+                              batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+                              courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+                              status: contentData.status,
+                              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+                              progressdetails: contentData.progressdetails,
+                              completionPercentage: contentData.completionPercentage
+                            }
+                          ],
+                        },
+                      }
+                      console.log(req)
+                      //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
+                      this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
+                        console.log(data)
+                      })
+                    }
                   }
                 }
               })

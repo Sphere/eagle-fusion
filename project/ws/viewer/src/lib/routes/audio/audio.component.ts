@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { ValueService } from '@ws-widget/utils'
+import { ValueService, TelemetryService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { AccessControlService } from '@ws/author'
 import {
@@ -38,7 +38,8 @@ export class AudioComponent implements OnInit, OnDestroy {
     private valueSvc: ValueService,
     private viewerSvc: ViewerUtilService,
     private accessControlSvc: AccessControlService,
-  ) {}
+    private telemetrySvc: TelemetryService,
+  ) { }
 
   ngOnInit() {
     this.screenSizeSubscription = this.valueSvc.isXSmall$.subscribe(data => {
@@ -104,7 +105,7 @@ export class AudioComponent implements OnInit, OnDestroy {
           this.widgetResolverAudioData = JSON.parse(JSON.stringify(this.widgetResolverAudioData))
           this.isFetchingDataComplete = true
         },
-        () => {},
+        () => { },
       )
     }
   }
@@ -151,27 +152,50 @@ export class AudioComponent implements OnInit, OnDestroy {
     }
   }
 
-  async fetchContinueLearning(collectionId: string, audioId: string): Promise<boolean> {
-    return new Promise(resolve => {
-      this.contentSvc.fetchContentHistory(collectionId).subscribe(
-        data => {
-          if (data) {
-            if (
-              data.identifier === audioId &&
-              data.continueData &&
-              data.continueData.progress &&
-              this.widgetResolverAudioData
-            ) {
-              this.widgetResolverAudioData.widgetData.resumePoint = Number(
-                data.continueData.progress,
-              )
-            }
-          }
-          resolve(true)
-        },
-        () => resolve(true),
-      )
-    })
+  async fetchContinueLearning(collectionID: string, audioId: string) {
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+      this.activatedRoute.snapshot.queryParams.collectionId : collectionID
+    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+      this.activatedRoute.snapshot.queryParams.batchId : audioId
+
+    this.telemetrySvc.start('youtube', 'youtube-start', this.activatedRoute.snapshot.queryParams.collectionId ?
+      this.activatedRoute.snapshot.queryParams.collectionId : this.audioData!.identifier)
+
+    setTimeout(() => {
+      const data2 = {
+        current: 10,
+        max_size: 10,
+        mime_type: "audio/mpeg",
+      }
+      // @ts-ignore: Object is possibly 'null'.
+      this.viewerSvc.realTimeProgressUpdate(audioId, data2, collectionId, batchId).subscribe((data: any) => {
+        console.log(data.result.contentList)
+        const result = data.result
+        result['type'] = 'audio'
+        this.contentSvc.changeMessage(result)
+      })
+
+    }, 50)
+    // return new Promise(resolve => {
+    //   this.contentSvc.fetchContentHistory(collectionId).subscribe(
+    //     data => {
+    //       if (data) {
+    //         if (
+    //           data.identifier === audioId &&
+    //           data.continueData &&
+    //           data.continueData.progress &&
+    //           this.widgetResolverAudioData
+    //         ) {
+    //           this.widgetResolverAudioData.widgetData.resumePoint = Number(
+    //             data.continueData.progress,
+    //           )
+    //         }
+    //       }
+    //       resolve(true)
+    //     },
+    //     () => resolve(true),
+    //   )
+    // })
   }
 
   private async setS3Cookie(contentId: string) {

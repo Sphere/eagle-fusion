@@ -46,7 +46,7 @@
         <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i)" alt="Star">
       </ng-container>
       <span *ngIf="totalRatings>0" class="total-rating">( {{totalRatings}} )</span>
-      <div *ngIf="content?.completionPercentage === 100 && averageRating > 0"
+      <div *ngIf="(content?.completionPercentage === 100 || optmisticPercentage === 100) && averageRating > 0"
         class="flex flex-col gap-1 justify-content-center align-items-center">
         <mat-icon class="float-right pencil cursor-pointer" (click)="openRating(content?.identifier)"
           matTooltip="Edit Rating">edit</mat-icon>
@@ -131,7 +131,7 @@
         </button>
         <!--(click)="resumeBtn()" -->
         <ng-container *ngIf="!updatedContentStatus; else elseBlock1">
-          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled"
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled &&(finishedPercentage === undefined)"
             (click)="setConfirmDialogStatus(content?.completionPercentage)"
             [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
             [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
@@ -141,15 +141,16 @@
             </ng-container>
           </a>
         </ng-container>
+
         <ng-template #elseBlock1>
-          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage < 100;"
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage < 100 && finishedPercentage !== undefined"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
             <ng-container i18n>
               Resume
             </ng-container>
           </a>
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && (optmisticPercentage === 100 || content!.completionPercentage === 100)"
-            (click)="redirectFirstResource(firstResourceLink)" class="banner-btn resumeButton cursor-pointer">
+            (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
             <ng-container i18n>
               Start Again
             </ng-container>
