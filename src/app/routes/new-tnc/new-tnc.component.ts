@@ -1,11 +1,12 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Data, Router } from '@angular/router'
 import {
+  Observable,
   Subscription,
   of,
 } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
-import { LoggerService, ConfigurationsService } from '@ws-widget/utils'
+import { LoggerService, ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
@@ -17,6 +18,8 @@ import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import get from 'lodash/get'
+import { MatDialog } from '@angular/material'
+import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -48,6 +51,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     },
   }
   userData: any
+  isXSmall$: Observable<boolean>
+  langDialog: any
+
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
@@ -59,8 +65,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private signupService: SignupService,
     private UserAgentResolverService: UserAgentResolverService,
+    private valueSvc: ValueService,
+    public dialog: MatDialog,
 
   ) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
   }
 
   async ngOnInit() {
@@ -101,7 +110,16 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.result = await this.signupService.fetchStartUpDetails()
     this.createUserForm = this.createTncFormFields()
   }
-  tncChecked() {
+  help() {
+    this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
+      panelClass: 'language-modal',
+      width: '345px',
+      height: '335px',
+      data: {
+        selected: "help",
+      },
+    })
+  } tncChecked() {
     this.tncAcceptedBtn = !this.tncAcceptedBtn
   }
   handleScrollToBottom(isAtBottom: boolean): void {
