@@ -148,6 +148,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.content) {
       console.log(this.optmisticPercentage, '149', this.finishedPercentage)
+
       this.readCourseRatingSummary()
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
@@ -355,6 +356,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.assignPathAndUpdateBanner(this.router.url)
     let collectionArry: any
     if (this.content) {
+      if (this.optmisticPercentage === 0 && this.finishedPercentage === undefined) {
+        this.updatedContentStatus = false
+      }
       collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
       console.log(collectionArry, 'collectionArry')
       // this.content.status = 'Deleted'
