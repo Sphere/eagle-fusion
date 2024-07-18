@@ -358,6 +358,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     if (this.content) {
       if (this.optmisticPercentage === 0 && this.finishedPercentage === undefined) {
         this.updatedContentStatus = false
+      } else {
+        this.updatedContentStatus = true
       }
       collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
       console.log(collectionArry, 'collectionArry')
