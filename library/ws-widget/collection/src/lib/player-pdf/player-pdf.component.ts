@@ -251,7 +251,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           this.contentSvc.changeMessage(
             {
               type: 'PDF',
-              contentList: data.result.contentList
+              contentList: data.result
             }
           )
         })
@@ -261,7 +261,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           this.contentSvc.changeMessage(
             {
               type: 'PDF',
-              contentList: data.result.contentList
+              contentList: data.result
             }
           )
         })

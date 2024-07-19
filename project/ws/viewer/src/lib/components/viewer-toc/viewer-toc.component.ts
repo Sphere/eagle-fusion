@@ -658,9 +658,37 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.updateResourceChange()
   }
 
-  updateKeyIfMatch(arr: any) {
+  updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
+    const targetUrl = this.router.url
+    const urlParams = targetUrl.split('/')
+    let courseId = urlParams[3]
+    let userID = this.configSvc.userProfile!.userId
+    //let cId = this.activatedRoute.snapshot.queryParams.contentId
 
-    const aggregateValue = this.calculateAggregate(arr, 'completionPercentage')
+    arr2.forEach((obj2: any) => {
+      const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
+
+      if (obj1) {
+        // Update the existing object in arr1 if the keyToUpdate value is different
+        if (obj1[keyToUpdate] !== obj2[keyToUpdate]) {
+          obj1[keyToUpdate] = obj2[keyToUpdate]
+        }
+      } else {
+        // Add the new object from arr2 to arr1
+        arr1.push(obj2)
+      }
+    })
+    console.log(arr1, 'arr1')
+    console.log(userID, courseId)
+    this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', arr1).subscribe(
+      () => {
+        console.log('Data inserted successfully2')
+      },
+      (error) => {
+        console.error('Error inserting data:', error)
+      }
+    )
+    const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
     console.log('Aggregate value:', aggregateValue)
     console.log(this.heirarchy, 'content')
     let uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
@@ -698,6 +726,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     if (content && content.contentList) {
       console.log(content)
       await this.processData(content.contentList)
+
       let req
       let rowData: any
       let optmisticPercentage: any
@@ -722,7 +751,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         let dat = JSON.parse(rowData.data)
         console.log(dat, 'dat')
         if (dat && dat.length) {
-          optmisticPercentage = await this.updateKeyIfMatch(dat)
+          optmisticPercentage = await this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
         }
 
         console.log(rating, optmisticPercentage)
@@ -788,9 +817,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               // Check if the dialog is already open
               const isDialogOpen = this.dialog.openDialogs.length > 0
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-
+              console.log(optmisticPercentage, Object.keys(rating).length)
               // If the dialog is not already open, open it
-              if (!isDialogOpen && optmisticPercentage === 100) {
+              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
                 confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
                   height: '405px',
@@ -798,6 +827,15 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   disableClose: true,
                   data: { request: data, message: 'Congratulations!, you have completed the course' },
                 })
+              } else {
+                if (optmisticPercentage === 100) {
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.batchId,
+                    },
+                  })
+                }
               }
 
               if (confirmdialog) {
@@ -818,6 +856,33 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             }
           }
         }
+      }, (error) => {
+        console.error('Error:', error)
+        // const targetUrl = this.router.url
+        // const urlParams = targetUrl.split('/')
+        // let courseId = urlParams[3]
+        let userID = this.configSvc.userProfile!.userId
+        this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', content.contentList).subscribe(
+          (dat: any) => {
+            console.log('Data inserted successfully1', dat)
+            console.log(userID, this.collectionId)
+            this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async (record) => {
+              console.log('Record:', record)
+              rowData = await record
+              let dat = JSON.parse(rowData.data)
+              console.log(dat)
+              if (dat && dat.length) {
+                optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
+                console.log(optmisticPercentage, 'foundContent', '873')
+              }
+            }, (error) => {
+              console.error('Error:', error)
+            })
+          },
+          (error) => {
+            console.error('Error inserting data:', error)
+          }
+        )
       })
     } else {
       if (this.collection && this.collection.children) {
