@@ -432,7 +432,7 @@ export class SCORMAdapterService {
           console.log(this.contentData, 'sy')
 
           if (this.configSvc.userProfile && postData) {
-            if (this.contentData.completionPercentage < 100 || this.contentData === undefined) {
+            if ((this.contentData && this.contentData.completionPercentage < 100) || (this.contentData === undefined)) {
               req = {
                 request: {
                   userId: this.configSvc.userProfile.userId || '',

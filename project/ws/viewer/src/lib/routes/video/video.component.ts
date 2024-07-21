@@ -122,6 +122,9 @@ export class VideoComponent implements OnInit, OnDestroy {
                       //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
                       this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                         console.log(data)
+                        const result = data.result
+                        result['type'] = 'video'
+                        this.contentSvc.changeMessage(result)
                       })
                     }
                   } else {

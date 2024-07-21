@@ -549,6 +549,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     return url
   }
   async processData(data?: any) {
+    console.log(data, 'data')
     this.isLoading = true
     if (this.collection) {
       this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
@@ -556,7 +557,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     if (this.collection && this.collection.children) {
       const mergeData = (collection: any) => {
-
+        console.log(data, 'ssssssssssss')
         collection.map((child1: any, index: any, element: any) => {
           const foundContent = data.find((el1: any) => el1.contentId === child1.identifier)
 
@@ -852,7 +853,38 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 })
               }
             } else {
-              console.log('lll')
+              console.log('lll', dat)
+              const nextResource = this.playerStateService.getNextResource()
+              const regex: RegExp = /do_\d+/
+              const match: any = nextResource.match(regex)
+              console.log(match[0])
+              let courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+              console.log(courseData1)
+              let courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
+              console.log(courseData2)
+              const foundContent1 = dat.find((el1: any) => el1.contentId === this.resourceId)
+
+              const foundContent2 = dat.find((el2: any) => el2.contentId === match[0])
+              console.log(foundContent1, foundContent2)
+              console.log(nextResource, this.resourceId)
+              if (
+                foundContent1.completionPercentage === 100 &&
+                (courseData1.mimeType !== 'video/mp4' && courseData1.mimeType !== 'application/pdf') &&
+                (courseData2.mime_type !== 'application/vnd.ekstep.html-archive' && courseData2.mime_type !== 'application/pdf' && courseData2.mime_type !== 'video/mp4') &&
+                (!foundContent2 || foundContent2.completionPercentage === 0)
+              ) {
+                //this.router.navigate([nextResource], { preserveQueryParams: true })
+              }
+              // if (foundContent1.completionPercentage === 100 && foundContent2.completionPercentage === 0) {
+              //   this.router.navigate([nextResource], { preserveQueryParams: true })
+              // }
+              // else if (foundContent1.completionPercentage === 100 && foundContent2.completionPercentage === 100) {
+              //   this.router.navigate([nextResource], { preserveQueryParams: true })
+              // }
+              //if (foundContent2)
+              // const nextResource = this.playerStateService.getNextResource()
+              // console.log(nextResource, 'nextes')
+              // this.router.navigate([nextResource], { preserveQueryParams: true })
             }
           }
         }

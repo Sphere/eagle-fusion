@@ -265,25 +265,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.assesmentActive = false
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
-          let Id = this.assesmentdata.generalData.identifier
-          let collectionId = this.assesmentdata.generalData.collectionId
-          const batchId = this.route.snapshot.queryParams.batchId
-
-          const data2 = {
-            current: 10,
-            max_size: 10,
-            mime_type: "application/json"
-          }
-          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
-            console.log(data)
-            if (data.params.status === "success") {
-              this.disableContinue = false
-              const result = data.result
-              result['type'] = 'assessment'
-              this.contentSvc.changeMessage(result)
-
-            }
-          })
         }
         if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
           this.disableContinue = true
@@ -551,7 +532,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (!isNull(data.nextResource)) {
-
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
           const result = data.result
           result['type'] = 'assessment'
