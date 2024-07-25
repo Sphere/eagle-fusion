@@ -329,11 +329,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
         } else if (result.event === 'DONE') {
-          let userId
-          if (this.configSvc.userProfile) {
-            // tslint:disable-next-line
-            userId = this.configSvc.userProfile.userId || ''
-          }
+          // let userId
+          // if (this.configSvc.userProfile) {
+          //   // tslint:disable-next-line
+          //   userId = this.configSvc.userProfile.userId || ''
+          // }
 
           let Id = this.identifier
           let collectionId = this.collectionId
@@ -347,7 +347,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
             console.log(data)
             if (data.params.status === "success") {
-              this.disableContinue = false
               const result = data.result
               result['type'] = 'assessment'
               this.contentSvc.changeMessage(result)
@@ -876,7 +875,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
             console.log(data)
             if (data.params.status === "success") {
-              this.disableContinue = false
               const result = data.result
               result['type'] = 'quiz'
               this.contentSvc.changeMessage(result)

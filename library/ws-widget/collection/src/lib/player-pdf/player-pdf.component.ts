@@ -248,22 +248,16 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       const percent = parseFloat(percentMilis.toFixed(2))
       if (this.contentData && percent >= this.contentData.completionPercentage) {
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-          this.contentSvc.changeMessage(
-            {
-              type: 'PDF',
-              contentList: data.result
-            }
-          )
+          const result = data.result
+          result['type'] = 'PDF'
+          this.contentSvc.changeMessage(result)
         })
       }
       if (this.contentData === undefined && percent > 0) {
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-          this.contentSvc.changeMessage(
-            {
-              type: 'PDF',
-              contentList: data.result
-            }
-          )
+          const result = data.result
+          result['type'] = 'PDF'
+          this.contentSvc.changeMessage(result)
         })
       }
     }

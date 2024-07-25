@@ -756,12 +756,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
         console.log(rating, optmisticPercentage)
-        if (content.type === 'Video' || content.type === 'Scorm') {
+        if (content.type) {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
-
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
-              if (content.type === "Scorm") {
+
+              if (content.type === "Scorm" || content.type === "assessment" || content.type === "quiz") {
                 this.router.navigate([nextResource], { preserveQueryParams: true })
                 this.playerStateService.trigger$.complete()
               }
@@ -797,15 +797,18 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   }
                 })
               }
-
             }
+            console.log(rating, optmisticPercentage)
           } else {
-            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-              queryParams: {
-                primaryCategory: 'Course',
-                batchId: this.batchId,
-              },
-            })
+            console.log(rating, optmisticPercentage)
+            if (optmisticPercentage === 100) {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.batchId,
+                },
+              })
+            }
           }
         } else {
           if (this.playerStateService.isResourceCompleted()) {
@@ -869,11 +872,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               console.log(nextResource, this.resourceId)
               if (
                 foundContent1.completionPercentage === 100 &&
-                (courseData1.mimeType !== 'video/mp4' && courseData1.mimeType !== 'application/pdf') &&
-                (courseData2.mime_type !== 'application/vnd.ekstep.html-archive' && courseData2.mime_type !== 'application/pdf' && courseData2.mime_type !== 'video/mp4') &&
+                (courseData1.mimeType === 'application/json')
+                &&
+                // (courseData2.mime_type !== 'application/vnd.ekstep.html-archive' && courseData2.mime_type !== 'application/pdf' && courseData2.mime_type !== 'video/mp4') &&
                 (!foundContent2 || foundContent2.completionPercentage === 0)
               ) {
-                //this.router.navigate([nextResource], { preserveQueryParams: true })
+                this.router.navigate([nextResource], { preserveQueryParams: true })
               }
               // if (foundContent1.completionPercentage === 100 && foundContent2.completionPercentage === 0) {
               //   this.router.navigate([nextResource], { preserveQueryParams: true })

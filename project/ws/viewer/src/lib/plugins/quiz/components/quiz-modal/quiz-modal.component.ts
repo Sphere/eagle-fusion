@@ -187,8 +187,10 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         //   this.isCompleted = true
         // }
         // console.log(this.assesmentdata)
+        //if (this.result >= 0) {
         if (this.result >= 0) {
-          this.disableContinue = true
+          console.log('this.result, this.passPercentage')
+          this.disableContinue = false
 
         }
         // else {

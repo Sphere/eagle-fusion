@@ -393,10 +393,17 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           if (this.optmisticPercentage === 100 && data.contents[0].completionPercentage === 100) {
             const matchId = data.contents[0].contentId
             const lastItem = collectionArry[collectionArry.length - 1]
+            console.log(matchId, lastItem)
             if (matchId === lastItem) {
               let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
               console.log(url1, 'url')
               this.updatedContentFound = url1
+            } else {
+              if (data.contents[0].progressdetails.mimeType === "application/pdf") {
+                url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
+                console.log(url1, 'url')
+                this.updatedContentFound = url1
+              }
             }
 
           } else {
@@ -546,6 +553,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   redirectPage(updatedContentFound: any) {
     console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
     console.log(this.enrolledCourse, this.getBatchId())
+
     if (updatedContentFound === undefined) {
       let batchId = this.getBatchId()
       console.log(batchId, 'batchId')
