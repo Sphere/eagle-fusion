@@ -876,7 +876,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             console.log(data)
             if (data.params.status === "success") {
               const result = data.result
-              result['type'] = 'quiz'
+              result['type'] = 'assessment'
               this.contentSvc.changeMessage(result)
 
             }
