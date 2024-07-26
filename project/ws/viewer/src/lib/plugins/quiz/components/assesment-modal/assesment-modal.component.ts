@@ -263,6 +263,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
+        console.log(this.result, this.passPercentage)
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
           let Id = this.assesmentdata.generalData.identifier

@@ -571,6 +571,25 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           // this.openOverviewDialog(result.event)
           this.closeQuizBtnDialog(result.event)
         } else if (result.event === 'DONE') {
+
+          let Id = this.identifier
+          let collectionId = this.collectionId
+          const batchId = this.route.snapshot.queryParams.batchId
+
+          const data2 = {
+            current: 10,
+            max_size: 10,
+            mime_type: "application/json"
+          }
+          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
+            console.log(data)
+            if (data.params.status === "success") {
+              const result = data.result
+              result['type'] = 'quiz'
+              this.contentSvc.changeMessage(result)
+            }
+          })
+
           let userId
           if (this.configSvc.userProfile) {
             userId = this.configSvc.userProfile.userId || ''
@@ -863,8 +882,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         //if (this.result >= this.passPercentage) {
         if (this.result >= 0) {
           this.isCompleted = true
-          let Id = this.assesmentdata.generalData.identifier
-          let collectionId = this.assesmentdata.generalData.collectionId
+          let Id = this.identifier
+          let collectionId = this.collectionId
           const batchId = this.route.snapshot.queryParams.batchId
 
           const data2 = {
@@ -876,7 +895,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             console.log(data)
             if (data.params.status === "success") {
               const result = data.result
-              result['type'] = 'assessment'
+              result['type'] = 'quiz'
               this.contentSvc.changeMessage(result)
 
             }

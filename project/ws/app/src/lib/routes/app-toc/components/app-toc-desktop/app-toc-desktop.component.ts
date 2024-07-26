@@ -395,7 +395,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             const lastItem = collectionArry[collectionArry.length - 1]
             console.log(matchId, lastItem)
             if (matchId === lastItem) {
-              let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+              let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${data.contents[0].batchId}`
               console.log(url1, 'url')
               this.updatedContentFound = url1
             } else {
@@ -445,6 +445,23 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             console.log('Identifier not found')
           }
         }
+      }, err => {
+        console.log(err)
+        let collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
+        const regex = /do_\d+(?=\?primaryCategory)/
+        const match = this.updatedContentFound.match(regex)
+        if (match) {
+          console.log(match[0], collectionArry)
+          let matchId = match[0]
+          const lastItem = collectionArry[collectionArry.length - 1]
+          if (matchId === lastItem && this.optmisticPercentage === 100) {
+            let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+            console.log(url1, 'url')
+            this.updatedContentFound = url1
+          }
+        } else {
+          console.log('Identifier not found')
+        }
       })
 
       let eCourse = this.enrollCourse.contentStatus
@@ -459,7 +476,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
       if (resumeDataV2.identifier === '' && resumeDataV2.mimeType === undefined ||
         resumeDataV2.identifier === '' && resumeDataV2.mimeType === '') {
-        console.log(lastResource, 'lr', this.content, lastResourceMimeType)
         this.resumeDataLink = viewerRouteGenerator(
           lastResource,
           lastResourceMimeType,
@@ -544,33 +560,20 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return batchId
   }
 
-  // public handleEnrollmentEndDate(batch: any) {
-  //   const enrollmentEndDate = dayjs(lodash.get(batch, 'enrollmentEndDate')).format('YYYY-MM-DD')
-  //   const systemDate = dayjs()
-  //   return enrollmentEndDate ? dayjs(enrollmentEndDate).isBefore(systemDate) : false
-  // }
 
   redirectPage(updatedContentFound: any) {
-    console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
-    console.log(this.enrolledCourse, this.getBatchId())
-
     if (updatedContentFound === undefined) {
       let batchId = this.getBatchId()
       console.log(batchId, 'batchId')
       if (!batchId) {
         let u1 = `${document.baseURI}`
-        console.log(u1)
         let u2 = u1.split("&")
-        console.log(u2)
         let u3 = u2[0].split("Id=")
-        console.log(u3)
         batchId = u3[1]
-        console.log(batchId, 'batchId')
       }
       let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
       console.log(url1, 'url13123')
       this.updatedContentFound = url1
-      //location.href = url1
       this.router.navigateByUrl(url1)
     } else {
       let url2 = document.baseURI
@@ -592,7 +595,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         this.router.navigateByUrl(updatedContentFound)
       }
-      //location.href = updatedContentFound
     }
   }
   private openSnackbar(primaryMsg: string, duration: number = 5000) {

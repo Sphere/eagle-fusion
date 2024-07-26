@@ -797,8 +797,49 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   }
                 })
               }
+            } else {
+              console.log(rating, optmisticPercentage)
+              const data = {
+                courseId: this.collectionId,
+              }
+              console.log("data", this.collectionId, data)
+              const isDialogOpen = this.dialog.openDialogs.length > 0
+              let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+              // If the dialog is not already open, open it
+              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                  width: '300px',
+                  height: '405px',
+                  panelClass: 'overview-modal',
+                  disableClose: true,
+                  data: { request: data, message: 'Congratulations!, you have completed the course' },
+                })
+              }
+
+              if (confirmdialog) {
+                confirmdialog.afterClosed().subscribe((res: any) => {
+                  if (res && res.event === 'CONFIRMED') {
+                    this.dialog.closeAll()
+                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                      queryParams: {
+                        primaryCategory: 'Course',
+                        batchId: this.batchId,
+                      },
+                    })
+                  }
+                })
+              }
+              if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
+              }
+
             }
-            console.log(rating, optmisticPercentage)
           } else {
             console.log(rating, optmisticPercentage)
             if (optmisticPercentage === 100) {
@@ -822,7 +863,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               const isDialogOpen = this.dialog.openDialogs.length > 0
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
               console.log(optmisticPercentage, Object.keys(rating).length)
-              // If the dialog is not already open, open it
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
                 confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
@@ -862,7 +902,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               const match: any = nextResource.match(regex)
               console.log(match[0])
               let courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
-              console.log(courseData1)
               let courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
               console.log(courseData2)
               const foundContent1 = dat.find((el1: any) => el1.contentId === this.resourceId)
@@ -874,34 +913,19 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 foundContent1.completionPercentage === 100 &&
                 (courseData1.mimeType === 'application/json')
                 &&
-                // (courseData2.mime_type !== 'application/vnd.ekstep.html-archive' && courseData2.mime_type !== 'application/pdf' && courseData2.mime_type !== 'video/mp4') &&
                 (!foundContent2 || foundContent2.completionPercentage === 0)
               ) {
                 this.router.navigate([nextResource], { preserveQueryParams: true })
               }
-              // if (foundContent1.completionPercentage === 100 && foundContent2.completionPercentage === 0) {
-              //   this.router.navigate([nextResource], { preserveQueryParams: true })
-              // }
-              // else if (foundContent1.completionPercentage === 100 && foundContent2.completionPercentage === 100) {
-              //   this.router.navigate([nextResource], { preserveQueryParams: true })
-              // }
-              //if (foundContent2)
-              // const nextResource = this.playerStateService.getNextResource()
-              // console.log(nextResource, 'nextes')
-              // this.router.navigate([nextResource], { preserveQueryParams: true })
             }
           }
         }
       }, (error) => {
         console.error('Error:', error)
-        // const targetUrl = this.router.url
-        // const urlParams = targetUrl.split('/')
-        // let courseId = urlParams[3]
         let userID = this.configSvc.userProfile!.userId
         this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', content.contentList).subscribe(
           (dat: any) => {
             console.log('Data inserted successfully1', dat)
-            console.log(userID, this.collectionId)
             this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async (record) => {
               console.log('Record:', record)
               rowData = await record
@@ -909,7 +933,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               console.log(dat)
               if (dat && dat.length) {
                 optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
-                console.log(optmisticPercentage, 'foundContent', '873')
+                console.log(optmisticPercentage, 'foundContent', '938')
               }
             }, (error) => {
               console.error('Error:', error)
