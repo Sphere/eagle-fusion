@@ -266,25 +266,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         console.log(this.result, this.passPercentage)
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
-          let Id = this.assesmentdata.generalData.identifier
-          let collectionId = this.assesmentdata.generalData.collectionId
-          const batchId = this.route.snapshot.queryParams.batchId
-
-          const data2 = {
-            current: 10,
-            max_size: 10,
-            mime_type: "application/json"
-          }
-          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
-            console.log(data)
-            if (data.params.status === "success") {
-
-              const result = data.result
-              result['type'] = 'assessment'
-              this.contentSvc.changeMessage(result)
-
-            }
-          })
         }
         if (this.viewerDataSvc.gatingEnabled && !this.isCompleted) {
           this.disableContinue = true
@@ -323,25 +304,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
           this.isCompetencyComplted = true
-          let Id = this.assesmentdata.generalData.identifier
-          let collectionId = this.assesmentdata.generalData.collectionId
-          const batchId = this.route.snapshot.queryParams.batchId
-
-          const data2 = {
-            current: 10,
-            max_size: 10,
-            mime_type: "application/json"
-          }
-          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
-            console.log(data)
-            if (data.params.status === "success") {
-              this.disableContinue = false
-              const result = data.result
-              result['type'] = 'competency'
-              this.contentSvc.changeMessage(result)
-
-            }
-          })
         } else {
           this.disableNext = true
         }
