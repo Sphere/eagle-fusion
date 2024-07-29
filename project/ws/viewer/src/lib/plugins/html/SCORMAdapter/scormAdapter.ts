@@ -31,6 +31,7 @@ export class SCORMAdapterService {
   scromSubscription: Subscription | null = null
   contentData: any
   scormData: any
+  contentKey: any
   constructor(
     private store: Storage,
     private http: HttpClient,
@@ -146,7 +147,8 @@ export class SCORMAdapterService {
 
   LMSCommit() {
     let data = this.store.getAll()
-    console.log('data', data)
+    this.contentKey = this.store.returnKey()
+    console.log('data', data, this.contentKey)
     let url
     url = this.router.url
     let splitUrl1 = url.split('?primary')
@@ -438,7 +440,7 @@ export class SCORMAdapterService {
                   userId: this.configSvc.userProfile.userId || '',
                   contents: [
                     {
-                      contentId: this.contentId,
+                      contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
                       batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                       courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                       status: this.getStatus(postData) || 2,
@@ -455,7 +457,7 @@ export class SCORMAdapterService {
                   userId: this.configSvc.userProfile.userId || '',
                   contents: [
                     {
-                      contentId: this.contentId,
+                      contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
                       batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                       courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                       status: this.getStatus(postData) || 2,
@@ -521,10 +523,12 @@ export class SCORMAdapterService {
 
           console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '488')
           this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
-            let result = await response.result
-            result["type"] = 'scorm'
-            this.contentSvc.changeMessage(result)
+
             if (this.scormData) {
+              let result = await response.result
+              result["type"] = 'scorm'
+              this.contentSvc.changeMessage(result)
+
               this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
                 this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
               if (this.activatedRoute.snapshot.queryParams.collectionId) {

@@ -762,9 +762,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
               if (content.type === "Scorm" || content.type === "assessment" || content.type === "quiz") {
-                this.router.navigate([nextResource], { preserveQueryParams: true }).then(() => {
-                  console.log('wait')
-                  this.playerStateService.trigger$.complete()
+                this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                  if (success) {
+                    this.playerStateService.trigger$.complete()
+                  }
                 }).catch(error => {
                   console.error('Navigation error:', error)
                 })
