@@ -45,7 +45,7 @@ export class AppInterceptorService implements HttpInterceptor {
       return next.handle(modifiedReq).pipe(
         catchError((error: { status: any; error: { redirectUrl: string } }) => {
           if (error instanceof HttpErrorResponse) {
-            console.log(error.status, '/')
+            // console.log(error.status, '/')
             switch (error.status) {
               case 419: // login
                 // const localUrl = location.origin

@@ -45,9 +45,9 @@ export class TncComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    console.log(this.configSvc)
+    // console.log(this.configSvc)
     this.result = await this.signupService.fetchStartUpDetails()
-    console.log(this.result)
+    // console.log(this.result)
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
@@ -66,7 +66,7 @@ export class TncComponent implements OnInit, OnDestroy {
     // this.createUserForm = this.createTncFormFields()
   }
   homePage() {
-    console.log(this.configSvc)
+    // console.log(this.configSvc)
   }
   // createTncFormFields() {
   //   return new FormGroup({

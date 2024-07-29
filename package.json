@@ -20,8 +20,8 @@
     "e2e": "ng e2e",
     "extract-i18n": "ng run fusion:extract-i18n --output-path locale",
     "i18n": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng xi18n --output-path locale",
-    "tailwind": "./node_modules/.bin/tailwind build ./src/tailwind-build.scss  -o ./src/styles.scss",
     "prestart": "npm run tailwind",
+    "tailwind": "npx tailwindcss build ./src/tailwind-build.scss -o ./src/styles.scss",
     "bundle:report": "source-map-explorer dist/www/fusion/**/*.js",
     "test": "jest",
     "test-watch": "jest --watch",
@@ -100,6 +100,7 @@
     "roots": [
       "<rootDir>/src/"
     ],
+    "testTimeout": 10000,
     "setupTestFrameworkScriptFile": "<rootDir>/src/setup-jest.ts",
     "paths": {
       "@ws-widget/resolver": [

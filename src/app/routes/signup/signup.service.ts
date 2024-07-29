@@ -150,8 +150,8 @@ export class SignupService {
         .get<any>(API_END_POINTS.profilePid)
         .pipe(map((res: any) => res.result.response))
         .toPromise()
-      console.log(this.configSvc.unMappedUser)
-      console.log(userPidProfile)
+      // console.log(this.configSvc.unMappedUser)
+      // console.log(userPidProfile)
       if (this.configSvc.unMappedUser === undefined) {
         localStorage.setItem('telemetrySessionId', uuid())
         this.configSvc.unMappedUser = userPidProfile

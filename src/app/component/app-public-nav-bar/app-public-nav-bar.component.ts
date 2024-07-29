@@ -60,7 +60,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
 
   @HostListener('window:popstate', ['$event'])
   onPopState() {
-    console.log('Back button pressed')
+    // console.log('Back button pressed')
     location.href = '/public/home'
   }
   async ngOnInit() {

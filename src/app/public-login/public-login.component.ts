@@ -67,9 +67,9 @@ export class PublicLoginComponent implements OnInit {
         type = 'phone'
       } else {
         // this.otpPage = true
-        // let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
-        //   this.loginForm.controls.emailOrMobile.value
-        // )
+        /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+          this.loginForm.controls.emailOrMobile.value
+        )
         type = 'email'
       }
       let req = {}
@@ -194,14 +194,14 @@ export class PublicLoginComponent implements OnInit {
           "otp": this.OTPForm.controls.OTPcode.value.trim()
         }
       }
-      console.log(req, type)
+      // console.log(req, type)
       this.signupService.loginAPI(req).subscribe(res => {
-        console.log(res)
+        // console.log(res)
         this.openSnackbar(res.msg || res.message)
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
-            console.log(res, 'res')
+            // console.log(res, 'res')
             let lang = (result && result.language !== undefined) ? result.language : 'en'
             lang = lang === 'en' ? '' : 'hi'
             localStorage.setItem('res123', JSON.stringify(res))
@@ -265,13 +265,13 @@ export class PublicLoginComponent implements OnInit {
           "userPhone": this.loginForm.controls.emailOrMobile.value
         }
       }
-      console.log(req, 'res', type)
+      // console.log(req, 'res', type)
       this.signupService.sendOTP(req).subscribe(res => {
-        console.log(res)
+        // console.log(res)
         this.userID = res.userId
         this.openSnackbar(res.msg || res.message)
         this.otpPage = true
-        console.log(this.otpPage)
+        // console.log(this.otpPage)
         // if (localStorage.getItem('url_before_login')) {
         //   const url = localStorage.getItem('url_before_login') || ''
         //   location.href = url

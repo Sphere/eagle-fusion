@@ -381,8 +381,8 @@ export class IndexedDBService {
       const objectStore = transaction.objectStore(objectStoreName)
       const request = objectStore.get(key)
 
-      request.onsuccess = (event) => {
-        console.log(event)
+      request.onsuccess = (_event) => {
+        // console.log(event)
         const data = request.result
         if (data) {
           // Update the value with newValue
@@ -444,8 +444,8 @@ export class IndexedDBService {
       const request = index.get(courseId)
 
       return new Promise<any | undefined>((resolve, reject) => {
-        request.onsuccess = (event) => {
-          console.log(event)
+        request.onsuccess = (_event) => {
+          // console.log(event)
           const row = request.result
           resolve(row)
         }
@@ -473,8 +473,8 @@ export class IndexedDBService {
 
       // const request = objectStore.get(key)
       // console.log(request)
-      request.onsuccess = (event) => {
-        console.log(event)
+      request.onsuccess = (_event) => {
+        // console.log(event)
         const row = request.result
         if (row && row[fieldToUpdate]) {
           // console.log('Row found:', row, row[fieldToUpdate], newValue)

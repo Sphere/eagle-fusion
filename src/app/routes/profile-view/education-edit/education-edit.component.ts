@@ -64,7 +64,7 @@ export class EducationEditComponent implements OnInit {
     }
     )
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data, 'here')
+      // console.log(data, 'here')
       this.workLog = await data
       if (this.workLog) {
         this.getUserDetails()
