@@ -19,11 +19,11 @@ export class BnrcmodalComponent implements OnInit {
 
   ) {
     dialogRef.disableClose = true
-    console.log("yes here", this.data.from)
+    // console.log("yes here", this.data.from)
   }
 
   ngOnInit() {
-    console.log("yes here", this.data.from)
+    // console.log("yes here", this.data.from)
   }
 
 

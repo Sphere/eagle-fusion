@@ -10,8 +10,8 @@ export class ConfigService {
   ) {
   }
 
-  setConfig(profileData: any, profileDetails: any) {
-    console.log(profileDetails)
+  setConfig(profileData: any, _profileDetails: any) {
+    // console.log(profileDetails)
     const config = {
       userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
       profileData: (profileData.professionalDetails),

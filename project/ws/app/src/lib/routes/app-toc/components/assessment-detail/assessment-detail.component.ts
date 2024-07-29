@@ -38,9 +38,9 @@ export class AssessmentDetailComponent implements OnInit {
   }
 
   constructor(private viewSvc: ViewerUtilService,
-              private http: HttpClient,
-              private contentSvc: WidgetContentService,
-              private activatedRoute: ActivatedRoute) {
+    private http: HttpClient,
+    private contentSvc: WidgetContentService,
+    private activatedRoute: ActivatedRoute) {
   }
 
   async ngOnInit() {
@@ -58,7 +58,7 @@ export class AssessmentDetailComponent implements OnInit {
         if (window.location.origin.indexOf('http://localhost:') === -1) {
           artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
         }
-        console.log(artifactUrl)
+        // console.log(artifactUrl)
         let quizJSON: NSQuiz.IQuiz = await this.http
           .get<any>(artifactUrl || '')
           .toPromise()
@@ -93,7 +93,7 @@ export class AssessmentDetailComponent implements OnInit {
         if (window.location.origin.indexOf('http://localhost:') === -1) {
           artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
         }
-        console.log(artifactUrl)
+        // console.log(artifactUrl)
         let quizJSON: NSQuiz.IQuiz = await this.http
           .get<any>(artifactUrl || '')
           .toPromise()
@@ -113,56 +113,56 @@ export class AssessmentDetailComponent implements OnInit {
         return quizJSON
       }
     }
-      if (content.artifactUrl) {
-        const artifactUrl = this.forPreview
-          ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
-          : content.artifactUrl
-        let quizJSON: NSQuiz.IQuiz = await this.http
-          .get<any>(artifactUrl || '')
-          .toPromise()
-          .catch((_err: any) => {
-            // throw new DataResponseError('MANIFEST_FETCH_FAILED');
-          })
-        if (this.forPreview && quizJSON) {
-          quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
-        }
-
-        quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-          if (question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-mca'
-          } else if (!question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-sca'
-          }
+    if (content.artifactUrl) {
+      const artifactUrl = this.forPreview
+        ? this.viewSvc.getAuthoringUrl(content.artifactUrl)
+        : content.artifactUrl
+      let quizJSON: NSQuiz.IQuiz = await this.http
+        .get<any>(artifactUrl || '')
+        .toPromise()
+        .catch((_err: any) => {
+          // throw new DataResponseError('MANIFEST_FETCH_FAILED');
         })
-        if (!quizJSON.hasOwnProperty('passPercentage')) {
-          quizJSON.passPercentage = 60
-        }
-        return quizJSON
-      } {
-        const contents = await (
-          this.contentSvc.fetchContent(this.content.identifier, 'detail')
-        ).toPromise()
-        const artifactUrl = this.forPreview
-          ? this.viewSvc.getAuthoringUrl(contents.result.content.artifactUrl)
-          : contents.result.content.artifactUrl
-        let quizJSON: NSQuiz.IQuiz = await this.http
-          .get<any>(artifactUrl || '')
-          .toPromise()
-          .catch((_err: any) => {
-            // throw new DataResponseError('MANIFEST_FETCH_FAILED');
-          })
-        if (this.forPreview && quizJSON) {
-          quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
-        }
-        quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
-          if (question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-mca'
-          } else if (!question.multiSelection && question.questionType === undefined) {
-            question.questionType = 'mcq-sca'
-          }
-        })
-        return quizJSON
+      if (this.forPreview && quizJSON) {
+        quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
       }
+
+      quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
+        if (question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-mca'
+        } else if (!question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-sca'
+        }
+      })
+      if (!quizJSON.hasOwnProperty('passPercentage')) {
+        quizJSON.passPercentage = 60
+      }
+      return quizJSON
+    } {
+      const contents = await (
+        this.contentSvc.fetchContent(this.content.identifier, 'detail')
+      ).toPromise()
+      const artifactUrl = this.forPreview
+        ? this.viewSvc.getAuthoringUrl(contents.result.content.artifactUrl)
+        : contents.result.content.artifactUrl
+      let quizJSON: NSQuiz.IQuiz = await this.http
+        .get<any>(artifactUrl || '')
+        .toPromise()
+        .catch((_err: any) => {
+          // throw new DataResponseError('MANIFEST_FETCH_FAILED');
+        })
+      if (this.forPreview && quizJSON) {
+        quizJSON = this.viewSvc.replaceToAuthUrl(quizJSON)
+      }
+      quizJSON.questions.forEach((question: NSQuiz.IQuestion) => {
+        if (question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-mca'
+        } else if (!question.multiSelection && question.questionType === undefined) {
+          question.questionType = 'mcq-sca'
+        }
+      })
+      return quizJSON
+    }
 
   }
 }

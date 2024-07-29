@@ -91,7 +91,7 @@ export class ViewerUtilService {
       return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in calculating percentage', e)
+      // console.log('Error in calculating percentage', e)
       return 0
     }
   }
@@ -144,27 +144,27 @@ export class ViewerUtilService {
       return 0
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in getting completion status', e)
+      // console.log('Error in getting completion status', e)
       return 1
     }
   }
   initUpdate(req: any) {
-    console.log(req.request.contents[0])
+    // console.log(req.request.contents[0])
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, req.request.contents[0].courseId).subscribe((record) => {
-      console.log(record, '153')
+      // console.log(record, '153')
       let cUrl = window.location.href
-      console.log(cUrl.split('/'))
+      // console.log(cUrl.split('/'))
       let id = cUrl.split('/')[5]
-      console.log(id)
+      // console.log(id)
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe({
         next: (next) => {
-          console.log('Record deleted successfully', next)
+          // console.log('Record deleted successfully', next)
           if (next) {
 
           }
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
-            (dat: any) => {
-              console.log('Data inserted successfully2', dat)
+            (_dat: any) => {
+              // console.log('Data inserted successfully2', dat)
 
             })
         },
@@ -172,11 +172,11 @@ export class ViewerUtilService {
           console.error('Error deleting record:', error)
         }
       })
-    }, (error) => {
-      console.log(error, '156',)
+    }, (_error) => {
+      // console.log(error, '156',)
       this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
-        (dat: any) => {
-          console.log('Data inserted successfully1', dat)
+        (_dat: any) => {
+          // console.log('Data inserted successfully1', dat)
 
         })
     })
@@ -212,21 +212,21 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    console.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '215')
+    // console.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '215')
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe((record) => {
-      console.log(record, '217')
+      // console.log(record, '217')
 
       let cUrl = window.location.href
-      console.log(cUrl.split('/'))
-      let id = cUrl.split('/')[5]
-      console.log(id)
+      // console.log(cUrl.split('/'))
+      cUrl.split('/')[5]
+      // console.log(id)
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
-        (message: any) => { // 'next' callback
-          console.log('Record deleted successfully', message)
+        (_message: any) => { // 'next' callback
+          // console.log('Record deleted successfully', message)
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
             async (dat: any) => {
-              console.log('Data inserted successfully2', dat)
+              // console.log('Data inserted successfully2', dat)
               let msg = await dat
               if (msg) {
 
@@ -243,11 +243,11 @@ export class ViewerUtilService {
       )
 
 
-    }, (error) => {
-      console.log(error, '247')
+    }, (_error) => {
+      // console.log(error, '247')
       this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
-        (dat: any) => {
-          console.log('Data inserted successfully1', dat)
+        (_dat: any) => {
+          // console.log('Data inserted successfully1', dat)
 
         })
     })
@@ -274,7 +274,7 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    console.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '201')
+    // console.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '201')
     // this.http
     //   .patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}/${contentId}`, req)
     //   .subscribe(noop, noop)

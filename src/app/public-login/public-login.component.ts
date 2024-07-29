@@ -67,11 +67,10 @@ export class PublicLoginComponent implements OnInit {
         type = 'phone'
       } else {
         // this.otpPage = true
-        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
-          this.loginForm.controls.emailOrMobile.value
-        )
+        // let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+        //   this.loginForm.controls.emailOrMobile.value
+        // )
         type = 'email'
-        console.log(check)
       }
       let req = {}
       if (type === 'email') {
@@ -88,16 +87,16 @@ export class PublicLoginComponent implements OnInit {
           "userPassword": this.loginPwdForm.controls.password.value
         }
       }
-      console.log(type, 'check')
+      // console.log(type, 'check')
       this.signupService.loginAPI(req).subscribe(res => {
-        console.log(res.status)
+        // console.log(res.status)
         this.openSnackbar(res.msg || res.message)
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             let lang = (result && result.language !== undefined) ? result.language : 'en'
             lang = lang === 'en' ? '' : 'hi'
-            console.log(res, 'res')
+            // console.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
 
             if (localStorage.getItem('url_before_login')) {
@@ -120,9 +119,9 @@ export class PublicLoginComponent implements OnInit {
       console.log('alert')
     }
   }
-  resendOTP(form?: any) {
+  resendOTP(_form?: any) {
 
-    console.log(form)
+    // console.log(form)
     if ((this.loginForm.status === 'VALID')) {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
@@ -130,11 +129,11 @@ export class PublicLoginComponent implements OnInit {
       if (phone.length >= 10) {
         type = 'phone'
       } else {
-        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+        /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
-        console.log(check, 'check')
+        // console.log(check, 'check')
       }
       let req = {}
       if (type === 'email') {
@@ -149,9 +148,9 @@ export class PublicLoginComponent implements OnInit {
           "userId": this.userID
         }
       }
-      console.log(req, type)
+      // console.log(req, type)
       this.signupService.resendOTP(req).subscribe(res => {
-        console.log(res)
+        // console.log(res)
         this.openSnackbar(res.msg || res.message)
         // if (localStorage.getItem('url_before_login')) {
         //   const url = localStorage.getItem('url_before_login') || ''
@@ -174,11 +173,11 @@ export class PublicLoginComponent implements OnInit {
       if (phone.length >= 10) {
         type = 'phone'
       } else {
-        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+        /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
-        console.log(check, 'check')
+        // console.log(check, 'check')
       }
       let req = {}
       if (type === 'email') {
@@ -247,11 +246,11 @@ export class PublicLoginComponent implements OnInit {
         type = 'phone'
       } else {
         // this.otpPage = true
-        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+        /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
-        console.log(check, 'check')
+        // console.log(check, 'check')
       }
       let req = {}
       if (type === 'email') {

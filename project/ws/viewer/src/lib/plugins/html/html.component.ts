@@ -55,7 +55,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId).subscribe((data: any) => {
-          console.log(data.result.contentList)
+          // console.log(data.result.contentList)
           const result = data.result
           result['type'] = 'youtube'
           this.contentSvc.changeMessage(result)
@@ -134,7 +134,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdate(this.htmlContent.identifier, data2, collectionId, batchId).subscribe((data: any) => {
-          console.log(data.result.contentList)
+          // console.log(data.result.contentList)
           const result = data.result
           result['type'] = 'docs.google'
           this.contentSvc.changeMessage(result)
@@ -176,12 +176,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           fields: ['progressdetails'],
         },
       }
-      console.log(req, 'req')
+      // console.log(req, 'req')
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         async data => {
           if (this.htmlContent && data) {
             this.contentData = []
-            console.log(this.htmlContent.identifier)
+            // console.log(this.htmlContent.identifier)
             this.contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
             //console.log(this.contentData, this.contentData.completionPercentage, 'wee')
             //this.ent = true
@@ -196,10 +196,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 max_size: 1,
                 mime_type: this.mimeType,
               }
-              console.log('here')
+              // console.log('here')
               this.viewerSvc
                 .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-                  console.log(data.result.contentList)
+                  // console.log(data.result.contentList)
                   const result = data.result
                   result['type'] = 'html'
                   this.contentSvc.changeMessage(result)
@@ -243,8 +243,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       // console.log(req)
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         async data => {
-          let scorminit = this.scormAdapterService.LMSInitialize()
-          console.log(scorminit, 'scorminit')
+          this.scormAdapterService.LMSInitialize()
+          // console.log(scorminit, 'scorminit')
           if (this.htmlContent && data) {
             let progressData: any
             progressData = await this.scormAdapterService.initValue()
@@ -253,12 +253,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               progressData["cmi.core.lesson_status"] = "incomplete"
               progressData["errors"] = "[]"
             }
-            console.log(progressData, 'progressData')
+            // console.log(progressData, 'progressData')
             let contentData: any
             contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-            console.log(this.htmlContent.identifier, contentData, '1')
+            // console.log(this.htmlContent.identifier, contentData, '1')
             // this.contentData =  data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-            console.log(contentData, this.htmlContent, this.ent, 'ent')
+            // console.log(contentData, this.htmlContent, this.ent, 'ent')
             if (contentData && contentData.completionPercentage === 0) {
               let req: any
               if (this.configSvc.userProfile) {
@@ -278,11 +278,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                     ],
                   },
                 }
-                console.log(req)
-                console.log(`}`, '273')
+                // console.log(req)
+                // console.log(`}`, '273')
                 this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                  let res = await data
-                  console.log(res)
+                  await data
+                  // console.log(res)
                 })
               }
             } else {
@@ -291,7 +291,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent.parent : undefined
 
               if (contentData && contentData.completionPercentage === 100) {
-                console.log('scorm here', contentData.progressdetails)
+                // console.log('scorm here', contentData.progressdetails)
                 let req: any
                 if (this.configSvc.userProfile) {
                   req = {
@@ -310,11 +310,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                       ],
                     },
                   }
-                  console.log(req)
-                  console.log(`{}`, '296')
+                  // console.log(req)
+                  // console.log(`{}`, '296')
                   this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                    let res = await data
-                    console.log(res)
+                    await data
+                    // console.log(res)
                   })
                 }
               } else {
@@ -337,11 +337,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                         ],
                       },
                     }
-                    console.log(req)
-                    console.log(`{}`, '333')
+                    // console.log(req)
+                    // console.log(`{}`, '333')
                     this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                       let res = await data
-                      console.log(res)
+                      // console.log(res)
                       if (res) {
                         let result = {}
                         result["type"] = 'scorm'
@@ -350,7 +350,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                     })
                   }
                 } else {
-                  console.log('342')
+                  // console.log('342')
                   this.scormAdapterService.loadDataV2()
                 }
               }
@@ -433,7 +433,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               if (this.htmlContent) {
                 this.viewerSvc
                   .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-                    console.log(data.result.contentList)
+                    // console.log(data.result.contentList)
                     const result = data.result
                     result['type'] = 'html'
                     this.contentSvc.changeMessage(result)
@@ -547,12 +547,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           this.telemetrySvc.start('html/lms', 'html/lms-start', this.activatedRoute.snapshot.queryParams.collectionId ?
             this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier)
 
-          const data1 = {
-            current: 1,
-            max_size: 1,
-            mime_type: this.mimeType,
-          }
-          console.log('timeout', this.contentData, data1)
+          // const data1 = {
+          //   current: 1,
+          //   max_size: 1,
+          //   mime_type: this.mimeType,
+          // }
+          // console.log('timeout', this.contentData, data1)
           setTimeout(() => {
             if (this.htmlContent) {
               // this.viewerSvc
@@ -611,7 +611,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   raiseTelemetry(data: any) {
     if (this.htmlContent) {
       /* tslint:disable-next-line */
-      console.log(this.htmlContent.identifier)
+      // console.log(this.htmlContent.identifier)
       this.events.raiseInteractTelemetry(data.event, 'scrom', {
         contentId: this.htmlContent.identifier,
         ...data,
@@ -651,7 +651,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         if (this.htmlContent) {
           this.viewerSvc
             .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-              console.log(data.result.contentList)
+              // console.log(data.result.contentList)
               const result = data.result
               result['type'] = 'html'
               this.contentSvc.changeMessage(result)

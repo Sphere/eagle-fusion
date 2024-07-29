@@ -201,13 +201,13 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   async show() {
     try {
       this.databaseAndTablesExist = await this.onlineIndexedDbService.checkDatabaseTablesExists()
-      console.log(this.databaseAndTablesExist)
+      // console.log(this.databaseAndTablesExist)
       if (!this.databaseAndTablesExist) {
-        console.log('Database or tables do not exist in IndexedDB, creating...')
+        // console.log('Database or tables do not exist in IndexedDB, creating...')
         await this.createDatabaseAndTables()
-        console.log('Database and tables created in IndexedDB')
+        // console.log('Database and tables created in IndexedDB')
       } else {
-        console.log('Database and tables already exist in IndexedDB')
+        // console.log('Database and tables already exist in IndexedDB')
         await this.checkData()
       }
     } catch (error) {
@@ -217,14 +217,14 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   async refreshTable() {
     try {
       const tableName = 'onlineCourseProgress' // Specify the table name
-      let tableData = await this.onlineIndexedDbService.getData(tableName)
-      console.log(tableData)
+      await this.onlineIndexedDbService.getData(tableName)
+      // console.log(tableData)
     } catch (error) {
       console.error('Error fetching data from IndexedDB:', error)
     }
   }
   checkData() {
-    console.log('ppp')
+    // console.log('ppp')
   }
 
   showContents() {
@@ -461,27 +461,27 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       data => {
 
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
-          console.log('datatta', data)
+          // console.log('datatta', data)
           this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
-            console.log('Record:', record)
+            // console.log('Record:', record)
             this.rowData = await record
             let dat = JSON.parse(this.rowData.data)
             if (dat && dat.length) {
               this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              console.log(this.optmisticPercentage, 'foundContent')
+              // console.log(this.optmisticPercentage, 'foundContent')
             }
           }, (error) => {
             console.error('Error:', error, data.result.contentList)
             this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
-              (dat: any) => {
-                console.log('Data inserted successfully1', dat)
+              (_dat: any) => {
+                // console.log('Data inserted successfully1', dat)
                 this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
-                  console.log('Record:', record)
+                  // console.log('Record:', record)
                   this.rowData = await record
                   let dat = JSON.parse(this.rowData.data)
                   if (dat && dat.length) {
                     this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    console.log(this.optmisticPercentage, 'foundContent')
+                    // console.log(this.optmisticPercentage, 'foundContent')
                   }
                 }, (error) => {
                   console.error('Error:', error)
@@ -511,9 +511,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           this.resumeResource = this.resumeData.filter((item: any) => {
             return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
           })
-          console.log(this.enrolledCourse, 'enrolledCourse')
-          console.log(this.resumeResource[0], 'me')
-          console.log(this.resumeData)
+          // console.log(this.enrolledCourse, 'enrolledCourse')
+          // console.log(this.resumeResource[0], 'me')
+          // console.log(this.resumeData)
           const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
           if (progress.length < totalCount) {
             const diff = totalCount - progress.length
@@ -531,7 +531,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
-          console.log('no data')
+          // console.log('no data')
           this.resumeData = null
         }
       },
@@ -561,28 +561,28 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         arr1.push(obj2)
       }
     })
-    console.log(arr1, 'arr1')
+    // console.log(arr1, 'arr1')
     this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).subscribe(
       () => {
-        console.log('Data inserted successfully2')
+        // console.log('Data inserted successfully2')
       },
       (error) => {
         console.error('Error inserting data:', error)
       }
     )
     const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
-    console.log('Aggregate value:', aggregateValue)
-    console.log(this.content, 'content')
+    // console.log('Aggregate value:', aggregateValue)
+    // console.log(this.content, 'content')
     let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
-    console.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
+    // console.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
     let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
+    // console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
     let progress = Math.min(Math.max(percentage, 0), 100)
     return progress
   }
   calculateAggregate(arr: any, field: string): number {
     let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
-    console.log(val)
+    // console.log(val)
     return val
   }
 

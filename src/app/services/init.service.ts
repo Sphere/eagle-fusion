@@ -294,7 +294,7 @@ export class InitService {
     // local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
     const url = local === 'hi' ? `/feature/apps.${'hi'}.json` : `/feature/apps.json`
-    console.log(local, 'local', url)
+    // console.log(local, 'local', url)
     const appsConfig = await this.http
       .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}${url}`)
       .toPromise()

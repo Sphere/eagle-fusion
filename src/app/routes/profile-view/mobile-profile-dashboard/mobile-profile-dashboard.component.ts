@@ -63,7 +63,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data)
+      // console.log(data)
       if (data.type === 'work' || data.type === 'academic') {
         if (data.back === true || data.edit === 'save') {
           this.showView = ''
@@ -102,7 +102,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
 
-      console.log(res)
+      // console.log(res)
       this.loader = false
       this.profileData = _.get(res[0], 'profileDetails.profileReq')
       this.userInfo = res[0]
@@ -154,7 +154,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       }
     }
     if (text && this.showMobileView) {
-      console.log(text, 'mobileview', this.showMobileView)
+      // console.log(text, 'mobileview', this.showMobileView)
       this.hideData = true
     }
     if (text === 'academic') {
@@ -254,9 +254,9 @@ export class MobileProfileDashboardComponent implements OnInit {
         data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
       })
 
-      dialogRef.afterClosed().subscribe(result => {
+      dialogRef.afterClosed().subscribe(_result => {
         // tslint:disable-next-line: no-console
-        console.log('The dialog was closed', result)
+        // console.log('The dialog was closed', result)
       })
     } else {
       this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
@@ -296,7 +296,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       personalDetails: this.userInfo.profileDetails.profileReq.personalDetails,
     }
     const userdata = Object.assign(this.userInfo.profileDetails, obj)
-    console.log(userdata, 'p')
+    // console.log(userdata, 'p')
     //   // this.chosenLanguage = path.value
     const reqUpdate = {
       request: {
@@ -305,8 +305,8 @@ export class MobileProfileDashboardComponent implements OnInit {
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
-      console.log(result)
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(_result => {
+      // console.log(result)
       if (lang === 'en') {
         // this.chosenLanguage = ''
         window.location.assign(`${location.origin}/app/profile-view`)
@@ -320,7 +320,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       })
   }
   saveLanguage(form: any) {
-    console.log(form)
+    // console.log(form)
     const obj = {
       preferences: {
         language: form.value.language,
@@ -334,8 +334,8 @@ export class MobileProfileDashboardComponent implements OnInit {
         profileDetails: userdata,
       },
     }
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
-      console.log(result)
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(_result => {
+      // console.log(result)
       if (form.value.language === 'en') {
         // this.chosenLanguage = ''
         window.location.assign(`${location.origin}/app/profile-view`)
@@ -367,7 +367,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             }
             const lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
             this.language = lang
-            console.log(lang, 'oo')
+            // console.log(lang, 'oo')
             this.userForm.patchValue({ language: lang })
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
@@ -389,9 +389,9 @@ export class MobileProfileDashboardComponent implements OnInit {
     const dialogRef = this.dialog.open(ProfileSelectComponent, {
       width: '600px',
     })
-    dialogRef.afterClosed().subscribe(result => {
+    dialogRef.afterClosed().subscribe(_result => {
       // tslint:disable-next-line: no-console
-      console.log('The dialog was closed', result)
+      // console.log('The dialog was closed', result)
     })
   }
 
@@ -415,8 +415,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
 
-  openCompetency(event: any) {
-    console.log(event)
+  openCompetency(_event: any) {
+    // console.log(event)
     this.router.navigate([`app/user/self-assessment`])
   }
   ngOnDestroy() {
@@ -425,8 +425,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
 
-  openCompetencyDashboard(event: any) {
-    console.log(event)
+  openCompetencyDashboard(_event: any) {
+    // console.log(event)
     this.router.navigate([`app/user/competency`])
   }
 }

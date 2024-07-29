@@ -67,12 +67,12 @@ export class ScromPlayerComponent implements OnInit,
 
 
   createIframeUrl(scormUrl: any) {
-    console.log(scormUrl)
+    // console.log(scormUrl)
     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(scormUrl)
   }
 
   receiveMessage(msg: any) {
     // /* tslint:disable-next-line */
-    console.log('msg=>', msg)
+    // console.log('msg=>', msg)
   }
 }

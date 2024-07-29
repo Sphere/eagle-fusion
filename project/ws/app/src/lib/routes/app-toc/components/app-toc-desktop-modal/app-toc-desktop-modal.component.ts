@@ -35,7 +35,7 @@ export class AppTocDesktopModalComponent implements OnInit {
         }
       )
     })
-    console.log('inside', this.cometencyData, 'name')
+    // console.log('inside', this.cometencyData, 'name')
     return this.cometencyData
   }
 

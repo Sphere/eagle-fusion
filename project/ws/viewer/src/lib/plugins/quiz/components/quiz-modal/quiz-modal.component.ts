@@ -61,7 +61,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
   ngAfterViewInit() {
-    console.log(this.assesmentdata, 'qui')
+    // console.log(this.assesmentdata, 'qui')
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
@@ -178,7 +178,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
-        console.log(this.result, this.passPercentage)
+        // console.log(this.result, this.passPercentage)
         // if (this.result >= this.passPercentage) {
         //   this.isCompleted = true
         // }
@@ -195,7 +195,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
             mime_type: "application/json"
           }
           this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
-            console.log(data)
+            // console.log(data)
             if (data.params.status === "success") {
               this.disableContinue = false
             }

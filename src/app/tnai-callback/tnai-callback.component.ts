@@ -31,10 +31,10 @@ export class TnaiCallbackComponent implements OnInit {
           this.isLoading = false
           window.location = await res.resRedirectUrl
           // tslint:disable-next-line:no-console
-          console.log('tnai component.ts', res.resRedirectUrl)
+          // console.log('tnai component.ts', res.resRedirectUrl)
         }, (err: any) => {
           // tslint:disable-next-line:no-console
-          console.log(err)
+          // console.log(err)
           if (err.status === 400 || err.status === 419 || err.status === 404) {
             this.isLoading = false
             // sessionStorage.clear()
@@ -45,7 +45,7 @@ export class TnaiCallbackComponent implements OnInit {
       }, 500)
     } catch (err) {
       // tslint:disable-next-line:no-console
-      console.log(err)
+      // console.log(err)
       this.authSvc.logout()
       // location.href = "/public/home"
     }

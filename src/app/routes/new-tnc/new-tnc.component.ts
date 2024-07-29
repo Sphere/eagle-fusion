@@ -79,11 +79,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((userDetails: any) => {
         this.userData = userDetails
         if (userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined) {
-          console.log(userDetails.profileDetails!.profileReq!.personalDetails!)
-          console.log(userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined, 'a')
+          // console.log(userDetails.profileDetails!.profileReq!.personalDetails!)
+          // console.log(userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined, 'a')
           this.showAcceptbtn = true
         } else {
-          console.log('b')
+          // console.log('b')
           this.showAcceptbtn = false
           // console.log(!userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted)
           // if (!userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted) {
@@ -105,9 +105,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.tncAcceptedBtn = !this.tncAcceptedBtn
   }
   handleScrollToBottom(isAtBottom: boolean): void {
-    console.log(isAtBottom)
+    // console.log(isAtBottom)
     if (isAtBottom) {
-      console.log('Scrolled to the bottom of the page!')
+      // console.log('Scrolled to the bottom of the page!')
       this.shouldScrollToBottom = true
     } else {
       this.shouldScrollToBottom = false
@@ -121,9 +121,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.showTnc = false
   }
   handleScroll(isScrolled: boolean): void {
-    console.log('User is scrolling within the div!', isScrolled)
+    // console.log('User is scrolling within the div!', isScrolled)
     if (isScrolled) {
-      console.log('Scrolled to the bottom of the page!')
+      // console.log('Scrolled to the bottom of the page!')
       this.shouldScrollToBottom = true
     } else {
       this.shouldScrollToBottom = false
@@ -295,7 +295,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       this.createUserForm.controls.tncAccepted.setValue('true')
       const userAgent = this.UserAgentResolverService.getUserAgent()
       const userCookie = this.UserAgentResolverService.generateCookie()
-      console.log('userCookie: ', userCookie)
+      // console.log('userCookie: ', userCookie)
       if (this.configSvc.userProfile) {
         this.userId = this.configSvc.userProfile.userId
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
@@ -349,8 +349,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
           tncAcceptedOn: new Date().getTime()
         },
       }
-      console.log(reqUpdate, 'sss')
-      console.log(this.termsAccepted)
+      // console.log(reqUpdate, 'sss')
+      // console.log(this.termsAccepted)
       this.updateUser(reqUpdate)
       //}
 
@@ -361,7 +361,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   updateUser(reqUpdate: any) {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
       const res = await data
-      console.log(res.result.response)
+      // console.log(res.result.response)
       if (res.result.response === 'SUCCESS') {
         this.configSvc.profileDetailsStatus = true
         this.configSvc.hasAcceptedTnc = true

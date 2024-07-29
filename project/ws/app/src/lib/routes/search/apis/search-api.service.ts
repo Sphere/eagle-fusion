@@ -135,7 +135,7 @@ export class SearchApiService {
   getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
-        console.log("res getSearchV6Results", res)
+        // console.log("res getSearchV6Results", res)
         const tempArray = Array()
         if (res.result.facets.length > 0) {
           searchconfig.forEach((ele: any) => {
@@ -178,10 +178,10 @@ export class SearchApiService {
       .pipe(map((res: any) => {
 
         if (res.result.content.length > 0) {
-          console.log("v6", res)
+          // console.log("v6", res)
           return res
         } else {
-          console.log("v7", res)
+          // console.log("v7", res)
           return res
         }
 

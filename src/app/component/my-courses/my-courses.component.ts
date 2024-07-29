@@ -48,7 +48,7 @@ export class MyCoursesComponent implements OnInit {
     this.isLoading = true
     this.contentSvc.fetchUserBatchList(userId).subscribe(
       (courses: NsContent.ICourse[]) => {
-        console.log("courses", courses)
+        // console.log("courses", courses)
 
         courses.forEach((key) => {
           if (key.completionPercentage !== 100) {

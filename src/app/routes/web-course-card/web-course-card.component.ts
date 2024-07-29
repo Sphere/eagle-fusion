@@ -111,10 +111,10 @@ export class WebCourseCardComponent implements OnInit {
   }
   redirectPage(course: any) {
     if (this.isLoggedIn) {
-      console.log('yes here')
+      // console.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log('else')
+      // console.log('else')
       this.login(course)
     }
   }

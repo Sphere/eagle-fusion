@@ -72,7 +72,7 @@ export class IndexedDBService {
 
 
   getRecordFromTable(tableName: string, userID: string, key: any): Observable<any> {
-    console.log(userID, key)
+    // console.log(userID, key)
     return new Observable<any>((observer: Observer<any>) => {
       this.openOrCreateDatabase().subscribe((db: IDBDatabase) => {
         const transaction = db.transaction(tableName, 'readonly')
@@ -81,7 +81,7 @@ export class IndexedDBService {
 
         request.onsuccess = () => {
           const record = request.result
-          console.log(record, 'record')
+          // console.log(record, 'record')
           if (record && record.userID === userID) {
             observer.next(record)
           } else {
@@ -106,8 +106,8 @@ export class IndexedDBService {
     const request = indexedDB.open(this.dbName, this.dbVersion)
 
     return new Promise<IDBDatabase>((resolve, reject) => {
-      request.onsuccess = (event: any) => {
-        console.log('IndexedDB opened successfully:', event.target.result)
+      request.onsuccess = (_event: any) => {
+        // console.log('IndexedDB opened successfully:', _event.target.result)
         resolve(request.result)
       }
 
@@ -117,7 +117,7 @@ export class IndexedDBService {
       }
 
       request.onupgradeneeded = () => {
-        console.log('IndexedDB upgrade needed')
+        // console.log('IndexedDB upgrade needed')
         const db = request.result
 
         // Create or upgrade object stores here
@@ -203,9 +203,9 @@ export class IndexedDBService {
     const request = objectStore.openCursor()
 
     return new Promise<boolean>((resolve, reject) => {
-      request.onsuccess = (event) => {
+      request.onsuccess = (_event) => {
         const cursor = request.result
-        console.log(event, 'a', cursor)
+        // console.log(event, 'a', cursor)
         if (cursor) {
           resolve(true) // Data found
         } else {
@@ -213,8 +213,8 @@ export class IndexedDBService {
         }
       }
 
-      request.onerror = (event) => {
-        console.log(event)
+      request.onerror = (_event) => {
+        // console.log(event)
         reject('Error checking data in IndexedDB')
       }
     })
@@ -248,15 +248,15 @@ export class IndexedDBService {
         (db) => {
           const transaction = db.transaction(storeName, 'readwrite')
           const objectStore = transaction.objectStore(storeName)
-          console.log(key)
+          // console.log(key)
           //const index = objectStore.index(key)
           //const request = objectStore.delete(key)
           const request = objectStore.get(key)
-          console.log(request)
+          // console.log(request)
 
           request.onsuccess = () => {
             if (request.result === undefined) {
-              console.log(`No record found with key: ${key}`)
+              // console.log(`No record found with key: ${key}`)
               observer.error('Record not found')
             } else {
               observer.next()
@@ -288,7 +288,7 @@ export class IndexedDBService {
             const request = objectStore.put({ userID, courseId, contentId, url, data: dataToStore }) // Store the JSON string
 
             request.onsuccess = () => {
-              console.log('Data stored successfully for courseId:', userID, courseId)
+              // console.log('Data stored successfully for courseId:', userID, courseId)
               observer.next('Data inserted successfully')
               observer.complete()
             }
@@ -300,7 +300,7 @@ export class IndexedDBService {
 
             // Commit the transaction
             transaction.oncomplete = () => {
-              console.log('Transaction completed')
+              // console.log('Transaction completed')
             }
           } catch (error) {
             console.error('Error:', error)
@@ -326,7 +326,7 @@ export class IndexedDBService {
             const request = objectStore.put({ userID, courseId, data: dataToStore }) // Store the JSON string
 
             request.onsuccess = () => {
-              console.log('Data stored successfully for courseId:', userID, courseId)
+              // console.log('Data stored successfully for courseId:', userID, courseId)
               observer.next('Data inserted successfully')
               observer.complete()
             }
@@ -338,7 +338,7 @@ export class IndexedDBService {
 
             // Commit the transaction
             transaction.oncomplete = () => {
-              console.log('Transaction completed')
+              // console.log('Transaction completed')
             }
           } catch (error) {
             console.error('Error:', error)
@@ -360,8 +360,8 @@ export class IndexedDBService {
       const request = objectStore.getAll()
 
       return new Promise<any[]>((resolve, reject) => {
-        request.onsuccess = (event: any) => {
-          console.log(event)
+        request.onsuccess = (_event: any) => {
+          // console.log(event)
           const data = request.result
           resolve(data)
         }
@@ -390,7 +390,7 @@ export class IndexedDBService {
           const updateRequest = objectStore.put(data)
 
           updateRequest.onsuccess = () => {
-            console.log('Value updated successfully')
+            // console.log('Value updated successfully')
           }
 
           updateRequest.onerror = (event: any) => {
@@ -460,9 +460,9 @@ export class IndexedDBService {
   }
   async updateRowField(objectStoreName: string, key: any, fieldToUpdate: string, newValue: any): Promise<void> {
     try {
-      console.log('Update operation initiated:')
-      console.log('Object Store Name:', objectStoreName)
-      console.log('Key to Update:', key)
+      // console.log('Update operation initiated:')
+      // console.log('Object Store Name:', objectStoreName)
+      // console.log('Key to Update:', key)
 
       const db = await this.openDatabase()
       const transaction = db.transaction(objectStoreName, 'readwrite')
@@ -472,18 +472,18 @@ export class IndexedDBService {
       const request = index.get(key)
 
       // const request = objectStore.get(key)
-      console.log(request)
+      // console.log(request)
       request.onsuccess = (event) => {
         console.log(event)
         const row = request.result
         if (row && row[fieldToUpdate]) {
-          console.log('Row found:', row, row[fieldToUpdate], newValue)
+          // console.log('Row found:', row, row[fieldToUpdate], newValue)
           row[fieldToUpdate] = newValue // Update the field with the new value
-          console.log(row, 'rororo')
+          // console.log(row, 'rororo')
           const updateRequest = objectStore.put(row)
 
           updateRequest.onsuccess = () => {
-            console.log('Field updated successfully')
+            // console.log('Field updated successfully')
           }
 
           updateRequest.onerror = (event: any) => {

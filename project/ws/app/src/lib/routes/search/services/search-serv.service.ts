@@ -59,7 +59,7 @@ export class SearchServService {
   }
 
   searchAutoComplete(params: ISearchQuery): Promise<ISearchAutoComplete[]> {
-    console.log(params)
+    // console.log(params)
     params.q = params.q.toLowerCase()
     if (params.l.split(',').length === 1 && params.l.toLowerCase() !== 'all') {
       return this.searchApi.getSearchAutoCompleteResults(params).toPromise()
@@ -89,7 +89,7 @@ export class SearchServService {
     //     displayName: 'Mime Type',
     //   },
     // }
-    console.log(request.request)
+    // console.log(request.request)
     request.request.filters['status'] = ['Live']
     const v6Request: any = {
       request: {

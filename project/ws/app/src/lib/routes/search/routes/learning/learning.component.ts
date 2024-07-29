@@ -257,7 +257,7 @@ export class LearningComponent implements OnInit, OnDestroy {
         }
       }
     })
-    console.log("view", this.withoutFilter)
+    // console.log("view", this.withoutFilter)
 
     let url = window.location.href
     // Extract the query parameters part of the URL
@@ -265,7 +265,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     let params = new URLSearchParams(paramsString)
     // Check if 'lang' parameter exists
     if (params.has('lang')) {
-      console.log(params.get('lang'))
+      // console.log(params.get('lang'))
       this.langPresent = true
     }
 
@@ -505,7 +505,7 @@ export class LearningComponent implements OnInit, OnDestroy {
         this.searchResults.filters = data.filters
         // this.searchResults.queryUsed = data.queryUsed
         // this.searchResults.type = data.type
-        console.log(orderBy(data.result.content, ['lastPublishedOn'], ['desc']))
+        // console.log(orderBy(data.result.content, ['lastPublishedOn'], ['desc']))
         this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
         // [...this.searchResults.result.content, ...(data.result.content ? data.result.content : [])]
         // this.searchResults.doYouMean = data.doYouMean
@@ -619,7 +619,7 @@ export class LearningComponent implements OnInit, OnDestroy {
 
   }
   getResults(withQuotes?: boolean, didYouMean = true) {
-    console.log('getResults', withQuotes)
+    // console.log('getResults', withQuotes)
     // this.searchRequestObject.didYouMean = didYouMean
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription.unsubscribe()
@@ -660,7 +660,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       .getLearning(this.searchRequestObject)
       .subscribe(
         data => {
-          console.log(data)
+          // console.log(data)
           this.searchResults.result.count = data.result.count
           this.searchServ.raiseSearchResponseEvent(
             this.searchRequestObject.request.query,
@@ -676,7 +676,7 @@ export class LearningComponent implements OnInit, OnDestroy {
           // this.searchResults.doYouMean = data.doYouMean
           // this.searchResults.queryUsed = data.queryUsed
           // this.handleFilters(this.searchResults.filters)
-          console.log("this.searchResults.result.content", this.searchResults.result.content)
+          // console.log("this.searchResults.result.content", this.searchResults.result.content)
           const filteR = this.searchServ.handleFilters(
             this.searchResults.filters,
             this.selectedFilterSet,
@@ -786,7 +786,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
   // new search API integration
   getSearchResults(withQuotes?: boolean, didYouMean = true) {
-    console.log('getResults', withQuotes)
+    // console.log('getResults', withQuotes)
     // this.searchRequestObject.didYouMean = didYouMean
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription.unsubscribe()
@@ -830,7 +830,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (params.has('lang')) {
       lang = params.get('lang') || ''
     }
-    console.log(lang)
+    // console.log(lang)
     this.newSearchRequestObject.language = lang
     if (localStorage.getItem('orgValue') === 'nhsrc') {
     }
@@ -839,13 +839,13 @@ export class LearningComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           if (data && data.result && data.result.count) {
-            console.log(data, 'data')
+            // console.log(data, 'data')
             this.searchResults.result.count = data.result.count
             this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
 
           } else {
             this.searchResults.result.count = data.result.count
-            console.log(data, 'data123')
+            // console.log(data, 'data123')
           }
 
           this.searchServ.raiseNewSearchResponseEvent(

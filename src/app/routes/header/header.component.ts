@@ -18,7 +18,7 @@ export class HeaderComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    console.log(this.configSvc)
+    // console.log(this.configSvc)
     //this.result = await this.signupService.fetchStartUpDetails()
     //console.log(this.result)
   }

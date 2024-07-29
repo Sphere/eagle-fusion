@@ -305,7 +305,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     })
     this.dialogAssesment.afterClosed().subscribe((result: any) => {
-      console.log(result.event)
+      // console.log(result.event)
       if (result) {
         if (result.event === 'NEXT_COMPETENCY' && result.competency) {
           this.nextCompetency()
@@ -347,7 +347,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   })
                 }
                 // tslint:disable-next-line:no-console
-                console.log(this.enrolledCourse)
+                // console.log(this.enrolledCourse)
                 // if (this.enrolledCourse != null) {
                 const customerDate = moment(this.enrolledCourse.completedOn)
                 const dateNow = moment(new Date())
@@ -361,7 +361,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 }
                 // }
                 this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-                  console.log(data, this.contentSvc.showConformation)
+                  // console.log(data, this.contentSvc.showConformation)
                   if (isNull(data.nextResource)) {
                     // tslint:disable-next-line
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
@@ -542,7 +542,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     })
     this.dialogQuiz.afterClosed().subscribe((result: any) => {
-      console.log(result, 'res')
+      // console.log(result, 'res')
       if (result) {
         if (result.event === 'CLOSE') {
           this.closeQuizBtnDialog(result.event)
@@ -569,7 +569,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   })
                 }
                 // tslint:disable-next-line:no-console
-                console.log(this.enrolledCourse)
+                // console.log(this.enrolledCourse)
                 const customerDate = moment(this.enrolledCourse.completedOn)
                 const dateNow = moment(new Date())
                 const duration = moment.duration(dateNow.diff(customerDate))

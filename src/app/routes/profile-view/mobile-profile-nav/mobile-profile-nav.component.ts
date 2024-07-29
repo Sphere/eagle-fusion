@@ -37,7 +37,7 @@ export class MobileProfileNavComponent implements OnInit {
   }
 
   backScreen() {
-    console.log('now')
+    // console.log('now')
     let backURL = sessionStorage.getItem('currentWindow')
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
@@ -45,7 +45,7 @@ export class MobileProfileNavComponent implements OnInit {
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
     }
-    console.log(backURL)
+    // console.log(backURL)
     if (backURL) {
       let ob = {
         "type": "back",
@@ -56,9 +56,9 @@ export class MobileProfileNavComponent implements OnInit {
       let orgcheck = sessionStorage.getItem('work')
       let academicCheck = sessionStorage.getItem('academic')
       let eduList = sessionStorage.getItem('onListPage')
-      console.log(eduList)
-      console.log(academicCheck)
-      console.log(orgcheck)
+      // console.log(eduList)
+      // console.log(academicCheck)
+      // console.log(orgcheck)
       if (orgcheck) {
         let ob = {
           "type": "work",
@@ -82,7 +82,7 @@ export class MobileProfileNavComponent implements OnInit {
       }
     }
     this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data, 'back')
+      // console.log(data, 'back')
       if (data === undefined) {
 
       }
@@ -96,7 +96,7 @@ export class MobileProfileNavComponent implements OnInit {
         if (localStorage.getItem('orgValue') === 'nhsrc') {
           this.router.navigateByUrl('/organisations/home')
         } else {
-          console.log("fasdfasdwew")
+          // console.log("fasdfasdwew")
           // this.currentText = text.name
           let url = '/page/home'
           location.href = `${url3}${url1}${url}`
@@ -105,8 +105,8 @@ export class MobileProfileNavComponent implements OnInit {
       } else {
         let orgcheck = sessionStorage.getItem('work')
         let academicCheck = sessionStorage.getItem('academic')
-        console.log(academicCheck)
-        console.log(orgcheck)
+        // console.log(academicCheck)
+        // console.log(orgcheck)
         if (orgcheck) {
           let ob = {
             "type": "work",
@@ -120,11 +120,11 @@ export class MobileProfileNavComponent implements OnInit {
           }
           this.contentSvc.changeWork(ob)
         } else {
-          let backURL = sessionStorage.getItem('currentWindow')
-          console.log(backURL)
-          const url = sessionStorage.getItem('clickedUrl') || ''
+          sessionStorage.getItem('currentWindow')
+          // console.log(backURL)
+          sessionStorage.getItem('clickedUrl') || ''
           sessionStorage.removeItem('clickedUrl')
-          console.log(url)
+          // console.log(url)
           //this.router.navigateByUrl(url)
         }
       }

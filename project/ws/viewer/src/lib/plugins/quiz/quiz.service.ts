@@ -31,21 +31,21 @@ export class QuizService {
 
   }
   submitQuizV2(req: any): Observable<NSQuiz.IQuizSubmitResponse> {
-    console.log(req, 'req')
+    // console.log(req, 'req')
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe((record) => {
-      console.log(record, '36')
+      // console.log(record, '36')
 
       let cUrl = window.location.href
-      console.log(cUrl.split('/'))
-      let id = cUrl.split('/')[5]
-      console.log(id)
+      // console.log(cUrl.split('/'))
+      cUrl.split('/')[5]
+      // console.log(id)
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.courseId).subscribe(
-        (message: any) => { // 'next' callback
-          console.log('Record deleted successfully', message)
+        (_message: any) => { // 'next' callback
+          // console.log('Record deleted successfully', message)
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
             async (dat: any) => {
-              console.log('Data inserted successfully2', dat)
+              // console.log('Data inserted successfully2', dat)
               let msg = await dat
               if (msg) {
               }
@@ -59,11 +59,11 @@ export class QuizService {
           console.error('Error deleting record:', error)
         }
       )
-    }, (error) => {
-      console.log(error, '63')
+    }, (_error) => {
+      // console.log(error, '63')
       this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
-        (dat: any) => {
-          console.log('Data inserted successfully1', dat)
+        (_dat: any) => {
+          // console.log('Data inserted successfully1', dat)
 
         })
     })

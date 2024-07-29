@@ -21,9 +21,9 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   containsQuizAssessment = false;
   constructor(private router: Router) {
     super()
-    console.log(this.router.url.includes('quiz'))
+    // console.log(this.router.url.includes('quiz'))
     this.containsQuizAssessment = this.router.url.includes('quiz')
-    console.log(this.containsQuizAssessment)
+    // console.log(this.containsQuizAssessment)
   }
   // isFullScreenSupported = true
   isInFs = false

@@ -223,7 +223,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           if (data) {
             this.userProfileData = data.profileDetails.profileReq
             this.userlang = data
-            console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
+            // console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
             this.updateForm()
             if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences!.language === 'hi') {
               this.personalDetailForm.patchValue({
@@ -287,7 +287,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   professionalChange(value: any) {
-    console.log(value)
+    // console.log(value)
     this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.rnShow = true
@@ -356,8 +356,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       // }
 
       if (data.personalDetails && data) {
-        console.log(data)
-        console.log(this.userlang)
+        // console.log(data)
+        // console.log(this.userlang)
         this.personalDetailForm.patchValue({
           // userName: this.profileUserName,
           firstname: data.personalDetails.firstname,
@@ -378,7 +378,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           this.countryName = data.personalDetails!.postalAddress!.includes('India')
         }
 
-        console.log(this.countryName)
+        // console.log(this.countryName)
         if (data.personalDetails!.postalAddress) {
           if (this.countryName) {
             let cName = data.personalDetails.postalAddress
@@ -460,7 +460,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       const data = form.value.dob.replace(/\/undefined/g, '')
       form.value.dob = data
     }
-    console.log(form.value)
+    // console.log(form.value)
     form.value.knownLanguages = this.selectedKnowLangs
 
     if (this.configSvc.userProfile) {
@@ -487,7 +487,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         profileDetails: profileRequest,
       },
     }
-    console.log(reqUpdate)
+    // console.log(reqUpdate)
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (res: any) => {
       let result = await res
       if (result) {

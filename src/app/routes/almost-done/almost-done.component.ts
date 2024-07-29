@@ -70,7 +70,7 @@ export class AlmostDoneComponent implements OnInit {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
     this.result = await this.signupService.fetchStartUpDetails()
-    console.log(this.result)
+    // console.log(this.result)
     if (this.yourBackground.value.country !== 'India') {
       this.hideAsha = true
     } else {
@@ -314,7 +314,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'ASHA') {
       // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
-        console.log(value)
+        // console.log(value)
         if (value.block && value.subcentre) {
           this.enableSubmit = false
         } else {
@@ -362,12 +362,12 @@ export class AlmostDoneComponent implements OnInit {
     if (Object.keys(event).length && this.almostDoneForm.dirty) {
       this.enableSubmit = false
     }
-    console.log(this.backgroundSelect, this.selectedBg)
+    // console.log(this.backgroundSelect, this.selectedBg)
   }
 
   public getOrganisationsHistory() {
     const organisations: any = []
-    console.log(this.almostDoneForm.value.orgOtherSpecify)
+    // console.log(this.almostDoneForm.value.orgOtherSpecify)
     const org = {
       orgType: this.almostDoneForm.value.orgType,
       name: this.almostDoneForm.value.orgName!.trim(),
@@ -481,7 +481,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId
     }
-    console.log(this.userId, this.result.userId)
+    // console.log(this.userId, this.result.userId)
     //const reqObj = localStorage.getItem(`preferedLanguage`) || ''
     //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
@@ -505,7 +505,7 @@ export class AlmostDoneComponent implements OnInit {
     }
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (data) => {
-      console.log(data, 'data')
+      // console.log(data, 'data')
       let status = await data.params.status
       if (data && status === 'SUCCESS') {
         if (this.configSvc.unMappedUser.profileDetails.preferences.language === 'en') {
@@ -516,7 +516,7 @@ export class AlmostDoneComponent implements OnInit {
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
           let lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' : ''
-          console.log(params.redirect, 'redirect')
+          // console.log(params.redirect, 'redirect')
           let url1 = params.redirect
           if (url1.includes('hi')) {
             url1 = url1.replace('hi', '')
@@ -529,7 +529,7 @@ export class AlmostDoneComponent implements OnInit {
           if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
             localStorage.removeItem('url_before_login')
             url3 = `${url3}${url2}`
-            console.log(url3)
+            // console.log(url3)
             location.href = url3
             //this.router.navigate([url2])
           } else {
@@ -539,7 +539,7 @@ export class AlmostDoneComponent implements OnInit {
             }
             let urlnew = lang === 'hi' ? '/page/home' : 'page/home'
             url = `${url}${lang}${urlnew}`
-            console.log(url)
+            // console.log(url)
             location.href = url
             // this.router.navigate(['page', 'home'])
           }

@@ -37,7 +37,7 @@ export class ConfirmmodalComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("data", this.data)
+    // console.log("data", this.data)
     this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
     this.ratingsForm = this.formBuilder.group({
       review: ['', Validators.required],
@@ -47,12 +47,12 @@ export class ConfirmmodalComponent implements OnInit {
       this.data.request.courseRating.content &&
       this.data.request.courseRating.content.length > 0
     ) {
-      console.log("Data available:", this.data)
+      // console.log("Data available:", this.data)
 
       const firstContent = this.data.request.courseRating.content[0]
       if (firstContent.rating) {
-        console.log("Rating:", firstContent.rating)
-        console.log("Review:", firstContent.review)
+        // console.log("Rating:", firstContent.rating)
+        // console.log("Review:", firstContent.review)
 
         this.selectedRating = firstContent.rating
         if (firstContent.rating <= 3 && !firstContent.review) {
@@ -70,7 +70,7 @@ export class ConfirmmodalComponent implements OnInit {
 
   setRating(rating: number) {
     this.selectedRating = rating
-    console.log("rating:", rating, this.ratingsForm.controls.review.value)
+    // console.log("rating:", rating, this.ratingsForm.controls.review.value)
     if (rating <= 3 && (this.ratingsForm.controls.review.value === '' || this.ratingsForm.controls.review.value === null)) {
       this.isMandatory = true
     } else {
@@ -80,7 +80,7 @@ export class ConfirmmodalComponent implements OnInit {
 
   submitData() {
     if (!this.isMandatory && this.selectedRating) {
-      console.log("yes here")
+      // console.log("yes here")
       this.submitRating(this.ratingsForm)
     }
   }

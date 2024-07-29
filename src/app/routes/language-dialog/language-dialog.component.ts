@@ -25,18 +25,18 @@ export class LanguageDialogComponent implements OnInit {
 
   chooseLanguage(data: any) {
     // tslint:disable-next-line:no-console
-    console.log(data)
+    // console.log(data)
     this.dialogRef.close(data)
   }
   multiLanguage(data: any) {
     // tslint:disable-next-line:no-console
-    console.log(data)
+    // console.log(data)
     this.dialogRef.close(data)
   }
 
   onNgModelChange(event: any) {
     // tslint:disable-next-line:no-console
-    console.log(event)
+    // console.log(event)
     this.preferredLanguage = event
   }
 }

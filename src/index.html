@@ -125,7 +125,6 @@
   // window.addEventListener("load", (event) => {
   const url = window.location.href
 
-  console.log("href", window.location.href)
   if (url.includes('token') && url.includes('moduleId')) {
     const sashakt_token = url.slice(url.indexOf('?token=') + 7, url.indexOf('&moduleId='))
     sessionStorage.setItem('sashakt_token', sashakt_token)

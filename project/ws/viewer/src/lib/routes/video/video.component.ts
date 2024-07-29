@@ -57,7 +57,7 @@ export class VideoComponent implements OnInit, OnDestroy {
       this.viewerDataSubscription = this.viewerSvc
         .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
         .subscribe(data => {
-          console.log(data, '')
+          // console.log(data, '')
           this.videoData = data
           if (this.videoData) {
             this.formDiscussionForumWidget(this.videoData)
@@ -97,9 +97,9 @@ export class VideoComponent implements OnInit, OnDestroy {
               async data => {
                 if (data && data.result && data.result.contentList.length) {
                   let contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
-                  console.log(contentData)
+                  // console.log(contentData)
                   if (contentData === undefined || contentData.completionPercentage === 0) {
-                    console.log('contentData')
+                    // console.log('contentData')
                     let req: any
                     if (this.configSvc.userProfile) {
                       req = {
@@ -118,10 +118,10 @@ export class VideoComponent implements OnInit, OnDestroy {
                           ],
                         },
                       }
-                      console.log(req)
+                      // console.log(req)
                       //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
-                      this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                        console.log(data)
+                      this.viewerSvc.initUpdate(req).subscribe(async (_data: any) => {
+                        // console.log(data)
                       })
                     }
                   }

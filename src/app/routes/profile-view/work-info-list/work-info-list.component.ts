@@ -96,7 +96,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   chooseBackground(data: any) {
-    console.log(data)
+    // console.log(data)
     this.selectedBg = data
     if (this.selectedBg === 'Mother/Family Members') {
       this.enableSubmit = false
@@ -106,7 +106,7 @@ export class WorkInfoListComponent implements OnInit {
       this.personalDetailForm.controls.block.setValue(null)
       this.personalDetailForm.controls.subcentre.setValue(null)
       let cName = this.userProfileData.personalDetails.postalAddress
-      console.log(cName)
+      // console.log(cName)
       let csplit = cName.split(',')
       let state = csplit[1].trim()
       let dist = csplit[2].trim()
@@ -174,7 +174,7 @@ export class WorkInfoListComponent implements OnInit {
                   })
                 }
               }
-              console.log(newData.professionalDetails[0], 'a')
+              // console.log(newData.professionalDetails[0], 'a')
               if (newData.personalDetails.postalAddress) {
                 let cName = newData.personalDetails.postalAddress
                 let csplit = cName.split(',')
@@ -251,7 +251,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   professionalChange(value: any) {
-    console.log("degree", value, this.userProfileData)
+    // console.log("degree", value, this.userProfileData)
     // this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
     // this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
@@ -281,7 +281,7 @@ export class WorkInfoListComponent implements OnInit {
       this.personalDetailForm.controls.block.setValue(null)
       this.personalDetailForm.controls.subcentre.setValue(null)
       let cName = this.userProfileData.personalDetails.postalAddress
-      console.log(cName)
+      // console.log(cName)
       let state: string = ''
       let dist: string = ''
       if (cName) {
@@ -307,7 +307,7 @@ export class WorkInfoListComponent implements OnInit {
       this.Faculty = false
       this.professionOtherField = false
     } else if (value === 'Faculty') {
-      console.log('lll')
+      // console.log('lll')
       this.orgOthersField = false
       this.orgTypeField = false
       this.showAshaField = false
@@ -350,7 +350,7 @@ export class WorkInfoListComponent implements OnInit {
       this.personalDetailForm.controls.orgType.setValue(null)
     }
     if (value === this.userProfileData.professionalDetails[0].profession) {
-      console.log('profession')
+      // console.log('profession')
       this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
     }
   }
@@ -388,7 +388,7 @@ export class WorkInfoListComponent implements OnInit {
         cName = this.userProfileData.personalDetails!.postalAddress!.includes('India')
       }
 
-      console.log(cName)
+      // console.log(cName)
       if (cName) {
         let cName1 = this.userProfileData.personalDetails.postalAddress
         let csplit = cName1.split(',')
@@ -410,13 +410,13 @@ export class WorkInfoListComponent implements OnInit {
         profileDetails: profileRequest,
       },
     }
-    console.log('request update', reqUpdate, get(form.value, 'profession'))
+    // console.log('request update', reqUpdate, get(form.value, 'profession'))
     this.passProfession.emit(get(form.value, 'profession'))
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
           // form.reset()
-          console.log(res, 'res')
+          // console.log(res, 'res')
           if (local === 'en') {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
           } else {
@@ -518,7 +518,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   private getOrganisationsHistory(form: any) {
-    console.log(form.value, form.value.nameOther)
+    // console.log(form.value, form.value.nameOther)
     const organisations: any = []
     const org = {
       name: form.value.orgName,
@@ -560,7 +560,7 @@ export class WorkInfoListComponent implements OnInit {
       type: 'work',
       edit: isEdit,
     }
-    console.log(ob)
+    // console.log(ob)
     if (sessionStorage.getItem('work')) {
       sessionStorage.removeItem('work')
     }

@@ -22,10 +22,10 @@ export class WebNavLinkPageComponent implements OnInit {
   ) {
 
     this.navOption.currentOption.subscribe((option: any) => {
-      console.log(option, 'open')
+      // console.log(option, 'open')
       if (option === 'search') {
-        console.log("option: ", option)
-        console.log(location.path(), 'location.path()')
+        // console.log("option: ", option)
+        // console.log(location.path(), 'location.path()')
         // this.currentText = ''
         if (location.path().includes('/app/search/learning')) {
           this.showProfile = false
@@ -51,9 +51,9 @@ export class WebNavLinkPageComponent implements OnInit {
 
       }
     })
-    console.log('urlchanges', location.path(), 'path')
+    // console.log('urlchanges', location.path(), 'path')
     if (location.path().includes('/app/profile-view') || location.path().includes('/app/about-you')) {
-      console.log("yes here 1")
+      // console.log("yes here 1")
       this.showProfile = true
       this.showHome = false
     } else if (location.path().includes('/page/home')) {
@@ -70,7 +70,7 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showCompetency = false
       this.showHome = false
     } else {
-      console.log("yes here 2")
+      // console.log("yes here 2")
       this.showProfile = false
       this.mycourses = false
       this.showCompetency = false
@@ -84,7 +84,7 @@ export class WebNavLinkPageComponent implements OnInit {
   showProfile = false
   mycourses = false
   ngOnInit() {
-    console.log(this.router.url)
+    // console.log(this.router.url)
     this.data = this.configSvc.unMappedUser!
     this.linksData = [
       {
@@ -108,12 +108,12 @@ export class WebNavLinkPageComponent implements OnInit {
   async redirect(text: string) {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1, text)
+    // console.log(url1, text)
     let url3 = `${document.baseURI}`
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
     }
-    console.log("text", text)
+    // console.log("text", text)
 
     if (text === 'home') {
       this.showProfile = false
@@ -124,7 +124,7 @@ export class WebNavLinkPageComponent implements OnInit {
     } else if (text === 'mycourses') {
       let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
       let result = await this.signupService.getUserData()
-      console.log(result)
+      // console.log(result)
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         location.href = `${url3}${url1}${url}`
       } else {
@@ -141,7 +141,7 @@ export class WebNavLinkPageComponent implements OnInit {
         let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
         location.href = `${url3}${url1}${url}`
       } else {
-        console.log(result)
+        // console.log(result)
         this.showCompetency = true
         this.mycourses = false
         this.showProfile = false
@@ -152,15 +152,15 @@ export class WebNavLinkPageComponent implements OnInit {
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
       }
     } else {
-      console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
+      // console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
       let result = await this.signupService.getUserData()
-      console.log(result)
+      // console.log(result)
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.showProfile = true
         let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
         location.href = `${url3}${url1}${url}`
       } else {
-        console.log('p')
+        // console.log('p')
         this.showProfile = false
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')

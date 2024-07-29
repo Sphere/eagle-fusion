@@ -190,7 +190,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     })
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
-      console.log(_data, '180')
+      // console.log(_data, '180')
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
         this.processCurrentResourceChange()
@@ -198,7 +198,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     })
     this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
-      console.log(data, '188')
+      // console.log(data, '188')
       if (data) {
         //
         // console.log(this.playerStateService.trigger$.getValue())
@@ -231,7 +231,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   downloadResource(content: any) {
     const fileUrl = content.artifactUrl
-    console.log('fileUrl: ', content)
+    // console.log('fileUrl: ', content)
     // Make the HTTP GET request
     this.http.get(fileUrl, {
       responseType: 'blob', // Set the response type as blob
@@ -654,9 +654,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.updateResourceChange()
   }
   private async processCollectionForTree(content?: any) {
-    console.log(content, 'processCollectionForTree')
+    // console.log(content, 'processCollectionForTree')
     if (content && content.contentList) {
-      console.log(content)
+      // console.log(content)
       await this.processData(content.contentList)
       if (content.type === 'Video' || content.type === 'Scorm') {
         if (this.playerStateService.isResourceCompleted()) {
@@ -671,7 +671,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             const data = {
               courseId: this.collectionId,
             }
-            console.log("data", this.collectionId, data)
+            // console.log("data", this.collectionId, data)
             const isDialogOpen = this.dialog.openDialogs.length > 0
             let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
@@ -716,7 +716,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             const data = {
               courseId: this.collectionId,
             }
-            console.log("data", this.collectionId, data)
+            // console.log("data", this.collectionId, data)
             // Check if the dialog is already open
             const isDialogOpen = this.dialog.openDialogs.length > 0
             let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
@@ -746,7 +746,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               })
             }
           } else {
-            console.log('lll')
+            // console.log('lll')
             // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
             //   queryParams: {
             //     primaryCategory: 'Course',
@@ -819,7 +819,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
         this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(async data => {
           // tslint:disable-next-line: no-console
-          console.log(data['result']['contentList'])
+          // console.log(data['result']['contentList'])
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
 
@@ -867,7 +867,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                       // tslint:disable-next-line:max-line-length
                     } else if (this.viewerDataSvc.getNode() && this.viewerDataSvc.resourceId === child2.identifier) {
-                      console.log('entered')
+                      // console.log('entered')
                       child2.disabledNode = false
 
                     } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
@@ -932,7 +932,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           },
         )
         // tslint:disable-next-line: no-console
-        console.log(this.collection.children)
+        // console.log(this.collection.children)
         this.nestedDataSource.data = this.collection.children
         this.pathSet = new Set()
         // if (this.resourceId && this.tocMode === 'TREE') {
@@ -956,7 +956,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
     const currentPercentage = currentIndex < this.queue.length && this.queue[currentIndex] ? this.queue[currentIndex]!.completionPercentage! : null
-    console.log(this.queue[currentIndex]!.completionPercentage)
+    // console.log(this.queue[currentIndex]!.completionPercentage)
     const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
     // tslint:disable-next-line:object-shorthand-properties-first
     this.playerStateService.setState({

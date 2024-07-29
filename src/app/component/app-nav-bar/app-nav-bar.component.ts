@@ -72,7 +72,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
       this.showNavLinkPage = false
     }
-    console.log(location.href)
+    // console.log(location.href)
     if (location.href.includes('/hi/')) {
       this.langPresent = true
     }
@@ -187,7 +187,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     //if (this.showNavLinkPage) {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1)
+    // console.log(url1)
     let url2 = `${document.baseURI}`
     if (url2.includes('hi')) {
       url2 = url2.replace(/hi\//g, '')
@@ -218,8 +218,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   @HostListener('window:popstate', ['$event'])
-  onPopState(event: any) {
-    console.log('Back button pressed', event)
+  onPopState(_event: any) {
+    // console.log('Back button pressed', event)
     location.href = '/page/home'
   }
 
@@ -270,7 +270,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
       // tslint:disable-next-line:no-console
-      console.log(this.preferedLanguage)
+      // console.log(this.preferedLanguage)
     })
   }
 }

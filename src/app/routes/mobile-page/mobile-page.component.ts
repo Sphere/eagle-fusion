@@ -51,7 +51,7 @@ export class MobilePageComponent implements OnInit {
   async ngOnInit() {
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       if (targetDivId === 'scrollToCneCourses') {
-        console.log("test")
+        // console.log("test")
         this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
       }
     })
@@ -156,7 +156,7 @@ export class MobilePageComponent implements OnInit {
     })
 
     this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
-    console.log("yes here", this.topCertifiedCourse)
+    // console.log("yes here", this.topCertifiedCourse)
     if (this.topCertifiedCourse.length > 0) {
       this.topCertifiedCourseDisplayConfig = {
         displayType: 'card-badges',

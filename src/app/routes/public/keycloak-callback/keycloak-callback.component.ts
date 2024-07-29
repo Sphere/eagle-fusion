@@ -25,8 +25,8 @@ export class KeycloakCallbackComponent implements OnInit {
       this.isLoading = true
       this.checkKeycloakCallback()
     } else {
-      this.signupService.fetchStartUpDetails().then(result => {
-        console.log(result)
+      this.signupService.fetchStartUpDetails().then(_result => {
+        // console.log(result)
       })
     }
   }
@@ -43,7 +43,7 @@ export class KeycloakCallbackComponent implements OnInit {
             setTimeout(() => {
               this.signupService.fetchStartUpDetails().then(async result => {
                 // tslint:disable-next-line:no-console
-                console.log(result)
+                // console.log(result)
                 let res = await result
                 if (res && res.status === 200
                   //&& res.roles.length > 0
@@ -56,7 +56,7 @@ export class KeycloakCallbackComponent implements OnInit {
                       line: 56
                     }
                     sessionStorage.setItem('lang1', JSON.stringify(obj))
-                    console.log(`${lang}`)
+                    // console.log(`${lang}`)
                     lang = lang !== 'en' ? lang : ''
                     let url = localStorage.getItem('url_before_login') || ''
                     if (localStorage.getItem('url_before_login')) {

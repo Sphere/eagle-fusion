@@ -169,13 +169,13 @@ const getBaseHref = (platformLocation: PlatformLocation): string => {
 
 if (Capacitor.getPlatform() === 'ios') {
   // tslint:disable-next-line:no-console
-  console.log('iOS!')
+  // console.log('iOS!')
 } else if (Capacitor.getPlatform() === 'android') {
   // tslint:disable-next-line:no-console
-  console.log('Android!')
+  // console.log('Android!')
 } else {
   // tslint:disable-next-line:no-console
-  console.log('Web!')
+  // console.log('Web!')
 }
 
 const url = window.location.href
@@ -204,12 +204,12 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     if (orgValue === 'nhsrc') {
       if (url.indexOf('do_') > 0) {
         // window.location.href = `${url}`
-        console.log('app.module', url)
+        // console.log('app.module', url)
         localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
           }` + `/overview`)
         // window.location.href = `${document.baseURI}organisations/home`
       } else {
-        console.log('line number 182 else in app module.ts', url)
+        // console.log('line number 182 else in app module.ts', url)
         window.location.href = `${document.baseURI}organisations/home`
       }
     }

@@ -190,7 +190,7 @@ export class RootComponent implements OnInit, AfterViewInit {
       this.userId = this.configSvc.userProfile.userId || ''
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
 
-        console.log("res: ", res)
+        // console.log("res: ", res)
         this.formatmyCourseResponse(res[0])
       })
       localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)

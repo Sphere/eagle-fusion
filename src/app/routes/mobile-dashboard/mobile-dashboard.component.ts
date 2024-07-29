@@ -289,7 +289,7 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
-    console.log("yes here", this.topCertifiedCourse)
+    // console.log("yes here", this.topCertifiedCourse)
     if (this.topCertifiedCourse.length > 0) {
       this.topCertifiedCourseDisplayConfig = {
         displayType: 'card-badges',

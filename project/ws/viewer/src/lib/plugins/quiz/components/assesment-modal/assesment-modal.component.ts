@@ -78,7 +78,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit() {
     // Telemetry.impression()
     // Telemetry.start()
-    console.log(this.assesmentdata)
+    // console.log(this.assesmentdata)
     this.telemetrySvc.impression()
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()

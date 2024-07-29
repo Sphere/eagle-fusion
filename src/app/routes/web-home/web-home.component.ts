@@ -51,7 +51,7 @@ export class WebHomeComponent implements OnInit {
       this.lang = location.href.includes('/hi/') ? 'hi' : 'en'
     }
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
-      console.log("yes here scroll", targetDivId)
+      // console.log("yes here scroll", targetDivId)
       if (['scrollToHowSphereWorks', 'scrollToCneCourses'].includes(targetDivId)) {
         this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' })
       }
@@ -115,7 +115,7 @@ export class WebHomeComponent implements OnInit {
     setTimeout(() => {
       this.currentSlideIndex = index // Set the current slide index manually after a short delay
     }, 0)
-    console.log('Navigating to slide:', index)
+    // console.log('Navigating to slide:', index)
   }
   scrollToHowSphereWorks(value: string) {
     this.scrollService.scrollToDivEvent.emit(value)

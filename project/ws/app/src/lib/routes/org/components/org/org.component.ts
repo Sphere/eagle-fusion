@@ -42,8 +42,8 @@ export class OrgComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService) {
   }
   @HostListener('window:popstate', ['$event'])
-  onPopState(event: any) {
-    console.log(event)
+  onPopState(_event: any) {
+    // console.log(event)
     //window.location.href = '/public/home'
     let url = sessionStorage.getItem('currentURL')
     if (url) {
@@ -82,7 +82,7 @@ export class OrgComponent implements OnInit, OnDestroy {
       }
     })
     if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
-      console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
+      // console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
       this.orgService.getSearchResultsById(this.currentOrgData.closedCoursesList).subscribe((result: any) => {
         this.courseData = result.result.content
         this.courseCount = this.courseData
@@ -114,7 +114,7 @@ export class OrgComponent implements OnInit, OnDestroy {
           (org: any) => org.sourceName === this.orgName
         )
         this.courseCount = this.courseData
-        console.log("this.courseData", this.courseData)
+        // console.log("this.courseData", this.courseData)
         if (this.courseData && this.courseData.length > 0) {
           this.courseData.forEach((course: any) => {
             if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
@@ -135,16 +135,16 @@ export class OrgComponent implements OnInit, OnDestroy {
           })
           // console.log("this.cometencyData", this.cometencyData)
         } else {
-          console.log("this.courseData", this.courseData)
+          // console.log("this.courseData", this.courseData)
 
           this.orgService.getSearchResults(this.currentOrgData.taggedSourceName).subscribe((result: any) => {
             this.courseData = result.result.content.filter(
               (org: any) => org.sourceName === this.currentOrgData.taggedSourceName
             )
             this.courseCount = this.courseData
-            console.log("this.courseData", this.courseData)
+            // console.log("this.courseData", this.courseData)
             if (this.courseData && this.courseData.length > 0) {
-              console.log('l')
+              // console.log('l')
               this.courseData.forEach((course: any) => {
                 if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
                   forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
@@ -189,7 +189,7 @@ export class OrgComponent implements OnInit, OnDestroy {
 
       let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
       let url1 = local === 'hi' ? 'hi' : ""
-      console.log(url1)
+      // console.log(url1)
       let url3 = `${document.baseURI}`
       if (url3.includes('hi')) {
         url3 = url3.replace(/hi\//g, '')

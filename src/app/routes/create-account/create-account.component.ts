@@ -197,8 +197,8 @@ export class CreateAccountComponent implements OnInit {
 
       //this.signupService.signup(reqObj).subscribe(res => {
       this.signupService.ssoWithMobileEmail(reqObj).subscribe(res => {
-        console.log(res)
-        console.log(res.status)
+        // console.log(res)
+        // console.log(res.status)
         if (res.message = "User successfully created") {
           try {
 
@@ -234,14 +234,14 @@ export class CreateAccountComponent implements OnInit {
         }
       },
         err => {
-          console.log(err, err.error.message, err.error.msg)
+          // console.log(err, err.error.message, err.error.msg)
 
           this.createAccount = true
           this.confirmPassword = false
           this.loader.changeLoad.next(false)
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
-            console.log(lang.id)
+            // console.log(lang.id)
             if (lang.id === 'hi') {
               if (err.error.msg === 'User already exists') {
                 const err = 'उपयोगकर्ता पहले से मौजूद है।'
@@ -331,7 +331,7 @@ export class CreateAccountComponent implements OnInit {
     }
   }
   eventTrigger(p1: string, p2: string, form?: any) {
-    console.log(form)
+    // console.log(form)
     const obj = {
       EventDetails: {
         EventName: p1,
@@ -339,12 +339,12 @@ export class CreateAccountComponent implements OnInit {
       },
     }
     // @ts-ignore: Unreachable code error
-    console.log(MainVisitorDetails)
+    // console.log(MainVisitorDetails)
     // @ts-ignore: Unreachable code error
-    console.log('-------', FormInfoDetails)
+    // console.log('-------', FormInfoDetails)
     // @ts-ignore: Unreachable code error
     const userdata = Object.assign(MainVisitorDetails, obj)
-    console.log(userdata)
+    // console.log(userdata)
     // let obj2 = {
     //   "answerDetails": [form.value.firstname.trim(), form.value.lastname.trim(), this.emailPhoneType === "email" ? form.value.emailOrMobile.trim() : "", this.emailPhoneType === "phone" ? form.value.emailOrMobile.trim() : ""]
     // }
@@ -364,15 +364,15 @@ export class CreateAccountComponent implements OnInit {
       MainVisitorDetails: userdata,
     }
     // const data = Object.assign(obj3, userInfo)
-    console.log(obj3)
+    // console.log(obj3)
     // this.signupService.plumb5SendEvent(userInfo).subscribe((res: any) => {
     //   // @ts-ignore: Unreachable code error
     //   // tslint:disable-next-line
     //   console.log(res)
     // })
-    console.log(this.emailPhoneType)
-    forkJoin([this.signupService.plumb5SendEvent(userdata), this.signupService.plumb5SendForm(obj3)]).pipe().subscribe((res: any) => {
-      console.log(res)
+    // console.log(this.emailPhoneType)
+    forkJoin([this.signupService.plumb5SendEvent(userdata), this.signupService.plumb5SendForm(obj3)]).pipe().subscribe((_res: any) => {
+      // console.log(res)
     })
   }
 
@@ -396,7 +396,7 @@ export class CreateAccountComponent implements OnInit {
       },
     })
     this.langDialog.afterClosed().subscribe((result: any) => {
-      console.log(result)
+      // console.log(result)
       if (result) {
         if (localStorage.getItem('preferedLanguage')) {
           localStorage.removeItem('preferedLanguage')
@@ -436,7 +436,7 @@ export class CreateAccountComponent implements OnInit {
       })
   }
   preferredLanguageChange(event: any) {
-    console.log("value: ", this.preferredLanguage)
+    // console.log("value: ", this.preferredLanguage)
     let value
     if (event === 'hi') {
       value = { id: 'hi', lang: 'हिंदी' }

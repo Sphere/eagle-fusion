@@ -49,14 +49,14 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       // location: new FormControl('', [Validators.required]),
     })
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data, 'here')
+      // console.log(data, 'here')
       this.workLog = await data
-      let check = sessionStorage.getItem('work')
-      console.log(check)
+      sessionStorage.getItem('work')
+      // console.log(check)
       if (this.workLog) {
         this.getUserDetails()
       }
-      console.log(this.workLog.edit)
+      // console.log(this.workLog.edit)
     })
   }
 
@@ -90,11 +90,11 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
-            console.log(data.profileDetails.profileReq)
+            // console.log(data.profileDetails.profileReq)
             this.userProfileData = data.profileDetails.profileReq
             this.userlang = data
             if (this.workLog === 'true' || this.workLog.edit === true) {
-              console.log('true')
+              // console.log('true')
               this.updateForm()
             } else {
               this.workInfoForm.reset()
@@ -110,7 +110,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: any) {
-    console.log(form, form.value)
+    // console.log(form, form.value)
     if (form.doj) {
       form.doj = changeformat(new Date(`${form.doj}`))
     }
@@ -139,7 +139,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res) {
           this.workInfoForm.reset()
-          console.log(locale)
+          // console.log(locale)
           if (local === 'en') {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
           } else {

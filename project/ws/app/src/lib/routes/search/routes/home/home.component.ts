@@ -42,7 +42,7 @@ export class HomeComponent implements OnInit {
         distinctUntilChanged(),
       ).subscribe(q => {
         this.searchQuery.q = q
-        console.log(q)
+        // console.log(q)
         // this.getAutoCompleteResults()
       })
     }
@@ -54,9 +54,9 @@ export class HomeComponent implements OnInit {
       })
   }
 
-  search(query?: string, lang?: string) {
-    console.log(lang, query)
-    console.log(this.searchQuery.l)
+  search(query?: string, _lang?: string) {
+    // console.log(lang, query)
+    // console.log(this.searchQuery.l)
     let url = window.location.href
 
     // Extract the query parameters part of the URL
@@ -112,9 +112,9 @@ export class HomeComponent implements OnInit {
   }
 
   getActivateLocale(): string {
-    console.log(this.configSvc)
+    // console.log(this.configSvc)
     const locale = (this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : undefined
-    console.log(locale, 'homecompo')
+    // console.log(locale, 'homecompo')
     // (this.configSvc.unMappedUser.profileDetails?.preferences?.language) || 'en'
     // return this.searchSvc.getLanguageSearchIndex(locale)
     return locale
@@ -137,7 +137,6 @@ export class HomeComponent implements OnInit {
   }
 
   getAutoCompleteResults(): void {
-    console.log('888')
     this.searchSvc.searchAutoComplete(this.searchQuery).then((results: ISearchAutoComplete[]) => {
       this.autoCompleteResults = results
     }).catch(() => {

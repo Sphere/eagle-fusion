@@ -72,7 +72,7 @@ export class LoginOtpComponent implements OnInit {
   async verifyOtp() {
     let request: any = []
     let phone = this.signUpdata.value.emailOrMobile
-    console.log(this.signUpdata.value)
+    // console.log(this.signUpdata.value)
     phone = phone.replace(/[^0-9+#]/g, '')
     // at least 10 in number
     if (phone.length >= 10) {
@@ -97,7 +97,7 @@ export class LoginOtpComponent implements OnInit {
     this.signupService.ssoValidateOTP(request).subscribe(
       async (res: any) => {
         let res1 = await res
-        console.log(res1)
+        // console.log(res1)
         let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
         //this.openSnackbar(res.msg)
@@ -123,12 +123,12 @@ export class LoginOtpComponent implements OnInit {
               url = url.replace('hi/', '')
             }
             url = `${url}${lang}/app/new-tnc`
-            console.log(this.preferedLanguage, data)
+            // console.log(this.preferedLanguage, data)
             if (lang) {
 
-              console.log(lang)
+              // console.log(lang)
               if (lang === 'hi') {
-                console.log('enb')
+                // console.log('enb')
                 if (res1.msg === 'Success ! User is sucessfully authenticated.') {
                   const msg = 'सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.'
                   this.openSnackbar(msg)
@@ -140,7 +140,7 @@ export class LoginOtpComponent implements OnInit {
               this.openSnackbar(res1.msg)
             }
             this.isLoading = false
-            console.log("afdadssssssssssssssssssssssss")
+            // console.log("afdadssssssssssssssssssssssss")
             window.location.href = url
 
             //this.router.navigate([url, 'new-tnc'])
@@ -229,7 +229,7 @@ export class LoginOtpComponent implements OnInit {
     //this.signupService.validateOtp(request).subscribe(
     this.signupService.ssoValidateOTP(request).subscribe(
       async (res: any) => {
-        console.log(res, '2')
+        // console.log(res, '2')
         this.openSnackbar(res.message)
         // localStorage.removeItem('preferedLanguage')
         //location.href = '/page/home'

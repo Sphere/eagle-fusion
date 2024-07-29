@@ -69,7 +69,7 @@ export class GeneralGuard implements CanActivate {
       }
     }
     // tslint:disable-next-line:no-console
-    console.log(this.locale)
+    // console.log(this.locale)
     // setTimeout(() => {
 
     // }, 5000)
@@ -125,7 +125,7 @@ export class GeneralGuard implements CanActivate {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
-          console.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
+          // console.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
           // if (data) {
           //   const userData = data.profileDetails.personalDetails
           //   if (userData.dob) {
@@ -141,16 +141,16 @@ export class GeneralGuard implements CanActivate {
           // if (data.profileDetails) {
           //   return this.router.parseUrl(`/page/home`)
           // }
-          console.log(data.profileDetails!.profileReq!.personalDetails)
+          // console.log(data.profileDetails!.profileReq!.personalDetails)
 
           if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
             if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
               if (data.profileDetails!.profileReq!.personalDetails!.dob !== undefined) {
-                console.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
+                // console.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
               }
             } else {
               if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                console.log('true')
+                // console.log('true')
                 if (localStorage.getItem('preferedLanguage') && (sessionStorage.getItem('fromOTPpage'))) {
                   let data: any
                   let lang: any
@@ -163,19 +163,19 @@ export class GeneralGuard implements CanActivate {
                       lang = ''
                     }
                     const url = lang === '' ? `${lang}app/new-tnc` : `${lang}/app/new-tnc`
-                    console.log(url)
+                    // console.log(url)
                     location.href = `${url}`
                     //this.router.navigate([url, 'new-tnc'])
                   }
                   //this.router.navigate(['app', 'new-tnc'])
                 } else {
-                  console.log('alerr')
+                  // console.log('alerr')
                   this.router.navigate(['app', 'new-tnc'])
                 }
               }
             }
           } else {
-            console.log("afdssssssssssssss")
+            // console.log("afdssssssssssssss")
             localStorage.setItem('datanow', JSON.stringify(data))
             this.router.navigate(['app', 'new-tnc'])
           }

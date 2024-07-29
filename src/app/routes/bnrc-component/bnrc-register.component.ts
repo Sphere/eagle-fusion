@@ -173,7 +173,7 @@ export class BnrcRegisterComponent implements OnInit {
 
   ngOnInit() {
 
-    console.log("districts", this.districts)
+    // console.log("districts", this.districts)
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
@@ -187,7 +187,7 @@ export class BnrcRegisterComponent implements OnInit {
   }
 
   serviceTypeChange(value: string) {
-    console.log("regulating service type", value)
+    // console.log("regulating service type", value)
     const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')
     const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
 
@@ -210,7 +210,7 @@ export class BnrcRegisterComponent implements OnInit {
   }
   professionalChange(value: any) {
     this.showMessage = false
-    console.log("degree", value, this.userProfileData)
+    // console.log("degree", value, this.userProfileData)
     if (value === 'Student') {
       this.showDesignation = true
 
@@ -392,7 +392,7 @@ export class BnrcRegisterComponent implements OnInit {
 
       const instituteNameControl = this.bnrcDetailForm.get('instituteName')
       if (instituteNameControl) {
-        console.log("test", instituteTypeControl)
+        // console.log("test", instituteTypeControl)
         instituteNameControl.clearValidators()
         instituteNameControl.updateValueAndValidity() // Update the form control
 
@@ -542,8 +542,8 @@ export class BnrcRegisterComponent implements OnInit {
 
     }
   }
-  createUser(event: any) {
-    console.log("event", event)
+  createUser(_event: any) {
+    // console.log("event", event)
     const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
     const reqUpdate = {
       request: {
@@ -553,7 +553,7 @@ export class BnrcRegisterComponent implements OnInit {
     this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
       (res: any) => {
         this.isSubmitting = false
-        console.log("test", res)
+        // console.log("test", res)
         if (res.status === 'SUCCESS') {
           this.loader.changeLoad.next(false)
           this.showMessage = true
@@ -566,7 +566,7 @@ export class BnrcRegisterComponent implements OnInit {
             data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.', from: 'Bnrc' },
           })
         } else {
-          console.log('Form is valid. Saving data...', res)
+          // console.log('Form is valid. Saving data...', res)
 
           this.loader.changeLoad.next(false)
           this.openSnackbar(res.message)

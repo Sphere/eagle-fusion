@@ -38,7 +38,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
         this.isLoading = true
         let id = localStorage.getItem('userUUID') || ''
         this.userProfileSvc.getUserdetailsFromRegistry(id).subscribe((data: any) => {
-          console.log(data)
+          // console.log(data)
           if (data) {
             let lang = (data.unMappedUser && data.unMappedUser!.profileDetails && data.unMappedUser!.profileDetails!.preferences && data.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? data.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
             let url1 = lang === 'hi' ? 'hi' : ""

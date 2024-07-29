@@ -276,7 +276,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return this.tocSvc.subtitleOnBanners
   }
   redirect() {
-    console.log(this.configSvc, 'key')
+    // console.log(this.configSvc, 'key')
     let local = (
       this.configSvc.unMappedUser &&
       this.configSvc.unMappedUser.profileDetails &&
@@ -286,7 +286,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       ? this.configSvc.unMappedUser.profileDetails.preferences.language
       : (location.href.includes('/hi/') ? 'hi' : '')
     local = local === 'en' ? '' : 'hi'
-    console.log(local)
+    // console.log(local)
     let url = ''
     if (sessionStorage.getItem('cURL')) {
       url = sessionStorage.getItem('cURL') || ''
@@ -344,9 +344,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       const resumeDataV2 = this.getResumeDataFromList()
       let lastResource = ''
       let lastResourceMimeType: any
-      console.log(resumeDataV2, this.enrollCourse)
+      // console.log(resumeDataV2, this.enrollCourse)
       this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content.identifier).subscribe(async (record) => {
-        console.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
+        // console.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
         if (record.contentId) {
           this.updatedContentStatus = true
           //this.updatedContentFound = record
@@ -354,32 +354,32 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           this.updatedContentStatus = false
         }
         let rowData = await record
-        console.log(rowData)
+        // console.log(rowData)
         let data = JSON.parse(rowData.data)
-        console.log(data)
+        // console.log(data)
         let url1 = ''
         if (rowData.url.includes('/chapters') || rowData.url.includes('/overview?primaryCategory=Course')) {
-          console.log(rowData)
+          // console.log(rowData)
           if (data.contents[0].progressdetails.mimeType === "application/pdf") {
             url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
-            console.log(url1, 'url')
+            // console.log(url1, 'url')
             this.updatedContentFound = url1
           } else if (data.contents[0].progressdetails.mimeType === "video/mp4") {
             url1 = `/viewer/video/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
-            console.log(url1, 'url')
+            // console.log(url1, 'url')
             this.updatedContentFound = url1
           } else if (data.contents[0].progressdetails.mimeType === "application/json") {
             url1 = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-            console.log(url1)
+            // console.log(url1)
             this.updatedContentFound = url1
           } else if (data.contents[0].progressdetails.mimeType === "application/vnd.ekstep.html-archive" || data.contents[0].progressdetails.mimeType === "text/x-url") {
             url1 = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-            console.log(url1)
+            // console.log(url1)
             this.updatedContentFound = url1
 
           }
         } else {
-          console.log('opp')
+          // console.log('opp')
           this.updatedContentFound = record.url
         }
 
@@ -397,7 +397,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
       if (resumeDataV2.identifier === '' && resumeDataV2.mimeType === undefined ||
         resumeDataV2.identifier === '' && resumeDataV2.mimeType === '') {
-        console.log(lastResource, 'lr', this.content, lastResourceMimeType)
+        // console.log(lastResource, 'lr', this.content, lastResourceMimeType)
         this.resumeDataLink = viewerRouteGenerator(
           lastResource,
           lastResourceMimeType,
@@ -489,29 +489,29 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   // }
 
   redirectPage(updatedContentFound: any) {
-    console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
-    console.log(this.enrolledCourse, this.getBatchId())
+    // console.log(updatedContentFound, 'updatedContentFound', this.resumeResource)
+    // console.log(this.enrolledCourse, this.getBatchId())
     if (updatedContentFound === undefined) {
       let batchId = this.getBatchId()
-      console.log(batchId, 'batchId')
+      // console.log(batchId, 'batchId')
       if (!batchId) {
         let u1 = `${document.baseURI}`
-        console.log(u1)
+        // console.log(u1)
         let u2 = u1.split("&")
-        console.log(u2)
+        // console.log(u2)
         let u3 = u2[0].split("Id=")
-        console.log(u3)
+        // console.log(u3)
         batchId = u3[1]
-        console.log(batchId, 'batchId')
+        // console.log(batchId, 'batchId')
       }
       let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
-      console.log(url1, 'url13123')
+      // console.log(url1, 'url13123')
       this.updatedContentFound = url1
       //location.href = url1
       this.router.navigateByUrl(url1)
     } else {
       let url2 = document.baseURI
-      console.log(url2, 'url2')
+      // console.log(url2, 'url2')
       if (url2.includes('hi')) {
         url2 = url2.replace(/hi\//g, '')
       }
@@ -691,10 +691,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse) {
               this.resumeData = this.enrolledCourse.lastReadContentId
             }
-            console.log(this.resumeData, this.content)
-            console.log(this.optmisticPercentage, 'optmisticPercentage')
+            // console.log(this.resumeData, this.content)
+            // console.log(this.optmisticPercentage, 'optmisticPercentage')
             this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
-              console.log('Record:', record)
+              // console.log('Record:', record)
               if (record.contentId) {
                 this.updatedContentStatus = true
                 this.updatedContentFound = record.url
@@ -703,30 +703,30 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               }
             }, async (error) => {
               this.updatedContentStatus = true
-              console.log(this.enrolledCourse, 'this.enrolledCourse!')
+              // console.log(this.enrolledCourse, 'this.enrolledCourse!')
               if (error && this.enrolledCourse && this.enrolledCourse!.batchId) {
-                console.log('ewrwer')
+                // console.log('ewrwer')
                 if (this.enrolledCourse.lastReadContentId) {
                   let url = ''
                   let data = await this.findObjectById(this.content!.children, this.enrolledCourse.lastReadContentId)
-                  console.log(data, 'datahoooooray')
+                  // console.log(data, 'datahoooooray')
                   if (data.mimeType === "video/mp4") {
                     url = `/viewer/video/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    console.log(url)
+                    // console.log(url)
                   } else if (data.mimeType === "application/pdf") {
                     url = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    console.log(url)
+                    // console.log(url)
                   } else if (data.mimeType === "application/json") {
                     url = `/viewer/quiz/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    console.log(url)
+                    // console.log(url)
                   } else if (data.mimeType === "application/vnd.ekstep.html-archive" || data.mimeType === "text/x-url") {
                     url = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    console.log(url)
+                    // console.log(url)
                   }
                   this.updatedContentFound = url
                 } else {
                   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                  console.log(url1, 'url')
+                  // console.log(url1, 'url')
                   this.updatedContentFound = url1
                 }
               }
@@ -755,7 +755,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   findObjectById(array: any, id: any): any {
-    console.log(array, id)
+    // console.log(array, id)
     for (const item of array) {
       if (item.identifier === id) {
         return item
@@ -1176,7 +1176,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   // }
   openRating(data: any) {
-    console.log("read rating", data)
+    // console.log("read rating", data)
     let userId = ''
     if (data) {
       if (this.configSvc.userProfile) {
@@ -1196,7 +1196,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
       this.contentSvc.readCourseRating(req).then((res: any) => {
         if (res && res.params.status === 'success') {
-          console.log("response", res)
+          // console.log("response", res)
 
           const courseData = {
             courseId: data,
@@ -1212,7 +1212,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           })
 
           dialogRef.afterClosed().subscribe((data: { event: any, ratingsForm: FormGroup, rating: number }) => {
-            console.log("data: ", data)
+            // console.log("data: ", data)
             if (data && data.event && data.event === "CONFIRMED")
               this.readCourseRatingSummary()
           })
@@ -1238,7 +1238,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
       let req
       req = { activityId: this.content.identifier }
-      console.log("req", req)
+      // console.log("req", req)
       this.contentSvc.readCourseRatingSummary(req).then((data: any) => {
 
         if (data && data.result && data.result.message === 'Successful') {
@@ -1246,7 +1246,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             let res = data.result.response
             this.averageRating = (res.sum_of_total_ratings / res.total_number_of_ratings).toFixed(1)
             this.totalRatings = res.total_number_of_ratings
-            console.log("data: ", res, data.result.response, this.totalRatings)
+            // console.log("data: ", res, data.result.response, this.totalRatings)
           }
 
 
@@ -1262,7 +1262,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   enrollUser(batchData: any) {
-    console.log("enrollUser", batchData)
+    // console.log("enrollUser", batchData)
     let userId = ''
     if (batchData) {
       if (this.configSvc.userProfile) {

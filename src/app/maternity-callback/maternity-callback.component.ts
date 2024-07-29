@@ -24,7 +24,6 @@ export class MaternityCallbackComponent implements OnInit {
   }
   //checkMaternityCallback(token: any, id?: any) {
   checkMaternityCallback(token: any) {
-    console.log('su')
     let data = {
       "token": token,
       //"moduleId": id
@@ -33,14 +32,13 @@ export class MaternityCallbackComponent implements OnInit {
       //setTimeout(() => {
       this.orgService.setMaternyId(data).subscribe(async (res: any) => {
         let loc = await res
-        console.log(loc, 'oo')
         localStorage.setItem('loc', JSON.stringify(loc))
         if (loc.message === 'success') {
           location.href = '/app/org-details?orgId=Maternity%20Foundation'
           //window.location = loc.resRedirectUrl
         }
         // tslint:disable-next-line:no-console
-        console.log('maternity component.ts', res.resRedirectUrl)
+        // console.log('maternity component.ts', res.resRedirectUrl)
       }, (err: any) => {
         // tslint:disable-next-line:no-console
         console.log(err)

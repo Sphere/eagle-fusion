@@ -21,7 +21,7 @@ export class AppTocCertificateModalComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    console.log(this.content)
+    // console.log(this.content)
     // tslint:disable-next-line:no-this-assignment
     // const self = this
     this.contentSvc.downloadCertificateAPI(this.content.content).toPromise().then(async (response: any) => {

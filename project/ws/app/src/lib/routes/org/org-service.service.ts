@@ -111,11 +111,11 @@ export class OrgServiceService {
     return this.http.get<any>(`${API_END_POINTS.Sashakt_Auth}?token=${token}&moduleId=${id}`)
   }
   setMaternyId(data: any): Observable<any> {
-    console.log(data)
+    // console.log(data)
     return this.http.post<any>(`${API_END_POINTS.Maternity_Auth}`, data)
   }
   setTnaiToken(data: any): Observable<any> {
-    console.log(data)
+    // console.log(data)
     return this.http.post<any>(`${API_END_POINTS.Tnai_Auth}`, data)
   }
   setConnectSid(authCode: any): Observable<any> {

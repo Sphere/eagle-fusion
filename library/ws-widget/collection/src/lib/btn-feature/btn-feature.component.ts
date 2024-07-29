@@ -69,8 +69,8 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
     }
-    this.navOption.currentOption.subscribe((option: any) => {
-      console.log('options', option, window.location.href)
+    this.navOption.currentOption.subscribe((_option: any) => {
+      // console.log('options', option)
       if (window.location.href.includes('/app/profile-view')) {
         if (window.location.href.includes('/hi/app/profile-view')) {
           this.currentText = 'अकाउंट'
