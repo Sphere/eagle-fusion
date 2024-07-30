@@ -761,7 +761,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             const nextResource = this.playerStateService.getNextResource()
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
-              if (content.type === "Scorm" || content.type === "assessment" || content.type === "quiz") {
+              if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
                 this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
                   if (success) {
                     this.playerStateService.trigger$.complete()
@@ -939,7 +939,22 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               console.log(dat)
               if (dat && dat.length) {
                 optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
-                console.log(optmisticPercentage, 'foundContent', '938')
+                console.log(optmisticPercentage, 'foundContent', '942')
+                if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
+                  if (this.playerStateService.isResourceCompleted()) {
+                    const nextResource = this.playerStateService.getNextResource()
+                    if (!(isEmpty(nextResource) || isNull(nextResource))) {
+                      this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                        if (success) {
+                          this.playerStateService.trigger$.complete()
+                        }
+                      }).catch(error => {
+                        console.error('Navigation error:', error)
+                      })
+                    }
+                  }
+                }
+
               }
             }, (error) => {
               console.error('Error:', error)
