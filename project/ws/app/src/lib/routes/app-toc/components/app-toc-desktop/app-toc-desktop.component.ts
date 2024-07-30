@@ -605,6 +605,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   downloadCertificate(content: any) {
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    console.log(this.optmisticPercentage)
+
     // is enrolled?
     if (this.batchData.enrolled) {
       let userId = ''
@@ -706,12 +708,19 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         this.displayStyle = 'block'
         // tslint:disable-next-line:max-line-length
-        if (local === 'en') {
-          this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
+        if (this.optmisticPercentage != 100) {
+          if (local === 'en') {
+            this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
+          } else {
+            this.certificateMsg = 'आपने पाठ्यक्रम के सभी मॉड्यूल समाप्त नहीं किए हैं. प्रमाणपत्र का अनुरोध करने से पहले सभी मॉड्यूल को पूरा करना अनिवार्य है'
+          }
         } else {
-          this.certificateMsg = 'आपने पाठ्यक्रम के सभी मॉड्यूल समाप्त नहीं किए हैं. प्रमाणपत्र का अनुरोध करने से पहले सभी मॉड्यूल को पूरा करना अनिवार्य है'
+          if (local === 'en') {
+            this.certificateMsg = 'Your request for certificate has been successfully processed. Please download it after 30 minutes.'
+          } else {
+            this.certificateMsg = 'प्रमाणपत्र के लिए आपका अनुरोध सफलतापूर्वक संसाधित कर दिया गया है। कृपया 30 मिनट बाद इसे डाउनलोड करें।'
+          }
         }
-
       }
     } else {
       this.displayStyle = 'block'
