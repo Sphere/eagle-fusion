@@ -11,6 +11,7 @@ import { AppTocService } from '../../services/app-toc.service'
 })
 export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() content: NsContent.IContent | null = null
+  @Input() references = false
   @Input() expandAll = false
   @Input() rootId!: string
   @Input() rootContentType!: string
@@ -18,6 +19,13 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   @Input() batchId!: string
   @Output() expandChild = new EventEmitter<any>()
   disabledNode = false
+  // Mapping of reference types to icon URLs or classes
+  iconMapping: { [key: string]: string } = {
+    pdf: '/fusion-assets/icons/PDF.svg', // Replace with your icon path or class
+    video: '/fusion-assets/icons/Video.svg',
+    link: '/fusion-assets/icons/Link.svg',
+    audio: '/fusion-assets/icons/Audio.svg'
+  };
   contentId!: string
   hasContentStructure = false
   resourceContentType: any

@@ -1,0 +1,17 @@
+<div class="contents-container">
+  <div class="main-container">
+    <ng-container *ngIf="references.length>0; else noChildren">
+      <div class="content-card" *ngFor="let card of references;">
+        <ws-app-toc-content-card [content]="card" [references]="true">
+        </ws-app-toc-content-card>
+      </div>
+    </ng-container>
+    <ng-template #noChildren>
+      <div *ngIf="!isPlayable"
+        class="ws-mat-primary-default-text ws-mat-primary-lite-background px-6 py-8 font-normal text-base" i18n>
+        The preview for this type of content is unavailable. Please click on Start button above to view.
+      </div>
+    </ng-template>
+  </div>
+
+</div>

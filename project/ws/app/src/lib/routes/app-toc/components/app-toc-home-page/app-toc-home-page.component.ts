@@ -382,6 +382,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       this.routelinK = 'chapters'
     } else if (cname === 'license') {
       this.routelinK = 'license'
+    } else if (cname === 'references') {
+      this.routelinK = 'references'
     }
 
     this.tocSvc._showComponent.next({ showComponent: true })
@@ -393,6 +395,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     } else if (includes(this.router.url, 'chapters')) {
       this.toggleComponent('chapters')
       this.enrollUser(this.batchData)
+    } else if (includes(this.router.url, 'references')) {
+      this.toggleComponent('references')
     } else {
       this.toggleComponent('license')
     }
