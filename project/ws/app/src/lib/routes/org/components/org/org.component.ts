@@ -4,10 +4,11 @@ import {
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
-import { ActivatedRoute, Router, Data } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
+import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'ws-app-org',
@@ -38,6 +39,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
     private router: Router,
+    private http: HttpClient,
     // private authSvc: AuthKeycloakService,
     private configSvc: ConfigurationsService) {
   }
@@ -56,25 +58,49 @@ export class OrgComponent implements OnInit, OnDestroy {
       this.ratingArr.push(this.index)
     }
 
-    // this.orgName = this.activateRoute.snapshot.queryParams.orgId
+    this.orgName = this.activateRoute.snapshot.queryParams.orgId
     // if (this.orgName ) {
     //   this.orgService.hideHeaderFooter.next(true)
     // }
-    this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
-      this.orgName = this.activateRoute.snapshot.queryParams.orgId
-      const currentOrg = this.orgName.trim()
-      if (response.orgData) {
-        this.orgData = response.orgData.data.sources
-        this.currentOrgData = this.orgData.filter(
-          (org: any) =>
-            org.sourceName === currentOrg
-        )
-        if (this.currentOrgData) {
-          this.currentOrgData = this.currentOrgData[0]
-          // console.log("this.currentOrgData", this.currentOrgData)
+    this.http.get('https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json', { responseType: 'text' })
+      .subscribe(
+        (results: any) => {
+          try {
+            const currentOrg = this.orgName.trim()
+            const parsedResults = JSON.parse(results)
+            this.orgData = parsedResults.sources
+            this.currentOrgData = this.orgData.filter(
+              (org: any) =>
+                org.sourceName === currentOrg
+            )
+            if (this.currentOrgData) {
+              this.currentOrgData = this.currentOrgData[0]
+              // console.log("this.currentOrgData", this.currentOrgData)
+            }
+          } catch (e) {
+            console.error('Error parsing JSON', e)
+          }
+        },
+        (error) => {
+          console.error('HTTP error', error)
         }
-      }
-    })
+      )
+
+    // this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
+    //   this.orgName = this.activateRoute.snapshot.queryParams.orgId
+    //   const currentOrg = this.orgName.trim()
+    //   if (response.orgData) {
+    //     this.orgData = response.orgData.data.sources
+    //     this.currentOrgData = this.orgData.filter(
+    //       (org: any) =>
+    //         org.sourceName === currentOrg
+    //     )
+    //     if (this.currentOrgData) {
+    //       this.currentOrgData = this.currentOrgData[0]
+    //       // console.log("this.currentOrgData", this.currentOrgData)
+    //     }
+    //   }
+    // })
     this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
       if (userEnrolled && userEnrolled.length > 0) {
         this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
