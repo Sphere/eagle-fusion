@@ -35,6 +35,8 @@ export class OrgComponent implements OnInit, OnDestroy {
   index = 0
   link: string = ''
   competency_offered: any = 0
+  formattedAbout!: string
+
   orgUserCourseEnrolled: any = 0
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
@@ -75,6 +77,7 @@ export class OrgComponent implements OnInit, OnDestroy {
             )
             if (this.currentOrgData) {
               this.currentOrgData = this.currentOrgData[0]
+              this.formattedAbout = this.formatAbout(this.currentOrgData.about)
               // console.log("this.currentOrgData", this.currentOrgData)
             }
           } catch (e) {
@@ -91,12 +94,14 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   const currentOrg = this.orgName.trim()
     //   if (response.orgData) {
     //     this.orgData = response.orgData.data.sources
+
     //     this.currentOrgData = this.orgData.filter(
     //       (org: any) =>
     //         org.sourceName === currentOrg
     //     )
     //     if (this.currentOrgData) {
     //       this.currentOrgData = this.currentOrgData[0]
+    //       this.formattedAbout = this.formatAbout(this.currentOrgData.about)
     //       // console.log("this.currentOrgData", this.currentOrgData)
     //     }
     //   }
@@ -202,6 +207,14 @@ export class OrgComponent implements OnInit, OnDestroy {
     // console.log(this.configSvc)
     // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
+  }
+  formatAbout(text: string): string {
+    if (!text) return text
+    return text
+      .replace(/\n/g, '<br>')
+      .replace(/\u2022/g, '&bull;')
+      .replace(/\\u2019/g, '&#8217;') // right single quotation mark
+      .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;') // replace tab with spaces for proper alignment
   }
   add(a: number, b: number): number {
     return a + b
