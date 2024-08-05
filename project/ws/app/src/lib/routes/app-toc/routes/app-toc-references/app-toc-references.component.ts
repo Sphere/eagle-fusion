@@ -1,5 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { NsContent } from '@ws-widget/collection'
+import { ActivatedRoute, Data } from '@angular/router'
+import { Subscription } from 'rxjs'
+import { AppTocService } from '../../services/app-toc.service'
 
 @Component({
   selector: 'ws-app-app-toc-references',
@@ -7,18 +9,30 @@ import { NsContent } from '@ws-widget/collection'
   styleUrls: ['./app-toc-references.component.scss'],
 })
 export class AppTocReferencesComponent implements OnInit, OnDestroy {
-  content: NsContent.IContent | null = null
-  references = [
-    { name: "Reference 1", "type": "pdf", "link": "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_11342049408739737611575/artifact/do_11342049408739737611575_1638245256353_drugs_oxytocin_misoprostolny1620386277640.pdf" },
-    { name: "Reference 2", "type": "video", "link": "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_11341932837665996811056/artifact/do_11341932837665996811056_1638106111909_chapter1rmcandwhatdoesitmean1604386534913.mp4" },
-    { name: "Reference 3", "type": "link", "link": "https://www.youtube.com/embed/4FbMEg9k9us" },
-    { name: "Reference 4", "type": "audio", "link": "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_11342625882651033611676/artifact/do_11342625882651033611676_1638948595198_respectful1638948590359.pdf" }
-  ]
+  content: any = null
+  references!: any
+  routeSubscription: Subscription | null = null
 
   loadContent = true
-  constructor() { }
+  constructor(private route: ActivatedRoute, private tocSharedSvc: AppTocService,
+
+  ) { }
 
   ngOnInit() {
+    if (this.route && this.route.parent) {
+      this.routeSubscription = this.route.parent.data.subscribe((data: Data) => {
+        this.initData(data)
+      })
+    }
+    console.log("content", this.content, this.references)
+  }
+  private initData(data: Data) {
+    const initData = this.tocSharedSvc.initData(data)
+    this.content = initData.content
+    if (this.content && this.content.references) {
+      this.references = JSON.parse(this.content.references)
+      console.log("this.references: ", this.references)
+    }
   }
   ngOnDestroy() {
   }

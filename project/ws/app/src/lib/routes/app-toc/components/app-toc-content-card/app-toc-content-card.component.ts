@@ -46,6 +46,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     youtube: 0,
   }
   defaultThumbnail = ''
+  defaultRefThumbnail = '/fusion-assets/icons/Link.svg'
   viewChildren = false
   greenTickIcon = '/fusion-assets/images/green-checked3.svg'
   redTickIcon = '/fusion-assets/images/red-tick.svg'
