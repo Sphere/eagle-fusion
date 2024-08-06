@@ -329,95 +329,114 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
         } else if (result.event === 'DONE') {
-          let userId
-          if (this.configSvc.userProfile) {
-            // tslint:disable-next-line
-            userId = this.configSvc.userProfile.userId || ''
+          // let userId
+          // if (this.configSvc.userProfile) {
+          //   // tslint:disable-next-line
+          //   userId = this.configSvc.userProfile.userId || ''
+          // }
+
+          let Id = this.identifier
+          let collectionId = this.collectionId
+          const batchId = this.route.snapshot.queryParams.batchId
+
+          const data2 = {
+            current: 10,
+            max_size: 10,
+            mime_type: "application/json"
           }
-          this.contentSvc.fetchUserBatchList(userId).subscribe(
-            async (courses: NsContent.ICourse[]) => {
-              if (this.collectionId) {
-                if (courses && courses.length) {
-                  this.enrolledCourse = await courses.find(course => {
-                    const identifier = this.collectionId || ''
-                    if (course.courseId !== identifier) {
-                      return undefined
-                    }
-                    return course
-                  })
-                }
-                // tslint:disable-next-line:no-console
-                console.log(this.enrolledCourse)
-                // if (this.enrolledCourse != null) {
-                const customerDate = moment(this.enrolledCourse.completedOn)
-                const dateNow = moment(new Date())
-                const duration = moment.duration(dateNow.diff(customerDate))
-                // tslint:disable-next-line
-                //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
-                if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
-                  this.showCompletionMsg = true
-                } else {
-                  this.showCompletionMsg = false
-                }
-                // }
-                this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-                  console.log(data, this.contentSvc.showConformation)
-                  if (isNull(data.nextResource)) {
-                    // tslint:disable-next-line
-                    if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
-                      && this.contentSvc.showConformation) {
-                      const data = {
-                        courseId: this.collectionId,
-                      }
-                      const isDialogOpen = this.dialog.openDialogs.length > 0
-                      let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
+            console.log(data)
+            if (data.params.status === "success") {
+              const result = data.result
+              result['type'] = 'assessment'
+              this.contentSvc.changeMessage(result)
 
-                      // If the dialog is not already open, open it
-                      if (!isDialogOpen) {
-                        confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                          width: '300px',
-                          height: '405px',
-                          panelClass: 'overview-modal',
-                          disableClose: true,
-                          data: { request: data, message: 'Congratulations!, you have completed the course' },
-                        })
-                      }
+            }
+          })
+          // this.contentSvc.fetchUserBatchList(userId).subscribe(
+          //   async (courses: NsContent.ICourse[]) => {
+          //     if (this.collectionId) {
+          //       if (courses && courses.length) {
+          //         this.enrolledCourse = await courses.find(course => {
+          //           const identifier = this.collectionId || ''
+          //           if (course.courseId !== identifier) {
+          //             return undefined
+          //           }
+          //           return course
+          //         })
+          //       }
+          //       // tslint:disable-next-line:no-console
+          //       console.log(this.enrolledCourse)
+          //       // if (this.enrolledCourse != null) {
+          //       const customerDate = moment(this.enrolledCourse.completedOn)
+          //       const dateNow = moment(new Date())
+          //       const duration = moment.duration(dateNow.diff(customerDate))
+          //       // tslint:disable-next-line
+          //       //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
+          //       if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
+          //         this.showCompletionMsg = true
+          //       } else {
+          //         this.showCompletionMsg = false
+          //       }
+          //       // }
+          //       this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+          //         console.log(data, this.contentSvc.showConformation)
+          //         if (isNull(data.nextResource)) {
+          //           // tslint:disable-next-line
+          //           if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
+          //             && this.contentSvc.showConformation) {
+          //             const data = {
+          //               courseId: this.collectionId,
+          //             }
+          //             const isDialogOpen = this.dialog.openDialogs.length > 0
+          //             let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
-                      if (confirmdialog) {
-                        confirmdialog.afterClosed().subscribe((res: any) => {
-                          if (res.event === 'CONFIRMED') {
-                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                              queryParams: {
-                                primaryCategory: 'Course',
-                                batchId: this.route.snapshot.queryParams.batchId,
-                              },
-                            })
-                          }
-                        })
-                      }
+          //             // If the dialog is not already open, open it
+          //             if (!isDialogOpen) {
+          //               confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+          //                 width: '300px',
+          //                 height: '405px',
+          //                 panelClass: 'overview-modal',
+          //                 disableClose: true,
+          //                 data: { request: data, message: 'Congratulations!, you have completed the course' },
+          //               })
+          //             }
 
-                    } else {
-                      this.dialog.closeAll()
-                      this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                        queryParams: {
-                          primaryCategory: 'Course',
-                          batchId: this.route.snapshot.queryParams.batchId,
-                        },
-                      })
-                    }
+          //             if (confirmdialog) {
+          //               confirmdialog.afterClosed().subscribe((res: any) => {
+          //                 if (res.event === 'CONFIRMED') {
+          //                   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+          //                     queryParams: {
+          //                       primaryCategory: 'Course',
+          //                       batchId: this.route.snapshot.queryParams.batchId,
+          //                     },
+          //                   })
+          //                 }
+          //               })
+          //             }
 
-                    // this.router.navigate([data.prevResource], { preserveQueryParams: true })
-                  } else {
-                    this.router.navigate([data.nextResource], { preserveQueryParams: true })
-                  }
-                  return
-                })
-              }
-            },
-            (error: any) => {
-              this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
-            },
-          )
+          //           } else {
+          //             this.dialog.closeAll()
+          //             this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+          //               queryParams: {
+          //                 primaryCategory: 'Course',
+          //                 batchId: this.route.snapshot.queryParams.batchId,
+          //               },
+          //             })
+          //           }
+
+          //           // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          //         } else {
+          //           this.router.navigate([data.nextResource], { preserveQueryParams: true })
+          //         }
+          //         return
+          //       })
+          //     }
+          //   },
+          //   (error: any) => {
+          //     this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
+          //   },
+          // )
         }
       }
     })
@@ -552,6 +571,25 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           // this.openOverviewDialog(result.event)
           this.closeQuizBtnDialog(result.event)
         } else if (result.event === 'DONE') {
+
+          let Id = this.identifier
+          let collectionId = this.collectionId
+          const batchId = this.route.snapshot.queryParams.batchId
+
+          const data2 = {
+            current: 10,
+            max_size: 10,
+            mime_type: "application/json"
+          }
+          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
+            console.log(data)
+            if (data.params.status === "success") {
+              const result = data.result
+              result['type'] = 'quiz'
+              this.contentSvc.changeMessage(result)
+            }
+          })
+
           let userId
           if (this.configSvc.userProfile) {
             userId = this.configSvc.userProfile.userId || ''
@@ -841,9 +879,29 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.numUnanswered = res.blank
         this.passPercentage = this.collectionId === 'lex_auth_0131241730330624000' ? 70 : res.passPercent // NQOCN Course ID
         this.result = res.result
-        if (this.result >= this.passPercentage) {
+        //if (this.result >= this.passPercentage) {
+        if (this.result >= 0) {
           this.isCompleted = true
+          let Id = this.identifier
+          let collectionId = this.collectionId
+          const batchId = this.route.snapshot.queryParams.batchId
+
+          const data2 = {
+            current: 10,
+            max_size: 10,
+            mime_type: "application/json"
+          }
+          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
+            console.log(data)
+            if (data.params.status === "success") {
+              const result = data.result
+              result['type'] = 'quiz'
+              this.contentSvc.changeMessage(result)
+
+            }
+          })
         }
+
         // const result = {
         //   result: (this.numCorrectAnswers * 100.0) / this.processedContent.quiz.questions.length,
         //   total: this.processedContent.quiz.questions.length,

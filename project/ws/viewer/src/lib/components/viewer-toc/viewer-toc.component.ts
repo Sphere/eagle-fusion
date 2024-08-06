@@ -40,6 +40,7 @@ interface IViewerTocCard {
   showDownloadBtn: string
 }
 import { HttpClient } from '@angular/common/http'
+import { IndexedDBService } from 'src/app/online-indexed-db.service'
 
 export type TCollectionCardType = 'content' | 'playlist' | 'goals'
 
@@ -80,6 +81,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   resourceContentType: any
   disabledNode: boolean
   currentContentType: any = ''
+  heirarchy: any
   constructor(
     private http: HttpClient,
     private activatedRoute: ActivatedRoute,
@@ -94,6 +96,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     private playerStateService: PlayerStateService,
     public router: Router,
     public dialog: MatDialog,
+    private onlineIndexedDbService: IndexedDBService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -392,6 +395,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         : this.contentSvc.fetchContent(collectionId, 'detail')
       ).toPromise()
       content = content.result.content
+      this.heirarchy = content
       if (content && content.gatingEnabled) {
         this.viewerDataSvc.setNode(content.gatingEnabled)
       }
@@ -545,6 +549,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     return url
   }
   async processData(data?: any) {
+    console.log(data, 'data')
     this.isLoading = true
     if (this.collection) {
       this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
@@ -552,7 +557,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     if (this.collection && this.collection.children) {
       const mergeData = (collection: any) => {
-
+        console.log(data, 'ssssssssssss')
         collection.map((child1: any, index: any, element: any) => {
           const foundContent = data.find((el1: any) => el1.contentId === child1.identifier)
 
@@ -653,154 +658,313 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     // this.isLoading = false
     this.updateResourceChange()
   }
+
+  updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
+    const targetUrl = this.router.url
+    const urlParams = targetUrl.split('/')
+    let courseId = urlParams[3]
+    let userID = this.configSvc.userProfile!.userId
+    //let cId = this.activatedRoute.snapshot.queryParams.contentId
+
+    arr2.forEach((obj2: any) => {
+      const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
+
+      if (obj1) {
+        // Update the existing object in arr1 if the keyToUpdate value is different
+        if (obj1[keyToUpdate] !== obj2[keyToUpdate]) {
+          obj1[keyToUpdate] = obj2[keyToUpdate]
+        }
+      } else {
+        // Add the new object from arr2 to arr1
+        arr1.push(obj2)
+      }
+    })
+    console.log(arr1, 'arr1')
+    console.log(userID, courseId)
+    this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', arr1).subscribe(
+      () => {
+        console.log('Data inserted successfully2')
+      },
+      (error) => {
+        console.error('Error inserting data:', error)
+      }
+    )
+    const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
+    console.log('Aggregate value:', aggregateValue)
+    console.log(this.heirarchy, 'content')
+    let uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
+    console.log(uniqueIdsOfType.length, this.heirarchy!.childNodes.length) // Output: [1, 3]
+    let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
+    console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
+    let progress = Math.min(Math.max(percentage, 0), 100)
+    return progress
+  }
+  calculateAggregate(arr: any, field: string): number {
+    let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
+    console.log(val)
+    return val
+  }
+
+  uniqueIdsByContentType(obj: any, contentType: any, uniqueIds = new Set()) {
+    // Check if the current object is an array
+    if (Array.isArray(obj)) {
+      // If array, recursively call extractUniqueIds for each element
+      obj.forEach(item => this.uniqueIdsByContentType(item, contentType, uniqueIds))
+    } else if (typeof obj === 'object' && obj !== null) {
+      // If object, check if it has contentType and add id to uniqueIds if contentType matches
+      if (obj.contentType === contentType && obj.identifier !== undefined) {
+        uniqueIds.add(obj.identifier)
+      }
+      // Recursively call extractUniqueIds for each property value
+      Object.values(obj).forEach(value => this.uniqueIdsByContentType(value, contentType, uniqueIds))
+    }
+    // Return uniqueIds as an array (if needed)
+    return [...uniqueIds]
+
+  }
   private async processCollectionForTree(content?: any) {
     console.log(content, 'processCollectionForTree')
     if (content && content.contentList) {
       console.log(content)
       await this.processData(content.contentList)
-      if (content.type === 'Video' || content.type === 'Scorm') {
-        if (this.playerStateService.isResourceCompleted()) {
-          const nextResource = this.playerStateService.getNextResource()
 
-          if (!(isEmpty(nextResource) || isNull(nextResource))) {
-            if (content.type === "Scorm") {
-              this.router.navigate([nextResource], { preserveQueryParams: true })
-              this.playerStateService.trigger$.complete()
-            }
-          } else if (this.contentSvc.showConformation) {
-            const data = {
-              courseId: this.collectionId,
-            }
-            console.log("data", this.collectionId, data)
-            const isDialogOpen = this.dialog.openDialogs.length > 0
-            let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+      let req
+      let rowData: any
+      let optmisticPercentage: any
+      req = {
+        request: {
+          userId: [this.configSvc.userProfile!.userId],
+          activityId: this.collectionId,
+          activityType: "Course",
+        },
+      }
 
-            // If the dialog is not already open, open it
-            if (!isDialogOpen) {
-              confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                width: '300px',
-                height: '405px',
-                panelClass: 'overview-modal',
-                disableClose: true,
-                data: { request: data, message: 'Congratulations!, you have completed the course' },
-              })
-            }
-
-            if (confirmdialog) {
-              confirmdialog.afterClosed().subscribe((res: any) => {
-                if (res && res.event === 'CONFIRMED') {
-                  this.dialog.closeAll()
-                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    queryParams: {
-                      primaryCategory: 'Course',
-                      batchId: this.batchId,
-                    },
-                  })
-                }
-              })
-            }
-
-          }
-        } else {
-          this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-            queryParams: {
-              primaryCategory: 'Course',
-              batchId: this.batchId,
-            },
-          })
+      let rating = await this.contentSvc.readCourseRating(req).then((res: any) => {
+        if (res && res.params.status === 'success') {
+          console.log(Object(res.result).length)
+          console.log(res.result)
+          return res.result
         }
-      } else {
-        if (this.playerStateService.isResourceCompleted()) {
-          if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
-            && this.contentSvc.showConformation) {
-            const data = {
-              courseId: this.collectionId,
-            }
-            console.log("data", this.collectionId, data)
-            // Check if the dialog is already open
-            const isDialogOpen = this.dialog.openDialogs.length > 0
-            let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+      })
+      this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(async (record) => {
+        console.log('Record:', record)
+        rowData = await record
+        let dat = JSON.parse(rowData.data)
+        console.log(dat, 'dat')
+        if (dat && dat.length) {
+          optmisticPercentage = await this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
+        }
 
-            // If the dialog is not already open, open it
-            if (!isDialogOpen) {
-              confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                width: '300px',
-                height: '405px',
-                panelClass: 'overview-modal',
-                disableClose: true,
-                data: { request: data, message: 'Congratulations!, you have completed the course' },
-              })
-            }
+        console.log(rating, optmisticPercentage)
+        if (content.type) {
+          if (this.playerStateService.isResourceCompleted()) {
+            const nextResource = this.playerStateService.getNextResource()
+            if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
-            if (confirmdialog) {
-              confirmdialog.afterClosed().subscribe((res: any) => {
-                if (res && res.event === 'CONFIRMED') {
-                  this.dialog.closeAll()
-                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                    queryParams: {
-                      primaryCategory: 'Course',
-                      batchId: this.batchId,
-                    },
-                  })
-                }
-              })
+              if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
+                this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                  if (success) {
+                    this.playerStateService.trigger$.complete()
+                  }
+                }).catch(error => {
+                  console.error('Navigation error:', error)
+                })
+                //this.playerStateService.trigger$.complete()
+              }
+            } else if (this.contentSvc.showConformation) {
+              const data = {
+                courseId: this.collectionId,
+              }
+              console.log("data", this.collectionId, data)
+              const isDialogOpen = this.dialog.openDialogs.length > 0
+              let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+              // If the dialog is not already open, open it
+              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                  width: '300px',
+                  height: '405px',
+                  panelClass: 'overview-modal',
+                  disableClose: true,
+                  data: { request: data, message: 'Congratulations!, you have completed the course' },
+                })
+              }
+
+              if (confirmdialog) {
+                confirmdialog.afterClosed().subscribe((res: any) => {
+                  if (res && res.event === 'CONFIRMED') {
+                    this.dialog.closeAll()
+                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                      queryParams: {
+                        primaryCategory: 'Course',
+                        batchId: this.batchId,
+                      },
+                    })
+                  }
+                })
+              }
+            } else {
+              console.log(rating, optmisticPercentage)
+              const data = {
+                courseId: this.collectionId,
+              }
+              console.log("data", this.collectionId, data)
+              const isDialogOpen = this.dialog.openDialogs.length > 0
+              let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+
+              // If the dialog is not already open, open it
+              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                  width: '300px',
+                  height: '405px',
+                  panelClass: 'overview-modal',
+                  disableClose: true,
+                  data: { request: data, message: 'Congratulations!, you have completed the course' },
+                })
+              }
+
+              if (confirmdialog) {
+                confirmdialog.afterClosed().subscribe((res: any) => {
+                  if (res && res.event === 'CONFIRMED') {
+                    this.dialog.closeAll()
+                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                      queryParams: {
+                        primaryCategory: 'Course',
+                        batchId: this.batchId,
+                      },
+                    })
+                  }
+                })
+              }
+              if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
+              }
+
             }
           } else {
-            console.log('lll')
-            // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-            //   queryParams: {
-            //     primaryCategory: 'Course',
-            //     batchId: this.batchId,
-            //   },
-            // })
+            console.log(rating, optmisticPercentage)
+            if (optmisticPercentage === 100) {
+              this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                queryParams: {
+                  primaryCategory: 'Course',
+                  batchId: this.batchId,
+                },
+              })
+            }
+          }
+        } else {
+          if (this.playerStateService.isResourceCompleted()) {
+            if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
+              && this.contentSvc.showConformation) {
+              const data = {
+                courseId: this.collectionId,
+              }
+              console.log("data", this.collectionId, data)
+              // Check if the dialog is already open
+              const isDialogOpen = this.dialog.openDialogs.length > 0
+              let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
+              console.log(optmisticPercentage, Object.keys(rating).length)
+              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                  width: '300px',
+                  height: '405px',
+                  panelClass: 'overview-modal',
+                  disableClose: true,
+                  data: { request: data, message: 'Congratulations!, you have completed the course' },
+                })
+              } else {
+                if (optmisticPercentage === 100) {
+                  this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                    queryParams: {
+                      primaryCategory: 'Course',
+                      batchId: this.batchId,
+                    },
+                  })
+                }
+              }
+
+              if (confirmdialog) {
+                confirmdialog.afterClosed().subscribe((res: any) => {
+                  if (res && res.event === 'CONFIRMED') {
+                    this.dialog.closeAll()
+                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                      queryParams: {
+                        primaryCategory: 'Course',
+                        batchId: this.batchId,
+                      },
+                    })
+                  }
+                })
+              }
+            } else {
+              console.log('lll', dat)
+              const nextResource = this.playerStateService.getNextResource()
+              const regex: RegExp = /do_\d+/
+              const match: any = nextResource.match(regex)
+              console.log(match[0])
+              let courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+              let courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
+              console.log(courseData2)
+              const foundContent1 = dat.find((el1: any) => el1.contentId === this.resourceId)
+
+              const foundContent2 = dat.find((el2: any) => el2.contentId === match[0])
+              console.log(foundContent1, foundContent2)
+              console.log(nextResource, this.resourceId)
+              if (
+                foundContent1.completionPercentage === 100 &&
+                (courseData1.mimeType === 'application/json')
+                &&
+                (!foundContent2 || foundContent2.completionPercentage === 0)
+              ) {
+                this.router.navigate([nextResource], { preserveQueryParams: true })
+              }
+            }
           }
         }
-        // setTimeout(() => {
-        //   if (this.playerStateService.isResourceCompleted()) {
-        //     const nextResource = this.playerStateService.getNextResource()
-        //     console.log(nextResource)
-        //     if (!isNull(nextResource)) {
-        //       this.router.navigate([nextResource], { preserveQueryParams: true })
-        //       this.playerStateService.trigger$.complete()
-        //     } else {
-        //       console.log('ss')
-        //       const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-        //         width: '542px',
-        //         panelClass: 'overview-modal',
-        //         disableClose: true,
-        //         data: 'Congratulations!, you have completed the course',
-        //       })
-        //       confirmdialog.afterClosed().subscribe((res: any) => {
-        //         if (res && res.event === 'CONFIRMED') {
-        //           this.dialog.closeAll()
-        //           this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-        //             queryParams: {
-        //               primaryCategory: 'Course',
-        //               batchId: this.batchId,
-        //             },
-        //           })
-        //         }
-        //       })
-        //     }
+      }, (error) => {
+        console.error('Error:', error)
+        let userID = this.configSvc.userProfile!.userId
+        this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', content.contentList).subscribe(
+          (dat: any) => {
+            console.log('Data inserted successfully1', dat)
+            this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async (record) => {
+              console.log('Record:', record)
+              rowData = await record
+              let dat = JSON.parse(rowData.data)
+              console.log(dat)
+              if (dat && dat.length) {
+                optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
+                console.log(optmisticPercentage, 'foundContent', '942')
+                if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
+                  if (this.playerStateService.isResourceCompleted()) {
+                    const nextResource = this.playerStateService.getNextResource()
+                    if (!(isEmpty(nextResource) || isNull(nextResource))) {
+                      this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                        if (success) {
+                          this.playerStateService.trigger$.complete()
+                        }
+                      }).catch(error => {
+                        console.error('Navigation error:', error)
+                      })
+                    }
+                  }
+                }
 
-        //   }
-        // }, 2000)
-      }
-      // this.nestedDataSource.data = content
-      // this.processCurrentResourceChange()
-      // this.collection = content.contentList
-      // this.nestedDataSource = content
-      // this.updateResourceChange()
-      // this.pathSet = new Set()
-      // if (this.resourceId && this.tocMode === 'TREE') {
-      // if (this.resourceId) {
-      //   of(true)
-      //     .pipe(delay(200))
-      //     .subscribe(() => {
-      // this.expandThePath()
-      // this.isLoading = false
-      // })
-      // }
+              }
+            }, (error) => {
+              console.error('Error:', error)
+            })
+          },
+          (error) => {
+            console.error('Error inserting data:', error)
+          }
+        )
+      })
     } else {
       if (this.collection && this.collection.children) {
         this.isLoading = true

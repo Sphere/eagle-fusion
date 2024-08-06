@@ -263,6 +263,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
+        console.log(this.result, this.passPercentage)
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
         }
@@ -513,7 +514,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (!isNull(data.nextResource)) {
-
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
           const result = data.result
           result['type'] = 'assessment'

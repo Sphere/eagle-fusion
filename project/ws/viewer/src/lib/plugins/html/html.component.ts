@@ -344,6 +344,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                       console.log(res)
                       if (res) {
                         let result = {}
+                        result = data.result
                         result["type"] = 'scorm'
                         this.contentSvc.changeMessage(result)
                       }
