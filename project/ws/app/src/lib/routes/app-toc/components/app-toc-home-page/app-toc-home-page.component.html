@@ -7,7 +7,7 @@
 
 <ws-app-app-toc-desktop role="banner" [banners]="banners" [forPreview]="forPreview" [content]="content"
   [resumeData]="resumeData" [enrollCourse]="enrolledCourse" [batchData]="batchData"
-  [optmisticPercentage]="optmisticPercentage"></ws-app-app-toc-desktop>
+  [optmisticPercentage]="optmisticPercentage" [finishedPercentage]="finishedPercentage"></ws-app-app-toc-desktop>
 
 <ng-container>
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">
@@ -25,6 +25,11 @@
         [routerLink]="'./chapters'" [queryParams]="{batchId: batchId ,contentId: content.identifier}"
         [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'chapters'}" id="content-link" wsAppRetainScroll
         i18n>Modules</a>
+
+      <a *ngIf="content?.references" mat-tab-link (click)="toggleComponent('references')" [routerLink]="'./references'"
+        [queryParams]="{batchId: batchId ,contentId: content.identifier}"
+        [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'references'}" id="content-link" wsAppRetainScroll
+        i18n>Reference</a>
 
 
       <!-- <a mat-tab-link (click)="toggleComponent('license')" [routerLink]="'./license'" [queryParams]="{license: license}"

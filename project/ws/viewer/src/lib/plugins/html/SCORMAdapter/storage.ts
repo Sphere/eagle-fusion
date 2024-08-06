@@ -17,6 +17,9 @@ export class Storage {
   get contentKey() {
     return this.key
   }
+  returnKey() {
+    return this.contentKey
+  }
   setItem(element: any, value: any) {
     const item = window.localStorage.getItem(this.contentKey)
     if (!item) {
@@ -50,6 +53,7 @@ export class Storage {
   }
 
   getAll(): IScromData | null {
+    console.log(this.contentKey)
     let item = window.localStorage.getItem(this.contentKey)
     if (!item) {
       return null

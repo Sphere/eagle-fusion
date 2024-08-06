@@ -1,6 +1,6 @@
 <div class="overview-container">
     <div class="flex justify-end">
-        <button mat-button class="close-icon" mat-dialog-close>
+        <button mat-button class="close-icon" (click)="redirect()" mat-dialog-close>
             <mat-icon>close</mat-icon>
         </button>
     </div>
@@ -32,7 +32,7 @@
             </div>
             <div class="margin-top-s margin-bottom-s center-align">
                 <button class="margin-left-s submit-btn" (click)="submitData()" [disabled]="isMandatory"
-                    color="primary">
+                    [ngStyle]="{'opacity': isMandatory ? 0.7 : 1}" color="primary">
                     <ng-container i18n>Submit</ng-container>
                 </button>
             </div>

@@ -21,9 +21,25 @@
     filter: drop-shadow(0px 0px 4px rgba(0, 0, 0, 0.15));
     border-radius: 10px;
   }
+  .content-type{
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.41px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color:#808080 !important;
+    text-transform: uppercase;
+
+
+  }
 
   .card-title {
-    font-size: 20px !important;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18.75px;
+    letter-spacing: -0.02em;
+    text-align: left;
+    color: #000000 !important;
   }
 
   @media only screen and (max-width:469px) {
@@ -46,7 +62,11 @@
     }
   }
 }
-
+.card-thumbnail1{
+  width: 45px;
+height: 41px;
+    cursor: pointer;
+}
 .resource-container {
   display: flex;
   align-items: center;
