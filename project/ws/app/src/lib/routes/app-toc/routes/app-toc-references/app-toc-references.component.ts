@@ -14,7 +14,7 @@ export class AppTocReferencesComponent implements OnInit, OnDestroy {
   routeSubscription: Subscription | null = null
 
   loadContent = true
-  constructor(private route: ActivatedRoute, private tocSharedSvc: AppTocService,
+  constructor(public route: ActivatedRoute, private tocSharedSvc: AppTocService,
 
   ) { }
 
@@ -24,14 +24,12 @@ export class AppTocReferencesComponent implements OnInit, OnDestroy {
         this.initData(data)
       })
     }
-    console.log("content", this.content, this.references)
   }
-  private initData(data: Data) {
+  public initData(data: Data) {
     const initData = this.tocSharedSvc.initData(data)
     this.content = initData.content
     if (this.content && this.content.references) {
       this.references = JSON.parse(this.content.references)
-      console.log("this.references: ", this.references)
     }
   }
   ngOnDestroy() {
