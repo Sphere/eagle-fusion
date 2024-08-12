@@ -286,6 +286,12 @@ export class BnrcRegisterComponent implements OnInit {
         facilityNameControl.updateValueAndValidity()
 
       }
+      const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
+      if (facultyTypeControl) {
+        facultyTypeControl.clearValidators()
+        facultyTypeControl.updateValueAndValidity()
+
+      }
       const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
       if (bnrcRegistrationNumberControl) {
         bnrcRegistrationNumberControl.clearValidators()
