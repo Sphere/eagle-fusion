@@ -169,6 +169,10 @@ export class SCORMAdapterService {
       console.log(data, 'data.recieved')
       if (data["cmi.core.lesson_status"] === 'incomplete' || data['cmi.suspend_data']) {
         console.log('hey')
+        if (Object.keys(data).length === 1) {
+          data["cmi.core.exit"] = "suspend"
+          data["cmi.core.lesson_status"] = "incomplete"
+        }
         this.addDataV2(data)
         // this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
         //   console.log('intereim progress response', response)
@@ -443,10 +447,14 @@ export class SCORMAdapterService {
                       contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
                       batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                       courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                      status: this.getStatus(postData) || 2,
+                      status: this.contentData && this.contentData.status === 2
+                        ? this.contentData.status
+                        : this.getStatus(postData) || 2,
                       lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                       progressdetails: postData,
-                      completionPercentage: this.getPercentage(postData) || 0
+                      completionPercentage: this.contentData && this.contentData.status === 2
+                        ? 100
+                        : this.getPercentage(postData) || 0,
                     },
                   ],
                 },
@@ -460,7 +468,9 @@ export class SCORMAdapterService {
                       contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
                       batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                       courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                      status: this.getStatus(postData) || 2,
+                      status: this.contentData && this.contentData.status === 2
+                        ? this.contentData.status
+                        : this.getStatus(postData) || 2,
                       lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                       progressdetails: postData,
                       completionPercentage: 100
@@ -542,7 +552,7 @@ export class SCORMAdapterService {
                   this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data2)
               }
             }
-            console.log(this.scormData, 'scormdata')
+            console.log(this.scormData, 'scormdata', postData)
             if (this.getPercentage(this.scormData) === 100) {
               let result = await response.result
               result["type"] = 'scorm'

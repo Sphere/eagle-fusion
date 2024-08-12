@@ -157,6 +157,27 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       // this.contentSvc.changeMessage('docs.google')
     }
   }
+
+
+  mergeProgressDetails(obj1: any, obj2: any) {
+    // Create a new object to store the merged results
+    let mergedObj = { ...obj1 }
+
+    // Loop through the keys in obj2
+    for (const key in obj2) {
+      if (obj2.hasOwnProperty(key)) {
+        // If the key exists in obj1, accept the latest value from obj2
+        if (mergedObj.hasOwnProperty(key)) {
+          mergedObj[key] = obj2[key]
+        } else {
+          // If the key doesn't exist in obj1, add it from obj2
+          mergedObj[key] = obj2[key]
+        }
+      }
+    }
+
+    return mergedObj
+  }
   async ngOnChanges() {
     if (this.htmlContent && this.htmlContent.identifier) {
 
@@ -227,6 +248,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     }
 
     if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
+      sessionStorage.setItem('contentId', window.location.href)
       let userId
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
@@ -247,18 +269,29 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           console.log(scorminit, 'scorminit')
           if (this.htmlContent && data) {
             let progressData: any
-            progressData = await this.scormAdapterService.initValue()
-            if (Object.keys(progressData).length === 1) {
-              progressData["cmi.core.exit"] = "suspend"
-              progressData["cmi.core.lesson_status"] = "incomplete"
-              progressData["errors"] = "[]"
-            }
-            console.log(progressData, 'progressData')
+            progressData = localStorage.getItem(this.htmlContent!.identifier)
+            let dat = JSON.parse(progressData)
+            console.log(dat)
             let contentData: any
             contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-            console.log(this.htmlContent.identifier, contentData, '1')
-            // this.contentData =  data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-            console.log(contentData, this.htmlContent, this.ent, 'ent')
+
+            if (Object.keys(dat).length === 1) {
+              dat["cmi.core.exit"] = "suspend"
+              dat["cmi.core.lesson_status"] = "incomplete"
+              delete dat['errors']
+            }
+
+            let pdetails: any
+            if (typeof (contentData.progressdetails) === 'string') {
+              pdetails = JSON.parse(contentData.progressdetails)
+            } else {
+              pdetails = contentData.progressdetails
+            }
+
+            let mergedProgressDetails: any = await this.mergeProgressDetails(pdetails, dat)
+            delete mergedProgressDetails['errors']
+            console.log(mergedProgressDetails, 'mergedProgressDetails')
+
             if (contentData && contentData.completionPercentage === 0) {
               let req: any
               if (this.configSvc.userProfile) {
@@ -270,16 +303,20 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                         contentId: this.htmlContent!.identifier,
                         batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                         courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                        status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
+                        status: this.contentData && this.contentData.status === 2
+                          ? 2
+                          : (this.activatedRoute.snapshot.queryParams.collectionId === "do_11390679694610432011" ? 2 : 1),
                         lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                        progressdetails: Object.keys(contentData.progressdetails).length > 1 ? contentData.progressdetails : progressData,
-                        completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
+                        progressdetails: mergedProgressDetails,
+                        completionPercentage: this.contentData && this.contentData.status === 2
+                          ? 100
+                          : (this.activatedRoute.snapshot.queryParams.collectionId === "do_11390679694610432011" ? 100 : 0)
                       }
                     ],
                   },
                 }
                 console.log(req)
-                console.log(`}`, '273')
+                console.log(`}`, '289')
                 this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                   let res = await data
                   console.log(res)
@@ -304,7 +341,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                           courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                           status: 2,
                           lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                          progressdetails: Object.keys(contentData.progressdetails).length > 1 ? contentData.progressdetails : progressData,
+                          progressdetails: mergedProgressDetails,
                           completionPercentage: 100
                         }
                       ],
@@ -331,7 +368,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                             courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                             status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                            progressdetails: progressData,
+                            progressdetails: mergedProgressDetails,
                             completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                           }
                         ],

@@ -8,6 +8,7 @@ import {
   ViewContainerRef,
   Renderer2,
   Inject,
+  OnDestroy
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -16,6 +17,7 @@ import {
   NavigationStart,
   Router,
   ActivatedRoute,
+  Event
 } from '@angular/router'
 // import { Location } from '@angular/common'
 
@@ -37,6 +39,7 @@ import { ExploreResolverService } from './../../../../library/ws-widget/resolver
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import split from 'lodash/split'
 import { Plugins } from '@capacitor/core'
+import * as dayjs from 'dayjs'
 //import { v4 as uuid } from 'uuid'
 const { App } = Plugins
 //import { SignupService } from 'src/app/routes/signup/signup.service'
@@ -50,19 +53,19 @@ import { DOCUMENT } from '@angular/common'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
 import { DomSanitizer } from '@angular/platform-browser'
-import { forkJoin } from 'rxjs'
+import { forkJoin, Subscription } from 'rxjs'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ConfigService as CompetencyConfiService } from '../../routes/competency/services/config.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
-
+import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
 @Component({
   selector: 'ws-root',
   templateUrl: './root.component.html',
   styleUrls: ['./root.component.scss'],
 })
-export class RootComponent implements OnInit, AfterViewInit {
+export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   @ViewChild('previewContainer', { read: ViewContainerRef, static: true })
   previewContainerViewRef: ViewContainerRef | null = null
   @ViewChild('appUpdateTitle', { static: true })
@@ -100,6 +103,7 @@ export class RootComponent implements OnInit, AfterViewInit {
   appOnline: boolean | undefined
   paramsJSON!: string
   videoData: any
+  private routerEventsSubscription: Subscription
 
   constructor(
     private router: Router,
@@ -124,8 +128,12 @@ export class RootComponent implements OnInit, AfterViewInit {
     private CompetencyConfiService: CompetencyConfiService,
     private UserAgentResolverService: UserAgentResolverService,
     private userSvc: WidgetUserService,
+    private viewerSvc: ViewerUtilService,
     @Inject(DOCUMENT) private _document: Document
   ) {
+    this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
+      this.navigationInterceptor(event)
+    })
     this.online$ = merge(
       of(navigator.onLine),
       fromEvent(window, 'online').pipe(mapTo(true)),
@@ -178,11 +186,130 @@ export class RootComponent implements OnInit, AfterViewInit {
       },
     })
   }
+  ngOnDestroy() {
+    if (this.routerEventsSubscription) {
+      this.routerEventsSubscription.unsubscribe()
+    }
+  }
 
   public networkStatus() {
     this.online$.subscribe(value => {
       this.appOnline = value
     })
+  }
+
+  mergeProgressDetails(obj1: any, obj2: any) {
+    // Create a new object to store the merged results
+    let mergedObj = { ...obj1 }
+
+    // Loop through the keys in obj2
+    for (const key in obj2) {
+      if (obj2.hasOwnProperty(key)) {
+        // If the key exists in obj1, accept the latest value from obj2
+        if (mergedObj.hasOwnProperty(key)) {
+          mergedObj[key] = obj2[key]
+        } else {
+          // If the key doesn't exist in obj1, add it from obj2
+          mergedObj[key] = obj2[key]
+        }
+      }
+    }
+
+    return mergedObj
+  }
+
+  private navigationInterceptor(event: Event): void {
+    if (event instanceof NavigationStart) {
+      console.log('Navigation started to URL:', event.url)
+    }
+
+    if (event instanceof NavigationEnd) {
+      console.log('Navigation ended to URL:', event.url)
+      let contentURL = sessionStorage.getItem('contentId')
+      console.log(contentURL)
+      if (contentURL) {
+        const url: any = contentURL
+        const path = url.split('?')[0] // Get the part before the query string
+        const match = path.match(/do_[\w\d]+/) // Match the do_ identifier pattern
+        let doId: any
+        if (match) {
+          doId = match[0] // Extract the first match
+        }
+        const urlParams = new URLSearchParams(url.split('?')[1])
+        let collectionId: any = urlParams.get('collectionId')
+        let batchId = urlParams.get('batchId')
+        let storedData: any
+        let userId
+        if (this.configSvc.userProfile) {
+          userId = this.configSvc.userProfile.userId || ''
+        }
+        const req: any = {
+          request: {
+            userId,
+            batchId: batchId,
+            courseId: collectionId,
+            contentIds: [],
+            fields: ['progressdetails'],
+          },
+        }
+        // console.log(req)
+        this.contentSvc.fetchContentHistoryV2(req).subscribe(
+          async (data: any) => {
+            let contentData: any
+            contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === doId)
+            console.log(contentData, '240')
+            if (contentData && event.url.includes('/chapters') && event.url.includes(collectionId)) {
+              storedData = localStorage.getItem(doId)
+              let dat = JSON.parse(storedData)
+              console.log(dat)
+              let req: any
+              let mergedProgressDetails: any = this.mergeProgressDetails(contentData.progressdetails, dat)
+              delete mergedProgressDetails['errors']
+              if (Object.keys(mergedProgressDetails).length === 1) {
+                mergedProgressDetails["cmi.core.exit"] = "suspend"
+                mergedProgressDetails["cmi.core.lesson_status"] = "incomplete"
+              }
+              console.log(mergedProgressDetails, 'mergedProgressDetails')
+              if (this.configSvc.userProfile && Object.keys(dat).length > 0) {
+                req = {
+                  request: {
+                    userId: this.configSvc.userProfile.userId || '',
+                    contents: [
+                      {
+                        contentId: doId,
+                        batchId: batchId,
+                        courseId: collectionId,
+                        status: contentData.status,
+                        lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+                        progressdetails: mergedProgressDetails,
+                        completionPercentage: contentData.completionPercentage
+                      }
+                    ],
+                    url: contentURL
+                  },
+                }
+              }
+              console.log(req)
+              console.log(`}`, '293')
+              this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
+                let res = await data
+                console.log(res)
+                sessionStorage.removeItem('contentId')
+              })
+            } else {
+              console.warn('No data found for ID:', doId)
+            }
+          })
+      }
+    }
+
+    if (event instanceof NavigationCancel) {
+      console.log('Navigation canceled to URL:', event.url)
+    }
+
+    if (event instanceof NavigationError) {
+      console.log('Navigation error to URL:', event.url)
+    }
   }
 
   ngOnInit() {
