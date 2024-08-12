@@ -243,7 +243,17 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       // console.log(req)
       this.contentSvc.fetchContentHistoryV2(req).subscribe(
         async data => {
+          let scorminit = this.scormAdapterService.LMSInitialize()
+          console.log(scorminit, 'scorminit')
           if (this.htmlContent && data) {
+            let progressData: any
+            progressData = await this.scormAdapterService.initValue()
+            if (Object.keys(progressData).length === 1) {
+              progressData["cmi.core.exit"] = "suspend"
+              progressData["cmi.core.lesson_status"] = "incomplete"
+              progressData["errors"] = "[]"
+            }
+            console.log(progressData, 'progressData')
             let contentData: any
             contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
             console.log(this.htmlContent.identifier, contentData, '1')
@@ -262,7 +272,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                         courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                         status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                         lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                        progressdetails: {},
+                        progressdetails: Object.keys(contentData.progressdetails).length > 1 ? contentData.progressdetails : progressData,
                         completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                       }
                     ],
@@ -279,8 +289,9 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               this.scormAdapterService.contentId = this.htmlContent.identifier
               this.scormAdapterService.htmlName = this.htmlContent.name
               this.scormAdapterService.parent = this.htmlContent!.parent ? this.htmlContent.parent : undefined
-              console.log('scorm here')
+
               if (contentData && contentData.completionPercentage === 100) {
+                console.log('scorm here', contentData.progressdetails)
                 let req: any
                 if (this.configSvc.userProfile) {
                   req = {
@@ -293,7 +304,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                           courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                           status: 2,
                           lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                          progressdetails: {},
+                          progressdetails: Object.keys(contentData.progressdetails).length > 1 ? contentData.progressdetails : progressData,
                           completionPercentage: 100
                         }
                       ],
@@ -320,7 +331,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                             courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                             status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                            progressdetails: {},
+                            progressdetails: progressData,
                             completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                           }
                         ],
@@ -333,6 +344,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                       console.log(res)
                       if (res) {
                         let result = {}
+                        result = data.result
                         result["type"] = 'scorm'
                         this.contentSvc.changeMessage(result)
                       }

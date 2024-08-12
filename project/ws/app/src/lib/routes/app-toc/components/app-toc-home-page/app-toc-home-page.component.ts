@@ -102,6 +102,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   resumeDataLink: any
   rowDetails: any | undefined
   optmisticPercentage: number = 0
+  finishedPercentage: any | undefined
 
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
@@ -468,7 +469,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             let dat = JSON.parse(this.rowData.data)
             if (dat && dat.length) {
               this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              console.log(this.optmisticPercentage, 'foundContent')
+              this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+              console.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
             }
           }, (error) => {
             console.error('Error:', error, data.result.contentList)
@@ -481,7 +483,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
                   let dat = JSON.parse(this.rowData.data)
                   if (dat && dat.length) {
                     this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    console.log(this.optmisticPercentage, 'foundContent')
+                    this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
+                    console.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
                   }
                 }, (error) => {
                   console.error('Error:', error)
@@ -576,8 +579,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
     console.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
     let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    console.log(percentage, 'percentage')
-    return percentage
+    console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
+    let progress = Math.min(Math.max(percentage, 0), 100)
+    return progress
   }
   calculateAggregate(arr: any, field: string): number {
     let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)

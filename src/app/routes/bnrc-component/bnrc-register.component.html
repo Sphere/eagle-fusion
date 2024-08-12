@@ -43,14 +43,14 @@
     <mat-error *ngIf="bnrcDetailForm.get('phone')?.hasError('pattern') && bnrcDetailForm.get('phone')?.touched">
       Phone number is invalid
     </mat-error>
-    <label i18n for="profession" style="display: block;">Email / ईमेल </label>
+    <!-- <label i18n for="profession" style="display: block;">Email / ईमेल </label>
     <div class="form-group input-box">
       <input type="text" name="email" formControlName="email" i18n class="form-control" placeholder="Email Id"
         autocomplete="off">
     </div>
     <mat-error *ngIf="bnrcDetailForm.get('email')?.hasError('pattern') && bnrcDetailForm.get('email')?.touched">
       Email number is invalid
-    </mat-error>
+    </mat-error> -->
     <label i18n for="profession" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
 
     <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -62,18 +62,20 @@
     <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid && bnrcDetailForm.get('district')?.touched">
       District is required.
     </mat-error>
+    <ng-container *ngIf="!isInservice">
+      <label i18n for="profession" style="display: block;">Role <span class="red-icon">*</span> </label>
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="role" i18n-placeholder placeholder="Role"
+          (selectionChange)="professionalChange($event.value)">
+          <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="bnrcDetailForm.get('role')?.invalid && bnrcDetailForm.get('role')?.touched">
+        Role is required.
+      </mat-error>
+    </ng-container>
 
-    <label i18n for="profession" style="display: block;">Role <span class="red-icon">*</span> </label>
-    <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-      <mat-select formControlName="role" i18n-placeholder placeholder="Role"
-        (selectionChange)="professionalChange($event.value)">
-        <mat-option [value]="profession" *ngFor="let profession of professions">{{profession}}
-        </mat-option>
-      </mat-select>
-    </mat-form-field>
-    <mat-error *ngIf="bnrcDetailForm.get('role')?.invalid && bnrcDetailForm.get('role')?.touched">
-      Role is required.
-    </mat-error>
     <ng-container *ngIf="Student">
       <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
           class="red-icon">*</span></label>
@@ -186,17 +188,19 @@
 
     </ng-container>
     <ng-container *ngIf="inService">
-      <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-        <mat-select formControlName="publicFacilityType" i18n-placeholder placeholder="Position">
-          <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-error
-        *ngIf="bnrcDetailForm.get('publicFacilityType')?.invalid && bnrcDetailForm.get('publicFacilityType')?.touched">
-        Position is required.
-      </mat-error>
+      <ng-container *ngIf="!isInservice">
+        <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
+        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+          <mat-select formControlName="publicFacilityType" i18n-placeholder placeholder="Position">
+            <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('publicFacilityType')?.invalid && bnrcDetailForm.get('publicFacilityType')?.touched">
+          Position is required.
+        </mat-error>
+      </ng-container>
       <label i18n for="profession" style="display: block;">Role for Inservice Nurse <span
           class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -212,17 +216,19 @@
       </mat-error>
     </ng-container>
     <div *ngIf="publicHealthFacility">
-      <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-        <mat-select formControlName="publicFacilityType" i18n-placeholder placeholder="Position">
-          <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-error
-        *ngIf="bnrcDetailForm.get('publicFacilityType')?.invalid && bnrcDetailForm.get('publicFacilityType')?.touched">
-        Position is required.
-      </mat-error>
+      <ng-container *ngIf="!isInservice">
+        <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
+        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+          <mat-select formControlName="publicFacilityType" i18n-placeholder placeholder="Position">
+            <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('publicFacilityType')?.invalid && bnrcDetailForm.get('publicFacilityType')?.touched">
+          Position is required.
+        </mat-error>
+      </ng-container>
       <label i18n for="profession" style="display: block;">Role for Inservice Nurse <span
           class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -260,7 +266,7 @@
           Name of Facility should be in English and should not start with a space.
         </mat-error>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="hrmsId" i18n>HRMS/Manav Sampada id <span *ngIf="hrmsErr" class="red-icon">*</span></label>
         <input type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
           placeholder="HRMS/Manav Sampada id " autocomplete="off">
@@ -277,22 +283,24 @@
           *ngIf="bnrcDetailForm.get('bnrcRegistrationNumber')?.invalid && bnrcDetailForm.get('bnrcRegistrationNumber')?.touched">
           BNRC Registration number is required.
         </mat-error>
-      </div>
+      </div> -->
 
 
     </div>
     <div *ngIf="privateHealthFacility">
-      <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-        <mat-select formControlName="privateFacilityType" i18n-placeholder placeholder="Position">
-          <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-error
-        *ngIf="bnrcDetailForm.get('privateFacilityType')?.invalid && bnrcDetailForm.get('privateFacilityType')?.touched">
-        Position is required.
-      </mat-error>
+      <ng-container *ngIf="!isInservice">
+        <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
+        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+          <mat-select formControlName="privateFacilityType" i18n-placeholder placeholder="Position">
+            <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('privateFacilityType')?.invalid && bnrcDetailForm.get('privateFacilityType')?.touched">
+          Position is required.
+        </mat-error>
+      </ng-container>
       <label i18n for="profession" style="display: block;">Role for Inservice Nurse <span
           class="red-icon">*</span></label> <mat-form-field appearance="outline" class="field-fullwidth"
         style="width: 100%;">
@@ -322,7 +330,7 @@
         </mat-error>
       </div>
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="bnrcRegistrationNumber" i18n>BNRC Registration number <span class="red-icon">*</span></label>
         <input type="text" formControlName="bnrcRegistrationNumber" class="form-control" i18n-placeholder
           placeholder="BNRC Registration number" autocomplete="off">
@@ -330,7 +338,7 @@
           *ngIf="bnrcDetailForm.get('bnrcRegistrationNumber')?.invalid && bnrcDetailForm.get('bnrcRegistrationNumber')?.touched">
           BNRC Registration number is required.
         </mat-error>
-      </div>
+      </div> -->
     </div>
 
     <!-- <div style="
