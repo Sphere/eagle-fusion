@@ -7,8 +7,10 @@
         </button> -->
     </div>
     <div class="flex text-center">
-        <p i18n class="message-text">{{data.message}}</p>
+        <p i18n class="message-text">{{data.message.split(' Kindly')[0]}}</p>
+        <p i18n class="message-text">Kindly{{data.message.split(' Kindly')[1]}}</p>
     </div>
+
     <div class="btn-block">
         <button class="btn btn-active btn-main download-btn" mat-raised-button (click)="done('download')" i18n>Download
             e-Kshamata</button>

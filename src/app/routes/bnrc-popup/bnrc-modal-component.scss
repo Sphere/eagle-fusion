@@ -33,6 +33,7 @@
 
 .text-center {
   text-align: center;
+  flex-direction: column;
 }
 
 .justify-center {
@@ -69,7 +70,7 @@
   line-height: 18.75px;
   letter-spacing: 0.02em;
   text-align: left;
-
+  margin-bottom: 0px;
 
 }
 
@@ -107,7 +108,7 @@
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
   font-family: Roboto;
-  font-size: 16px;
+  font-size: 16px !important;
   font-weight: 400;
   line-height: 19px;
   letter-spacing: 0em;

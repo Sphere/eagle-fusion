@@ -185,6 +185,7 @@ export class BnrcRegisterComponent implements OnInit {
       } else {
         this.isInservice = false
         this.bnrcDetailForm.controls.role.setValue(null)
+        this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
         this.bnrcDetailForm.controls.roleForInService.setValue(null)
       }
     })
@@ -455,10 +456,12 @@ export class BnrcRegisterComponent implements OnInit {
         privateFacilityTypeControl.updateValueAndValidity()
 
       }
+      this.bnrcDetailForm.controls.publicFacilityType.setValue('ANM')
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
 
     } else if (value === 'Private Health Facility') {
+
       this.showDesignation = true
       this.Student = false
       this.Faculty = false
@@ -508,6 +511,7 @@ export class BnrcRegisterComponent implements OnInit {
         serviceTypeControl.updateValueAndValidity()
 
       }
+      this.bnrcDetailForm.controls.privateFacilityType.setValue('ANM')
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
       this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
@@ -589,10 +593,12 @@ export class BnrcRegisterComponent implements OnInit {
           this.resetForm()
           this.dialog.open(BnrcmodalComponent, {
             width: '350px',
-            height: '275px',
+            height: '305px',
             panelClass: 'overview-modal',
             disableClose: true,
-            data: { message: 'Kindly download the e-Kshamata app and login using your given mobile number with OTP.', from: 'Bnrc' },
+            data: {
+              message: 'कृपया ई-क्षमता ऐप डाउनलोड करें और दिए गए मोबाइल नंबर के साथ ओटीपी का उपयोग करके लॉगिन करें । Kindly download the e- Kshamata app and login using your given mobile number with OTP.', from: 'Bnrc'
+            },
           })
         } else {
           console.log('Form is valid. Saving data...', res)
