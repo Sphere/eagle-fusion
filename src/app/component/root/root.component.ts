@@ -225,7 +225,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (event instanceof NavigationEnd) {
       console.log('Navigation ended to URL:', event.url)
-      let contentURL = sessionStorage.getItem('contentId')
+      let contentURL = localStorage.getItem('contentId')
       console.log(contentURL)
       if (contentURL) {
         const url: any = contentURL
@@ -294,7 +294,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
               this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                 let res = await data
                 console.log(res)
-                sessionStorage.removeItem('contentId')
+                localStorage.removeItem('contentId')
               })
             } else {
               console.warn('No data found for ID:', doId)

@@ -283,9 +283,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.isLoading = true
         this.currentContentType = await data.type
         if (data && data.type === "scorm") {
-          sessionStorage.setItem('contentId', window.location.href)
+          localStorage.setItem('contentId', window.location.href)
         } else {
-          sessionStorage.removeItem('contentId')
+          localStorage.removeItem('contentId')
         }
         this.processCollectionForTree(data)
         // this.ngOnInit()
@@ -977,7 +977,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         console.log(resourceData, 'resourceData')
         console.log(resourceData.result.content.mimeType)
         if (resourceData.result.content.mimeType !== 'application/vnd.ekstep.html-archive') {
-          sessionStorage.removeItem('contentId')
+          localStorage.removeItem('contentId')
         }
         let userId
         if (this.configSvc.userProfile) {
