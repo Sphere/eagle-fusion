@@ -103,7 +103,7 @@
 <ng-template let-content #TocContentCard>
   <a class="width-expand flat-list-content margin-xs"
     [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.disabledNode  }" matRipple
-    (click)="minimizenav()" [routerLink]="content.viewerUrl" queryParamsHandling="preserve">
+    (click)="minimizenav()" [routerLink]="content.viewerUrl" queryParamsHandling="preserve" [attr.tabindex]="'-1'">
     <span class="width-expand flex flex-middle">
 
       <img i18n-alt alt="thumbnail" class="viewer-toc-thumbnail align-self-start margin-auto mat-app-background"
@@ -157,7 +157,8 @@
     </ws-widget-display-content-type-icon> -->
     <div class="resource-meta width-expand">
       <a [ngClass]="{ 'content-active': pathSet.has(content.identifier) , 'disabled' : content.disabledNode }"
-        [routerLink]="content.viewerUrl" queryParamsHandling="preserve" (click)="sendStatus(content)">
+        [routerLink]="content.viewerUrl" queryParamsHandling="preserve" (click)="sendStatus(content)"
+        [attr.tabindex]="'-1'">
         <h3 *ngIf="content?.type !== enumContentTypes.ASSESSMENT" class="margin-remove flex sub-heading">
           {{ content?.title }}
           <!-- <mat-icon *ngIf="content.disabledNode">lock
