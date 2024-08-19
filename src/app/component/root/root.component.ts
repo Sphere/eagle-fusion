@@ -258,7 +258,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             let contentData: any
             contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === doId)
             console.log(contentData, '240')
-            if (contentData && event.url.includes('/chapters') && event.url.includes(collectionId)) {
+            if (contentData && ((event.url.includes('/chapters') || event.url.includes('/app/toc')) && event.url.includes(collectionId))) {
               storedData = localStorage.getItem(doId)
               let dat = JSON.parse(storedData)
               console.log(dat)
