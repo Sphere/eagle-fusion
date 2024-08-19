@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ViewChild, ElementRef, OnInit, AfterViewChecked } from '@angular/core'
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { mustMatch } from '../password-validator'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
@@ -43,7 +43,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
       otp: new FormControl(''),
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
-    },                              { validator: mustMatch('password', 'confirmPassword') })
+    }, { validator: mustMatch('password', 'confirmPassword') })
 
     // this.emailForm = this.fb.group({
     //   userInput: new FormControl(['']),
@@ -66,7 +66,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    },         30000)
+    }, 30000)
   }
 
   verifyEntry() {
@@ -159,7 +159,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
               this.openSnackbar(`${data.result.response}`)
               this.router.navigate(['/app/profile/dashboard'])
             },
-                       err => {
+              err => {
                 // tslint:disable-next-line:no-console
                 console.log(err)
                 this.router.navigate([`/public/register`])
@@ -209,7 +209,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
           if (res.message === 'Success') {
             setTimeout(() => {
               this.authSvc.login('S', document.baseURI)
-            },         5000)
+            }, 5000)
           }
         },
         (err: { error: { error: string } }) => {
@@ -231,8 +231,8 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   gotoHome() {
     this.router.navigate(['/page/home'])
-      // .then(() => {
-      //   window.location.reload()
-      // })
+    // .then(() => {
+    //   window.location.reload()
+    // })
   }
 }

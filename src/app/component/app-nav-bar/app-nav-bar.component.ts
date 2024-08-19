@@ -11,7 +11,7 @@ import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/c
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { appNavBarService } from './app-nav-bar.service'
 
 @Component({

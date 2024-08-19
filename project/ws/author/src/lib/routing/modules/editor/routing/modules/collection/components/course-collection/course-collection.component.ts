@@ -1,7 +1,8 @@
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
@@ -322,10 +323,10 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     if (this.viewMode === 'assessment') {
       this.triggerQuizSave = true
     } else
-    if (this.viewMode === 'upload') {
-    // TODO  console.log('viewmode', this.viewMode)
-      this.triggerUploadSave = true
-    }
+      if (this.viewMode === 'upload') {
+        // TODO  console.log('viewmode', this.viewMode)
+        this.triggerUploadSave = true
+      }
     if (
       Object.keys(updatedContent).length ||
       Object.keys(this.storeService.changedHierarchy).length
@@ -688,13 +689,13 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
         break
       case 'editContent':
         if (event.nodeClicked === false) {
-        //  this.save('refresh')
+          //  this.save('refresh')
         }
 
         const content = this.contentService.getUpdatedMeta(event.identifier)
         if (['application/pdf', 'application/x-mpegURL'].includes(content.mimeType)) {
           this.viewMode = 'upload'
-        }  else if (['video/x-youtube', 'application/html'].includes(content.mimeType) && content.fileType === 'link') {
+        } else if (['video/x-youtube', 'application/html'].includes(content.mimeType) && content.fileType === 'link') {
           this.viewMode = 'curate'
         } else if (content.mimeType === 'application/html') {
           this.viewMode = 'upload'
@@ -875,8 +876,8 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
       case 'InReview':
         return 'review'
       case 'Reviewed':
-       const isDraftPresent = this.contentService.resetStatus()
-       /**Change all content as draft, if one of the content is draft status */
+        const isDraftPresent = this.contentService.resetStatus()
+        /**Change all content as draft, if one of the content is draft status */
         if (isDraftPresent) {
           this.contentService.changeStatusDraft()
           return 'sendForReview'

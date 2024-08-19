@@ -3,7 +3,10 @@ import { CommonModule } from '@angular/common'
 import { DisplayContentsComponent } from './display-contents.component'
 import { DisplayContentTypeModule } from '../display-content-type/display-content-type.module'
 import { PipeDurationTransformModule, PipeLimitToModule, DefaultThumbnailModule } from '@ws-widget/utils'
-import { MatIconModule, MatButtonModule, MatProgressBarModule, MatCardModule } from '@angular/material'
+import { MatIconModule } from '@angular/material/icon'
+import { MatButtonModule } from '@angular/material/button'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatCardModule } from '@angular/material/card'
 import { RouterModule } from '@angular/router'
 
 @NgModule({

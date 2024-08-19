@@ -9,7 +9,9 @@ import {
   ViewChild, ViewChildren,
 } from '@angular/core'
 import { Location } from '@angular/common'
-import { MatDialog, MatDialogRef, MatSidenav } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatDialogRef } from '@angular/material/dialog'
+import { MatSidenav } from '@angular/material/sidenav'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map, takeUntil, first } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'

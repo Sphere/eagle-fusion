@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
-// import { MatSnackBar } from '@angular/material'
+// import { MatSnackBar } from '@angular/material/snack-bar'
 // import { MatDialog } from '@angular/material/dialog'
 import { ConfigurationsService } from '@ws-widget/utils'
 // import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
@@ -121,8 +121,8 @@ export class UrlUploadComponent implements OnInit {
     //     duration: NOTIFICATION_TIME * 1000,
     //   })
     // } else {
-      this.storeData()
-      this.data.emit('save')
+    this.storeData()
+    this.data.emit('save')
     // }
   }
 
@@ -179,15 +179,15 @@ export class UrlUploadComponent implements OnInit {
             // disableIframe = false
           }
           // if (v.allowReplace) {
-            switch (v.source) {
-              case 'youtube':
-                this.urlUploadForm.controls.artifactUrl.setValue(
-                  URLCheckerClass.youTubeUrlChange(artifactUrl),
-                )
-                // disableIframe = false;
-                this.urlUploadForm.controls.mimeType.setValue('video/x-youtube')
-                break
-            }
+          switch (v.source) {
+            case 'youtube':
+              this.urlUploadForm.controls.artifactUrl.setValue(
+                URLCheckerClass.youTubeUrlChange(artifactUrl),
+              )
+              // disableIframe = false;
+              this.urlUploadForm.controls.mimeType.setValue('video/x-youtube')
+              break
+          }
           // }
         } else {
           this.urlUploadForm.controls.isIframeSupported.setValue('No')

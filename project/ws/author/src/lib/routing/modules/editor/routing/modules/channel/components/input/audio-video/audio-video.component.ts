@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output } from '@angular/core'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { IWidgetsPlayerMediaData, NsContent } from '@ws-widget/collection'
 import {
   AUTHORING_CONTENT_BASE,
@@ -49,9 +49,9 @@ export class AudioVideoComponent implements OnChanges, OnInit {
     private uploadService: UploadService,
     private authInitService: AuthInitService,
     private loader: LoaderService,
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   ngOnChanges() {
     this.initData()

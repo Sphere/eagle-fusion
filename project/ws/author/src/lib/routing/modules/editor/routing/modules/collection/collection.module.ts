@@ -20,12 +20,11 @@ import { CourseHeaderComponent } from './components/course-header/course-header.
 import { BtnPageBackModule } from '@ws-widget/collection'
 import { WebPageModule } from './../web-page/web-page.module'
 
-import {
-  MatToolbarModule,
-  MatIconModule,
-  MatButtonModule,
-  MatTooltipModule,
-} from '@angular/material'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatIconModule } from '@angular/material/icon'
+import { MatButtonModule } from '@angular/material/button'
+import { MatTooltipModule } from '@angular/material/tooltip'
+
 
 @NgModule({
   declarations: [
@@ -57,4 +56,4 @@ import {
     WebPageModule,
   ],
 })
-export class CollectionModule {}
+export class CollectionModule { }

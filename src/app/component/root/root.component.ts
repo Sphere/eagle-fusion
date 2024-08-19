@@ -45,7 +45,7 @@ const { App } = Plugins
 //import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
-// import { MatDialog } from '@angular/material'
+// import { MatDialog } from '@angular/material/dialog';
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'

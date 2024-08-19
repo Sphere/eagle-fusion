@@ -9,7 +9,7 @@ import {
   Output,
   ViewChild,
 } from '@angular/core'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
 import { SearchServService } from '@ws/app/src/lib/routes/search/services/search-serv.service'

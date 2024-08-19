@@ -2,7 +2,7 @@ import { Component, Input, OnChanges } from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { IWsTree } from './tree.model'
 import { NestedTreeControl } from '@angular/cdk/tree'
-import { MatTreeNestedDataSource } from '@angular/material'
+import { MatTreeNestedDataSource } from '@angular/material/tree/data-source/nested-data-source'
 
 @Component({
   selector: 'ws-widget-tree',

@@ -3,7 +3,11 @@ import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@ang
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { Subscription, Observable } from 'rxjs'
 import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators'
-import { MatSnackBar, MatChipInputEvent, DateAdapter, MAT_DATE_FORMATS, MatDialog, MatTabGroup } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatChipInputEvent } from '@angular/material/chips'
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core/datetime'
+import { MatDialog } from '@angular/material/dialog'
+import { MatTabGroup } from '@angular/material/tabs'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../services/format-datepicker'
 import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
@@ -813,7 +817,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */

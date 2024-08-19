@@ -1,23 +1,22 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { NgCircleProgressModule } from 'ng-circle-progress'
-import {
-  MatCardModule,
-  MatSidenavModule,
-  MatToolbarModule,
-  MatIconModule,
-  MatButtonModule,
-  MatDividerModule,
-  MatSlideToggleModule,
-  MatListModule,
-  MatTreeModule,
-  MatProgressSpinnerModule,
-  MatSnackBarModule,
-  MatTabsModule,
-  MatInputModule,
-  MatDialogModule
-} from '@angular/material'
+import { NgCircleProgressModule } from 'ng-circle-progress/ng-circle-progress'
+import { MatCardModule } from '@angular/material/card'
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatIconModule } from '@angular/material/icon'
+import { MatButtonModule } from '@angular/material/button'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatListModule } from '@angular/material/list'
+import { MatTreeModule } from '@angular/material/tree'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatInputModule } from '@angular/material/input'
+import { MatDialogModule } from '@angular/material/dialog'
+
 
 import { ViewerRoutingModule } from './viewer-routing.module'
 

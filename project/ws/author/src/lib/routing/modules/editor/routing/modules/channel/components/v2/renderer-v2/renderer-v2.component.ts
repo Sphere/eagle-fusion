@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, OnChanges } from '@angular/core'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { responsiveSuffix, sizeSuffix } from '@ws-widget/collection/src/public-api'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'

@@ -1,7 +1,9 @@
 import { animate, transition, trigger } from '@angular/animations'
 import { Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms'
-import { MatDialog, MatPaginator, MatTableDataSource } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatPaginator } from '@angular/material/paginator'
+import { MatTableDataSource } from '@angular/material/table'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
@@ -27,7 +29,7 @@ import { CONTENT_BASE_WEBHOST_ASSETS } from '../../../../../../../../constants/a
 export class GeneralDetailsComponent implements OnInit {
   @ViewChild('searchInput', { static: false }) searchInputElem: ElementRef<any> = {} as ElementRef<
     any
-    >
+  >
   @Output() data = new EventEmitter<string>()
   @Output() id = new EventEmitter<string>()
   _id!: string

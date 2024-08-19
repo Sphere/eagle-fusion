@@ -7,7 +7,7 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 import { IAction } from './../../interface/content-card'
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { ISearchContent, ITranslation } from '@ws/author/src/lib/interface/search'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
 
 interface ILanguageBar {

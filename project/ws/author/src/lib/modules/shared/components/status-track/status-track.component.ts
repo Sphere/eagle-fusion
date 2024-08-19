@@ -4,7 +4,7 @@ import { WorkFlowService } from '@ws/author/src/lib/services/work-flow.service'
 import { ISearchContent } from '@ws/author/src/lib/interface/search'
 import { NSContent } from '@ws/author/src/lib/interface/content'
 import { Component, Input, OnInit, Inject } from '@angular/core'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 
 interface IWorkFlowLog {
   name: string
