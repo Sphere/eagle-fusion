@@ -104,7 +104,7 @@ text-align: left;
 
 .banner-image {
   width: 100%; /* Ensure images fill their container */
-  height: auto; /* Maintain aspect ratio */
+ object-fit: cover; /* Maintain aspect ratio */
 }
 
 .info-block {
@@ -297,7 +297,7 @@ text-align: center;
     background: #ffffff;
     height: 51px;
     margin-bottom: 20px;
-    margin-top: -12px;
+    margin-top: -1px;
     flex-direction: column;
 }
 
@@ -313,4 +313,29 @@ text-align: center;
     letter-spacing: -0.02em;
     color: #FFFFFF !important;
     margin: 0px !important;
+}
+
+
+.banner-container {
+  position: relative;
+}
+
+.carousel {
+  position: relative;
+  z-index: 1;
+}
+
+.create-account {
+  position: relative;
+  z-index: 10;
+}
+
+.slides {
+  position: relative;
+  z-index: 1;
+}
+
+.slide {
+  position: relative;
+  z-index: 1;
 }

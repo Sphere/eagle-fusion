@@ -8,11 +8,11 @@
         Learn at your own pace & Get Certified
       </div>
       <div class="create-account">
-        <a role="button" matRipple class="flex  mt-8  box-sizing-box" (click)="createAcct()" active
-          [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+        <a role="button" matRipple class="flex mt-8 box-sizing-box" (click)="createAcct()" active
+          [ngStyle]="{'width':'inherit', 'z-index': 10}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
             <span class="new-user-txt">New user?</span>
-            <button name="login_client_button" color="primary" class="login-btn header-btn  mat-button-base">
+            <button name="login_client_button" color="primary" class="login-btn header-btn mat-button-base">
               Create Account
             </button>
           </ng-container>
@@ -23,7 +23,7 @@
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
         <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
           class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
-          <img class="banner-image" [src]="data.img" alt="Carousel" loading="lazy">
+          <img class="banner-image" [style.height]="data.height" [src]="data.img" alt="Carousel" loading="lazy">
         </div>
       </div>
     </div>
@@ -31,13 +31,11 @@
 </div>
 
 
+
 <div *ngFor="let data of dataCarousel; let i = index">
   <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
-      <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
-        </span> </p>
-      <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
-          > </span> </p> -->
+
       <div>
         <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
           (click)="goToSlide(i)" class="round-buttons">

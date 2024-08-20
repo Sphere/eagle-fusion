@@ -116,6 +116,7 @@ import { LoaderService } from '../../project/ws/author/src/public-api'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
+import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
@@ -288,6 +289,7 @@ const dbConfig: DBConfig = {
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LanguageDialogComponent,
+    CreateAccountDialogComponent,
     DropdownDobComponent,
     SashaktCallbackComponent,
     SelfAssessmentComponent,
@@ -385,6 +387,7 @@ const dbConfig: DBConfig = {
     ImageCropComponent,
     NotificationComponent,
     LanguageDialogComponent,
+    CreateAccountDialogComponent,
     VideoPopupComponent
   ],
   providers: [

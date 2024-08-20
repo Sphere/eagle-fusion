@@ -98,6 +98,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false
     }
+    this.hideSearch = false
     this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
     this.router.events.subscribe((e: Event) => {
       if (e instanceof NavigationEnd) {

@@ -1,42 +1,80 @@
-<div class="login-page-content">
-  <div class="login-card">
-    <div class="img-box">
-      <img alt="" width="250" height="240" src="../../../fusion-assets/images/Frame150.svg">
+<div class="top-blue-color">
+  <div class="login-page-content">
+    <!-- <div class="flex justify-content-between align-items-center back-btn">
+    <button (click)="redirect('lang')" mat-icon-button [disableRipple]="true" class="back-icon">
+      <mat-icon>chevron_left</mat-icon>
+    </button>
+  </div> -->
+    <div *ngIf="(isXSmall$ | async) === true" class="flex justify-content-between top-block">
+      <div class="flex justify-content-between align-items-center back-btn">
+        <button (click)="redirect('otp')" mat-icon-button [disableRipple]="true" class="back-icon">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+      </div>
+      <div (click)="help()" class="help-btn"><span i18n>Help</span>
+        <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+      </div>
     </div>
-    <div class="check-email-text mt-6"><span i18n>Check your </span> <span *ngIf="emailPhoneType === 'email'"
-        i18n>email</span>
-      <span *ngIf="emailPhoneType === 'phone'" i18n>SMS</span>!
-    </div>
-    <div class="enter-code-text mt-2 mb-4"><span i18n>Enter the </span><span *ngIf="emailPhoneType === 'email'"
-        i18n>Code</span>
-      <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span>
-    </div>
-    <div class="input-content">
-      <div class="input-content-wrapper">
-        <form [formGroup]="loginOtpForm" id="form-login" action="" method="post">
-          <div class="form-group">
-            <input tabindex="1" id="code" i18n class="form-control input-box" formControlName="code" type="text"
-              i18n-placeholder autocomplete="off" placeholder="{{emailPhoneType === 'email'? 'Code' : 'OTP'}}">
-          </div>
-          <div class="form-group mt-4 mb-4 activeLink">
-            <span i18n>Did not receive a </span><span *ngIf="emailPhoneType === 'phone'" i18n>OTP?</span><span
-              *ngIf="emailPhoneType === 'email'" i18n>mail?</span>
-            <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)" i18n> Click Here </span><span
-              i18n>to resend</span>
-          </div>
-          <span *ngIf="!loginVerification">
-            <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
-              type="submit" (click)="verifyOtp()" i18n>Next</button>
-          </span>
-          <span *ngIf="loginVerification">
-            <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
-              type="submit" (click)="loginVerifyOtp()" i18n>Next</button>
-          </span>
-        </form>
+
+    <div class="login-card">
+      <div class="check-email-text"><span i18n>Check your </span> <span *ngIf="emailPhoneType === 'email'"
+          i18n>Email</span>
+        <span *ngIf="emailPhoneType === 'phone'" i18n>SMS</span>!
+      </div>
+      <div class="enter-code-text mt-2 mb-4"><span i18n>We have sent an OTP to </span><span class="text-dark"
+          i18n>{{signUpdata.value.emailOrMobile}}</span>
+        <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
+      </div>
+      <div class="img-box">
+        <img class="otp-image" alt="" src="../../../fusion-assets/images/Frame150.svg">
+      </div>
+      <div class="login-timer">
+        <span class="login-timer-text" i18n>OTP expires in</span>&nbsp;<span class="login-timer-count"
+          [ngClass]="{ 'red-text': isBelowOneMinute }">{{resendTimerText}}</span>&nbsp;minutes
+      </div>
+
+      <div class="input-content">
+        <div class="input-content-wrapper">
+          <form [formGroup]="loginOtpForm" id="form-login" action="" method="post">
+            <div class="form-group">
+
+              <div *ngIf="emailPhoneType === 'phone'" [formGroup]="loginOtpForm" class="otp-input-container">
+                <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
+                  (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
+                <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
+                  (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
+                <input class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
+                  (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
+                <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
+                  (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
+              </div>
+              <div *ngIf="emailPhoneType === 'email'" [formGroup]="loginOtpForm" class="otp-input-container">
+                <input tabindex="1" id="code" i18n class="form-control input-box" formControlName="code" type="text"
+                  i18n-placeholder autocomplete="off" placeholder="{{emailPhoneType === 'email'? 'Code' : 'OTP'}}">
+              </div>
+            </div>
+            <div class="form-group mt-4 mb-4 activeLink">
+              <span i18n>Did not receive a </span><span i18n>OTP?</span>
+              <!-- <span              *ngIf="emailPhoneType === 'email'" i18n>mail?</span> -->
+              <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)" i18n> Click Here </span><span
+                i18n>to resend</span>
+            </div>
+            <span *ngIf="!loginVerification">
+              <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
+                type="submit" (click)="verifyOtp()" i18n>Next</button>
+            </span>
+            <span *ngIf="loginVerification">
+              <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
+                type="submit" (click)="loginVerifyOtp()" i18n>Next</button>
+            </span>
+          </form>
+        </div>
       </div>
     </div>
   </div>
+
 </div>
+
 <div class="overlay" *ngIf="isLoading">
   <div class="loader-container">
     <div class="loader-ripple">
