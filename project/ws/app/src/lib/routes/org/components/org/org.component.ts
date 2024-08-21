@@ -94,7 +94,6 @@ export class OrgComponent implements OnInit, OnDestroy {
     //   const currentOrg = this.orgName.trim()
     //   if (response.orgData) {
     //     this.orgData = response.orgData.data.sources
-
     //     this.currentOrgData = this.orgData.filter(
     //       (org: any) =>
     //         org.sourceName === currentOrg
