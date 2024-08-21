@@ -9,7 +9,7 @@
       </div>
       <div class="create-account">
         <a role="button" matRipple class="flex  mt-8  box-sizing-box" (click)="createAcct()" active
-          [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+          [ngStyle]="{'width':'inherit', 'z-index': 10}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
             <span class="new-user-txt">New user?</span>
             <button name="login_client_button" color="primary" class="login-btn header-btn  mat-button-base">
@@ -23,7 +23,7 @@
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
         <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
           class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
-          <img class="banner-image" [src]="data.img" alt="Carousel" loading="lazy">
+          <img class="banner-image" [style.height]="data.height" [src]="data.img" alt="Carousel" loading="lazy">
         </div>
       </div>
     </div>
