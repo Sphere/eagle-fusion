@@ -29,7 +29,7 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { HeaderServiceService } from './../../../../../../../../../../../../../src/app/services/header-service.service'
 import { RootService } from 'src/app/component/root/root.service'
-import { FlatTreeControl } from '@angular/cdk/tree'
+import { FlatTreeControl } from '@angular/cdk/typings/tree'
 
 @Component({
   // tslint:disable-next-line:component-selector

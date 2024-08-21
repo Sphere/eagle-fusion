@@ -5,7 +5,7 @@ import { BtnAppsComponent } from './btn-apps.component'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatMenuModule } from '@angular/material/menu'
-import { MatRippleModule } from '@angular/material/core/ripple' // MatRippleModule is part of '@angular/material/core'
+import { MatRippleModule } from '@angular/material/core' // MatRippleModule is part of '@angular/material/core'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 
 @NgModule({

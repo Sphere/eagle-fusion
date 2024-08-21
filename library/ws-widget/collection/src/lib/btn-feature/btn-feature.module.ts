@@ -7,7 +7,7 @@ import { MatButtonModule } from '@angular/material/button'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatCardModule } from '@angular/material/card'
 import { MatMenuModule } from '@angular/material/menu'
-import { MatRippleModule } from '@angular/material/core/ripple' // MatRippleModule is part of @angular/material/core
+import { MatRippleModule } from '@angular/material/core' // MatRippleModule is part of @angular/material/core
 import { MatBadgeModule } from '@angular/material/badge'
 
 import { WidgetUrlResolverDirective } from './widget-url-resolver.directive'

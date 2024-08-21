@@ -1,9 +1,9 @@
-import { NestedTreeControl } from '@angular/cdk/tree/typings/control/nested-tree-control'
+import { NestedTreeControl } from '@angular/cdk/tree'
 import {
   NgModule,
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
-import { MatTreeNestedDataSource } from '@angular/material/tree/data-source/nested-data-source'
+import { MatTreeNestedDataSource } from '@angular/material/tree'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatDialog } from '@angular/material/dialog'
 import { MatDialogRef } from '@angular/material/dialog'

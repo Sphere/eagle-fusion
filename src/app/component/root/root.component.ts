@@ -6,10 +6,10 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
-  Renderer2,
   Inject,
   OnDestroy
 } from '@angular/core'
+import { Renderer2 as Renderer } from '@angular/core'
 import {
   NavigationCancel,
   NavigationEnd,
@@ -121,7 +121,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     //private signupService: SignupService,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
-    private _renderer2: Renderer2,
+    private _renderer2: Renderer,
     private sanitizer: DomSanitizer,
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,

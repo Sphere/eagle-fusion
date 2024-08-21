@@ -8,7 +8,7 @@ import { ConfigurationsService, ValueService } from '../../../../../library/ws-w
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatSelectModule } from '@angular/material/select'
-import { MatOptionModule } from '@angular/material/core/option'
+import { MatOptionModule } from '@angular/material/core'
 import { MatInputModule } from '@angular/material/input'
 import { MobileProfileNavComponent } from '../mobile-profile-nav/mobile-profile-nav.component'
 import { MatIconModule } from '@angular/material/icon'

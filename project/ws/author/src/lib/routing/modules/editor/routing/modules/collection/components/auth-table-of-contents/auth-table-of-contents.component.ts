@@ -1,4 +1,4 @@
-import { FlatTreeControl } from '@angular/cdk/tree'
+import { FlatTreeControl } from '@angular/cdk/typings/tree'
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
