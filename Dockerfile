@@ -1,23 +1,42 @@
+# Stage 1: Build Stage
+FROM node:16.16.0 AS builder
+
+WORKDIR /app
+
+# Install Angular CLI
+RUN npm install -g @angular/cli@8.3.27
+
+# Copy package.json and yarn.lock first to utilize Docker cache if they don't change
+COPY package.json yarn.lock ./
+
+# Install dependencies
+RUN yarn install
+
+# Copy all project files
+COPY . .
+
+# Run production build for both locales
+RUN ng build --prod --output-path=dist/www/en --base-href=/ --i18n-locale=en \
+&& ng build --prod --i18n-locale=hi --i18n-format=xlf --i18n-file=locale/messages.hi.xlf --output-path=dist/www/hi --base-href=/hi/
+
+# Optional: Compress files using Brotli
+RUN npm run compress:brotli
+
+# Stage 2: Serve Stage
 FROM node:16.16.0
 
 WORKDIR /app
-COPY . .
 
-#RUN npm i yarn
-#RUN yarn global add @angular/cli@latest
-RUN npm install -g @angular/cli@8.3.27
+# Copy built files from the previous stage
+COPY --from=builder /app/dist /app/dist
+COPY --from=builder /app/assets/iGOT/client-assets/dist /app/dist/www/en/assets
+COPY --from=builder /app/assets/iGOT/client-assets/dist /app/dist/www/hi/assets
 
-RUN yarn && yarn add moment && yarn add vis-util && npm run build --prod --build-optimizer
-RUN ng build --prod --stats-json --outputPath=dist/www/en --baseHref=/ --i18nLocale=en --verbose=true
-RUN ng build --prod --i18n-locale hi --i18n-format xlf --i18n-file locale/messages.hi.xlf --output-path=dist/www/hi --baseHref /hi/
-RUN npm run compress:brotli
-#RUN npm run compress:gzip
+# Install only production dependencies
+RUN yarn install --production
 
-WORKDIR /app/dist
-COPY assets/iGOT/client-assets/dist www/en/assets
-COPY assets/iGOT/client-assets/dist www/hi/assets
-RUN npm install --production
+# Expose the port
 EXPOSE 3004
 
-CMD [ "npm", "run", "serve:prod" ]
-
+# Serve the application
+CMD ["npm", "run", "serve:prod"]
