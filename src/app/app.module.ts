@@ -5,7 +5,8 @@ import {
 } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
-import { GestureConfig } from '@angular/material/core/gestures/gesture-config'
+import { GestureConfig } from '@angular/material/core'
+// import * as Hammer from 'hammerjs'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatDialogModule } from '@angular/material/dialog'
@@ -15,7 +16,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 import { MatGridListModule } from '@angular/material/grid-list'
-import { MatRippleModule } from '@angular/material/core/ripple'
+import { MatRippleModule } from '@angular/material/core'
 import { MatSliderModule } from '@angular/material/slider'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTooltipModule } from '@angular/material/tooltip'
@@ -26,7 +27,7 @@ import { MatFormFieldModule } from '@angular/material/form-field'
 import { MatListModule } from '@angular/material/list'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatDatepickerModule } from '@angular/material/datepicker'
-import { MatNativeDateModule } from '@angular/material/core/datetime'
+import { MatNativeDateModule } from '@angular/material/core'
 import { MatSelectModule } from '@angular/material/select'
 
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser'
@@ -120,10 +121,11 @@ import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
-import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
-import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web/self-assessment'
-import { CompetencyModule } from '@aastrika_npmjs/competency-web/competency'
-import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
+// import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
+// import { EntryModule } from '@aastrika_npmjs/competency-web'
+// import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web'
+// import { CompetencyModule } from '@aastrika_npmjs/competency-web'
+// import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
 import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
@@ -360,9 +362,9 @@ const dbConfig: DBConfig = {
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
-    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
-    SelfAssessmentModule,
-    CompetencyModule,
+    // EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    // SelfAssessmentModule,
+    // CompetencyModule,
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,

@@ -18,6 +18,7 @@ import {
 } from './widget-resolver.constant'
 import { WidgetBaseComponent } from './widget-base.component'
 import { ExploreResolverDirective } from './explore-resolver.directive'
+
 @NgModule({
   declarations: [
     WidgetBaseComponent,
@@ -40,11 +41,12 @@ import { ExploreResolverDirective } from './explore-resolver.directive'
   ],
 })
 export class WidgetResolverModule {
-  static forRoot(config: NsWidgetResolver.IRegistrationConfig[]): ModuleWithProviders {
+  static forRoot(config: NsWidgetResolver.IRegistrationConfig[]): ModuleWithProviders<WidgetResolverModule> {
     return {
       ngModule: WidgetResolverModule,
       providers: [
-        WidgetResolverService, LoginResolverService,
+        WidgetResolverService,
+        LoginResolverService,
         {
           provide: WIDGET_RESOLVER_GLOBAL_CONFIG,
           useValue: config,
@@ -56,11 +58,13 @@ export class WidgetResolverModule {
       ],
     }
   }
-  static forChild(config: NsWidgetResolver.IRegistrationConfig[]): ModuleWithProviders {
+
+  static forChild(config: NsWidgetResolver.IRegistrationConfig[]): ModuleWithProviders<WidgetResolverModule> {
     return {
       ngModule: WidgetResolverModule,
       providers: [
-        WidgetResolverService, LoginResolverService,
+        WidgetResolverService,
+        LoginResolverService,
         {
           provide: WIDGET_RESOLVER_SCOPED_CONFIG,
           useValue: config,
