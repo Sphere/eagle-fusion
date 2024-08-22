@@ -248,7 +248,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     }
 
     if (this.htmlContent && this.htmlContent.identifier && this.htmlContent.mimeType === 'application/vnd.ekstep.html-archive') {
-      sessionStorage.setItem('contentId', window.location.href)
+      localStorage.setItem('contentId', window.location.href)
       let userId
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
@@ -282,10 +282,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             }
 
             let pdetails: any
-            if (typeof (contentData.progressdetails) === 'string') {
+            console.log(contentData, '285')
+            if (contentData && typeof contentData.progressdetails === 'string') {
               pdetails = JSON.parse(contentData.progressdetails)
-            } else {
+            } else if (contentData) {
               pdetails = contentData.progressdetails
+            } else {
+              pdetails = {} // or set a default value, depending on your use case
             }
 
             let mergedProgressDetails: any = await this.mergeProgressDetails(pdetails, dat)

@@ -225,7 +225,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (event instanceof NavigationEnd) {
       console.log('Navigation ended to URL:', event.url)
-      let contentURL = sessionStorage.getItem('contentId')
+      let contentURL = localStorage.getItem('contentId')
       console.log(contentURL)
       if (contentURL) {
         const url: any = contentURL
@@ -258,7 +258,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             let contentData: any
             contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === doId)
             console.log(contentData, '240')
-            if (contentData && event.url.includes('/chapters') && event.url.includes(collectionId)) {
+            if (contentData && ((event.url.includes('/chapters') || event.url.includes('/app/toc')) && event.url.includes(collectionId))) {
               storedData = localStorage.getItem(doId)
               let dat = JSON.parse(storedData)
               console.log(dat)
@@ -294,7 +294,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
               this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                 let res = await data
                 console.log(res)
-                sessionStorage.removeItem('contentId')
+                localStorage.removeItem('contentId')
               })
             } else {
               console.warn('No data found for ID:', doId)

@@ -1,4 +1,4 @@
-<ng-container *ngIf="content">
+<ng-container *ngIf="content&&!references">
   <ng-container *ngIf="isCollection">
     <div class="card-collection">
       <!-- <img loading="lazy" class="card-thumbnail ws-mat-primary-lite-background" [src]="content?.appIcon" alt="Thumbnail"
@@ -323,4 +323,20 @@
       </span>
     </div> -->
   </div>
+</ng-container>
+<ng-container *ngIf="content&&references">
+  <ng-container>
+    <a target="_blank" [href]="content.link" class="card-collection">
+      <img loading="lazy" class="card-thumbnail1 ws-mat-primary-lite-background" [src]="iconMapping[content.type]"
+        alt="logo" [wsUtilsDefaultThumbnail]="defaultRefThumbnail" />
+      <div class="width-expand">
+        <div class="ml-2 text-truncate cursor-pointer 1">
+          <h2 class="margin-remove text-truncate card-title">{{ content?.name }}</h2>
+        </div>
+        <div class="ml-2">
+          <span class="content-type">{{content.type}}</span>
+        </div>
+      </div>
+    </a>
+  </ng-container>
 </ng-container>

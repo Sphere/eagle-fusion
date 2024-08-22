@@ -31,6 +31,7 @@ import { MatNativeDateModule } from '@angular/material/core'
 // comps
 // import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
 import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-contents.component'
+import { AppTocReferencesComponent } from './routes/app-toc-references/app-toc-references.component'
 import { AppTocHomeComponent } from './components/app-toc-home/app-toc-home.component'
 import { AppTocHomeComponent as AppTocHomeRootComponent } from './routes/app-toc-home/app-toc-home.component'
 import { AppTocOverviewComponent } from './components/app-toc-overview/app-toc-overview.component'
@@ -118,6 +119,7 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     ConfirmmodalComponent,
     // AppTocAnalyticsComponent,
     AppTocContentsComponent,
+    AppTocReferencesComponent,
     AppTocHomeComponent,
     AppTocOverviewComponent,
     // AppTocBannerComponent,

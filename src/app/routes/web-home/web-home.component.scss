@@ -104,7 +104,8 @@ text-align: left;
 
 .banner-image {
   width: 100%; /* Ensure images fill their container */
-  height: auto; /* Maintain aspect ratio */
+  //height: auto; /* Maintain aspect ratio */
+  object-fit: cover;
 }
 
 .info-block {
@@ -297,9 +298,34 @@ text-align: center;
     background: #ffffff;
     height: 51px;
     margin-bottom: 20px;
-    margin-top: -12px;
+    margin-top: -1px;
     flex-direction: column;
 }
+.banner-container {
+  position: relative;
+}
+
+.carousel {
+  position: relative;
+  z-index: 1;
+}
+
+.create-account {
+  position: relative;
+  z-index: 10;
+}
+
+.slides {
+  position: relative;
+  z-index: 1;
+}
+
+.slide {
+  position: relative;
+  z-index: 1;
+}
+
+
 
 .tutorials-text {
     /* Body */
