@@ -177,7 +177,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
             if (!(isNull(nextResource) || isEmpty(nextResource))) {
-              this.router.navigate([nextResource], { preserveQueryParams: true })
+              this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
               this.playerStateService.trigger$.complete()
 
             } else {
@@ -216,7 +216,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             if (this.playerStateService.isResourceCompleted()) {
               const nextResource = this.playerStateService.getNextResource()
               if (!(isNull(nextResource) || isEmpty(nextResource))) {
-                this.router.navigate([nextResource], { preserveQueryParams: true })
+                this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
                 this.playerStateService.trigger$.complete()
 
               } else {
@@ -770,7 +770,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
               if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
-                this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
                   if (success) {
                     this.playerStateService.trigger$.complete()
                   }
@@ -929,7 +929,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 &&
                 (!foundContent2 || foundContent2.completionPercentage === 0)
               ) {
-                this.router.navigate([nextResource], { preserveQueryParams: true })
+                this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
               }
             }
           }
@@ -952,7 +952,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   if (this.playerStateService.isResourceCompleted()) {
                     const nextResource = this.playerStateService.getNextResource()
                     if (!(isEmpty(nextResource) || isNull(nextResource))) {
-                      this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                      this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
                         if (success) {
                           this.playerStateService.trigger$.complete()
                         }

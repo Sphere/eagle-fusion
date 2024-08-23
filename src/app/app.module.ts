@@ -5,7 +5,7 @@ import {
 } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
-import { GestureConfig } from '@angular/material/core'
+// import { GestureConfig } from '@angular/material/core/gestures/gesture-config'
 // import * as Hammer from 'hammerjs'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
@@ -150,10 +150,19 @@ import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
+import { HammerGestureConfig } from '@angular/platform-browser'
+
 @Injectable()
-export class HammerConfig extends GestureConfig {
+export class HammerConfig extends HammerGestureConfig {
   buildHammer(element: HTMLElement) {
-    return new GestureConfig({ touchAction: 'pan-y' }).buildHammer(element)
+    const options: HammerOptions = {
+      touchAction: 'pan-y',
+      recognizers: [
+        [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
+      ],
+    }
+    const mc = new Hammer.Manager(element, options)
+    return mc
   }
 }
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
