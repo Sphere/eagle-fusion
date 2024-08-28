@@ -186,7 +186,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
 
     this.currentFragment = 'overview'
-    this.route.fragment.subscribe((fragment: string) => {
+    this.route.fragment.subscribe((fragment: string | null) => {
       this.currentFragment = fragment || 'overview'
     })
     this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(

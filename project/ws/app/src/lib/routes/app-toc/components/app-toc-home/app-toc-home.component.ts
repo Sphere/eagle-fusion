@@ -35,7 +35,7 @@ const flattenItems = (items: any[], key: string | number) => {
       flattenedItems = flattenedItems.concat(flattenItems(item[key], key))
     }
     return flattenedItems
-  },                  [])
+  }, [])
 }
 @Component({
   selector: 'ws-app-app-toc-home',
@@ -166,7 +166,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     }
 
     this.currentFragment = 'overview'
-    this.route.fragment.subscribe((fragment: string) => {
+    this.route.fragment.subscribe((fragment: string | null) => {
       this.currentFragment = fragment || 'overview'
     })
     this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(

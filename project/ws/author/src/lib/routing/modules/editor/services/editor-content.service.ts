@@ -30,7 +30,7 @@ export class EditorContentService {
   }
 
   getUpdatedMeta(id: string): NSContent.IContentMeta {
-   // console.log('getUpdatedMeta');
+    // console.log('getUpdatedMeta');
     if (this.originalContent[id] || this.upDatedContent[id]) {
       return JSON.parse(
         JSON.stringify({
@@ -179,10 +179,12 @@ export class EditorContentService {
       isTranslationOf: this.parentContent,
       ...meta,
     }
-    delete requestBody.identifier
-    delete requestBody.status
-    delete requestBody.categoryType
-    delete requestBody.accessPaths
+
+    delete (requestBody as any).identifier
+    delete (requestBody as any).status
+    delete (requestBody as any).categoryType
+    delete (requestBody as any).accessPaths
+
     return this.editorService
       .createAndReadContent(requestBody)
       .pipe(tap(v => this.setOriginalMeta(v)))

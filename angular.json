@@ -36,11 +36,6 @@
                 "output": "/bleeding-edge/"
               }
             ],
-            "stylePreprocessorOptions": {
-              "includePaths": [
-                "src/styles"
-              ]
-            },
             "styles": [
               {
                 "input": "src/styles/libraries.scss",
@@ -56,11 +51,16 @@
               {
                 "input": "src/themes/theme-igot.scss",
                 "bundleName": "theme-igot",
-                "lazy": true
+                "inject": false
               },
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
               "src/fusion-assets/fonts/poppins/stylesheet.css"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "src/styles"
+              ]
+            },
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/fusion-assets/telemetry.min.js",
