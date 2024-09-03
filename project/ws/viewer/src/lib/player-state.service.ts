@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, ReplaySubject } from 'rxjs'
-import get from 'lodash/get'
-import isUndefined from 'lodash/isUndefined'
+import { get } from 'lodash'
+import { isUndefined } from 'lodash'
 
 import { map, take } from 'rxjs/operators'
 

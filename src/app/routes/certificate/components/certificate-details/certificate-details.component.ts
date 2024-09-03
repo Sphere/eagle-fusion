@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import trim from 'lodash/trim'
-import get from 'lodash/get'
-import upperCase from 'lodash/upperCase'
+import { trim } from 'lodash'
+import { get } from 'lodash'
+import { upperCase } from 'lodash'
 
 import * as moment from 'moment'
 import { Observable } from 'rxjs'

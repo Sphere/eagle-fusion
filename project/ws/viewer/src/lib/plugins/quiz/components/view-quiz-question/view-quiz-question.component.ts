@@ -5,8 +5,8 @@ import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from '../../quiz.service'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
-import isUndefined from 'lodash/isUndefined'
-import toLower from 'lodash/toLower'
+import { isUndefined } from 'lodash'
+import { toLower } from 'lodash'
 
 @Component({
   selector: 'viewer-view-quiz-question',

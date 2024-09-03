@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import 'ws-mixins';
 @import 'ws-vars';
 
@@ -42,9 +43,9 @@ $app-background-lite-color: #f5f6f7;
     margin-top: $size-xl;
     a {
       display: block;
-      padding: $size-xs / 2 0;
+      padding: math.div($size-xs, 2) 0;
       padding-left: $size-xs;
-      margin-bottom: $size-xs / 2;
+      margin-bottom: math.div($size-xs, 2);
     }
     a.active {
       font-weight: 600;

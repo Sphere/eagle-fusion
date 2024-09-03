@@ -1,54 +1,64 @@
+@use 'sass:math';
 @import 'ws-vars';
 @import 'ws-mixins';
+
 .main-post-user-image {
   $size: 40px;
   min-width: $size;
   height: $size;
 }
+
 .datePost {
-    margin-left: 38px;
-    align-items: center;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-    margin-top: -7px;
-    width: 95%;
+  margin-left: 38px;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  margin-top: -7px;
+  width: 95%;
+
   @include breakpoint-xs {
     margin-left: 26px;
     position: relative;
     width: auto;
   }
 }
+
 .thread-title {
   height: auto;
   top: initial;
   width: 87%;
 }
+
 .align-edit {
   margin-top: -3px;
   opacity: 0.7;
+
   &:hover {
     opacity: 1;
   }
 }
+
 .write-reply-container {
   display: flex;
   align-items: stretch;
   padding: $size-s;
-  margin-top: $size-xs / 2;
+  margin-top: math.div($size-xs, 2);
+
   .write-reply-user-image {
     $size: 36px;
     width: $size;
     height: $size;
   }
+
   .write-reply-placeholder {
     display: flex;
     align-items: center;
     height: 100%;
-    // background: white;
     padding-left: $size-s;
     cursor: pointer;
     font-size: 15px;
   }
+
   .write-reply-editor {
     display: block;
     padding: $size-s;
@@ -63,15 +73,14 @@
 .postSection {
   align-items: center;
 }
+
 .ql-container {
   font-size: 15px;
 }
+
 @media only screen and (max-width: 469px) {
   .datePost {
-    // justify-content: space-between;
-    // margin: auto 0;
-    // align-items: center;
-    // width: 100%;
+    // Additional styles for small screens
   }
 }
 
@@ -82,6 +91,7 @@
     margin-right: 1%;
   }
 }
+
 .cancel-btn {
   line-height: 38px;
 }

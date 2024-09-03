@@ -228,7 +228,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
       })
     }
     if (this.queryFilter) {
-      delete requestData.request.sort
+      delete (requestData as any).request?.sort
     }
     if (
       [

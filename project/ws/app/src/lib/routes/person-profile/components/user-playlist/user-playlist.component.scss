@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import 'ws-mixins';
 
 .playlist-card {
@@ -61,7 +62,7 @@
 }
 
 .margin-top-xxs {
-  margin-top: $size-xs / 2;
+  margin-top: math.div($size-xs, 2);
 }
 
 .fetching {

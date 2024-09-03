@@ -10,8 +10,8 @@ import { FilterDisplayComponent } from '../../components/filter-display/filter-d
 // import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab, ISearchRequestV3 } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
-import isEmpty from 'lodash/isEmpty'
-import orderBy from 'lodash/orderBy'
+import { isEmpty } from 'lodash'
+import { orderBy } from 'lodash'
 import { SearchApiService } from '../../apis/search-api.service'
 
 @Component({

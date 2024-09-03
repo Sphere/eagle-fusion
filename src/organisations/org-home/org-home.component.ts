@@ -6,8 +6,8 @@ import { delay, mergeMap } from 'rxjs/operators'
 import { of } from 'rxjs'
 import { SignupService } from '../../app/routes/signup/signup.service'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import orderBy from 'lodash/orderBy'
-import get from 'lodash/get'
+import { orderBy } from 'lodash'
+import { get } from 'lodash'
 @Component({
   selector: 'ws-org-home',
   templateUrl: './org-home.component.html',

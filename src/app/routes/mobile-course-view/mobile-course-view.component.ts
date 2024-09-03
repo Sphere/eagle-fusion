@@ -5,7 +5,7 @@ import { of } from 'rxjs'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { SignupService } from '../signup/signup.service'
-import forEach from 'lodash/forEach'
+import { forEach } from 'lodash'
 import { Title } from '@angular/platform-browser'
 import * as _ from 'lodash'
 

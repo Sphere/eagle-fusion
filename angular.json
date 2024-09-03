@@ -12,6 +12,13 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
+            "allowedCommonJsDependencies": [
+              "qrcode",
+              "global/document",
+              "mux.js",
+              "videojs-vtt.js",
+              "xhr"
+            ],
             "outputPath": "dist/www/fusion",
             "index": "src/index.html",
             "main": "src/main.ts",
@@ -42,10 +49,7 @@
               ]
             },
             "styles": [
-              {
-                "input": "src/styles/libraries.scss",
-                "bundleName": "libraries"
-              },
+              "src/styles/libraries.scss",
               "node_modules/material-icons/iconfont/material-icons.scss",
               "src/styles/mat-typography.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -53,17 +57,13 @@
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/shepherd.js/dist/css/shepherd.css",
               "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
-              {
-                "input": "src/themes/theme-igot.scss",
-                "bundleName": "theme-igot",
-                "lazy": true
-              },
+              "src/themes/theme-igot.scss",
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
               "src/fusion-assets/fonts/poppins/stylesheet.css"
             ],
             "scripts": [
+              "src/polyfills.ts",
               "node_modules/jquery/dist/jquery.min.js",
-              "src/fusion-assets/telemetry.min.js",
               "node_modules/shepherd.js/dist/js/shepherd.min.js",
               "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ]

@@ -6,8 +6,8 @@ import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
-import forEach from 'lodash/forEach'
-import get from 'lodash/get'
+import { forEach } from 'lodash'
+import { get } from 'lodash'
 import { HttpClient } from '@angular/common/http'
 
 @Component({

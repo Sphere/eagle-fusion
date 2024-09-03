@@ -11,14 +11,14 @@ import { AccessControlService } from '@ws/author/src/public-api'
 import { WidgetUserService } from './../../../../../../../../../library/ws-widget/collection/src/lib/_services/widget-user.service'
 import { AppTocOverviewComponent } from '../../routes/app-toc-overview/app-toc-overview.component'
 import { DiscussConfigResolve } from '../../../../../../../../../src/app/routes/discussion-forum/wrapper/resolvers/discuss-config-resolve'
-import includes from 'lodash/includes'
-import get from 'lodash/get'
-import map from 'lodash/map'
-import filter from 'lodash/filter'
-import set from 'lodash/set'
-import first from 'lodash/first'
-import each from 'lodash/each'
-import toInteger from 'lodash/toInteger'
+import { includes } from 'lodash'
+import { get } from 'lodash'
+import { map } from 'lodash'
+import { filter } from 'lodash'
+import { set } from 'lodash'
+import { first } from 'lodash'
+import { each } from 'lodash'
+import { toInteger } from 'lodash'
 
 import moment from 'moment'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
@@ -186,7 +186,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
 
     this.currentFragment = 'overview'
-    this.route.fragment.subscribe((fragment: string) => {
+    this.route.fragment.subscribe((fragment: string | null) => {
       this.currentFragment = fragment || 'overview'
     })
     this.batchSubscription = this.tocSvc.batchReplaySubject.subscribe(

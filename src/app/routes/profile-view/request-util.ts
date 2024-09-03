@@ -1,5 +1,5 @@
-import get from 'lodash/get'
-import find from 'lodash/find'
+import { get } from 'lodash'
+import { find } from 'lodash'
 
 // import { changeformat } from '../../../../project/ws/app/src/public-api'
 export const constructReq = (form: any, userProfileData: any, userAgent: any, userCookies: any) => {

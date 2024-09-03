@@ -25,10 +25,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
     MatToolbarModule,
     ReactiveFormsModule,
     BtnFullscreenModule,
-    MatInputModule,
     NgxExtendedPdfViewerModule
   ],
-  exports: [PlayerPdfComponent, NgxExtendedPdfViewerModule],
-  entryComponents: [PlayerPdfComponent],
+  exports: [PlayerPdfComponent, NgxExtendedPdfViewerModule]
 })
 export class PlayerPdfModule { }

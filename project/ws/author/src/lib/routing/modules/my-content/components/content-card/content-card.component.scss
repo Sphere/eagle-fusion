@@ -1,4 +1,6 @@
+@use 'sass:math';
 @import '~src/styles/_ws-vars';
+
 $card-padding: $size-m;
 $action-btn-size: 2.5 * $size-m; // 40px
 .card-container {
@@ -73,7 +75,7 @@ mat-card-actions {
 
 mat-card-content {
   margin-top: 0px;
-  margin-bottom: ($card-padding / 2) + $action-btn-size;
+  margin-bottom:math.div($card-padding, 2) + $action-btn-size;
   margin-left: -0.5 * $card-padding;
   margin-right: -0.5 * $card-padding;
 }

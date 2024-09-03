@@ -25,7 +25,6 @@
       "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
       "@ws-widget/collection": ["library/ws-widget/collection"],
       "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
-      // "@ws-widget/utils": ["library/ws-widget/utils"],
       "@ws-widget/utils": ["library/ws-widget/utils/src/public-api.ts"],
       "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
       "@ws/app": ["project/ws/app"],
@@ -62,5 +61,9 @@
         "suppressWhileTypeErrorsPresent": false
       }
     ]
-  }
+  },
+  "include": [
+    "src/**/*.ts" // Adjust this pattern according to your project's structure
+  ],
+  "exclude": ["node_modules", "dist", "src/**/*.spec.ts"]
 }

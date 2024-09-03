@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 // .sidenav {
 //   background-color: transparent !important;
 //   margin-right: 8px !important;
@@ -177,9 +179,9 @@ $app-background-lite-color: #f5f6f7;
 
   //   a {
   //     display: block;
-  //     padding: $size-xs / 2 0;
+  //     padding: math.div($size-xs, 2) 0;
   //     padding-left: $size-xs;
-  //     margin-bottom: $size-xs / 2;
+  //     margin-bottom: math.div($size-xs, 2);
   //   }
 
   //   a.active {

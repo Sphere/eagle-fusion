@@ -1,9 +1,10 @@
+@use 'sass:math';
 @import 'ws-vars';
 @import 'ws-mixins';
 
 .reply-container {
   // display: flex;
-  margin-top: $size-xs / 2;
+  margin-top: math.div($size-xs, 2);
   margin-bottom: -40px;
   padding: 15px 0 0 15px;
   @include breakpoint-xs {

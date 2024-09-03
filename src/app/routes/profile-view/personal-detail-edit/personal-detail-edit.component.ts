@@ -15,7 +15,7 @@ import { Observable } from 'rxjs'
 import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
-import upperFirst from 'lodash/upperFirst'
+import { upperFirst } from 'lodash'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { HttpClient } from '@angular/common/http'
 @Component({

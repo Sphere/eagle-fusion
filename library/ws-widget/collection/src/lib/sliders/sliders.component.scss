@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import 'ws-vars';
 @import 'ws-mixins';
 
@@ -120,12 +121,12 @@ $banner-min-height: 200px;
 
     .dot.active {
       background-color: #d3d3d3;
-      height: $size-s + ($size-xs / 4);
-      width: $size-s + ($size-xs / 4);
+      height: $size-s + math.div($size-xs, 4);
+      width: $size-s + math.div($size-xs, 4);
 
       @include breakpoint-xs {
-        height: $size-xs + ($size-xs / 4);
-        width: $size-xs + ($size-xs / 4);
+        height: $size-xs + math.div($size-xs, 4);
+        width: $size-xs + math.div($size-xs, 4);
       }
     }
   }

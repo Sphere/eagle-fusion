@@ -12,8 +12,8 @@ import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { Title } from '@angular/platform-browser'
-import get from 'lodash/get'
-import forEach from 'lodash/forEach'
+import { get } from 'lodash'
+import { forEach } from 'lodash'
 
 @Component({
   selector: 'ws-widget-card-content',

@@ -29,8 +29,8 @@ import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer'
 export class PlayerPdfComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
   @Input() widgetData!: IWidgetsPlayerPdfData
-  @ViewChild('fullScreenContainer', { static: true })
-  @ViewChild('input', { static: true }) input: any
+  @ViewChild('fullScreenContainer', { static: true }) fullScreenContainer!: any
+  @ViewChild('input', { static: true }) input!: any
   containerSection!: ElementRef<HTMLElement>
 
   DEFAULT_SCALE = 1.0

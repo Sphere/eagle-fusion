@@ -33,7 +33,7 @@ import { MatSelectModule } from '@angular/material/select'
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
-  BtnFeatureModule, ErrorResolverModule,
+  BtnFeatureModule, ErrorResolverModule, BtnProfileModule, VideoWrapperModule,
   // TourModule,
   WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe,
 } from '@ws-widget/collection'
@@ -353,6 +353,8 @@ const dbConfig: DBConfig = {
     MatTooltipModule,
     SearchModule,
     BtnFeatureModule,
+    BtnProfileModule,
+    VideoWrapperModule,
     PublicAboutModule,
     PublicHomeModule,
     PublicContactModule,

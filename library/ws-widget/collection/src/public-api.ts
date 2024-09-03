@@ -1,6 +1,8 @@
 // Widget Modules
 export * from './lib/btn-apps/btn-apps.model'
 // modules
+export * from './lib/btn-profile/btn-profile.module'
+export * from './lib/video-wrapper/video-wrapper.module'
 export * from './lib/btn-apps/btn-apps.module'
 // export * from './lib/btn-call/btn-call.module'
 // export * from './lib/btn-catalog/btn-catalog.module'

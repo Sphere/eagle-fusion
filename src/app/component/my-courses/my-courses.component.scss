@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import 'ws-mixins';
 
 
@@ -161,7 +162,7 @@
 
   .card-thumbnail {
     $image-height: 65px;
-    width: (16 / 9) * $image-height;
+    width: math.div(16, 9) * $image-height;
     cursor: pointer;
     height: 70px;
     min-width: 100px;

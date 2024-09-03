@@ -8,9 +8,9 @@ import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
-import round from 'lodash/round'
-import forEach from 'lodash/forEach'
-import isNull from 'lodash/isNull'
+import { round } from 'lodash'
+import { forEach } from 'lodash'
+import { isNull } from 'lodash'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ViewerDataService } from '../../../../viewer-data.service'
 import {
