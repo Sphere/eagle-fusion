@@ -12,7 +12,8 @@ import { Subscription } from 'rxjs'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { first } from 'rxjs/operators'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
-
+import { PlayerStateService } from 'project/ws/viewer/src/lib/player-state.service'
+import { isNull, isEmpty } from 'lodash'
 const API_END_POINTS = {
   SCROM_ADD_UPDTE: '/apis/protected/v8/scrom/add',
   SCROM_FETCH: '/apis/protected/v8/scrom/get',
@@ -42,7 +43,8 @@ export class SCORMAdapterService {
     private router: Router,
     private contentSvc: WidgetContentService,
     private telemetrySvc: TelemetryService,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
+    private playerStateService: PlayerStateService,
   ) {
     this.http = new HttpClient(handler)
   }
@@ -169,10 +171,10 @@ export class SCORMAdapterService {
       console.log(data, 'data.recieved')
       if (data["cmi.core.lesson_status"] === 'incomplete' || data['cmi.suspend_data']) {
         console.log('hey')
-        if (Object.keys(data).length === 1) {
-          data["cmi.core.exit"] = "suspend"
-          data["cmi.core.lesson_status"] = "incomplete"
-        }
+        // if (Object.keys(data).length === 1) {
+        //   data["cmi.core.exit"] = "suspend"
+        //   data["cmi.core.lesson_status"] = "incomplete"
+        // }
         this.addDataV2(data)
         // this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
         //   console.log('intereim progress response', response)
@@ -533,6 +535,8 @@ export class SCORMAdapterService {
 
           console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '488')
           this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
+            const nextResource = this.playerStateService.getNextResource()
+            // if (!(isNull(nextResource) || isEmpty(nextResource))) {
 
             if (this.scormData) {
               this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -553,7 +557,11 @@ export class SCORMAdapterService {
               }
             }
             console.log(this.scormData, 'scormdata', postData)
-            if (this.getPercentage(this.scormData) === 100) {
+
+            if (this.getPercentage(this.scormData) === 100 ||
+              (isNull(nextResource) || isEmpty(nextResource))
+              //|| Number(req.request.contents[0].completionPercentage) === 100
+            ) {
               let result = await response.result
               result["type"] = 'scorm'
               this.contentSvc.changeMessage(result)

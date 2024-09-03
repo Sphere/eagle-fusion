@@ -275,11 +275,17 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             let contentData: any
             contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
 
-            if (Object.keys(dat).length === 1) {
-              dat["cmi.core.exit"] = "suspend"
-              dat["cmi.core.lesson_status"] = "incomplete"
-              delete dat['errors']
-            }
+            // if (Object.keys(dat).length === 1) {
+            //   // dat["cmi.core.exit"] = "suspend"
+            //   // dat["cmi.core.lesson_status"] = "incomplete"
+            //   // delete dat['errors']
+            //   setTimeout(() => {
+            //     progressData = localStorage.getItem(this.htmlContent!.identifier)
+            //     let dat = JSON.parse(progressData)
+            //     console.log(dat)
+            //   }, 500)
+
+            // }
 
             let pdetails: any
             console.log(contentData, '285')
@@ -383,10 +389,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                       let res = await data
                       console.log(res)
                       if (res) {
-                        let result = {}
-                        result = data.result
-                        result["type"] = 'scorm'
-                        this.contentSvc.changeMessage(result)
+                        // let result = {}
+                        // result = data.result
+                        // result["type"] = 'scorm'
+                        // this.contentSvc.changeMessage(result)
                       }
                     })
                   }

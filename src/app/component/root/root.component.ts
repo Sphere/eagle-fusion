@@ -265,10 +265,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
               let req: any
               let mergedProgressDetails: any = this.mergeProgressDetails(contentData.progressdetails, dat)
               delete mergedProgressDetails['errors']
-              if (Object.keys(mergedProgressDetails).length === 1) {
-                mergedProgressDetails["cmi.core.exit"] = "suspend"
-                mergedProgressDetails["cmi.core.lesson_status"] = "incomplete"
-              }
+              // if (Object.keys(mergedProgressDetails).length === 1) {
+              //   mergedProgressDetails["cmi.core.exit"] = "suspend"
+              //   mergedProgressDetails["cmi.core.lesson_status"] = "incomplete"
+              // }
               console.log(mergedProgressDetails, 'mergedProgressDetails')
               if (this.configSvc.userProfile && Object.keys(dat).length > 0) {
                 req = {

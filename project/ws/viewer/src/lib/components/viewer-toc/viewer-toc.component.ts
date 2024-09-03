@@ -211,18 +211,19 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           // console.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
+
               const nextResource = this.playerStateService.getNextResource()
               if (!(isNull(nextResource) || isEmpty(nextResource))) {
-                this.router.navigate([nextResource], { preserveQueryParams: true })
-                this.playerStateService.trigger$.complete()
+                // this.router.navigate([nextResource], { preserveQueryParams: true })
+                // this.playerStateService.trigger$.complete()
 
               } else {
-                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                  queryParams: {
-                    primaryCategory: 'Course',
-                    batchId: this.batchId,
-                  },
-                })
+                // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                //   queryParams: {
+                //     primaryCategory: 'Course',
+                //     batchId: this.batchId,
+                //   },
+                // })
               }
 
             }
@@ -746,8 +747,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
       let rating = await this.contentSvc.readCourseRating(req).then((res: any) => {
         if (res && res.params.status === 'success') {
-          console.log(Object(res.result).length)
-          console.log(res.result)
           return res.result
         }
       })
@@ -764,6 +763,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (content.type) {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
+            console.log(nextResource)
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
               if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
@@ -785,7 +785,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
               // If the dialog is not already open, open it
-              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0 && data) {
                 confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
                   height: '405px',
