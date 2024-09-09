@@ -764,16 +764,39 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
             console.log(nextResource)
+            const regex = /do_\d+/ // Regular expression to match "do_" followed by one or more digits
+            const match = nextResource.match(regex)
+            let foundObject: any
+            if (match) {
+              console.log(match[0]) // Output: "do_11357407388494233611489"
+              console.log(this.collection!.children)
+              foundObject = this.collection!.children!.find(obj => obj.identifier === match[0])
+              if (foundObject) {
+                console.log(foundObject) // Output the object if a match is found
+              } else {
+                console.log('No matching object found')
+              }
+            } else {
+              console.log('No match found')
+            }
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
               if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
-                this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
-                  if (success) {
-                    this.playerStateService.trigger$.complete()
-                  }
-                }).catch(error => {
-                  console.error('Navigation error:', error)
-                })
+                console.log(foundObject, 'foundObject')
+                if (!foundObject || (foundObject.type !== "Scrom" && foundObject.completionPercentage === 100)) {
+                  this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                    if (success) {
+                      this.playerStateService.trigger$.complete()
+                    }
+                  }).catch(error => {
+                    console.error('Navigation error:', error)
+                  })
+                } else {
+                  //alert(document.baseURI)
+                  let url = `${document.baseURI}${nextResource}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
+                  console.log(url)
+                  window.location.href = url
+                }
                 //this.playerStateService.trigger$.complete()
               }
             } else if (this.contentSvc.showConformation) {

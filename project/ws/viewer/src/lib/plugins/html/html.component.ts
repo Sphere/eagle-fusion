@@ -316,7 +316,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                           ? 2
                           : (this.activatedRoute.snapshot.queryParams.collectionId === "do_11390679694610432011" ? 2 : 1),
                         lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                        progressdetails: mergedProgressDetails,
+                        progressdetails: {},
                         completionPercentage: this.contentData && this.contentData.status === 2
                           ? 100
                           : (this.activatedRoute.snapshot.queryParams.collectionId === "do_11390679694610432011" ? 100 : 0)
@@ -350,7 +350,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                           courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                           status: 2,
                           lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                          progressdetails: mergedProgressDetails,
+                          progressdetails: {},
                           completionPercentage: 100
                         }
                       ],
@@ -377,7 +377,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                             courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                             status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                            progressdetails: mergedProgressDetails,
+                            progressdetails: {},
                             completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                           }
                         ],
