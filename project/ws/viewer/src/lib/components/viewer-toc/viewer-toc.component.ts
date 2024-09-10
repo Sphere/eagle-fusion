@@ -148,6 +148,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
       this.collectionId = params.get('collectionId')
+
+      if (this.collectionId) {
+        localStorage.setItem('collectionId', this.collectionId)
+      }
       const collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
         if (

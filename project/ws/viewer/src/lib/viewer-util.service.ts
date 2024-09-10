@@ -187,6 +187,13 @@ export class ViewerUtilService {
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
     let req: any
     if (this.configservice.userProfile) {
+      let checkCollectionId = ''
+      if (contentId === collectionId) {
+        const storedCollectionId = localStorage.getItem('collectionId')
+        if (storedCollectionId) {
+          checkCollectionId = storedCollectionId
+        }
+      }
       let percentage = this.calculatePercent(request.current, request.max_size, request.mime_type)
       if (percentage > 95) {
         percentage = 100
@@ -199,7 +206,7 @@ export class ViewerUtilService {
               contentId,
               batchId,
               status: this.getStatus(request.current, request.max_size, request.mime_type),
-              courseId: collectionId,
+              courseId: checkCollectionId ? checkCollectionId : collectionId,
               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
               progressdetails: {
                 max_size: request.max_size,

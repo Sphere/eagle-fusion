@@ -78,8 +78,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private http: HttpClient
   ) {
     this.personalDetailForm = new FormGroup({
-      firstname: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      surname: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      firstname: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
       // userName: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       profession: new FormControl(),
