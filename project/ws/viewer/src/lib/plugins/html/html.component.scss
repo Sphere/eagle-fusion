@@ -21,11 +21,20 @@
   width: 100%;
 }
 
+/* For medium screens */
+@media only screen and (max-width: 768px) {
+     .html-iframe  {
+    transform: scale(1.2);  /* Slightly smaller scale */
+    transform-origin: top left; /* Keep content in view */
+    max-width: 100%; /* Prevent overflow */
+    overflow: hidden; /* Hide any overflow */
+  }
+}
+
+/* For very small screens */
 @media only screen and (max-width: 480px) {
-    .html-iframe {
-           height: inherit;
-        //width: 100vw;
-        transform: scale(1.3);
-        transform-origin: center center;
-    }
+    .html-iframe  {
+    transform: scale(1.1);
+    transform-origin: center;
+  }
 }
