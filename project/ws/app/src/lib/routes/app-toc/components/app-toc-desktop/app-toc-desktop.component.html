@@ -140,7 +140,6 @@
         </button>
         <!--(click)="resumeBtn()" -->
         <ng-container *ngIf="!updatedContentStatus; else elseBlock1">
-          1
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && (finishedPercentage === undefined && optmisticPercentage === 0)"
             (click)="setConfirmDialogStatus(content?.completionPercentage)"
             [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
