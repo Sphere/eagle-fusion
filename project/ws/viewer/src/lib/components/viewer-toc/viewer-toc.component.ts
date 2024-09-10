@@ -218,16 +218,16 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
               const nextResource = this.playerStateService.getNextResource()
               if (!(isNull(nextResource) || isEmpty(nextResource))) {
-                // this.router.navigate([nextResource], { preserveQueryParams: true })
-                // this.playerStateService.trigger$.complete()
+                this.router.navigate([nextResource], { preserveQueryParams: true })
+                this.playerStateService.trigger$.complete()
 
               } else {
-                // this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                //   queryParams: {
-                //     primaryCategory: 'Course',
-                //     batchId: this.batchId,
-                //   },
-                // })
+                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                  queryParams: {
+                    primaryCategory: 'Course',
+                    batchId: this.batchId,
+                  },
+                })
               }
 
             }
@@ -796,12 +796,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     console.error('Navigation error:', error)
                   })
                 } else {
-                  //alert(document.baseURI)
+                  this.isLoading = true
                   let url = `${document.baseURI}${nextResource}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
                   console.log(url)
                   window.location.href = url
+                  this.isLoading = false
                 }
-                //this.playerStateService.trigger$.complete()
               }
             } else if (this.contentSvc.showConformation) {
               const data = {

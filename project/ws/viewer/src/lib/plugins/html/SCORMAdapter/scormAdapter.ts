@@ -535,9 +535,6 @@ export class SCORMAdapterService {
 
           console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '488')
           this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
-            const nextResource = this.playerStateService.getNextResource()
-            // if (!(isNull(nextResource) || isEmpty(nextResource))) {
-
             if (this.scormData) {
               this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
                 this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
@@ -558,10 +555,7 @@ export class SCORMAdapterService {
             }
             console.log(this.scormData, 'scormdata', postData)
 
-            if (this.getPercentage(this.scormData) === 100 ||
-              (isNull(nextResource) || isEmpty(nextResource))
-              //|| Number(req.request.contents[0].completionPercentage) === 100
-            ) {
+            if (this.getPercentage(this.scormData) === 100) {
               let result = await response.result
               result["type"] = 'scorm'
               this.contentSvc.changeMessage(result)
