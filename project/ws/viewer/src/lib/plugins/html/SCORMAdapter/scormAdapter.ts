@@ -12,8 +12,7 @@ import { Subscription } from 'rxjs'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { first } from 'rxjs/operators'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
-import { PlayerStateService } from 'project/ws/viewer/src/lib/player-state.service'
-import { isNull, isEmpty } from 'lodash'
+
 const API_END_POINTS = {
   SCROM_ADD_UPDTE: '/apis/protected/v8/scrom/add',
   SCROM_FETCH: '/apis/protected/v8/scrom/get',
@@ -44,7 +43,6 @@ export class SCORMAdapterService {
     private contentSvc: WidgetContentService,
     private telemetrySvc: TelemetryService,
     private onlineIndexedDbService: IndexedDBService,
-    private playerStateService: PlayerStateService,
   ) {
     this.http = new HttpClient(handler)
   }
