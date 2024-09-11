@@ -174,6 +174,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
+
         if (this.currentContentType == 'Video') {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
@@ -222,6 +223,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 this.playerStateService.trigger$.complete()
 
               } else {
+                alert('No more resources to play')
                 this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                   queryParams: {
                     primaryCategory: 'Course',
@@ -764,6 +766,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
         console.log(rating, optmisticPercentage)
+
         if (content.type) {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
@@ -796,11 +799,19 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     console.error('Navigation error:', error)
                   })
                 } else {
+                  // External navigation or fallback
                   this.isLoading = true
-                  let url = `${document.baseURI}${nextResource}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
-                  console.log(url)
-                  window.location.href = url
-                  this.isLoading = false
+                  const modifiedString = nextResource.replace('/', '')
+                  const url = `${document.baseURI}${modifiedString}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
+                  console.log('Redirecting to URL:', url)
+
+                  setTimeout(() => {
+                    window.location.href = url
+                  }, 30)
+
+                  setTimeout(() => {
+                    this.isLoading = false
+                  }, 60)
                 }
               }
             } else if (this.contentSvc.showConformation) {
