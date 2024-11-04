@@ -384,7 +384,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (event.url.includes('/public/login')) {
           this.showNavigation = false
         }
-        if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {
+        if (
+          this.router.url.includes('/page/home') ||
+          this.router.url.includes('/public/home') ||
+          this.router.url === '/'
+        ) {
           this.isHomePage = true
         } else {
           this.isHomePage = false
