@@ -1,4 +1,4 @@
-import { TestBed } from '@angular/core/testing'
+import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { RouterTestingModule } from '@angular/router/testing'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { MatDialog } from '@angular/material/dialog'
@@ -60,6 +60,8 @@ const mockWidgetContentServiceService: Partial<WidgetContentService> = {
 describe('WebPublicComponent', () => {
   let scrollToDivEvent: Subject<string>
   let component: WebPublicComponent
+  let fixture: ComponentFixture<WebPublicComponent>
+
   beforeAll(() => {
     component = new WebPublicComponent(
       mockRouterService as Router,
@@ -78,10 +80,9 @@ describe('WebPublicComponent', () => {
   }
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [MockPipeDurationTransform, BtnContentShareComponent, WebPublicComponent, HorizontalScrollerComponent, WebCourseCardComponent, WebCourseViewComponent, WebFeaturedCourseComponent],
       imports: [RouterTestingModule, HttpClientTestingModule, MatIconModule, MatProgressSpinnerModule, MdePopoverModule, MatCardModule, BrowserAnimationsModule, MatProgressBarModule],
+      declarations: [MockPipeDurationTransform, BtnContentShareComponent, WebPublicComponent, HorizontalScrollerComponent, WebCourseCardComponent, WebCourseViewComponent, WebFeaturedCourseComponent],
       providers: [
-        { provide: HttpClient, useValue: mockHttpService },
         { provide: MatDialog, useValue: mockDialogBar },
         { provide: Router, useValue: mockRouterService },
         { provide: ScrollService, useValue: mockScrollServiceService },
@@ -92,6 +93,7 @@ describe('WebPublicComponent', () => {
         CUSTOM_ELEMENTS_SCHEMA,
       ]
     }).compileComponents()
+    fixture = TestBed.createComponent(WebPublicComponent)
     const mockNativeElement = document.createElement('div')
     component.scrollToCneCourses = new ElementRef(mockNativeElement)
 
