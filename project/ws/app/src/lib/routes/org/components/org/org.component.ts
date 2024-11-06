@@ -61,9 +61,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
 
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
-    // if (this.orgName ) {
-    //   this.orgService.hideHeaderFooter.next(true)
-    // }
+
     this.http.get('https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json', { responseType: 'text' })
       .subscribe(
         (results: any) => {
@@ -79,6 +77,92 @@ export class OrgComponent implements OnInit, OnDestroy {
               this.currentOrgData = this.currentOrgData[0]
               this.formattedAbout = this.formatAbout(this.currentOrgData.about)
               // console.log("this.currentOrgData", this.currentOrgData)
+              if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
+                console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
+                this.orgService.getSearchResultsById(this.currentOrgData.closedCoursesList).subscribe((result: any) => {
+                  this.courseData = result.result.content
+                  this.courseCount = this.courseData
+                  if (this.courseData) {
+                    this.courseData.forEach((course: any) => {
+                      if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
+                        forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
+                          //console.log("value", value)
+                          if (value.level) {
+                            this.cometencyData.push(
+                              {
+                                identifier: course.identifier,
+                                name: value.competencyName,
+                                levels: ` Level ${value.level}`,
+                              }
+                            )
+                          }
+                          return this.cometencyData
+                        })
+                      }
+                    })
+                    // console.log("this.cometencyData", this.cometencyData)
+
+                  }
+                })
+              } else {
+                this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
+                  this.courseData = result.result.content.filter(
+                    (org: any) => org.sourceName === this.orgName
+                  )
+                  this.courseCount = this.courseData
+                  console.log("this.courseData", this.courseData)
+                  if (this.courseData && this.courseData.length > 0) {
+                    this.courseData.forEach((course: any) => {
+                      if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
+                        forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
+                          //console.log("value", value)
+                          if (value.level) {
+                            this.cometencyData.push(
+                              {
+                                identifier: course.identifier,
+                                name: value.competencyName,
+                                levels: ` Level ${value.level}`,
+                              }
+                            )
+                          }
+                          return this.cometencyData
+                        })
+                      }
+                    })
+                    // console.log("this.cometencyData", this.cometencyData)
+                  } else {
+                    console.log("this.courseData", this.courseData)
+
+                    this.orgService.getSearchResults(this.currentOrgData.taggedSourceName).subscribe((result: any) => {
+                      this.courseData = result.result.content.filter(
+                        (org: any) => org.sourceName === this.currentOrgData.taggedSourceName
+                      )
+                      this.courseCount = this.courseData
+                      console.log("this.courseData", this.courseData)
+                      if (this.courseData && this.courseData.length > 0) {
+                        console.log('l')
+                        this.courseData.forEach((course: any) => {
+                          if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
+                            forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
+                              //console.log("value", value)
+                              if (value.level) {
+                                this.cometencyData.push(
+                                  {
+                                    identifier: course.identifier,
+                                    name: value.competencyName,
+                                    levels: ` Level ${value.level}`,
+                                  }
+                                )
+                              }
+                              return this.cometencyData
+                            })
+                          }
+                        })
+                      }
+                    })
+                  }
+                })
+              }
             }
           } catch (e) {
             console.error('Error parsing JSON', e)
@@ -88,116 +172,17 @@ export class OrgComponent implements OnInit, OnDestroy {
           console.error('HTTP error', error)
         }
       )
+    console.log("this.currentOrgData", this.currentOrgData)
 
-    // this.routeSubscription = this.activateRoute.data.subscribe((response: Data) => {
-    //   this.orgName = this.activateRoute.snapshot.queryParams.orgId
-    //   const currentOrg = this.orgName.trim()
-    //   if (response.orgData) {
-    //     this.orgData = response.orgData.data.sources
 
-    //     this.currentOrgData = this.orgData.filter(
-    //       (org: any) =>
-    //         org.sourceName === currentOrg
-    //     )
-    //     if (this.currentOrgData) {
-    //       this.currentOrgData = this.currentOrgData[0]
-    //       this.formattedAbout = this.formatAbout(this.currentOrgData.about)
-    //       // console.log("this.currentOrgData", this.currentOrgData)
-    //     }
-    //   }
-    // })
     this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
       if (userEnrolled && userEnrolled.length > 0) {
         this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
         this.competency_offered = userEnrolled[0].competency_offered || undefined
       }
     })
-    if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
-      console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
-      this.orgService.getSearchResultsById(this.currentOrgData.closedCoursesList).subscribe((result: any) => {
-        this.courseData = result.result.content
-        this.courseCount = this.courseData
-        if (this.courseData) {
-          this.courseData.forEach((course: any) => {
-            if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
-              forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-                //console.log("value", value)
-                if (value.level) {
-                  this.cometencyData.push(
-                    {
-                      identifier: course.identifier,
-                      name: value.competencyName,
-                      levels: ` Level ${value.level}`,
-                    }
-                  )
-                }
-                return this.cometencyData
-              })
-            }
-          })
-          // console.log("this.cometencyData", this.cometencyData)
+    console.log("this.currentOrgData.closedCoursesList", this.currentOrgData)
 
-        }
-      })
-    } else {
-      this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
-        this.courseData = result.result.content.filter(
-          (org: any) => org.sourceName === this.orgName
-        )
-        this.courseCount = this.courseData
-        console.log("this.courseData", this.courseData)
-        if (this.courseData && this.courseData.length > 0) {
-          this.courseData.forEach((course: any) => {
-            if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
-              forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-                //console.log("value", value)
-                if (value.level) {
-                  this.cometencyData.push(
-                    {
-                      identifier: course.identifier,
-                      name: value.competencyName,
-                      levels: ` Level ${value.level}`,
-                    }
-                  )
-                }
-                return this.cometencyData
-              })
-            }
-          })
-          // console.log("this.cometencyData", this.cometencyData)
-        } else {
-          console.log("this.courseData", this.courseData)
-
-          this.orgService.getSearchResults(this.currentOrgData.taggedSourceName).subscribe((result: any) => {
-            this.courseData = result.result.content.filter(
-              (org: any) => org.sourceName === this.currentOrgData.taggedSourceName
-            )
-            this.courseCount = this.courseData
-            console.log("this.courseData", this.courseData)
-            if (this.courseData && this.courseData.length > 0) {
-              console.log('l')
-              this.courseData.forEach((course: any) => {
-                if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
-                  forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-                    //console.log("value", value)
-                    if (value.level) {
-                      this.cometencyData.push(
-                        {
-                          identifier: course.identifier,
-                          name: value.competencyName,
-                          levels: ` Level ${value.level}`,
-                        }
-                      )
-                    }
-                    return this.cometencyData
-                  })
-                }
-              })
-            }
-          })
-        }
-      })
-    }
 
     // this.orgService.getDatabyOrgId().then((data: any) => {
     //   console.log(data)

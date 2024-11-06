@@ -7,7 +7,7 @@ import { HttpBackend, HttpClient } from '@angular/common/http'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, TelemetryService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import dayjs from 'dayjs'
-import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
+//import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { Subscription } from 'rxjs'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { first } from 'rxjs/operators'
@@ -38,11 +38,11 @@ export class SCORMAdapterService {
     handler: HttpBackend,
     private activatedRoute: ActivatedRoute,
     private configSvc: ConfigurationsService,
-    private viewerDataSvc: ViewerDataService,
+    //private viewerDataSvc: ViewerDataService,
     private router: Router,
     private contentSvc: WidgetContentService,
     private telemetrySvc: TelemetryService,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
   ) {
     this.http = new HttpClient(handler)
   }
@@ -443,10 +443,14 @@ export class SCORMAdapterService {
                       contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
                       batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                       courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                      status: this.getStatus(postData) || 2,
+                      status: this.contentData && this.contentData.status === 2
+                        ? this.contentData.status
+                        : this.getStatus(postData) || 2,
                       lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                       progressdetails: postData,
-                      completionPercentage: this.getPercentage(postData) || 0
+                      completionPercentage: this.contentData && this.contentData.status === 2
+                        ? 100
+                        : this.getPercentage(postData) || 0,
                     },
                   ],
                 },
@@ -460,7 +464,9 @@ export class SCORMAdapterService {
                       contentId: this.contentId !== undefined ? this.contentId : this.contentKey,
                       batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
                       courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                      status: this.getStatus(postData) || 2,
+                      status: this.contentData && this.contentData.status === 2
+                        ? this.contentData.status
+                        : this.getStatus(postData) || 2,
                       lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                       progressdetails: postData,
                       completionPercentage: 100
@@ -523,7 +529,6 @@ export class SCORMAdapterService {
 
           console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '488')
           this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
-
             if (this.scormData) {
               this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
                 this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
@@ -542,19 +547,20 @@ export class SCORMAdapterService {
                   this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data2)
               }
             }
-            console.log(this.scormData, 'scormdata')
+            console.log(this.scormData, 'scormdata', postData)
+
             if (this.getPercentage(this.scormData) === 100) {
               let result = await response.result
               result["type"] = 'scorm'
               this.contentSvc.changeMessage(result)
-              this.viewerDataSvc.scromChangeSubject.next(
-                {
-                  'completed': true,
-                  'batchId':
-                    this.activatedRoute.snapshot.queryParamMap.get('batchId'),
-                  'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
-                  , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
-                })
+              // this.viewerDataSvc.scromChangeSubject.next(
+              //   {
+              //     'completed': true,
+              //     'batchId':
+              //       this.activatedRoute.snapshot.queryParamMap.get('batchId'),
+              //     'collectionId': this.activatedRoute.snapshot.queryParams.collectionId
+              //     , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
+              //   })
               setTimeout(() => {
                 this.LMSFinish()
               })

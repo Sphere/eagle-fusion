@@ -10,6 +10,7 @@ import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
 // import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
 // import { ContentCertificationResolver } from './routes/app-toc-certification/resolvers/content-certification.resolver'
 import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-contents.component'
+import { AppTocReferencesComponent } from './routes/app-toc-references/app-toc-references.component'
 import { AppTocHomeComponent } from './routes/app-toc-home/app-toc-home.component'
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
 import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
@@ -33,6 +34,10 @@ const routes: Routes = [
       {
         path: 'chapters',
         component: AppTocContentsComponent,
+      },
+      {
+        path: 'references',
+        component: AppTocReferencesComponent,
       },
       {
         path: 'overview',

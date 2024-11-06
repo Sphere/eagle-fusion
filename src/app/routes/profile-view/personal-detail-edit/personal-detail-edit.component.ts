@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -50,6 +50,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   trigerrNavigation = true
   userlang: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
+  @Output() userName = new EventEmitter<any>()
   @ViewChild('knownLanguagesInput', { static: true }) knownLanguagesInputRef!: ElementRef<HTMLInputElement>
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
@@ -78,8 +79,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private http: HttpClient
   ) {
     this.personalDetailForm = new FormGroup({
-      firstname: new FormControl({ value: '', disabled: true }, [Validators.required]),
-      surname: new FormControl({ value: '', disabled: true }, [Validators.required]),
+      firstname: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
       // userName: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       profession: new FormControl(),
@@ -460,9 +461,11 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       const data = form.value.dob.replace(/\/undefined/g, '')
       form.value.dob = data
     }
-    console.log(form.value)
     form.value.knownLanguages = this.selectedKnowLangs
-
+    let userName = {
+      firstname: form.value.firstname,
+      surname: form.value.surname
+    }
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
@@ -496,6 +499,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         } else {
           this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
         }
+        this.userName.emit(userName)
         this.router.navigate(['/app/profile-view'])
       }
     })

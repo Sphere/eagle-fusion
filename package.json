@@ -7,7 +7,7 @@
     "start:hi": "node --max_old_space_size=10000 ./node_modules/@angular/cli/bin/ng serve --proxy-config proxy/localhost.proxy.json -o --c=hi",
     "dev": "npm run start:eagle-dev",
     "build": "node --max_old_space_size=18000 ./node_modules/@angular/cli/bin/ng build --prod --outputPath=dist/www/en --baseHref=/ --i18nLocale=en",
-    "build:hi": "node --max_old_space_size=15000 ./node_modules/@angular/cli/bin/ng build --prod --i18n-locale hi --i18n-format xlf --i18n-file locale/messages.hi.xlf --output-path=dist/www/hi --baseHref /hi/",
+    "build:hi": "node --max_old_space_size=12000 ./node_modules/@angular/cli/bin/ng build --prod --i18n-locale hi --i18n-format xlf --i18n-file locale/messages.hi.xlf --output-path=dist/www/hi --baseHref /hi/",
     "postbuild": "npm run compress:gzip && npm run compress:brotli",
     "compress:brotli": "gzipper --brotli --gzip-level=9 --verbose ./dist/www",
     "compress:gzip": "gzipper --verbose --gzip-level=9 ./dist/www",

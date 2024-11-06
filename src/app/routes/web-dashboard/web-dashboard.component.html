@@ -21,10 +21,10 @@
 <div *ngFor="let data of dataCarousel; let i = index">
   <div class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
-      <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
+      <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
         </span> </p>
       <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
-          > </span> </p>
+          > </span> </p> -->
       <div>
         <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
           (click)="goToSlide(i)" class="round-buttons">

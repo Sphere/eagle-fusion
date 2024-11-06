@@ -143,16 +143,6 @@
           <context context-type="linenumber">119</context>
         </context-group>
       </trans-unit>
-            <trans-unit id="5a435f5cd8f4f55efd6f3fd0b640f61754411616" datatype="html">
-        <source>
-              Start Again
-            </source>
-                      <target state="final">फिर से शुरू करें</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
-          <context context-type="linenumber">153</context>
-        </context-group>
-      </trans-unit>
             <trans-unit id="e7bec1f8b6e16ccb232d0611dfe4bdc1dee86684" datatype="html">
         <source>
             Start Again
@@ -3617,6 +3607,14 @@
           <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="7529307ff5a8475ecd0755abb1b8a91ae24c1d52" datatype="html">
+        <source>Reference</source>
+        <target state="final">संदर्भ</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="49731d977a6c9c67c59ca0293df1241a199380d4" datatype="html">
         <source>
         The preview for this type of content is unavailable. Please click on Start button above to view.</source>
@@ -3624,6 +3622,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/routes/app-toc-contents/app-toc-contents.component.html</context>
           <context context-type="linenumber">22</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/routes/app-toc-references/app-toc-references.component.html</context>
+          <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
       <trans-unit id="362576936fd6a7bdc0ebb582981c7451df578630" datatype="html">
@@ -5418,6 +5420,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">143</context>
+        </context-group>
+      </trans-unit>
+            <trans-unit id="5a435f5cd8f4f55efd6f3fd0b640f61754411616" datatype="html">
+        <source>
+              Start Again
+            </source>
+                         <target>फिर से शुरू करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">165</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
             <trans-unit id="70f9c68215ebba475c49d58bf0168f0520ef2945" datatype="html">

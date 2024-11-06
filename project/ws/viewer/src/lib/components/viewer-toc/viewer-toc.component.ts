@@ -148,6 +148,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.batchId = params.get('batchId')
       const collectionId = params.get('collectionId')
       this.collectionId = params.get('collectionId')
+
+      if (this.collectionId) {
+        localStorage.setItem('collectionId', this.collectionId)
+      }
       const collectionType = params.get('collectionType')
       if (collectionId && collectionType) {
         if (
@@ -170,6 +174,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
+
         if (this.currentContentType == 'Video') {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
@@ -211,12 +216,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           // console.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
+
               const nextResource = this.playerStateService.getNextResource()
               if (!(isNull(nextResource) || isEmpty(nextResource))) {
                 this.router.navigate([nextResource], { preserveQueryParams: true })
                 this.playerStateService.trigger$.complete()
 
               } else {
+                alert('No more resources to play')
                 this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                   queryParams: {
                     primaryCategory: 'Course',
@@ -282,6 +289,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (data) {
         this.isLoading = true
         this.currentContentType = await data.type
+        if (data && data.type === "scorm") {
+          localStorage.setItem('contentId', window.location.href)
+        } else {
+          localStorage.removeItem('contentId')
+        }
         this.processCollectionForTree(data)
         // this.ngOnInit()
       }
@@ -741,8 +753,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
       let rating = await this.contentSvc.readCourseRating(req).then((res: any) => {
         if (res && res.params.status === 'success') {
-          console.log(Object(res.result).length)
-          console.log(res.result)
           return res.result
         }
       })
@@ -756,20 +766,53 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
 
         console.log(rating, optmisticPercentage)
+
         if (content.type) {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
+            console.log(nextResource)
+            const regex = /do_\d+/ // Regular expression to match "do_" followed by one or more digits
+            const match = nextResource.match(regex)
+            let foundObject: any
+            if (match) {
+              console.log(match[0]) // Output: "do_11357407388494233611489"
+              console.log(this.collection!.children)
+              foundObject = this.collection!.children!.find(obj => obj.identifier === match[0])
+              if (foundObject) {
+                console.log(foundObject) // Output the object if a match is found
+              } else {
+                console.log('No matching object found')
+              }
+            } else {
+              console.log('No match found')
+            }
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
               if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
-                this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
-                  if (success) {
-                    this.playerStateService.trigger$.complete()
-                  }
-                }).catch(error => {
-                  console.error('Navigation error:', error)
-                })
-                //this.playerStateService.trigger$.complete()
+                console.log(foundObject, 'foundObject')
+                if (!foundObject || (foundObject.type !== "Scrom" && foundObject.completionPercentage === 100)) {
+                  this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                    if (success) {
+                      this.playerStateService.trigger$.complete()
+                    }
+                  }).catch(error => {
+                    console.error('Navigation error:', error)
+                  })
+                } else {
+                  // External navigation or fallback
+                  this.isLoading = true
+                  const modifiedString = nextResource.replace('/', '')
+                  const url = `${document.baseURI}${modifiedString}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
+                  console.log('Redirecting to URL:', url)
+
+                  setTimeout(() => {
+                    window.location.href = url
+                  }, 30)
+
+                  setTimeout(() => {
+                    this.isLoading = false
+                  }, 60)
+                }
               }
             } else if (this.contentSvc.showConformation) {
               const data = {
@@ -780,7 +823,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
               // If the dialog is not already open, open it
-              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+              if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0 && data) {
                 confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
                   height: '405px',
@@ -968,6 +1011,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     } else {
       if (this.collection && this.collection.children) {
         this.isLoading = true
+        let resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+        console.log(resourceData, 'resourceData')
+        console.log(resourceData.result.content.mimeType)
+        if (resourceData.result.content.mimeType !== 'application/vnd.ekstep.html-archive') {
+          localStorage.removeItem('contentId')
+        }
         let userId
         if (this.configSvc.userProfile) {
           userId = this.configSvc.userProfile.userId || ''

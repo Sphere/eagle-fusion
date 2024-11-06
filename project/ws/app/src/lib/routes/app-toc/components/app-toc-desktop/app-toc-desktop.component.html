@@ -54,7 +54,7 @@
     </div>
     <div *ngIf="optmisticPercentage !== null && content !== undefined">
       <!-- Content goes here -->
-      <div *ngIf="optmisticPercentage >= content!.completionPercentage; else elseBlock" class="mt-2">
+      <div *ngIf="(optmisticPercentage < 100 && finishedPercentage !== undefined); else elseBlock" class="mt-2">
         <mat-progress-bar [mode]="'determinate'" [value]="
                     optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === null || optmisticPercentage === 0, 'thick': optmisticPercentage}"
@@ -65,14 +65,23 @@
       </div>
     </div>
     <ng-template #elseBlock>
-      <div *ngIf="content?.completionPercentage > 0" class="mt-2">
+      <div *ngIf="optmisticPercentage === 100 && content?.completionPercentage !== 100" class="mt-2">
         <mat-progress-bar [mode]="'determinate'" [value]="
-        content?.completionPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
-          [ngClass]="{ 'visibility-0': content?.completionPercentage === undefined, 'thick': content?.completionPercentage}"
+        optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+          [ngClass]="{ 'visibility-0': optmisticPercentage === undefined, 'thick': optmisticPercentage}"
           i18n-aria-label>
-          {{content?.completionPercentage}} %
+          {{optmisticPercentage}} %
         </mat-progress-bar>
-        <span class="value" *ngIf="content?.completionPercentage">{{content?.completionPercentage}}%</span>
+        <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
+      </div>
+      <div *ngIf="content?.completionPercentage === 100 && optmisticPercentage === 100" class="mt-2">
+        <mat-progress-bar [mode]="'determinate'" [value]="
+                    optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+          [ngClass]="{ 'visibility-0': optmisticPercentage === undefined, 'thick': optmisticPercentage}"
+          i18n-aria-label>
+          {{optmisticPercentage}} %
+        </mat-progress-bar>
+        <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
       </div>
     </ng-template>
     <!-- <ws-widget-content-progress [isDesktop]='true' *ngIf="content?.identifier" [forPreview]="forPreview"
@@ -131,7 +140,6 @@
         </button>
         <!--(click)="resumeBtn()" -->
         <ng-container *ngIf="!updatedContentStatus; else elseBlock1">
-
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && (finishedPercentage === undefined && optmisticPercentage === 0)"
             (click)="setConfirmDialogStatus(content?.completionPercentage)"
             [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
@@ -144,14 +152,21 @@
         </ng-container>
 
         <ng-template #elseBlock1>
-
-          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled &&  (optmisticPercentage < 100 && finishedPercentage !== undefined)"
-            (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled &&
+          ((optmisticPercentage < 100 && finishedPercentage !== undefined) ||
+          (optmisticPercentage < 100 && finishedPercentage === undefined))" (click)="redirectPage(updatedContentFound)"
+            class="banner-btn resumeButton cursor-pointer">
             <ng-container i18n>
               Resume
             </ng-container>
           </a>
-          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && ((optmisticPercentage === 100) || (content!.completionPercentage === 100))"
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage === 100 && content?.completionPercentage !== 100"
+            (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
+            <ng-container i18n>
+              Start Again
+            </ng-container>
+          </a>
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && content?.completionPercentage === 100 && optmisticPercentage === 100"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
             <ng-container i18n>
               Start Again

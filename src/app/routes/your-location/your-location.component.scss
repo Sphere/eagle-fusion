@@ -89,6 +89,10 @@ input:focus-visible {
 .form-control:disabled {
   background-color: #fff;
 }
+select.ng-dirty:disabled{
+    color: #808080;
+
+}
 .login-button:disabled {
   background: #BFBFBF;
   color: #808080;

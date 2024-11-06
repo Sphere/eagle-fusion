@@ -265,6 +265,12 @@ export class MobileProfileDashboardComponent implements OnInit {
   assignProfession(data: any) {
     this.currentProfession = data
   }
+  assignUserName(data: any) {
+    if (data.firstname)
+      this.userProfileData.personalDetails.firstname = data.firstname
+    if (data.surname)
+      this.userProfileData.personalDetails.surname = data.surname
+  }
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
