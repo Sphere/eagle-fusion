@@ -51,6 +51,8 @@ import { SearchInputComponent } from './components/search-input/search-input.com
 import { HomeComponent } from './routes/home/home.component'
 // import { KnowledgeComponent } from './routes/knowledge/knowledge.component'
 import { LearningComponent } from './routes/learning/learning.component'
+import { ViewAllComponent } from './routes/view-all/view-all.component'
+
 // import { ProjectComponent } from './routes/project/project.component'
 import { SearchRootComponent } from './routes/search-root/search-root.component'
 // import { SocialComponent } from './routes/social/social.component'
@@ -64,6 +66,7 @@ import { PublicHomeModule } from '../../../../../../../src/app/routes/public/pub
     SearchInputComponent,
     SearchInputHomeComponent,
     LearningComponent,
+    ViewAllComponent,
     // BlogsCardComponent,
     FilterDisplayComponent,
     // ItemTileComponent,

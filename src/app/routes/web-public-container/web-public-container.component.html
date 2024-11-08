@@ -4,7 +4,7 @@
       <div>
         <span class="header1 header0" i18n>CONTINUE LEARNING</span>
       </div>
-      <button i18n (click)="viewAllCourse()" class="view-all-course">
+      <button i18n (click)="viewAllCourse('continueLearning')" class="view-all-course">
         View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
       </button>
     </div>
@@ -24,7 +24,7 @@
       <div>
         <span class="header1" i18n>FOR YOU</span>
       </div>
-      <button i18n (click)="viewAllCourse()" class="view-all-course">
+      <button i18n (click)="viewAllCourse('formatForYouCourses')" class="view-all-course">
         View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
       </button>
     </div>
@@ -44,9 +44,10 @@
       <div>
         <span class="header1" i18n>TOP COURSES</span>
       </div>
-      <button i18n (click)="viewAllCourse()" class="view-all-course">
+      <button i18n (click)="viewAllCourse('topCourse')" class="view-all-course">
         View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
       </button>
+
     </div>
     <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
       <div *ngFor="let course of topCertifiedCourse">
