@@ -99,6 +99,10 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.getUserDetails()
       }
     })
+    this.contentSvc.fetchGeneralAndRcCertificates().pipe().subscribe((res: any) => {
+      this.processCertiFicate(res)
+    })
+
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
 
@@ -109,7 +113,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       const lang = (res[0] && res[0].profileDetails && res[0].profileDetails!.preferences && res[0].profileDetails!.preferences!.language !== undefined) ? res[0].profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
       this.language = lang
       this.setAcademicDetail(res[0])
-      this.processCertiFicate(res[1])
+      // this.processCertiFicate(res[1])
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -204,10 +208,10 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   processCertiFicate(data: any) {
 
-    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
+    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
       return certificate.length > 0
     })), 'identifier')
-    this.formateRequest(data)
+    this.formatAllRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
         this.certificateThumbnail.push({ identifier: certId })
@@ -232,20 +236,42 @@ export class MobileProfileDashboardComponent implements OnInit {
     })
 
   }
+  formatAllRequest(data: any) {
+    this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))
+  }
 
   formateRequest(data: any) {
-    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
+    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
       return certificate.length > 0
     })), (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
+        rcCertiface: false
       })
       return result
     }, [])
-    this.certificates = issuedCertificates
+    return issuedCertificates
   }
-
+  rcCertiface(data: any) {
+    if (data.sunbirdRcCertificates && data.sunbirdRcCertificates.length > 0) {
+      return _.reduce(
+        data.sunbirdRcCertificates,
+        (result: any[], certificate: any) => {
+          result.push({
+            name: certificate.certificateName,
+            downloadUrl: certificate.certificateDownloadUrl,
+            image: certificate.thumbnail,
+            rcCerticate: true
+          })
+          return result
+        },
+        []
+      )
+    } else {
+      return []
+    }
+  }
   openAboutDialog() {
     if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
       const dialogRef = this.dialog.open(MobileAboutPopupComponent, {

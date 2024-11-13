@@ -1,1 +1,1 @@
-export { map, get, flatten, filter, forEach, reduce } from 'lodash'
+export { map, get, flatten, filter, forEach, reduce, concat } from 'lodash'
