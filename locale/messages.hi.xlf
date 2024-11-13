@@ -887,7 +887,7 @@
         </context-group>
           <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">54</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
@@ -2747,7 +2747,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">77</context>
+          <context context-type="linenumber">94</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5600fb9632505c8d29bb4daee2cd2d0c09c3e371" datatype="html">
@@ -3822,7 +3822,11 @@
         <target state="final">दिखा रहे हैं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/view-all/view-all.component.html</context>
+          <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1f360f6968ad81f88da1d34e4a9a855680d81074" datatype="html">
@@ -3830,7 +3834,11 @@
         <target state="final">सभी पाठ्यक्रम देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
-          <context context-type="linenumber">12</context>
+          <context context-type="linenumber">13</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/view-all/view-all.component.html</context>
+          <context context-type="linenumber">6</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a1cd6a5f4df99d60422c0fa10704500ffadc8b68" datatype="html">
@@ -3909,9 +3917,22 @@
       <trans-unit id="a4759399c88a36c6d1af4848aca9c13219f5cc4c" datatype="html">
         <source>No result</source>
         <target state="final">कोई परिणाम नहीं</target>
-        <context-group purpose="location">
+       <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/learning/learning.component.html</context>
-          <context context-type="linenumber">109</context>
+          <context context-type="linenumber">110</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/view-all/view-all.component.html</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="7ab299258cec09c91ee32469b2dee5b4553ce452" datatype="html">
+        <source>results
+    </source>
+            <target state="final">परिणाम</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/search/routes/view-all/view-all.component.html</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e752883bbf70b6716d9a6547b68d014eb618deae" datatype="html">
@@ -5411,6 +5432,10 @@
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
           <context context-type="linenumber">135</context>
         </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop/app-toc-desktop.component.html</context>
+          <context context-type="linenumber">148</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="b22fdb3529dc5d9026981cb88a5e4a14cb3014b9" datatype="html">
         <source>
@@ -5736,8 +5761,23 @@
           <target state="final">आपके लिए
  </target>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">37</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
           <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9c035a6d28d39571e03797bff9b8554beccf62c7" datatype="html">
+        <source>
+        <x id="INTERPOLATION" equiv-text="{{ showcoursesForYouCourses ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
+        <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+      </source>
+       <target state="final">सभी को देखें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
+          <context context-type="linenumber">43</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fadca11345646eff8c7d70e68aeba25b61bd3507" datatype="html">
@@ -5754,7 +5794,7 @@
          </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
-          <context context-type="linenumber">84</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b10879ede4e860a02c0cde17254dd136cf9453ae" datatype="html">
@@ -5764,7 +5804,7 @@
          </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-public-container/web-public-container.component.html</context>
-          <context context-type="linenumber">86</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
         <trans-unit id="fde4d922c6b19c30ccb9688f4a285a22c271917a" datatype="html">
@@ -5836,7 +5876,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">83</context>
+          <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
        <trans-unit id="8b78091492f5aacf12294ac3d2722024c923b146" datatype="html">
@@ -5858,7 +5898,7 @@
     <target state="final">सभी को देखें         </target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">62</context>
         </context-group>
       </trans-unit>
        <trans-unit id="d51557b32f5cc23c209819a11c0673876c353666" datatype="html">
