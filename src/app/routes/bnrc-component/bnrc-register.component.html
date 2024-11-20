@@ -81,7 +81,7 @@
           class="red-icon">*</span></label>
 
       <div class="form-group mt-4 input-box">
-        <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
+        <input autocomplete="off" pattern="^[A-Za-z, ]+$" type="text" class="form-control"
           formControlName="instituteName" placeholder="Name of Institute" i18n-placeholder
           (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
       </div>
@@ -127,7 +127,7 @@
           class="red-icon">*</span></label>
 
       <div class="form-group mt-4 input-box">
-        <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
+        <input autocomplete="off" pattern="^[A-Za-z, ]+$" type="text" class="form-control"
           formControlName="instituteName" placeholder="Name of Institute" i18n-placeholder
           (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
       </div>
@@ -255,8 +255,8 @@
       </mat-error>
       <div class="form-group">
         <label for="facilityName" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
-        <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" formControlName="facilityName" class="form-control"
-          i18n-placeholder placeholder="Name of Facility" autocomplete="off">
+        <input pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
+          placeholder="Name of Facility" autocomplete="off">
         <mat-error
           *ngIf="bnrcDetailForm.get('facilityName')?.hasError('required') && bnrcDetailForm.get('facilityName')?.touched">
           Name of Facility is required.
@@ -318,8 +318,8 @@
 
       <div class="form-group">
         <label for="facilityName" i18n>Name of Facility / संस्थान का नाम <span class="red-icon">*</span></label>
-        <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" formControlName="facilityName" class="form-control"
-          i18n-placeholder placeholder="Name of Facility" autocomplete="off">
+        <input pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control" i18n-placeholder
+          placeholder="Name of Facility" autocomplete="off">
         <mat-error
           *ngIf="bnrcDetailForm.get('facilityName')?.hasError('required') && bnrcDetailForm.get('facilityName')?.touched">
           Name of Facility is required.
