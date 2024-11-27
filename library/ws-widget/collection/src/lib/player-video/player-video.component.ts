@@ -16,6 +16,8 @@ import {
 import { NsContent } from '../_services/widget-content.model'
 import { WidgetContentService } from '../_services/widget-content.service'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
+import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-popup-component'
+import { MatDialog } from '@angular/material/dialog'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
@@ -53,7 +55,40 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   private player: videoJs.Player | null = null
   private dispose: (() => void) | null = null
   contentData: any
-
+  popupShown = false;
+  milestones = [
+    {
+      percentage: 5,
+      question: [{
+        text: 'This is the first question?',
+        options: ['Yes', 'No'],
+      },
+      {
+        text: 'This is the second question?',
+        options: ['True', 'False'],
+      },
+      {
+        text: 'This is the third question?',
+        options: ['True', 'False'],
+      }],
+    },
+    {
+      percentage: 10,
+      question: [{
+        text: 'This is the fourth question?',
+        options: ['Yes', 'No'],
+      },
+      {
+        text: 'This is the fifth question?',
+        options: ['True', 'False'],
+      },
+      {
+        text: 'This is the sixth question?',
+        options: ['True', 'False'],
+      }],
+    }
+  ];
+  lastPercentageWatched = 0;
   constructor(
     private eventSvc: EventService,
     private contentSvc: WidgetContentService,
@@ -62,6 +97,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private telemetrySvc: TelemetryService,
     public viewerDataSvc: ViewerDataService,
+    private dialog: MatDialog
   ) {
     super()
     // console.log(window.innerWidth)
@@ -82,6 +118,13 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
       await this.fetchContent()
     }
+    if (this.videoTag) {
+      this.addTimeUpdateListener(this.videoTag.nativeElement)
+    }
+    if (this.realvideoTag) {
+      this.addTimeUpdateListener(this.realvideoTag.nativeElement)
+    }
+
     if (this.widgetData.url) {
       if (this.widgetData.isVideojs) {
         this.initializePlayer()
@@ -90,6 +133,41 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
   }
+  addTimeUpdateListener(videoElement: HTMLVideoElement): void {
+    videoElement.addEventListener('timeupdate', () => {
+      const percentageWatched = (videoElement.currentTime / videoElement.duration) * 100
+
+      for (const milestone of this.milestones) {
+        if (
+          (percentageWatched >= milestone.percentage && this.lastPercentageWatched < milestone.percentage) || // Forward crossing
+          (percentageWatched < milestone.percentage && this.lastPercentageWatched >= milestone.percentage) // Reverse crossing
+        ) {
+          videoElement.pause()
+          this.openPopup(milestone.question)
+          break
+        }
+      }
+
+      this.lastPercentageWatched = percentageWatched // Update the last percentage
+    })
+  }
+
+  openPopup(questions: Array<{ text: string; options: string[] }>): void {
+    const confirmdialog = this.dialog.open(PlayerVideoPopupComponent, {
+      width: '600px',
+      data: { questions }, // Pass the array of questions to the popup
+    })
+
+    if (confirmdialog) {
+      confirmdialog.afterClosed().subscribe((_res: any) => {
+        console.log("closed popup", _res)
+        this.dialog.closeAll()
+        this.videoTag.nativeElement.play()
+      })
+    }
+  }
+
+
   ngOnDestroy() {
     if (this.player) {
       this.player.dispose()

@@ -148,6 +148,7 @@ import { PublicLoginComponent } from './public-login/public-login.component'
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
+import { PlayerVideoPopupComponent } from '../../library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 @Injectable()
 export class HammerConfig extends GestureConfig {
@@ -309,7 +310,8 @@ const dbConfig: DBConfig = {
     PublicLoginComponent,
     TnaiCallbackComponent,
     // SettingsComponent
-    BnrcmodalComponent
+    BnrcmodalComponent,
+    PlayerVideoPopupComponent
   ],
   imports: [
     FormsModule,
@@ -379,6 +381,7 @@ const dbConfig: DBConfig = {
   bootstrap: [RootComponent],
   entryComponents: [
     BnrcmodalComponent,
+    PlayerVideoPopupComponent,
     DialogConfirmComponent,
     LoginComponent,
     ProfileSelectComponent,

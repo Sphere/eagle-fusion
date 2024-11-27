@@ -1,0 +1,40 @@
+<div class="quiz-container">
+    <!-- Question Text -->
+    <h3 class="m-0 quiz-question">{{ currentQuestion.text }}</h3>
+
+    <!-- Options List -->
+    <ng-container>
+        <mat-selection-list class="app-class" [(ngModel)]="answers[currentIndex]">
+            <div *ngFor="let option of currentQuestion.options; let i = index">
+                <mat-list-option  checkboxPosition="before" [value]="option" class="quiz-option">
+                    <div>{{ option }}</div>
+                </mat-list-option>
+            </div>
+        </mat-selection-list>
+    </ng-container>
+
+    <!-- Navigation Buttons -->
+    <div class="button-container flex justify-between mt-4">
+        <!-- Back Button -->
+        <button [disabled]="currentIndex === 0" [ngClass]="{ 'disabled-back-button': currentIndex === 0 }"
+            class="back-button" (click)="moveToPrevious()">
+            Back
+        </button>
+
+        <!-- Skip or Next Button -->
+        <div class="flex">
+            <button class="skip-button" *ngIf="currentIndex < questions.length - 1" (click)="sendAction('skip')"
+                class="skip-button">
+                Skip
+            </button>
+            <button class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
+                Next
+            </button>
+        </div>
+        <!-- Submit Button -->
+        <button class="submit-button" *ngIf="currentIndex === questions.length - 1" (click)="submitQuiz()"
+            class="submit-button">
+            Submit
+        </button>
+    </div>
+</div>
