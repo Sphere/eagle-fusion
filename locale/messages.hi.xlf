@@ -1672,13 +1672,6 @@
           <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
-       <trans-unit id="4043ca4da4992b1fdb8bfbcce704aa78c4cad910" datatype="html">
-        <source> <x id="INTERPOLATION" equiv-text="{{level.levelId}}"/>. <x id="INTERPOLATION_1" equiv-text="{{level.name}}"/></source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
-          <context context-type="linenumber">65</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="4b49ac731dbf8896ae4b3d1d8c0d841bde03dd69" datatype="html">
         <source>App Update</source>
         <target state="final">ऐप अपडेट</target>
