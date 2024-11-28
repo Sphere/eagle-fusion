@@ -182,11 +182,30 @@ correct-option {
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
   font-family: Roboto;
-  font-size: 16px !important;
+  font-size: 16px ;
   font-weight: 400;
   line-height: 19px;
   letter-spacing: 0em;
+  text-align: center ;
+  border: none ;
+  height: 40px ;
+}
+
+@media screen and (max-width:600px) {
+  .skip-button .back-button .submit-button {
+  cursor: pointer;
+  padding: 8px 22px 8px 22px;
+  border-radius: 50px;
+  font-family: Roboto;
+  font-size: 12px !important;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0em;
   text-align: center !important;
   border: none !important;
-  height: 40px !important;
+  height: 30px !important;
+}
+.button-container {
+gap: 10px !important;
+}
 }
