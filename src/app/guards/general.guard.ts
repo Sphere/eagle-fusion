@@ -34,7 +34,7 @@ export class GeneralGuard implements CanActivate {
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
-
+    debugger
     // tslint:disable-next-line: no-non-null-assertion
     if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
       // tslint:disable-next-line: no-non-null-assertion
