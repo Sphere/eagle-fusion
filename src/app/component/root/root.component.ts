@@ -132,7 +132,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(DOCUMENT) private _document: Document
   ) {
     this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
-      this.navigationInterceptor(event)
+      if (event instanceof NavigationEnd && !event.url.toLowerCase().includes('/app/user/competency')) {
+        this.navigationInterceptor(event)
+      }
+
     })
     this.online$ = merge(
       of(navigator.onLine),
