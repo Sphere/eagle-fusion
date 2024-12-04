@@ -242,7 +242,7 @@ const routes: Routes = [
   },
   {
     path: 'app/user/competency', component: CompetencyDashboardComponent,
-    // canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard],
   },
   {
     path: 'app/user/my_courses', component: MyCoursesComponent,
