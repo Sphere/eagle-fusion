@@ -15,6 +15,9 @@ import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
+import { startWith, map } from 'rxjs/operators'
+import { Observable } from 'rxjs'
+
 @Component({
   selector: 'ws-bnrc-register',
   templateUrl: './bnrc-register.component.html',
@@ -98,9 +101,12 @@ export class BnrcRegisterComponent implements OnInit {
     "Vaishali",
     "West Champaran"
   ]
+  institutes: any = [];
+  filteredInstitutes!: Observable<any[]>
   isSubmitting = false;
   isInservice = false;
   message: string = ''
+  instituteNameUrl = '../../../fusion-assets/files/bnrc-institute.json';
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   hrmsErr: boolean = false
   bnrcErr: boolean = false
@@ -126,7 +132,7 @@ export class BnrcRegisterComponent implements OnInit {
       email: new FormControl('', [Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       role: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
       district: new FormControl('', [Validators.required]),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      instituteName: new FormControl('', []),
       courseSelection: new FormControl('', []),
       instituteType: new FormControl('', []),
       bnrcRegistrationNumber: new FormControl('', []),
@@ -148,7 +154,7 @@ export class BnrcRegisterComponent implements OnInit {
       email: new FormControl('', [Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
       role: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
       district: new FormControl('', [Validators.required]),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      instituteName: new FormControl('', []),
       courseSelection: new FormControl('', []),
       instituteType: new FormControl('', []),
       bnrcRegistrationNumber: new FormControl('', []),
@@ -174,6 +180,13 @@ export class BnrcRegisterComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.http.get(this.instituteNameUrl).subscribe((instituteData: any) => {
+      this.institutes = instituteData.institueName // Store the institutes data
+      this.filteredInstitutes = this.bnrcDetailForm.controls['instituteName'].valueChanges.pipe(
+        startWith(''),
+        map((value) => this._filter(value))
+      )
+    })
     this.route.queryParams.subscribe(params => {
       const service = params['service']
       if (service === 'inservice') {
@@ -201,7 +214,16 @@ export class BnrcRegisterComponent implements OnInit {
       }
     })
   }
+  private _filter(value: string): any[] {
+    const filterValue = value.toLowerCase()
+    return this.institutes.filter((institute: { name: string }) =>
+      institute.name.toLowerCase().includes(filterValue)
+    )
+  }
 
+  assignFields(fieldName: string, value: string, event: any) {
+    console.log(fieldName, value, event)
+  }
   serviceTypeChange(value: string) {
     console.log("regulating service type", value)
     const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')
