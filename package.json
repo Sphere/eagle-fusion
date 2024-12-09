@@ -31,7 +31,7 @@
   },
   "private": true,
   "dependencies": {
-    "@aastrika_npmjs/competency-web": "0.0.3",
+    "@aastrika_npmjs/competency-web": "0.0.2",
     "@aastrika_npmjs/discussions-ui-v8": "^2.1.15",
     "@angular/animations": "~8.2.1",
     "@angular/cdk": "~8.1.2",
