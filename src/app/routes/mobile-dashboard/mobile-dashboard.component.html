@@ -31,6 +31,23 @@
 
 
   </div>
+  <div class="py-1 px-4 ">
+    <ng-container *ngIf="coursesForYou && coursesForYou.length > 1">
+      <div class="line-label bg-green">
+        <span class="header1 header0" i18n>FOR YOU</span>
+      </div>
+      <div *ngFor="let course of getDisplayedItems(coursesForYou, showcoursesForYouCourses)">
+        <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+          [courseData]="course"></ws-mobile-course-view>
+      </div>
+      <button i18n *ngIf="coursesForYou.length > 5" (click)="viewAllItems('ForYouCourses')" class="view-all-course">
+        {{ showcoursesForYouCourses ? 'Hide' : 'View all' }}
+        <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+      </button>
+    </ng-container>
+
+
+  </div>
   <!-- Top certified courses -->
   <section class="py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
     <div class="line-label orange">

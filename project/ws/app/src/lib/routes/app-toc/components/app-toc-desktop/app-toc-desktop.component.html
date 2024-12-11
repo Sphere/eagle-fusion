@@ -140,7 +140,6 @@
         </button>
         <!--(click)="resumeBtn()" -->
         <ng-container *ngIf="!updatedContentStatus; else elseBlock1">
-
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && (finishedPercentage === undefined && optmisticPercentage === 0)"
             (click)="setConfirmDialogStatus(content?.completionPercentage)"
             [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
@@ -153,9 +152,10 @@
         </ng-container>
 
         <ng-template #elseBlock1>
-
-          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled &&  (optmisticPercentage < 100 && finishedPercentage !== undefined)"
-            (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
+          <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled &&
+          ((optmisticPercentage < 100 && finishedPercentage !== undefined) ||
+          (optmisticPercentage < 100 && finishedPercentage === undefined))" (click)="redirectPage(updatedContentFound)"
+            class="banner-btn resumeButton cursor-pointer">
             <ng-container i18n>
               Resume
             </ng-container>

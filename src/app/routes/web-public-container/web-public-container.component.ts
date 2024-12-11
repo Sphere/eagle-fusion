@@ -229,8 +229,8 @@ export class WebPublicComponent implements OnInit {
     this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
   }
   // To view all course
-  viewAllCourse() {
-    this.router.navigateByUrl(`app/search/learning`)
+  viewAllCourse(courseType: string) {
+    this.router.navigate(['app/search/topCourse'], { queryParams: { courseType } })
   }
 
   openIframe(video: any) {

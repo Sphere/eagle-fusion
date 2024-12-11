@@ -122,10 +122,10 @@ import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 // import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
-// import { EntryModule } from '@aastrika_npmjs/competency-web'
-// import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web'
-// import { CompetencyModule } from '@aastrika_npmjs/competency-web'
-// import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
+import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/competency-web/competency'
+import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
 import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
@@ -371,9 +371,9 @@ const dbConfig: DBConfig = {
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
-    // EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
-    // SelfAssessmentModule,
-    // CompetencyModule,
+    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    SelfAssessmentModule,
+    CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,

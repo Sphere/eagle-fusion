@@ -132,7 +132,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(DOCUMENT) private _document: Document
   ) {
     this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
-      this.navigationInterceptor(event)
+      if (event instanceof NavigationEnd && !event.url.toLowerCase().includes('/app/user/competency')) {
+        this.navigationInterceptor(event)
+      }
+
     })
     this.online$ = merge(
       of(navigator.onLine),
@@ -265,10 +268,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
               let req: any
               let mergedProgressDetails: any = this.mergeProgressDetails(contentData.progressdetails, dat)
               delete mergedProgressDetails['errors']
-              if (Object.keys(mergedProgressDetails).length === 1) {
-                mergedProgressDetails["cmi.core.exit"] = "suspend"
-                mergedProgressDetails["cmi.core.lesson_status"] = "incomplete"
-              }
+              // if (Object.keys(mergedProgressDetails).length === 1) {
+              //   mergedProgressDetails["cmi.core.exit"] = "suspend"
+              //   mergedProgressDetails["cmi.core.lesson_status"] = "incomplete"
+              // }
               console.log(mergedProgressDetails, 'mergedProgressDetails')
               if (this.configSvc.userProfile && Object.keys(dat).length > 0) {
                 req = {
@@ -384,7 +387,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (event.url.includes('/public/login')) {
           this.showNavigation = false
         }
-        if (this.router.url === '/page/home' || this.router.url === '/public/home' || this.router.url === '/') {
+        if (
+          this.router.url.includes('/page/home') ||
+          this.router.url.includes('/public/home') ||
+          this.router.url === '/'
+        ) {
           this.isHomePage = true
         } else {
           this.isHomePage = false

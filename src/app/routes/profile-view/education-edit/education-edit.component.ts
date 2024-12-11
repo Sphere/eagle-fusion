@@ -40,8 +40,8 @@ export class EducationEditComponent implements OnInit {
   ) {
     this.educationForm = new FormGroup({
       courseDegree: new FormControl('', [Validators.required]),
-      courseName: new FormControl('', [Validators.pattern(/^[a-z][a-z\s]*$/)]),
-      institutionName: new FormControl('', [Validators.required, Validators.pattern(/^[a-z][a-z\s]*$/)]),
+      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
+      institutionName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
       yearPassing: new FormControl('', [Validators.required, Validators.pattern(this.yearPattern)]),
     })
     this.academics = [

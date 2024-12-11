@@ -136,6 +136,7 @@ export class WebNavLinkPageComponent implements OnInit {
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
       }
     } else if (text === 'competency') {
+      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'

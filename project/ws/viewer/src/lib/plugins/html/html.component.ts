@@ -275,11 +275,17 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             let contentData: any
             contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
 
-            if (Object.keys(dat).length === 1) {
-              dat["cmi.core.exit"] = "suspend"
-              dat["cmi.core.lesson_status"] = "incomplete"
-              delete dat['errors']
-            }
+            // if (Object.keys(dat).length === 1) {
+            //   // dat["cmi.core.exit"] = "suspend"
+            //   // dat["cmi.core.lesson_status"] = "incomplete"
+            //   // delete dat['errors']
+            //   setTimeout(() => {
+            //     progressData = localStorage.getItem(this.htmlContent!.identifier)
+            //     let dat = JSON.parse(progressData)
+            //     console.log(dat)
+            //   }, 500)
+
+            // }
 
             let pdetails: any
             console.log(contentData, '285')
@@ -310,7 +316,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                           ? 2
                           : (this.activatedRoute.snapshot.queryParams.collectionId === "do_11390679694610432011" ? 2 : 1),
                         lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                        progressdetails: mergedProgressDetails,
+                        progressdetails: {},
                         completionPercentage: this.contentData && this.contentData.status === 2
                           ? 100
                           : (this.activatedRoute.snapshot.queryParams.collectionId === "do_11390679694610432011" ? 100 : 0)
@@ -344,7 +350,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                           courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                           status: 2,
                           lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                          progressdetails: mergedProgressDetails,
+                          progressdetails: {},
                           completionPercentage: 100
                         }
                       ],
@@ -371,7 +377,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                             courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
                             status: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 1 : 2,
                             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-                            progressdetails: mergedProgressDetails,
+                            progressdetails: {},
                             completionPercentage: this.activatedRoute.snapshot.queryParams.collectionId !== "do_11390679694610432011" ? 0 : 100
                           }
                         ],
@@ -383,10 +389,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                       let res = await data
                       console.log(res)
                       if (res) {
-                        let result = {}
-                        result = data.result
-                        result["type"] = 'scorm'
-                        this.contentSvc.changeMessage(result)
+                        // let result = {}
+                        // result = data.result
+                        // result["type"] = 'scorm'
+                        // this.contentSvc.changeMessage(result)
                       }
                     })
                   }

@@ -15,8 +15,8 @@
     </div>
   </div>
   <div class="banner-container" *ngIf="currentOrgData?.sourceName !== 'Indian Nursing Council'">
-    <div class="default-banner">
-      <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" *ngIf="!currentOrgData.bgImage" />
+    <div class="default-banner" *ngIf="!currentOrgData.bgImage">
+      <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" />
     </div>
     <img [src]="currentOrgData.bgImage" class="banner" *ngIf="currentOrgData.bgImage" />
     <!-- <img [src]="currentOrgData?.logo" class="logo" /> -->
