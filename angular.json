@@ -61,8 +61,7 @@
               "node_modules/@aastrika_npmjs/competency-web/assets/styles/global.scss",
               {
                 "input": "src/themes/theme-igot.scss",
-                "bundleName": "theme-igot",
-                "lazy": true
+                "bundleName": "theme-igot"
               },
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
               "src/fusion-assets/fonts/poppins/stylesheet.css"
