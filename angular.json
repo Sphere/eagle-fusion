@@ -47,10 +47,7 @@
               ]
             },
             "styles": [
-              {
-                "input": "src/styles/libraries.scss",
-                "bundleName": "libraries"
-              },
+              "src/styles/libraries.scss",
               "node_modules/material-icons/iconfont/material-icons.scss",
               "src/styles/mat-typography.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -59,10 +56,7 @@
               "node_modules/shepherd.js/dist/css/shepherd.css",
               "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
               "node_modules/@aastrika_npmjs/competency-web/assets/styles/global.scss",
-              {
-                "input": "src/themes/theme-igot.scss",
-                "bundleName": "theme-igot"
-              },
+              "src/themes/theme-igot.scss",
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
               "src/fusion-assets/fonts/poppins/stylesheet.css"
             ],
@@ -84,17 +78,15 @@
               "optimization": true,
               "outputHashing": "all",
               "sourceMap": false,
-              "extractCss": true,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": true,
+              "extractLicenses": false,
               "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
                 {
-                  "type": "initial",
-                  "maximumWarning": "15mb",
-                  "maximumError": "15mb"
+                  "type": "anyComponentStyle",
+                  "maximumWarning": "6kb"
                 }
               ],
               "serviceWorker": false,
