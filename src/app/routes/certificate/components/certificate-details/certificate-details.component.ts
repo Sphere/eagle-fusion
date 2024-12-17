@@ -4,7 +4,7 @@ import trim from 'lodash/trim'
 import get from 'lodash/get'
 import upperCase from 'lodash/upperCase'
 
-import * as moment from 'moment'
+import moment from 'moment'
 import { Observable } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { ConfigurationsService } from '@ws-widget/utils'

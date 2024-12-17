@@ -128,9 +128,9 @@ export class QuizService {
     quiz: NSQuiz.IQuiz,
     questionAnswerHash: any,
   ) {
-    const userSelectedAnswer = quiz.questions[questionAnswerHash['qslideIndex']]
+    const userSelectedAnswer: any = quiz.questions[questionAnswerHash['qslideIndex']]
     userSelectedAnswer['isCorrect'] = false
-    userSelectedAnswer.options.map(option => {
+    userSelectedAnswer.options.map((option: any) => {
       if (option.isCorrect) {
         userSelectedAnswer['answer'] = option.text
       }
@@ -173,7 +173,7 @@ export class QuizService {
     return array
   }
   checkMtfAnswer(quiz: NSQuiz.IQuiz, questionAnswerHash: any) {
-    const userSelectedAnswer = quiz.questions[questionAnswerHash['qslideIndex']]
+    const userSelectedAnswer: any = quiz.questions[questionAnswerHash['qslideIndex']]
     for (let i = 0; i < quiz.questions[questionAnswerHash['qslideIndex']].options.length; i += 1) {
       // tslint:disable-next-line: max-line-length
       if (questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId] && questionAnswerHash[quiz.questions[questionAnswerHash['qslideIndex']].questionId][0][i]) {

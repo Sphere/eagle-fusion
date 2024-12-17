@@ -39,7 +39,7 @@ import { ExploreResolverService } from './../../../../library/ws-widget/resolver
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import split from 'lodash/split'
 import { Plugins } from '@capacitor/core'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 //import { v4 as uuid } from 'uuid'
 const { App } = Plugins
 //import { SignupService } from 'src/app/routes/signup/signup.service'
@@ -598,7 +598,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
         const paramMap = this.activatedRoute.snapshot.queryParamMap
-        const params = {}
+        const params: any = {}
 
         paramMap.keys.forEach((key: any) => {
           const paramValue = paramMap.get(key)

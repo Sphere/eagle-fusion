@@ -195,7 +195,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
       this.queryFilter,
       this.isAdmin,
     )
-    const requestData = {
+    const requestData: any = {
       request: {
         locale: this.searchLanguage ? [this.searchLanguage] : [],
         query: this.queryFilter,

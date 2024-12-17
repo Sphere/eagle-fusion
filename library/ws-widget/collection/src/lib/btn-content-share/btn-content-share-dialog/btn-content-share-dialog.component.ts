@@ -79,7 +79,7 @@ export class BtnContentShareDialogComponent implements OnInit {
 
   share(txtBody: string, successToast: string) {
     this.sendInProgress = true
-    const emails = []
+    const emails: any = []
     for (let i = 0; i < this.users.length; i += 1) {
       emails.push({
         email: this.users[i].email,

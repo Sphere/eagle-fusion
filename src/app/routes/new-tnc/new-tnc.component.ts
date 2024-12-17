@@ -283,7 +283,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       }
       this.isAcceptInProgress = true
       const paramMap = this.activatedRoute.snapshot.queryParamMap
-      const params = {}
+      const params: any = {}
 
       paramMap.keys.forEach((key: any) => {
         const paramValue = paramMap.get(key)

@@ -12,7 +12,7 @@ import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { Platform } from '@angular/cdk/platform'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 @Component({
   selector: 'viewer-video',
   templateUrl: './video.component.html',

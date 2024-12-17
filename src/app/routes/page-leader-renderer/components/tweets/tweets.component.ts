@@ -15,7 +15,7 @@ export class TweetsComponent implements OnInit {
   hasTweetScriptLoaded = false
   twitterScriptUrl = 'https://platform.twitter.com/widgets.js'
 
-  constructor(private leaderSvc: LeadershipService) {}
+  constructor(private leaderSvc: LeadershipService) { }
 
   ngOnInit() {
     this.loadScript(true)
@@ -26,7 +26,7 @@ export class TweetsComponent implements OnInit {
       tweetScriptId += `_${this.leaderSvc.randomId}`
     }
     if (this.hasTweetScriptLoaded) {
-      return
+      return ''
     }
     const existingScriptElement = document.getElementById(tweetScriptId)
     if (existingScriptElement) {

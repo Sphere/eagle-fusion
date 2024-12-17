@@ -1069,7 +1069,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getAcademics(form: any) {
-    const academics = []
+    const academics: any = []
     academics.push(this.getClass10(form))
     academics.push(this.getClass12(form))
     academics.push(...this.getDegree(form, 'GRADUATE'))

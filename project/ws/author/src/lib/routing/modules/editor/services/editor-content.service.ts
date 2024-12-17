@@ -30,7 +30,7 @@ export class EditorContentService {
   }
 
   getUpdatedMeta(id: string): NSContent.IContentMeta {
-   // console.log('getUpdatedMeta');
+    // console.log('getUpdatedMeta');
     if (this.originalContent[id] || this.upDatedContent[id]) {
       return JSON.parse(
         JSON.stringify({
@@ -166,7 +166,7 @@ export class EditorContentService {
     if (this.isLangPresent(language)) {
       return of(true)
     }
-    const requestBody = {
+    const requestBody: any = {
       ...parentContent,
       name: 'Untitled Content',
       description: '',

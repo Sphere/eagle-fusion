@@ -149,7 +149,7 @@ export class PickerContentComponent extends WidgetBaseComponent
               }
             }
           }
-          return
+          return ''
         },
         () => {
           this.searchFetchStatus = 'error'

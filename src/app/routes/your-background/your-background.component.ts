@@ -76,7 +76,7 @@ export class YourBackgroundComponent implements OnInit {
     }
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
-    const userObject = {
+    const userObject: any = {
       firstname: this.firstName,
       middlename: this.middleName,
       surname: this.lastName,

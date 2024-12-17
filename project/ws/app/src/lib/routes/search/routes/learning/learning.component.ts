@@ -88,7 +88,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     language: ''
 
   }
-  searchRequestObject: ISearchRequestV2 = {
+  searchRequestObject: ISearchRequestV2 | any = {
     request: {
       filters: {
         visibility: ['Default'],
@@ -691,10 +691,10 @@ export class LearningComponent implements OnInit, OnDestroy {
                 }
               })
               const newArray: any = []
-              data.result.facets.forEach(el => {
-                const obj2 = {}
+              data.result.facets.forEach((el: any) => {
+                const obj2: any = {}
                 if (el.values.length > 0) {
-                  el.values.forEach(el1 => {
+                  el.values.forEach((el1: any) => {
                     el1['displayName'] = el1.name
                     el1['type'] = el1.name
                     el1['checked'] = true
