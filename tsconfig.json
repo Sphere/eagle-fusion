@@ -20,7 +20,6 @@
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
-    "strictNullChecks": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
