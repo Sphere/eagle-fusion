@@ -20,7 +20,8 @@
         <!--[routerLink]="(content | pipeContentRoute).url"
           [queryParams]="(content | pipeContentRoute).queryParams" -->
         <a (click)="raiseTelemetry(content)" class="image-section cursor-pointer">
-          <img i18n-alt alt="thumbnail" class="mat-lite-background" [src]="content.posterImage"
+          <img i18n-alt alt="thumbnail" class="mat-lite-background"
+            [src]="content.posterImage?content.posterImage:content.appIcon"
             [wsUtilsDefaultThumbnail]="defaultThumbnail" />
         </a>
         <div class="width-expand card-content">
