@@ -1,7 +1,8 @@
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
@@ -85,7 +86,7 @@ export class CollectionComponent implements OnInit, OnDestroy {
     private notificationSvc: NotificationService,
     private accessControlSvc: AccessControlService,
     private breakpointObserver: BreakpointObserver,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.contentService.changeActiveCont.subscribe(data => {
@@ -290,9 +291,9 @@ export class CollectionComponent implements OnInit, OnDestroy {
         comment: commentsForm.controls.comments.value,
         operation:
           commentsForm.controls.action.value === 'accept' ||
-          ['Draft', 'Live'].includes(
-            this.contentService.originalContent[this.currentParentId].status,
-          )
+            ['Draft', 'Live'].includes(
+              this.contentService.originalContent[this.currentParentId].status,
+            )
             ? 1
             : 0,
       }

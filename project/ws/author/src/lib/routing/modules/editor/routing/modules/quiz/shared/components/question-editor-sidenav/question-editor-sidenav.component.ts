@@ -3,7 +3,7 @@ import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBarRef } from '@angular/material/snack-bar'
 import { QuizStoreService } from '../../../services/store.service'
 

@@ -37,12 +37,23 @@ export class CertificateReceivedComponent implements OnInit {
       const url = imgVal.printUri
 
       img.onload = function () {
+        const defaultWidth = 1350
+        const defaultHeight = 880
         const canvas: any = document.getElementById('certCanvas') || {}
         const ctx = canvas.getContext('2d')
         const imgWidth = img.width
         const imgHeight = img.height
         canvas.width = imgWidth
         canvas.height = imgHeight
+        if (imgWidth < 1000 && imgHeight < 600) {
+          canvas.width = defaultWidth
+          canvas.height = defaultHeight
+          ctx.drawImage(img, 0, 0, defaultWidth, defaultHeight)
+        } else {
+          canvas.width = imgWidth
+          canvas.height = imgHeight
+          ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
+        }
         ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
         let imgURI = canvas
           .toDataURL('image/jpeg')

@@ -5,7 +5,7 @@ import { WebDashboardComponent } from './web-dashboard.component'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { EventEmitter } from '@angular/core'
 

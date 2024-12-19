@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core'
 import { ScrollService } from '../../services/scroll.service'
 import { VideoPopupComponent } from '../how-does-it-works-popup/how-does-it-works-popup.component'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 
 @Component({
   selector: 'ws-web-how-does-work',

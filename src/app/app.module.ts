@@ -5,31 +5,31 @@ import {
 } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
-import {
-  GestureConfig,
-  MatButtonModule,
-  MatCardModule,
-  MatDialogModule,
-  MatDividerModule,
-  MatExpansionModule,
-  MatIconModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatGridListModule,
-  MatRippleModule,
-  MatSliderModule,
-  MatToolbarModule,
-  MatTooltipModule,
-  MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS,
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatInputModule,
-  MatFormFieldModule,
-  MatListModule,
-  MatAutocompleteModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatSelectModule,
-} from '@angular/material'
+// import { GestureConfig } from '@angular/material/core/gestures/gesture-config'
+// import * as Hammer from 'hammerjs'
+import { MatButtonModule } from '@angular/material/button'
+import { MatCardModule } from '@angular/material/card'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatExpansionModule } from '@angular/material/expansion'
+import { MatIconModule } from '@angular/material/icon'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatGridListModule } from '@angular/material/grid-list'
+import { MatRippleModule } from '@angular/material/core'
+import { MatSliderModule } from '@angular/material/slider'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS } from '@angular/material/progress-spinner'
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
+import { MatInputModule } from '@angular/material/input'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatListModule } from '@angular/material/list'
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core'
+import { MatSelectModule } from '@angular/material/select'
+
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
@@ -121,6 +121,7 @@ import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
+// import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
 import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
 import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/competency-web/competency'
@@ -150,10 +151,19 @@ import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
 import { PlayerVideoPopupComponent } from '../../library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
+import { HammerGestureConfig } from '@angular/platform-browser'
+
 @Injectable()
-export class HammerConfig extends GestureConfig {
+export class HammerConfig extends HammerGestureConfig {
   buildHammer(element: HTMLElement) {
-    return new GestureConfig({ touchAction: 'pan-y' }).buildHammer(element)
+    const options: HammerOptions = {
+      touchAction: 'pan-y',
+      recognizers: [
+        [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
+      ],
+    }
+    const mc = new Hammer.Manager(element, options)
+    return mc
   }
 }
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
@@ -365,7 +375,7 @@ const dbConfig: DBConfig = {
     OrganisationsModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
-    CompetencyModule,
+    CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,

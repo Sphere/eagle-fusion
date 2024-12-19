@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { AlmostDoneComponent } from './almost-done.component'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatInputModule } from '@angular/material/input'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'

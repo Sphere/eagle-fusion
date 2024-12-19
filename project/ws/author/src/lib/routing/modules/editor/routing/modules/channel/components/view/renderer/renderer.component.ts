@@ -10,7 +10,8 @@ import {
   ViewChild,
   ElementRef,
 } from '@angular/core'
-import { MatSnackBar, MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
@@ -83,18 +84,18 @@ export class RendererComponent implements OnInit, OnChanges {
       this.widgetData.children.map(
         v => {
           switch (this.store.getUpdatedContent(v).purpose) {
-          case 'noDataWidget':
-            this.widgetMap.noData = v
-            break
-          case 'info':
-            this.widgetMap.info = v
-            break
-          case 'errorWidget':
-            this.widgetMap.error = v
-            break
-          default:
-            this.widgetMap.widgets.push(v)
-            break
+            case 'noDataWidget':
+              this.widgetMap.noData = v
+              break
+            case 'info':
+              this.widgetMap.info = v
+              break
+            case 'errorWidget':
+              this.widgetMap.error = v
+              break
+            default:
+              this.widgetMap.widgets.push(v)
+              break
           }
         },
       )

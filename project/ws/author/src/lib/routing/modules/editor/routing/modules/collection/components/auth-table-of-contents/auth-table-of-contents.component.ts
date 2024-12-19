@@ -1,6 +1,7 @@
-import { FlatTreeControl } from '@angular/cdk/tree'
+import { FlatTreeControl } from '@angular/cdk/typings/tree'
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material/tree'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
@@ -59,7 +60,7 @@ export class AuthTableOfContentsComponent implements OnInit, OnDestroy {
     private loaderService: LoaderService,
     private authInitService: AuthInitService,
     private breakpointObserver: BreakpointObserver,
-  ) {}
+  ) { }
 
   private _transformer = (node: IContentNode, level: number): IContentTreeNode => {
     return {
@@ -202,9 +203,9 @@ export class AuthTableOfContentsComponent implements OnInit, OnDestroy {
         this.isDropDisabled = !parentNode
           ? true
           : !this.store.allowDrop(
-              this.dragContainer as IContentTreeNode,
-              parentNode as IContentTreeNode,
-            )
+            this.dragContainer as IContentTreeNode,
+            parentNode as IContentTreeNode,
+          )
       } else {
         this.isDropDisabled = !this.store.allowDrop(
           this.dragContainer as IContentTreeNode,

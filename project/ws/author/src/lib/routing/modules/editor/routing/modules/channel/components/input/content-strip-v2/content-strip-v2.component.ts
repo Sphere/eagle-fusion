@@ -1,7 +1,8 @@
 import { COMMA, ENTER } from '@angular/cdk/keycodes'
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { AbstractControl, FormBuilder, FormControl, FormGroup } from '@angular/forms'
-import { MatChipInputEvent, MatDialog } from '@angular/material'
+import { MatChipInputEvent } from '@angular/material/chips'
+import { MatDialog } from '@angular/material/dialog'
 import {
   IPickerContentData,
   IWidgetElementHtml,

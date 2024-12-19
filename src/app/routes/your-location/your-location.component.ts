@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { FormControl, FormGroup } from '@angular/forms'
-import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import moment from 'moment'
 import { Observable } from 'rxjs'
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../project/ws/app/src/lib/routes/user-profile/services/format-datepicker'

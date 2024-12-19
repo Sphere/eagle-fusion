@@ -1,6 +1,6 @@
 import { Component, OnInit, OnChanges, Input, Output, EventEmitter } from '@angular/core'
 import { NsTnc } from '../../../../../../../../../src/app/models/tnc.model'
-import { MatSelectChange } from '@angular/material'
+import { MatSelectChange } from '@angular/material/select'
 
 @Component({
   selector: 'ws-app-tnc-renderer',

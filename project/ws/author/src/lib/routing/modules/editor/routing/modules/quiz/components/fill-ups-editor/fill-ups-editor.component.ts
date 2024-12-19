@@ -1,5 +1,7 @@
 import { Component, OnInit, Output, EventEmitter, Input, OnChanges, OnDestroy } from '@angular/core'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
+
 import {
   FormGroup,
   FormBuilder,

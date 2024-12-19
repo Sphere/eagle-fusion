@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Subscription, of } from 'rxjs'
 import { catchError } from 'rxjs/operators'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 
 import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/storage'
 import { errorCodes } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/errors'
@@ -30,7 +30,7 @@ export class MobileScromAdapterService {
     courseId: string
     authorization: string
     userToken: string
-  } = {
+  } | any = {
       userId: '',
       batchId: '',
       courseId: '',
@@ -123,7 +123,7 @@ export class MobileScromAdapterService {
     delete data['errors']
     if (data["cmi.core.lesson_status"] === 'incomplete') {
       const paramMap = this.route.snapshot.queryParamMap
-      const params = {}
+      const params: any = {}
       paramMap.keys.forEach((key: any) => {
         const paramValue = paramMap.get(key)
         params[key] = paramValue
@@ -160,7 +160,7 @@ export class MobileScromAdapterService {
         async (response: any) => {
           console.log(response)
           const paramMap = this.route.snapshot.queryParamMap
-          const params = {}
+          const params: any = {}
           paramMap.keys.forEach((key: any) => {
             const paramValue = paramMap.get(key)
             params[key] = paramValue

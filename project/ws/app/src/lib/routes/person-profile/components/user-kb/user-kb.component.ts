@@ -3,7 +3,9 @@ import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
 import { NsContent } from '@ws-widget/collection'
 import { NSProfileData } from '../../../profile/models/profile.model'
 import { UserdetailallComponent } from '../userdetailall/userdetailall.component'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatDialog } from '@angular/material/dialog'
+
 import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({

@@ -3,7 +3,7 @@ import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
-import _ from 'lodash'
+import lodash from 'lodash'
 
 @Component({
   selector: 'ws-my-courses',
@@ -53,8 +53,8 @@ export class MyCoursesComponent implements OnInit {
 
         courses.forEach((key) => {
           // Check if competency exists, if not, assume it's okay to process (e.g., no competency required)
-          const competencyExists = _.has(key, 'content.competency')
-          const competency = competencyExists ? _.get(key, 'content.competency', false) : false  // Default to false if competency is absent
+          const competencyExists = lodash.has(key, 'content.competency')
+          const competency = competencyExists ? lodash.get(key, 'content.competency', false) : false  // Default to false if competency is absent
 
           // Only process courses with competency === false
           // Only process courses where competency is either false or not present

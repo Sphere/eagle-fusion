@@ -2,7 +2,9 @@ import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/compone
 import { NotificationService } from '@ws/author/src/lib/services/notification.service'
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormGroup } from '@angular/forms'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
+
 import { Router } from '@angular/router'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'

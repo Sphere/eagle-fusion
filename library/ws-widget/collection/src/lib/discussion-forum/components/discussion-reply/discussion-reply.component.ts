@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'

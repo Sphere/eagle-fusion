@@ -6,7 +6,7 @@ import { ConfigurationsService, ValueService, TFetchStatus } from '@ws-widget/ut
 import { IFollowerId, IFollowDetails } from '../../person-profile.model'
 import { ProfileService } from '../../../profile/services/profile.service'
 import { Subscription } from 'rxjs'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'ws-app-person-profile',

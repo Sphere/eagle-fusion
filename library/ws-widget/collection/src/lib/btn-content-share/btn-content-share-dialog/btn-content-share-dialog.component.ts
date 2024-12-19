@@ -1,6 +1,7 @@
 import { COMMA, ENTER, SEMICOLON } from '@angular/cdk/keycodes'
 import { Component, Inject, OnInit } from '@angular/core'
-import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { NsAutoComplete } from '../../_common/user-autocomplete/user-autocomplete.model'
 import { WidgetContentShareService } from '../../_services/widget-content-share.service'
@@ -78,7 +79,7 @@ export class BtnContentShareDialogComponent implements OnInit {
 
   share(txtBody: string, successToast: string) {
     this.sendInProgress = true
-    const emails = []
+    const emails: any = []
     for (let i = 0; i < this.users.length; i += 1) {
       emails.push({
         email: this.users[i].email,

@@ -67,6 +67,10 @@
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
           <context context-type="linenumber">7</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/reply-delte/reply-delte.component.d.ts</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="440d04373825632dfc88c3455c3f8a23a04dc8ce" datatype="html">
         <source>
@@ -1132,12 +1136,20 @@
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discuss-start/discuss-start.component.d.ts</context>
           <context context-type="linenumber">38</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-start/discuss-edit.component.d.ts</context>
+          <context context-type="linenumber">38</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="939faa52a5a052323a91f5127fc893df3cfe8c5f" datatype="html">
         <source>It should be maxmimum of 200 characters</source>
         <target state="final">यह अधिकतम २०० अक्षर होना चाहिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discuss-start/discuss-start.component.d.ts</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-start/discuss-edit.component.d.ts</context>
           <context context-type="linenumber">40</context>
         </context-group>
       </trans-unit>
@@ -1154,7 +1166,7 @@
         <target state="final">पोस्ट सबमिट करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-start/discuss-edit.component.d.ts</context>
-          <context context-type="linenumber">76</context>
+          <context context-type="linenumber">83</context>
         </context-group>
       </trans-unit>
       <trans-unit id="047f50bc5b5d17b5bec0196355953e1a5c590ddb" datatype="html">
@@ -1162,7 +1174,23 @@
         <target state="final">अद्यतन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-start/discuss-edit.component.d.ts</context>
-          <context context-type="linenumber">81</context>
+          <context context-type="linenumber">88</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="9f1069b5b1f38c9fa61fd2ec12768a4fc146b527" datatype="html">
+        <source>View </source>
+        <target state="final">देखना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-card/discuss-card.component.d.ts</context>
+          <context context-type="linenumber">100</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6df19fbd43424dc2cdfbbd0447055ecac3088339" datatype="html">
+        <source>Replies</source>
+        <target state="final">जवाब</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-card/discuss-card.component.d.ts</context>
+          <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1f427e19e0203246ad72c54bbfddaef4a4dca06b" datatype="html">
@@ -1276,12 +1304,20 @@
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discussion-delete/discussion-delete.component.d.ts</context>
           <context context-type="linenumber">4</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/reply-delte/reply-delte.component.d.ts</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="1bdf13aabf9f30fbdeb047d280bbba1bb698446e" datatype="html">
         <source>Are you sure you want to delete this comment ?</source>
         <target state="final">क्या आप इस कमेंट को मिटाने के बारे में पक्के हैं ?</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/discussion-delete/discussion-delete.component.d.ts</context>
+          <context context-type="linenumber">5</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/reply-delte/reply-delte.component.d.ts</context>
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
@@ -1292,13 +1328,25 @@
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-close-modal/assesment-close-modal.component.html</context>
           <context context-type="linenumber">8</context>
         </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/components/reply-delte/reply-delte.component.d.ts</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="c42ddd0de3cf736d71be86b2708efcd1ebfe2fd7" datatype="html">
         <source>Discard</source>
         <target state="final">खारिज करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/discussions-ui-v8/lib/elements/discuss-start/discuss-edit.component.d.ts</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">76</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="7159867e1593a49f81cc5e192ea9588c1235d8bf" datatype="html">
+        <source>No Data</source>
+        <target state="final">कोई डेटा नहीं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/core/components/no-result/no-result.component.d.ts</context>
+          <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1e9c85bcb15a672729d46eeed50fa1ba30cf8f3b" datatype="html">
@@ -1389,12 +1437,12 @@
           <context context-type="linenumber">25</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="ddc5fd87fcc8440ce6c5fc10bac90c8f0fe6b32f" datatype="html">
-        <source> Self Assessment</source>
+      <trans-unit id="1a43e7cce50b5ae8eace35fcd29d21ccea35ca21" datatype="html">
+        <source> Self Assessments</source>
         <target state="final">आत्म मूल्यांकन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/entry-module/components/slef-assessment-entry/slef-assessment-entry.component.d.ts</context>
-          <context context-type="linenumber">2</context>
+          <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
       <trans-unit id="124a61343d29377893576b70bba338658bb3addf" datatype="html">
@@ -1402,34 +1450,34 @@
         <target state="final">योग्यता डैशबोर्ड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/entry-module/components/competency-entry/competency-entry.component.d.ts</context>
-          <context context-type="linenumber">2</context>
+          <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="afa04385aeb1bec929b58ec0e6a06a1bcd53a738" datatype="html">
+      <trans-unit id="a9553af3493941f1d3782d9a371b142ab5d15351" datatype="html">
         <source>
         Assess</source>
         <target state="final">आकलन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
-          <context context-type="linenumber">18</context>
+          <context context-type="linenumber">13</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="373795aae5580b037f677cfc9544bd7f2f08c8e9" datatype="html">
+      <trans-unit id="9923b2f014ba66e7588b8a94ffe4add011985993" datatype="html">
         <source>
         Re-Assess</source>
         <target state="final">पुन: आकलन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">17</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="18ca81d7d756925ef76e483ac6613db034f4a155" datatype="html">
+      <trans-unit id="e9b741578a17b36546049cab7a70dce66ba5b841" datatype="html">
         <source>
         Done</source>
         <target state="final">पूर्ण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">21</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8aa5e7fe3a245310dbdcc86dd51f2df83c529b6d" datatype="html">
@@ -1437,28 +1485,40 @@
         <target state="final">पाठ्यक्रम देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/self-assessment/components/self-assessment-card/self-assessment-card.component.d.ts</context>
-          <context context-type="linenumber">43</context>
+          <context context-type="linenumber">27</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="fd3d2bf9a505e3ab17d6e8b20350a45437a52776" datatype="html">
+      <trans-unit id="1608b8511549a06fd38a31ac871c4695be21b5d0" datatype="html">
         <source>Levels:</source>
         <target state="final">स्तर:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
-          <context context-type="linenumber">8</context>
+          <context context-type="linenumber">9</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
+          <context context-type="linenumber">53</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
+          <context context-type="linenumber">37</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9a00bbf6ce71eb00af4d0ecc4e2a0f045e04b87e" datatype="html">
+      <trans-unit id="98642324a243952e85bfd6a65238b4cd379dd0ee" datatype="html">
         <source>Log:</source>
         <target state="final">लॉग :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">39</context>
         </context-group>
       </trans-unit>
       <trans-unit id="21c2b930737a7f4c7429476ff391e90c5606813f" datatype="html">
         <source>Level </source>
         <target state="final">स्तर</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/gained-comptency-card/gained-comptency-card.component.d.ts</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">64</context>
@@ -1469,7 +1529,7 @@
         <target state="final">योग्यता डैशबोर्ड</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">6</context>
+          <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9610487cbeb5796d34d8601b5ac0c0a65f9e1d19" datatype="html">
@@ -1477,7 +1537,7 @@
         <target state="final">भूमिकाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">23</context>
+          <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
       <trans-unit id="268eef9eb35ad8b4a96d66b4b966dc74bce695fd" datatype="html">
@@ -1486,6 +1546,18 @@
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">22</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2169ac89595ea71e589b9e3bba75a51f20c4662e" datatype="html">
+        <source>Observation</source>
+        <target state="final">अवलोकन</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">21</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">48</context>
         </context-group>
       </trans-unit>
       <trans-unit id="72638e600ce222ed8184c47260bbd68d362e693e" datatype="html">
@@ -1501,7 +1573,11 @@
         <target state="final">स्वयं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">33</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b7a285515e41f0c8038d8b8e65b5199cb9928681" datatype="html">
@@ -1509,7 +1585,11 @@
         <target state="final">कोर्स</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">35</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">52</context>
         </context-group>
       </trans-unit>
       <trans-unit id="466c7b49c8cc2a8a8db03a7988d26ea6c7330268" datatype="html">
@@ -1525,7 +1605,16 @@
         <target state="final">स्वयं मूल्यांकन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="0adea23f8836d26e2e40429938186f1bc903d6b2" datatype="html">
+        <source>
+                  In Progress</source>
+                   <target state="final">चालू</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/active-summary/active-summary.component.d.ts</context>
+          <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e5f24fc7a2bf50bd61d109dd9cad3fbff6ec7add" datatype="html">
@@ -1534,6 +1623,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
           <context context-type="linenumber">34</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
+          <context context-type="linenumber">36</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5ab9a3c727788f3597870dd7e3546fc0b0624024" datatype="html">
@@ -1551,10 +1644,26 @@
           <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
           <context context-type="linenumber">261</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
+          <context context-type="linenumber">72</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
+          <context context-type="linenumber">120</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
+          <context context-type="linenumber">262</context>
+        </context-group>
       </trans-unit>
-      <trans-unit id="dd3b6c367381ddfa8f317b8e9b31c55368c65136" datatype="html">
+       <trans-unit id="dd3b6c367381ddfa8f317b8e9b31c55368c65136" datatype="html">
         <source>Activities</source>
         <target state="final">गतिविधियाँ</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/active-summary/active-summary.component.d.ts</context>
+          <context context-type="linenumber">34</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/active-summary/active-summary.component.d.ts</context>
           <context context-type="linenumber">37</context>
@@ -1562,18 +1671,53 @@
       </trans-unit>
       <trans-unit id="5174f42c3208c49a1de90401e919fb62f1864559" datatype="html">
         <source>Competencies :</source>
-        <target state="final">दक्षताओं :</target>
+                <target state="final">दक्षताओं :</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
+          <context context-type="linenumber">1</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1608b8511549a06fd38a31ac871c4695be21b5d0" datatype="html">
-        <source>Levels :</source>
-        <target state="final">स्तर :</target>
+      <trans-unit id="74deba23c944ce1dfaff95a369acb2d17834b3d5" datatype="html">
+        <source>
+                        Assess
+                      </source>
+                      <target state="final">मूल्यांकन</target>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5eef0cb127306f2d42a8b82564222fb6a0922760" datatype="html">
+        <source>
+                        Re-Assess
+                      </source>
+                       <target state="final">पुनर्मूल्यांकन</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="759cc076406f2d4bbf3e7cc52f189dda27b0fa0f" datatype="html">
+        <source>
+                        Done
+                      </source>
+                      <target state="final">हो गया</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
+          <context context-type="linenumber">35</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="dffc9bb4393a43ad8b699bdbc0343a7a4868ae40" datatype="html">
+        <source>
+                    View Courses</source>
+                    <target state="final">कोर्स देखें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-accordion/competency-accordion.component.d.ts</context>
+          <context context-type="linenumber">41</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4b49ac731dbf8896ae4b3d1d8c0d841bde03dd69" datatype="html">
@@ -1981,6 +2125,54 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">81</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/forgot-password/forgot-password.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/bnrc-login-otp/bnrc-login-otp.component.html</context>
+          <context context-type="linenumber">26</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
+          <context context-type="linenumber">373</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">346</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
+          <context context-type="linenumber">36</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">172</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="84cab7df6d1741d8b5f8c0392f1a4dd66bae1ee8" datatype="html">
+        <source>Discussion</source>
+        <target state="final">बहस</target>
+         <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+                <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/viewer.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/viewer.component.html</context>
+          <context context-type="linenumber">87</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3fce5da87776ca6f98ca3b346c2b46f2f764f45c" datatype="html">
@@ -2475,8 +2667,8 @@
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="50184be1e505d8733946ebdd822c13432dae8d70" datatype="html">
-        <source>And unlock access to multiple courses</source>
+      <trans-unit id="1709e73622bd8fe931e8460df1206c5c474ac3c8" datatype="html">
+        <source>and unlock access to multiple courses</source>
         <target state="final">और कई पाठ्यक्रमों की एक्सेस पाएं</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/your-location/your-location.component.html</context>
@@ -3680,18 +3872,6 @@
           <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="84cab7df6d1741d8b5f8c0392f1a4dd66bae1ee8" datatype="html">
-        <source>Discussion</source>
-        <target state="final">बहस</target>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
-          <context context-type="linenumber">33</context>
-        </context-group>
-                <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/viewer.component.html</context>
-          <context context-type="linenumber">87</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="7c10acea8f5e2aa0ad8244ed1a75e68b640d4892" datatype="html">
         <source>License terms</source>
         <target state="final">लाइसेंस की शर्तें</target>
@@ -3972,7 +4152,7 @@
         <target state="final">सशुल्क सामग्री</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
-          <context context-type="linenumber">44</context>
+          <context context-type="linenumber">45</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c4e784936b4f92f905b9f5620f90f8b2e0c0511d" datatype="html">
@@ -3980,7 +4160,7 @@
         <target state="final">अपडेट करने की आखरी तारीख</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="59b7e1029dfee7d451c1e6af00b7bfad3a5a4b0c" datatype="html">
@@ -3988,7 +4168,7 @@
         <target state="final">योग्यता का नाम:</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
-          <context context-type="linenumber">67</context>
+          <context context-type="linenumber">68</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d1c3f3e83471d7cb2c2da5f7462eac5c971885e0" datatype="html">
@@ -3996,7 +4176,7 @@
         <target state="final">स्तर :</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/search/components/learning-card/learning-card.component.html</context>
-          <context context-type="linenumber">71</context>
+          <context context-type="linenumber">72</context>
         </context-group>
       </trans-unit>
       <trans-unit id="441a59953a0cbf44b6a415ac9953572cd7309728" datatype="html">

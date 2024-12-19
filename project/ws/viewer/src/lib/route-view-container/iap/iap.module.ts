@@ -5,14 +5,13 @@ import { IapRoutingModule } from './iap-routing.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 // import { IapModule as IapPluginModule } from '../../plugins/iap/iap.module'
 
-import {
-  MatCardModule,
-  MatDividerModule,
-  MatButtonModule,
-  MatSnackBarModule,
-  MatChipsModule,
-  MatIconModule,
-} from '@angular/material'
+import { MatCardModule } from '@angular/material/card'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatIconModule } from '@angular/material/icon'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatButtonModule } from '@angular/material/button'
+import { MatChipsModule } from '@angular/material/chips'
+
 
 import {
   // BtnContentDownloadModule,

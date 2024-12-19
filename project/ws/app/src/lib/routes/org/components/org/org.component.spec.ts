@@ -1,6 +1,7 @@
 import { ActivatedRoute } from '@angular/router'
 import { OrgComponent } from './org.component'
-import { MatIconModule, MatCardModule } from '@angular/material'
+import { MatIconModule } from '@angular/material/icon'
+import { MatCardModule } from '@angular/material/card'
 import { MdePopoverModule } from '@material-extended/mde'
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 import { HttpClientTestingModule } from '@angular/common/http/testing'

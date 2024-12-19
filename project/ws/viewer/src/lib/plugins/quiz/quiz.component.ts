@@ -9,7 +9,9 @@ import {
   ViewChild, ViewChildren,
 } from '@angular/core'
 import { Location } from '@angular/common'
-import { MatDialog, MatDialogRef, MatSidenav } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatDialogRef } from '@angular/material/dialog'
+import { MatSidenav } from '@angular/material/sidenav'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map, takeUntil, first } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'
@@ -174,12 +176,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     batchId: this.route.snapshot.queryParams.batchId,
                   },
                 })
-                // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+                // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
               } else {
                 if (isNull(data.prevResource)) {
                   if (this.viewerDataSvc.gatingEnabled) {
                     if (data.currentCompletionPercentage === 100) {
-                      this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                     } else {
                       this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                         queryParams: {
@@ -190,13 +192,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     }
 
                   } else {
-                    this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                   }
 
                 } else {
                   if (this.viewerDataSvc.gatingEnabled) {
                     if (data.currentCompletionPercentage === 100) {
-                      this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                      this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                     } else {
                       this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                         queryParams: {
@@ -207,9 +209,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     }
 
                   } else {
-                    this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                   }
-                  // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+                  // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
                 }
               }
               return
@@ -425,9 +427,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           //             })
           //           }
 
-          //           // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+          //           // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
           //         } else {
-          //           this.router.navigate([data.nextResource], { preserveQueryParams: true })
+          //           this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
           //         }
           //         return
           //       })
@@ -479,7 +481,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         }
 
       } else {
-        this.router.navigate([data.nextResource], { preserveQueryParams: true })
+        this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
         this.subscription = this.viewerSvc.competencyAsessment$.subscribe(res => {
           if (res) {
             setTimeout(() => {
@@ -666,9 +668,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     //     batchId: this.route.snapshot.queryParams.batchId,
                     //   },
                     // })
-                    // this.router.navigate([data.prevResource], { preserveQueryParams: true })
+                    // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
                   } else {
-                    this.router.navigate([data.nextResource], { preserveQueryParams: true })
+                    this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
                   }
                   return
                 })
@@ -703,7 +705,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               },
             })
           } else if (!isNull(data.prevResource)) {
-            this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
           }
           return
         })
@@ -732,7 +734,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               },
             })
           } else if (!isNull(data.prevResource)) {
-            this.router.navigate([data.prevResource], { preserveQueryParams: true })
+            this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
           }
 
           return
@@ -861,7 +863,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
       this.questionAnswerHash,
     )
-    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
+    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest | any = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
     sanitizedRequestData['artifactUrl'] = this.artifactUrl
     sanitizedRequestData['contentId'] = this.identifier
     sanitizedRequestData['courseId'] = this.collectionId

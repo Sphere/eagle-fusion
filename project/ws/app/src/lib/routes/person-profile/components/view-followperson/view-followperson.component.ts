@@ -4,7 +4,7 @@ import { PersonProfileService } from '../../services/person-profile.service'
 import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 import { IFollowDetails } from '../../person-profile.model'
 import { Router } from '@angular/router'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'ws-app-view-followperson',

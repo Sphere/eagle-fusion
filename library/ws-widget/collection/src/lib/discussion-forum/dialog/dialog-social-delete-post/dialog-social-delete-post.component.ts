@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core'
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material'
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 

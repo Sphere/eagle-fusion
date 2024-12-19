@@ -6,10 +6,10 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
-  Renderer2,
   Inject,
   OnDestroy
 } from '@angular/core'
+import { Renderer2 as Renderer } from '@angular/core'
 import {
   NavigationCancel,
   NavigationEnd,
@@ -39,13 +39,13 @@ import { ExploreResolverService } from './../../../../library/ws-widget/resolver
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import split from 'lodash/split'
 import { Plugins } from '@capacitor/core'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 //import { v4 as uuid } from 'uuid'
 const { App } = Plugins
 //import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'
-// import { MatDialog } from '@angular/material'
+// import { MatDialog } from '@angular/material/dialog';
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
@@ -121,7 +121,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     //private signupService: SignupService,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
-    private _renderer2: Renderer2,
+    private _renderer2: Renderer,
     private sanitizer: DomSanitizer,
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
@@ -132,7 +132,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     @Inject(DOCUMENT) private _document: Document
   ) {
     this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
-      this.navigationInterceptor(event)
+      if (event instanceof NavigationEnd && !event.url.toLowerCase().includes('/app/user/competency')) {
+        this.navigationInterceptor(event)
+      }
+
     })
     this.online$ = merge(
       of(navigator.onLine),
@@ -595,7 +598,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (event instanceof NavigationEnd) {
         this.telemetrySvc.impression()
         const paramMap = this.activatedRoute.snapshot.queryParamMap
-        const params = {}
+        const params: any = {}
 
         paramMap.keys.forEach((key: any) => {
           const paramValue = paramMap.get(key)

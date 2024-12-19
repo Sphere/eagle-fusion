@@ -1,7 +1,7 @@
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
 //import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'

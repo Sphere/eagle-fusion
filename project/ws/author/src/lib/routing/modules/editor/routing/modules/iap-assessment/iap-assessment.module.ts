@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
-import { MatPaginatorModule, MatTableModule } from '@angular/material'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatTableModule } from '@angular/material/table'
 import { ConfirmDialogComponent } from '@ws/author/src/lib/modules/shared/components/confirm-dialog/confirm-dialog.component'
 import { SharedModule } from '../../../../../../modules/shared/shared.module'
 import { AuthViewerModule } from '../../../../../../modules/viewer/viewer.module'
