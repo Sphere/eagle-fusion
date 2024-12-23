@@ -197,9 +197,9 @@ export function videoJsInitializer(
       try {
         if (resumePoint) {
           const start = Number(resumePoint)
-          if (start > 10 && player.duration() - start > 20) {
-            player.currentTime(start - 10)
-          }
+          // if (start > 10 && player.duration() - start > 20) {
+          player.currentTime(start)
+
         }
       } catch (err) { }
     })
@@ -220,16 +220,14 @@ export function videoJsInitializer(
         loaded = true
       }
       currentTimeInterval = interval(500).subscribe(_ => {
-        if (player.currentTime() >= player.duration() * 5 / 100 && player.currentTime() < player.duration() * 95 / 100
-          && !readyToRaise) {
-          readyToRaise = true
-        }
-        if (player.currentTime() >= player.duration() * 95 / 100 && readyToRaise) {
+        const currPercentage = (player.currentTime() / player.duration()) * 100
+        const roundedPercentage = Math.round(currPercentage / 5) * 5
+        if (roundedPercentage !== currTime) {
+          currTime = roundedPercentage
           fireRealTimeProgress(mimeType, widgetData, fireRProgress, player.currentTime(), player.duration())
-          readyToRaise = false
         }
-        currTime = player.currentTime()
       })
+
 
     })
     player.on(videojsEventNames.pause, () => {

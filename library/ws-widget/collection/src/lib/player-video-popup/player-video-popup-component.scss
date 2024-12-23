@@ -46,6 +46,14 @@
 }
 
 .quiz-question {
+  font-family: Roboto;
+font-size: 16px;
+font-weight: 400;
+line-height: 18.75px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+
   overflow-x: auto;
   margin: 10px 0 0 0 !important;
 
@@ -154,8 +162,8 @@ correct-option {
 }
 .skip-button{
    cursor: pointer;
-  background: #c6cbcf !important;
-  color: #474343 !important;
+  background: #FFFFFF !important;
+  color: #1C5D95 !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
   font-family: Roboto;
@@ -164,8 +172,9 @@ correct-option {
   line-height: 19px;
   letter-spacing: 0em;
   text-align: center !important;
-  border: none !important;
+  border: 1px solid !important;
   height: 40px !important;
+  border-color: #1C5D95 !important;
 }
 .disabled-back-button {
   background: #BFBFBF !important;
@@ -177,7 +186,7 @@ correct-option {
 
 .submit-button {
   cursor: pointer;
-  background: #2E6491 !important;
+  background: #1C5D95 !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
@@ -208,4 +217,75 @@ correct-option {
 .button-container {
 gap: 10px !important;
 }
+}
+
+::ng-deep .theme-igot.day-mode .mat-list-option:hover, .theme-igot.day-mode .mat-list-option:focus, .theme-igot.day-mode .mat-nav-list .mat-list-item:hover, .theme-igot.day-mode .mat-nav-list .mat-list-item:focus, .theme-igot.day-mode .mat-action-list .mat-list-item:hover, .theme-igot.day-mode .mat-action-list .mat-list-item:focus {
+    background: rgba(255, 255, 255, 0.04);
+}
+.questions-header{
+  font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.41px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #257CC7;
+
+}
+.question-option{
+  //styleName: Body;
+font-family: Roboto;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: -0.02em;
+text-align: right;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #000000 !important;
+}
+.theme-igot.day-mode .mat-radio-button .mat-radio-container .mat-radio-inner-circle {
+    background-color: #424242 !important;
+}
+.correct-answer{
+  background-color: #E8F4F2 !important;
+  color: #469788 !important;
+}
+.wrong-answer{
+  background-color: #FFDFDD !important;
+    color:#ED2C23 !important
+}
+.result-message{
+    border-radius: 8px 8px 0px 0px;
+
+}
+.result-message-container{
+  display: flex;
+    justify-content: end;
+    /* align-items: end; */
+    flex-direction: column;
+}
+.result-answer-info{
+    border-radius: 0px 0px 8px 8px;
+
+font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.41px;
+letter-spacing: -0.02em;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #000000 !important;
+}
+.result-text{
+  font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.41px;
+letter-spacing: -0.02em;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
 }

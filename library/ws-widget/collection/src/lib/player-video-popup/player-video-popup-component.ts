@@ -15,6 +15,9 @@ export class PlayerVideoPopupComponent implements OnInit {
   selectedAnswers: any = []; // Store answers for the current question
   answers: any[] = []; // Track all answers
   questions: Array<{ text: string; options: string[] }>
+  resultMessage: string | null = null;
+  selectedOption: any | null = null; // To store the selected option
+  showAnswerInfo: boolean = false
 
   constructor(
     public snackBar: MatSnackBar,
@@ -27,30 +30,44 @@ export class PlayerVideoPopupComponent implements OnInit {
   }
 
   ngOnInit() {
-
+    console.log("questions", this.questions)
   }
 
   get currentQuestion() {
     return this.questions[this.currentIndex]
   }
-
+  onOptionSelected(option: any): void {
+    console.log("option", option)
+    this.selectedOption = option
+    this.showAnswerInfo = true
+    if (option.isCorrect) {
+      this.resultMessage = 'Correct'
+    } else {
+      this.resultMessage = 'Wrong'
+    }
+  }
   moveToPrevious(): void {
+    this.showAnswerInfo = false
+
     if (this.currentIndex > 0) {
       this.currentIndex--
     }
   }
 
   moveToNext(): void {
+    this.showAnswerInfo = false
     if (this.currentIndex < this.questions.length - 1) {
       this.currentIndex++
     }
   }
 
   submitQuiz(): void {
+    this.showAnswerInfo = false
     console.log('Submitted answers:', this.answers)
-    this.dialogRef.close({ event: 'submit', answers: this.answers }) // Pass answers back to the parent component
+    this.dialogRef.close({ event: 'submit', answers: this.answers })
   }
   sendAction(value: string): void {
+    this.showAnswerInfo = false
     this.dialogRef.close({ event: value })
     console.log('value', value)
   }
