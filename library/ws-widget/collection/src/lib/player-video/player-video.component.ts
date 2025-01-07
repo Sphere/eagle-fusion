@@ -49,7 +49,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   AfterViewInit,
   OnDestroy,
   NsWidgetResolver.IWidgetData<IWidgetsPlayerMediaData> {
-  @Input() widgetData!: IWidgetsPlayerMediaData
+  @Input() widgetData!: any
   @ViewChild('videoTag', { static: false }) videoTag!: ElementRef<HTMLVideoElement>
   @ViewChild('realvideoTag', { static: false }) realvideoTag!: ElementRef<HTMLVideoElement>
   private player: videoJs.Player | null = null
@@ -57,179 +57,17 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   contentData: any
   popupShown = false;
   progressData: any
-  milestones = [
-    {
-      percentage: 10,
-      question: [{
-        text: 'This is the first question?',
-        options: [
-          {
-            "text": "It is spontaneous in onset.",
-            "optionId": "Q100-a",
-            "isCorrect": true,
-            "answerInfo": "Protection is correct as the skin shields the body from harm."
-          },
-          {
-            "text": "No complications",
-            "optionId": "Q100-b",
-            "isCorrect": false,
-            "answerInfo": "Protection is correct as the skin shields the body from harm."
-          },
-          {
-            "text": "Single infant",
-            "isCorrect": false,
-            "optionId": "Q100-c",
-            "answerInfo": "Protection is correct as the skin shields the body from harm."
-          },
-          {
-            "text": "Breech position",
-            "isCorrect": false,
-            "optionId": "Q100-d",
-            "answerInfo": "Protection is correct as the skin shields the body from harm."
-          }
-        ],
-      },
+  videoQuestions!: {
+    timestamp: { hours: 0, minutes: 0, seconds: 0 },
+    timestampInSeconds: 0,
+    question: [ // Ensure 'question' is used here
       {
-        text: 'This is the second question?',
-        options: [{
-          "text": "It is spontaneous in onset.",
-          "optionId": "Q100-a",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "No complications",
-          "optionId": "Q100-b",
-          "isCorrect": true,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Single infant",
-          "isCorrect": false,
-          "optionId": "Q100-c",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Breech position",
-          "isCorrect": false,
-          "optionId": "Q100-d",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        }],
-      },
-      {
-        text: 'This is the third question?',
-        options: [{
-          "text": "It is spontaneous in onset.",
-          "optionId": "Q100-a",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "No complications",
-          "optionId": "Q100-b",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Single infant",
-          "isCorrect": false,
-          "optionId": "Q100-c",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Breech position",
-          "isCorrect": true,
-          "optionId": "Q100-d",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        }],
-      }],
-    },
-    {
-      percentage: 50,
-      question: [{
-        text: 'This is the fourth question?',
-        options: [{
-          "text": "It is spontaneous in onset.",
-          "optionId": "Q100-a",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "No complications",
-          "optionId": "Q100-b",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Single infant",
-          "isCorrect": false,
-          "optionId": "Q100-c",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Breech position",
-          "isCorrect": true,
-          "optionId": "Q100-d",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        }],
-      },
-      {
-        text: 'This is the fifth question?',
-        options: [{
-          "text": "It is spontaneous in onset.",
-          "optionId": "Q100-a",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "No complications",
-          "optionId": "Q100-b",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Single infant",
-          "isCorrect": false,
-          "optionId": "Q100-c",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Breech position",
-          "isCorrect": true,
-          "optionId": "Q100-d",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        }],
-      },
-      {
-        text: 'This is the sixth question?',
-        options: [{
-          "text": "It is spontaneous in onset.",
-          "optionId": "Q100-a",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "No complications",
-          "optionId": "Q100-b",
-          "isCorrect": false,
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Single infant",
-          "isCorrect": false,
-          "optionId": "Q100-c",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        },
-        {
-          "text": "Breech position",
-          "isCorrect": true,
-          "optionId": "Q100-d",
-          "answerInfo": "Protection is correct as the skin shields the body from harm."
-        }],
-      }],
-    }
-  ];
-  lastPercentageWatched = 0;
+        text: '',
+        options: [{ text: '', optionId: '', isCorrect: false, answerInfo: '' }]
+      }
+    ]
+  }
+
   constructor(
     private eventSvc: EventService,
     private contentSvc: WidgetContentService,
@@ -250,7 +88,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     // }
   }
 
-  ngOnInit() { console.log("videoData", this.widgetData, this.contentData) }
+  ngOnInit() { console.log("videoDatas", this.widgetData, this.contentData) }
 
 
   async ngAfterViewInit() {
@@ -259,16 +97,16 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     this.widgetData = {
       ...this.widgetData,
     }
-    if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
-      await this.fetchContent()
-    }
+    // if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
+    await this.fetchContent()
+    console.log("this.widgetData.videoQuestions", this.widgetData)
     //enable below code to show popup questions
-    // if (this.videoTag) {
-    //   this.addTimeUpdateListener(this.videoTag.nativeElement)
-    // }
-    // if (this.realvideoTag) {
-    //   this.addTimeUpdateListener(this.realvideoTag.nativeElement)
-    // }
+    if (this.videoTag) {
+      this.addTimeUpdateListener(this.videoTag.nativeElement)
+    }
+    if (this.realvideoTag) {
+      this.addTimeUpdateListener(this.realvideoTag.nativeElement)
+    }
 
     if (this.widgetData.url) {
       if (this.widgetData.isVideojs) {
@@ -306,28 +144,36 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     }
   }
   addTimeUpdateListener(videoElement: HTMLVideoElement): void {
+    let popupTriggered = false
+    let currentMilestone
     videoElement.addEventListener('timeupdate', () => {
-      const percentageWatched = (videoElement.currentTime / videoElement.duration) * 100
-
-      for (const milestone of this.milestones) {
-        if (
-          (percentageWatched >= milestone.percentage && this.lastPercentageWatched < milestone.percentage) || // Forward crossing
-          (percentageWatched < milestone.percentage && this.lastPercentageWatched >= milestone.percentage) // Reverse crossing
-        ) {
-          videoElement.pause()
-          this.openPopup(milestone.question)
-          break
+      const currentTimeInSeconds = Math.round(videoElement.currentTime) // Round to nearest integer
+      if (this.widgetData.videoQuestions && this.widgetData.videoQuestions.length > 0) {
+        // console.log("Current Time:", currentTimeInSeconds)
+        // console.log("Milestones:", this.widgetData.videoQuestions)
+        for (const milestone of this.widgetData.videoQuestions) {
+          if (currentTimeInSeconds === milestone.timestampInSeconds && !popupTriggered) {
+            videoElement.pause()
+            console.log("Popup triggered for milestone:", milestone.timestampInSeconds)
+            this.openPopup(milestone.question, videoElement)
+            popupTriggered = true
+            currentMilestone = milestone
+            break
+          } else if (currentTimeInSeconds > milestone.timestampInSeconds && currentMilestone === milestone) {
+            popupTriggered = false
+            currentMilestone = null
+          }
         }
       }
 
-      this.lastPercentageWatched = percentageWatched
     })
   }
 
-  openPopup(questions: any): void {
+
+  openPopup(questions: any, videoElement: any): void {
     const confirmdialog = this.dialog.open(PlayerVideoPopupComponent, {
       width: '600px',
-      data: { questions }, // Pass the array of questions to the popup
+      data: { questions }
     })
 
     if (confirmdialog) {
@@ -335,7 +181,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         console.log("closed popup", _res)
         this.dialog.closeAll()
         this.onTimeUpdate()
-        this.videoTag.nativeElement.play()
+        videoElement.play()
       })
     }
   }
@@ -502,7 +348,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         async result => {
           this.contentData = await result['result']['contentList'].find((obj: any) => obj.contentId === identifier)
           const temp = data.current
-          console.log("asdfasdfasdfasdf", data)
+          console.log("current progress", data)
           const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
@@ -647,6 +493,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     const content = await this.contentSvc
       .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
       .toPromise()
+    if (content.result && content.result.content && content.result.content.videoQuestions)
+      this.widgetData.videoQuestions = content.result.content.videoQuestions ? JSON.parse(content.result.content.videoQuestions) : []
+    console.log("this.widgetData.videoQuestions", this.widgetData.videoQuestions)
     if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
       this.widgetData.url = content.artifactUrl
       this.widgetData.posterImage = content.appIcon

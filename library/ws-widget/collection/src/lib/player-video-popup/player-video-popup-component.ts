@@ -26,7 +26,7 @@ export class PlayerVideoPopupComponent implements OnInit {
   ) {
     this.questions = data.questions
     this.answers = new Array(this.questions.length).fill(null) // Initialize answers array
-    dialogRef.disableClose = true
+    // dialogRef.disableClose = true
   }
 
   ngOnInit() {
@@ -70,6 +70,9 @@ export class PlayerVideoPopupComponent implements OnInit {
     this.showAnswerInfo = false
     this.dialogRef.close({ event: value })
     console.log('value', value)
+  }
+  closePopup() {
+    this.dialogRef.close('skip')
   }
 
 }

@@ -2,12 +2,12 @@
     <!-- Question Text -->
     <div class="flex justify-between items-center">
         <span class="questions-header">Question {{ currentIndex + 1 }}</span>
-        <mat-icon class="cursor-pointer">close</mat-icon>
+        <mat-icon class="cursor-pointer" (click)="closePopup()">close</mat-icon>
     </div>
     <h3 class="m-0 quiz-question">{{ currentQuestion.text }}</h3>
     <!-- Options List -->
     <div class="flex flex-row flex-wrap justify-between w-full align-end">
-        <div class="flex flex-row w-full">
+        <div class="flex flex-row w-full justify-between">
             <ng-container class="flex-1">
                 <mat-selection-list class="app-class" [(ngModel)]="answers[currentIndex]">
                     <div *ngFor="let option of currentQuestion.options; let i = index" class="mb-2">
