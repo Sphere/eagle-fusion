@@ -6,37 +6,32 @@
     </div>
     <h3 class="m-0 quiz-question">{{ currentQuestion.text }}</h3>
     <!-- Options List -->
-    <div class="flex flex-row flex-wrap justify-between w-full align-end">
-        <div class="flex flex-row w-full justify-between">
-            <ng-container class="flex-1">
-                <mat-selection-list class="app-class" [(ngModel)]="answers[currentIndex]">
-                    <div *ngFor="let option of currentQuestion.options; let i = index" class="mb-2">
-                        <mat-radio-button class="quiz-option" [value]="option" color="primary"
-                            (change)="onOptionSelected(option)">
-                            <div class="question-option">{{ option.text }}</div>
-                        </mat-radio-button>
-                    </div>
-                </mat-selection-list>
-            </ng-container>
-            <ng-container *ngIf="showAnswerInfo" class="flex-1">
-                <div class="result-message-container p-2">
-                    <div *ngIf="resultMessage" class="result-message p-2" [ngClass]="{'correct-answer': resultMessage === 'Correct',
-                        'wrong-answer': resultMessage === 'Wrong'}">
-                        <img title="correct-answer" alt="correct-answer" *ngIf="resultMessage === 'Correct'"
-                            src="/fusion-assets/icons/charm_tick.png" />
-                        <img title="wrong-answer" alt="correct-answer" *ngIf="resultMessage === 'Wrong'"
-                            src="/fusion-assets/icons/wrong_red_icon.png" />
-                        <span [ngClass]="{'correct-answer': resultMessage === 'Correct',
-                        'wrong-answer': resultMessage === 'Wrong'}" class="result-text ml-2">{{ resultMessage }}</span>
-                    </div>
-                    <span [ngClass]="{'correct-answer': resultMessage === 'Correct',
-                        'wrong-answer': resultMessage === 'Wrong'}" class="p-2 result-answer-info"
-                        *ngIf="selectedOption?.answerInfo">
-                        {{ selectedOption.answerInfo }}</span>
-                </div>
-            </ng-container>
+    <mat-selection-list fxLayout="column wrap" class="app-class" [(ngModel)]="answers[currentIndex]">
+        <div *ngFor="let option of currentQuestion.options; let i = index" class="mb-2">
+            <mat-radio-button class="quiz-option" [value]="option" color="primary" (change)="onOptionSelected(option)"
+                style="overflow: hidden;">
+                <div class="question-option">{{ option.text }}</div>
+            </mat-radio-button>
         </div>
-    </div>
+    </mat-selection-list>
+    <ng-container *ngIf="showAnswerInfo" class="flex-1">
+        <div class="result-message-container p-2">
+            <div *ngIf="resultMessage" class="result-message p-2" [ngClass]="{'correct-answer': resultMessage === 'Correct',
+                                'wrong-answer': resultMessage === 'Wrong'}">
+                <img title="correct-answer" alt="correct-answer" *ngIf="resultMessage === 'Correct'"
+                    src="/fusion-assets/icons/charm_tick.png" />
+                <img title="wrong-answer" alt="correct-answer" *ngIf="resultMessage === 'Wrong'"
+                    src="/fusion-assets/icons/wrong_red_icon.png" />
+                <span [ngClass]="{'correct-answer': resultMessage === 'Correct',
+                                'wrong-answer': resultMessage === 'Wrong'}" class="result-text ml-2">{{ resultMessage
+                    }}</span>
+            </div>
+            <span [ngClass]="{'correct-answer': resultMessage === 'Correct',
+                                'wrong-answer': resultMessage === 'Wrong'}" class="p-2 result-answer-info"
+                *ngIf="selectedOption?.answerInfo">
+                {{ selectedOption.answerInfo }}</span>
+        </div>
+    </ng-container>
 
     <!-- Navigation Buttons -->
     <div class="button-container flex justify-end mt-4">

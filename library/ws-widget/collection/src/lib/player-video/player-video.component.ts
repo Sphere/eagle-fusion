@@ -67,6 +67,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     ]
   }
+  videoStates: { [videoId: string]: { popupTriggered: boolean, currentMilestone: any } } = {};
 
   constructor(
     private eventSvc: EventService,
@@ -144,30 +145,91 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     }
   }
   addTimeUpdateListener(videoElement: HTMLVideoElement): void {
-    let popupTriggered = false
-    let currentMilestone
-    videoElement.addEventListener('timeupdate', () => {
-      const currentTimeInSeconds = Math.round(videoElement.currentTime) // Round to nearest integer
+    console.log("Initializing video listener:", videoElement)
+
+    const videoId = videoElement.id
+    this.videoStates[videoId] = {
+      popupTriggered: false,
+      currentMilestone: null,
+    }
+
+    // Function to check milestones
+    const checkMilestones = () => {
+      const currentTimeInSeconds = Math.round(videoElement.currentTime)
+      console.log("Checking Current Time:", currentTimeInSeconds)
+
       if (this.widgetData.videoQuestions && this.widgetData.videoQuestions.length > 0) {
-        // console.log("Current Time:", currentTimeInSeconds)
-        // console.log("Milestones:", this.widgetData.videoQuestions)
         for (const milestone of this.widgetData.videoQuestions) {
-          if (currentTimeInSeconds === milestone.timestampInSeconds && !popupTriggered) {
+          console.log(
+            "Current Time:",
+            currentTimeInSeconds,
+            "Milestone Time:",
+            milestone.timestampInSeconds,
+            "Popup Triggered:",
+            this.videoStates[videoId].popupTriggered
+          )
+
+          if (
+            currentTimeInSeconds === milestone.timestampInSeconds &&
+            !this.videoStates[videoId].popupTriggered
+          ) {
             videoElement.pause()
             console.log("Popup triggered for milestone:", milestone.timestampInSeconds)
             this.openPopup(milestone.question, videoElement)
-            popupTriggered = true
-            currentMilestone = milestone
-            break
-          } else if (currentTimeInSeconds > milestone.timestampInSeconds && currentMilestone === milestone) {
-            popupTriggered = false
-            currentMilestone = null
+            this.videoStates[videoId].popupTriggered = true
+            this.videoStates[videoId].currentMilestone = milestone
+            return // Stop checking further milestones this cycle
+          } else if (
+            currentTimeInSeconds > milestone.timestampInSeconds &&
+            this.videoStates[videoId].currentMilestone === milestone
+          ) {
+            this.videoStates[videoId].popupTriggered = false
+            this.videoStates[videoId].currentMilestone = null
           }
         }
       }
+    }
 
+    // Poll video time with requestAnimationFrame
+    const pollVideoTime = () => {
+      if (!videoElement.paused && !videoElement.ended) {
+        checkMilestones()
+        requestAnimationFrame(pollVideoTime) // Use requestAnimationFrame for smoother updates
+      }
+    }
+
+    // Event listeners
+    videoElement.addEventListener("playing", () => {
+      console.log("Video is playing.")
+      pollVideoTime() // Start polling when the video starts playing
+    })
+
+    videoElement.addEventListener("pause", () => {
+      console.log("Video paused. Polling paused.")
+    })
+
+    videoElement.addEventListener("ended", () => {
+      console.log("Video ended. Polling stopped.")
+    })
+
+    // Fallback using timeupdate
+    videoElement.addEventListener("timeupdate", () => {
+      console.log("Fallback timeupdate event triggered.")
+      checkMilestones()
+    })
+
+    // Ensure video plays on user interaction
+    videoElement.addEventListener("loadeddata", () => {
+      console.log("Video loaded. Ensuring user interaction.")
+      if (videoElement.paused) {
+        videoElement.play().catch((error) => {
+          console.warn("Error trying to play video programmatically:", error)
+        })
+      }
     })
   }
+
+
 
 
   openPopup(questions: any, videoElement: any): void {
