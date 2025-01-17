@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { ValueService } from '@ws-widget/utils'
 
 @Component({
   selector: 'player-video-popup-component',
@@ -18,8 +19,10 @@ export class PlayerVideoPopupComponent implements OnInit {
   resultMessage: string | null = null;
   selectedOption: any | null = null; // To store the selected option
   showAnswerInfo: boolean = false
-
+  layoutDirection = 'column'; // or 'row'
+  showReset: boolean = false
   constructor(
+    private valueSvc: ValueService,
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<PlayerVideoPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { questions: Array<{ text: string; options: string[] }> },
@@ -30,7 +33,13 @@ export class PlayerVideoPopupComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("questions", this.questions)
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall) {
+        this.layoutDirection = 'columnView'
+      } else {
+        this.layoutDirection = 'rowView'
+      }
+    })
   }
 
   get currentQuestion() {
@@ -62,7 +71,16 @@ export class PlayerVideoPopupComponent implements OnInit {
 
   submitQuiz(): void {
     this.showAnswerInfo = true
-    console.log('Submitted answers:', this.answers)
+    if (this.resultMessage === 'Correct') {
+      this.showReset = false
+    } else {
+      this.showReset = true
+    }
+    console.log('Submitted answers:', this.resultMessage, this.answers)
+  }
+  reset() {
+    this.showReset = false
+    this.showAnswerInfo = false
   }
   continue(): void {
     this.dialogRef.close({ event: 'submit', answers: this.answers })

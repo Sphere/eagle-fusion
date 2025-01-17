@@ -52,13 +52,43 @@
   flex-wrap: wrap;
   align-items: center;
 }
+.options-container {
+  display: flex;
+}
+
+.option {
+  margin-bottom: 10px;
+}
+
+/* horizontal layout */
+
+  .rowView{
+    .options-container {
+  flex-direction: row;
+
+  }
+}
+
+.option {
+  margin-right: 10px;
+}
+
+/* vertical layout */
+
+  .columnView{
+    .options-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .option{
+    width: 100%;
+  }
+
+}
 ::ng-deep .cdk-overlay-pane{
 overflow: auto;
 }
-.option {
-  width: 50%;
-  margin-bottom: 10px;
-}
+c
 .quiz-question {
   font-family: Roboto;
 font-size: 16px;
@@ -68,7 +98,7 @@ text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
   overflow-x: auto;
-  margin: 10px 0 0 0 !important;
+  margin: 10px 0 10 0 !important;
 color: #000000 !important;
   @include breakpoint-xs {
     margin: 0 !important;
