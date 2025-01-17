@@ -7,11 +7,13 @@
     <h3 class="m-0 quiz-question">{{ currentQuestion.text }}</h3>
     <!-- Options List -->
     <mat-selection-list fxLayout="column wrap" class="app-class" [(ngModel)]="answers[currentIndex]">
-        <div *ngFor="let option of currentQuestion.options; let i = index" class="mb-2">
-            <mat-radio-button class="quiz-option" [value]="option" color="primary" (change)="onOptionSelected(option)"
-                style="overflow: hidden;">
-                <div class="question-option">{{ option.text }}</div>
-            </mat-radio-button>
+        <div class="options-container">
+            <div *ngFor="let option of currentQuestion.options; let i = index" class="option">
+                <mat-radio-button class="quiz-option" [value]="option" color="primary"
+                    (change)="onOptionSelected(option)">
+                    <div class="question-option">{{ option.text }}</div>
+                </mat-radio-button>
+            </div>
         </div>
     </mat-selection-list>
     <ng-container *ngIf="showAnswerInfo" class="flex-1">
@@ -42,9 +44,8 @@
         </button> -->
 
         <!-- Skip or Next Button -->
-        <div class="flex">
-            <button class="skip-button" *ngIf="currentIndex < questions.length - 1" (click)="sendAction('skip')"
-                class="skip-button">
+        <div class="flex mr-2">
+            <button *ngIf="!showAnswerInfo" class="skip-button mr-2" (click)="sendAction('skip')" class="skip-button">
                 Skip
             </button>
             <button class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
@@ -52,9 +53,12 @@
             </button>
         </div>
         <!-- Submit Button -->
-        <button class="submit-button" *ngIf="currentIndex === questions.length - 1" (click)="submitQuiz()"
-            class="submit-button">
+        <button class="submit-button" *ngIf="currentIndex === questions.length - 1&&!showAnswerInfo"
+            (click)="submitQuiz()" class="submit-button">
             Submit
+        </button>
+        <button class="submit-button" *ngIf="showAnswerInfo" (click)="continue()" class="submit-button">
+            Continue
         </button>
     </div>
 </div>

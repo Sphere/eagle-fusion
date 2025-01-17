@@ -47,6 +47,18 @@
 .question-option {
   white-space: break-spaces;
 }
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+::ng-deep .cdk-overlay-pane{
+overflow: auto;
+}
+.option {
+  width: 50%;
+  margin-bottom: 10px;
+}
 .quiz-question {
   font-family: Roboto;
 font-size: 16px;
@@ -57,7 +69,7 @@ text-underline-position: from-font;
 text-decoration-skip-ink: none;
   overflow-x: auto;
   margin: 10px 0 0 0 !important;
-
+color: #000000 !important;
   @include breakpoint-xs {
     margin: 0 !important;
   }

@@ -39,7 +39,6 @@ export class PlayerVideoPopupComponent implements OnInit {
   onOptionSelected(option: any): void {
     console.log("option", option)
     this.selectedOption = option
-    this.showAnswerInfo = true
     if (option.isCorrect) {
       this.resultMessage = 'Correct'
     } else {
@@ -62,8 +61,10 @@ export class PlayerVideoPopupComponent implements OnInit {
   }
 
   submitQuiz(): void {
-    this.showAnswerInfo = false
+    this.showAnswerInfo = true
     console.log('Submitted answers:', this.answers)
+  }
+  continue(): void {
     this.dialogRef.close({ event: 'submit', answers: this.answers })
   }
   sendAction(value: string): void {
