@@ -18,6 +18,8 @@ import { WidgetContentService } from '../_services/widget-content.service'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-popup-component'
 import { MatDialog } from '@angular/material/dialog'
+import { interval, Subscription } from 'rxjs'
+import { ValueService } from '@ws-widget/utils'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
@@ -67,7 +69,22 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     ]
   }
+  videojsEventNames = {
+    disposing: 'disposing',
+    ended: 'ended',
+    exitfullscreen: 'exitfullscreen',
+    fullscreen: 'fullscreen',
+    mute: 'mute',
+    pause: 'pause',
+    play: 'play',
+    ready: 'ready',
+    seeked: 'seeked',
+    unmute: 'unmute',
+    volumechange: 'volumechange',
+    loadeddata: 'loadeddata',
+  }
   videoStates: { [videoId: string]: { popupTriggered: boolean, currentMilestone: any } } = {};
+  popupTriggered = false
 
   constructor(
     private eventSvc: EventService,
@@ -77,7 +94,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private telemetrySvc: TelemetryService,
     public viewerDataSvc: ViewerDataService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private valueSvc: ValueService,
+
   ) {
     super()
     // console.log(window.innerWidth)
@@ -144,8 +163,13 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
   }
+
   addTimeUpdateListener(videoElement: HTMLVideoElement): void {
-    console.log("Initializing video listener:", videoElement)
+    const player = videoJs(videoElement, {
+      ...videoJsOptions,
+      poster: this.widgetData.posterImage,
+      autoplay: this.widgetData.autoplay || false,
+    })
 
     const videoId = videoElement.id
     this.videoStates[videoId] = {
@@ -153,100 +177,61 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       currentMilestone: null,
     }
 
-    // Function to check milestones
-    const checkMilestones = () => {
-      const currentTimeInSeconds = Math.round(videoElement.currentTime)
-      console.log("Checking Current Time:", currentTimeInSeconds)
+    player.on(this.videojsEventNames.play, () => {
+      this.openFullscreen(player) // Open video in fullscreen mode
 
-      if (this.widgetData.videoQuestions && this.widgetData.videoQuestions.length > 0) {
-        for (const milestone of this.widgetData.videoQuestions) {
-          console.log(
-            "Current Time:",
-            currentTimeInSeconds,
-            "Milestone Time:",
-            milestone.timestampInSeconds,
-            "Popup Triggered:",
-            this.videoStates[videoId].popupTriggered
-          )
-
-          if (
-            currentTimeInSeconds === milestone.timestampInSeconds &&
-            !this.videoStates[videoId].popupTriggered
-          ) {
-            videoElement.pause()
-            console.log("Popup triggered for milestone:", milestone.timestampInSeconds)
-            this.openPopup(milestone.question, videoElement)
-            this.videoStates[videoId].popupTriggered = true
-            this.videoStates[videoId].currentMilestone = milestone
-            return // Stop checking further milestones this cycle
-          } else if (
-            currentTimeInSeconds > milestone.timestampInSeconds &&
-            this.videoStates[videoId].currentMilestone === milestone
-          ) {
-            this.videoStates[videoId].popupTriggered = false
-            this.videoStates[videoId].currentMilestone = null
+      let intervalId = interval(1000).subscribe(() => {
+        const currentTimeInSeconds = Math.round(player.currentTime())
+        if (this.widgetData.videoQuestions && this.widgetData.videoQuestions.length > 0) {
+          for (const milestone of this.widgetData.videoQuestions) {
+            // Check if the popup has already been triggered for this milestone
+            if (
+              currentTimeInSeconds === milestone.timestampInSeconds &&
+              this.videoStates[videoId].currentMilestone !== milestone.timestampInSeconds
+            ) {
+              player.pause()
+              console.log("Popup triggered for milestone:", milestone.timestampInSeconds)
+              this.videoStates[videoId].popupTriggered = true
+              this.videoStates[videoId].currentMilestone = milestone.timestampInSeconds
+              this.openPopup(milestone.question, player, intervalId)
+              return // Exit loop after triggering popup
+            }
           }
         }
-      }
-    }
-
-    // Poll video time with requestAnimationFrame
-    const pollVideoTime = () => {
-      if (!videoElement.paused && !videoElement.ended) {
-        checkMilestones()
-        requestAnimationFrame(pollVideoTime) // Use requestAnimationFrame for smoother updates
-      }
-    }
-
-    // Event listeners
-    videoElement.addEventListener("playing", () => {
-      console.log("Video is playing.")
-      pollVideoTime() // Start polling when the video starts playing
-    })
-
-    videoElement.addEventListener("pause", () => {
-      console.log("Video paused. Polling paused.")
-    })
-
-    videoElement.addEventListener("ended", () => {
-      console.log("Video ended. Polling stopped.")
-    })
-
-    // Fallback using timeupdate
-    videoElement.addEventListener("timeupdate", () => {
-      console.log("Fallback timeupdate event triggered.")
-      checkMilestones()
-    })
-
-    // Ensure video plays on user interaction
-    videoElement.addEventListener("loadeddata", () => {
-      console.log("Video loaded. Ensuring user interaction.")
-      if (videoElement.paused) {
-        videoElement.play().catch((error) => {
-          console.warn("Error trying to play video programmatically:", error)
-        })
-      }
+      })
     })
   }
+  openFullscreen(player: any): void {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall)
+        if (player.requestFullscreen) {
+          player.requestFullscreen()
+        } else if ((player as any).webkitRequestFullscreen) { // Safari
+          (player as any).webkitRequestFullscreen()
+        } else if ((player as any).msRequestFullscreen) { // IE/Edge
+          (player as any).msRequestFullscreen()
+        }
+    })
 
-
-
-
-  openPopup(questions: any, videoElement: any): void {
+  }
+  openPopup(questions: any, videoElement: any, intervalId: Subscription): void {
     const confirmdialog = this.dialog.open(PlayerVideoPopupComponent, {
       width: '600px',
-      data: { questions }
+      data: { questions },
     })
 
     if (confirmdialog) {
-      confirmdialog.afterClosed().subscribe((_res: any) => {
-        console.log("closed popup", _res)
+      confirmdialog.afterClosed().subscribe(() => {
+        console.log("Popup closed")
         this.dialog.closeAll()
-        this.onTimeUpdate()
         videoElement.play()
+        intervalId.unsubscribe() // Stop the current interval
+        this.addTimeUpdateListener(videoElement) // Resume the listener if needed
+        this.onTimeUpdate()
       })
     }
   }
+
 
 
   ngOnDestroy() {
