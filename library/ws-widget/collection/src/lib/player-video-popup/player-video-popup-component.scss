@@ -65,8 +65,12 @@
   .rowView{
     .options-container {
   flex-direction: row;
+  justify-content: space-between;
 
   }
+  .option {
+  width: 40%;
+}
 }
 
 .option {
