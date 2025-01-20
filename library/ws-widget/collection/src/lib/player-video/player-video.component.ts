@@ -20,6 +20,7 @@ import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-po
 import { MatDialog } from '@angular/material/dialog'
 import { interval, Subscription } from 'rxjs'
 import { ValueService } from '@ws-widget/utils'
+import 'videojs-markers'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
@@ -170,6 +171,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       poster: this.widgetData.posterImage,
       autoplay: this.widgetData.autoplay || false,
     })
+
 
     const videoId = videoElement.id
     this.videoStates[videoId] = {

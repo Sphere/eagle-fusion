@@ -95,6 +95,7 @@
     "typescript-tslint-plugin": "^1.0.2",
     "uuid": "^8.3.2",
     "video.js": "7.6.0",
+    "videojs-markers": "^1.0.1",
     "vis-network": "^5.2.4",
     "vis-util": "^5.0.7",
     "zone.js": "~0.10.1"

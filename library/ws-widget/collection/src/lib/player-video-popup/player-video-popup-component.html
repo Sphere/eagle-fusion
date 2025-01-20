@@ -4,7 +4,7 @@
         <span class="questions-header">Question {{ currentIndex + 1 }}</span>
         <mat-icon class="cursor-pointer" (click)="closePopup()">close</mat-icon>
     </div>
-    <h3 class="m-0 quiz-question">{{ currentQuestion.text }}</h3>
+    <h3 class="quiz-question">{{ currentQuestion.text }}</h3>
     <!-- Options List -->
     <mat-selection-list [className]="layoutDirection" class="app-class" [(ngModel)]="answers[currentIndex]">
         <div class="options-container">

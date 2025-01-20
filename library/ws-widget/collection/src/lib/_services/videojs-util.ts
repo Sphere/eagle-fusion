@@ -1,5 +1,4 @@
 import videoJs from 'video.js'
-
 import { Subscription, interval, fromEvent } from 'rxjs'
 import { WsEvents } from '@ws-widget/utils'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
@@ -180,10 +179,11 @@ export function videoJsInitializer(
   widgetSubType: string,
   resumePoint: number = 0,
   enableTelemetry: boolean,
-  widgetData: IWidgetsPlayerMediaData,
+  widgetData: any,
   mimeType: NsContent.EMimeTypes,
 ): { player: videoJs.Player; dispose: () => void } {
   const player = videoJs(elem, config)
+  marker(widgetData, player)
   const eventDispatcher = enableTelemetry
     ? generateEventDispatcherHelper(passThroughData, dispatcher, widgetSubType)
     : () => undefined
@@ -265,9 +265,12 @@ export function videoInitializer(
   passThroughData: any,
   widgetSubType: string,
   enableTelemetry: boolean,
-  widgetData: IWidgetsPlayerMediaData,
+  widgetData: any,
   mimeType: NsContent.EMimeTypes,
 ): { dispose: () => void } {
+  const player = videoJs(elem)
+  marker(widgetData, player)
+
   const eventDispatcher = enableTelemetry
     ? generateEventDispatcherHelper(passThroughData, dispatcher, widgetSubType)
     : () => undefined
@@ -439,4 +442,34 @@ export function youtubeInitializer(
     }
   }
   return { dispose }
+}
+function marker(widgetData: any, player: any) {
+  if (widgetData.videoQuestions) {
+    let markers = convertData(widgetData.videoQuestions)
+    if (player.markers) {
+      player.markers({
+        markerStyle: {
+          width: '8px',
+          'background-color': '#2E6491',
+        },
+        markerTip: {
+          display: true,
+          text: function () {
+            return "Quiz"
+          }
+        },
+        markers: markers,
+      })
+    } else {
+      console.error('Markers plugin is not loaded.')
+    }
+  }
+}
+function convertData(data: any[]): { time: number, text: string }[] {
+  return data.map(item => {
+    return {
+      time: item.timestampInSeconds,
+      text: item.question[0].text
+    }
+  })
 }
