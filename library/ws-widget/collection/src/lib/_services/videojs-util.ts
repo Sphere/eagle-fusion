@@ -183,6 +183,9 @@ export function videoJsInitializer(
   mimeType: NsContent.EMimeTypes,
 ): { player: videoJs.Player; dispose: () => void } {
   const player = videoJs(elem, config)
+  player.volume(0.8) // Set default volume to 80%
+  player.muted(false) // Ensure video is not muted
+
   marker(widgetData, player)
   const eventDispatcher = enableTelemetry
     ? generateEventDispatcherHelper(passThroughData, dispatcher, widgetSubType)
@@ -269,6 +272,9 @@ export function videoInitializer(
   mimeType: NsContent.EMimeTypes,
 ): { dispose: () => void } {
   const player = videoJs(elem)
+  player.volume(0.8) // Set default volume to 80%
+  player.muted(false) // Ensure video is not muted
+
   marker(widgetData, player)
 
   const eventDispatcher = enableTelemetry
@@ -450,7 +456,7 @@ function marker(widgetData: any, player: any) {
       player.markers({
         markerStyle: {
           width: '8px',
-          'background-color': '#2E6491',
+          'background-color': 'yellow',
         },
         markerTip: {
           display: true,

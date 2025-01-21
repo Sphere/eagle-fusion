@@ -84,7 +84,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     volumechange: 'volumechange',
     loadeddata: 'loadeddata',
   }
-  videoStates: { [videoId: string]: { popupTriggered: boolean, currentMilestone: any } } = {};
+  videoStates: { [videoId: string]: { popupTriggered: any, currentMilestone: any } } = {};
   popupTriggered = false
 
   constructor(
@@ -172,28 +172,27 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       autoplay: this.widgetData.autoplay || false,
     })
 
-
     const videoId = videoElement.id
     this.videoStates[videoId] = {
-      popupTriggered: false,
+      popupTriggered: new Set<number>(), // Track triggered milestones
       currentMilestone: null,
     }
 
+    // Handle play event
     player.on(this.videojsEventNames.play, () => {
       this.openFullscreen(player) // Open video in fullscreen mode
-
-      let intervalId = interval(1000).subscribe(() => {
+      const intervalId = interval(1000).subscribe(() => {
         const currentTimeInSeconds = Math.round(player.currentTime())
         if (this.widgetData.videoQuestions && this.widgetData.videoQuestions.length > 0) {
           for (const milestone of this.widgetData.videoQuestions) {
-            // Check if the popup has already been triggered for this milestone
+            // Check if popup has already been triggered for this milestone
             if (
               currentTimeInSeconds === milestone.timestampInSeconds &&
-              this.videoStates[videoId].currentMilestone !== milestone.timestampInSeconds
+              !this.videoStates[videoId].popupTriggered.has(milestone.timestampInSeconds)
             ) {
               player.pause()
               console.log("Popup triggered for milestone:", milestone.timestampInSeconds)
-              this.videoStates[videoId].popupTriggered = true
+              this.videoStates[videoId].popupTriggered.add(milestone.timestampInSeconds)
               this.videoStates[videoId].currentMilestone = milestone.timestampInSeconds
               this.openPopup(milestone.question, player, intervalId)
               return // Exit loop after triggering popup
@@ -202,7 +201,21 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         }
       })
     })
+
+    // Handle timeupdate for user seeking
+    player.on('timeupdate', () => {
+      const currentTimeInSeconds = Math.round(player.currentTime())
+      if (this.widgetData.videoQuestions) {
+        for (const milestone of this.widgetData.videoQuestions) {
+          // Reset popupTriggered if user seeks before the milestone
+          if (currentTimeInSeconds < milestone.timestampInSeconds) {
+            this.videoStates[videoId].popupTriggered.delete(milestone.timestampInSeconds)
+          }
+        }
+      }
+    })
   }
+
   openFullscreen(player: any): void {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall)
@@ -233,8 +246,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       })
     }
   }
-
-
 
   ngOnDestroy() {
     if (this.player) {

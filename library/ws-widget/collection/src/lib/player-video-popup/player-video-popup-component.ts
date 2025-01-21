@@ -70,11 +70,13 @@ export class PlayerVideoPopupComponent implements OnInit {
   }
 
   submitQuiz(): void {
-    this.showAnswerInfo = true
-    if (this.resultMessage === 'Correct') {
-      this.showReset = false
-    } else {
-      this.showReset = true
+    if (this.resultMessage) {
+      this.showAnswerInfo = true
+      if (this.resultMessage === 'Correct') {
+        this.showReset = false
+      } else {
+        this.showReset = true
+      }
     }
     console.log('Submitted answers:', this.resultMessage, this.answers)
   }
