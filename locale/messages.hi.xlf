@@ -4262,6 +4262,64 @@
           <context context-type="linenumber">115</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2fa3b16b569acf67b1d1a29e8083acc8d07b0595" datatype="html">
+        <source>Question</source>
+        <target state="final">सवाल</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
+          <context context-type="linenumber">4</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="542b6cc572c39c75d9522c131edd37f1ce281361" datatype="html">
+        <source>
+                Skip
+            </source>
+            <target state="final">छोडना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
+          <context context-type="linenumber">49</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="277ab58de4e9352be7814665e655e813ed86d2ef" datatype="html">
+        <source>
+                Retry
+            </source>
+            <target state="final">पुन: प्रयास करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
+          <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="39494c73fcb8affcef6b03a8c7e52f8c789b2d1d" datatype="html">
+        <source>
+                Next
+            </source>
+            <target state="final">अगला</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0d864c588719b2a5a3e20801cf147866a93f636b" datatype="html">
+        <source>
+            Submit
+        </source>
+        <target state="final">जमा करना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
+          <context context-type="linenumber">61</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="63342d96da52b71c9cf58c5d868486e1a2bb4fdb" datatype="html">
+        <source>
+            Continue
+        </source>
+        <target state="final">जारी रखें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
+          <context context-type="linenumber">64</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="e3be4ff53fa73aedad7ebc0fa21d0590990eb36e" datatype="html">
         <source>Name of District</source>
         <target state="final">जिले का नाम</target>
