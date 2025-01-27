@@ -1,15 +1,14 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { PublicFaqComponent } from './public-faq.component'
-import {
-  MatToolbarModule,
-  MatSidenavModule,
-  MatIconModule,
-  MatCardModule,
-  MatDividerModule,
-  MatListModule,
-  MatButtonModule,
-} from '@angular/material'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatIconModule } from '@angular/material/icon'
+import { MatCardModule } from '@angular/material/card'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatListModule } from '@angular/material/list'
+import { MatButtonModule } from '@angular/material/button'
+
 import { RouterModule } from '@angular/router'
 import { BtnPageBackModule } from '@ws-widget/collection'
 
@@ -29,4 +28,4 @@ import { BtnPageBackModule } from '@ws-widget/collection'
   ],
   exports: [PublicFaqComponent],
 })
-export class PublicFaqModule {}
+export class PublicFaqModule { }

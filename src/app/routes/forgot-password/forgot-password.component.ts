@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@ang
 import { Router } from '@angular/router'
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 // import { mustMatch } from '../password-validator'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 // import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
 // import { EmailMobileValidators } from '../emailMobile.validator'
 
@@ -29,7 +29,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   maxResendTry = 4
 
   constructor(private router: Router, private signupService: SignupService,
-              private fb: FormBuilder, private snackBar: MatSnackBar,
+    private fb: FormBuilder, private snackBar: MatSnackBar,
     // private authSvc: AuthKeycloakService
   ) {
     this.forgotPasswordForm = this.fb.group({
@@ -50,7 +50,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     // To show the Resend button after 30s
     setTimeout(() => {
       this.showResend = true
-    },         1000)
+    }, 1000)
   }
 
   forgotPassword(resendOTP?: string) {
@@ -125,7 +125,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
             // this.router.navigate(['/app/login'])
             window.open(res.link, '_self')
             // this.authSvc.login('S', document.baseURI)
-          },         2000)
+          }, 2000)
         }
       },
       (error: any) => {
@@ -139,7 +139,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     this.disableResendButton = false
     setTimeout(() => {
       this.disableResendButton = true
-    },         1000)
+    }, 1000)
     const interval = setInterval(() => {
       this.resendOTPbtn = `Resend OTP(${(this.counter)})`
       // tslint:disable-next-line:no-bitwise
@@ -149,7 +149,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
         clearInterval(interval)
         this.disableResendButton = false
       }
-    },                           1000)
+    }, 1000)
   }
 
   private openSnackbar(primaryMsg: string, duration: number = 2000) {

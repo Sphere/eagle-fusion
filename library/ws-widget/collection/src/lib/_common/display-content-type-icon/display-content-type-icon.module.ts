@@ -1,7 +1,8 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { DisplayContentTypeIconComponent } from './display-content-type-icon.component'
-import { MatIconModule, MatTooltipModule } from '@angular/material'
+import { MatIconModule } from '@angular/material/icon'
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @NgModule({
   declarations: [DisplayContentTypeIconComponent],

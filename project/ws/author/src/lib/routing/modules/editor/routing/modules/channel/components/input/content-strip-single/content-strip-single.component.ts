@@ -1,7 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
 import { ConfirmDialogComponent } from '@ws/author/src/lib/modules/shared/components/confirm-dialog/confirm-dialog.component'
 import { AbstractControl, FormArray, FormBuilder, FormGroup, FormControl } from '@angular/forms'
-import { MatSnackBar, MatDialog, MatChipInputEvent } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatDialog } from '@angular/material/dialog'
+import { MatChipInputEvent } from '@angular/material/chips'
 import { IPickerContentData, NsContent, NsContentStripSingle } from '@ws-widget/collection/src/public-api'
 import { UploadService } from '@ws/author/src/lib/routing/modules/editor/shared/services/upload.service'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
@@ -310,7 +312,7 @@ export class ContentStripSingleComponent implements OnInit {
   }
 
   onSearchV6Change(event?: { content: Partial<NsContent.IContent>; checked: boolean },
-                   ids?: string[], fromAuthChips = false) {
+    ids?: string[], fromAuthChips = false) {
     const searchV6 = JSON.parse(JSON.stringify(SEARCHV6))
     searchV6.locale = [...this.language]
     searchV6.sort = [

@@ -21,7 +21,7 @@ export class ConfirmmodalComponent implements OnInit {
   isMobile = false
   stars: number[] = [1, 2, 3, 4, 5];
   selectedRating!: number
-  isMandatory: boolean = false
+  isMandatory: boolean = true
 
   constructor(
     public snackBar: MatSnackBar,
@@ -68,7 +68,11 @@ export class ConfirmmodalComponent implements OnInit {
 
   }
 
+  redirect() {
+    this.dialogRef.close({ event: 'CONFIRMED' })
+  }
   setRating(rating: number) {
+    console.log(rating)
     this.selectedRating = rating
     console.log("rating:", rating, this.ratingsForm.controls.review.value)
     if (rating <= 3 && (this.ratingsForm.controls.review.value === '' || this.ratingsForm.controls.review.value === null)) {

@@ -1,12 +1,14 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
-import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
+//import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
+//import { WidgetContentService } from '@ws-widget/collection'
 declare var $: any
 import { ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
@@ -56,7 +58,8 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     public route: ActivatedRoute,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
-    private viewerSvc: ViewerUtilService,
+    //private viewerSvc: ViewerUtilService,
+    //private contentSvc: WidgetContentService,
   ) {
 
   }
@@ -157,7 +160,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       this.questionAnswerHash,
     )
-    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizService.sanitizeAssessmentSubmitRequest(requestData)
+    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest | any = this.quizService.sanitizeAssessmentSubmitRequest(requestData)
     sanitizedRequestData['artifactUrl'] = this.assesmentdata.generalData.artifactUrl
     sanitizedRequestData['contentId'] = this.assesmentdata.generalData.identifier
     sanitizedRequestData['courseId'] = this.assesmentdata.generalData.collectionId
@@ -183,23 +186,12 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         //   this.isCompleted = true
         // }
         // console.log(this.assesmentdata)
+        //if (this.result >= 0) {
+        //if (this.result >= 0) {
+        console.log(this.result)
+        //this.disableContinue = false
         if (this.result >= 0) {
-          this.disableContinue = true
-          let Id = this.assesmentdata.generalData.identifier
-          let collectionId = this.assesmentdata.generalData.collectionId
-          const batchId = this.route.snapshot.queryParams.batchId
-
-          const data2 = {
-            current: 10,
-            max_size: 10,
-            mime_type: "application/json"
-          }
-          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
-            console.log(data)
-            if (data.params.status === "success") {
-              this.disableContinue = false
-            }
-          })
+          this.disableContinue = false
         }
         // else {
         //   this.disableContinue = false

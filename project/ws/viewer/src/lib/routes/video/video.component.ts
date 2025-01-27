@@ -12,7 +12,7 @@ import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { Platform } from '@angular/cdk/platform'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 @Component({
   selector: 'viewer-video',
   templateUrl: './video.component.html',
@@ -45,6 +45,7 @@ export class VideoComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
+
     this.screenSizeSubscription = this.valueSvc.isXSmall$.subscribe(data => {
       this.isScreenSizeSmall = data
     })
@@ -73,11 +74,13 @@ export class VideoComponent implements OnInit, OnDestroy {
           this.widgetResolverVideoData.widgetData.disableTelemetry = true
           this.isFetchingDataComplete = true
         })
+
     } else {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
         async data => {
           this.widgetResolverVideoData = null
           this.videoData = data.content.data
+
           if (this.videoData) {
             this.formDiscussionForumWidget(this.videoData)
             let userId
@@ -122,8 +125,64 @@ export class VideoComponent implements OnInit, OnDestroy {
                       //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
                       this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
                         console.log(data)
+                        const result = data.result
+                        result['type'] = 'video'
+                        this.contentSvc.changeMessage(result)
                       })
                     }
+                  } else {
+                    let req: any
+                    if (this.configSvc.userProfile) {
+                      req = {
+                        request: {
+                          userId: this.configSvc.userProfile.userId || '',
+                          contents: [
+                            {
+                              contentId: this.videoData!.identifier,
+                              batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+                              courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+                              status: contentData.status,
+                              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+                              progressdetails: contentData.progressdetails,
+                              completionPercentage: contentData.completionPercentage
+                            }
+                          ],
+                        },
+                      }
+                      console.log(req)
+                      //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
+                      this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
+                        console.log(data)
+                        const result = data.result
+                        result['type'] = 'video'
+                        this.contentSvc.changeMessage(result)
+
+                      })
+                    }
+                  }
+                } else {
+                  let req: any
+                  if (this.configSvc.userProfile) {
+                    req = {
+                      request: {
+                        userId: this.configSvc.userProfile.userId || '',
+                        contents: [
+                          {
+                            contentId: this.videoData!.identifier,
+                            batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
+                            courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+                            status: 1,
+                            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+                            progressdetails: {},
+                            completionPercentage: 0
+                          }
+                        ],
+                      },
+                    }
+                    console.log(req, '183')
+                    this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
+                      console.log(data)
+                    })
                   }
                 }
               })

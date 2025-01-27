@@ -34,7 +34,7 @@ export class GeneralGuard implements CanActivate {
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
-
+    console.log("came here 1")
     // tslint:disable-next-line: no-non-null-assertion
     if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
       // tslint:disable-next-line: no-non-null-assertion
@@ -70,6 +70,8 @@ export class GeneralGuard implements CanActivate {
     }
     // tslint:disable-next-line:no-console
     console.log(this.locale)
+    console.log("came here 2")
+
     // setTimeout(() => {
 
     // }, 5000)
@@ -95,6 +97,8 @@ export class GeneralGuard implements CanActivate {
     ) {
       return this.router.parseUrl(`/public/home`)
     }
+    console.log("came here 3")
+
     /**
      * Test IF User Tnc Is Accepted
      */
@@ -123,8 +127,11 @@ export class GeneralGuard implements CanActivate {
     // return this.router.parseUrl('/app/user-profile/chatbot')
     // }
     if (this.configSvc.unMappedUser) {
+      console.log("came here 4")
+
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
+          console.log("came here 5")
           console.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
           // if (data) {
           //   const userData = data.profileDetails.personalDetails
@@ -142,6 +149,7 @@ export class GeneralGuard implements CanActivate {
           //   return this.router.parseUrl(`/page/home`)
           // }
           console.log(data.profileDetails!.profileReq!.personalDetails)
+          console.log("came here 6")
 
           if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
             if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
@@ -195,6 +203,7 @@ export class GeneralGuard implements CanActivate {
         return this.router.parseUrl(`/page/home`)
       }
     }
+    console.log("came here 7")
 
     // check if feature is restricted
     if (requiredFeatures && requiredFeatures.length && this.configSvc.restrictedFeatures) {
@@ -206,6 +215,8 @@ export class GeneralGuard implements CanActivate {
         return this.router.parseUrl(`/page/home`)
       }
     }
+    console.log("came here 8")
+
     return true
   }
 }

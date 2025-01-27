@@ -6,7 +6,7 @@ import {
 } from '@ws-widget/collection'
 import { TFetchStatus, NsPage, ConfigurationsService } from '../../../../../../../../../../library/ws-widget/utils/src/public-api'
 import { FormControl } from '@angular/forms'
-// import { MatSnackBar } from '@angular/material'
+// import { MatSnackBar } from '@angular/material/snack-bar'
 import { Subscription } from 'rxjs'
 // import { InterestService } from '../../../../profile/routes/interest/services/interest.service'
 
@@ -30,10 +30,10 @@ export class InterestComponent implements OnInit {
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   alreadyAddedInterest = new Set<string>()
   constructor(private activateRoute: ActivatedRoute,
-              private contentSvc: WidgetContentService,
+    private contentSvc: WidgetContentService,
     // private playlistSvc: BtnPlaylistService,
-              private configSvc: ConfigurationsService,
-              private router: Router,
+    private configSvc: ConfigurationsService,
+    private router: Router,
     // private interestSvc: InterestService,
     // private snackbar: MatSnackBar
   ) { }

@@ -18,7 +18,7 @@ import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import get from 'lodash/get'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 
 @Component({
@@ -301,7 +301,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       }
       this.isAcceptInProgress = true
       const paramMap = this.activatedRoute.snapshot.queryParamMap
-      const params = {}
+      const params: any = {}
 
       paramMap.keys.forEach((key: any) => {
         const paramValue = paramMap.get(key)

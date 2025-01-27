@@ -300,6 +300,31 @@ text-align: center;
     margin-top: -1px;
     flex-direction: column;
 }
+.banner-container {
+  position: relative;
+}
+
+.carousel {
+  position: relative;
+  z-index: 1;
+}
+
+.create-account {
+  position: relative;
+  z-index: 10;
+}
+
+.slides {
+  position: relative;
+  z-index: 1;
+}
+
+.slide {
+  position: relative;
+  z-index: 1;
+}
+
+
 
 .tutorials-text {
     /* Body */

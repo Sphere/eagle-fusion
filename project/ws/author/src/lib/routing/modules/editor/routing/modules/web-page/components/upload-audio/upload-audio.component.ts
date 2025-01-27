@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { CONTENT_BASE_WEBHOST_ASSETS } from '@ws/author/src/lib/constants/apiEndpoints'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
@@ -91,9 +91,9 @@ export class UploadAudioComponent implements OnInit {
     this.uploadService
       .upload(
         formdata, {
-          contentId: this.data.id,
-          contentType: CONTENT_BASE_WEBHOST_ASSETS,
-        })
+        contentId: this.data.id,
+        contentType: CONTENT_BASE_WEBHOST_ASSETS,
+      })
       .subscribe(
         v => {
           if (v.code) {
@@ -123,7 +123,7 @@ export class UploadAudioComponent implements OnInit {
             duration: NOTIFICATION_TIME * 1000,
           })
         },
-    )
+      )
   }
 
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
 import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from './signup.service'
 // import { mustMatch } from './password-validator'
 import { Router } from '@angular/router'
@@ -36,7 +36,7 @@ export class SignupComponent implements OnInit, OnDestroy {
       password: new FormControl('', [Validators.required, Validators.minLength(6)]),
       confirmPassword: new FormControl(['']),
       emailOrMobile: new FormControl('', [Validators.required]),
-    },                              {})
+    }, {})
   }
 
   ngOnInit() {
@@ -149,7 +149,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           this.openSnackbar(this.toastSuccess.nativeElement.value)
         }
       },
-                                                  err => {
+        err => {
           this.openSnackbar(err.error.msg)
           this.uploadSaveData = false
           form.reset()
@@ -169,7 +169,7 @@ export class SignupComponent implements OnInit, OnDestroy {
           // this.router.navigate(['/page/home'])
         }
       },
-                                                                   err => {
+        err => {
           this.openSnackbar(err.error.msg)
           form.reset()
         }

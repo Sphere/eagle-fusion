@@ -5,7 +5,7 @@ import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 // import reduce from 'lodash/reduce'
 import uniqBy from 'lodash/uniqBy'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { of } from 'rxjs'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
@@ -229,8 +229,8 @@ export class WebPublicComponent implements OnInit {
     this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
   }
   // To view all course
-  viewAllCourse() {
-    this.router.navigateByUrl(`app/search/learning`)
+  viewAllCourse(courseType: string) {
+    this.router.navigate(['app/search/topCourse'], { queryParams: { courseType } })
   }
 
   openIframe(video: any) {

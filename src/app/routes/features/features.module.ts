@@ -1,15 +1,13 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { FeaturesComponent } from './features.component'
-import {
-  MatToolbarModule,
-  MatIconModule,
-  MatFormFieldModule,
-  MatTooltipModule,
-  MatButtonModule,
-  MatInputModule,
-  MatCardModule,
-} from '@angular/material'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatIconModule } from '@angular/material/icon'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatButtonModule } from '@angular/material/button'
+import { MatInputModule } from '@angular/material/input'
+import { MatCardModule } from '@angular/material/card'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { RouterModule } from '@angular/router'
 import { BtnFeatureModule, BtnPageBackModule } from '@ws-widget/collection'

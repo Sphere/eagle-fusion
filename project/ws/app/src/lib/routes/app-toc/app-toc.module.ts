@@ -5,34 +5,33 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { AppTocRoutingModule } from './app-toc-routing.module'
 import { NgCircleProgressModule } from 'ng-circle-progress'
 
-import {
-  MatToolbarModule,
-  MatIconModule,
-  MatButtonModule,
-  MatMenuModule,
-  MatCardModule,
-  MatTooltipModule,
-  MatTabsModule,
-  MatChipsModule,
-  MatDividerModule,
-  MatProgressBarModule,
-  MatListModule,
-  MatDialogModule,
-  MatRadioModule,
-  MatExpansionModule,
-  MatProgressSpinnerModule,
-  MatCheckboxModule,
-  MatInputModule,
-  MatFormFieldModule,
-  MatSelectModule,
-  MatSnackBarModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-} from '@angular/material'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatIconModule } from '@angular/material/icon'
+import { MatButtonModule } from '@angular/material/button'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatCardModule } from '@angular/material/card'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatChipsModule } from '@angular/material/chips'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatListModule } from '@angular/material/list'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatRadioModule } from '@angular/material/radio'
+import { MatExpansionModule } from '@angular/material/expansion'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatCheckboxModule } from '@angular/material/checkbox'
+import { MatInputModule } from '@angular/material/input'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatSelectModule } from '@angular/material/select'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core'
 
 // comps
 // import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
 import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-contents.component'
+import { AppTocReferencesComponent } from './routes/app-toc-references/app-toc-references.component'
 import { AppTocHomeComponent } from './components/app-toc-home/app-toc-home.component'
 import { AppTocHomeComponent as AppTocHomeRootComponent } from './routes/app-toc-home/app-toc-home.component'
 import { AppTocOverviewComponent } from './components/app-toc-overview/app-toc-overview.component'
@@ -120,6 +119,7 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     ConfirmmodalComponent,
     // AppTocAnalyticsComponent,
     AppTocContentsComponent,
+    AppTocReferencesComponent,
     AppTocHomeComponent,
     AppTocOverviewComponent,
     // AppTocBannerComponent,

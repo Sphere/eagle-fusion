@@ -1,5 +1,6 @@
-import { Component, OnInit, Renderer2, Inject } from '@angular/core'
-import { MatDialog } from '@angular/material'
+import { Component, OnInit, Inject } from '@angular/core'
+import { Renderer2 as Renderer } from '@angular/core'
+import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
@@ -58,7 +59,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService,
-    private _renderer2: Renderer2,
+    private _renderer2: Renderer,
     @Inject(DOCUMENT) private _document: Document
 
   ) {
@@ -99,6 +100,10 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.getUserDetails()
       }
     })
+    this.contentSvc.fetchGeneralAndRcCertificates().pipe().subscribe((res: any) => {
+      this.processCertiFicate(res)
+    })
+
     forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
     this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
 
@@ -109,7 +114,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       const lang = (res[0] && res[0].profileDetails && res[0].profileDetails!.preferences && res[0].profileDetails!.preferences!.language !== undefined) ? res[0].profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
       this.language = lang
       this.setAcademicDetail(res[0])
-      this.processCertiFicate(res[1])
+      // this.processCertiFicate(res[1])
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -204,10 +209,10 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   processCertiFicate(data: any) {
 
-    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
+    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
       return certificate.length > 0
     })), 'identifier')
-    this.formateRequest(data)
+    this.formatAllRequest(data)
     from(certificateIdArray).pipe(
       map(certId => {
         this.certificateThumbnail.push({ identifier: certId })
@@ -232,20 +237,42 @@ export class MobileProfileDashboardComponent implements OnInit {
     })
 
   }
+  formatAllRequest(data: any) {
+    this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))
+  }
 
   formateRequest(data: any) {
-    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data, 'issuedCertificates'), certificate => {
+    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
       return certificate.length > 0
     })), (result: any, value) => {
       result.push({
         identifier: value.identifier,
         name: value.name,
+        rcCertiface: false
       })
       return result
     }, [])
-    this.certificates = issuedCertificates
+    return issuedCertificates
   }
-
+  rcCertiface(data: any) {
+    if (data.sunbirdRcCertificates && data.sunbirdRcCertificates.length > 0) {
+      return _.reduce(
+        data.sunbirdRcCertificates,
+        (result: any[], certificate: any) => {
+          result.push({
+            name: certificate.certificateName,
+            downloadUrl: certificate.certificateDownloadUrl,
+            image: certificate.thumbnail,
+            rcCerticate: true
+          })
+          return result
+        },
+        []
+      )
+    } else {
+      return []
+    }
+  }
   openAboutDialog() {
     if (this.userProfileSvc.isBackgroundDetailsFilled(this.profileData)) {
       const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
@@ -264,6 +291,12 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   assignProfession(data: any) {
     this.currentProfession = data
+  }
+  assignUserName(data: any) {
+    if (data.firstname)
+      this.userProfileData.personalDetails.firstname = data.firstname
+    if (data.surname)
+      this.userProfileData.personalDetails.surname = data.surname
   }
   setAcademicDetail(data: any) {
     if (data) {

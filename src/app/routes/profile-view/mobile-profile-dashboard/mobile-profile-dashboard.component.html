@@ -264,7 +264,7 @@
   <div class="main-block" [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
     <div style="margin-bottom: 70px;" *ngIf="selectedIndex === 'personal'"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
-      <ws-personal-detail-edit></ws-personal-detail-edit>
+      <ws-personal-detail-edit (userName)="assignUserName($event)"></ws-personal-detail-edit>
     </div>
     <div *ngIf="selectedIndex === 'organization'" style="width:50%"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">

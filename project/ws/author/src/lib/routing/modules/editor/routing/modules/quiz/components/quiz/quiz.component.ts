@@ -4,7 +4,7 @@ import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar'
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { map, mergeMap, tap, catchError } from 'rxjs/operators'
 import { forkJoin, of, Observable, Subscription } from 'rxjs'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
 
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
@@ -114,7 +114,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.showSettingButtons = this.accessControl.rootOrg === 'client1'
     if (this.activateRoute.parent && this.activateRoute.parent.parent) {
       this.activateRoute.parent.parent.data.subscribe(v => {
-        let courseChildren =  v.contents[0].content.children
+        let courseChildren = v.contents[0].content.children
         // Children
         const firstLevelChilds = courseChildren.filter((item: any) => {
           return item.category === 'Collection'
@@ -122,7 +122,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         // find assements
         let firstLevelchildArray: any = []
 
-         firstLevelChilds.map((item: any) => {
+        firstLevelChilds.map((item: any) => {
 
           firstLevelchildArray = firstLevelchildArray.concat(item.children)
         })
@@ -139,15 +139,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 v.contents = data
 
                 this.quizStoreSvc.collectiveQuiz[element.identifier] = v.contents[0].data
-                ? v.contents[0].data.questions
-                : []
+                  ? v.contents[0].data.questions
+                  : []
 
-              this.canEditJson = this.quizResolverSvc.canEdit(v.contents[0].content)
-              this.resourceType = v.contents[0].content.categoryType || 'Quiz'
-              this.quizDuration = v.contents[0].content.duration || 300
-              this.questionsArr =
-                this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] || []
-              this.contentLoaded = true
+                this.canEditJson = this.quizResolverSvc.canEdit(v.contents[0].content)
+                this.resourceType = v.contents[0].content.categoryType || 'Quiz'
+                this.quizDuration = v.contents[0].content.duration || 300
+                this.questionsArr =
+                  this.quizStoreSvc.collectiveQuiz[v.contents[0].content.identifier] || []
+                this.contentLoaded = true
               }
               )
 

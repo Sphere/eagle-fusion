@@ -226,7 +226,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   onEntryInBlank(id: any) {
-    const arr = []
+    const arr: Array<any> = []
     for (let i = 0; i < (this.question.question.match(/<input/g) || []).length; i += 1) {
       const blank: HTMLInputElement = this.elementRef.nativeElement.querySelector(`#${this.question.questionId}${i}`)
       arr.push(toLower(blank.value.trim()))

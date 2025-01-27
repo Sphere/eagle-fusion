@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { MatSnackBarModule } from '@angular/material/snack-bar' // Import MatSnackBarModule
 import { RouterTestingModule } from '@angular/router/testing'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 import { BnrcLoginOtpComponent } from './bnrc-login-otp.component'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'

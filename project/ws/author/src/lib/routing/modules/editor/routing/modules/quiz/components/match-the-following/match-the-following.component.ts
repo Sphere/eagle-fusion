@@ -10,7 +10,9 @@ import {
   OnChanges,
   OnDestroy,
 } from '@angular/core'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
+
 import {
   FormGroup,
   FormBuilder,
@@ -206,7 +208,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
       } else {
         this.colBInput.first.nativeElement.focus()
       }
-    },         100)
+    }, 100)
     this.canUpdate = false
   }
 

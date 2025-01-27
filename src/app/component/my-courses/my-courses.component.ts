@@ -3,6 +3,7 @@ import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
+import lodash from 'lodash'
 
 @Component({
   selector: 'ws-my-courses',
@@ -51,33 +52,41 @@ export class MyCoursesComponent implements OnInit {
         console.log("courses", courses)
 
         courses.forEach((key) => {
-          if (key.completionPercentage !== 100) {
-            const myCourseObject = {
-              identifier: key.content.identifier,
-              appIcon: key.content.appIcon,
-              thumbnail: key.content.thumbnail,
-              name: key.content.name,
-              dateTime: key.dateTime,
-              completionPercentage: key.completionPercentage,
-              sourceName: key.content.sourceName,
-              issueCertification: key.content.issueCertification
-            }
+          // Check if competency exists, if not, assume it's okay to process (e.g., no competency required)
+          const competencyExists = lodash.has(key, 'content.competency')
+          const competency = competencyExists ? lodash.get(key, 'content.competency', false) : false  // Default to false if competency is absent
 
-            this.startedCourse.push(myCourseObject)
-            this.isLoading = false
-          } else {
-            const completedCourseObject = {
-              identifier: key.content.identifier,
-              appIcon: key.content.appIcon,
-              thumbnail: key.content.thumbnail,
-              name: key.content.name,
-              dateTime: key.dateTime,
-              completionPercentage: key.completionPercentage,
-              sourceName: key.content.sourceName,
-              issueCertification: key.content.issueCertification
-            }
+          // Only process courses with competency === false
+          // Only process courses where competency is either false or not present
+          if (competency === false) {
+            if (key.completionPercentage !== 100) {
+              const myCourseObject = {
+                identifier: key.content.identifier,
+                appIcon: key.content.appIcon,
+                thumbnail: key.content.thumbnail,
+                name: key.content.name,
+                dateTime: key.dateTime,
+                completionPercentage: key.completionPercentage,
+                sourceName: key.content.sourceName,
+                issueCertification: key.content.issueCertification
+              }
 
-            this.completedCourse.push(completedCourseObject)
+              this.startedCourse.push(myCourseObject)
+              this.isLoading = false
+            } else {
+              const completedCourseObject = {
+                identifier: key.content.identifier,
+                appIcon: key.content.appIcon,
+                thumbnail: key.content.thumbnail,
+                name: key.content.name,
+                dateTime: key.dateTime,
+                completionPercentage: key.completionPercentage,
+                sourceName: key.content.sourceName,
+                issueCertification: key.content.issueCertification
+              }
+
+              this.completedCourse.push(completedCourseObject)
+            }
           }
         })
 

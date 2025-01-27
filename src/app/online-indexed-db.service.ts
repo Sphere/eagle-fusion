@@ -19,7 +19,7 @@ export class IndexedDBService {
   openOrCreateDatabase(): Observable<IDBDatabase> {
     return new Observable((observer: Observer<IDBDatabase>) => {
       if (!this.isIndexedDBSupported()) {
-        console.warn('IndexedDB is not supported. Falling back to localStorage.')
+        // console.warn('IndexedDB is not supported. Falling back to localStorage.')
         observer.error('IndexedDB is not supported')
         observer.complete()
         return
@@ -62,9 +62,9 @@ export class IndexedDBService {
         }
       }
 
-      request.onerror = (event: any) => {
-        console.error('Failed to open or create IndexedDB:', event.target.error)
-        observer.error('Failed to open or create IndexedDB')
+      request.onerror = (_event: any) => {
+        // console.error('Failed to open or create IndexedDB:', event.target.error)
+        // observer.error('Failed to open or create IndexedDB')
       }
     })
   }

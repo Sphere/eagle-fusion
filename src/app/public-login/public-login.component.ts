@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { SignupService } from 'src/app/routes/signup/signup.service'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatDialog } from '@angular/material/dialog'
 import { CreateAccountDialogComponent } from '../routes/create-account-modal/create-account-dialog.component'
 import { ConfigurationsService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
 

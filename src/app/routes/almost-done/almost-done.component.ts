@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import {
   //Router,
   ActivatedRoute
@@ -368,7 +368,7 @@ export class AlmostDoneComponent implements OnInit {
   public getOrganisationsHistory() {
     const organisations: any = []
     console.log(this.almostDoneForm.value.orgOtherSpecify)
-    const org = {
+    const org: any = {
       orgType: this.almostDoneForm.value.orgType,
       name: this.almostDoneForm.value.orgName!.trim(),
       nameOther: this.almostDoneForm.value.orgOtherSpecify !== null ? this.almostDoneForm.value.orgOtherSpecify!.trim() : '',
@@ -418,7 +418,7 @@ export class AlmostDoneComponent implements OnInit {
     return formatedDegrees
   }
   public getAcademics() {
-    const academics = []
+    const academics: any = []
     academics.push(...this.getDegree('GRADUATE'))
     return academics
   }
@@ -434,7 +434,7 @@ export class AlmostDoneComponent implements OnInit {
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
 
-    const userObject = {
+    const userObject: any = {
       firstname: this.firstName,
       middlename: this.middleName,
       surname: this.lastName,

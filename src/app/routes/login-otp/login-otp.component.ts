@@ -1,11 +1,12 @@
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { FormBuilder, FormGroup, Validators } from '@angular/forms'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
 import { Observable } from 'rxjs'
 import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
+import { MatDialog } from '@angular/material/dialog'
 //import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
 //import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'

@@ -28,7 +28,11 @@
     background: #fff;
   }
 }
-
+ .otp-input-container{
+    display: flex !important;
+    justify-content: space-between;
+    margin-top: 1rem;
+  }
 .login-card {
   margin: 0;
     padding: 0px 20px 30px 30px;
@@ -183,7 +187,15 @@ color: #808080;
     z-index: 9999;
   }
 }
-
+  .otp-input{
+    border: none;
+    width: 56px;
+    height: 55px;
+    gap: 0px;
+    border-radius: 4px ;
+    box-shadow: 0px 0px 4px 0px #00000040;
+    text-align: center;
+  }
 .overlay {
   position: fixed;
   top: 0;

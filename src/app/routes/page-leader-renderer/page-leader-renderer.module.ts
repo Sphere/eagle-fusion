@@ -13,19 +13,18 @@ import { TweetsComponent } from './components/tweets/tweets.component'
 import { FormsModule } from '@angular/forms'
 import { BtnPageBackModule, DiscussionForumModule } from '@ws-widget/collection'
 
-import {
-  MatIconModule,
-  MatCardModule,
-  MatDividerModule,
-  MatTabsModule,
-  MatButtonModule,
-  MatFormFieldModule,
-  MatToolbarModule,
-  MatProgressSpinnerModule,
-  MatDialogModule,
-  MatSnackBarModule,
-  MatInputModule,
-} from '@angular/material'
+import { MatIconModule } from '@angular/material/icon'
+import { MatCardModule } from '@angular/material/card'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatButtonModule } from '@angular/material/button'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatInputModule } from '@angular/material/input'
+
 import { WidgetResolverModule } from '../../../../library/ws-widget/resolver/src/public-api'
 
 @NgModule({
@@ -62,4 +61,4 @@ import { WidgetResolverModule } from '../../../../library/ws-widget/resolver/src
   exports: [LandingComponent],
   entryComponents: [SendMailDialogComponent],
 })
-export class PageLeaderRendererModule {}
+export class PageLeaderRendererModule { }
