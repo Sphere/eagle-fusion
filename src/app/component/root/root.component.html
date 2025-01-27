@@ -1,4 +1,5 @@
-<div [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''">
+<!-- For Sphere user -->
+<div *ngIf="!isEkshamata" [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''">
   <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
   </mat-progress-bar>
   <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn"
@@ -100,6 +101,12 @@
   <input #appUpdateBody type="hidden" i18n-value value="App has been updated. Do you want to load new version?" />
 </div>
 
+<!-- for Ekshamata user -->
+<div *ngIf="isEkshamata">
+  <div>
+    <router-outlet *ngIf="appOnline"></router-outlet>
+  </div>
+</div>
 <!--Chat icon-->
 <!-- <div *ngIf="!isProfile&&!disableChatForBnrc&&isCommonChatEnabled&&isLoggedIn&&(isXSmall$ | async) === true">
   <img src="/fusion-assets/images/Get-help.svg" class="chat-icon" (click)="showSocialChats()" alt="chat image" />
@@ -128,5 +135,6 @@
       <p class="whtsapp-text" i18n>Chat with us on WhatsApp</p>
     </div>
   </a>
-  <a class="fcapp-text cursor-pointer" onclick="window.fcWidget.open();window.fcWidget.show();" i18n>Connect with us</a>
+  <a class="fcapp-text cursor-pointer" onclick="window.fcWidget.open();window.fcWidget.show();" i18n>Connect with
+    us</a>
 </div>

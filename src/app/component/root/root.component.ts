@@ -322,10 +322,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     const domain = "ekshamata.aastrika.org"
 
     if (domain === 'ekshamata.aastrika.org') {
+      this.isEkshamata = true
+      console.log("ekshamata domain")
       this.http.get('https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ekshamataOrgConfig.json', { responseType: 'text' })
         .subscribe(
           (results: any) => {
             try {
+
               if (this.configSvc.userProfile) {
                 let rootOrgId = this.configSvc.userProfile.rootOrgId
                 console.log("rootOrgId: ", rootOrgId)
@@ -339,9 +342,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
                   console.log('Channel not found')
                 }
               }
-              this.isEkshamata = true
-
-
             } catch (e) {
               console.error('Error parsing JSON', e)
             }
@@ -750,9 +750,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     this.userEnrollCourse = myCourse
   }
-  getReferrerUrl(): string {
-  }
-
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
     try {

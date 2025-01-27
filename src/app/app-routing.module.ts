@@ -1,5 +1,5 @@
 import { NgModule } from '@angular/core'
-import { RouterModule, Routes } from '@angular/router'
+import { RouterModule, Routes, UrlMatchResult, UrlSegment } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
 // import { LearningGuard } from '../../project/ws/app/src/lib/routes/my-learning/guards/my-learning.guard'
@@ -15,6 +15,7 @@ import { FeaturesModule } from './routes/features/features.module'
 // import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
+import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
@@ -66,9 +67,40 @@ import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.compo
 const routes: Routes = [
   {
     path: '',
-    redirectTo: 'public/home',
+    redirectTo: '',
     pathMatch: 'full',
     data: { title: 'Home - Aastrika Sphere' },
+    matcher: (url: UrlSegment[]): UrlMatchResult => {
+      const domain = window.location.hostname
+      if (domain.includes('ekshamta')) {
+        return {
+          consumed: url,
+          posParams: {
+            redirectTo: new UrlSegment('public/ekshamtaHome', {})
+          }
+        }
+      } else {
+        return {
+          consumed: url,
+          posParams: {
+            redirectTo: new UrlSegment('public/home', {})
+          }
+        }
+      }
+    }
+  },
+  {
+    path: 'public/ekshamtaHome',
+    component: WebEkshamataPublicComponent,
+    data: {
+      title: 'Home - E-Kshamata',
+      pageType: 'public',
+      pageKey: 'id',
+      isPublic: true,
+    },
+    resolve: {
+      pageData: PageResolve,
+    },
   },
   {
     path: 'aboutpoppage',
