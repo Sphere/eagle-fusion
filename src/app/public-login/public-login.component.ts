@@ -7,7 +7,7 @@ import { CreateAccountDialogComponent } from '../routes/create-account-modal/cre
 import { ConfigurationsService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
 
 import { Observable } from 'rxjs'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'ws-public-login',
@@ -30,7 +30,8 @@ export class PublicLoginComponent implements OnInit {
   otpInputs: string[] = ['', '', '', '']
   iconChange2 = 'fas fa-eye-slash'
   emailPhoneType: any = 'phone'
-
+  isEkshamtaLogin = false
+  routerLink = 'public/home'
   constructor(
     private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
@@ -39,6 +40,7 @@ export class PublicLoginComponent implements OnInit {
     public dialog: MatDialog,
     public configSvc: ConfigurationsService,
     private router: Router,
+    private route: ActivatedRoute
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
@@ -58,6 +60,15 @@ export class PublicLoginComponent implements OnInit {
     })
     this.OTPForm = this.spherFormBuilder.group({
       OTPcode: new FormControl('', [Validators.required])
+    })
+    this.route.queryParams.subscribe(params => {
+      if (params['ekshamtaLogin']) {
+        this.isEkshamtaLogin = true
+        this.routerLink = '/public/ekshamtaHome'
+      } else {
+        this.isEkshamtaLogin = false
+        this.routerLink = '/public/home'
+      }
     })
     this.initializeForm()
   }
@@ -87,10 +98,11 @@ export class PublicLoginComponent implements OnInit {
   initializeForm(): void {
     if (this.emailPhoneType === 'phone') {
       this.OTPForm = this.spherFormBuilder.group({
-        otp1: ['', Validators.required],
-        otp2: ['', Validators.required],
-        otp3: ['', Validators.required],
-        otp4: ['', Validators.required],
+        otp1: new FormControl('', [Validators.required]),
+        otp2: new FormControl('', [Validators.required]),
+        otp3: new FormControl('', [Validators.required]),
+        otp4: new FormControl('', [Validators.required]),
+        OTPcode: new FormControl('', [Validators.required])
       })
     } else {
       console.log("email type")
@@ -113,7 +125,9 @@ export class PublicLoginComponent implements OnInit {
       const otp3 = otp3Control.value
       const otp4 = otp4Control.value
       const code = otp1 + otp2 + otp3 + otp4
-      this.OTPForm.controls['OTPcode'].setValue(code)
+      if (this.OTPForm && this.OTPForm.get('OTPcode')) {
+        this.OTPForm.get('OTPcode')!.setValue(code)
+      }
       console.error('1 One or more OTP controls are missing')
 
     } else {
@@ -122,10 +136,19 @@ export class PublicLoginComponent implements OnInit {
     }
   }
   help() {
+    let width = '345px'
+    let height = '335px'
+    this.isXSmall$.subscribe((data: any) => {
+      console.log("data", data)
+      if (data) {
+        width = '345px',
+          height = '335px'
+      }
+    })
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',
-      width: '345px',
-      height: '335px',
+      width: width,
+      height: height,
       data: {
         selected: "help",
       },
@@ -160,8 +183,13 @@ export class PublicLoginComponent implements OnInit {
     location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
   }
   redirect(val: string) {
+    console.log("val")
     if (val === 'createAccount') {
-      window.location.href = '/public/home'
+      if (this.isEkshamtaLogin) {
+        this.router.navigateByUrl('/public/ekshamtaHome')
+      } else {
+        window.location.href = '/public/home'
+      }
     } else {
       this.otpPage = false
     }
@@ -460,6 +488,7 @@ export class PublicLoginComponent implements OnInit {
     })
   }
   passwordOrOtp(text: any) {
+    console.log("fasdfasdf", text)
     this.selectedField = text
   }
   checkMobileEmail() {

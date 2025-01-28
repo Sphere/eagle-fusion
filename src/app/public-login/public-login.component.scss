@@ -1,9 +1,47 @@
 .custom-wrapper {
   font-family: 'Roboto', sans-serif !important;
-
   .login-section {
-    width: 375px;
+    position: absolute;
+    width: 475px;
+    border-radius: 18px;
+      background-color: #FFFFFF !important;
+    padding: 10px 50px 0px 50px;
+    min-height: 85vh;
   }
+}
+.back-btn{
+  margin-left: -15px;
+}
+.check-email-text {
+  font-size: 22px;
+  line-height: 8px;
+}
+.flex{
+  display: flex;
+}
+.justify-end{
+  justify-content: flex-end;
+}
+.language-modal{
+  width: 370px !important;
+  height: 400px !important;
+}
+.web-btm-block-img{
+    position: absolute;
+    bottom: 0px;
+    align-items: center;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    left: 0%;
+}
+.background-ekshamta{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: linear-gradient(180deg, #EBF4FB 0%, #DCEFEC 49.18%, #FFFCC8 98.36%);
 }
 .mtb1{
   font-family: Roboto;
@@ -14,6 +52,24 @@ letter-spacing: -0.02em;
 text-align: left;
 
 }
+  .otp-input-container{
+    display: flex !important;
+    justify-content: center;
+    gap: 15px;
+    margin-top: 0.5rem;
+  }
+    .top-block{
+ align-items: center;
+  }
+  .otp-input{
+    border: none;
+    width: 50px;
+    height: 50px;
+    gap: 0px;
+    border-radius: 4px ;
+    box-shadow: 0px 0px 4px 0px #00000040;
+    text-align: center;
+  }
 .welcome{
     font-family: Roboto !important;
     font-size: 40px !important;
@@ -50,8 +106,9 @@ text-align: left !important;
   align-items: baseline;
 }
   .top-block{
- padding: 20px;
+//  padding: 20px;
  align-items: center;
+ margin-bottom: 5px;
   }
   .padding-20{
     padding: 0px 20px 0px 30px !important;
@@ -72,6 +129,7 @@ text-align: left !important;
         /* text-align: left; */
         border: 1px solid #2E6491;
         padding: 8px;
+        cursor: pointer;
   }
 .login-page-content{
    max-width: 100%;
@@ -82,10 +140,13 @@ text-align: left !important;
     display: block;
 }
 @media screen and (min-width: 769px) {
-  .custom-wrapper {
-    min-height: 85vh;
-    margin-top: 55px;
-  }
+    .custom-wrapper {
+        min-height: 100vh;
+        justify-content: center;
+        display: flex;
+        align-items: center;
+    }
+
 }
 
 .signInHead h4 {
@@ -124,7 +185,7 @@ text-align: left !important;
 @media screen and (max-width: 768px) {
   .custom-wrapper {
     min-height: 85vh;
-    margin-top: 55px;
+    // margin-top: 55px;
     overflow: hidden !important;
     width: auto !important;
   }
@@ -195,8 +256,8 @@ text-align: left !important;
   height: 40px;
   border-radius: 50px;
   transition: all .25s ease-in;
-  width: 100%;
-  margin: 25px 0px 20px 0px;
+  width: 65%;
+  margin: 10px 0px 10px 0px;
   cursor: pointer;
 }
 .iconPosition1 {
@@ -217,7 +278,8 @@ text-align: left !important;
   height: 40px;
   border-radius: 50px;
   transition: all .25s ease-in;
-  margin: 20px 0px;
+  margin: 10px 0px;
+  width: 65%;
   cursor: pointer;
 }
 
@@ -326,8 +388,8 @@ text-align: left !important;
   height: 66px;
 }
 .check-email-text {
-  font-size: 32px;
-  line-height: 38px;
+  font-size: 22px;
+  line-height: 8px;
 }
 
 .enter-code-text {
@@ -395,18 +457,33 @@ color: #808080;
 }
 
 @media screen and (max-width:600px) {
+  .blueButton {
+    width: 100%;
+
+  }
+  .whiteButton {
+    width: 100%;
+
+  }
+  ::ng-deep .language-modal {
+        max-width: 100% !important;
+    }
+
+  .login-timer {
+     padding: 0px !important;
+  }
   .top-blue-color{
     background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
-}
-.otp-page{
-  max-width: 100%;
-    margin: auto;
-    margin: 0px !important;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 40px 40px 0px 0px;
-    display: block;
-    background: #FFFFFF;
-}
+  }
+  .otp-page{
+    max-width: 100%;
+      margin: auto;
+      margin: 0px !important;
+      box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 40px 40px 0px 0px;
+      display: block;
+      background: #FFFFFF;
+  }
     .help-btn{
         display: flex;
         /* justify-content: space-between; */
@@ -459,7 +536,12 @@ color: #808080;
   }
 }
 
+  .login-timer{
+    display: flex;
+    justify-content: right;
+    padding: 0px 65px;
 
+  }
 
 
 

@@ -2,7 +2,7 @@
 @media screen and (min-width:600px) {
   ::ng-deep .language-modal{
  width: 400px !important;
-    height: 240px !important;
+    height: 250px !important;
   }
 }
 button.primary-color.mat-raised-button.mat-button-base.mat-primary {
@@ -153,4 +153,11 @@ text-align: center;
 .info-icon{
   width: 40px;
 height: 40px;
+}
+@media only screen and (max-width: 599px) {
+    ::ng-deep .language-modal {
+       max-width: 100% !important;
+  height: auto !important;
+  width: auto !important;
+    }
 }

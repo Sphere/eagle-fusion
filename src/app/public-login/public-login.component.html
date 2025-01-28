@@ -1,23 +1,35 @@
-<div *ngIf="(isXSmall$ | async) !== true" class="custom-wrapper">
+<div [ngClass]="{ 'background-ekshamta': isEkshamtaLogin }" *ngIf="(isXSmall$ | async) !== true" class="custom-wrapper">
   <div class="ui raised shadow container segment  login-section">
     <div class="ui one column grid stackable">
       <div class="ui column height-fix">
         <div class="logo">
-          <a name="application-logo" class="padding-remove-small application-logo" [routerLink]="'/public/home'"
+          <a name="application-logo" class="padding-remove-small application-logo" [routerLink]="routerLink"
             i18n-matTooltip matTooltip="Home">
-            <img loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg" width="auto" height="70"
-              style="margin-left: -15px;" />
+            <img *ngIf="isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/aastrika-foundation-logo.svg"
+              width="auto" height="40" style="margin: 15px 0px;" />
+            <img *ngIf="!isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg" width="auto"
+              height="70" style="margin-left: -15px;" />
           </a>
         </div>
         <div class="max-container" *ngIf="!otpPage">
+          <div class="flex justify-content-between top-block">
+            <div class="flex justify-content-between align-items-center back-btn">
+              <button (click)="redirect('createAccount')" mat-icon-button [disableRipple]="true" class="back-icon">
+                <mat-icon>chevron_left</mat-icon>
+              </button>
+            </div>
+            <div (click)="help()" class="help-btn" i18n>Help
+              <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+            </div>
+          </div>
           <div class="ui header mtb">
             <h1 i18n> Welcome! </h1>
           </div>
-          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n>Login with your Aastrika account</h4>
-          <!-- <div class="formMsg  textCenter">
-            <div id="success-msg" class="ui text success hide">suceess</div>
-            <div id="error-msg" class="ui text error hide">error</div>
-          </div> -->
+          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="!isEkshamtaLogin">Login with your Aastrika
+            account
+          </h4>
+          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="isEkshamtaLogin">Login with your account
+          </h4>
           <div class="field  type-container mw-100">
             <div class="heading" style="margin-right: 35px;">
               <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
@@ -38,62 +50,74 @@
           </div>
           <div id="usePasswordDiv" class="mw-100" *ngIf="selectedField === 'password'">
             <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
-              <div class="form-group">
+              <!-- <div class="form-group">
                 <input class="mt-8" class="form-control" id="emailOrMobile" name="emailOrMobile" i18n-placeholder
                   (input)="checkMobileEmail2()" formControlName="emailOrMobile" placeholder="Phone Number/Email ID"
                   type="text" autofocus="" autocomplete="off" i18n>
+              </div> -->
+              <div class="field-edit-width">
+                <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                  <mat-label i18n>Phone Number (or) Email ID</mat-label>
+                  <input autofocus="" autocomplete="off" tabindex="0" id="emailOrMobile" required=""
+                    (input)="checkMobileEmail2()" type="text" class="input-field" trim="blur" matInput
+                    formControlName="emailOrMobile" #emailOrMobile i18n-placeholder />
+                  <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
+                    i18n>Invalid
+                    email or number</mat-error>
+                </mat-form-field>
               </div>
               <div class="field">
-                <div>
-                  <label id="passwordLabel" for="password" class="" i18n>
-                    Password
-                  </label>
+                <div class="field-edit-width">
+                  <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                    <mat-label i18n>Enter Password</mat-label>
+                    <input autofocus="" tabindex="0" id="emailOrMobile" required="" [type]="hide2 ? 'password' : 'text'"
+                      (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
+                      #emailOrMobile i18n-placeholder />
+                    <div class="input-group-append">
+                      <span class="input-group-text eye-icon" (click)="toggle2()" style="cursor: pointer;">
+                        <i [ngClass]="iconChange2" aria-hidden="true"></i>
+                      </span>
+                    </div>
+                    <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
+                      i18n>Invalid
+                      email or number</mat-error>
+                  </mat-form-field>
                 </div>
-                <input placeholder="Enter Password" class=" mt-8" id="password" class="form-control" i18n-placeholder
-                  formControlName="password" name="password" autocomplete="new-password" type="password"
-                  (input)="checkPassword()" i18n>
-                <p i18n style="margin-top: 5px;">(Password must contain a minimum of 8 characters including
-                  numerals, lower and upper case alphabets and special characters without space)</p>
                 <mat-error class="text-danger" i18n
                   *ngIf="loginPwdForm.controls['password'].hasError('required') &&
-                                                              (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">
+                                                                              (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">
                   This field is required</mat-error>
-                <mat-error class="text-danger" i18n
-                  *ngIf="loginPwdForm.controls['password'].hasError('pattern') &&
-                                            (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">Invalid
-                  Password Format</mat-error>
-
               </div>
               <div class="field">
               </div>
-              <div>
+              <div class="flex justify-end">
                 <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
                   href="/public/forgot-password?value=true&amp;version=null">Forgot
                   Password?</a>
               </div>
-              <div class="field">
+              <div class="field flex justify-content-center">
                 <button id="login-username-password" class="ui fluid button blueButton"
                   (click)="submitDetails(loginPwdForm)" [disabled]="!loginPwdForm?.valid" i18n>Login</button>
               </div>
-              <div class="field or-container">
-                <div class="or-holder" id="or-holder" style="margin-bottom: 10px; text-align: center;">
+              <div *ngIf="!isEkshamtaLogin" class="field or-container">
+                <div class="or-holder" id="or-holder" style="text-align: center;">
                   <span class=""></span>
                   <span class="" i18n>or</span>
                 </div>
               </div>
 
-              <div id="kc-registration" class="field">
-                <div class="ui content '/fusion-assets/images/frame-156.svg' signUpMsg">
+              <div *ngIf="!isEkshamtaLogin" id="kc-registration" class="field">
+                <div class="ui flex justify-content-center content  signUpMsg">
                   <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
                     style="display: block;" i18n>Create an Account</a>
-                  <div class="rel">
+                  <!-- <div class="rel">
                     <span class="whatsApp1">
                       <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
                     </span>
                     <a href="https://wa.me/919632013414?text=Hi" target="_blank" class="greenButton" mat-button i18n
                       rel="noopener" id="whatsApp-createaccount-page">Get
                       help on WhatsApp</a>
-                  </div>
+                  </div> -->
                   <!-- </span> -->
                   <div id="selfSingUp" style="height: 30px;">
                   </div>
@@ -103,38 +127,41 @@
           </div>
           <div id="useOTPDiv" class="mw-100" *ngIf="selectedField === 'otp'">
             <form [formGroup]="loginForm" id="kc-form-login" class=" ui form" action="" method="post" method="post">
-              <div class="field">
-                <input tabindex="0" required="" id="emailOrMobile" i18n-placeholder placeholder="Phone Number/Email ID"
-                  class="form-control" name="emailOrMobile" formControlName="emailOrMobile" type="text" autofocus=""
-                  autocomplete="off" (input)="checkMobileEmail()">
-                <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
-                  i18n>Invalid email or number</mat-error>
+              <div class="field-edit-width">
+                <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                  <mat-label i18n>Phone Number (or) Email ID</mat-label>
+                  <input autocomplete="off" tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail()"
+                    type="text" class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile
+                    i18n-placeholder />
+                  <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
+                    i18n>Invalid
+                    email or number</mat-error>
+                </mat-form-field>
               </div>
-
               <div class="mdc-card__actions">
-                <div class="field">
+                <div class="field flex justify-content-center">
                   <button tabindex="0" name="otp-login" id="otp-login" type="submit" class="ui fluid btn blueButton"
                     (click)="otpClick(loginForm)" [disabled]="!loginForm?.valid" i18n>Get OTP</button>
                 </div>
-                <div class="field or-container">
-                  <div class="or-holder" id="or-holder" style="margin-bottom: 10px; text-align: center;">
+                <div *ngIf="!isEkshamtaLogin" class="field or-container">
+                  <div class="or-holder" id="or-holder" style="text-align: center;">
                     <span class=""></span>
                     <span class="" i18n>or</span>
                   </div>
                 </div>
 
-                <div id="kc-registration" class="field">
-                  <div class="ui content '/fusion-assets/images/frame-156.svg' signUpMsg">
+                <div *ngIf="!isEkshamtaLogin" id="kc-registration" class="field">
+                  <div class="ui content flex justify-content-center  signUpMsg">
                     <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
                       style="display: block;" i18n>Create an Account</a>
-                    <div class="rel">
+                    <!-- <div class="rel">
                       <span class="whatsApp">
                         <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
                       </span>
                       <a class="ui fluid btn greenButton" href="https://wa.me/919632013414?text=Hi" target="_blank"
                         rel="noopener" id="WhatsApp-loginOTP" style="display: block;" i18n>Get Help on
                         WhatsApp?</a>
-                    </div>
+                    </div> -->
                   </div>
                 </div>
                 <div id="selfSingUp" style="height: 30px;">
@@ -147,49 +174,74 @@
           <!-- OTP Form -->
           <div class="otp-page">
             <div class="max-container" *ngIf="otpPage">
-              <div class="logo text-center">
-                <a id="otp-anchor" href="/public/home">
-                  <img loading="lazy" alt="Logo" src="/fusion-assets/images/SMS.svg" width="auto">
-                </a>
+              <div class="flex justify-content-between top-block">
+                <div class="flex justify-content-between align-items-center back-btn">
+                  <button (click)="redirect('otp')" mat-icon-button [disableRipple]="true" class="back-icon">
+                    <mat-icon>chevron_left</mat-icon>
+                  </button>
+                </div>
+                <div (click)="help()" class="help-btn" i18n>Help
+                  <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+                </div>
               </div>
-              <div class="signInHead mt-27">
-                <h4 i18n> Check your Email/SMS for OTP!</h4>
+              <div class="check-email-text"><span i18n>Check your </span> <span *ngIf="emailPhoneType === 'email'"
+                  i18n>Email</span>
+                <span *ngIf="emailPhoneType === 'phone'" i18n>SMS</span>!
+              </div>
+              <div class="enter-code-text mt-2 mb-2"><span i18n>We have sent an OTP to </span><span class="text-dark"
+                  i18n>{{loginForm.value.emailOrMobile}}</span>
+                <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
+              </div>
+              <div class="img-box">
+                <img alt="" style="width: 200px; height: 150px;" src="../../../fusion-assets/images/Frame150.svg">
+              </div>
+              <div class="login-timer">
+                <span class="login-timer-text" i18n>OTP expires in</span>&nbsp;<span
+                  class="login-timer-count">{{resendTimerText}}</span>&nbsp;
               </div>
               <form [formGroup]="OTPForm" class="ui form" action="" method="post" method="post" id="kc-totp-login-form">
-                <div class="field">
+                <div *ngIf="emailPhoneType === 'phone'" [formGroup]="OTPForm" class="otp-input-container">
+                  <input class="otp-input" type="text" maxlength="1" formControlName="otp1" #otp1
+                    (input)="moveFocus(otp1, otp2)" (keydown)="backSpaceEvent($event, otp1, otp1)" />
+                  <input class="otp-input" type="text" maxlength="1" formControlName="otp2" #otp2
+                    (input)="moveFocus(otp2, otp3)" (keydown)="backSpaceEvent($event, otp2, otp1)" />
+                  <input class="otp-input" type="text" maxlength="1" formControlName="otp3" #otp3
+                    (input)="moveFocus(otp3, otp4)" (keydown)="backSpaceEvent($event, otp3, otp2)" />
+                  <input class="otp-input" type="text" maxlength="1" formControlName="otp4" #otp4
+                    (input)="moveFocus(otp4, null)" (keydown)="backSpaceEvent($event, otp4, otp3)" />
+                </div>
+                <div *ngIf="emailPhoneType === 'email'" [formGroup]="OTPForm" class="otp-input-container">
                   <input id="totp" name="OTPcode" i18n-placeholder placeholder="Enter OTP" type="text"
                     class="form-control" name="OTPcode" formControlName="OTPcode" />
-                  <mat-error class="text-danger mb-4" *ngIf="OTPForm.controls['OTPcode'].hasError('pattern')"
-                    i18n>Invalid code should be 6 digits</mat-error>
                 </div>
-                <div class="field">
-                  <p style="text-align: right !important; margin-top: 10px;font-weight: 500;">
-                    <span i18n>OTP Expires in </span><span class="warnText" i18n>10 Minutes</span>
-                  </p>
-                </div>
-                <div class="field">
+
+                <div class="field flex justify-content-center mt-4">
                   <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid" class="ui fluid submit button blueButton"
                     name="submit-OTP" id="submit-OTP" type="submit" i18n>Submit</button>
                 </div>
-                <div class="field">
-                  <button (click)="resendOTP()" style="width: 100%;" class="ui fluid submit btn button whiteButton"
-                    name="resend-OTP" id="resend-OTP" type="submit" i18n>Resend
+                <div class="field flex justify-content-center">
+                  <button (click)="resendOTP()" class="ui fluid submit btn button whiteButton" name="resend-OTP"
+                    id="resend-OTP" type="submit" i18n>Resend
                     OTP</button>
                 </div>
-                <div class="rel">
+                <!-- <div *ngIf="!isEkshamtaLogin" class="rel">
                   <span class="whatsApp">
                     <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
                   </span>
                   <a class="ui fluid btn greenButton" href="https://wa.me/919632013414?text=Hi" target="_blank"
                     rel="noopener" id="WhatsApp-loginOTP" style="display: block;margin-bottom: 25px;" i18n>Get Help on
                     WhatsApp?</a>
-                </div>
+                </div> -->
               </form>
             </div>
           </div>
           <!-- OTP Form Close-->
         </ng-container>
+
       </div>
+    </div>
+    <div *ngIf="isEkshamtaLogin" class="web-btm-block-img">
+      <img alt="logo" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
     </div>
   </div>
 </div>
@@ -213,7 +265,11 @@
     <div class="padding-20 ui header mtb1">
       <h1 class="welcome" i18n> Welcome! </h1>
     </div>
-    <h4 class=" padding-20 info-text fwb" style="font-weight: 500;margin-top:0px" i18n>Login with your Aastrika account
+    <h4 *ngIf="isEkshamtaLogin" class=" padding-20 info-text fwb" style="font-weight: 500;margin-top:0px" i18n>Login
+      with your account
+    </h4>
+    <h4 *ngIf="!isEkshamtaLogin" class=" padding-20 info-text fwb" style="font-weight: 500;margin-top:0px" i18n>Login
+      with your Aastrika account
     </h4>
     <!-- <div class="formMsg  textCenter">
               <div id="success-msg" class="ui text success hide">suceess</div>
@@ -272,46 +328,31 @@
                 email or number</mat-error>
             </mat-form-field>
           </div>
-          <!-- <div class="input-group">
-            <input placeholder="Enter Password" class="form-control" id="password" i18n-placeholder
-              formControlName="password" name="password" autocomplete="new-password"
-              [type]="hide2 ? 'password' : 'text'" (input)="checkPassword()">
-            <div class="input-group-append">
-              <span class="input-group-text" (click)="toggle2()" style="cursor: pointer;">
-                <i [ngClass]="iconChange2" aria-hidden="true"></i>
-              </span>
-            </div>
-          </div> -->
           <mat-error class="text-danger" i18n
             *ngIf="loginPwdForm.controls['password'].hasError('required') &&
                                                                 (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">
             This field is required</mat-error>
-          <!-- <mat-error class="text-danger" i18n
-            *ngIf="loginPwdForm.controls['password'].hasError('pattern') &&
-                                              (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">Invalid
-            Password Format</mat-error> -->
-
         </div>
         <div class="field">
         </div>
-        <div class="mt-4">
+        <div class="flex justify-end mt-2">
           <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
             href="/public/forgot-password?value=true&amp;version=null">Forgot
             Password?</a>
         </div>
-        <div class="field">
+        <div class="field flex justify-content-center">
           <button id="login-username-password" class="ui fluid button blueButton" (click)="submitDetails(loginPwdForm)"
             [disabled]="!loginPwdForm?.valid" i18n>Login</button>
         </div>
-        <div class="field or-container">
-          <div class="or-holder" id="or-holder" style="margin-bottom: 10px; text-align: center;">
+        <div *ngIf="!isEkshamtaLogin" class="field or-container">
+          <div class="or-holder" id="or-holder" style=" text-align: center;">
             <span class=""></span>
             <span class="" i18n>or</span>
           </div>
         </div>
 
-        <div id="kc-registration" class="field">
-          <div class="ui content '/fusion-assets/images/frame-156.svg' signUpMsg">
+        <div *ngIf="!isEkshamtaLogin" id="kc-registration" class="field">
+          <div class="ui content flex justify-content-center  signUpMsg">
             <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
               style="display: block;" i18n>Create an Account</a>
             <!-- </span> -->
@@ -335,19 +376,19 @@
           </mat-form-field>
         </div>
         <div class="mdc-card__actions">
-          <div class="field">
+          <div class="field flex justify-content-center">
             <button tabindex="0" name="otp-login" id="otp-login" type="submit" class="ui fluid btn blueButton"
               (click)="otpClick(loginForm)" [disabled]="!loginForm?.valid" i18n>Get OTP</button>
           </div>
-          <div class="field or-container">
-            <div class="or-holder" id="or-holder" style="margin-bottom: 10px; text-align: center;">
+          <div *ngIf="!isEkshamtaLogin" class="field or-container">
+            <div class="or-holder" id="or-holder" style=" text-align: center;">
               <span class=""></span>
               <span class="" i18n>or</span>
             </div>
           </div>
 
-          <div id="kc-registration" class="field">
-            <div class="ui content '/fusion-assets/images/frame-156.svg' signUpMsg">
+          <div *ngIf="!isEkshamtaLogin" id="kc-registration" class="field">
+            <div class="ui content flex justify-content-center  signUpMsg">
               <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
                 style="display: block;" i18n>Create an Account</a>
             </div>
@@ -382,7 +423,7 @@
             <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
           </div>
           <div class="img-box">
-            <img alt="" width="250" height="240" src="../../../fusion-assets/images/Frame150.svg">
+            <img alt="" width="250" height="200" src="../../../fusion-assets/images/Frame150.svg">
           </div>
           <div class="login-timer">
             <span class="login-timer-text" i18n>OTP expires in</span>&nbsp;<span

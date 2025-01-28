@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
+import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'web-ekshamata-public-container',
@@ -8,9 +10,11 @@ import { Router } from '@angular/router'
 })
 export class WebEkshamataPublicComponent implements OnInit {
 
+  isXSmall$: Observable<boolean>
 
-  constructor(private router: Router
+  constructor(private router: Router, private valueSvc: ValueService,
   ) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
   }
 
   async ngOnInit() {
