@@ -11,6 +11,47 @@
 .line-label span {
   display: inline; /* or inline-block */
 }
+.isEkshamata{
+  margin-top: 55px;
+  background: linear-gradient(180deg, #EBF4FB 0%, #DCEFEC 49.18%, #FFFCC8 98.36%);
+}
+.banner-heading-container{
+      flex-direction: column;
+    display: flex;
+    flex: 100%;
+}
+.ekshamata-banner{
+  flex: 0 0 75%;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 10px;
+  gap: 5px;
+}
+.ekshamta-banner-container{
+   display: flex;
+  flex: 100%;
+  justify-content: end;
+  transition: transform 0.3s ease
+}
+.banner-sub-heading{
+  font-family: Roboto;
+font-size: 24px;
+font-weight: 400;
+line-height: 26px;
+text-align: left;
+color: #513433;
+}
+.banner-first-image{
+width: 43px;
+height: 37px;
+}
+.banner-second-image{
+width: 98px;
+height: 62px;
+}
 
 .line-label::after {
   content: '';
@@ -69,7 +110,27 @@
   display: flex;
   flex-wrap: wrap;
 }
+.ekshamata-banner-heading{
+  font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.41px;
+text-align: left;
+  /* or 120% */
+  padding: 30px 0px 0px 1rem !important;
+  letter-spacing: -0.02em;
 
+  color: #513433;
+}
+.ekshamata-banner-name{
+   font-family: Roboto;
+font-size: 21px;
+font-weight: 400;
+line-height: 28.8px;
+letter-spacing: -0.02em;
+ color: #000000;
+ padding: 0px 0px 0px 1rem !important;
+}
 .banner-heading {
   font-family: 'Roboto', sans-serif;
   font-style: normal;
@@ -115,7 +176,7 @@
     padding-left: 1rem !important;
 
 margin-bottom: 10px !important;
-  color: #000000;
+  color: #513433;
 }
 
 p {

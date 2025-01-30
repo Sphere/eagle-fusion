@@ -5,6 +5,9 @@
     <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
       <img [src]="appIcon" loading="lazy" i18n alt="Application Logo" id="app-logo" class="app-logo"
         style="position: relative;" />
+      <img *ngIf="orgLogo&&!isXSmall" [src]="orgLogo" loading="lazy" i18n alt="Application Logo" id="app-logo"
+        class="app-logo ml-4" style="position: relative;" />
+
     </a>
 
   </div>

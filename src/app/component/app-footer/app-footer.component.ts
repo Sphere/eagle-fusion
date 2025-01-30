@@ -1,4 +1,4 @@
-import { Component } from '@angular/core'
+import { Component, Input } from '@angular/core'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
 import { Router } from '@angular/router'
@@ -13,8 +13,9 @@ export class AppFooterComponent {
   termsOfUser = true
   appIcon: SafeUrl | null = null
   isMedium = false
-  // currentYear = new Date().getFullYear()
+  currentYear = new Date().getFullYear()
   isLoggedIn = false
+  @Input() isEkshamata: any
   constructor(
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
@@ -41,6 +42,14 @@ export class AppFooterComponent {
       this.isLoggedIn = true
     } else {
       this.isLoggedIn = false
+    }
+  }
+  ngOnInit() {
+    if (this.isEkshamata) {
+      console.log("this.configSvc.instanceConfig", this.configSvc.hostedInfo)
+      this.appIcon = "/fusion-assets/images/aastrika-foundation-logo.svg"
+    } else {
+      this.appIcon = "/fusion-assets/images/sphere-new-logo.svg"
     }
   }
   redirect(lang: string) {

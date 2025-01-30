@@ -18,12 +18,12 @@
                 <mat-icon>chevron_left</mat-icon>
               </button>
             </div>
-            <div (click)="help()" class="help-btn" i18n>Help
+            <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
               <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
             </div>
           </div>
           <div class="ui header mtb">
-            <h1 i18n> Welcome! </h1>
+            <h1 class="mb-0" i18n> Welcome! </h1>
           </div>
           <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="!isEkshamtaLogin">Login with your Aastrika
             account
@@ -31,7 +31,7 @@
           <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="isEkshamtaLogin">Login with your account
           </h4>
           <div class="field  type-container mw-100">
-            <div class="heading" style="margin-right: 35px;">
+            <div class="heading" style="margin-right: 30px;">
               <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
                 style="cursor: pointer;" checked="true">&nbsp;
               <label id="useOTPLabel" for="useOTPRB" class="" i18n style="cursor: pointer;"
@@ -180,7 +180,7 @@
                     <mat-icon>chevron_left</mat-icon>
                   </button>
                 </div>
-                <div (click)="help()" class="help-btn" i18n>Help
+                <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
                   <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
                 </div>
               </div>
@@ -258,7 +258,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn" i18n>Help
+      <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -276,7 +276,7 @@
               <div id="error-msg" class="ui text error hide">error</div>
             </div> -->
     <div class="padding-20 field  type-container mw-100">
-      <div class="heading" style="margin-right: 35px;">
+      <div class="heading" style="margin-right: 30px;">
         <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
           style="cursor: pointer;" checked="true">&nbsp;
         <label id="useOTPLabel" for="useOTPRB" class="option" i18n style="cursor: pointer;"
@@ -409,7 +409,7 @@
               <mat-icon>chevron_left</mat-icon>
             </button>
           </div>
-          <div (click)="help()" class="help-btn" i18n>Help
+          <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
             <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
           </div>
         </div>

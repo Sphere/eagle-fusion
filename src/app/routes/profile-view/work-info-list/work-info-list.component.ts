@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter, Input } from '@angular/core'
 // import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
@@ -51,6 +51,8 @@ export class WorkInfoListComponent implements OnInit {
   enableSubmit = false
   hideAsha = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
+  @Input() isEkshamata: boolean = false
+
   constructor(
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
@@ -93,6 +95,9 @@ export class WorkInfoListComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
+    if (this.isEkshamata) {
+      this.personalDetailForm.disable()
+    }
   }
 
   chooseBackground(data: any) {

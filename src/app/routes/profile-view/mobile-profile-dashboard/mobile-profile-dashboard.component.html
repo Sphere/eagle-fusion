@@ -264,12 +264,13 @@
   <div class="main-block" [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
     <div style="margin-bottom: 70px;" *ngIf="selectedIndex === 'personal'"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
-      <ws-personal-detail-edit (userName)="assignUserName($event)"></ws-personal-detail-edit>
+      <ws-personal-detail-edit [isEkshamata]="isEkshamata"
+        (userName)="assignUserName($event)"></ws-personal-detail-edit>
     </div>
     <div *ngIf="selectedIndex === 'organization'" style="width:50%"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <div *ngIf="showView === ''">
-        <ws-work-info-list (passProfession)="assignProfession($event)"></ws-work-info-list>
+        <ws-work-info-list [isEkshamata]="isEkshamata" (passProfession)="assignProfession($event)"></ws-work-info-list>
       </div>
       <div *ngIf="showView">
         <ws-work-info-edit></ws-work-info-edit>
@@ -277,7 +278,7 @@
     </div>
     <div *ngIf="selectedIndex === 'academic'" style="width:50%" [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <div *ngIf="showView === ''">
-        <ws-education-list></ws-education-list>
+        <ws-education-list [isEkshamata]="isEkshamata"></ws-education-list>
       </div>
       <div *ngIf="showView">
         <ws-education-edit></ws-education-edit>

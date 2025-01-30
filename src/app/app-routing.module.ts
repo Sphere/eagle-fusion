@@ -1,5 +1,5 @@
-import { NgModule } from '@angular/core'
-import { RouterModule, Routes, UrlMatchResult, UrlSegment } from '@angular/router'
+import { Injectable, NgModule } from '@angular/core'
+import { ActivatedRouteSnapshot, Resolve, RouterModule, RouterStateSnapshot, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
 // import { LearningGuard } from '../../project/ws/app/src/lib/routes/my-learning/guards/my-learning.guard'
@@ -60,6 +60,24 @@ import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
+import { Router } from '@angular/router'
+
+@Injectable({ providedIn: 'root' })
+export class DomainRedirectResolver implements Resolve<void> {
+  constructor(private router: Router) { }
+
+  resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): void {
+    const domain = window.location.hostname
+    console.log('Domain:', domain) // Debugging statement
+    if (domain.includes('ekshamta')) {
+      console.log('Redirecting to public/ekshamtaHome') // Debugging statement
+      this.router.navigateByUrl('/public/ekshamtaHome')
+    } else {
+      console.log('Redirecting to public/home') // Debugging statement
+      this.router.navigateByUrl('/public/home')
+    }
+  }
+}
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -67,27 +85,10 @@ import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.compo
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '',
-    pathMatch: 'full',
-    data: { title: 'Home - Aastrika Sphere' },
-    matcher: (url: UrlSegment[]): UrlMatchResult => {
-      const domain = window.location.hostname
-      if (domain.includes('ekshamta')) {
-        return {
-          consumed: url,
-          posParams: {
-            redirectTo: new UrlSegment('public/ekshamtaHome', {})
-          }
-        }
-      } else {
-        return {
-          consumed: url,
-          posParams: {
-            redirectTo: new UrlSegment('public/home', {})
-          }
-        }
-      }
-    }
+    resolve: {
+      redirect: DomainRedirectResolver
+    },
+    data: { title: 'Home - Aastrika Sphere' }
   },
   {
     path: 'public/ekshamtaHome',

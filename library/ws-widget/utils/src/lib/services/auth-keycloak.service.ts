@@ -165,12 +165,23 @@ export class AuthKeycloakService {
       localStorage.clear()
       let url = `${document.baseURI}`
       let redirectUrl = ''
-      if (url.includes('hi')) {
-        url = url.replace('hi/', '')
-        redirectUrl = `${url}public/home`
-        sessionStorage.setItem('lang', 'hi')
+      if (this.configSvc.hostedInfo) {
+        if (url.includes('hi')) {
+          url = url.replace('hi/', '')
+          redirectUrl = `${url}public/ekshamtaHome`
+          sessionStorage.setItem('lang', 'hi')
+        } else {
+          redirectUrl = `${url}public/ekshamtaHome`
+        }
       } else {
-        redirectUrl = `${url}public/home`
+
+        if (url.includes('hi')) {
+          url = url.replace('hi/', '')
+          redirectUrl = `${url}public/home`
+          sessionStorage.setItem('lang', 'hi')
+        } else {
+          redirectUrl = `${url}public/home`
+        }
       }
 
       const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectUrl)}`

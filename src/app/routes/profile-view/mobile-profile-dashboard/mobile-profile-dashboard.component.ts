@@ -50,6 +50,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   language: any
   userInfo: any
   isCommonChatEnabled = true
+  isEkshamata = false
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -91,6 +92,9 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    if (this.configSvc.hostedInfo) {
+      this.isEkshamata = true
+    }
     if (sessionStorage.getItem('currentWindow')) {
       sessionStorage.removeItem('currentWindow')
     }

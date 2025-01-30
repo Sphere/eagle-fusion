@@ -43,6 +43,7 @@ export class WebPublicComponent implements OnInit {
   userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   CNECourseDisplayConfig: any
+  @Input() isEkshamata: any
   constructor(
     private router: Router,
     private http: HttpClient,

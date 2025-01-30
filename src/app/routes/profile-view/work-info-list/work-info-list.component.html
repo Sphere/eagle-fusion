@@ -220,7 +220,7 @@
 
     </ng-container>
     <!-- Background: Faculty -->
-    <div>
+    <div *ngIf="!isEkshamata">
       <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn" i18n>Save</button>
     </div>
   </form>

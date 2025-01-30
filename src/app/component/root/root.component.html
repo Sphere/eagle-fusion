@@ -102,31 +102,41 @@
 </div>
 
 <!-- for Ekshamata user -->
-<div *ngIf="isEkshamata">
-  <div>
+<div *ngIf="isEkshamata" [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''">
+  <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
+  </mat-progress-bar>
+  <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired&&isLoggedIn" [hidden]="!showNavbar"
+    [mode]="'top'"></ws-app-nav-bar>
+  <router-outlet *ngIf="appOnline"></router-outlet>
+  <div class="height-adjust" [ngClass]="{'height-on-bottom custom-scroll':(isXSmall$ | async) === true && showNavbar,'height-adjust-setup' : isSetupPage,
+        'height-on-top':(isXSmall$ | async) === false &&showNavbar && isNavBarRequired}">
+    <ws-web-dashboard [isEkshamata]="isEkshamata" class="mb-6"
+      *ngIf="(isXSmall$ | async) === false && isLoggedIn&&isHomePage"></ws-web-dashboard>
+    <ws-mobile-dashboard [isEkshamata]="isEkshamata"
+      *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline&&isHomePage"></ws-mobile-dashboard>
     <router-outlet *ngIf="appOnline"></router-outlet>
+    <div *ngIf="!appOnline" style="text-align: center;">
+      <h3 class="mt-15" i18n>You're offline. Check your internet connection</h3>
+    </div>
+    <!-- Featured Section-->
+    <section *ngIf="(isXSmall$ | async) === false&&isHomePage&&userEnrollCourse&&userEnrollCourse.length>0">
+      <ng-container>
+        <ws-web-public-container [isEkshamata]="isEkshamata" [userEnrollCourse]="userEnrollCourse"
+          *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+      </ng-container>
+    </section>
+    <!-- Desktop Footer -->
+    <ws-app-footer [isEkshamata]="isEkshamata" class="hide-in-mobile app-footer "
+      [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+      *ngIf="showNavbar&&isLoggedIn && !hideHeaderFooter && showmobileFooter">
+    </ws-app-footer>
+    <ng-container>
+      <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
+        [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
+      </ws-app-nav-bar>
+    </ng-container>
   </div>
 </div>
-<!--Chat icon-->
-<!-- <div *ngIf="!isProfile&&!disableChatForBnrc&&isCommonChatEnabled&&isLoggedIn&&(isXSmall$ | async) === true">
-  <img src="/fusion-assets/images/Get-help.svg" class="chat-icon" (click)="showSocialChats()" alt="chat image" />
-</div> -->
-
-<!--Chat icon-->
-<!-- <div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&!isLoggedIn&&(isXSmall$ | async) === true">
-  <img src="/fusion-assets/images/Get-help.svg" class="public-chat-icon" (click)="showSocialChats()" alt="chat image" />
-</div> -->
-
-<!--Chat icon-->
-<!-- <div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&isLoggedIn&&(isXSmall$ | async) === false">
-  <img src="/fusion-assets/images/Get-help.svg" class="web-chat-icon" (click)="showSocialChats()" alt="chat image" />
-</div> -->
-<!--Chat icon-->
-<!-- <div *ngIf="!disableChatForBnrc&&isCommonChatEnabled&&!isLoggedIn&&(isXSmall$ | async) === false">
-  <img src="/fusion-assets/images/Get-help.svg" class="web-public-chat-icon" (click)="showSocialChats()"
-    alt="chat image" />
-</div> -->
-
 <div *ngIf="!isCommonChatEnabled">
   <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross image" (click)="backToChatIcon()" />
   <a href="https://wa.me/919632013414?text=Hi" target="_blank">

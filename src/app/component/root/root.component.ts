@@ -60,7 +60,6 @@ import { ConfigService as CompetencyConfiService } from '../../routes/competency
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
-import { HttpClient } from '@angular/common/http'
 
 @Component({
   selector: 'ws-root',
@@ -107,8 +106,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   videoData: any
   private routerEventsSubscription: Subscription
   isEkshamata: boolean = false
+  domain: string
   constructor(
-    private http: HttpClient,
     private router: Router,
     public authSvc: AuthKeycloakService,
     public configSvc: ConfigurationsService,
@@ -134,6 +133,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewerSvc: ViewerUtilService,
     @Inject(DOCUMENT) private _document: Document
   ) {
+    this.domain = window.location.hostname
+    if (this.domain.includes('ekshamata')) {
+      this.isEkshamata = true
+    }
     this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
       if (event instanceof NavigationEnd && !event.url.toLowerCase().includes('/app/user/competency')) {
         this.navigationInterceptor(event)
@@ -319,45 +322,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngOnInit() {
-    const domain = "ekshamata.aastrika.org"
-
-    if (domain === 'ekshamata.aastrika.org') {
-      this.isEkshamata = true
-      console.log("ekshamata domain")
-      this.http.get('https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ekshamataOrgConfig.json', { responseType: 'text' })
-        .subscribe(
-          (results: any) => {
-            try {
-
-              if (this.configSvc.userProfile) {
-                let rootOrgId = this.configSvc.userProfile.rootOrgId
-                console.log("rootOrgId: ", rootOrgId)
-                const orgDetails = JSON.parse(results).orgNames
-                // Find the matching object
-                const result = orgDetails.find(item => item.channelId === rootOrgId)
-
-                if (result) {
-                  console.log('Channel found:', result)
-                } else {
-                  console.log('Channel not found')
-                }
-              }
-            } catch (e) {
-              console.error('Error parsing JSON', e)
-            }
-          },
-          (error) => {
-            console.error('HTTP error', error)
-          }
-        )
-
-    } else {
-      this.isEkshamata = false
-      console.log('You are on a different domain:', domain)
-    }
-
-
-
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
       console.log("this.configSvc.userProfile: ", this.configSvc.userProfile)

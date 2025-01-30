@@ -34,6 +34,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   instanceVal = ''
   btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
   appIcon: SafeUrl | null = null
+  orgLogo: SafeUrl | null = null
   appBottomIcon?: SafeUrl
   primaryNavbarBackground: Partial<NsPage.INavBackground> | null = null
   primaryNavbarConfig: NsInstanceConfig.IPrimaryNavbarConfig | null = null
@@ -160,6 +161,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         // this.popupTour = this.tourService.createPopupTour()
       }
     })
+    if (this.configSvc.hostedInfo) {
+      console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+      this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
+      this.orgLogo = this.configSvc.hostedInfo.logo
+    }
   }
 
   createAcct() {

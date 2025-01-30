@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core'
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -70,6 +70,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   stateUrl = '/fusion-assets/files/state.json'
   selectDisable = true
   countryName: boolean = false
+  @Input() isEkshamata: boolean = false
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -126,6 +127,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         this.showLogOutIcon = false
       }
     })
+    if (this.isEkshamata) {
+      this.personalDetailForm.disable()
+    }
   }
 
   fetchMeta() {

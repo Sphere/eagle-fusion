@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { catchError, delay, switchMap } from 'rxjs/operators'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
@@ -70,7 +70,9 @@ export class MobileDashboardComponent implements OnInit {
   showAllCourses: boolean = false;
   lang: any = 'en'
   @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
-
+  @Input() isEkshamata: any
+  bannerFirstImage: any
+  bannerSecondImage: any
   constructor(private orgService: OrgServiceService,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -95,7 +97,15 @@ export class MobileDashboardComponent implements OnInit {
     // this.lang = this.configSvc!.unMappedUser
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
-
+    if (this.isEkshamata) {
+      console.log("yes here", this.isEkshamata)
+      if (this.configSvc.hostedInfo) {
+        console.log("yes here2 ", this.configSvc.hostedInfo)
+        this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
+        this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
+        console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+      }
+    }
     if (this.configSvc &&
       this.configSvc.unMappedUser &&
       this.configSvc.unMappedUser.profileDetails &&

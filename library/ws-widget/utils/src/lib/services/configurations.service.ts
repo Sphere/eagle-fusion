@@ -80,5 +80,5 @@ export class ConfigurationsService {
   }
   primaryNavBarConfig: NsInstanceConfig.IPrimaryNavbarConfig | null = null
   bannerStats: NsInstanceConfig.bannerStats | null = null
-
+  hostedInfo: any
 }
