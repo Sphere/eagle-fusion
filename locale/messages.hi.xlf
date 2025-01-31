@@ -2234,8 +2234,10 @@
         </context-group>
       </trans-unit>
       <trans-unit id="7a8f131b930136c56a7e624fb4d20744f91ef939" datatype="html">
-        <source>आस्ट्रिका फाउंडेशन - कंपनी अधिनियम, 2013 के तहत एक धारा 8 कंपनी, जिसे पहले इसी नाम से जाना जाता था
-            अस्तरउर्मिका हेल्थ सिस्टम्स प्रा. लिमिटेड सभी अधिकार सुरक्षित.</source>
+      <source>Aastrika Foundation - a section 8 company under the Companies Act, 2013, formerly known as
+            AastarUrmika Health Systems Pvt. Ltd. All rights reserved.</source>
+        <target>आस्ट्रिका फाउंडेशन - कंपनी अधिनियम, 2013 के तहत एक धारा 8 कंपनी, जिसे पहले इसी नाम से जाना जाता था
+            अस्तरउर्मिका हेल्थ सिस्टम्स प्रा. लिमिटेड सभी अधिकार सुरक्षित.</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/app-footer/app-footer.component.html</context>
           <context context-type="linenumber">153</context>
@@ -6571,6 +6573,7 @@
       </trans-unit>
       <trans-unit id="a00797899f656404c9bfb49198d2a9496c239f10" datatype="html">
         <source>FOR YOU</source>
+        <target state="final">आपके लिए</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
           <context context-type="linenumber">68</context>
@@ -6895,15 +6898,7 @@
           <context context-type="linenumber">18</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="88944ea753494a19cee64cac88a8ebcd6f650123" datatype="html">
-        <source><x id="INTERPOLATION" equiv-text="{{firstName?firstName:&apos;&apos;}}"/>
-          </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mobile-dashboard/mobile-dashboard.component.html</context>
-          <context context-type="linenumber">21</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="32e5ed20b79c7e59a0e0efda61b0c42da7f5020b" datatype="html">
+           <trans-unit id="32e5ed20b79c7e59a0e0efda61b0c42da7f5020b" datatype="html">
         <source>
           Continue
           Learning</source>
