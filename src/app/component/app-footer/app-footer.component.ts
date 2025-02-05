@@ -17,7 +17,7 @@ export class AppFooterComponent {
   isLoggedIn = false
   @Input() isEkshamata: any
   constructor(
-    private configSvc: ConfigurationsService,
+    public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
     private router: Router,

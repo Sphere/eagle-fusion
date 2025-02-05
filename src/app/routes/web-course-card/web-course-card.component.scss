@@ -37,7 +37,7 @@ border-radius: 10px 0px 0px 0px;
 }
 .course-container .appIcon {
   // .mat-card-image {
-  width: calc(100% + 32px);
+  width: calc(100% + 32px) !important;
   // margin: 0 -16px 16px -16px;
   // }
   // min-width: 276px;

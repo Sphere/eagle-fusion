@@ -1,0 +1,68 @@
+<div class="quiz-container">
+    <!-- Question Text -->
+    <div class="flex justify-between items-center">
+        <span i18n class="questions-header">Question</span>
+        <mat-icon class="cursor-pointer" (click)="closePopup()">close</mat-icon>
+    </div>
+    <h3 class="quiz-question">{{ currentQuestion.text }}</h3>
+    <!-- Options List -->
+    <mat-selection-list [className]="layoutDirection" class="app-class" [(ngModel)]="answers[currentIndex]">
+        <div class="options-container">
+            <div *ngFor="let option of currentQuestion.options; let i = index" class="option">
+                <mat-radio-button [disabled]="showAnswerInfo" class="quiz-option" [value]="option" color="primary"
+                    (change)="onOptionSelected(option)">
+                    <div class="question-option">{{ option.text }}</div>
+                </mat-radio-button>
+            </div>
+        </div>
+    </mat-selection-list>
+    <ng-container *ngIf="showAnswerInfo" class="flex-1">
+        <div class="result-message-container p-2">
+            <div *ngIf="resultMessage" class="result-message p-2" [ngClass]="{'correct-answer': resultMessage === 'Correct',
+                                'wrong-answer': resultMessage === 'Wrong'}">
+                <img title="correct-answer" alt="correct-answer" *ngIf="resultMessage === 'Correct'"
+                    src="/fusion-assets/icons/charm_tick.png" />
+                <img title="wrong-answer" alt="correct-answer" *ngIf="resultMessage === 'Wrong'"
+                    src="/fusion-assets/icons/wrong_red_icon.png" />
+                <span [ngClass]="{'correct-answer': resultMessage === 'Correct',
+                                'wrong-answer': resultMessage === 'Wrong'}" class="result-text ml-2">{{ resultMessage
+                    }}</span>
+            </div>
+            <span [ngClass]="{'correct-answer': resultMessage === 'Correct',
+                                'wrong-answer': resultMessage === 'Wrong'}" class="p-2 result-answer-info"
+                *ngIf="selectedOption?.answerInfo">
+                {{ selectedOption.answerInfo }}</span>
+        </div>
+    </ng-container>
+
+    <!-- Navigation Buttons -->
+    <div class="button-container flex justify-end mt-4">
+        <!-- Back Button -->
+        <!-- <button [disabled]="currentIndex === 0" [ngClass]="{ 'disabled-back-button': currentIndex === 0 }"
+            class="back-button" (click)="moveToPrevious()">
+            Back
+        </button> -->
+
+        <!-- Skip or Next Button -->
+        <div class="flex mr-2">
+            <button i18n *ngIf="!showAnswerInfo" class="skip-button mr-2" (click)="sendAction('skip')"
+                class="skip-button">
+                Skip
+            </button>
+            <button i18n *ngIf="showReset" class="skip-button mr-2" (click)="reset() " class="skip-button">
+                Retry
+            </button>
+            <button i18n class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
+                Next
+            </button>
+        </div>
+        <!-- Submit Button -->
+        <button i18n class="submit-button" *ngIf="currentIndex === questions.length - 1&&!showAnswerInfo"
+            (click)="submitQuiz()" class="submit-button">
+            Submit
+        </button>
+        <button i18n class="submit-button" *ngIf="showAnswerInfo" (click)="continue()" class="submit-button">
+            Continue
+        </button>
+    </div>
+</div>

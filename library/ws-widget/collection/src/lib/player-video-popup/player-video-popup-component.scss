@@ -1,0 +1,340 @@
+@import 'ws-vars';
+@import 'ws-mixins';
+
+.app-class .mat-list-option {
+  padding-top: $size-m;
+  padding-bottom: $size-m;
+  height: auto;
+
+  .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+    // background-color: #f5d58d !important;
+    background-color: #1c5d95 !important;
+  }
+}
+
+.custom-list .mat-list-option.mat-focus-indicator {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.custom-list .mat-list-option:focus {
+  outline: none !important;
+  box-shadow: none !important;
+}
+.mat-list-option:focus-visible {
+  outline: none !important;
+}
+.mat-list-option:focus-visible {
+  outline: 2px dashed #00bcd4; /* Customize the focus outline */
+  outline-offset: 4px; /* Adjust spacing between outline and element */
+}
+
+::ng-deep .mat-pseudo-checkbox.mat-pseudo-checkbox-checked,
+.mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
+  background: #1c5d95 !important;
+}
+
+// ::ng-deep .mat-radio-ripple {
+//   display: none !important;
+// }
+
+::ng-deep .mat-radio-ripple .mat-ripple-element {
+  background-color: rgba(#919296, 0.26) !important;
+}
+
+.wrap-mat-radio-label {
+  white-space: normal;
+}
+.question-option {
+  white-space: break-spaces;
+}
+.options-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.options-container {
+  display: flex;
+}
+
+.option {
+  margin-bottom: 10px;
+}
+
+/* horizontal layout */
+
+  .rowView{
+    .options-container {
+  flex-direction: row;
+  justify-content: space-between;
+
+  }
+  .option {
+  width: 40%;
+}
+}
+
+.option {
+  margin-right: 10px;
+}
+
+/* vertical layout */
+
+  .columnView{
+    .options-container {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .option{
+    width: 100%;
+  }
+
+}
+::ng-deep .cdk-overlay-pane{
+overflow: auto;
+}
+c
+.quiz-question {
+  margin-bottom: 5px;
+  font-family: Roboto;
+font-size: 16px;
+font-weight: 400;
+line-height: 12.75px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+  overflow-x: auto;
+  margin: 10px 0 10 0 !important;
+color: #000000 !important;
+  @include breakpoint-xs {
+    margin: 0 !important;
+  }
+
+  p {
+    @include breakpoint-xs {
+      margin: 0 !important;
+    }
+  }
+
+}
+
+correct-option {
+  color: #357a38 !important;
+}
+
+.incorrect-option {
+  color: #f0506e;
+}
+
+.quiz-radio-group {
+  display: inline-flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.quiz-radio-button {
+  margin: 5px;
+  padding: 8px;
+}
+
+.quiz-selected-value {
+  margin: 15px 0;
+}
+
+.margin-bottom-m {
+  margin-bottom: $size-m;
+}
+
+.correct-option {
+  color: #357a38 !important;
+}
+
+.incorrect-option {
+  color: #f0506e;
+}
+
+.question {
+  width: 40%;
+  max-width: 200px;
+  height: auto;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 4px 0px 4px 0px;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.answer {
+  width: 40%;
+  max-width: 200px;
+  height: auto;
+  border: 2px solid;
+  border-radius: 5px;
+  padding: 2px 0px 2px 0px;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.background-well {
+  background: #eee;
+}
+.next-button{
+    cursor: pointer;
+  background: #2E6491 !important;
+  color: #FFFFFF !important;
+  padding: 8px 32px 8px 32px;
+  border-radius: 50px;
+  font-family: Roboto;
+  font-size: 16px !important;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center !important;
+  border: none !important;
+  height: 40px !important;
+}
+.back-button{
+    cursor: pointer;
+  background: #ffffff !important;
+  padding: 8px 32px 8px 32px;
+  border-radius: 50px;
+  font-family: Roboto;
+  font-size: 16px !important;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center !important;
+  height: 40px !important;
+  color: #1c5d95 !important;
+  border: 1px solid #1c5d95 !important;
+
+}
+.skip-button{
+   cursor: pointer;
+  background: #FFFFFF !important;
+  color: #1C5D95 !important;
+  padding: 8px 32px 8px 32px;
+  border-radius: 50px;
+  font-family: Roboto;
+  font-size: 16px !important;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center !important;
+  border: 1px solid !important;
+  height: 40px !important;
+  border-color: #1C5D95 !important;
+}
+.disabled-back-button {
+  background: #BFBFBF !important;
+  color: #808080 !important;
+  cursor: not-allowed !important;
+  border: none !important;
+}
+
+
+.submit-button {
+  cursor: pointer;
+  background: #1C5D95 !important;
+  color: #FFFFFF !important;
+  padding: 8px 32px 8px 32px;
+  border-radius: 50px;
+  font-family: Roboto;
+  font-size: 16px ;
+  font-weight: 400;
+  line-height: 19px;
+  letter-spacing: 0em;
+  text-align: center ;
+  border: none ;
+  height: 40px ;
+}
+
+@media screen and (max-width:600px) {
+  .skip-button .back-button .submit-button {
+  cursor: pointer;
+  padding: 8px 22px 8px 22px;
+  border-radius: 50px;
+  font-family: Roboto;
+  font-size: 12px !important;
+  font-weight: 400;
+  line-height: 14px;
+  letter-spacing: 0em;
+  text-align: center !important;
+  border: none !important;
+  height: 30px !important;
+}
+.button-container {
+gap: 10px !important;
+}
+}
+
+::ng-deep .theme-igot.day-mode .mat-list-option:hover, .theme-igot.day-mode .mat-list-option:focus, .theme-igot.day-mode .mat-nav-list .mat-list-item:hover, .theme-igot.day-mode .mat-nav-list .mat-list-item:focus, .theme-igot.day-mode .mat-action-list .mat-list-item:hover, .theme-igot.day-mode .mat-action-list .mat-list-item:focus {
+    background: rgba(255, 255, 255, 0.04);
+}
+.questions-header{
+  font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.41px;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #257CC7;
+
+}
+.question-option{
+  //styleName: Body;
+font-family: Roboto;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: -0.02em;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #000000 !important;
+}
+.theme-igot.day-mode .mat-radio-button .mat-radio-container .mat-radio-inner-circle {
+    background-color: #424242 !important;
+}
+.correct-answer{
+  background-color: #E8F4F2 !important;
+  color: #469788 !important;
+}
+.wrong-answer{
+  background-color: #FFDFDD !important;
+    color:#ED2C23 !important
+}
+.result-message{
+    border-radius: 8px 8px 0px 0px;
+
+}
+.result-message-container{
+  display: flex;
+    justify-content: end;
+    /* align-items: end; */
+    // width: 50%;
+    flex-direction: column;
+}
+.result-answer-info{
+    border-radius: 0px 0px 8px 8px;
+
+font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.41px;
+letter-spacing: -0.02em;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+color: #000000 !important;
+}
+.result-text{
+  font-family: Roboto;
+font-size: 14px;
+font-weight: 400;
+line-height: 16.41px;
+letter-spacing: -0.02em;
+text-align: left;
+text-underline-position: from-font;
+text-decoration-skip-ink: none;
+}

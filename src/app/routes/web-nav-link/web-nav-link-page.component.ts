@@ -16,66 +16,12 @@ export class WebNavLinkPageComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private router: Router,
     private signupService: SignupService,
-    location: Location,
+    private location: Location,
     public navOption: appNavBarService
 
   ) {
 
-    this.navOption.currentOption.subscribe((option: any) => {
-      console.log(option, 'open')
-      if (option === 'search') {
-        console.log("option: ", option)
-        console.log(location.path(), 'location.path()')
-        // this.currentText = ''
-        if (location.path().includes('/app/search/learning')) {
-          this.showProfile = false
-          this.showHome = false
-          this.showCompetency = false
-        }
-        if (location.path().includes('/app/profile-view')) {
-          this.showProfile = true
-          this.showHome = false
-          this.showCompetency = false
-        }
-        if (location.path().includes('/overview')) {
-          this.showProfile = false
-          this.showHome = true
-          this.showCompetency = false
-        }
-        if (location.path().includes('/page/home') || location.path().includes('/app/toc')) {
-          this.showProfile = false
-          this.showHome = true
-          this.showCompetency = false
-          this.mycourses = false
-        }
 
-      }
-    })
-    console.log('urlchanges', location.path(), 'path')
-    if (location.path().includes('/app/profile-view') || location.path().includes('/app/about-you')) {
-      console.log("yes here 1")
-      this.showProfile = true
-      this.showHome = false
-    } else if (location.path().includes('/page/home')) {
-      this.showProfile = false
-      this.showHome = true
-      this.showCompetency = false
-    } else if (location.path().includes('competency')) {
-      this.showProfile = false
-      this.showCompetency = true
-      this.showHome = false
-    } else if (location.path().includes('user/my_courses')) {
-      this.showProfile = false
-      this.mycourses = true
-      this.showCompetency = false
-      this.showHome = false
-    } else {
-      console.log("yes here 2")
-      this.showProfile = false
-      this.mycourses = false
-      this.showCompetency = false
-      this.showHome = true
-    }
   }
   linksData: any
   data: any
@@ -103,6 +49,61 @@ export class WebNavLinkPageComponent implements OnInit {
         url: '/app/profile-view',
       },
     ]
+    this.navOption.currentOption.subscribe((option: any) => {
+      console.log(option, 'open')
+      if (option === 'search') {
+        console.log("option: ", option)
+        console.log(this.location.path(), 'location.path()')
+        // this.currentText = ''
+        if (this.location.path().includes('/app/search/learning')) {
+          this.showProfile = false
+          this.showHome = false
+          this.showCompetency = false
+        }
+        if (this.location.path().includes('/app/profile-view')) {
+          this.showProfile = true
+          this.showHome = false
+          this.showCompetency = false
+        }
+        if (this.location.path().includes('/overview')) {
+          this.showProfile = false
+          this.showHome = true
+          this.showCompetency = false
+        }
+        if (this.location.path().includes('/page/home') || this.location.path().includes('/app/toc')) {
+          this.showProfile = false
+          this.showHome = true
+          this.showCompetency = false
+          this.mycourses = false
+        }
+
+      }
+    })
+    console.log('urlchanges', this.location.path(), 'path')
+    if (this.location.path().includes('/app/profile-view') || this.location.path().includes('/app/about-you')) {
+      console.log("yes here 1")
+      this.showProfile = true
+      this.showHome = false
+    } else if (this.location.path().includes('/page/home')) {
+      this.showProfile = false
+      this.showHome = true
+      this.showCompetency = false
+    } else if (this.location.path().includes('competency')) {
+      this.showProfile = false
+      this.showCompetency = true
+      this.showHome = false
+    } else if (this.location.path().includes('user/my_courses')) {
+      this.showProfile = false
+      this.mycourses = true
+      this.showCompetency = false
+      this.showHome = false
+    } else {
+      console.log("yes here 2")
+      this.showProfile = false
+      this.mycourses = false
+      this.showCompetency = false
+      this.showHome = true
+    }
   }
 
   async redirect(text: string) {
@@ -120,13 +121,13 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showHome = true
       this.showCompetency = false
       let url = url1 === 'hi' ? '/page/home' : 'page/home'
-      location.href = `${url3}${url1}${url}`
+      this.router.navigate([`${url1}${url}`])
     } else if (text === 'mycourses') {
       let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
       let result = await this.signupService.getUserData()
       console.log(result)
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        location.href = `${url3}${url1}${url}`
+        this.router.navigate([`${url1}${url}`])
       } else {
         this.mycourses = true
         this.showProfile = false
@@ -140,7 +141,7 @@ export class WebNavLinkPageComponent implements OnInit {
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
-        location.href = `${url3}${url1}${url}`
+        this.router.navigate([`${url1}${url}`])
       } else {
         console.log(result)
         this.showCompetency = true
@@ -159,7 +160,7 @@ export class WebNavLinkPageComponent implements OnInit {
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.showProfile = true
         let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-        location.href = `${url3}${url1}${url}`
+        this.router.navigate([`${url1}${url}`])
       } else {
         console.log('p')
         this.showProfile = false
@@ -183,6 +184,7 @@ export class WebNavLinkPageComponent implements OnInit {
       }
     }
   }
+
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }

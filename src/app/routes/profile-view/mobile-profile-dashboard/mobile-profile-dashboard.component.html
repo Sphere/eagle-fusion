@@ -21,14 +21,14 @@
       </span>
     </div>
     <div class="flex justify-center">
-      <button i18n class="help-btn mt-4 mb-4" (click)="showSocialChats()">
+      <button *ngIf="!isEkshamata" i18n class="help-btn mt-4 mb-4" (click)="showSocialChats()">
         Help and Support
         <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
       </button>
     </div>
 
     <div class="div mobile-div">
-      <a class="border-btm" [class.active]="selectedIndex === 'language'"
+      <a class="border-btm mt-2" [class.active]="selectedIndex === 'language'"
         (click)="selectedIndex = 'language'; changeFunction('language')">
         <div>
           <img alt="Language Preference" src="/fusion-assets/icons/language-icon.svg" width="35" height="23" />
@@ -74,8 +74,14 @@
         <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
       </a>
       <div class="margin-top-xs">
-        <span style="font-size: 15px;" i18n>To request account deletion please send an email to
-        </span><span style="text-decoration: underline;">support@aastrika.org</span>
+        <span *ngIf="!isEkshamata" style="font-size: 15px;" i18n>To request account deletion please send an email to
+        </span>
+        <span *ngIf="isEkshamata&&configSvc.hostedInfo.email" style="font-size: 15px;" i18n>To request account deletion
+          please send an email to
+        </span>
+        <span *ngIf="!isEkshamata" style="text-decoration: underline;">support@aastrika.org</span>
+        <span *ngIf="isEkshamata&&configSvc.hostedInfo.email"
+          style="text-decoration: underline;">{{configSvc.hostedInfo.email}}</span>
       </div>
       <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit" i18n>Logout</button>
     </div>

@@ -130,7 +130,7 @@
       </ws-app-assessment-detail>
       <div class="align-rt progrss-box">
         <span class="content-check"
-          *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseAssesmentPercentage">
+          *ngIf="content?.completionPercentage===100 && content?.completionStatus == 2; else elseAssesmentPercentage">
           <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
           <mat-icon>check</mat-icon>
         </span>
@@ -230,7 +230,7 @@
           </div>
           <div class="align-rt progrss-box">
             <span class="content-check"
-              *ngIf="content?.completionPercentage && content?.completionStatus == 2; else elseResourcePercentage">
+              *ngIf="content?.completionPercentage===100 && content?.completionStatus == 2; else elseResourcePercentage">
               <!-- <img [src]="greenTickIcon" class="image" name="greentick-icon" /> -->
               <mat-icon>check</mat-icon>
 

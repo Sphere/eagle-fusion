@@ -1,7 +1,7 @@
 @import 'ws-mixins';
 
 
-::ng-deep .card-long{
+:host ::ng-deep .card-long {
   width: 100% !important;
 }
 ::ng-deep .text-block-mini{
@@ -111,7 +111,7 @@
   .paddingView {
     padding: 10px 315px 10px 60px;
   }
-  ::ng-deep .mat-progress-bar {
+  :host ::ng-deep .mat-progress-bar {
       width: 50% !important;
   }
   .resource-container {

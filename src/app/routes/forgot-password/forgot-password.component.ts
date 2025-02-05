@@ -1,6 +1,6 @@
 import { SignupService } from '../signup/signup.service'
 import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
 // import { mustMatch } from '../password-validator'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -27,9 +27,11 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   disableResendButton = false
   resendOtpCounter = 1
   maxResendTry = 4
+  isEkshamtaLogin: any
 
   constructor(private router: Router, private signupService: SignupService,
     private fb: FormBuilder, private snackBar: MatSnackBar,
+    private route: ActivatedRoute
     // private authSvc: AuthKeycloakService
   ) {
     this.forgotPasswordForm = this.fb.group({
@@ -159,10 +161,11 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   }
 
   gotoHome() {
-    this.router.navigate(['/public/home'])
-      .then(() => {
-        window.location.reload()
-      })
+    this.route.queryParams.subscribe(params => {
+      this.isEkshamtaLogin = params['isEkshamataLogin']
+      const queryParams = this.isEkshamtaLogin ? { ekshamtaLogin: 'true' } : {}
+      this.router.navigate(['/public/login'], { queryParams })
+    })
   }
 
 }

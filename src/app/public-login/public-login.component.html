@@ -92,7 +92,7 @@
               </div>
               <div class="flex justify-end">
                 <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
-                  href="/public/forgot-password?value=true&amp;version=null">Forgot
+                  href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">Forgot
                   Password?</a>
               </div>
               <div class="field flex justify-content-center">
@@ -248,7 +248,10 @@
 <div class="top-blue-color" *ngIf="(isXSmall$ | async) === true ">
   <nav aria-label="navbar  " class=" nav-bar-bg1">
     <a class="navbar-brand cursor-pointer" (click)="homePage()">
-      <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
+      <img *ngIf="isEkshamtaLogin" alt="logo" style="padding-left: 10px;" width="125px" height="65px"
+        src="/fusion-assets/images/aastrika-foundation-logo.svg">
+      <img *ngIf="!isEkshamtaLogin" alt="logo" width="125px" height="65px"
+        src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
     </a>
   </nav>
   <div class="login-page-content max-container" *ngIf="!otpPage">
@@ -337,7 +340,7 @@
         </div>
         <div class="flex justify-end mt-2">
           <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
-            href="/public/forgot-password?value=true&amp;version=null">Forgot
+            href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">Forgot
             Password?</a>
         </div>
         <div class="field flex justify-content-center">

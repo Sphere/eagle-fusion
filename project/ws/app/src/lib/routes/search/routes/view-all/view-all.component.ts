@@ -112,20 +112,18 @@ export class ViewAllComponent implements OnInit, OnDestroy {
             }
           }
           // this.formatForYouCourses(results)
-        } else if (this.courseType === 'continueLearning') {
-          this.searchRequestStatus = 'fetching'
-
-          if (this.configSvc.userProfile) {
-            this.userId = this.configSvc.userProfile.userId || ''
-            forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
-
-              console.log("res: ", res)
-              this.formatmyCourseResponse(res[0])
-            })
-          }
         } else {
           this.searchRequestStatus = 'done'
           this.formatcneCourseResponse(results)
+        }
+      } else if (this.courseType === 'continueLearning') {
+        this.searchRequestStatus = 'fetching'
+        if (this.configSvc.userProfile) {
+          this.userId = this.configSvc.userProfile.userId || ''
+          forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
+            console.log("res: ", res)
+            this.formatmyCourseResponse(res[0])
+          })
         }
       }
     })
@@ -139,6 +137,7 @@ export class ViewAllComponent implements OnInit, OnDestroy {
         myCourseObject = {
           identifier: key.content.identifier,
           appIcon: key.content.appIcon,
+          posterImage: key.content.posterImage,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
           dateTime: key.dateTime,
@@ -157,6 +156,7 @@ export class ViewAllComponent implements OnInit, OnDestroy {
         myCourseObject = {
           identifier: key.content.identifier,
           appIcon: key.content.appIcon,
+          posterImage: key.content.posterImage,
           thumbnail: key.content.thumbnail,
           name: key.content.name,
           dateTime: key.dateTime,
