@@ -24,7 +24,11 @@
     max-width: 90%;
   }
 }
-
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #ffffff;
+  opacity: 1;
+}
 .heading,
 .head-2,
 .head-3 {

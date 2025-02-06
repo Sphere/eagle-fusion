@@ -76,11 +76,11 @@
       <div class="margin-top-xs">
         <span *ngIf="!isEkshamata" style="font-size: 15px;" i18n>To request account deletion please send an email to
         </span>
-        <span *ngIf="isEkshamata&&configSvc.hostedInfo.email" style="font-size: 15px;" i18n>To request account deletion
+        <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email" style="font-size: 15px;" i18n>To request account deletion
           please send an email to
         </span>
         <span *ngIf="!isEkshamata" style="text-decoration: underline;">support@aastrika.org</span>
-        <span *ngIf="isEkshamata&&configSvc.hostedInfo.email"
+        <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email"
           style="text-decoration: underline;">{{configSvc.hostedInfo.email}}</span>
       </div>
       <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit" i18n>Logout</button>
@@ -102,15 +102,17 @@
       <img [src]="photoUrl ? photoUrl:image" alt="profile image" width="150px" height="150px" class="profile-border">
     </div>
 
-    <button mat-fab class="edit-icon" (click)="openProfileDialog()">
+    <button *ngIf="!isEkshamata" mat-fab class="edit-icon" (click)="openProfileDialog()">
       <mat-icon class="pencil">edit</mat-icon>
     </button>
 
-    <div class="" style="margin-top: -35px">
-      <p class="" style="font-weight:400;font-size:24px">{{ userProfileData?.personalDetails.firstname }}
-        <span *ngIf="userProfileData?.personalDetails.middlename"> {{userProfileData?.personalDetails.middlename}}
+    <div [ngStyle]="{'margin-top': isEkshamata ? '0' : '-35px'}">
+      <p class="" style="font-weight:400;font-size:24px">
+        {{ userProfileData?.personalDetails.firstname }}
+        <span *ngIf="userProfileData?.personalDetails.middlename">
+          {{ userProfileData?.personalDetails.middlename }}
         </span>
-        {{userProfileData?.personalDetails.surname}}
+        {{ userProfileData?.personalDetails.surname }}
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">

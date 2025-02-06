@@ -167,7 +167,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
       this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
-      this.orgLogo = this.configSvc.hostedInfo.logo
+      this.orgLogo = this.configSvc.hostedInfo?.logo
     }
   }
 
