@@ -51,6 +51,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   userInfo: any
   isCommonChatEnabled = true
   isEkshamata = false
+  domain!: string
+
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -92,7 +94,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (this.configSvc.hostedInfo) {
+    this.domain = window.location.hostname
+    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       this.isEkshamata = true
     }
     if (sessionStorage.getItem('currentWindow')) {

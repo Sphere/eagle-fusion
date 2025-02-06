@@ -41,8 +41,8 @@
   <div mat-dialog-actions class="lang-done">
     <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('again')" i18n>Try
       again</button>
-    <button class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1" (click)="confirm('createAccount')"
-      i18n>Create account</button>
+    <button *ngIf="!userNotExistEkshamta" class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1"
+      (click)="confirm('createAccount')" i18n>Create account</button>
   </div>
 </div>
 <div *ngIf="name==='help'" class="lang-box">

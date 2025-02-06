@@ -56,6 +56,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   hideSearch = false
   showNavLinkPage = true
   langPresent: boolean = false
+  domain!: string
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -161,7 +162,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         // this.popupTour = this.tourService.createPopupTour()
       }
     })
-    if (this.configSvc.hostedInfo) {
+    this.domain = window.location.hostname
+
+    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
       this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
       this.orgLogo = this.configSvc.hostedInfo.logo

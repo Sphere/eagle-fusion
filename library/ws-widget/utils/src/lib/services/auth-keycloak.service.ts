@@ -21,6 +21,7 @@ const storageKey = 'kc'
 })
 export class AuthKeycloakService {
   private loginChangeSubject = new ReplaySubject<boolean>(1)
+  domain!: string
 
   constructor(
     private http: HttpClient,
@@ -165,13 +166,14 @@ export class AuthKeycloakService {
       localStorage.clear()
       let url = `${document.baseURI}`
       let redirectUrl = ''
-      if (this.configSvc.hostedInfo) {
+      this.domain = window.location.hostname
+      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
         if (url.includes('hi')) {
           url = url.replace('hi/', '')
-          redirectUrl = `${url}public/ekshamtaHome`
+          redirectUrl = `${url}public/ekshamataHome`
           sessionStorage.setItem('lang', 'hi')
         } else {
-          redirectUrl = `${url}public/ekshamtaHome`
+          redirectUrl = `${url}public/ekshamataHome`
         }
       } else {
 

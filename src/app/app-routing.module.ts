@@ -69,9 +69,9 @@ export class DomainRedirectResolver implements Resolve<void> {
   resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): void {
     const domain = window.location.hostname
     console.log('Domain:', domain) // Debugging statement
-    if (domain.includes('ekshamta')) {
-      console.log('Redirecting to public/ekshamtaHome') // Debugging statement
-      this.router.navigateByUrl('/public/ekshamtaHome')
+    if (domain.includes('ekshamata')) {
+      console.log('Redirecting to public/ekshamataHome') // Debugging statement
+      this.router.navigateByUrl('/public/ekshamataHome')
     } else {
       console.log('Redirecting to public/home') // Debugging statement
       this.router.navigateByUrl('/public/home')
@@ -91,7 +91,7 @@ const routes: Routes = [
     data: { title: 'Home - Aastrika Sphere' }
   },
   {
-    path: 'public/ekshamtaHome',
+    path: 'public/ekshamataHome',
     component: WebEkshamataPublicComponent,
     data: {
       title: 'Home - E-Kshamata',

@@ -49,6 +49,7 @@ export class WebDashboardComponent implements OnInit {
   currentIndex = 0;
   public intervalId: any
   lang: any = 'en'
+  domain!: any
   constructor(
     public router: Router,
     public dialog: MatDialog,
@@ -67,8 +68,10 @@ export class WebDashboardComponent implements OnInit {
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
     if (this.isEkshamata) {
+      this.domain = window.location.hostname
+
       console.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo) {
+      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
         console.log("yes here2 ", this.configSvc.hostedInfo)
         this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
         this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'

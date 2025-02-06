@@ -73,6 +73,7 @@ export class MobileDashboardComponent implements OnInit {
   @Input() isEkshamata: any
   bannerFirstImage: any
   bannerSecondImage: any
+  domain!: any
   constructor(private orgService: OrgServiceService,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -98,8 +99,9 @@ export class MobileDashboardComponent implements OnInit {
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
     if (this.isEkshamata) {
+      this.domain = window.location.hostname
       console.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo) {
+      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
         console.log("yes here2 ", this.configSvc.hostedInfo)
         this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
         this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'

@@ -12,6 +12,7 @@ export class CreateAccountDialogComponent implements OnInit {
   name = ''
   firstName: string = '';
   lastName: string = '';
+  userNotExistEkshamta: boolean = false
   constructor(
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,
@@ -25,6 +26,7 @@ export class CreateAccountDialogComponent implements OnInit {
       this.showSocialChats()
     }
     this.name = this.selectedData.selected
+    this.userNotExistEkshamta = this.selectedData.userNotExistEkshamta
     if (this.selectedData.selected === 'name') {
       this.firstName = this.selectedData.details.firstname
       this.lastName = this.selectedData.details.lastname

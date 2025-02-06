@@ -64,7 +64,7 @@ export class PublicLoginComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['ekshamtaLogin']) {
         this.isEkshamtaLogin = true
-        this.routerLink = '/public/ekshamtaHome'
+        this.routerLink = '/public/ekshamataHome'
       } else {
         this.isEkshamtaLogin = false
         this.routerLink = '/public/home'
@@ -160,7 +160,8 @@ export class PublicLoginComponent implements OnInit {
       width: '312px',
       height: '186px',
       data: {
-        selected: "userNotExist",
+        selected: 'userNotExist',
+        userNotExistEkshamta: this.isEkshamtaLogin
       },
     })
 
@@ -186,7 +187,7 @@ export class PublicLoginComponent implements OnInit {
     console.log("val")
     if (val === 'createAccount') {
       if (this.isEkshamtaLogin) {
-        this.router.navigateByUrl('/public/ekshamtaHome')
+        this.router.navigateByUrl('/public/ekshamataHome')
       } else {
         window.location.href = '/public/home'
       }
