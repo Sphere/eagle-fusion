@@ -25,6 +25,11 @@
         Help and Support
         <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
       </button>
+      <a *ngIf="isEkshamata" [href]="'tel:' + configSvc.hostedInfo.phone.replace('tel:', '')"
+        class="help-btn mt-4 mb-4">
+        Help and Support
+        <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
+      </a>
     </div>
 
     <div class="div mobile-div">

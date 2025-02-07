@@ -617,7 +617,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 child2.completionStatus = foundContent2.status
 
                 // tslint:disable-next-line:max-line-length
-              } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+              } else if (
+                element[index - 1] &&
+                element[index - 1].children &&
+                element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100
+              ) {
                 if (element[index].children.length > 0) {
                   if (cindex === 0) {
                     element[index].children[cindex].disabledNode = false
@@ -638,7 +642,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   return
                 }
                 // tslint:disable-next-line: max-line-length
-              } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
+              } else if (
+                element[index - 1] &&
+                element[index - 1].children &&
+                element[index - 1].children.length > 0 &&
+                element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100
+              ) {
                 if (element[index].children.length > 0) {
 
                   if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
@@ -1087,7 +1096,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       console.log('entered')
                       child2.disabledNode = false
 
-                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                    } else if (
+                      element[index - 1] &&
+                      element[index - 1].children &&
+                      element[index - 1].children.length > 0 &&
+                      element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100
+                    ) {
                       if (element[index].children.length > 0) {
                         if (cindex === 0) {
                           element[index].children[cindex].disabledNode = false

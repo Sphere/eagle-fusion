@@ -550,16 +550,37 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     }
   }
   async fetchContent() {
-    const content = await this.contentSvc
-      .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
-      .toPromise()
-    if (content.result && content.result.content && content.result.content.videoQuestions)
-      this.widgetData.videoQuestions = content.result.content.videoQuestions ? JSON.parse(content.result.content.videoQuestions) : []
-    console.log("this.widgetData.videoQuestions", this.widgetData.videoQuestions)
-    if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
-      this.widgetData.url = content.artifactUrl
-      this.widgetData.posterImage = content.appIcon
-      await this.contentSvc.setS3Cookie(this.widgetData.identifier || '').toPromise()
+    try {
+      const content = await this.contentSvc
+        .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
+        .toPromise()
+
+      if (content.result && content.result.content && content.result.content.videoQuestions) {
+        const videoQuestions = content.result.content.videoQuestions
+        console.log("videoQuestions", videoQuestions)
+
+        if (videoQuestions.length > 0) {
+          try {
+            this.widgetData.videoQuestions = JSON.parse(videoQuestions)
+          } catch (error) {
+            console.error("Error parsing videoQuestions JSON:", error)
+            this.widgetData.videoQuestions = []
+          }
+        } else {
+          this.widgetData.videoQuestions = []
+        }
+      }
+
+      console.log("this.widgetData.videoQuestions", this.widgetData.videoQuestions)
+
+      if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
+        this.widgetData.url = content.artifactUrl
+        this.widgetData.posterImage = content.appIcon
+        await this.contentSvc.setS3Cookie(this.widgetData.identifier || '').toPromise()
+      }
+    } catch (error) {
+      console.error("Error fetching content or parsing videoQuestions:", error)
+      this.widgetData.videoQuestions = [] // Set to an empty array in case of error
     }
   }
 }

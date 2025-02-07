@@ -38,12 +38,14 @@ export class WebPublicComponent implements OnInit {
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
   coursesForYou: any[] = []
+  coursesForUP: any[] = []
   isLoading = false
   @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
   userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   CNECourseDisplayConfig: any
   @Input() isEkshamata: any
+  isUpLogin: boolean = false
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -59,7 +61,9 @@ export class WebPublicComponent implements OnInit {
   async ngOnInit() {
     // Set up user enrolled display configurations
     this.setUserEnrolledDisplayConfig()
-
+    if (this.isEkshamata) {
+      this.showTopCourses()
+    }
     // Fetch course recommendations if professional details are available
     this.fetchCourseRecommendations()
 
@@ -69,7 +73,53 @@ export class WebPublicComponent implements OnInit {
     // Fetch configuration data based on the environment
     this.fetchEnvironmentConfigurations()
   }
+  showTopCourses() {
+    this.topCertifiedCourse = []
+    console.log("this.configSvc.hostedInfo", this.configSvc.hostedInfo)
+    if (this.configSvc.hostedInfo?.featuredCourseIdentifier) {
+      this.isUpLogin = true
+      this.orgService.getTopLiveSearchResults(this.configSvc.hostedInfo.featuredCourseIdentifier, this.preferedLanguage.id).subscribe((results: any) => {
+        console.log("yes here hostedInfo", results.result.content)
+        if (results.result.content.length > 0) {
+          this.formatForYouUPCourses(results.result.content)
+          console.log("yes here hostedInfo", results.result.content)
+        }
+      })
 
+    }
+    console.log("this.configSvc.hostedInfo.featuredCourseIdentifier", this.configSvc.hostedInfo.featuredCourseIdentifier)
+  }
+  // this.configSvc.hostedInfo
+  formatForYouUPCourses(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+
+    res.forEach((key: any) => {
+      myCourseObject = {
+        identifier: key.identifier,
+        appIcon: key.appIcon,
+        thumbnail: key.thumbnail,
+        name: key.name,
+        sourceName: key.sourceName,
+        issueCertification: key.issueCertification
+      }
+
+      myCourse.push(myCourseObject)
+
+    })
+
+    this.coursesForUP = myCourse
+    if (this.coursesForUP.length > 0) {
+      this.forYouCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
+  }
   private setUserEnrolledDisplayConfig() {
     if (this.userEnrollCourse && this.userEnrollCourse.length > 0) {
       this.userEnrolledDisplayConfig = {
