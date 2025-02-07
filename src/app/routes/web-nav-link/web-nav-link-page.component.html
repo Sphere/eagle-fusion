@@ -1,27 +1,52 @@
 <div class="link-container"
   *ngIf="data!.profileDetails!.profileReq!.personalDetails!.tncAccepted || data!.profileDetails!.profileReq!.personalDetails!.dob">
   <div class="link-block">
-    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showHome }" routerLink="/page/home"
+    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showHome }" (click)="redirect('home')" active
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>Home</span>
     </a>
   </div>
   <div class="link-block">
-    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': mycourses }" routerLink="app/user/my_courses"
+    <a role="button" matRipple (click)="redirect('mycourses')" [ngClass]="{'ws-mat-accent-text': mycourses }" active
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>My Courses</span>
     </a>
   </div>
   <div class="link-block">
-    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showCompetency }" routerLink="/app/user/competency"
-      routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
+    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showCompetency }" (click)="redirect('competency')"
+      active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>Competency</span>
     </a>
   </div>
   <div class="link-block">
-    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showProfile }" routerLink="/app/profile-view"
+    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showProfile }" (click)="redirect('account')" active
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>Account</span>
     </a>
   </div>
+  <!-- <div [matMenuTriggerFor]="appsMenu">
+    <a role="button" style="cursor: pointer;">
+      <img alt="account" src="/fusion-assets/images/account.svg" height="28" style="margin-top: -8px;">
+    </a>
+  </div>
+  <mat-menu #appsMenu="matMenu" xPosition="before" yPosition="above">
+    <div class="">
+      <div class="flex">
+        <img alt="account" src="/fusion-assets/images/account.svg" height="23" style="margin-left: 15px;">
+        <h4 style="margin-left: 10px;margin-bottom: 0px;">{{data.firstName}} {{data.lastName}}</h4>
+
+      </div>
+      <div style="margin-left: 48px;">
+        <h5>{{data.email}} {{data.phone}}</h5>
+      </div>
+      <hr>
+      <p style="text-align: left; margin-left: 15px;">
+        <button (click)="logout()" class="save-btn" type="submit" i18n>Logout</button>
+      </p>
+      <button (click)="logout()" mat-button>
+        <mat-icon>power_settings_new</mat-icon>&nbsp;
+        <span i18n>Logout</span>
+      </button>
+    </div>
+  </mat-menu> -->
 </div>
