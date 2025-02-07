@@ -76,6 +76,18 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showCompetency = false
           this.mycourses = false
         }
+        if (this.location.path().includes('/app/user/my_courses')) {
+          this.showProfile = false
+          this.showHome = false
+          this.showCompetency = false
+          this.mycourses = true
+        }
+        if (this.location.path().includes('/app/user/competency')) {
+          this.showProfile = false
+          this.showHome = false
+          this.showCompetency = true
+          this.mycourses = false
+        }
 
       }
     })
