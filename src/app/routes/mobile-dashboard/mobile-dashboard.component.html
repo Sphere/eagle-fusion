@@ -62,6 +62,23 @@
 
 
   </div>
+  <div *ngIf="isUpLogin" [ngClass]="{'mb-6':isEkshamata}" class="py-1 px-4 ">
+    <ng-container *ngIf="coursesForUP && coursesForUP.length > 1">
+      <div class="line-label bg-green">
+        <span class="header1 header0" i18n>TOP COURSES</span>
+      </div>
+      <div *ngFor="let course of getDisplayedItems(coursesForUP, showAllCoursesForUP)">
+        <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+          [courseData]="course"></ws-mobile-course-view>
+      </div>
+      <button i18n *ngIf="coursesForUP.length > 5" (click)="viewAllItems('ForYouCourses')" class="view-all-course">
+        {{ showAllCoursesForUP ? 'Hide' : 'View all' }}
+        <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+      </button>
+    </ng-container>
+
+
+  </div>
   <div [ngClass]="{'mb-6':isEkshamata}" class="py-1 px-4 ">
     <ng-container *ngIf="coursesForYou && coursesForYou.length > 1">
       <div class="line-label bg-green">

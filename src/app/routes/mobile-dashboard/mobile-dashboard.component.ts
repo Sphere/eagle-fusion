@@ -46,6 +46,8 @@ export class MobileDashboardComponent implements OnInit {
   showAllTopCertifiedCourses: boolean = false;
   showcoursesForYouCourses: boolean = false;
   showAllCneCourses: boolean = false;
+  showAllCoursesForUP: boolean = false;
+  coursesForUP: any[] = []
   dataCarousel: any = [
     {
       "title": "Check out courses with CNE Hours",
@@ -74,6 +76,8 @@ export class MobileDashboardComponent implements OnInit {
   bannerFirstImage: any
   bannerSecondImage: any
   domain!: any
+  isUpLogin: boolean = false
+
   constructor(private orgService: OrgServiceService,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -99,6 +103,8 @@ export class MobileDashboardComponent implements OnInit {
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
     if (this.isEkshamata) {
+      this.showTopCourses()
+
       this.domain = window.location.hostname
       console.log("yes here", this.isEkshamata)
       if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
@@ -253,6 +259,42 @@ export class MobileDashboardComponent implements OnInit {
       //   }
       // })
     }
+  }
+  showTopCourses() {
+    this.topCertifiedCourse = []
+    console.log("this.configSvc.hostedInfo", this.configSvc.hostedInfo)
+    if (this.configSvc.hostedInfo?.featuredCourseIdentifier) {
+      this.isUpLogin = true
+      this.orgService.getTopLiveSearchResults(this.configSvc.hostedInfo.featuredCourseIdentifier, this.preferedLanguage.id).subscribe((results: any) => {
+        console.log("yes here hostedInfo", results.result.content)
+        if (results.result.content.length > 0) {
+          this.formatForYouUPCourses(results.result.content)
+          console.log("yes here hostedInfo", results.result.content)
+        }
+      })
+
+    }
+    console.log("this.configSvc.hostedInfo.featuredCourseIdentifier", this.configSvc.hostedInfo.featuredCourseIdentifier)
+  }
+  formatForYouUPCourses(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+
+    res.forEach((key: any) => {
+      myCourseObject = {
+        identifier: key.identifier,
+        appIcon: key.appIcon,
+        thumbnail: key.thumbnail,
+        name: key.name,
+        sourceName: key.sourceName,
+        issueCertification: key.issueCertification
+      }
+
+      myCourse.push(myCourseObject)
+
+    })
+
+    this.coursesForUP = myCourse
   }
   private fetchCourseRecommendations() {
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.profileReq && this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails) {
@@ -439,6 +481,9 @@ export class MobileDashboardComponent implements OnInit {
         break
       case 'cneCourses':
         this.showAllCneCourses = !this.showAllCneCourses
+        break
+      case 'coursesForUP':
+        this.showAllCoursesForUP = !this.showAllCoursesForUP
         break
     }
   }
