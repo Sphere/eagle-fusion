@@ -280,7 +280,13 @@ export class WebPublicComponent implements OnInit {
   }
   // To view all course
   viewAllCourse(courseType: string) {
-    this.router.navigate(['app/search/topCourse'], { queryParams: { courseType } })
+    if (courseType === 'continueLearning') {
+      this.router.navigate(['app/user/my_courses'])
+    } else if (courseType === 'formatForYouCourses') {
+      this.router.navigate(['app/user/my_courses'], { queryParams: { courseType } })
+    } else {
+      this.router.navigate(['app/search/topCourse'], { queryParams: { courseType } })
+    }
   }
 
   openIframe(video: any) {

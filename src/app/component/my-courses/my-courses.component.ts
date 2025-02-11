@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
 import lodash from 'lodash'
 
 @Component({
@@ -29,12 +29,16 @@ export class MyCoursesComponent implements OnInit {
   coursesForYouDisplayConfig: any
   completedWebCourseDisplayConfig: any
   completedCourseDisplayConfig: any
+  isForYouActive = false; // Flag to track if "For you" should be active
+  selectedIndex = 0; // Index for the active tab
+
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
     public router: Router,
     private valueSvc: ValueService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -45,6 +49,12 @@ export class MyCoursesComponent implements OnInit {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
+    this.route.queryParams.subscribe(params => {
+      if (params['courseType'] === 'formatForYouCourses') {
+        this.isForYouActive = true
+        this.selectedIndex = 1 // Set the index for "For You" tab
+      }
+    })
 
     this.isLoading = true
     this.contentSvc.fetchUserBatchList(userId).subscribe(
