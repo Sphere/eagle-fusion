@@ -65,7 +65,8 @@ import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.compo
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
-let domain = "ekshamata"
+let domain = window.location.hostname
+
 const routes: Routes = [
   {
     path: '',
