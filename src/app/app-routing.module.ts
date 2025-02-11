@@ -1,5 +1,5 @@
-import { Injectable, NgModule } from '@angular/core'
-import { ActivatedRouteSnapshot, Resolve, RouterModule, RouterStateSnapshot, Routes } from '@angular/router'
+import { NgModule } from '@angular/core'
+import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
 // import { LearningGuard } from '../../project/ws/app/src/lib/routes/my-learning/guards/my-learning.guard'
@@ -60,41 +60,24 @@ import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
-import { Router } from '@angular/router'
 
-@Injectable({ providedIn: 'root' })
-export class DomainRedirectResolver implements Resolve<void> {
-  constructor(private router: Router) { }
-
-  resolve(_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): void {
-    const domain = window.location.hostname
-    console.log('Domain:', domain) // Debugging statement
-    if (domain.includes('ekshamata')) {
-      console.log('Redirecting to public/ekshamataHome') // Debugging statement
-      this.router.navigateByUrl('/public/ekshamataHome')
-    } else {
-      console.log('Redirecting to public/home') // Debugging statement
-      this.router.navigateByUrl('/public/home')
-    }
-  }
-}
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
+let domain = "ekshamata"
 const routes: Routes = [
   {
     path: '',
-    resolve: {
-      redirect: DomainRedirectResolver
-    },
-    data: { title: 'Home - Aastrika Sphere' }
+    redirectTo: 'public/home',
+    pathMatch: 'full',
+    data: { title: 'Home - Aastrika Sphere' },
   },
   {
-    path: 'public/ekshamataHome',
-    component: WebEkshamataPublicComponent,
+    path: 'public/home',
+    component: domain.includes('ekshamata') ? WebEkshamataPublicComponent : PublicHomeComponent,
     data: {
-      title: 'Home - E-Kshamata',
+      title: 'Home - Aastrika Sphere',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
@@ -418,19 +401,6 @@ const routes: Routes = [
     path: 'organisations',
     loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
     canActivate: [GeneralGuard],
-  },
-  {
-    path: 'public/home',
-    component: PublicHomeComponent,
-    data: {
-      title: 'Home - Aastrika Sphere',
-      pageType: 'public',
-      pageKey: 'id',
-      isPublic: true,
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
   },
   {
     path: 'public/organisations/home',

@@ -259,6 +259,31 @@
 
 }
 
+.web-help-btn {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 18.75px;
+    text-align: left;
+    color: #000000;
+    background-color: #ADD1F0;
+    height: 30px;
+    width: 173px;
+    padding: 10px;
+    text-align: center;
+    padding: 0px;
+    /* gap: 8px; */
+    border-radius: 50px;
+    border: 0.25px 0px 0px 0px;
+    display: flex
+;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    border: none;
+}
+
+
 
 .help-btn{
   font-family: Roboto;

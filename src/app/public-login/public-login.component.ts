@@ -64,9 +64,11 @@ export class PublicLoginComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['ekshamtaLogin']) {
         this.isEkshamtaLogin = true
-        this.routerLink = '/public/ekshamataHome'
+        //   this.routerLink = '/public/ekshamataHome'
+        // } else {
+        //   this.isEkshamtaLogin = false
+        this.routerLink = '/public/home'
       } else {
-        this.isEkshamtaLogin = false
         this.routerLink = '/public/home'
       }
     })
@@ -186,11 +188,11 @@ export class PublicLoginComponent implements OnInit {
   redirect(val: string) {
     console.log("val")
     if (val === 'createAccount') {
-      if (this.isEkshamtaLogin) {
-        this.router.navigateByUrl('/public/ekshamataHome')
-      } else {
-        window.location.href = '/public/home'
-      }
+      // if (this.isEkshamtaLogin) {
+      //   this.router.navigateByUrl('/public/ekshamataHome')
+      // } else {
+      window.location.href = '/public/home'
+
     } else {
       this.otpPage = false
     }

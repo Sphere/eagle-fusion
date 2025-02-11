@@ -87,7 +87,6 @@ export class WebPublicComponent implements OnInit {
       })
 
     }
-    console.log("this.configSvc.hostedInfo.featuredCourseIdentifier", this.configSvc.hostedInfo.featuredCourseIdentifier)
   }
   // this.configSvc.hostedInfo
   formatForYouUPCourses(res: any) {

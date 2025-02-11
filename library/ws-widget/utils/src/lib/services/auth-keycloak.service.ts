@@ -21,7 +21,7 @@ const storageKey = 'kc'
 })
 export class AuthKeycloakService {
   private loginChangeSubject = new ReplaySubject<boolean>(1)
-  domain!: string
+  // domain!: string
 
   constructor(
     private http: HttpClient,
@@ -166,24 +166,13 @@ export class AuthKeycloakService {
       localStorage.clear()
       let url = `${document.baseURI}`
       let redirectUrl = ''
-      this.domain = window.location.hostname
-      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-        if (url.includes('hi')) {
-          url = url.replace('hi/', '')
-          redirectUrl = `${url}public/ekshamataHome`
-          sessionStorage.setItem('lang', 'hi')
-        } else {
-          redirectUrl = `${url}public/ekshamataHome`
-        }
+      // this.domain = window.location.hostname
+      if (url.includes('hi')) {
+        url = url.replace('hi/', '')
+        redirectUrl = `${url}public/home`
+        sessionStorage.setItem('lang', 'hi')
       } else {
-
-        if (url.includes('hi')) {
-          url = url.replace('hi/', '')
-          redirectUrl = `${url}public/home`
-          sessionStorage.setItem('lang', 'hi')
-        } else {
-          redirectUrl = `${url}public/home`
-        }
+        redirectUrl = `${url}public/home`
       }
 
       const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectUrl)}`

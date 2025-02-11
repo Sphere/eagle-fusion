@@ -184,6 +184,10 @@
         <img alt="My Certificates" src="/fusion-assets/images/Group.svg" width="35" height="23" /><span i18n>My
           Certificates</span>
       </a>
+      <button i18n *ngIf="!isEkshamata" i18n class="web-help-btn mt-2 mb-2" (click)="showSocialChats()">
+        Help and Support
+        <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
+      </button>
       <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit" i18n>Logout</button>
       <!-- <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
         <mat-icon>power_settings_new</mat-icon>&nbsp;
@@ -280,7 +284,7 @@
       <ws-personal-detail-edit [isEkshamata]="isEkshamata"
         (userName)="assignUserName($event)"></ws-personal-detail-edit>
     </div>
-    <div *ngIf="selectedIndex === 'organization'" style="width:50%"
+    <div *ngIf="selectedIndex === 'organization'" style="width:100%"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <div *ngIf="showView === ''">
         <ws-work-info-list [isEkshamata]="isEkshamata" (passProfession)="assignProfession($event)"></ws-work-info-list>
@@ -289,7 +293,7 @@
         <ws-work-info-edit></ws-work-info-edit>
       </div>
     </div>
-    <div *ngIf="selectedIndex === 'academic'" style="width:50%" [ngStyle]="showbackButton ? {'width': '100%' } : {}">
+    <div *ngIf="selectedIndex === 'academic'" style="width:100%" [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <div *ngIf="showView === ''">
         <ws-education-list [isEkshamata]="isEkshamata"></ws-education-list>
       </div>
@@ -297,7 +301,7 @@
         <ws-education-edit></ws-education-edit>
       </div>
     </div>
-    <div *ngIf="selectedIndex === 'language'" style="width:50%; margin-top:25px;height:480px"
+    <div *ngIf="selectedIndex === 'language'" style="width:100%; margin-top:25px;height:480px"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
@@ -320,7 +324,7 @@
         <button type="submit" class="save-btn" (click)="saveLanguage(userForm)" i18n>Save</button>
       </form>
     </div>
-    <div *ngIf="selectedIndex === 'certificates'" style="width:50%"
+    <div *ngIf="selectedIndex === 'certificates'" style="width:100%"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
