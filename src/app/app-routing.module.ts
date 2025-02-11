@@ -65,8 +65,8 @@ import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.compo
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
-//check for ekshatama user
 let domain = window.location.hostname
+// this.domain = window.location.hostname
 
 const routes: Routes = [
   {
@@ -79,7 +79,7 @@ const routes: Routes = [
     path: 'public/home',
     component: domain.includes('ekshamata') ? WebEkshamataPublicComponent : PublicHomeComponent,
     data: {
-      title: 'Home - Aastrika Sphere',
+      title: domain.includes('ekshamata') ? 'Home - Ekshamata' : 'Home - Aastrika Sphere',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
