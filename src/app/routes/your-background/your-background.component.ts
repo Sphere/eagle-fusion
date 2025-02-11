@@ -97,6 +97,7 @@ export class YourBackgroundComponent implements OnInit {
       request: {
         userId: this.userId,
         profileDetails: {
+          profileLocation: 'sphere-web/your-background',
           profileReq: {
             id: this.userId,
             userId: this.userId,

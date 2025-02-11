@@ -530,6 +530,7 @@ export class MobileDashboardComponent implements OnInit {
           preferences: {
             language: lang,
           },
+          profileLocation: 'sphere-web/mobile-dashboard',
           osName: userAgent.OS,
           browserName: userAgent.browserName,
           userCookie,

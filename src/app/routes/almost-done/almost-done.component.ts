@@ -500,6 +500,7 @@ export class AlmostDoneComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.result.userId,
+        profileLocation: 'sphere-web/almost-done',
         profileDetails: userdata,
       },
     }

@@ -245,6 +245,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         const reqUpdate = {
           request: {
             userId: userid,
+            profileLocation: 'sphere-web/settings',
             profileDetails: userdata,
           },
         }

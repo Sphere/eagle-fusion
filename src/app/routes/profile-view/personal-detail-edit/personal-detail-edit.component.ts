@@ -484,6 +484,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
+      profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
       personalDetails: profileRequest.profileReq.personalDetails,
       // osName: userAgent.OS,
       // browserName: userAgent.browserName,
@@ -541,6 +542,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
               preferences: {
                 language: result.id,
               },
+              profileLocation: 'sphere-web/personal-detail-edit-change-language',
               osName: userAgent.OS,
               browserName: userAgent.browserName,
               userCookie,

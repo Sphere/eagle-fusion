@@ -140,6 +140,7 @@ export class EducationEditComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userID,
+        profileLocation: 'sphere-web/education-edit',
         profileDetails: profileRequest,
       },
     }

@@ -341,6 +341,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: userdata.profileReq.id,
+        profileLocation: 'sphere-web/mobile-profile-dashboard-store-language',
         profileDetails: userdata,
       },
     }
@@ -371,6 +372,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userData.identifier,
+        profileLocation: 'sphere-web/mobile-profile-dashboard-save-language',
         profileDetails: userdata,
       },
     }

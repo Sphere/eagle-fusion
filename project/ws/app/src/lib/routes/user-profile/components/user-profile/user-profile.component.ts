@@ -1153,6 +1153,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     const reqUpdate = {
       request: {
         userId: this.userID,
+        profileLocation: 'sphere-web/user-profile-on-submit',
         profileDetails: profileRequest,
       },
     }
@@ -1443,6 +1444,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
           const reqUpdate = {
             request: {
               userId: userid,
+              profileLocation: 'sphere-web/work-info-list-change-language',
               profileDetails: userdata,
             },
           }

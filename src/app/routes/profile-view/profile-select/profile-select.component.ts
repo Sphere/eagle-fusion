@@ -141,7 +141,8 @@ export class ProfileSelectComponent implements OnInit {
     let profileRequest = constructReq(form.value, this.userProfileData.profileReq, userAgent, userCookie)
     const obj = {
       personalDetails: profileRequest.profileReq.personalDetails,
-      preferences: this.userProfileData.preferences
+      preferences: this.userProfileData.preferences,
+      profileLocation: 'sphere-web/profile-select',
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {

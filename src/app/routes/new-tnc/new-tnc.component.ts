@@ -361,6 +361,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       const reqUpdate = {
         request: {
           userId: this.result.userId,
+          profileLocation: 'sphere-web/new-tnc',
           // profileDetails: Object.assign(profileRequest, Obj),
           profileDetails: profileRequest,
           tncAcceptedVersion: this.termsAccepted,

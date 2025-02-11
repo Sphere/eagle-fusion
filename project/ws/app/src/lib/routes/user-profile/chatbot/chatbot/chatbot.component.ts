@@ -974,6 +974,7 @@ export class ChatbotComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userId,
+        profileLocation: 'sphere-web/chatbot',
         profileDetails: profileRequest,
       },
     }

@@ -406,6 +406,7 @@ export class WorkInfoListComponent implements OnInit {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
+      profileLocation: 'sphere-web/work-info-list',
       personalDetails: profileRequest.profileReq.personalDetails,
     }
     profileRequest = Object.assign(profileRequest, obj)

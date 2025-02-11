@@ -73,6 +73,7 @@ export class MobileAboutPopupComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userID,
+        profileLocation: 'sphere-web/mobile-about-popup',
         profileDetails: profileRequest,
       },
     }
