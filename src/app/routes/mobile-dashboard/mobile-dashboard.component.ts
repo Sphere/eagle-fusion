@@ -274,7 +274,6 @@ export class MobileDashboardComponent implements OnInit {
       })
 
     }
-    console.log("this.configSvc.hostedInfo.featuredCourseIdentifier", this.configSvc.hostedInfo.featuredCourseIdentifier)
   }
   formatForYouUPCourses(res: any) {
     const myCourse: any = []
