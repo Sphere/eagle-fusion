@@ -1,5 +1,5 @@
 <!-- For Sphere user -->
-<div *ngIf="!isEkshamata" [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''">
+<div class="NotEkshamata" *ngIf="!isEkshamata" [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''">
   <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
   </mat-progress-bar>
   <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn"

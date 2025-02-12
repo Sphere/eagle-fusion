@@ -77,7 +77,7 @@ const routes: Routes = [
   },
   {
     path: 'public/home',
-    component: domain.includes('ekshamata') ? WebEkshamataPublicComponent : PublicHomeComponent,
+    component: PublicHomeComponent,
     data: {
       title: domain.includes('ekshamata') ? 'Home - Ekshamata' : 'Home - Aastrika Sphere',
       pageType: 'public',

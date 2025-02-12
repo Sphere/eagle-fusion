@@ -32,10 +32,12 @@ import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-ov
 import { PublicLicenseComponent } from '../public-license/public-license.component'
 import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callback.component'
 import { WebHomeComponent } from '../../../routes/web-home/web-home.component'
+import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-container/web-ekshamata-public-container.component'
 
 @NgModule({
   declarations: [
     PublicHomeComponent,
+    WebEkshamataPublicComponent,
     MobilePageComponent,
     MobileHomeComponent,
     MobileTrustedByPageComponent,

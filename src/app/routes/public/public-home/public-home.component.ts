@@ -56,6 +56,8 @@ export class PublicHomeComponent extends WidgetBaseComponent
   navBackground: Partial<NsPage.INavBackground> | null = null
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
   isXSmall$ = this.valueSvc.isXSmall$
+  domain!: string
+  isEkshamata: boolean = false
   constructor(
     private activateRoute: ActivatedRoute,
     // private authSvc: AuthKeycloakService,
@@ -83,6 +85,11 @@ export class PublicHomeComponent extends WidgetBaseComponent
   }
 
   ngOnInit() {
+    this.domain = window.location.hostname
+    if (this.domain.includes('ekshamata')) {
+      this.isEkshamata = true
+    }
+
     if (sessionStorage.getItem('fromOTPpage') === null && localStorage.getItem('preferedLanguage')) {
       localStorage.removeItem('preferedLanguage')
     }
