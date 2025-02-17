@@ -999,6 +999,54 @@
           <context context-type="linenumber">5</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="20b923d2d41e6604f553ca49d3ddccb8404671de" datatype="html">
+        <source>Access free healthcare courses</source>
+        <target state="final">निःशुल्क स्वास्थ्य देखभाल पाठ्यक्रमों तक पहुँचें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-ekshamata-public-container/web-ekshamata-public-container.component.html</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="8a32c9f32d4bac9ac0aaee681ccb70f11cb90a9f" datatype="html">
+        <source>E-Kshamata is a comprehensive capacity building
+        platform for
+        healthcare
+        professionals</source>
+        <target state="final">ई-क्षमता एक व्यापक क्षमता निर्माण है
+        के लिए मंच
+        स्वास्थ्य देखभाल
+        पेशेवरों</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-ekshamata-public-container/web-ekshamata-public-container.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="948100b2f57e1043b6df0d30ea1b6a4b0e932215" datatype="html">
+        <source>Start learning today</source>
+        <target state="final">आज से सीखना शुरू करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-ekshamata-public-container/web-ekshamata-public-container.component.html</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cec146fe685eb95934e8ace4108356a5631b05fc" datatype="html">
+        <source>
+        Login
+      </source>
+        <target state="final">लॉगिन</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-ekshamata-public-container/web-ekshamata-public-container.component.html</context>
+          <context context-type="linenumber">27</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="631f62d981c936b2e82c13d7f98c68a8b7e95616" datatype="html">
+        <source>In collaboration with</source>
+        <target state="final">के साथ सहयोग में</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-ekshamata-public-container/web-ekshamata-public-container.component.html</context>
+          <context context-type="linenumber">32</context>
+        </context-group>
+      </trans-unit>
        <trans-unit id="0ce5506a2093a49f4263e09f80fc279071c3dceb" datatype="html">
         <source>Access free</source>
         <target state="final">स्वास्थ्य सेवाओं</target>
