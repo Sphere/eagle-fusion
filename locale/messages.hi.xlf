@@ -4096,15 +4096,27 @@
       </trans-unit>
       <trans-unit id="f4c7b82c99bebc2363346571ef8f6c3f612bf89f" datatype="html">
         <source>Profile Details</source>
-        <target state="final">प्रोफ़ाइल विवरण</target>
+        <target state="final">व्यक्तिगत विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">58</context>
         </context-group>
       </trans-unit>
+       <trans-unit id="84cab7df6d1741d8b5f8c0392f1a4dd66bae1ee8" datatype="html">
+        <source>Discussion</source>
+        <target state="final">चर्चा</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-home-page/app-toc-home-page.component.html</context>
+          <context context-type="linenumber">39</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/viewer.component.html</context>
+          <context context-type="linenumber">87</context>
+        </context-group>
+      </trans-unit>
        <trans-unit id="e2ab658b2a5fa819795456ce521a9ca1f0a058ad" datatype="html">
         <source>Organization Details</source>
-        <target state="final">प्रोफ़ाइल विवरण</target>
+        <target state="final">संगठन विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">67</context>
@@ -4112,7 +4124,7 @@
       </trans-unit>
       <trans-unit id="a30fb97e73f8d19f62c6244dc542cf42b1606512" datatype="html">
         <source>Academic Details</source>
-        <target state="final">प्रोफ़ाइल विवरण</target>
+        <target state="final">शैक्षणिक विवरण</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component.html</context>
           <context context-type="linenumber">76</context>
