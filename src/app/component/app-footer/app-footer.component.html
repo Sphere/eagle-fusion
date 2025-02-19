@@ -38,17 +38,17 @@
       <mat-list *ngIf="isEkshamata" class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
         <mat-list-item class="link-header" i18n> Quick Links </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/app/user/my_courses" i18n>
+          <a class="list-item" (click)="redirect('mycourses')" i18n>
             My Course
           </a>
         </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/app/user/competency" i18n>
+          <a class="list-item" (click)="redirect('competency')" i18n>
             Competency
           </a>
         </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/app/profile-view" i18n>
+          <a class="list-item" (click)="redirect('account')" i18n>
             Account
           </a>
         </mat-list-item>
@@ -107,8 +107,8 @@
         <!--       <mat-form-field> -->
         <!-- <label i18n>Choose your Language</label>
           <div class="d-inline" style="margin-top: -5px; font-size: small;">
-            <a (click)="redirect('')" class="languages">English</a>
-            <a (click)="redirect('hi')" class="languages">हिन्दी</a>
+            <a (click)="langRedirect('')" class="languages">English</a>
+            <a (click)="langRedirect('hi')" class="languages">हिन्दी</a>
           </div> -->
         <!--     </mat-form-field> -->
         <!-- </mat-list-item> -->

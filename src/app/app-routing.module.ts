@@ -15,7 +15,7 @@ import { FeaturesModule } from './routes/features/features.module'
 // import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
-import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
+// import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
@@ -66,6 +66,7 @@ import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.compo
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
 let domain = window.location.hostname
+// this.domain = window.location.hostname
 
 const routes: Routes = [
   {
@@ -76,9 +77,9 @@ const routes: Routes = [
   },
   {
     path: 'public/home',
-    component: domain.includes('ekshamata') ? WebEkshamataPublicComponent : PublicHomeComponent,
+    component: PublicHomeComponent,
     data: {
-      title: 'Home - Aastrika Sphere',
+      title: domain.includes('ekshamata') ? 'Home - Ekshamata' : 'Home - Aastrika Sphere',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,

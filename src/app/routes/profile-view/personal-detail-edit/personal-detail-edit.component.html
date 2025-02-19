@@ -40,11 +40,12 @@
       <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
       <mat-datepicker #picker [startAt]="startDate"></mat-datepicker> -->
         <ng-container *ngIf="loadDob; else withoutDob">
-          <ws-dropdown-dob (dobValue)="dobData($event)" [dob]="personalDetailForm.get('dob').value ">
+          <ws-dropdown-dob [isEkshamata]="isEkshamata" (dobValue)="dobData($event)"
+            [dob]="personalDetailForm.get('dob').value ">
           </ws-dropdown-dob>
         </ng-container>
         <ng-template #withoutDob>
-          <ws-dropdown-dob (dobValue)="dobData($event)">
+          <ws-dropdown-dob [isEkshamata]="isEkshamata" (dobValue)="dobData($event)">
           </ws-dropdown-dob>
         </ng-template>
 

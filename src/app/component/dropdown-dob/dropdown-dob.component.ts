@@ -9,6 +9,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 export class DropdownDobComponent implements OnInit {
   @Output() dobValue = new EventEmitter<string>();
   @Input() dob?: string
+  @Input() isEkshamata: boolean = false
 
   dobForm: FormGroup
   dateValue: number[] = [];
@@ -35,12 +36,16 @@ export class DropdownDobComponent implements OnInit {
       const month = this.dobForm.get('monthField')!.value
       if (month) this.updateDays(month)
     })
+
   }
 
   ngOnInit() {
     setTimeout(() => {
       this.updateForm()
     }, 500)
+    if (this.isEkshamata) {
+      this.dobForm.disable()
+    }
   }
 
   updateForm(): void {

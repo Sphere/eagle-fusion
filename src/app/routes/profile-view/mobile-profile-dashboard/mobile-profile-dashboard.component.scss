@@ -28,7 +28,9 @@
     margin-top: 56px;
   }
 }
-
+:host ::ng-deep .form-control:disabled, .form-control[readonly] {
+    background-color: #ffffff !important;
+}
 .pencil {
   position: relative;
   left: 1px;

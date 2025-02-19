@@ -137,7 +137,7 @@ import { UserAgentResolverService } from './services/user-agent.service'
 import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
 import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
 import { WebCourseCardComponent } from './routes/web-course-card/web-course-card.component'
-import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
+// import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
 import { PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemovalModule, PipePartialContentModule } from '@ws-widget/utils'
 import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
@@ -312,7 +312,7 @@ const dbConfig: DBConfig = {
     WebNavLinkPageComponent,
     WebDashboardComponent,
     WebPublicComponent,
-    WebEkshamataPublicComponent,
+    // WebEkshamataPublicComponent,
     WebCourseViewComponent,
     WebCourseCardComponent,
     ScromPlayerComponent,

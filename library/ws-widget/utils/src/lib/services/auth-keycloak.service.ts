@@ -166,7 +166,7 @@ export class AuthKeycloakService {
       localStorage.clear()
       let url = `${document.baseURI}`
       let redirectUrl = ''
-      // this.domain = window.location.hostname
+      // this.domain= 'ekshamata'
       if (url.includes('hi')) {
         url = url.replace('hi/', '')
         redirectUrl = `${url}public/home`
