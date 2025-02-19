@@ -333,7 +333,9 @@ export class MobileProfileDashboardComponent implements OnInit {
       preferences: {
         language: lang,
       },
-      personalDetails: this.userInfo.profileDetails.profileReq.personalDetails,
+      personalDetails: {
+        ...this.userInfo.profileDetails.profileReq.personalDetails, profileLocation: 'sphere-web/mobile-profile-dashboard-store-language',
+      },
     }
     const userdata = Object.assign(this.userInfo.profileDetails, obj)
     console.log(userdata, 'p')
@@ -341,8 +343,9 @@ export class MobileProfileDashboardComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: userdata.profileReq.id,
-        profileLocation: 'sphere-web/mobile-profile-dashboard-store-language',
-        profileDetails: userdata,
+        profileDetails: {
+          ...userdata, profileLocation: 'sphere-web/mobile-profile-dashboard-store-language'
+        },
       },
     }
 
@@ -372,8 +375,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userData.identifier,
-        profileLocation: 'sphere-web/mobile-profile-dashboard-save-language',
-        profileDetails: userdata,
+        profileDetails: { ...userdata, profileLocation: 'sphere-web/mobile-profile-dashboard-save-language' },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {

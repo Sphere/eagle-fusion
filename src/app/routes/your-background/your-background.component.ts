@@ -87,6 +87,7 @@ export class YourBackgroundComponent implements OnInit {
       osName: userAgent.OS,
       browserName: userAgent.browserName,
       userCookie,
+      profileLocation: 'sphere-web/your-background',
     }
     Object.keys(userObject).forEach(key => {
       if (userObject[key] === '') {

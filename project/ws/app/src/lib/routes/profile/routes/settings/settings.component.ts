@@ -238,6 +238,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           osName: userAgent.OS,
           browserName: userAgent.browserName,
           userCookie,
+          profileLocation: 'sphere-web/settings',
         }
         const userdata = Object.assign(user['profileDetails'], obj)
 

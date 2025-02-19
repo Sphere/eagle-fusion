@@ -45,7 +45,7 @@ export class UserProfileService {
   ) {
   }
   updateProfileDetails(data: any) {
-    return this.http.patch<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data)
+    return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data)
   }
   getUserdetails(email: string | undefined): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.getUserdetails, { email })

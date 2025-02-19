@@ -127,15 +127,15 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      profileLocation: 'sphere-web/work-info-edit',
-      personalDetails: profileRequest.profileReq.personalDetails
+
+      personalDetails: { ...profileRequest.profileReq.personalDetails, profileLocation: 'sphere-web/work-info-edit', }
     }
     profileRequest = Object.assign(profileRequest, obj)
 
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-edit', },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

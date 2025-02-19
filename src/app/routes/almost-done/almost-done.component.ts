@@ -446,7 +446,7 @@ export class AlmostDoneComponent implements OnInit {
       osName: userAgent.OS,
       browserName: userAgent.browserName,
       userCookie,
-
+      profileLocation: 'sphere-web/almost-done',
     }
     Object.keys(userObject).forEach(key => {
       if (userObject[key] === '') {
@@ -500,8 +500,9 @@ export class AlmostDoneComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.result.userId,
-        profileLocation: 'sphere-web/almost-done',
-        profileDetails: userdata,
+        profileDetails: {
+          userdata, profileLocation: 'sphere-web/almost-done'
+        },
       },
     }
 

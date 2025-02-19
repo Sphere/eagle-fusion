@@ -134,14 +134,17 @@ export class EducationEditComponent implements OnInit {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      personalDetails: profileRequest.profileReq.personalDetails
+      personalDetails: {
+        ...profileRequest.profileReq.personalDetails, profileLocation: 'sphere-web/education-edit',
+      }
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileLocation: 'sphere-web/education-edit',
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/education-edit',
+        },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

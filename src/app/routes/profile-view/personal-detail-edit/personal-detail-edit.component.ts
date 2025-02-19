@@ -484,8 +484,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
-      personalDetails: profileRequest.profileReq.personalDetails,
+      personalDetails: {
+        ...profileRequest.profileReq.personalDetails, profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
+      },
       // osName: userAgent.OS,
       // browserName: userAgent.browserName,
       // userCookie: userCookie,
@@ -495,7 +496,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
+        },
       },
     }
     console.log(reqUpdate)
