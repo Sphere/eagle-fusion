@@ -402,12 +402,14 @@ export class WorkInfoListComponent implements OnInit {
         profileRequest.profileReq.personalDetails.postalAddress = country + ',' + state + ',' + form.value.locationselect
       }
     }
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/work-info-list'
+
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
 
-      personalDetails: { ...profileRequest.profileReq.personalDetails, profileLocation: 'sphere-web/work-info-list', },
+      personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {

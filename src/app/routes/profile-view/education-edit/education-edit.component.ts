@@ -130,13 +130,12 @@ export class EducationEditComponent implements OnInit {
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     console.log(local)
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/education-edit'
+
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      personalDetails: {
-        ...profileRequest.profileReq.personalDetails, profileLocation: 'sphere-web/education-edit',
-      }
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {

@@ -477,7 +477,7 @@ export class AlmostDoneComponent implements OnInit {
   }
 
   updateProfile() {
-    const profileRequest = this.constructReq()
+    let profileRequest = this.constructReq()
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId
     }
@@ -494,14 +494,14 @@ export class AlmostDoneComponent implements OnInit {
           ? this.configSvc.unMappedUser.profileDetails.preferences.language
           : 'en',
       },
-      personalDetails: profileRequest.profileReq.personalDetails,
     }
-    const userdata = Object.assign(profileRequest, obj)
+    profileRequest = Object.assign(profileRequest, obj)
+
     const reqUpdate = {
       request: {
         userId: this.result.userId,
         profileDetails: {
-          userdata, profileLocation: 'sphere-web/almost-done'
+          ...profileRequest, profileLocation: 'sphere-web/almost-done'
         },
       },
     }

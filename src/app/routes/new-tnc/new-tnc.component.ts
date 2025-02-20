@@ -265,9 +265,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
         //userId: this.userId,
         id: this.result.userId,
         userId: this.result.userId,
-        personalDetails: {
-          ...userObject, profileLocation: 'sphere-web/new-tnc',
-        },
+        personalDetails: userObject,
+
       },
     }
     return profileReq
@@ -360,6 +359,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         personalDetails: profileRequest.profileReq.personalDetails
       }
       profileRequest = Object.assign(profileRequest, obj)
+      profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
       const reqUpdate = {
         request: {
           userId: this.result.userId,

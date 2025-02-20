@@ -480,19 +480,18 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     profileRequest.profileReq.personalDetails["postalAddress"] = form.value.country !== 'India' ? form.value.country : form.value.country + ',' + form.value.state + ',' + form.value.distict
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/personal-detail-edit-onSubmit'
+
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
-      },
-      personalDetails: {
-        ...profileRequest.profileReq.personalDetails, profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
       },
       // osName: userAgent.OS,
       // browserName: userAgent.browserName,
       // userCookie: userCookie,
     }
     profileRequest = Object.assign(profileRequest, obj)
-
+    console.log("test request", profileRequest)
     const reqUpdate = {
       request: {
         userId: this.userID,

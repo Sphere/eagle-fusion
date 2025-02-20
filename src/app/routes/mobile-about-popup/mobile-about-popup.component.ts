@@ -59,8 +59,10 @@ export class MobileAboutPopupComponent implements OnInit {
     const userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/mobile-about-popup'
+
     const obj = {
-      personalDetails: { ...profileRequest.profileReq.personalDetails, profileLocation: 'sphere-web/mobile-about-popup' }
+      personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
     // const obj = {

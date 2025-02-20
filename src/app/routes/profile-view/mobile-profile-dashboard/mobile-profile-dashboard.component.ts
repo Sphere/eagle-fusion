@@ -333,11 +333,12 @@ export class MobileProfileDashboardComponent implements OnInit {
       preferences: {
         language: lang,
       },
-      personalDetails: {
-        ...this.userInfo.profileDetails.profileReq.personalDetails, profileLocation: 'sphere-web/mobile-profile-dashboard-store-language',
-      },
+      personalDetails: this.userInfo.profileDetails.profileReq.personalDetails
     }
+
     const userdata = Object.assign(this.userInfo.profileDetails, obj)
+    userdata.profileReq.personalDetails["profileLocation"] = 'sphere-web/mobile-profile-dashboard-store-language'
+
     console.log(userdata, 'p')
     //   // this.chosenLanguage = path.value
     const reqUpdate = {
