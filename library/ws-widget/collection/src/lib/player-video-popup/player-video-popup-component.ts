@@ -15,7 +15,7 @@ export class PlayerVideoPopupComponent implements OnInit {
   currentIndex = 0; // Track the current question index
   selectedAnswers: any = []; // Store answers for the current question
   answers: any[] = []; // Track all answers
-  questions: Array<{ text: string; options: string[] }>
+  questions: Array<{ text: string; options: any[] }>
   resultMessage: string | null = null;
   selectedOption: any | null = null; // To store the selected option
   showAnswerInfo: boolean = false
@@ -25,7 +25,7 @@ export class PlayerVideoPopupComponent implements OnInit {
     private valueSvc: ValueService,
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<PlayerVideoPopupComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { questions: Array<{ text: string; options: string[] }> },
+    @Inject(MAT_DIALOG_DATA) public data: { questions: Array<{ text: string; options: any[] }> },
   ) {
     this.questions = data.questions
     this.answers = new Array(this.questions.length).fill(null) // Initialize answers array

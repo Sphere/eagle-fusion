@@ -11,7 +11,43 @@
     background-color: #1c5d95 !important;
   }
 }
+.answer-text{
+  font-family: Roboto;
+font-weight: 400;
+font-size: 16px;
+line-height: 24px;
+letter-spacing: -2%;
 
+}
+:host ::ng-deep .gray-radio .mat-radio-container  {
+  .question-option{
+    color: #757575 !important; /* Makes the radio button appear gray */
+  }
+    opacity: 0.5 !important; /* Makes the radio button appear gray */
+}
+:host ::ng-deep .gray-radio  .question-option {
+    opacity: 0.5 !important; /* Makes the radio button appear gray */
+}
+.correct-answer {
+  color: #469788 !important;
+}
+.correct-text {
+    color: #469788 !important;
+}
+
+.wrong-answer {
+  color: #ED2C23;
+}
+:host ::ng-deep.quiz-option{
+  .mat-radio-disabled, .mat-radio-disabled .mat-radio-label{
+    .question-option{
+      color: #757575 !important;
+    }
+    .mat-radio-outer-circle{
+      color: #757575 !important;
+    }
+  }
+}
 .custom-list .mat-list-option.mat-focus-indicator {
   outline: none !important;
   box-shadow: none !important;
@@ -291,18 +327,24 @@ letter-spacing: -0.02em;
 text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
-color: #000000 !important;
+color: #000000;
 }
 .theme-igot.day-mode .mat-radio-button .mat-radio-container .mat-radio-inner-circle {
     background-color: #424242 !important;
 }
 .correct-answer{
   background-color: #E8F4F2 !important;
+  border-radius: 30px;
   color: #469788 !important;
+  padding: 8px 14px;
+    margin-left: -14px;
 }
 .wrong-answer{
   background-color: #FFDFDD !important;
-    color:#ED2C23 !important
+  border-radius: 30px;
+  color:#ED2C23 !important;
+  padding: 8px 14px;
+    margin-left: -14px;
 }
 .result-message{
     border-radius: 8px 8px 0px 0px;
