@@ -9,13 +9,37 @@
     <mat-selection-list [className]="layoutDirection" class="app-class" [(ngModel)]="answers[currentIndex]">
         <div class="options-container">
             <div *ngFor="let option of currentQuestion.options; let i = index" class="option">
-                <mat-radio-button [disabled]="showAnswerInfo" class="quiz-option" [value]="option" color="primary"
-                    (change)="onOptionSelected(option)">
-                    <div class="question-option">{{ option.text }}</div>
-                </mat-radio-button>
+                <!-- Show correct or wrong answer feedback -->
+                <ng-container *ngIf="showAnswerInfo && (option.isCorrect || option === selectedOption); else showRadio">
+                    <div class="question-options" [ngClass]="{
+                        'correct-answer': option.isCorrect && option === selectedOption,
+                        'wrong-answer': !option.isCorrect && option === selectedOption,
+                        'correct-text': option.isCorrect
+                    }" [ngStyle]="{
+                        'background-color': option.isCorrect && option === selectedOption ? '#E8F4F2' : 'transparent'
+                    }">
+                        <img *ngIf="option.isCorrect" src="/fusion-assets/icons/right_green_icon_answer.svg"
+                            alt="Correct" />
+                        <img *ngIf="!option.isCorrect && option === selectedOption"
+                            src="/fusion-assets/icons/wrong_red_icon_answer.svg" alt="Wrong" />
+                        <span class="pl-3 answer-text">{{ option.text }}</span>
+
+                    </div>
+                </ng-container>
+                <!-- Show radio button for other options, but make it gray when showAnswerInfo is true -->
+                <ng-template #showRadio>
+                    <mat-radio-button class="quiz-option" [value]="option" color="primary"
+                        (change)="onOptionSelected(option)" [disabled]="showAnswerInfo"
+                        [ngClass]="{'gray-radio': showAnswerInfo}">
+                        <div class="question-option" [ngStyle]="{'color': showAnswerInfo ? 'gray' : 'black'}">
+                            {{ option.text }}
+                        </div>
+                    </mat-radio-button>
+                </ng-template>
             </div>
         </div>
     </mat-selection-list>
+
     <ng-container *ngIf="showAnswerInfo" class="flex-1">
         <div class="result-message-container p-2">
             <div *ngIf="resultMessage" class="result-message p-2" [ngClass]="{'correct-answer': resultMessage === 'Correct',
@@ -49,9 +73,9 @@
                 class="skip-button">
                 Skip
             </button>
-            <button i18n *ngIf="showReset" class="skip-button mr-2" (click)="reset() " class="skip-button">
+            <!-- <button i18n *ngIf="showReset" class="skip-button mr-2" (click)="reset() " class="skip-button">
                 Retry
-            </button>
+            </button> -->
             <button i18n class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
                 Next
             </button>
