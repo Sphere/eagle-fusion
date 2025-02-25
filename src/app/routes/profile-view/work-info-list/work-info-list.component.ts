@@ -256,9 +256,12 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   professionalChange(value: any) {
-    console.log("degree", value, this.userProfileData)
+    console.log("degree", value, this.userProfileData, this.personalDetailForm)
     // this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
     // this.savebtnDisable = false
+    this.personalDetailForm.controls.designation.clearValidators()
+    this.personalDetailForm.controls.orgType.clearValidators()
+
     if (value === 'Healthcare Worker') {
       this.showDesignation = true
       this.orgTypeField = false
@@ -269,6 +272,9 @@ export class WorkInfoListComponent implements OnInit {
       this.HealthcareVolunteer = false
       this.Student = false
       this.Faculty = false
+      this.personalDetailForm.controls.designation.setValidators([Validators.required])
+      this.personalDetailForm.controls.orgType.setValidators([Validators.required])
+
 
     } else if (value === 'Healthcare Volunteer') {
       this.orgTypeField = false
@@ -281,6 +287,8 @@ export class WorkInfoListComponent implements OnInit {
       this.Faculty = false
 
     } else if (value === 'ASHA') {
+      this.personalDetailForm.controls.designation.setValue(null)
+      this.personalDetailForm.controls.designation.clearValidators()
       this.showAshaField = true
       this.HealthcareWorker = false
       this.personalDetailForm.controls.block.setValue(null)
@@ -297,11 +305,21 @@ export class WorkInfoListComponent implements OnInit {
 
       let location = this.userProfileData.professionalDetails[0].locationselect !== undefined ? this.userProfileData.professionalDetails[0].locationselect : dist
       this.personalDetailForm.controls.locationselect.setValue(location)
+      console.log("location", location)
       if (state) {
         this.http.get(this.districtUrl).subscribe((statesdata: any) => {
           statesdata.states.map((item: any) => {
             if (item.state === state) {
               this.disticts = item.districts
+              console.log('Districts:', this.disticts) // Log the districts
+
+              // Set the district if dist is available
+              if (this.disticts.includes(dist)) {
+                this.personalDetailForm.get('locationselect')?.setValue(dist)
+                console.log('Setting district:', dist) // Log the district being set
+              } else {
+                console.log('District not found:', dist) // Log if district is not found
+              }
             }
           })
         })

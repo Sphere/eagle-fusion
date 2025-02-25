@@ -210,7 +210,8 @@
 
       <div class="form-group input-box" *ngIf="selectDisable">
         <label i18n>District</label>
-        <select id="distict" formControlName="distict" class="form-control select-box" name="distict-input-field">
+        <select (change)="fieldChange()" id="distict" formControlName="distict" class="form-control select-box"
+          name="distict-input-field">
           <option [value]=null disabled i18n>City/Distict</option>
           <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
         </select>

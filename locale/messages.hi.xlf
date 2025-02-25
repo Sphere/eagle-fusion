@@ -2366,7 +2366,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">373</context>
+          <context context-type="linenumber">381</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -2928,7 +2928,7 @@
           <target>जिला</target>
           <context-group purpose="location">
               <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
-              <context context-type="linenumber">211</context>
+              <context context-type="linenumber">212</context>
           </context-group>
       </trans-unit>
             <trans-unit id="650fc3fc34e75ddbf77432326a8f8f4f3e287f2d" datatype="html">
@@ -3090,6 +3090,14 @@
           <context context-type="sourcefile">src/app/routes/your-location/your-location.component.html</context>
           <context context-type="linenumber">49</context>
         </context-group>
+          <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">195</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">198</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="873b72903b1858a9cd6c8967521030b4d7d1435b" datatype="html">
         <source>State</source>
@@ -3098,6 +3106,14 @@
           <context context-type="sourcefile">src/app/routes/your-location/your-location.component.html</context>
           <context context-type="linenumber">58</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">203</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">206</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="3557391206512aa49b08c99c56ab2705ebbdf4bd" datatype="html">
         <source>City/Distict</source>
@@ -3105,6 +3121,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
           <context context-type="linenumber">183</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">215</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ce3bb7411069c96e2065502c115323680e7f1ce0" datatype="html">
@@ -3233,6 +3253,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/almost-done/almost-done.component.html</context>
           <context context-type="linenumber">158</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/work-info-list/work-info-list.component.html</context>
+          <context context-type="linenumber">194</context>
+        </context-group>
+          <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/work-info-list/work-info-list.component.html</context>
+          <context context-type="linenumber">215</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8506e18325577c4f5208f195601392ca482f95e9" datatype="html">
@@ -3566,9 +3594,17 @@
           <context context-type="sourcefile">src/app/routes/profile-view/education-edit/education-edit.component.html</context>
           <context context-type="linenumber">38</context>
         </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/work-info-list/work-info-list.component.html</context>
+          <context context-type="linenumber">225</context>
+        </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-list/work-info-list.component.html</context>
           <context context-type="linenumber">85</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">227</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/work-info-edit/work-info-edit.component.html</context>
@@ -4839,7 +4875,7 @@
             <target state="final">अगला</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
-          <context context-type="linenumber">55</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0d864c588719b2a5a3e20801cf147866a93f636b" datatype="html">
@@ -4849,7 +4885,7 @@
         <target state="final">जमा करना</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="63342d96da52b71c9cf58c5d868486e1a2bb4fdb" datatype="html">
@@ -4859,7 +4895,7 @@
         <target state="final">जारी रखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component.html</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e3be4ff53fa73aedad7ebc0fa21d0590990eb36e" datatype="html">
@@ -5037,6 +5073,14 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
           <context context-type="linenumber">160</context>
+        </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">220</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">221</context>
         </context-group>
       </trans-unit>
       <trans-unit id="003c94fc143882ac8af6251a1595fe62978fe3e6" datatype="html">

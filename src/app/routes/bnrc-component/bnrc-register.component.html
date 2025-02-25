@@ -80,24 +80,29 @@
       <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
           class="red-icon">*</span></label>
 
-      <div class="form-group input-box">
+      <div class="form-group input-box mb-0">
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <input matInput [matAutocomplete]="auto" formControlName="instituteName" placeholder="Name of Institute"
             i18n-placeholder
-            (change)="assignFields('institutionName', almostDoneForm.controls['instituteName'].value, $event)" required
+            (change)="assignFields('institutionName', bnrcDetailForm.controls['instituteName'].value, $event)" required
             autocomplete="off" />
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option [title]="institute.name" *ngFor="let institute of filteredInstitutes | async"
-              [value]="institute.name">
+            <mat-option *ngFor="let institute of filteredInstitutes | async" [value]="institute.name">
               {{ institute.name }}
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
+          Name of Institute is required.
+        </mat-error>
+        <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.hasError('invalidInstitute')">
+          Please select a valid institute from the list.
+        </mat-error>
       </div>
-      <mat-error
-        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
-        Name of Institute is required.
-      </mat-error>
+
+
+
       <!-- <mat-error
         *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
         Name of Institute should be in English and should not start with a space.
@@ -135,15 +140,14 @@
       <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
           class="red-icon">*</span></label>
 
-      <div class="form-group input-box">
+      <div class="form-group input-box mb-0">
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <input matInput [matAutocomplete]="auto" formControlName="instituteName" placeholder="Name of Institute"
             i18n-placeholder
-            (change)="assignFields('institutionName', almostDoneForm.controls['instituteName'].value, $event)" required
+            (change)="assignFields('institutionName', bnrcDetailForm.controls['instituteName'].value, $event)" required
             autocomplete="off" />
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option [title]="institute.name" *ngFor="let institute of filteredInstitutes | async"
-              [value]="institute.name">
+            <mat-option *ngFor="let institute of filteredInstitutes | async" [value]="institute.name">
               {{ institute.name }}
             </mat-option>
           </mat-autocomplete>
@@ -154,6 +158,10 @@
         *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
         Name of Institute is required.
       </mat-error>
+      <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.hasError('invalidInstitute')">
+        Please select a valid institute from the list.
+      </mat-error>
+
       <!-- <mat-error
         *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
         Name of Institute should be in English and should not start with a space.

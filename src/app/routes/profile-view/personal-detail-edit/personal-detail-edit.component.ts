@@ -214,10 +214,16 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     this.setCountryCode(option)
     if (option === 'India') {
       this.selectDisable = true
+      this.personalDetailForm.controls.state.setValidators([Validators.required])
+      this.personalDetailForm.controls.distict.setValidators([Validators.required])
     } else {
       this.selectDisable = false
       this.personalDetailForm.controls.state.setValue(null)
       this.personalDetailForm.controls.distict.setValue(null)
+      this.personalDetailForm.controls.state.clearValidators()
+      this.personalDetailForm.controls.distict.clearValidators()
+      this.savebtnDisable = false
+      this.disticts = []
     }
   }
   setCountryCode(country: string) {

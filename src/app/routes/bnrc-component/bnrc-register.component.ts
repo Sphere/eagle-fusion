@@ -17,7 +17,7 @@ import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
-import { startWith, map } from 'rxjs/operators'
+import { startWith, map, tap } from 'rxjs/operators'
 import { Observable } from 'rxjs'
 
 @Component({
@@ -186,7 +186,15 @@ export class BnrcRegisterComponent implements OnInit {
       this.institutes = instituteData.institueName // Store the institutes data
       this.filteredInstitutes = this.bnrcDetailForm.controls['instituteName'].valueChanges.pipe(
         startWith(''),
-        map((value) => this._filter(value))
+        map(value => this._filter(value)),
+        tap(filtered => {
+          if (filtered.length === 0 && this.bnrcDetailForm.get('instituteName')?.value) {
+            this.bnrcDetailForm.get('instituteName')?.setValue(null)
+            this.bnrcDetailForm.get('instituteName')?.setErrors({ invalidInstitute: true })
+          } else {
+            this.bnrcDetailForm.get('instituteName')?.setErrors(null)
+          }
+        })
       )
     })
     this.route.queryParams.subscribe(params => {
@@ -216,11 +224,13 @@ export class BnrcRegisterComponent implements OnInit {
       }
     })
   }
-  private _filter(value: string): any[] {
-    const filterValue = value.toLowerCase()
-    return this.institutes.filter((institute: { name: string }) =>
-      institute.name.toLowerCase().includes(filterValue)
-    )
+  private _filter(value: string): { name: string }[] {
+    console.log("value", value)
+    if (value) {
+      const filterValue = value.toLowerCase()
+      return this.institutes.filter(institute => institute.name.toLowerCase().includes(filterValue))
+    }
+    return []
   }
 
   assignFields(fieldName: string, value: string, event: any) {
