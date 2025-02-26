@@ -261,7 +261,10 @@ export class WorkInfoListComponent implements OnInit {
     // this.savebtnDisable = false
     this.personalDetailForm.controls.designation.clearValidators()
     this.personalDetailForm.controls.orgType.clearValidators()
+    this.personalDetailForm.controls.orgOtherSpecify.clearValidators()
 
+    this.personalDetailForm.controls.orgType.setValue(null)
+    this.personalDetailForm.controls.designation.setValue(null)
     if (value === 'Healthcare Worker') {
       this.showDesignation = true
       this.orgTypeField = false
