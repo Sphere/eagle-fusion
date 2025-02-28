@@ -153,6 +153,7 @@ import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
 import { PlayerVideoPopupComponent } from '../../library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 import { HammerGestureConfig } from '@angular/platform-browser'
+import { NotificationsComponent } from './routes/notification/notification.component'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -278,6 +279,7 @@ const dbConfig: DBConfig = {
     CreateAccountComponent,
     BnrcRegisterComponent,
     UpsmfRegisterComponent,
+    NotificationsComponent,
     YourLocationComponent,
     NewTncComponent,
     YourBackgroundComponent,

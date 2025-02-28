@@ -60,6 +60,7 @@ import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
+import { NotificationsComponent } from './routes/notification/notification.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
@@ -265,6 +266,11 @@ const routes: Routes = [
   {
     path: 'app/user/my_courses', component: MyCoursesComponent,
     canActivate: [GeneralGuard]
+  },
+  {
+    path: 'notification',
+    component: NotificationsComponent,
+    data: { animation: 'notification' }
   },
   // {
   //   path: 'app/video-player',

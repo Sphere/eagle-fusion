@@ -147,3 +147,20 @@ a {
     cursor: pointer;
     filter: invert(.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
 }
+.badge {
+  position: absolute;
+  top: 1px;
+  right: -5px;
+  background: rgba(248, 136, 8, 1);
+  color: #fff;
+  padding: 4px;
+  height: 19px;
+  width: 19px;
+  font-size: 10px;
+  border-radius: 50%;
+  font-weight: 700;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 2px 5px #0003;
+}
