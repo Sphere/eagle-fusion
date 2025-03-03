@@ -571,13 +571,13 @@ export class BnrcRegisterComponent implements OnInit {
     this.bnrcDetailForm.markAllAsTouched()
     console.log("this.bnrcDetailForm", this.bnrcDetailForm)
     this.loader.changeLoad.next(true)
-    if (this.bnrcDetailForm.controls.instituteName.value) {
-      const instituteName = this.bnrcDetailForm.controls.instituteName.value.trim() // Trim to avoid accidental spaces
+    // if (this.bnrcDetailForm.controls.instituteName.value) {
+    //   const instituteName = this.bnrcDetailForm.controls.instituteName.value.trim() // Trim to avoid accidental spaces
 
-      this.filteredInstitutes.subscribe(filteredInstitutesArray => {
-        filteredInstitutesArray.includes(instituteName) // Exact match check
-      })
-    }
+    //   this.filteredInstitutes.subscribe(filteredInstitutesArray => {
+    //     filteredInstitutesArray.includes(instituteName) // Exact match check
+    //   })
+    // }
     if (this.bnrcDetailForm.valid) {
 
       const phone = {
