@@ -23,20 +23,10 @@
   transform: translateX(-60px);
 }
 
-.delete-button {
-  position: absolute;
-  right: -60px;
-  background: red;
-  color: white;
-  border: none;
-  padding: 5px 10px;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: right 0.3s ease-in-out;
-}
-
-.notification-item.swiped .delete-button {
-  right: 10px;
+@media only screen and (max-width: 599px) {
+    .notification-container {
+        margin-top: 50px;
+    }
 }
 
 
@@ -46,6 +36,9 @@
     margin: 10px auto;
     padding-top: 3.5rem;
     height: 80vh;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }
 
 .notification-item {
@@ -71,7 +64,7 @@
     width: 3rem;
     height: 3rem;
     overflow: hidden;
-    margin-right: 1rem;
+    margin: 0rem 1rem;
     border-radius: 50%;
 }
 
@@ -160,16 +153,6 @@
     font-weight: 600;
 }
 
-.delete-button {
-    background: none;
-    border: none;
-    font-size: 20px;
-    color: red;
-    cursor: pointer;
-    position: absolute;
-    right: 0.5rem;
-    top: 0.5rem;
-}
 
 .notification_certificate {
     margin-top: 12px;
@@ -179,4 +162,33 @@
     font-size: 14px;
     cursor: pointer;
     margin-bottom: 2px;
+}
+
+
+
+
+
+
+
+
+.notification-item {
+  position: relative;
+  transition: transform 0.3s ease;
+}
+
+.notification-item.swiped {
+  transform: translateX(-80px); /* Adjust based on your design */
+}
+
+.delete-button {
+  position: absolute;
+  right: -80px; /* Adjust based on your design */
+  top: 50%;
+  transform: translateY(-50%);
+  background: red;
+  border: none;
+  color: white;
+  padding: 10px;
+  cursor: pointer;
+  transition: right 0.3s ease;
 }

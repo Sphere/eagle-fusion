@@ -1,50 +1,54 @@
-<div class="notification_header">
-  <h2>Notification</h2>
-  <div class="kebab-info" (click)="openDailog()">
-    <img src="/fusion-assets/icons/kebab-menu.png" alt="Menu">
-  </div>
-</div>
-
-<div class="dropdown-content" *ngIf="dropdownContent && allNotificationList.length">
-  <div class="dropdown-item" (click)="handleAction('read')">
-    <span class="icon">&#x2714;</span> <!-- Checkmark Icon -->
-    <span class="text-style">MARK_ALL_AS_READ</span>
-  </div>
-  <div class="dropdown-item" (click)="handleAction('clear')">
-    <span class="icon">&#x2716;</span> <!-- Close Icon -->
-    <span class="text-style">Clear All</span>
-  </div>
-</div>
-
-<div class="wrapper" *ngIf="allNotificationList.length" (click)="closeDialog()">
-  <div *ngFor="let item of allNotificationList" class="notification-item"
-    [ngClass]="{ 'unread': item.status === 'unread', 'swiped': item.isSwiped }"
-    (touchstart)="onTouchStart($event, item)" (touchmove)="onTouchMove($event, item)" (touchend)="onTouchEnd(item)"
-    (click)="readNotification(item)">
-
-    <div class="notification-avatar">
-      <img [src]="item.data?.actionData?.logo" alt="Notification Logo">
+<div class="notification-container">
+  <div class="notification_header">
+    <h2>Notification</h2>
+    <div class="kebab-info" (click)="openDailog()">
+      <img src="/fusion-assets/icons/kebab-menu.png" alt="Menu">
     </div>
-
-    <div class="notification-content">
-      <span class="notification-message" *ngIf="item.data?.actionData?.description">
-        {{ item.data.actionData.description }}
-      </span>
-      <span class="notification-title" *ngIf="item.data?.actionData?.title">
-        {{ item.data.actionData.title }}
-      </span>
-    </div>
-
-    <div class="notification-date" [innerHTML]="getNotificationTime(item.createdon)"></div>
-
-    <button class="delete-button" (click)="deleteNotification(item, $event)">
-      &#x1F5D1; <!-- Trash Icon -->
-    </button>
   </div>
-</div>
+
+  <div class="dropdown-content" *ngIf="dropdownContent && allNotificationList.length">
+    <div class="dropdown-item" (click)="handleAction('read')">
+      <span class="icon">&#x2714;</span> <!-- Checkmark Icon -->
+      <span class="text-style">MARK_ALL_AS_READ</span>
+    </div>
+    <div class="dropdown-item" (click)="handleAction('clear')">
+      <span class="icon">&#x2716;</span> <!-- Close Icon -->
+      <span class="text-style">Clear All</span>
+    </div>
+  </div>
+
+  <div class="wrapper" *ngIf="allNotificationList.length">
+    <div *ngFor="let item of allNotificationList" class="notification-item"
+      [ngClass]="{ 'unread': item.status === 'unread', 'swiped': item.isSwiped }"
+      (touchstart)="onTouchStart($event, item)" (touchmove)="onTouchMove($event, item)" (touchend)="onTouchEnd(item)"
+      (click)="onNotificationClick(item)">
+
+      <div class="notification-avatar">
+        <img [src]="item.data?.actionData?.logo" alt="Notification Logo">
+      </div>
+
+      <div class="notification-content">
+        <span class="notification-message" *ngIf="item.data?.actionData?.description">
+          {{ item.data.actionData.description }}
+        </span>
+        <span class="notification-title" *ngIf="item.data?.actionData?.title">
+          {{ item.data.actionData.title }}
+        </span>
+      </div>
+      <div class="notification-date" [innerHTML]="getNotificationTime(item.createdon)"></div>
+      <button class="delete-button" *ngIf="item.isSwiped" (click)="deleteNotification(item, $event)"
+        (touchstart)="preventTouchEvent($event)" (touchend)="preventTouchEvent($event)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+    </div>
+  </div>
 
 
 
-<div *ngIf="!unReadNotificationList.length && !readNotificationList.length" class="empty__notification__text">
-  No notification
+
+
+  <div *ngIf=" !unReadNotificationList.length && !readNotificationList.length" class="empty__notification__text">
+    No notification
+  </div>
 </div>

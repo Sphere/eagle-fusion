@@ -151,6 +151,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   touchMoveX = 0
   swipeThreshold = 50 // Minimum distance to trigger swipe
 
+
+  startX!: number
+  startY!: number
+  threshold = 80; // Swipe distance threshold
+  currentSwipedId: string | null = null // Track currently swiped item ID
+
   constructor(
     // @Inject('AUTH_SERVICE') public authService: AuthService,
     private events: Events,
@@ -175,31 +181,80 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   openDailog() {
     this.dropdownContent = !this.dropdownContent
   }
-  onTouchStart(event: TouchEvent, _item: any) {
-    this.touchStartX = event.touches[0].clientX
-    this.touchMoveX = this.touchStartX
+
+
+
+  onTouchStart(event: TouchEvent, item: any) {
+    console.log("yes here 1")
+    this.startX = event.touches[0].clientX
+    this.startY = event.touches[0].clientY
+
+    // Reset all swiped notifications except the current one
+    if (this.currentSwipedId !== item.id) {
+      this.hideAllDeleteButtons()
+    }
+
+    item.isSwiped = false
   }
 
-  onTouchMove(event: TouchEvent, _item: any) {
-    this.touchMoveX = event.touches[0].clientX
-  }
 
-  onTouchEnd(item: any) {
-    const swipeDistance = this.touchStartX - this.touchMoveX
+  onTouchMove(event: TouchEvent, item: any) {
+    console.log("yes here 2")
 
-    if (swipeDistance > this.swipeThreshold) {
-      // Swiped left, show delete button
+    const currentX = event.touches[0].clientX
+    const currentY = event.touches[0].clientY
+    const diffX = this.startX - currentX
+    const diffY = this.startY - currentY
+
+    if (Math.abs(diffX) > Math.abs(diffY) && diffX > this.threshold) {
       item.isSwiped = true
     } else {
-      // Reset state if no significant swipe
       item.isSwiped = false
     }
   }
+
+  onTouchEnd(item: any) {
+    console.log("yes here 3")
+
+    const diffX = this.startX - this.touchMoveX
+    console.log("diff", diffX)
+
+    if (Math.abs(diffX) > this.threshold) {
+      console.log("yes here 4")
+
+      // Reset other items and set the current swiped ID
+      this.hideAllDeleteButtons()
+      item.isSwiped = true
+      this.currentSwipedId = item.id
+    } else {
+      console.log("yes here 5")
+
+      // Regular click, reset swipe and open the notification
+      this.currentSwipedId = null
+      item.isSwiped = false
+      this.onNotificationClick(item)
+    }
+  }
+
+
+
+  onNotificationClick(item: any) {
+    this.hideAllDeleteButtons()
+    item.isSwiped = !item.isSwiped
+  }
+
+  hideAllDeleteButtons() {
+    this.allNotificationList.forEach((notification: any) => {
+      notification.isSwiped = false
+      this.currentSwipedId = null
+
+    })
+  }
+
   handleAction(message: string) {
     this.dropdownContent = !this.dropdownContent
     switch (message) {
       case 'read':
-        debugger
         if (this.unReadNotificationList.length) {
           this.socket.emit('markAllAsRead', { userId: this.user_id })
           this.unReadNotificationList = this.unReadNotificationList.map((elem) => ({ ...elem, status: 'read' }))
@@ -300,7 +355,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async readNotification(item: any) {
-    debugger
     if (!this.socket || !this.socket.connected) {
       await this.connectSocket()
     }
@@ -333,6 +387,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       }
     }
   }
+  preventTouchEvent(event: TouchEvent) {
+    event.stopPropagation() // Stop event from bubbling to parent
+    event.preventDefault()  // Prevent default touch behavior
+  }
 
   ngOnDestroy() {
     if (this.socket) {
@@ -341,7 +399,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-  async deleteNotification(item: any) {
+
+  async deleteNotification(item: any, event: Event) {
+    console.log("✅ deleteNotification called!") // Debugging log
+    event.stopPropagation() // Stop event from bubbling to parent
+    console.log("yes here delete")
     if (item?.status === 'read') {
       this.readNotificationList = this.readNotificationList.filter((ele) => ele.id !== item.id)
       this.storage.setLocalStorage('readNotificationLists', { userId: this.user_id, notifications: this.readNotificationList })
@@ -352,6 +414,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
     this.setAllNotificationList()
   }
+
 
   setAllNotificationList() {
     if (this.readNotificationList.length || this.unReadNotificationList.length) {
