@@ -566,18 +566,29 @@ export class BnrcRegisterComponent implements OnInit {
     this.bnrcDetailForm.updateValueAndValidity()
 
   }
+  checkInstitute() {
+    if (this.bnrcDetailForm.controls.instituteName.value) {
+      const instituteName = this.bnrcDetailForm.controls.instituteName.value.trim().toLowerCase()
+      console.log("instituteName", instituteName, this.institutes)
 
+      const isPresent = this.institutes.some((institute: any) =>
+        institute.name.trim().toLowerCase() === instituteName
+      )
+      if (isPresent) {
+        console.log("correct value selected")
+      } else {
+        this.bnrcDetailForm.get('instituteName')?.setValue(null)
+        this.bnrcDetailForm.get('instituteName')?.setErrors({ invalidInstitute: true })
+      }
+    }
+
+  }
   onSubmit() {
     this.bnrcDetailForm.markAllAsTouched()
     console.log("this.bnrcDetailForm", this.bnrcDetailForm)
     this.loader.changeLoad.next(true)
-    // if (this.bnrcDetailForm.controls.instituteName.value) {
-    //   const instituteName = this.bnrcDetailForm.controls.instituteName.value.trim() // Trim to avoid accidental spaces
 
-    //   this.filteredInstitutes.subscribe(filteredInstitutesArray => {
-    //     filteredInstitutesArray.includes(instituteName) // Exact match check
-    //   })
-    // }
+    this.checkInstitute()
     if (this.bnrcDetailForm.valid) {
 
       const phone = {
