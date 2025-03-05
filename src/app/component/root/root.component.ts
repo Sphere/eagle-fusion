@@ -44,7 +44,7 @@ import dayjs from 'dayjs'
 const { App } = Plugins
 //import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
-import { environment } from '../../../environments/environment'
+// import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material/dialog';
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
@@ -61,6 +61,8 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
 import { io } from "socket.io-client"
+import { LocalStorageService } from '../../services/local-storage.service'
+import { Events } from '../../routes/notification/events'
 
 @Component({
   selector: 'ws-root',
@@ -133,6 +135,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private UserAgentResolverService: UserAgentResolverService,
     private userSvc: WidgetUserService,
     private viewerSvc: ViewerUtilService,
+    private storage: LocalStorageService,
+    private events: Events,
+
     @Inject(DOCUMENT) private _document: Document
   ) {
     this.domain = window.location.hostname
@@ -686,14 +691,16 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       const parsedData = JSON.parse(loginData)
       let token = parsedData.token?.access_token
       console.log("token", token)
-
+      return token
+      // return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiJmYzE1ZDg1Mi02NmUxLTRjYTUtYWM1YS1mYjA1Y2Q5NmQ0OTQiLCJleHAiOjE3NDMxNDY1NDksIm5iZiI6MCwiaWF0IjoxNzQwNTU0NTQ5LCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiY2E4NjU0MzktMjgwZS00MzkxLTgyZGItYTUwMGE0MDBhM2ZjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.fL1p9vJetVOK4DRGPo8wJtrzJcJf5MVmatcUGdVMSEu0IZ2zfr5X-kVk4RSqqmLG00ApY5_fcYb6EWrUVScU9BwWBJdfPl0Xbhk4eQwRnfoM13_ab64v02rAcUL-U3yuwyaMnBn9Cfbij1kb0M2wnWjW0EAyV9lSuQ65yzShIVXjaRmfGhqVkuq_TyoKrnr2xKlzCUPfeQcDIApD-pqxa6DSuhS1Gu1qgIKoAvZx6MPtQoLiauMa-s_I51_2c2Gmo960G0HCy3EluE62ulUXqUVpfyLFvzSIgWD545bXBd6fycVzNenbIeNDTAdI_hwKM9ixKQB6PCy-NZdV2gfdRQ'
     }
     return ''
   }
 
   async getConnectToSocket(data?: any) {
-    const url = `wss://${environment.sitePath}`
-
+    // const url = `wss://${environment.sitePath}`
+    const baseUrl = "wss://aastrika-stage.tarento.com"
+    const url = baseUrl
     const token = (data && data.accessToken) ? data!.accessToken : await this.getAccessToken()
     console.log('token is', token)
     const socket = io(url, {
@@ -708,8 +715,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     socket.emit('getNotifications', { userId: (data && data.userId) ? data.userId : this.userId })
 
     socket.on('notificationsData', (_data) => {
-      // this.appGlobalService.setNumberOfNotifications(data?.notificationData?.length)
-      // this.events.publish("notificationCountUpdated", data?.notificationData?.length)
+      this.storage.setNumberOfNotifications(data?.notificationData?.length)
+      this.events.publish("notificationCountUpdated", data?.notificationData?.length)
     })
   }
 

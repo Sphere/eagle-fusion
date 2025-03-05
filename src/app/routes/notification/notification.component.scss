@@ -33,16 +33,12 @@
     justify-content: space-between;
     width: 99%;
     height: auto;
-    margin-bottom: 20px;
     padding: 1.2rem 0.5rem;
     background-color: white;
-    border-radius: 1rem;
+    border-radius: 10px;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease-in;
     cursor: pointer;
-    margin-left: 2px;
-    margin-top: 2px;
-    margin-bottom: 15px;
 }
 
 .notifications__item__avatar {
@@ -101,34 +97,10 @@
     top: 0;
 }
 
-ion-item {
-    // --background: transparent;
-    // --color: #333;
-    // --padding-start: 12px;
-    // --padding-end: 12px;
-    --background: none !important;
-    padding-right: unset;
-    padding-inline-end: unset !important;
-
-    ion-icon {
-        font-size: 20px;
-        color: #2E6491;
-        margin-right: 8px;
-    }
-
-    &:hover {
-        --background: #f4f4f4;
-        /* Add hover effect */
-    }
-}
-
 .text-style {
     color: #2E6491
 }
 
-ion-item-sliding {
-    margin-bottom: 10px;
-}
 
 .notifications__item__message a {
     color: rgba(46, 100, 145, 1) !important;
@@ -145,13 +117,16 @@ ion-item-sliding {
     font-size: 12px;
  }
 
- .empty__notification__text{
-    text-align: center;
-    margin-top: 80%;
-    color: #babdbd;
-    font-size: 17px;
-    font-weight: 600;
- }
+.empty__notification__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; // Full height of the viewport
+  color: #babdbd;
+  font-size: 17px;
+  font-weight: 600;
+}
+
 
  .notification_certificate{
     margin-top: 12px;
@@ -162,3 +137,53 @@ ion-item-sliding {
     cursor: pointer;
     margin-bottom: 2px;
  }
+
+
+//  ============================new code
+.notification-slide-container {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  background: white;
+  transition: transform 0.3s ease-in-out;
+  width: 100%;
+  position: relative;
+  z-index: 2; // Keep it above the delete button
+}
+
+
+.notifications__item__content {
+  flex-grow: 1;
+}
+
+.notifications__item__date {
+  font-size: 12px;
+  color: gray;
+}
+
+/* Delete button positioned behind the notification */
+.delete-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 80px;
+  background: red;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  z-index: 1; // Behind the notification card
+}
+
+

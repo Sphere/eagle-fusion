@@ -5,7 +5,7 @@ import { Socket, io } from "socket.io-client"
 
 import { Router } from "@angular/router"
 
-import { environment } from '../../../environments/environment'
+// import { environment } from '../../../environments/environment'
 import { Events } from "./events"
 import { LocalStorageService } from "../../services/local-storage.service"
 import {
@@ -21,131 +21,71 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   dropdownContent = false;
   readNotificationList: any = [];
   unReadNotificationList: any = [];
-  allNotificationList = [
-    {
-      status: "read",
-      createdon: "2025-02-25T10:00:00Z",
-      data: {
-        actionData: {
-          actionType: "course",
-          identifier: "do_11413970065553817612",
-          logo: "https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com/collection/do_11413970065553817612/artifact/do_11413970085802803213_1726037703072_do114064734579908608151716886545860certificate117168865445991726037701451.thumb.jpg",
-          title: "New Course Available",
-          description: "A new course on Advanced Cardiac Life Support is now available.",
-        }
-      }
-    },
-    {
-      status: "read",
-      createdon: "2025-02-24T15:30:00Z",
-      data: {
-        actionData: {
-          actionType: "course",
-          identifier: "do_11413970065553817612",
-          logo: "https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com/collection/do_11413970065553817612/artifact/do_11413970085802803213_1726037703072_do114064734579908608151716886545860certificate117168865445991726037701451.thumb.jpg",
-          title: "Course Updated",
-          description: "The Oncology Nursing course has been updated with new modules.",
-        }
-      }
-    },
-    {
-      status: "unread",
-      createdon: "2025-02-23T08:45:00Z",
-      data: {
-        actionData: {
-          actionType: "certificate",
-          identifier: "do_11413970065553817612",
-          logo: "https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com/collection/do_11413970065553817612/artifact/do_11413970085802803213_1726037703072_do114064734579908608151716886545860certificate117168865445991726037701451.thumb.jpg",
-          title: "Upcoming Webinar",
-          description: "Join our upcoming webinar on Postpartum Care this weekend.",
-        }
-      }
-    },
-    {
-      status: "unread",
-      createdon: "2025-02-22T12:00:00Z",
-      data: {
-        actionData: {
-          actionType: "courseUpdate",
-          identifier: "do_11342648503935795211688",
-          logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_11342650365052518411699/artifact/do_11342650365052518411699_1638977496480_qw1638977496296.png",
-          title: "Integrated Sexual and Reproductive Health (ISRH)",
-          description: "Launched a new course",
-        }
-      }
-    },
-    {
-      status: "unread",
-      createdon: "2025-02-21T09:30:00Z",
-      data: {
-        actionData: {
-          actionType: "certificateUpdate",
-          identifier: "do_1134170689871134721450",
-          logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1134170689871134721450/artifact/do_1134172312759009281507_1637848523570_normallabourandbirthalt1620746178335.thumb.png",
-          title: "Normal Labour & Birth and AMTSL",
-          description: "Congratulations! You have successfully completed the course",
-        }
-      }
-    },
-    {
-      status: "unread",
-      createdon: "2025-02-20T14:45:00Z",
-      data: {
-        actionData: {
-          actionType: "courseUpdate",
-          identifier: "do_113789659935694848169",
-          logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1137914849112309761114/artifact/do_1137914849112309761114_1683530873281_combined1683530872216.png",
-          title: "Infection Prevention",
-          description: "New Course Added",
-        }
-      }
-    },
-    {
-      status: "unread",
-      createdon: "2025-02-19T17:20:00Z",
-      data: {
-        actionData: {
-          actionType: "courseUpdate",
-          identifier: "do_1134170690099118081470",
-          logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1134172312759009281507/artifact/do_1134172312759009281507_1637848567343_fernandezfoundationprimarylogo20191599049077665.jpg",
-          title: "Respectful Maternity Care (M1-S1-U4)",
-          description: "Ram Kumar has commented on your post.",
-        }
-      }
-    },
-    {
-      status: "unread",
-      createdon: "2025-02-18T10:10:00Z",
-      data: {
-        actionData: {
-          actionType: "courseUpdate",
-          identifier: "do_1134941664409272321316",
-          logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1135111184512696321759/artifact/do_1135111184512696321759_1649306451969_bf11649306451278.jpg",
-          title: "Value Added Course on Lactation Counselor",
-          description: "Upcoming course! ",
-        }
-      }
-    },
-    {
-      status: "unread",
-      createdon: "2025-02-17T11:55:00Z",
-      data: {
-        actionData: {
-          actionType: "courseUpdate",
-          identifier: "do_11357408383009587211503",
-          logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_11357408383009587211503/artifact/do_1135050043459420161605_1648560100961_thumb1648560100111.thumb.png",
-          title: "Implementing Respectful Maternity Care In Healthcare Facilities",
-          description: "New Course Available ",
-        }
-      }
-    }
-  ];
-  access_token = '';
-  user_id = '';
+  // allnotificationList = [
+  //   {
+  //     status: "read",
+  //     createdon: "2025-02-24T15:30:00Z",
+  //     data: {
+  //       actionData: {
+  //         actionType: "course",
+  //         identifier: "do_11413970065553817612",
+  //         logo: "https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com/collection/do_11413970065553817612/artifact/do_11413970085802803213_1726037703072_do114064734579908608151716886545860certificate117168865445991726037701451.thumb.jpg",
+  //         title: "Course Updated",
+  //         description: "The Oncology Nursing course has been updated with new modules.",
+  //       }
+  //     }
+  //   },
+  //   {
+  //     status: "unread",
+  //     createdon: "2025-02-23T08:45:00Z",
+  //     data: {
+  //       actionData: {
+  //         actionType: "certificate",
+  //         identifier: "do_11413970065553817612",
+  //         logo: "https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com/collection/do_11413970065553817612/artifact/do_11413970085802803213_1726037703072_do114064734579908608151716886545860certificate117168865445991726037701451.thumb.jpg",
+  //         title: "Upcoming Webinar",
+  //         description: "Join our upcoming webinar on Postpartum Care this weekend.",
+  //       }
+  //     }
+  //   },
+  //   {
+  //     status: "unread",
+  //     createdon: "2025-02-21T09:30:00Z",
+  //     data: {
+  //       actionData: {
+  //         actionType: "certificateUpdate",
+  //         identifier: "do_1134170689871134721450",
+  //         logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1134170689871134721450/artifact/do_1134172312759009281507_1637848523570_normallabourandbirthalt1620746178335.thumb.png",
+  //         title: "Normal Labour & Birth and AMTSL",
+  //         description: "Congratulations! You have successfully completed the course",
+  //       }
+  //     }
+  //   },
+  //   {
+  //     status: "unread",
+  //     createdon: "2025-02-19T17:20:00Z",
+  //     data: {
+  //       actionData: {
+  //         actionType: "courseUpdate",
+  //         identifier: "do_1134170690099118081470",
+  //         logo: "https://sunbirdcontent.s3-ap-south-1.amazonaws.com/content/do_1134172312759009281507/artifact/do_1134172312759009281507_1637848567343_fernandezfoundationprimarylogo20191599049077665.jpg",
+  //         title: "Respectful Maternity Care (M1-S1-U4)",
+  //         description: "Ram Kumar has commented on your post.",
+  //       }
+  //     }
+  //   },
+
+  // ];
+  allnotificationList: any = []
+  access_token = ''
+  user_id = ''
   message!: SafeHtml
   image!: string
   socket!: Socket
   loader: any
+  startX = 0
+  movedX = 0
+  threshold = -80
   constructor(
 
     private events: Events,
@@ -185,7 +125,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         }
         break
       case 'clear':
-        this.allNotificationList = []
+        this.allnotificationList = []
         if (this.readNotificationList.length) {
           this.readNotificationList = []
           this.storage.setLocalStorage('readNotificationLists', { userId: this.user_id, notifications: this.readNotificationList })
@@ -208,8 +148,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       const parsedData = JSON.parse(loginData)
       let token = parsedData.token?.access_token
       console.log("token", token)
-      // return token
-      return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiJmYzE1ZDg1Mi02NmUxLTRjYTUtYWM1YS1mYjA1Y2Q5NmQ0OTQiLCJleHAiOjE3NDMxNDY1NDksIm5iZiI6MCwiaWF0IjoxNzQwNTU0NTQ5LCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiY2E4NjU0MzktMjgwZS00MzkxLTgyZGItYTUwMGE0MDBhM2ZjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.fL1p9vJetVOK4DRGPo8wJtrzJcJf5MVmatcUGdVMSEu0IZ2zfr5X-kVk4RSqqmLG00ApY5_fcYb6EWrUVScU9BwWBJdfPl0Xbhk4eQwRnfoM13_ab64v02rAcUL-U3yuwyaMnBn9Cfbij1kb0M2wnWjW0EAyV9lSuQ65yzShIVXjaRmfGhqVkuq_TyoKrnr2xKlzCUPfeQcDIApD-pqxa6DSuhS1Gu1qgIKoAvZx6MPtQoLiauMa-s_I51_2c2Gmo960G0HCy3EluE62ulUXqUVpfyLFvzSIgWD545bXBd6fycVzNenbIeNDTAdI_hwKM9ixKQB6PCy-NZdV2gfdRQ'
+      return token
+      // return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiJmYzE1ZDg1Mi02NmUxLTRjYTUtYWM1YS1mYjA1Y2Q5NmQ0OTQiLCJleHAiOjE3NDMxNDY1NDksIm5iZiI6MCwiaWF0IjoxNzQwNTU0NTQ5LCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiY2E4NjU0MzktMjgwZS00MzkxLTgyZGItYTUwMGE0MDBhM2ZjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.fL1p9vJetVOK4DRGPo8wJtrzJcJf5MVmatcUGdVMSEu0IZ2zfr5X-kVk4RSqqmLG00ApY5_fcYb6EWrUVScU9BwWBJdfPl0Xbhk4eQwRnfoM13_ab64v02rAcUL-U3yuwyaMnBn9Cfbij1kb0M2wnWjW0EAyV9lSuQ65yzShIVXjaRmfGhqVkuq_TyoKrnr2xKlzCUPfeQcDIApD-pqxa6DSuhS1Gu1qgIKoAvZx6MPtQoLiauMa-s_I51_2c2Gmo960G0HCy3EluE62ulUXqUVpfyLFvzSIgWD545bXBd6fycVzNenbIeNDTAdI_hwKM9ixKQB6PCy-NZdV2gfdRQ'
     }
     return ''
   }
@@ -261,7 +201,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async connectSocket() {
-    const url = `wss://${environment.sitePath}`;;
+    // const url = `wss://${environment.sitePath}`;;
+    const baseUrl = "wss://aastrika-stage.tarento.com"
+    const url = baseUrl
     const token = this.access_token ? this.access_token : await this.getAccessToken()
     this.socket = io(url, {
       auth: { token },
@@ -315,6 +257,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async deleteNotification(item: any) {
+    console.log("item", item)
     if (item?.status === 'read') {
       this.readNotificationList = this.readNotificationList.filter((ele) => ele.id !== item.id)
       this.storage.setLocalStorage('readNotificationLists', { userId: this.user_id, notifications: this.readNotificationList })
@@ -328,8 +271,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   setAllNotificationList() {
     if (this.readNotificationList.length || this.unReadNotificationList.length) {
-      this.allNotificationList = [...this.readNotificationList, ...this.unReadNotificationList]
-      this.allNotificationList.sort((a, b) => new Date(b.createdon).getTime() - new Date(a.createdon).getTime())
+      this.allnotificationList = [...this.readNotificationList, ...this.unReadNotificationList]
+      this.allnotificationList.sort((a, b) => new Date(b.createdon).getTime() - new Date(a.createdon).getTime())
       return
     }
   }
@@ -347,5 +290,30 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       this.dropdownContent = false
     }
   }
+
+  // ========== new code
+  // Minimum swipe distance to reveal delete button
+
+  onTouchStart(event: TouchEvent, _element: HTMLElement) {
+    this.startX = event.touches[0].clientX
+    this.movedX = 0
+  }
+
+  onTouchMove(event: TouchEvent, element: HTMLElement) {
+    const deltaX = event.touches[0].clientX - this.startX
+    if (deltaX < 0) {
+      this.movedX = deltaX
+      element.style.transform = `translateX(${deltaX}px)`
+    }
+  }
+
+  onTouchEnd(_event: TouchEvent, element: HTMLElement, _index: number) {
+    if (this.movedX < this.threshold) {
+      element.style.transform = `translateX(${this.threshold}px)`
+    } else {
+      element.style.transform = `translateX(0)`
+    }
+  }
+
 
 }

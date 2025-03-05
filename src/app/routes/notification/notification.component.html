@@ -6,7 +6,7 @@
     </div>
   </div>
 
-  <div class="dropdown-content" *ngIf="dropdownContent && allNotificationList.length">
+  <div class="dropdown-content" *ngIf="dropdownContent && allnotificationList.length">
     <div class="dropdown-item" (click)="handleAction('read')">
       <span class="icon">&#x2714;</span> <!-- Checkmark Icon -->
       <span class="text-style">MARK_ALL_AS_READ</span>
@@ -17,41 +17,36 @@
     </div>
   </div>
 
-  <div class="wrapper" *ngIf="allNotificationList.length">
-    <div *ngFor="let item of allNotificationList" #slidingItem>
-      <!-- Notification Content -->
-      <div lines="none" class="notifications__item"
-        [ngClass]="{ 'notifications__item--unread': item.status === 'unread' }" [class.selected]
-        (click)="readNotification(item)">
-        <div class="notifications__item__avatar">
-          <img [src]="item.data?.actionData?.logo" alt="card image" />
-        </div>
+  <div class="wrapper" *ngIf="allnotificationList.length">
+    <div *ngFor="let item of allnotificationList; let i = index" class="notification-slide-container">
 
-        <div class="notifications__item__content">
-          <span class="notifications__item__message" *ngIf="item.data?.actionData?.description">
-            {{ item.data.actionData.description }}
-          </span>
-          <span class="notifications__item__title" *ngIf="item.data?.actionData?.title">
-            {{ item.data.actionData.title }}
-          </span>
-        </div>
-        <div class="notifications__item__date" [innerHTML]="getNotificationTime(item.createdon)"></div>
-      </div>
+      <!-- Delete Button (Behind the Card) -->
+      <button class="delete-btn" (click)="deleteNotification(item)">
+        <mat-icon>delete</mat-icon>
+      </button>
 
-      <!-- Sliding Options -->
-      <div side="end">
-        <div color="danger" (click)="deleteNotification(item, 'unread')">
-          <div slot="icon-only" name="trash"></div>
+      <!-- Notification Content (Slideable) -->
+      <div (click)="readNotification(item)" class="notification-content" #notification
+        (touchstart)="onTouchStart($event, notification)" (touchmove)="onTouchMove($event, notification)"
+        (touchend)="onTouchEnd($event, notification, i)">
+        <div class="notifications__item" [ngClass]="{ 'notifications__item--unread': item.status === 'unread' }">
+          <div class="notifications__item__avatar">
+            <img [src]="item.data?.actionData?.logo" alt="Notification Image" />
+          </div>
+
+          <div class="notifications__item__content">
+            <span class="notifications__item__message" *ngIf="item.data?.actionData?.description">
+              {{ item.data.actionData.description }}
+            </span>
+            <span class="notifications__item__title" *ngIf="item.data?.actionData?.title">
+              {{ item.data.actionData.title }}
+            </span>
+          </div>
+          <div class="notifications__item__date">{{ getNotificationTime(item.createdon) }}</div>
         </div>
       </div>
     </div>
   </div>
-
-
-
-
-
-
   <div *ngIf=" !unReadNotificationList.length && !readNotificationList.length" class="empty__notification__text">
     No notification
   </div>
