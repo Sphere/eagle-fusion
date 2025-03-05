@@ -151,16 +151,19 @@
               {{ institute.name }}
             </mat-option>
           </mat-autocomplete>
+
         </mat-form-field>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
+          Name of Institute is required.
+        </mat-error>
+        <mat-error
+          *ngIf="bnrcDetailForm.get('instituteName')?.hasError('invalidInstitute') && (bnrcDetailForm.get('instituteName')?.touched || bnrcDetailForm.get('instituteName')?.dirty)">
+          Please select a valid institute from the list.
+        </mat-error>
       </div>
 
-      <mat-error
-        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('required') && bnrcDetailForm.get('instituteName')?.touched">
-        Name of Institute is required.
-      </mat-error>
-      <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.hasError('invalidInstitute')">
-        Please select a valid institute from the list.
-      </mat-error>
+
 
       <!-- <mat-error
         *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
