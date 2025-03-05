@@ -18,31 +18,35 @@
   </div>
 
   <div class="wrapper" *ngIf="allNotificationList.length">
-    <div *ngFor="let item of allNotificationList" class="notification-item"
-      [ngClass]="{ 'unread': item.status === 'unread', 'swiped': item.isSwiped }"
-      (touchstart)="onTouchStart($event, item)" (touchmove)="onTouchMove($event, item)" (touchend)="onTouchEnd(item)"
-      (click)="onNotificationClick(item)">
+    <div *ngFor="let item of allNotificationList" #slidingItem>
+      <!-- Notification Content -->
+      <div lines="none" class="notifications__item"
+        [ngClass]="{ 'notifications__item--unread': item.status === 'unread' }" [class.selected]
+        (click)="readNotification(item)">
+        <div class="notifications__item__avatar">
+          <img [src]="item.data?.actionData?.logo" alt="card image" />
+        </div>
 
-      <div class="notification-avatar">
-        <img [src]="item.data?.actionData?.logo" alt="Notification Logo">
+        <div class="notifications__item__content">
+          <span class="notifications__item__message" *ngIf="item.data?.actionData?.description">
+            {{ item.data.actionData.description }}
+          </span>
+          <span class="notifications__item__title" *ngIf="item.data?.actionData?.title">
+            {{ item.data.actionData.title }}
+          </span>
+        </div>
+        <div class="notifications__item__date" [innerHTML]="getNotificationTime(item.createdon)"></div>
       </div>
 
-      <div class="notification-content">
-        <span class="notification-message" *ngIf="item.data?.actionData?.description">
-          {{ item.data.actionData.description }}
-        </span>
-        <span class="notification-title" *ngIf="item.data?.actionData?.title">
-          {{ item.data.actionData.title }}
-        </span>
+      <!-- Sliding Options -->
+      <div side="end">
+        <div color="danger" (click)="deleteNotification(item, 'unread')">
+          <div slot="icon-only" name="trash"></div>
+        </div>
       </div>
-      <div class="notification-date" [innerHTML]="getNotificationTime(item.createdon)"></div>
-      <button class="delete-button" *ngIf="item.isSwiped" (click)="deleteNotification(item, $event)"
-        (touchstart)="preventTouchEvent($event)" (touchend)="preventTouchEvent($event)">
-        <mat-icon>delete</mat-icon>
-      </button>
-
     </div>
   </div>
+
 
 
 

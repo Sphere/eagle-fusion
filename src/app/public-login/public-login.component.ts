@@ -247,6 +247,7 @@ export class PublicLoginComponent implements OnInit {
       }
       console.log(type, 'check')
       this.signupService.loginAPI(req).subscribe(res => {
+        localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res.status)
         this.openSnackbar(res.msg || res.message)
         setTimeout(() => {
@@ -365,6 +366,7 @@ export class PublicLoginComponent implements OnInit {
       }
       console.log(req, type)
       this.signupService.loginAPI(req).subscribe(res => {
+        localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res)
         this.openSnackbar(res.msg || res.message)
         setTimeout(() => {

@@ -9,45 +9,32 @@
     height: 7vh;
     display: flex;
 }
-
-.notification-item {
-  position: relative;
-  display: flex;
-  align-items: center;
-  background: white;
-  padding: 10px;
-  transition: transform 0.3s ease-in-out;
-}
-
-.notification-item.swiped {
-  transform: translateX(-60px);
-}
-
 @media only screen and (max-width: 599px) {
     .notification-container {
         margin-top: 50px;
     }
 }
-
-
-
 .wrapper {
     width: 90%;
     margin: 10px auto;
     padding-top: 3.5rem;
     height: 80vh;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
-.notification-item {
+.notification {
+    margin-left: 2px;
+    margin-top: 2px;
+}
+
+
+.notifications__item {
+    display: flex;
     align-items: flex-start;
     justify-content: space-between;
     width: 99%;
     height: auto;
     margin-bottom: 20px;
-    padding: 1.2rem 0;
+    padding: 1.2rem 0.5rem;
     background-color: white;
     border-radius: 1rem;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
@@ -55,48 +42,49 @@
     cursor: pointer;
     margin-left: 2px;
     margin-top: 2px;
-    margin-bottom: 2px;
-    display: flex;
-    position: relative;
+    margin-bottom: 15px;
 }
 
-.notification-avatar {
+.notifications__item__avatar {
     width: 3rem;
     height: 3rem;
     overflow: hidden;
-    margin: 0rem 1rem;
+    margin-right: 1rem;
     border-radius: 50%;
 }
 
-.notification-avatar img {
+.notifications__item__avatar img {
     width: 100%;
     height: 100%;
 }
 
-.notification-content {
+.notifications__item__content {
     width: calc(100% - 20%);
     margin-right: 10px;
 }
 
-.notification-title {
+// .notifications__item__title,
+// .notifications__item__message {
+//    // display: block;
+// }
+
+.notifications__item__title {
     font-family: Roboto, sans-serif;
-    color: #2E6491;
+    color: #2E6491
 }
 
-.notification-message {
+.notifications__item__message {
     font-family: Roboto, sans-serif;
     font-size: 16px;
-}
-
-.notification-message a {
-    color: rgba(46, 100, 145, 1) !important;
-    display: block !important;
+    a {
+        color: rgba(46, 100, 145, 1);
+        display: block;
+    }
 }
 
 .kebab-info {
     position: absolute;
     right: 1rem;
-    cursor: pointer;
 }
 
 .dropdown-content {
@@ -113,48 +101,59 @@
     top: 0;
 }
 
-.dropdown-item {
-    padding: 10px;
-    cursor: pointer;
-}
+ion-item {
+    // --background: transparent;
+    // --color: #333;
+    // --padding-start: 12px;
+    // --padding-end: 12px;
+    --background: none !important;
+    padding-right: unset;
+    padding-inline-end: unset !important;
 
-.dropdown-item:hover {
-    background-color: #f4f4f4;
-}
+    ion-icon {
+        font-size: 20px;
+        color: #2E6491;
+        margin-right: 8px;
+    }
 
-.dropdown-item .icon {
-    font-size: 20px;
-    color: #2E6491;
-    margin-right: 8px;
+    &:hover {
+        --background: #f4f4f4;
+        /* Add hover effect */
+    }
 }
 
 .text-style {
-    color: #2E6491;
+    color: #2E6491
 }
 
-.notification-item.unread {
-    background: rgba(239, 246, 252, 1) !important;
+ion-item-sliding {
+    margin-bottom: 10px;
 }
 
-.notification-date {
+.notifications__item__message a {
+    color: rgba(46, 100, 145, 1) !important;
+    display: block !important;
+  }
+
+ .notifications__item--unread{
+    background: rgba(239, 246, 252, 1)!important;
+ }
+
+ .notifications__item__date {
     color: #808080;
     font-family: Roboto;
     font-size: 12px;
-    position: absolute;
-    right: 1rem;
-    bottom: 1rem;
-}
+ }
 
-.empty__notification__text {
+ .empty__notification__text{
     text-align: center;
     margin-top: 80%;
     color: #babdbd;
     font-size: 17px;
     font-weight: 600;
-}
+ }
 
-
-.notification_certificate {
+ .notification_certificate{
     margin-top: 12px;
     border: 1px solid rgba(46, 100, 145, 1);
     color: rgba(46, 100, 145, 1);
@@ -162,33 +161,4 @@
     font-size: 14px;
     cursor: pointer;
     margin-bottom: 2px;
-}
-
-
-
-
-
-
-
-
-.notification-item {
-  position: relative;
-  transition: transform 0.3s ease;
-}
-
-.notification-item.swiped {
-  transform: translateX(-80px); /* Adjust based on your design */
-}
-
-.delete-button {
-  position: absolute;
-  right: -80px; /* Adjust based on your design */
-  top: 50%;
-  transform: translateY(-50%);
-  background: red;
-  border: none;
-  color: white;
-  padding: 10px;
-  cursor: pointer;
-  transition: right 0.3s ease;
-}
+ }

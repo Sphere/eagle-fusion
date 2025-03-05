@@ -270,6 +270,7 @@ const routes: Routes = [
   {
     path: 'notification',
     component: NotificationsComponent,
+    canActivate: [GeneralGuard],
     data: { animation: 'notification' }
   },
   // {

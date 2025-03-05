@@ -163,6 +163,7 @@ export class AuthKeycloakService {
       localStorage.removeItem('tocData')
       localStorage.removeItem(`userUUID`)
       localStorage.removeItem('showConformation')
+      localStorage.removeItem('loginDetailsWithToken')
       localStorage.clear()
       let url = `${document.baseURI}`
       let redirectUrl = ''

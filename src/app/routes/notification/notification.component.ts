@@ -1,12 +1,12 @@
 import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core"
 import { SafeHtml } from "@angular/platform-browser"
 import { Socket, io } from "socket.io-client"
-// import { AuthService } from "sunbird-sdk"
-import { Events } from './events'
-// import { AppGlobalService, CommonUtilService } from "../../../services"
+
+
 import { Router } from "@angular/router"
-// import { IonItemSliding } from '@ionic/angular'
+
 import { environment } from '../../../environments/environment'
+import { Events } from "./events"
 import { LocalStorageService } from "../../services/local-storage.service"
 import {
   ConfigurationsService,
@@ -17,7 +17,7 @@ import {
   styleUrls: ["./notification.component.scss"],
 })
 export class NotificationsComponent implements OnInit, OnDestroy {
-  // @ViewChild('slidingItem') slidingItem!: IonItemSliding
+
   dropdownContent = false;
   readNotificationList: any = [];
   unReadNotificationList: any = [];
@@ -140,36 +140,23 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       }
     }
   ];
-
   access_token = '';
   user_id = '';
   message!: SafeHtml
   image!: string
   socket!: Socket
   loader: any
-  touchStartX = 0
-  touchMoveX = 0
-  swipeThreshold = 50 // Minimum distance to trigger swipe
-
-
-  startX!: number
-  startY!: number
-  threshold = 80; // Swipe distance threshold
-  currentSwipedId: string | null = null // Track currently swiped item ID
-
   constructor(
-    // @Inject('AUTH_SERVICE') public authService: AuthService,
+
     private events: Events,
-    // private commonUtilService: CommonUtilService,
     private storage: LocalStorageService,
     private router: Router,
     private renderer: Renderer2,
     public configSvc: ConfigurationsService,
+
   ) { }
 
   async ngOnInit() {
-    // this.loader = await this.commonUtilService.getLoader()
-    // this.loader.present()
     await this.getAccessToken()
     this.getReadNotifications()
     if (!(this.socket && this.socket.connected)) {
@@ -182,75 +169,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.dropdownContent = !this.dropdownContent
   }
 
-
-
-  onTouchStart(event: TouchEvent, item: any) {
-    console.log("yes here 1")
-    this.startX = event.touches[0].clientX
-    this.startY = event.touches[0].clientY
-
-    // Reset all swiped notifications except the current one
-    if (this.currentSwipedId !== item.id) {
-      this.hideAllDeleteButtons()
-    }
-
-    item.isSwiped = false
-  }
-
-
-  onTouchMove(event: TouchEvent, item: any) {
-    console.log("yes here 2")
-
-    const currentX = event.touches[0].clientX
-    const currentY = event.touches[0].clientY
-    const diffX = this.startX - currentX
-    const diffY = this.startY - currentY
-
-    if (Math.abs(diffX) > Math.abs(diffY) && diffX > this.threshold) {
-      item.isSwiped = true
-    } else {
-      item.isSwiped = false
-    }
-  }
-
-  onTouchEnd(item: any) {
-    console.log("yes here 3")
-
-    const diffX = this.startX - this.touchMoveX
-    console.log("diff", diffX)
-
-    if (Math.abs(diffX) > this.threshold) {
-      console.log("yes here 4")
-
-      // Reset other items and set the current swiped ID
-      this.hideAllDeleteButtons()
-      item.isSwiped = true
-      this.currentSwipedId = item.id
-    } else {
-      console.log("yes here 5")
-
-      // Regular click, reset swipe and open the notification
-      this.currentSwipedId = null
-      item.isSwiped = false
-      this.onNotificationClick(item)
-    }
-  }
-
-
-
-  onNotificationClick(item: any) {
-    this.hideAllDeleteButtons()
-    item.isSwiped = !item.isSwiped
-  }
-
-  hideAllDeleteButtons() {
-    this.allNotificationList.forEach((notification: any) => {
-      notification.isSwiped = false
-      this.currentSwipedId = null
-
-    })
-  }
-
   handleAction(message: string) {
     this.dropdownContent = !this.dropdownContent
     switch (message) {
@@ -259,7 +177,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
           this.socket.emit('markAllAsRead', { userId: this.user_id })
           this.unReadNotificationList = this.unReadNotificationList.map((elem) => ({ ...elem, status: 'read' }))
           this.readNotificationList = [...this.readNotificationList, ...this.unReadNotificationList]
-          console.log("this.readNotificationList", this.readNotificationList)
           this.storage.setLocalStorage('readNotificationLists', { userId: this.user_id, notifications: this.readNotificationList })
           this.unReadNotificationList = []
           this.storage.setNumberOfNotifications(0)
@@ -286,13 +203,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async getAccessToken() {
-    // const session = await this.authService.getSession().toPromise()
-    // this.user_id = session.userToken
-    // this.access_token = session.access_token
-    // return session.access_token
-    if (this.configSvc.userProfile)
-      this.user_id = this.configSvc.userProfile.userId
-    return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiI0YWJkMWQ1OC1kOTA0LTRkMjYtYTM4ZS0yNzM4MDFlM2Y3NWEiLCJleHAiOjE3NDMyMjMwMzMsIm5iZiI6MCwiaWF0IjoxNzQwNjMxMDMzLCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiNGI1NWZjY2QtODk5YS00OTFjLTkwMjQtODQxNTUwNGFjNWUwIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.sWW_F7_7IFOyEhqWMCb2Wlphz8QQIoa2c2BiFrnU1vj93nvRfIlA89upPE_Xcgl1MzK6Kp2_B4Pd__vyKrAP0vpCgcPGO6LYWZES64owXXuyL1jHoLFib5dzlqTnjkojNafX27-SjGLQoRizLrTDf5GGib057m7D3EVp-0uqE7qf0WHVgn3imN5BCEFgr1M8_POgaep9y8jDDqvtfrkLa75bLvAxiRa-LcnckkKiAdM6OQGlStaDWLJGNSkoK_IZF48RLCkf5LJUGLyZ2PsZLjezCeHi8_5XFrexE4NujT-15PK8Rk8t9AJeo3vuiOlTM9KNk_vi0_O2rCXxJiu1gw'
+    const loginData = localStorage.getItem('loginDetailsWithToken')
+    if (loginData) {
+      const parsedData = JSON.parse(loginData)
+      let token = parsedData.token?.access_token
+      console.log("token", token)
+      // return token
+      return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiJmYzE1ZDg1Mi02NmUxLTRjYTUtYWM1YS1mYjA1Y2Q5NmQ0OTQiLCJleHAiOjE3NDMxNDY1NDksIm5iZiI6MCwiaWF0IjoxNzQwNTU0NTQ5LCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiY2E4NjU0MzktMjgwZS00MzkxLTgyZGItYTUwMGE0MDBhM2ZjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.fL1p9vJetVOK4DRGPo8wJtrzJcJf5MVmatcUGdVMSEu0IZ2zfr5X-kVk4RSqqmLG00ApY5_fcYb6EWrUVScU9BwWBJdfPl0Xbhk4eQwRnfoM13_ab64v02rAcUL-U3yuwyaMnBn9Cfbij1kb0M2wnWjW0EAyV9lSuQ65yzShIVXjaRmfGhqVkuq_TyoKrnr2xKlzCUPfeQcDIApD-pqxa6DSuhS1Gu1qgIKoAvZx6MPtQoLiauMa-s_I51_2c2Gmo960G0HCy3EluE62ulUXqUVpfyLFvzSIgWD545bXBd6fycVzNenbIeNDTAdI_hwKM9ixKQB6PCy-NZdV2gfdRQ'
+    }
+    return ''
   }
 
   async getNotification() {
@@ -387,10 +306,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       }
     }
   }
-  preventTouchEvent(event: TouchEvent) {
-    event.stopPropagation() // Stop event from bubbling to parent
-    event.preventDefault()  // Prevent default touch behavior
-  }
 
   ngOnDestroy() {
     if (this.socket) {
@@ -399,11 +314,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
   }
 
-
-  async deleteNotification(item: any, event: Event) {
-    console.log("✅ deleteNotification called!") // Debugging log
-    event.stopPropagation() // Stop event from bubbling to parent
-    console.log("yes here delete")
+  async deleteNotification(item: any) {
     if (item?.status === 'read') {
       this.readNotificationList = this.readNotificationList.filter((ele) => ele.id !== item.id)
       this.storage.setLocalStorage('readNotificationLists', { userId: this.user_id, notifications: this.readNotificationList })
@@ -414,7 +325,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     }
     this.setAllNotificationList()
   }
-
 
   setAllNotificationList() {
     if (this.readNotificationList.length || this.unReadNotificationList.length) {
