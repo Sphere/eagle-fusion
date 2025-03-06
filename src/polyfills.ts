@@ -62,3 +62,5 @@ import 'zone.js/dist/zone' // Included with Angular CLI.
  */
 import 'hammerjs'
 import 'typeface-roboto'
+
+(window as any).global = window
