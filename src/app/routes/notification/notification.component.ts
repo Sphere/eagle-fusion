@@ -9,8 +9,9 @@ import { Router } from "@angular/router"
 import { Events } from "./events"
 import { LocalStorageService } from "../../services/local-storage.service"
 import {
-  ConfigurationsService,
+  ConfigurationsService, ValueService
 } from '@ws-widget/utils'
+import { Observable } from "rxjs"
 @Component({
   selector: "app-notification",
   templateUrl: "./notification.component.html",
@@ -86,6 +87,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   startX = 0
   movedX = 0
   threshold = -80
+  isWebView = false
+  isXSmall$: Observable<boolean>
   constructor(
 
     private events: Events,
@@ -93,10 +96,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private router: Router,
     private renderer: Renderer2,
     public configSvc: ConfigurationsService,
-
-  ) { }
+    private valueSvc: ValueService,
+  ) { this.isXSmall$ = this.valueSvc.isXSmall$ }
 
   async ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (!isXSmall) {
+        this.isWebView = true
+      }
+    })
     await this.getAccessToken()
     this.getReadNotifications()
     if (!(this.socket && this.socket.connected)) {

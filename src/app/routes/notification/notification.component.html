@@ -1,19 +1,22 @@
-<div class="notification-container">
+<div *ngIf="isWebView" class="notification-triangle"></div>
+
+<div class="notification-container" [ngClass]="{'iswebView': isWebView}">
+
   <div class="notification_header">
-    <h2>Notification</h2>
+    <span i18n class="notification_header_title">Notification</span>
     <div class="kebab-info" (click)="openDailog()">
       <img src="/fusion-assets/icons/kebab-menu.png" alt="Menu">
     </div>
   </div>
 
   <div class="dropdown-content" *ngIf="dropdownContent && allnotificationList.length">
-    <div class="dropdown-item" (click)="handleAction('read')">
-      <span class="icon">&#x2714;</span> <!-- Checkmark Icon -->
-      <span class="text-style">MARK_ALL_AS_READ</span>
+    <div class="dropdown-item border-bottom-1" (click)="handleAction('read')">
+      <img src="/fusion-assets/icons/double_tick.png" alt="Tick" />
+      <span class="text-style" i18n>Mark all as read</span>
     </div>
     <div class="dropdown-item" (click)="handleAction('clear')">
-      <span class="icon">&#x2716;</span> <!-- Close Icon -->
-      <span class="text-style">Clear All</span>
+      <img src="/fusion-assets/icons/close_blue.png" alt="Clear" />
+      <span class="text-style" i18n>Clear all</span>
     </div>
   </div>
 
@@ -47,7 +50,7 @@
       </div>
     </div>
   </div>
-  <div *ngIf=" !unReadNotificationList.length && !readNotificationList.length" class="empty__notification__text">
+  <div i18n *ngIf=" !unReadNotificationList.length && !readNotificationList.length" class="empty__notification__text">
     No notification
   </div>
 </div>
