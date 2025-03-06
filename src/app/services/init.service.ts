@@ -101,14 +101,17 @@ export class InitService {
   async init() {
     // this.logger.removeConsoleAccess()
     const loginData = localStorage.getItem('loginDetailsWithToken')
-    if (loginData) {
-      const parsedData = JSON.parse(loginData)
-      let token = parsedData.token?.access_token ? true : false
-      if (!token)
+    if (!location.pathname.includes('/public/home')) {
+      if (loginData) {
+        const parsedData = JSON.parse(loginData)
+        let token = parsedData.token?.access_token ? true : false
+        if (!token)
+          this.authSvc.logout()
+      } else {
         this.authSvc.logout()
-    } else {
-      this.authSvc.logout()
+      }
     }
+
 
     await this.fetchDefaultConfig()
     // const authenticated = await this.authSvc.initAuth()
