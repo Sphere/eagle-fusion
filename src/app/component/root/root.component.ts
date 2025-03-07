@@ -60,9 +60,9 @@ import { ConfigService as CompetencyConfiService } from '../../routes/competency
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
-import { io } from "socket.io-client"
 import { LocalStorageService } from '../../services/local-storage.service'
 import { Events } from '../../routes/notification/events'
+import * as io from "socket.io-client"
 
 @Component({
   selector: 'ws-root',
