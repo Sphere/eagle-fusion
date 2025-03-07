@@ -698,11 +698,12 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async getConnectToSocket(data?: any) {
-    // const url = `wss://${environment.sitePath}`
     const baseUrl = "wss://aastrika-stage.tarento.com"
     const url = baseUrl
-    const token = (data && data.accessToken) ? data!.accessToken : await this.getAccessToken()
-    console.log('token is', token)
+
+    const token = (data && data.accessToken) ? data.accessToken : await this.getAccessToken()
+    console.log('Token is', token)
+
     const socket = io(url, {
       auth: { token },
       path: '/apis/socket.io/'
@@ -712,11 +713,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(`Connected to the server with ID: ${socket.id}`)
     })
 
-    socket.emit('getNotifications', { userId: (data && data.userId) ? data.userId : this.userId })
+    socket.emit('getNotifications', { userId: data?.userId || this.userId })
 
     socket.on('notificationsData', (_data) => {
-      this.storage.setNumberOfNotifications(data?.notificationData?.length)
-      this.events.publish("notificationCountUpdated", data?.notificationData?.length)
+      this.storage.setNumberOfNotifications(data?.notificationData?.length || 0)
+      this.events.publish("notificationCountUpdated", data?.notificationData?.length || 0)
     })
   }
 
