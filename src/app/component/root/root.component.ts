@@ -62,7 +62,7 @@ import { WidgetUserService } from '../../../../library/ws-widget/collection/src/
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
 import { LocalStorageService } from '../../services/local-storage.service'
 import { Events } from '../../routes/notification/events'
-import * as io from "socket.io-client"
+import { io } from "socket.io-client"
 
 @Component({
   selector: 'ws-root',
@@ -707,9 +707,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     const socket = io(url, {
       auth: { token },
       path: '/apis/socket.io/',
-      transports: ["websocket"], // Ensure WebSocket transport
-      reconnection: true,        // Allow auto-reconnect
-      timeout: 5000,
+      transports: ["websocket"]
     })
 
     socket.on('connect', () => {
