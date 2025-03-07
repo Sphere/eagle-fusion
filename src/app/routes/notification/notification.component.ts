@@ -215,7 +215,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     const token = this.access_token ? this.access_token : await this.getAccessToken()
     this.socket = io(url, {
       auth: { token },
-      path: '/apis/socket.io/'
+      path: '/apis/socket.io/',
+      transports: ["websocket"]
     })
     this.socket.on('connect', () => {
       console.log(`Connected to the server with ID: ${this.socket.id}`)

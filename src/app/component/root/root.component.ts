@@ -706,7 +706,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     const socket = io(url, {
       auth: { token },
-      path: '/apis/socket.io/'
+      path: '/apis/socket.io/',
+      transports: ["websocket"]
     })
 
     socket.on('connect', () => {
