@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
 import { SignupService } from '../signup/signup.service'
 import { Location } from '@angular/common'
 import { appNavBarService } from '../../component/app-nav-bar/app-nav-bar.service'
 import { NotificationsComponent } from '../notification/notification.component'
+import { LocalStorageService } from '../../services/local-storage.service'
+import { Events } from '../notification/events'
+
 @Component({
   selector: 'ws-web-nav-link-page',
   templateUrl: './web-nav-link-page.component.html',
@@ -19,13 +22,19 @@ export class WebNavLinkPageComponent implements OnInit {
   showProfile = false
   mycourses = false
   showNotification = false
+  numberOfNotification: any
+  notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null;
+
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
     private router: Router,
     private signupService: SignupService,
     location: Location,
-    public navOption: appNavBarService
+    public navOption: appNavBarService,
+    public storage: LocalStorageService,
+    private event: Events,
+
 
   ) {
 
@@ -136,6 +145,11 @@ export class WebNavLinkPageComponent implements OnInit {
         url: '/app/profile-view',
       },
     ]
+    const count = this.storage.getNumberOfNotifications()
+    this.numberOfNotification = (count > 1) ? '1+' : (count > 0 ? '1' : '')
+    this.event.subscribe('notificationCountUpdated', (data) => {
+      this.numberOfNotification = (data > 1) ? '1+' : (data > 0 ? '1' : '')
+    })
   }
 
   async redirect(text: string) {
@@ -191,11 +205,14 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showHome = false
       this.showCompetency = false
       this.showNotification = true
-      this.dialog.open(NotificationsComponent, {
+      const dialogRef = this.dialog.open(NotificationsComponent, {
         width: '400px', // Adjust as needed
         maxHeight: '80vh', // Prevent overflow
         panelClass: 'custom-notification-modal',
         position: { top: '60px', right: '10px' }, // Adjust as per your navbar height
+      })
+      dialogRef.afterClosed().subscribe(() => {
+        console.log('Notification modal closed')
       })
     } else {
       console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
@@ -226,6 +243,22 @@ export class WebNavLinkPageComponent implements OnInit {
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
         }
       }
+    }
+  }
+  openNotificationDialog() {
+    if (!this.notificationDialogRef) {
+      this.notificationDialogRef = this.dialog.open(NotificationsComponent, {
+        width: '400px', // Adjust as needed
+        maxHeight: '80vh', // Prevent overflow
+        panelClass: 'custom-notification-modal',
+        position: { top: '60px', right: '10px' }, // Adjust as per your navbar height
+      })
+    }
+  }
+  closeNotificationDialog() {
+    if (this.notificationDialogRef) {
+      this.notificationDialogRef.close()
+      this.notificationDialogRef = null
     }
   }
   logout() {

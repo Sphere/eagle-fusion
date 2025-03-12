@@ -4,6 +4,7 @@ import { Socket, io } from "socket.io-client"
 
 
 import { Router } from "@angular/router"
+import { ChangeDetectorRef } from '@angular/core'
 
 // import { environment } from '../../../environments/environment'
 import { Events } from "./events"
@@ -12,6 +13,8 @@ import {
   ConfigurationsService, ValueService
 } from '@ws-widget/utils'
 import { Observable } from "rxjs"
+import { MatDialogRef } from '@angular/material/dialog'
+
 @Component({
   selector: "app-notification",
   templateUrl: "./notification.component.html",
@@ -97,14 +100,21 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     private renderer: Renderer2,
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
-  ) { this.isXSmall$ = this.valueSvc.isXSmall$ }
+    private dialogRef: MatDialogRef<NotificationsComponent>,
+    private cdr: ChangeDetectorRef
+  ) {
+    console.log('NotificationsComponent constructor called')
+    this.isXSmall$ = this.valueSvc.isXSmall$
+  }
 
   async ngOnInit() {
+    console.log('ngOnInit called')
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (!isXSmall) {
         this.isWebView = true
       }
     })
+    this.user_id = this.configSvc.userProfile?.userId || ''
     await this.getAccessToken()
     this.getReadNotifications()
     if (!(this.socket && this.socket.connected)) {
@@ -163,11 +173,13 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async getNotification() {
+    console.log('getNotification called')
     this.socket.emit('getNotifications', { userId: this.user_id })
     this.socket.on('notificationsData', async (data) => {
       try {
+        console.log('data', data)
         this.storage.setNumberOfNotifications(data?.notificationData?.length)
-        this.events.publish("notificationCountUpdated", data?.notificationData?.length)
+        this.events.publish('notificationCountUpdated', data?.notificationData?.length)
         const notifications: [] = data.notificationData.map((e: any) => {
           e.data = JSON.parse(e.data)
           return e
@@ -222,6 +234,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     })
     this.socket.on('connect', () => {
       console.log(`Connected to the server with ID: ${this.socket.id}`)
+      this.setAllNotificationList()
     })
 
   }
@@ -243,6 +256,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.storage.setLocalStorage('readNotificationLists', { userId: this.user_id, notifications: this.readNotificationList })
     this.unReadNotificationList = this.unReadNotificationList.filter((elem) => elem.id !== item.id)
     this.setAllNotificationList()
+    if (this.dialogRef && typeof this.dialogRef.close === 'function') this.dialogRef.close()
+    this.cdr.detectChanges() // Force update UI
     await this.notificationAction(item)
   }
 
@@ -258,6 +273,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         // navigation for other actions
       }
     }
+    if (this.dialogRef && typeof this.dialogRef.close === 'function')
+      this.dialogRef.close()
+    this.cdr.detectChanges() // Force update UI
   }
 
   ngOnDestroy() {
@@ -281,8 +299,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   setAllNotificationList() {
+    console.log('setAllNotificationList called', this.readNotificationList, this.unReadNotificationList)
     if (this.readNotificationList.length || this.unReadNotificationList.length) {
       this.allnotificationList = [...this.readNotificationList, ...this.unReadNotificationList]
+      console.log('allnotificationList', this.allnotificationList)
       this.allnotificationList.sort((a, b) => new Date(b.createdon).getTime() - new Date(a.createdon).getTime())
       return
     }
