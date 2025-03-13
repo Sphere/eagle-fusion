@@ -1,25 +1,48 @@
-name: Build
+name: Build and Analyze
+
 on:
   push:
     branches:
       - master
+      - feature/new-login-ekshamta-web # Added branch for SonarQube scan
   pull_request:
     types: [opened, synchronize, reopened]
+
 jobs:
-  sonarcloud:
-    name: SonarCloud
+  sonarqube:
+    name: SonarQube Analysis
     runs-on: ubuntu-latest
-    environment: sonarcloud
+
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Ensures full history for better analysis
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+
       - name: Install dependencies
-        run: yarn
-      - name: Test and coverage
-        run: npm run test-coverage
-      - name: SonarCloud Scan
+        run: npm ci # Faster and more reliable than `npm install`
+
+      - name: Run tests and generate coverage
+        run: |
+          npm run test -- --coverage  # Adjust if using Jest or Karma
+          ls -la coverage
+
+      - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: 'https://sonarcloud.io' # Adjust if using a self-hosted SonarQube server
+        with:
+          args: >
+            -Dsonar.projectKey=your_project_key
+            -Dsonar.organization=your_org_name
+            -Dsonar.sources=src
+            -Dsonar.tests=src
+            -Dsonar.test.inclusions=**/*.spec.ts
+            -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
+            -Dsonar.verbose=true
