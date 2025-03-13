@@ -133,44 +133,25 @@ export class ViewAllComponent implements OnInit, OnDestroy {
     let myCourseObject = {}
 
     res.forEach((key: any) => {
-      if (key.completionPercentage !== 100) {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          posterImage: key.content.posterImage,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating,
-          duration: key.content.duration,
-          competencies_v1: key.content.competencies_v1,
-          status: key.content.status,
-          contentType: key.content.contentType,
-          lastUpdatedOn: key.content.lastUpdatedOn
-        }
 
-      } else {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          posterImage: key.content.posterImage,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating,
-          duration: key.content.duration,
-          competencies_v1: key.content.competencies_v1,
-          status: key.content.status,
-          contentType: key.content.contentType,
-          lastUpdatedOn: key.content.lastUpdatedOn
-        }
+      myCourseObject = {
+        identifier: key.content.identifier,
+        appIcon: key.content.appIcon,
+        posterImage: key.content.posterImage,
+        thumbnail: key.content.thumbnail,
+        name: key.content.name,
+        dateTime: key.dateTime,
+        completionPercentage: key.completionPercentage,
+        sourceName: key.content.sourceName,
+        issueCertification: key.content.issueCertification,
+        averageRating: key.content.averageRating,
+        duration: key.content.duration,
+        competencies_v1: key.content.competencies_v1,
+        status: key.content.status,
+        contentType: key.content.contentType,
+        lastUpdatedOn: key.content.lastUpdatedOn
       }
+
       myCourse.push(myCourseObject)
     })
     this.searchRequestStatus = 'done'
