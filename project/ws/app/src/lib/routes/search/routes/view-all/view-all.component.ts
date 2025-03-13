@@ -7,10 +7,9 @@ import includes from 'lodash/includes'
 import uniqBy from 'lodash/uniqBy'
 import { HttpClient } from '@angular/common/http'
 import { OrgServiceService } from '../../../org/org-service.service'
-import { ValueService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
 import { WidgetUserService } from '@ws-widget/collection'
 
 @Component({
@@ -43,6 +42,9 @@ export class ViewAllComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private userSvc: WidgetUserService,
   ) { }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.')
+  }
 
 
 

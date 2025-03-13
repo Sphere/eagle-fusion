@@ -10,7 +10,7 @@ import {
 import { FormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { EventService, WsEvents, ConfigurationsService, UtilityService } from '@ws-widget/utils'
+import { EventService, WsEvents, TelemetryService, ConfigurationsService, UtilityService } from '@ws-widget/utils'
 import {
   interval, merge, Subject, Subscription
 } from 'rxjs'
@@ -22,7 +22,6 @@ import { WidgetContentService } from '../_services/widget-content.service'
 import { IWidgetsPlayerPdfData } from './player-pdf.model'
 import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
-import { TelemetryService } from '@ws-widget/utils'
 
 @Component({
   selector: 'ws-widget-player-pdf',
