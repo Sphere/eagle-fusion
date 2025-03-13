@@ -94,8 +94,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private telemetrySvc: TelemetryService,
     public viewerDataSvc: ViewerDataService,
-    private dialog: MatDialog,
-    private valueSvc: ValueService,
+    private readonly dialog: MatDialog,
+    private readonly valueSvc: ValueService,
 
   ) {
     super()
@@ -154,9 +154,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       },
     }
     const data = await this.contentSvc.fetchContentHistoryV2(req).toPromise()
-    if (data && data.result && data.result.contentList.length) {
+    if (data?.result?.contentList?.length) {
       const contentData = data.result.contentList.find((obj: any) => obj.contentId === this.widgetData.identifier)
-      if (contentData && contentData.progressdetails && contentData.progressdetails.current) {
+      if (contentData?.progressdetails?.current) {
         this.progressData = contentData
         this.widgetData.resumePoint = contentData.progressdetails.current
         console.log("Updated resume point:", this.widgetData.resumePoint)
@@ -554,7 +554,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
         .toPromise()
 
-      if (content.result && content.result.content && content.result.content.videoQuestions) {
+      if (content?.result?.content?.videoQuestions) {
         const videoQuestions = content.result.content.videoQuestions
         console.log("videoQuestions", videoQuestions)
 

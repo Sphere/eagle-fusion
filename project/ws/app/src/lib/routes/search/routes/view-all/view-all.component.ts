@@ -9,8 +9,7 @@ import { HttpClient } from '@angular/common/http'
 import { OrgServiceService } from '../../../org/org-service.service'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
-import { WidgetContentService } from '@ws-widget/collection'
-import { WidgetUserService } from '@ws-widget/collection'
+import { WidgetContentService, WidgetUserService } from '@ws-widget/collection'
 
 @Component({
   selector: 'ws-app-view-all',
@@ -34,13 +33,13 @@ export class ViewAllComponent implements OnInit, OnDestroy {
   searchRequestStatus = 'none'
   userId: any
   constructor(
-    private http: HttpClient,
-    private orgService: OrgServiceService,
-    private valueSvc: ValueService,
-    private route: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private configSvc: ConfigurationsService,
-    private userSvc: WidgetUserService,
+    private readonly http: HttpClient,
+    private readonly orgService: OrgServiceService,
+    private readonly valueSvc: ValueService,
+    private readonly route: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userSvc: WidgetUserService,
   ) { }
   ngOnDestroy(): void {
     throw new Error('Method not implemented.')

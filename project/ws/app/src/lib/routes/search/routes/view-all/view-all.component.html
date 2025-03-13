@@ -1,12 +1,11 @@
 <div class="sidenav-content" *ngIf="searchRequestStatus === 'done'&&searchResults?.length > 0">
-  <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
-    [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
+  <a tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
+    [ngClass]="{'withFilter': withoutFilter, 'withoutFilter': !withoutFilter}">
     <span class="mt-1" *ngIf="(isXSmall$ | async) !== true" i18n>Showing </span>
     <span class="mt-1" *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.length }} </span>
     <p class="text-xl" *ngIf="(isXSmall$ | async) === true" i18n>All Courses</p>
-    <span class="mt-1" *ngIf="searchResults.length > 1 && (isXSmall$ | async) !== true " i18n>results
-    </span>
-  </div>
+    <span class="mt-1" *ngIf="searchResults.length > 1 && (isXSmall$ | async) !== true" i18n>results</span>
+  </a>
   <ng-container *ngIf="(isXSmall$ | async) !== true">
     <ws-app-learning-card class="search-card" *ngFor="let result of searchResults; trackBy: contentTrackBy"
       [displayType]="resultsDisplayType" [content]="result"></ws-app-learning-card>
