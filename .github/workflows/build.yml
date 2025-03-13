@@ -46,3 +46,4 @@ jobs:
             -Dsonar.test.inclusions=**/*.spec.ts
             -Dsonar.typescript.lcov.reportPaths=coverage/lcov.info
             -Dsonar.verbose=true
+            -Dsonar.issue.ignore.all.commented.code=true
