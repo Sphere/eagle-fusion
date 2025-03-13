@@ -360,7 +360,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
           overflow: visible;
           transform: translate3d(0, 0, 0);
           transition: background .4s cubic-bezier(.25, .8, .25, 1), box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
-          font-family: Roboto, "Helvetica Neue", sans-serif;
+          font-family: Roboto, sans-serif, sans-serif, sans-serif, sans-serif, "Helvetica Neue", sans-serif;
           font-size: 14px;
           font-weight: 300;
       }

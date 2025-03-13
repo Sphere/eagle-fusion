@@ -17,9 +17,6 @@ export class WebEkshamataPublicComponent implements OnInit {
     this.isXSmall$ = this.valueSvc.isXSmall$
   }
 
-  async ngOnInit() {
-
-  }
   login() {
     if (localStorage.getItem('login_url')) {
       const url: any = localStorage.getItem('login_url')

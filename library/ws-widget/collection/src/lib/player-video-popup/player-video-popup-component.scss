@@ -12,7 +12,7 @@
   }
 }
 .answer-text{
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-weight: 400;
 font-size: 16px;
 line-height: 24px;
@@ -128,10 +128,9 @@ letter-spacing: -2%;
 ::ng-deep .cdk-overlay-pane{
 overflow: auto;
 }
-c
 .quiz-question {
   margin-bottom: 5px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 16px;
 font-weight: 400;
 line-height: 12.75px;
@@ -139,7 +138,7 @@ text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
   overflow-x: auto;
-  margin: 10px 0 10 0 !important;
+  margin: 10px 0 10px 0 !important;
 color: #000000 !important;
   @include breakpoint-xs {
     margin: 0 !important;
@@ -219,7 +218,7 @@ correct-option {
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px !important;
   font-weight: 400;
   line-height: 19px;
@@ -233,7 +232,7 @@ correct-option {
   background: #ffffff !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px !important;
   font-weight: 400;
   line-height: 19px;
@@ -250,7 +249,7 @@ correct-option {
   color: #1C5D95 !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px !important;
   font-weight: 400;
   line-height: 19px;
@@ -274,7 +273,7 @@ correct-option {
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px ;
   font-weight: 400;
   line-height: 19px;
@@ -289,7 +288,7 @@ correct-option {
   cursor: pointer;
   padding: 8px 22px 8px 22px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 12px !important;
   font-weight: 400;
   line-height: 14px;
@@ -307,7 +306,7 @@ gap: 10px !important;
     background: rgba(255, 255, 255, 0.04);
 }
 .questions-header{
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 14px;
 font-weight: 400;
 line-height: 16.41px;
@@ -319,7 +318,7 @@ color: #257CC7;
 }
 .question-option{
   //styleName: Body;
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-size: 16px;
 font-weight: 400;
 line-height: 24px;
@@ -360,7 +359,7 @@ color: #000000;
 .result-answer-info{
     border-radius: 0px 0px 8px 8px;
 
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-size: 14px;
 font-weight: 400;
 line-height: 16.41px;
@@ -371,7 +370,7 @@ text-decoration-skip-ink: none;
 color: #000000 !important;
 }
 .result-text{
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 14px;
 font-weight: 400;
 line-height: 16.41px;

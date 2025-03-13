@@ -70,31 +70,28 @@ export class AppFooterComponent {
     }
   }
   async redirect(text: string) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
+    const userPreferences = this.configSvc.unMappedUser?.profileDetails?.preferences
+    const local = userPreferences?.language ?? (location.href.includes('/hi/') ? 'hi' : 'en')
+    const url1 = local === 'hi' ? 'hi' : ''
+    let baseUrl = document.baseURI.replace(/hi\//g, '')
+
     console.log(url1, text)
-    let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
+
+    const routes: Record<string, string> = {
+      home: 'page/home',
+      mycourses: 'app/user/my_courses',
+      competency: 'app/user/competency',
+      default: 'app/profile-view'
     }
-    console.log("text", text)
 
-    if (text === 'home') {
-      let url = url1 === 'hi' ? '/page/home' : 'page/home'
-      location.href = `${url3}${url1}${url}`
-    } else if (text === 'mycourses') {
-      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
-      location.href = `${url3}${url1}${url}`
-
-    } else if (text === 'competency') {
+    if (text === 'competency') {
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-      let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
-      location.href = `${url3}${url1}${url}`
-    } else {
-      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-      location.href = `${url3}${url1}${url}`
     }
+
+    const route = routes[text] ?? routes.default
+    location.href = `${baseUrl}${url1}/${route}`
   }
+
   createAcct() {
     this.router.navigateByUrl('app/create-account')
   }

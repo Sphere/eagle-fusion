@@ -54,9 +54,7 @@ export class ViewAllComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy() {
 
-  }
   formatTopCertifiedCourseResponse(res: any) {
 
     const topCertifiedCourse = filter(res.result.content, ckey => {
