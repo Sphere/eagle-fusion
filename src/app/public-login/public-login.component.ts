@@ -156,6 +156,12 @@ export class PublicLoginComponent implements OnInit {
       },
     })
   }
+  onKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+    }
+  }
+
   userDoesnotExist() {
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',

@@ -114,7 +114,6 @@ letter-spacing: -2%;
 overflow: auto;
 }
 .quiz-question {
-  margin-bottom: 5px;
   font-family: Roboto, sans-serif;
 font-size: 16px;
 font-weight: 400;
@@ -123,7 +122,7 @@ text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
   overflow-x: auto;
-  margin: 10px 0 10px 0 !important;
+  margin: 10px 0 5px 0 !important;
 color: #000000 !important;
   @include breakpoint-xs {
     margin: 0 !important;

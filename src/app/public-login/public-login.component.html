@@ -18,7 +18,8 @@
                 <mat-icon>chevron_left</mat-icon>
               </button>
             </div>
-            <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
+            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="onKeyDown($event)" class="help-btn" tabindex="0"
+              i18n>Help
               <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
             </div>
           </div>
