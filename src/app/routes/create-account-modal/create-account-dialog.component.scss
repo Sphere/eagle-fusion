@@ -21,11 +21,7 @@ button.primary-color.mat-raised-button.mat-button-base.mat-primary {
 :host ::ng-deep .fc-widget-small body {
   display: none !important;
 }
-/* your-component.component.scss */
-:host ::ng-deep .fc-widget-small,
-:host ::ng-deep .fc-widget-small body {
-  display: none !important;
-}
+
 /* styles.scss */
 html.fc-widget-small,
 html.fc-widget-small body {

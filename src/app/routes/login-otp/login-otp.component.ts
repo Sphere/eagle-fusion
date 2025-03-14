@@ -41,7 +41,7 @@ export class LoginOtpComponent implements OnInit {
     private snackBar: MatSnackBar,
     public signupService: SignupService,
     //private userProfileSvc: UserProfileService,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public dialog: MatDialog,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$

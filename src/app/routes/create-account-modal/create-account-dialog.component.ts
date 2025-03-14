@@ -16,8 +16,8 @@ export class CreateAccountDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,
-    @Inject(DOCUMENT) private _document: Document,
-    private _renderer2: Renderer2,
+    @Inject(DOCUMENT) private readonly _document: Document,
+    private readonly _renderer2: Renderer2,
   ) {
   }
 

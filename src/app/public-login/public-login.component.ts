@@ -36,11 +36,11 @@ export class PublicLoginComponent implements OnInit {
     private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
     public snackBar: MatSnackBar,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public dialog: MatDialog,
     public configSvc: ConfigurationsService,
-    private router: Router,
-    private route: ActivatedRoute
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
@@ -127,7 +127,7 @@ export class PublicLoginComponent implements OnInit {
       const otp3 = otp3Control.value
       const otp4 = otp4Control.value
       const code = otp1 + otp2 + otp3 + otp4
-      if (this.OTPForm && this.OTPForm.get('OTPcode')) {
+      if (this.OTPForm?.get('OTPcode')) {
         this.OTPForm.get('OTPcode')!.setValue(code)
       }
       console.error('1 One or more OTP controls are missing')
@@ -143,8 +143,8 @@ export class PublicLoginComponent implements OnInit {
     this.isXSmall$.subscribe((data: any) => {
       console.log("data", data)
       if (data) {
-        width = '345px',
-          height = '335px'
+        width = '345px'
+        height = '335px'
       }
     })
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
@@ -189,7 +189,9 @@ export class PublicLoginComponent implements OnInit {
     })
   }
   homePage() {
-    location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+    location.href = this.configSvc?.unMappedUser?.id
+      ? '/page/home'
+      : '/public/home'
   }
   redirect(val: string) {
     console.log("val")

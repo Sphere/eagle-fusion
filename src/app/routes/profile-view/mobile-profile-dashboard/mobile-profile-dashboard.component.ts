@@ -62,7 +62,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService,
-    private _renderer2: Renderer,
+    private readonly _renderer2: Renderer,
     @Inject(DOCUMENT) private _document: Document
 
   ) {

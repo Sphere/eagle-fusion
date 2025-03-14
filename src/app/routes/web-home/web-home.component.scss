@@ -3,6 +3,7 @@
     margin-top: 45px;
     align-items: center;
     justify-content: space-around;
+      position: relative;
 }
 .box-sizing-box {
 
@@ -211,12 +212,16 @@ text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+     position: relative;
+    z-index: 1;
 }
 
 .slides {
   display: flex;
   flex: 65%;
   transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
+    position: relative;
+  z-index: 1;
 }
 
 .slide {
@@ -300,24 +305,12 @@ text-align: center;
     margin-top: -1px;
     flex-direction: column;
 }
-.banner-container {
-  position: relative;
-}
-
-.carousel {
-  position: relative;
-  z-index: 1;
-}
 
 .create-account {
   position: relative;
   z-index: 10;
 }
 
-.slides {
-  position: relative;
-  z-index: 1;
-}
 
 .slide {
   position: relative;
@@ -338,26 +331,6 @@ text-align: center;
     letter-spacing: -0.02em;
     color: #FFFFFF !important;
     margin: 0px !important;
-}
-
-
-.banner-container {
-  position: relative;
-}
-
-.carousel {
-  position: relative;
-  z-index: 1;
-}
-
-.create-account {
-  position: relative;
-  z-index: 10;
-}
-
-.slides {
-  position: relative;
-  z-index: 1;
 }
 
 .slide {

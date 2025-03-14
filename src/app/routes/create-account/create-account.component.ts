@@ -63,7 +63,7 @@ export class CreateAccountComponent implements OnInit {
     public dialog: MatDialog,
     private loader: LoaderService,
     public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
 
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -125,7 +125,9 @@ export class CreateAccountComponent implements OnInit {
     }
   }
   homePage() {
-    location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+    location.href = this.configSvc?.unMappedUser?.id
+      ? '/page/home'
+      : '/public/home'
   }
   toggle1() {
     this.hide1 = !this.hide1

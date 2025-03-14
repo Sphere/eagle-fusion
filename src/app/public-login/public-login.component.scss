@@ -59,6 +59,7 @@ text-align: left;
   }
     .top-block{
  align-items: center;
+ margin-bottom: 5px;
   }
   .otp-input{
     border: none;
@@ -104,11 +105,6 @@ text-align: left !important;
   background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
   align-items: baseline;
 }
-  .top-block{
-//  padding: 20px;
- align-items: center;
- margin-bottom: 5px;
-  }
   .padding-20{
     padding: 0px 20px 0px 30px !important;
   }
@@ -129,14 +125,6 @@ text-align: left !important;
         padding: 8px;
         cursor: pointer;
   }
-.login-page-content{
-   max-width: 100%;
-    margin: auto;
-    margin: 0px !important;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 40px 40px 0px 0px;
-    display: block;
-}
 @media screen and (min-width: 769px) {
     .custom-wrapper {
         min-height: 100vh;
@@ -339,7 +327,6 @@ text-align: left !important;
     border-radius: 40px 40px 0px 0px;
     display: block;
     background: #FFFFFF;
-
 }
 ::ng-deep .mat-form-field-underline {
   display: none;
@@ -519,10 +506,6 @@ color: #808080;
   }
   .input-box {
     width: 88%;
-  }
-  .login-timer{
-    display: flex;
-    justify-content: right;
   }
 
   .input-content {

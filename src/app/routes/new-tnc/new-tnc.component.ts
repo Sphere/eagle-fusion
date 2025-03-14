@@ -65,7 +65,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private signupService: SignupService,
     private UserAgentResolverService: UserAgentResolverService,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public dialog: MatDialog,
 
   ) {

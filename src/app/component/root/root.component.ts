@@ -123,7 +123,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     //private signupService: SignupService,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
-    private _renderer2: Renderer,
+    private readonly _renderer2: Renderer,
     private sanitizer: DomSanitizer,
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,

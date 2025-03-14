@@ -1,6 +1,6 @@
 <ws-header *ngIf="(isXSmall$ | async) !== true"></ws-header>
 
-<nav *ngIf="(isXSmall$ | async) === true && langPage" class="nav-bar-bg">
+<nav aria-label="navbar" *ngIf="(isXSmall$ | async) === true && langPage" class="nav-bar-bg">
   <a class="navbar-brand cursor-pointer" (click)="homePage()">
     <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>

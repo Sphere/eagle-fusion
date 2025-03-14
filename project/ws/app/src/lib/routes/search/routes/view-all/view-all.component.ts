@@ -92,7 +92,8 @@ export class ViewAllComponent implements OnInit, OnDestroy {
           this.formatTopCertifiedCourseResponse(results)
         } else if (this.courseType === 'formatForYouCourses') {
           this.searchRequestStatus = 'fetching'
-          if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.profileReq && this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails) {
+          if (this.configSvc.unMappedUser?.profileDetails?.profileReq?.professionalDetails) {
+            // Your logic here
             const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
             if (professionalDetails) {
               const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
