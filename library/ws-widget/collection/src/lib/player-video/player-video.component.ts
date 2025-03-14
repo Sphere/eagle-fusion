@@ -220,10 +220,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       if (isXSmall)
         if (player.requestFullscreen) {
           player.requestFullscreen()
-        } else if ((player as any).webkitRequestFullscreen) { // Safari
-          (player as any).webkitRequestFullscreen()
-        } else if ((player as any).msRequestFullscreen) { // IE/Edge
-          (player as any).msRequestFullscreen()
+        } else if (player.webkitRequestFullscreen) { // Safari
+          player.webkitRequestFullscreen()
+        } else if ((player).msRequestFullscreen) { // IE/Edge
+          player.msRequestFullscreen()
         }
     })
 

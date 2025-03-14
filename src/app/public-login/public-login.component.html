@@ -3,12 +3,12 @@
     <div class="ui one column grid stackable">
       <div class="ui column height-fix">
         <div class="logo">
-          <a name="application-logo" class="padding-remove-small application-logo" [routerLink]="routerLink"
-            i18n-matTooltip matTooltip="Home">
-            <img *ngIf="isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/aastrika-foundation-logo.svg"
-              width="auto" height="40" style="margin: 15px 0px;" />
-            <img *ngIf="!isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg" width="auto"
-              height="70" style="margin-left: -15px;" />
+          <a class="padding-remove-small application-logo" [routerLink]="routerLink" i18n-matTooltip matTooltip="Home">
+            <img alt="logo" *ngIf="isEkshamtaLogin" loading="lazy"
+              src="/fusion-assets/images/aastrika-foundation-logo.svg" width="auto" height="40"
+              style="margin: 15px 0px;" />
+            <img alt="logo" *ngIf="!isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg"
+              width="auto" height="70" style="margin-left: -15px;" />
           </a>
         </div>
         <div class="max-container" *ngIf="!otpPage">
@@ -18,8 +18,7 @@
                 <mat-icon>chevron_left</mat-icon>
               </button>
             </div>
-            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="onKeyDown($event)" class="help-btn" tabindex="0"
-              i18n>Help
+            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="onKeyDown($event)" class="help-btn" i18n>Help
               <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
             </div>
           </div>

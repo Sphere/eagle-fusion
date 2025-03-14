@@ -467,14 +467,14 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
             }
           }, 500);
         `
-    docFrag.appendChild(normalizeCSS as any)
-    docFrag.appendChild(fontRoboto as any)
-    docFrag.appendChild(webModuleCSS as any)
-    docFrag.appendChild(prettyCSSSkin as any)
-    docFrag.appendChild(prettyJS as any)
-    docFrag.appendChild(executeJS as any)
-    docFrag.appendChild(stylePart as any)
-    iframeDocument.head.appendChild(docFrag as any)
+    docFrag.appendChild(normalizeCSS)
+    docFrag.appendChild(fontRoboto)
+    docFrag.appendChild(webModuleCSS)
+    docFrag.appendChild(prettyCSSSkin)
+    docFrag.appendChild(prettyJS)
+    docFrag.appendChild(executeJS)
+    docFrag.appendChild(stylePart)
+    iframeDocument.head.appendChild(docFrag)
     setTimeout(
       () => {
         this.iframeLoadingInProgress = false

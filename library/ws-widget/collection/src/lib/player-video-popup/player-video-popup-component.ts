@@ -22,7 +22,7 @@ export class PlayerVideoPopupComponent implements OnInit {
   layoutDirection = 'column'; // or 'row'
   showReset: boolean = false
   constructor(
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<PlayerVideoPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { questions: Array<{ text: string; options: any[] }> },
