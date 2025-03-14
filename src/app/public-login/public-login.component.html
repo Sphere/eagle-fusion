@@ -18,7 +18,7 @@
                 <mat-icon>chevron_left</mat-icon>
               </button>
             </div>
-            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="onKeyDown($event)" class="help-btn" i18n>Help
+            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="handleKeyDowns($event)" class="help-btn" i18n>Help
               <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
             </div>
           </div>
@@ -74,7 +74,8 @@
                       (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
                       #emailOrMobile i18n-placeholder />
                     <div class="input-group-append">
-                      <span class="input-group-text eye-icon" (click)="toggle2()" style="cursor: pointer;">
+                      <span class="input-group-text eye-icon" (click)="toggle2()" (keydown)="handleKeyDown($event)"
+                        style="cursor: pointer;" style="cursor: pointer;">
                         <i [ngClass]="iconChange2" aria-hidden="true"></i>
                       </span>
                     </div>
@@ -180,7 +181,8 @@
                     <mat-icon>chevron_left</mat-icon>
                   </button>
                 </div>
-                <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
+                <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>
+                  Help
                   <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
                 </div>
               </div>
@@ -261,7 +263,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
+      <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>Help
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -339,7 +341,7 @@
         <div class="field">
         </div>
         <div class="flex justify-end mt-2">
-          <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
+          <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" i18n
             href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">Forgot
             Password?</a>
         </div>
@@ -412,7 +414,7 @@
               <mat-icon>chevron_left</mat-icon>
             </button>
           </div>
-          <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
+          <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>Help
             <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
           </div>
         </div>

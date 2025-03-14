@@ -90,7 +90,18 @@ export class PublicLoginComponent implements OnInit {
     }
     this.updateOtpCode()
   }
-
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.toggle2()
+      event.preventDefault()
+    }
+  }
+  handleKeyDowns(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+      event.preventDefault()
+    }
+  }
   backSpaceEvent(event: KeyboardEvent, currentInput: any, previousInput: any) {
     if (event.key === 'Backspace' && !currentInput.value && previousInput) {
       previousInput.focus()
@@ -156,12 +167,6 @@ export class PublicLoginComponent implements OnInit {
       },
     })
   }
-  onKeyDown(event: KeyboardEvent) {
-    if (event.key === 'Enter' || event.key === ' ') {
-      this.help()
-    }
-  }
-
   userDoesnotExist() {
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',

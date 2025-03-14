@@ -206,7 +206,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.appOnline = value
     })
   }
-
+  openFreshChat() {
+    window.fcWidget.open()
+    window.fcWidget.show()
+  }
   mergeProgressDetails(obj1: any, obj2: any) {
     // Create a new object to store the merged results
     let mergedObj = { ...obj1 }

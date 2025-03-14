@@ -41,7 +41,12 @@ export class PlayerVideoPopupComponent implements OnInit {
       }
     })
   }
-
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.closePopup()
+      event.preventDefault()
+    }
+  }
   get currentQuestion() {
     return this.questions[this.currentIndex]
   }

@@ -2,7 +2,7 @@
     <!-- Question Text -->
     <div class="flex justify-between items-center">
         <span i18n class="questions-header">Question</span>
-        <mat-icon class="cursor-pointer" (click)="closePopup()">close</mat-icon>
+        <mat-icon class="cursor-pointer" (click)="closePopup()" (keydown)="handleKeyDown($event)">close</mat-icon>
     </div>
     <h3 class="quiz-question">{{ currentQuestion.text }}</h3>
     <!-- Options List -->
