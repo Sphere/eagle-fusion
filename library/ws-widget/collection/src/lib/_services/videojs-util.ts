@@ -200,6 +200,7 @@ export function videoJsInitializer(
       try {
         if (resumePoint) {
           const start = Number(resumePoint)
+          // NOSONAR - This commented code is intentional
           // if (start > 10 && player.duration() - start > 20) {
           player.currentTime(start)
 
