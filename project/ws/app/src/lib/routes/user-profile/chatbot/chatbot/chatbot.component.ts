@@ -771,6 +771,7 @@ export class ChatbotComponent implements OnInit {
         osName: userAgent.OS,
         browserName: userAgent.browserName,
         userCookie,
+        profileLocation: 'sphere-web/chatbot'
       },
       academics: this.getAcademics(form),
       employmentDetails: {
@@ -974,7 +975,9 @@ export class ChatbotComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userId,
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/chatbot',
+        },
       },
     }
 

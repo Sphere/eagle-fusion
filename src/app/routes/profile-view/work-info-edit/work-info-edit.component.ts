@@ -122,18 +122,20 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/work-info-edit'
+
     const obj = {
+
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
 
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-edit', },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

@@ -901,6 +901,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         osName: this.userProfileData.personalDetails.osName ? this.userProfileData.personalDetails.osName : userAgent.OS,
         browserName: this.userProfileData.personalDetails.browserName ? this.userProfileData.personalDetails.browserName : userAgent.browserName,
         userCookie: this.userProfileData.personalDetails.userCookie ? this.userProfileData.personalDetails.userCookie : userCookie,
+        profileLocation: 'sphere-web/user-profile-on-submit',
       },
       academics: this.getAcademics(form),
       employmentDetails: {
@@ -1153,7 +1154,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/user-profile-on-submit'
+        },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
