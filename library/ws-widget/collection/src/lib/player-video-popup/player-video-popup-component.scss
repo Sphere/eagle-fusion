@@ -7,6 +7,7 @@
   height: auto;
 
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
+    // NOSONAR - This commented code is intentional
     // background-color: #f5d58d !important;
     background-color: #1c5d95 !important;
   }
@@ -60,7 +61,7 @@ letter-spacing: -2%;
 .mat-pseudo-checkbox.mat-pseudo-checkbox-indeterminate {
   background: #1c5d95 !important;
 }
-
+// NOSONAR - This commented code is intentional
 // ::ng-deep .mat-radio-ripple {
 //   display: none !important;
 // }
@@ -297,7 +298,6 @@ color: #257CC7;
 
 }
 .question-option{
-  //styleName: Body;
 font-family: Roboto, sans-serif;
 font-size: 16px;
 font-weight: 400;

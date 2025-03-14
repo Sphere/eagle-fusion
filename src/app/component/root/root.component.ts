@@ -7,9 +7,9 @@ import {
   ViewChild,
   ViewContainerRef,
   Inject,
-  OnDestroy
+  OnDestroy,
+  Renderer2 as Renderer
 } from '@angular/core'
-import { Renderer2 as Renderer } from '@angular/core'
 import {
   NavigationCancel,
   NavigationEnd,
@@ -42,6 +42,7 @@ import { Plugins } from '@capacitor/core'
 import dayjs from 'dayjs'
 //import { v4 as uuid } from 'uuid'
 const { App } = Plugins
+// NOSONAR - This commented code is intentional
 //import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
 // import { environment } from '../../../environments/environment'

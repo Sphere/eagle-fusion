@@ -29,7 +29,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatSelectModule } from '@angular/material/select'
 
-import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser'
+import { BrowserModule, HAMMER_GESTURE_CONFIG, Title, HammerGestureConfig } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
   BtnFeatureModule, ErrorResolverModule,
@@ -151,7 +151,6 @@ import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
 import { PlayerVideoPopupComponent } from '../../library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
-import { HammerGestureConfig } from '@angular/platform-browser'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {

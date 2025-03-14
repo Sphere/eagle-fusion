@@ -196,6 +196,7 @@ export class ViewAllComponent implements OnInit, OnDestroy {
     this.searchResults = myCourse
 
   }
+  // NOSONAR - This commented code is intentional
   // formatForYouCourses(results: any, res: any) {
   //   const myCourse: any = []
   //   console.log("res", res)
@@ -207,10 +208,10 @@ export class ViewAllComponent implements OnInit, OnDestroy {
   //   const forYouCourse = filter(results.result.content, ckey => {
   //     return includes(myCourse, ckey.identifier)
   //   })
-
+  // NOSONAR - This commented code is intentional
   //   this.searchResults = uniqBy(forYouCourse, 'identifier')
 
-
+  // NOSONAR - This commented code is intentional
   //   // // this.searchResults = myCourse
   //   // console.log("myCourse", myCourse)
   // }

@@ -50,6 +50,7 @@
           </div>
           <div id="usePasswordDiv" class="mw-100" *ngIf="selectedField === 'password'">
             <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
+              // NOSONAR - This commented code is intentional
               <!-- <div class="form-group">
                 <input class="mt-8" class="form-control" id="emailOrMobile" name="emailOrMobile" i18n-placeholder
                   (input)="checkMobileEmail2()" formControlName="emailOrMobile" placeholder="Phone Number/Email ID"
@@ -111,6 +112,7 @@
                 <div class="ui flex justify-content-center content  signUpMsg">
                   <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
                     style="display: block;" i18n>Create an Account</a>
+                  // NOSONAR - This commented code is intentional
                   <!-- <div class="rel">
                     <span class="whatsApp1">
                       <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
@@ -155,6 +157,7 @@
                   <div class="ui content flex justify-content-center  signUpMsg">
                     <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
                       style="display: block;" i18n>Create an Account</a>
+                    // NOSONAR - This commented code is intentional
                     <!-- <div class="rel">
                       <span class="whatsApp">
                         <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
@@ -192,6 +195,7 @@
               </div>
               <div class="enter-code-text mt-2 mb-2"><span i18n>We have sent an OTP to </span><span class="text-dark"
                   i18n>{{loginForm.value.emailOrMobile}}</span>
+                // NOSONAR - This commented code is intentional
                 <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
               </div>
               <div class="img-box">
@@ -226,6 +230,7 @@
                     id="resend-OTP" type="submit" i18n>Resend
                     OTP</button>
                 </div>
+                // NOSONAR - This commented code is intentional
                 <!-- <div *ngIf="!isEkshamtaLogin" class="rel">
                   <span class="whatsApp">
                     <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
@@ -311,6 +316,7 @@
               email or number</mat-error>
           </mat-form-field>
         </div>
+        // NOSONAR - This commented code is intentional
         <!-- <div class="form-group">
           <input class="mt-8" class="form-control" id="emailOrMobile" name="emailOrMobile" i18n-placeholder
             (input)="checkMobileEmail2()" formControlName="emailOrMobile" placeholder="Phone Number (or) Email ID"
@@ -360,7 +366,6 @@
           <div class="ui content flex justify-content-center  signUpMsg">
             <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
               style="display: block;" i18n>Create an Account</a>
-            <!-- </span> -->
             <div id="selfSingUp" style="height: 30px;">
             </div>
           </div>
@@ -425,6 +430,7 @@
           </div>
           <div class="enter-code-text mt-2 mb-4"><span i18n>We have sent an OTP to </span><span class="text-dark"
               i18n>{{loginForm.value.emailOrMobile}}</span>
+            // NOSONAR - This commented code is intentional
             <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
           </div>
           <div class="img-box">

@@ -9,8 +9,7 @@ import {
   ViewChild, ViewChildren,
 } from '@angular/core'
 import { Location } from '@angular/common'
-import { MatDialog } from '@angular/material/dialog'
-import { MatDialogRef } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { MatSidenav } from '@angular/material/sidenav'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map, takeUntil, first } from 'rxjs/operators'

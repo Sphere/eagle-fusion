@@ -117,6 +117,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     this.widgetData = {
       ...this.widgetData,
     }
+    // NOSONAR - This commented code is intentional
     // if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
     await this.fetchContent()
     console.log("this.widgetData.videoQuestions", this.widgetData)

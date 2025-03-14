@@ -5,8 +5,7 @@ import {
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
 import { MatTooltipModule } from '@angular/material/tooltip'
-import { MatDialog } from '@angular/material/dialog'
-import { MatDialogRef } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
