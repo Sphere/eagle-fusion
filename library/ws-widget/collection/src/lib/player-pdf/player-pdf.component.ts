@@ -75,9 +75,9 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private configSvc: ConfigurationsService,
-    private utilitySvc: UtilityService,
+    private readonly utilitySvc: UtilityService,
     public viewerDataSvc: ViewerDataService,
-    private telemetrySvc: TelemetryService
+    private readonly telemetrySvc: TelemetryService
 
   ) {
     super()
