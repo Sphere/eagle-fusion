@@ -82,7 +82,7 @@
     <div *ngIf="professionOtherField">
       <div class="form-group input-box">
         <select id="selectBackground" formControlName="selectBackground" class="form-control select-box"
-          (change)="chooseBackground($event.target.value)" required>
+          (change)="chooseBackground($event.target.value)">
           <option [value]="null" i18n disabled>Select Background</option>
           <option value="Mother/Family Members">Mother/Family Members</option>
           <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>
