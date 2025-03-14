@@ -1,5 +1,6 @@
 <div class="top-blue-color">
   <div class="login-page-content">
+    <!--NOSONAR - This commented code is intentional-->
     <!-- <div class="flex justify-content-between align-items-center back-btn">
     <button (click)="redirect('lang')" mat-icon-button [disableRipple]="true" class="back-icon">
       <mat-icon>chevron_left</mat-icon>
@@ -23,6 +24,7 @@
       </div>
       <div class="enter-code-text mt-2 mb-4"><span i18n>We have sent an OTP to </span><span class="text-dark"
           i18n>{{signUpdata.value.emailOrMobile}}</span>
+        <!--NOSONAR - This commented code is intentional-->
         <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
       </div>
       <div class="img-box">
@@ -55,6 +57,7 @@
             </div>
             <div class="form-group mt-4 mb-4 activeLink">
               <span i18n>Did not receive a </span><span i18n>OTP?</span>
+              <!--NOSONAR - This commented code is intentional-->
               <!-- <span              *ngIf="emailPhoneType === 'email'" i18n>mail?</span> -->
               <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)" i18n> Click Here </span><span
                 i18n>to resend</span>

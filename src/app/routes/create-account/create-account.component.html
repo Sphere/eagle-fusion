@@ -95,8 +95,6 @@
                 </mat-radio-group>
               </div>
               <div class="next-btn-div">
-                <!-- add this line in btn -->
-                <!-- [disabled]="!createAccountForm?.valid" -->
                 <button [disabled]="!createAccountForm?.valid" class="btn next-button z-btn" name="login" type="submit"
                   id="next-btn" i18n (click)="optionSelected()">Next</button>
               </div>
@@ -232,7 +230,6 @@
       <div>
         <div class="lang-subtitle">
           <h1 class="display-3 mb-1" i18n>Select Language</h1>
-          <!-- <h4 class="display-3 mb-1" i18n>The Application will appear in this language</h4> -->
         </div>
         <div class="input-content">
           <div class="input-content-wrapper radioBlock">
@@ -279,8 +276,9 @@
 <div *ngIf="(isXSmall$ | async) === true" class="btm-block-img">
   <img alt="logo" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
 </div>
+<!--NOSONAR - This commented code is intentional-->
 <!-- <img alt="logo" class="btm-bg" src="./../../../fusion-assets/icons/Frame 149.svg"> -->
-
+<!--NOSONAR - This commented code is intentional-->
 <!-- <div class="rel">
   <span class="whatsApp">
     <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">

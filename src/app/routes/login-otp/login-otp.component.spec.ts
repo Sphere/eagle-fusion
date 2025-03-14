@@ -106,23 +106,6 @@ describe('LoginOtpComponent', () => {
     expect(component.loginOtpForm.get('code')).toBeDefined()
   })
 
-  // it('should update OTP code when OTP digits are set', () => {
-  //   // Set OTP digits in the form
-  //   component.loginOtpForm.setValue({ otp1: '1', otp2: '2', otp3: '3', otp4: '4' })
-
-  //   // Call updateOtpCode method to update 'code' form control
-  //   component.updateOtpCode()
-
-  //   // Check if 'code' form control's value is updated correctly
-  //   const val = component.loginOtpForm.get('code')
-  //   if (val) {
-  //     expect(val.value).toEqual('1234')
-  //   } else {
-  //     fail('Form control "code" not found')
-  //   }
-  // })
-
-
   it('should start timer', () => {
     component.startTimer()
     expect(component.resendTimer).toEqual(600)
@@ -142,51 +125,6 @@ describe('LoginOtpComponent', () => {
     expect(component.redirectToParent.emit).toHaveBeenCalledWith('true')
   })
 
-  // it('should verify OTP for sign up', () => {
-  //   spyOn(component.signupService, 'ssoValidateOTP').and.returnValue(of({ msg: 'Success' }))
-  //   component.verifyOtp()
-  //   expect(component.isLoading).toBeTruthy()
-  //   expect(component.signupService.ssoValidateOTP).toHaveBeenCalled()
-  // })
-
-  // it('should verify OTP for login', () => {
-  //   spyOn(component.signupService, 'ssoValidateOTP').and.returnValue(of({ message: 'Verification successful' }))
-  //   component.loginData = { value: { username: 'test@example.com', password: 'password' } }
-  //   component.loginVerification = true
-  //   component.verifyOtp()
-  //   expect(component.isLoading).toBeTruthy()
-  //   expect(component.signupService.ssoValidateOTP).toHaveBeenCalled()
-  //   // Add more expectations based on your application flow
-  // })
-
-  // it('should resend OTP', () => {
-  //   spyOn(component.signupService, 'generateOtp').and.returnValue(of({ message: 'OTP sent successfully' }))
-  //   component.resendOTP('phone')
-  //   expect(component.isLoading).toBeTruthy()
-  //   expect(component.signupService.generateOtp).toHaveBeenCalled()
-  //   // Add more expectations based on your application flow
-  // })
-
-  // it('should open help dialog', () => {
-  //   spyOn(component.dialog, 'open').and.callThrough()
-  //   component.help()
-  //   expect(component.dialog.open).toHaveBeenCalledWith(CreateAccountDialogComponent, {
-  //     panelClass: 'language-modal',
-  //     width: '345px',
-  //     height: '335px',
-  //     data: {
-  //       selected: 'help',
-  //     },
-  //   })
-  // })
-  // it('should handle backSpaceEvent', () => {
-  //   const event = { key: 'Backspace' } as KeyboardEvent
-  //   const currentInput = { value: '1' }
-  //   const previousInput = { focus: jest.fn() }
-  //   spyOn(previousInput, 'focus')
-  //   component.backSpaceEvent(event, currentInput, previousInput)
-  //   expect(previousInput.focus).toHaveBeenCalled()
-  // })
 
   it('should move focus to next input', () => {
     const currentInput = { value: '1' }
@@ -196,43 +134,7 @@ describe('LoginOtpComponent', () => {
     expect(nextInput.focus).toHaveBeenCalled()
   })
 
-  // it('should handle OTP update when inputs are filled', () => {
-  //   component.loginOtpForm.setValue({ otp1: '1', otp2: '2', otp3: '3', otp4: '4' })
-  //   component.updateOtpCode()
-  //   expect(component.loginOtpForm.get('code')!.value).toEqual('1234')
-  // })
 
-  // it('should handle OTP update when inputs are not filled', () => {
-  //   component.loginOtpForm.setValue({ otp1: '', otp2: '', otp3: '', otp4: '' })
-  //   component.updateOtpCode()
-  //   expect(component.loginOtpForm.get('code')!.value).toEqual('')
-  // })
-
-  // it('should handle OTP update when some inputs are empty', () => {
-  //   component.loginOtpForm.setValue({ otp1: '1', otp2: '', otp3: '', otp4: '4' })
-  //   component.updateOtpCode()
-  //   expect(component.loginOtpForm.get('code')!.value).toEqual('1  4')
-  // })
-
-  // it('should handle OTP update when one input is filled and others are not', () => {
-  //   component.loginOtpForm.setValue({ otp1: '1', otp2: '', otp3: '', otp4: '' })
-  //   component.updateOtpCode()
-  //   expect(component.loginOtpForm.get('code')!.value).toEqual('1   ')
-  // })
-
-  // it('should handle OTP update when all inputs are empty', () => {
-  //   component.loginOtpForm.setValue({ otp1: '', otp2: '', otp3: '', otp4: '' })
-  //   component.updateOtpCode()
-  //   expect(component.loginOtpForm.get('code')!.value).toEqual('')
-  // })
-
-  // it('should handle OTP update when control is undefined', () => {
-  //   component.loginOtpForm = undefined as any
-  //   component.updateOtpCode()
-  //   // Ideally, you would handle this case with appropriate error checking in your application.
-  //   // For the test, this ensures the method does not throw errors with undefined controls.
-  //   expect(true).toBeTruthy()
-  // })
 
   it('should handle OTP update when controls are missing', () => {
     spyOn(console, 'error') // Mock console.error to suppress output during the test

@@ -201,11 +201,7 @@ export class PublicLoginComponent implements OnInit {
   redirect(val: string) {
     console.log("val")
     if (val === 'createAccount') {
-      // if (this.isEkshamtaLogin) {
-      //   this.router.navigateByUrl('/public/ekshamataHome')
-      // } else {
       window.location.href = '/public/home'
-
     } else {
       this.otpPage = false
     }
