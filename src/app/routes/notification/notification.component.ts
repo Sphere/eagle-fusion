@@ -5,7 +5,7 @@ import { Socket, io } from "socket.io-client"
 
 import { Router } from "@angular/router"
 
-// import { environment } from '../../../environments/environment'
+import { environment } from '../../../environments/environment'
 import { Events } from "./events"
 import { LocalStorageService } from "../../services/local-storage.service"
 import {
@@ -220,9 +220,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async connectSocket() {
-    // const url = `wss://${environment.sitePath}`;;
-    const baseUrl = "wss://aastrika-stage.tarento.com"
-    const url = baseUrl
+    const url = `wss://${environment.sitePath}`
+    // const baseUrl = "wss://aastrika-stage.tarento.com"
+    // const url = baseUrl
     const token = this.access_token ? this.access_token : await this.getAccessToken()
     this.socket = io(url, {
       auth: { token },
@@ -239,7 +239,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async readNotification(item: any) {
-    if (!this.socket || !this.socket.connected) {
+    if (!this.socket?.connected) {
       await this.connectSocket()
     }
     if (item.status === 'read') {
@@ -264,7 +264,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     if (this.dropdownContent) {
       this.closeDailog()
     }
-    if (item.data && item.data.actionData) {
+    if (item.data?.actionData) {
       if (item.data.actionData.actionType.includes('course') || item.data.actionData.actionType.includes('certificate')) {
         let url = `/app/toc/` + `${item.data.actionData.identifier}` + `/overview`
         this.router.navigate([url], { replaceUrl: true })

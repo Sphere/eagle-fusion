@@ -70,7 +70,7 @@ export class InitService {
     private http: HttpClient,
     // private widgetContentSvc: WidgetContentService,
     //private loginResolverService: LoginResolverService,
-    private authSvc: AuthKeycloakService,
+    private readonly authSvc: AuthKeycloakService,
     @Inject(APP_BASE_HREF) private baseHref: string,
     //private router: Router,
     domSanitizer: DomSanitizer,
@@ -101,16 +101,23 @@ export class InitService {
   async init() {
     // this.logger.removeConsoleAccess()
     const loginData = localStorage.getItem('loginDetailsWithToken')
-    if (!location.pathname.includes('/public/home')) {
-      if (loginData) {
-        const parsedData = JSON.parse(loginData)
-        let token = parsedData.token?.access_token ? true : false
-        if (!token)
-          this.authSvc.logout()
-      } else {
-        this.authSvc.logout()
-      }
+
+    // Proceed only if not on the public home page
+    if (location.pathname.includes('/public/home')) return
+
+    if (!loginData) {
+      this.authSvc.logout()
+      return
     }
+
+    const parsedData = JSON.parse(loginData)
+    const tokenExists = !!parsedData.token?.access_token
+
+    if (!tokenExists) {
+      this.authSvc.logout()
+    }
+
+
 
 
     await this.fetchDefaultConfig()

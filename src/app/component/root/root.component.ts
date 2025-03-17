@@ -45,7 +45,7 @@ const { App } = Plugins
 // NOSONAR - This commented code is intentional
 //import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
-// import { environment } from '../../../environments/environment'
+import { environment } from '../../../environments/environment'
 // import { MatDialog } from '@angular/material/dialog';
 // import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
@@ -702,8 +702,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async getConnectToSocket(data?: any) {
-    const baseUrl = "wss://aastrika-stage.tarento.com"
-    const url = baseUrl
+    const url = `wss://${environment.sitePath}`
+    // const baseUrl = "wss://aastrika-stage.tarento.com"
+    // const url = baseUrl
 
     const token = (data && data.accessToken) ? data.accessToken : await this.getAccessToken()
     console.log('Token is', token)
