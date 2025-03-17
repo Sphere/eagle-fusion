@@ -88,7 +88,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     language: ''
 
   }
-  searchRequestObject: ISearchRequestV2 | any = {
+  searchRequestObject: ISearchRequestV2 = {
     request: {
       filters: {
         visibility: ['Default'],

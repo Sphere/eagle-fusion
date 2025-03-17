@@ -17,7 +17,7 @@ export class PlayerVideoPopupComponent implements OnInit {
   answers: any[] = []; // Track all answers
   questions: Array<{ text: string; options: any[] }>
   resultMessage: string | null = null;
-  selectedOption: any | null = null; // To store the selected option
+  selectedOption = null; // To store the selected option
   showAnswerInfo: boolean = false
   layoutDirection = 'column'; // or 'row'
   showReset: boolean = false

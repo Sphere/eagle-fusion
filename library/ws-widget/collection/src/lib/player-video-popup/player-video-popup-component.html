@@ -61,24 +61,12 @@
 
     <!-- Navigation Buttons -->
     <div class="button-container flex justify-end mt-4">
-        <!--NOSONAR - This commented code is intentional-->
-        <!-- Back Button -->
-        <!--NOSONAR - This commented code is intentional-->
-        <!-- <button [disabled]="currentIndex === 0" [ngClass]="{ 'disabled-back-button': currentIndex === 0 }"
-            class="back-button" (click)="moveToPrevious()">
-            Back
-        </button> -->
-
         <!-- Skip or Next Button -->
         <div class="flex mr-2">
             <button i18n *ngIf="!showAnswerInfo" class="skip-button mr-2" (click)="sendAction('skip')"
                 class="skip-button">
                 Skip
             </button>
-            <!--NOSONAR - This commented code is intentional-->
-            <!-- <button i18n *ngIf="showReset" class="skip-button mr-2" (click)="reset() " class="skip-button">
-                Retry
-            </button> -->
             <button i18n class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
                 Next
             </button>
