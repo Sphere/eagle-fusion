@@ -100,8 +100,10 @@ export class InitService {
 
   async init() {
     // this.logger.removeConsoleAccess()
+    const authenticated = await this.authSvc.initAuth()
     const loginData = localStorage.getItem('loginDetailsWithToken')
-    if (!location.pathname.includes('/public/home')) {
+    if (authenticated) {
+      debugger
       if (loginData) {
         const parsedData = JSON.parse(loginData)
         let token = parsedData.token?.access_token ? true : false
