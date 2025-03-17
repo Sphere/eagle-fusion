@@ -95,7 +95,12 @@ export class LoginOtpComponent implements OnInit {
     }
 
   }
-
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+      event.preventDefault()
+    }
+  }
   // checkEmailPhoneType(): void {
   //   if (this.emailPhoneType !== 'phone' && !this.loginOtpForm.get('otp5')) {
   //     this.loginOtpForm.addControl('otp5', new FormControl('', Validators.required))

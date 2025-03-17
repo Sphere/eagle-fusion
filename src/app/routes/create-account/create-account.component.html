@@ -23,7 +23,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn"><span i18n>Help</span>
+      <div (click)="help()" (keydown)="handleKeyDown($event)" class=" help-btn"><span i18n>Help</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -117,7 +117,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn"><span i18n>Help</span>
+      <div (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn"><span i18n>Help</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>

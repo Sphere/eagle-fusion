@@ -214,6 +214,14 @@ export class PublicLoginComponent implements OnInit {
       this.iconChange2 = 'fas fa-eye'
     }
   }
+  handleKeyDown1(event: KeyboardEvent, type: string): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault() // Prevents scrolling when pressing space
+      this.passwordOrOtp(type)
+    }
+  }
+
+
   submitDetails(form: any) {
 
     if (form.status === "VALID") {

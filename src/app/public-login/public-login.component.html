@@ -252,16 +252,17 @@
             </div> -->
     <div class="padding-20 field  type-container mw-100">
       <div class="heading" style="margin-right: 30px;">
-        <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
-          style="cursor: pointer;" checked="true">&nbsp;
+        <input type="radio" (click)="passwordOrOtp('otp')" (keydown)="handleKeyDown1($event,'otp')"
+          name="usePasswordOrOTP" id="useOTPRB" style="cursor: pointer;" checked="true">
+        &nbsp;
         <label id="useOTPLabel" for="useOTPRB" class="option" i18n style="cursor: pointer;"
           [ngClass]="{'font-weight-500': selectedField === 'otp'}">
           By OTP
         </label>
       </div>
       <div style="cursor: pointer;">
-        <input type="radio" (click)="passwordOrOtp('password');" name="usePasswordOrOTP" id="usePasswordRB"
-          style="cursor: pointer;">&nbsp;
+        <input type="radio" (click)="passwordOrOtp('password');" (keydown)="handleKeyDown1($event,'password')"
+          name="usePasswordOrOTP" id="usePasswordRB" style="cursor: pointer;">&nbsp;
         <label id="usePasswordLabel" for="usePasswordRB" class="option" i18n style="cursor: pointer;"
           [ngClass]="{'font-weight-500': selectedField === 'password'}">
           By Password
@@ -289,7 +290,8 @@
                 (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
                 #emailOrMobile i18n-placeholder />
               <div class="input-group-append">
-                <span class="input-group-text eye-icon" (click)="toggle2()" style="cursor: pointer;">
+                <span class="input-group-text eye-icon" (keydown)="handleKeyDown($event)" (click)="toggle2()"
+                  style="cursor: pointer;">
                   <i [ngClass]="iconChange2" aria-hidden="true"></i>
                 </span>
               </div>

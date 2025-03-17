@@ -138,7 +138,8 @@
   </div>
 </div>
 <div *ngIf="!isCommonChatEnabled">
-  <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross" (click)="backToChatIcon()" />
+  <img src="/fusion-assets/images/cross.svg" (keydown)="handleKeyDown($event)" class="cross-icon" alt="cross"
+    (click)="backToChatIcon()" />
   <a href="https://wa.me/919632013414?text=Hi" target="_blank">
     <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp" />
     <div>

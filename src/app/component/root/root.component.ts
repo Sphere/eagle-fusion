@@ -787,7 +787,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(error)
     }
   }
-
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.backToChatIcon()
+    }
+  }
   // set page title
   setPageTitle() {
     this.router.events.pipe(

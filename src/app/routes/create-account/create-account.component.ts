@@ -205,7 +205,12 @@ export class CreateAccountComponent implements OnInit {
       },
     })
   }
-
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+      event.preventDefault()
+    }
+  }
   optionSelected() {
     let firstname = this.createAccountForm.controls.firstname.value
     let lastname = this.createAccountForm.controls.lastname.value
