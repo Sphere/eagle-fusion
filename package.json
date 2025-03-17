@@ -89,6 +89,7 @@
     "pdfjs-dist": "2.1.266",
     "rxjs": "~6.5.2",
     "shepherd.js": "^7.1.0",
+    "socket.io-client": "^4.8.1",
     "tailwindcss": "^1.9.6",
     "tslib": "^1.14.1",
     "typeface-roboto": "0.0.75",

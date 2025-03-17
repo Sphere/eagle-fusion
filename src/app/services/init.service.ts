@@ -35,6 +35,7 @@ import get from "lodash/get"
 import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
 // import { retry } from 'rxjs/operators'
+import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 
 // interface IDetailsResponse {
 //   tncStatus: boolean
@@ -69,7 +70,7 @@ export class InitService {
     private http: HttpClient,
     // private widgetContentSvc: WidgetContentService,
     //private loginResolverService: LoginResolverService,
-
+    private authSvc: AuthKeycloakService,
     @Inject(APP_BASE_HREF) private baseHref: string,
     //private router: Router,
     domSanitizer: DomSanitizer,
@@ -99,6 +100,18 @@ export class InitService {
 
   async init() {
     // this.logger.removeConsoleAccess()
+    const loginData = localStorage.getItem('loginDetailsWithToken')
+    if (!location.pathname.includes('/public/home')) {
+      if (loginData) {
+        const parsedData = JSON.parse(loginData)
+        let token = parsedData.token?.access_token ? true : false
+        if (!token)
+          this.authSvc.logout()
+      } else {
+        this.authSvc.logout()
+      }
+    }
+
 
     await this.fetchDefaultConfig()
     // const authenticated = await this.authSvc.initAuth()

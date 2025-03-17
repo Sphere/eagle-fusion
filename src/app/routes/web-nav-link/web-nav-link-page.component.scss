@@ -2,6 +2,24 @@
     display: flex;
     flex-wrap: wrap;
     margin: 10px 10px 10px 20px;
+    align-items: center;
+}
+.badge {
+  position: absolute;
+    top: 2px;
+    right: 9px;
+    background: #f88808;
+    color: #fff;
+    padding: 7px;
+    height: 12px;
+    width: 13px;
+    font-size: 8px;
+    border-radius: 50%;
+    font-weight: 700;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 5px #0003;
 }
 @media only screen and (max-width: 900px) {
     .link-container{

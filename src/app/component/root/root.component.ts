@@ -61,6 +61,9 @@ import { ConfigService as CompetencyConfiService } from '../../routes/competency
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
+import { LocalStorageService } from '../../services/local-storage.service'
+import { Events } from '../../routes/notification/events'
+import { io } from "socket.io-client"
 
 @Component({
   selector: 'ws-root',
@@ -105,6 +108,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   appOnline: boolean | undefined
   paramsJSON!: string
   videoData: any
+
   private routerEventsSubscription: Subscription
   isEkshamata: boolean = false
   domain: string
@@ -132,6 +136,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private UserAgentResolverService: UserAgentResolverService,
     private userSvc: WidgetUserService,
     private viewerSvc: ViewerUtilService,
+    private storage: LocalStorageService,
+    private events: Events,
+
     @Inject(DOCUMENT) private _document: Document
   ) {
     this.domain = window.location.hostname
@@ -325,8 +332,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.configSvc.userProfile) {
+      this.getConnectToSocket()
       this.userId = this.configSvc.userProfile.userId || ''
       console.log("this.configSvc.userProfile: ", this.configSvc.userProfile)
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
@@ -680,6 +688,46 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       })
     }
   }
+
+  async getAccessToken() {
+    const loginData = localStorage.getItem('loginDetailsWithToken')
+    if (loginData) {
+      const parsedData = JSON.parse(loginData)
+      let token = parsedData.token?.access_token
+      console.log("token", token)
+      return token
+      // return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiJmYzE1ZDg1Mi02NmUxLTRjYTUtYWM1YS1mYjA1Y2Q5NmQ0OTQiLCJleHAiOjE3NDMxNDY1NDksIm5iZiI6MCwiaWF0IjoxNzQwNTU0NTQ5LCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiY2E4NjU0MzktMjgwZS00MzkxLTgyZGItYTUwMGE0MDBhM2ZjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.fL1p9vJetVOK4DRGPo8wJtrzJcJf5MVmatcUGdVMSEu0IZ2zfr5X-kVk4RSqqmLG00ApY5_fcYb6EWrUVScU9BwWBJdfPl0Xbhk4eQwRnfoM13_ab64v02rAcUL-U3yuwyaMnBn9Cfbij1kb0M2wnWjW0EAyV9lSuQ65yzShIVXjaRmfGhqVkuq_TyoKrnr2xKlzCUPfeQcDIApD-pqxa6DSuhS1Gu1qgIKoAvZx6MPtQoLiauMa-s_I51_2c2Gmo960G0HCy3EluE62ulUXqUVpfyLFvzSIgWD545bXBd6fycVzNenbIeNDTAdI_hwKM9ixKQB6PCy-NZdV2gfdRQ'
+    }
+    return ''
+  }
+
+  async getConnectToSocket(data?: any) {
+    const baseUrl = "wss://aastrika-stage.tarento.com"
+    const url = baseUrl
+
+    const token = (data && data.accessToken) ? data.accessToken : await this.getAccessToken()
+    console.log('Token is', token)
+
+    const socket = io(url, {
+      auth: { token },
+      path: '/apis/socket.io/',
+      transports: ["websocket"]
+    })
+
+    socket.on('connect', () => {
+      console.log(`Connected to the server with ID: ${socket.id}`)
+    })
+
+    socket.emit('getNotifications', { userId: data?.userId || this.userId })
+
+    socket.on('notificationsData', (data) => {
+      this.storage.setNumberOfNotifications(data?.notificationData?.length || 0)
+      console.log("data?.notificationData?.length", data?.notificationData?.length)
+      this.events.publish("notificationCountUpdated", data?.notificationData?.length || 0)
+    })
+  }
+
+
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
