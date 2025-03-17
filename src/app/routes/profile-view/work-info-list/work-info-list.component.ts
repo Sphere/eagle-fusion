@@ -292,6 +292,8 @@ export class WorkInfoListComponent implements OnInit {
     } else if (value === 'ASHA') {
       this.personalDetailForm.controls.designation.setValue(null)
       this.personalDetailForm.controls.designation.clearValidators()
+      this.personalDetailForm.controls.instituteName.clearValidators()
+      this.personalDetailForm.controls.instituteName.updateValueAndValidity()
       this.showAshaField = true
       this.HealthcareWorker = false
       this.personalDetailForm.controls.block.setValue(null)
