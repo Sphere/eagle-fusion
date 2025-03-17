@@ -117,8 +117,8 @@
     </ng-container>
     <ng-container *ngIf="actionBtn.iconType === 'image'">
       <div style="display: inline-block; position: relative;">
-        <img alt="icon" class="feature-icon-img" [src]="actionBtn.src">
-        <span *ngIf="(actionBtn?.name === 'Notification') && numberOfNotification"
+        <img class="feature-icon-img" [src]="actionBtn.src">
+        <span *ngIf="(actionBtn?.name === 'Notification'||actionBtn?.name ==='अधिसूचना') && numberOfNotification"
           class="badge">{{numberOfNotification}}</span>
       </div>
     </ng-container>

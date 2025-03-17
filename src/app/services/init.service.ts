@@ -99,22 +99,18 @@ export class InitService {
   }
 
   async init() {
-    // this.logger.removeConsoleAccess()
+   // this.logger.removeConsoleAccess()
+    const authenticated = await this.authSvc.initAuth()
     const loginData = localStorage.getItem('loginDetailsWithToken')
-
-    // Proceed only if not on the public home page
-    if (location.pathname.includes('/public/home')) return
-
-    if (!loginData) {
-      this.authSvc.logout()
-      return
-    }
-
-    const parsedData = JSON.parse(loginData)
-    const tokenExists = !!parsedData.token?.access_token
-
-    if (!tokenExists) {
-      this.authSvc.logout()
+    if (authenticated) {
+      if (loginData) {
+        const parsedData = JSON.parse(loginData)
+        let token = parsedData.token?.access_token ? true : false
+        if (!token)
+          this.authSvc.logout()
+      } else {
+        this.authSvc.logout()
+      }
     }
 
 

@@ -264,6 +264,14 @@
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
           <context context-type="linenumber">181</context>
         </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
+          <context context-type="linenumber">238</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">library/ws-widget/collection/src/lib/btn-feature/btn-feature.component.html</context>
+          <context context-type="linenumber">245</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="dc660f0b2b272ccbe6a7f7a71ffb56b851ee8b85" datatype="html">
         <source>icon</source>
@@ -2366,7 +2374,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">381</context>
+          <context context-type="linenumber">384</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -2387,6 +2395,40 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+       <trans-unit id="dfb6e8f1028903902ead54d62afeb71adfa750ff" datatype="html">
+        <source>Notification</source>
+        <target state="final">अधिसूचना</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/notification/notification.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1da23f4068fd3796fbcb24d0c42bb62f92c96829" datatype="html">
+        <source>Mark all as read</source>
+        <target state="final">सभी को पढ़ा हुआ मार्क करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/notification/notification.component.html</context>
+          <context context-type="linenumber">15</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="312384ea8b837e106c4aed38a439349fdca647eb" datatype="html">
+        <source>Clear all</source>
+        <target state="final">सभी साफ करें</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/notification/notification.component.html</context>
+          <context context-type="linenumber">19</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fca10068047f81c21a476a4e01b29a747e2b60ee" datatype="html">
+        <source>
+    No notification
+  </source>
+  <target state="final">कोई सूचना नहीं</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/notification/notification.component.html</context>
+          <context context-type="linenumber">53</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3fce5da87776ca6f98ca3b346c2b46f2f764f45c" datatype="html">
