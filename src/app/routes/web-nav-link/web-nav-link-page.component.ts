@@ -170,6 +170,7 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showHome = true
       this.showCompetency = false
       let url = url1 === 'hi' ? '/page/home' : 'page/home'
+      // eslint-disable-next-line security/detect-non-literal-fs-filename
       location.href = `${url3}${url1}${url}`
       this.showNotification = false
     } else if (text === 'mycourses') {
@@ -177,6 +178,7 @@ export class WebNavLinkPageComponent implements OnInit {
       let result = await this.signupService.getUserData()
       console.log(result)
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         location.href = `${url3}${url1}${url}`
       } else {
         this.mycourses = true
@@ -191,6 +193,7 @@ export class WebNavLinkPageComponent implements OnInit {
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         location.href = `${url3}${url1}${url}`
       } else {
         console.log(result)
@@ -224,6 +227,7 @@ export class WebNavLinkPageComponent implements OnInit {
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.showProfile = true
         let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
+        // eslint-disable-next-line security/detect-non-literal-fs-filename
         location.href = `${url3}${url1}${url}`
       } else {
         console.log('p')
