@@ -215,7 +215,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     const days = Math.floor(timeDifference / oneDay)
     const hours = Math.floor((timeDifference % oneDay) / oneHour)
     const minute = Math.floor((timeDifference % oneHour) / oneMinute)
-    const time = (days > 0 ? `${days}d` : (hours > 0 ? `${hours}hr` : `${minute}mins`))
+
+    let time = `${minute}mins`
+
+    if (hours > 0) {
+      time = `${hours}hr`
+    }
+
+    if (days > 0) {
+      time = `${days}d`
+    }
+
     return time
   }
 
@@ -315,9 +325,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
     this.renderer.listen('document', 'click', (_event: Event) => {
-      // if (this.slidingItem) {
-      //   this.slidingItem.closeOpened()
-      // }
+
     })
   }
 

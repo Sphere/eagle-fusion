@@ -203,6 +203,7 @@ cdk-overlay-pane .custom-notification-modal{
 .notifications__item__content {
     width: calc(100% - 20%);
     margin-right: 10px;
+     flex-grow: 1;
 }
 
 .notifications__item__title {
@@ -262,10 +263,6 @@ letter-spacing: -2%;
     padding: 15px !important;
 }
 
-.notifications__item__message a {
-    color: rgba(46, 100, 145, 1) !important;
-    display: block !important;
-  }
 
  .notifications__item--unread{
     background: rgba(239, 246, 252, 1)!important;
@@ -319,10 +316,6 @@ letter-spacing: -2%;
   z-index: 2; // Keep it above the delete button
 }
 
-
-.notifications__item__content {
-  flex-grow: 1;
-}
 
 /* Delete button positioned behind the notification */
 .delete-btn {

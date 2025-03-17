@@ -46,8 +46,6 @@ const { App } = Plugins
 //import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
 import { environment } from '../../../environments/environment'
-// import { MatDialog } from '@angular/material/dialog';
-// import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
 import { DOCUMENT } from '@angular/common'
@@ -706,7 +704,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     // const baseUrl = "wss://aastrika-stage.tarento.com"
     // const url = baseUrl
 
-    const token = (data && data.accessToken) ? data.accessToken : await this.getAccessToken()
+    const token = data?.accessToken ?? await this.getAccessToken()
     console.log('Token is', token)
 
     const socket = io(url, {
