@@ -87,6 +87,7 @@ export class YourBackgroundComponent implements OnInit {
       osName: userAgent.OS,
       browserName: userAgent.browserName,
       userCookie,
+      profileLocation: 'sphere-web/your-background',
     }
     Object.keys(userObject).forEach(key => {
       if (userObject[key] === '') {
@@ -97,6 +98,7 @@ export class YourBackgroundComponent implements OnInit {
       request: {
         userId: this.userId,
         profileDetails: {
+          profileLocation: 'sphere-web/your-background',
           profileReq: {
             id: this.userId,
             userId: this.userId,
