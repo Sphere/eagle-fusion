@@ -264,6 +264,12 @@ export class WebNavLinkPageComponent implements OnInit {
       this.notificationDialogRef = null
     }
   }
+  handleKeyDown(event: KeyboardEvent, item: any) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.redirect('notification')
+      event.preventDefault() // Prevents scrolling on space key press
+    }
+  }
   logout() {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }

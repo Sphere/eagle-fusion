@@ -25,8 +25,8 @@
     </a>
   </div>
   <div class="link-block">
-    <a role="button" (click)="redirect('notification')" matRipple active routerLinkActive="ws-mat-accent-text"
-      class="flex cursor-pointer">
+    <a (keydown)="handleKeyDown($event)" role="button" (click)="redirect('notification')" matRipple active
+      routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <img alt="notification" width="40" height="24" src="/fusion-assets/icons/notifications.svg">
       <span *ngIf="numberOfNotification" class="badge">{{numberOfNotification}}</span>
     </a>

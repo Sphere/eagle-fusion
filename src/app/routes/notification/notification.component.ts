@@ -276,6 +276,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       this.dialogRef.close()
     this.cdr.detectChanges() // Force update UI
   }
+  handleKeyDown(event: KeyboardEvent, item: any) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.readNotification(item)
+      event.preventDefault() // Prevents scrolling on space key press
+    }
+  }
 
   ngOnDestroy() {
     if (this.socket) {

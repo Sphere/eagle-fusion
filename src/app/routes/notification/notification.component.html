@@ -31,12 +31,12 @@
       </button>
 
       <!-- Notification Content (Slideable) -->
-      <div (click)="readNotification(item)" class="notification-content" #notification
-        (touchstart)="onTouchStart($event, notification)" (touchmove)="onTouchMove($event, notification)"
+      <div (keydown)="handleKeyDown($event, item)" (click)="readNotification(item)" class="notification-content"
+        #notification (touchstart)="onTouchStart($event, notification)" (touchmove)="onTouchMove($event, notification)"
         (touchend)="onTouchEnd($event, notification, i)">
         <div class="notifications__item" [ngClass]="{ 'notifications__item--unread': item.status === 'unread' }">
           <div class="notifications__item__avatar">
-            <img [src]="item.data?.actionData?.logo" alt="Notification Image" />
+            <img [src]="item.data?.actionData?.logo" alt="Notification" />
           </div>
 
           <div class="notifications__item__content">
