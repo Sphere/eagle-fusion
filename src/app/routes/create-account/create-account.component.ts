@@ -172,7 +172,7 @@ export class CreateAccountComponent implements OnInit {
       })
     }
     if (localStorage.getItem('preferedLanguage') || location.href.includes('/hi/')) {
-      const reqObj = localStorage.getItem('preferedLanguage') || ''
+      const reqObj = localStorage.getItem('preferedLanguage') ?? ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
 

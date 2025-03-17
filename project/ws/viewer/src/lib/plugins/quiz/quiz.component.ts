@@ -862,7 +862,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
       this.questionAnswerHash,
     )
-    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest | any = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
+    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizSvc.sanitizeAssessmentSubmitRequest(requestData)
     sanitizedRequestData['artifactUrl'] = this.artifactUrl
     sanitizedRequestData['contentId'] = this.identifier
     sanitizedRequestData['courseId'] = this.collectionId

@@ -160,7 +160,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       },
       this.questionAnswerHash,
     )
-    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest | any = this.quizService.sanitizeAssessmentSubmitRequest(requestData)
+    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizService.sanitizeAssessmentSubmitRequest(requestData)
     sanitizedRequestData['artifactUrl'] = this.assesmentdata.generalData.artifactUrl
     sanitizedRequestData['contentId'] = this.assesmentdata.generalData.identifier
     sanitizedRequestData['courseId'] = this.assesmentdata.generalData.collectionId

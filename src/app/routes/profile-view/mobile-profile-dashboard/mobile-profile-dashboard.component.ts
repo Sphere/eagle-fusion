@@ -1,5 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core'
-import { Renderer2 as Renderer } from '@angular/core'
+import { Component, OnInit, Inject, Renderer2 as Renderer } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'

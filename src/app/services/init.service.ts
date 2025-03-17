@@ -202,7 +202,7 @@ export class InitService {
     return true
   }
   private async fetchHostedConfig(): Promise<any> {
-    // TODO: use the rootOrg and org to fetch the instance
+    // use the rootOrg and org to fetch the instance
     const hostConfig = await this.http
       .get<any>(`https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ekshamataOrgConfig.json`)
       .toPromise()
