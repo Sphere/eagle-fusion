@@ -110,6 +110,12 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.result = await this.signupService.fetchStartUpDetails()
     this.createUserForm = this.createTncFormFields()
   }
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+      event.preventDefault()
+    }
+  }
   help() {
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',

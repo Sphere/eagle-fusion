@@ -32,6 +32,15 @@ export class CreateAccountDialogComponent implements OnInit {
       this.lastName = this.selectedData.details.lastname
     }
   }
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      this.showSocialChats()
+      window.fcWidget.open()
+      window.fcWidget.show()
+    }
+  }
+
   /* istanbul ignore next */
   showSocialChats() {
     try {
