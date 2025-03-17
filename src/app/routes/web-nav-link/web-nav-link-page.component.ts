@@ -161,12 +161,15 @@ export class WebNavLinkPageComponent implements OnInit {
   }
 
   async redirect(text: string) {
-    let local = (this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.preferences &&
-      this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined)
-      ? this.configSvc.unMappedUser.profileDetails.preferences.language
-      : location.href.includes('/hi/') ? 'hi' : 'en'
+    let userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
+    let local: string
+
+    if (userProfile && userProfile.language !== undefined) {
+      local = userProfile.language
+    } else {
+      local = location.href.includes('/hi/') ? 'hi' : 'en'
+    }
+
 
     let url1 = local === 'hi' ? 'hi' : ""
     console.log(url1, text)
