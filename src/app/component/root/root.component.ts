@@ -136,8 +136,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private UserAgentResolverService: UserAgentResolverService,
     private userSvc: WidgetUserService,
     private viewerSvc: ViewerUtilService,
-    private storage: LocalStorageService,
-    private events: Events,
+    private readonly storage: LocalStorageService,
+    private readonly events: Events,
 
     @Inject(DOCUMENT) private _document: Document
   ) {
