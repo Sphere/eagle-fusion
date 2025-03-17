@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core"
+import { Component, OnDestroy, OnInit, Renderer2, ChangeDetectorRef } from "@angular/core"
 import { SafeHtml } from "@angular/platform-browser"
 import { Socket, io } from "socket.io-client"
 
 
 import { Router } from "@angular/router"
-import { ChangeDetectorRef } from '@angular/core'
 
 // import { environment } from '../../../environments/environment'
 import { Events } from "./events"
@@ -94,14 +93,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   isXSmall$: Observable<boolean>
   constructor(
 
-    private events: Events,
-    private storage: LocalStorageService,
-    private router: Router,
-    private renderer: Renderer2,
+    private readonly events: Events,
+    private readonly storage: LocalStorageService,
+    private readonly router: Router,
+    private readonly renderer: Renderer2,
     public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private dialogRef: MatDialogRef<NotificationsComponent>,
-    private cdr: ChangeDetectorRef
+    private readonly valueSvc: ValueService,
+    private readonly dialogRef: MatDialogRef<NotificationsComponent>,
+    private readonly cdr: ChangeDetectorRef
   ) {
     console.log('NotificationsComponent constructor called')
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -114,10 +113,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.isWebView = true
       }
     })
-    this.user_id = this.configSvc.userProfile?.userId || ''
+    this.user_id = this.configSvc.userProfile?.userId ?? ''
     await this.getAccessToken()
     this.getReadNotifications()
-    if (!(this.socket && this.socket.connected)) {
+    if (!(this.socket?.connected)) {
       await this.connectSocket()
     }
     await this.getNotification()
@@ -200,7 +199,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   getReadNotifications() {
     this.storage.getLocalStorage('readNotificationLists').then(
       (data) => {
-        if (data && data.notifications && data.userId === this.user_id) {
+        if (data?.notifications && data?.userId === this.user_id) {
           this.readNotificationList = data.notifications
         }
       })

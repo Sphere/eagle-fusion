@@ -10,7 +10,7 @@
     display: flex;
 }
 .notification_header_title{
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 font-weight: 400;
 font-size: 18px;
 line-height: 28.8px;
@@ -69,14 +69,8 @@ cdk-overlay-pane .custom-notification-modal{
   border-radius: 10px !important;
   /* 🔹 Scrollable Notification List */
     .wrapper {
-    // flex-grow: 1 !important;
-    // overflow-y: auto !important;
-    // max-height: 60vh !important; /* Ensures scrolling */
     padding-top: 0.5rem !important;
     height: auto !important;
-    // display: flex !important;
-    // flex-direction: column !important;
-    // width: 100% !important;
     }
     .notification_header {
         padding: 14px;
@@ -86,11 +80,7 @@ cdk-overlay-pane .custom-notification-modal{
         height: 7vh;
         display: flex    ;
         margin: 0px !important;
-    }
-
-    /* 🔹 Fixed Header */
-    .notification_header {
-    position: sticky;
+           position: sticky;
     top: 0;
     background: white;
     z-index: 10;
@@ -217,11 +207,6 @@ cdk-overlay-pane .custom-notification-modal{
     margin-right: 10px;
 }
 
-// .notifications__item__title,
-// .notifications__item__message {
-//    // display: block;
-// }
-
 .notifications__item__title {
     font-family: Roboto, sans-serif;
     color: #2E6491
@@ -239,7 +224,7 @@ cdk-overlay-pane .custom-notification-modal{
 .kebab-info {
     position: absolute;
     right: 1rem;
-    cursor: pointer;;
+    cursor: pointer;
 }
 .read-item{
     cursor: pointer;
@@ -258,7 +243,7 @@ cdk-overlay-pane .custom-notification-modal{
 }
 
 .text-style {
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 font-weight: 400;
 font-size: 16px;
 line-height: 18.75px;
@@ -290,7 +275,7 @@ letter-spacing: -2%;
 
  .notifications__item__date {
     color: #808080;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
     font-size: 12px;
  }
 
@@ -339,11 +324,6 @@ letter-spacing: -2%;
 
 .notifications__item__content {
   flex-grow: 1;
-}
-
-.notifications__item__date {
-  font-size: 12px;
-  color: gray;
 }
 
 /* Delete button positioned behind the notification */
