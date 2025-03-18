@@ -63,7 +63,7 @@ export class CreateAccountComponent implements OnInit {
     public dialog: MatDialog,
     private loader: LoaderService,
     public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
 
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -125,7 +125,9 @@ export class CreateAccountComponent implements OnInit {
     }
   }
   homePage() {
-    location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+    location.href = this.configSvc?.unMappedUser?.id
+      ? '/page/home'
+      : '/public/home'
   }
   toggle1() {
     this.hide1 = !this.hide1
@@ -170,7 +172,7 @@ export class CreateAccountComponent implements OnInit {
       })
     }
     if (localStorage.getItem('preferedLanguage') || location.href.includes('/hi/')) {
-      const reqObj = localStorage.getItem('preferedLanguage') || ''
+      const reqObj = localStorage.getItem('preferedLanguage') ?? ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
 
@@ -203,7 +205,12 @@ export class CreateAccountComponent implements OnInit {
       },
     })
   }
-
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+      event.preventDefault()
+    }
+  }
   optionSelected() {
     let firstname = this.createAccountForm.controls.firstname.value
     let lastname = this.createAccountForm.controls.lastname.value

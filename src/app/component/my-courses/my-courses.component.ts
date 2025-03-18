@@ -38,7 +38,7 @@ export class MyCoursesComponent implements OnInit {
     private signupService: SignupService,
     public router: Router,
     private valueSvc: ValueService,
-    private route: ActivatedRoute
+    private readonly route: ActivatedRoute
   ) { }
 
   ngOnInit() {

@@ -1,15 +1,15 @@
 name: Build
 on:
- push:
-   branches:
-     - master
- pull_request:
-   types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
 jobs:
   sonarcloud:
     name: SonarCloud
     runs-on: ubuntu-latest
-    environment : sonarcloud
+    environment: sonarcloud
     steps:
       - uses: actions/checkout@v2
         with:
@@ -23,5 +23,3 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          
-

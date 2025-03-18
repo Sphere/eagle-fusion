@@ -3,18 +3,20 @@
 <div class="notification-container" [ngClass]="{'iswebView': isWebView}">
 
   <div class="notification_header">
-    <span class="notification_header_title" i18n>Notification</span>
-    <div class="kebab-info" (click)="openDailog()">
+    <span i18n class="notification_header_title" i18n>Notification</span>
+    <div class="kebab-info" (click)="openDailog()" (keydown)="openDailog()">
       <img src="/fusion-assets/icons/kebab-menu.png" alt="Menu">
     </div>
   </div>
 
   <div class="dropdown-content" *ngIf="dropdownContent && allnotificationList.length">
-    <div class="dropdown-item border-bottom-1" (click)="handleAction('read')">
+    <div class="dropdown-item border-bottom-1" (click)="handleAction('read')" (keydown.enter)="handleAction('read')"
+      (keydown.space)="handleAction('read')">
       <img src="/fusion-assets/icons/double_tick.png" alt="Tick" />
       <span class="text-style" i18n>Mark all as read</span>
     </div>
-    <div class="dropdown-item" (click)="handleAction('clear')">
+    <div class="dropdown-item" (click)="handleAction('clear')" (keydown.enter)="handleAction('clear')"
+      (keydown.space)="handleAction('clear')">
       <img src="/fusion-assets/icons/close_blue.png" alt="Clear" />
       <span class="text-style" i18n>Clear all</span>
     </div>
@@ -29,12 +31,12 @@
       </button>
 
       <!-- Notification Content (Slideable) -->
-      <div (click)="readNotification(item)" class="notification-content" #notification
-        (touchstart)="onTouchStart($event, notification)" (touchmove)="onTouchMove($event, notification)"
+      <div (keydown)="handleKeyDown($event, item)" (click)="readNotification(item)" class="notification-content"
+        #notification (touchstart)="onTouchStart($event, notification)" (touchmove)="onTouchMove($event, notification)"
         (touchend)="onTouchEnd($event, notification, i)">
         <div class="notifications__item" [ngClass]="{ 'notifications__item--unread': item.status === 'unread' }">
           <div class="notifications__item__avatar">
-            <img [src]="item.data?.actionData?.logo" alt="Notification Image" />
+            <img [src]="item.data?.actionData?.logo" alt="Notification" />
           </div>
 
           <div class="notifications__item__content">

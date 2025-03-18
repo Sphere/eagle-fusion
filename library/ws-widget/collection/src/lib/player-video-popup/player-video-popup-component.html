@@ -2,7 +2,7 @@
     <!-- Question Text -->
     <div class="flex justify-between items-center">
         <span i18n class="questions-header">Question</span>
-        <mat-icon class="cursor-pointer" (click)="closePopup()">close</mat-icon>
+        <mat-icon class="cursor-pointer" (click)="closePopup()" (keydown)="handleKeyDown($event)">close</mat-icon>
     </div>
     <h3 class="quiz-question">{{ currentQuestion.text }}</h3>
     <!-- Options List -->
@@ -61,21 +61,12 @@
 
     <!-- Navigation Buttons -->
     <div class="button-container flex justify-end mt-4">
-        <!-- Back Button -->
-        <!-- <button [disabled]="currentIndex === 0" [ngClass]="{ 'disabled-back-button': currentIndex === 0 }"
-            class="back-button" (click)="moveToPrevious()">
-            Back
-        </button> -->
-
         <!-- Skip or Next Button -->
         <div class="flex mr-2">
             <button i18n *ngIf="!showAnswerInfo" class="skip-button mr-2" (click)="sendAction('skip')"
                 class="skip-button">
                 Skip
             </button>
-            <!-- <button i18n *ngIf="showReset" class="skip-button mr-2" (click)="reset() " class="skip-button">
-                Retry
-            </button> -->
             <button i18n class="next-button ml-2" *ngIf="currentIndex < questions.length - 1" (click)="moveToNext()">
                 Next
             </button>

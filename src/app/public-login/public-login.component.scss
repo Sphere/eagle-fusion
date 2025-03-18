@@ -33,7 +33,6 @@
     text-align: center;
     display: flex;
     justify-content: center;
-    align-items: center;
     width: 100%;
     left: 0%;
 }
@@ -44,7 +43,7 @@
   background: linear-gradient(180deg, #EBF4FB 0%, #DCEFEC 49.18%, #FFFCC8 98.36%);
 }
 .mtb1{
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 40px;
 font-weight: 400;
 line-height: 48px;
@@ -60,6 +59,7 @@ text-align: left;
   }
     .top-block{
  align-items: center;
+ margin-bottom: 5px;
   }
   .otp-input{
     border: none;
@@ -71,7 +71,7 @@ text-align: left;
     text-align: center;
   }
 .welcome{
-    font-family: Roboto !important;
+    font-family: Roboto, sans-serif !important;
     font-size: 40px !important;
     font-weight: 400 !important;
     line-height: 48px !important;
@@ -80,7 +80,7 @@ text-align: left;
   margin-bottom: 0px !important;
 }
 .info-text{
-  font-family: Roboto !important;
+  font-family: Roboto, sans-serif !important;
 font-size: 16px !important;
 font-weight: 400 !important;
 line-height: 24px !important;
@@ -89,7 +89,7 @@ text-align: left !important;
 
 }
 .option{
-  font-family: Roboto !important;
+  font-family: Roboto, sans-serif !important;
 font-size: 16px !important;
 font-weight: 400 !important;
 line-height: 18.75px !important;
@@ -105,40 +105,24 @@ text-align: left !important;
   background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
   align-items: baseline;
 }
-  .top-block{
-//  padding: 20px;
- align-items: center;
- margin-bottom: 5px;
-  }
   .padding-20{
     padding: 0px 20px 0px 30px !important;
   }
     .help-btn{
         display: flex;
-        /* justify-content: space-between; */
         gap: 12px;
         width: 75px;
         height: 36px;
         color: #2E6491;
         border-radius: 63px;
-        border: 1px 0px 0px 0px;
-        font-family: Roboto;
+        font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 16.41px;
-        /* text-align: left; */
         border: 1px solid #2E6491;
         padding: 8px;
         cursor: pointer;
   }
-.login-page-content{
-   max-width: 100%;
-    margin: auto;
-    margin: 0px !important;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 40px 40px 0px 0px;
-    display: block;
-}
 @media screen and (min-width: 769px) {
     .custom-wrapper {
         min-height: 100vh;
@@ -185,7 +169,6 @@ text-align: left !important;
 @media screen and (max-width: 768px) {
   .custom-wrapper {
     min-height: 85vh;
-    // margin-top: 55px;
     overflow: hidden !important;
     width: auto !important;
   }
@@ -341,7 +324,6 @@ text-align: left !important;
     border-radius: 40px 40px 0px 0px;
     display: block;
     background: #FFFFFF;
-
 }
 ::ng-deep .mat-form-field-underline {
   display: none;
@@ -368,8 +350,6 @@ text-align: left !important;
 .login-card {
   margin: 0;
     padding: 0px 20px 30px 30px;
-
-  //padding: 20px 20px 30px 20px;
   color: #000;
   font-size: 14px;
   line-height: 17px;
@@ -387,13 +367,8 @@ text-align: left !important;
   width: 216px;
   height: 66px;
 }
-.check-email-text {
-  font-size: 22px;
-  line-height: 8px;
-}
-
 .enter-code-text {
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 16px;
 font-weight: 400;
 line-height: 24px;
@@ -404,8 +379,6 @@ color: #808080;
 }
 
 .img-box {
-  //width: 90%;
-  //margin: auto;
   text-align: center;
 }
 
@@ -486,18 +459,16 @@ color: #808080;
   }
     .help-btn{
         display: flex;
-        /* justify-content: space-between; */
         gap: 12px;
         width: 75px;
         height: 36px;
         color: #2E6491;
         border-radius: 63px;
-        border: 1px 0px 0px 0px;
-        font-family: Roboto;
+
+        font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 16.41px;
-        /* text-align: left; */
         border: 1px solid #2E6491;
         padding: 8px;
   }
@@ -521,10 +492,6 @@ color: #808080;
   }
   .input-box {
     width: 88%;
-  }
-  .login-timer{
-    display: flex;
-    justify-content: right;
   }
 
   .input-content {

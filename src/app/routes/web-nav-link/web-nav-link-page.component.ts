@@ -33,7 +33,7 @@ export class WebNavLinkPageComponent implements OnInit {
     location: Location,
     public navOption: appNavBarService,
     public storage: LocalStorageService,
-    private event: Events,
+    private readonly event: Events,
 
 
   ) {
@@ -152,9 +152,12 @@ export class WebNavLinkPageComponent implements OnInit {
       },
     ]
     const count = this.storage.getNumberOfNotifications()
-    this.numberOfNotification = (count > 1) ? '1+' : (count > 0 ? '1' : '')
+    let notificationText = count > 0 ? '1' : ''
+
+    this.numberOfNotification = (count > 1) ? '1+' : notificationText
     this.event.subscribe('notificationCountUpdated', (data) => {
-      this.numberOfNotification = (data > 1) ? '1+' : (data > 0 ? '1' : '')
+      let notificationText = data > 0 ? '1' : ''
+      this.numberOfNotification = (data > 1) ? '1+' : notificationText
     })
   }
 
@@ -254,6 +257,12 @@ export class WebNavLinkPageComponent implements OnInit {
     if (this.notificationDialogRef) {
       this.notificationDialogRef.close()
       this.notificationDialogRef = null
+    }
+  }
+  handleKeyDown(event: KeyboardEvent, item: any) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.redirect('notification')
+      event.preventDefault() // Prevents scrolling on space key press
     }
   }
   logout() {

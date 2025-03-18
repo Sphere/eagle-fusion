@@ -17,12 +17,12 @@ export class PlayerVideoPopupComponent implements OnInit {
   answers: any[] = []; // Track all answers
   questions: Array<{ text: string; options: any[] }>
   resultMessage: string | null = null;
-  selectedOption: any | null = null; // To store the selected option
+  selectedOption = null; // To store the selected option
   showAnswerInfo: boolean = false
   layoutDirection = 'column'; // or 'row'
   showReset: boolean = false
   constructor(
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<PlayerVideoPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { questions: Array<{ text: string; options: any[] }> },
@@ -41,7 +41,12 @@ export class PlayerVideoPopupComponent implements OnInit {
       }
     })
   }
-
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.closePopup()
+      event.preventDefault()
+    }
+  }
   get currentQuestion() {
     return this.questions[this.currentIndex]
   }

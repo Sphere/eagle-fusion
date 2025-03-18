@@ -3,12 +3,12 @@
     <div class="ui one column grid stackable">
       <div class="ui column height-fix">
         <div class="logo">
-          <a name="application-logo" class="padding-remove-small application-logo" [routerLink]="routerLink"
-            i18n-matTooltip matTooltip="Home">
-            <img *ngIf="isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/aastrika-foundation-logo.svg"
-              width="auto" height="40" style="margin: 15px 0px;" />
-            <img *ngIf="!isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg" width="auto"
-              height="70" style="margin-left: -15px;" />
+          <a class="padding-remove-small application-logo" [routerLink]="routerLink" i18n-matTooltip matTooltip="Home">
+            <img alt="logo" *ngIf="isEkshamtaLogin" loading="lazy"
+              src="/fusion-assets/images/aastrika-foundation-logo.svg" width="auto" height="40"
+              style="margin: 15px 0px;" />
+            <img alt="logo" *ngIf="!isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg"
+              width="auto" height="70" style="margin-left: -15px;" />
           </a>
         </div>
         <div class="max-container" *ngIf="!otpPage">
@@ -18,7 +18,7 @@
                 <mat-icon>chevron_left</mat-icon>
               </button>
             </div>
-            <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
+            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="handleKeyDowns($event)" class="help-btn" i18n>Help
               <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
             </div>
           </div>
@@ -50,11 +50,6 @@
           </div>
           <div id="usePasswordDiv" class="mw-100" *ngIf="selectedField === 'password'">
             <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
-              <!-- <div class="form-group">
-                <input class="mt-8" class="form-control" id="emailOrMobile" name="emailOrMobile" i18n-placeholder
-                  (input)="checkMobileEmail2()" formControlName="emailOrMobile" placeholder="Phone Number/Email ID"
-                  type="text" autofocus="" autocomplete="off" i18n>
-              </div> -->
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                   <mat-label i18n>Phone Number (or) Email ID</mat-label>
@@ -74,7 +69,8 @@
                       (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
                       #emailOrMobile i18n-placeholder />
                     <div class="input-group-append">
-                      <span class="input-group-text eye-icon" (click)="toggle2()" style="cursor: pointer;">
+                      <span class="input-group-text eye-icon" (click)="toggle2()" (keydown)="handleKeyDown($event)"
+                        style="cursor: pointer;" style="cursor: pointer;">
                         <i [ngClass]="iconChange2" aria-hidden="true"></i>
                       </span>
                     </div>
@@ -110,15 +106,7 @@
                 <div class="ui flex justify-content-center content  signUpMsg">
                   <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
                     style="display: block;" i18n>Create an Account</a>
-                  <!-- <div class="rel">
-                    <span class="whatsApp1">
-                      <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
-                    </span>
-                    <a href="https://wa.me/919632013414?text=Hi" target="_blank" class="greenButton" mat-button i18n
-                      rel="noopener" id="whatsApp-createaccount-page">Get
-                      help on WhatsApp</a>
-                  </div> -->
-                  <!-- </span> -->
+
                   <div id="selfSingUp" style="height: 30px;">
                   </div>
                 </div>
@@ -154,14 +142,6 @@
                   <div class="ui content flex justify-content-center  signUpMsg">
                     <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
                       style="display: block;" i18n>Create an Account</a>
-                    <!-- <div class="rel">
-                      <span class="whatsApp">
-                        <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
-                      </span>
-                      <a class="ui fluid btn greenButton" href="https://wa.me/919632013414?text=Hi" target="_blank"
-                        rel="noopener" id="WhatsApp-loginOTP" style="display: block;" i18n>Get Help on
-                        WhatsApp?</a>
-                    </div> -->
                   </div>
                 </div>
                 <div id="selfSingUp" style="height: 30px;">
@@ -180,7 +160,8 @@
                     <mat-icon>chevron_left</mat-icon>
                   </button>
                 </div>
-                <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
+                <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>
+                  Help
                   <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
                 </div>
               </div>
@@ -190,7 +171,6 @@
               </div>
               <div class="enter-code-text mt-2 mb-2"><span i18n>We have sent an OTP to </span><span class="text-dark"
                   i18n>{{loginForm.value.emailOrMobile}}</span>
-                <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
               </div>
               <div class="img-box">
                 <img alt="" style="width: 200px; height: 150px;" src="../../../fusion-assets/images/Frame150.svg">
@@ -224,14 +204,6 @@
                     id="resend-OTP" type="submit" i18n>Resend
                     OTP</button>
                 </div>
-                <!-- <div *ngIf="!isEkshamtaLogin" class="rel">
-                  <span class="whatsApp">
-                    <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
-                  </span>
-                  <a class="ui fluid btn greenButton" href="https://wa.me/919632013414?text=Hi" target="_blank"
-                    rel="noopener" id="WhatsApp-loginOTP" style="display: block;margin-bottom: 25px;" i18n>Get Help on
-                    WhatsApp?</a>
-                </div> -->
               </form>
             </div>
           </div>
@@ -261,7 +233,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
+      <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>Help
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -280,16 +252,17 @@
             </div> -->
     <div class="padding-20 field  type-container mw-100">
       <div class="heading" style="margin-right: 30px;">
-        <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
-          style="cursor: pointer;" checked="true">&nbsp;
+        <input type="radio" (click)="passwordOrOtp('otp')" (keydown)="handleKeyDown1($event,'otp')"
+          name="usePasswordOrOTP" id="useOTPRB" style="cursor: pointer;" checked="true">
+        &nbsp;
         <label id="useOTPLabel" for="useOTPRB" class="option" i18n style="cursor: pointer;"
           [ngClass]="{'font-weight-500': selectedField === 'otp'}">
           By OTP
         </label>
       </div>
       <div style="cursor: pointer;">
-        <input type="radio" (click)="passwordOrOtp('password');" name="usePasswordOrOTP" id="usePasswordRB"
-          style="cursor: pointer;">&nbsp;
+        <input type="radio" (click)="passwordOrOtp('password');" (keydown)="handleKeyDown1($event,'password')"
+          name="usePasswordOrOTP" id="usePasswordRB" style="cursor: pointer;">&nbsp;
         <label id="usePasswordLabel" for="usePasswordRB" class="option" i18n style="cursor: pointer;"
           [ngClass]="{'font-weight-500': selectedField === 'password'}">
           By Password
@@ -309,11 +282,6 @@
               email or number</mat-error>
           </mat-form-field>
         </div>
-        <!-- <div class="form-group">
-          <input class="mt-8" class="form-control" id="emailOrMobile" name="emailOrMobile" i18n-placeholder
-            (input)="checkMobileEmail2()" formControlName="emailOrMobile" placeholder="Phone Number (or) Email ID"
-            type="text" autofocus="" autocomplete="off">
-        </div> -->
         <div class="field">
           <div class="field-edit-width">
             <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
@@ -322,7 +290,8 @@
                 (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
                 #emailOrMobile i18n-placeholder />
               <div class="input-group-append">
-                <span class="input-group-text eye-icon" (click)="toggle2()" style="cursor: pointer;">
+                <span class="input-group-text eye-icon" (keydown)="handleKeyDown($event)" (click)="toggle2()"
+                  style="cursor: pointer;">
                   <i [ngClass]="iconChange2" aria-hidden="true"></i>
                 </span>
               </div>
@@ -339,7 +308,7 @@
         <div class="field">
         </div>
         <div class="flex justify-end mt-2">
-          <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
+          <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" i18n
             href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">Forgot
             Password?</a>
         </div>
@@ -358,7 +327,6 @@
           <div class="ui content flex justify-content-center  signUpMsg">
             <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
               style="display: block;" i18n>Create an Account</a>
-            <!-- </span> -->
             <div id="selfSingUp" style="height: 30px;">
             </div>
           </div>
@@ -412,7 +380,7 @@
               <mat-icon>chevron_left</mat-icon>
             </button>
           </div>
-          <div *ngIf="!isEkshamtaLogin" (click)="help()" class="help-btn" i18n>Help
+          <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>Help
             <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
           </div>
         </div>
@@ -423,7 +391,6 @@
           </div>
           <div class="enter-code-text mt-2 mb-4"><span i18n>We have sent an OTP to </span><span class="text-dark"
               i18n>{{loginForm.value.emailOrMobile}}</span>
-            <!-- <span *ngIf="emailPhoneType === 'phone'" i18n>OTP</span> -->
           </div>
           <div class="img-box">
             <img alt="" width="250" height="200" src="../../../fusion-assets/images/Frame150.svg">

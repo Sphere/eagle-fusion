@@ -1,6 +1,6 @@
 <ws-header *ngIf="(isXSmall$ | async) !== true"></ws-header>
 
-<nav *ngIf="(isXSmall$ | async) === true && langPage" class="nav-bar-bg">
+<nav aria-label="navbar" *ngIf="(isXSmall$ | async) === true && langPage" class="nav-bar-bg">
   <a class="navbar-brand cursor-pointer" (click)="homePage()">
     <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>
@@ -23,7 +23,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn"><span i18n>Help</span>
+      <div (click)="help()" (keydown)="handleKeyDown($event)" class=" help-btn"><span i18n>Help</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -95,8 +95,6 @@
                 </mat-radio-group>
               </div>
               <div class="next-btn-div">
-                <!-- add this line in btn -->
-                <!-- [disabled]="!createAccountForm?.valid" -->
                 <button [disabled]="!createAccountForm?.valid" class="btn next-button z-btn" name="login" type="submit"
                   id="next-btn" i18n (click)="optionSelected()">Next</button>
               </div>
@@ -119,7 +117,7 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" class="help-btn"><span i18n>Help</span>
+      <div (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn"><span i18n>Help</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
@@ -232,7 +230,6 @@
       <div>
         <div class="lang-subtitle">
           <h1 class="display-3 mb-1" i18n>Select Language</h1>
-          <!-- <h4 class="display-3 mb-1" i18n>The Application will appear in this language</h4> -->
         </div>
         <div class="input-content">
           <div class="input-content-wrapper radioBlock">
@@ -279,13 +276,3 @@
 <div *ngIf="(isXSmall$ | async) === true" class="btm-block-img">
   <img alt="logo" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
 </div>
-<!-- <img alt="logo" class="btm-bg" src="./../../../fusion-assets/icons/Frame 149.svg"> -->
-
-<!-- <div class="rel">
-  <span class="whatsApp">
-    <img alt="Logo" src="/fusion-assets/icons/whatsapp.png" width="30">
-  </span>
-  <a href="https://wa.me/919632013414?text=Hi" target="_blank" class="greenButton" mat-button i18n
-    id="whatsApp-createaccount-page" (click)="eventTrigger('WhatsApp-Help-Create', 'whatsApp-createaccount-page')">Get
-    help on WhatsApp</a>
-</div> -->

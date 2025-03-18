@@ -69,7 +69,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private signupService: SignupService,
     public navOption: appNavBarService,
     public storage: LocalStorageService,
-    private event: Events,
+    private readonly event: Events,
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -261,9 +261,12 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       }
     }
     const count = this.storage.getNumberOfNotifications()
-    this.numberOfNotification = (count > 1) ? '1+' : (count > 0 ? '1' : '')
+    let notificationText = count > 0 ? '1' : ''
+
+    this.numberOfNotification = (count > 1) ? '1+' : notificationText
     this.event.subscribe('notificationCountUpdated', (data) => {
-      this.numberOfNotification = (data > 1) ? '1+' : (data > 0 ? '1' : '')
+      let notificationText = data > 0 ? '1' : ''
+      this.numberOfNotification = (data > 1) ? '1+' : notificationText
     })
     this.pinnedAppsChangeSubs = this.configurationsSvc.pinnedApps.subscribe(pinnedApps => {
       this.isPinned = Boolean(

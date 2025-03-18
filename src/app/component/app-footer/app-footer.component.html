@@ -1,6 +1,5 @@
 <div style="background-image:url('/fusion-assets/images/Group-people.png')" *ngIf="(isXSmall) === false && !isLoggedIn"
   class="flex transform-footer-container">
-  <!-- <img src="/fusion-assets/images/Group-people.png"> -->
   <div class="transform-header" i18n>
     Transform your Healthcare career through Sphere!
   </div>
@@ -12,7 +11,7 @@
       An initiative of
     </div>
     <div class="flex-prop">
-      <img class="part-a-img" src="/fusion-assets/icons/nike.png" alt="Card image cap">
+      <img class="part-a-img" src="/fusion-assets/icons/nike.png" alt="Card cap">
     </div>
   </div>
   <div class="part-b-partner center-partner">
@@ -20,7 +19,7 @@
       A collaboration with
     </div>
     <div class="flex-prop">
-      <img class="part-b-img" src="/fusion-assets/icons/sci.png" alt="Card image cap">
+      <img class="part-b-img" src="/fusion-assets/icons/sci.png" alt="Card cap">
     </div>
   </div>
 </div>
@@ -80,8 +79,6 @@
         <!-- <mat-list-item> <a routerLink="/app/social/blogs" i18n>Blog</a> </mat-list-item> -->
         <mat-list-item *ngIf="!isEkshamata" style="margin-top: 10px;">
           <a i18n class="link-text" href="mailto:support@aastrika.org">support@aastrika.org</a>
-          <!-- <a i18n *ngIf="isEkshamata&&configSvc.hostedInfo?.email" class="link-text"
-            href="mailto:+configSvc.hostedInfo.email">{{configSvc.hostedInfo.email}}</a> -->
         </mat-list-item>
         <mat-list-item *ngIf="isEkshamata&&configSvc.hostedInfo?.phone" style="margin-top: 10px;">
           <a i18n class="link-text">{{configSvc.hostedInfo.phone}}</a>
@@ -89,15 +86,9 @@
         <mat-list-item style="margin-top: 10px;">
           <a *ngIf="!isEkshamata" i18n class="whatsapp-logo-container" href="https://wa.me/919632013414?text=Hi"
             target="_blank">
-            <img class="fa fa-whatsapp whatsapp-logo" src="/fusion-assets/icons/whatsapp.png" />
+            <img alt="whatsapp" class="fa fa-whatsapp whatsapp-logo" src="/fusion-assets/icons/whatsapp.png" />
             Talk to us on WhatsApp
           </a>
-          <!-- <a style="background-color: #25D366; color: white !important; border: none !important;"
-            *ngIf="isEkshamata&&configSvc.hostedInfo.phone" i18n class="whatsapp-logo-container"
-            [href]="'https://wa.me/' + configSvc.hostedInfo.phone.replace('tel:', '') + '?text=Hi'" target="_blank">
-            <img class="fa fa-whatsapp whatsapp-logo" src="/fusion-assets/icons/whatsapp.png" />
-            Chat on WhatsApp
-          </a> -->
         </mat-list-item>
         <!-- <mat-list-item style="margin-top: 20px;"> -->
         <!-- <p class="mat-subheading-2 flex flex-middle">
@@ -120,12 +111,12 @@
         <div class="flex" style="gap: 10px;">
           <mat-list-item style="margin-top: 10px;">
             <a href="https://play.google.com/store/apps/details?id=org.aastrika.ekshamata" target="_blank">
-              <img src="/fusion-assets/images/google_play.svg" width="150" height="50" />
+              <img alt="google play" src="/fusion-assets/images/google_play.svg" width="150" height="50" />
             </a>
           </mat-list-item>
           <mat-list-item style="margin-top: 10px;">
             <a href="https://apps.apple.com/in/app/e-kshamata/id6505063333" target="_blank">
-              <img src="/fusion-assets/images/app_store.svg" width="150" height="50" />
+              <img alt="app store" src="/fusion-assets/images/app_store.svg" width="150" height="50" />
             </a>
           </mat-list-item>
         </div>
@@ -141,17 +132,21 @@
         <mat-list-item class="social-logo-container">
           <a class="social-logo-block" href="https://twitter.com/aastrika_fndn?s=21&t=I9xN5rzMahavP0R1Fp7VwA"
             target="_blank">
-            <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-twitter.svg" />
+            <img alt="twitter" class="fa fa-whatsapp social-logo"
+              src="../../../fusion-assets/icons/icons8-twitter.svg" />
           </a>
           <a class="social-logo-block" href="https://www.facebook.com/aastrikasphere?mibextid=LQQJ4d" target="_blank">
-            <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-facebook.svg" />
+            <img alt="facebook" class="fa fa-whatsapp social-logo"
+              src="../../../fusion-assets/icons/icons8-facebook.svg" />
           </a>
           <a class="social-logo-block" href="https://instagram.com/sphere.aastrika?igshid=MmJiY2I4NDBkZg=="
             target="_blank">
-            <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-instagram.svg" />
+            <img alt="instagram" class="fa fa-whatsapp social-logo"
+              src="../../../fusion-assets/icons/icons8-instagram.svg" />
           </a>
           <a class="social-logo-block" href="https://www.linkedin.com/company/aastrika-foundation/" target="_blank">
-            <img class="fa fa-whatsapp social-logo" src="../../../fusion-assets/icons/icons8-linkedin.svg" />
+            <img alt="linkedin" class="fa fa-whatsapp social-logo"
+              src="../../../fusion-assets/icons/icons8-linkedin.svg" />
           </a>
         </mat-list-item>
       </mat-list>

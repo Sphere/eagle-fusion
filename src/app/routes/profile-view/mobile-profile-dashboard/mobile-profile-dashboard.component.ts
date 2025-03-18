@@ -1,5 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core'
-import { Renderer2 as Renderer } from '@angular/core'
+import { Component, OnInit, Inject, Renderer2 as Renderer } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -62,7 +61,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService,
-    private _renderer2: Renderer,
+    private readonly _renderer2: Renderer,
     @Inject(DOCUMENT) private _document: Document
 
   ) {

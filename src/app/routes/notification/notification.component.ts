@@ -1,10 +1,9 @@
-import { Component, OnDestroy, OnInit, Renderer2 } from "@angular/core"
+import { Component, OnDestroy, OnInit, Renderer2, ChangeDetectorRef } from "@angular/core"
 import { SafeHtml } from "@angular/platform-browser"
 import { Socket, io } from "socket.io-client"
 
 
 import { Router } from "@angular/router"
-import { ChangeDetectorRef } from '@angular/core'
 
 import { environment } from '../../../environments/environment'
 import { Events } from "./events"
@@ -94,14 +93,14 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   isXSmall$: Observable<boolean>
   constructor(
 
-    private events: Events,
-    private storage: LocalStorageService,
-    private router: Router,
-    private renderer: Renderer2,
+    private readonly events: Events,
+    private readonly storage: LocalStorageService,
+    private readonly router: Router,
+    private readonly renderer: Renderer2,
     public configSvc: ConfigurationsService,
-    private valueSvc: ValueService,
-    private dialogRef: MatDialogRef<NotificationsComponent>,
-    private cdr: ChangeDetectorRef
+    private readonly valueSvc: ValueService,
+    private readonly dialogRef: MatDialogRef<NotificationsComponent>,
+    private readonly cdr: ChangeDetectorRef
   ) {
     console.log('NotificationsComponent constructor called')
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -114,10 +113,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
         this.isWebView = true
       }
     })
-    this.user_id = this.configSvc.userProfile?.userId || ''
+    this.user_id = this.configSvc.userProfile?.userId ?? ''
     await this.getAccessToken()
     this.getReadNotifications()
-    if (!(this.socket && this.socket.connected)) {
+    if (!(this.socket?.connected)) {
       await this.connectSocket()
     }
     await this.getNotification()
@@ -200,7 +199,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   getReadNotifications() {
     this.storage.getLocalStorage('readNotificationLists').then(
       (data) => {
-        if (data && data.notifications && data.userId === this.user_id) {
+        if (data?.notifications && data?.userId === this.user_id) {
           this.readNotificationList = data.notifications
         }
       })
@@ -216,7 +215,17 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     const days = Math.floor(timeDifference / oneDay)
     const hours = Math.floor((timeDifference % oneDay) / oneHour)
     const minute = Math.floor((timeDifference % oneHour) / oneMinute)
-    const time = (days > 0 ? `${days}d` : (hours > 0 ? `${hours}hr` : `${minute}mins`))
+
+    let time = `${minute}mins`
+
+    if (hours > 0) {
+      time = `${hours}hr`
+    }
+
+    if (days > 0) {
+      time = `${days}d`
+    }
+
     return time
   }
 
@@ -240,7 +249,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async readNotification(item: any) {
-    if (!this.socket || !this.socket.connected) {
+    if (!this.socket?.connected) {
       await this.connectSocket()
     }
     if (item.status === 'read') {
@@ -265,7 +274,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     if (this.dropdownContent) {
       this.closeDailog()
     }
-    if (item.data && item.data.actionData) {
+    if (item.data?.actionData) {
       if (item.data.actionData.actionType.includes('course') || item.data.actionData.actionType.includes('certificate')) {
         let url = `/app/toc/` + `${item.data.actionData.identifier}` + `/overview`
         this.router.navigate([url], { replaceUrl: true })
@@ -276,6 +285,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     if (this.dialogRef && typeof this.dialogRef.close === 'function')
       this.dialogRef.close()
     this.cdr.detectChanges() // Force update UI
+  }
+  handleKeyDown(event: KeyboardEvent, item: any) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.readNotification(item)
+      event.preventDefault() // Prevents scrolling on space key press
+    }
   }
 
   ngOnDestroy() {
@@ -310,9 +325,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
     this.renderer.listen('document', 'click', (_event: Event) => {
-      // if (this.slidingItem) {
-      //   this.slidingItem.closeOpened()
-      // }
+
     })
   }
 

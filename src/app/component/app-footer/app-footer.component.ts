@@ -2,13 +2,13 @@ import { Component, Input } from '@angular/core'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
 import { Router } from '@angular/router'
+
 @Component({
   selector: 'ws-app-footer',
   templateUrl: './app-footer.component.html',
   styleUrls: ['./app-footer.component.scss'],
 })
 export class AppFooterComponent {
-
   isXSmall = false
   termsOfUser = true
   appIcon: SafeUrl | null = null
@@ -16,86 +16,63 @@ export class AppFooterComponent {
   currentYear = new Date().getFullYear()
   isLoggedIn = false
   @Input() isEkshamata: any
+
   constructor(
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
     private router: Router,
   ) {
-    if (this.configSvc.restrictedFeatures) {
-      if (this.configSvc.restrictedFeatures.has('termsOfUser')) {
-        this.termsOfUser = false
-      }
+    if (this.configSvc.restrictedFeatures?.has('termsOfUser')) {
+      this.termsOfUser = false
     }
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-    })
-    this.valueSvc.isLtMedium$.subscribe(isMedium => {
-      this.isMedium = isMedium
-    })
+    this.valueSvc.isXSmall$.subscribe(isXSmall => this.isXSmall = isXSmall)
+    this.valueSvc.isLtMedium$.subscribe(isMedium => this.isMedium = isMedium)
+
     if (this.configSvc.instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
         this.configSvc.instanceConfig.logos.app,
       )
     }
-    if (this.configSvc.userProfile) {
-      this.isLoggedIn = true
-    } else {
-      this.isLoggedIn = false
-    }
+    this.isLoggedIn = !!this.configSvc.userProfile
   }
+
   ngOnInit() {
-    if (this.isEkshamata) {
-      console.log("this.configSvc.instanceConfig", this.configSvc.hostedInfo)
-      this.appIcon = "/fusion-assets/images/aastrika-foundation-logo.svg"
-    } else {
-      this.appIcon = "/fusion-assets/images/sphere-new-logo.svg"
-    }
+    this.appIcon = this.isEkshamata
+      ? "/fusion-assets/images/aastrika-foundation-logo.svg"
+      : "/fusion-assets/images/sphere-new-logo.svg"
   }
+
   langRedirect(lang: string) {
-    if (lang !== '') {
-      if (this.router.url.includes('hi')) {
-        const lan = this.router.url.split('hi/').join('')
-        window.location.assign(`${location.origin}/${lang}${lan}`)
-      } else {
-        window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-      }
-    } else {
-      if (this.router.url.includes('hi')) {
-        const lan = this.router.url.split('hi/').join('')
-        window.location.assign(`${location.origin}${lang}${lan}`)
-      } else {
-        window.location.assign(`${location.origin}${lang}${this.router.url}`)
-      }
-    }
+    if (!lang) return
+
+    const currentUrl = this.router.url.replace(/^\/hi\//, '/')
+    this.router.navigateByUrl(`/${lang}${currentUrl}`)
   }
+
   async redirect(text: string) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1, text)
-    let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
+    const userPreferences = this.configSvc.unMappedUser?.profileDetails?.preferences
+    const local = userPreferences?.language ?? (this.router.url.includes('/hi/') ? 'hi' : 'en')
+    const urlPrefix = local === 'hi' ? 'hi' : ''
+
+    console.log(urlPrefix, text)
+
+    const routes: Record<string, string> = {
+      home: '/page/home',
+      mycourses: '/app/user/my_courses',
+      competency: '/app/user/competency',
+      default: '/app/profile-view'
     }
-    console.log("text", text)
 
-    if (text === 'home') {
-      let url = url1 === 'hi' ? '/page/home' : 'page/home'
-      location.href = `${url3}${url1}${url}`
-    } else if (text === 'mycourses') {
-      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
-      location.href = `${url3}${url1}${url}`
-
-    } else if (text === 'competency') {
+    if (text === 'competency') {
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-      let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
-      location.href = `${url3}${url1}${url}`
-    } else {
-      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-      location.href = `${url3}${url1}${url}`
     }
+
+    const route = routes[text] ?? routes.default
+    this.router.navigateByUrl(`/${urlPrefix}${route}`)
   }
+
   createAcct() {
-    this.router.navigateByUrl('app/create-account')
+    this.router.navigateByUrl('/app/create-account')
   }
 }

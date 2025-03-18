@@ -65,7 +65,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private signupService: SignupService,
     private UserAgentResolverService: UserAgentResolverService,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public dialog: MatDialog,
 
   ) {
@@ -109,6 +109,12 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
     this.result = await this.signupService.fetchStartUpDetails()
     this.createUserForm = this.createTncFormFields()
+  }
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+      event.preventDefault()
+    }
   }
   help() {
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {

@@ -36,11 +36,11 @@ export class PublicLoginComponent implements OnInit {
     private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
     public snackBar: MatSnackBar,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public dialog: MatDialog,
     public configSvc: ConfigurationsService,
-    private router: Router,
-    private route: ActivatedRoute
+    private readonly router: Router,
+    private readonly route: ActivatedRoute
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
@@ -90,7 +90,18 @@ export class PublicLoginComponent implements OnInit {
     }
     this.updateOtpCode()
   }
-
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.toggle2()
+      event.preventDefault()
+    }
+  }
+  handleKeyDowns(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+      event.preventDefault()
+    }
+  }
   backSpaceEvent(event: KeyboardEvent, currentInput: any, previousInput: any) {
     if (event.key === 'Backspace' && !currentInput.value && previousInput) {
       previousInput.focus()
@@ -127,7 +138,7 @@ export class PublicLoginComponent implements OnInit {
       const otp3 = otp3Control.value
       const otp4 = otp4Control.value
       const code = otp1 + otp2 + otp3 + otp4
-      if (this.OTPForm && this.OTPForm.get('OTPcode')) {
+      if (this.OTPForm?.get('OTPcode')) {
         this.OTPForm.get('OTPcode')!.setValue(code)
       }
       console.error('1 One or more OTP controls are missing')
@@ -143,8 +154,8 @@ export class PublicLoginComponent implements OnInit {
     this.isXSmall$.subscribe((data: any) => {
       console.log("data", data)
       if (data) {
-        width = '345px',
-          height = '335px'
+        width = '345px'
+        height = '335px'
       }
     })
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
@@ -183,16 +194,14 @@ export class PublicLoginComponent implements OnInit {
     })
   }
   homePage() {
-    location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+    location.href = this.configSvc?.unMappedUser?.id
+      ? '/page/home'
+      : '/public/home'
   }
   redirect(val: string) {
     console.log("val")
     if (val === 'createAccount') {
-      // if (this.isEkshamtaLogin) {
-      //   this.router.navigateByUrl('/public/ekshamataHome')
-      // } else {
       window.location.href = '/public/home'
-
     } else {
       this.otpPage = false
     }
@@ -205,6 +214,14 @@ export class PublicLoginComponent implements OnInit {
       this.iconChange2 = 'fas fa-eye'
     }
   }
+  handleKeyDown1(event: KeyboardEvent, type: string): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault() // Prevents scrolling when pressing space
+      this.passwordOrOtp(type)
+    }
+  }
+
+
   submitDetails(form: any) {
 
     if (form.status === "VALID") {

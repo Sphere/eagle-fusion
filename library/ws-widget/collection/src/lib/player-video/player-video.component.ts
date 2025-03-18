@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { EventService, ConfigurationsService, TelemetryService } from '@ws-widget/utils'
+import { EventService, ConfigurationsService, TelemetryService, ValueService } from '@ws-widget/utils'
 import videoJs from 'video.js'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
@@ -19,7 +19,6 @@ import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service
 import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-popup-component'
 import { MatDialog } from '@angular/material/dialog'
 import { interval, Subscription } from 'rxjs'
-import { ValueService } from '@ws-widget/utils'
 import 'videojs-markers'
 
 const videoJsOptions: videoJs.PlayerOptions = {
@@ -95,8 +94,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private telemetrySvc: TelemetryService,
     public viewerDataSvc: ViewerDataService,
-    private dialog: MatDialog,
-    private valueSvc: ValueService,
+    private readonly dialog: MatDialog,
+    private readonly valueSvc: ValueService,
 
   ) {
     super()
@@ -118,6 +117,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     this.widgetData = {
       ...this.widgetData,
     }
+    // NOSONAR - This commented code is intentional
     // if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
     await this.fetchContent()
     console.log("this.widgetData.videoQuestions", this.widgetData)
@@ -155,9 +155,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       },
     }
     const data = await this.contentSvc.fetchContentHistoryV2(req).toPromise()
-    if (data && data.result && data.result.contentList.length) {
+    if (data?.result?.contentList?.length) {
       const contentData = data.result.contentList.find((obj: any) => obj.contentId === this.widgetData.identifier)
-      if (contentData && contentData.progressdetails && contentData.progressdetails.current) {
+      if (contentData?.progressdetails?.current) {
         this.progressData = contentData
         this.widgetData.resumePoint = contentData.progressdetails.current
         console.log("Updated resume point:", this.widgetData.resumePoint)
@@ -221,10 +221,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       if (isXSmall)
         if (player.requestFullscreen) {
           player.requestFullscreen()
-        } else if ((player as any).webkitRequestFullscreen) { // Safari
-          (player as any).webkitRequestFullscreen()
-        } else if ((player as any).msRequestFullscreen) { // IE/Edge
-          (player as any).msRequestFullscreen()
+        } else if (player.webkitRequestFullscreen) { // Safari
+          player.webkitRequestFullscreen()
+        } else if ((player).msRequestFullscreen) { // IE/Edge
+          player.msRequestFullscreen()
         }
     })
 
@@ -555,7 +555,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
         .toPromise()
 
-      if (content.result && content.result.content && content.result.content.videoQuestions) {
+      if (content?.result?.content?.videoQuestions) {
         const videoQuestions = content.result.content.videoQuestions
         console.log("videoQuestions", videoQuestions)
 

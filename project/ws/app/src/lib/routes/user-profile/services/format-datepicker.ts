@@ -1,5 +1,4 @@
-import { NativeDateAdapter } from '@angular/material/core'
-import { MatDateFormats } from '@angular/material/core'
+import { NativeDateAdapter, MatDateFormats } from '@angular/material/core'
 
 export class AppDateAdapter extends NativeDateAdapter {
   format(date: Date, displayFormat: Object): string {

@@ -31,7 +31,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
 
   constructor(private router: Router, private signupService: SignupService,
     private fb: FormBuilder, private snackBar: MatSnackBar,
-    private route: ActivatedRoute
+    private readonly route: ActivatedRoute
     // private authSvc: AuthKeycloakService
   ) {
     this.forgotPasswordForm = this.fb.group({

@@ -12,14 +12,14 @@ export class WebEkshamataPublicComponent implements OnInit {
 
   isXSmall$: Observable<boolean>
 
-  constructor(private router: Router, private valueSvc: ValueService,
+  constructor(private readonly router: Router, private readonly valueSvc: ValueService,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
   }
-
-  async ngOnInit() {
-
+  ngOnInit(): void {
+    throw new Error('Method not implemented.')
   }
+
   login() {
     if (localStorage.getItem('login_url')) {
       const url: any = localStorage.getItem('login_url')

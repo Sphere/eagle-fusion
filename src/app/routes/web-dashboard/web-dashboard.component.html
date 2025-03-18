@@ -10,10 +10,8 @@
     <!-- for ekshamata banner scroll images -->
     <div *ngIf="isEkshamata" class="ekshamta-banner-container">
       <div class="ekshamata-banner">
-        <!-- <div class="flex flex-direction-column"> -->
         <img class="banner-first-image" [src]="bannerFirstImage" alt="Carousel" loading="lazy">
         <img class="banner-second-image" [src]="bannerSecondImage" alt="Carousel" loading="lazy">
-        <!-- </div> -->
       </div>
     </div>
     <!-- for sphere banner scroll images -->
@@ -34,10 +32,6 @@
   <div *ngFor="let data of dataCarousel; let i = index">
     <div class="slide-content" [class.active]="i === currentSlideIndex">
       <div [className]="data.scrollEmit">
-        <!-- <p class="tutorials-text" *ngIf="lang == 'en' ">{{data.title}} <span (click)="scrollToContent(data.scrollEmit)"> >
-        </span> </p>
-      <p class="tutorials-text" *ngIf="lang == 'hi' ">{{data.titleHi}} <span (click)="scrollToContent(data.scrollEmit)">
-          > </span> </p> -->
         <div>
           <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
             (click)="goToSlide(i)" class="round-buttons">
