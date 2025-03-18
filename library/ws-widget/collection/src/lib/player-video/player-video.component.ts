@@ -111,32 +111,34 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   ngOnInit() { console.log("videoDatas", this.widgetData, this.contentData) }
 
 
-  async ngAfterViewInit() {
-    await this.getCurrentTime()
-    console.log("Initial resume point:", this.widgetData.resumePoint)
-    this.widgetData = {
-      ...this.widgetData,
-    }
-    // NOSONAR - This commented code is intentional
-    // if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
-    await this.fetchContent()
-    console.log("this.widgetData.videoQuestions", this.widgetData)
-    //enable below code to show popup questions
-    if (this.videoTag) {
-      this.addTimeUpdateListener(this.videoTag.nativeElement)
-    }
-    if (this.realvideoTag) {
-      this.addTimeUpdateListener(this.realvideoTag.nativeElement)
-    }
+  ngAfterViewInit(): void {
+    this.getCurrentTime().then(() => {
+      console.log("Initial resume point:", this.widgetData.resumePoint)
 
-    if (this.widgetData.url) {
-      if (this.widgetData.isVideojs) {
-        this.initializePlayer()
-      } else {
-        this.initializeVPlayer()
+      this.widgetData = {
+        ...this.widgetData,
       }
-    }
+
+      this.fetchContent().then(() => {
+        console.log("this.widgetData.videoQuestions", this.widgetData)
+
+        if (this.videoTag) {
+          this.addTimeUpdateListener(this.videoTag.nativeElement)
+        }
+        if (this.realvideoTag) {
+          this.addTimeUpdateListener(this.realvideoTag.nativeElement)
+        }
+        if (this.widgetData.url) {
+          if (this.widgetData.isVideojs) {
+            this.initializePlayer()
+          } else {
+            this.initializeVPlayer()
+          }
+        }
+      })
+    })
   }
+
 
   async getCurrentTime() {
     let userId

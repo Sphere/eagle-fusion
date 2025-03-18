@@ -106,21 +106,28 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     this.isXSmall$ = this.valueSvc.isXSmall$
   }
 
-  async ngOnInit() {
+  ngOnInit(): void {
     console.log('ngOnInit called')
+
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (!isXSmall) {
         this.isWebView = true
       }
     })
+
     this.user_id = this.configSvc.userProfile?.userId ?? ''
-    await this.getAccessToken()
-    this.getReadNotifications()
-    if (!(this.socket?.connected)) {
-      await this.connectSocket()
-    }
-    await this.getNotification()
+
+    this.getAccessToken().then(() => {
+      this.getReadNotifications()
+
+      if (!(this.socket?.connected)) {
+        this.connectSocket().then(() => this.getNotification())
+      } else {
+        this.getNotification()
+      }
+    })
   }
+
 
   openDailog() {
     this.dropdownContent = !this.dropdownContent
