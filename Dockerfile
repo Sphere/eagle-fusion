@@ -11,13 +11,8 @@ RUN npm install -g @angular/cli@11.2.19 && \
     yarn install && \
     yarn add moment vis-util && \
     ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true && \
-RUN ng build --prod \
-    --i18n-locale=hi \
-    --i18n-format=xlf \
-    --i18n-file=locale/messages.hi.xlf \
-    --output-path=dist/www/hi \
-    --base-href=/hi/
-    npm run compress:brotli
+    ng build --prod --i18n-locale=hi --i18n-format=xlf --i18n-file=locale/messages.hi.xlf --output-path=dist/www/hi --base-href=/hi/ && \
+    npm run compress:brotli  # <--- Fix: Ensure its part of the `RUN` command
 
 # Change working directory to the dist folder where the build output resides
 WORKDIR /app/dist
