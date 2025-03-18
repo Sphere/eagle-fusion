@@ -19,18 +19,10 @@ jobs:
         with:
           fetch-depth: 0 # Ensures full history for better analysis
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18
-
       - name: Install dependencies
-        run: npm ci # Faster and more reliable than `npm install`
-
-      - name: Run tests and generate coverage
-        run: |
-          npm run test -- --coverage  # Adjust if using Jest or Karma
-          ls -la coverage
+        run: yarn
+      - name: Test and coverage
+        run: npm run test-coverage
 
       - name: SonarQube Scan
         uses: SonarSource/sonarqube-scan-action@v5
