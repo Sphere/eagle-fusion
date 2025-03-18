@@ -2,7 +2,7 @@
   "compileOnSave": false,
   "compilerOptions": {
     "resolveJsonModule": true,
-    "types": ["node", "jasmine"],
+    "types": ["node", "reflect-metadata", "jest"],
     "target": "es2015",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,

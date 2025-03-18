@@ -6,7 +6,22 @@ globalThis.ngJest = {
 /** @type {import('@jest/types').Config.InitialOptions} */
 module.exports = {
   preset: 'jest-preset-angular',
-  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'],
+  testEnvironment: 'jsdom',
+  setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'], // Ensure this path is correct
+  transform: {
+    '^.+\\.ts$': 'ts-jest',
+  },
+  transformIgnorePatterns: [
+    '/node_modules/(?!flat)/',
+  ],
+  testEnvironmentOptions: {
+    url: "http://localhost",
+    resources: 'usable',
+  },
+  coverageDirectory: '<rootDir>/coverage/',
+  coverageReporters: ['text', 'lcov', 'html'],
+  collectCoverage: true,
+  moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
     '^@ws-widget/utils$': '<rootDir>/library/ws-widget/utils/src/lib/services/configurations.service.ts',
     '^@ws-widget/collection$': '<rootDir>/library/ws-widget/collection/src/public-api.ts',
@@ -47,8 +62,6 @@ module.exports = {
     '@ws/author$': '<rootDir>/project/ws/author/src/public-api.ts',
     '@ws-widget/utils/src/lib/services/utility.service': '<rootDir>/library/ws-widget/utils/src/lib/services/utility.service.ts',
     '^project/ws/app/src/lib/routes/org/org-service.service': '<rootDir>/project/ws/app/src/lib/routes/org/org-service.service.ts'
-
-
 
   }
 }
