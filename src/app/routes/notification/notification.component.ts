@@ -6,7 +6,7 @@ import { Socket, io } from "socket.io-client"
 import { Router } from "@angular/router"
 import { ChangeDetectorRef } from '@angular/core'
 
-// import { environment } from '../../../environments/environment'
+import { environment } from '../../../environments/environment'
 import { Events } from "./events"
 import { LocalStorageService } from "../../services/local-storage.service"
 import {
@@ -221,9 +221,9 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async connectSocket() {
-    // const url = `wss://${environment.sitePath}`;;
-    const baseUrl = "wss://aastrika-stage.tarento.com"
-    const url = baseUrl
+    const url = `wss://${environment.sitePath}`
+    // const baseUrl = "wss://aastrika-stage.tarento.com"
+    // const url = baseUrl
     const token = this.access_token ? this.access_token : await this.getAccessToken()
     this.socket = io(url, {
       auth: { token },

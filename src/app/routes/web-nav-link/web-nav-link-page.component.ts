@@ -82,6 +82,12 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showCompetency = false
           this.mycourses = false
           this.showNotification = true
+        } else if (location.path().includes('competency')) {
+          this.showProfile = false
+          this.showCompetency = true
+          this.showHome = false
+          this.mycourses = false
+          this.showNotification = false
         }
 
       }
@@ -153,98 +159,87 @@ export class WebNavLinkPageComponent implements OnInit {
   }
 
   async redirect(text: string) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
+    let local: string
+
+    if (userProfile && userProfile.language !== undefined) {
+      local = userProfile.language
+    } else {
+      local = location.href.includes('/hi/') ? 'hi' : 'en'
+    }
+
     let url1 = local === 'hi' ? 'hi' : ""
     console.log(url1, text)
-    let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
-    }
-    console.log("text", text)
 
     if (text === 'home') {
       this.showProfile = false
       this.showHome = true
       this.showCompetency = false
-      let url = url1 === 'hi' ? '/page/home' : 'page/home'
-      location.href = `${url3}${url1}${url}`
       this.showNotification = false
-    } else if (text === 'mycourses') {
+
+      let url = url1 === 'hi' ? '/page/home' : 'page/home'
+      this.router.navigate([url]) // Secure navigation
+    }
+    else if (text === 'mycourses') {
       let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
       let result = await this.signupService.getUserData()
-      console.log(result)
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        location.href = `${url3}${url1}${url}`
+
+      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
+        this.router.navigate([url])
       } else {
-        this.mycourses = true
-        this.showProfile = false
-        this.showHome = false
-        this.showCompetency = false
-        let url = url1 === 'hi' ? '/page/home' : 'page/home'
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
       }
-    } else if (text === 'competency') {
+    }
+    else if (text === 'competency') {
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
       let result = await this.signupService.getUserData()
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+
+      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
         let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
-        location.href = `${url3}${url1}${url}`
+        this.router.navigate([url])
       } else {
-        console.log(result)
-        this.showCompetency = true
-        this.mycourses = false
-        this.showProfile = false
-        this.showHome = false
-        //let url = '/app/user/competency'
-        //location.href = `${url3}${url1}${url}`
-        let url = url1 === 'hi' ? '/page/home' : 'page/home'
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
       }
-    } else if (text === 'notification') {
+    }
+    else if (text === 'notification') {
       this.showProfile = false
       this.showHome = false
       this.showCompetency = false
       this.showNotification = true
+
       const dialogRef = this.dialog.open(NotificationsComponent, {
-        width: '400px', // Adjust as needed
-        maxHeight: '80vh', // Prevent overflow
+        width: '400px',
+        maxHeight: '80vh',
         panelClass: 'custom-notification-modal',
-        position: { top: '60px', right: '10px' }, // Adjust as per your navbar height
+        position: { top: '60px', right: '10px' }
       })
+
       dialogRef.afterClosed().subscribe(() => {
         console.log('Notification modal closed')
       })
-    } else {
-      console.log(this.configSvc.unMappedUser!.profileDetails!.profileReq!.personalDetails!)
+    }
+    else {
       let result = await this.signupService.getUserData()
-      console.log(result)
-      if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
         this.showProfile = true
         let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-        location.href = `${url3}${url1}${url}`
+        this.router.navigate([url])
       } else {
-        console.log('p')
         this.showProfile = false
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
-          // const url = `app/about-you`
           this.showProfile = true
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-          // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
           this.showProfile = true
           this.showHome = false
           this.showCompetency = false
-          let url = url1 === 'hi' ? '/page/home' : 'page/home'
-          let url4 = `${document.baseURI}`
-          if (url4.includes('hi')) {
-            url1 = ''
-          }
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
         }
       }
     }
   }
+
   openNotificationDialog() {
     if (!this.notificationDialogRef) {
       this.notificationDialogRef = this.dialog.open(NotificationsComponent, {
