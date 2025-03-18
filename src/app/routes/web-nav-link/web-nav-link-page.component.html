@@ -25,11 +25,13 @@
     </a>
   </div>
   <div class="link-block">
-    <a (keydown)="handleKeyDown($event)" role="button" (click)="redirect('notification')" matRipple active
-      routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
-      <img alt="notification" width="40" height="24" src="/fusion-assets/icons/notifications.svg">
-      <span *ngIf="numberOfNotification" class="badge">{{numberOfNotification}}</span>
-    </a>
+  <button  (keydown)="handleKeyDown($event)"  (click)="redirect('notification')"  matRipple  routerLinkActive="ws-mat-accent-text"
+  class="flex cursor-pointer bg-transparent border-0">
+  <img alt="notification" width="40" height="24" src="/fusion-assets/icons/notifications.svg">
+    <span *ngIf="numberOfNotification" class="badge">
+      {{numberOfNotification}}
+    </span>
+  </button>
   </div>
   <!-- <div [matMenuTriggerFor]="appsMenu">
     <a role="button" style="cursor: pointer;">
