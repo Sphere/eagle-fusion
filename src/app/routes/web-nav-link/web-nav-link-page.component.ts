@@ -55,12 +55,14 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showHome = false
           this.showCompetency = false
           this.showNotification = false
+          this.mycourses = false
         }
         if (location.path().includes('/overview')) {
           this.showProfile = false
           this.showHome = true
           this.showCompetency = false
           this.showNotification = false
+          this.mycourses = false
         }
         if (location.path().includes('/page/home') || location.path().includes('/app/toc')) {
           this.showProfile = false
