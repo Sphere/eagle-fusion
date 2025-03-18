@@ -86,6 +86,7 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showProfile = false
           this.showCompetency = true
           this.showHome = false
+          this.mycourses = false
           this.showNotification = false
         }
 
@@ -170,7 +171,6 @@ export class WebNavLinkPageComponent implements OnInit {
       local = location.href.includes('/hi/') ? 'hi' : 'en'
     }
 
-
     let url1 = local === 'hi' ? 'hi' : ""
     console.log(url1, text)
 
@@ -242,6 +242,7 @@ export class WebNavLinkPageComponent implements OnInit {
       }
     }
   }
+
   openNotificationDialog() {
     if (!this.notificationDialogRef) {
       this.notificationDialogRef = this.dialog.open(NotificationsComponent, {
