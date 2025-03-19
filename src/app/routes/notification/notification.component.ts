@@ -92,7 +92,6 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   isWebView = false
   isXSmall$: Observable<boolean>
   constructor(
-
     private readonly events: Events,
     private readonly storage: LocalStorageService,
     private readonly router: Router,
