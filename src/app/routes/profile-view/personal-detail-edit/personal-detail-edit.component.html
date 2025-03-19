@@ -40,11 +40,12 @@
       <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
       <mat-datepicker #picker [startAt]="startDate"></mat-datepicker> -->
         <ng-container *ngIf="loadDob; else withoutDob">
-          <ws-dropdown-dob (dobValue)="dobData($event)" [dob]="personalDetailForm.get('dob').value ">
+          <ws-dropdown-dob [isEkshamata]="isEkshamata" (dobValue)="dobData($event)"
+            [dob]="personalDetailForm.get('dob').value ">
           </ws-dropdown-dob>
         </ng-container>
         <ng-template #withoutDob>
-          <ws-dropdown-dob (dobValue)="dobData($event)">
+          <ws-dropdown-dob [isEkshamata]="isEkshamata" (dobValue)="dobData($event)">
           </ws-dropdown-dob>
         </ng-template>
 
@@ -209,7 +210,8 @@
 
       <div class="form-group input-box" *ngIf="selectDisable">
         <label i18n>District</label>
-        <select id="distict" formControlName="distict" class="form-control select-box" name="distict-input-field">
+        <select (change)="fieldChange()" id="distict" formControlName="distict" class="form-control select-box"
+          name="distict-input-field">
           <option [value]=null disabled i18n>City/Distict</option>
           <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
         </select>
@@ -220,7 +222,7 @@
           autocomplete="off" (change)="fieldChange()">
       </div>
     </div>
-    <div class="personal-btn" style="width: 55%; float: right;">
+    <div *ngIf="!isEkshamata" class="personal-btn" style="width: 55%; float: right;">
       <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
         [disabled]="personalDetailForm?.invalid || savebtnDisable" i18n>Save</button>
     </div>

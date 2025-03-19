@@ -24,7 +24,16 @@
     max-width: 90%;
   }
 }
-
+.save-btn:disabled {
+  background-color: #BFBFBF;
+  color: #808080;
+  cursor: default;
+}
+.form-control:disabled,
+.form-control[readonly] {
+  background-color: #ffffff;
+  opacity: 1;
+}
 .heading,
 .head-2,
 .head-3 {

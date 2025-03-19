@@ -5,31 +5,31 @@ import {
 } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
-import {
-  GestureConfig,
-  MatButtonModule,
-  MatCardModule,
-  MatDialogModule,
-  MatDividerModule,
-  MatExpansionModule,
-  MatIconModule,
-  MatMenuModule,
-  MatProgressBarModule,
-  MatGridListModule,
-  MatRippleModule,
-  MatSliderModule,
-  MatToolbarModule,
-  MatTooltipModule,
-  MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS,
-  MAT_SNACK_BAR_DEFAULT_OPTIONS,
-  MatInputModule,
-  MatFormFieldModule,
-  MatListModule,
-  MatAutocompleteModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatSelectModule,
-} from '@angular/material'
+// import { GestureConfig } from '@angular/material/core/gestures/gesture-config'
+// import * as Hammer from 'hammerjs'
+import { MatButtonModule } from '@angular/material/button'
+import { MatCardModule } from '@angular/material/card'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatExpansionModule } from '@angular/material/expansion'
+import { MatIconModule } from '@angular/material/icon'
+import { MatMenuModule } from '@angular/material/menu'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatGridListModule } from '@angular/material/grid-list'
+import { MatRippleModule } from '@angular/material/core'
+import { MatSliderModule } from '@angular/material/slider'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS } from '@angular/material/progress-spinner'
+import { MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar'
+import { MatInputModule } from '@angular/material/input'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatListModule } from '@angular/material/list'
+import { MatAutocompleteModule } from '@angular/material/autocomplete'
+import { MatDatepickerModule } from '@angular/material/datepicker'
+import { MatNativeDateModule } from '@angular/material/core'
+import { MatSelectModule } from '@angular/material/select'
+
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Title } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
@@ -116,11 +116,13 @@ import { LoaderService } from '../../project/ws/author/src/public-api'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
 import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
+import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
+// import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
 import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
 import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/competency-web/competency'
@@ -135,7 +137,7 @@ import { UserAgentResolverService } from './services/user-agent.service'
 import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
 import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
 import { WebCourseCardComponent } from './routes/web-course-card/web-course-card.component'
-
+// import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
 import { PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemovalModule, PipePartialContentModule } from '@ws-widget/utils'
 import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
@@ -148,11 +150,22 @@ import { PublicLoginComponent } from './public-login/public-login.component'
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
+import { PlayerVideoPopupComponent } from '../../library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
+import { HammerGestureConfig } from '@angular/platform-browser'
+import { NotificationsComponent } from './routes/notification/notification.component'
+
 @Injectable()
-export class HammerConfig extends GestureConfig {
+export class HammerConfig extends HammerGestureConfig {
   buildHammer(element: HTMLElement) {
-    return new GestureConfig({ touchAction: 'pan-y' }).buildHammer(element)
+    const options: HammerOptions = {
+      touchAction: 'pan-y',
+      recognizers: [
+        [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
+      ],
+    }
+    const mc = new Hammer.Manager(element, options)
+    return mc
   }
 }
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
@@ -266,6 +279,7 @@ const dbConfig: DBConfig = {
     CreateAccountComponent,
     BnrcRegisterComponent,
     UpsmfRegisterComponent,
+    NotificationsComponent,
     YourLocationComponent,
     NewTncComponent,
     YourBackgroundComponent,
@@ -288,6 +302,7 @@ const dbConfig: DBConfig = {
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LanguageDialogComponent,
+    CreateAccountDialogComponent,
     DropdownDobComponent,
     SashaktCallbackComponent,
     SelfAssessmentComponent,
@@ -299,6 +314,7 @@ const dbConfig: DBConfig = {
     WebNavLinkPageComponent,
     WebDashboardComponent,
     WebPublicComponent,
+    // WebEkshamataPublicComponent,
     WebCourseViewComponent,
     WebCourseCardComponent,
     ScromPlayerComponent,
@@ -309,7 +325,8 @@ const dbConfig: DBConfig = {
     PublicLoginComponent,
     TnaiCallbackComponent,
     // SettingsComponent
-    BnrcmodalComponent
+    BnrcmodalComponent,
+    PlayerVideoPopupComponent
   ],
   imports: [
     FormsModule,
@@ -363,7 +380,7 @@ const dbConfig: DBConfig = {
     OrganisationsModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
-    CompetencyModule,
+    CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,
@@ -379,12 +396,14 @@ const dbConfig: DBConfig = {
   bootstrap: [RootComponent],
   entryComponents: [
     BnrcmodalComponent,
+    PlayerVideoPopupComponent,
     DialogConfirmComponent,
     LoginComponent,
     ProfileSelectComponent,
     ImageCropComponent,
     NotificationComponent,
     LanguageDialogComponent,
+    CreateAccountDialogComponent,
     VideoPopupComponent
   ],
   providers: [

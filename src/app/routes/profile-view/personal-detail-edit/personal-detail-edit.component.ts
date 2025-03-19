@@ -1,11 +1,14 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, OnInit, Output, ViewChild } from '@angular/core'
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../../project/ws/app/src/public-api'
-import { DateAdapter, MatChipInputEvent, MatDialog, MatSnackBar, MAT_DATE_FORMATS } from '@angular/material'
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
+import { MatChipInputEvent } from '@angular/material/chips'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { constructReq } from '../request-util'
 import { Router } from '@angular/router'
 import { Observable } from 'rxjs'
@@ -67,6 +70,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   stateUrl = '/fusion-assets/files/state.json'
   selectDisable = true
   countryName: boolean = false
+  @Input() isEkshamata: boolean = false
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -123,6 +127,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         this.showLogOutIcon = false
       }
     })
+    if (this.isEkshamata) {
+      this.personalDetailForm.disable()
+    }
   }
 
   fetchMeta() {
@@ -207,10 +214,16 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     this.setCountryCode(option)
     if (option === 'India') {
       this.selectDisable = true
+      this.personalDetailForm.controls.state.setValidators([Validators.required])
+      this.personalDetailForm.controls.distict.setValidators([Validators.required])
     } else {
       this.selectDisable = false
       this.personalDetailForm.controls.state.setValue(null)
       this.personalDetailForm.controls.distict.setValue(null)
+      this.personalDetailForm.controls.state.clearValidators()
+      this.personalDetailForm.controls.distict.clearValidators()
+      this.savebtnDisable = false
+      this.disticts = []
     }
   }
   setCountryCode(country: string) {
@@ -473,21 +486,24 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
     profileRequest.profileReq.personalDetails["postalAddress"] = form.value.country !== 'India' ? form.value.country : form.value.country + ',' + form.value.state + ',' + form.value.distict
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/personal-detail-edit-onSubmit'
+
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      personalDetails: profileRequest.profileReq.personalDetails,
       // osName: userAgent.OS,
       // browserName: userAgent.browserName,
       // userCookie: userCookie,
     }
     profileRequest = Object.assign(profileRequest, obj)
-
+    console.log("test request", profileRequest)
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
+        },
       },
     }
     console.log(reqUpdate)
@@ -534,6 +550,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
               preferences: {
                 language: result.id,
               },
+              profileLocation: 'sphere-web/personal-detail-edit-change-language',
               osName: userAgent.OS,
               browserName: userAgent.browserName,
               userCookie,

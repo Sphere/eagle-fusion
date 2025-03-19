@@ -40,7 +40,9 @@
   right: 0px;
   top: 0px;
 }
-
+:host ::ng-deep .form-control:disabled, .form-control[readonly] {
+    background-color: #ffffff !important;
+}
 .field-fullwidth {
   width: 100% !important;
 }

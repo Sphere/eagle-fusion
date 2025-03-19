@@ -21,14 +21,19 @@
       </span>
     </div>
     <div class="flex justify-center">
-      <button i18n class="help-btn mt-4 mb-4" (click)="showSocialChats()">
+      <button *ngIf="!isEkshamata" i18n class="help-btn mt-4 mb-4" (click)="showSocialChats()">
         Help and Support
         <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
       </button>
+      <a *ngIf="isEkshamata&&configSvc.hostedInfo?.phone"
+        [href]="'tel:' + configSvc.hostedInfo?.phone.replace('tel:', '')" class="help-btn mt-4 mb-4">
+        Help and Support
+        <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
+      </a>
     </div>
 
     <div class="div mobile-div">
-      <a class="border-btm" [class.active]="selectedIndex === 'language'"
+      <a class="border-btm mt-2" [class.active]="selectedIndex === 'language'"
         (click)="selectedIndex = 'language'; changeFunction('language')">
         <div>
           <img alt="Language Preference" src="/fusion-assets/icons/language-icon.svg" width="35" height="23" />
@@ -74,8 +79,14 @@
         <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
       </a>
       <div class="margin-top-xs">
-        <span style="font-size: 15px;" i18n>To request account deletion please send an email to
-        </span><span style="text-decoration: underline;">support@aastrika.org</span>
+        <span *ngIf="!isEkshamata" style="font-size: 15px;" i18n>To request account deletion please send an email to
+        </span>
+        <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email" style="font-size: 15px;" i18n>To request account deletion
+          please send an email to
+        </span>
+        <span *ngIf="!isEkshamata" style="text-decoration: underline;">support@aastrika.org</span>
+        <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email"
+          style="text-decoration: underline;">{{configSvc.hostedInfo.email}}</span>
       </div>
       <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit" i18n>Logout</button>
     </div>
@@ -96,15 +107,17 @@
       <img [src]="photoUrl ? photoUrl:image" alt="profile image" width="150px" height="150px" class="profile-border">
     </div>
 
-    <button mat-fab class="edit-icon" (click)="openProfileDialog()">
+    <button *ngIf="!isEkshamata" mat-fab class="edit-icon" (click)="openProfileDialog()">
       <mat-icon class="pencil">edit</mat-icon>
     </button>
 
-    <div class="" style="margin-top: -35px">
-      <p class="" style="font-weight:400;font-size:24px">{{ userProfileData?.personalDetails.firstname }}
-        <span *ngIf="userProfileData?.personalDetails.middlename"> {{userProfileData?.personalDetails.middlename}}
+    <div [ngStyle]="{'margin-top': isEkshamata ? '0' : '-35px'}">
+      <p class="" style="font-weight:400;font-size:24px">
+        {{ userProfileData?.personalDetails.firstname }}
+        <span *ngIf="userProfileData?.personalDetails.middlename">
+          {{ userProfileData?.personalDetails.middlename }}
         </span>
-        {{userProfileData?.personalDetails.surname}}
+        {{ userProfileData?.personalDetails.surname }}
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
@@ -171,6 +184,10 @@
         <img alt="My Certificates" src="/fusion-assets/images/Group.svg" width="35" height="23" /><span i18n>My
           Certificates</span>
       </a>
+      <button i18n *ngIf="!isEkshamata" i18n class="web-help-btn mt-2 mb-2" (click)="showSocialChats()">
+        Help and Support
+        <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
+      </button>
       <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit" i18n>Logout</button>
       <!-- <a href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o">
         <mat-icon>power_settings_new</mat-icon>&nbsp;
@@ -264,26 +281,27 @@
   <div class="main-block" [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
     <div style="margin-bottom: 70px;" *ngIf="selectedIndex === 'personal'"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
-      <ws-personal-detail-edit (userName)="assignUserName($event)"></ws-personal-detail-edit>
+      <ws-personal-detail-edit [isEkshamata]="isEkshamata"
+        (userName)="assignUserName($event)"></ws-personal-detail-edit>
     </div>
-    <div *ngIf="selectedIndex === 'organization'" style="width:50%"
+    <div *ngIf="selectedIndex === 'organization'" style="width:100%"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <div *ngIf="showView === ''">
-        <ws-work-info-list (passProfession)="assignProfession($event)"></ws-work-info-list>
+        <ws-work-info-list [isEkshamata]="isEkshamata" (passProfession)="assignProfession($event)"></ws-work-info-list>
       </div>
       <div *ngIf="showView">
         <ws-work-info-edit></ws-work-info-edit>
       </div>
     </div>
-    <div *ngIf="selectedIndex === 'academic'" style="width:50%" [ngStyle]="showbackButton ? {'width': '100%' } : {}">
+    <div *ngIf="selectedIndex === 'academic'" style="width:100%" [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <div *ngIf="showView === ''">
-        <ws-education-list></ws-education-list>
+        <ws-education-list [isEkshamata]="isEkshamata"></ws-education-list>
       </div>
       <div *ngIf="showView">
         <ws-education-edit></ws-education-edit>
       </div>
     </div>
-    <div *ngIf="selectedIndex === 'language'" style="width:50%; margin-top:25px;height:480px"
+    <div *ngIf="selectedIndex === 'language'" style="width:100%; margin-top:25px;height:480px"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
@@ -306,7 +324,7 @@
         <button type="submit" class="save-btn" (click)="saveLanguage(userForm)" i18n>Save</button>
       </form>
     </div>
-    <div *ngIf="selectedIndex === 'certificates'" style="width:50%"
+    <div *ngIf="selectedIndex === 'certificates'" style="width:100%"
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>

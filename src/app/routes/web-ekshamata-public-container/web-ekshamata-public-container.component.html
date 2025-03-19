@@ -1,0 +1,42 @@
+<div class="flex min-h-screen main-block">
+  <!-- Left side with image (60%) -->
+  <div *ngIf="(isXSmall$ | async) === true" class="mobile-view left-container-block">
+    <div class="flex justify-content-between" style="gap: 130px;">
+      <img class="ekshamata-logo" src="/fusion-assets/images/ekshamata-mobile-logo.svg" alt="Image">
+      <img class="ekshamata-top-leaf" src="/fusion-assets/images/ekshamata-mobile-top-leaf.svg" alt="Image">
+    </div>
+    <img class="ekshamata-group" src="/fusion-assets/images/Group 245.svg" alt="Image">
+  </div>
+  <div *ngIf="(isXSmall$ | async) !== true" class="left-container-block">
+    <img class="ekshamata-top-leaf" src="/fusion-assets/images/ekshamata-top-leaf.svg" alt="Image">
+    <img class="ekshamata-logo" src="/fusion-assets/images/ekshamata-logo.svg" alt="Image">
+    <img class="ekshamata-group" src="/fusion-assets/images/ekshamata-group.svg" alt="Image">
+  </div>
+  <!-- Right side with login button (40%) -->
+  <div class="right-container-block">
+    <div class="right-container-block-header">
+      <p class="font-34 font-weight-400 black-text line-height-34" i18n>Access free healthcare courses</p>
+      <p class="font-22 font-weight-400 black-text line-height-24" i18n>E-Kshamata is a comprehensive capacity building
+        platform for
+        healthcare
+        professionals</p>
+    </div>
+    <div class="right-container-block-body">
+      <p class="font-18 font-weight-400 blue-text" i18n>Start learning today</p>
+      <button name="login_client_button" color="primary" i18n (click)="login()"
+        class="login-btn header-btn  mat-button-base">
+        Login
+      </button>
+    </div>
+    <div class="right-container-block-footer">
+      <p class="font-16 font-weight-400 black-text" i18n>In collaboration with</p>
+      <img class="aastrika-foundation-logo" src="/fusion-assets/images/aastrika-foundation-logo.svg" alt="Image">
+    </div>
+    <div class="ekshamata-bottom-leaf-container">
+      <img *ngIf="(isXSmall$ | async) === true" class="ekshamata-bottom-leaf"
+        src="/fusion-assets/images/ekshamata-mobile-bottom-leaf.svg" alt="Images">
+      <img *ngIf="(isXSmall$ | async) !== true" class="ekshamata-bottom-leaf"
+        src="/fusion-assets/images/ekshamata-bottom-leaf.svg" alt="Image">
+    </div>
+  </div>
+</div>

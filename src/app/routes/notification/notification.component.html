@@ -1,0 +1,56 @@
+<div *ngIf="isWebView" class="notification-triangle"></div>
+
+<div class="notification-container" [ngClass]="{'iswebView': isWebView}">
+
+  <div class="notification_header">
+    <span class="notification_header_title" i18n>Notification</span>
+    <div class="kebab-info" (click)="openDailog()">
+      <img src="/fusion-assets/icons/kebab-menu.png" alt="Menu">
+    </div>
+  </div>
+
+  <div class="dropdown-content" *ngIf="dropdownContent && allnotificationList.length">
+    <div class="dropdown-item border-bottom-1" (click)="handleAction('read')">
+      <img src="/fusion-assets/icons/double_tick.png" alt="Tick" />
+      <span class="text-style" i18n>Mark all as read</span>
+    </div>
+    <div class="dropdown-item" (click)="handleAction('clear')">
+      <img src="/fusion-assets/icons/close_blue.png" alt="Clear" />
+      <span class="text-style" i18n>Clear all</span>
+    </div>
+  </div>
+
+  <div class="wrapper" *ngIf="allnotificationList.length">
+    <div *ngFor="let item of allnotificationList; let i = index" class="notification-slide-container">
+
+      <!-- Delete Button (Behind the Card) -->
+      <button class="delete-btn" (click)="deleteNotification(item)">
+        <mat-icon>delete</mat-icon>
+      </button>
+
+      <!-- Notification Content (Slideable) -->
+      <div (click)="readNotification(item)" class="notification-content" #notification
+        (touchstart)="onTouchStart($event, notification)" (touchmove)="onTouchMove($event, notification)"
+        (touchend)="onTouchEnd($event, notification, i)">
+        <div class="notifications__item" [ngClass]="{ 'notifications__item--unread': item.status === 'unread' }">
+          <div class="notifications__item__avatar">
+            <img [src]="item.data?.actionData?.logo" alt="Notification Image" />
+          </div>
+
+          <div class="notifications__item__content">
+            <span class="notifications__item__message" *ngIf="item.data?.actionData?.description">
+              {{ item.data.actionData.description }}
+            </span>
+            <span class="notifications__item__title" *ngIf="item.data?.actionData?.title">
+              {{ item.data.actionData.title }}
+            </span>
+          </div>
+          <div class="notifications__item__date">{{ getNotificationTime(item.createdon) }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div i18n *ngIf=" !unReadNotificationList.length && !readNotificationList.length" class="empty__notification__text">
+    No notification
+  </div>
+</div>

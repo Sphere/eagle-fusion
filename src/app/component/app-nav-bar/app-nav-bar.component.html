@@ -1,10 +1,13 @@
-<mat-toolbar *ngIf="this.configSvc.userProfile !== null" [color]="primaryNavbarBackground?.color"
+<mat-toolbar *ngIf="this.configSvc.userProfile !== null&&!hideSearch" [color]="primaryNavbarBackground?.color"
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar"
   style="    justify-content: left;">
   <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
     <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
       <img [src]="appIcon" loading="lazy" i18n alt="Application Logo" id="app-logo" class="app-logo"
         style="position: relative;" />
+      <img *ngIf="orgLogo&&!isXSmall" [src]="orgLogo" loading="lazy" i18n alt="Application Logo" id="app-logo"
+        class="app-logo ml-4" style="position: relative;" />
+
     </a>
 
   </div>

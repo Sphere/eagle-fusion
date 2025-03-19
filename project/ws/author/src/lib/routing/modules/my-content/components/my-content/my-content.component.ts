@@ -1,7 +1,9 @@
 import { FlatTreeControl } from '@angular/cdk/tree'
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { FormGroup } from '@angular/forms'
-import { MatDialog, MatSnackBar, MatTreeFlatDataSource, MatTreeFlattener } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
@@ -95,8 +97,8 @@ export class MyContentComponent implements OnInit, OnDestroy {
     private authInitService: AuthInitService,
   ) {
     this.filterMenuTreeControl = new FlatTreeControl<IMenuFlatNode>(
-      node => node.levels,
-      node => node.expandable,
+      (node: { levels: any }) => node.levels,
+      (node: { expandable: any }) => node.expandable,
     )
     this.filterMenuTreeFlattener = new MatTreeFlattener(
       this._transformer,
@@ -193,7 +195,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
       this.queryFilter,
       this.isAdmin,
     )
-    const requestData = {
+    const requestData: any = {
       request: {
         locale: this.searchLanguage ? [this.searchLanguage] : [],
         query: this.queryFilter,

@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
-import { Router } from '@angular/router'
+import { ActivatedRoute, Router } from '@angular/router'
+import lodash from 'lodash'
 
 @Component({
   selector: 'ws-my-courses',
@@ -28,12 +29,16 @@ export class MyCoursesComponent implements OnInit {
   coursesForYouDisplayConfig: any
   completedWebCourseDisplayConfig: any
   completedCourseDisplayConfig: any
+  isForYouActive = false; // Flag to track if "For you" should be active
+  selectedIndex = 0; // Index for the active tab
+
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
     private signupService: SignupService,
     public router: Router,
     private valueSvc: ValueService,
+    private route: ActivatedRoute
   ) { }
 
   ngOnInit() {
@@ -44,6 +49,12 @@ export class MyCoursesComponent implements OnInit {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
+    this.route.queryParams.subscribe(params => {
+      if (params['courseType'] === 'formatForYouCourses') {
+        this.isForYouActive = true
+        this.selectedIndex = 1 // Set the index for "For You" tab
+      }
+    })
 
     this.isLoading = true
     this.contentSvc.fetchUserBatchList(userId).subscribe(
@@ -51,33 +62,41 @@ export class MyCoursesComponent implements OnInit {
         console.log("courses", courses)
 
         courses.forEach((key) => {
-          if (key.completionPercentage !== 100) {
-            const myCourseObject = {
-              identifier: key.content.identifier,
-              appIcon: key.content.appIcon,
-              thumbnail: key.content.thumbnail,
-              name: key.content.name,
-              dateTime: key.dateTime,
-              completionPercentage: key.completionPercentage,
-              sourceName: key.content.sourceName,
-              issueCertification: key.content.issueCertification
-            }
+          // Check if competency exists, if not, assume it's okay to process (e.g., no competency required)
+          const competencyExists = lodash.has(key, 'content.competency')
+          const competency = competencyExists ? lodash.get(key, 'content.competency', false) : false  // Default to false if competency is absent
 
-            this.startedCourse.push(myCourseObject)
-            this.isLoading = false
-          } else {
-            const completedCourseObject = {
-              identifier: key.content.identifier,
-              appIcon: key.content.appIcon,
-              thumbnail: key.content.thumbnail,
-              name: key.content.name,
-              dateTime: key.dateTime,
-              completionPercentage: key.completionPercentage,
-              sourceName: key.content.sourceName,
-              issueCertification: key.content.issueCertification
-            }
+          // Only process courses with competency === false
+          // Only process courses where competency is either false or not present
+          if (competency === false) {
+            if (key.completionPercentage !== 100) {
+              const myCourseObject = {
+                identifier: key.content.identifier,
+                appIcon: key.content.appIcon,
+                thumbnail: key.content.thumbnail,
+                name: key.content.name,
+                dateTime: key.dateTime,
+                completionPercentage: key.completionPercentage,
+                sourceName: key.content.sourceName,
+                issueCertification: key.content.issueCertification
+              }
 
-            this.completedCourse.push(completedCourseObject)
+              this.startedCourse.push(myCourseObject)
+              this.isLoading = false
+            } else {
+              const completedCourseObject = {
+                identifier: key.content.identifier,
+                appIcon: key.content.appIcon,
+                thumbnail: key.content.thumbnail,
+                name: key.content.name,
+                dateTime: key.dateTime,
+                completionPercentage: key.completionPercentage,
+                sourceName: key.content.sourceName,
+                issueCertification: key.content.issueCertification
+              }
+
+              this.completedCourse.push(completedCourseObject)
+            }
           }
         })
 

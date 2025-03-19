@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { MatDialog, MatDialogRef, MatSnackBar } from '@angular/material'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
 import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
 import { LoaderService } from '../../../../../project/ws/author/src/public-api'
@@ -138,15 +139,19 @@ export class ProfileSelectComponent implements OnInit {
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData.profileReq, userAgent, userCookie)
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/profile-select'
+
     const obj = {
       personalDetails: profileRequest.profileReq.personalDetails,
-      preferences: this.userProfileData.preferences
+      preferences: this.userProfileData.preferences,
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/profile-select'
+        },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

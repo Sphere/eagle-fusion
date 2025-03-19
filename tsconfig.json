@@ -1,24 +1,29 @@
 {
   "compileOnSave": false,
   "compilerOptions": {
+    "resolveJsonModule": true,
+    "types": ["node", "reflect-metadata", "jest"],
+    "target": "es2015",
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
     "alwaysStrict": true,
     "baseUrl": "./",
     "declaration": false,
+    "strict": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "skipLibCheck": true,
     "lib": ["es2018", "dom"],
-    "module": "ESNext",
+    "module": "esnext",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": true,
+    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "suppressImplicitAnyIndexErrors": true,
     "outDir": "./dist/out-tsc",
     "paths": {
       "@ws-widget/resolver": ["library/ws-widget/resolver"],
@@ -39,16 +44,12 @@
       "@ws/viewer": ["project/ws/viewer"],
       "@ws/viewer/*": ["project/ws/viewer/*"],
       "@ws/learning-hub": ["project/ws/learning-hub"],
-      "@ws/learning-hub/*": ["project/ws/learning-hub/*"]
+      "@ws/learning-hub/*": ["project/ws/learning-hub/*"],
+      "@aastrika_npmjs/competency-web": ["node_modules/@aastrika_npmjs/competency-web"],
+      "@aastrika_npmjs/competency-web/*": ["node_modules/@aastrika_npmjs/competency-web/*"]
     },
     "removeComments": true,
     "sourceMap": true,
-    "strict": true,
-    "strictBindCallApply": true,
-    "strictFunctionTypes": true,
-    "strictNullChecks": true,
-    "strictPropertyInitialization": true,
-    "target": "es2015",
     "typeRoots": ["node_modules/@types", "./custom_typings"],
     "plugins": [
       {
@@ -58,8 +59,7 @@
         "name": "typescript-tslint-plugin",
         "alwaysShowRuleFailuresAsWarnings": false,
         "ignoreDefinitionFiles": true,
-        "configFile": "./tslint.json",
-        "suppressWhileTypeErrorsPresent": false
+        "configFile": "./tslint.json"
       }
     ]
   }

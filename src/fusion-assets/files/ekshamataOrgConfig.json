@@ -1,0 +1,105 @@
+{
+  "orgNames": [
+    {
+      "channelId": "0138708679576535041037",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/UP-govlogo1.svg",
+      "orgName": "Department of Medical Education Education and Training e-kshamat",
+      "footer": {
+        "name": "UP-TSU",
+        "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/uptsu-footer-logo.png"
+      },
+      "phone": "tel:1800 313 8566",
+      "startVideo": "https://www.youtube.com/embed/3WawuuQYtzs"
+    },
+    {
+      "channelId": "014095104385122304968",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/Mp+logo+%2B+NHM.svg",
+      "orgName": "NHM Madhya Pradesh",
+      "phone": "tel:000000000"
+    },
+    {
+      "channelId": "014095108131266560969",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/Mp+logo+%2B+NHM.svg",
+      "orgName": "Test NHM Madhya Pradesh",
+      "phone": "tel:000000000"
+    },
+    {
+      "channelId": "013936570871160832170",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/BiharLogo_v2.png",
+      "orgName": "Test Bihar",
+      "phone": "tel:+918429036003",
+      "startVideo": "https://www.youtube.com/embed/085BGrH8ScA"
+    },
+    {
+      "channelId": "01403709013603123234776",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/BiharLogo_v2.png",
+      "orgName": "Health (Bihar)",
+      "phone": "tel:+918429036003",
+      "startVideo": "https://www.youtube.com/embed/085BGrH8ScA"
+    },
+    {
+      "channelId": "01403708858877542434777",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/BiharLogo_v2.png",
+      "orgName": "Private (Bihar)",
+      "phone": "tel:+918429036003",
+      "startVideo": "https://www.youtube.com/embed/085BGrH8ScA"
+    },
+    {
+      "channelId": "013979705555795968308",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ka_logo_final.png",
+      "orgName": "Test Karnataka",
+      "phone": "tel:0000000000"
+    },
+    {
+      "channelId": "014005962721189888281",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/BiharLogo_v2.png",
+      "orgName": "Bihar Nursing Registration Council",
+      "phone": "tel:+918429036003",
+      "startVideo": "https://www.youtube.com/embed/085BGrH8ScA"
+    },
+    {
+      "channelId": "013979705730662400309",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/UP-govlogo1.svg",
+      "orgName": "Test Uttar Pradesh",
+      "phone": "tel:1800 313 8566",
+      "footer": {
+        "name": "UP",
+        "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/uptsu-footer-logo.png"
+      },
+      "startVideo": "https://www.youtube.com/embed/3WawuuQYtzs"
+    },
+    {
+      "channelId": "01400948801286144024329",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/UP-govlogo1.svg",
+      "orgName": "Department of Medical Health & Family Welfare (Uttar Pradesh)",
+      "phone": "tel:1800 313 8566",
+      "footer": {
+        "name": "UP",
+        "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/uptsu-footer-logo.png"
+      },
+      "startVideo": "https://www.youtube.com/embed/3WawuuQYtzs"
+    },
+    {
+      "channelId": "014017257642377216440",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/UP-govlogo1.svg",
+      "orgName": "Directorate of Medical Health (UP)",
+      "phone": "tel:1800 313 8566",
+      "footer": {
+        "name": "UP",
+        "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/uptsu-footer-logo.png"
+      },
+      "startVideo": "https://www.youtube.com/embed/3WawuuQYtzs"
+    },
+    {
+      "channelId": "01400948801286144024329",
+      "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/UP-govlogo1.svg",
+      "orgName": "National Health Mission (UP)",
+      "phone": "tel:1800 313 8566",
+      "footer": {
+        "name": "UP",
+        "logo": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/uptsu-footer-logo.png"
+      },
+      "startVideo": "https://www.youtube.com/embed/3WawuuQYtzs"
+    }
+  ]
+}

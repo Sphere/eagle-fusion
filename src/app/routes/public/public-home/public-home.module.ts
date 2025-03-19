@@ -2,15 +2,13 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
-import {
-  MatToolbarModule,
-  MatDividerModule,
-  MatExpansionModule,
-  MatIconModule,
-  MatCardModule,
-  MatButtonModule,
-  MatTabsModule,
-} from '@angular/material'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatExpansionModule } from '@angular/material/expansion'
+import { MatIconModule } from '@angular/material/icon'
+import { MatCardModule } from '@angular/material/card'
+import { MatButtonModule } from '@angular/material/button'
+import { MatTabsModule } from '@angular/material/tabs'
 import { BtnPageBackModule, UserImageModule } from '@ws-widget/collection'
 import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule, RetainScrollModule } from '@ws-widget/utils'
 import { PublicHomeComponent } from './public-home.component'
@@ -34,10 +32,12 @@ import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-ov
 import { PublicLicenseComponent } from '../public-license/public-license.component'
 import { KeycloakCallbackComponent } from '../keycloak-callback/keycloak-callback.component'
 import { WebHomeComponent } from '../../../routes/web-home/web-home.component'
+import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-container/web-ekshamata-public-container.component'
 
 @NgModule({
   declarations: [
     PublicHomeComponent,
+    WebEkshamataPublicComponent,
     MobilePageComponent,
     MobileHomeComponent,
     MobileTrustedByPageComponent,

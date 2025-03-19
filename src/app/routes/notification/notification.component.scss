@@ -1,0 +1,366 @@
+.notification_header {
+    padding: 14px;
+    margin-left: 1%;
+    position: fixed;
+    z-index: 1000;
+    overflow-y: hidden;
+    background: white;
+    width: 100%;
+    height: 7vh;
+    display: flex;
+}
+.notification_header_title{
+    font-family: Roboto;
+font-weight: 400;
+font-size: 18px;
+line-height: 28.8px;
+letter-spacing: -2%;
+color: #000000;
+}
+
+@media only screen and (max-width: 599px) {
+    .notification-container {
+        margin-top: 50px;
+    }
+}
+
+// ============================for web notification modal
+:host ::ng-deep .custom-notification-modal {
+    border-radius: 10px !important;
+}
+:host ::ng-deep .mat-dialog-container{
+    padding: 0px !important;
+    border-radius: 10px !important;
+}
+
+cdk-overlay-pane .custom-notification-modal{
+    margin-top: 70px !important;
+}
+:host ::ng-deep .cdk-overlay-pane .custom-notification-modal {
+  width: 400px; /* Adjust width as needed */
+  max-height: 80vh; /* Prevent modal from being too large */
+  background: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 70px !important;
+}
+.notification-triangle {
+    position: absolute;
+    top: 51px; /* Position it above the modal */
+    right: 51px; /* Adjust to align with the notification icon */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid white; /* Color same as modal background */
+}
+::ng-deep .cdk-overlay-container .mat-dialog-container {
+    padding: 0px !important;
+    border-radius: 10px !important;
+    overflow-y: scroll !important;
+}
+
+.iswebView {
+
+  padding: 0 !important;
+  border-radius: 10px !important;
+  /* 🔹 Scrollable Notification List */
+    .wrapper {
+    // flex-grow: 1 !important;
+    // overflow-y: auto !important;
+    // max-height: 60vh !important; /* Ensures scrolling */
+    padding-top: 0.5rem !important;
+    height: auto !important;
+    // display: flex !important;
+    // flex-direction: column !important;
+    // width: 100% !important;
+    }
+    .notification_header {
+        padding: 14px;
+        overflow-y: hidden;
+        background: white;
+        width: 100%;
+        height: 7vh;
+        display: flex    ;
+        margin: 0px !important;
+    }
+
+    /* 🔹 Fixed Header */
+    .notification_header {
+    position: sticky;
+    top: 0;
+    background: white;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ECECEC;
+    }
+
+    /* 🔹 Dropdown Styling */
+    .dropdown-content {
+     position: absolute;
+    right: 20px;
+    top: 70px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    // width: 170px;
+    padding: 8px 0;
+    }
+
+
+
+
+    /* 🔹 Individual Notification Items */
+    .notification-slide-container {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #f9f9f9;
+    margin-bottom: 10px;
+    border-radius: 8px;
+    overflow: hidden;
+    transition: transform 0.3s ease;
+    }
+
+    /* 🔹 Slideable Notification Content */
+    .notification-content {
+    flex: 1;
+    background: white;
+    display: flex;
+    align-items: center;
+    transition: transform 0.3s ease;
+    }
+
+    /* 🔹 Delete Button (Hidden by Default) */
+    .delete-btn {
+    position: absolute;
+    right: -60px; /* Initially hidden */
+    background: #eff6fc !important ;
+    color: white;
+    border: none;
+    padding: 10px 15px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: right 0.3s ease;
+    cursor: pointer;
+    }
+
+    /* 🔹 When Sliding, Show Delete Button */
+    .notification-slide-container.swiped .delete-btn {
+    right: 0;
+    }
+
+    /* 🔹 No Notification Message (Centered) */
+    .empty__notification__text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50vh;
+    font-size: 16px;
+    color: #666;
+    }
+
+
+
+}
+
+// for mobile view
+.wrapper {
+    width: 90%;
+    margin: 10px auto;
+    padding-top: 3.5rem;
+    height: 80vh;
+}
+
+.notification {
+    margin-left: 2px;
+    margin-top: 2px;
+}
+
+
+.notifications__item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    width: 100%;
+    height: auto;
+    padding: 1.2rem 0.5rem;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease-in;
+    cursor: pointer;
+}
+
+.notifications__item__avatar {
+    width: 3rem;
+    height: 3rem;
+    overflow: hidden;
+    margin-right: 1rem;
+    border-radius: 50%;
+}
+
+.notifications__item__avatar img {
+    width: 100%;
+    height: 100%;
+}
+
+.notifications__item__content {
+    width: calc(100% - 20%);
+    margin-right: 10px;
+}
+
+// .notifications__item__title,
+// .notifications__item__message {
+//    // display: block;
+// }
+
+.notifications__item__title {
+    font-family: Roboto, sans-serif;
+    color: #2E6491
+}
+
+.notifications__item__message {
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    a {
+        color: rgba(46, 100, 145, 1);
+        display: block;
+    }
+}
+
+.kebab-info {
+    position: absolute;
+    right: 1rem;
+    cursor: pointer;;
+}
+.read-item{
+    cursor: pointer;
+}
+.dropdown-content {
+    position: absolute;
+    border-radius: 10px;
+    background-color: var(--white);
+    box-shadow: 0 3px 5px 4px rgba(0, 0, 0, 0.05);
+    z-index: 1001;
+    text-align: left;
+    right: 0;
+    margin-top: 1.5rem;
+    margin-right: 1rem;
+    top: 65px;
+}
+
+.text-style {
+    font-family: Roboto;
+font-weight: 400;
+font-size: 16px;
+line-height: 18.75px;
+letter-spacing: -2%;
+
+    color: #2E6491;
+    padding-left: 10px;
+}
+.border-bottom-1{
+    border-bottom: 1px solid #A4A4A4;
+}
+.dropdown-item {
+
+        justify-content: left;
+    align-items: center;
+    display: flex;
+    width: 100%;
+    padding: 15px !important;
+}
+
+.notifications__item__message a {
+    color: rgba(46, 100, 145, 1) !important;
+    display: block !important;
+  }
+
+ .notifications__item--unread{
+    background: rgba(239, 246, 252, 1)!important;
+ }
+
+ .notifications__item__date {
+    color: #808080;
+    font-family: Roboto;
+    font-size: 12px;
+ }
+
+.empty__notification__text {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; // Full height of the viewport
+  color: #babdbd;
+  font-size: 17px;
+  font-weight: 600;
+}
+
+
+ .notification_certificate{
+    margin-top: 12px;
+    border: 1px solid rgba(46, 100, 145, 1);
+    color: rgba(46, 100, 145, 1);
+    padding: 4px 23px;
+    font-size: 14px;
+    cursor: pointer;
+    margin-bottom: 2px;
+ }
+
+
+//  ============================new code
+.notification-slide-container {
+  position: relative;
+  overflow: hidden;
+  background: white;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.notification-content {
+  display: flex;
+  align-items: center;
+  background: white;
+  transition: transform 0.3s ease-in-out;
+  width: 100%;
+  position: relative;
+  z-index: 2; // Keep it above the delete button
+}
+
+
+.notifications__item__content {
+  flex-grow: 1;
+}
+
+.notifications__item__date {
+  font-size: 12px;
+  color: gray;
+}
+
+/* Delete button positioned behind the notification */
+.delete-btn {
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 80px;
+  background: red;
+  color: white;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  z-index: 1; // Behind the notification card
+}
+
+

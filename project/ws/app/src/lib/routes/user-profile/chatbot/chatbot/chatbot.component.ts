@@ -7,7 +7,9 @@ import { map, startWith } from 'rxjs/operators'
 import { Observable, of } from 'rxjs'
 import moment from 'moment'
 import { Router } from '@angular/router'
-import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { DateAdapter } from '@angular/material/core'
+import { MAT_DATE_FORMATS } from '@angular/material/core'
 import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn-profile.service'
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../services/format-datepicker'
@@ -83,13 +85,13 @@ export class ChatbotComponent implements OnInit {
   govtOrgMeta!: IGovtOrgMeta
 
   constructor(private http: HttpClient,
-              private userProfileSvc: UserProfileService,
-              private router: Router,
-              private snackBar: MatSnackBar,
-              private fb: FormBuilder,
-              private configSvc: ConfigurationsService,
-              private btnservice: BtnProfileService,
-              private UserAgentResolverService: UserAgentResolverService) {
+    private userProfileSvc: UserProfileService,
+    private router: Router,
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+    private configSvc: ConfigurationsService,
+    private btnservice: BtnProfileService,
+    private UserAgentResolverService: UserAgentResolverService) {
 
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
       (data: any) => {
@@ -364,7 +366,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-        },         300)
+        }, 300)
       } else if (_chatFormValue.replymsg === 'No') {
         this.hideInputField = false
         this.chatArray.push(this.chatObj.regOption.profiledetails[1])
@@ -422,7 +424,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-    },         1000)
+    }, 1000)
   }
 
   getOptionSelected(_chatFormValue: any) {
@@ -542,7 +544,7 @@ export class ChatbotComponent implements OnInit {
         }
         setTimeout(() => {
           this.showTypingIcon = true
-        },         1000)
+        }, 1000)
 
         if (this.nextId === 'end' && message !== 'skip') {
           message = _chatFormValue.replymsg
@@ -603,7 +605,7 @@ export class ChatbotComponent implements OnInit {
             </div>
           </div>
         `)
-      },         1000)
+      }, 1000)
     }
 
     setTimeout(() => {
@@ -615,7 +617,7 @@ export class ChatbotComponent implements OnInit {
       }
 
       this.scrollToBottom()
-    },         1000)
+    }, 1000)
   }
   validateResponse(obj: any, msg: any) {
     if (this.errMsg) {
@@ -769,6 +771,7 @@ export class ChatbotComponent implements OnInit {
         osName: userAgent.OS,
         browserName: userAgent.browserName,
         userCookie,
+        profileLocation: 'sphere-web/chatbot'
       },
       academics: this.getAcademics(form),
       employmentDetails: {
@@ -825,7 +828,7 @@ export class ChatbotComponent implements OnInit {
   }
 
   private getAcademics(form: any) {
-    const academics = []
+    const academics: any = []
     academics.push(this.getClass10(form))
     academics.push(this.getClass12(form))
     academics.push(...this.getDegree(form, 'GRADUATE'))
@@ -944,7 +947,7 @@ export class ChatbotComponent implements OnInit {
             </div>
       </div>
     `)
-    },         1000)
+    }, 1000)
 
     this.skipButton = false
     this.showOptionFields = true
@@ -952,7 +955,7 @@ export class ChatbotComponent implements OnInit {
 
     setTimeout(() => {
       this.scrollToBottom()
-    },         1000)
+    }, 1000)
 
   }
 
@@ -972,7 +975,9 @@ export class ChatbotComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userId,
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/chatbot',
+        },
       },
     }
 
@@ -991,7 +996,7 @@ export class ChatbotComponent implements OnInit {
           } else {
             this.router.navigate(['page', 'home'])
           }
-        },         3000)
+        }, 3000)
       }
     })
   }

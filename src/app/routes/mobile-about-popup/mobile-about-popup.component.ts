@@ -1,6 +1,7 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 // import * as _ from 'lodash-es'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -58,6 +59,8 @@ export class MobileAboutPopupComponent implements OnInit {
     const userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/mobile-about-popup'
+
     const obj = {
       personalDetails: profileRequest.profileReq.personalDetails
     }
@@ -72,7 +75,9 @@ export class MobileAboutPopupComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/mobile-about-popup',
+        },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

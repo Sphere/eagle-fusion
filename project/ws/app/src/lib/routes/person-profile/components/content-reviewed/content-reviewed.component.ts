@@ -3,7 +3,7 @@ import { ISearchContent, ISearchResult } from '../../../../../../../author/src/l
 import { Subscription } from 'rxjs'
 import { MyContentService } from '../../../../../../../author/src/lib/routing/modules/my-content/services/my-content.service'
 import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils/src/public-api'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'ws-app-content-reviewed',

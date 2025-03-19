@@ -3,7 +3,10 @@ import {
   NgModule,
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
-import { MatTreeNestedDataSource, MatTooltipModule, MatDialog, MatDialogRef } from '@angular/material'
+import { MatTreeNestedDataSource } from '@angular/material/tree'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatDialog } from '@angular/material/dialog'
+import { MatDialogRef } from '@angular/material/dialog'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
@@ -24,6 +27,7 @@ import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
 import { isNull, isEmpty } from 'lodash'
+import { saveAs } from 'file-saver'
 import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component'
 interface IViewerTocCard {
   identifier: string
@@ -179,7 +183,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
             if (!(isNull(nextResource) || isEmpty(nextResource))) {
-              this.router.navigate([nextResource], { preserveQueryParams: true })
+              this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
               this.playerStateService.trigger$.complete()
 
             } else {
@@ -219,7 +223,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
               const nextResource = this.playerStateService.getNextResource()
               if (!(isNull(nextResource) || isEmpty(nextResource))) {
-                this.router.navigate([nextResource], { preserveQueryParams: true })
+                this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
                 this.playerStateService.trigger$.complete()
 
               } else {
@@ -416,7 +420,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
       return viewerTocCardContent
-    } catch (err) {
+    } catch (err: any) {
       switch (err.status) {
         case 403: {
           this.errorWidgetData.widgetData.errorType = 'accessForbidden'
@@ -613,7 +617,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 child2.completionStatus = foundContent2.status
 
                 // tslint:disable-next-line:max-line-length
-              } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+              } else if (
+                element[index - 1] &&
+                element[index - 1].children &&
+                element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100
+              ) {
                 if (element[index].children.length > 0) {
                   if (cindex === 0) {
                     element[index].children[cindex].disabledNode = false
@@ -634,7 +642,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   return
                 }
                 // tslint:disable-next-line: max-line-length
-              } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100) {
+              } else if (
+                element[index - 1] &&
+                element[index - 1].children &&
+                element[index - 1].children.length > 0 &&
+                element[index - 1].children[element[index - 1].children.length - 1].completionPercentage !== 100
+              ) {
                 if (element[index].children.length > 0) {
 
                   if (element[index].children[cindex - 1] && element[index].children[cindex - 1].completionPercentage === 100) {
@@ -791,7 +804,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
                 console.log(foundObject, 'foundObject')
                 if (!foundObject || (foundObject.type !== "Scrom" && foundObject.completionPercentage === 100)) {
-                  this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                  this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
                     if (success) {
                       this.playerStateService.trigger$.complete()
                     }
@@ -964,7 +977,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 &&
                 (!foundContent2 || foundContent2.completionPercentage === 0)
               ) {
-                this.router.navigate([nextResource], { preserveQueryParams: true })
+                this.router.navigate([nextResource], { queryParamsHandling: 'preserve' })
               }
             }
           }
@@ -987,7 +1000,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   if (this.playerStateService.isResourceCompleted()) {
                     const nextResource = this.playerStateService.getNextResource()
                     if (!(isEmpty(nextResource) || isNull(nextResource))) {
-                      this.router.navigate([nextResource], { preserveQueryParams: true }).then(success => {
+                      this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
                         if (success) {
                           this.playerStateService.trigger$.complete()
                         }
@@ -1083,7 +1096,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                       console.log('entered')
                       child2.disabledNode = false
 
-                    } else if (element[index - 1] && element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100) {
+                    } else if (
+                      element[index - 1] &&
+                      element[index - 1].children &&
+                      element[index - 1].children.length > 0 &&
+                      element[index - 1].children[element[index - 1].children.length - 1].completionPercentage === 100
+                    ) {
                       if (element[index].children.length > 0) {
                         if (cindex === 0) {
                           element[index].children[cindex].disabledNode = false

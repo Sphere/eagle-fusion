@@ -1,0 +1,177 @@
+@import 'ws-mixins';
+
+.left-container-block{
+  display: flex;
+  flex: 0 0 60%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #EBF4FB 0%, #DCEFEC 49.18%, #FFFCC8 98.36%);
+  font-family: "Roboto";
+}
+.right-container-block{
+  display: flex;
+  flex: 0 0 40%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  font-family: "Roboto";
+}
+.login-btn {
+    padding: 8px 32px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    background-color: #2E6491 !important;
+    border-radius: 50px;
+    color: #FFFFFF !important;
+    font-family: "Roboto";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 16px;
+    border: none;
+    cursor: pointer;
+    width: 330px;
+    height: 40px;
+
+}
+.ekshamata-top-leaf{
+    width: 254px;
+    height: 100px;
+}
+.ekshamata-logo{
+    width: 254px;
+    height: 176px;
+}
+.ekshamata-group{
+width: 450px;
+    height: 280px;
+
+}
+.aastrika-foundation-logo{
+width: 180px;
+height: 72px;
+}
+.ekshamata-bottom-leaf{
+  width: 450px;
+height: 132px;
+
+}
+.black-text{
+  color: #000000;
+}
+.blue-text{
+  color: #1C5D95;
+}
+.font-16{
+font-size: 16px;
+}
+.font-18{
+font-size: 18px;
+}
+.font-20{
+font-size: 20px;
+}
+.font-22{
+font-size: 22px;
+}
+.font-34{
+font-size: 34px;
+}
+.font-weight-400{
+font-weight: 400;
+}
+.font-weight-500{
+font-weight: 500;
+}
+.right-container-block-header{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 100px 140px 10px 140px;
+}
+.line-height-24{
+  line-height: 24px;
+}
+.line-height-34{
+  line-height: 34px;
+}
+.right-container-block-body{
+  align-items: center;
+    display: flex;
+    flex-direction: column;
+}
+.right-container-block-footer{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+@media only screen and (max-width: 600px) {
+.left-container-block{
+  flex: 0 0 40%;
+}
+.right-container-block{
+  flex: 0 0 60%;
+}
+.main-block{
+  display: flex;
+  flex-direction: column;
+}
+.ekshamata-logo{
+    width: 100%;
+    height: 85px;
+    margin: 15px 0px 0px 15px;
+
+}
+.ekshamata-top-leaf {
+    width: 100%;
+    height: 115px;
+}
+.ekshamata-group {
+    width: 100%;
+    height: 125px;
+}
+.right-container-block-header {
+    padding: 25px 60px 10px 25px;
+}
+.ekshamata-bottom-leaf {
+    width: 100%;
+    height: auto;
+}
+    .ekshamata-bottom-leaf-container{
+        display: flex;
+        justify-content: center;
+        align-items: end;
+        position: fixed;
+        bottom: 0;
+    }
+.font-34{
+  font-size: 28px;
+  font-weight: 500;
+}
+.font-22{
+  font-size: 16px;
+  }
+  .font-16{
+  font-size: 16px;
+  }
+  .aastrika-foundation-logo {
+    width: 100%;
+    height: 50px;
+}
+.font-18{
+  font-size: 20px;
+}
+.right-container-block-footer{
+  margin-top: 15px;
+}
+.line-height-24{
+  line-height:18px;
+}
+.line-height-34{
+  line-height: 29px;
+}
+}

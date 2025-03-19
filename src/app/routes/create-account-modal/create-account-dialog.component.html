@@ -1,0 +1,74 @@
+<div *ngIf="name==='name'" class="lang-box">
+  <img src="/fusion-assets/icons/info_icon-acc.png" class="info-icon" alt="" />
+  <div>
+    <div class="language">
+      <h1 class="mb-1 firstName" i18n>{{ firstName }} {{ lastName }}</h1>
+    </div>
+    <div>
+      <p class="info" i18n>will be displayed on the certificate.</p>
+    </div>
+  </div>
+  <div mat-dialog-actions class="lang-done">
+    <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('edit')" i18n>Edit
+      name</button>
+    <button class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1" (click)="confirm('confirm')"
+      i18n>Confirm
+      name</button>
+  </div>
+</div>
+
+<div *ngIf="name==='userExist'" class="lang-box">
+  <img src="/fusion-assets/icons/red-ex-acc.png" class="info-icon" alt="" />
+  <div>
+    <div class="language">
+      <h1 class="mb-1 exist" i18n>User already exists.</h1>
+    </div>
+  </div>
+  <div mat-dialog-actions class="lang-done">
+    <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('again')" i18n>Try
+      again</button>
+    <button class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1" (click)="confirm('login')"
+      i18n>Login</button>
+  </div>
+</div>
+<div *ngIf="name==='userNotExist'" class="lang-box">
+  <img src="/fusion-assets/icons/red-ex-acc.png" class="info-icon" alt="" />
+  <div>
+    <div class="language">
+      <h1 class="mb-1 exist" i18n>User doesn’t exist.</h1>
+    </div>
+  </div>
+  <div mat-dialog-actions class="lang-done">
+    <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('again')" i18n>Try
+      again</button>
+    <button *ngIf="!userNotExistEkshamta" class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1"
+      (click)="confirm('createAccount')" i18n>Create account</button>
+  </div>
+</div>
+<div *ngIf="name==='help'" class="lang-box">
+  <button (click)="backToChatIcon()" class="align-self-end" id="dialogue-close" mat-icon-button mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+  <img src="/fusion-assets/icons/chat.png" class="info-icon" alt="" />
+  <div>
+    <div class="language mt-2">
+      <h1 class="mb-1 exist" i18n>Aastrika Sphere chat support</h1>
+    </div>
+  </div>
+  <div mat-dialog-actions class="help-done mt-1">
+    <a href="https://wa.me/919632013414?text=Hi" target="_blank"
+      class="flex cursor-pointer align-items-center wa-block">
+      <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp" />
+      <div>
+        <p class="whtsapp-text m-0" i18n>Chat with us on WhatsApp</p>
+      </div>
+    </a>
+    <a class=" flex align-items-center fcapp-text cursor-pointer ca-block" (click)="showSocialChats()"
+      onclick="window.fcWidget.open();window.fcWidget.show();">
+      <img src="/fusion-assets/icons/chat-wa.png" class="whatsapp-icon" alt="whatsapp" />
+      <div>
+        <p class="ca-text m-0" i18n>Chat with us</p>
+      </div>
+    </a>
+  </div>
+</div>

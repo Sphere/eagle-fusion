@@ -1,6 +1,7 @@
 // import { ISelectorResponsive, NsGalleryView } from '@ws-widget/collection'
 import { Component, Inject, OnInit } from '@angular/core'
-import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { NsWidgetResolver } from '@ws-widget/resolver/src/public-api'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
@@ -258,34 +259,34 @@ export class InputV2Component implements OnInit {
     read = false,
   ): NsWidgetResolver.IRenderConfigWithAnyData {
     switch (widgetData.widgetSubType) {
-    case 'selectorResponsive':
-      if (widgetData.widgetData.selectFrom) {
-        for (let index = 0; index < widgetData.widgetData.selectFrom.length; index = index + 1) {
-          if (widgetData.widgetData.selectFrom[index].widget.widgetSubType) {
-            widgetData.widgetData.selectFrom[index].widget = this.checkWidgetType(
+      case 'selectorResponsive':
+        if (widgetData.widgetData.selectFrom) {
+          for (let index = 0; index < widgetData.widgetData.selectFrom.length; index = index + 1) {
+            if (widgetData.widgetData.selectFrom[index].widget.widgetSubType) {
+              widgetData.widgetData.selectFrom[index].widget = this.checkWidgetType(
                 widgetData.widgetData.selectFrom[index].widget,
                 style,
                 read)
+            }
           }
         }
-      }
-      return widgetData
-    case 'pageEmbedded':
-    case 'galleryView':
-    case 'elementHtml':
-    case 'pageEmbedded':
-      this.isMarginAvailable = true
-      return this.setMarginContainerStyle(widgetData, style, read)
-    case 'sliderBanners':
-    case 'contentStripMultiple':
-    case 'contentStripSingle':
-    case 'imageMapResponsive':
-    case 'cardBreadcrumb':
-    case 'playerVideo':
-      this.isMarginAvailable = false
-      return widgetData
-    default:
-      return widgetData
+        return widgetData
+      case 'pageEmbedded':
+      case 'galleryView':
+      case 'elementHtml':
+      case 'pageEmbedded':
+        this.isMarginAvailable = true
+        return this.setMarginContainerStyle(widgetData, style, read)
+      case 'sliderBanners':
+      case 'contentStripMultiple':
+      case 'contentStripSingle':
+      case 'imageMapResponsive':
+      case 'cardBreadcrumb':
+      case 'playerVideo':
+        this.isMarginAvailable = false
+        return widgetData
+      default:
+        return widgetData
     }
   }
 

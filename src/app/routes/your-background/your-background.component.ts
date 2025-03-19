@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
@@ -76,7 +76,7 @@ export class YourBackgroundComponent implements OnInit {
     }
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
-    const userObject = {
+    const userObject: any = {
       firstname: this.firstName,
       middlename: this.middleName,
       surname: this.lastName,
@@ -87,6 +87,7 @@ export class YourBackgroundComponent implements OnInit {
       osName: userAgent.OS,
       browserName: userAgent.browserName,
       userCookie,
+      profileLocation: 'sphere-web/your-background',
     }
     Object.keys(userObject).forEach(key => {
       if (userObject[key] === '') {
@@ -97,6 +98,7 @@ export class YourBackgroundComponent implements OnInit {
       request: {
         userId: this.userId,
         profileDetails: {
+          profileLocation: 'sphere-web/your-background',
           profileReq: {
             id: this.userId,
             userId: this.userId,

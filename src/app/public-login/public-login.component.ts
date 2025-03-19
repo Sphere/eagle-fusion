@@ -1,7 +1,13 @@
 import { Component, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { SignupService } from 'src/app/routes/signup/signup.service'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatDialog } from '@angular/material/dialog'
+import { CreateAccountDialogComponent } from '../routes/create-account-modal/create-account-dialog.component'
+import { ConfigurationsService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
+
+import { Observable } from 'rxjs'
+import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
   selector: 'ws-public-login',
@@ -15,11 +21,28 @@ export class PublicLoginComponent implements OnInit {
   selectedField = 'otp'
   otpPage = false
   userID = ''
+  langDialog: any
+  isXSmall$: Observable<boolean>
+  hide2 = true
+  resendTimer: number = 600; // Initialize with 600 seconds (10 minutes)
+  resendTimerText: string = '10:00'; // Initialize the display text
+  interval: any
+  otpInputs: string[] = ['', '', '', '']
+  iconChange2 = 'fas fa-eye-slash'
+  emailPhoneType: any = 'phone'
+  isEkshamtaLogin = false
+  routerLink = 'public/home'
   constructor(
     private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
     public snackBar: MatSnackBar,
+    private valueSvc: ValueService,
+    public dialog: MatDialog,
+    public configSvc: ConfigurationsService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
       // firstName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
@@ -36,8 +59,20 @@ export class PublicLoginComponent implements OnInit {
       // confirmPassword: new FormControl('', [Validators.required]),
     })
     this.OTPForm = this.spherFormBuilder.group({
-      OTPcode: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{4,6}$/)])
+      OTPcode: new FormControl('', [Validators.required])
     })
+    this.route.queryParams.subscribe(params => {
+      if (params['ekshamtaLogin']) {
+        this.isEkshamtaLogin = true
+        //   this.routerLink = '/public/ekshamataHome'
+        // } else {
+        //   this.isEkshamtaLogin = false
+        this.routerLink = '/public/home'
+      } else {
+        this.routerLink = '/public/home'
+      }
+    })
+    this.initializeForm()
   }
 
   ngOnInit() {
@@ -47,6 +82,128 @@ export class PublicLoginComponent implements OnInit {
     localStorage.removeItem('loginbtn')
     localStorage.removeItem('userUUID')
     //localStorage.clear()
+    this.initializeForm()
+  }
+  moveFocus(currentInput: any, nextInput: any) {
+    if (currentInput.value && currentInput.value.length === 1 && nextInput) {
+      nextInput.focus()
+    }
+    this.updateOtpCode()
+  }
+
+  backSpaceEvent(event: KeyboardEvent, currentInput: any, previousInput: any) {
+    if (event.key === 'Backspace' && !currentInput.value && previousInput) {
+      previousInput.focus()
+    }
+    this.updateOtpCode()
+  }
+  initializeForm(): void {
+    if (this.emailPhoneType === 'phone') {
+      this.OTPForm = this.spherFormBuilder.group({
+        otp1: new FormControl('', [Validators.required]),
+        otp2: new FormControl('', [Validators.required]),
+        otp3: new FormControl('', [Validators.required]),
+        otp4: new FormControl('', [Validators.required]),
+        OTPcode: new FormControl('', [Validators.required])
+      })
+    } else {
+      console.log("email type")
+      this.OTPForm = this.spherFormBuilder.group({
+        OTPcode: ['', Validators.required]
+      })
+    }
+
+  }
+  updateOtpCode(): void {
+    const otp1Control = this.OTPForm.get('otp1')
+    const otp2Control = this.OTPForm.get('otp2')
+    const otp3Control = this.OTPForm.get('otp3')
+    const otp4Control = this.OTPForm.get('otp4')
+    const code = this.OTPForm.get('OTPcode')
+    console.log("yes here", otp4Control)
+    if (otp1Control && otp2Control && otp3Control && otp4Control) {
+      const otp1 = otp1Control.value
+      const otp2 = otp2Control.value
+      const otp3 = otp3Control.value
+      const otp4 = otp4Control.value
+      const code = otp1 + otp2 + otp3 + otp4
+      if (this.OTPForm && this.OTPForm.get('OTPcode')) {
+        this.OTPForm.get('OTPcode')!.setValue(code)
+      }
+      console.error('1 One or more OTP controls are missing')
+
+    } else {
+      this.OTPForm.controls['OTPcode'].setValue(code)
+      console.error('One or more OTP controls are missing')
+    }
+  }
+  help() {
+    let width = '345px'
+    let height = '335px'
+    this.isXSmall$.subscribe((data: any) => {
+      console.log("data", data)
+      if (data) {
+        width = '345px',
+          height = '335px'
+      }
+    })
+    this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
+      panelClass: 'language-modal',
+      width: width,
+      height: height,
+      data: {
+        selected: "help",
+      },
+    })
+  }
+  userDoesnotExist() {
+    this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
+      panelClass: 'language-modal',
+      width: '312px',
+      height: '186px',
+      data: {
+        selected: 'userNotExist',
+        userNotExistEkshamta: this.isEkshamtaLogin
+      },
+    })
+
+    this.langDialog.afterClosed().subscribe((data: any) => {
+      console.log("data: ", data)
+
+      if (data === 'createAccount') {
+        if (localStorage.getItem('login_url')) {
+          const url: any = localStorage.getItem('login_url')
+          window.location.href = url
+        }
+        if (localStorage.getItem('url_before_login') && this.router.url === '/public/home') {
+          localStorage.removeItem('url_before_login')
+        }
+        this.router.navigateByUrl('/app/create-account')
+      }
+    })
+  }
+  homePage() {
+    location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+  }
+  redirect(val: string) {
+    console.log("val")
+    if (val === 'createAccount') {
+      // if (this.isEkshamtaLogin) {
+      //   this.router.navigateByUrl('/public/ekshamataHome')
+      // } else {
+      window.location.href = '/public/home'
+
+    } else {
+      this.otpPage = false
+    }
+  }
+  toggle2() {
+    this.hide2 = !this.hide2
+    if (this.hide2) {
+      this.iconChange2 = 'fas fa-eye-slash'
+    } else {
+      this.iconChange2 = 'fas fa-eye'
+    }
   }
   submitDetails(form: any) {
 
@@ -90,6 +247,7 @@ export class PublicLoginComponent implements OnInit {
       }
       console.log(type, 'check')
       this.signupService.loginAPI(req).subscribe(res => {
+        localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res.status)
         this.openSnackbar(res.msg || res.message)
         setTimeout(() => {
@@ -114,6 +272,9 @@ export class PublicLoginComponent implements OnInit {
 
       }, err => {
         console.log(err)
+        if (err.error.message === "User doesn't exists please signup and try again" || err.error.msg === "User doesn't exists please signup and try again") {
+          this.userDoesnotExist()
+        }
         this.openSnackbar(err.error.msg || err.error.error)
       })
     } else {
@@ -149,6 +310,14 @@ export class PublicLoginComponent implements OnInit {
           "userId": this.userID
         }
       }
+      this.startTimer()
+      this.OTPForm.reset({
+        otp1: '',
+        otp2: '',
+        otp3: '',
+        otp4: '',
+        code: ''
+      })
       console.log(req, type)
       this.signupService.resendOTP(req).subscribe(res => {
         console.log(res)
@@ -197,6 +366,7 @@ export class PublicLoginComponent implements OnInit {
       }
       console.log(req, type)
       this.signupService.loginAPI(req).subscribe(res => {
+        localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res)
         this.openSnackbar(res.msg || res.message)
         setTimeout(() => {
@@ -245,12 +415,14 @@ export class PublicLoginComponent implements OnInit {
       if (phone.length >= 10) {
         // this.otpPage = true
         type = 'phone'
+        this.emailPhoneType = 'phone'
       } else {
         // this.otpPage = true
         let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
+        this.emailPhoneType = 'email'
         console.log(check, 'check')
       }
       let req = {}
@@ -266,11 +438,17 @@ export class PublicLoginComponent implements OnInit {
           "userPhone": this.loginForm.controls.emailOrMobile.value
         }
       }
+      if (window.location.href.includes('email-otp')) {
+        this.emailPhoneType = 'email'
+      }
+      this.initializeForm()
+
       console.log(req, 'res', type)
       this.signupService.sendOTP(req).subscribe(res => {
         console.log(res)
         this.userID = res.userId
         this.openSnackbar(res.msg || res.message)
+        this.startTimer()
         this.otpPage = true
         console.log(this.otpPage)
         // if (localStorage.getItem('url_before_login')) {
@@ -281,16 +459,41 @@ export class PublicLoginComponent implements OnInit {
         // }
       }, err => {
         console.log(err.error.msg, err.error.message)
+        if (err.error.message === "User doesn't exists please signup and try again" || err.error.msg === "User doesn't exists please signup and try again") {
+          this.userDoesnotExist()
+        }
         this.openSnackbar(err.error.msg || err.error.message)
       })
     }
   }
+  startTimer() {
+    if (this.interval) {
+      clearInterval(this.interval)
+    }
+
+    this.resendTimer = 600 // Reset the timer value to 10 minutes
+    this.resendTimerText = '10:00' // Reset the display text to 10:00
+
+    this.interval = setInterval(() => {
+      this.resendTimer--
+      if (this.resendTimer === 0) {
+        clearInterval(this.interval)
+        this.interval = null
+      }
+      const minutes: string = Math.floor(this.resendTimer / 60).toString().padStart(2, '0')
+      const seconds: string = (this.resendTimer % 60).toString().padStart(2, '0')
+      this.resendTimerText = `${minutes}:${seconds}`
+    }, 1000)
+  }
+
+
   openSnackbar(primaryMsg: string, duration: number = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
   }
   passwordOrOtp(text: any) {
+    console.log("fasdfasdf", text)
     this.selectedField = text
   }
   checkMobileEmail() {

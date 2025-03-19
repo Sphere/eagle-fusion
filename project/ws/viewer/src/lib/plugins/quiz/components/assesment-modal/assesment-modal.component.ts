@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-import { MatDialogRef, MatSnackBar, MAT_DIALOG_DATA } from '@angular/material'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
 import { first, map, takeUntil } from 'rxjs/operators'
@@ -226,7 +227,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.questionAnswerHash,
     )
 
-    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizService.sanitizeAssessmentSubmitRequest(requestData)
+    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest | any = this.quizService.sanitizeAssessmentSubmitRequest(requestData)
     sanitizedRequestData['artifactUrl'] = this.assesmentdata.generalData.artifactUrl
     sanitizedRequestData['contentId'] = this.assesmentdata.generalData.identifier
     sanitizedRequestData['courseId'] = this.assesmentdata.generalData.collectionId

@@ -1,6 +1,6 @@
 <div class="paddingView">
   <h1 id="heading" i18n>My Courses</h1>
-  <mat-tab-group>
+  <mat-tab-group [selectedIndex]="selectedIndex">
     <mat-tab label="Started ({{this.startedCourse.length}})" i18n-label>
       <!--Started -->
       <div class="resource-container" *ngFor="let data of startedCourse; let last = last"

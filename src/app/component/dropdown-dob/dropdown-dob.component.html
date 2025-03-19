@@ -7,17 +7,19 @@
     </select>
   </div>
   <div class="form-group input-box ">
-    <select id="month" formControlName="monthField"  class="form-control select-box" name="date-input-field"
+    <select id="month" formControlName="monthField" class="form-control select-box" name="date-input-field"
       (change)="countrySelect()">
       <option [value]='null' [selected]="'Month'" disabled i18n>Month</option>
       <option *ngFor="let months of monthValue" [value]="months.id">{{ months.name }}</option>
     </select>
   </div>
-  <div class="form-group input-box ">
-    <select id="date" formControlName="dateField"  class="form-control select-box" name="date-input-field"
+  <div class="form-group input-box">
+    <select id="date" formControlName="dateField" class="form-control select-box" name="date-input-field"
       (change)="countrySelect()">
-      <option [value]='null' [selected]="'Date'" disabled i18n>Date</option>
+      <option value="" disabled selected>Date</option>
       <option *ngFor="let date of dateValue" [value]="date">{{ date }}</option>
     </select>
   </div>
+
+
 </form>

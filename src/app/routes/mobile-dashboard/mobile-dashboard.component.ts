@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { catchError, delay, switchMap } from 'rxjs/operators'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
@@ -10,7 +10,7 @@ import filter from 'lodash/filter'
 import includes from 'lodash/includes'
 import uniqBy from 'lodash/uniqBy'
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { DomSanitizer } from '@angular/platform-browser'
 import { ScrollService } from '../../services/scroll.service'
@@ -25,6 +25,7 @@ import { environment } from 'src/environments/environment'
   styleUrls: ['./mobile-dashboard.component.scss'],
 })
 export class MobileDashboardComponent implements OnInit {
+  coursesForYou: any[] = []
   myCourse: any
   topCertifiedCourse: any = []
   featuredCourse: any = []
@@ -43,7 +44,10 @@ export class MobileDashboardComponent implements OnInit {
   cneCourse: any = []
   showAllUserEnrollCourses: boolean = false;
   showAllTopCertifiedCourses: boolean = false;
+  showcoursesForYouCourses: boolean = false;
   showAllCneCourses: boolean = false;
+  showAllCoursesForUP: boolean = false;
+  coursesForUP: any[] = []
   dataCarousel: any = [
     {
       "title": "Check out courses with CNE Hours",
@@ -68,6 +72,11 @@ export class MobileDashboardComponent implements OnInit {
   showAllCourses: boolean = false;
   lang: any = 'en'
   @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
+  @Input() isEkshamata: any
+  bannerFirstImage: any
+  bannerSecondImage: any
+  domain!: any
+  isUpLogin: boolean = false
 
   constructor(private orgService: OrgServiceService,
     private configSvc: ConfigurationsService,
@@ -93,7 +102,18 @@ export class MobileDashboardComponent implements OnInit {
     // this.lang = this.configSvc!.unMappedUser
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
+    if (this.isEkshamata) {
+      this.showTopCourses()
 
+      this.domain = window.location.hostname
+      console.log("yes here", this.isEkshamata)
+      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+        console.log("yes here2 ", this.configSvc.hostedInfo)
+        this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
+        this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
+        console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+      }
+    }
     if (this.configSvc &&
       this.configSvc.unMappedUser &&
       this.configSvc.unMappedUser.profileDetails &&
@@ -139,7 +159,7 @@ export class MobileDashboardComponent implements OnInit {
       },
     ]
     if (this.configSvc.userProfile) {
-
+      this.fetchCourseRecommendations()
       // this.firstName = this.configSvc.userProfile
       forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
       this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
@@ -239,6 +259,79 @@ export class MobileDashboardComponent implements OnInit {
       //   }
       // })
     }
+  }
+  showTopCourses() {
+    this.topCertifiedCourse = []
+    console.log("this.configSvc.hostedInfo", this.configSvc.hostedInfo)
+    if (this.configSvc.hostedInfo?.featuredCourseIdentifier) {
+      this.isUpLogin = true
+      this.orgService.getTopLiveSearchResults(this.configSvc.hostedInfo.featuredCourseIdentifier, this.preferedLanguage.id).subscribe((results: any) => {
+        console.log("yes here hostedInfo", results.result.content)
+        if (results.result.content.length > 0) {
+          this.formatForYouUPCourses(results.result.content)
+          console.log("yes here hostedInfo", results.result.content)
+        }
+      })
+
+    }
+  }
+  formatForYouUPCourses(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+
+    res.forEach((key: any) => {
+      myCourseObject = {
+        identifier: key.identifier,
+        appIcon: key.appIcon,
+        thumbnail: key.thumbnail,
+        name: key.name,
+        sourceName: key.sourceName,
+        issueCertification: key.issueCertification
+      }
+
+      myCourse.push(myCourseObject)
+
+    })
+
+    this.coursesForUP = myCourse
+  }
+  private fetchCourseRecommendations() {
+    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.profileReq && this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails) {
+      const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
+      if (professionalDetails) {
+        const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
+        this.contentSvc.fetchCourseRemommendations(designation).subscribe(
+          (res) => {
+            this.formatForYouCourses(res)
+          },
+          (err) => {
+            if ([500, 400, 419].includes(err.status)) {
+              this.coursesForYou = []
+            }
+          }
+        )
+      }
+    }
+  }
+  formatForYouCourses(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+
+    res.forEach((key: any) => {
+      myCourseObject = {
+        identifier: key.course_id,
+        appIcon: key.course_appIcon,
+        thumbnail: key.course_thumbnail,
+        name: key.course_name,
+        sourceName: key.course_sourceName,
+        issueCertification: key.course_issueCertification
+      }
+
+      myCourse.push(myCourseObject)
+
+    })
+
+    this.coursesForYou = myCourse
   }
   setCompetencyConfig(data: any) {
     if (data) {
@@ -382,8 +475,14 @@ export class MobileDashboardComponent implements OnInit {
       case 'topCertifiedCourses':
         this.showAllTopCertifiedCourses = !this.showAllTopCertifiedCourses
         break
+      case 'ForYouCourses':
+        this.showcoursesForYouCourses = !this.showcoursesForYouCourses
+        break
       case 'cneCourses':
         this.showAllCneCourses = !this.showAllCneCourses
+        break
+      case 'coursesForUP':
+        this.showAllCoursesForUP = !this.showAllCoursesForUP
         break
     }
   }
@@ -430,6 +529,7 @@ export class MobileDashboardComponent implements OnInit {
           preferences: {
             language: lang,
           },
+          profileLocation: 'sphere-web/mobile-dashboard',
           osName: userAgent.OS,
           browserName: userAgent.browserName,
           userCookie,

@@ -2,6 +2,8 @@ import { NgModule } from '@angular/core'
 import { Routes, RouterModule } from '@angular/router'
 import { SearchRootComponent } from './routes/search-root/search-root.component'
 import { LearningComponent } from './routes/learning/learning.component'
+import { ViewAllComponent } from './routes/view-all/view-all.component'
+
 // import { KnowledgeComponent } from './routes/knowledge/knowledge.component'
 // import { ProjectComponent } from './routes/project/project.component'
 // import { SocialComponent6 } from './routes/social/social.component'
@@ -39,6 +41,18 @@ const routes: Routes = [
     resolve: {
       pageData: PageResolve,
     },
+  },
+  {
+    path: 'topCourse',
+    component: ViewAllComponent,
+    data: {
+      pageType: 'topCourse',
+      pageKey: 'toc',
+    },
+    resolve: {
+      pageData: PageResolve,
+      content: PageResolve,
+    }
   },
   {
     path: 'learningJourneys',

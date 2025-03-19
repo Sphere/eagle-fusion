@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -25,6 +25,7 @@ export class WebDashboardComponent implements OnInit {
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   userData: any
+  @Input() isEkshamata: any
   dataCarousel: any = [
     {
       "title": "Check out courses with CNE Hours",
@@ -41,11 +42,14 @@ export class WebDashboardComponent implements OnInit {
       "bg-color": "#469788;;"
     }
   ]
+  bannerFirstImage: any
+  bannerSecondImage: any
   userId: any
   currentSlideIndex = 0;
   currentIndex = 0;
   public intervalId: any
   lang: any = 'en'
+  domain!: any
   constructor(
     public router: Router,
     public dialog: MatDialog,
@@ -53,6 +57,7 @@ export class WebDashboardComponent implements OnInit {
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
   ) {
+
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
@@ -62,6 +67,17 @@ export class WebDashboardComponent implements OnInit {
     // this.lang = this.configSvc!.unMappedUser
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
+    if (this.isEkshamata) {
+      this.domain = window.location.hostname
+
+      console.log("yes here", this.isEkshamata)
+      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+        console.log("yes here2 ", this.configSvc.hostedInfo)
+        this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
+        this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
+        console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+      }
+    }
     if (this.configSvc &&
       this.configSvc.unMappedUser &&
       this.configSvc.unMappedUser.profileDetails &&

@@ -1,7 +1,6 @@
 @import 'ws-common';
 @import 'ws-mixins';
 
-
 .login-page-content {
   box-sizing: border-box;
   // padding: $size-m;
@@ -28,14 +27,21 @@
   }
 
   @include breakpoint-xs {
-    max-width: 90%;
+    max-width: 100%;
     margin: auto;
+    margin: 0px !important;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 40px 40px 0px 0px;
+    display: block;
+    // position: relative;
+    // top: -333px;
+    background: #FFFFFF;
   }
 }
 
 .login-card {
   margin: 0;
-  padding: 0px 20px 30px 20px;
+  padding: 0px 20px 0px 30px;
   color: #000;
   font-size: 14px;
   line-height: 17px;
@@ -50,10 +56,57 @@
 
 .iconPosition1 {
   position: absolute;
-  right: -18px;
+  // right: -18px;
+  right: 5px;
   top: 10px;
 }
 
+.text-success {
+  color: green; /* Change to your preferred success color */
+}
+
+::ng-deep .mat-form-field-underline {
+  display: none;
+}
+::ng-deep .mat-error {
+    padding: 0px 0px 10px 0px  !important;
+    margin-bottom: 5px !important;
+}
+::ng-deep .text-danger .mat-error {
+  padding-left: 0px !important;
+}
+::ng-deep .mat-form-field-subscript-wrapper{
+  padding-left: 0px !important;
+}
+.field-edit-width{
+  width: 100%;
+
+}
+.eye-icon{
+  background-color: #FFFFFF;
+  border: none;
+}
+::ng-deep.mat-form-field-infix{
+  display: flex !important;
+}
+::ng-deep .mat-form-field-flex{
+    box-shadow: 0px 0px 4px 0px #00000026;
+    background: #FFFFFF !important;
+}
+.btm-block-img{
+      position: absolute;
+    bottom: 0px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    z-index: 0000;
+}
+.btm-bg{
+  width: 216px;
+  height: 66px;
+}
 a {
   color: #000 !important;
 }
@@ -63,7 +116,7 @@ a {
 }
 
 .next-button {
-  margin-top: 45px;
+  margin-top: 0px;
   width: 35%;
   height: 38px;
   background: #1C5D95;
@@ -73,6 +126,8 @@ a {
   font-size: 16px;
   line-height: 19px;
   cursor: pointer;
+  // z-index: 9999;
+  position: relative;
 }
 
 .next-button:disabled {
@@ -85,8 +140,109 @@ a {
   text-align: right;
   margin: 1rem 0;
 }
+@media screen and (max-height: 700px) {
+  /* Adjust the height for mobile screens */
+  .nav-bar-bg1 {
+    height: 65px !important; /* Set the height to 60px */
+  }
+  .nav-bar-bg {
+    height: 266px !important; /* Set the height to 266px */
+  }
+}
 
 @media screen and (max-width:600px) {
+  .z-btn{
+  z-index: 9999;
+}
+  .login-page-content {
+     max-width: 100%;
+    margin: auto;
+    margin: 0px !important;
+    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 40px 40px 0px 0px;
+    display: block;
+
+}
+    .top-blue-color{
+
+    background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
+}
+.btm-blue-color{
+      background: linear-gradient(180deg, #e7f5e9 45%, #ffffff 118.46%, #FFFCC8 108.57%, #F9F3E8 98.36%);
+
+}
+  .top-block{
+ padding: 20px;
+ align-items: center;
+  }
+  .help-btn{
+        display: flex;
+        /* justify-content: space-between; */
+        gap: 12px;
+        width: 75px;
+        height: 36px;
+        color: #2E6491;
+        border-radius: 63px;
+        border: 1px 0px 0px 0px;
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 16.41px;
+        /* text-align: left; */
+        border: 1px solid #2E6491;
+        padding: 8px;
+  }
+.info-text{
+  font-family: Roboto;
+font-size: 16px;
+font-weight: 400;
+line-height: 24px;
+letter-spacing: -0.02em;
+text-align: left;
+
+}
+
+.nav-bar-bg {
+  display: flex;
+  flex-direction: column;
+  height: 300px;
+  gap: 0px;
+  opacity: 1; /* Ensure the nav bar is visible */
+  background:  url('../../../fusion-assets/icons/ocean_themed_gradient_blur_background_0509 2.png');
+  background-size: cover; /* Adjust as needed */
+  align-items: baseline;
+}
+
+.nav-bar-bg1{
+  display: flex;
+  flex-direction: column;
+  height: 100px;
+  gap: 0px;
+  background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
+  align-items: baseline;
+}
+.lang-top-bg-block{
+  display: flex;
+  justify-content: center;
+  width: 100% !important;
+}
+.btm-bg{
+  width: 218px;
+height: 66px;
+top: 574px;
+left: 71px;
+gap: 0px;
+
+}
+.lang-top-bg{
+  width: 218px;
+height: 172.29px;
+top: 80px;
+left: 71px;
+gap: 0px;
+
+}
+
   .input-content {
     width: 100%;
   }

@@ -10,6 +10,9 @@ import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { appNavBarService } from 'src/app/component/app-nav-bar/app-nav-bar.service'
+import { LocalStorageService } from '../../../../../../src/app/services/local-storage.service'
+import { Events } from '../../../../../../src/app/routes/notification/events'
+// import { LocalStorageService } from "../../services/local-storage.service"
 
 export const typeMap = {
   cardFull: 'card-full',
@@ -53,6 +56,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   private pinnedAppsChangeSubs?: Subscription
   private navigationSubs?: Subscription
   currentText = ''
+  numberOfNotification: any
   constructor(
     private events: EventService,
     private configurationsSvc: ConfigurationsService,
@@ -63,7 +67,9 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     // private tour: CustomTourService,
     private searchApi: SearchApiService,
     private signupService: SignupService,
-    public navOption: appNavBarService
+    public navOption: appNavBarService,
+    public storage: LocalStorageService,
+    private event: Events,
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -118,6 +124,13 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       } else {
         this.currentText = 'Search'
       }
+    }
+    else if (window.location.href.includes('notification')) {
+      if (window.location.href.includes('/hi/notification')) {
+        this.currentText = 'अधिसूचना'
+      } else {
+        this.currentText = 'Notification'
+      }
     } else {
       this.currentText = ''
     }
@@ -162,6 +175,10 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         let url = url1 === 'hi' ? '/page/home' : 'page/home'
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
       }
+    } else if (text.name === 'अधिसूचना' || text.name === 'Notification') {
+      this.currentText = text.name
+      let url = url1 === 'hi' ? '/notification' : 'notification'
+      location.href = `${url3}${url1}${url}`
     } else if (text.name === 'Competency' || text.name === "योग्यता") {
       this.currentText = text.name
       let result = await this.signupService.getUserData()
@@ -243,7 +260,11 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         this.isSashakth = false
       }
     }
-
+    const count = this.storage.getNumberOfNotifications()
+    this.numberOfNotification = (count > 1) ? '1+' : (count > 0 ? '1' : '')
+    this.event.subscribe('notificationCountUpdated', (data) => {
+      this.numberOfNotification = (data > 1) ? '1+' : (data > 0 ? '1' : '')
+    })
     this.pinnedAppsChangeSubs = this.configurationsSvc.pinnedApps.subscribe(pinnedApps => {
       this.isPinned = Boolean(
         this.widgetData.actionBtn && pinnedApps.has(this.widgetData.actionBtn.id),

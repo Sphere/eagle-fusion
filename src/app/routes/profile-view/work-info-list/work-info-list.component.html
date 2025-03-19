@@ -82,7 +82,7 @@
     <div *ngIf="professionOtherField">
       <div class="form-group input-box">
         <select id="selectBackground" formControlName="selectBackground" class="form-control select-box"
-          (change)="chooseBackground($event.target.value)" required>
+          (change)="chooseBackground($event.target.value)">
           <option [value]="null" i18n disabled>Select Background</option>
           <option value="Mother/Family Members">Mother/Family Members</option>
           <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>
@@ -191,7 +191,7 @@
       <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['courseName'].hasError('pattern')">
         {{errorMsg}}</mat-error>
       <div class="form-group mt-4 input-box">
-        <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name"
+        <input type="text" class="form-control" formControlName="instituteName" placeholder="Institution Name*"
           i18n-placeholder
           (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
       </div>
@@ -220,8 +220,9 @@
 
     </ng-container>
     <!-- Background: Faculty -->
-    <div>
-      <button type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn" i18n>Save</button>
+    <div *ngIf="!isEkshamata">
+      <button [disabled]="personalDetailForm?.invalid" type="submit" (click)="onSubmit(personalDetailForm)"
+        class="save-btn" i18n>Save</button>
     </div>
   </form>
   <input type="hidden" i18-value i18-aria-value aria-value="User profile details update successful"

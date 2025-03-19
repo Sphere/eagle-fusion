@@ -16,6 +16,11 @@ import {
 import { NsContent } from '../_services/widget-content.model'
 import { WidgetContentService } from '../_services/widget-content.service'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
+import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-popup-component'
+import { MatDialog } from '@angular/material/dialog'
+import { interval, Subscription } from 'rxjs'
+import { ValueService } from '@ws-widget/utils'
+import 'videojs-markers'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
@@ -47,12 +52,40 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   AfterViewInit,
   OnDestroy,
   NsWidgetResolver.IWidgetData<IWidgetsPlayerMediaData> {
-  @Input() widgetData!: IWidgetsPlayerMediaData
+  @Input() widgetData!: any
   @ViewChild('videoTag', { static: false }) videoTag!: ElementRef<HTMLVideoElement>
   @ViewChild('realvideoTag', { static: false }) realvideoTag!: ElementRef<HTMLVideoElement>
   private player: videoJs.Player | null = null
   private dispose: (() => void) | null = null
   contentData: any
+  popupShown = false;
+  progressData: any
+  videoQuestions!: {
+    timestamp: { hours: 0, minutes: 0, seconds: 0 },
+    timestampInSeconds: 0,
+    question: [ // Ensure 'question' is used here
+      {
+        text: '',
+        options: [{ text: '', optionId: '', isCorrect: false, answerInfo: '' }]
+      }
+    ]
+  }
+  videojsEventNames = {
+    disposing: 'disposing',
+    ended: 'ended',
+    exitfullscreen: 'exitfullscreen',
+    fullscreen: 'fullscreen',
+    mute: 'mute',
+    pause: 'pause',
+    play: 'play',
+    ready: 'ready',
+    seeked: 'seeked',
+    unmute: 'unmute',
+    volumechange: 'volumechange',
+    loadeddata: 'loadeddata',
+  }
+  videoStates: { [videoId: string]: { popupTriggered: any, currentMilestone: any } } = {};
+  popupTriggered = false
 
   constructor(
     private eventSvc: EventService,
@@ -62,6 +95,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private telemetrySvc: TelemetryService,
     public viewerDataSvc: ViewerDataService,
+    private dialog: MatDialog,
+    private valueSvc: ValueService,
+
   ) {
     super()
     // console.log(window.innerWidth)
@@ -73,15 +109,26 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     // }
   }
 
-  ngOnInit() { }
+  ngOnInit() { console.log("videoDatas", this.widgetData, this.contentData) }
+
 
   async ngAfterViewInit() {
+    await this.getCurrentTime()
+    console.log("Initial resume point:", this.widgetData.resumePoint)
     this.widgetData = {
       ...this.widgetData,
     }
-    if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
-      await this.fetchContent()
+    // if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
+    await this.fetchContent()
+    console.log("this.widgetData.videoQuestions", this.widgetData)
+    //enable below code to show popup questions
+    if (this.videoTag) {
+      this.addTimeUpdateListener(this.videoTag.nativeElement)
     }
+    if (this.realvideoTag) {
+      this.addTimeUpdateListener(this.realvideoTag.nativeElement)
+    }
+
     if (this.widgetData.url) {
       if (this.widgetData.isVideojs) {
         this.initializePlayer()
@@ -90,6 +137,116 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
   }
+
+  async getCurrentTime() {
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+      this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+    const req: NsContent.IContinueLearningDataReq = {
+      request: {
+        userId,
+        batchId,
+        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+        contentIds: [],
+        fields: ['progressdetails'],
+      },
+    }
+    const data = await this.contentSvc.fetchContentHistoryV2(req).toPromise()
+    if (data && data.result && data.result.contentList.length) {
+      const contentData = data.result.contentList.find((obj: any) => obj.contentId === this.widgetData.identifier)
+      if (contentData && contentData.progressdetails && contentData.progressdetails.current) {
+        this.progressData = contentData
+        this.widgetData.resumePoint = contentData.progressdetails.current
+        console.log("Updated resume point:", this.widgetData.resumePoint)
+      }
+    }
+  }
+
+  addTimeUpdateListener(videoElement: HTMLVideoElement): void {
+    const player = videoJs(videoElement, {
+      ...videoJsOptions,
+      poster: this.widgetData.posterImage,
+      autoplay: this.widgetData.autoplay || false,
+    })
+
+    const videoId = videoElement.id
+    this.videoStates[videoId] = {
+      popupTriggered: new Set<number>(), // Track triggered milestones
+      currentMilestone: null,
+    }
+
+    // Handle play event
+    player.on(this.videojsEventNames.play, () => {
+      this.openFullscreen(player) // Open video in fullscreen mode
+      const intervalId = interval(500).subscribe(() => {
+        const currentTimeInSeconds = Math.round(player.currentTime())
+        if (this.widgetData.videoQuestions && this.widgetData.videoQuestions.length > 0) {
+          for (const milestone of this.widgetData.videoQuestions) {
+            // Check if popup has already been triggered for this milestone
+            if (
+              currentTimeInSeconds === milestone.timestampInSeconds &&
+              !this.videoStates[videoId].popupTriggered.has(milestone.timestampInSeconds)
+            ) {
+              player.pause()
+              console.log("Popup triggered for milestone:", milestone.timestampInSeconds)
+              this.videoStates[videoId].popupTriggered.add(milestone.timestampInSeconds)
+              this.videoStates[videoId].currentMilestone = milestone.timestampInSeconds
+              this.openPopup(milestone.question, player, intervalId)
+              return // Exit loop after triggering popup
+            }
+          }
+        }
+      })
+    })
+
+    // Handle timeupdate for user seeking
+    player.on('timeupdate', () => {
+      const currentTimeInSeconds = Math.round(player.currentTime())
+      if (this.widgetData.videoQuestions) {
+        for (const milestone of this.widgetData.videoQuestions) {
+          // Reset popupTriggered if user seeks before the milestone
+          if (currentTimeInSeconds < milestone.timestampInSeconds) {
+            this.videoStates[videoId].popupTriggered.delete(milestone.timestampInSeconds)
+          }
+        }
+      }
+    })
+  }
+
+  openFullscreen(player: any): void {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      if (isXSmall)
+        if (player.requestFullscreen) {
+          player.requestFullscreen()
+        } else if ((player as any).webkitRequestFullscreen) { // Safari
+          (player as any).webkitRequestFullscreen()
+        } else if ((player as any).msRequestFullscreen) { // IE/Edge
+          (player as any).msRequestFullscreen()
+        }
+    })
+
+  }
+  openPopup(questions: any, videoElement: any, intervalId: Subscription): void {
+    const confirmdialog = this.dialog.open(PlayerVideoPopupComponent, {
+      width: '600px',
+      data: { questions },
+    })
+
+    if (confirmdialog) {
+      confirmdialog.afterClosed().subscribe(() => {
+        console.log("Popup closed")
+        this.dialog.closeAll()
+        videoElement.play()
+        intervalId.unsubscribe() // Stop the current interval
+        this.addTimeUpdateListener(videoElement) // Resume the listener if needed
+        this.onTimeUpdate()
+      })
+    }
+  }
+
   ngOnDestroy() {
     if (this.player) {
       this.player.dispose()
@@ -99,6 +256,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     }
   }
   private initializeVPlayer() {
+    console.log("initializeVPlayer")
     const dispatcher: telemetryEventDispatcherFunction = event => {
       if (this.widgetData.identifier) {
         this.eventSvc.dispatchEvent(event)
@@ -177,6 +335,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   }
 
   private initializePlayer() {
+    console.log("initializePlayer")
+
     const dispatcher: telemetryEventDispatcherFunction = event => {
       if (this.widgetData.identifier) {
         this.eventSvc.dispatchEvent(event)
@@ -248,6 +408,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         async result => {
           this.contentData = await result['result']['contentList'].find((obj: any) => obj.contentId === identifier)
           const temp = data.current
+          console.log("current progress", data)
           const latest = parseFloat(temp[temp.length - 1] || '0')
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
@@ -339,7 +500,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       this.widgetData,
       this.widgetData.mimeType,
     )
-
+    console.log("this.widgetData.resumePoint ", this.widgetData.resumePoint)
     this.player = initObj.player
     this.dispose = initObj.dispose
     initObj.player.ready(() => {
@@ -362,35 +523,65 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     })
   }
-  // onTimeUpdate() {
-  //   const percentage = (this.videoTag.nativeElement.currentTime / this.videoTag.nativeElement.duration) * 100
+  onTimeUpdate() {
+    const percentage = (this.videoTag.nativeElement.currentTime / this.videoTag.nativeElement.duration) * 100
+    if (this.progressData.completionPercentage < percentage) {
+      const data = {
+        current: this.videoTag.nativeElement.currentTime,
+        max_size: this.videoTag.nativeElement.duration,
+        mime_type: this.widgetData.mimeType,
+      }
 
-  //   const data = {
-  //     current: this.videoTag.nativeElement.currentTime,
-  //     max_size: this.videoTag.nativeElement.duration,
-  //     mime_type: this.widgetData.mimeType,
-  //   }
-
-  //   const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-  //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-  //   const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-  //     this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
-  //   if (this.widgetData.identifier) {
-  //     if (percentage >= 98) {
-  //       data.current = data.max_size;
-  //       this.viewerSvc
-  //         .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId)
-  //    }
-  //   }
-  // }
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
+        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
+        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      if (percentage >= 98) {
+        data.current = data.max_size
+      }
+      if (percentage <= 98 && this.widgetData.identifier) {
+        this.viewerSvc
+          .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId).subscribe((data: any) => {
+            const result = data.result
+            result['type'] = 'Video'
+            this.contentSvc.changeMessage(result)
+          })
+      }
+    }
+  }
   async fetchContent() {
-    const content = await this.contentSvc
-      .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
-      .toPromise()
-    if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
-      this.widgetData.url = content.artifactUrl
-      this.widgetData.posterImage = content.appIcon
-      await this.contentSvc.setS3Cookie(this.widgetData.identifier || '').toPromise()
+    try {
+      const content = await this.contentSvc
+        .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
+        .toPromise()
+
+      if (content.result && content.result.content && content.result.content.videoQuestions) {
+        const videoQuestions = content.result.content.videoQuestions
+        console.log("videoQuestions", videoQuestions)
+
+        if (videoQuestions.length > 0) {
+          try {
+            this.widgetData.videoQuestions = JSON.parse(videoQuestions)
+          } catch (error) {
+            console.error("Error parsing videoQuestions JSON:", error)
+            this.widgetData.videoQuestions = []
+          }
+        } else {
+          this.widgetData.videoQuestions = []
+        }
+      }
+
+      console.log("this.widgetData.videoQuestions", this.widgetData.videoQuestions)
+
+      if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
+        this.widgetData.url = content.artifactUrl
+        this.widgetData.posterImage = content.appIcon
+        await this.contentSvc.setS3Cookie(this.widgetData.identifier || '').toPromise()
+      }
+    } catch (error) {
+      console.error("Error fetching content or parsing videoQuestions:", error)
+      this.widgetData.videoQuestions = [] // Set to an empty array in case of error
     }
   }
 }
+

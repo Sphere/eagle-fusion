@@ -1,5 +1,5 @@
 import { Component, OnInit, Output, EventEmitter, Input } from '@angular/core'
-import { MatCalendarCellCssClasses } from '@angular/material'
+import { MatCalendarCellCssClasses } from '@angular/material/datepicker'
 
 @Component({
   selector: 'ws-app-calendar',
@@ -26,7 +26,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  constructor() {}
+  constructor() { }
 
   ngOnInit() {
     this.maxDate.setTime(new Date().getTime() - 86400000)

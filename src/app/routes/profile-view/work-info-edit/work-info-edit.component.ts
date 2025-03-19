@@ -4,7 +4,8 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 // import * as _ from 'lodash'
-import { MatSnackBar, DateAdapter, MAT_DATE_FORMATS } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import { constructReq } from '../request-util'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
@@ -121,18 +122,20 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     let userAgent = this.UserAgentResolverService.getUserAgent()
     let userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/work-info-edit'
+
     const obj = {
+
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
 
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-edit', },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { EventService } from '../../services/event.service'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { ViewUsersComponent } from './view-users/view-users.component'
 import { IUserDetails } from '../../interfaces/user-details.model'
 import { ValueService } from '@ws-widget/utils'

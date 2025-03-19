@@ -9,7 +9,7 @@ import { MobileAppsService } from '../../../../../../../src/app/services/mobile-
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
 // import { Interval, Observable, Subscription } from 'rxjs'
 import { ViewerUtilService } from '../../../../../../../project/ws/viewer/src/lib/viewer-util.service'
-import * as dayjs from 'dayjs'
+import dayjs from 'dayjs'
 @Component({
   selector: 'viewer-plugin-html',
   templateUrl: './html.component.html',

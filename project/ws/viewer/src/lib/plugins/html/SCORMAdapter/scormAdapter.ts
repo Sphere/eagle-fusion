@@ -119,7 +119,7 @@ export class SCORMAdapterService {
     if (data) {
       return data
     }
-    return
+    return ''
   }
 
 

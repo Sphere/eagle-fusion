@@ -19,7 +19,9 @@ import { BtnSettingsService } from '@ws-widget/collection'
 import { FormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
-import { MatSnackBar, MatSelectChange, MatTabChangeEvent } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatSelectChange } from '@angular/material/select'
+import { MatTabChangeEvent } from '@angular/material/tabs'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
@@ -236,6 +238,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
           osName: userAgent.OS,
           browserName: userAgent.browserName,
           userCookie,
+          profileLocation: 'sphere-web/settings',
         }
         const userdata = Object.assign(user['profileDetails'], obj)
 
@@ -243,6 +246,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
         const reqUpdate = {
           request: {
             userId: userid,
+            profileLocation: 'sphere-web/settings',
             profileDetails: userdata,
           },
         }

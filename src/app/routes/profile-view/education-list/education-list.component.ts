@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import get from 'lodash/get'
@@ -15,6 +15,8 @@ export class EducationListComponent implements OnInit {
   showbackButton = false
   showLogOutIcon = false
   trigerrNavigation = true
+  @Input() isEkshamata: boolean = false
+
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,

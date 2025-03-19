@@ -3,7 +3,11 @@ import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@ang
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { Subscription, Observable } from 'rxjs'
 import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators'
-import { MatSnackBar, MatChipInputEvent, DateAdapter, MAT_DATE_FORMATS, MatDialog, MatTabGroup } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatChipInputEvent } from '@angular/material/chips'
+import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
+import { MatDialog } from '@angular/material/dialog'
+import { MatTabGroup } from '@angular/material/tabs'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../services/format-datepicker'
 import { ImageCropComponent } from '@ws-widget/utils/src/public-api'
 import { IMAGE_MAX_SIZE, IMAGE_SUPPORT_TYPES } from '@ws/author/src/lib/constants/upload'
@@ -813,7 +817,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       skillAquiredDesc: _.get(data, 'skills.additionalSkills') || '',
       certificationDesc: _.get(data, 'skills.certificateDetails') || '',
     },
-                                   {
+      {
         emitEvent: true,
       })
     /* tslint:enable */
@@ -897,6 +901,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         osName: this.userProfileData.personalDetails.osName ? this.userProfileData.personalDetails.osName : userAgent.OS,
         browserName: this.userProfileData.personalDetails.browserName ? this.userProfileData.personalDetails.browserName : userAgent.browserName,
         userCookie: this.userProfileData.personalDetails.userCookie ? this.userProfileData.personalDetails.userCookie : userCookie,
+        profileLocation: 'sphere-web/user-profile-on-submit',
       },
       academics: this.getAcademics(form),
       employmentDetails: {
@@ -1065,7 +1070,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private getAcademics(form: any) {
-    const academics = []
+    const academics: any = []
     academics.push(this.getClass10(form))
     academics.push(this.getClass12(form))
     academics.push(...this.getDegree(form, 'GRADUATE'))
@@ -1149,7 +1154,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: {
+          ...profileRequest, profileLocation: 'sphere-web/user-profile-on-submit'
+        },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(

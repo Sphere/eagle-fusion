@@ -11,7 +11,7 @@ import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/c
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 import { appNavBarService } from './app-nav-bar.service'
 
 @Component({
@@ -34,6 +34,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   instanceVal = ''
   btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
   appIcon: SafeUrl | null = null
+  orgLogo: SafeUrl | null = null
   appBottomIcon?: SafeUrl
   primaryNavbarBackground: Partial<NsPage.INavBackground> | null = null
   primaryNavbarConfig: NsInstanceConfig.IPrimaryNavbarConfig | null = null
@@ -55,6 +56,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   hideSearch = false
   showNavLinkPage = true
   langPresent: boolean = false
+  domain!: string
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -98,6 +100,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false
     }
+    this.hideSearch = false
     this.allowAuthor = this.accessService.hasRole(CREATE_ROLE)
     this.router.events.subscribe((e: Event) => {
       if (e instanceof NavigationEnd) {
@@ -159,6 +162,13 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         // this.popupTour = this.tourService.createPopupTour()
       }
     })
+    this.domain = window.location.hostname
+
+    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+      console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+      this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
+      this.orgLogo = this.configSvc.hostedInfo?.logo
+    }
   }
 
   createAcct() {

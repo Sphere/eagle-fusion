@@ -15,6 +15,7 @@ import { FeaturesModule } from './routes/features/features.module'
 // import { MobileAppHomeComponent } from './routes/public/mobile-app/components/mobile-app-home.component'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
 import { PublicHomeComponent } from './routes/public/public-home/public-home.component'
+// import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
 import { PublicTocComponent } from './routes/public/public-toc/public-toc.component'
 import { PublicTocOverviewComponent } from './routes/public/public-toc-overview/public-toc-overview.component'
 import { PublicContactComponent } from './routes/public/public-contact/public-contact.component'
@@ -59,16 +60,34 @@ import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
+import { NotificationsComponent } from './routes/notification/notification.component'
+
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
+let domain = window.location.hostname
+// this.domain = window.location.hostname
+
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'public/home',
     pathMatch: 'full',
     data: { title: 'Home - Aastrika Sphere' },
+  },
+  {
+    path: 'public/home',
+    component: PublicHomeComponent,
+    data: {
+      title: domain.includes('ekshamata') ? 'Home - Ekshamata' : 'Home - Aastrika Sphere',
+      pageType: 'public',
+      pageKey: 'id',
+      isPublic: true,
+    },
+    resolve: {
+      pageData: PageResolve,
+    },
   },
   {
     path: 'aboutpoppage',
@@ -248,6 +267,12 @@ const routes: Routes = [
     path: 'app/user/my_courses', component: MyCoursesComponent,
     canActivate: [GeneralGuard]
   },
+  {
+    path: 'notification',
+    component: NotificationsComponent,
+    canActivate: [GeneralGuard],
+    data: { animation: 'notification' }
+  },
   // {
   //   path: 'app/video-player',
   //   component: MobileVideoPlayerComponent,
@@ -385,19 +410,6 @@ const routes: Routes = [
     path: 'organisations',
     loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
     canActivate: [GeneralGuard],
-  },
-  {
-    path: 'public/home',
-    component: PublicHomeComponent,
-    data: {
-      title: 'Home - Aastrika Sphere',
-      pageType: 'public',
-      pageKey: 'id',
-      isPublic: true,
-    },
-    resolve: {
-      pageData: PageResolve,
-    },
   },
   {
     path: 'public/organisations/home',

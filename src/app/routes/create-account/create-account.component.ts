@@ -1,12 +1,16 @@
 import { Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
 import { Router } from '@angular/router'
 import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 import { forkJoin } from 'rxjs/internal/observable/forkJoin'
 import { mustMatch } from '../password-validator'
 import { LoaderService } from '@ws/author/src/public-api'
+import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
+import { Observable } from 'rxjs'
 
 @Component({
   selector: 'ws-create-account',
@@ -46,15 +50,23 @@ export class CreateAccountComponent implements OnInit {
   langPage: boolean = true
   createAccount: boolean = false
   confirmPassword: boolean = false
+  passwordLengthImage: string = '../../../fusion-assets/icons/gray_dot.pwd.png'
+  passwordUppercaseImage: string = '../../../fusion-assets/icons/gray_dot.pwd.png'
+  passwordNumberImage: string = '../../../fusion-assets/icons/gray_dot.pwd.png'
+  passwordSpecialCharImage: string = '../../../fusion-assets/icons/gray_dot.pwd.png'
+  isXSmall$: Observable<boolean>
   constructor(
     private spherFormBuilder: FormBuilder,
-    private snackBar: MatSnackBar,
+    public snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router,
     public dialog: MatDialog,
     private loader: LoaderService,
+    public configSvc: ConfigurationsService,
+    private valueSvc: ValueService,
 
   ) {
+    this.isXSmall$ = this.valueSvc.isXSmall$
     if (localStorage.getItem('preferedLanguage')) {
       let storedLanguage: any = localStorage.getItem('preferedLanguage')
       // localStorage.removeItem('preferedLanguage')
@@ -92,7 +104,29 @@ export class CreateAccountComponent implements OnInit {
   onPopState() {
     window.location.href = '/public/home'
   }
+  redirect(val: string) {
+    if (val === 'lang') {
+      window.location.href = '/public/home'
+    } else if (val === 'createAccount') {
+      this.langPage = true
+      this.createAccount = false
+      this.confirmPassword = false
+      this.otpPage = false
+    } else if (val === 'confirmPassword') {
+      this.langPage = false
+      this.createAccount = true
+      this.confirmPassword = false
+      this.otpPage = false
+    } else {
+      this.createAccount = true
+      this.confirmPassword = false
+      this.otpPage = false
 
+    }
+  }
+  homePage() {
+    location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+  }
   toggle1() {
     this.hide1 = !this.hide1
     if (this.hide1) {
@@ -128,27 +162,90 @@ export class CreateAccountComponent implements OnInit {
   }
 
   ngOnInit() {
-    if (localStorage.getItem(`preferedLanguage`) || location.href.includes('/hi/')) {
-      const reqObj = localStorage.getItem(`preferedLanguage`) || ''
+    this.updatePasswordValidationImages()
+    let pwd = this.createAccountWithPasswordForm.get('password')
+    if (pwd) {
+      pwd.valueChanges.subscribe(() => {
+        this.updatePasswordValidationImages()
+      })
+    }
+    if (localStorage.getItem('preferedLanguage') || location.href.includes('/hi/')) {
+      const reqObj = localStorage.getItem('preferedLanguage') || ''
       this.preferedLanguage = JSON.parse(reqObj)
     }
+
     this.emailOrMobileValueChange()
   }
+
+  updatePasswordValidationImages() {
+    let pwd = this.createAccountWithPasswordForm.get('password')
+    let password = pwd ? pwd.value : ''
+    if (password) {
+      this.passwordLengthImage = password.length >= 8 ? '../../../fusion-assets/icons/pwd-tick.png' : '../../../fusion-assets/icons/pwd-cross.png'
+      this.passwordUppercaseImage = /[A-Z]/.test(password) ? '../../../fusion-assets/icons/pwd-tick.png' : '../../../fusion-assets/icons/pwd-cross.png'
+      this.passwordNumberImage = /\d/.test(password) ? '../../../fusion-assets/icons/pwd-tick.png' : '../../../fusion-assets/icons/pwd-cross.png'
+      this.passwordSpecialCharImage = /[\W_]/.test(password) ? '../../../fusion-assets/icons/pwd-tick.png' : '../../../fusion-assets/icons/pwd-cross.png'
+    }
+
+  }
+
   langChanged() {
     this.createAccount = true
     this.langPage = false
   }
-  optionSelected() {
-    let selectedOption = this.loginSelected
-    if (selectedOption && selectedOption === "password") {
-      this.createAccount = false
-      this.confirmPassword = true
-    } else {
-      this.createAccount = false
-      this.confirmPassword = false
-      this.onSubmit(this.createAccountWithPasswordForm, this.createAccountForm)
-    }
+  help() {
+    this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
+      panelClass: 'language-modal',
+      width: '345px',
+      height: '335px',
+      data: {
+        selected: "help",
+      },
+    })
+  }
 
+  optionSelected() {
+    let firstname = this.createAccountForm.controls.firstname.value
+    let lastname = this.createAccountForm.controls.lastname.value
+    this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
+      panelClass: 'language-modal',
+      width: '312px',
+      height: '186px',
+      data: {
+        selected: "name",
+        details: {
+          firstname,
+          lastname,
+        }
+      }
+    })
+
+
+
+
+    this.langDialog.afterClosed().subscribe((data: any) => {
+      if (data === "confirm") {
+        let selectedOption = this.loginSelected
+        if (selectedOption && selectedOption === "password") {
+          this.createAccount = false
+          this.confirmPassword = true
+        } else {
+          this.createAccount = false
+          this.confirmPassword = false
+          this.onSubmit(this.createAccountWithPasswordForm, this.createAccountForm)
+        }
+      }
+      if (data === 'login') {
+        if (localStorage.getItem('login_url')) {
+          const url: any = localStorage.getItem('login_url')
+          window.location.href = url
+        }
+        if (localStorage.getItem('url_before_login') && this.router.url === '/public/home') {
+          localStorage.removeItem('url_before_login')
+        }
+        this.router.navigateByUrl('/public/login')
+      }
+    })
   }
 
   onSubmit(form: any, createAccount: any) {
@@ -242,6 +339,7 @@ export class CreateAccountComponent implements OnInit {
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             console.log(lang.id)
+            this.userExist()
             if (lang.id === 'hi') {
               if (err.error.msg === 'User already exists') {
                 const err = 'उपयोगकर्ता पहले से मौजूद है।'
@@ -252,6 +350,7 @@ export class CreateAccountComponent implements OnInit {
               this.openSnackbar(err.error.msg || err.error.message)
               this.uploadSaveData = false
             }
+
           } else {
             this.openSnackbar(err.error.msg || err.error.message)
             this.uploadSaveData = false
@@ -310,6 +409,7 @@ export class CreateAccountComponent implements OnInit {
           this.confirmPassword = false
           // }
           this.loader.changeLoad.next(false)
+          this.userExist()
           if (this.preferedLanguage) {
             const lang = this.preferedLanguage || ''
             if (lang.id === 'hi') {
@@ -329,6 +429,30 @@ export class CreateAccountComponent implements OnInit {
         }
       )
     }
+  }
+
+  userExist() {
+    this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
+      panelClass: 'language-modal',
+      width: '312px',
+      height: '186px',
+      data: {
+        selected: "userExist",
+      },
+    })
+
+    this.langDialog.afterClosed().subscribe((data: any) => {
+      if (data === 'login') {
+        if (localStorage.getItem('login_url')) {
+          const url: any = localStorage.getItem('login_url')
+          window.location.href = url
+        }
+        if (localStorage.getItem('url_before_login') && this.router.url === '/public/home') {
+          localStorage.removeItem('url_before_login')
+        }
+        this.router.navigateByUrl('/public/login')
+      }
+    })
   }
   eventTrigger(p1: string, p2: string, form?: any) {
     console.log(form)
@@ -436,7 +560,6 @@ export class CreateAccountComponent implements OnInit {
       })
   }
   preferredLanguageChange(event: any) {
-    console.log("value: ", this.preferredLanguage)
     let value
     if (event === 'hi') {
       value = { id: 'hi', lang: 'हिंदी' }

@@ -181,7 +181,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
       this.current.push(pageNumber.toString())
     }
     if (this.iframeUrl && pageNumber === this.currentSlideNumber) {
-      return
+      return ''
     }
     if (pageNumber >= 1 && pageNumber <= this.slides.length) {
       this.currentSlideNumber = pageNumber

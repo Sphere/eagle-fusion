@@ -21,6 +21,7 @@ const storageKey = 'kc'
 })
 export class AuthKeycloakService {
   private loginChangeSubject = new ReplaySubject<boolean>(1)
+  // domain!: string
 
   constructor(
     private http: HttpClient,
@@ -63,7 +64,7 @@ export class AuthKeycloakService {
   get userId(): string | undefined {
     const kc = this.keycloakSvc.getKeycloakInstance()
     if (!kc) {
-      return
+      return ''
     }
     return (kc.tokenParsed && kc.tokenParsed.sub) || (kc.idTokenParsed && kc.idTokenParsed.sub)
   }
@@ -162,9 +163,11 @@ export class AuthKeycloakService {
       localStorage.removeItem('tocData')
       localStorage.removeItem(`userUUID`)
       localStorage.removeItem('showConformation')
+      localStorage.removeItem('loginDetailsWithToken')
       localStorage.clear()
       let url = `${document.baseURI}`
       let redirectUrl = ''
+      // this.domain= 'ekshamata'
       if (url.includes('hi')) {
         url = url.replace('hi/', '')
         redirectUrl = `${url}public/home`

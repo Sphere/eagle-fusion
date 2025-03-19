@@ -1,5 +1,6 @@
 import { Component, OnInit, Inject, ViewChild, ElementRef } from '@angular/core'
-import { MAT_DIALOG_DATA, MatSnackBar } from '@angular/material'
+import { MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { IWsLeaderMailMeta } from '../../model/leadership.model'
 import { NgForm } from '@angular/forms'
 import { IWsEmailTextRequest, IWsEmailResponse } from '../../model/leadership-email.model'
@@ -33,7 +34,7 @@ export class SendMailDialogComponent implements OnInit {
     }
   }
 
-  ngOnInit() {}
+  ngOnInit() { }
 
   sendMail(form: NgForm) {
     this.mailSendInProgress = true

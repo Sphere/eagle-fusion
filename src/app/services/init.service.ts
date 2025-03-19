@@ -2,7 +2,7 @@ import { APP_BASE_HREF } from '@angular/common'
 // import { retry } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
-import { MatIconRegistry } from '@angular/material'
+import { MatIconRegistry } from '@angular/material/icon'
 import { DomSanitizer } from '@angular/platform-browser'
 // import { BtnSettingsService, WidgetContentService } from '@ws-widget/collection'
 import { BtnSettingsService } from '@ws-widget/collection'
@@ -35,6 +35,7 @@ import get from "lodash/get"
 import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
 // import { retry } from 'rxjs/operators'
+import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 
 // interface IDetailsResponse {
 //   tncStatus: boolean
@@ -58,6 +59,7 @@ const endpoint = {
 })
 export class InitService {
   private baseUrl = 'assets/configurations'
+  domain: string = ''
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
@@ -68,7 +70,7 @@ export class InitService {
     private http: HttpClient,
     // private widgetContentSvc: WidgetContentService,
     //private loginResolverService: LoginResolverService,
-
+    private authSvc: AuthKeycloakService,
     @Inject(APP_BASE_HREF) private baseHref: string,
     //private router: Router,
     domSanitizer: DomSanitizer,
@@ -98,6 +100,19 @@ export class InitService {
 
   async init() {
     // this.logger.removeConsoleAccess()
+    const authenticated = await this.authSvc.initAuth()
+    const loginData = localStorage.getItem('loginDetailsWithToken')
+    if (authenticated) {
+      if (loginData) {
+        const parsedData = JSON.parse(loginData)
+        let token = parsedData.token?.access_token ? true : false
+        if (!token)
+          this.authSvc.logout()
+      } else {
+        this.authSvc.logout()
+      }
+    }
+
 
     await this.fetchDefaultConfig()
     // const authenticated = await this.authSvc.initAuth()
@@ -119,6 +134,10 @@ export class InitService {
       // await this.fetchStartUpDetails()
       if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
         await this.fetchStartUpDetails() // detail: depends only on userID
+        this.domain = window.location.hostname
+        if (this.domain.includes('ekshamata')) {
+          await this.fetchHostedConfig()
+        }
       }
 
     } catch (e) {
@@ -195,6 +214,29 @@ export class InitService {
     //     // throw new DataResponseError('COOKIE_SET_FAILURE')
     //   })
     return true
+  }
+  private async fetchHostedConfig(): Promise<any> {
+    // TODO: use the rootOrg and org to fetch the instance
+    const hostConfig = await this.http
+      .get<any>(`https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ekshamataOrgConfig.json`)
+      .toPromise()
+    if (hostConfig) {
+      if (this.configSvc.userProfile) {
+        let rootOrgId = this.configSvc.userProfile.rootOrgId
+        console.log("rootOrgId: ", rootOrgId, hostConfig)
+        const orgDetails = hostConfig.orgNames
+        // Find the matching object
+        const result = orgDetails.find(item => item.channelId === rootOrgId)
+
+        if (result) {
+          this.configSvc.hostedInfo = result
+          console.log('Channel found:', result)
+        } else {
+          console.log('Channel not found')
+        }
+      }
+    }
+    console.log("hostConfig", hostConfig)
   }
 
   private reloadAccordingToLocale() {

@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter, Input } from '@angular/core'
 // import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
@@ -7,7 +7,7 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 // import { constructReq } from '../request-util'
-import { MatSnackBar } from '@angular/material'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import get from 'lodash/get'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import * as _ from 'lodash'
@@ -51,6 +51,8 @@ export class WorkInfoListComponent implements OnInit {
   enableSubmit = false
   hideAsha = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
+  @Input() isEkshamata: boolean = false
+
   constructor(
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
@@ -93,6 +95,9 @@ export class WorkInfoListComponent implements OnInit {
         this.showLogOutIcon = false
       }
     })
+    if (this.isEkshamata) {
+      this.personalDetailForm.disable()
+    }
   }
 
   chooseBackground(data: any) {
@@ -251,9 +256,15 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   professionalChange(value: any) {
-    console.log("degree", value, this.userProfileData)
+    console.log("degree", value, this.userProfileData, this.personalDetailForm)
     // this.personalDetailForm.controls.designation.setValue(this.userProfileData.professionalDetails[0].designation)
     // this.savebtnDisable = false
+    this.personalDetailForm.controls.designation.clearValidators()
+    this.personalDetailForm.controls.orgType.clearValidators()
+    this.personalDetailForm.controls.orgOtherSpecify.clearValidators()
+
+    this.personalDetailForm.controls.orgType.setValue(null)
+    this.personalDetailForm.controls.designation.setValue(null)
     if (value === 'Healthcare Worker') {
       this.showDesignation = true
       this.orgTypeField = false
@@ -264,6 +275,9 @@ export class WorkInfoListComponent implements OnInit {
       this.HealthcareVolunteer = false
       this.Student = false
       this.Faculty = false
+      this.personalDetailForm.controls.designation.setValidators([Validators.required])
+      this.personalDetailForm.controls.orgType.setValidators([Validators.required])
+
 
     } else if (value === 'Healthcare Volunteer') {
       this.orgTypeField = false
@@ -276,6 +290,10 @@ export class WorkInfoListComponent implements OnInit {
       this.Faculty = false
 
     } else if (value === 'ASHA') {
+      this.personalDetailForm.controls.designation.setValue(null)
+      this.personalDetailForm.controls.designation.clearValidators()
+      this.personalDetailForm.controls.instituteName.clearValidators()
+      this.personalDetailForm.controls.instituteName.updateValueAndValidity()
       this.showAshaField = true
       this.HealthcareWorker = false
       this.personalDetailForm.controls.block.setValue(null)
@@ -292,11 +310,21 @@ export class WorkInfoListComponent implements OnInit {
 
       let location = this.userProfileData.professionalDetails[0].locationselect !== undefined ? this.userProfileData.professionalDetails[0].locationselect : dist
       this.personalDetailForm.controls.locationselect.setValue(location)
+      console.log("location", location)
       if (state) {
         this.http.get(this.districtUrl).subscribe((statesdata: any) => {
           statesdata.states.map((item: any) => {
             if (item.state === state) {
               this.disticts = item.districts
+              console.log('Districts:', this.disticts) // Log the districts
+
+              // Set the district if dist is available
+              if (this.disticts.includes(dist)) {
+                this.personalDetailForm.get('locationselect')?.setValue(dist)
+                console.log('Setting district:', dist) // Log the district being set
+              } else {
+                console.log('District not found:', dist) // Log if district is not found
+              }
             }
           })
         })
@@ -397,17 +425,20 @@ export class WorkInfoListComponent implements OnInit {
         profileRequest.profileReq.personalDetails.postalAddress = country + ',' + state + ',' + form.value.locationselect
       }
     }
+    profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/work-info-list'
+
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      personalDetails: profileRequest.profileReq.personalDetails,
+
+      personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: profileRequest,
+        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-list', },
       },
     }
     console.log('request update', reqUpdate, get(form.value, 'profession'))

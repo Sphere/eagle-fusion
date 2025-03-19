@@ -12,7 +12,7 @@ import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 import { SubapplicationRespondService } from '../../../../utils/src/lib/services/subapplication-respond.service'
 // import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 
 @Component({
   selector: 'ws-widget-page',

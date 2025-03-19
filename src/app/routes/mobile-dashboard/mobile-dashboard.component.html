@@ -1,14 +1,45 @@
 <div class="content">
-  <p class="banner-heading text-2xl px-2 py-2 text-base text-capitalize"><span i18n>Welcome !
-    </span>{{firstName?firstName:''}}
-  </p>
-  <p class="banner-mini-heading px-2" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue
-    Learning</p>
-  <ng-template #start>
-    <p class="text-2xl px-2 banner-mini-heading" i18n>Start Learning</p>
-  </ng-template>
+
+  <ng-container *ngIf="!isEkshamata">
+    <p class="banner-heading text-2xl px-2 py-2 text-base text-capitalize"><span i18n>Welcome !
+      </span>{{firstName?firstName:''}}
+    </p>
+    <p class="banner-mini-heading px-2" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>Continue
+      Learning</p>
+    <ng-template #start>
+      <p class="text-2xl px-2 banner-mini-heading" i18n>Start Learning</p>
+    </ng-template>
+    <app-carousel-component *ngIf="!isEkshamata" [lang]="lang"></app-carousel-component>
+  </ng-container>
+
+  <ng-container *ngIf="isEkshamata">
+    <div [ngClass]="{'isEkshamata':isEkshamata}" class="flex">
+      <div class="banner-heading-container">
+        <p class="ekshamata-banner-heading text-2xl px-2 py-2 text-base text-capitalize"><span i18n>Welcome,
+          </span>
+        </p>
+        <p class="ekshamata-banner-name"><span i18n>{{firstName?firstName:''}}
+          </span>
+        </p>
+        <p class="banner-mini-heading px-2" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start" i18n>
+          Continue
+          Learning</p>
+        <ng-template #start>
+          <p class="text-2xl px-2 banner-mini-heading" i18n>Start Learning</p>
+        </ng-template>
+      </div>
+      <div class="ekshamta-banner-container">
+        <div class="ekshamata-banner">
+          <!-- <div class="flex flex-direction-column"> -->
+          <img class="banner-first-image" [src]="bannerFirstImage" alt="Carousel" loading="lazy">
+          <img class="banner-second-image" [src]="bannerSecondImage" alt="Carousel" loading="lazy">
+          <!-- </div> -->
+        </div>
+      </div>
+    </div>
+
+  </ng-container>
   <!-- <img class="banner-image" src="/fusion-assets/images/Mask_group.svg" alt="Banner image" loading="lazy"> -->
-  <app-carousel-component [lang]="lang"></app-carousel-component>
   <!-- <div class="tutorials-container" (click)="scrollToHowSphereWorks()">
     <p class="tutorials-text" i18n>Learn about how Sphere works ></p>
   </div> -->
@@ -31,8 +62,42 @@
 
 
   </div>
+  <div *ngIf="isUpLogin" [ngClass]="{'mb-6':isEkshamata}" class="py-1 px-4 ">
+    <ng-container *ngIf="coursesForUP && coursesForUP.length > 1">
+      <div class="line-label bg-green">
+        <span class="header1 header0" i18n>TOP COURSES</span>
+      </div>
+      <div *ngFor="let course of getDisplayedItems(coursesForUP, showAllCoursesForUP)">
+        <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+          [courseData]="course"></ws-mobile-course-view>
+      </div>
+      <button i18n *ngIf="coursesForUP.length > 5" (click)="viewAllItems('ForYouCourses')" class="view-all-course">
+        {{ showAllCoursesForUP ? 'Hide' : 'View all' }}
+        <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+      </button>
+    </ng-container>
+
+
+  </div>
+  <div [ngClass]="{'mb-6':isEkshamata}" class="py-1 px-4 ">
+    <ng-container *ngIf="coursesForYou && coursesForYou.length > 1">
+      <div class="line-label bg-green">
+        <span class="header1 header0" i18n>FOR YOU</span>
+      </div>
+      <div *ngFor="let course of getDisplayedItems(coursesForYou, showcoursesForYouCourses)">
+        <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
+          [courseData]="course"></ws-mobile-course-view>
+      </div>
+      <button i18n *ngIf="coursesForYou.length > 5" (click)="viewAllItems('ForYouCourses')" class="view-all-course">
+        {{ showcoursesForYouCourses ? 'Hide' : 'View all' }}
+        <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+      </button>
+    </ng-container>
+
+
+  </div>
   <!-- Top certified courses -->
-  <section class="py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
+  <section class="py-1 px-4" *ngIf="!isEkshamata&&topCertifiedCourse && topCertifiedCourse.length>0">
     <div class="line-label orange">
       <span class="header1 " i18n>Top Courses</span>
     </div>
@@ -72,7 +137,7 @@
 
 <!-- Top CNE points courses -->
 <section #scrollToCneCourses id="scrollToCneCourses" class="scrollToCneCourses" class="py-1 px-4"
-  *ngIf="cneCourse && cneCourse.length>0">
+  *ngIf="!isEkshamata&&cneCourse && cneCourse.length>0">
   <div class="line-label orange">
     <span class="header1 cne-text " i18n>CNE Courses</span>
   </div>
@@ -85,7 +150,7 @@
     <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
 </section>
-<div class="py-1 px-4 mb-6" style="background-color: #DCEFEC;">
+<div *ngIf="!isEkshamata" class="py-1 px-4 mb-6" style="background-color: #DCEFEC;">
   <!-- How does it work section -->
   <section class="mt-4">
     <ng-container>

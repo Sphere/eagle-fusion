@@ -1,7 +1,8 @@
 import { APP_BASE_HREF } from '@angular/common'
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core'
 import { FormGroup } from '@angular/forms'
-import { MatDialog, MatSnackBar } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
   AUTHORING_CONTENT_BASE,
@@ -444,8 +445,7 @@ export class ChannelComponent implements OnInit, OnDestroy {
       mergeMap(v => {
         if (v.artifactURL) {
           meta.artifactUrl = v.artifactURL
-          meta.lastUpdatedOn = `${
-            new Date()
+          meta.lastUpdatedOn = `${new Date()
               .toISOString()
               .replace(/-/g, '')
               .replace(/:/g, '')

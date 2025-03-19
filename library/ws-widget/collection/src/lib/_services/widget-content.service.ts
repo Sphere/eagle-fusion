@@ -41,7 +41,10 @@ const API_END_POINTS = {
   LOGIN_USER: `/apis/public/v8/emailMobile/auth`,
   FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
     // tslint:disable-next-line: max-line-length
-    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
+  FETCH_GENERAL_RC_CERTIFICATE: () =>
+    // tslint:disable-next-line: max-line-length
+    `apis/protected/v8/rcCert/user/enrollment/list/adhocCertificates?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
   COURSE_RECOMENDATION: (profession: string) =>
     `${PUBLIC_SLAG}/mobileApp/courseRemommendationv2?profession=${profession}`,
 }
@@ -107,7 +110,15 @@ export class WidgetContentService {
         )
       )
   }
-
+  fetchGeneralAndRcCertificates(): any {
+    let path = ''
+    path = API_END_POINTS.FETCH_GENERAL_RC_CERTIFICATE()
+    return this.http
+      .get(path)
+      .pipe(
+        catchError(this.handleError)
+      )
+  }
   fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
     const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=detail`
     const apiData = this.http

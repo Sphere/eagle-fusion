@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { IBtnAppsConfig } from './btn-apps.model'
 import { Router, NavigationStart, NavigationEnd } from '@angular/router'
-import { MatDialog } from '@angular/material'
+import { MatDialog } from '@angular/material/dialog'
 
 @Component({
   selector: 'ws-widget-btn-apps',

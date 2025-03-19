@@ -1,23 +1,22 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
-import {
-  MatButtonModule,
-  MatIconModule,
-  MatListModule,
-  MatChipsModule,
-  MatSidenavModule,
-  MatToolbarModule,
-  MatTooltipModule,
-  MatCardModule,
-  MatDividerModule,
-  MatProgressSpinnerModule,
-  MatDialogModule,
-  MatTabsModule,
-  MatPaginatorModule,
-  MatSlideToggleModule,
-  MatExpansionModule,
-  MatSnackBarModule,
-} from '@angular/material'
+import { MatButtonModule } from '@angular/material/button'
+import { MatIconModule } from '@angular/material/icon'
+import { MatListModule } from '@angular/material/list'
+import { MatChipsModule } from '@angular/material/chips'
+import { MatSidenavModule } from '@angular/material/sidenav'
+import { MatToolbarModule } from '@angular/material/toolbar'
+import { MatTooltipModule } from '@angular/material/tooltip'
+import { MatCardModule } from '@angular/material/card'
+import { MatDividerModule } from '@angular/material/divider'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatDialogModule } from '@angular/material/dialog'
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatPaginatorModule } from '@angular/material/paginator'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
+import { MatExpansionModule } from '@angular/material/expansion'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+
 import { PersonProfileRoutingModule } from './person-profile-routing.module'
 import { PersonProfileComponent } from './components/person-profile/person-profile.component'
 import { UserDetailsComponent } from './components/user-details/user-details.component'

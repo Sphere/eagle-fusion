@@ -116,7 +116,11 @@
       <mat-icon *ngIf="!config.hideIcon">{{ actionBtn.icon }}</mat-icon>
     </ng-container>
     <ng-container *ngIf="actionBtn.iconType === 'image'">
-      <img [src]="actionBtn.src" alt="Image Source">
+      <div style="display: inline-block; position: relative;">
+        <img class="feature-icon-img" [src]="actionBtn.src">
+        <span *ngIf="(actionBtn?.name === 'Notification'||actionBtn?.name ==='अधिसूचना') && numberOfNotification"
+          class="badge">{{numberOfNotification}}</span>
+      </div>
     </ng-container>
     <span *ngIf=" !config.hideTitle" [ngClass]="instanceVal === 'RootOrg' && showFixedLength ? 'title font-sans' :
       'mat-caption'">{{ actionBtn.name }}</span>

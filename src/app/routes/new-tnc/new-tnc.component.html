@@ -4,8 +4,19 @@
     <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>
 </nav> -->
+<nav aria-label="navbar" *ngIf="(isXSmall$ | async) === true " class="nav-bar-bg1">
+  <a class="navbar-brand cursor-pointer" (click)="homePage()">
+    <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
+  </a>
+</nav>
 <div class="tnc-main">
   <div class="tnc-render-content" appScrollDetector (scrolled)="handleScroll($event)">
+    <div *ngIf="(isXSmall$ | async) === true " class="flex justify-content-end">
+      <div (click)="help()" class="help-btn"><span i18n>Help</span>
+        <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+      </div>
+    </div>
+
     <div class="terms-block" *ngIf="!showTnc">
       <span class="terms-text" i18n>Terms of use</span>
       <img class="tnc-image margin-top-m margin-bottom-m" alt="" src="fusion-assets/images/t&c.svg" />
