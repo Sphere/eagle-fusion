@@ -21,6 +21,14 @@ module.exports = {
   coverageDirectory: '<rootDir>/coverage/',
   coverageReporters: ['text', 'lcov', 'html'],
   collectCoverage: true,
+  collectCoverageFrom: [
+    "src/**/*.ts",
+    "project/ws/**/*.ts",
+    "library/ws-widget/**/*.ts",
+    "!src/**/*.spec.ts",  // Ensure spec files are excluded
+    "!src/main.ts",        // Exclude main.ts if needed
+    "!src/polyfills.ts",   // Exclude polyfills
+  ],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
     '^@ws-widget/utils$': '<rootDir>/library/ws-widget/utils/src/lib/services/configurations.service.ts',

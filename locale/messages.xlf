@@ -2958,7 +2958,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">370</context>
+          <context context-type="linenumber">384</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3891,7 +3891,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">323</context>
+          <context context-type="linenumber">337</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3959,7 +3959,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">163</context>
+          <context context-type="linenumber">177</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3996,7 +3996,7 @@
         <source>Type of Institute / संस्थान का प्रकार <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">159</context>
+          <context context-type="linenumber">173</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4007,7 +4007,7 @@
         <source>Type Of Faculty / संकाय का प्रकार <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">171</context>
+          <context context-type="linenumber">185</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4018,7 +4018,7 @@
         <source> Type Of Faculty</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">174</context>
+          <context context-type="linenumber">188</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4029,7 +4029,7 @@
         <source>HRMS/Manav Sampada id <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">185</context>
+          <context context-type="linenumber">199</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4044,7 +4044,7 @@
         <source>HRMS/Manav Sampada id </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">188</context>
+          <context context-type="linenumber">202</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4059,7 +4059,7 @@
         <source>BNRC Registration number <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">194</context>
+          <context context-type="linenumber">208</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4074,7 +4074,7 @@
         <source>BNRC Registration number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">197</context>
+          <context context-type="linenumber">211</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4089,15 +4089,15 @@
         <source>Position / पद <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">208</context>
+          <context context-type="linenumber">222</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">236</context>
+          <context context-type="linenumber">250</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">308</context>
+          <context context-type="linenumber">322</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4116,15 +4116,15 @@
         <source>Position</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">210</context>
+          <context context-type="linenumber">224</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">238</context>
+          <context context-type="linenumber">252</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">310</context>
+          <context context-type="linenumber">324</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4147,15 +4147,15 @@
         <source>Role for Inservice Nurse <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">220</context>
+          <context context-type="linenumber">234</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">248</context>
+          <context context-type="linenumber">262</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">320</context>
+          <context context-type="linenumber">334</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4174,11 +4174,11 @@
         <source>Role for Inservice Nurse</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">224</context>
+          <context context-type="linenumber">238</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">252</context>
+          <context context-type="linenumber">266</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4193,7 +4193,7 @@
         <source>Type of service <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">261</context>
+          <context context-type="linenumber">275</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4204,7 +4204,7 @@
         <source>Type of service</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">264</context>
+          <context context-type="linenumber">278</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4215,11 +4215,11 @@
         <source>Name of Facility / संस्थान का नाम <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">273</context>
+          <context context-type="linenumber">287</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">336</context>
+          <context context-type="linenumber">350</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4234,11 +4234,11 @@
         <source>Name of Facility</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">275</context>
+          <context context-type="linenumber">289</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">338</context>
+          <context context-type="linenumber">352</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
