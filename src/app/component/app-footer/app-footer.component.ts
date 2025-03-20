@@ -21,7 +21,7 @@ export class AppFooterComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
-    private router: Router
+    private readonly router: Router
   ) {
     this.isLoggedIn = !!this.configSvc.userProfile
     this.termsOfUser = !this.configSvc.restrictedFeatures?.has('termsOfUser')
