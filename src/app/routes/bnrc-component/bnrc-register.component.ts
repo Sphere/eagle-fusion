@@ -31,7 +31,7 @@ export class BnrcRegisterComponent implements OnInit {
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   inserviceList = ['Public Health Facility', 'Private Health Facility']
   facultyList = ['Diploma', 'Degree']
-  courseSelection = ['ANM', 'GNM', 'BSc Nursing', 'PBBSc Nursing', 'MSc Nursing']
+  courseSelection = ['ANM']
   districtUrl = '../../../fusion-assets/files/district.json'
   Position = ['ANM']//, 'Staff Nurse', 'Doctor'
   instituteType = ['Government', 'Private']
