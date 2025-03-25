@@ -108,7 +108,7 @@ export class BnrcRegisterComponent implements OnInit {
   isSubmitting = false;
   isInservice = false;
   message: string = ''
-  instituteNameUrl = '../../../fusion-assets/files/bnrc-institute.json';
+  instituteNameUrl = 'https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bnrc-institute.json';
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   hrmsErr: boolean = false
   bnrcErr: boolean = false
@@ -227,11 +227,14 @@ export class BnrcRegisterComponent implements OnInit {
   private _filter(value: string): { name: string }[] {
     console.log("value", value)
     if (value) {
-      const filterValue = value.toLowerCase()
-      return this.institutes.filter(institute => institute.name.toLowerCase().includes(filterValue))
+      const filterValue = value.toLowerCase().replace(/,/g, '') // Remove commas from input
+      return this.institutes.filter(institute =>
+        institute.name.toLowerCase().replace(/,/g, '').includes(filterValue)
+      )
     }
     return []
   }
+
 
   assignFields(fieldName: string, value: string, event: any) {
     console.log(fieldName, value, event)
