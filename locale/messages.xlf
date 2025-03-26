@@ -2390,19 +2390,64 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="9610487cbeb5796d34d8601b5ac0c0a65f9e1d19" datatype="html">
+      <trans-unit id="rolesLabel" datatype="html">
         <source>Roles</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="2169ac89595ea71e589b9e3bba75a51f20c4662e" datatype="html">
+      <trans-unit id="jobDescriptionLabel" datatype="html">
+        <source>Job Description</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ObservationLabel" datatype="html">
         <source>Observation</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">21</context>
         </context-group>
+      </trans-unit>
+      <trans-unit id="selfLabel" datatype="html">
+        <source>Self</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="courseLabel" datatype="html">
+        <source>Course</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="passbookLabel" datatype="html">
+        <source>Passbook</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">18</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="selfAssessmentLabel" datatype="html">
+        <source>Self Assessments</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="requiredLabel" datatype="html">
+        <source>Required</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="2169ac89595ea71e589b9e3bba75a51f20c4662e" datatype="html">
+        <source>Observation</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">48</context>
@@ -2412,10 +2457,6 @@
         <source>Self</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
@@ -2423,18 +2464,7 @@
         <source>Course</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">52</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="651c2901b000a7b3051c946df7605af27de455a5" datatype="html">
-        <source>Self Assessments</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0adea23f8836d26e2e40429938186f1bc903d6b2" datatype="html">
