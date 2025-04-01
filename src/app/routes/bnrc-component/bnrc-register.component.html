@@ -51,7 +51,13 @@
     <mat-error *ngIf="bnrcDetailForm.get('email')?.hasError('pattern') && bnrcDetailForm.get('email')?.touched">
       Email number is invalid
     </mat-error> -->
-    <label i18n for="profession" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
+    <label i18n for="profession" *ngIf="isInservice" style="display: block;">District / ज़िला <span
+        class="red-icon">*</span></label>
+    <label i18n for="profession" *ngIf="!isInservice" style="display: block;">District / ज़िला - आप जिस जिले में पढ़ाई
+      कर
+      रहे हैं
+      / In which district you are studying <span class="red-icon">*</span></label>
+
 
     <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
       <mat-select formControlName="district" i18n-placeholder placeholder="District">
@@ -62,7 +68,7 @@
     <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid && bnrcDetailForm.get('district')?.touched">
       District is required.
     </mat-error>
-    <ng-container *ngIf="!isInservice">
+    <!-- <ng-container *ngIf="!isInservice">
       <label i18n for="profession" style="display: block;">Role <span class="red-icon">*</span> </label>
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
         <mat-select formControlName="role" i18n-placeholder placeholder="Role"
@@ -74,7 +80,7 @@
       <mat-error *ngIf="bnrcDetailForm.get('role')?.invalid && bnrcDetailForm.get('role')?.touched">
         Role is required.
       </mat-error>
-    </ng-container>
+    </ng-container> -->
 
     <ng-container *ngIf="Student">
       <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
@@ -109,7 +115,7 @@
       </mat-error> -->
       <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.invalid && bnrcDetailForm.get('instituteName')?.touched">
       </mat-error>
-      <label i18n for="profession" style="display: block;">Type of Institute /संस्थान का प्रकार <span
+      <!-- <label i18n for="profession" style="display: block;">Type of Institute /संस्थान का प्रकार <span
           class="red-icon">*</span></label>
 
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -120,8 +126,8 @@
       </mat-form-field>
       <mat-error *ngIf="bnrcDetailForm.get('instituteType')?.invalid && bnrcDetailForm.get('instituteType')?.touched">
         Type of Institute is required.
-      </mat-error>
-      <label i18n for="profession" style="display: block;">Course Selection / पाठ्यक्रम चयन <span
+      </mat-error> -->
+      <!-- <label i18n for="profession" style="display: block;">Course Selection / पाठ्यक्रम चयन <span
           class="red-icon">*</span></label>
 
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -133,7 +139,7 @@
       <mat-error
         *ngIf="bnrcDetailForm.get('courseSelection')?.invalid && bnrcDetailForm.get('courseSelection')?.touched">
         Course is required.
-      </mat-error>
+      </mat-error> -->
     </ng-container>
     <!-- Background: Faculty -->
     <ng-container *ngIf="Faculty">
@@ -170,7 +176,7 @@
         Name of Institute should be in English and should not start with a space.
       </mat-error> -->
 
-      <label i18n for="profession" style="display: block;">Type of Institute / संस्थान का प्रकार <span
+      <!-- <label i18n for="profession" style="display: block;">Type of Institute / संस्थान का प्रकार <span
           class="red-icon">*</span></label>
 
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -183,8 +189,8 @@
         Type of Institute is required.
       </mat-error>
       <label i18n for="profession" style="display: block;">Type Of Faculty / संकाय का प्रकार <span
-          class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+          class="red-icon">*</span></label> -->
+      <!-- <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
         <mat-select formControlName="facultyType" i18n-placeholder placeholder=" Type Of Faculty">
           <mat-option [value]="profession" *ngFor="let profession of facultyList">{{profession}}
           </mat-option>
@@ -192,10 +198,10 @@
       </mat-form-field>
       <mat-error *ngIf="bnrcDetailForm.get('facultyType')?.invalid && bnrcDetailForm.get('facultyType')?.touched">
         Type Of Faculty is required.
-      </mat-error>
+      </mat-error> -->
 
 
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label for="regNurseRegMidwifeNumber" i18n>HRMS/Manav Sampada id <span *ngIf="hrmsErr"
             class="red-icon">*</span></label>
         <input type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
@@ -203,7 +209,7 @@
         <mat-error *ngIf="bnrcDetailForm.get('hrmsId')?.invalid && bnrcDetailForm.get('hrmsId')?.touched">
           HRMS/Manav Sampada id is required.
         </mat-error>
-      </div>
+      </div> -->
       <div class="form-group">
         <label for="regNurseRegMidwifeNumber" i18n>BNRC Registration number <span *ngIf="bnrcErr"
             class="red-icon">*</span></label>
