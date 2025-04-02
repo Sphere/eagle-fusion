@@ -53,19 +53,13 @@
     </mat-error> -->
     <label i18n for="profession" *ngIf="isInservice" style="display: block;">District / ज़िला <span
         class="red-icon">*</span></label>
-    <label i18n for="profession" *ngIf="!isInservice" style="display: block;">District / ज़िला - आप जिस जिले में पढ़ाई
-      कर
-      रहे हैं
-      / In which district you are studying <span class="red-icon">*</span></label>
-
-
-    <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+    <mat-form-field *ngIf="isInservice" appearance="outline" class="field-fullwidth" style="width: 100%;">
       <mat-select formControlName="district" i18n-placeholder placeholder="District">
         <mat-option [value]="district" *ngFor="let district of districts">{{district}}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid && bnrcDetailForm.get('district')?.touched">
+    <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid &&isInservice&& bnrcDetailForm.get('district')?.touched">
       District is required.
     </mat-error>
     <!-- <ng-container *ngIf="!isInservice">
@@ -140,6 +134,22 @@
         *ngIf="bnrcDetailForm.get('courseSelection')?.invalid && bnrcDetailForm.get('courseSelection')?.touched">
         Course is required.
       </mat-error> -->
+
+      <label i18n for="profession" style="display: block;">District / ज़िला - आप जिस जिले में पढ़ाई
+        कर
+        रहे हैं
+        / In which district you are studying <span class="red-icon">*</span></label>
+
+
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="district" i18n-placeholder placeholder="District">
+          <mat-option [value]="district" *ngFor="let district of districts">{{district}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid && bnrcDetailForm.get('district')?.touched">
+        District is required.
+      </mat-error>
     </ng-container>
     <!-- Background: Faculty -->
     <ng-container *ngIf="Faculty">
@@ -168,7 +178,21 @@
           Please select a valid institute from the list.
         </mat-error>
       </div>
+      <label i18n for="profession" style="display: block;">District / ज़िला - आप जिस जिले में पढ़ाई
+        कर
+        रहे हैं
+        / In which district you are studying <span class="red-icon">*</span></label>
 
+
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="district" i18n-placeholder placeholder="District">
+          <mat-option [value]="district" *ngFor="let district of districts">{{district}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="bnrcDetailForm.get('district')?.invalid && bnrcDetailForm.get('district')?.touched">
+        District is required.
+      </mat-error>
 
 
       <!-- <mat-error
