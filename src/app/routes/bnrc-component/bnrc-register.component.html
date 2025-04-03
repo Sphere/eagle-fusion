@@ -178,12 +178,8 @@
           Please select a valid institute from the list.
         </mat-error>
       </div>
-      <label i18n for="profession" style="display: block;">District / ज़िला - आप जिस जिले में पढ़ाई
-        कर
-        रहे हैं
+      <label i18n for="profession" style="display: block;">District / ज़िला - जिस जिले में आप पढ़ाते हैं
         / In which district you are teaching <span class="red-icon">*</span></label>
-
-
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
         <mat-select formControlName="district" i18n-placeholder placeholder="District">
           <mat-option [value]="district" *ngFor="let district of districts">{{district}}
