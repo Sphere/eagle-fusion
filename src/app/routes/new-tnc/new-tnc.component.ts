@@ -356,7 +356,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         preferences: {
           language: this.lang,
         },
-        personalDetails: profileRequest.profileReq.personalDetails
+        // personalDetails: profileRequest.profileReq.personalDetails
       }
       profileRequest = Object.assign(profileRequest, obj)
       profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
