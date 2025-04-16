@@ -227,10 +227,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     const token = this.access_token ? this.access_token : await this.getAccessToken()
     this.socket = io(url, {
       auth: { token },
-      path: '/apis/socket.io/',
-      transports: ["websocket"],
-      reconnection: true,        // Allow auto-reconnect
-      timeout: 5000,
+      path: '/apis/socket.io/'
     })
     this.socket.on('connect', () => {
       console.log(`Connected to the server with ID: ${this.socket.id}`)
@@ -293,7 +290,8 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     } else {
       this.unReadNotificationList = this.unReadNotificationList.filter((ele) => ele.id !== item.id)
       this.socket.emit('markAsRead', { notificationId: item.id, userId: this.user_id })
-      this.events.publish("notificationCountUpdated", this.unReadNotificationList.length - 1)
+      this.storage.setNumberOfNotifications(this.unReadNotificationList.length) // Add this line
+      this.events.publish("notificationCountUpdated", this.unReadNotificationList.length)
     }
     this.setAllNotificationList()
   }
