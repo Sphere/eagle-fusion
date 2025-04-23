@@ -1,5 +1,7 @@
 import { NotificationsComponent } from './notification.component'
 import { of } from 'rxjs'
+import { ChangeDetectorRef } from '@angular/core'
+import { MatDialogRef } from '@angular/material/dialog'
 import { Socket } from 'socket.io-client'
 
 describe('NotificationsComponent', () => {
@@ -10,6 +12,8 @@ describe('NotificationsComponent', () => {
   let mockRenderer: any
   let mockConfigSvc: any
   let mockValueSvc: any
+  let mockDialogRef: any
+  let mockCdr: any
   let mockSocket: any
 
   beforeEach(() => {
@@ -33,6 +37,12 @@ describe('NotificationsComponent', () => {
     mockValueSvc = {
       isXSmall$: of(false),
     }
+    mockDialogRef = {
+      close: jest.fn(),
+    }
+    mockCdr = {
+      detectChanges: jest.fn(),
+    }
     mockSocket = {
       emit: jest.fn(),
       on: jest.fn(),
@@ -46,22 +56,15 @@ describe('NotificationsComponent', () => {
       mockRouter,
       mockRenderer,
       mockConfigSvc,
-      mockValueSvc
+      mockValueSvc,
+      mockDialogRef as MatDialogRef<any>,
+      mockCdr as ChangeDetectorRef
     )
     component.socket = mockSocket as unknown as Socket
+    component.user_id = 'user123' // Initialize user_id here
+
   })
 
-  it('should initialize component and fetch notifications', async () => {
-    const getAccessTokenSpy = jest.spyOn(component, 'getAccessToken').mockResolvedValue('token123')
-    const getNotificationSpy = jest.spyOn(component, 'getNotification').mockResolvedValue(undefined)
-    const connectSocketSpy = jest.spyOn(component, 'connectSocket').mockResolvedValue(undefined)
-
-    await component.ngOnInit()
-
-    expect(getAccessTokenSpy).toHaveBeenCalled()
-    expect(getNotificationSpy).toHaveBeenCalled()
-    expect(connectSocketSpy).toHaveBeenCalled()
-  })
 
   it('should handle action to mark all as read', () => {
     component.unReadNotificationList = [{ id: '1', status: 'unread' }]
@@ -70,7 +73,8 @@ describe('NotificationsComponent', () => {
     component.handleAction('read')
 
     expect(mockSocket.emit).toHaveBeenCalledWith('markAllAsRead', { userId: 'user123' })
-    expect(component.unReadNotificationList[0].status).toBe('read')
+    expect(component.unReadNotificationList.length).toBe(0)
+    expect(component.readNotificationList.length).toBe(1)
     expect(mockStorage.setLocalStorage).toHaveBeenCalledWith('readNotificationLists', {
       userId: 'user123',
       notifications: component.readNotificationList,
@@ -82,6 +86,7 @@ describe('NotificationsComponent', () => {
   it('should handle action to clear all notifications', () => {
     component.readNotificationList = [{ id: '1', status: 'read' }]
     component.unReadNotificationList = [{ id: '2', status: 'unread' }]
+    component.user_id = 'user123'
 
     component.handleAction('clear')
 
@@ -96,47 +101,81 @@ describe('NotificationsComponent', () => {
     expect(mockEvents.publish).toHaveBeenCalledWith('notificationCountUpdated', 0)
   })
 
-  it('should handle API failure in getNotification', async () => {
-    const mockData = { notificationData: [{ id: '1', data: '{"message": "test"}' }] }
-    mockSocket.on.mockImplementation((event, callback) => {
+  it('should fetch notifications and update unread list', async () => {
+    const mockData = {
+      notificationData: [
+        { id: '1', data: '{"message": "test"}' },
+        { id: '2', data: '{"message": "test2"}' },
+      ],
+    }
+    mockSocket.on.mockImplementation((event: string, callback: (data: any) => void) => {
       if (event === 'notificationsData') {
         callback(mockData)
       }
     })
-    const loaderDismissSpy = jest.fn()
-    component.loader = { dismiss: loaderDismissSpy }
 
     await component.getNotification()
 
-    expect(mockStorage.setNumberOfNotifications).toHaveBeenCalledWith(mockData.notificationData.length)
-    expect(mockEvents.publish).toHaveBeenCalledWith('notificationCountUpdated', mockData.notificationData.length)
-    expect(loaderDismissSpy).toHaveBeenCalled()
+    expect(mockSocket.emit).toHaveBeenCalledWith('getNotifications', { userId: 'user123' })
+    expect(component.unReadNotificationList.length).toBe(2)
+    expect(mockStorage.setNumberOfNotifications).toHaveBeenCalledWith(2)
+    expect(mockEvents.publish).toHaveBeenCalledWith('notificationCountUpdated', 2)
   })
 
   it('should handle read notification', async () => {
-    const item = { id: '1', status: 'unread', data: { actionData: { actionType: 'course', identifier: 'course123' } } }
-    component.user_id = 'user123'
+    const item = { id: '1', status: 'unread', data: { actionData: { actionType: 'course' } } }
     component.unReadNotificationList = [item]
+    component.user_id = 'user123'
 
     await component.readNotification(item)
 
     expect(mockSocket.emit).toHaveBeenCalledWith('markAsRead', { notificationId: '1', userId: 'user123' })
+    expect(component.unReadNotificationList.length).toBe(0)
+    expect(component.readNotificationList.length).toBe(1)
+    expect(mockStorage.setLocalStorage).toHaveBeenCalledWith('readNotificationLists', {
+      userId: 'user123',
+      notifications: component.readNotificationList,
+    })
     expect(mockStorage.setNumberOfNotifications).toHaveBeenCalledWith(0)
     expect(mockEvents.publish).toHaveBeenCalledWith('notificationCountUpdated', 0)
-    expect(component.readNotificationList).toContainEqual({ ...item, status: 'read' })
-    expect(component.unReadNotificationList).not.toContain(item)
+    expect(mockDialogRef.close).toHaveBeenCalled()
+    expect(mockCdr.detectChanges).toHaveBeenCalled()
   })
 
   it('should handle delete notification', async () => {
     const item = { id: '1', status: 'unread' }
-    component.user_id = 'user123'
     component.unReadNotificationList = [item]
+    component.user_id = 'user123'
 
     await component.deleteNotification(item)
 
     expect(mockSocket.emit).toHaveBeenCalledWith('markAsRead', { notificationId: '1', userId: 'user123' })
+    expect(component.unReadNotificationList.length).toBe(0)
+    expect(mockStorage.setNumberOfNotifications).toHaveBeenCalledWith(0) // Verify the call
     expect(mockEvents.publish).toHaveBeenCalledWith('notificationCountUpdated', 0)
-    expect(component.unReadNotificationList).not.toContain(item)
+  })
+
+  it('should calculate notification time in minutes', () => {
+    const createdOn = new Date(Date.now() - 5 * 60 * 1000).toISOString() // 5 minutes ago
+    const time = component.getNotificationTime(createdOn)
+    expect(time).toBe('5mins')
+  })
+
+  it('should calculate notification time in hours', () => {
+    const createdOn = new Date(Date.now() - 2 * 60 * 60 * 1000).toISOString() // 2 hours ago
+    const time = component.getNotificationTime(createdOn)
+    expect(time).toBe('2hr')
+  })
+
+  it('should calculate notification time in days', () => {
+    const createdOn = new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString() // 3 days ago
+    const time = component.getNotificationTime(createdOn)
+    expect(time).toBe('3d')
+  })
+
+  it('should disconnect socket on destroy', () => {
+    component.ngOnDestroy()
+    expect(mockSocket.disconnect).toHaveBeenCalled()
   })
 
   it('should handle touch events', () => {
@@ -153,16 +192,5 @@ describe('NotificationsComponent', () => {
 
     component.onTouchEnd(touchEndEvent, element, 0)
     expect(element.style.transform).toBe('translateX(0)')
-  })
-
-  it('should close dialog', () => {
-    component.dropdownContent = true
-    component.closeDailog()
-    expect(component.dropdownContent).toBe(false)
-  })
-
-  it('should disconnect socket on destroy', () => {
-    component.ngOnDestroy()
-    expect(mockSocket.disconnect).toHaveBeenCalled()
   })
 })

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { LoginOtpComponent } from './login-otp.component'
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
-import { MatSnackBar, MatSnackBarModule } from '@angular/material'
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatInputModule } from '@angular/material/input'
 import { RouterModule } from '@angular/router'
@@ -10,7 +10,7 @@ import { RouterTestingModule } from '@angular/router/testing'
 import { BehaviorSubject, of } from 'rxjs'
 import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { MatDialog } from '@angular/material/dialog'
-import { MatDialogModule } from '@angular/material'
+import { MatDialogModule } from '@angular/material/dialog'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { MatIconModule } from '@angular/material/icon'
 import { MatFormFieldModule } from '@angular/material/form-field'
@@ -38,6 +38,13 @@ const mockDialogBar: Partial<MatDialog> = {
   open: jest.fn()
 }
 
+Object.defineProperty(window, 'fcWidget', {
+  value: {
+    init: jest.fn(),
+    setConfig: jest.fn(),
+  },
+  writable: true,
+})
 
 describe('LoginOtpComponent', () => {
   let component: LoginOtpComponent
