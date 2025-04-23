@@ -113,6 +113,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         this.currentText = 'Home'
       }
     } else if (window.location.href.includes('competency')) {
+      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
       if (window.location.href.includes('/hi/app/user/competency')) {
         this.currentText = 'योग्यता'
       } else {
@@ -183,6 +184,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.currentText = text.name
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
         let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
         location.href = `${url3}${url1}${url}`
       } else {

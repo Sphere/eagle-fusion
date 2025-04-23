@@ -31,7 +31,7 @@ export class BnrcRegisterComponent implements OnInit {
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
   inserviceList = ['Public Health Facility', 'Private Health Facility']
   facultyList = ['Diploma', 'Degree']
-  courseSelection = ['ANM', 'GNM', 'BSc Nursing', 'PBBSc Nursing', 'MSc Nursing']
+  courseSelection = ['ANM']
   districtUrl = '../../../fusion-assets/files/district.json'
   Position = ['ANM']//, 'Staff Nurse', 'Doctor'
   instituteType = ['Government', 'Private']
@@ -108,7 +108,7 @@ export class BnrcRegisterComponent implements OnInit {
   isSubmitting = false;
   isInservice = false;
   message: string = ''
-  instituteNameUrl = '../../../fusion-assets/files/bnrc-institute.json';
+  instituteNameUrl = 'https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bnrc-institute.json';
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   hrmsErr: boolean = false
   bnrcErr: boolean = false
@@ -211,6 +211,19 @@ export class BnrcRegisterComponent implements OnInit {
         this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
         this.bnrcDetailForm.controls.roleForInService.setValue(null)
       }
+      if (service === 'Student') {
+        this.professionalChange('Student')
+        this.bnrcDetailForm.controls.role.setValue('Student')
+        this.bnrcDetailForm.controls.courseSelection.setValue('ANM')
+        this.bnrcDetailForm.controls.instituteType.setValue('N/A')
+      }
+      if (service === 'Faculty') {
+        this.professionalChange('Faculty')
+        this.bnrcDetailForm.controls.role.setValue('Faculty')
+        this.bnrcDetailForm.controls.courseSelection.setValue('ANM')
+        this.bnrcDetailForm.controls.instituteType.setValue('N/A')
+        this.bnrcDetailForm.controls.facultyType.setValue('N/A')
+      }
     })
     console.log("districts", this.districts)
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -227,11 +240,14 @@ export class BnrcRegisterComponent implements OnInit {
   private _filter(value: string): { name: string }[] {
     console.log("value", value)
     if (value) {
-      const filterValue = value.toLowerCase()
-      return this.institutes.filter(institute => institute.name.toLowerCase().includes(filterValue))
+      const filterValue = value.toLowerCase().replace(/,/g, '') // Remove commas from input
+      return this.institutes.filter(institute =>
+        institute.name.toLowerCase().replace(/,/g, '').includes(filterValue)
+      )
     }
     return []
   }
+
 
   assignFields(fieldName: string, value: string, event: any) {
     console.log(fieldName, value, event)
@@ -276,12 +292,12 @@ export class BnrcRegisterComponent implements OnInit {
         instituteNameControl.updateValueAndValidity()
 
       }
-      const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
-      if (instituteTypeControl) {
-        instituteTypeControl.setValidators([Validators.required])
-        instituteTypeControl.updateValueAndValidity()
+      // const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
+      // if (instituteTypeControl) {
+      //   instituteTypeControl.setValidators([Validators.required])
+      //   instituteTypeControl.updateValueAndValidity()
 
-      }
+      // }
       const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
       if (courseSelectionControl) {
         courseSelectionControl.setValidators([Validators.required])
@@ -353,12 +369,12 @@ export class BnrcRegisterComponent implements OnInit {
         instituteNameControl.updateValueAndValidity()
 
       }
-      const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
-      if (instituteTypeControl) {
-        instituteTypeControl.setValidators([Validators.required])
-        instituteTypeControl.updateValueAndValidity()
+      // const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
+      // if (instituteTypeControl) {
+      //   instituteTypeControl.setValidators([Validators.required])
+      //   instituteTypeControl.updateValueAndValidity()
 
-      }
+      // }
       const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
       if (facultyTypeControl) {
         facultyTypeControl.setValidators([Validators.required])

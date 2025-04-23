@@ -6,7 +6,7 @@
     "esModuleInterop": true, // 2. Avoids anoying warnings [check TS option](https://www.typescriptlang.org/tsconfig#esModuleInterop)
     "emitDecoratorMetadata": true // 3. Make Angular's dependency injection work with jest
   },
-  "files": ["src/test.ts", "src/polyfills.ts"],
+  "files": ["src/test.ts", "global.d.ts", "src/polyfills.ts"],
   "include": ["src/**/*.spec.ts", "src/**/*.d.ts"],
   "paths": {
     "@ws-widget/resolver": ["library/ws-widget/resolver"],
