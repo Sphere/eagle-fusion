@@ -15,8 +15,6 @@ describe('NotificationsComponent', () => {
   let mockDialogRef: any
   let mockCdr: any
   let mockSocket: any
-  let mockDialogRef: any
-  let mockCdr: any
 
   beforeEach(() => {
     mockEvents = {

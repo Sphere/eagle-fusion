@@ -113,7 +113,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
   ngAfterViewInit(): void {
     this.getCurrentTime().then(() => {
-      console.log("Initial resume point:", this.widgetData.resumePoint)
+      // console.log("Initial resume point:", this.widgetData.resumePoint)
 
       this.widgetData = {
         ...this.widgetData,
