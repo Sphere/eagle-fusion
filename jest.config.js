@@ -30,10 +30,10 @@ module.exports = {
     "!src/polyfills.ts",   // Exclude polyfills
   ],
   coveragePathIgnorePatterns: [
-    '/node_modules/',
-    'src/**/*.spec.ts', // Exclude specific folder
-    'project/**/*.spec.ts',
-    'library/**/*.spec.ts'
+    '/node_modules/', // Exclude node_modules
+    'src/.*\\.spec\\.ts$', // Exclude spec files using a valid regex
+    'project/.*\\.spec\\.ts$', // Exclude spec files in project folder
+    'library/.*\\.spec\\.ts$', // Exclude spec files in library folder
   ],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
