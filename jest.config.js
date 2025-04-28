@@ -31,9 +31,9 @@ module.exports = {
   ],
   coveragePathIgnorePatterns: [
     '/node_modules/',
-    '!src/**/*.spec.ts', // Exclude specific folder
-    '!project/**/*.spec.ts',
-    '!library/**/*.spec.ts'
+    'src/**/*.spec.ts', // Exclude specific folder
+    'project/**/*.spec.ts',
+    'library/**/*.spec.ts'
   ],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
