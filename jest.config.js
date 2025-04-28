@@ -29,6 +29,12 @@ module.exports = {
     "!src/main.ts",        // Exclude main.ts if needed
     "!src/polyfills.ts",   // Exclude polyfills
   ],
+  coveragePathIgnorePatterns: [
+    '/node_modules/',
+    '!src/**/*.spec.ts', // Exclude specific folder
+    '!project/**/*.spec.ts',
+    '!library/**/*.spec.ts'
+  ],
   moduleDirectories: ['node_modules', 'src'],
   moduleNameMapper: {
     '^@ws-widget/utils$': '<rootDir>/library/ws-widget/utils/src/lib/services/configurations.service.ts',
