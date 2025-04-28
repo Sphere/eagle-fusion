@@ -23,39 +23,6 @@ export type telemetryEventDispatcherFunction = (e: any) => void
 export type saveContinueLearningFunction = (d: any) => void
 export type fireRealTimeProgressFunction = (i: string, d: any) => void
 
-// function playerCurrentState(player: videoJs.Player): WsEvents.EnumTelemetryMediaState {
-//   try {
-//     if (!player) {
-//       return WsEvents.EnumTelemetryMediaState.NOT_STARTED
-//     }
-//     if (player.ended()) {
-//       return WsEvents.EnumTelemetryMediaState.ENDED
-//     }
-//     if (player.paused()) {
-//       return WsEvents.EnumTelemetryMediaState.PAUSED
-//     }
-//     return WsEvents.EnumTelemetryMediaState.PLAYING
-//   } catch (err) {
-//     return WsEvents.EnumTelemetryMediaState.ENDED
-//   }
-// }
-// function getTimeInfo(
-//   player: videoJs.Player,
-// ): {
-//   currentTime: number | null;
-//   totalTime: number | null;
-// } {
-//   try {
-//     return {
-//       currentTime: player.currentTime(),
-//       totalTime: player.duration(),
-//     }
-//   } catch (err) { }
-//   return {
-//     currentTime: null,
-//     totalTime: null,
-//   }
-// }
 function eventDispatchHelper(
   passThroughData: any,
   dispatcher: telemetryEventDispatcherFunction,
