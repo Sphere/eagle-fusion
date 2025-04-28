@@ -72,15 +72,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.isXSmall$ = this.valueSvc.isXSmall$
   }
 
-  async ngOnInit() {
+  ngOnInit(): void {
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
-        // this.configSvc.isNewUser = Boolean(this.tncData && this.tncData.isNewUser)
         this.isPublic = response.isPublic || false
       } else {
         this.router.navigate(['error-service-unavailable'])
-        // this.errorFetchingTnc = true
       }
     })
 
@@ -89,26 +87,17 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.userData = userDetails
         if (userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined) {
           console.log(userDetails.profileDetails!.profileReq!.personalDetails!)
-          console.log(userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined, 'a')
           this.showAcceptbtn = true
         } else {
-          console.log('b')
           this.showAcceptbtn = false
-          // console.log(!userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted)
-          // if (!userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted) {
-          //   this.showAcceptbtn = false
-          // } else {
-          //   this.showAcceptbtn = true
-          // }
         }
-        // else {
-        //   this.showAcceptbtn = true
-        // }
       })
     }
 
-    this.result = await this.signupService.fetchStartUpDetails()
-    this.createUserForm = this.createTncFormFields()
+    this.signupService.fetchStartUpDetails().then(result => {
+      this.result = result
+      this.createUserForm = this.createTncFormFields()
+    })
   }
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter' || event.key === ' ') {

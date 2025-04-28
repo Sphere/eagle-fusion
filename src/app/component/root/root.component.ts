@@ -330,7 +330,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     if (this.configSvc.userProfile) {
       this.getConnectToSocket()
       this.userId = this.configSvc.userProfile.userId || ''

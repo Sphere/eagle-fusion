@@ -35,11 +35,19 @@ export class PlayerVideoPopupComponent implements OnInit {
   ngOnInit() {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
-        this.layoutDirection = 'columnView'
+        this.setColumnView()
       } else {
-        this.layoutDirection = 'rowView'
+        this.setRowView()
       }
     })
+  }
+
+  private setColumnView(): void {
+    this.layoutDirection = 'columnView'
+  }
+
+  private setRowView(): void {
+    this.layoutDirection = 'rowView'
   }
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter' || event.key === ' ') {

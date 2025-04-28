@@ -241,12 +241,9 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         max_size: this.totalPages,
         current: this.current,
       }
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
-      this.telemetrySvc.start('pdf', 'pdf-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier)
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
+      this.telemetrySvc.start('pdf', 'pdf-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier)
 
       const temp = [...realTimeProgressRequest.current]
       // const latest = parseFloat(temp.slice(-1) || '0')
@@ -255,14 +252,12 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       const percent = parseFloat(percentMilis.toFixed(2))
       if (this.contentData && percent >= this.contentData.completionPercentage) {
         const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
           contentId: this.widgetData.identifier,
           name: this.viewerDataSvc.resource!.name,
           moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
         }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
@@ -272,14 +267,12 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       }
       if (this.contentData === undefined && percent > 0) {
         const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
           contentId: this.widgetData.identifier,
           name: this.viewerDataSvc.resource!.name,
           moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
         }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
@@ -289,14 +282,12 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       }
       if (this.contentData && percent > 95) {
         const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
           contentId: this.widgetData.identifier,
           name: this.viewerDataSvc.resource!.name,
           moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
         }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-          this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
       }
     }
     return
@@ -352,10 +343,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
             current: [(this.currentPage.value).toString()],
           }
 
-          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-            this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
 
           const temp = [...realTimeProgressRequest.current]
           // const latest = parseFloat(temp.slice(-1) || '0')

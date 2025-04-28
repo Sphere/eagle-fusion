@@ -145,8 +145,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-      this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
     const req: NsContent.IContinueLearningDataReq = {
       request: {
         userId,
@@ -171,7 +170,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     const player = videoJs(videoElement, {
       ...videoJsOptions,
       poster: this.widgetData.posterImage,
-      autoplay: this.widgetData.autoplay || false,
+      autoplay: this.widgetData.autoplay ?? false,
     })
 
     const videoId = videoElement.id
@@ -269,8 +268,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         if (this.activatedRoute.snapshot.queryParams.collectionType &&
           this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
           const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
             resourceId: data.resourceId,
             contextType: 'playlist',
             dateAccessed: Date.now(),
@@ -286,8 +284,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             .catch()
         } else {
           const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
             ...data,
             // resourceId: data.resourceId,
             // dateAccessed: Date.now(),
@@ -305,10 +302,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
       if (this.widgetData.identifier) {
         this.viewerSvc
           .realTimeProgressUpdate(identifier, data, collectionId, batchId)
@@ -385,13 +380,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
 
-      this.telemetrySvc.start('video', 'video-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier)
+      this.telemetrySvc.start('video', 'video-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier)
 
       let userId
       if (this.configSvc.userProfile) {
@@ -415,14 +407,12 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           const data1: any = {
-            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
             contentId: this.widgetData.identifier,
             name: this.viewerDataSvc.resource!.name,
             moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
           }
-          this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+          this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
           if (this.contentData && percent >= this.contentData.completionPercentage) {
             if (this.widgetData.identifier && identifier && data) {
@@ -439,14 +429,12 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
           if (this.contentData === undefined && percent > 95) {
             const data1: any = {
-              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-                this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
               contentId: this.widgetData.identifier,
               name: this.viewerDataSvc.resource!.name,
               moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
             }
-            this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+            this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
             this.viewerSvc
               .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
@@ -490,7 +478,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       {
         ...videoJsOptions,
         poster: this.widgetData.posterImage,
-        autoplay: this.widgetData.autoplay || false,
+        autoplay: this.widgetData.autoplay ?? false,
       },
       dispatcher,
       saveCLearning,
@@ -536,8 +524,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
       if (percentage >= 98) {
         data.current = data.max_size
       }
