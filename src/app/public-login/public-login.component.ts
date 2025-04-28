@@ -230,7 +230,7 @@ export class PublicLoginComponent implements OnInit {
         (window as any).fbq('track', 'SubmitApplication')
       }
       catch (e) {
-        console.log("fb pixel error")
+        console.error("fb pixel error")
       }
       let phone = this.loginPwdForm.controls.emailOrMobile.value
       let type = ''
@@ -266,7 +266,7 @@ export class PublicLoginComponent implements OnInit {
       this.signupService.loginAPI(req).subscribe(res => {
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res.status)
-        this.openSnackbar(res.msg || res.message)
+        this.openSnackbar(res.msg ?? res.message)
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
@@ -292,7 +292,7 @@ export class PublicLoginComponent implements OnInit {
         if (err.error.message === "User doesn't exists please signup and try again" || err.error.msg === "User doesn't exists please signup and try again") {
           this.userDoesnotExist()
         }
-        this.openSnackbar(err.error.msg || err.error.error)
+        this.openSnackbar(err.error.msg ?? err.error.error)
       })
     } else {
       console.log('alert')
@@ -338,7 +338,7 @@ export class PublicLoginComponent implements OnInit {
       console.log(req, type)
       this.signupService.resendOTP(req).subscribe(res => {
         console.log(res)
-        this.openSnackbar(res.msg || res.message)
+        this.openSnackbar(res.msg ?? res.message)
         // if (localStorage.getItem('url_before_login')) {
         //   const url = localStorage.getItem('url_before_login') || ''
         //   location.href = url
@@ -347,7 +347,7 @@ export class PublicLoginComponent implements OnInit {
         // }
       }, err => {
         console.log(err)
-        this.openSnackbar(err.error.msg || err.error.message)
+        this.openSnackbar(err.error.msg ?? err.error.message)
       })
     }
   }
@@ -385,7 +385,7 @@ export class PublicLoginComponent implements OnInit {
       this.signupService.loginAPI(req).subscribe(res => {
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res)
-        this.openSnackbar(res.msg || res.message)
+        this.openSnackbar(res.msg ?? res.message)
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
@@ -464,7 +464,7 @@ export class PublicLoginComponent implements OnInit {
       this.signupService.sendOTP(req).subscribe(res => {
         console.log(res)
         this.userID = res.userId
-        this.openSnackbar(res.msg || res.message)
+        this.openSnackbar(res.msg ?? res.message)
         this.startTimer()
         this.otpPage = true
         console.log(this.otpPage)
@@ -479,7 +479,7 @@ export class PublicLoginComponent implements OnInit {
         if (err.error.message === "User doesn't exists please signup and try again" || err.error.msg === "User doesn't exists please signup and try again") {
           this.userDoesnotExist()
         }
-        this.openSnackbar(err.error.msg || err.error.message)
+        this.openSnackbar(err.error.msg ?? err.error.message)
       })
     }
   }

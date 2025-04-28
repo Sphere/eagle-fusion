@@ -358,6 +358,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       this.isInIframe = window.self !== window.top
     } catch (_ex) {
+      console.warn("Error determining if in iframe:", _ex)
       this.isInIframe = false
     }
 
@@ -716,12 +717,12 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(`Connected to the server with ID: ${socket.id}`)
     })
 
-    socket.emit('getNotifications', { userId: data?.userId || this.userId })
+    socket.emit('getNotifications', { userId: data?.userId ?? this.userId })
 
     socket.on('notificationsData', (data) => {
-      this.storage.setNumberOfNotifications(data?.notificationData?.length || 0)
+      this.storage.setNumberOfNotifications(data?.notificationData?.length ?? 0)
       console.log("data?.notificationData?.length", data?.notificationData?.length)
-      this.events.publish("notificationCountUpdated", data?.notificationData?.length || 0)
+      this.events.publish("notificationCountUpdated", data?.notificationData?.length ?? 0)
     })
   }
 

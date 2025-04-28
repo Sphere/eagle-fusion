@@ -599,7 +599,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             async (courses: NsContent.ICourse[]) => {
               if (this.collectionId) {
                 if (courses && courses.length) {
-                  this.enrolledCourse = await courses.find(course => {
+                  this.enrolledCourse = courses.find(course => {
                     const identifier = this.collectionId || ''
                     if (course.courseId !== identifier) {
                       return undefined

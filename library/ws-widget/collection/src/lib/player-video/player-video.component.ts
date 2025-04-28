@@ -150,7 +150,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       request: {
         userId,
         batchId,
-        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+        courseId: this.activatedRoute.snapshot.queryParams.collectionId ?? '',
         contentIds: [],
         fields: ['progressdetails'],
       },
@@ -403,7 +403,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           this.contentData = await result['result']['contentList'].find((obj: any) => obj.contentId === identifier)
           const temp = data.current
           console.log("current progress", data)
-          const latest = parseFloat(temp[temp.length - 1] || '0')
+          const latest = parseFloat(temp[temp.length - 1] ?? '0')
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           const data1: any = {
@@ -447,14 +447,12 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           } else {
             if (this.contentData && this.contentData.completionPercentage && percent > 95) {
               const data1: any = {
-                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-                  this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
                 contentId: this.widgetData.identifier,
                 name: this.viewerDataSvc.resource!.name,
                 moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
               }
-              this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-                this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+              this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
               this.viewerSvc
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
@@ -485,7 +483,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,
-      this.widgetData.resumePoint ? this.widgetData.resumePoint : 0,
+      this.widgetData.resumePoint ?? 0,
       enableTelemetry,
       this.widgetData,
       this.widgetData.mimeType,
@@ -522,8 +520,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         mime_type: this.widgetData.mimeType,
       }
 
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
       if (percentage >= 98) {
         data.current = data.max_size

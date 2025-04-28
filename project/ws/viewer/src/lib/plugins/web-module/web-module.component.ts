@@ -173,7 +173,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     //     `/apis/protected/v8/content/getWebModuleFiles?url=${encodeURIComponent(this.urlPrefix + u.URL)}`
     //   )
     // }));
-    this.setPage(this.widgetData.resumePage ? this.widgetData.resumePage : 1)
+    this.setPage(this.widgetData.resumePage ?? 1)
   }
 
   setPage(pageNumber: number) {

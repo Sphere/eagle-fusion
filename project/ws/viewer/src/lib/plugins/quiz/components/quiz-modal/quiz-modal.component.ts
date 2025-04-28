@@ -230,14 +230,14 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
       const correctOptions = answer.correctOptions
       const correctMtfOptions = answer.correctMtfOptions
       let selectedOptions: any =
-        this.questionAnswerHash[answer.questionId] || []
+        this.questionAnswerHash[answer.questionId] ?? []
       if (
         answer.questionType === 'fitb' &&
         this.questionAnswerHash[answer.questionId] &&
         this.questionAnswerHash[answer.questionId][0]
       ) {
         selectedOptions =
-          this.questionAnswerHash[answer.questionId][0].split(',') || []
+          this.questionAnswerHash[answer.questionId][0].split(',') ?? []
         let correctFlag = true
         let unTouched = false
         if (selectedOptions.length < 1) {
@@ -274,7 +274,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
           (selectedOptions[0] as any[]).forEach(element => {
             const b = element.sourceId
             if (correctMtfOptions) {
-              const option = correctMtfOptions[(b.slice(-1) as number) - 1] || { match: '' }
+              const option = correctMtfOptions[(b.slice(-1) as number) - 1] ?? { match: '' }
               const match = option.match
               if (match && match.trim() === element.target.innerHTML.trim()
               ) {
