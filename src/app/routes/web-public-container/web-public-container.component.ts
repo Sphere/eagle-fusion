@@ -142,24 +142,46 @@ export class WebPublicComponent implements OnInit {
   }
 
   private fetchCourseRecommendations() {
-    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.profileReq && this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails) {
+    console.log("Fetching course recommendations...")
+    this.isLoading = true
+
+    const timeout = setTimeout(() => {
+      if (this.isLoading) {
+        this.isLoading = false
+        console.error("API call timed out.")
+      }
+    }, 2000) // 10 seconds timeout
+
+    if (
+      this.configSvc.unMappedUser &&
+      this.configSvc.unMappedUser.profileDetails &&
+      this.configSvc.unMappedUser.profileDetails.profileReq &&
+      this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails
+    ) {
       const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
       if (professionalDetails) {
-        this.isLoading = true
-        const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
+        const designation =
+          professionalDetails.designation === ''
+            ? professionalDetails.profession
+            : professionalDetails.designation
+
         this.contentSvc.fetchCourseRemommendations(designation).subscribe(
           (res) => {
+            clearTimeout(timeout) // Clear timeout on success
             this.formatForYouCourses(res)
             this.isLoading = false
           },
           (err) => {
-            if ([500, 400, 419].includes(err.status)) {
-              this.coursesForYou = []
-              this.isLoading = false
-            }
+            clearTimeout(timeout) // Clear timeout on error
+            console.error("Error fetching course recommendations:", err)
+            this.coursesForYou = []
+            this.isLoading = false
           }
         )
       }
+    } else {
+      clearTimeout(timeout)
+      this.isLoading = false
     }
   }
 
