@@ -506,7 +506,9 @@ export class LearningComponent implements OnInit, OnDestroy {
         // this.searchResults.queryUsed = data.queryUsed
         // this.searchResults.type = data.type
         console.log(orderBy(data.result.content, ['lastPublishedOn'], ['desc']))
-        this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
+        this.searchResults.result.content = (data.result.content) ? data.result.content : []
+
+        // this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
         // [...this.searchResults.result.content, ...(data.result.content ? data.result.content : [])]
         // this.searchResults.doYouMean = data.doYouMean
         // this.searchResults.queryUsed = data.queryUsed
