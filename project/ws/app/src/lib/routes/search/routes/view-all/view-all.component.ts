@@ -7,11 +7,9 @@ import includes from 'lodash/includes'
 import uniqBy from 'lodash/uniqBy'
 import { HttpClient } from '@angular/common/http'
 import { OrgServiceService } from '../../../org/org-service.service'
-import { ValueService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
-import { WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
-import { WidgetUserService } from '@ws-widget/collection'
+import { WidgetContentService, WidgetUserService } from '@ws-widget/collection'
 
 @Component({
   selector: 'ws-app-view-all',
@@ -35,14 +33,17 @@ export class ViewAllComponent implements OnInit, OnDestroy {
   searchRequestStatus = 'none'
   userId: any
   constructor(
-    private http: HttpClient,
-    private orgService: OrgServiceService,
-    private valueSvc: ValueService,
-    private route: ActivatedRoute,
-    private contentSvc: WidgetContentService,
-    private configSvc: ConfigurationsService,
-    private userSvc: WidgetUserService,
+    private readonly http: HttpClient,
+    private readonly orgService: OrgServiceService,
+    private readonly valueSvc: ValueService,
+    private readonly route: ActivatedRoute,
+    private readonly contentSvc: WidgetContentService,
+    private readonly configSvc: ConfigurationsService,
+    private readonly userSvc: WidgetUserService,
   ) { }
+  ngOnDestroy(): void {
+    throw new Error('Method not implemented.')
+  }
 
 
 
@@ -54,9 +55,7 @@ export class ViewAllComponent implements OnInit, OnDestroy {
     })
   }
 
-  ngOnDestroy() {
 
-  }
   formatTopCertifiedCourseResponse(res: any) {
 
     const topCertifiedCourse = filter(res.result.content, ckey => {
@@ -93,7 +92,8 @@ export class ViewAllComponent implements OnInit, OnDestroy {
           this.formatTopCertifiedCourseResponse(results)
         } else if (this.courseType === 'formatForYouCourses') {
           this.searchRequestStatus = 'fetching'
-          if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.profileReq && this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails) {
+          if (this.configSvc.unMappedUser?.profileDetails?.profileReq?.professionalDetails) {
+            // Your logic here
             const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
             if (professionalDetails) {
               const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
@@ -133,44 +133,25 @@ export class ViewAllComponent implements OnInit, OnDestroy {
     let myCourseObject = {}
 
     res.forEach((key: any) => {
-      if (key.completionPercentage !== 100) {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          posterImage: key.content.posterImage,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating,
-          duration: key.content.duration,
-          competencies_v1: key.content.competencies_v1,
-          status: key.content.status,
-          contentType: key.content.contentType,
-          lastUpdatedOn: key.content.lastUpdatedOn
-        }
 
-      } else {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          posterImage: key.content.posterImage,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating,
-          duration: key.content.duration,
-          competencies_v1: key.content.competencies_v1,
-          status: key.content.status,
-          contentType: key.content.contentType,
-          lastUpdatedOn: key.content.lastUpdatedOn
-        }
+      myCourseObject = {
+        identifier: key.content.identifier,
+        appIcon: key.content.appIcon,
+        posterImage: key.content.posterImage,
+        thumbnail: key.content.thumbnail,
+        name: key.content.name,
+        dateTime: key.dateTime,
+        completionPercentage: key.completionPercentage,
+        sourceName: key.content.sourceName,
+        issueCertification: key.content.issueCertification,
+        averageRating: key.content.averageRating,
+        duration: key.content.duration,
+        competencies_v1: key.content.competencies_v1,
+        status: key.content.status,
+        contentType: key.content.contentType,
+        lastUpdatedOn: key.content.lastUpdatedOn
       }
+
       myCourse.push(myCourseObject)
     })
     this.searchRequestStatus = 'done'
@@ -215,6 +196,7 @@ export class ViewAllComponent implements OnInit, OnDestroy {
     this.searchResults = myCourse
 
   }
+  // NOSONAR - This commented code is intentional
   // formatForYouCourses(results: any, res: any) {
   //   const myCourse: any = []
   //   console.log("res", res)
@@ -226,10 +208,10 @@ export class ViewAllComponent implements OnInit, OnDestroy {
   //   const forYouCourse = filter(results.result.content, ckey => {
   //     return includes(myCourse, ckey.identifier)
   //   })
-
+  // NOSONAR - This commented code is intentional
   //   this.searchResults = uniqBy(forYouCourse, 'identifier')
 
-
+  // NOSONAR - This commented code is intentional
   //   // // this.searchResults = myCourse
   //   // console.log("myCourse", myCourse)
   // }

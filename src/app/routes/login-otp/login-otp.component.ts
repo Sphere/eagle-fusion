@@ -41,7 +41,7 @@ export class LoginOtpComponent implements OnInit {
     private snackBar: MatSnackBar,
     public signupService: SignupService,
     //private userProfileSvc: UserProfileService,
-    private valueSvc: ValueService,
+    private readonly valueSvc: ValueService,
     public dialog: MatDialog,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
@@ -95,7 +95,12 @@ export class LoginOtpComponent implements OnInit {
     }
 
   }
-
+  handleKeyDown(event: KeyboardEvent) {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.help()
+      event.preventDefault()
+    }
+  }
   // checkEmailPhoneType(): void {
   //   if (this.emailPhoneType !== 'phone' && !this.loginOtpForm.get('otp5')) {
   //     this.loginOtpForm.addControl('otp5', new FormControl('', Validators.required))

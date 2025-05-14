@@ -49,6 +49,12 @@ describe('NotificationsComponent', () => {
       connected: true,
       disconnect: jest.fn(),
     }
+    mockDialogRef = {
+      close: jest.fn(),
+    }
+    mockCdr = {
+      detectChanges: jest.fn(),
+    }
 
     component = new NotificationsComponent(
       mockEvents,

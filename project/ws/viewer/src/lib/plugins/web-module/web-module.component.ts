@@ -173,7 +173,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     //     `/apis/protected/v8/content/getWebModuleFiles?url=${encodeURIComponent(this.urlPrefix + u.URL)}`
     //   )
     // }));
-    this.setPage(this.widgetData.resumePage ? this.widgetData.resumePage : 1)
+    this.setPage(this.widgetData.resumePage ?? 1)
   }
 
   setPage(pageNumber: number) {
@@ -360,7 +360,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
           overflow: visible;
           transform: translate3d(0, 0, 0);
           transition: background .4s cubic-bezier(.25, .8, .25, 1), box-shadow 280ms cubic-bezier(.4, 0, .2, 1);
-          font-family: Roboto, "Helvetica Neue", sans-serif;
+          font-family: Roboto, sans-serif, sans-serif, sans-serif, sans-serif, "Helvetica Neue", sans-serif;
           font-size: 14px;
           font-weight: 300;
       }
@@ -467,14 +467,14 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
             }
           }, 500);
         `
-    docFrag.appendChild(normalizeCSS as any)
-    docFrag.appendChild(fontRoboto as any)
-    docFrag.appendChild(webModuleCSS as any)
-    docFrag.appendChild(prettyCSSSkin as any)
-    docFrag.appendChild(prettyJS as any)
-    docFrag.appendChild(executeJS as any)
-    docFrag.appendChild(stylePart as any)
-    iframeDocument.head.appendChild(docFrag as any)
+    docFrag.appendChild(normalizeCSS)
+    docFrag.appendChild(fontRoboto)
+    docFrag.appendChild(webModuleCSS)
+    docFrag.appendChild(prettyCSSSkin)
+    docFrag.appendChild(prettyJS)
+    docFrag.appendChild(executeJS)
+    docFrag.appendChild(stylePart)
+    iframeDocument.head.appendChild(docFrag)
     setTimeout(
       () => {
         this.iframeLoadingInProgress = false

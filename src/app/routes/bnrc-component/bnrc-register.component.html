@@ -100,13 +100,6 @@
           Please select a valid institute from the list.
         </mat-error>
       </div>
-
-
-
-      <!-- <mat-error
-        *ngIf="bnrcDetailForm.get('instituteName')?.hasError('pattern') && bnrcDetailForm.get('instituteName')?.touched">
-        Name of Institute should be in English and should not start with a space.
-      </mat-error> -->
       <mat-error *ngIf="bnrcDetailForm.get('instituteName')?.invalid && bnrcDetailForm.get('instituteName')?.touched">
       </mat-error>
       <!-- <label i18n for="profession" style="display: block;">Type of Institute /संस्थान का प्रकार <span

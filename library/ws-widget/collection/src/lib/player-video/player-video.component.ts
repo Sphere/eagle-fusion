@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { EventService, ConfigurationsService, TelemetryService } from '@ws-widget/utils'
+import { EventService, ConfigurationsService, TelemetryService, ValueService } from '@ws-widget/utils'
 import videoJs from 'video.js'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
@@ -19,7 +19,6 @@ import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service
 import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-popup-component'
 import { MatDialog } from '@angular/material/dialog'
 import { interval, Subscription } from 'rxjs'
-import { ValueService } from '@ws-widget/utils'
 import 'videojs-markers'
 
 const videoJsOptions: videoJs.PlayerOptions = {
@@ -95,8 +94,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private telemetrySvc: TelemetryService,
     public viewerDataSvc: ViewerDataService,
-    private dialog: MatDialog,
-    private valueSvc: ValueService,
+    private readonly dialog: MatDialog,
+    private readonly valueSvc: ValueService,
 
   ) {
     super()
@@ -112,52 +111,54 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   ngOnInit() { console.log("videoDatas", this.widgetData, this.contentData) }
 
 
-  async ngAfterViewInit() {
-    await this.getCurrentTime()
-    console.log("Initial resume point:", this.widgetData.resumePoint)
-    this.widgetData = {
-      ...this.widgetData,
-    }
-    // if (this.widgetData && this.widgetData.identifier && !this.widgetData.url) {
-    await this.fetchContent()
-    console.log("this.widgetData.videoQuestions", this.widgetData)
-    //enable below code to show popup questions
-    if (this.videoTag) {
-      this.addTimeUpdateListener(this.videoTag.nativeElement)
-    }
-    if (this.realvideoTag) {
-      this.addTimeUpdateListener(this.realvideoTag.nativeElement)
-    }
+  ngAfterViewInit(): void {
+    this.getCurrentTime().then(() => {
+      // console.log("Initial resume point:", this.widgetData.resumePoint)
 
-    if (this.widgetData.url) {
-      if (this.widgetData.isVideojs) {
-        this.initializePlayer()
-      } else {
-        this.initializeVPlayer()
+      this.widgetData = {
+        ...this.widgetData,
       }
-    }
+
+      this.fetchContent().then(() => {
+        console.log("this.widgetData.videoQuestions", this.widgetData)
+
+        if (this.videoTag) {
+          this.addTimeUpdateListener(this.videoTag.nativeElement)
+        }
+        if (this.realvideoTag) {
+          this.addTimeUpdateListener(this.realvideoTag.nativeElement)
+        }
+        if (this.widgetData.url) {
+          if (this.widgetData.isVideojs) {
+            this.initializePlayer()
+          } else {
+            this.initializeVPlayer()
+          }
+        }
+      })
+    })
   }
+
 
   async getCurrentTime() {
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-      this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
     const req: NsContent.IContinueLearningDataReq = {
       request: {
         userId,
         batchId,
-        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+        courseId: this.activatedRoute.snapshot.queryParams.collectionId ?? '',
         contentIds: [],
         fields: ['progressdetails'],
       },
     }
     const data = await this.contentSvc.fetchContentHistoryV2(req).toPromise()
-    if (data && data.result && data.result.contentList.length) {
+    if (data?.result?.contentList?.length) {
       const contentData = data.result.contentList.find((obj: any) => obj.contentId === this.widgetData.identifier)
-      if (contentData && contentData.progressdetails && contentData.progressdetails.current) {
+      if (contentData?.progressdetails?.current) {
         this.progressData = contentData
         this.widgetData.resumePoint = contentData.progressdetails.current
         console.log("Updated resume point:", this.widgetData.resumePoint)
@@ -169,7 +170,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     const player = videoJs(videoElement, {
       ...videoJsOptions,
       poster: this.widgetData.posterImage,
-      autoplay: this.widgetData.autoplay || false,
+      autoplay: this.widgetData.autoplay ?? false,
     })
 
     const videoId = videoElement.id
@@ -221,10 +222,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       if (isXSmall)
         if (player.requestFullscreen) {
           player.requestFullscreen()
-        } else if ((player as any).webkitRequestFullscreen) { // Safari
-          (player as any).webkitRequestFullscreen()
-        } else if ((player as any).msRequestFullscreen) { // IE/Edge
-          (player as any).msRequestFullscreen()
+        } else if (player.webkitRequestFullscreen) { // Safari
+          player.webkitRequestFullscreen()
+        } else if ((player).msRequestFullscreen) { // IE/Edge
+          player.msRequestFullscreen()
         }
     })
 
@@ -267,8 +268,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         if (this.activatedRoute.snapshot.queryParams.collectionType &&
           this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
           const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
             resourceId: data.resourceId,
             contextType: 'playlist',
             dateAccessed: Date.now(),
@@ -284,8 +284,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             .catch()
         } else {
           const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
             ...data,
             // resourceId: data.resourceId,
             // dateAccessed: Date.now(),
@@ -303,10 +302,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
       if (this.widgetData.identifier) {
         this.viewerSvc
           .realTimeProgressUpdate(identifier, data, collectionId, batchId)
@@ -383,13 +380,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
 
-      this.telemetrySvc.start('video', 'video-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier)
+      this.telemetrySvc.start('video', 'video-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier)
 
       let userId
       if (this.configSvc.userProfile) {
@@ -409,18 +403,16 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           this.contentData = await result['result']['contentList'].find((obj: any) => obj.contentId === identifier)
           const temp = data.current
           console.log("current progress", data)
-          const latest = parseFloat(temp[temp.length - 1] || '0')
+          const latest = parseFloat(temp[temp.length - 1] ?? '0')
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           const data1: any = {
-            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
             contentId: this.widgetData.identifier,
             name: this.viewerDataSvc.resource!.name,
             moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
           }
-          this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+          this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
           if (this.contentData && percent >= this.contentData.completionPercentage) {
             if (this.widgetData.identifier && identifier && data) {
@@ -437,14 +429,12 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
           if (this.contentData === undefined && percent > 95) {
             const data1: any = {
-              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-                this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
               contentId: this.widgetData.identifier,
               name: this.viewerDataSvc.resource!.name,
               moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
             }
-            this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+            this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
             this.viewerSvc
               .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
@@ -457,14 +447,12 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           } else {
             if (this.contentData && this.contentData.completionPercentage && percent > 95) {
               const data1: any = {
-                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-                  this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
                 contentId: this.widgetData.identifier,
                 name: this.viewerDataSvc.resource!.name,
                 moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
               }
-              this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?
-                this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier, data1)
+              this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
               this.viewerSvc
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
@@ -488,14 +476,14 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       {
         ...videoJsOptions,
         poster: this.widgetData.posterImage,
-        autoplay: this.widgetData.autoplay || false,
+        autoplay: this.widgetData.autoplay ?? false,
       },
       dispatcher,
       saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,
-      this.widgetData.resumePoint ? this.widgetData.resumePoint : 0,
+      this.widgetData.resumePoint ?? 0,
       enableTelemetry,
       this.widgetData,
       this.widgetData.mimeType,
@@ -532,10 +520,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         mime_type: this.widgetData.mimeType,
       }
 
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
-        this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
-        this.activatedRoute.snapshot.queryParams.batchId : this.widgetData.identifier
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
       if (percentage >= 98) {
         data.current = data.max_size
       }
@@ -555,7 +541,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         .fetchContent(this.widgetData.identifier || '', 'minimal', [], this.widgetData.primaryCategory)
         .toPromise()
 
-      if (content.result && content.result.content && content.result.content.videoQuestions) {
+      if (content?.result?.content?.videoQuestions) {
         const videoQuestions = content.result.content.videoQuestions
         console.log("videoQuestions", videoQuestions)
 

@@ -227,7 +227,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.questionAnswerHash,
     )
 
-    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest | any = this.quizService.sanitizeAssessmentSubmitRequest(requestData)
+    const sanitizedRequestData: NSQuiz.IQuizSubmitRequest = this.quizService.sanitizeAssessmentSubmitRequest(requestData)
     sanitizedRequestData['artifactUrl'] = this.assesmentdata.generalData.artifactUrl
     sanitizedRequestData['contentId'] = this.assesmentdata.generalData.identifier
     sanitizedRequestData['courseId'] = this.assesmentdata.generalData.collectionId
@@ -320,7 +320,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           forEach(JSON.parse(data), (item: any) => {
             if (item.competencyIds) {
               competencyLevelId = this.getCompetencyId(item.competencyIds)
-              this.competencyLevelId = competencyLevelId ? competencyLevelId : ''
+              this.competencyLevelId = competencyLevelId ?? ''
             }
           })
         }
@@ -422,14 +422,14 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       const correctOptions = answer.correctOptions
       const correctMtfOptions = answer.correctMtfOptions
       let selectedOptions: any =
-        this.questionAnswerHash[answer.questionId] || []
+        this.questionAnswerHash[answer.questionId] ?? []
       if (
         answer.questionType === 'fitb' &&
         this.questionAnswerHash[answer.questionId] &&
         this.questionAnswerHash[answer.questionId][0]
       ) {
         selectedOptions =
-          this.questionAnswerHash[answer.questionId][0].split(',') || []
+          this.questionAnswerHash[answer.questionId][0].split(',') ?? []
         let correctFlag = true
         let unTouched = false
         if (selectedOptions.length < 1) {
@@ -466,7 +466,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           (selectedOptions[0] as any[]).forEach(element => {
             const b = element.sourceId
             if (correctMtfOptions) {
-              const option = correctMtfOptions[(b.slice(-1) as number) - 1] || { match: '' }
+              const option = correctMtfOptions[(b.slice(-1) as number) - 1] ?? { match: '' }
               const match = option.match
               if (match && match.trim() === element.target.innerHTML.trim()
               ) {

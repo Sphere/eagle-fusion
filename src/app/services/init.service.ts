@@ -70,7 +70,7 @@ export class InitService {
     private http: HttpClient,
     // private widgetContentSvc: WidgetContentService,
     //private loginResolverService: LoginResolverService,
-    private authSvc: AuthKeycloakService,
+    private readonly authSvc: AuthKeycloakService,
     @Inject(APP_BASE_HREF) private baseHref: string,
     //private router: Router,
     domSanitizer: DomSanitizer,
@@ -99,7 +99,7 @@ export class InitService {
   }
 
   async init() {
-    // this.logger.removeConsoleAccess()
+   // this.logger.removeConsoleAccess()
     const authenticated = await this.authSvc.initAuth()
     const loginData = localStorage.getItem('loginDetailsWithToken')
     if (authenticated) {
@@ -112,6 +112,8 @@ export class InitService {
         this.authSvc.logout()
       }
     }
+
+
 
 
     await this.fetchDefaultConfig()
@@ -216,7 +218,7 @@ export class InitService {
     return true
   }
   private async fetchHostedConfig(): Promise<any> {
-    // TODO: use the rootOrg and org to fetch the instance
+    // use the rootOrg and org to fetch the instance
     const hostConfig = await this.http
       .get<any>(`https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ekshamataOrgConfig.json`)
       .toPromise()
