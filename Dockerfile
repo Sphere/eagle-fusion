@@ -7,7 +7,7 @@ WORKDIR /app
 COPY . .
 
 # Install Angular CLI globally, install dependencies, add required packages, and run the production builds
-RUN npm install -g @angular/cli@11.2.19 --ignore-scripts && \
+RUN npm install -g @angular/cli@11.2.19 && \
     yarn install --ignore-scripts && \
     yarn add moment vis-util && \
     ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true && \
