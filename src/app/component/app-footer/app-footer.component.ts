@@ -18,7 +18,7 @@ export class AppFooterComponent implements OnInit {
   isLoggedIn = false
 
   constructor(
-    private configSvc: ConfigurationsService,
+    public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private domSanitizer: DomSanitizer,
     private readonly router: Router
