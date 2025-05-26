@@ -16,8 +16,8 @@ export class CreateAccountDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,
-    @Inject(DOCUMENT) private _document: Document,
-    private _renderer2: Renderer2,
+    @Inject(DOCUMENT) private readonly _document: Document,
+    private readonly _renderer2: Renderer2,
   ) {
   }
 
@@ -32,6 +32,15 @@ export class CreateAccountDialogComponent implements OnInit {
       this.lastName = this.selectedData.details.lastname
     }
   }
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault()
+      this.showSocialChats()
+      window.fcWidget.open()
+      window.fcWidget.show()
+    }
+  }
+
   /* istanbul ignore next */
   showSocialChats() {
     try {

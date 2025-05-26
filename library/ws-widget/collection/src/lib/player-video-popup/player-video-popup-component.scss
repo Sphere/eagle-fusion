@@ -7,12 +7,11 @@
   height: auto;
 
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
-    // background-color: #f5d58d !important;
     background-color: #1c5d95 !important;
   }
 }
 .answer-text{
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-weight: 400;
 font-size: 16px;
 line-height: 24px;
@@ -28,16 +27,10 @@ letter-spacing: -2%;
 :host ::ng-deep .gray-radio  .question-option {
     opacity: 0.5 !important; /* Makes the radio button appear gray */
 }
-.correct-answer {
-  color: #469788 !important;
-}
 .correct-text {
     color: #469788 !important;
 }
 
-.wrong-answer {
-  color: #ED2C23;
-}
 :host ::ng-deep.quiz-option{
   .mat-radio-disabled, .mat-radio-disabled .mat-radio-label{
     .question-option{
@@ -58,9 +51,7 @@ letter-spacing: -2%;
 }
 .mat-list-option:focus-visible {
   outline: none !important;
-}
-.mat-list-option:focus-visible {
-  outline: 2px dashed #00bcd4; /* Customize the focus outline */
+    outline: 2px dashed #00bcd4; /* Customize the focus outline */
   outline-offset: 4px; /* Adjust spacing between outline and element */
 }
 
@@ -69,9 +60,6 @@ letter-spacing: -2%;
   background: #1c5d95 !important;
 }
 
-// ::ng-deep .mat-radio-ripple {
-//   display: none !important;
-// }
 
 ::ng-deep .mat-radio-ripple .mat-ripple-element {
   background-color: rgba(#919296, 0.26) !important;
@@ -80,20 +68,16 @@ letter-spacing: -2%;
 .wrap-mat-radio-label {
   white-space: normal;
 }
-.question-option {
-  white-space: break-spaces;
-}
+
 .options-container {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
 }
-.options-container {
-  display: flex;
-}
 
 .option {
   margin-bottom: 10px;
+   margin-right: 10px;
 }
 
 /* horizontal layout */
@@ -109,9 +93,6 @@ letter-spacing: -2%;
 }
 }
 
-.option {
-  margin-right: 10px;
-}
 
 /* vertical layout */
 
@@ -128,10 +109,8 @@ letter-spacing: -2%;
 ::ng-deep .cdk-overlay-pane{
 overflow: auto;
 }
-c
 .quiz-question {
-  margin-bottom: 5px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 16px;
 font-weight: 400;
 line-height: 12.75px;
@@ -139,7 +118,7 @@ text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
   overflow-x: auto;
-  margin: 10px 0 10 0 !important;
+  margin: 10px 0 5px 0 !important;
 color: #000000 !important;
   @include breakpoint-xs {
     margin: 0 !important;
@@ -184,10 +163,6 @@ correct-option {
   color: #357a38 !important;
 }
 
-.incorrect-option {
-  color: #f0506e;
-}
-
 .question {
   width: 40%;
   max-width: 200px;
@@ -219,7 +194,7 @@ correct-option {
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px !important;
   font-weight: 400;
   line-height: 19px;
@@ -233,7 +208,7 @@ correct-option {
   background: #ffffff !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px !important;
   font-weight: 400;
   line-height: 19px;
@@ -250,7 +225,7 @@ correct-option {
   color: #1C5D95 !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px !important;
   font-weight: 400;
   line-height: 19px;
@@ -274,7 +249,7 @@ correct-option {
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 16px ;
   font-weight: 400;
   line-height: 19px;
@@ -289,7 +264,7 @@ correct-option {
   cursor: pointer;
   padding: 8px 22px 8px 22px;
   border-radius: 50px;
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
   font-size: 12px !important;
   font-weight: 400;
   line-height: 14px;
@@ -307,7 +282,7 @@ gap: 10px !important;
     background: rgba(255, 255, 255, 0.04);
 }
 .questions-header{
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 14px;
 font-weight: 400;
 line-height: 16.41px;
@@ -318,8 +293,7 @@ color: #257CC7;
 
 }
 .question-option{
-  //styleName: Body;
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-size: 16px;
 font-weight: 400;
 line-height: 24px;
@@ -328,6 +302,7 @@ text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
 color: #000000;
+white-space: break-spaces;
 }
 .theme-igot.day-mode .mat-radio-button .mat-radio-container .mat-radio-inner-circle {
     background-color: #424242 !important;
@@ -353,14 +328,12 @@ color: #000000;
 .result-message-container{
   display: flex;
     justify-content: end;
-    /* align-items: end; */
-    // width: 50%;
     flex-direction: column;
 }
 .result-answer-info{
     border-radius: 0px 0px 8px 8px;
 
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-size: 14px;
 font-weight: 400;
 line-height: 16.41px;
@@ -371,7 +344,7 @@ text-decoration-skip-ink: none;
 color: #000000 !important;
 }
 .result-text{
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 14px;
 font-weight: 400;
 line-height: 16.41px;

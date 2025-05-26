@@ -30,7 +30,7 @@ export class MobileScromAdapterService {
     courseId: string
     authorization: string
     userToken: string
-  } | any = {
+  } = {
       userId: '',
       batchId: '',
       courseId: '',

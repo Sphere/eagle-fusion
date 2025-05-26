@@ -37,25 +37,6 @@ export class LearningComponent implements OnInit, OnDestroy {
     { id: 'hi', label: 'हिंदी' },
   ]
   contact = ''
-  // searchResults: NSSearch.ISearchV6ApiResult = {
-  //   totalHits: 0,
-  //   result: [],
-  //   filters: [],
-  //   filtersUsed: [],
-  //   notVisibleFilters: [],
-  // }
-  // searchRequestObject: ISearchRequest = {
-  //   filters: {},
-  //   query: '',
-  //   pageNo: 0,
-  //   pageSize: 10,
-  //   locale: [],
-  //   sort: [],
-  //   instanceCatalog: true,
-  //   visibleFilters: [],
-  //   excludeSourceFields: [],
-  // }
-
   newSearchResults: NSSearch.ISearchV6ApiResultV3 = {
     responseCode: '',
     result: {
@@ -88,7 +69,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     language: ''
 
   }
-  searchRequestObject: ISearchRequestV2 | any = {
+  searchRequestObject: ISearchRequestV2 = {
     request: {
       filters: {
         visibility: ['Default'],
@@ -177,7 +158,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   get isDefaultFilterApplied() {
-    const defaultFilters = JSON.parse(JSON.stringify(this.filtersFromConfig || {}))
+    const defaultFilters = JSON.parse(JSON.stringify(this.filtersFromConfig ?? {}))
     // const appliedFilters = JSON.parse(JSON.stringify(this.searchRequestObject.filters || {}))
     const appliedFilters = JSON.parse(JSON.stringify(this.searchRequestObject.request.filters || {}))
     if (!Object.keys(defaultFilters).length) {
@@ -221,7 +202,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   removeDefaultFiltersApplied() {
-    const defaultFilters = JSON.parse(JSON.stringify(this.filtersFromConfig || {}))
+    const defaultFilters = JSON.parse(JSON.stringify(this.filtersFromConfig ?? {}))
     // const appliedFilters = JSON.parse(JSON.stringify(this.searchRequestObject.filters || {}))
     const appliedFilters = JSON.parse(JSON.stringify(this.searchRequestObject.request.filters || {}))
     const newFilters = JSON.parse(JSON.stringify(appliedFilters))
@@ -506,7 +487,9 @@ export class LearningComponent implements OnInit, OnDestroy {
         // this.searchResults.queryUsed = data.queryUsed
         // this.searchResults.type = data.type
         console.log(orderBy(data.result.content, ['lastPublishedOn'], ['desc']))
-        this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
+        this.searchResults.result.content = (data.result.content) ? data.result.content : []
+
+        // this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
         // [...this.searchResults.result.content, ...(data.result.content ? data.result.content : [])]
         // this.searchResults.doYouMean = data.doYouMean
         // this.searchResults.queryUsed = data.queryUsed

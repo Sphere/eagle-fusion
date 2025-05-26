@@ -3,6 +3,7 @@
     margin-top: 45px;
     align-items: center;
     justify-content: space-around;
+      position: relative;
 }
 .box-sizing-box {
 
@@ -16,7 +17,7 @@
     background-color: #2E6491 !important;
     border-radius: 50px;
     color: #FFFFFF !important;
-    font-family: "Roboto";
+    font-family: Roboto, sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 14px;
@@ -29,7 +30,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-size: 24px;
 font-weight: 400;
 line-height: 28.13px;
@@ -47,7 +48,7 @@ text-align: left;
     line-height: 40px;
     letter-spacing: -0.02em;
     color: #000000;
-    font-family: Roboto;
+    font-family: Roboto, sans-serif;
 font-size: 50px;
 font-weight: 500;
 line-height: 55px;
@@ -61,7 +62,7 @@ text-align: left;
     color: #000000;
     /* Header 2 */
     //styleName: Header 2;
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-size: 24px;
 font-weight: 400;
 line-height: 28.8px;
@@ -133,7 +134,7 @@ text-align: left;
 
 .info-number {
    //styleName: Display 1;
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-size: 40px;
 font-weight: 400;
 line-height: 57.6px;
@@ -154,7 +155,7 @@ text-align: left;
     letter-spacing: -0.02em;
     color: #14446C;
     //styleName: Header 3;
-font-family: Roboto;
+font-family: Roboto, sans-serif;
 font-size: 20px;
 font-weight: 400;
 line-height: 24px;
@@ -211,12 +212,16 @@ text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
+     position: relative;
+    z-index: 1;
 }
 
 .slides {
   display: flex;
   flex: 65%;
   transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
+    position: relative;
+  z-index: 1;
 }
 
 .slide {
@@ -300,24 +305,12 @@ text-align: center;
     margin-top: -1px;
     flex-direction: column;
 }
-.banner-container {
-  position: relative;
-}
-
-.carousel {
-  position: relative;
-  z-index: 1;
-}
 
 .create-account {
   position: relative;
   z-index: 10;
 }
 
-.slides {
-  position: relative;
-  z-index: 1;
-}
 
 .slide {
   position: relative;
@@ -338,29 +331,4 @@ text-align: center;
     letter-spacing: -0.02em;
     color: #FFFFFF !important;
     margin: 0px !important;
-}
-
-
-.banner-container {
-  position: relative;
-}
-
-.carousel {
-  position: relative;
-  z-index: 1;
-}
-
-.create-account {
-  position: relative;
-  z-index: 10;
-}
-
-.slides {
-  position: relative;
-  z-index: 1;
-}
-
-.slide {
-  position: relative;
-  z-index: 1;
 }

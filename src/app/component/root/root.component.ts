@@ -7,9 +7,9 @@ import {
   ViewChild,
   ViewContainerRef,
   Inject,
-  OnDestroy
+  OnDestroy,
+  Renderer2 as Renderer
 } from '@angular/core'
-import { Renderer2 as Renderer } from '@angular/core'
 import {
   NavigationCancel,
   NavigationEnd,
@@ -42,11 +42,10 @@ import { Plugins } from '@capacitor/core'
 import dayjs from 'dayjs'
 //import { v4 as uuid } from 'uuid'
 const { App } = Plugins
+// NOSONAR - This commented code is intentional
 //import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'
 import { environment } from '../../../environments/environment'
-// import { MatDialog } from '@angular/material/dialog';
-// import { DialogConfirmComponent } from '../dialog-confirm/dialog-confirm.component'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
 import { DOCUMENT } from '@angular/common'
@@ -127,7 +126,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     //private signupService: SignupService,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
-    private _renderer2: Renderer,
+    private readonly _renderer2: Renderer,
     private sanitizer: DomSanitizer,
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
@@ -135,8 +134,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private UserAgentResolverService: UserAgentResolverService,
     private userSvc: WidgetUserService,
     private viewerSvc: ViewerUtilService,
-    private storage: LocalStorageService,
-    private events: Events,
+    private readonly storage: LocalStorageService,
+    private readonly events: Events,
 
     @Inject(DOCUMENT) private _document: Document
   ) {
@@ -213,7 +212,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.appOnline = value
     })
   }
-
+  openFreshChat() {
+    window.fcWidget.open()
+    window.fcWidget.show()
+  }
   mergeProgressDetails(obj1: any, obj2: any) {
     // Create a new object to store the merged results
     let mergedObj = { ...obj1 }
@@ -328,7 +330,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  async ngOnInit() {
+  ngOnInit() {
     if (this.configSvc.userProfile) {
       this.getConnectToSocket()
       this.userId = this.configSvc.userProfile.userId || ''
@@ -356,6 +358,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       this.isInIframe = window.self !== window.top
     } catch (_ex) {
+      console.warn("Error determining if in iframe:", _ex)
       this.isInIframe = false
     }
 
@@ -702,25 +705,24 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     // const baseUrl = "wss://aastrika-stage.tarento.com"
     // const url = baseUrl
 
-    const token = (data && data.accessToken) ? data.accessToken : await this.getAccessToken()
+    const token = data?.accessToken ?? await this.getAccessToken()
     console.log('Token is', token)
 
     const socket = io(url, {
       auth: { token },
-      path: '/apis/socket.io/',
-      transports: ["websocket"]
+      path: '/apis/socket.io/'
     })
 
     socket.on('connect', () => {
       console.log(`Connected to the server with ID: ${socket.id}`)
     })
 
-    socket.emit('getNotifications', { userId: data?.userId || this.userId })
+    socket.emit('getNotifications', { userId: data?.userId ?? this.userId })
 
     socket.on('notificationsData', (data) => {
-      this.storage.setNumberOfNotifications(data?.notificationData?.length || 0)
+      this.storage.setNumberOfNotifications(data?.notificationData?.length ?? 0)
       console.log("data?.notificationData?.length", data?.notificationData?.length)
-      this.events.publish("notificationCountUpdated", data?.notificationData?.length || 0)
+      this.events.publish("notificationCountUpdated", data?.notificationData?.length ?? 0)
     })
   }
 
@@ -832,7 +834,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(error)
     }
   }
-
+  handleKeyDown(event: KeyboardEvent): void {
+    if (event.key === 'Enter' || event.key === ' ') {
+      this.backToChatIcon()
+    }
+  }
   // set page title
   setPageTitle() {
     this.router.events.pipe(

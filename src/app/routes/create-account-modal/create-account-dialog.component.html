@@ -63,12 +63,12 @@
         <p class="whtsapp-text m-0" i18n>Chat with us on WhatsApp</p>
       </div>
     </a>
-    <a class=" flex align-items-center fcapp-text cursor-pointer ca-block" (click)="showSocialChats()"
-      onclick="window.fcWidget.open();window.fcWidget.show();">
+    <button class="flex align-items-center fcapp-text cursor-pointer ca-block"
+      (click)="showSocialChats(); window.fcWidget.open(); window.fcWidget.show();">
       <img src="/fusion-assets/icons/chat-wa.png" class="whatsapp-icon" alt="whatsapp" />
       <div>
         <p class="ca-text m-0" i18n>Chat with us</p>
       </div>
-    </a>
+    </button>
   </div>
 </div>

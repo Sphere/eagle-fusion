@@ -69,7 +69,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     private signupService: SignupService,
     public navOption: appNavBarService,
     public storage: LocalStorageService,
-    private event: Events,
+    private readonly event: Events,
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -113,6 +113,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         this.currentText = 'Home'
       }
     } else if (window.location.href.includes('competency')) {
+      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
       if (window.location.href.includes('/hi/app/user/competency')) {
         this.currentText = 'योग्यता'
       } else {
@@ -183,6 +184,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.currentText = text.name
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
+        localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
         let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
         location.href = `${url3}${url1}${url}`
       } else {
@@ -261,9 +263,12 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       }
     }
     const count = this.storage.getNumberOfNotifications()
-    this.numberOfNotification = (count > 1) ? '1+' : (count > 0 ? '1' : '')
+    let notificationText = count > 0 ? '1' : ''
+
+    this.numberOfNotification = (count > 1) ? '1+' : notificationText
     this.event.subscribe('notificationCountUpdated', (data) => {
-      this.numberOfNotification = (data > 1) ? '1+' : (data > 0 ? '1' : '')
+      let notificationText = data > 0 ? '1' : ''
+      this.numberOfNotification = (data > 1) ? '1+' : notificationText
     })
     this.pinnedAppsChangeSubs = this.configurationsSvc.pinnedApps.subscribe(pinnedApps => {
       this.isPinned = Boolean(

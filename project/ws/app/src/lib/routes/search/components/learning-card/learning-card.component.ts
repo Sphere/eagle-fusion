@@ -43,34 +43,32 @@ export class LearningCardComponent extends WidgetBaseComponent
     if (instanceConfig) {
       this.defaultThumbnail = instanceConfig.logos.defaultContent
     }
-
-    // this.redirectUrl = document.baseURI + 'openid/keycloak'
     const url = `${document.baseURI}openid/keycloak`
     this.redirectUrl = url
-    if (this.content.competencies_v1 && Object.keys(this.content.competencies_v1).length > 0) {
-
-      forEach(JSON.parse(this.content.competencies_v1), (value: any) => {
-        if (value.level) {
-          this.cometencyData.push(
-            {
-              name: value.competencyName,
-              levels: ` Level ${value.level}`,
-            }
-          )
-        }
-        return this.cometencyData
-      })
-    }
-
   }
   ngOnChanges(changes: SimpleChanges) {
-    for (const prop in changes) {
-      if (prop === 'content' && this.content.description) {
-        this.content.description = this.content.description.replace(/<br>/g, '')
-        this.description = this.domSanitizer.bypassSecurityTrustHtml(this.content.description)
+    if (changes['content'] && changes['content'].currentValue) {
+      const competencies = changes['content'].currentValue.competencies_v1
+      if (competencies && Object.keys(competencies).length > 0) {
+        this.cometencyData = [] // Clear existing data
+        forEach(JSON.parse(competencies), (value: any) => {
+          if (value.level) {
+            this.cometencyData.push({
+              name: value.competencyName,
+              levels: ` Level ${value.level}`,
+            })
+          }
+        })
       }
     }
+
+    // Handle description updates (existing logic)
+    if (changes['content'] && this.content.description) {
+      this.content.description = this.content.description.replace(/<br>/g, '')
+      this.description = this.domSanitizer.bypassSecurityTrustHtml(this.content.description)
+    }
   }
+
 
   raiseTelemetry(content: any) {
     const url = `app/toc/` + `${content.identifier}` + `/overview`

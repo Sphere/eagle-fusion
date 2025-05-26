@@ -33,8 +33,6 @@
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 40px 40px 0px 0px;
     display: block;
-    // position: relative;
-    // top: -333px;
     background: #FFFFFF;
   }
 }
@@ -56,7 +54,6 @@
 
 .iconPosition1 {
   position: absolute;
-  // right: -18px;
   right: 5px;
   top: 10px;
 }
@@ -126,7 +123,6 @@ a {
   font-size: 16px;
   line-height: 19px;
   cursor: pointer;
-  // z-index: 9999;
   position: relative;
 }
 
@@ -154,16 +150,7 @@ a {
   .z-btn{
   z-index: 9999;
 }
-  .login-page-content {
-     max-width: 100%;
-    margin: auto;
-    margin: 0px !important;
-    box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
-    border-radius: 40px 40px 0px 0px;
-    display: block;
-
-}
-    .top-blue-color{
+.top-blue-color{
 
     background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
 }
@@ -177,23 +164,21 @@ a {
   }
   .help-btn{
         display: flex;
-        /* justify-content: space-between; */
         gap: 12px;
         width: 75px;
         height: 36px;
         color: #2E6491;
         border-radius: 63px;
-        border: 1px 0px 0px 0px;
-        font-family: Roboto;
+
+        font-family: Roboto, sans-serif;
         font-size: 14px;
         font-weight: 400;
         line-height: 16.41px;
-        /* text-align: left; */
         border: 1px solid #2E6491;
         padding: 8px;
   }
 .info-text{
-  font-family: Roboto;
+  font-family: Roboto, sans-serif;
 font-size: 16px;
 font-weight: 400;
 line-height: 24px;
@@ -316,7 +301,6 @@ span.mat-button-wrapper {
 }
 .line-bottom {
   border-bottom: 1px solid #DDDDDD;
-  // text-transform: capitalize;
 }
 
 ::ng-deep .mat-list-base {

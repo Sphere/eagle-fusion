@@ -296,7 +296,7 @@ export class MobileDashboardComponent implements OnInit {
     this.coursesForUP = myCourse
   }
   private fetchCourseRecommendations() {
-    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.profileReq && this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails) {
+    if (this.configSvc.unMappedUser?.profileDetails?.profileReq?.professionalDetails) {
       const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
       if (professionalDetails) {
         const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
