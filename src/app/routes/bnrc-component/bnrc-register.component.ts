@@ -661,7 +661,7 @@ export class BnrcRegisterComponent implements OnInit {
           this.resetForm()
           this.dialog.open(BnrcmodalComponent, {
             width: '350px',
-            height: '305px',
+            height: '345px',
             panelClass: 'overview-modal',
             disableClose: true,
             data: {
