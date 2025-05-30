@@ -4,7 +4,7 @@ import { RouterTestingModule } from '@angular/router/testing'
 
 import { BnrcLoginOtpComponent } from './bnrc-login-otp.component'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { FormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { UntypedFormBuilder, FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 describe('BnrcLoginOtpComponent', () => {
   let component: BnrcLoginOtpComponent
@@ -22,7 +22,7 @@ describe('BnrcLoginOtpComponent', () => {
         MatSnackBarModule, // Add MatSnackBarModule to imports
       ],
       providers: [
-        FormBuilder,
+        UntypedFormBuilder,
         { provide: MatSnackBar, useValue: { open: jest.fn() } },
         // { provide: MatSnackBar, useValue: jest.fn() },
         { provide: UserProfileService, useValue: {} }, // Mock UserProfileService
@@ -54,7 +54,7 @@ describe('BnrcLoginOtpComponent', () => {
   // loginVerifyOtp successfully validates OTP and emits event on success
   it('should emit event and show success message when OTP is validated successfully', () => {
     const mockRouter = { url: 'upsmf/register' }
-    const mockFormBuilder = new FormBuilder()
+    const mockFormBuilder = new UntypedFormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn().mockReturnValue({
@@ -76,7 +76,7 @@ describe('BnrcLoginOtpComponent', () => {
   // loginVerifyOtp handles error response and shows appropriate error message
   it('should show error message when OTP validation fails', () => {
     const mockRouter = { url: 'upsmf/register' }
-    const mockFormBuilder = new FormBuilder()
+    const mockFormBuilder = new UntypedFormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn().mockReturnValue({
@@ -96,7 +96,7 @@ describe('BnrcLoginOtpComponent', () => {
   // resendOTP successfully resends OTP and shows success message
   it('should resend OTP successfully and show success message', () => {
     const mockRouter = { url: 'upsmf/register' }
-    const mockFormBuilder = new FormBuilder()
+    const mockFormBuilder = new UntypedFormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfResendOtp: jest.fn().mockReturnValue({
@@ -116,7 +116,7 @@ describe('BnrcLoginOtpComponent', () => {
   // loginVerifyOtp uses correct validation method based on URL
   it('should use upsmfValidateOtp method when URL includes "upsmf/register"', () => {
     const mockRouter = { url: 'upsmf/register' }
-    const mockFormBuilder = new FormBuilder()
+    const mockFormBuilder = new UntypedFormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn(),
@@ -134,7 +134,7 @@ describe('BnrcLoginOtpComponent', () => {
   // loginVerifyOtp handles case when loginData is null or undefined
   it('should handle case when loginData is null or undefined', () => {
     const mockRouter = { url: 'upsmf/register' }
-    const mockFormBuilder = new FormBuilder()
+    const mockFormBuilder = new UntypedFormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn(),
@@ -158,7 +158,7 @@ describe('BnrcLoginOtpComponent', () => {
   // openSnackbar handles case when primaryMsg is empty or null
   it('should handle empty primaryMsg in openSnackbar', () => {
     const mockRouter = { url: 'upsmf/register' }
-    const mockFormBuilder = new FormBuilder()
+    const mockFormBuilder = new UntypedFormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn(),
@@ -175,7 +175,7 @@ describe('BnrcLoginOtpComponent', () => {
   // loginVerifyOtp should handle unexpected response structures gracefully
   it('should handle unexpected response structures gracefully', () => {
     const mockRouter = { url: 'upsmf/register' }
-    const mockFormBuilder = new FormBuilder()
+    const mockFormBuilder = new UntypedFormBuilder()
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn().mockReturnValue({

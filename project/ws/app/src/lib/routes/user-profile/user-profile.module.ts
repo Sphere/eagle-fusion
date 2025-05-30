@@ -23,6 +23,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatButtonToggleModule } from '@angular/material/button-toggle'
 import { MatTabsModule } from '@angular/material/tabs'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
+// Add this import for textarea autosize functionality
+import { TextFieldModule } from '@angular/cdk/text-field'
 
 import { UserProfileRoutingModule } from './user-profile-routing.module'
 import { UserProfileComponent } from './components/user-profile/user-profile.component'
@@ -71,6 +73,7 @@ import { ChatbotComponent } from './chatbot/chatbot/chatbot.component'
     MatButtonToggleModule,
     MatTabsModule,
     MatAutocompleteModule,
+    TextFieldModule, // Add this line
   ],
   providers: [UserProfileService, LoaderService],
 })

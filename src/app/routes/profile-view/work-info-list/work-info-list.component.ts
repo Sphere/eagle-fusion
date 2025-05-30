@@ -4,7 +4,7 @@ import { ConfigurationsService, ValueService } from '../../../../../library/ws-w
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '@ws-widget/collection'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 // import { constructReq } from '../request-util'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -12,10 +12,21 @@ import get from 'lodash/get'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
+import { MatFormFieldModule } from '@angular/material/form-field'
+import { MatSelectModule } from '@angular/material/select'
+import { ReactiveFormsModule, FormsModule } from '@angular/forms'
+
 @Component({
   selector: 'ws-work-info-list',
   templateUrl: './work-info-list.component.html',
   styleUrls: ['./work-info-list.component.scss'],
+  imports: [
+    MatFormFieldModule,
+    MatSelectModule,
+    ReactiveFormsModule,
+    FormsModule,
+    // Other required modules
+  ],
 })
 
 export class WorkInfoListComponent implements OnInit {
@@ -32,7 +43,7 @@ export class WorkInfoListComponent implements OnInit {
   @Output() passProfession = new EventEmitter<string>();
   showLogOutIcon = false
   trigerrNavigation = true
-  personalDetailForm: FormGroup
+  personalDetailForm: UntypedFormGroup
   orgTypeField = false
   orgOthersField = false
   HealthcareWorker = false
@@ -63,23 +74,23 @@ export class WorkInfoListComponent implements OnInit {
     public snackBar: MatSnackBar,
     public http: HttpClient,
   ) {
-    this.personalDetailForm = new FormGroup({
-      profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      designation: new FormControl(),
-      professionOtherSpecify: new FormControl(),
-      regNurseRegMidwifeNumber: new FormControl('', [Validators.pattern(/[^\s]/)]),
-      orgType: new FormControl(),
-      orgOtherSpecify: new FormControl(),
-      organizationName: new FormControl(),
-      block: new FormControl(),
-      subcentre: new FormControl(),
-      professSelected: new FormControl(),
-      orgName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      locationselect: new FormControl(),
-      selectBackground: new FormControl(),
-      nameOther: new FormControl(),
+    this.personalDetailForm = new UntypedFormGroup({
+      profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      designation: new UntypedFormControl(),
+      professionOtherSpecify: new UntypedFormControl(),
+      regNurseRegMidwifeNumber: new UntypedFormControl('', [Validators.pattern(/[^\s]/)]),
+      orgType: new UntypedFormControl(),
+      orgOtherSpecify: new UntypedFormControl(),
+      organizationName: new UntypedFormControl(),
+      block: new UntypedFormControl(),
+      subcentre: new UntypedFormControl(),
+      professSelected: new UntypedFormControl(),
+      orgName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      instituteName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      locationselect: new UntypedFormControl(),
+      selectBackground: new UntypedFormControl(),
+      nameOther: new UntypedFormControl(),
     })
   }
 

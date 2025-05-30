@@ -1,7 +1,7 @@
 import { Component, OnInit, Input, OnChanges, OnDestroy } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { QuizStoreService } from '../../services/store.service'
-import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component.ts'
+import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { NOTIFICATION_TIME, ASSESSMENT } from '../../constants/quiz-constants'
 import { Subscription } from 'rxjs'
 import { EditorContentService } from '../../../../../services/editor-content.service'

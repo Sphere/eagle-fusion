@@ -1,10 +1,10 @@
-<mat-chip-list *ngIf="widgetData?.showChips" class="mb-4 block">
-  <mat-chip *ngFor="let chipId of selectedContentIds" [value]="chipId" [removable]="true"
+<mat-chip-listbox *ngIf="widgetData?.showChips" class="mb-4 block">
+  <mat-chip-option *ngFor="let chipId of selectedContentIds" [value]="chipId" [removable]="true"
     (removed)="selectedContentChanged(chipId, false)">
     {{ widgetData.chipNamesHash[chipId] }}
     <mat-icon matChipRemove>cancel</mat-icon>
-  </mat-chip>
-</mat-chip-list>
+  </mat-chip-option>
+</mat-chip-listbox>
 <div class="flex">
   <mat-form-field class="width-expand margin-right-m" appearance="fill" floatLabel="never">
     <mat-icon matSuffix>dashboard</mat-icon>

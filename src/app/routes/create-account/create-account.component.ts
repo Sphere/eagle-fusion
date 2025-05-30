@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, HostListener } from '@angular/core'
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
@@ -32,9 +32,9 @@ export class CreateAccountComponent implements OnInit {
   emailPhoneType: any
   otpPage = false
   languageDialog = false
-  createAccountForm: FormGroup
-  createAccountWithPasswordForm: FormGroup
-  otpCodeForm: FormGroup
+  createAccountForm: UntypedFormGroup
+  createAccountWithPasswordForm: UntypedFormGroup
+  otpCodeForm: UntypedFormGroup
   hide1 = true
   hide2 = true
   iconChange1 = 'fas fa-eye-slash'
@@ -56,7 +56,7 @@ export class CreateAccountComponent implements OnInit {
   passwordSpecialCharImage: string = '../../../fusion-assets/icons/gray_dot.pwd.png'
   isXSmall$: Observable<boolean>
   constructor(
-    private spherFormBuilder: FormBuilder,
+    private spherFormBuilder: UntypedFormBuilder,
     public snackBar: MatSnackBar,
     private signupService: SignupService,
     private router: Router,
@@ -77,25 +77,25 @@ export class CreateAccountComponent implements OnInit {
     }
     // this.spherFormBuilder = spherFormBuilder
     this.createAccountForm = this.spherFormBuilder.group({
-      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
-      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
+      firstname: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
+      lastname: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
-      // password: new FormControl('', [Validators.required,
+      emailOrMobile: new UntypedFormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
+      // password: new UntypedFormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
+      // confirmPassword: new UntypedFormControl('', [Validators.required]),
     },
       // { validator: mustMatch('password', 'confirmPassword') }
     )
 
     this.createAccountWithPasswordForm = this.spherFormBuilder.group({
-      password: new FormControl('', [Validators.required,
+      password: new UntypedFormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      confirmPassword: new FormControl('', [Validators.required]),
+      confirmPassword: new UntypedFormControl('', [Validators.required]),
     }, { validator: mustMatch('password', 'confirmPassword') }
     )
     this.otpCodeForm = this.spherFormBuilder.group({
-      otpCode: new FormControl('', [Validators.required]),
+      otpCode: new UntypedFormControl('', [Validators.required]),
     })
     //localStorage.removeItem(`userUUID`)
   }
@@ -148,12 +148,12 @@ export class CreateAccountComponent implements OnInit {
 
   initializeFormFields() {
     this.createAccountForm = this.spherFormBuilder.group({
-      firstname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
-      lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)])
+      firstname: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
+      lastname: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)])
     })
 
     this.otpCodeForm = this.spherFormBuilder.group({
-      otpCode: new FormControl('', [Validators.required]),
+      otpCode: new UntypedFormControl('', [Validators.required]),
     })
   }
 

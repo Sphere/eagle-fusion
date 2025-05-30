@@ -152,6 +152,10 @@ import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
 import { PlayerVideoPopupComponent } from '../../library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 import { NotificationsComponent } from './routes/notification/notification.component'
+import { BtnContentShareComponent } from '../../library/ws-widget/collection/src/lib/btn-content-share/btn-content-share.component'
+
+import { HammerOptions } from 'hammerjs'
+import * as Hammer from 'hammerjs'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -331,6 +335,7 @@ const dbConfig: DBConfig = {
     ReactiveFormsModule,
     BrowserModule,
     CommonModule,
+    BtnContentShareComponent,
     HttpClientModule,
     HttpClientJsonpModule,
     BrowserAnimationsModule,

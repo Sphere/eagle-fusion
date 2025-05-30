@@ -201,7 +201,7 @@ export class AuthKeycloakService {
         case KeycloakEventType.OnAuthSuccess:
           break
         case KeycloakEventType.OnReady:
-          this.loginChangeSubject.next(event.args)
+          this.loginChangeSubject.next(event.args as boolean)
           if (event.args) {
             //   this.saveKeycloakConfig()
           }

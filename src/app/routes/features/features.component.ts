@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
 import { startWith, debounceTime, distinctUntilChanged } from 'rxjs/operators'
@@ -20,7 +20,7 @@ interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
   styleUrls: ['./features.component.scss'],
 })
 export class FeaturesComponent implements OnInit, OnDestroy {
-  queryControl = new FormControl(this.activateRoute.snapshot.queryParamMap.get('q'))
+  queryControl = new UntypedFormControl(this.activateRoute.snapshot.queryParamMap.get('q'))
   private readonly featuresConfig: IGroupWithFeatureWidgets[] = []
   featureGroups: IGroupWithFeatureWidgets[] | null = null
   private responseSubscription: Subscription | null = null
@@ -86,9 +86,9 @@ export class FeaturesComponent implements OnInit, OnDestroy {
         debounceTime(500),
         distinctUntilChanged(),
       )
-      .subscribe((query: string) => {
+      .subscribe((query: string | null) => {
         this.router.navigate([], { queryParams: { q: query || null } })
-        this.featureGroups = this.filteredFeatures(query)
+        this.featureGroups = this.filteredFeatures(query || '')
       })
     this.configurationSvc.tourGuideNotifier.subscribe(canShow => {
       if (

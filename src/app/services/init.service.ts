@@ -99,7 +99,7 @@ export class InitService {
   }
 
   async init() {
-   // this.logger.removeConsoleAccess()
+    // this.logger.removeConsoleAccess()
     const authenticated = await this.authSvc.initAuth()
     const loginData = localStorage.getItem('loginDetailsWithToken')
     if (authenticated) {
@@ -431,7 +431,7 @@ export class InitService {
         // tslint:disable-next-line:no-console
         console.log(e)
         this.configSvc.userProfile = null
-        if (e.status === 419) {
+        if (e && typeof e === 'object' && 'status' in e && (e as any).status === 419) {
           //this.authSvc.logout()
         }
         return e

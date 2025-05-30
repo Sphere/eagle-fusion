@@ -9,7 +9,7 @@ import { QuizStoreService } from '../../../services/store.service'
 
 import { QUIZ_QUESTION_TYPE } from '../../../constants/quiz-constants'
 import { ConfirmDialogComponent } from '@ws/author/src/lib/modules/shared/components/confirm-dialog/confirm-dialog.component'
-import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component.ts'
+import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 
 import { IQuizQuestionType } from '../../../interface/quiz-interface'
 

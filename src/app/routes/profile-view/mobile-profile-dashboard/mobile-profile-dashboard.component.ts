@@ -13,7 +13,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
-import { FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { DOCUMENT } from '@angular/common'
 
 @Component({
@@ -41,7 +41,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   selectedIndex = 'personal'
   showView: any = ''
   gotData: any
-  userForm: FormGroup
+  userForm: UntypedFormGroup
   userData: any
   hideData = false
   currentProfession: any
@@ -87,8 +87,8 @@ export class MobileProfileDashboardComponent implements OnInit {
       // sessionStorage.removeItem('academic')
       // sessionStorage.removeItem('currentWindow')
     })
-    this.userForm = new FormGroup({
-      language: new FormControl(),
+    this.userForm = new UntypedFormGroup({
+      language: new UntypedFormControl(),
     })
   }
 

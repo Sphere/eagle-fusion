@@ -7,7 +7,7 @@ import { LoaderService } from '../../../../../project/ws/author/src/public-api'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
-import { FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { constructReq } from '../request-util'
@@ -21,7 +21,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 export class ProfileSelectComponent implements OnInit {
   imageTypes = IMAGE_SUPPORT_TYPES
   photoUrl!: string | ArrayBuffer | null
-  createUserForm: FormGroup
+  createUserForm: UntypedFormGroup
   userProfileData!: any
   userID: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -42,8 +42,8 @@ export class ProfileSelectComponent implements OnInit {
     private loader: LoaderService,
     private UserAgentResolverService: UserAgentResolverService,
   ) {
-    this.createUserForm = new FormGroup({
-      photo: new FormControl('', []),
+    this.createUserForm = new UntypedFormGroup({
+      photo: new UntypedFormControl('', []),
     })
   }
 

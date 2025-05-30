@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, ChangeDetectorRef, AfterViewInit } from '@angular/core'
-import { FormGroup, FormControl, Validators, FormArray, FormBuilder } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormArray, UntypedFormBuilder } from '@angular/forms'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { Subscription, Observable } from 'rxjs'
 import { startWith, map, debounceTime, distinctUntilChanged } from 'rxjs/operators'
@@ -48,8 +48,8 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
   ],
 })
 export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
-  createUserForm: FormGroup
-  unseenCtrl!: FormControl
+  createUserForm: UntypedFormGroup
+  unseenCtrl!: UntypedFormControl
   unseenCtrlSub!: Subscription
   uploadSaveData = false
   selectedIndex = 0
@@ -89,8 +89,8 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   // industriesMeta!: IIndustriesMeta
   degreesMeta!: IdegreesMeta
   // designationsMeta!: IdesignationsMeta
-  public degrees!: FormArray
-  public postDegrees!: FormArray
+  public degrees!: UntypedFormArray
+  public postDegrees!: UntypedFormArray
   public degreeInstitutes = []
   public postDegreeInstitutes = []
   public countryCodes: string[] = []
@@ -136,7 +136,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private router: Router,
     private route: ActivatedRoute,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private cd: ChangeDetectorRef,
     private dialog: MatDialog,
     private loader: LoaderService,
@@ -147,65 +147,65 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.approvalConfig = this.route.snapshot.data.pageData.data
     this.isForcedUpdate = !!this.route.snapshot.paramMap.get('isForcedUpdate')
     // this.fetchPendingFields()
-    this.createUserForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      middlename: new FormControl('', []),
-      surname: new FormControl('', [Validators.required]),
-      about: new FormControl(''),
-      photo: new FormControl('', []),
-      countryCode: new FormControl(''),
-      mobile: new FormControl('', [Validators.pattern(this.phoneNumberPattern)]),
-      telephone: new FormControl('', []),
-      primaryEmail: new FormControl('', [Validators.email]),
-      primaryEmailType: new FormControl(this.assignPrimaryEmailTypeCheckBox(this.ePrimaryEmailType.OFFICIAL), []),
-      secondaryEmail: new FormControl('', []),
-      nationality: new FormControl('', []),
-      dob: new FormControl('', [Validators.required]),
-      gender: new FormControl('', []),
-      maritalStatus: new FormControl('', []),
-      domicileMedium: new FormControl('', []),
-      regNurseRegMidwifeNumber: new FormControl('', []),
-      nationalUniqueId: new FormControl('', []),
-      doctorRegNumber: new FormControl('', []),
-      instituteName: new FormControl('', []),
-      nursingCouncil: new FormControl('', []),
-      knownLanguages: new FormControl([], []),
-      residenceAddress: new FormControl('', []),
-      category: new FormControl('', []),
-      pincode: new FormControl('', [Validators.pattern(this.pincodePattern)]),
-      schoolName10: new FormControl('', []),
-      yop10: new FormControl('', [Validators.pattern(this.yearPattern)]),
-      schoolName12: new FormControl('', []),
-      yop12: new FormControl('', [Validators.pattern(this.yearPattern)]),
+    this.createUserForm = new UntypedFormGroup({
+      firstname: new UntypedFormControl('', [Validators.required]),
+      middlename: new UntypedFormControl('', []),
+      surname: new UntypedFormControl('', [Validators.required]),
+      about: new UntypedFormControl(''),
+      photo: new UntypedFormControl('', []),
+      countryCode: new UntypedFormControl(''),
+      mobile: new UntypedFormControl('', [Validators.pattern(this.phoneNumberPattern)]),
+      telephone: new UntypedFormControl('', []),
+      primaryEmail: new UntypedFormControl('', [Validators.email]),
+      primaryEmailType: new UntypedFormControl(this.assignPrimaryEmailTypeCheckBox(this.ePrimaryEmailType.OFFICIAL), []),
+      secondaryEmail: new UntypedFormControl('', []),
+      nationality: new UntypedFormControl('', []),
+      dob: new UntypedFormControl('', [Validators.required]),
+      gender: new UntypedFormControl('', []),
+      maritalStatus: new UntypedFormControl('', []),
+      domicileMedium: new UntypedFormControl('', []),
+      regNurseRegMidwifeNumber: new UntypedFormControl('', []),
+      nationalUniqueId: new UntypedFormControl('', []),
+      doctorRegNumber: new UntypedFormControl('', []),
+      instituteName: new UntypedFormControl('', []),
+      nursingCouncil: new UntypedFormControl('', []),
+      knownLanguages: new UntypedFormControl([], []),
+      residenceAddress: new UntypedFormControl('', []),
+      category: new UntypedFormControl('', []),
+      pincode: new UntypedFormControl('', [Validators.pattern(this.pincodePattern)]),
+      schoolName10: new UntypedFormControl('', []),
+      yop10: new UntypedFormControl('', [Validators.pattern(this.yearPattern)]),
+      schoolName12: new UntypedFormControl('', []),
+      yop12: new UntypedFormControl('', [Validators.pattern(this.yearPattern)]),
       degrees: this.fb.array([this.createDegree()]),
       postDegrees: this.fb.array([this.createDegree()]),
-      certificationDesc: new FormControl('', []),
-      interests: new FormControl('', []),
-      hobbies: new FormControl('', []),
-      skillAquiredDesc: new FormControl('', []),
-      isGovtOrg: new FormControl(false, []),
-      orgName: new FormControl('', []),
-      orgType: new FormControl(),
-      orgOtherSpecify: new FormControl(),
-      orgNameOther: new FormControl('', []),
-      industry: new FormControl('', []),
-      industryOther: new FormControl('', []),
-      designation: new FormControl('', []),
-      profession: new FormControl('', []),
-      location: new FormControl('', []),
-      locationOther: new FormControl('', []),
-      doj: new FormControl('', []),
-      orgDesc: new FormControl('', []),
-      payType: new FormControl('', []),
-      service: new FormControl('', []),
-      cadre: new FormControl('', []),
-      allotmentYear: new FormControl('', [Validators.pattern(this.yearPattern)]),
-      otherDetailsDoj: new FormControl('', []),
-      civilListNo: new FormControl('', []),
-      employeeCode: new FormControl('', []),
-      otherDetailsOfficeAddress: new FormControl('', []),
-      otherDetailsOfficePinCode: new FormControl('', []),
-      professionOtherSpecify: new FormControl(),
+      certificationDesc: new UntypedFormControl('', []),
+      interests: new UntypedFormControl('', []),
+      hobbies: new UntypedFormControl('', []),
+      skillAquiredDesc: new UntypedFormControl('', []),
+      isGovtOrg: new UntypedFormControl(false, []),
+      orgName: new UntypedFormControl('', []),
+      orgType: new UntypedFormControl(),
+      orgOtherSpecify: new UntypedFormControl(),
+      orgNameOther: new UntypedFormControl('', []),
+      industry: new UntypedFormControl('', []),
+      industryOther: new UntypedFormControl('', []),
+      designation: new UntypedFormControl('', []),
+      profession: new UntypedFormControl('', []),
+      location: new UntypedFormControl('', []),
+      locationOther: new UntypedFormControl('', []),
+      doj: new UntypedFormControl('', []),
+      orgDesc: new UntypedFormControl('', []),
+      payType: new UntypedFormControl('', []),
+      service: new UntypedFormControl('', []),
+      cadre: new UntypedFormControl('', []),
+      allotmentYear: new UntypedFormControl('', [Validators.pattern(this.yearPattern)]),
+      otherDetailsDoj: new UntypedFormControl('', []),
+      civilListNo: new UntypedFormControl('', []),
+      employeeCode: new UntypedFormControl('', []),
+      otherDetailsOfficeAddress: new UntypedFormControl('', []),
+      otherDetailsOfficePinCode: new UntypedFormControl('', []),
+      professionOtherSpecify: new UntypedFormControl(),
     })
   }
 
@@ -327,11 +327,11 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  createDegree(): FormGroup {
+  createDegree(): UntypedFormGroup {
     return this.fb.group({
-      degree: new FormControl('', []),
-      instituteName: new FormControl('', []),
-      yop: new FormControl('', [Validators.pattern(this.yearPattern)]),
+      degree: new UntypedFormControl('', []),
+      instituteName: new UntypedFormControl('', []),
+      yop: new UntypedFormControl('', [Validators.pattern(this.yearPattern)]),
     })
   }
 
@@ -347,21 +347,21 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       return !!!(this.unApprovedField.indexOf(name) >= 0)
     } return true
   }
-  createDegreeWithValues(degree: any): FormGroup {
+  createDegreeWithValues(degree: any): UntypedFormGroup {
     return this.fb.group({
-      degree: new FormControl(degree.degree, []),
-      instituteName: new FormControl(degree.instituteName, []),
-      yop: new FormControl(degree.yop, [Validators.pattern(this.yearPattern)]),
+      degree: new UntypedFormControl(degree.degree, []),
+      instituteName: new UntypedFormControl(degree.instituteName, []),
+      yop: new UntypedFormControl(degree.yop, [Validators.pattern(this.yearPattern)]),
     })
   }
 
   public addDegree() {
-    this.degrees = this.createUserForm.get('degrees') as FormArray
+    this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
     this.degrees.push(this.createDegree())
   }
 
   public addDegreeValues(degree: any) {
-    this.degrees = this.createUserForm.get('degrees') as FormArray
+    this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
     this.degrees.push(this.createDegreeWithValues(degree))
   }
 
@@ -375,12 +375,12 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public addPostDegree() {
-    this.postDegrees = this.createUserForm.get('postDegrees') as FormArray
+    this.postDegrees = this.createUserForm.get('postDegrees') as UntypedFormArray
     this.postDegrees.push(this.createDegree())
   }
 
   public addPostDegreeValues(degree: any) {
-    this.postDegrees = this.createUserForm.get('postDegrees') as FormArray
+    this.postDegrees = this.createUserForm.get('postDegrees') as UntypedFormArray
     this.postDegrees.push(this.createDegreeWithValues(degree))
   }
 
@@ -854,15 +854,15 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   private setDegreeValuesArray(academics: any) {
-    this.degrees = this.createUserForm.get('degrees') as FormArray
+    this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
     this.degrees.removeAt(0)
-    academics.degree.map((degree: any) => { this.addDegreeValues(degree as FormArray) })
+    academics.degree.map((degree: any) => { this.addDegreeValues(degree as UntypedFormArray) })
   }
 
   private setPostDegreeValuesArray(academics: any) {
-    this.postDegrees = this.createUserForm.get('postDegrees') as FormArray
+    this.postDegrees = this.createUserForm.get('postDegrees') as UntypedFormArray
     this.postDegrees.removeAt(0)
-    academics.postDegree.map((degree: any) => { this.addPostDegreeValues(degree as FormArray) })
+    academics.postDegree.map((degree: any) => { this.addPostDegreeValues(degree as UntypedFormArray) })
   }
 
   private constructReq(form: any) {

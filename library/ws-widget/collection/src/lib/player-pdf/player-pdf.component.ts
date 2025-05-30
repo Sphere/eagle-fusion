@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { EventService, WsEvents, TelemetryService, ConfigurationsService, UtilityService } from '@ws-widget/utils'
@@ -31,8 +31,8 @@ import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service
 export class PlayerPdfComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
   @Input() widgetData!: IWidgetsPlayerPdfData
-  @ViewChild('fullScreenContainer', { static: true })
-  @ViewChild('input', { static: true }) input: any
+  @ViewChild('fullScreenContainer', { static: true }) fullScreenContainer!: ElementRef
+  @ViewChild('input') input: any
   containerSection!: ElementRef<HTMLElement>
 
   DEFAULT_SCALE = 1.0
@@ -40,8 +40,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   MIN_SCALE = 0.2
   CSS_UNITS = 96 / 72
   totalPages = 0
-  currentPage = new FormControl(1)
-  // zoom = new FormControl(this.DEFAULT_SCALE)
+  currentPage = new UntypedFormControl(1)
+  // zoom = new UntypedFormControl(this.DEFAULT_SCALE)
   isSmallViewPort = false
   realTimeProgressRequest = {
     content_type: 'Resource',
@@ -300,7 +300,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // this.pdfContainer.nativeElement.innerHTML = ''
     // const page = await this.pdfInstance.getPage(this.currentPage.value)
 
-    const pageNumStr = this.currentPage.value.toString()
+    const pageNumStr = (this.currentPage.value ?? 1).toString()
     if (!this.current.includes(pageNumStr)) {
       this.current.push(pageNumStr)
     }
@@ -340,7 +340,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           const realTimeProgressRequest = {
             ...this.realTimeProgressRequest,
             max_size: this.totalPages,
-            current: [(this.currentPage.value).toString()],
+            current: [this.currentPage.value !== null ? this.currentPage.value.toString() : '1'],
           }
 
           const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
@@ -417,7 +417,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       data: {
         eventSubType: eventType,
         activityType: activity,
-        currentPage: this.currentPage.value,
+        currentPage: this.currentPage.value !== null ? this.currentPage.value : 1,
         totalPage: this.totalPages,
         activityStartedAt: this.activityStartedAt,
       },

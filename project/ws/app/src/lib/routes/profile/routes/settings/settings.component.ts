@@ -16,7 +16,7 @@ import {
 } from '@ws-widget/utils'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { BtnSettingsService } from '@ws-widget/collection'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { Router, ActivatedRoute } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -41,10 +41,10 @@ export class SettingsComponent implements OnInit, OnDestroy {
   themes: NsInstanceConfig.ITheme[] = []
   fonts: NsInstanceConfig.IFontSize[] = []
   allowedLangCode: { [langCode: string]: NsInstanceConfig.ILocalsConfig } = {}
-  contentLangForm: FormControl = new FormControl()
+  contentLangForm: UntypedFormControl = new UntypedFormControl()
   showContentLang = false
-  intranetContentForm = new FormControl(false)
-  darkModeForm = new FormControl(false)
+  intranetContentForm = new UntypedFormControl(false)
+  darkModeForm = new UntypedFormControl(false)
   activeThemeKey = ''
   activeFontClass = ''
   activeLocaleClass = ''
@@ -132,13 +132,17 @@ export class SettingsComponent implements OnInit, OnDestroy {
       // Events Subscription
       this.modeChangeSubs = this.darkModeForm.valueChanges
         .pipe(distinctUntilChanged(), debounceTime(150))
-        .subscribe((isDark: boolean) => {
-          this.btnSettingsSvc.applyThemeMode(isDark)
+        .subscribe((isDark: boolean | null) => {
+          if (isDark !== null) {
+            this.btnSettingsSvc.applyThemeMode(isDark)
+          }
         })
       this.modeChangeSubs = this.intranetContentForm.valueChanges
         .pipe(distinctUntilChanged(), debounceTime(150))
-        .subscribe((isIntranet: boolean) => {
-          this.btnSettingsSvc.intranetContentMode(isIntranet)
+        .subscribe((isIntranet: boolean | null) => {
+          if (isIntranet !== null) {
+            this.btnSettingsSvc.intranetContentMode(isIntranet)
+          }
         })
       this.prefChangeSubs = this.configSvc.prefChangeNotifier
         .pipe(debounceTime(100))

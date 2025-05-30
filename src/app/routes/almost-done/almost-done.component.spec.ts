@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
 import { AlmostDoneComponent } from './almost-done.component'
-import { FormBuilder, ReactiveFormsModule } from '@angular/forms'
+import { UntypedFormBuilder, ReactiveFormsModule } from '@angular/forms'
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatInputModule } from '@angular/material/input'
@@ -20,7 +20,7 @@ const mockHttpService: Partial<HttpClient> = {}
 const mockUserAgentService: Partial<UserAgentResolverService> = {}
 const mockSignupService: Partial<SignupService> = {}
 
-const mockFormBuilder: Partial<FormBuilder> = {
+const mockFormBuilder: Partial<UntypedFormBuilder> = {
   group: jest.fn()
 }
 const mockMatSnackBar: Partial<MatSnackBar> = {
@@ -36,7 +36,7 @@ describe('PublicLoginComponent', () => {
       mockUserProfileService as UserProfileService,
       // mockRouterService as Router,
       mockMatSnackBar as MatSnackBar,
-      mockFormBuilder as FormBuilder,
+      mockFormBuilder as UntypedFormBuilder,
       mockActivatedRouteService as ActivatedRoute,
       mockHttpService as HttpClient,
       mockUserAgentService as UserAgentResolverService,
@@ -49,7 +49,7 @@ describe('PublicLoginComponent', () => {
       declarations: [AlmostDoneComponent],
       imports: [RouterModule, MatInputModule, MatSnackBarModule, BrowserAnimationsModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
-        FormBuilder,
+        UntypedFormBuilder,
         { provide: ConfigurationsService, useValue: mockConfigService },
         { provide: UserProfileService, useValue: mockUserProfileService },
         { provide: Router, useValue: mockRouterService },

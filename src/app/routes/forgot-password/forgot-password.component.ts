@@ -1,7 +1,7 @@
 import { SignupService } from '../signup/signup.service'
 import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms'
 // import { mustMatch } from '../password-validator'
 import { MatSnackBar } from '@angular/material/snack-bar'
 // import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
@@ -13,12 +13,12 @@ import { MatSnackBar } from '@angular/material/snack-bar'
   styleUrls: ['./forgot-password.component.scss'],
 })
 export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
-  forgotPasswordForm: FormGroup
+  forgotPasswordForm: UntypedFormGroup
   email: any
   emailOrMobile = ''
   showOtpPwd = false
   showCheckEmailText = false
-  emailForm: FormGroup
+  emailForm: UntypedFormGroup
   @ViewChild('resend', { static: false }) resend!: ElementRef
   showResend = false
   key = ''
@@ -30,17 +30,17 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
   isEkshamtaLogin: any
 
   constructor(private router: Router, private signupService: SignupService,
-    private fb: FormBuilder, private snackBar: MatSnackBar,
+    private fb: UntypedFormBuilder, private snackBar: MatSnackBar,
     private readonly route: ActivatedRoute
     // private authSvc: AuthKeycloakService
   ) {
     this.forgotPasswordForm = this.fb.group({
-      otp: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      otp: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
     })
 
     this.emailForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      userInput: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      userInput: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
     })
   }
 

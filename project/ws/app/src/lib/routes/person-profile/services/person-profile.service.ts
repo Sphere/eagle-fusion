@@ -74,7 +74,8 @@ export class PersonProfileService {
       return this.http.post<IFollowDetails>(API_END_POINTS.getDetails, { wid })
 
     } catch (e) {
-      return e
+      // Return an observable error using throwError
+      return new Observable<IFollowDetails>(observer => observer.error(e))
     }
 
   }

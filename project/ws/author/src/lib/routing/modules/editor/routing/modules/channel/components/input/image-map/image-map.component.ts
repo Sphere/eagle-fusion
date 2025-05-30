@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, QueryList, ViewChild, ViewChildren } from '@angular/core'
-import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { IWidgetImageMap, IWidgetMapMeta } from '@ws-widget/collection/src/lib/image-map-responsive/image-map-responsive.model'
 import { AUTHORING_CONTENT_BASE, CONTENT_BASE_WEBHOST_ASSETS } from '@ws/author/src/lib/constants/apiEndpoints'
@@ -24,7 +24,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   @Input() content!: IWidgetImageMap
   @Input() isSubmitPressed = false
   @Output() data = new EventEmitter<{ content: IWidgetImageMap; isValid: boolean }>()
-  form!: FormGroup
+  form!: UntypedFormGroup
   startX1 = 0
   startY1 = 0
   startX2 = 0
@@ -45,7 +45,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   constructor(
     private uploadService: UploadService,
     private snackBar: MatSnackBar,
-    public formBuilder: FormBuilder,
+    public formBuilder: UntypedFormBuilder,
     private loader: LoaderService,
   ) { }
 
@@ -101,8 +101,8 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
     link.setValue(`./page/${this.identifier.replace('.img', '')}#${value}`)
   }
 
-  get paths(): FormArray {
-    return this.form.get('map') as FormArray
+  get paths(): UntypedFormArray {
+    return this.form.get('map') as UntypedFormArray
   }
 
   selectionChange(event: any, index: number) {
@@ -117,10 +117,10 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
     this.paths.push(
       this.formBuilder.group({
         coords: this.formBuilder.array([
-          new FormControl(data && data.coords ? data.coords[0] || 0 : 0),
-          new FormControl(data && data.coords ? data.coords[1] || 0 : 0),
-          new FormControl(data && data.coords ? data.coords[2] || 0 : 0),
-          new FormControl(data && data.coords ? data.coords[3] || 0 : 0),
+          new UntypedFormControl(data && data.coords ? data.coords[0] || 0 : 0),
+          new UntypedFormControl(data && data.coords ? data.coords[1] || 0 : 0),
+          new UntypedFormControl(data && data.coords ? data.coords[2] || 0 : 0),
+          new UntypedFormControl(data && data.coords ? data.coords[3] || 0 : 0),
         ]),
         alt: [data ? data.alt || '' : ''],
         title: [data ? data.title || '' : ''],
@@ -367,7 +367,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
 
   // addImageMapDetails() {
   //   this.title.forEach((_, index) => {
-  //     const coordinates = this.paths.at(index).get('coords') as FormArray
+  //     const coordinates = this.paths.at(index).get('coords') as UntypedFormArray
   //     this.imageMapDetails.push({
   //       coords: [
   //         (coordinates.get('0') as AbstractControl).value,

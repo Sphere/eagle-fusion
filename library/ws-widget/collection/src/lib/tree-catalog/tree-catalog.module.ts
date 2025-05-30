@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { TreeCatalogComponent } from './tree-catalog.component'
@@ -23,5 +23,6 @@ import { TreeCatalogRoutePipe } from './tree-catalog-route.pipe'
   ],
   exports: [TreeCatalogComponent, TreeCatalogMenuComponent],
   entryComponents: [TreeCatalogComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class TreeCatalogModule { }

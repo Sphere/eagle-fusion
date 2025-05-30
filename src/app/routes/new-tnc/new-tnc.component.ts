@@ -12,7 +12,7 @@ import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { FormGroup, FormControl } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl } from '@angular/forms'
 import { HttpClient } from '@angular/common/http'
 import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
@@ -35,7 +35,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   isPublic = false
   result: any
   userId = ''
-  createUserForm!: FormGroup
+  createUserForm!: UntypedFormGroup
   showAcceptbtn = true
   lang: any
   termsAccepted: any
@@ -143,20 +143,20 @@ export class NewTncComponent implements OnInit, OnDestroy {
     }
   }
   createTncFormFields() {
-    return new FormGroup({
-      tncAccepted: new FormControl(''),
-      firstname: new FormControl('', []),
-      middlename: new FormControl('', []),
-      surname: new FormControl('', []),
-      mobile: new FormControl('', []),
-      telephone: new FormControl('', []),
-      primaryEmail: new FormControl('', []),
-      primaryEmailType: new FormControl('', []),
-      dob: new FormControl('', []),
-      regNurseRegMidwifeNumber: new FormControl('', []),
-      osName: new FormControl('', []),
-      browserName: new FormControl('', []),
-      userCookie: new FormControl('', []),
+    return new UntypedFormGroup({
+      tncAccepted: new UntypedFormControl(''),
+      firstname: new UntypedFormControl('', []),
+      middlename: new UntypedFormControl('', []),
+      surname: new UntypedFormControl('', []),
+      mobile: new UntypedFormControl('', []),
+      telephone: new UntypedFormControl('', []),
+      primaryEmail: new UntypedFormControl('', []),
+      primaryEmailType: new UntypedFormControl('', []),
+      dob: new UntypedFormControl('', []),
+      regNurseRegMidwifeNumber: new UntypedFormControl('', []),
+      osName: new UntypedFormControl('', []),
+      browserName: new UntypedFormControl('', []),
+      userCookie: new UntypedFormControl('', []),
     })
   }
 

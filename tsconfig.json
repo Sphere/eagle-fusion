@@ -1,9 +1,15 @@
 {
   "compileOnSave": false,
+  "angularCompilerOptions": {
+    "enableIvy": true
+  },
   "compilerOptions": {
     "resolveJsonModule": true,
-    "types": ["node", "reflect-metadata", "jest"],
-    "target": "es2015",
+    "moduleResolution": "node",
+    "types": ["node", "jest"],
+    "target": "ES2022",
+    "module": "es2020",
+    "lib": ["es2020", "dom"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "alwaysStrict": true,
@@ -15,9 +21,6 @@
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "lib": ["es2018", "dom"],
-    "module": "esnext",
-    "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,
     "noImplicitReturns": true,
@@ -30,7 +33,6 @@
       "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
       "@ws-widget/collection": ["library/ws-widget/collection"],
       "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
-      // "@ws-widget/utils": ["library/ws-widget/utils"],
       "@ws-widget/utils": ["library/ws-widget/utils/src/public-api.ts"],
       "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
       "@ws/app": ["project/ws/app"],
@@ -54,12 +56,6 @@
     "plugins": [
       {
         "name": "@angular/language-service"
-      },
-      {
-        "name": "typescript-tslint-plugin",
-        "alwaysShowRuleFailuresAsWarnings": false,
-        "ignoreDefinitionFiles": true,
-        "configFile": "./tslint.json"
       }
     ]
   }

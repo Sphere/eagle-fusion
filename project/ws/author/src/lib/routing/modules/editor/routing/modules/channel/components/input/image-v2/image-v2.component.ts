@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, Output } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { IWidgetElementHtml } from '@ws-widget/collection'
 import {
@@ -27,12 +27,12 @@ export class ImageV2Component implements OnChanges {
   @Input() isSubmitPressed = false
   @Input() size: 1 | 2 | 3 | 4 = 1
   minWidth = 331
-  form!: FormGroup
+  form!: UntypedFormGroup
   canShow: string[] = []
   previewCard: string[] = []
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private loader: LoaderService,
     private uploadService: UploadService,

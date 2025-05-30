@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -23,7 +23,7 @@ import { locale } from 'moment'
 export class WorkInfoEditComponent implements OnInit, OnDestroy {
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
-  workInfoForm: FormGroup
+  workInfoForm: UntypedFormGroup
   userProfileData!: any
   userID = ''
   showbackButton = false
@@ -43,11 +43,11 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
   ) {
-    this.workInfoForm = new FormGroup({
-      //doj: new FormControl('', [Validators.required]),
-      organizationName: new FormControl('', [Validators.required]),
-      designation: new FormControl('', [Validators.required]),
-      // location: new FormControl('', [Validators.required]),
+    this.workInfoForm = new UntypedFormGroup({
+      //doj: new UntypedFormControl('', [Validators.required]),
+      organizationName: new UntypedFormControl('', [Validators.required]),
+      designation: new UntypedFormControl('', [Validators.required]),
+      // location: new UntypedFormControl('', [Validators.required]),
     })
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data, 'here')

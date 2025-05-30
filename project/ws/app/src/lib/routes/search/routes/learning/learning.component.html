@@ -51,31 +51,31 @@
       </button> -->
     </div>
     <div class="margin-bottom-m">
-      <mat-chip-list aria-label="Filter selection" role="none" *ngIf="filtersResponse">
+      <mat-chip-listbox aria-label="Filter selection" role="none" *ngIf="filtersResponse">
         <span *ngFor="let filter of filtersResponse">
           <span *ngFor="let content of filter?.content">
             <span *ngIf="content?.checked">
-              <mat-chip [removable]="removable">
+              <mat-chip-option [removable]="removable">
                 {{translatedFilters[filter?.displayName]?.value[content?.displayName] || content?.displayName}}
                 <mat-icon matChipRemove
                   (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :content?.type})"
                   *ngIf="removable">cancel</mat-icon>
-              </mat-chip>
+              </mat-chip-option>
             </span>
             <span *ngIf="content?.children?.length>0">
               <span *ngFor="let children of content?.children">
                 <span *ngIf="children?.checked">
-                  <mat-chip [removable]="removable">{{children?.displayName}}
+                  <mat-chip-option [removable]="removable">{{children?.displayName}}
                     <mat-icon matChipRemove
                       (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :children?.type})"
                       *ngIf="removable" i18n>cancel</mat-icon>
-                  </mat-chip>
+                  </mat-chip-option>
                 </span>
               </span>
             </span>
           </span>
         </span>
-      </mat-chip-list>
+      </mat-chip-listbox>
     </div>
     <div *ngIf="searchResults?.result?.content?.length">
       <ng-container *ngIf="(isXSmall$ | async) !== true">

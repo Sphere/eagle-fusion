@@ -6,7 +6,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
-import { FormGroup } from '@angular/forms'
+import { UntypedFormGroup } from '@angular/forms'
 import {
   ConfigurationsService
 } from '@ws-widget/utils'
@@ -26,7 +26,7 @@ export class TncComponent implements OnInit, OnDestroy {
   errorInAccepting = false
   isPublic = false
   userId = false
-  createUserForm!: FormGroup
+  createUserForm!: UntypedFormGroup
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -69,16 +69,16 @@ export class TncComponent implements OnInit, OnDestroy {
     console.log(this.configSvc)
   }
   // createTncFormFields() {
-  //   return new FormGroup({
-  //     tncAccepted: new FormControl(''),
-  //     firstname: new FormControl('', []),
-  //     middlename: new FormControl('', []),
-  //     surname: new FormControl('', []),
-  //     mobile: new FormControl('', []),
-  //     telephone: new FormControl('', []),
-  //     primaryEmail: new FormControl('', []),
-  //     primaryEmailType: new FormControl('', []),
-  //     dob: new FormControl('', []),
+  //   return new UntypedFormGroup({
+  //     tncAccepted: new UntypedFormControl(''),
+  //     firstname: new UntypedFormControl('', []),
+  //     middlename: new UntypedFormControl('', []),
+  //     surname: new UntypedFormControl('', []),
+  //     mobile: new UntypedFormControl('', []),
+  //     telephone: new UntypedFormControl('', []),
+  //     primaryEmail: new UntypedFormControl('', []),
+  //     primaryEmailType: new UntypedFormControl('', []),
+  //     dob: new UntypedFormControl('', []),
   //   })
   // }
 

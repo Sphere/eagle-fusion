@@ -5,10 +5,14 @@ import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import * as _ from 'lodash'
+import { CommonModule } from '@angular/common'
+
 @Component({
   selector: 'ws-web-dashboard',
+  standalone: true,
   templateUrl: './web-dashboard.component.html',
   styleUrls: ['./web-dashboard.component.scss'],
+  imports: [CommonModule], // ✅ Needed for ngClass, ngIf, etc.
 })
 export class WebDashboardComponent implements OnInit {
   myCourse: any

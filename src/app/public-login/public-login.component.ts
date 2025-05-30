@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatDialog } from '@angular/material/dialog'
@@ -15,9 +15,9 @@ import { ActivatedRoute, Router } from '@angular/router'
   styleUrls: ['./public-login.component.scss']
 })
 export class PublicLoginComponent implements OnInit {
-  loginForm: FormGroup
-  loginPwdForm: FormGroup
-  OTPForm: FormGroup
+  loginForm: UntypedFormGroup
+  loginPwdForm: UntypedFormGroup
+  OTPForm: UntypedFormGroup
   selectedField = 'otp'
   otpPage = false
   userID = ''
@@ -33,7 +33,7 @@ export class PublicLoginComponent implements OnInit {
   isEkshamtaLogin = false
   routerLink = 'public/home'
   constructor(
-    private spherFormBuilder: FormBuilder,
+    private spherFormBuilder: UntypedFormBuilder,
     public signupService: SignupService,
     public snackBar: MatSnackBar,
     private readonly valueSvc: ValueService,
@@ -44,22 +44,22 @@ export class PublicLoginComponent implements OnInit {
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
-      // firstName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
-      // lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
+      // firstName: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
+      // lastname: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
-      // password: new FormControl('', [Validators.required,
+      emailOrMobile: new UntypedFormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
+      // password: new UntypedFormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
+      // confirmPassword: new UntypedFormControl('', [Validators.required]),
     })
     this.loginPwdForm = this.spherFormBuilder.group({
-      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
-      password: new FormControl('', [Validators.required,
+      emailOrMobile: new UntypedFormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
+      password: new UntypedFormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
+      // confirmPassword: new UntypedFormControl('', [Validators.required]),
     })
     this.OTPForm = this.spherFormBuilder.group({
-      OTPcode: new FormControl('', [Validators.required])
+      OTPcode: new UntypedFormControl('', [Validators.required])
     })
     this.route.queryParams.subscribe(params => {
       if (params['ekshamtaLogin']) {
@@ -111,11 +111,11 @@ export class PublicLoginComponent implements OnInit {
   initializeForm(): void {
     if (this.emailPhoneType === 'phone') {
       this.OTPForm = this.spherFormBuilder.group({
-        otp1: new FormControl('', [Validators.required]),
-        otp2: new FormControl('', [Validators.required]),
-        otp3: new FormControl('', [Validators.required]),
-        otp4: new FormControl('', [Validators.required]),
-        OTPcode: new FormControl('', [Validators.required])
+        otp1: new UntypedFormControl('', [Validators.required]),
+        otp2: new UntypedFormControl('', [Validators.required]),
+        otp3: new UntypedFormControl('', [Validators.required]),
+        otp4: new UntypedFormControl('', [Validators.required]),
+        OTPcode: new UntypedFormControl('', [Validators.required])
       })
     } else {
       console.log("email type")

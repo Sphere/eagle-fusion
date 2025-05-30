@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject, forwardRef, ViewChild, ElementRef } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { FormGroup, FormControl, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '@ws-widget/utils'
@@ -17,7 +17,7 @@ import { AppDateAdapter, APP_DATE_FORMATS, startWithYearformat } from '../../../
   ],
 })
 export class CreateBatchDialogComponent implements OnInit {
-  createBatchForm: FormGroup
+  createBatchForm: UntypedFormGroup
   enrollmentTypes = ['open', 'closed']
   namePatern = `^[a-zA-Z\\s\\']{1,32}$`
   today = new Date()
@@ -32,17 +32,17 @@ export class CreateBatchDialogComponent implements OnInit {
     private snackBar: MatSnackBar,
     private configSvc: ConfigurationsService
   ) {
-    this.createBatchForm = new FormGroup({
-      name: new FormControl('', [Validators.required, Validators.pattern(this.namePatern)]),
-      description: new FormControl('', []),
-      enrollmentType: new FormControl(this.enrollmentTypes[0], [Validators.required]),
-      startDate: new FormControl('', [Validators.required]),
-      endDate: new FormControl('', []),
-      enrollmentEndDate: new FormControl('', []),
-      // createdFor: new FormControl('', []),
-      mentors: new FormControl('', []),
-      courseId: new FormControl('', []),
-      createdBy: new FormControl('', []),
+    this.createBatchForm = new UntypedFormGroup({
+      name: new UntypedFormControl('', [Validators.required, Validators.pattern(this.namePatern)]),
+      description: new UntypedFormControl('', []),
+      enrollmentType: new UntypedFormControl(this.enrollmentTypes[0], [Validators.required]),
+      startDate: new UntypedFormControl('', [Validators.required]),
+      endDate: new UntypedFormControl('', []),
+      enrollmentEndDate: new UntypedFormControl('', []),
+      // createdFor: new UntypedFormControl('', []),
+      mentors: new UntypedFormControl('', []),
+      courseId: new UntypedFormControl('', []),
+      createdBy: new UntypedFormControl('', []),
     })
   }
 

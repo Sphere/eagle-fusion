@@ -8,11 +8,16 @@ import { SignupService } from '../signup/signup.service'
 import forEach from 'lodash/forEach'
 import { Title } from '@angular/platform-browser'
 import get from 'lodash/get'
+import { MdePopoverModule } from '@material-extended/mde'
+import { BtnContentShareModule } from '../../../../library/ws-widget/collection/src/public-api'
+import { MatCardModule } from '@angular/material/card'
 
 @Component({
   selector: 'ws-web-course-view',
   templateUrl: './web-course-view.component.html',
   styleUrls: ['./web-course-view.component.scss'],
+  imports: [BtnContentShareModule, MdePopoverModule, MatCardModule],
+  standalone: true,
 })
 export class WebCourseViewComponent implements OnInit {
   isUserLoggedIn = false

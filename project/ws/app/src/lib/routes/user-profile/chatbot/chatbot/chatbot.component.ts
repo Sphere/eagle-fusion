@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { UserProfileService } from '../../../user-profile/services/user-profile.service'
 import { IGovtOrgMeta, INationality, IProfileAcademics } from '../../../user-profile/models/user-profile.model'
 import { map, startWith } from 'rxjs/operators'
@@ -40,8 +40,8 @@ export class ChatbotComponent implements OnInit {
   options: any = []
   currentData1: any = []
   order = 0
-  createUserForm!: FormGroup
-  createChatForm!: FormGroup
+  createUserForm!: UntypedFormGroup
+  createChatForm!: UntypedFormGroup
   @ViewChild('chatoutput', { static: false }) outputArea!: ElementRef
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   errMsg = ''
@@ -75,7 +75,7 @@ export class ChatbotComponent implements OnInit {
   firstOptions = ['Yes', 'No']
   hideInputField = true
   countryCodeList: INationality[] = []
-  public degrees!: FormArray
+  public degrees!: UntypedFormArray
   profession = ''
   studentInstitute = ''
   studentCourse = ''
@@ -87,7 +87,7 @@ export class ChatbotComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     private router: Router,
     private snackBar: MatSnackBar,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private configSvc: ConfigurationsService,
     private btnservice: BtnProfileService,
     private UserAgentResolverService: UserAgentResolverService) {
@@ -124,71 +124,71 @@ export class ChatbotComponent implements OnInit {
   }
 
   createChatFormFields() {
-    return new FormGroup({
-      replymsg: new FormControl('', [Validators.required]),
+    return new UntypedFormGroup({
+      replymsg: new UntypedFormControl('', [Validators.required]),
     })
   }
 
   createUserFormFields() {
-    return new FormGroup({
-      firstname: new FormControl('', []),
-      middlename: new FormControl('', []),
-      surname: new FormControl('', []),
-      about: new FormControl(''),
-      // photo: new FormControl('', []),
-      countryCode: new FormControl('', []),
-      mobile: new FormControl('', []),
-      telephone: new FormControl('', []),
-      primaryEmail: new FormControl('', []),
-      primaryEmailType: new FormControl('', []),
-      secondaryEmail: new FormControl('', []),
-      nationality: new FormControl('', []),
-      dob: new FormControl('', []),
-      domicileMedium: new FormControl('', []),
-      regNurseRegMidwifeNumber: new FormControl('', []),
-      knownLanguages: new FormControl([], []),
-      residenceAddress: new FormControl('', []),
-      schoolName10: new FormControl('', []),
-      yop10: new FormControl('', []),
-      schoolName12: new FormControl('', []),
-      yop12: new FormControl('', []),
+    return new UntypedFormGroup({
+      firstname: new UntypedFormControl('', []),
+      middlename: new UntypedFormControl('', []),
+      surname: new UntypedFormControl('', []),
+      about: new UntypedFormControl(''),
+      // photo: new UntypedFormControl('', []),
+      countryCode: new UntypedFormControl('', []),
+      mobile: new UntypedFormControl('', []),
+      telephone: new UntypedFormControl('', []),
+      primaryEmail: new UntypedFormControl('', []),
+      primaryEmailType: new UntypedFormControl('', []),
+      secondaryEmail: new UntypedFormControl('', []),
+      nationality: new UntypedFormControl('', []),
+      dob: new UntypedFormControl('', []),
+      domicileMedium: new UntypedFormControl('', []),
+      regNurseRegMidwifeNumber: new UntypedFormControl('', []),
+      knownLanguages: new UntypedFormControl([], []),
+      residenceAddress: new UntypedFormControl('', []),
+      schoolName10: new UntypedFormControl('', []),
+      yop10: new UntypedFormControl('', []),
+      schoolName12: new UntypedFormControl('', []),
+      yop12: new UntypedFormControl('', []),
       degrees: this.fb.array([this.createDegree()]),
       postDegrees: this.fb.array([this.createDegree()]),
-      certificationDesc: new FormControl('', []),
-      interests: new FormControl([], []),
-      hobbies: new FormControl([], []),
-      skillAquiredDesc: new FormControl('', []),
-      isGovtOrg: new FormControl(false, []),
-      orgName: new FormControl('', []),
-      orgNameOther: new FormControl('', []),
-      industry: new FormControl('', []),
-      industryOther: new FormControl('', []),
-      designation: new FormControl('', []),
-      designationOther: new FormControl('', []),
-      location: new FormControl('', []),
-      locationOther: new FormControl('', []),
-      doj: new FormControl('', []),
-      orgDesc: new FormControl('', []),
-      payType: new FormControl('', []),
-      service: new FormControl('', []),
-      cadre: new FormControl('', []),
-      allotmentYear: new FormControl('', []),
-      otherDetailsDoj: new FormControl('', []),
-      civilListNo: new FormControl('', []),
-      employeeCode: new FormControl('', []),
-      otherDetailsOfficeAddress: new FormControl('', []),
-      otherDetailsOfficePinCode: new FormControl('', []),
-      residenceState: new FormControl('', []),
-      residenceDistrict: new FormControl('', []),
-      organisationType: new FormControl('', []),
+      certificationDesc: new UntypedFormControl('', []),
+      interests: new UntypedFormControl([], []),
+      hobbies: new UntypedFormControl([], []),
+      skillAquiredDesc: new UntypedFormControl('', []),
+      isGovtOrg: new UntypedFormControl(false, []),
+      orgName: new UntypedFormControl('', []),
+      orgNameOther: new UntypedFormControl('', []),
+      industry: new UntypedFormControl('', []),
+      industryOther: new UntypedFormControl('', []),
+      designation: new UntypedFormControl('', []),
+      designationOther: new UntypedFormControl('', []),
+      location: new UntypedFormControl('', []),
+      locationOther: new UntypedFormControl('', []),
+      doj: new UntypedFormControl('', []),
+      orgDesc: new UntypedFormControl('', []),
+      payType: new UntypedFormControl('', []),
+      service: new UntypedFormControl('', []),
+      cadre: new UntypedFormControl('', []),
+      allotmentYear: new UntypedFormControl('', []),
+      otherDetailsDoj: new UntypedFormControl('', []),
+      civilListNo: new UntypedFormControl('', []),
+      employeeCode: new UntypedFormControl('', []),
+      otherDetailsOfficeAddress: new UntypedFormControl('', []),
+      otherDetailsOfficePinCode: new UntypedFormControl('', []),
+      residenceState: new UntypedFormControl('', []),
+      residenceDistrict: new UntypedFormControl('', []),
+      organisationType: new UntypedFormControl('', []),
     })
   }
 
-  createDegree(): FormGroup {
+  createDegree(): UntypedFormGroup {
     return this.fb.group({
-      degree: new FormControl('', []),
-      instituteName: new FormControl('', []),
-      yop: new FormControl('', []),
+      degree: new UntypedFormControl('', []),
+      instituteName: new UntypedFormControl('', []),
+      yop: new UntypedFormControl('', []),
     })
   }
 
@@ -730,12 +730,12 @@ export class ChatbotComponent implements OnInit {
         break
     }
     if (this.profession === 'student' && this.studentInstitute) {
-      this.degrees = this.createUserForm.get('degrees') as FormArray
+      this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
       this.degrees.removeAt(0)
       this.degrees.push(this.fb.group({
-        degree: new FormControl(this.studentCourse, []),
-        instituteName: new FormControl(this.studentInstitute, []),
-        yop: new FormControl('', []),
+        degree: new UntypedFormControl(this.studentCourse, []),
+        instituteName: new UntypedFormControl(this.studentInstitute, []),
+        yop: new UntypedFormControl('', []),
       }))
     }
   }

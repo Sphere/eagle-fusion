@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, EventEmitter, Output } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { WidgetContentService } from '../../../../_services/widget-content.service'
 import { ConfigurationsService } from '@ws-widget/utils'
@@ -20,7 +20,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   @Output()
   searchRequest = new EventEmitter<ISearchQuery>()
 
-  searchControl = new FormControl('')
+  searchControl = new UntypedFormControl('')
   selectedLang: string
   availableLanguages: string[] = []
   searchControlSubscription: Subscription | null = null
@@ -51,7 +51,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   emitSearchEvent() {
-    this.searchRequest.emit({ query: this.searchControl.value, lang: this.selectedLang })
+    this.searchRequest.emit({ query: this.searchControl.value ?? "", lang: this.selectedLang })
   }
 
   ngOnInit() {

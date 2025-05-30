@@ -1,11 +1,12 @@
-@import '~@angular/material/theming';
-@import './theme-mixins';
-// Plus imports for other components in your app.
-// @include mat-core();
+// Angular 15+ imports - use @use instead of @import for Angular Material
+@use '@angular/material' as mat;
 
+// Include the common styles for Angular Material
+@include mat.core();
 
-
-$mat-blue: (50: #eff1f3,
+// Custom palette definitions for Angular 15+
+$mat-blue: (
+    50: #eff1f3,
     100: #FFFFFF,
     200: #a5c1dc,
     300: #68a0d6,
@@ -19,106 +20,121 @@ $mat-blue: (50: #eff1f3,
     A200: #587594,
     A400: #3e6792,
     A700: #062c54,
-    contrast: (50: $dark-primary-text,
-        100: $light-primary-text,
-        200: $dark-primary-text,
-        300: $dark-primary-text,
-        400: $dark-primary-text,
-        500: $dark-primary-text,
-        600: $light-primary-text,
-        700: $light-primary-text,
-        800: $light-primary-text,
-        900: $light-primary-text,
-        A100: $dark-primary-text,
-        A200: $dark-primary-text,
-        A400: $dark-primary-text,
-        A700: $dark-primary-text,
+    contrast: (
+        50: rgba(0, 0, 0, 0.87),
+        100: rgba(255, 255, 255, 1),
+        200: rgba(0, 0, 0, 0.87),
+        300: rgba(0, 0, 0, 0.87),
+        400: rgba(0, 0, 0, 0.87),
+        500: rgba(0, 0, 0, 0.87),
+        600: rgba(255, 255, 255, 1),
+        700: rgba(255, 255, 255, 1),
+        800: rgba(255, 255, 255, 1),
+        900: rgba(255, 255, 255, 1),
+        A100: rgba(0, 0, 0, 0.87),
+        A200: rgba(0, 0, 0, 0.87),
+        A400: rgba(0, 0, 0, 0.87),
+        A700: rgba(0, 0, 0, 0.87),
     ),
 );
 
-$mat-orange: (50: #fff3e0,
+$mat-orange: (
+    50: #fff3e0,
     100: #D9F2FE,
-    // F5F6FA
     200: #ffcc80,
     300: #ffb74d,
     400: #ffa726,
     500: #f5d58d,
     600: #F5A772,
     700: #15A9F4,
-    // F5F6FA
     800: #ef6c00,
     900: #2095cc,
     A100: #ffd180,
     A200: #ffab40,
     A400: #ff9100,
     A700: #ff6d00,
-    contrast: (50: $dark-primary-text,
-        100: $dark-primary-text,
-        200: $dark-primary-text,
-        300: $dark-primary-text,
-        400: $dark-primary-text,
-        500: $dark-primary-text,
-        600: $dark-primary-text,
-        700: $dark-primary-text,
-        800: $light-primary-text,
-        900: $light-primary-text,
-        A100: $dark-primary-text,
-        A200: $dark-primary-text,
-        A400: $dark-primary-text,
-        A700: $dark-primary-text,
+    contrast: (
+        50: rgba(0, 0, 0, 0.87),
+        100: rgba(0, 0, 0, 0.87),
+        200: rgba(0, 0, 0, 0.87),
+        300: rgba(0, 0, 0, 0.87),
+        400: rgba(0, 0, 0, 0.87),
+        500: rgba(0, 0, 0, 0.87),
+        600: rgba(0, 0, 0, 0.87),
+        700: rgba(0, 0, 0, 0.87),
+        800: rgba(255, 255, 255, 1),
+        900: rgba(255, 255, 255, 1),
+        A100: rgba(0, 0, 0, 0.87),
+        A200: rgba(0, 0, 0, 0.87),
+        A400: rgba(0, 0, 0, 0.87),
+        A700: rgba(0, 0, 0, 0.87),
     ),
 );
 
+// Create the theme palettes
+$theme-primary: mat.define-palette($mat-blue);
+$theme-accent: mat.define-palette($mat-orange);
+$theme-warn: mat.define-palette(mat.$red-palette);
 
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-$theme-primary: mat-palette($mat-blue);
-$theme-accent: mat-palette($mat-orange);
-$theme-warn: mat-palette($mat-red);
-$background-color: mat-palette($mat-blue);
-$theme-background: mat-palette($mat-blue);
+// Simple mixin for theme-based configurations
+@mixin theme-based-configurations($theme) {
+    // Define CSS custom properties using direct color values
+    --primary-color: #0358ab;
+    --accent-color: #f5d58d;
+    --warn-color: #f44336;
+    --primary-lighter: #FFFFFF;
+    --primary-darker: #424242;
+    --background-color: #ffffff;
+}
 
 .theme-igot {
     &.day-mode {
-        $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
-        // -or- Can set colour by hex value too
-        $custom-background-color: #ffffff;
+        // Create light theme
+        $theme: mat.define-light-theme((
+            color: (
+                primary: $theme-primary,
+                accent: $theme-accent,
+                warn: $theme-warn,
+            ),
+            typography: mat.define-typography-config(
+                $font-family: 'Roboto, sans-serif'
+            ),
+        ));
+
         color: #424242 !important;
 
-        $custom-typography: mat-typography-config(
-            $font-family: 'Roboto'
-        );
-        $background: map-get($theme, background);
-        $background: map_merge($background, (background: $custom-background-color));
-        $theme: map_merge($theme, (background: $background));
-        // Include the theme styles for only specified components.
-        // @include mat-core-theme($candy-app-theme);
-        // @include mat-button-theme($candy-app-theme);
-        // @include mat-checkbox-theme($candy-app-theme);
-        // @include mat-core($custom-typography);
-        @include angular-material-typography($custom-typography);
-        @include angular-material-theme($theme);
+        // Apply the theme
+        @include mat.all-component-themes($theme);
         @include theme-based-configurations($theme);
-        $background: $background-color;
+
         .mat-app-background {
             color: #4a4a4a;
+            background-color: #ffffff;
         }
     }
 
     &.night-mode {
-        $theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
-        $custom-background-color: #444444;
-        $custom-typography: mat-typography-config(
-            $font-family: 'Roboto'
-        );
+        // Create dark theme
+        $theme: mat.define-dark-theme((
+            color: (
+                primary: $theme-primary,
+                accent: $theme-accent,
+                warn: $theme-warn,
+            ),
+            typography: mat.define-typography-config(
+                $font-family: 'Roboto, sans-serif'
+            ),
+        ));
 
-        $background: map-get($theme, background);
-        $background: map_merge($background, (background: $custom-background-color));
-        $theme: map_merge($theme, (background: $background));
-        @include angular-material-typography($custom-typography);
-        @include angular-material-theme($theme);
+        // Apply the theme
+        @include mat.all-component-themes($theme);
         @include theme-based-configurations($theme);
-        $background: $background-color;
+
+        // Override for dark mode
+        --background-color: #444444;
+
+        .mat-app-background {
+            background-color: #444444;
+        }
     }
 }

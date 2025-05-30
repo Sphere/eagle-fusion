@@ -1,211 +1,108 @@
-@import '~@angular/material/theming';
-@import 'ws-vars';
-// Include the common styles for Angular Material. We include this here so that you only
-// have to load a single css file for Angular Material in your app.
-// Be sure that you only ever include this mixin once!
-@include mat-core();
-/**
-mat-typography-level parameters:
-1. Font Size
-2. Line Height
-3. Font Weight
-*/
-// Line-height must be unit-less fraction of the font-size.
+@use '@angular/material' as mat;
+@use 'ws-vars' as vars;
 
-$typography: mat-typography-config(
-  $font-family: $font-family-open-poppins,
-  $display-4: mat-typography-level(112px, 112px, 400),
-  $display-3: mat-typography-level(56px, 56px, 400),
-  $display-2: mat-typography-level(45px, 52px, 400),
-  $display-1: mat-typography-level(34px, 40px, 300),
-  $headline: mat-typography-level(24px, 32px, 300),
-  $title: mat-typography-level(20px, 32px, 400),
-  $subheading-2: mat-typography-level(16px, 28px, 300),
-  $subheading-1: mat-typography-level(15px, 24px, 300),
-  $body-2: mat-typography-level(14px, 24px, 600),
-  $body-1: mat-typography-level(14px, 20px, 300),
-  $caption: mat-typography-level(12px, 20px, 300),
-  $button: mat-typography-level(14px, 14px, 300),
-  $input: mat-typography-level(inherit, 1.125, 400),
+// Include core styles
+@include mat.core();
+
+// Define your typography config using the new level names
+$typography-config: mat.define-typography-config(
+  $font-family: vars.$font-family-open-poppins,
+  $headline-1: mat.define-typography-level(112px, 112px, 400),
+  $headline-2: mat.define-typography-level(56px, 56px, 400),
+  $headline-3: mat.define-typography-level(45px, 52px, 400),
+  $headline-4: mat.define-typography-level(34px, 40px, 300),
+  $headline-5: mat.define-typography-level(24px, 32px, 300),
+  $headline-6: mat.define-typography-level(20px, 32px, 400),
+  $subtitle-1: mat.define-typography-level(16px, 28px, 300),
+  $subtitle-2: mat.define-typography-level(15px, 24px, 300),
+  $body-1: mat.define-typography-level(14px, 20px, 300),
+  $body-2: mat.define-typography-level(14px, 24px, 600),
+  $caption: mat.define-typography-level(12px, 20px, 300),
+  $button: mat.define-typography-level(14px, 14px, 300),
+  $overline: mat.define-typography-level(inherit, 1.125, 400)
 );
-@include angular-material-typography($typography);
 
+// Include typography hierarchy
+@include mat.typography-hierarchy($typography-config);
+@include mat.all-component-typographies($typography-config);
+
+// Size variants
 .x-small-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px - 48px, 112px - 48px, 300),
-    $display-3: mat-typography-level(56px - 24px, 56px - 24px, 300),
-    $display-2: mat-typography-level(45px - 24px, 48px - 24px, 300),
-    $display-1: mat-typography-level(34px - 16px, 40px - 16px, 300),
-    $headline: mat-typography-level(24px - 12px, 32px - 8px, 300),
-    $title: mat-typography-level(20px - 10px, 32px - 8px, 300),
-    $subheading-2: mat-typography-level(16px - 4px, 28px - 8px, 300),
-    $subheading-1: mat-typography-level(16px - 6px, 24px - 8px, 300),
-    $body-2: mat-typography-level(14px - 4px, 24px - 8px, 600),
-    $body-1: mat-typography-level(14px - 4px, 20px - 8px, 300),
-    $caption: mat-typography-level(12px - 4px, 20px - 8px, 300),
-    $button: mat-typography-level(14px - 4px, 14px - 4px, 300),
-    $input: mat-typography-level(inherit, 1.125, 400),
+  $config: mat.define-typography-config(
+    $font-family: vars.$font-family-open-poppins,
+    $headline-1: mat.define-typography-level(64px, 64px, 300),
+    $headline-2: mat.define-typography-level(32px, 32px, 300),
+    $headline-3: mat.define-typography-level(21px, 24px, 300),
+    $headline-4: mat.define-typography-level(18px, 24px, 300),
+    $headline-5: mat.define-typography-level(12px, 24px, 300),
+    $headline-6: mat.define-typography-level(10px, 24px, 300),
+    $subtitle-1: mat.define-typography-level(12px, 20px, 300),
+    $subtitle-2: mat.define-typography-level(10px, 16px, 300),
+    $body-1: mat.define-typography-level(10px, 12px, 300),
+    $body-2: mat.define-typography-level(10px, 16px, 600),
+    $caption: mat.define-typography-level(8px, 12px, 300),
+    $button: mat.define-typography-level(10px, 10px, 300),
+    $overline: mat.define-typography-level(inherit, 1.125, 400)
   );
-  @include angular-material-typography($typography);
+  @include mat.all-component-typographies($config);
 }
+
 .small-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px - 24px, 112px - 24px, 300),
-    $display-3: mat-typography-level(56px - 16px, 56px - 16px, 300),
-    $display-2: mat-typography-level(45px - 12px, 48px - 12px, 300),
-    $display-1: mat-typography-level(34px - 6px, 40px - 8px, 300),
-    $headline: mat-typography-level(24px - 4px, 32px - 6px, 300),
-    $title: mat-typography-level(20px - 4px, 32px - 6px, 300),
-    $subheading-2: mat-typography-level(16px - 2px, 28px - 4px, 300),
-    $subheading-1: mat-typography-level(15px - 2px, 24px - 4px, 300),
-    /* $headline: mat-typography-level(28px - 4px, 41px - 6px, 400),
-    // $title: mat-typography-level(28px - 4px, 41px - 6px, 300),
-    // $subheading-2: mat-typography-level(20px - 2px, 31px - 4px, 300),
-    // $subheading-1: mat-typography-level(15px - 2px, 24px - 4px, 300), */
-    $body-2: mat-typography-level(14px - 2px, 24px - 4px, 600),
-    $body-1: mat-typography-level(14px - 2px, 20px - 4px, 300),
-    $caption: mat-typography-level(12px - 2px, 20px - 4px, 300),
-    $button: mat-typography-level(14px - 2px, 14px - 2px, 300),
-    $input: mat-typography-level(inherit, 1.125, 400),
+  $config: mat.define-typography-config(
+    $font-family: vars.$font-family-open-poppins,
+    $headline-1: mat.define-typography-level(88px, 88px, 300),
+    $headline-2: mat.define-typography-level(40px, 40px, 300),
+    $headline-3: mat.define-typography-level(33px, 36px, 300),
+    $headline-4: mat.define-typography-level(28px, 32px, 300),
+    $headline-5: mat.define-typography-level(20px, 26px, 300),
+    $headline-6: mat.define-typography-level(16px, 26px, 300),
+    $subtitle-1: mat.define-typography-level(14px, 24px, 300),
+    $subtitle-2: mat.define-typography-level(13px, 20px, 300),
+    $body-1: mat.define-typography-level(12px, 16px, 300),
+    $body-2: mat.define-typography-level(12px, 20px, 600),
+    $caption: mat.define-typography-level(10px, 16px, 300),
+    $button: mat.define-typography-level(12px, 12px, 300),
+    $overline: mat.define-typography-level(inherit, 1.125, 400)
   );
-  @include angular-material-typography($typography);
+  @include mat.all-component-typographies($config);
 }
 
 .large-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px + 24px, 112px + 24px, 400),
-    $display-3: mat-typography-level(56px + 16px, 56px + 16px, 400),
-    $display-2: mat-typography-level(45px + 12px, 48px + 12px, 400),
-    $display-1: mat-typography-level(34px + 6px, 40px + 8px, 400),
-    $headline: mat-typography-level(24px + 4px, 32px + 6px, 400),
-    $title: mat-typography-level(20px + 4px, 32px + 6px, 400),
-    $subheading-2: mat-typography-level(16px + 2px, 28px + 4px, 400),
-    $subheading-1: mat-typography-level(15px + 2px, 24px + 4px, 400),
-    $body-2: mat-typography-level(14px + 2px, 24px + 4px, 600),
-    $body-1: mat-typography-level(14px + 2px, 20px + 4px, 400),
-    $caption: mat-typography-level(12px + 2px, 20px + 4px, 400),
-    $button: mat-typography-level(14px + 2px, 14px + 2px, 400),
-    $input: mat-typography-level(inherit, 1.125, 400),
+  $config: mat.define-typography-config(
+    $font-family: vars.$font-family-open-poppins,
+    $headline-1: mat.define-typography-level(136px, 136px, 400),
+    $headline-2: mat.define-typography-level(72px, 72px, 400),
+    $headline-3: mat.define-typography-level(57px, 60px, 400),
+    $headline-4: mat.define-typography-level(40px, 48px, 400),
+    $headline-5: mat.define-typography-level(28px, 38px, 400),
+    $headline-6: mat.define-typography-level(24px, 38px, 400),
+    $subtitle-1: mat.define-typography-level(18px, 32px, 400),
+    $subtitle-2: mat.define-typography-level(17px, 28px, 400),
+    $body-1: mat.define-typography-level(16px, 24px, 400),
+    $body-2: mat.define-typography-level(16px, 28px, 600),
+    $caption: mat.define-typography-level(14px, 24px, 400),
+    $button: mat.define-typography-level(16px, 16px, 400),
+    $overline: mat.define-typography-level(inherit, 1.125, 400)
   );
-  @include angular-material-typography($typography);
+  @include mat.all-component-typographies($config);
 }
+
 .x-large-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px + 48px, 112px + 48px, 300),
-    $display-3: mat-typography-level(56px + 24px, 56px + 24px, 300),
-    $display-2: mat-typography-level(48px + 24px, 48px + 24px, 300),
-    $display-1: mat-typography-level(34px + 16px, 40px + 16px, 300),
-    $headline: mat-typography-level(24px + 12px, 32px + 8px, 300),
-    $title: mat-typography-level(20px + 10px, 32px + 8px, 300),
-    $subheading-2: mat-typography-level(16px + 4px, 28px + 8px, 300),
-    $subheading-1: mat-typography-level(16px + 6px, 24px + 8px, 300),
-    $body-2: mat-typography-level(14px + 4px, 24px + 8px, 600),
-    $body-1: mat-typography-level(14px + 4px, 20px + 8px, 300),
-    $caption: mat-typography-level(12px + 4px, 20px + 8px, 300),
-    $button: mat-typography-level(14px + 4px, 14px + 4px, 300),
-    $input: mat-typography-level(inherit, 1.125, 400),
+  $config: mat.define-typography-config(
+    $font-family: vars.$font-family-open-poppins,
+    $headline-1: mat.define-typography-level(160px, 160px, 300),
+    $headline-2: mat.define-typography-level(80px, 80px, 300),
+    $headline-3: mat.define-typography-level(72px, 72px, 300),
+    $headline-4: mat.define-typography-level(50px, 56px, 300),
+    $headline-5: mat.define-typography-level(36px, 40px, 300),
+    $headline-6: mat.define-typography-level(30px, 40px, 300),
+    $subtitle-1: mat.define-typography-level(20px, 36px, 300),
+    $subtitle-2: mat.define-typography-level(22px, 32px, 300),
+    $body-1: mat.define-typography-level(18px, 28px, 300),
+    $body-2: mat.define-typography-level(18px, 32px, 600),
+    $caption: mat.define-typography-level(16px, 28px, 300),
+    $button: mat.define-typography-level(18px, 18px, 300),
+    $overline: mat.define-typography-level(inherit, 1.125, 400)
   );
-  @include angular-material-typography($typography);
-}
-
-.custom-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px, 112px, 400),
-    $display-3: mat-typography-level(56px, 56px, 400),
-    $display-2: mat-typography-level(45px, 52px, 400),
-    $display-1: mat-typography-level(34px, 40px, 300),
-    $headline: mat-typography-level(24px, 32px, 300),
-    $title: mat-typography-level(20px, 32px, 400),
-    $subheading-2: mat-typography-level(16px, 28px, 300),
-    $subheading-1: mat-typography-level(15px, 24px, 300),
-    $body-2: mat-typography-level(14px, 24px, 600),
-    $body-1: mat-typography-level(14px, 20px, 300),
-    $caption: mat-typography-level(12px, 20px, 300),
-    $button: mat-typography-level(14px, 14px, 300),
-    $input: mat-typography-level(inherit, 1.125, 400),
-  );
-  @include angular-material-typography($typography);
-}
-
-.x-small-custom-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px - 48px, 112px - 48px, 300),
-    $display-3: mat-typography-level(56px - 24px, 56px - 24px, 300),
-    $display-2: mat-typography-level(45px - 24px, 48px - 24px, 300),
-    $display-1: mat-typography-level(34px - 16px, 40px - 16px, 300),
-    $headline: mat-typography-level(24px - 12px, 32px - 8px, 300),
-    $title: mat-typography-level(20px - 10px, 32px - 8px, 300),
-    $subheading-2: mat-typography-level(16px - 4px, 28px - 8px, 300),
-    $subheading-1: mat-typography-level(16px - 6px, 24px - 8px, 300),
-    $body-2: mat-typography-level(14px - 4px, 24px - 8px, 600),
-    $body-1: mat-typography-level(14px - 4px, 20px - 8px, 300),
-    $caption: mat-typography-level(12px - 4px, 20px - 8px, 300),
-    $button: mat-typography-level(14px - 4px, 14px - 4px, 300),
-    $input: mat-typography-level(inherit, 1.125, 400),
-  );
-  @include angular-material-typography($typography);
-}
-.small-custom-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px - 24px, 112px - 24px, 300),
-    $display-3: mat-typography-level(56px - 16px, 56px - 16px, 300),
-    $display-2: mat-typography-level(45px - 12px, 48px - 12px, 300),
-    $display-1: mat-typography-level(34px - 6px, 40px - 8px, 300),
-    $headline: mat-typography-level(24px - 4px, 32px - 6px, 300),
-    $title: mat-typography-level(20px - 4px, 32px - 6px, 300),
-    $subheading-2: mat-typography-level(16px - 2px, 28px - 4px, 300),
-    $subheading-1: mat-typography-level(15px - 2px, 24px - 4px, 300),
-    $body-2: mat-typography-level(14px - 2px, 24px - 4px, 600),
-    $body-1: mat-typography-level(14px - 2px, 20px - 4px, 300),
-    $caption: mat-typography-level(12px - 2px, 20px - 4px, 300),
-    $button: mat-typography-level(14px - 2px, 14px - 2px, 300),
-    $input: mat-typography-level(inherit, 1.125, 400),
-  );
-  @include angular-material-typography($typography);
-}
-
-.large-custom-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px + 24px, 112px + 24px, 400),
-    $display-3: mat-typography-level(56px + 16px, 56px + 16px, 400),
-    $display-2: mat-typography-level(45px + 12px, 48px + 12px, 400),
-    $display-1: mat-typography-level(34px + 6px, 40px + 8px, 400),
-    $headline: mat-typography-level(24px + 4px, 32px + 6px, 400),
-    $title: mat-typography-level(20px + 4px, 32px + 6px, 400),
-    $subheading-2: mat-typography-level(16px + 2px, 28px + 4px, 400),
-    $subheading-1: mat-typography-level(15px + 2px, 24px + 4px, 400),
-    $body-2: mat-typography-level(14px + 2px, 24px + 4px, 600),
-    $body-1: mat-typography-level(14px + 2px, 20px + 4px, 400),
-    $caption: mat-typography-level(12px + 2px, 20px + 4px, 400),
-    $button: mat-typography-level(14px + 2px, 14px + 2px, 400),
-    $input: mat-typography-level(inherit, 1.125, 400),
-  );
-  @include angular-material-typography($typography);
-}
-.x-large-custom-typography {
-  $typography: mat-typography-config(
-    $font-family: $font-family-open-poppins,
-    $display-4: mat-typography-level(112px + 48px, 112px + 48px, 300),
-    $display-3: mat-typography-level(56px + 24px, 56px + 24px, 300),
-    $display-2: mat-typography-level(48px + 24px, 48px + 24px, 300),
-    $display-1: mat-typography-level(34px + 16px, 40px + 16px, 300),
-    $headline: mat-typography-level(24px + 12px, 32px + 8px, 300),
-    $title: mat-typography-level(20px + 10px, 32px + 8px, 300),
-    $subheading-2: mat-typography-level(16px + 4px, 28px + 8px, 300),
-    $subheading-1: mat-typography-level(16px + 6px, 24px + 8px, 300),
-    $body-2: mat-typography-level(14px + 4px, 24px + 8px, 600),
-    $body-1: mat-typography-level(14px + 4px, 20px + 8px, 300),
-    $caption: mat-typography-level(12px + 4px, 20px + 8px, 300),
-    $button: mat-typography-level(14px + 4px, 14px + 4px, 300),
-    $input: mat-typography-level(inherit, 1.125, 400),
-  );
-  @include angular-material-typography($typography);
+  @include mat.all-component-typographies($config);
 }

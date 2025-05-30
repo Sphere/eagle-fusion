@@ -1,8 +1,24 @@
-@import '~tailwindcss/dist/utilities.min.css';
-//@import '~quill/dist/quill.bubble.css';
-//@import '~quill/dist/quill.core.css';
-//@import '~quill/dist/quill.snow.css';6
-@import '~video.js/dist/video-js.min.css';
-@import '~vis-network/dist/vis-network.min.css';
-@import '~tailwindcss/dist/components.min.css';
-@import '~videojs-markers/dist/videojs.markers.min.css';
+// Tailwind CSS utilities
+@import 'tailwindcss/utilities';
+
+// Quill editor styles (commented out - uncomment if needed)
+// @import '~quill/dist/quill.bubble.css';
+// @import '~quill/dist/quill.core.css';
+// @import '~quill/dist/quill.snow.css';
+
+// Video.js styles
+@import 'video.js/dist/video-js.min.css';
+
+// Vis-network styles - commented out due to resolution errors
+// If you need vis-network, first install it: npm install vis-network
+// Then try one of these paths:
+// @import 'vis-network/dist/vis-network.css';
+// @import 'vis-network/styles/vis-network.css';
+
+// Tailwind components - commented out due to resolution error
+// In Angular 15+, Tailwind should be configured via tailwind.config.js
+// and imported in your main styles.scss file, not here
+// @import '~tailwindcss/dist/components.min.css';
+
+// Videojs markers
+@import 'videojs-markers/dist/videojs.markers.min.css';

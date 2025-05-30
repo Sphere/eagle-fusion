@@ -39,6 +39,11 @@
                 "glob": "**/*",
                 "input": "node_modules/ngx-extended-pdf-viewer/bleeding-edge/",
                 "output": "/bleeding-edge/"
+              },
+              {
+                "glob": "**/*.json",
+                "input": "node_modules/keycloak-js",
+                "output": "/assets/keycloak"
               }
             ],
             "stylePreprocessorOptions": {
@@ -58,13 +63,22 @@
               "node_modules/@aastrika_npmjs/competency-web/assets/styles/global.scss",
               "src/themes/theme-igot.scss",
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
-              "src/fusion-assets/fonts/poppins/stylesheet.css"
+              "src/fusion-assets/fonts/poppins/stylesheet.css",
+              "node_modules/@fontsource/roboto/400.css",
+              "node_modules/@fontsource/roboto/500.css",
+              "node_modules/typeface-roboto/index.css"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",
               "src/fusion-assets/telemetry.min.js",
               "node_modules/shepherd.js/dist/js/shepherd.min.js",
               "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "keycloak-js",
+              "typeface-roboto",
+              "jspdf-autotable",
+              "shepherd.js"
             ]
           },
           "configurations": {
@@ -80,10 +94,15 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": false,
+              "extractLicenses": true,
               "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                },
                 {
                   "type": "anyComponentStyle",
                   "maximumWarning": "6kb"
@@ -98,14 +117,23 @@
               "i18nFormat": "xlf",
               "i18nLocale": "hi",
               "i18nMissingTranslation": "warning"
+            },
+            "development": {
+              "buildOptimizer": false,
+              "optimization": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
+              "sourceMap": true,
+              "namedChunks": true
             }
-          }
+          },
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 3000,
-            "browserTarget": "fusion:build"
+            "browserTarget": "fusion:build:development"
           },
           "configurations": {
             "production": {
@@ -113,8 +141,12 @@
             },
             "hi": {
               "browserTarget": "fusion:build:hi"
+            },
+            "development": {
+              "browserTarget": "fusion:build:development"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
@@ -158,10 +190,15 @@
       "prefix": "ws-resolver",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "library/ws-widget/resolver/tsconfig.lib.json",
             "project": "library/ws-widget/resolver/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "library/ws-widget/resolver/tsconfig.lib.prod.json"
+            }
           }
         },
         "lint": {
@@ -185,10 +222,15 @@
       "prefix": "ws-widget",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "library/ws-widget/collection/tsconfig.lib.json",
             "project": "library/ws-widget/collection/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "library/ws-widget/collection/tsconfig.lib.prod.json"
+            }
           }
         },
         "lint": {
@@ -212,10 +254,15 @@
       "prefix": "ws-utils",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "library/ws-widget/utils/tsconfig.lib.json",
             "project": "library/ws-widget/utils/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "library/ws-widget/utils/tsconfig.lib.prod.json"
+            }
           }
         },
         "lint": {
@@ -239,10 +286,15 @@
       "prefix": "ws-app",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/app/tsconfig.lib.json",
             "project": "project/ws/app/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "project/ws/app/tsconfig.lib.prod.json"
+            }
           }
         },
         "lint": {
@@ -266,10 +318,15 @@
       "prefix": "ws-author",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/author/tsconfig.lib.json",
             "project": "project/ws/author/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "project/ws/author/tsconfig.lib.prod.json"
+            }
           }
         }
       }
@@ -281,10 +338,15 @@
       "prefix": "ws-admin",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/admin/tsconfig.lib.json",
             "project": "project/ws/admin/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "project/ws/admin/tsconfig.lib.prod.json"
+            }
           }
         }
       }
@@ -296,10 +358,15 @@
       "prefix": "ws-analytics",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/analytics/tsconfig.lib.json",
             "project": "project/ws/analytics/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "project/ws/analytics/tsconfig.lib.prod.json"
+            }
           }
         }
       }
@@ -311,10 +378,15 @@
       "prefix": "viewer",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
+          "builder": "@angular-devkit/build-angular:ng-packagr",
           "options": {
             "tsConfig": "project/ws/viewer/tsconfig.lib.json",
             "project": "project/ws/viewer/ng-package.json"
+          },
+          "configurations": {
+            "production": {
+              "tsConfig": "project/ws/viewer/tsconfig.lib.prod.json"
+            }
           }
         },
         "lint": {
@@ -335,7 +407,26 @@
   "defaultProject": "fusion",
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss",
+      "skipTests": true
+    },
+    "@schematics/angular:class": {
+      "skipTests": true
+    },
+    "@schematics/angular:directive": {
+      "skipTests": true
+    },
+    "@schematics/angular:guard": {
+      "skipTests": true
+    },
+    "@schematics/angular:interceptor": {
+      "skipTests": true
+    },
+    "@schematics/angular:pipe": {
+      "skipTests": true
+    },
+    "@schematics/angular:service": {
+      "skipTests": true
     }
   }
 }

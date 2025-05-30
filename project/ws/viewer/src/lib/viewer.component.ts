@@ -29,7 +29,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   content: NsContent.IContent | null = null
   contentData: any
   errorType = ErrorType
-  private isLtMedium$ = this.valueSvc.isLtMedium$
+  isLtMedium$ = this.valueSvc.isLtMedium$
   sideNavBarOpened = false
   mode: 'over' | 'side' = 'side'
   forPreview = window.location.href.includes('/author/')
@@ -190,7 +190,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
       }
 
     },
-                                                            err => {
+      err => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }

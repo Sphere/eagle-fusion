@@ -3,6 +3,8 @@ import { CommonModule } from '@angular/common'
 import { SlidersComponent } from './sliders.component'
 import { RouterModule } from '@angular/router'
 import { NavigationModule, ImageResponsiveModule } from '@ws-widget/utils'
+import 'hammerjs'
+import * as Hammer from 'hammerjs'
 
 import { HAMMER_GESTURE_CONFIG, HammerGestureConfig } from '@angular/platform-browser'
 export class MyHammerConfig extends HammerGestureConfig {
