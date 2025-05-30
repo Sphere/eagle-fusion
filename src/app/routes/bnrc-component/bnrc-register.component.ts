@@ -50,6 +50,7 @@ export class BnrcRegisterComponent implements OnInit {
   Student = false
   Faculty = false
   inService = false
+  inServiceGNM = false
   publicHealthFacility = false
   privateHealthFacility = false
   otpPage = false
@@ -224,6 +225,15 @@ export class BnrcRegisterComponent implements OnInit {
         this.bnrcDetailForm.controls.instituteType.setValue('N/A')
         this.bnrcDetailForm.controls.facultyType.setValue('N/A')
       }
+      if (service === 'GNM-Bihar') {
+        this.isInservice = true
+        this.inServiceGNM = true
+        this.professions = ['In Service']
+        this.bnrcDetailForm.controls.role.setValue('In Service')
+        this.professionalChange('Private Health Facility')
+        this.bnrcDetailForm.controls.roleForInService.setValue('Private Health Facility')
+      }
+
     })
     console.log("districts", this.districts)
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -274,6 +284,7 @@ export class BnrcRegisterComponent implements OnInit {
       // bnrcRegistrationNumberControl.updateValueAndValidity()
     }
   }
+
   professionalChange(value: any) {
     this.showMessage = false
     console.log("degree", value, this.userProfileData)
@@ -442,7 +453,27 @@ export class BnrcRegisterComponent implements OnInit {
       this.publicHealthFacility = false
       this.privateHealthFacility = false
 
-    } else if (value === 'Public Health Facility') {
+    }
+    else if (value === 'inServiceGNM') {
+      this.showDesignation = true
+
+      this.bnrcDetailForm.controls.courseSelection.setValue(null)
+
+      this.Student = false
+      this.Faculty = false
+      this.inService = true
+      this.inServiceGNM = true
+      this.publicHealthFacility = false
+      this.privateHealthFacility = false
+
+    }
+    else if (value === 'Public Health Facility') {
+      if (this.inServiceGNM) {
+        this.inServiceGNM = true
+        this.bnrcDetailForm.controls.publicFacilityType.setValue('GNM-Bihar')
+      } else {
+        this.bnrcDetailForm.controls.publicFacilityType.setValue('ANM')
+      }
       this.showDesignation = true
       this.Student = false
       this.Faculty = false
@@ -506,12 +537,16 @@ export class BnrcRegisterComponent implements OnInit {
         privateFacilityTypeControl.updateValueAndValidity()
 
       }
-      this.bnrcDetailForm.controls.publicFacilityType.setValue('ANM')
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
 
     } else if (value === 'Private Health Facility') {
-
+      if (this.inServiceGNM) {
+        this.inServiceGNM = true
+        this.bnrcDetailForm.controls.privateFacilityType.setValue('GNM-Bihar')
+      } else {
+        this.bnrcDetailForm.controls.privateFacilityType.setValue('ANM')
+      }
       this.showDesignation = true
       this.Student = false
       this.Faculty = false
@@ -561,7 +596,6 @@ export class BnrcRegisterComponent implements OnInit {
         serviceTypeControl.updateValueAndValidity()
 
       }
-      this.bnrcDetailForm.controls.privateFacilityType.setValue('ANM')
       this.bnrcDetailForm.controls.facultyType.setValue(null)
       this.bnrcDetailForm.controls.hrmsId.setValue(null)
       this.bnrcDetailForm.controls.publicFacilityType.setValue(null)

@@ -23,7 +23,9 @@ a.blue,
 ::ng-deep .theme-igot.day-mode a[target=_blank] {
     color: #1C5D95 !important;
 }
-
+.header-title{
+  line-height: 1.5;
+}
 .red-icon{
   color: #d32f2f
 }
@@ -43,7 +45,7 @@ a.blue,
   }
 
   @include breakpoint-gt-m {
-    max-width: 25%;
+    max-width: 30%;
   }
 
   @include breakpoint-gt-l {
