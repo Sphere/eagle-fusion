@@ -39,7 +39,7 @@ import { PipeContentRoutePipe, BtnFeatureModule, ErrorResolverModule, } from '..
 // import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
-  ImageCropComponent,
+  // ImageCropComponent,
   ImageCropModule,
   LoggerService, PipeSafeSanitizerModule,
 } from '@ws-widget/utils'
@@ -113,7 +113,7 @@ import { CertificateReceivedComponent } from './routes/profile-view/certificate-
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
-import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
+// import { NotificationComponent } from '../../project/ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
@@ -392,18 +392,6 @@ const dbConfig: DBConfig = {
     CertificateReceivedComponent,
   ],
   bootstrap: [RootComponent],
-  entryComponents: [
-    BnrcmodalComponent,
-    PlayerVideoPopupComponent,
-    DialogConfirmComponent,
-    LoginComponent,
-    ProfileSelectComponent,
-    ImageCropComponent,
-    NotificationComponent,
-    LanguageDialogComponent,
-    CreateAccountDialogComponent,
-    VideoPopupComponent
-  ],
   providers: [
     {
       deps: [InitService, LoggerService],
@@ -440,7 +428,7 @@ const dbConfig: DBConfig = {
     Title,
     UserAgentResolverService,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
 

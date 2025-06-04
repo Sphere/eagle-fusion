@@ -20,25 +20,18 @@ import { WidgetBaseComponent } from './widget-base.component'
 import { ExploreResolverDirective } from './explore-resolver.directive'
 
 @NgModule({
-  declarations: [
-    WidgetBaseComponent,
-    WidgetResolverDirective,
-    LoginResolverDirective,
-    RestrictedComponent,
-    InvalidRegistrationComponent,
-    InvalidPermissionComponent,
-    UnresolvedComponent,
-    ExploreResolverDirective,
-  ],
-  imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule],
-  exports: [WidgetResolverDirective, WidgetBaseComponent, LoginResolverDirective, ExploreResolverDirective],
-  entryComponents: [
-    RestrictedComponent,
-    InvalidRegistrationComponent,
-    InvalidPermissionComponent,
-    UnresolvedComponent,
-    WidgetBaseComponent,
-  ],
+    declarations: [
+        WidgetBaseComponent,
+        WidgetResolverDirective,
+        LoginResolverDirective,
+        RestrictedComponent,
+        InvalidRegistrationComponent,
+        InvalidPermissionComponent,
+        UnresolvedComponent,
+        ExploreResolverDirective,
+    ],
+    imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule],
+    exports: [WidgetResolverDirective, WidgetBaseComponent, LoginResolverDirective, ExploreResolverDirective]
 })
 export class WidgetResolverModule {
   static forRoot(config: NsWidgetResolver.IRegistrationConfig[]): ModuleWithProviders<WidgetResolverModule> {

@@ -21,25 +21,24 @@ import { QRCodeModule } from 'angularx-qrcode'
 import { BtnWhatsappShareModule } from '../btn-whatsapp-share/btn-whatsapp-share.module'
 
 @NgModule({
-  declarations: [BtnContentShareComponent, BtnContentShareDialogComponent],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatChipsModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    UserAutocompleteModule,
-    BtnLinkedinShareModule,
-    BtnFacebookShareModule,
-    BtnTwitterShareModule,
-    QRCodeModule,
-    BtnWhatsappShareModule,
-  ],
-  exports: [BtnContentShareComponent],
-  entryComponents: [BtnContentShareComponent, BtnContentShareDialogComponent],
+    declarations: [BtnContentShareComponent, BtnContentShareDialogComponent],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatChipsModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        UserAutocompleteModule,
+        BtnLinkedinShareModule,
+        BtnFacebookShareModule,
+        BtnTwitterShareModule,
+        QRCodeModule,
+        BtnWhatsappShareModule,
+    ],
+    exports: [BtnContentShareComponent]
 })
 export class BtnContentShareModule { }

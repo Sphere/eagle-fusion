@@ -8,18 +8,16 @@ import { MatButtonModule } from '@angular/material/button'
 import { RouterModule } from '@angular/router'
 
 @NgModule({
-  declarations: [TreeComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-
-    // Material Imports
-    MatCardModule,
-    MatTreeModule,
-    MatIconModule,
-    MatButtonModule,
-  ],
-  exports: [TreeComponent],
-  entryComponents: [TreeComponent],
+    declarations: [TreeComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        // Material Imports
+        MatCardModule,
+        MatTreeModule,
+        MatIconModule,
+        MatButtonModule,
+    ],
+    exports: [TreeComponent]
 })
 export class TreeModule { }

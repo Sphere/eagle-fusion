@@ -6,9 +6,8 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { BtnPageBackModule } from '../btn-page-back/btn-page-back.module'
 
 @NgModule({
-  declarations: [EmbeddedPageComponent],
-  imports: [CommonModule, BtnPageBackModule, MatIconModule, MatToolbarModule],
-  exports: [EmbeddedPageComponent],
-  entryComponents: [EmbeddedPageComponent],
+    declarations: [EmbeddedPageComponent],
+    imports: [CommonModule, BtnPageBackModule, MatIconModule, MatToolbarModule],
+    exports: [EmbeddedPageComponent]
 })
 export class EmbeddedPageModule { }

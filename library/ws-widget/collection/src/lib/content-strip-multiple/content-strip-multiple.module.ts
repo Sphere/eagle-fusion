@@ -12,19 +12,18 @@ import { MatChipsModule } from '@angular/material/chips'
 import { MatCardModule } from '@angular/material/card'
 
 @NgModule({
-  declarations: [ContentStripMultipleComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    HorizontalScrollerModule,
-    WidgetResolverModule,
-    MatButtonModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatProgressSpinnerModule,
-    MatChipsModule,
-    MatCardModule,
-  ],
-  entryComponents: [ContentStripMultipleComponent],
+    declarations: [ContentStripMultipleComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        HorizontalScrollerModule,
+        WidgetResolverModule,
+        MatButtonModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatProgressSpinnerModule,
+        MatChipsModule,
+        MatCardModule,
+    ]
 })
 export class ContentStripMultipleModule { }

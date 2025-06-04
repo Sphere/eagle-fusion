@@ -13,20 +13,19 @@ import { MatBadgeModule } from '@angular/material/badge'
 import { WidgetUrlResolverDirective } from './widget-url-resolver.directive'
 import { AvatarPhotoModule } from '../_common/avatar-photo/avatar-photo.module'
 @NgModule({
-  declarations: [BtnFeatureComponent, WidgetUrlResolverDirective],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatIconModule,
-    MatButtonModule,
-    MatTooltipModule,
-    MatCardModule,
-    MatMenuModule,
-    MatRippleModule,
-    MatBadgeModule,
-    AvatarPhotoModule,
-  ],
-  exports: [BtnFeatureComponent],
-  entryComponents: [BtnFeatureComponent],
+    declarations: [BtnFeatureComponent, WidgetUrlResolverDirective],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatIconModule,
+        MatButtonModule,
+        MatTooltipModule,
+        MatCardModule,
+        MatMenuModule,
+        MatRippleModule,
+        MatBadgeModule,
+        AvatarPhotoModule,
+    ],
+    exports: [BtnFeatureComponent]
 })
 export class BtnFeatureModule { }

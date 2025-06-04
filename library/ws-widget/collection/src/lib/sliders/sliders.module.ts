@@ -16,19 +16,18 @@ export class MyHammerConfig extends HammerGestureConfig {
 
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
-  declarations: [SlidersComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    NavigationModule,
-    ImageResponsiveModule,
-  ],
-  entryComponents: [SlidersComponent],
-  providers: [
-    {
-      provide: HAMMER_GESTURE_CONFIG,
-      useClass: MyHammerConfig,
-    },
-  ],
+    declarations: [SlidersComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        NavigationModule,
+        ImageResponsiveModule,
+    ],
+    providers: [
+        {
+            provide: HAMMER_GESTURE_CONFIG,
+            useClass: MyHammerConfig,
+        },
+    ]
 })
 export class SlidersModule { }

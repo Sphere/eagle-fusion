@@ -9,17 +9,16 @@ import { MatRippleModule } from '@angular/material/core' // MatRippleModule is p
 import { WidgetResolverModule } from '@ws-widget/resolver'
 
 @NgModule({
-  declarations: [BtnAppsComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatRippleModule,
-    WidgetResolverModule,
-  ],
-  exports: [BtnAppsComponent],
-  entryComponents: [BtnAppsComponent],
+    declarations: [BtnAppsComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatRippleModule,
+        WidgetResolverModule,
+    ],
+    exports: [BtnAppsComponent]
 })
 export class BtnAppsModule { }

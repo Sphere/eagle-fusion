@@ -11,17 +11,16 @@ import { MatButtonModule } from '@angular/material/button'
 import { TreeCatalogRoutePipe } from './tree-catalog-route.pipe'
 
 @NgModule({
-  declarations: [TreeCatalogComponent, TreeCatalogMenuComponent, TreeCatalogRoutePipe],
-  imports: [
-    CommonModule,
-    RouterModule,
-    TreeModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-  ],
-  exports: [TreeCatalogComponent, TreeCatalogMenuComponent],
-  entryComponents: [TreeCatalogComponent],
+    declarations: [TreeCatalogComponent, TreeCatalogMenuComponent, TreeCatalogRoutePipe],
+    imports: [
+        CommonModule,
+        RouterModule,
+        TreeModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatProgressSpinnerModule,
+    ],
+    exports: [TreeCatalogComponent, TreeCatalogMenuComponent]
 })
 export class TreeCatalogModule { }

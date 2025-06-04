@@ -4,9 +4,8 @@ import { GridLayoutComponent } from './grid-layout.component'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 
 @NgModule({
-  declarations: [GridLayoutComponent],
-  imports: [CommonModule, WidgetResolverModule],
-  exports: [GridLayoutComponent],
-  entryComponents: [GridLayoutComponent],
+    declarations: [GridLayoutComponent],
+    imports: [CommonModule, WidgetResolverModule],
+    exports: [GridLayoutComponent]
 })
 export class GridLayoutModule { }

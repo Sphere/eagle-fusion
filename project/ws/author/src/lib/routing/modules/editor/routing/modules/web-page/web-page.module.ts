@@ -11,22 +11,20 @@ import { UploadAudioComponent } from './components/upload-audio/upload-audio.com
 import { AudioStripsComponent } from './shared/component/audio-strips/audio-strips.component'
 
 @NgModule({
-  declarations: [
-    WebModuleEditorComponent,
-    UploadAudioComponent,
-    AudioStripsComponent,
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    EditorSharedModule,
-    DragDropModule,
-    AuthViewerModule,
-    WebPageRoutingModule,
-    HorizontalScrollerModule,
-  ],
-  exports: [WebModuleEditorComponent],
-  entryComponents: [UploadAudioComponent],
-
+    declarations: [
+        WebModuleEditorComponent,
+        UploadAudioComponent,
+        AudioStripsComponent,
+    ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        EditorSharedModule,
+        DragDropModule,
+        AuthViewerModule,
+        WebPageRoutingModule,
+        HorizontalScrollerModule,
+    ],
+    exports: [WebModuleEditorComponent]
 })
 export class WebPageModule { }

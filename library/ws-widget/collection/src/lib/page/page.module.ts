@@ -15,23 +15,22 @@ import { BtnFeatureModule } from '../btn-feature/btn-feature.module'
 import { ContentStripMultipleModule } from './../content-strip-multiple/content-strip-multiple.module'
 
 @NgModule({
-  declarations: [PageComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    WidgetResolverModule,
-    BtnPageBackModule,
-    MatButtonModule,
-    MatToolbarModule,
-    MatIconModule,
-    MatTooltipModule,
-    MatMenuModule,
-    // TourModule,
-    BtnFeatureModule,
-    // CardBreadcrumbModule,
-    ContentStripMultipleModule,
-  ],
-  exports: [PageComponent],
-  entryComponents: [PageComponent],
+    declarations: [PageComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        WidgetResolverModule,
+        BtnPageBackModule,
+        MatButtonModule,
+        MatToolbarModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatMenuModule,
+        // TourModule,
+        BtnFeatureModule,
+        // CardBreadcrumbModule,
+        ContentStripMultipleModule,
+    ],
+    exports: [PageComponent]
 })
 export class PageModule { }

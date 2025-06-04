@@ -12,20 +12,19 @@ import { MatTooltipModule } from '@angular/material/tooltip'
 import { BtnSettingsComponent } from './btn-settings.component'
 
 @NgModule({
-  declarations: [BtnSettingsComponent],
-  imports: [
-    CommonModule,
-    FormsModule,
-    RouterModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatSlideToggleModule,
-    MatListModule,
-    MatTooltipModule,
-  ],
-  exports: [BtnSettingsComponent],
-  entryComponents: [BtnSettingsComponent],
+    declarations: [BtnSettingsComponent],
+    imports: [
+        CommonModule,
+        FormsModule,
+        RouterModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatSlideToggleModule,
+        MatListModule,
+        MatTooltipModule,
+    ],
+    exports: [BtnSettingsComponent]
 })
 export class BtnSettingsModule { }

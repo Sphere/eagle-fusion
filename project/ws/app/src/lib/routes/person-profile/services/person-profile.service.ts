@@ -73,7 +73,7 @@ export class PersonProfileService {
 
       return this.http.post<IFollowDetails>(API_END_POINTS.getDetails, { wid })
 
-    } catch (e) {
+    } catch (e: any) {
       return e
     }
 

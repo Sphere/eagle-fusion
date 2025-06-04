@@ -17,28 +17,25 @@ import { OpenPlainCkEditorComponent } from './shared/components/open-plain-ck-ed
 import { RomanConvertPipe } from '@ws/author/src/lib/routing/modules/editor/routing/modules/quiz/shared/roman-convert.pipe'
 
 @NgModule({
-  declarations: [
-    QuizComponent,
-    QuestionEditorComponent,
-    MatchTheFollowingComponent,
-    MultipleChoiceQuestionComponent,
-    FillUpsEditorComponent,
-    QuestionEditorSidenavComponent,
-    OpenPlainCkEditorComponent,
-    RomanConvertPipe,
-
-  ],
-  imports: [
-    CommonModule,
-    SharedModule,
-    EditorSharedModule,
-    DragDropModule,
-    QuizRoutingModule,
-    AuthViewerModule,
-
-  ],
-  exports: [QuizComponent],
-  providers: [QuizStoreService],
-  entryComponents: [OpenPlainCkEditorComponent],
+    declarations: [
+        QuizComponent,
+        QuestionEditorComponent,
+        MatchTheFollowingComponent,
+        MultipleChoiceQuestionComponent,
+        FillUpsEditorComponent,
+        QuestionEditorSidenavComponent,
+        OpenPlainCkEditorComponent,
+        RomanConvertPipe,
+    ],
+    imports: [
+        CommonModule,
+        SharedModule,
+        EditorSharedModule,
+        DragDropModule,
+        QuizRoutingModule,
+        AuthViewerModule,
+    ],
+    exports: [QuizComponent],
+    providers: [QuizStoreService]
 })
 export class QuizModule { }

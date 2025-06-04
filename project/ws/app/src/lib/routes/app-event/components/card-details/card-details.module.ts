@@ -5,14 +5,13 @@ import { RouterModule } from '@angular/router'
 import { MatDividerModule } from '@angular/material/divider'
 
 @NgModule({
-  declarations: [CardDetailsComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatDividerModule,
-  ],
-  entryComponents: [],
-  exports: [CardDetailsComponent],
+    declarations: [CardDetailsComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatDividerModule,
+    ],
+    exports: [CardDetailsComponent]
 })
 
 export class CardDetailsModule { }
