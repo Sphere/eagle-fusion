@@ -7,16 +7,20 @@ WORKDIR /app
 COPY . .
 
 # Install Angular CLI globally, install dependencies, add required packages, and run the production builds
-RUN npm install -g @angular/cli@11.2.19 && \
+# Install Angular CLI globally, install dependencies, add required packages, and run the production builds
+RUN npm install -g @angular/cli@15.2.10 && \
     yarn install --ignore-scripts && \
     yarn add moment vis-util && \
-    ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true && \
-    ng build --prod \
-    --i18n-locale=hi \
-    --i18n-format=xlf \
-    --i18n-file=locale/messages.hi.xlf \
-    --output-path=dist/www/hi \
-    --base-href=/hi/ && \
+    ng build --configuration production --stats-json \
+        --output-path=dist/www/en \
+        --base-href=/ \
+        --verbose=true && \
+    ng build --configuration production \
+        --localize=hi \
+        --i18n-format=xlf \
+        --i18n-file=locale/messages.hi.xlf \
+        --output-path=dist/www/hi \
+        --base-href=/hi/ && \
     npm run compress:brotli
 
 # Change working directory to the dist folder where the build output resides
