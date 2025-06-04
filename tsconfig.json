@@ -1,5 +1,14 @@
 {
   "compileOnSave": false,
+  "angularCompilerOptions": {
+    "disableTypeScriptVersionCheck": true,
+    "enableIvy": true,
+    "allowImportingTsExtensions": true,
+    "skipMetadataEmit": true,
+    "strictMetadataEmit": false,
+    "fullTemplateTypeCheck": false,
+    "strictTemplates": false
+  },
   "compilerOptions": {
     "resolveJsonModule": true,
     "types": ["node", "reflect-metadata", "jest"],
@@ -16,7 +25,7 @@
     "importHelpers": true,
     "skipLibCheck": true,
     "lib": ["es2018", "dom"],
-    "module": "esnext",
+    "module": "es2020",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
     "noImplicitAny": false,

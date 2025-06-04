@@ -31,8 +31,8 @@ import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service
 export class PlayerPdfComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
   @Input() widgetData!: IWidgetsPlayerPdfData
-  @ViewChild('fullScreenContainer', { static: true })
-  @ViewChild('input', { static: true }) input: any
+  @ViewChild('fullScreenContainer', { static: true }) fullScreenContainer!: ElementRef<HTMLElement>
+  @ViewChild('input', { static: true }) input!: ElementRef<HTMLInputElement>
   containerSection!: ElementRef<HTMLElement>
 
   DEFAULT_SCALE = 1.0
@@ -190,7 +190,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       }
     })
     if (this.input) {
-      this.input.underlineRef.nativeElement.className = null
+      this.input.nativeElement.className = ''
     }
   }
 

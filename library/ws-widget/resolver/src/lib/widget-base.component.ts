@@ -6,6 +6,7 @@ type TWidgetBase = Omit<NsWidgetResolver.IWidgetData<any>, 'widgetData'>
 @Component({
   selector: 'ws-resolver-base',
   template: 'Base Component',
+  styleUrls: []
 })
 export class WidgetBaseComponent implements TWidgetBase, AfterViewInit {
   @Input() widgetType = ''
