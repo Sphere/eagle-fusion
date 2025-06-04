@@ -1,5 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, NsInstanceConfig } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
@@ -21,8 +21,8 @@ export class BtnSettingsComponent extends WidgetBaseComponent
   fonts: NsInstanceConfig.IFontSize[] = []
   allowedLangCode: { [langCode: string]: NsInstanceConfig.ILocalsConfig } = {}
 
-  darkModeForm = new FormControl(false)
-  isRTLForm = new FormControl(this.configSvc.isRTL)
+  darkModeForm = new UntypedFormControl(false)
+  isRTLForm = new UntypedFormControl(this.configSvc.isRTL)
   activeThemeClass = ''
   activeFontClass = ''
   // Subscriptions

@@ -1,6 +1,6 @@
 import { FlatTreeControl } from '@angular/cdk/tree'
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { FormGroup } from '@angular/forms'
+import { UntypedFormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatTreeFlattener, MatTreeFlatDataSource } from '@angular/material/tree'
@@ -543,14 +543,14 @@ export class MyContentComponent implements OnInit, OnDestroy {
       data: { ...content.data, status: 'Draft' },
     })
 
-    dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+    dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
       if (commentsForm) {
         this.finalCall(commentsForm, content)
       }
     })
   }
 
-  finalCall(commentsForm: FormGroup, content: any) {
+  finalCall(commentsForm: UntypedFormGroup, content: any) {
     if (commentsForm) {
       let operationValue: any
       switch (content.type) {

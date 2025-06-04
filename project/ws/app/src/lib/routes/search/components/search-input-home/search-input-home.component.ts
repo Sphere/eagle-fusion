@@ -1,5 +1,5 @@
 import { Component, ElementRef, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange, ViewChild, ViewEncapsulation } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 import { Observable } from 'rxjs'
@@ -18,7 +18,7 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
   @Input() placeHolder = ''
   @Input() ref = ''
   @Output() closed: EventEmitter<boolean> = new EventEmitter()
-  queryControl = new FormControl(this.activated.snapshot.queryParams.q || '')
+  queryControl = new UntypedFormControl(this.activated.snapshot.queryParams.q || '')
   languageSearch: string[] = []
   filteredOptions$: Observable<string[]> = this.queryControl.valueChanges.pipe(
     startWith(this.queryControl.value),

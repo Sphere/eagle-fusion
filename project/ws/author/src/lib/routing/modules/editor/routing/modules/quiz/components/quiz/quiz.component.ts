@@ -38,7 +38,7 @@ import { NSApiRequest } from '@ws/author/src/lib/interface/apiRequest'
 
 import { CONTENT_BASE_WEBHOST } from '@ws/author/src/lib/constants/apiEndpoints'
 import { VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection/src/public-api'
-import { FormGroup } from '@angular/forms'
+import { UntypedFormGroup } from '@angular/forms'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 
 @Component({
@@ -618,7 +618,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             height: '450px',
             data: this.metaContentService.getOriginalMeta(this.currentId),
           })
-          dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+          dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
             this.finalCall(commentsForm)
           })
         }
@@ -642,7 +642,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     )
   }
 
-  finalCall(commentsForm: FormGroup) {
+  finalCall(commentsForm: UntypedFormGroup) {
     if (commentsForm) {
       const body: NSApiRequest.IForwardBackwardActionGeneral = {
         comment: commentsForm.controls.comments.value,

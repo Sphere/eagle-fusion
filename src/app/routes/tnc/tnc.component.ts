@@ -6,7 +6,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ROOT_WIDGET_CONFIG, NsError } from '@ws-widget/collection'
 import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
-import { FormGroup } from '@angular/forms'
+import { UntypedFormGroup } from '@angular/forms'
 import {
   ConfigurationsService
 } from '@ws-widget/utils'
@@ -26,7 +26,7 @@ export class TncComponent implements OnInit, OnDestroy {
   errorInAccepting = false
   isPublic = false
   userId = false
-  createUserForm!: FormGroup
+  createUserForm!: UntypedFormGroup
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,

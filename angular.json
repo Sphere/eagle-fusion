@@ -58,6 +58,7 @@
               "node_modules/@aastrika_npmjs/competency-web/assets/styles/global.scss",
               "src/themes/theme-igot.scss",
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
+              "node_modules/typeface-roboto/index.css",
               "src/fusion-assets/fonts/poppins/stylesheet.css"
             ],
             "scripts": [
@@ -257,7 +258,6 @@
       }
     }
   },
-  "defaultProject": "fusion",
   "schematics": {
     "@schematics/angular:component": {
       "styleext": "scss"

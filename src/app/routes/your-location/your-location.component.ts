@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import moment from 'moment'
 import { Observable } from 'rxjs'
@@ -23,7 +23,7 @@ export class YourLocationComponent implements OnInit {
   districtArr: any
   selectDisable = true
   yourBackground = false
-  aboutYouForm: FormGroup
+  aboutYouForm: UntypedFormGroup
   // maxDate = new Date()
   // minDate = new Date(1900, 1, 1)
   invalidDob = false
@@ -37,12 +37,12 @@ export class YourLocationComponent implements OnInit {
   constructor(
     private http: HttpClient
   ) {
-    this.aboutYouForm = new FormGroup({
-      dob: new FormControl(),
-      country: new FormControl(),
-      distict: new FormControl(),
-      state: new FormControl(),
-      countryCode: new FormControl(),
+    this.aboutYouForm = new UntypedFormGroup({
+      dob: new UntypedFormControl(),
+      country: new UntypedFormControl(),
+      distict: new UntypedFormControl(),
+      state: new UntypedFormControl(),
+      countryCode: new UntypedFormControl(),
     })
   }
 

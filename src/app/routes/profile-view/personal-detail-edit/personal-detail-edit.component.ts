@@ -1,5 +1,5 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
@@ -32,7 +32,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   invalidDob = false
-  personalDetailForm: FormGroup
+  personalDetailForm: UntypedFormGroup
   userProfileData!: IUserProfileDetailsFromRegistry
   academicsArray: any[] = []
   // profileUserName: any
@@ -82,35 +82,35 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private UserAgentResolverService: UserAgentResolverService,
     private http: HttpClient
   ) {
-    this.personalDetailForm = new FormGroup({
-      firstname: new FormControl('', [Validators.required]),
-      surname: new FormControl('', [Validators.required]),
+    this.personalDetailForm = new UntypedFormGroup({
+      firstname: new UntypedFormControl('', [Validators.required]),
+      surname: new UntypedFormControl('', [Validators.required]),
       // userName: new FormControl('', [Validators.required]),
-      dob: new FormControl('', [Validators.required]),
-      profession: new FormControl(),
-      designation: new FormControl(),
-      professionOtherSpecify: new FormControl(),
-      regNurseRegMidwifeNumber: new FormControl(),
-      orgType: new FormControl(),
-      orgOtherSpecify: new FormControl(),
-      organizationName: new FormControl(),
-      nationality: new FormControl(),
-      domicileMedium: new FormControl(),
-      gender: new FormControl(),
-      maritalStatus: new FormControl(),
-      knownLanguages: new FormControl([], []),
-      knownLanguage: new FormControl(this.preferedLanguage),
-      mobile: new FormControl({ value: '', disabled: true }),
-      email: new FormControl({ value: '', disabled: true }),
-      postalAddress: new FormControl(),
-      pincode: new FormControl(),
-      languages: new FormControl(),
-      block: new FormControl(),
-      subcentre: new FormControl(),
-      country: new FormControl(),
-      state: new FormControl(),
-      distict: new FormControl(),
-      countryCode: new FormControl(),
+      dob: new UntypedFormControl('', [Validators.required]),
+      profession: new UntypedFormControl(),
+      designation: new UntypedFormControl(),
+      professionOtherSpecify: new UntypedFormControl(),
+      regNurseRegMidwifeNumber: new UntypedFormControl(),
+      orgType: new UntypedFormControl(),
+      orgOtherSpecify: new UntypedFormControl(),
+      organizationName: new UntypedFormControl(),
+      nationality: new UntypedFormControl(),
+      domicileMedium: new UntypedFormControl(),
+      gender: new UntypedFormControl(),
+      maritalStatus: new UntypedFormControl(),
+      knownLanguages: new UntypedFormControl([], []),
+      knownLanguage: new UntypedFormControl(this.preferedLanguage),
+      mobile: new UntypedFormControl({ value: '', disabled: true }),
+      email: new UntypedFormControl({ value: '', disabled: true }),
+      postalAddress: new UntypedFormControl(),
+      pincode: new UntypedFormControl(),
+      languages: new UntypedFormControl(),
+      block: new UntypedFormControl(),
+      subcentre: new UntypedFormControl(),
+      country: new UntypedFormControl(),
+      state: new UntypedFormControl(),
+      distict: new UntypedFormControl(),
+      countryCode: new UntypedFormControl(),
     })
 
     // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })

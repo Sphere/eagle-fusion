@@ -12,7 +12,7 @@
   "compilerOptions": {
     "resolveJsonModule": true,
     "types": ["node", "reflect-metadata", "jest"],
-    "target": "es2015",
+    "target": "es2020",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "alwaysStrict": true,

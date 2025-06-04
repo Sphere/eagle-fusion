@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewEncapsulation } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
@@ -16,7 +16,7 @@ import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.
 })
 export class HomeComponent implements OnInit {
 
-  query: FormControl = new FormControl('')
+  query: UntypedFormControl = new UntypedFormControl('')
   lang = ''
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   autoCompleteResults: ISearchAutoComplete[] = []

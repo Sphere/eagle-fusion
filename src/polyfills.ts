@@ -52,6 +52,5 @@ import '@angular/localize/init'
  * APPLICATION IMPORTS
  */
 import 'hammerjs'
-import 'typeface-roboto'
 
 (window as any).global = window

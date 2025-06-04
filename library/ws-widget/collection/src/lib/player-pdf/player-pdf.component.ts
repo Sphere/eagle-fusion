@@ -7,7 +7,7 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { EventService, WsEvents, TelemetryService, ConfigurationsService, UtilityService } from '@ws-widget/utils'
@@ -40,7 +40,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   MIN_SCALE = 0.2
   CSS_UNITS = 96 / 72
   totalPages = 0
-  currentPage = new FormControl(1)
+  currentPage = new UntypedFormControl(1)
   // zoom = new FormControl(this.DEFAULT_SCALE)
   isSmallViewPort = false
   realTimeProgressRequest = {

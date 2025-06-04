@@ -1,5 +1,5 @@
 import { Component, OnDestroy, ViewChild, ElementRef, OnInit, AfterViewChecked } from '@angular/core'
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
@@ -14,9 +14,9 @@ import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/l
   styleUrls: ['./register.component.scss'],
 })
 export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
-  signupForm: FormGroup
-  emailForm: FormGroup
-  unseenCtrl!: FormControl
+  signupForm: UntypedFormGroup
+  emailForm: UntypedFormGroup
+  unseenCtrl!: UntypedFormControl
   unseenCtrlSub!: Subscription
   uploadSaveData = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -32,17 +32,17 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   constructor(
     private snackBar: MatSnackBar,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private router: Router,
     private tncService: TncPublicResolverService,
     private authSvc: AuthKeycloakService
   ) {
     this.signupForm = this.fb.group({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      otp: new FormControl(''),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl(['']),
+      firstName: new UntypedFormControl('', [Validators.required]),
+      lastName: new UntypedFormControl('', [Validators.required]),
+      otp: new UntypedFormControl(''),
+      password: new UntypedFormControl('', [Validators.required, Validators.minLength(6)]),
+      confirmPassword: new UntypedFormControl(['']),
     }, { validator: mustMatch('password', 'confirmPassword') })
 
     // this.emailForm = this.fb.group({

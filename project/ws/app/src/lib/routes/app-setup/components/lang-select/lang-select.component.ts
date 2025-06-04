@@ -5,7 +5,7 @@ import {
   NsInstanceConfig,
   UserPreferenceService,
 } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
-import { FormControl, Validators } from '@angular/forms'
+import { UntypedFormControl, Validators } from '@angular/forms'
 
 @Component({
   selector: 'ws-app-lang-select',
@@ -21,7 +21,7 @@ export class LangSelectComponent implements OnInit {
   userName = ''
   selectedLang = ''
   lang = ''
-  animalControl = new FormControl('', Validators.required)
+  animalControl = new UntypedFormControl('', Validators.required)
   allowedLangCode: { [langCode: string]: NsInstanceConfig.ILocalsConfig } = {}
 
   ngOnInit() {

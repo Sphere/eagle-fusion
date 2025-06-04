@@ -1,6 +1,6 @@
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { FormGroup, FormBuilder, FormControl, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormControl, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -67,7 +67,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
   mode$ = this.mediumSizeBreakpoint$.pipe(map(isMedium => (isMedium ? 'over' : 'side')))
   leftArrow = true
   showAddchapter = false
-  createTopicForm: FormGroup | undefined
+  createTopicForm: UntypedFormGroup | undefined
   reloadTOC = false
   public sideNavBarOpened = false
   callSaveFn!: boolean
@@ -92,7 +92,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     private notificationSvc: NotificationService,
     private accessControlSvc: AccessControlService,
     private breakpointObserver: BreakpointObserver,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private headerService: HeaderServiceService,
     private rootSvc: RootService,
   ) {
@@ -110,8 +110,8 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
     this.parentNodeId = this.storeService.currentParentNode
     // this.expandNodesById([this.parentNodeId])
     this.createTopicForm = this.fb.group({
-      topicName: new FormControl('', [Validators.required]),
-      topicDescription: new FormControl('', [Validators.required]),
+      topicName: new UntypedFormControl('', [Validators.required]),
+      topicDescription: new UntypedFormControl('', [Validators.required]),
     })
 
     this.stepper = this.initService.collectionConfig.stepper
@@ -450,13 +450,13 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
         data: this.contentService.getOriginalMeta(this.currentParentId),
       })
 
-      dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+      dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
         this.finalCall(commentsForm)
       })
     }
   }
 
-  finalCall(commentsForm: FormGroup) {
+  finalCall(commentsForm: UntypedFormGroup) {
     if (commentsForm) {
       const body: NSApiRequest.IForwardBackwardActionGeneral = {
         comment: commentsForm.controls.comments.value,

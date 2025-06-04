@@ -20,7 +20,7 @@ import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 // import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 // import dayjs from 'dayjs'
 // import * as  lodash from 'lodash'
 // import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
@@ -54,7 +54,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() resumeResource: NsContent.IContinueLearningData | null = null
   @Input() optmisticPercentage: number | null = null
   @Input() finishedPercentage: any
-  batchControl = new FormControl('', Validators.required)
+  batchControl = new UntypedFormControl('', Validators.required)
   contentTypes = NsContent.EContentTypes
   isTocBanner = true
   issueCertificate = false
@@ -1287,7 +1287,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             disableClose: false,
           })
 
-          dialogRef.afterClosed().subscribe((data: { event: any, ratingsForm: FormGroup, rating: number }) => {
+          dialogRef.afterClosed().subscribe((data: { event: any, ratingsForm: UntypedFormGroup, rating: number }) => {
             console.log("data: ", data)
             if (data && data.event && data.event === "CONFIRMED")
               this.readCourseRatingSummary()

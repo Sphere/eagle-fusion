@@ -2,7 +2,7 @@ import {
   Component, OnInit, ElementRef, AfterViewInit,
   ViewChild,
 } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
 import { Location, PlatformLocation } from '@angular/common'
@@ -21,7 +21,7 @@ declare const gapi: any
 export class MobileLoginComponent implements OnInit, AfterViewInit {
   [x: string]: any
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     // private element: ElementRef,
     private router: Router,
     private contentSvc: WidgetContentService,
@@ -35,8 +35,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     this.route = location.path()
     this.loginForm = this.fb.group({
       // tslint:disable-next-line:max-line-length
-      username: new FormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
-      password: new FormControl('', [Validators.required]),
+      username: new UntypedFormControl('', [Validators.required, Validators.pattern(/^(([- ]*)[6-9][0-9]{9}([- ]*)|^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9 ]([- ]*))?)*$)$/)]),
+      password: new UntypedFormControl('', [Validators.required]),
     })
     loc.onPopState(() => {
       window.location.href = '/public/home'
@@ -45,7 +45,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   }
   @ViewChild('myDiv', { static: true }) myDiv!: ElementRef<any>
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
-  loginForm: FormGroup
+  loginForm: UntypedFormGroup
   hide = true
   iconChange = 'fas fa-eye-slash'
   public route: string
