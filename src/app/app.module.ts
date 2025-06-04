@@ -32,10 +32,10 @@ import { MatSelectModule } from '@angular/material/select'
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Title, HammerGestureConfig } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
-  BtnFeatureModule, ErrorResolverModule,
   // TourModule,
-  WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe,
-} from '@ws-widget/collection'
+  WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG,
+} from '../../library/ws-widget/collection/src/lib/registration.config'
+import { PipeContentRoutePipe, BtnFeatureModule, ErrorResolverModule, } from '../../library/ws-widget/collection'
 // import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
@@ -49,7 +49,7 @@ import { KeycloakAngularModule } from 'keycloak-angular'
 import { AppRoutingModule } from './app-routing.module'
 import { InitService } from './services/init.service'
 import { GlobalErrorHandlingService } from './services/global-error-handling.service'
-import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
+import { AppTocResolverService } from '../../project/ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
 
 import { RootComponent } from './component/root/root.component'
 import { LoginComponent } from './component/login/login.component'
