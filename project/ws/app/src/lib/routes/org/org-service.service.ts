@@ -18,6 +18,7 @@ const API_END_POINTS = {
   Maternity_Auth: '/apis/public/v8/maternityFoundation/login',
   ENROLLED_USER: 'apis/protected/v8/userEnrolledInSource',
   Tnai_Auth: '/apis/public/v8/tnai/login',
+  Tnnmc_Auth: '/apis/public/v8/tnnmc/login',
 }
 @Injectable({
   providedIn: 'root',
@@ -117,6 +118,10 @@ export class OrgServiceService {
   setTnaiToken(data: any): Observable<any> {
     console.log(data)
     return this.http.post<any>(`${API_END_POINTS.Tnai_Auth}`, data)
+  }
+  setTnnmcToken(data: any): Observable<any> {
+    console.log(data)
+    return this.http.post<any>(`${API_END_POINTS.Tnnmc_Auth}`, data)
   }
   setConnectSid(authCode: any): Observable<any> {
     return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})
