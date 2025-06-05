@@ -72,13 +72,13 @@
 
 <!-- <div class="button">
   <ng-container i18n>Subtitles</ng-container>
-  <mat-chip-list *ngIf="content.subtitles" #subTitleList i18n-aria-label aria-label="Subtitle files">
-    <mat-chip *ngFor="let subtitle of content.subtitles; let i = index" [removable]="true"
+  <mat-chip-listbox *ngIf="content.subtitles" #subTitleList i18n-aria-label aria-label="Subtitle files">
+    <mat-chip-option *ngFor="let subtitle of content.subtitles; let i = index" [removable]="true"
       (removed)="removeSubtitle(i)">
       {{ subtitle.label }}
       <mat-icon matChipRemove>cancel</mat-icon>
-    </mat-chip>
-  </mat-chip-list>
+    </mat-chip-option>
+  </mat-chip-listbox>
 
   <mat-form-field>
     <mat-select i18n-placeholder placeholder="Add Subtitle (.vtt format)" [(value)]="selectedSubtitle">

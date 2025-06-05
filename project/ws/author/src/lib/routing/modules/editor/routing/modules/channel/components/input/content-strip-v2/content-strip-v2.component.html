@@ -1,11 +1,7 @@
 <form [formGroup]="form">
   <mat-form-field>
     <mat-label i18n>Content Card Type</mat-label>
-    <mat-select
-      [(ngModel)]="cardSubtype"
-      (ngModelChange)="onCardChange()"
-      [ngModelOptions]="{ standalone: true }"
-    >
+    <mat-select [(ngModel)]="cardSubtype" (ngModelChange)="onCardChange()" [ngModelOptions]="{ standalone: true }">
       <mat-option value="standard" i18n>Standard</mat-option>
       <mat-option value="minimal" i18n>Minimal</mat-option>
       <mat-option value="space-saving" i18n>Space-Saving</mat-option>
@@ -17,62 +13,31 @@
   </mat-form-field>
   <mat-form-field appearance="outline" class="w-full">
     <mat-label i18n>Title</mat-label>
-    <input
-      type="text"
-      matInput
-      i18n-placeholder
-      placeholder="Name"
-      formControlName="title"
-      #name
-      [value]="form.controls.title.value"
-    />
+    <input type="text" matInput i18n-placeholder placeholder="Name" formControlName="title" #name
+      [value]="form.controls.title.value" />
   </mat-form-field>
   <div class="flex flex-middle" *ngIf="size === 4">
-    <button
-      mat-icon-button
-      (click)="addfront()"
-      class="margin-right-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-right-s"
-    >
-      <mat-icon
-        class="text-white small-icon"
-        i18n-matTooltip
-        matTooltip="Add an another series at front"
-      >
-        add</mat-icon
-      >
+    <button mat-icon-button (click)="addfront()"
+      class="margin-right-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-right-s">
+      <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add an another series at front">
+        add</mat-icon>
     </button>
-    <p
-      class="margin-top-xs font-weight-500 margin-top-s cursor-pointer padding-left-right"
-      *ngFor="let tab of content.strips || []; let i = index"
-      [ngClass]="{
+    <p class="margin-top-xs font-weight-500 margin-top-s cursor-pointer padding-left-right"
+      *ngFor="let tab of content.strips || []; let i = index" [ngClass]="{
         'ws-mat-primary-border-bottom-bolder': i === index
-      }"
-      (click)="onIndexChange(i)"
-    >
+      }" (click)="onIndexChange(i)">
       {{ i + 1 }}
     </p>
-    <button
-      mat-icon-button
-      (click)="addEnd()"
-      class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
-    >
-      <mat-icon
-        class="text-white small-icon"
-        i18n-matTooltip
-        matTooltip="Add an another series at end"
-      >
-        add</mat-icon
-      >
+    <button mat-icon-button (click)="addEnd()"
+      class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s">
+      <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add an another series at end">
+        add</mat-icon>
     </button>
   </div>
 
   <div class="row-wise" style="position: relative;">
-    <mat-radio-group
-      class="radio my-auto"
-      [(ngModel)]="requestType"
-      [ngModelOptions]="{ standalone: true }"
-      (ngModelChange)="onSelectionChange(true)"
-    >
+    <mat-radio-group class="radio my-auto" [(ngModel)]="requestType" [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="onSelectionChange(true)">
       <mat-radio-button class="radioButton" [value]="'KB'" i18n>
         Knowledge Board
       </mat-radio-button>
@@ -89,14 +54,8 @@
         Provide Search Body
       </mat-radio-button> -->
     </mat-radio-group>
-    <button
-      style="position: absolute; top:0px; right: 0px"
-      type="button"
-      mat-flat-button
-      i18n-matTooltip
-      matTooltip="Remove this Entry"
-      (click)="removeStrip()"
-    >
+    <button style="position: absolute; top:0px; right: 0px" type="button" mat-flat-button i18n-matTooltip
+      matTooltip="Remove this Entry" (click)="removeStrip()">
       <mat-icon>delete forever</mat-icon>
     </button>
   </div>
@@ -105,20 +64,10 @@
     <div *ngSwitchCase="'KB'">
       <mat-card>
         <mat-label i18n>* Type in Knowledge Board Id or use the search below to choose</mat-label>
-        <ws-auth-chips
-          [placeholderType]="'collection'"
-          (data)="onSearchV6Change($event)"
-          [type]="'array'"
-          [content]="collectionId"
-        ></ws-auth-chips>
-        <ws-widget-picker-content
-          [showFilter]="false"
-          [selectionType]="'radio'"
-          [widgetData]="pickerContentData"
-          [selectedContentTypes]="['Knowledge Board']"
-          (change)="onSearchV6Change($event)"
-          [dataType]="dataType"
-        >
+        <ws-auth-chips [placeholderType]="'collection'" (data)="onSearchV6Change($event)" [type]="'array'"
+          [content]="collectionId"></ws-auth-chips>
+        <ws-widget-picker-content [showFilter]="false" [selectionType]="'radio'" [widgetData]="pickerContentData"
+          [selectedContentTypes]="['Knowledge Board']" (change)="onSearchV6Change($event)" [dataType]="dataType">
         </ws-widget-picker-content>
       </mat-card>
       <br />
@@ -127,52 +76,31 @@
     <div *ngSwitchCase="'Collections'">
       <mat-card>
         <mat-label i18n>* Type in content Id or use the search below to choose</mat-label>
-        <ws-auth-chips
-          [placeholderType]="'collection'"
-          (data)="onSearchV6Change($event)"
-          [type]="'array'"
-          [content]="collectionId"
-        ></ws-auth-chips>
-        <ws-widget-picker-content
-          [selectionType]="'radio'"
-          [widgetData]="pickerContentData"
-          [selectedContentTypes]="['Collection', 'Learing Path', 'Course']"
-          (change)="onSearchV6Change($event)"
-        >
+        <ws-auth-chips [placeholderType]="'collection'" (data)="onSearchV6Change($event)" [type]="'array'"
+          [content]="collectionId"></ws-auth-chips>
+        <ws-widget-picker-content [selectionType]="'radio'" [widgetData]="pickerContentData"
+          [selectedContentTypes]="['Collection', 'Learing Path', 'Course']" (change)="onSearchV6Change($event)">
         </ws-widget-picker-content>
       </mat-card>
       <br />
       <ng-container *ngTemplateOutlet="collectionCommon"> </ng-container>
     </div>
     <div *ngSwitchCase="'search'">
-      <ws-auth-ace-editor
-        [mode]="'json'"
-        [content]="getPath('request', 'search').value || {}"
-        (data)="update('api', $event)"
-      >
+      <ws-auth-ace-editor [mode]="'json'" [content]="getPath('request', 'search').value || {}"
+        (data)="update('api', $event)">
       </ws-auth-ace-editor>
     </div>
     <div *ngSwitchCase="'api'">
-      <ws-auth-ace-editor
-        [mode]="'json'"
-        [content]="getPath('request', 'api').value || {}"
-        (data)="update('api', $event)"
-      >
+      <ws-auth-ace-editor [mode]="'json'" [content]="getPath('request', 'api').value || {}"
+        (data)="update('api', $event)">
       </ws-auth-ace-editor>
     </div>
     <div *ngSwitchCase="'ids'">
       <mat-card>
-        <ws-auth-chips
-          [placeholderType]="'collection'"
-          (data)="onIdChange($event)"
-          [type]="'array'"
-          [content]="getPath('request', 'ids').value"
-        ></ws-auth-chips>
-        <ws-widget-picker-content
-          [widgetData]="pickerContentData"
-          (change)="onContentSelectionChanged($event)"
-          [dataType]="dataType"
-        >
+        <ws-auth-chips [placeholderType]="'collection'" (data)="onIdChange($event)" [type]="'array'"
+          [content]="getPath('request', 'ids').value"></ws-auth-chips>
+        <ws-widget-picker-content [widgetData]="pickerContentData" (change)="onContentSelectionChanged($event)"
+          [dataType]="dataType">
         </ws-widget-picker-content>
       </mat-card>
     </div>
@@ -195,89 +123,48 @@
       <div class="flex flex-middle">
         <p class="margin-remove-bottom mat-h3 font-weight-bold" i18n>
           Add an Image PreWidget
-          <button
-            mat-icon-button
-            *ngIf="currentStrip?.preWidgets?.length === 0"
-            (click)="addPrePostWidgetEnd('pre')"
-            class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
-          >
-            <mat-icon
-              class="text-white small-icon"
-              i18n-matTooltip
-              matTooltip="Add a Optional Start"
-            >
-              add</mat-icon
-            >
+          <button mat-icon-button *ngIf="currentStrip?.preWidgets?.length === 0" (click)="addPrePostWidgetEnd('pre')"
+            class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s">
+            <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add a Optional Start">
+              add</mat-icon>
           </button>
         </p>
       </div>
       <div class="flex flex-middle">
-        <button
-          mat-icon-button
-          *ngIf="currentStrip?.preWidgets?.length > 0"
-          (click)="addPrePostWidgetFront('pre')"
-          class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
-        >
+        <button mat-icon-button *ngIf="currentStrip?.preWidgets?.length > 0" (click)="addPrePostWidgetFront('pre')"
+          class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s">
           <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add a Optional Start">
-            add</mat-icon
-          >
+            add</mat-icon>
         </button>
-        <p
-          class="margin-top-xs font-weight-500 margin-top-s cursor-pointer padding-left-right"
-          *ngFor="let preWidget of currentStrip.preWidgets || []; let i = index"
-          [ngClass]="{
+        <p class="margin-top-xs font-weight-500 margin-top-s cursor-pointer padding-left-right"
+          *ngFor="let preWidget of currentStrip.preWidgets || []; let i = index" [ngClass]="{
             'ws-mat-primary-border-bottom-bolder': i === currPreWidget
-          }"
-          (click)="currPreWidget = i"
-        >
+          }" (click)="currPreWidget = i">
           {{ i + 1 }}
         </p>
-        <button
-          mat-icon-button
-          *ngIf="currentStrip?.preWidgets?.length > 0"
-          (click)="addPrePostWidgetEnd('pre')"
-          class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
-        >
+        <button mat-icon-button *ngIf="currentStrip?.preWidgets?.length > 0" (click)="addPrePostWidgetEnd('pre')"
+          class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s">
           <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add a Optional Start">
-            add</mat-icon
-          >
+            add</mat-icon>
         </button>
       </div>
     </div>
-    <div
-      style="position: relative;"
-      *ngIf="currentStrip.preWidgets && currentStrip.preWidgets[currPreWidget]"
-    >
-      <mat-checkbox
-        *ngIf="size > 1"
-        [checked]="
+    <div style="position: relative;" *ngIf="currentStrip.preWidgets && currentStrip.preWidgets[currPreWidget]">
+      <mat-checkbox *ngIf="size > 1" [checked]="
           currentStrip.preWidgets[currPreWidget] &&
           currentStrip.preWidgets[currPreWidget].widgetHostClass &&
           currentStrip.preWidgets[currPreWidget].widgetHostClass.indexOf('sticky-m') > -1
-        "
-        (change)="addSticky()"
-        i18n
-        >Make it Sticky</mat-checkbox
-      >
+        " (change)="addSticky()" i18n>Make it Sticky</mat-checkbox>
       <br />
       <div style="width: 90%;">
-        <ws-auth-image-v2
-          [identifier]="identifier"
-          *ngIf="
+        <ws-auth-image-v2 [identifier]="identifier" *ngIf="
             currentStrip.preWidgets[currPreWidget].widgetSubType === 'elementHtml';
             else elseBlock
-          "
-          [content]="currentStrip.preWidgets[currPreWidget].widgetData"
-        ></ws-auth-image-v2>
+          " [content]="currentStrip.preWidgets[currPreWidget].widgetData"></ws-auth-image-v2>
       </div>
-      <button
-        style="position: absolute; top:0px; right: 0px"
-        type="button"
-        mat-flat-button
-        i18n-matTooltip
+      <button style="position: absolute; top:0px; right: 0px" type="button" mat-flat-button i18n-matTooltip
         matTooltip="Remove this Entry"
-        (click)="updatePrePost(currentStrip.preWidgets[currPreWidget], 'pre', currPreWidget, true)"
-      >
+        (click)="updatePrePost(currentStrip.preWidgets[currPreWidget], 'pre', currPreWidget, true)">
         <mat-icon>delete forever</mat-icon>
       </button>
     </div>
@@ -286,79 +173,43 @@
       <div class="flex flex-middle">
         <p class="margin-remove-bottom mat-h3 font-weight-bold" i18n>
           Add an Image PostWidget
-          <button
-            *ngIf="currentStrip?.postWidgets?.length === 0"
-            mat-icon-button
-            (click)="addPrePostWidgetEnd('post')"
-            class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
-          >
-            <mat-icon
-              class="text-white small-icon"
-              i18n-matTooltip
-              matTooltip="Add a Optional Start"
-            >
-              add</mat-icon
-            >
+          <button *ngIf="currentStrip?.postWidgets?.length === 0" mat-icon-button (click)="addPrePostWidgetEnd('post')"
+            class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s">
+            <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add a Optional Start">
+              add</mat-icon>
           </button>
         </p>
       </div>
       <div class="flex flex-middle">
-        <button
-          *ngIf="currentStrip?.postWidgets?.length > 0"
-          mat-icon-button
-          (click)="addPrePostWidgetFront('post')"
-          class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
-        >
+        <button *ngIf="currentStrip?.postWidgets?.length > 0" mat-icon-button (click)="addPrePostWidgetFront('post')"
+          class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s">
           <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add a Optional Start">
-            add</mat-icon
-          >
+            add</mat-icon>
         </button>
-        <p
-          class="margin-top-xs font-weight-500 margin-top-s cursor-pointer padding-left-right"
-          *ngFor="let preWidget of currentStrip.postWidgets || []; let i = index"
-          [ngClass]="{
+        <p class="margin-top-xs font-weight-500 margin-top-s cursor-pointer padding-left-right"
+          *ngFor="let preWidget of currentStrip.postWidgets || []; let i = index" [ngClass]="{
             'ws-mat-primary-border-bottom-bolder': i === currPostWidget
-          }"
-          (click)="currPostWidget = i"
-        >
+          }" (click)="currPostWidget = i">
           {{ i + 1 }}
         </p>
-        <button
-          *ngIf="currentStrip?.postWidgets?.length > 0"
-          mat-icon-button
-          (click)="addPrePostWidgetEnd('post')"
-          class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s"
-        >
+        <button *ngIf="currentStrip?.postWidgets?.length > 0" mat-icon-button (click)="addPrePostWidgetEnd('post')"
+          class="margin-left-xs small-button padding-remove ws-mat-primary-background mat-elevation-z6 margin-left-s">
           <mat-icon class="text-white small-icon" i18n-matTooltip matTooltip="Add a Optional Start">
-            add</mat-icon
-          >
+            add</mat-icon>
         </button>
       </div>
     </div>
-    <div
-      style="position: relative;"
-      *ngIf="currentStrip.postWidgets && currentStrip.postWidgets[currPostWidget]"
-    >
+    <div style="position: relative;" *ngIf="currentStrip.postWidgets && currentStrip.postWidgets[currPostWidget]">
       <div style="width: 90%;">
-        <ws-auth-image-v2
-          [identifier]="identifier"
-          *ngIf="
+        <ws-auth-image-v2 [identifier]="identifier" *ngIf="
             currentStrip.postWidgets[currPostWidget].widgetSubType === 'elementHtml';
             else elseBlock
-          "
-          [content]="currentStrip.postWidgets[currPostWidget].widgetData"
-        ></ws-auth-image-v2>
+          " [content]="currentStrip.postWidgets[currPostWidget].widgetData"></ws-auth-image-v2>
       </div>
-      <button
-        style="position: absolute; top:0px; right: 0px"
-        type="button"
-        mat-flat-button
-        i18n-matTooltip
-        matTooltip="Remove this Entry"
-        (click)="
+      <button style="position: absolute; top:0px; right: 0px" type="button" mat-flat-button i18n-matTooltip
+        matTooltip="Remove this Entry" (click)="
           updatePrePost(currentStrip.postWidgets[currPostWidget], 'post', currPostWidget, true)
-        "
-      >
+        ">
         <mat-icon>delete forever</mat-icon>
       </button>
     </div>
@@ -372,40 +223,21 @@
 <ng-template #collectionCommon>
   <mat-card>
     <p class="no-margin" i18n>Keywords</p>
-    <mat-form-field
-      class="keywords-chip-list margin-top-xs flex-grow80 w-full"
-      appearance="outline"
-    >
-      <mat-chip-list #keywordsV aria-label="Keyword selection">
-        <mat-chip
-          *ngFor="let key of keywords"
-          [selectable]="'true'"
-          [removable]="'true'"
-          (removed)="removeKeyword(key)"
-        >
+    <mat-form-field class="keywords-chip-list margin-top-xs flex-grow80 w-full" appearance="outline">
+      <mat-chip-listbox #keywordsV aria-label="Keyword selection">
+        <mat-chip-option *ngFor="let key of keywords" [selectable]="'true'" [removable]="'true'"
+          (removed)="removeKeyword(key)">
           {{ key }}
           <mat-icon matChipRemove>cancel</mat-icon>
-        </mat-chip>
-        <input
-          i18n-placeholder
-          [formControl]="keywordsCtrl"
-          [matAutocomplete]="auto"
-          placeholder="Keywords"
-          #keywordsView
-          [matChipInputFor]="keywordsV"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="false"
-          (matChipInputTokenEnd)="addKeyword($event)"
-        />
-      </mat-chip-list>
+        </mat-chip-option>
+        <input i18n-placeholder [formControl]="keywordsCtrl" [matAutocomplete]="auto" placeholder="Keywords"
+          #keywordsView [matChipInputFor]="keywordsV" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="addKeyword($event)" />
+      </mat-chip-listbox>
     </mat-form-field>
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      autoActiveFirstOption
-      (optionSelected)="optionSelected($event.option.value); keywordsView.value = ''"
-    >
-      <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option"
-        >{{ option }}
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption
+      (optionSelected)="optionSelected($event.option.value); keywordsView.value = ''">
+      <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">{{ option }}
       </mat-option>
     </mat-autocomplete>
   </mat-card>
@@ -421,12 +253,7 @@
     </mat-form-field>
     <mat-form-field class="ml-20">
       <mat-label i18n>Language</mat-label>
-      <mat-select
-        [(ngModel)]="language"
-        (ngModelChange)="onSearchV6Change()"
-        appearance="outline"
-        multiple
-      >
+      <mat-select [(ngModel)]="language" (ngModelChange)="onSearchV6Change()" appearance="outline" multiple>
         <mat-option [value]="'ar'" i18n>Arabic</mat-option>
         <mat-option [value]="'br'" i18n>Breton</mat-option>
         <mat-option [value]="'zh'" i18n>Chinese</mat-option>

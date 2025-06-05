@@ -215,17 +215,17 @@ class="matExpansion flex flex-middle margin-top-m margin-left-l margin-right-l p
                     <mat-icon>filter_list</mat-icon>
                   </button>
                 </h4>
-                <mat-chip-list *ngIf="filters && filters.length" #chipList aria-label="Filter">
-                  <mat-chip [selectable]="true" [removable]="false">
+                <mat-chip-listbox *ngIf="filters && filters.length" #chipList aria-label="Filter">
+                  <mat-chip-option [selectable]="true" [removable]="false">
                     <span class="ws-mat-primary-text">Clear All</span>
                     <mat-icon [color]="'primary'" (click)="clearAllFilters()" matChipRemove>cancel</mat-icon>
-                  </mat-chip>
-                  <mat-chip *ngFor="let item of filters; let i = index" [selectable]="true" [removable]="true"
+                  </mat-chip-option>
+                  <mat-chip-option *ngFor="let item of filters; let i = index" [selectable]="true" [removable]="true"
                     (removed)="filterApplyEvent(item)">
                     <span class="ws-mat-primary-text">{{ item.displayName }}</span>
                     <mat-icon [color]="'primary'" matChipRemove>cancel</mat-icon>
-                  </mat-chip>
-                </mat-chip-list>
+                  </mat-chip-option>
+                </mat-chip-listbox>
               </div>
               <div class="flex items-center search border border-solid search-border">
                 <div class="border-right flex items-center" *ngIf="allLanguages?.length">

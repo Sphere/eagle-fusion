@@ -88,12 +88,12 @@
                       <span>No interest added</span>
                     </div>
                     <div class="margin-top-xs">
-                      <mat-chip-list>
-                        <mat-chip [selectable]="true" color="mat-app-background" class="interestchips font-family"
-                          *ngFor="let interest of interests">
+                      <mat-chip-listbox>
+                        <mat-chip-option [selectable]="true" color="mat-app-background"
+                          class="interestchips font-family" *ngFor="let interest of interests">
                           {{ interest }}
-                        </mat-chip>
-                      </mat-chip-list>
+                        </mat-chip-option>
+                      </mat-chip-listbox>
                     </div>
                   </div>
                 </div>
@@ -193,12 +193,12 @@
                   <span>No interest added</span>
                 </div>
                 <div class="margin-top-xs">
-                  <mat-chip-list>
-                    <mat-chip [selectable]="true" color="mat-app-background" class="interestchips font-family"
+                  <mat-chip-listbox>
+                    <mat-chip-option [selectable]="true" color="mat-app-background" class="interestchips font-family"
                       *ngFor="let interest of interests">
                       {{ interest }}
-                    </mat-chip>
-                  </mat-chip-list>
+                    </mat-chip-option>
+                  </mat-chip-listbox>
                 </div>
               </div>
               <!-- <p class="margin-remove-bottom email mat-h3 font-family">paul.shaju@infosys.com</p> -->

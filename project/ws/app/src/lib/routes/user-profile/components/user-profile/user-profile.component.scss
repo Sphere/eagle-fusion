@@ -294,11 +294,11 @@ input.mat-input-element {
   padding-bottom: 1.34375em;
 }
 
-::ng-deep.mat-chip-list-wrapper {
+::ng-deep.mat-chip-listbox-wrapper {
   margin: 0 !important;
 }
 
-::ng-deep.mat-chip {
+::ng-deep.mat-chip-option {
   font-weight: normal;
   background: #4d4d4d 0% 0% no-repeat padding-box !important;
   border-radius: 12px !important;

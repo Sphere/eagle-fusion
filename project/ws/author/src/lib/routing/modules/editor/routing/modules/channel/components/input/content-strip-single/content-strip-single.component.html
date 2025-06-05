@@ -1,39 +1,23 @@
 <form [formGroup]="form">
   <mat-form-field appearance="outline" class="w-full">
     <mat-label i18n>Title</mat-label>
-    <input
-      type="text"
-      matInput
-      i18n-placeholder
-      placeholder="Name"
-      formControlName="title"
-      #name
-      [value]="form.controls.title.value"
-    />
+    <input type="text" matInput i18n-placeholder placeholder="Name" formControlName="title" #name
+      [value]="form.controls.title.value" />
   </mat-form-field>
   <mat-label class="required" i18n>Image </mat-label>
   <br />
   <button class="button-design" type="button" mat-stroked-button (click)="imageFile.click()">
     <ng-container *ngIf="!form.controls.image.value" i18n>Choose Image</ng-container>
     <ng-container *ngIf="form.controls.image.value" i18n>Change Image</ng-container>
-    <input
-      type="file"
-      (change)="upload($event.target.files[0]); imageFile.value = null"
-      class="hidden"
-      #imageFile
-      accept="image/*"
-    />
+    <input type="file" (change)="upload($event.target.files[0]); imageFile.value = null" class="hidden" #imageFile
+      accept="image/*" />
   </button>
 
   <br />
 
   <div class="row-wise" style="position: relative;">
-    <mat-radio-group
-      class="radio my-auto"
-      [(ngModel)]="requestType"
-      [ngModelOptions]="{ standalone: true }"
-      (ngModelChange)="onSelectionChange(true)"
-    >
+    <mat-radio-group class="radio my-auto" [(ngModel)]="requestType" [ngModelOptions]="{ standalone: true }"
+      (ngModelChange)="onSelectionChange(true)">
       <mat-radio-button class="radioButton" [value]="'KB'" i18n>
         Knowledge Board
       </mat-radio-button>
@@ -61,30 +45,18 @@
     <ng-container [ngSwitch]="requestType">
       <div *ngSwitchCase="'KB'">
         <ng-container *ngIf="editorMode === 'advanced'">
-          <ws-auth-ace-editor
-            [mode]="'json'"
-            [content]="getPath('request', 'knowledgeBoard').value || {}"
-            (data)="update('knowledgeBoard', $event)"
-          >
+          <ws-auth-ace-editor [mode]="'json'" [content]="getPath('request', 'knowledgeBoard').value || {}"
+            (data)="update('knowledgeBoard', $event)">
           </ws-auth-ace-editor>
         </ng-container>
         <ng-container *ngIf="editorMode === 'basic'">
           <mat-card>
             <mat-label i18n>* Type in content Id or use the search below to choose</mat-label>
-            <ws-auth-chips
-              [placeholderType]="'collection'"
-              (data)="onSearchV6Change({ checked: false })"
-              [type]="'array'"
-              [content]="collectionId"
-            >
+            <ws-auth-chips [placeholderType]="'collection'" (data)="onSearchV6Change({ checked: false })"
+              [type]="'array'" [content]="collectionId">
             </ws-auth-chips>
-            <ws-widget-picker-content
-              [selectionType]="'radio'"
-              [widgetData]="pickerContentData"
-              (change)="onSearchV6Change($event)"
-              [dataType]="'authoring'"
-              [selectedContentTypes]="['Knowledge Board']"
-            >
+            <ws-widget-picker-content [selectionType]="'radio'" [widgetData]="pickerContentData"
+              (change)="onSearchV6Change($event)" [dataType]="'authoring'" [selectedContentTypes]="['Knowledge Board']">
             </ws-widget-picker-content>
           </mat-card>
           <br />
@@ -93,30 +65,19 @@
       </div>
       <div *ngSwitchCase="'Collections'">
         <ng-container *ngIf="editorMode === 'advanced'">
-          <ws-auth-ace-editor
-            [mode]="'json'"
-            [content]="getPath('request', 'searchV6').value || {}"
-            (data)="update('searchV6', $event)"
-          >
+          <ws-auth-ace-editor [mode]="'json'" [content]="getPath('request', 'searchV6').value || {}"
+            (data)="update('searchV6', $event)">
           </ws-auth-ace-editor>
         </ng-container>
         <ng-container *ngIf="editorMode === 'basic'">
           <mat-card>
             <mat-label i18n>* Type in content Id or use the search below to choose</mat-label>
-            <ws-auth-chips
-              [placeholderType]="'collection'"
-              (data)="onSearchV6Change({ checked: false })"
-              [type]="'array'"
-              [content]="collectionId"
-            >
+            <ws-auth-chips [placeholderType]="'collection'" (data)="onSearchV6Change({ checked: false })"
+              [type]="'array'" [content]="collectionId">
             </ws-auth-chips>
-            <ws-widget-picker-content
-              [selectionType]="'radio'"
-              [widgetData]="pickerContentData"
-              [selectedContentTypes]="['Collection', 'Learing Path', 'Course']"
-              (change)="onSearchV6Change($event)"
-              [dataType]="'auth-collections'"
-            >
+            <ws-widget-picker-content [selectionType]="'radio'" [widgetData]="pickerContentData"
+              [selectedContentTypes]="['Collection', 'Learing Path', 'Course']" (change)="onSearchV6Change($event)"
+              [dataType]="'auth-collections'">
             </ws-widget-picker-content>
           </mat-card>
           <br />
@@ -124,42 +85,26 @@
         </ng-container>
       </div>
       <div *ngSwitchCase="'search'">
-        <ws-auth-ace-editor
-          [mode]="'json'"
-          [content]="getPath('request', 'search').value || {}"
-          (data)="update('api', $event)"
-        >
+        <ws-auth-ace-editor [mode]="'json'" [content]="getPath('request', 'search').value || {}"
+          (data)="update('api', $event)">
         </ws-auth-ace-editor>
       </div>
       <div *ngSwitchCase="'api'">
-        <ws-auth-ace-editor
-          [mode]="'json'"
-          [content]="getPath('request', 'api').value || {}"
-          (data)="update('api', $event)"
-        >
+        <ws-auth-ace-editor [mode]="'json'" [content]="getPath('request', 'api').value || {}"
+          (data)="update('api', $event)">
         </ws-auth-ace-editor>
       </div>
       <div *ngSwitchCase="'searchRegionRecommendation'">
-        <ws-auth-ace-editor
-          [mode]="'json'"
-          [content]="getPath('request', 'searchRegionRecommendation').value || {}"
-          (data)="update('searchRegionRecommendation', $event)"
-        >
+        <ws-auth-ace-editor [mode]="'json'" [content]="getPath('request', 'searchRegionRecommendation').value || {}"
+          (data)="update('searchRegionRecommendation', $event)">
         </ws-auth-ace-editor>
       </div>
       <div *ngSwitchCase="'ids'">
         <mat-card>
-          <ws-auth-chips
-            [placeholderType]="'collection'"
-            (data)="onIdChange($event)"
-            [type]="'array'"
-            [content]="identifier"
-          ></ws-auth-chips>
-          <ws-widget-picker-content
-            [widgetData]="pickerContentData"
-            (change)="onContentSelectionChanged($event)"
-            [dataType]="dataType"
-          >
+          <ws-auth-chips [placeholderType]="'collection'" (data)="onIdChange($event)" [type]="'array'"
+            [content]="identifier"></ws-auth-chips>
+          <ws-widget-picker-content [widgetData]="pickerContentData" (change)="onContentSelectionChanged($event)"
+            [dataType]="dataType">
           </ws-widget-picker-content>
         </mat-card>
       </div>
@@ -173,12 +118,7 @@
                   <ng-container> {{ i + 1 }}</ng-container>
                 </h2>
               </div>
-              <button
-                type="button"
-                class="margin-bottom-s"
-                mat-flat-button
-                (click)="removeButtonClick(i)"
-              >
+              <button type="button" class="margin-bottom-s" mat-flat-button (click)="removeButtonClick(i)">
                 <mat-icon>delete forever</mat-icon>
               </button>
             </div>
@@ -186,14 +126,8 @@
             <div class="margin-top-s" [formGroupName]="i">
               <mat-label class="required" i18n>Title</mat-label>
               <mat-form-field class="w-full" appearance="outline">
-                <input
-                  matInput
-                  [value]="getFormPath(paths, i, 'title')"
-                  i18n-placeholder
-                  placeholder="Title"
-                  formControlName="title"
-                  #title
-                />
+                <input matInput [value]="getFormPath(paths, i, 'title')" i18n-placeholder placeholder="Title"
+                  formControlName="title" #title />
                 <mat-error *ngIf="!title.value" i18n>
                   The above field is required
                 </mat-error>
@@ -201,14 +135,8 @@
 
               <mat-label class="required" i18n>URL</mat-label>
               <mat-form-field class="w-full" appearance="outline">
-                <input
-                  matInput
-                  [value]="getFormPath(paths, i, 'url')"
-                  i18n-placeholder
-                  placeholder="URL"
-                  formControlName="url"
-                  #url
-                />
+                <input matInput [value]="getFormPath(paths, i, 'url')" i18n-placeholder placeholder="URL"
+                  formControlName="url" #url />
                 <mat-error *ngIf="!url.value" i18n>
                   The above field is required
                 </mat-error>
@@ -217,14 +145,8 @@
                 <div class="column-wise">
                   <mat-label class="required" i18n>Last Updated On</mat-label>
                   <mat-form-field class="w-full" appearance="outline">
-                    <input
-                      matInput
-                      formControlName="lastUpdatedOn"
-                      [matDatepicker]="picker"
-                      i18n-placeholder
-                      placeholder="Choose Last Updated"
-                      #lastUpdatedOn
-                    />
+                    <input matInput formControlName="lastUpdatedOn" [matDatepicker]="picker" i18n-placeholder
+                      placeholder="Choose Last Updated" #lastUpdatedOn />
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
                   </mat-form-field>
@@ -233,10 +155,7 @@
                   <div class="column-wise">
                     <mat-label class="required" i18n>Target</mat-label>
                     <mat-form-field>
-                      <mat-select
-                        [value]="getFormPath(paths, i, 'target')"
-                        formControlName="target"
-                      >
+                      <mat-select [value]="getFormPath(paths, i, 'target')" formControlName="target">
                         <mat-option value="_blank" i18n>Open in new tab</mat-option>
                         <mat-option value="_self" i18n>Open in same tab</mat-option>
                       </mat-select>
@@ -261,40 +180,21 @@
 <ng-template #collectionCommon>
   <mat-card>
     <p class="no-margin" i18n>Keywords</p>
-    <mat-form-field
-      class="keywords-chip-list margin-top-xs flex-grow80 w-full"
-      appearance="outline"
-    >
-      <mat-chip-list #keywordsV aria-label="Keyword selection">
-        <mat-chip
-          *ngFor="let key of keywords"
-          [selectable]="'true'"
-          [removable]="'true'"
-          (removed)="removeKeyword(key)"
-        >
+    <mat-form-field class="keywords-chip-list margin-top-xs flex-grow80 w-full" appearance="outline">
+      <mat-chip-listbox #keywordsV aria-label="Keyword selection">
+        <mat-chip-option *ngFor="let key of keywords" [selectable]="'true'" [removable]="'true'"
+          (removed)="removeKeyword(key)">
           {{ key }}
           <mat-icon matChipRemove>cancel</mat-icon>
-        </mat-chip>
-        <input
-          i18n-placeholder
-          [formControl]="keywordsCtrl"
-          [matAutocomplete]="auto"
-          placeholder="Keywords"
-          #keywordsView
-          [matChipInputFor]="keywordsV"
-          [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-          [matChipInputAddOnBlur]="false"
-          (matChipInputTokenEnd)="addKeyword($event)"
-        />
-      </mat-chip-list>
+        </mat-chip-option>
+        <input i18n-placeholder [formControl]="keywordsCtrl" [matAutocomplete]="auto" placeholder="Keywords"
+          #keywordsView [matChipInputFor]="keywordsV" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+          [matChipInputAddOnBlur]="false" (matChipInputTokenEnd)="addKeyword($event)" />
+      </mat-chip-listbox>
     </mat-form-field>
-    <mat-autocomplete
-      #auto="matAutocomplete"
-      autoActiveFirstOption
-      (optionSelected)="optionSelected($event.option.value); keywordsView.value = ''"
-    >
-      <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option"
-        >{{ option }}
+    <mat-autocomplete #auto="matAutocomplete" autoActiveFirstOption
+      (optionSelected)="optionSelected($event.option.value); keywordsView.value = ''">
+      <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">{{ option }}
       </mat-option>
     </mat-autocomplete>
   </mat-card>
@@ -302,12 +202,8 @@
   <mat-card>
     <mat-form-field>
       <mat-label i18n>Sort by</mat-label>
-      <mat-select
-        [(ngModel)]="filterBy"
-        (ngModelChange)="onSearchV6Change()"
-        [ngModelOptions]="{ standalone: true }"
-        appearance="outline"
-      >
+      <mat-select [(ngModel)]="filterBy" (ngModelChange)="onSearchV6Change()" [ngModelOptions]="{ standalone: true }"
+        appearance="outline">
         <mat-option [value]="'lastUpdatedOn'">Most Recent</mat-option>
         <mat-option [value]="'viewCount'">Most Viewed</mat-option>
         <mat-option [value]="'averageRating'">Most Rated</mat-option>
@@ -315,12 +211,7 @@
     </mat-form-field>
     <mat-form-field class="ml-20">
       <mat-label i18n>Language</mat-label>
-      <mat-select
-        [(ngModel)]="language"
-        (ngModelChange)="onSearchV6Change()"
-        appearance="outline"
-        multiple
-      >
+      <mat-select [(ngModel)]="language" (ngModelChange)="onSearchV6Change()" appearance="outline" multiple>
         <mat-option [value]="'ar'" i18n>Arabic</mat-option>
         <mat-option [value]="'br'" i18n>Breton</mat-option>
         <mat-option [value]="'zh'" i18n>Chinese</mat-option>
