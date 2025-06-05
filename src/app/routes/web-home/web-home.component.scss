@@ -1,14 +1,16 @@
-.banner-container{
+.banner-container {
     display: flex;
     margin-top: 45px;
     align-items: center;
     justify-content: space-around;
-      position: relative;
+    position: relative;
 }
+
 .box-sizing-box {
 
-        gap: 15px !important;
-    }
+    gap: 15px !important;
+}
+
 .login-btn {
     padding: 8px 32px;
     justify-content: center;
@@ -26,55 +28,44 @@
     cursor: pointer;
 
 }
-.new-user-txt{
+
+.new-user-txt {
     display: flex;
     justify-content: center;
     align-items: center;
-font-family: Roboto, sans-serif;
-font-size: 24px;
-font-weight: 400;
-line-height: 28.13px;
-letter-spacing: -0.02em;
-text-align: left;
-
-
+    font-family: Roboto, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28.13px;
+    letter-spacing: -0.02em;
+    text-align: left;
 }
+
 .banner-heading {
-
-
     font-style: normal;
-
-
     line-height: 40px;
     letter-spacing: -0.02em;
     color: #000000;
     font-family: Roboto, sans-serif;
-font-size: 50px;
-font-weight: 500;
-line-height: 55px;
-letter-spacing: -0.02em;
-text-align: left;
+    font-size: 50px;
+    font-weight: 500;
+    line-height: 55px;
+    letter-spacing: -0.02em;
+    text-align: left;
 
 }
 
 .banner-mini-heading {
-
     color: #000000;
-    /* Header 2 */
-    //styleName: Header 2;
-font-family: Roboto, sans-serif;
-font-size: 24px;
-font-weight: 400;
-line-height: 28.8px;
-letter-spacing: -0.02em;
-text-align: left;
+    font-family: Roboto, sans-serif;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 28.8px;
+    letter-spacing: -0.02em;
+    text-align: left;
 
 }
 
-// @media only screen and (max-width: 599px)
-// .info-container[_ngcontent-sxu-c23] {
-//     width: 160px;
-// }
 @media only screen and (min-width: 600px) and (max-width: 959px) {
     .banner-image {
         width: 400px !important;
@@ -104,8 +95,8 @@ text-align: left;
 }
 
 .banner-image {
-  width: 100%; /* Ensure images fill their container */
- object-fit: cover; /* Maintain aspect ratio */
+    width: 100%;
+    object-fit: cover;
 }
 
 .info-block {
@@ -133,34 +124,27 @@ text-align: left;
 }
 
 .info-number {
-   //styleName: Display 1;
-font-family: Roboto, sans-serif;
-font-size: 40px;
-font-weight: 400;
-line-height: 57.6px;
-letter-spacing: -0.02em;
-text-align: left;
+    font-family: Roboto, sans-serif;
+    font-size: 40px;
+    font-weight: 400;
+    line-height: 57.6px;
+    letter-spacing: -0.02em;
+    text-align: left;
 
 
     color: #14446C;
 }
 
 .info-text {
-    // margin-top: 5px !important;
-
     font-style: normal;
-
-
-    /* or 129% */
     letter-spacing: -0.02em;
     color: #14446C;
-    //styleName: Header 3;
-font-family: Roboto, sans-serif;
-font-size: 20px;
-font-weight: 400;
-line-height: 24px;
-letter-spacing: -0.02em;
-text-align: center;
+    font-family: Roboto, sans-serif;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: -0.02em;
+    text-align: center;
 
 }
 
@@ -175,13 +159,11 @@ text-align: center;
 }
 
 .tutorials-text {
-    /* Body */
     font-family: 'Roboto';
     font-style: normal;
     font-weight: 400;
     font-size: 22px;
     line-height: 24px;
-    /* or 150% */
     text-align: center;
     letter-spacing: -0.02em;
     color: #FFFFFF !important;
@@ -197,12 +179,12 @@ text-align: center;
     align-items: center;
 }
 
-.banner-heading-container{
-  display: flex;
+.banner-heading-container {
+    display: flex;
     flex-direction: column;
     flex: 35%;
     justify-content: left;
-        padding-left: 85px;
+    padding-left: 85px;
 }
 
 
@@ -212,16 +194,16 @@ text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
-     position: relative;
+    position: relative;
     z-index: 1;
 }
 
 .slides {
-  display: flex;
-  flex: 65%;
-  transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
+    display: flex;
+    flex: 65%;
+    transition: transform 0.3s ease;
     position: relative;
-  z-index: 1;
+    z-index: 1;
 }
 
 .slide {
@@ -230,8 +212,6 @@ text-align: center;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    //padding: 0 10px;
-    /* Adjust padding as needed */
 }
 
 .slide-content {
@@ -243,37 +223,39 @@ text-align: center;
 }
 
 
-.create-btn{
-    width:'160px' !important;
-    height:'auto'!important;
-    background-color: '#2E6491'!important;
-    border: '1px solid #2E6491'!important;
-    border-radius: '20px'!important;
-    color: 'white'!important;
-    font-size: '16px'!important;
-    font-weight: '400'!important;
+.create-btn {
+    width: 160px !important;
+    height: auto !important;
+    background-color: #2E6491 !important;
+    border: 1px solid #2E6491 !important;
+    border-radius: 20px !important;
+    color: white !important;
+    font-size: 16px !important;
+    font-weight: 400 !important;
     background-color: #2E6491 !important;
     color: #FFFFFF !important;
 }
 
 .round-buttons {
- background: none;
+    background: none;
     border: none;
-     padding: 0px 0px 0px 4px !important;
+    padding: 0px 0px 0px 4px !important;
 
 }
-.dot-icon{
-      width: 10px;
+
+.dot-icon {
+    width: 10px;
     height: 10px;
 }
+
 .round-button {
- width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: rgba(0, 0, 0, 0.25);
-  margin: 0 5px;
-  cursor: pointer;
-  border: none;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: rgba(0, 0, 0, 0.25);
+    margin: 0 5px;
+    cursor: pointer;
+    border: none;
 }
 
 .round-button.active {
@@ -307,26 +289,24 @@ text-align: center;
 }
 
 .create-account {
-  position: relative;
-  z-index: 10;
+    position: relative;
+    z-index: 10;
 }
 
 
 .slide {
-  position: relative;
-  z-index: 1;
+    position: relative;
+    z-index: 1;
 }
 
 
 
 .tutorials-text {
-    /* Body */
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
     line-height: 24px;
-    /* or 150% */
     text-align: center;
     letter-spacing: -0.02em;
     color: #FFFFFF !important;
