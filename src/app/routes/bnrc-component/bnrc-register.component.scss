@@ -1,37 +1,49 @@
 @import 'ws-mixins';
 @import 'ws-common';
+
 a.blue {
-  color:#8BC34A !important;
+  color: #8BC34A !important;
 }
-.mb-10{
+
+.mb-10 {
   margin-bottom: 6rem !important;
 }
-::ng-deep .theme-igot.day-mode a[href^="/"][target=_self], .theme-igot.day-mode a[href^=http], .theme-igot.day-mode a[href^=mailto], .theme-igot.day-mode a[target=_blank]{
-    color: #8BC34A !important
 
+::ng-deep .theme-igot.day-mode a[href^="/"][target=_self],
+.theme-igot.day-mode a[href^=http],
+.theme-igot.day-mode a[href^=mailto],
+.theme-igot.day-mode a[target=_blank] {
+  color: #8BC34A !important
 }
+
 :host ::ng-deep .blue {
-    color: #8BC34A !important
+  color: #8BC34A !important
 }
+
 .cursor-pointer {
   cursor: pointer;
 }
+
 a.blue,
 ::ng-deep .theme-igot.day-mode a[href^="/"][target=_self],
 ::ng-deep .theme-igot.day-mode a[href^=http],
 ::ng-deep .theme-igot.day-mode a[href^=mailto],
 ::ng-deep .theme-igot.day-mode a[target=_blank] {
-    color: #1C5D95 !important;
+  color: #1C5D95 !important;
 }
-.header-title{
+
+.header-title {
   line-height: 1.5;
 }
-.red-icon{
+
+.red-icon {
   color: #d32f2f
 }
-.theme-igot.day-mode .mat-error{
+
+.theme-igot.day-mode .mat-error {
   margin: -8px 0px 8px 0px !important;
 }
+
 .bnrc-page-content {
   box-sizing: border-box;
   // padding: $size-m;
@@ -62,6 +74,7 @@ a.blue,
     margin: auto;
   }
 }
+
 .content {
   padding: 10px 20px 30px;
   //margin: auto;
@@ -143,7 +156,9 @@ a.blue,
   float: right;
   cursor: pointer;
 }
-.save-btn:disabled, .save-btn[disabled] {
+
+.save-btn:disabled,
+.save-btn[disabled] {
   width: 88px;
   height: 38px;
   background-color: #bcc2c6;

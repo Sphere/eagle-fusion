@@ -139,6 +139,8 @@
     if (url.includes('token')) {
       const maternity_token = url.slice(url.indexOf('?token=') + 7)
       sessionStorage.setItem('maternity_token', maternity_token)
+      const tnnmc_token = url.slice(url.indexOf('?token=') + 7)
+      sessionStorage.setItem('tnnmc_token', tnnmc_token)
       const tnai_token = url.slice(url.indexOf('?token=') + 7)
       sessionStorage.setItem('tnai_token', tnai_token)
     }
