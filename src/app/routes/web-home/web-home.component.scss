@@ -63,7 +63,6 @@
     line-height: 28.8px;
     letter-spacing: -0.02em;
     text-align: left;
-
 }
 
 @media only screen and (min-width: 600px) and (max-width: 959px) {
@@ -158,17 +157,6 @@
     height: 50px;
 }
 
-.tutorials-text {
-    font-family: 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 22px;
-    line-height: 24px;
-    text-align: center;
-    letter-spacing: -0.02em;
-    color: #FFFFFF !important;
-    margin: 0px !important;
-}
 
 .count-sphere-icons {
     width: 30px;
@@ -297,18 +285,4 @@
 .slide {
     position: relative;
     z-index: 1;
-}
-
-
-
-.tutorials-text {
-    font-family: 'Roboto', sans-serif;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 16px;
-    line-height: 24px;
-    text-align: center;
-    letter-spacing: -0.02em;
-    color: #FFFFFF !important;
-    margin: 0px !important;
 }
