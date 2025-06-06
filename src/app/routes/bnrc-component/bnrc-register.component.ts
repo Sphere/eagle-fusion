@@ -233,10 +233,7 @@ export class BnrcRegisterComponent implements OnInit {
         this.professionalChange('Private Health Facility')
         this.bnrcDetailForm.controls.roleForInService.setValue('Private Health Facility')
       }
-<<<<<<< HEAD
 
-=======
->>>>>>> 6077ef80f625006b0744a485285d006b2433055b
     })
     console.log("districts", this.districts)
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
