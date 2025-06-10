@@ -16,7 +16,6 @@
   padding: 0em 1.25em;
 
   @media only screen and (max-width: 1030px) {
-    // media less than 1030px
     padding: 0em;
     width: 100%;
   }
@@ -28,7 +27,6 @@
 
 .edit-feature-window {
   background: transparent;
-  // text-align: center;
   justify-content: center;
 }
 
@@ -41,7 +39,6 @@ mat-dialog-content {
   padding: 1.25em 1.25em !important;
 
   @media only screen and (max-width: 1030px) {
-    // media less than 1030px
     padding: 0.25em 0.5em !important;
   }
 }
@@ -50,14 +47,12 @@ mat-dialog-content {
   display: flex;
 
   @media only screen and (max-width: 1030px) {
-    // media less than 1030px
     display: block;
   }
 }
 
 .mat-button {
   @media only screen and (max-width: 1030px) {
-    // media less than 1030px
     min-width: auto;
     padding: 0 14px;
   }
@@ -78,21 +73,12 @@ mat-dialog-content {
   padding: 0em 0em 0em 0.3em;
 }
 
-/* .title-margin{
-  margin-left: 35%;
-  @media only screen and (max-width: 1030px) {  // media less than 1030px
-    margin-left: 30%;
-  }
-} */
-
 .button-text {
   @media only screen and (max-width: 1030px) {
-    // media less than 1030px
     display: none;
   }
 }
 
-// Profile cropping CSS
 
 .image-cropper-profile {
   max-height: 55vh;
@@ -108,7 +94,6 @@ mat-dialog-content {
   margin-right: auto;
 
   @media only screen and (max-width: 1030px) {
-    // media less than 1030px
     padding: 0em;
     width: 100%;
   }
@@ -124,7 +109,6 @@ mat-dialog-content {
 
 .cf:before,
 .cf:after {
-  content: "";
   display: table;
 }
 

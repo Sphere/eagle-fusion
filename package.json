@@ -58,7 +58,6 @@
     "angularx-qrcode": "2.3.7",
     "bin-build": "2.0.0",
     "bootstrap": "4.1.1",
-    "caniuse-lite": "^1.0.30001721",
     "dayjs": "^1.11.13",
     "dom-to-image": "^2.6.0",
     "file-saver": "^2.0.5",
@@ -132,5 +131,30 @@
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "4.9.5",
     "webpack-bundle-analyzer": "4.0.0"
+  },
+  "browserslist": {
+    "production": [
+      "> 0.5%",
+      "last 2 chrome versions",
+      "last 2 firefox versions",
+      "last 2 edge versions",
+      "last 2 safari versions",
+      "ios >= 13",
+      "android >= 10",
+      "not dead",
+      "not ie 11"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 edge version",
+      "last 1 safari version"
+    ],
+    "defaults": [
+      "last 2 versions",
+      "> 1%",
+      "not ie 11",
+      "not dead"
+    ]
   }
 }
