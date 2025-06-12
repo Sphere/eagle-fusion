@@ -1,16 +1,17 @@
 button:focus {
-    outline: none;
+  outline: none;
 }
-.action-icons{
+
+.action-icons {
   padding: 0px;
 }
 
 .disabled {
-  opacity: 0.5; /* Example style to indicate disabled state */
-  pointer-events: none; /* Prevent interactions */
+  opacity: 0.5;
+  pointer-events: none;
 }
 
 .enabled {
-  opacity: 1; /* Full opacity for enabled state */
-  pointer-events: auto; /* Allow interactions */
+  opacity: 1;
+  pointer-events: auto;
 }
