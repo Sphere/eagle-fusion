@@ -16,6 +16,8 @@
     "start:eagle-dev": "node --max_old_space_size=12288 ./node_modules/@angular/cli/bin/ng serve --proxy-config proxy/eagle-dev-ip.proxy.json -o",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
+    "lint:scss": "stylelint \"src/**/*.scss\" --fix",
+    "prebuild": "npm run lint:scss",
     "e2e": "ng e2e",
     "extract-i18n": "ng run fusion:extract-i18n --output-path locale",
     "i18n": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng xi18n --output-path locale",

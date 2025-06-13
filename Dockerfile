@@ -4,18 +4,25 @@ FROM node:18.20.2
 # Set the working directory in the container
 WORKDIR /app
 
+# Copy package files first for better caching
+COPY package*.json yarn.lock ./
+
+# Install Angular CLI globally and update browserslist database
+RUN npm install -g @angular/cli@15.2.10 && \
+    npx browserslist@latest --update-db
+
+# Install dependencies (moment and vis-util are already in package.json)
+RUN yarn install --ignore-scripts
+
 # Copy all files into the working directory
 COPY . .
 
-# Install Angular CLI globally, install dependencies, add required packages, and run the production builds
-RUN npm install -g @angular/cli@15.2.10 && \
-    yarn install --ignore-scripts && \
-    yarn add moment vis-util && \
-    ng build --configuration production --stats-json \
+# Run the production builds using the scripts from package.json
+RUN node --max_old_space_size=16000 ./node_modules/@angular/cli/bin/ng build --configuration production --stats-json \
         --output-path=dist/www/en \
         --base-href=/ \
         --verbose=true && \
-    ng build --configuration production \
+    node --max_old_space_size=12000 ./node_modules/@angular/cli/bin/ng build --configuration production \
         --localize=hi \
         --i18n-format=xlf \
         --i18n-file=locale/messages.hi.xlf \
