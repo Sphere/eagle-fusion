@@ -12,12 +12,17 @@ RUN npm install -g @angular/cli@15.2.10 && \
     npx browserslist@latest --update-db
 
 # Install dependencies (moment and vis-util are already in package.json)
-RUN yarn install --ignore-scripts
+# Also install stylelint since it's required by the prebuild script
+RUN yarn install --ignore-scripts && \
+    yarn add -D stylelint stylelint-config-standard-scss stylelint-scss
 
 # Copy all files into the working directory
 COPY . .
 
-# Run the production builds using the package.json scripts
+# Create stylelint config file to avoid errors
+RUN echo '{ "extends": ["stylelint-config-standard-scss"] }' > .stylelintrc.json
+
+# Run the production builds using your npm scripts (this will trigger prebuild/lint:scss)
 RUN npm run build -- --stats-json --output-path=dist/www/en --base-href=/ --verbose=true && \
     npm run build:hi -- --output-path=dist/www/hi --base-href=/hi/ && \
     npm run compress:brotli
