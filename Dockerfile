@@ -1,4 +1,5 @@
-FROM node:16.16.0
+# Use a Node.js 18 LTS base image
+FROM node:18.20.2
 
 # Set the working directory in the container
 WORKDIR /app
@@ -6,7 +7,6 @@ WORKDIR /app
 # Copy all files into the working directory
 COPY . .
 
-# Install Angular CLI globally, install dependencies, add required packages, and run the production builds
 # Install Angular CLI globally, install dependencies, add required packages, and run the production builds
 RUN npm install -g @angular/cli@15.2.10 && \
     yarn install --ignore-scripts && \
