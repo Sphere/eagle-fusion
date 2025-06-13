@@ -11,11 +11,7 @@
   },
   "compilerOptions": {
     "resolveJsonModule": true,
-    "types": [
-      "node",
-      "reflect-metadata",
-      "jest"
-    ],
+    "types": ["node", "reflect-metadata", "jest"],
     "target": "ES2022",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
@@ -28,10 +24,7 @@
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "lib": [
-      "es2018",
-      "dom"
-    ],
+    "lib": ["es2018", "dom"],
     "module": "es2020",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
@@ -42,73 +35,31 @@
     "noUnusedParameters": true,
     "outDir": "./dist/out-tsc",
     "paths": {
-      "@ws-widget/resolver": [
-        "library/ws-widget/resolver"
-      ],
-      "@ws-widget/resolver/*": [
-        "library/ws-widget/resolver/*"
-      ],
-      "@ws-widget/collection": [
-        "library/ws-widget/collection"
-      ],
-      "@ws-widget/collection/*": [
-        "library/ws-widget/collection/*"
-      ],
-      "@ws-widget/utils": [
-        "library/ws-widget/utils/src/public-api.ts"
-      ],
-      "@ws-widget/utils/*": [
-        "library/ws-widget/utils/*"
-      ],
-      "@ws/app": [
-        "project/ws/app"
-      ],
-      "@ws/app/*": [
-        "project/ws/app/*"
-      ],
-      "@ws/author": [
-        "project/ws/author"
-      ],
-      "@ws/author/*": [
-        "project/ws/author/*"
-      ],
-      "@ws/admin": [
-        "project/ws/admin"
-      ],
-      "@ws/admin/*": [
-        "project/ws/admin/*"
-      ],
-      "@ws/analytics": [
-        "project/ws/analytics"
-      ],
-      "@ws/analytics/*": [
-        "project/ws/analytics/*"
-      ],
-      "@ws/viewer": [
-        "project/ws/viewer"
-      ],
-      "@ws/viewer/*": [
-        "project/ws/viewer/*"
-      ],
-      "@ws/learning-hub": [
-        "project/ws/learning-hub"
-      ],
-      "@ws/learning-hub/*": [
-        "project/ws/learning-hub/*"
-      ],
-      "@aastrika_npmjs/competency-web": [
-        "node_modules/@aastrika_npmjs/competency-web"
-      ],
-      "@aastrika_npmjs/competency-web/*": [
-        "node_modules/@aastrika_npmjs/competency-web/*"
-      ]
+      "rxjs/internal/BehaviorSubject": ["node_modules/rxjs/internal/BehaviorSubject"],
+      "@ws-widget/resolver": ["library/ws-widget/resolver"],
+      "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
+      "@ws-widget/collection": ["library/ws-widget/collection"],
+      "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
+      "@ws-widget/utils": ["library/ws-widget/utils/src/public-api.ts"],
+      "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
+      "@ws/app": ["project/ws/app"],
+      "@ws/app/*": ["project/ws/app/*"],
+      "@ws/author": ["project/ws/author"],
+      "@ws/author/*": ["project/ws/author/*"],
+      "@ws/admin": ["project/ws/admin"],
+      "@ws/admin/*": ["project/ws/admin/*"],
+      "@ws/analytics": ["project/ws/analytics"],
+      "@ws/analytics/*": ["project/ws/analytics/*"],
+      "@ws/viewer": ["project/ws/viewer"],
+      "@ws/viewer/*": ["project/ws/viewer/*"],
+      "@ws/learning-hub": ["project/ws/learning-hub"],
+      "@ws/learning-hub/*": ["project/ws/learning-hub/*"],
+      "@aastrika_npmjs/competency-web": ["node_modules/@aastrika_npmjs/competency-web"],
+      "@aastrika_npmjs/competency-web/*": ["node_modules/@aastrika_npmjs/competency-web/*"]
     },
     "removeComments": true,
     "sourceMap": true,
-    "typeRoots": [
-      "node_modules/@types",
-      "./custom_typings"
-    ],
+    "typeRoots": ["node_modules/@types", "./custom_typings"],
     "plugins": [
       {
         "name": "@angular/language-service"
