@@ -2,6 +2,12 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "project",
+  "i18n": {
+    "sourceLocale": "en",
+    "locales": {
+      "hi": "locale/messages.hi.xlf"
+    }
+  },
   "projects": {
     "fusion": {
       "projectType": "application",
@@ -95,10 +101,9 @@
             },
             "hi": {
               "aot": true,
-              "i18nFile": "locale/messages.hi.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "hi",
-              "i18nMissingTranslation": "warning"
+              "localize": [
+                "hi"
+              ]
             }
           }
         },
