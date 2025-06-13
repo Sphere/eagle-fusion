@@ -17,17 +17,9 @@ RUN yarn install --ignore-scripts
 # Copy all files into the working directory
 COPY . .
 
-# Run the production builds using the scripts from package.json
-RUN node --max_old_space_size=16000 ./node_modules/@angular/cli/bin/ng build --configuration production --stats-json \
-        --output-path=dist/www/en \
-        --base-href=/ \
-        --verbose=true && \
-    node --max_old_space_size=12000 ./node_modules/@angular/cli/bin/ng build --configuration production \
-        --localize=hi \
-        --i18n-format=xlf \
-        --i18n-file=locale/messages.hi.xlf \
-        --output-path=dist/www/hi \
-        --base-href=/hi/ && \
+# Run the production builds using the package.json scripts
+RUN npm run build -- --stats-json --output-path=dist/www/en --base-href=/ --verbose=true && \
+    npm run build:hi -- --output-path=dist/www/hi --base-href=/hi/ && \
     npm run compress:brotli
 
 # Change working directory to the dist folder where the build output resides
