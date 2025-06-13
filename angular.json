@@ -47,7 +47,6 @@
               ]
             },
             "styles": [
-              "src/styles.scss",
               "src/styles/libraries.scss",
               "node_modules/material-icons/iconfont/material-icons.scss",
               "src/styles/mat-typography.scss",
