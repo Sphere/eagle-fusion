@@ -108,6 +108,7 @@ export class BnrcRegisterComponent implements OnInit {
   filteredInstitutes!: Observable<any[]>
   isSubmitting = false;
   isInservice = false;
+  isANM = false
   message: string = ''
   instituteNameUrl = 'https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bnrc-institute.json';
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -201,12 +202,14 @@ export class BnrcRegisterComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       const service = params['service']
       if (service === 'inservice') {
+        this.isANM = true
         this.isInservice = true
         this.professions = ['In Service']
         this.bnrcDetailForm.controls.role.setValue('In Service')
         this.professionalChange('Public Health Facility')
         this.bnrcDetailForm.controls.roleForInService.setValue('Public Health Facility')
       } else {
+        this.isANM = false
         this.isInservice = false
         this.bnrcDetailForm.controls.role.setValue(null)
         this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
@@ -226,6 +229,7 @@ export class BnrcRegisterComponent implements OnInit {
         this.bnrcDetailForm.controls.facultyType.setValue('N/A')
       }
       if (service === 'GNM-Bihar') {
+        this.isANM = false
         this.isInservice = true
         this.inServiceGNM = true
         this.professions = ['In Service']
