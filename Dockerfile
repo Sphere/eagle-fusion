@@ -1,42 +1,32 @@
-# ---- Stage 1: Build Angular App ----
+# --- Stage 1: Builder ---
 FROM node:16.16.0 AS builder
 
 WORKDIR /app
 
-# Only copy dependency files first (to leverage layer caching)
-COPY package.json yarn.lock ./
-RUN yarn install --ignore-scripts
-
-# Copy rest of the source code
+# Copy source code
 COPY . .
 
-# Install Angular CLI
-RUN npm install -g @angular/cli@11.2.19
+# Install Angular CLI and dependencies
+RUN npm install -g @angular/cli@11.2.19 && \
+    yarn install --ignore-scripts && \
+    ng build --prod --localize
 
-# Build for English and Hindi locales
-RUN ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true && \
-    ng build --prod \
-    --i18n-locale=hi \
-    --i18n-format=xlf \
-    --i18n-file=locale/messages.hi.xlf \
-    --output-path=dist/www/hi \
-    --base-href=/hi/ && \
-    npm run compress:brotli
-
-# ---- Stage 2: Serve Built Files with Minimal Runtime ----
+# --- Stage 2: Runtime (lightweight) ---
 FROM node:16.16.0-alpine
 
 WORKDIR /app
 
-# Copy only the built dist folder from builder
-COPY --from=builder /app/dist ./dist
-COPY assets/iGOT/client-assets/dist ./dist/www/en/assets
-COPY assets/iGOT/client-assets/dist ./dist/www/hi/assets
+# Copy only the built files from builder stage
+COPY --from=builder /app/dist/www /app/www
 
-# Copy only production dependencies (if needed for runtime)
-COPY package.json yarn.lock ./
-RUN yarn install --production --ignore-scripts
+# Add static assets
+COPY assets/iGOT/client-assets/dist /app/www/en/assets
+COPY assets/iGOT/client-assets/dist /app/www/hi/assets
+
+# Install a lightweight HTTP server
+RUN yarn global add serve
 
 EXPOSE 3004
 
-CMD ["npm", "run", "serve:prod"]
+# Serve the English version by default
+CMD ["serve", "-s", "www/en", "-l", "3004"]
