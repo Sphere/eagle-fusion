@@ -119,7 +119,7 @@
       <h3 class="mt-15" i18n>You're offline. Check your internet connection</h3>
     </div>
     <!-- Featured Section-->
-    <section *ngIf="(isXSmall$ | async) === false&&isHomePage&&userEnrollCourse&&userEnrollCourse.length>0">
+    <section *ngIf="(isXSmall$ | async) === false&&isHomePage">
       <ng-container>
         <ws-web-public-container [isEkshamata]="isEkshamata" [userEnrollCourse]="userEnrollCourse"
           *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
