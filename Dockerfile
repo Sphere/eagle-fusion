@@ -1,32 +1,35 @@
 # --- Stage 1: Builder ---
-FROM node:16.16.0 AS builder
+FROM node:16.16.0 AS BUILDER
 
 WORKDIR /app
 
-# Copy source code
 COPY . .
 
-# Install Angular CLI and dependencies
 RUN npm install -g @angular/cli@11.2.19 && \
     yarn install --ignore-scripts && \
-    ng build --prod --localize
+    ng build --prod \
+      --output-path=dist/www/en \
+      --base-href=/ \
+      --i18n-locale=en && \
+    ng build --prod \
+      --output-path=dist/www/hi \
+      --base-href=/hi/ \
+      --i18n-locale=hi \
+      --i18n-format=xlf \
+      --i18n-file=locale/messages.hi.xlf
 
-# --- Stage 2: Runtime (lightweight) ---
-FROM node:16.16.0-alpine
+# --- Stage 2: Runtime Image ---
+FROM node:16.16.0-alpine AS RUNTIME
 
 WORKDIR /app
 
-# Copy only the built files from builder stage
-COPY --from=builder /app/dist/www /app/www
+COPY --from=BUILDER /app/dist/www /app/www
 
-# Add static assets
 COPY assets/iGOT/client-assets/dist /app/www/en/assets
 COPY assets/iGOT/client-assets/dist /app/www/hi/assets
 
-# Install a lightweight HTTP server
 RUN yarn global add serve
 
 EXPOSE 3004
 
-# Serve the English version by default
 CMD ["serve", "-s", "www/en", "-l", "3004"]
