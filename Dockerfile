@@ -1,16 +1,20 @@
-FROM node:16.16.0
+# ---- Stage 1: Build Angular App ----
+FROM node:16.16.0 AS builder
 
-# Set the working directory in the container
 WORKDIR /app
 
-# Copy all files into the working directory
+# Only copy dependency files first (to leverage layer caching)
+COPY package.json yarn.lock ./
+RUN yarn install --ignore-scripts
+
+# Copy rest of the source code
 COPY . .
 
-# Install Angular CLI globally, install dependencies, add required packages, and run the production builds
-RUN npm install -g @angular/cli@11.2.19 && \
-    yarn install --ignore-scripts && \
-    yarn add moment vis-util && \
-    ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true && \
+# Install Angular CLI
+RUN npm install -g @angular/cli@11.2.19
+
+# Build for English and Hindi locales
+RUN ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true && \
     ng build --prod \
     --i18n-locale=hi \
     --i18n-format=xlf \
@@ -19,18 +23,20 @@ RUN npm install -g @angular/cli@11.2.19 && \
     --base-href=/hi/ && \
     npm run compress:brotli
 
-# Change working directory to the dist folder where the build output resides
-WORKDIR /app/dist
+# ---- Stage 2: Serve Built Files with Minimal Runtime ----
+FROM node:16.16.0-alpine
 
-# Copy client assets into the build output directories
-COPY assets/iGOT/client-assets/dist www/en/assets
-COPY assets/iGOT/client-assets/dist www/hi/assets
+WORKDIR /app
 
-# Install only production dependencies
-RUN npm install --production
+# Copy only the built dist folder from builder
+COPY --from=builder /app/dist ./dist
+COPY assets/iGOT/client-assets/dist ./dist/www/en/assets
+COPY assets/iGOT/client-assets/dist ./dist/www/hi/assets
 
-# Expose port for the application
+# Copy only production dependencies (if needed for runtime)
+COPY package.json yarn.lock ./
+RUN yarn install --production --ignore-scripts
+
 EXPOSE 3004
 
-# Start the application
 CMD ["npm", "run", "serve:prod"]
