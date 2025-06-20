@@ -1,35 +1,25 @@
-# --- Stage 1: Builder ---
-FROM node:16.16.0 AS BUILDER
+# --- Stage 1: Angular Build ---
+FROM node:16.16.0 AS builder
 
 WORKDIR /app
-
 COPY . .
 
 RUN npm install -g @angular/cli@11.2.19 && \
     yarn install --ignore-scripts && \
-    ng build --prod \
-      --output-path=dist/www/en \
-      --base-href=/ \
-      --i18n-locale=en && \
-    ng build --prod \
-      --output-path=dist/www/hi \
-      --base-href=/hi/ \
-      --i18n-locale=hi \
-      --i18n-format=xlf \
-      --i18n-file=locale/messages.hi.xlf
+    ng build --prod --output-path=dist/www/en --base-href=/ --i18n-locale=en && \
+    ng build --prod --output-path=dist/www/hi --base-href=/hi/ --i18n-locale=hi \
+      --i18n-format=xlf --i18n-file=locale/messages.hi.xlf
 
-# --- Stage 2: Runtime Image ---
-FROM node:16.16.0-alpine AS RUNTIME
+# --- Stage 2: Runtime (Nginx) ---
+FROM nginx:1.21-alpine
 
-WORKDIR /app
+# Copy builds to nginx html dir
+COPY --from=builder /app/dist/www/en /usr/share/nginx/html
+COPY --from=builder /app/dist/www/hi /usr/share/nginx/html/hi
 
-COPY --from=BUILDER /app/dist/www /app/www
+# Copy nginx config
+COPY nginx.conf /etc/nginx/nginx.conf
 
-COPY assets/iGOT/client-assets/dist /app/www/en/assets
-COPY assets/iGOT/client-assets/dist /app/www/hi/assets
+EXPOSE 80
 
-RUN yarn global add serve
-
-EXPOSE 3004
-
-CMD ["serve", "-s", "www/en", "-l", "3004"]
+CMD ["nginx", "-g", "daemon off;"]
