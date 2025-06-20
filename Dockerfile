@@ -1,25 +1,36 @@
-# --- Stage 1: Angular Build ---
-FROM node:16.16.0 AS builder
+FROM node:16.16.0
 
+# Set the working directory in the container
 WORKDIR /app
+
+# Copy all files into the working directory
 COPY . .
 
+# Install Angular CLI globally, install dependencies, add required packages, and run the production builds
 RUN npm install -g @angular/cli@11.2.19 && \
     yarn install --ignore-scripts && \
-    ng build --prod --output-path=dist/www/en --base-href=/ --i18n-locale=en && \
-    ng build --prod --output-path=dist/www/hi --base-href=/hi/ --i18n-locale=hi \
-      --i18n-format=xlf --i18n-file=locale/messages.hi.xlf
+    yarn add moment vis-util && \
+    ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true && \
+    ng build --prod \
+    --i18n-locale=hi \
+    --i18n-format=xlf \
+    --i18n-file=locale/messages.hi.xlf \
+    --output-path=dist/www/hi \
+    --base-href=/hi/ && \
+    npm run compress:brotli
 
-# --- Stage 2: Runtime (Nginx) ---
-FROM nginx:1.21-alpine
+# Change working directory to the dist folder where the build output resides
+WORKDIR /app/dist
 
-# Copy builds to nginx html dir
-COPY --from=builder /app/dist/www/en /usr/share/nginx/html
-COPY --from=builder /app/dist/www/hi /usr/share/nginx/html/hi
+# Copy client assets into the build output directories
+COPY assets/iGOT/client-assets/dist www/en/assets
+COPY assets/iGOT/client-assets/dist www/hi/assets
 
-# Copy nginx config
-COPY nginx.conf /etc/nginx/nginx.conf
+# Install only production dependencies
+RUN npm install --production
 
-EXPOSE 80
+# Expose port for the application
+EXPOSE 3004
 
-CMD ["nginx", "-g", "daemon off;"]
+# Start the application
+CMD ["npm", "run", "serve:prod"]
