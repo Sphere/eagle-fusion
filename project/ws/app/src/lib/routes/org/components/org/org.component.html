@@ -90,22 +90,20 @@
             <div>
               <p class="by-org-name mb-1"> by {{widget.sourceName}}</p>
             </div>
-            <!-- <div class="rating-block">
-                <div class="rating">{{rating}}
-                </div>
-                <button mat-icon-button [color]="color" *ngFor="let ratingId of ratingArr; index as i"
-                  [id]="'star_' + i" [matTooltip]="ratingId + 1" matTooltipPosition="above">
-                  <mat-icon>
-                    {{ showIcon(i) }}
-                  </mat-icon>
-                </button>
+            <ng-container *ngIf="widget.averageRating && widget.averageRating > 0">
+              <div class="rating-block mb-2">
+                <span class="average-rating">{{widget.averageRating | number: '1.0-1'}}</span>
+                <!-- <ng-container *ngIf="widget.averageRating>0"> -->
+                <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i,widget.averageRating)" alt="Star">
+                <!-- </ng-container> -->
+              </div>
+            </ng-container>
 
-              </div> -->
-            <div class="flex cne-container">
-              <!-- <div class="flex cne-block mr-1">
-                  <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
-                  <p class="cne-content mb-0">32 CNE Points</p>
-                </div> -->
+            <div *ngIf="widget.cneName" class="flex cne-container">
+              <div class="flex cne-block mr-1">
+                <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
+                <p class="cne-content mb-0">{{widget.cneName}} CNE Points</p>
+              </div>
               <p *ngIf="widget.issueCertification" class="certified-text" i18n>Certified</p>
             </div>
             <div class="border-block" *ngIf="cometencyData && cometencyData[0]">

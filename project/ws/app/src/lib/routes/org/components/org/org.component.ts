@@ -30,13 +30,15 @@ export class OrgComponent implements OnInit, OnDestroy {
   cometencyData: { identifier: string, name: any; levels: string }[] = []
   rating = 4
   starCount = 5
+  stars: number[] = [1, 2, 3, 4, 5];
   color = 'accent'
   ratingArr: any = []
   index = 0
   link: string = ''
   competency_offered: any = 0
   formattedAbout!: string
-
+  averageRating: any = ''
+  totalRatings: any = ''
   orgUserCourseEnrolled: any = 0
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
@@ -192,6 +194,20 @@ export class OrgComponent implements OnInit, OnDestroy {
     // console.log(this.configSvc)
     // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
+  }
+  getStarImage(index: number, averageRating: number): string {
+    const fullStarUrl = '/fusion-assets/icons/toc_star.png'
+    const halfStarUrl = '/fusion-assets/icons/Half_star1.svg'
+    const emptyStarUrl = '/fusion-assets/icons/empty_star.png'
+
+    const decimalPart = averageRating - Math.floor(averageRating) // Calculate the decimal part of the average rating
+    if (index + 1 <= Math.floor(averageRating)) {
+      return fullStarUrl // Full star
+    } else if (decimalPart >= 0.1 && decimalPart <= 0.9 && index === Math.floor(averageRating)) {
+      return halfStarUrl // Half star
+    } else {
+      return emptyStarUrl // Empty star
+    }
   }
   formatAbout(text: string): string {
     if (!text) return text

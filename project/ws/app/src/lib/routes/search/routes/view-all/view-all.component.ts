@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { Component, OnInit } from '@angular/core'
 import { forkJoin, of } from 'rxjs'
 import { catchError, switchMap } from 'rxjs/operators'
 import filter from 'lodash/filter'
@@ -16,7 +16,7 @@ import { WidgetContentService, WidgetUserService } from '@ws-widget/collection'
   templateUrl: './view-all.component.html',
   styleUrls: ['./view-all.component.scss'],
 })
-export class ViewAllComponent implements OnInit, OnDestroy {
+export class ViewAllComponent implements OnInit {
   courseType: string | null = null;
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
@@ -41,11 +41,6 @@ export class ViewAllComponent implements OnInit, OnDestroy {
     private readonly configSvc: ConfigurationsService,
     private readonly userSvc: WidgetUserService,
   ) { }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.')
-  }
-
-
 
   ngOnInit() {
     this.route.queryParams.subscribe(params => {

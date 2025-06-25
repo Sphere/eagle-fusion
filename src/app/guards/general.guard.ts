@@ -34,7 +34,7 @@ export class GeneralGuard implements CanActivate {
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
-    console.log("came here 1")
+    // console.log("came here 1")
     // tslint:disable-next-line: no-non-null-assertion
     if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
       // tslint:disable-next-line: no-non-null-assertion
@@ -70,7 +70,7 @@ export class GeneralGuard implements CanActivate {
     }
     // tslint:disable-next-line:no-console
     console.log(this.locale)
-    console.log("came here 2")
+    // console.log("came here 2")
 
     // setTimeout(() => {
 
@@ -97,7 +97,7 @@ export class GeneralGuard implements CanActivate {
     ) {
       return this.router.parseUrl(`/public/home`)
     }
-    console.log("came here 3")
+    // console.log("came here 3")
 
     /**
      * Test IF User Tnc Is Accepted
@@ -127,11 +127,11 @@ export class GeneralGuard implements CanActivate {
     // return this.router.parseUrl('/app/user-profile/chatbot')
     // }
     if (this.configSvc.unMappedUser) {
-      console.log("came here 4")
+      // console.log("came here 4")
 
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
-          console.log("came here 5")
+          // console.log("came here 5")
           console.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
           // if (data) {
           //   const userData = data.profileDetails.personalDetails
@@ -149,7 +149,7 @@ export class GeneralGuard implements CanActivate {
           //   return this.router.parseUrl(`/page/home`)
           // }
           console.log(data.profileDetails!.profileReq!.personalDetails)
-          console.log("came here 6")
+          // console.log("came here 6")
 
           if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
             if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
@@ -158,7 +158,7 @@ export class GeneralGuard implements CanActivate {
               }
             } else {
               if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
-                console.log('true')
+                // console.log('true')
                 if (localStorage.getItem('preferedLanguage') && (sessionStorage.getItem('fromOTPpage'))) {
                   let data: any
                   let lang: any
@@ -177,13 +177,13 @@ export class GeneralGuard implements CanActivate {
                   }
                   //this.router.navigate(['app', 'new-tnc'])
                 } else {
-                  console.log('alerr')
+                  // console.log('alerr')
                   this.router.navigate(['app', 'new-tnc'])
                 }
               }
             }
           } else {
-            console.log("afdssssssssssssss")
+            // console.log("afdssssssssssssss")
             localStorage.setItem('datanow', JSON.stringify(data))
             this.router.navigate(['app', 'new-tnc'])
           }
@@ -203,7 +203,7 @@ export class GeneralGuard implements CanActivate {
         return this.router.parseUrl(`/page/home`)
       }
     }
-    console.log("came here 7")
+    // console.log("came here 7")
 
     // check if feature is restricted
     if (requiredFeatures && requiredFeatures.length && this.configSvc.restrictedFeatures) {
@@ -215,7 +215,7 @@ export class GeneralGuard implements CanActivate {
         return this.router.parseUrl(`/page/home`)
       }
     }
-    console.log("came here 8")
+    // console.log("came here 8")
 
     return true
   }
