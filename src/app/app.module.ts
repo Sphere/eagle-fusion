@@ -153,6 +153,7 @@ import { PlayerVideoPopupComponent } from '../../library/ws-widget/collection/sr
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 import { NotificationsComponent } from './routes/notification/notification.component'
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
+import { TnnmcConfirmComponent } from './component/tnnmc-dialog-confirm/tnnmc-confirm.component'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -268,6 +269,7 @@ const dbConfig: DBConfig = {
     AppFooterComponent,
     InvalidUserComponent,
     DialogConfirmComponent,
+    TnnmcConfirmComponent,
     LoginRootComponent,
     LoginRootDirective,
     ForgotPasswordComponent,
@@ -398,6 +400,7 @@ const dbConfig: DBConfig = {
     BnrcmodalComponent,
     PlayerVideoPopupComponent,
     DialogConfirmComponent,
+    TnnmcConfirmComponent,
     LoginComponent,
     ProfileSelectComponent,
     ImageCropComponent,

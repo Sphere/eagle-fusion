@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service.service'
+import { TnnmcConfirmComponent } from '../component/tnnmc-dialog-confirm/tnnmc-confirm.component'
 //import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { MatDialog } from '@angular/material/dialog'
 @Component({
   selector: 'ws-tnnmc-callback',
   templateUrl: './tnnmc-callback.component.html',
@@ -11,6 +13,7 @@ export class TnnmcCallbackComponent implements OnInit {
   constructor(
     private orgService: OrgServiceService,
     //private authSvc: AuthKeycloakService,
+    private dialog: MatDialog
   ) { }
 
   ngOnInit() {
@@ -43,17 +46,32 @@ export class TnnmcCallbackComponent implements OnInit {
         // tslint:disable-next-line:no-console
         console.log(err)
         if (err.status === 400 || err.status === 419) {
+          if (err.error.message == 'FAILURE') {
+            this.dialog.open(TnnmcConfirmComponent, {
+              width: '300px',
+              data: { 'body': err.error.message }
+            })
+          } else {
+            location.href = '/public/home'
+          }
           // sessionStorage.clear()
           //this.authSvc.logout()
           location.href = '/public/home'
         }
       })
       //}, 500)
-    } catch (err) {
+    } catch (err: any) {
       // tslint:disable-next-line:no-console
       console.log(err)
       //this.authSvc.logout()
-      location.href = "/public/home"
+      if (err.error.message == 'FAILURE') {
+        this.dialog.open(TnnmcConfirmComponent, {
+          width: '300px',
+          data: { 'body': err.error.message }
+        })
+      } else {
+        location.href = '/public/home'
+      }
     }
   }
 }
