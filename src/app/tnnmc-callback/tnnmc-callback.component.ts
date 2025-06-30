@@ -3,6 +3,7 @@ import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service
 import { TnnmcConfirmComponent } from '../component/tnnmc-dialog-confirm/tnnmc-confirm.component'
 //import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { MatDialog } from '@angular/material/dialog'
+import { Router } from '@angular/router'
 @Component({
   selector: 'ws-tnnmc-callback',
   templateUrl: './tnnmc-callback.component.html',
@@ -13,7 +14,8 @@ export class TnnmcCallbackComponent implements OnInit {
   constructor(
     private orgService: OrgServiceService,
     //private authSvc: AuthKeycloakService,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -39,24 +41,34 @@ export class TnnmcCallbackComponent implements OnInit {
         console.log(loc, 'oo')
         localStorage.setItem('loc', JSON.stringify(loc))
         if (loc.message === 'success') {
-          location.href = '/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council%20(TNNMC)'
+          this.router.navigate(['/app/org-details'], {
+            queryParams: {
+              orgId: 'Tamil Nadu Nurses and Midwives Council (TNNMC)'
+            }
+          })
           //window.location = loc.resRedirectUrl
         }
       }, (err: any) => {
         // tslint:disable-next-line:no-console
         console.log(err)
         if (err.status === 400 || err.status === 419) {
-          if (err.error.message == 'FAILURE') {
+          if (err.error.status === 'FAILURE') {
+            this.isLoading = false
+            this.router.navigate(['/app/org-details'], {
+              queryParams: {
+                orgId: 'Tamil Nadu Nurses and Midwives Council (TNNMC)'
+              }
+            })
             this.dialog.open(TnnmcConfirmComponent, {
               width: '300px',
               data: { 'body': err.error.message }
             })
           } else {
-            location.href = '/public/home'
+            this.router.navigate(['/public/home'])
           }
           // sessionStorage.clear()
           //this.authSvc.logout()
-          location.href = '/public/home'
+          // location.href = '/public/home'
         }
       })
       //}, 500)
@@ -64,13 +76,19 @@ export class TnnmcCallbackComponent implements OnInit {
       // tslint:disable-next-line:no-console
       console.log(err)
       //this.authSvc.logout()
-      if (err.error.message == 'FAILURE') {
+      if (err.error.status === 'FAILURE') {
+        this.isLoading = false
+        this.router.navigate(['/app/org-details'], {
+          queryParams: {
+            orgId: 'Tamil Nadu Nurses and Midwives Council (TNNMC)'
+          }
+        })
         this.dialog.open(TnnmcConfirmComponent, {
           width: '300px',
           data: { 'body': err.error.message }
         })
       } else {
-        location.href = '/public/home'
+        this.router.navigate(['/public/home'])
       }
     }
   }
