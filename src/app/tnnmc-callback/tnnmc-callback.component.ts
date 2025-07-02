@@ -41,6 +41,7 @@ export class TnnmcCallbackComponent implements OnInit {
         console.log(loc, 'oo')
         localStorage.setItem('loc', JSON.stringify(loc))
         if (loc.message === 'success') {
+          console.log("loc.message", loc.message)
           location.href = '/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council%20(TNNMC)'
           //window.location = loc.resRedirectUrl
         }
