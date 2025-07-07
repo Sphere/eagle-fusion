@@ -583,3 +583,35 @@ text-align: left;
 color: #000000;
 
 }
+.view-all-course {
+cursor: pointer;
+    padding: 7px 24px;
+    justify-content: center;
+    align-items: center;
+    gap: 8px;
+    border-radius: 50px;
+    color: #2E6491;
+    text-decoration: underline;
+    background: white;
+    border: none;
+    font-family: Roboto, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 18.75px;
+    text-align: left;
+    display: flex;
+  justify-content: center;
+
+    margin: auto;
+
+}
+
+.bottom-arrow{
+  width: 15px;
+height: 15px;
+top: 14.5px;
+left: 1px;
+gap: 0px;
+
+
+}

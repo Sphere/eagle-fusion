@@ -1,6 +1,6 @@
 import {
   // AuthKeycloakService,
-  ConfigurationsService,
+  ConfigurationsService, ValueService
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
@@ -9,6 +9,8 @@ import { MdePopoverTrigger } from '@material-extended/mde'
 import forEach from 'lodash/forEach'
 import get from 'lodash/get'
 import { HttpClient } from '@angular/common/http'
+import { forkJoin } from 'rxjs'
+import { WidgetUserService } from '@ws-widget/collection'
 
 @Component({
   selector: 'ws-app-org',
@@ -39,13 +41,25 @@ export class OrgComponent implements OnInit, OnDestroy {
   formattedAbout!: string
   averageRating: any = ''
   totalRatings: any = ''
+  userEnrollCourse: any
   orgUserCourseEnrolled: any = 0
+  myCourseDisplayConfig: any
+  isMobile = false
+  isXSmall$ = this.valueSvc.isXSmall$
+  showAllUserEnrollCourses: boolean = false;
+
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
     private router: Router,
     private http: HttpClient,
     // private authSvc: AuthKeycloakService,
-    private configSvc: ConfigurationsService) {
+    private configSvc: ConfigurationsService,
+    private readonly userSvc: WidgetUserService,
+    private valueSvc: ValueService,
+  ) {
+    this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
+
+
   }
   @HostListener('window:popstate', ['$event'])
   onPopState(event: any) {
@@ -175,7 +189,19 @@ export class OrgComponent implements OnInit, OnDestroy {
         }
       )
     console.log("this.currentOrgData", this.currentOrgData)
+    let userId
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId
+    } else {
+      userId = this.configSvc.unMappedUser.id
+    }
+    if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)') {
+      forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((res: any) => {
 
+        console.log("res: ", res)
+        this.formatmyCourseResponse(res[0])
+      })
+    }
 
     this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
       if (userEnrolled && userEnrolled.length > 0) {
@@ -195,6 +221,73 @@ export class OrgComponent implements OnInit, OnDestroy {
     // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
+  getDisplayedItems(items: any[], showAll: boolean): any[] {
+    if (showAll) {
+      return items
+    } else {
+      if (items.length > 5) {
+        return items.slice(0, 5)
+      } else {
+        return items
+      }
+    }
+  }
+  viewAllItems(section: string): void {
+    switch (section) {
+      case 'userEnrollCourses':
+        this.showAllUserEnrollCourses = !this.showAllUserEnrollCourses
+        break
+    }
+  }
+  formatmyCourseResponse(res: any) {
+    const myCourse: any = []
+    let myCourseObject = {}
+
+    res.forEach((key: any) => {
+      if (key.completionPercentage !== 100) {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
+        }
+
+      } else {
+        myCourseObject = {
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating
+
+        }
+
+      }
+      myCourse.push(myCourseObject)
+
+    })
+    this.userEnrollCourse = myCourse
+    if (this.userEnrollCourse.length > 0) {
+      this.myCourseDisplayConfig = {
+        displayType: 'card-mini',
+        badges: {
+          rating: true,
+          completionPercentage: true,
+          certification: true,
+          mobilesourceName: this.isMobile ? true : false
+        },
+      }
+    }
+  }
   getStarImage(index: number, averageRating: number): string {
     const fullStarUrl = '/fusion-assets/icons/toc_star.png'
     const halfStarUrl = '/fusion-assets/icons/Half_star1.svg'
@@ -209,6 +302,7 @@ export class OrgComponent implements OnInit, OnDestroy {
       return emptyStarUrl // Empty star
     }
   }
+
   formatAbout(text: string): string {
     if (!text) return text
     return text

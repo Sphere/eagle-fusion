@@ -557,7 +557,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">73</context>
+          <context context-type="linenumber">104</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/author/src/lib/routing/modules/my-content/components/content-card/content-card.component.html</context>
@@ -687,7 +687,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">141</context>
+          <context context-type="linenumber">170</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-view/web-course-view.component.html</context>
@@ -745,7 +745,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">149</context>
+          <context context-type="linenumber">178</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/app-toc-desktop-modal/app-toc-desktop-modal.component.html</context>
@@ -772,7 +772,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">152</context>
+          <context context-type="linenumber">181</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-view/web-course-view.component.html</context>
@@ -811,7 +811,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">154</context>
+          <context context-type="linenumber">183</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-view/web-course-view.component.html</context>
@@ -850,7 +850,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">167</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7e593917155986a9f9ec5143a35432e806a5eccc" datatype="html">
@@ -861,7 +861,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">157</context>
+          <context context-type="linenumber">186</context>
         </context-group>
       </trans-unit>
       <trans-unit id="eec715de352a6b114713b30b640d319fa78207a0" datatype="html">
@@ -880,7 +880,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">156</context>
+          <context context-type="linenumber">185</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/routes/app-toc-overview/app-toc-overview.component.html</context>
@@ -2390,64 +2390,19 @@
           <context context-type="linenumber">4</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="rolesLabel" datatype="html">
+      <trans-unit id="9610487cbeb5796d34d8601b5ac0c0a65f9e1d19" datatype="html">
         <source>Roles</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">12</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="jobDescriptionLabel" datatype="html">
-        <source>Job Description</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ObservationLabel" datatype="html">
+      <trans-unit id="2169ac89595ea71e589b9e3bba75a51f20c4662e" datatype="html">
         <source>Observation</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">21</context>
         </context-group>
-      </trans-unit>
-      <trans-unit id="selfLabel" datatype="html">
-        <source>Self</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">23</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="courseLabel" datatype="html">
-        <source>Course</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">25</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="passbookLabel" datatype="html">
-        <source>Passbook</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">18</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="selfAssessmentLabel" datatype="html">
-        <source>Self Assessments</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">33</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="requiredLabel" datatype="html">
-        <source>Required</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="2169ac89595ea71e589b9e3bba75a51f20c4662e" datatype="html">
-        <source>Observation</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">48</context>
@@ -2457,6 +2412,10 @@
         <source>Self</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
@@ -2464,7 +2423,18 @@
         <source>Course</source>
         <context-group purpose="location">
           <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">25</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
           <context context-type="linenumber">52</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="651c2901b000a7b3051c946df7605af27de455a5" datatype="html">
+        <source>Self Assessments</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">node_modules/@aastrika_npmjs/competency-web/competency/components/competency-dashboard/competency-dashboard.component.d.ts</context>
+          <context context-type="linenumber">33</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0adea23f8836d26e2e40429938186f1bc903d6b2" datatype="html">
@@ -2928,6 +2898,25 @@
           <context context-type="linenumber">168</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
+        <source>Login</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/component/tnnmc-dialog-confirm/tnnmc-confirm.component.html</context>
+          <context context-type="linenumber">6</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/create-account-modal/create-account-dialog.component.html</context>
+          <context context-type="linenumber">31</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">96</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
+          <context context-type="linenumber">317</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="4d528d81243448524f3e1de53c8b67e41aa7639f" datatype="html">
         <source>Forgot Password</source>
         <context-group purpose="location">
@@ -2988,7 +2977,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">403</context>
+          <context context-type="linenumber">404</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3080,46 +3069,63 @@
           <context context-type="linenumber">93</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="080307fb9981a42f89c7e0b54cd7d547f2ed7399" datatype="html">
+        <source>Continue Learning</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
+          <context context-type="linenumber">68</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5d1c2b584e89204ab8caebcd713ce8631082d662" datatype="html">
+        <source>
+          <x id="INTERPOLATION" equiv-text="{{ showAllUserEnrollCourses ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
+          <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
+        </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
+          <context context-type="linenumber">86</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="7eec194fdb5177fb2a2b67ddfd1a5c71a943eb9d" datatype="html">
         <source>Courses</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">65</context>
+          <context context-type="linenumber">96</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f8c3eb0190564b805d270e0e57e410b58b784b52" datatype="html">
         <source>Certified</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">109</context>
+          <context context-type="linenumber">138</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d720e323c6a70405c42e846c0c16b31b40fab723" datatype="html">
         <source>Number of modules</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">148</context>
+          <context context-type="linenumber">177</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fac040b63c8f3bee626381ab7bf01d61e20843c4" datatype="html">
         <source>Load More</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">174</context>
+          <context context-type="linenumber">203</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ba39998ced90eb087f432cb4b95d188f89d7f2dd" datatype="html">
         <source>Load Less</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">175</context>
+          <context context-type="linenumber">204</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c6e469f59138f99bf2e769ebfe2f41ba54f31732" datatype="html">
         <source>No org details found</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
-          <context context-type="linenumber">184</context>
+          <context context-type="linenumber">213</context>
         </context-group>
       </trans-unit>
       <trans-unit id="833e1978c3243e1f76c3a2cb7246ffda38e530ca" datatype="html">
@@ -3274,21 +3280,6 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account-modal/create-account-dialog.component.html</context>
           <context context-type="linenumber">42</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6765b4c916060f6bc42d9bb69e80377dbcb5e4e9" datatype="html">
-        <source>Login</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/create-account-modal/create-account-dialog.component.html</context>
-          <context context-type="linenumber">31</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">96</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">317</context>
         </context-group>
       </trans-unit>
       <trans-unit id="eaf755e1fd97c9ba4225ba53ffda4f2b95eded96" datatype="html">
@@ -3832,14 +3823,10 @@
           <context context-type="linenumber">15</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="1c30cd5fcf23180922afe5e7869e401240878343" datatype="html">
-        <source>E-kshamata Registration</source>
+      <trans-unit id="14e950243da87f348e831f63d54aa9bc06718375" datatype="html">
+        <source>E-kshamata Registration<x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/> for ANM<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/><x id="START_TAG_SPAN_1" ctype="x-span" equiv-text="&lt;span&gt;"/> for GNM <x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/> </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">7</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
           <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
@@ -3847,7 +3834,7 @@
         <source>First Name / नाम <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">10</context>
+          <context context-type="linenumber">11</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3858,7 +3845,7 @@
         <source>Last Name / उपनाम <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">23</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3869,7 +3856,7 @@
         <source>Phone Number / मोबाइल नंबर <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">34</context>
+          <context context-type="linenumber">35</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3880,7 +3867,7 @@
         <source>District / ज़िला <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">55</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3891,15 +3878,15 @@
         <source>District</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">57</context>
+          <context context-type="linenumber">58</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">138</context>
+          <context context-type="linenumber">139</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">177</context>
+          <context context-type="linenumber">178</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3914,11 +3901,11 @@
         <source>Name of Institute / संस्थान का नाम <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">80</context>
+          <context context-type="linenumber">81</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">149</context>
+          <context context-type="linenumber">150</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3933,11 +3920,11 @@
         <source>Name of Institute</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">85</context>
+          <context context-type="linenumber">86</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">154</context>
+          <context context-type="linenumber">155</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3955,7 +3942,7 @@
         / In which district you are studying <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">131</context>
+          <context context-type="linenumber">132</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5db82d797df3b82d52bca922c3f1c01ff3db79e9" datatype="html">
@@ -3963,14 +3950,14 @@
         / In which district you are teaching <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">174</context>
+          <context context-type="linenumber">175</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c94eed67023e7dbbd97dee05eec0b8a600a12be7" datatype="html">
         <source>BNRC Registration number <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">227</context>
+          <context context-type="linenumber">228</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -3985,7 +3972,7 @@
         <source>BNRC Registration number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">230</context>
+          <context context-type="linenumber">231</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4000,15 +3987,15 @@
         <source>Position / पद <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">241</context>
+          <context context-type="linenumber">242</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">269</context>
+          <context context-type="linenumber">270</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">341</context>
+          <context context-type="linenumber">342</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4027,15 +4014,15 @@
         <source>Position</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">243</context>
+          <context context-type="linenumber">244</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">271</context>
+          <context context-type="linenumber">272</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">343</context>
+          <context context-type="linenumber">344</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4058,15 +4045,15 @@
         <source>Role for Inservice Nurse <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">253</context>
+          <context context-type="linenumber">254</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">281</context>
+          <context context-type="linenumber">282</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">353</context>
+          <context context-type="linenumber">354</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4085,11 +4072,11 @@
         <source>Role for Inservice Nurse</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">257</context>
+          <context context-type="linenumber">258</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">285</context>
+          <context context-type="linenumber">286</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4104,7 +4091,7 @@
         <source>Type of service <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">294</context>
+          <context context-type="linenumber">295</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4115,7 +4102,7 @@
         <source>Type of service</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">297</context>
+          <context context-type="linenumber">298</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4126,11 +4113,11 @@
         <source>Name of Facility / संस्थान का नाम <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">306</context>
+          <context context-type="linenumber">307</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">369</context>
+          <context context-type="linenumber">370</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4145,11 +4132,11 @@
         <source>Name of Facility</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">308</context>
+          <context context-type="linenumber">309</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">371</context>
+          <context context-type="linenumber">372</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4164,7 +4151,7 @@
         <source>Role</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">356</context>
+          <context context-type="linenumber">357</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
@@ -4173,6 +4160,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
           <context context-type="linenumber">299</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="1c30cd5fcf23180922afe5e7869e401240878343" datatype="html">
+        <source>E-kshamata Registration</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">7</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c818206f840b90aacb7fa46bc825ecfbb920b9cc" datatype="html">
