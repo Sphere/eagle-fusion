@@ -8,16 +8,21 @@ import { JSON_MAP } from './page.constant'
 import { NsPage } from './page.model'
 import { IResolveResponse } from './resolver.model'
 import { NsContent } from '../../../../collection/src/lib/_services/widget-content.model'
-
+import { FormConfigService } from '../services/form-config.service'
+import { FormConfigs } from '../constants/formConstant.enum'
 @Injectable({
   providedIn: 'root',
 })
+
 export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
+  isEkshamata = false
   private baseUrl = this.configSvc.sitePath
   constructor(
     private configSvc: ConfigurationsService,
     private http: HttpClient,
     @Inject(LOCALE_ID) private locale: string,
+    private formConfig: FormConfigService
+
   ) { }
   resolve(
     route: ActivatedRouteSnapshot,
@@ -25,6 +30,7 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
     if (route.data.pageUrl) {
       return this.getData(route.data.pageUrl)
     }
+    this.readFormConfig()
     if (route.data.pageType === 'feature' && route.data.pageKey) {
       return this.getData(`${this.baseUrl}/feature/${route.data.pageKey}`)
     }
@@ -52,13 +58,41 @@ export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
       error: 'CONFIGURATION_ERROR_PAGE_URL_NOT_FORMED',
     }
   }
+  async readFormConfig() {
+    let type = this.configSvc.userProfile ? 'private' : 'public'
+    let layout
+    if (type == 'private') {
+      layout = this.formConfig.getValue('formType')
+      if (!layout) {
+        console.log("user profile data  app component ************ ", this.configSvc.userProfile)
+        await this.formConfig.readFormUIConfig(this.configSvc.userProfile)
+        layout = this.formConfig.getValue('formType')
+        console.log("layout name again ", layout)
+      }
+      console.log("layout name ", layout)
+    }
+    let newUI = layout == 'competency_ekshamata' ? true : false
+    let domain = window.location.hostname
+    if (domain.includes('ekshamata')) {
+      this.isEkshamata = true
+    }
+    let data = {
+      request: !this.isEkshamata ?
+        (type == 'public' ? FormConfigs.public_sphere : FormConfigs.default_sphere) :
+        (type == 'public' ? FormConfigs.public_ekshamata : (newUI ? FormConfigs.competency_ekshamata : FormConfigs.default_ekshamata))
+    }
+    await this.formConfig.getFormConfig(data, type).then((res: any) => {
+      console.log("******* app component oninit config " + type, res)
+    }).catch(err => {
+      console.log("******* error on app component oninit config " + type, err)
+    })
+  }
 
   private setS3Cookie(contentId: string): Observable<any> {
     return this.http.post(`/apis/protected/v8/content/setCookie`, { contentId }).pipe(
       catchError(_err => of(true)),
     )
   }
-
   private getContent(id: string) {
     return this.http
       .post<NsContent.IContent>(

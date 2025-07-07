@@ -44,6 +44,7 @@ export class ConfigurationsService {
   profileDetailsStatus = false
   userPreference: IUserPreference | null = null
   userProfile: NsUser.IUserProfile | null = null
+  configForm: any
   userProfileV2: NsUser.IUserProfile | null = null
   nodebbUserProfile: NsUser.INodebbUserProfile | null = null
   // created to store complete user details sent by pid
