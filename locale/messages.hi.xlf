@@ -1256,6 +1256,7 @@
           <x id="INTERPOLATION" equiv-text="{{ showAllUserEnrollCourses ? &apos;Hide&apos; : &apos;View all&apos; }}"/>
           <x id="TAG_IMG" ctype="image" equiv-text="&lt;img/&gt;"/>
         </source>
+        <target state="final">सभी को देखें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
           <context context-type="linenumber">86</context>

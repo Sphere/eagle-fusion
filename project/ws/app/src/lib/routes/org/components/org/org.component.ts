@@ -95,6 +95,13 @@ export class OrgComponent implements OnInit, OnDestroy {
               // console.log("this.currentOrgData", this.currentOrgData)
               if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
                 console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
+                if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)' && this.currentOrgData) {
+                  forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((res: any) => {
+
+                    console.log("res: ", res)
+                    this.formatmyCourseResponse(res[0])
+                  })
+                }
                 this.orgService.getSearchResultsById(this.currentOrgData.closedCoursesList).subscribe((result: any) => {
                   this.courseData = result.result.content
                   this.courseCount = this.courseData
@@ -125,6 +132,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                   this.courseData = result.result.content.filter(
                     (org: any) => org.sourceName === this.orgName
                   )
+
                   this.courseCount = this.courseData
                   console.log("this.courseData", this.courseData)
                   if (this.courseData && this.courseData.length > 0) {
@@ -195,13 +203,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     } else {
       userId = this.configSvc.unMappedUser.id
     }
-    if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)') {
-      forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((res: any) => {
 
-        console.log("res: ", res)
-        this.formatmyCourseResponse(res[0])
-      })
-    }
 
     this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
       if (userEnrolled && userEnrolled.length > 0) {
@@ -242,7 +244,11 @@ export class OrgComponent implements OnInit, OnDestroy {
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
+    this.currentOrgData.closedCoursesList
 
+    if (this.currentOrgData?.closedCoursesList && this.currentOrgData?.closedCoursesList.length > 0) {
+      res = res.filter((item: any) => this.currentOrgData.closedCoursesList.includes(item.content.identifier))
+    }
     res.forEach((key: any) => {
       if (key.completionPercentage !== 100) {
         myCourseObject = {
@@ -255,20 +261,6 @@ export class OrgComponent implements OnInit, OnDestroy {
           sourceName: key.content.sourceName,
           issueCertification: key.content.issueCertification,
           averageRating: key.content.averageRating
-        }
-
-      } else {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating
-
         }
 
       }
