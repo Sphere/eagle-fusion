@@ -50,6 +50,7 @@ export class BnrcRegisterComponent implements OnInit {
   Student = false
   Faculty = false
   inService = false
+  inServiceGNM = false
   publicHealthFacility = false
   privateHealthFacility = false
   otpPage = false
@@ -107,6 +108,7 @@ export class BnrcRegisterComponent implements OnInit {
   filteredInstitutes!: Observable<any[]>
   isSubmitting = false;
   isInservice = false;
+  isANM = false
   message: string = ''
   instituteNameUrl = 'https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bnrc-institute.json';
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -200,12 +202,14 @@ export class BnrcRegisterComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       const service = params['service']
       if (service === 'inservice') {
+        this.isANM = true
         this.isInservice = true
         this.professions = ['In Service']
         this.bnrcDetailForm.controls.role.setValue('In Service')
         this.professionalChange('Public Health Facility')
         this.bnrcDetailForm.controls.roleForInService.setValue('Public Health Facility')
       } else {
+        this.isANM = false
         this.isInservice = false
         this.bnrcDetailForm.controls.role.setValue(null)
         this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
@@ -223,6 +227,15 @@ export class BnrcRegisterComponent implements OnInit {
         this.bnrcDetailForm.controls.courseSelection.setValue('ANM')
         this.bnrcDetailForm.controls.instituteType.setValue('N/A')
         this.bnrcDetailForm.controls.facultyType.setValue('N/A')
+      }
+      if (service === 'GNM-Bihar') {
+        this.isANM = false
+        this.isInservice = true
+        this.inServiceGNM = true
+        this.professions = ['In Service']
+        this.bnrcDetailForm.controls.role.setValue('In Service')
+        this.professionalChange('Private Health Facility')
+        this.bnrcDetailForm.controls.roleForInService.setValue('Private Health Facility')
       }
     })
     console.log("districts", this.districts)
@@ -276,312 +289,131 @@ export class BnrcRegisterComponent implements OnInit {
   }
   professionalChange(value: any) {
     this.showMessage = false
-    console.log("degree", value, this.userProfileData)
-    if (value === 'Student') {
-      this.showDesignation = true
+    this.showDesignation = true
+    const form = this.bnrcDetailForm
 
-
-      this.Student = true
-      this.Faculty = false
-      this.inService = false
-      this.publicHealthFacility = false
-      this.privateHealthFacility = false
-      const instituteNameControl = this.bnrcDetailForm.get('instituteName')
-      if (instituteNameControl) {
-        instituteNameControl.setValidators([Validators.required])
-        instituteNameControl.updateValueAndValidity()
-
-      }
-      // const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
-      // if (instituteTypeControl) {
-      //   instituteTypeControl.setValidators([Validators.required])
-      //   instituteTypeControl.updateValueAndValidity()
-
-      // }
-      const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
-      if (courseSelectionControl) {
-        courseSelectionControl.setValidators([Validators.required])
-        courseSelectionControl.updateValueAndValidity()
-
-      }
-      this.bnrcDetailForm.controls.facultyType.setValue(null)
-      this.bnrcDetailForm.controls.bnrcRegistrationNumber.setValue(null)
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.roleForInService.setValue(null)
-      this.bnrcDetailForm.controls.serviceType.setValue(null)
-      this.bnrcDetailForm.controls.facilityName.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.hrmsId.setValue(null)
-      const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
-      if (publicFacilityTypeControl) {
-        publicFacilityTypeControl.clearValidators()
-        publicFacilityTypeControl.updateValueAndValidity()
-
-
-      }
-      const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
-      if (roleForInServiceControl) {
-        roleForInServiceControl.clearValidators()
-        roleForInServiceControl.updateValueAndValidity()
-
-      }
-      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
-      if (serviceTypeControl) {
-        serviceTypeControl.clearValidators()
-        serviceTypeControl.updateValueAndValidity()
-
-      }
-      const facilityNameControl = this.bnrcDetailForm.get('facilityName')
-      if (facilityNameControl) {
-        facilityNameControl.clearValidators()
-        facilityNameControl.updateValueAndValidity()
-
-      }
-      const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
-      if (facultyTypeControl) {
-        facultyTypeControl.clearValidators()
-        facultyTypeControl.updateValueAndValidity()
-
-      }
-      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
-      if (bnrcRegistrationNumberControl) {
-        bnrcRegistrationNumberControl.clearValidators()
-        bnrcRegistrationNumberControl.updateValueAndValidity()
-
-      }
-      const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')
-      if (hrmsIdControl) {
-        hrmsIdControl.clearValidators()
-        hrmsIdControl.updateValueAndValidity()
-      }
-    } else if (value === 'Faculty') {
-      this.showDesignation = true
-      this.hrmsErr = false
-      this.bnrcErr = true
-      this.Student = false
-      this.Faculty = true
-      this.inService = false
-      this.publicHealthFacility = false
-      this.privateHealthFacility = false
-      const instituteNameControl = this.bnrcDetailForm.get('instituteName')
-      if (instituteNameControl) {
-        instituteNameControl.setValidators([Validators.required])
-        instituteNameControl.updateValueAndValidity()
-
-      }
-      // const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
-      // if (instituteTypeControl) {
-      //   instituteTypeControl.setValidators([Validators.required])
-      //   instituteTypeControl.updateValueAndValidity()
-
-      // }
-      const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
-      if (facultyTypeControl) {
-        facultyTypeControl.setValidators([Validators.required])
-        facultyTypeControl.updateValueAndValidity()
-
-      }
-      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
-      if (bnrcRegistrationNumberControl) {
-        bnrcRegistrationNumberControl.setValidators([Validators.required])
-        bnrcRegistrationNumberControl.updateValueAndValidity()
-
-      }
-      const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')
-      if (hrmsIdControl) {
-        hrmsIdControl.clearValidators()
-        hrmsIdControl.updateValueAndValidity()
-      }
-      const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
-      if (courseSelectionControl) {
-        courseSelectionControl.clearValidators()
-        courseSelectionControl.updateValueAndValidity()
-
-      }
-      const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
-      if (publicFacilityTypeControl) {
-        publicFacilityTypeControl.clearValidators()
-        publicFacilityTypeControl.updateValueAndValidity()
-
-      }
-      const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
-      if (roleForInServiceControl) {
-        roleForInServiceControl.clearValidators()
-        roleForInServiceControl.updateValueAndValidity()
-
-      }
-      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
-      if (serviceTypeControl) {
-        serviceTypeControl.clearValidators()
-        serviceTypeControl.updateValueAndValidity()
-
-      }
-      const facilityNameControl = this.bnrcDetailForm.get('facilityName')
-      if (facilityNameControl) {
-        facilityNameControl.clearValidators()
-        facilityNameControl.updateValueAndValidity()
-
-      }
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.roleForInService.setValue(null)
-      this.bnrcDetailForm.controls.serviceType.setValue(null)
-      this.bnrcDetailForm.controls.facilityName.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.hrmsId.setValue(null)
-      this.bnrcDetailForm.controls.courseSelection.setValue(null)
-
-
-    } else if (value === 'In Service') {
-      this.showDesignation = true
-
-      this.bnrcDetailForm.controls.courseSelection.setValue(null)
-
-      this.Student = false
-      this.Faculty = false
-      this.inService = true
-      this.publicHealthFacility = false
-      this.privateHealthFacility = false
-
-    } else if (value === 'Public Health Facility') {
-      this.showDesignation = true
-      this.Student = false
-      this.Faculty = false
-      this.inService = false
-      this.publicHealthFacility = true
-      this.privateHealthFacility = false
-      const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
-      if (courseSelectionControl) {
-        courseSelectionControl.clearValidators()
-        courseSelectionControl.updateValueAndValidity()
-
-      }
-
-      const instituteTypeControl = this.bnrcDetailForm.get('instituteType')
-      if (instituteTypeControl) {
-        instituteTypeControl.clearValidators() // Clear existing validators
-        instituteTypeControl.updateValueAndValidity() // Update the form control
-      }
-
-      const instituteNameControl = this.bnrcDetailForm.get('instituteName')
-      if (instituteNameControl) {
-        console.log("test", instituteTypeControl)
-        instituteNameControl.clearValidators()
-        instituteNameControl.updateValueAndValidity() // Update the form control
-
-      }
-
-      const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
-      if (publicFacilityTypeControl) {
-        publicFacilityTypeControl.setValidators([Validators.required])
-        publicFacilityTypeControl.updateValueAndValidity()
-
-      }
-      const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
-      if (facultyTypeControl) {
-        facultyTypeControl.clearValidators()
-        facultyTypeControl.updateValueAndValidity() // Update the form control
-      }
-      const roleForInServiceControl = this.bnrcDetailForm.get('roleForInService')
-      if (roleForInServiceControl) {
-        roleForInServiceControl.setValidators([Validators.required])
-        roleForInServiceControl.updateValueAndValidity()
-
-      }
-
-      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
-      if (serviceTypeControl) {
-        serviceTypeControl.setValidators([Validators.required])
-        serviceTypeControl.updateValueAndValidity()
-
-      }
-      const facilityNameControl = this.bnrcDetailForm.get('facilityName')
-      if (facilityNameControl) {
-        facilityNameControl.setValidators([Validators.required])
-        facilityNameControl.updateValueAndValidity()
-
-      }
-      const privateFacilityTypeControl = this.bnrcDetailForm.get('privateFacilityType')
-      if (privateFacilityTypeControl) {
-        privateFacilityTypeControl.clearValidators()
-        privateFacilityTypeControl.updateValueAndValidity()
-
-      }
-      this.bnrcDetailForm.controls.publicFacilityType.setValue('ANM')
-      this.bnrcDetailForm.controls.facultyType.setValue(null)
-      this.bnrcDetailForm.controls.privateFacilityType.setValue(null)
-
-    } else if (value === 'Private Health Facility') {
-
-      this.showDesignation = true
-      this.Student = false
-      this.Faculty = false
-      this.inService = false
-      this.publicHealthFacility = false
-      this.privateHealthFacility = true
-      const courseSelectionControl = this.bnrcDetailForm.get('courseSelection')
-      if (courseSelectionControl) {
-        courseSelectionControl.clearValidators()
-        courseSelectionControl.updateValueAndValidity()
-
-      }
-      const facultyTypeControl = this.bnrcDetailForm.get('facultyType')
-      if (facultyTypeControl) {
-        facultyTypeControl.clearValidators()
-        facultyTypeControl.updateValueAndValidity()
-
-      }
-      const privateFacilityTypeControl = this.bnrcDetailForm.get('privateFacilityType')
-      if (privateFacilityTypeControl) {
-        privateFacilityTypeControl.setValidators([Validators.required])
-        privateFacilityTypeControl.updateValueAndValidity()
-
-      }
-      const facilityNameControl = this.bnrcDetailForm.get('facilityName')
-      if (facilityNameControl) {
-        facilityNameControl.setValidators([Validators.required])
-        facilityNameControl.updateValueAndValidity()
-
-      }
-      const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
-      if (bnrcRegistrationNumberControl) {
-        // bnrcRegistrationNumberControl.setValidators([Validators.required])
-        // bnrcRegistrationNumberControl.updateValueAndValidity()
-
-      }
-      const publicFacilityTypeControl = this.bnrcDetailForm.get('publicFacilityType')
-      if (publicFacilityTypeControl) {
-        publicFacilityTypeControl.clearValidators()
-        publicFacilityTypeControl.updateValueAndValidity()
-
-      }
-
-      const serviceTypeControl = this.bnrcDetailForm.get('serviceType')
-      if (serviceTypeControl) {
-        serviceTypeControl.clearValidators()
-        serviceTypeControl.updateValueAndValidity()
-
-      }
-      this.bnrcDetailForm.controls.privateFacilityType.setValue('ANM')
-      this.bnrcDetailForm.controls.facultyType.setValue(null)
-      this.bnrcDetailForm.controls.hrmsId.setValue(null)
-      this.bnrcDetailForm.controls.publicFacilityType.setValue(null)
-      this.bnrcDetailForm.controls.serviceType.setValue(null)
-      this.bnrcDetailForm.controls.instituteName.setValue(null)
-      this.bnrcDetailForm.controls.instituteType.setValue(null)
-      this.bnrcDetailForm.controls.courseSelection.setValue(null)
-    } else {
-      this.showDesignation = true
-
-
-      this.Student = false
-      this.Faculty = false
-      this.inService = false
-      this.publicHealthFacility = false
-      this.privateHealthFacility = false
+    const clearValidatorsAndReset = (fields: string[]) => {
+      fields.forEach(field => {
+        const control = form.get(field)
+        if (control) {
+          control.clearValidators()
+          control.setValue(null)
+          control.updateValueAndValidity()
+        }
+      })
     }
-    this.bnrcDetailForm.updateValueAndValidity()
 
+    const setValidators = (field: string, validators: any[]) => {
+      const control = form.get(field)
+      if (control) {
+        control.setValidators(validators)
+        control.updateValueAndValidity()
+      }
+    }
+
+    switch (value) {
+      case 'Student': {
+        this.Student = true
+        this.Faculty = false
+        this.inService = false
+        this.publicHealthFacility = false
+        this.privateHealthFacility = false
+
+        setValidators('instituteName', [Validators.required])
+        setValidators('courseSelection', [Validators.required])
+
+        clearValidatorsAndReset([
+          'facultyType', 'bnrcRegistrationNumber', 'publicFacilityType', 'roleForInService',
+          'serviceType', 'facilityName', 'privateFacilityType', 'hrmsId'
+        ])
+        break
+      }
+
+      case 'Faculty': {
+        this.Student = false
+        this.Faculty = true
+        this.inService = false
+        this.publicHealthFacility = false
+        this.privateHealthFacility = false
+        this.hrmsErr = false
+        this.bnrcErr = true
+
+        setValidators('instituteName', [Validators.required])
+        setValidators('facultyType', [Validators.required])
+        setValidators('bnrcRegistrationNumber', [Validators.required])
+
+        clearValidatorsAndReset([
+          'courseSelection', 'publicFacilityType', 'roleForInService', 'serviceType',
+          'facilityName', 'privateFacilityType', 'hrmsId'
+        ])
+        break
+      }
+
+      case 'In Service':
+      case 'inServiceGNM': {
+        this.Student = false
+        this.Faculty = false
+        this.inService = true
+        this.publicHealthFacility = false
+        this.privateHealthFacility = false
+
+        form.controls.courseSelection.setValue(null)
+        this.inServiceGNM = value === 'inServiceGNM'
+        break
+      }
+
+      case 'Public Health Facility': {
+        this.Student = false
+        this.Faculty = false
+        this.inService = false
+        this.publicHealthFacility = true
+        this.privateHealthFacility = false
+
+        form.controls.publicFacilityType.setValue(this.inServiceGNM ? 'GNM-Bihar' : 'ANM')
+
+        setValidators('publicFacilityType', [Validators.required])
+        setValidators('roleForInService', [Validators.required])
+        setValidators('serviceType', [Validators.required])
+        setValidators('facilityName', [Validators.required])
+
+        clearValidatorsAndReset([
+          'courseSelection', 'facultyType', 'privateFacilityType', 'instituteType', 'instituteName'
+        ])
+        break
+      }
+
+      case 'Private Health Facility': {
+        this.Student = false
+        this.Faculty = false
+        this.inService = false
+        this.publicHealthFacility = false
+        this.privateHealthFacility = true
+
+        form.controls.privateFacilityType.setValue(this.inServiceGNM ? 'GNM-Bihar' : 'ANM')
+
+        setValidators('privateFacilityType', [Validators.required])
+        setValidators('facilityName', [Validators.required])
+
+        clearValidatorsAndReset([
+          'courseSelection', 'facultyType', 'hrmsId', 'publicFacilityType',
+          'serviceType', 'instituteName', 'instituteType'
+        ])
+        break
+      }
+
+      default: {
+        this.Student = false
+        this.Faculty = false
+        this.inService = false
+        this.publicHealthFacility = false
+        this.privateHealthFacility = false
+        break
+      }
+    }
+
+    form.updateValueAndValidity()
   }
+
   checkInstitute() {
     if (this.bnrcDetailForm.controls.instituteName.value) {
       const instituteName = this.bnrcDetailForm.controls.instituteName.value.trim().toLowerCase()

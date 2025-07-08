@@ -38,7 +38,7 @@
 
   </ng-container>
   <div class="py-1 px-4 ">
-    <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length > 1">
+    <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length > 0">
       <div class="line-label bg-green">
         <span class="header1 header0" i18n>CONTINUE LEARNING</span>
       </div>
@@ -55,7 +55,7 @@
 
   </div>
   <div *ngIf="isUpLogin" [ngClass]="{'mb-6':isEkshamata}" class="py-1 px-4 ">
-    <ng-container *ngIf="coursesForUP && coursesForUP.length > 1">
+    <ng-container *ngIf="coursesForUP && coursesForUP.length > 0">
       <div class="line-label bg-green">
         <span class="header1 header0" i18n>TOP COURSES</span>
       </div>
@@ -71,8 +71,8 @@
 
 
   </div>
-  <div [ngClass]="{'mb-6':isEkshamata}" class="py-1 px-4 ">
-    <ng-container *ngIf="coursesForYou && coursesForYou.length > 1">
+  <div *ngIf="!isUpLogin" [ngClass]="{'mb-6':isEkshamata}" class="py-1 px-4 ">
+    <ng-container *ngIf="coursesForYou && coursesForYou.length > 0">
       <div class="line-label bg-green">
         <span class="header1 header0" i18n>FOR YOU</span>
       </div>

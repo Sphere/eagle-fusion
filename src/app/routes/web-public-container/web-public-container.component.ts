@@ -150,7 +150,7 @@ export class WebPublicComponent implements OnInit {
         this.isLoading = false
         console.error("API call timed out.")
       }
-    }, 2000) // 10 seconds timeout
+    })
 
     if (
       this.configSvc.unMappedUser &&
