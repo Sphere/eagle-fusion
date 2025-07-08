@@ -41,7 +41,8 @@ export class OrgComponent implements OnInit, OnDestroy {
   formattedAbout!: string
   averageRating: any = ''
   totalRatings: any = ''
-  userEnrollCourse: any
+  userEnrollCourse: any[] = []
+  completedCourse: any[] = []
   orgUserCourseEnrolled: any = 0
   myCourseDisplayConfig: any
   isMobile = false
@@ -94,7 +95,7 @@ export class OrgComponent implements OnInit, OnDestroy {
               this.formattedAbout = this.formatAbout(this.currentOrgData.about)
               // console.log("this.currentOrgData", this.currentOrgData)
               if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
-                console.log("this.currentOrgData.closedCoursesList", this.currentOrgData.closedCoursesList)
+                console.log("this.currentOrgData.closedCoursesList present", this.currentOrgData.closedCoursesList)
                 if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)' && this.currentOrgData) {
                   forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((res: any) => {
 
@@ -242,33 +243,34 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
   }
   formatmyCourseResponse(res: any) {
-    const myCourse: any = []
-    let myCourseObject = {}
     this.currentOrgData.closedCoursesList
 
     if (this.currentOrgData?.closedCoursesList && this.currentOrgData?.closedCoursesList.length > 0) {
       res = res.filter((item: any) => this.currentOrgData.closedCoursesList.includes(item.content.identifier))
     }
+    console.log("orgFltered", res)
+
     res.forEach((key: any) => {
-      if (key.completionPercentage !== 100) {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating
-        }
-
+      const courseData = {
+        identifier: key.content?.identifier,
+        appIcon: key.content?.appIcon,
+        thumbnail: key.content?.thumbnail,
+        name: key.content?.name,
+        dateTime: key.dateTime,
+        completionPercentage: key.completionPercentage,
+        sourceName: key.content?.sourceName,
+        issueCertification: key.content?.issueCertification,
+        averageRating: key.content?.averageRating
       }
-      myCourse.push(myCourseObject)
 
+      if (key.completionPercentage < 100) {
+        this.userEnrollCourse.push(courseData) // Incomplete courses go to continueLearning
+      } else {
+        this.completedCourse.push(courseData) // Complete courses go to completedLearning
+      }
     })
-    this.userEnrollCourse = myCourse
-    if (this.userEnrollCourse.length > 0) {
+    console.log("this.myCourse", this.completedCourse, this.userEnrollCourse)
+    if (this.userEnrollCourse.length > 0 || this.completedCourse.length > 0) {
       this.myCourseDisplayConfig = {
         displayType: 'card-mini',
         badges: {

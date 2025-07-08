@@ -28,7 +28,8 @@
   </div>
 
 
-  <div [ngClass]="{'mt-5': currentOrgData?.sourceName === 'Indian Nursing Council','org-body': true}">
+  <div class="course-container py-1 px-4"
+    [ngClass]="{'mt-5': currentOrgData?.sourceName === 'Indian Nursing Council','org-body': true}">
     <p class="org-name mb-0">
       {{currentOrgData.sourceName}}
     </p>
@@ -61,7 +62,7 @@
   </div>
   <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
     class="course-container py-1 px-4 ">
-    <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse && userEnrollCourse.length>0">
+    <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse?.length > 0">
       <div class="mb-4 line-label bg-green flex scroller-container">
         <div class="w-100">
           <div class="flex flex-middle border-top">
@@ -69,7 +70,7 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0&&isMobile=== false">
+      <ng-container *ngIf="userEnrollCourse?.length > 0 && isMobile === false">
         <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
           <div *ngFor="let course of userEnrollCourse">
             <ng-container>
@@ -78,11 +79,11 @@
           </div>
         </ws-utils-horizontal-scroller>
       </ng-container>
-      <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0&&isMobile=== true">
+      <ng-container *ngIf="userEnrollCourse?.length > 0 && isMobile === true">
         <div *ngFor="let course of getDisplayedItems(userEnrollCourse, showAllUserEnrollCourses)">
           <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
         </div>
-        <button i18n *ngIf="userEnrollCourse.length > 5" (click)="viewAllItems('userEnrollCourses')"
+        <button i18n *ngIf="userEnrollCourse?.length > 5" (click)="viewAllItems('userEnrollCourses')"
           class="view-all-course">
           {{ showAllUserEnrollCourses ? 'Hide' : 'View all' }}
           <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
@@ -100,7 +101,7 @@
     <div class="mt-4 course-body" *ngIf="courseData">
       <!-- <div> -->
       <ng-container *ngFor="let widget of courseData.slice(0,cardLimit)">
-        <div class="card-standard-container mr-8 mb-6 1 cursor-pointer">
+        <div class="card-standard-container mb-6 1 cursor-pointer">
           <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
             #target="mdePopoverTrigger" i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1"
             mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
@@ -206,6 +207,37 @@
 
     </div>
 
+  </div>
+  <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
+    class="course-container py-4 px-4 mb-4">
+    <section class="view-all-course-container" *ngIf="completedCourse?.length > 0">
+      <div class="mb-4 line-label bg-green flex scroller-container">
+        <div class="w-100">
+          <div class="flex flex-middle border-top">
+            <span class="course-header" i18n>Completed Learning</span>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="completedCourse?.length > 0 && isMobile === false">
+        <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
+          <div *ngFor="let course of completedCourse">
+            <ng-container>
+              <ws-web-course-card [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
+            </ng-container>
+          </div>
+        </ws-utils-horizontal-scroller>
+      </ng-container>
+      <ng-container *ngIf="completedCourse?.length > 0 && isMobile === true">
+        <div *ngFor="let course of getDisplayedItems(completedCourse, showAllUserEnrollCourses)">
+          <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
+        </div>
+        <button i18n *ngIf="completedCourse?.length > 5" (click)="viewAllItems('completedCourses')"
+          class="view-all-course">
+          {{ showAllUserEnrollCourses ? 'Hide' : 'View all' }}
+          <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+        </button>
+      </ng-container>
+    </section>
   </div>
 </div>
 <div class="container" *ngIf="!currentOrgData">
