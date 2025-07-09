@@ -92,7 +92,14 @@ export class ViewAllComponent implements OnInit {
             const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
             if (professionalDetails) {
               const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
-              this.contentSvc.fetchCourseRemommendations(designation).subscribe(
+              const lang = this.configSvc.unMappedUser.profileDetails.preferences.language
+
+              const forYouRequestData = {
+                designation: designation,
+                orgId: this.configSvc?.userProfile?.rootOrgId,
+                language: lang
+              }
+              this.contentSvc.COURSE_RECOMMENDATION_V2(forYouRequestData).subscribe(
                 (res) => {
                   this.formatForYouCourses(res)
                   this.searchRequestStatus = 'done'

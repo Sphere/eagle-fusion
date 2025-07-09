@@ -164,8 +164,14 @@ export class WebPublicComponent implements OnInit {
           professionalDetails.designation === ''
             ? professionalDetails.profession
             : professionalDetails.designation
+        const lang = this.configSvc.unMappedUser.profileDetails.preferences.language
+        const forYouRequestData = {
+          designation: designation,
+          orgId: this.configSvc?.userProfile?.rootOrgId,
+          language: lang
+        }
 
-        this.contentSvc.fetchCourseRemommendations(designation).subscribe(
+        this.contentSvc.COURSE_RECOMMENDATION_V2(forYouRequestData).subscribe(
           (res) => {
             clearTimeout(timeout) // Clear timeout on success
             this.formatForYouCourses(res)

@@ -158,10 +158,20 @@ export class MyCoursesComponent implements OnInit {
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
       const professionalDetails = this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails[0]
       if (professionalDetails) {
-        const designation = professionalDetails.designation === '' ? professionalDetails.profession : professionalDetails.designation
+        console.log("professionalDetails", professionalDetails)
+        const designation = !professionalDetails.designation
+          ? professionalDetails.profession
+          : professionalDetails.designation
+        const lang = this.configSvc.unMappedUser.profileDetails.preferences.language
+
+        const forYouRequestData = {
+          designation: designation,
+          orgId: this.configSvc?.userProfile?.rootOrgId,
+          language: lang
+        }
         this.contentSvc
-          .fetchCourseRemommendations(designation).pipe().subscribe((res) => {
-            //console.log(res, 'res')
+          .COURSE_RECOMMENDATION_V2(forYouRequestData).pipe().subscribe((res) => {
+            console.log(forYouRequestData, res, designation, this.configSvc?.userProfile?.rootOrgId, lang, 'COURSE_RECOMMENDATION_V2')
             this.coursesForYou = res
             this.isLoading = false
 

@@ -47,6 +47,7 @@ const API_END_POINTS = {
     `apis/protected/v8/rcCert/user/enrollment/list/adhocCertificates?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
   COURSE_RECOMENDATION: (profession: string) =>
     `${PUBLIC_SLAG}/mobileApp/courseRemommendationv2?profession=${profession}`,
+  COURSE_RECOMMENDATION_V2: `${PUBLIC_SLAG}/mobileApp/publicSearch/courseRecommendationCbp`,
 }
 
 @Injectable({
@@ -426,6 +427,28 @@ export class WidgetContentService {
         )
       )
 
+  }
+  COURSE_RECOMMENDATION_V2(req: any): Observable<NsContent.ICourse[]> {
+    let payload = {
+      offset: 1,
+      limit: 300,
+      "search_text": req.designation,
+      "search_fieldnames": [
+        "rolesMapped"
+      ],
+      "course_status": "Live",
+      "primaryCategory": "Course",
+      orgId: req.orgId,
+      language: req.language
+    }
+    return this.http
+      .post<NsContent.ICourse[]>(API_END_POINTS.COURSE_RECOMMENDATION_V2, payload)
+      .pipe(
+        catchError(this.handleError),
+        map(
+          (data: any) => data
+        )
+      )
   }
 
   getLatestCourse() {
