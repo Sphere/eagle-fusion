@@ -1,13 +1,10 @@
-# Base image
 FROM node:16.16.0
 
-# Set working directory
 WORKDIR /app
-
-# Copy project files
 COPY . .
 
-# Install specific Angular CLI version
+#RUN npm i yarn
+#RUN yarn global add @angular/cli@latest
 RUN npm install -g @angular/cli@11.2.19
 
 # Install dependencies
