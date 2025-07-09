@@ -2082,8 +2082,8 @@
         <source>Completed</source>
         <target state="final">पूर्ण हुआ</target>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
-          <context context-type="linenumber">261</context>
+          <context context-type="sourcefile">project/ws/app/src/lib/routes/org/components/org/org.component.html</context>
+          <context context-type="linenumber">217</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
@@ -2096,6 +2096,10 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
           <context context-type="linenumber">262</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
+          <context context-type="linenumber">261</context>
         </context-group>
       </trans-unit>
        <trans-unit id="dd3b6c367381ddfa8f317b8e9b31c55368c65136" datatype="html">
