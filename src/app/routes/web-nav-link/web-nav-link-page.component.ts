@@ -188,7 +188,7 @@ export class WebNavLinkPageComponent implements OnInit {
     else if (text === 'mycourses') {
       let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
       let result = await this.signupService.getUserData()
-
+      this.configSvc.unMappedUser = result
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
         this.router.navigate([url])
       } else {

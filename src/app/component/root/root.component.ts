@@ -632,6 +632,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.appStartRaised = false
         }
         if (!this.configSvc.userProfile) {
+          if (this.paramsJSON && this.paramsJSON !== '{}') {
+            this.UserAgentResolverService.setSource(this.paramsJSON)
+          }
+          console.log("this.paramsJSON", this.paramsJSON)
           this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         }
       }

@@ -202,7 +202,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId
     } else {
-      userId = this.configSvc.unMappedUser.id
+      userId = this.configSvc.unMappedUser?.id
     }
 
 

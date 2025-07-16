@@ -60,7 +60,7 @@ export class UserAgentResolverService {
       const timestamp = new Date().getTime().toString(36)
       const randomString = Math.random().toString(36).substring(2, 9)
       const uniqueId = timestamp + randomString
-      cookie = this.setCookie('USERUID', uniqueId, 1)
+      cookie = this.setCookie('USERUID', uniqueId, 7)
     } else {
       cookie = this.getCookie('USERUID')
     }
@@ -105,4 +105,21 @@ export class UserAgentResolverService {
     }
     return null
   }
+  setSource(source: any) {
+    console.log("source set", source)
+    if (source) {
+      const utm_source = localStorage.setItem('utm_source', source)
+      return utm_source
+    }
+  }
+  getSource(): any {
+    const utm_source = localStorage.getItem('utm_source')
+    console.log("utm_source", utm_source)
+    if (utm_source !== '{}') {
+      return utm_source && utm_source.trim() !== ''
+        ? utm_source
+        : ""
+    }
+  }
+
 }
