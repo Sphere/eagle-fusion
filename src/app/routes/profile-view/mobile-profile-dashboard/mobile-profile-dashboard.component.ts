@@ -15,7 +15,6 @@ import { ConfigService as CompetencyConfiService } from '../../competency/servic
 import * as _ from './lodash'
 import { FormControl, FormGroup } from '@angular/forms'
 import { DOCUMENT } from '@angular/common'
-import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-mobile-profile-dashboard',
@@ -63,7 +62,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService,
     private readonly _renderer2: Renderer,
-    private UserAgentResolverService: UserAgentResolverService,
     @Inject(DOCUMENT) private _document: Document
 
   ) {
