@@ -126,8 +126,7 @@ export class EducationEditComponent implements OnInit {
     }
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
-    const source = this.UserAgentResolverService.getSource()
-    const userSource = source ? JSON.parse(source) : null
+
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
     let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     console.log(local)
@@ -137,7 +136,7 @@ export class EducationEditComponent implements OnInit {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      ...(userSource ? { userSource } : {})
+      userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {

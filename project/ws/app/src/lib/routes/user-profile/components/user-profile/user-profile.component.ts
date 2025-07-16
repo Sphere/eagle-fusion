@@ -1146,11 +1146,9 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    const source = this.UserAgentResolverService.getSource()
-    const userSource = source ? JSON.parse(source) : null
     const obj = {
       personalDetails: profileRequest.profileReq.personalDetails,
-      ...(userSource ? { userSource } : {}),
+      userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
       profileLocation: 'sphere-web/user-profile-on-submit',
     }
     profileRequest = Object.assign(profileRequest, obj)
@@ -1434,8 +1432,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
         const userid = this.configSvc.userProfileV2.userId
         const userAgent = this.UserAgentResolverService.getUserAgent()
         const userCookie = this.UserAgentResolverService.generateCookie()
-        const source = this.UserAgentResolverService.getSource()
-        const userSource = source ? JSON.parse(source) : null
+
         this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
           user = data
           const obj = {
@@ -1445,7 +1442,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             osName: userAgent.OS,
             browserName: userAgent.browserName,
             userCookie,
-            ...(userSource ? { userSource } : {}),
+            userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
             personalDetails: user['profileDetails'].personalDetails || {},
           }
           const userdata = Object.assign(user['profileDetails'], obj)

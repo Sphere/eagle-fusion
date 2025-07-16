@@ -491,14 +491,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
 
     profileRequest.profileReq.personalDetails["postalAddress"] = form.value.country !== 'India' ? form.value.country : form.value.country + ',' + form.value.state + ',' + form.value.distict
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/personal-detail-edit-onSubmit'
-    const source = this.UserAgentResolverService.getSource()
-    const userSource = source ? JSON.parse(source) : null
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
       personalDetails: profileRequest.profileReq.personalDetails,
-      ...(userSource ? { userSource } : {}),
+      userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
       // osName: userAgent.OS,
       // browserName: userAgent.browserName,
       // userCookie: userCookie,
@@ -551,8 +549,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           const userid = this.configSvc.userProfileV2.userId
           const userAgent = this.UserAgentResolverService.getUserAgent()
           const userCookie = this.UserAgentResolverService.generateCookie()
-          const source = this.UserAgentResolverService.getSource()
-          const userSource = source ? JSON.parse(source) : null
           this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
             user = data
             const obj = {
@@ -560,7 +556,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
                 language: result.id,
               },
               personalDetails: user.profileDetails.personalDetails,
-              ...(userSource ? { userSource } : {}),
+              userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
               profileLocation: 'sphere-web/personal-detail-edit-change-language',
               osName: userAgent.OS,
               browserName: userAgent.browserName,

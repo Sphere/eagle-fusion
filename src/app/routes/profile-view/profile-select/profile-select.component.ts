@@ -140,12 +140,12 @@ export class ProfileSelectComponent implements OnInit {
     let userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData.profileReq, userAgent, userCookie)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/profile-select'
-    const source = this.UserAgentResolverService.getSource()
-    const userSource = source ? JSON.parse(source) : null
+
     const obj = {
       personalDetails: profileRequest.profileReq.personalDetails,
       preferences: this.userProfileData.preferences,
-      ...(userSource ? { userSource } : {})
+      userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
+
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {

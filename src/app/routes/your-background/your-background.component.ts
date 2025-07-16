@@ -94,14 +94,13 @@ export class YourBackgroundComponent implements OnInit {
         delete userObject[key]
       }
     })
-    const source = this.UserAgentResolverService.getSource()
-    const userSource = source ? JSON.parse(source) : null
+
     const reqUpdate = {
       request: {
         userId: this.userId,
         personalDetails: userObject,
         profileDetails: {
-          ...(userSource ? { userSource } : {}),
+          userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
           profileLocation: 'sphere-web/your-background',
           profileReq: {
             id: this.userId,

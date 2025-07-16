@@ -381,6 +381,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       const res = await data
       console.log(res.result.response)
       if (res.result.response === 'SUCCESS') {
+        localStorage.removeItem('utm_source')
         this.configSvc.profileDetailsStatus = true
         this.configSvc.hasAcceptedTnc = true
         if (this.result.tncStatus) {
