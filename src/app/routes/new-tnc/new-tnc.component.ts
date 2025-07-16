@@ -347,10 +347,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
       //} else {
       let profileRequest = this.constructReq(this.createUserForm)
+      const source = this.UserAgentResolverService.getSource()
+      const userSource = source ? JSON.parse(source) : null
       const obj = {
         preferences: {
           language: this.lang,
         },
+        ...(userSource ? { userSource } : {})
         // personalDetails: profileRequest.profileReq.personalDetails
       }
       profileRequest = Object.assign(profileRequest, obj)

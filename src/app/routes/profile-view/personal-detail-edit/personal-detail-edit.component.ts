@@ -485,13 +485,20 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const userAgent = this.UserAgentResolverService.getUserAgent()
     const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
+    profileRequest.profileReq.personalDetails["osName"] = this.userProfileData.personalDetails.osName ? this.userProfileData.personalDetails.osName : userAgent.OS
+    profileRequest.profileReq.personalDetails["browserName"] = this.userProfileData.personalDetails.browserName ? this.userProfileData.personalDetails.browserName : userAgent.browserName
+    profileRequest.profileReq.personalDetails["userCookie"] = this.userProfileData.personalDetails.userCookie ? this.userProfileData.personalDetails.userCookie : userCookie
+
     profileRequest.profileReq.personalDetails["postalAddress"] = form.value.country !== 'India' ? form.value.country : form.value.country + ',' + form.value.state + ',' + form.value.distict
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/personal-detail-edit-onSubmit'
-
+    const source = this.UserAgentResolverService.getSource()
+    const userSource = source ? JSON.parse(source) : null
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
+      personalDetails: profileRequest.profileReq.personalDetails,
+      ...(userSource ? { userSource } : {}),
       // osName: userAgent.OS,
       // browserName: userAgent.browserName,
       // userCookie: userCookie,
@@ -544,12 +551,16 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           const userid = this.configSvc.userProfileV2.userId
           const userAgent = this.UserAgentResolverService.getUserAgent()
           const userCookie = this.UserAgentResolverService.generateCookie()
+          const source = this.UserAgentResolverService.getSource()
+          const userSource = source ? JSON.parse(source) : null
           this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
             user = data
             const obj = {
               preferences: {
                 language: result.id,
               },
+              personalDetails: user.profileDetails.personalDetails,
+              ...(userSource ? { userSource } : {}),
               profileLocation: 'sphere-web/personal-detail-edit-change-language',
               osName: userAgent.OS,
               browserName: userAgent.browserName,

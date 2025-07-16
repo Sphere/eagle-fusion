@@ -15,6 +15,7 @@ import { ConfigService as CompetencyConfiService } from '../../competency/servic
 import * as _ from './lodash'
 import { FormControl, FormGroup } from '@angular/forms'
 import { DOCUMENT } from '@angular/common'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-mobile-profile-dashboard',
@@ -62,6 +63,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService,
     private readonly _renderer2: Renderer,
+    private UserAgentResolverService: UserAgentResolverService,
     @Inject(DOCUMENT) private _document: Document
 
   ) {
@@ -328,11 +330,14 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
   storeLanguage(lang: string) {
+    const source = this.UserAgentResolverService.getSource()
+    const userSource = source ? JSON.parse(source) : null
     const obj = {
       preferences: {
         language: lang,
       },
-      personalDetails: this.userInfo.profileDetails.profileReq.personalDetails
+      personalDetails: this.userInfo.profileDetails.profileReq.personalDetails,
+      ...(userSource ? { userSource } : {}),
     }
 
     const userdata = Object.assign(this.userInfo.profileDetails, obj)
@@ -365,10 +370,14 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   saveLanguage(form: any) {
     console.log(form)
+    const source = this.UserAgentResolverService.getSource()
+    const userSource = source ? JSON.parse(source) : null
     const obj = {
       preferences: {
         language: form.value.language,
       },
+      personalDetails: this.userData['profileDetails'].profileReq.personalDetails,
+      ...(userSource ? { userSource } : {}),
     }
     const userdata = Object.assign(this.userData['profileDetails'], obj)
     //   // this.chosenLanguage = path.value

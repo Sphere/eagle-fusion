@@ -529,7 +529,8 @@ export class MobileDashboardComponent implements OnInit {
       const userid = this.configSvc.userProfileV2!.userId
       const userAgent = this.UserAgentResolverService.getUserAgent()
       const userCookie = this.UserAgentResolverService.generateCookie()
-
+      const source = this.UserAgentResolverService.getSource()
+      const userSource = source ? JSON.parse(source) : null
       this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
         user = data
         const obj = {
@@ -540,6 +541,9 @@ export class MobileDashboardComponent implements OnInit {
           osName: userAgent.OS,
           browserName: userAgent.browserName,
           userCookie,
+          ...(userSource ? { userSource } : {}),
+          personalDetails: user.profileDetails.profileReq.personalDetails
+
         }
         const userdata = Object.assign(user['profileDetails'], obj)
         const reqUpdate = {

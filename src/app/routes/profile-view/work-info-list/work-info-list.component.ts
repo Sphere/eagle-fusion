@@ -426,12 +426,13 @@ export class WorkInfoListComponent implements OnInit {
       }
     }
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/work-info-list'
-
+    const source = this.UserAgentResolverService.getSource()
+    const userSource = source ? JSON.parse(source) : null
     const obj = {
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-
+      ...(userSource ? { userSource } : {}),
       personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)

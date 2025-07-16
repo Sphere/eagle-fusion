@@ -481,6 +481,8 @@ export class AlmostDoneComponent implements OnInit {
     if (this.configSvc.userProfile || this.configSvc.unMappedUser) {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId
     }
+    const source = this.UserAgentResolverService.getSource()
+    const userSource = source ? JSON.parse(source) : null
     console.log(this.userId, this.result.userId)
     //const reqObj = localStorage.getItem(`preferedLanguage`) || ''
     //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
@@ -494,6 +496,8 @@ export class AlmostDoneComponent implements OnInit {
           ? this.configSvc.unMappedUser.profileDetails.preferences.language
           : 'en',
       },
+      ...(userSource ? { userSource } : {}),
+      personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
 
