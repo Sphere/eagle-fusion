@@ -129,7 +129,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
         language: local === 'en' ? 'en' : 'hi',
       },
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
-      personalDetails: profileRequest.profileReq.personalDetails,
+      // personalDetails: profileRequest.profileReq.personalDetails,
     }
     profileRequest = Object.assign(profileRequest, obj)
 

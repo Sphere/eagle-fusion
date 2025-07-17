@@ -1443,7 +1443,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
             browserName: userAgent.browserName,
             userCookie,
             userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
-            personalDetails: user['profileDetails'].personalDetails || {},
+            // personalDetails: user['profileDetails'].personalDetails || {},
           }
           const userdata = Object.assign(user['profileDetails'], obj)
           // this.chosenLanguage = path.value

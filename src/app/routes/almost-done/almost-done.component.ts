@@ -496,7 +496,7 @@ export class AlmostDoneComponent implements OnInit {
           : 'en',
       },
       userSource: this.configSvc?.unMappedUser?.profileDetails?.userSource,
-      personalDetails: profileRequest.profileReq.personalDetails
+      // personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
 

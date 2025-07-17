@@ -98,7 +98,7 @@ export class YourBackgroundComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userId,
-        personalDetails: userObject,
+        // personalDetails: userObject,
         profileDetails: {
           userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
           profileLocation: 'sphere-web/your-background',

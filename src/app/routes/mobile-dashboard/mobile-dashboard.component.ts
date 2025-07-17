@@ -540,7 +540,7 @@ export class MobileDashboardComponent implements OnInit {
           browserName: userAgent.browserName,
           userCookie,
           userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
-          personalDetails: user.profileDetails.profileReq.personalDetails
+          // personalDetails: user.profileDetails.profileReq.personalDetails
 
         }
         const userdata = Object.assign(user['profileDetails'], obj)

@@ -332,7 +332,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       preferences: {
         language: lang,
       },
-      personalDetails: this.userInfo.profileDetails.profileReq.personalDetails,
+      // personalDetails: this.userInfo.profileDetails.profileReq.personalDetails,
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
 
     }
@@ -372,7 +372,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       preferences: {
         language: form.value.language,
       },
-      personalDetails: this.userData['profileDetails'].profileReq.personalDetails,
+      // personalDetails: this.userData['profileDetails'].profileReq.personalDetails,
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
     const userdata = Object.assign(this.userData['profileDetails'], obj)
