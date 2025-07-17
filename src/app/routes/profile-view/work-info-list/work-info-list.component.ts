@@ -432,7 +432,7 @@ export class WorkInfoListComponent implements OnInit {
         language: local === 'en' ? 'en' : 'hi',
       },
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
-      personalDetails: profileRequest.profileReq.personalDetails
+      // personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
     const reqUpdate = {
