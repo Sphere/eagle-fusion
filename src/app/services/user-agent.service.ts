@@ -106,12 +106,22 @@ export class UserAgentResolverService {
     return null
   }
   setSource(source: any) {
-    console.log("source set", source)
-    if (source) {
-      const utm_source = localStorage.setItem('utm_source', source)
+    console.log("source set", source, typeof source)
+    if (source && typeof source === 'object') {
+      const lowerCasedSource: any = {}
+
+      Object.keys(source).forEach(key => {
+        const lowerKey = key.toLowerCase()
+        const lowerValue = typeof source[key] === 'string'
+          ? source[key].toLowerCase()
+          : source[key]
+        lowerCasedSource[lowerKey] = lowerValue
+      })
+      const utm_source = localStorage.setItem('utm_source', JSON.stringify(lowerCasedSource))
       return utm_source
     }
   }
+
   getSource(): any {
     const utm_source = localStorage.getItem('utm_source')
     console.log("utm_source", utm_source)
