@@ -102,7 +102,7 @@
       <!-- <div> -->
       <ng-container *ngFor="let widget of courseData.slice(0,cardLimit)">
         <div class="card-standard-container mb-6 1 cursor-pointer">
-          <a (click)="gotoOverview(widget.identifier)" class="rounded-t" role="link" aria-label="Content"
+          <a (click)="gotoOverview(widget.identifier)" class="rounded-t py-2" role="link" aria-label="Content"
             #target="mdePopoverTrigger" i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1"
             mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
             [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-340"
@@ -115,8 +115,8 @@
               <span class="img-overlay"></span>
               <ng-container class="source-div mt-4">
               </ng-container>
-              <div class="course-name">
-                {{ widget.name }}
+              <div class="course-name" [title]="widget.name">
+                {{ widget.name.length > 40 ? widget.name.slice(0, 40) + '...' : widget.name }}
               </div>
             </div>
             <div>
@@ -138,14 +138,14 @@
               </div>
               <p *ngIf="widget.issueCertification" class="certified-text" i18n>Certified</p>
             </div>
-            <div class="border-block" *ngIf="cometencyData && cometencyData[0]">
+            <div class="border-block" *ngIf="competencyData && competencyData.length > 0">
               <hr class="border-content">
             </div>
-            <div class="competency-block" *ngIf="cometencyData && cometencyData[0]">
+            <div class="competency-block" *ngIf="competencyData && competencyData[0]">
               <img src="/fusion-assets/icons/ph_medal.svg">
               <div>
-                <span>{{cometencyData[0]?.name}}, </span>
-                <ng-container *ngFor="let competency of cometencyData; let last = last;">
+                <ng-container *ngFor="let competency of competencyData; let last = last;">
+                  <span *ngIf="competency.identifier==widget.identifier">{{competency.name}}, </span>
                   <span *ngIf="competency.identifier==widget.identifier">{{competency.levels}}</span>
                   <span *ngIf="!last && competency.identifier==widget.identifier"> </span>
                 </ng-container>

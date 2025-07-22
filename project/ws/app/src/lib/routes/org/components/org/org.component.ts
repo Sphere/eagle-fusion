@@ -6,11 +6,10 @@ import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MdePopoverTrigger } from '@material-extended/mde'
-import forEach from 'lodash/forEach'
-import get from 'lodash/get'
 import { HttpClient } from '@angular/common/http'
 import { forkJoin } from 'rxjs'
 import { WidgetUserService } from '@ws-widget/collection'
+import uniqBy from 'lodash/uniqBy'
 
 @Component({
   selector: 'ws-app-org',
@@ -29,7 +28,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   btnText = ''
   courseCount = 0
   cardLimit = 5
-  cometencyData: { identifier: string, name: any; levels: string }[] = []
+  competencyData: { identifier: string, name: any; levels: string }[] = []
   rating = 4
   starCount = 5
   stars: number[] = [1, 2, 3, 4, 5];
@@ -98,38 +97,34 @@ export class OrgComponent implements OnInit, OnDestroy {
                 console.log("this.currentOrgData.closedCoursesList present", this.currentOrgData.closedCoursesList)
                 if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)' && this.currentOrgData) {
                   forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((res: any) => {
-
                     console.log("res: ", res)
                     this.formatmyCourseResponse(res[0])
                   })
                 }
-                this.orgService.getSearchResultsById(this.currentOrgData.closedCoursesList).subscribe((result: any) => {
-                  this.courseData = result.result.content
-                  this.courseCount = this.courseData
-                  if (this.courseData) {
-                    this.courseData.forEach((course: any) => {
-                      if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
-                        forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-                          //console.log("value", value)
-                          if (value.level) {
-                            this.cometencyData.push(
-                              {
-                                identifier: course.identifier,
-                                name: value.competencyName,
-                                levels: ` Level ${value.level}`,
-                              }
-                            )
-                          }
-                          return this.cometencyData
-                        })
-                      }
-                    })
-                    // console.log("this.cometencyData", this.cometencyData)
+                // to combine both hardcoded courses with source name course
+                forkJoin([
+                  this.orgService.getSearchResultsV7ById(this.currentOrgData.closedCoursesList),
+                  this.orgService.getSearchV7Results(this.orgName)
+                ]).subscribe(([closedCoursesRes, taggedCoursesRes]: any[]) => {
+                  const closedCourses = closedCoursesRes.result.content || []
+                  const taggedCourses = (taggedCoursesRes.result.content || []).filter(
+                    (org: any) => org.sourceName === this.currentOrgData.sourceName
+                  )
 
+                  // Combine and filter by unique identifier
+                  const allCourses = [...closedCourses, ...taggedCourses]
+                  this.courseData = uniqBy(allCourses, 'identifier')
+
+                  this.courseCount = this.courseData
+
+                  console.log("this.courseData", this.courseData)
+
+                  if (this.courseData.length > 0) {
+                    this.competencyData = this.groupCompetenciesById(this.courseData)
                   }
                 })
               } else {
-                this.orgService.getSearchResults(this.orgName).subscribe((result: any) => {
+                this.orgService.getSearchV7Results(this.orgName).subscribe((result: any) => {
                   this.courseData = result.result.content.filter(
                     (org: any) => org.sourceName === this.orgName
                   )
@@ -137,24 +132,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                   this.courseCount = this.courseData
                   console.log("this.courseData", this.courseData)
                   if (this.courseData && this.courseData.length > 0) {
-                    this.courseData.forEach((course: any) => {
-                      if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
-                        forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-                          //console.log("value", value)
-                          if (value.level) {
-                            this.cometencyData.push(
-                              {
-                                identifier: course.identifier,
-                                name: value.competencyName,
-                                levels: ` Level ${value.level}`,
-                              }
-                            )
-                          }
-                          return this.cometencyData
-                        })
-                      }
-                    })
-                    // console.log("this.cometencyData", this.cometencyData)
+                    this.competencyData = this.groupCompetenciesById(this.courseData)
                   } else {
                     console.log("this.courseData", this.courseData)
 
@@ -166,23 +144,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                       console.log("this.courseData", this.courseData)
                       if (this.courseData && this.courseData.length > 0) {
                         console.log('l')
-                        this.courseData.forEach((course: any) => {
-                          if (course && course.competencies_v1 && course.competencies_v1.length > 0) {
-                            forEach(JSON.parse(get(course, 'competencies_v1')), (value: any) => {
-                              //console.log("value", value)
-                              if (value.level) {
-                                this.cometencyData.push(
-                                  {
-                                    identifier: course.identifier,
-                                    name: value.competencyName,
-                                    levels: ` Level ${value.level}`,
-                                  }
-                                )
-                              }
-                              return this.cometencyData
-                            })
-                          }
-                        })
+                        this.competencyData = this.groupCompetenciesById(this.courseData)
                       }
                     })
                   }
@@ -386,6 +348,41 @@ export class OrgComponent implements OnInit, OnDestroy {
       return 'star'
     }
     return 'star_border'
+
+  }
+  groupCompetenciesById(courseData: any[]): any[] {
+    const grouped: { [key: string]: any } = {}
+
+    courseData.forEach((course: any) => {
+      if (course?.competencies_v1) {
+        let competencies
+        try {
+          competencies = JSON.parse(course.competencies_v1)
+        } catch (err) {
+          competencies = []
+        }
+
+        competencies.forEach((comp: any) => {
+          if (comp?.competencyId && comp?.level) {
+            const key = `${course.identifier}_${comp.competencyId}`
+
+            if (!grouped[key]) {
+              grouped[key] = {
+                identifier: course.identifier,
+                competencyId: comp.competencyId,
+                name: comp.competencyName,
+                levels: []
+              }
+            }
+
+            grouped[key].levels.push(`Level ${comp.level}`)
+          }
+        })
+      }
+    })
+    let value = Object.values(grouped)
+    console.log("grouped", value)
+    return value
 
   }
 

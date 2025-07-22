@@ -64,8 +64,9 @@
   float: right;
 }
 
-.mat-dialog-container {
+::ng-deep .mat-dialog-container {
   padding-bottom: 0px;
+  overflow: hidden !important;
 }
 
 .no-padding {
