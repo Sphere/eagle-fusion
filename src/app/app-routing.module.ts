@@ -75,13 +75,13 @@ const routes: Routes = [
     path: '',
     redirectTo: 'public/home',
     pathMatch: 'full',
-    data: { title: 'Home - Aastrika Sphere' },
+    data: { title: 'Aastrika Sphere - Home' },
   },
   {
     path: 'public/home',
     component: PublicHomeComponent,
     data: {
-      title: domain.includes('ekshamata') ? 'Home - Ekshamata' : 'Home - Aastrika Sphere',
+      title: domain.includes('ekshamata') ? 'Ekshamata - Home' : 'Aastrika Sphere - Home',
       pageType: 'public',
       pageKey: 'id',
       isPublic: true,
@@ -111,10 +111,16 @@ const routes: Routes = [
   },
   {
     path: 'bnrc/register',
+    data: {
+      title: 'Aastrika Sphere - Bnrc Registration'
+    },
     component: BnrcRegisterComponent,
   },
   {
     path: 'upsmf/register',
+    data: {
+      title: 'Aastrika Sphere - UPSMF Registration'
+    },
     component: UpsmfRegisterComponent,
   },
   {
@@ -123,6 +129,9 @@ const routes: Routes = [
   },
   {
     path: 'app/create-account',
+    data: {
+      title: 'Aastrika Sphere - Create Account'
+    },
     component: CreateAccountComponent,
   },
   {
@@ -167,6 +176,9 @@ const routes: Routes = [
   },
   {
     path: 'public/login',
+    data: {
+      title: 'Aastrika Sphere - Login'
+    },
     component: PublicLoginComponent,
   },
   {
@@ -475,7 +487,7 @@ const routes: Routes = [
     path: 'public/about',
     component: PublicAboutComponent,
     data: {
-      title: 'About - Aastrika',
+      title: 'Aastrika Sphere - About',
       pageType: 'feature',
       pageKey: 'about',
       isPublic: true,
@@ -528,9 +540,12 @@ const routes: Routes = [
   {
     path: 'public/toc',
     component: PublicTocComponent,
+    data: {
+      title: 'Aastrika Sphere - Course TOC',
+    },
     children: [
       {
-        path: 'overview',
+        path: 'overview/:slug',  // <-- add slug here
         component: PublicTocOverviewComponent,
       },
     ],

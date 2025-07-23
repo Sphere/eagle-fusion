@@ -138,10 +138,10 @@
               </div>
               <p *ngIf="widget.issueCertification" class="certified-text" i18n>Certified</p>
             </div>
-            <div class="border-block" *ngIf="widget && widget.competencies_v1">
+            <div class="border-block" *ngIf="widget && widget.competencies_v1?.length>0">
               <hr class="border-content">
             </div>
-            <div class="competency-block" *ngIf="widget && widget.competencies_v1">
+            <div class="competency-block" *ngIf="widget && widget.competencies_v1?.length>0">
               <img src="/fusion-assets/icons/ph_medal.svg">
               <div>
                 <ng-container *ngFor="let competency of competencyData; let last = last;">

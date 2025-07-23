@@ -78,7 +78,9 @@ export class OrgComponent implements OnInit, OnDestroy {
 
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
 
-    this.http.get('https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json', { responseType: 'text' })
+    const url = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`
+
+    this.http.get(url, { responseType: 'text' })
       .subscribe(
         (results: any) => {
           try {

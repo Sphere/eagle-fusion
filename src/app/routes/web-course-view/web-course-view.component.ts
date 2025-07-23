@@ -95,17 +95,33 @@ export class WebCourseViewComponent implements OnInit {
   login(data: any) {
     const name = `${data.name} - Aastrika`
     this.titleService.setTitle(name)
-    this.router.navigate(['/public/toc/overview'], {
+
+    const slug = this.slugify(data.name)
+    const courseId = data.identifier
+
+    this.router.navigate(['/public/toc/overview', slug], {
       state: {
         tocData: data,
       },
       queryParams: {
-        courseId: data.identifier,
+        courseId,
       },
     })
+
     localStorage.setItem('tocData', JSON.stringify(data))
-    localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+    localStorage.setItem(`url_before_login`, `app/toc/${courseId}/overview`)
   }
+
+  // Helper function to slugify the course name
+  slugify(text: string): string {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
+      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
+  }
+
   redirectPage(course: any) {
     if (this.isLoggedIn) {
       console.log('yes here')

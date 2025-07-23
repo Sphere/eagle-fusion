@@ -4,6 +4,7 @@ import includes from 'lodash/includes'
 import find from 'lodash/find'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
+import { Meta, Title } from '@angular/platform-browser'
 
 @Component({
   selector: 'ws-public-toc',
@@ -20,10 +21,13 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private orgService: OrgServiceService,
     private activeRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
+    private meta: Meta, private title: Title
   ) {
 
   }
-  ngOnInit() {
+  async ngOnInit() {
+    console.log("tocData", this.tocData)
+
     this.activeRoute.queryParams.subscribe(params => {
       try {
 
@@ -77,7 +81,13 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     }
     // console.log(this.tocData, this.courseid)
     if (this.tocData === undefined) {
-      this.seachAPI(this.courseid)
+      await this.seachAPI(this.courseid)
+      console.log("this.toc", this.tocData)
+
+    } else {
+      this.title.setTitle('Aastrika Sphere - ' + this.tocData?.name)
+      this.meta.updateTag({ name: 'description', content: this.tocData?.description })
+      this.meta.updateTag({ name: 'keywords', content: this.tocData?.name })
     }
     this.checkRoute()
   }
@@ -107,6 +117,10 @@ export class PublicTocComponent implements OnInit, OnDestroy {
           , findRes => {
             if (findRes.identifier === id) {
               this.tocData = findRes
+              console.log('findRes', findRes)
+              this.title.setTitle('Aastrika Sphere - ' + this.tocData?.name)
+              this.meta.updateTag({ name: 'description', content: this.tocData?.description })
+              this.meta.updateTag({ name: 'keywords', content: this.tocData?.name })
               localStorage.setItem('tocData', JSON.stringify(this.tocData))
               localStorage.setItem(`url_before_login`, `app/toc/` + `${id}` + `/overview`)
             }

@@ -8,6 +8,7 @@ import { ConfigurationsService, ValueService } from '../../../library/ws-widget/
 
 import { Observable } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
+import { Meta, Title } from '@angular/platform-browser'
 
 @Component({
   selector: 'ws-public-login',
@@ -40,7 +41,8 @@ export class PublicLoginComponent implements OnInit {
     public dialog: MatDialog,
     public configSvc: ConfigurationsService,
     private readonly router: Router,
-    private readonly route: ActivatedRoute
+    private readonly route: ActivatedRoute,
+    private meta: Meta, private title: Title
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
@@ -76,7 +78,17 @@ export class PublicLoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.title.setTitle('Aastrika Sphere | Free Certified Courses for Healthcare Professionals')
 
+    this.meta.updateTag({
+      name: 'description',
+      content: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.'
+    })
+
+    this.meta.updateTag({
+      name: 'keywords',
+      content: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps'
+    })
     sessionStorage.clear()
     localStorage.removeItem('preferedLanguage')
     localStorage.removeItem('loginbtn')

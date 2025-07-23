@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://sphere.aastrika.org/sitemap.xml
