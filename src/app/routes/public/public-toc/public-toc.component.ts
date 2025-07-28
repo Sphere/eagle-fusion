@@ -118,9 +118,18 @@ export class PublicTocComponent implements OnInit, OnDestroy {
             if (findRes.identifier === id) {
               this.tocData = findRes
               console.log('findRes', findRes)
-              this.title.setTitle('Aastrika Sphere - ' + this.tocData?.name)
-              this.meta.updateTag({ name: 'description', content: this.tocData?.description })
-              this.meta.updateTag({ name: 'keywords', content: this.tocData?.name })
+              this.title.setTitle(`${this.tocData?.name} | Aastrika Sphere`)
+
+              this.meta.updateTag({
+                name: 'description',
+                content: `Begin your journey to mastering pregnancy, childbirth, AMTSL & newborn care. Get 7.5 CNE credits & INC certification after each module.`
+              })
+
+              this.meta.updateTag({
+                name: 'keywords',
+                content: `${this.tocData?.name}, AMTSL, childbirth, newborn care, maternal health, pregnancy, INC certificate, CNE credits, Aastrika Sphere`
+              })
+
               localStorage.setItem('tocData', JSON.stringify(this.tocData))
               localStorage.setItem(`url_before_login`, `app/toc/` + `${id}` + `/overview`)
             }
