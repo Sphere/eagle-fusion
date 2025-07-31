@@ -65,12 +65,9 @@ export class WebFeaturedCourseComponent implements OnInit {
     const slug = this.slugify(data.name)
     const courseId = data.identifier
 
-    this.router.navigate(['/public/toc/overview', slug], {
+    this.router.navigate(['/public/toc/overview', courseId, slug], {
       state: {
         tocData: data,
-      },
-      queryParams: {
-        courseId,
       },
     })
 

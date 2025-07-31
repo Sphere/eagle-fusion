@@ -203,12 +203,12 @@ export class CardContentComponent extends WidgetBaseComponent
   login(data: any) {
     const name = `${data.name} - Aastrika`
     this.titleService.setTitle(name)
-    this.router.navigate(['/public/toc/overview'], {
+    const slug = this.slugify(data.name)
+    const courseId = data.identifier
+
+    this.router.navigate(['/public/toc/overview', courseId, slug], {
       state: {
         tocData: data,
-      },
-      queryParams: {
-        courseId: data.identifier,
       },
     })
     localStorage.setItem('tocData', JSON.stringify(data))
@@ -221,6 +221,14 @@ export class CardContentComponent extends WidgetBaseComponent
     // // }
     // // this.authSvc.login(key, document.baseURI)
     // this.router.navigateByUrl('app/login')
+  }
+  slugify(text: string): string {
+    return text
+      .toLowerCase()
+      .trim()
+      .replace(/&/g, 'and')
+      .replace(/[^a-z0-9]+/g, '-')   // Replace spaces/symbols with hyphen
+      .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
   }
 
   loginRedirect(key: 'E' | 'N' | 'S', contentId: any) {

@@ -5,6 +5,7 @@ import find from 'lodash/find'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { Meta, Title } from '@angular/platform-browser'
+import { combineLatest } from 'rxjs'
 
 @Component({
   selector: 'ws-public-toc',
@@ -26,71 +27,75 @@ export class PublicTocComponent implements OnInit, OnDestroy {
 
   }
   async ngOnInit() {
-    console.log("tocData", this.tocData)
+    // Wait for child route if any
+    const childRoute = this.activeRoute.firstChild || this.activeRoute
 
-    this.activeRoute.queryParams.subscribe(params => {
+    // Subscribe to both params and queryParams
+    combineLatest([
+      childRoute.params,
+      childRoute.queryParams
+    ]).subscribe(async ([params, queryParams]) => {
+      const courseId = params['courseId'] || queryParams['courseId']
+      const slug = params['slug'] || params['courseId'] || ''
+
+      this.courseid = courseId
+      console.log('this.courseId', this.courseid)
+
       try {
-
-        (window as any).fbq('track', 'ViewContent', { "contentId": params['courseid'], "content_category": "Public TOC" })
-      }
-      catch (e) {
+        (window as any).fbq('track', 'ViewContent', {
+          contentId: this.courseid,
+          content_category: 'Public TOC'
+        })
+      } catch (e) {
         console.log("fb pixel error")
       }
-      // console.log(params)
-      this.courseid = params['courseid'] !== undefined ? params['courseid'] : params['courseId']
+
+      // User UUID flow
       if (localStorage.getItem('userUUID')) {
         this.isLoading = true
-        let id = localStorage.getItem('userUUID') || ''
-        this.userProfileSvc.getUserdetailsFromRegistry(id).subscribe((data: any) => {
-          console.log(data)
-          if (data) {
-            let lang = (data.unMappedUser && data.unMappedUser!.profileDetails && data.unMappedUser!.profileDetails!.preferences && data.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? data.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-            let url1 = lang === 'hi' ? 'hi' : ""
-            let url3 = `${document.baseURI}`
-            if (url3.includes('hi')) {
-              url3 = url3.replace(/hi\//g, '')
+        const id = localStorage.getItem('userUUID') || ''
+
+        this.userProfileSvc.getUserdetailsFromRegistry(id).subscribe(
+          async (data: any) => {
+            const lang = data?.unMappedUser?.profileDetails?.preferences?.language
+              ?? (location.href.includes('/hi/') ? 'hi' : 'en')
+
+            let baseUrl = `${document.baseURI}`
+            if (baseUrl.includes('/hi/')) {
+              baseUrl = baseUrl.replace(/hi\//g, '')
             }
-            let url = `/app/toc/${this.courseid}/overview`
-            location.href = `${url3}${url1}${url}`
+
+            const langPrefix = lang === 'hi' ? 'hi/' : ''
+            const redirectUrl = `${baseUrl}${langPrefix}public/toc/overview/${this.courseid}/${slug}`
+
+            location.href = redirectUrl
+            this.isLoading = false
+          },
+          err => {
+            console.error(err)
             this.isLoading = false
           }
-        }, (err: any) => {
-          console.log(err)
-          this.isLoading = false
-          if (err.status === '404' || err.status === '419') {
-            console.log(err.status, '50')
-          }
-        })
+        )
       }
 
-    })
-    // const navigation = this.router.getCurrentNavigation()
-    // if (navigation) {
-    //   const extraData = navigation.extras.state as {
-    //     tocData: any
-    //   }
-    //   console.log(extraData.tocData)
-    //   if (extraData) {
-    //     this.tocData = extraData.tocData
-    //   }
-    // }
-    if (localStorage.getItem('tocData')) {
-      localStorage.removeItem('tocData')
-      // const data: any = localStorage.getItem('tocData')
-      // this.tocData = JSON.parse(data)
-    }
-    // console.log(this.tocData, this.courseid)
-    if (this.tocData === undefined) {
-      await this.seachAPI(this.courseid)
-      console.log("this.toc", this.tocData)
+      // Load TOC
+      if (localStorage.getItem('tocData')) {
+        localStorage.removeItem('tocData')
+      }
 
-    } else {
-      this.title.setTitle('Aastrika Sphere - ' + this.tocData?.name)
-      this.meta.updateTag({ name: 'description', content: this.tocData?.description })
-      this.meta.updateTag({ name: 'keywords', content: this.tocData?.name })
-    }
-    this.checkRoute()
+      if (!this.tocData) {
+        await this.seachAPI(this.courseid)
+        this.title.setTitle('Aastrika Sphere - ' + this.tocData?.name)
+        this.meta.updateTag({ name: 'description', content: this.tocData?.description })
+        this.meta.updateTag({ name: 'keywords', content: this.tocData?.name })
+      }
+
+      this.checkRoute()
+    })
   }
+
+
+
   checkRoute() {
     if (includes(this.router.url, 'overview')) {
       this.toggleComponent('overview')

@@ -545,10 +545,18 @@ const routes: Routes = [
     },
     children: [
       {
-        path: 'overview/:slug',  // <-- add slug here
+        path: 'overview/:courseId/:slug',
         component: PublicTocOverviewComponent,
       },
-    ],
+      {
+        path: 'overview/:slug',
+        component: PublicTocOverviewComponent, // fallback when courseId is query param
+      },
+      {
+        path: 'overview',
+        component: PublicTocOverviewComponent, // fallback for query param only
+      }
+    ]
   },
   {
     path: 'public/faq/:tab',
