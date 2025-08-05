@@ -1,4 +1,5 @@
-FROM node:16.16.0
+# Use Node 16, compatible with Angular 12
+FROM node:18.20.8
 
 # Set the working directory in the container
 WORKDIR /app
@@ -7,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Install Angular CLI globally with a specific version
-RUN npm install -g @angular/cli@11.2.19
+RUN npm install -g @angular/cli@12.2.18
 
 # Install project dependencies (using yarn instead of npm to keep the build consistent)
 RUN yarn install
@@ -15,11 +16,14 @@ RUN yarn install
 # Install specific packages (moment and vis-util)
 RUN yarn add moment vis-util
 
+# Ensure @angular/localize is installed for i18n support
+RUN yarn add @angular/localize
+
 # Build the project for production
-RUN ng build --prod --stats-json --output-path=dist/www/en --base-href=/ --i18n-locale=en --verbose=true
+RUN ng build --configuration production --output-path=dist/www/en --base-href=/ --localize
 
 # Build for Hindi locale
-RUN ng build --prod --i18n-locale=hi --i18n-format=xlf --i18n-file=locale/messages.hi.xlf --output-path=dist/www/hi --base-href=/hi/
+RUN ng build --configuration production --output-path=dist/www/hi --base-href=/hi/ --localize
 
 # Run the compression script (make sure it exists in your package.json)
 RUN npm run compress:brotli

@@ -160,6 +160,7 @@
         }
       },
       "i18n": {
+        "sourceLocale": "en",
         "locales": {
           "hi": {
             "translation": "locale/messages.hi.xlf",
