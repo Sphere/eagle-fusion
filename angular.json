@@ -67,7 +67,14 @@
               "src/fusion-assets/telemetry.min.js",
               "node_modules/shepherd.js/dist/js/shepherd.min.js",
               "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
-            ]
+            ],
+            "aot": false,
+            "vendorChunk": true,
+            "extractLicenses": false,
+            "buildOptimizer": false,
+            "sourceMap": true,
+            "optimization": false,
+            "namedChunks": true
           },
           "configurations": {
             "production": {
@@ -82,7 +89,6 @@
               "sourceMap": false,
               "namedChunks": false,
               "aot": true,
-              "extractLicenses": false,
               "vendorChunk": false,
               "buildOptimizer": true,
               "budgets": [
@@ -96,12 +102,13 @@
             },
             "hi": {
               "aot": true,
-              "i18nFile": "locale/messages.hi.xlf",
-              "i18nFormat": "xlf",
-              "i18nLocale": "hi",
-              "i18nMissingTranslation": "warning"
+              "i18nMissingTranslation": "warning",
+              "localize": [
+                "hi"
+              ]
             }
-          }
+          },
+          "defaultConfiguration": ""
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -149,6 +156,14 @@
             "production": {
               "devServerTarget": "fusion:serve:production"
             }
+          }
+        }
+      },
+      "i18n": {
+        "locales": {
+          "hi": {
+            "translation": "locale/messages.hi.xlf",
+            "baseHref": ""
           }
         }
       }
@@ -272,36 +287,6 @@
           "options": {
             "tsConfig": "project/ws/author/tsconfig.lib.json",
             "project": "project/ws/author/ng-package.json"
-          }
-        }
-      }
-    },
-    "@ws/admin": {
-      "projectType": "library",
-      "root": "project/ws/admin",
-      "sourceRoot": "project/ws/admin/src",
-      "prefix": "ws-admin",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "project/ws/admin/tsconfig.lib.json",
-            "project": "project/ws/admin/ng-package.json"
-          }
-        }
-      }
-    },
-    "@ws/analytics": {
-      "projectType": "library",
-      "root": "project/ws/analytics",
-      "sourceRoot": "project/ws/analytics/src",
-      "prefix": "ws-analytics",
-      "architect": {
-        "build": {
-          "builder": "@angular-devkit/build-ng-packagr:build",
-          "options": {
-            "tsConfig": "project/ws/analytics/tsconfig.lib.json",
-            "project": "project/ws/analytics/ng-package.json"
           }
         }
       }
