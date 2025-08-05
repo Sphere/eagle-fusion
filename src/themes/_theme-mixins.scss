@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @mixin color-background-opacity($color, $opacity: 0.3) {
   background: rgba($color, $opacity);
 }
@@ -10,21 +11,21 @@
   $foreground: map-get($theme, foreground);
   $is-dark: map-get($theme, is-dark);
 
-  $colorPrimaryDark: mat-color($primary, darker);
-  $colorPrimaryLight: mat-color($primary, lighter);
-  $colorPrimary: mat-color($primary, default);
+  $colorPrimaryDark: mat.get-color-from-palette($primary, darker);
+  $colorPrimaryLight: mat.get-color-from-palette($primary, lighter);
+  $colorPrimary: mat.get-color-from-palette($primary, default);
 
-  $colorAccentDark: mat-color($accent, darker);
-  $colorAccentLight: mat-color($accent, lighter);
-  $colorAccent: mat-color($accent, default);
+  $colorAccentDark: mat.get-color-from-palette($accent, darker);
+  $colorAccentLight: mat.get-color-from-palette($accent, lighter);
+  $colorAccent: mat.get-color-from-palette($accent, default);
 
-  $colorWarnDark: mat-color($warn, darker);
-  $colorWarnLight: mat-color($warn, lighter);
-  $colorWarn: mat-color($warn, default);
+  $colorWarnDark: mat.get-color-from-palette($warn, darker);
+  $colorWarnLight: mat.get-color-from-palette($warn, lighter);
+  $colorWarn: mat.get-color-from-palette($warn, default);
 
-  $colorBackground: mat-color($background, background);
+  $colorBackground: mat.get-color-from-palette($background, background);
   $colorText: #424242;
-  $iconColor: mat-color($foreground, icon);
+  $iconColor: mat.get-color-from-palette($foreground, icon);
   $colorGreen: #5fa800;
   $colorRed: #ff0000;
   $footerColor: #f7f7f7;
@@ -33,7 +34,7 @@
   $dark-text: #424242;
   $linkActiveColor: #929292;
 
-  outline-color: mat-color($accent, lighter);
+  outline-color: mat.get-color-from-palette($accent, lighter);
 
   .icon-svg {
     fill: $iconColor;
@@ -299,11 +300,11 @@
 
   .auth-tree-node {
     &:hover {
-      background: rgba(mat-color($primary, default), 0.1);
+      background: rgba(mat.get-color-from-palette($primary, default), 0.1);
     }
 
     &.selected {
-      background: rgba(mat-color($accent, default), 0.3);
+      background: rgba(mat.get-color-from-palette($accent, default), 0.3);
     }
   }
 
@@ -316,27 +317,27 @@
   }
 
   .ws-mat-primary-background-op10 {
-    background: rgba(mat-color($primary, default), 0.1);
+    background: rgba(mat.get-color-from-palette($primary, default), 0.1);
   }
 
   .ws-mat-primary-background-op30 {
-    background: rgba(mat-color($primary, default), 0.3);
+    background: rgba(mat.get-color-from-palette($primary, default), 0.3);
   }
 
   .ws-mat-primary-background-op50 {
-    background: rgba(mat-color($primary, default), 0.5);
+    background: rgba(mat.get-color-from-palette($primary, default), 0.5);
   }
 
   .ws-mat-primary-background-op20 {
-    background: rgba(mat-color($primary, default), 0.2);
+    background: rgba(mat.get-color-from-palette($primary, default), 0.2);
   }
 
   .ws-mat-primary-background-op30-hover:hover {
-    background: rgba(mat-color($primary, default), 0.3);
+    background: rgba(mat.get-color-from-palette($primary, default), 0.3);
   }
 
   .ws-mat-primary-background-op100 {
-    background: rgba(mat-color($primary, default), 1);
+    background: rgba(mat.get-color-from-palette($primary, default), 1);
   }
 
   .ws-mat-accent-background {
@@ -424,8 +425,8 @@
     margin-top: 24%;
     background: linear-gradient(
       to bottom,
-      rgba(mat-color($background, card), 0),
-      mat-color($background, card) 100%
+      rgba(mat.get-color-from-palette($background, card), 0),
+      mat.get-color-from-palette($background, card) 100%
     );
   }
 

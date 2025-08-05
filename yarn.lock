@@ -194,12 +194,12 @@
   dependencies:
     tslib "^2.2.0"
 
-"@angular/cdk@~11.2.13":
-  version "11.2.13"
-  resolved "https://registry.npmjs.org/@angular/cdk/-/cdk-11.2.13.tgz#d54c9187e3b8cf3f8ba190b1edddc08ed2b740de"
-  integrity sha512-FkE4iCwoLbQxLDUOjV1I7M/6hmpyb7erAjEdWgch7nGRNxF1hqX5Bqf1lvLFKPNCbx5NRI5K7YVAdIUQUR8vug==
+"@angular/cdk@~12.2.13":
+  version "12.2.13"
+  resolved "https://registry.yarnpkg.com/@angular/cdk/-/cdk-12.2.13.tgz#1fdbe814adfd6b4ff906c6d9c4c6df07b83f09d8"
+  integrity sha512-zSKRhECyFqhingIeyRInIyTvYErt4gWo+x5DQr0b7YLUbU8DZSwWnG4w76Ke2s4U8T7ry1jpJBHoX/e8YBpGMg==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.2.0"
   optionalDependencies:
     parse5 "^5.0.0"
 
@@ -281,7 +281,7 @@
   resolved "https://registry.yarnpkg.com/@angular/language-service/-/language-service-12.2.17.tgz#6b19c34b10c2ad376c3374d90ae6dfe87591782e"
   integrity sha512-mloPdK9iWLR3KQDE85e2k2iuIDsEr9gyFla3QI7UOVbzrsazRADxQxc5WHeDPxNbzTMjCYrcw8Jyc7WHssAPGw==
 
-"@angular/localize@^12.2.17":
+"@angular/localize@12.2.17":
   version "12.2.17"
   resolved "https://registry.yarnpkg.com/@angular/localize/-/localize-12.2.17.tgz#644d859cf39777362aa4d6470496eaad5993b4b1"
   integrity sha512-F87zH7TRLpjSlVUA2sAMkDHkF0ikcDVXciMlwlahcjX+ShL1q+iwddT0A4MOPyYTpXqfKAXniIvEK+C0OFdoAA==
@@ -290,12 +290,12 @@
     glob "7.1.7"
     yargs "^17.0.0"
 
-"@angular/material@~11.2.13":
-  version "11.2.13"
-  resolved "https://registry.npmjs.org/@angular/material/-/material-11.2.13.tgz#99960316d3ce58aac7497d7bb8b0c05468f502b9"
-  integrity sha512-FqFdGSkOtqsmeLyTSousodDGUy2NqbtxCIKv2rwbsIRwHNKB0KpR/UQhA2gMRuGa5hxhMJ0DW0Tf9neMRuLCTg==
+"@angular/material@~12.2.13":
+  version "12.2.13"
+  resolved "https://registry.yarnpkg.com/@angular/material/-/material-12.2.13.tgz#7f92f95002a2abaa8bb115ca8f0809bdc3f7d3fc"
+  integrity sha512-6g2GyN4qp2D+DqY2AwrQuPB3cd9gybvQVXvNRbTPXEulHr+LgGei00ySdFHFp6RvdGSMZ4i3LM1Fq3VkFxhCfQ==
   dependencies:
-    tslib "^2.0.0"
+    tslib "^2.2.0"
 
 "@angular/platform-browser-dynamic@~12.2.17":
   version "12.2.17"
@@ -2410,12 +2410,10 @@
     merge-source-map "^1.1.0"
     schema-utils "^2.7.0"
 
-"@material-extended/mde@^2.3.1":
-  version "2.3.1"
-  resolved "https://registry.yarnpkg.com/@material-extended/mde/-/mde-2.3.1.tgz#891717942c48da1a4f3bde1fe96bd4319c8144c5"
-  integrity sha512-UFbeOcfgpDxn3TRIVOMLOfXuIZOfu2cwnxFj0SSCY+s+2PPt7Oz/B7Ru2iZvekLbw6YXkRlx24O0h7Fm6gUwoQ==
-  dependencies:
-    tslib "^1.9.0"
+"@material-extended/mde@3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@material-extended/mde/-/mde-3.0.0.tgz#c17bca40319814e2db49174f4ffe8733a6ec839c"
+  integrity sha512-13uD9qIxXsNWOzHGcC4nCHOrnoVQfyMga8neC6aiwvRb/RA9sAsdaWAN1p+4vFeBZ9nFKQHNSRz3TeV+Ee1QVQ==
 
 "@ngtools/webpack@12.2.18":
   version "12.2.18"
@@ -2906,10 +2904,10 @@
   resolved "https://registry.yarnpkg.com/@types/json-schema/-/json-schema-7.0.5.tgz#dcce4430e64b443ba8945f0290fb564ad5bac6dd"
   integrity sha512-7+2BITlgjgDhH0vvwZU/HZJVyk+2XUlvxXe8dFMedNX/aMkaOq++rMAFXc0tM7ij15QaWlbdQASBR9dihi+bDQ==
 
-"@types/lodash@^4.14.170":
-  version "4.17.20"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.17.20.tgz#1ca77361d7363432d29f5e55950d9ec1e1c6ea93"
-  integrity sha512-H3MHACvFUEiujabxhaI/ImO6gUrd8oOurg7LQtS7mbwIXA/cUqWrvBsaeJ23aZEPk1TAYkurjfMbSELfoCXlGA==
+"@types/lodash@4.14.164":
+  version "4.14.164"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.164.tgz#52348bcf909ac7b4c1bcbeda5c23135176e5dfa0"
+  integrity sha512-fXCEmONnrtbYUc5014avwBeMdhHHO8YJCkOBflUL9EoJBSKZ1dei+VO74fA7JkTHZ1GvZack2TyIw5U+1lT8jg==
 
 "@types/minimatch@*":
   version "3.0.3"
@@ -7580,7 +7578,7 @@ gzipper@^2.8.1:
 hammerjs@^2.0.8:
   version "2.0.8"
   resolved "https://registry.yarnpkg.com/hammerjs/-/hammerjs-2.0.8.tgz#04ef77862cff2bb79d30f7692095930222bf60f1"
-  integrity sha1-BO93hiz/K7edMPdpIJWTAiK/YPE=
+  integrity sha512-tSQXBXS/MWQOn/RKckawJ61vvsDpCom87JgxiYdGwHdOa0ht0vzUWDlfioofFCRU0L+6NGDt6XzbgoJvZkMeRQ==
 
 handle-thing@^2.0.0:
   version "2.0.1"

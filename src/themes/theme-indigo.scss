@@ -1,4 +1,4 @@
-@import '~@angular/material/theming';
+@use '~@angular/material' as mat;
 @import './theme-mixins';
 
 // Plus imports for other components in your app.
@@ -7,17 +7,17 @@
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$theme-primary: mat-palette($mat-indigo, 500, 50);
-$theme-accent: mat-palette($mat-blue-grey);
+$theme-primary: mat.define-palette(mat.$indigo-palette, 500, 50);
+$theme-accent: mat.define-palette(mat.$blue-grey-palette);
 
 // The warn palette is optional (defaults to red).
-$theme-warn: mat-palette($mat-red);
-$background-color: mat-palette($mat-red);
-$theme-background: mat-palette($mat-red);
+$theme-warn: mat.define-palette(mat.$red-palette);
+$background-color: mat.define-palette(mat.$red-palette);
+$theme-background: mat.define-palette(mat.$red-palette);
 
 .theme-indigo {
   &.day-mode {
-    $theme: mat-light-theme($theme-primary, $theme-accent, $theme-warn);
+    $theme: mat.define-light-theme($theme-primary, $theme-accent, $theme-warn);
 
      // $custom-background-color: map_get($mat-blue-grey, 50);
 
@@ -27,14 +27,14 @@ $theme-background: mat-palette($mat-red);
     // $background: map-get($theme, background);
     // $background: map_merge($background, (background: $custom-background-color));
     // $theme: map_merge($theme, (background: $background));
-    @include angular-material-theme($theme);
+    @include mat.all-component-themes($theme);
     @include theme-based-configurations($theme);
     // $background: $background-color;
   }
 
   &.night-mode {
-    $theme: mat-dark-theme($theme-primary, $theme-accent, $theme-warn);
-    @include angular-material-theme($theme);
+    $theme: mat.define-dark-theme($theme-primary, $theme-accent, $theme-warn);
+    @include mat.all-component-themes($theme);
     @include theme-based-configurations($theme);
   }
 }
