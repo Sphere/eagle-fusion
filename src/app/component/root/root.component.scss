@@ -45,11 +45,11 @@ padding: 10px 0px !important;
 }
 
 .height-adjust {
-  min-height: calc(100vh - (56px + 235px));
+  min-height: calc(100% - (56px + 235px));
 
   @include breakpoint-xs {
     // height: 650px;
-    min-height: calc(100vh - (56px + 72px));
+    min-height: calc(100% - (56px + 72px));
 
     // min-height: 650px !important;
   }
