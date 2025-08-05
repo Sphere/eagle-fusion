@@ -20,7 +20,7 @@ RUN yarn add moment vis-util
 RUN yarn add @angular/localize
 
 # Build the project for production
-RUN ng build --configuration production --output-path=dist/www/en --base-href=/ --localize
+RUN ng build --configuration production --stats-json --output-path=dist/www/en --base-href=/ --localize
 
 # Build for Hindi locale
 RUN ng build --configuration production --output-path=dist/www/hi --base-href=/hi/ --localize
