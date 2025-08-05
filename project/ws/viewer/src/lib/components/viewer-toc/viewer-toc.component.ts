@@ -1,10 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
-import {
-  NgModule,
-  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
-} from '@angular/core'
+import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
-import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -57,12 +53,6 @@ interface ICollectionCard {
   duration: number
   redirectUrl: string | null
 }
-@NgModule({
-  imports: [
-    MatTooltipModule,
-
-  ],
-})
 @Component({
   selector: 'viewer-viewer-toc',
   templateUrl: './viewer-toc.component.html',
@@ -462,7 +452,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
       this.isFetching = false
       return viewerTocCardContent
-    } catch (err) {
+    } catch (err: any) {
       switch (err.status) {
         case 403: {
           this.errorWidgetData.widgetData.errorType = 'accessForbidden'
@@ -1215,11 +1205,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       // this.isLoading = false
     }
   }
-
-  // minimizenav() {
-  //   this.hidenav.emit(false)
-  //   this.hideSideNav = !this.hideSideNav
-  // }
 
   public progressColor(): string {
     return '#1D8923'

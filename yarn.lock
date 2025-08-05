@@ -10896,9 +10896,9 @@ ngx-image-cropper@^3.3.5:
   dependencies:
     tslib "^1.9.0"
 
-ngx-indexed-db@^9.4.2:
+ngx-indexed-db@9.4.2:
   version "9.4.2"
-  resolved "https://registry.npmjs.org/ngx-indexed-db/-/ngx-indexed-db-9.4.2.tgz#9af4e44ec3bb02e3bdb49e2fb0021f85bbb613ce"
+  resolved "https://registry.yarnpkg.com/ngx-indexed-db/-/ngx-indexed-db-9.4.2.tgz#9af4e44ec3bb02e3bdb49e2fb0021f85bbb613ce"
   integrity sha512-1lr+lw3Cf8HVfuYU2md1nRl4H6kaYHrRN7OGAo8BB/wfdyJ7i7J1FtLKPPzGgx4KyRmMtcOYPTy+FqW1lxXBIg==
   dependencies:
     tslib "^2.0.0"

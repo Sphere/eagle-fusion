@@ -1,5 +1,5 @@
 # Use Node 16, compatible with Angular 12
-FROM node:18.20.8
+FROM node:16.16.0
 
 # Set the working directory in the container
 WORKDIR /app
@@ -10,14 +10,14 @@ COPY . .
 # Install Angular CLI globally with a specific version
 RUN npm install -g @angular/cli@12.2.18
 
+# Ensure @angular/localize is installed for i18n support
+RUN yarn add @angular/localize@12.2.17
+
 # Install project dependencies (using yarn instead of npm to keep the build consistent)
 RUN yarn install
 
 # Install specific packages (moment and vis-util)
 RUN yarn add moment vis-util
-
-# Ensure @angular/localize is installed for i18n support
-RUN yarn add @angular/localize
 
 # Build the project for production
 RUN ng build --configuration production --stats-json --output-path=dist/www/en --base-href=/ --localize
