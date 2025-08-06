@@ -9,16 +9,15 @@ import { MatDividerModule } from '@angular/material/divider'
 import { UserImageModule } from '../../../_common/user-image/user-image.module'
 
 @NgModule({
-  declarations: [DialogSocialActivityUserComponent],
-  imports: [
-    CommonModule,
-    MatTabsModule,
-    MatDividerModule,
-    MatIconModule,
-    MatDialogModule,
-    MatProgressSpinnerModule,
-    UserImageModule,
-  ],
-  entryComponents: [DialogSocialActivityUserComponent],
+    declarations: [DialogSocialActivityUserComponent],
+    imports: [
+        CommonModule,
+        MatTabsModule,
+        MatDividerModule,
+        MatIconModule,
+        MatDialogModule,
+        MatProgressSpinnerModule,
+        UserImageModule,
+    ]
 })
 export class DialogSocialActivityUserModule { }

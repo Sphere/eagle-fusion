@@ -4,10 +4,9 @@ import { CommonModule } from '@angular/common'
 import { ImageMapResponsiveComponent } from './image-map-responsive.component'
 
 @NgModule({
-  declarations: [ImageMapResponsiveComponent],
-  imports: [
-    CommonModule,
-  ],
-  entryComponents: [ImageMapResponsiveComponent],
+    declarations: [ImageMapResponsiveComponent],
+    imports: [
+        CommonModule,
+    ]
 })
 export class ImageMapResponsiveModule { }

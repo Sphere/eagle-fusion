@@ -6,14 +6,13 @@ import { MatIconModule } from '@angular/material/icon'
 import { BtnPageBackComponent } from './btn-page-back.component'
 
 @NgModule({
-  declarations: [BtnPageBackComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatButtonModule,
-    MatIconModule,
-  ],
-  exports: [BtnPageBackComponent],
-  entryComponents: [BtnPageBackComponent],
+    declarations: [BtnPageBackComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatButtonModule,
+        MatIconModule,
+    ],
+    exports: [BtnPageBackComponent]
 })
 export class BtnPageBackModule { }

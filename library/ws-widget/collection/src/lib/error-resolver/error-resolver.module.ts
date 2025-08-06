@@ -15,18 +15,17 @@ import { ErrorSomethingWrongComponent } from './components/error-something-wrong
 import { MatButtonModule } from '@angular/material/button'
 
 @NgModule({
-  declarations: [
-    ErrorResolverComponent,
-    ErrorAccessForbiddenComponent,
-    ErrorContentUnavailableComponent,
-    ErrorFeatureDisabledComponent,
-    ErrorFeatureUnavailableComponent,
-    ErrorInternalServerComponent,
-    ErrorNotFoundComponent,
-    ErrorServiceUnavailableComponent,
-    ErrorSomethingWrongComponent,
-  ],
-  imports: [CommonModule, MatButtonModule, RouterModule],
-  entryComponents: [ErrorResolverComponent],
+    declarations: [
+        ErrorResolverComponent,
+        ErrorAccessForbiddenComponent,
+        ErrorContentUnavailableComponent,
+        ErrorFeatureDisabledComponent,
+        ErrorFeatureUnavailableComponent,
+        ErrorInternalServerComponent,
+        ErrorNotFoundComponent,
+        ErrorServiceUnavailableComponent,
+        ErrorSomethingWrongComponent,
+    ],
+    imports: [CommonModule, MatButtonModule, RouterModule]
 })
 export class ErrorResolverModule { }

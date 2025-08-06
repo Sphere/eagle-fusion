@@ -15,21 +15,20 @@ import { BtnPageBackModule } from '../../lib/btn-page-back/btn-page-back.module'
 import { ReleaseNotesComponent } from './release-notes.component'
 
 @NgModule({
-  declarations: [ReleaseNotesComponent],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatListModule,
-    MatSidenavModule,
-    MatToolbarModule,
-    MatTooltipModule,
-    MatChipsModule,
-    MatCardModule,
-    MatProgressSpinnerModule,
-    MatExpansionModule,
-    BtnPageBackModule,
-  ],
-  entryComponents: [ReleaseNotesComponent],
+    declarations: [ReleaseNotesComponent],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatIconModule,
+        MatListModule,
+        MatSidenavModule,
+        MatToolbarModule,
+        MatTooltipModule,
+        MatChipsModule,
+        MatCardModule,
+        MatProgressSpinnerModule,
+        MatExpansionModule,
+        BtnPageBackModule,
+    ]
 })
 export class ReleaseNotesModule { }

@@ -8,14 +8,13 @@ import { SlidersMobComponent } from './sliders-mob.component'
 
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
-  declarations: [SlidersMobComponent],
-  imports: [CommonModule, RouterModule, NavigationModule, ImageResponsiveModule],
-  entryComponents: [SlidersMobComponent],
-  providers: [
-    {
-      provide: HAMMER_GESTURE_CONFIG,
-      useClass: MyHammerConfig,
-    },
-  ],
+    declarations: [SlidersMobComponent],
+    imports: [CommonModule, RouterModule, NavigationModule, ImageResponsiveModule],
+    providers: [
+        {
+            provide: HAMMER_GESTURE_CONFIG,
+            useClass: MyHammerConfig,
+        },
+    ]
 })
 export class SlidersMobModule {}

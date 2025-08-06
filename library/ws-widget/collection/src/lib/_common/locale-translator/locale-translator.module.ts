@@ -3,10 +3,10 @@ import { CommonModule } from '@angular/common'
 import { LocaleTranslatorComponent } from './locale-translator.component'
 
 @NgModule({
-  declarations: [LocaleTranslatorComponent],
-  imports: [
-    CommonModule,
-  ], entryComponents: [LocaleTranslatorComponent],
-  exports: [LocaleTranslatorComponent],
+    declarations: [LocaleTranslatorComponent],
+    imports: [
+        CommonModule,
+    ],
+    exports: [LocaleTranslatorComponent]
 })
 export class LocaleTranslatorModule { }

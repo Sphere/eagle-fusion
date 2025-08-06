@@ -18,30 +18,27 @@ import { ViewSubmissionComponent } from './components/view-submission/view-submi
 import { PlayerPdfModule, PlayerVideoModule } from '../../../../../../../library/ws-widget/collection/src/public-api'
 
 @NgModule({
-  declarations: [ResourceCollectionComponent, ViewSubmissionComponent],
-  imports: [
-    CommonModule,
-    MatTableModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatCardModule,
-    MatPaginatorModule,
-    MatTabsModule,
-    MatFormFieldModule,
-    MatInputModule,
-    FormsModule,
-    MatIconModule,
-    MatToolbarModule,
-    ReactiveFormsModule,
-    MatProgressSpinnerModule,
-    PlayerPdfModule,
-    PlayerVideoModule,
-  ],
-  entryComponents: [
-    ViewSubmissionComponent,
-  ],
-  exports: [
-    ResourceCollectionComponent,
-  ],
+    declarations: [ResourceCollectionComponent, ViewSubmissionComponent],
+    imports: [
+        CommonModule,
+        MatTableModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatCardModule,
+        MatPaginatorModule,
+        MatTabsModule,
+        MatFormFieldModule,
+        MatInputModule,
+        FormsModule,
+        MatIconModule,
+        MatToolbarModule,
+        ReactiveFormsModule,
+        MatProgressSpinnerModule,
+        PlayerPdfModule,
+        PlayerVideoModule,
+    ],
+    exports: [
+        ResourceCollectionComponent,
+    ]
 })
 export class ResourceCollectionModule { }

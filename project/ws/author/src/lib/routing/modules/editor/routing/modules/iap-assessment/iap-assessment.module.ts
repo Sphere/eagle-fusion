@@ -17,18 +17,17 @@ import { ViewQuestionDialogComponent } from './components/view-question-dialog/v
 import { IapAssessmentRoutingModule } from './iap-assessment.routing.module'
 
 @NgModule({
-  declarations: [IapAssessmentComponent, SectionDialogComponent, ViewQuestionDialogComponent, GeneralDetailsComponent],
-  imports: [
-    CommonModule,
-    SharedModule,
-    EditorSharedModule,
-    IapAssessmentRoutingModule,
-    AuthViewerModule,
-    MatPaginatorModule,
-    MatTableModule,
-  ],
-  exports: [GeneralDetailsComponent],
-  providers: [EditorContentService, EditorService, PlainCKEditorComponent, IapAssessmentService],
-  entryComponents: [IapAssessmentComponent, SectionDialogComponent, ViewQuestionDialogComponent, ConfirmDialogComponent],
+    declarations: [IapAssessmentComponent, SectionDialogComponent, ViewQuestionDialogComponent, GeneralDetailsComponent],
+    imports: [
+        CommonModule,
+        SharedModule,
+        EditorSharedModule,
+        IapAssessmentRoutingModule,
+        AuthViewerModule,
+        MatPaginatorModule,
+        MatTableModule,
+    ],
+    exports: [GeneralDetailsComponent],
+    providers: [EditorContentService, EditorService, PlainCKEditorComponent, IapAssessmentService]
 })
 export class IapAssessmentModule { }

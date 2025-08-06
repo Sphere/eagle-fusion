@@ -5,9 +5,8 @@ import { LayoutModule } from '@angular/cdk/layout'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 
 @NgModule({
-  declarations: [SelectorResponsiveComponent],
-  imports: [CommonModule, LayoutModule, WidgetResolverModule],
-  exports: [SelectorResponsiveComponent],
-  entryComponents: [SelectorResponsiveComponent],
+    declarations: [SelectorResponsiveComponent],
+    imports: [CommonModule, LayoutModule, WidgetResolverModule],
+    exports: [SelectorResponsiveComponent]
 })
 export class SelectorResponsiveModule {}

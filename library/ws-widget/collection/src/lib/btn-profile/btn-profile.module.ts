@@ -16,21 +16,20 @@ import { AvatarPhotoModule } from '../_common/avatar-photo/avatar-photo.module'
 // import { TreeCatalogModule } from '../tree-catalog/tree-catalog.module'
 
 @NgModule({
-  declarations: [BtnProfileComponent],
-  imports: [
-    CommonModule,
-    LogoutModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatIconModule,
-    MatMenuModule,
-    MatTooltipModule,
-    MatSlideToggleModule,
-    RouterModule,
-    WidgetResolverModule,
-    AvatarPhotoModule,
-  ],
-  providers: [UserProfileService],
-  entryComponents: [BtnProfileComponent],
+    declarations: [BtnProfileComponent],
+    imports: [
+        CommonModule,
+        LogoutModule,
+        MatButtonModule,
+        MatDialogModule,
+        MatIconModule,
+        MatMenuModule,
+        MatTooltipModule,
+        MatSlideToggleModule,
+        RouterModule,
+        WidgetResolverModule,
+        AvatarPhotoModule,
+    ],
+    providers: [UserProfileService]
 })
 export class BtnProfileModule { }

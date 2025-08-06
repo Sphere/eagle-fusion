@@ -9,17 +9,16 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 import { AvatarPhotoComponent } from './avatar-photo.component'
 
 @NgModule({
-  declarations: [AvatarPhotoComponent],
-  imports: [
-    CommonModule,
-    RouterModule,
-    MatButtonModule,
-    MatIconModule,
-    MatMenuModule,
-    MatRippleModule,
-    WidgetResolverModule,
-  ],
-  exports: [AvatarPhotoComponent],
-  entryComponents: [AvatarPhotoComponent],
+    declarations: [AvatarPhotoComponent],
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatButtonModule,
+        MatIconModule,
+        MatMenuModule,
+        MatRippleModule,
+        WidgetResolverModule,
+    ],
+    exports: [AvatarPhotoComponent]
 })
 export class AvatarPhotoModule { }

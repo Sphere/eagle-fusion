@@ -4,14 +4,13 @@ import { PersonProfileModule } from '../../../project/ws/app/src/lib/routes/pers
 import { UserdetailallComponent } from '../../../project/ws/app/src/lib/routes/person-profile/components/userdetailall/userdetailall.component'
 
 @NgModule({
-  declarations: [],
-  imports: [
-    CommonModule,
-    PersonProfileModule,
-  ],
-  exports: [
-    PersonProfileModule,
-  ],
-  entryComponents: [UserdetailallComponent],
+    declarations: [],
+    imports: [
+        CommonModule,
+        PersonProfileModule,
+    ],
+    exports: [
+        PersonProfileModule,
+    ]
 })
 export class RoutePersonProfileModule { }

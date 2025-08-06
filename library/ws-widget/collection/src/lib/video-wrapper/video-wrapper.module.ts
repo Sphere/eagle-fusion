@@ -5,13 +5,12 @@ import { PlayerVideoModule } from '../player-video/player-video.module'
 import { EmbeddedPageModule } from '../embedded-page/embedded-page.module'
 
 @NgModule({
-  declarations: [VideoWrapperComponent],
-  imports: [
-    CommonModule,
-    PlayerVideoModule,
-    EmbeddedPageModule,
-  ],
-  exports: [VideoWrapperComponent],
-  entryComponents: [VideoWrapperComponent],
+    declarations: [VideoWrapperComponent],
+    imports: [
+        CommonModule,
+        PlayerVideoModule,
+        EmbeddedPageModule,
+    ],
+    exports: [VideoWrapperComponent]
 })
 export class VideoWrapperModule { }

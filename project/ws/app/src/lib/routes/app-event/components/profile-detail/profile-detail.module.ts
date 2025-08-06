@@ -13,23 +13,22 @@ import { RouterModule } from '@angular/router'
 import { ViewUsersComponent } from './view-users/view-users.component'
 import { CardDetailsModule } from '../card-details/card-details.module'
 @NgModule({
-  declarations: [ProfileDetailComponent, ViewUsersComponent],
-  imports: [
-    CommonModule,
-    CardDetailsModule,
-    MatIconModule,
-    MatButtonModule,
-    RouterModule,
-    MatCardModule,
-    MatDividerModule,
-    MatDialogModule,
-    MatInputModule,
-    MatFormFieldModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  entryComponents: [ViewUsersComponent],
-  exports: [ProfileDetailComponent],
+    declarations: [ProfileDetailComponent, ViewUsersComponent],
+    imports: [
+        CommonModule,
+        CardDetailsModule,
+        MatIconModule,
+        MatButtonModule,
+        RouterModule,
+        MatCardModule,
+        MatDividerModule,
+        MatDialogModule,
+        MatInputModule,
+        MatFormFieldModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    exports: [ProfileDetailComponent]
 })
 
 export class ProfileDetailModule { }

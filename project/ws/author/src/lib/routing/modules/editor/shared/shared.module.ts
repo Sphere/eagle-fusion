@@ -20,42 +20,39 @@ import { UploadService } from './services/upload.service'
 // import { EditMetaV2Component } from './components/editor/edit-meta-v2/edit-meta-v2.component'
 
 @NgModule({
-  declarations: [
-    // MatQuillComponent,
-    // QuillComponent,
-    // PlainCKEditorComponent,
-    // EditMetaComponent,
-    DragDropDirective,
-    // AceEditorComponent,
-    // AuthLanguageSelectBarComponent,
-    // AuthPickerComponent,
-    // AuthEditorActionButtonsComponent,
-    // BaseComponent,
-    // EditMetaV2Component,
-  ],
-  imports: [
-    CommonModule,
-    DefaultThumbnailModule,
-    PipeDurationTransformModule,
-    DisplayContentTypeModule,
-    // CKEditorModule,
-    SharedModule,
-    // AceEditorModule,
-    // CatalogSelectModule,
-  ],
-  exports: [
-    // MatQuillComponent,
-    // QuillComponent,
-    // PlainCKEditorComponent,
-    // EditMetaComponent,
-    DragDropDirective,
-    // AceEditorComponent,
-    // AuthEditorActionButtonsComponent,
-    // AuthPickerComponent,
-  ],
-  entryComponents: [
-    // AuthPickerComponent
-  ],
-  providers: [UploadService],
+    declarations: [
+        // MatQuillComponent,
+        // QuillComponent,
+        // PlainCKEditorComponent,
+        // EditMetaComponent,
+        DragDropDirective,
+        // AceEditorComponent,
+        // AuthLanguageSelectBarComponent,
+        // AuthPickerComponent,
+        // AuthEditorActionButtonsComponent,
+        // BaseComponent,
+        // EditMetaV2Component,
+    ],
+    imports: [
+        CommonModule,
+        DefaultThumbnailModule,
+        PipeDurationTransformModule,
+        DisplayContentTypeModule,
+        // CKEditorModule,
+        SharedModule,
+        // AceEditorModule,
+        // CatalogSelectModule,
+    ],
+    exports: [
+        // MatQuillComponent,
+        // QuillComponent,
+        // PlainCKEditorComponent,
+        // EditMetaComponent,
+        DragDropDirective,
+        // AceEditorComponent,
+        // AuthEditorActionButtonsComponent,
+        // AuthPickerComponent,
+    ],
+    providers: [UploadService]
 })
 export class EditorSharedModule { }

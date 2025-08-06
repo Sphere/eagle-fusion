@@ -6,12 +6,11 @@ import { MatDialogModule } from '@angular/material/dialog'
 import { LogoutComponent } from './logout.component'
 
 @NgModule({
-  declarations: [LogoutComponent],
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule,
-  ],
-  entryComponents: [LogoutComponent],
+    declarations: [LogoutComponent],
+    imports: [
+        CommonModule,
+        MatButtonModule,
+        MatDialogModule,
+    ]
 })
 export class LogoutModule { }

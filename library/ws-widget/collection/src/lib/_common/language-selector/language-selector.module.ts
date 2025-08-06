@@ -6,15 +6,14 @@ import { MatSelectModule } from '@angular/material/select'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 @NgModule({
-  declarations: [LanguageSelectorComponent],
-  imports: [
-    CommonModule,
-    MatFormFieldModule,
-    MatSelectModule,
-    FormsModule,
-    ReactiveFormsModule,
-  ],
-  exports: [LanguageSelectorComponent],
-  entryComponents: [LanguageSelectorComponent],
+    declarations: [LanguageSelectorComponent],
+    imports: [
+        CommonModule,
+        MatFormFieldModule,
+        MatSelectModule,
+        FormsModule,
+        ReactiveFormsModule,
+    ],
+    exports: [LanguageSelectorComponent]
 })
 export class LanguageSelectorModule { }

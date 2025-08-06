@@ -4,11 +4,10 @@ import { IntranetSelectorComponent } from './intranet-selector.component'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 
 @NgModule({
-  declarations: [IntranetSelectorComponent],
-  imports: [
-    CommonModule,
-    WidgetResolverModule,
-  ],
-  entryComponents: [IntranetSelectorComponent],
+    declarations: [IntranetSelectorComponent],
+    imports: [
+        CommonModule,
+        WidgetResolverModule,
+    ]
 })
 export class IntranetSelectorModule { }

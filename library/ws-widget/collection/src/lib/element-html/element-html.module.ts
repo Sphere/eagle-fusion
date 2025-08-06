@@ -4,8 +4,7 @@ import { ElementHtmlComponent } from '../element-html/element-html.component'
 import { PipeSafeSanitizerModule } from '@ws-widget/utils'
 
 @NgModule({
-  declarations: [ElementHtmlComponent],
-  imports: [CommonModule, PipeSafeSanitizerModule],
-  entryComponents: [ElementHtmlComponent],
+    declarations: [ElementHtmlComponent],
+    imports: [CommonModule, PipeSafeSanitizerModule]
 })
 export class ElementHtmlModule {}

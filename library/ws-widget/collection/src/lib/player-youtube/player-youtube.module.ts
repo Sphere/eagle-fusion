@@ -3,10 +3,9 @@ import { CommonModule } from '@angular/common'
 import { PlayerYoutubeComponent } from './player-youtube.component'
 
 @NgModule({
-  declarations: [PlayerYoutubeComponent],
-  imports: [
-    CommonModule,
-  ],
-  entryComponents: [PlayerYoutubeComponent],
+    declarations: [PlayerYoutubeComponent],
+    imports: [
+        CommonModule,
+    ]
 })
 export class PlayerYoutubeModule { }
