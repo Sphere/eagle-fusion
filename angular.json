@@ -17,6 +17,7 @@
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
+            "localize": true,
             "assets": [
               "src/favicon.ico",
               "src/favicon.png",
@@ -103,13 +104,27 @@
             },
             "hi": {
               "aot": true,
-              "i18nMissingTranslation": "warning",
+              "outputPath": "dist/www/hi",
               "localize": [
                 "hi"
-              ]
+              ],
+              "optimization": true,
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "buildOptimizer": true,
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.prod.ts"
+                }
+              ],
+              "i18nMissingTranslation": "warning"
             }
           },
-          "defaultConfiguration": ""
+          "defaultConfiguration": "production"
         },
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
@@ -163,10 +178,7 @@
       "i18n": {
         "sourceLocale": "en",
         "locales": {
-          "hi": {
-            "translation": "locale/messages.hi.xlf",
-            "baseHref": ""
-          }
+          "hi": "locale/messages.hi.xlf"
         }
       }
     },
