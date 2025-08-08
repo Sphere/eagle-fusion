@@ -1,4 +1,4 @@
-@use '~@angular/material' as mat;
+@use '@angular/material' as mat;
 @mixin color-background-opacity($color, $opacity: 0.3) {
   background: rgba($color, $opacity);
 }
