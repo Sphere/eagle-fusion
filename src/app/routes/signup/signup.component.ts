@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef } from '@angular/core'
-import { FormGroup, FormControl, Validators, FormBuilder } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from './signup.service'
@@ -12,8 +12,8 @@ import { Router } from '@angular/router'
   styleUrls: ['./signup.component.scss'],
 })
 export class SignupComponent implements OnInit, OnDestroy {
-  signupForm: FormGroup
-  unseenCtrl!: FormControl
+  signupForm: UntypedFormGroup
+  unseenCtrl!: UntypedFormControl
   unseenCtrlSub!: Subscription
   uploadSaveData = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -27,15 +27,15 @@ export class SignupComponent implements OnInit, OnDestroy {
   constructor(
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    private fb: FormBuilder, private router: Router,
+    private fb: UntypedFormBuilder, private router: Router,
   ) {
     this.signupForm = this.fb.group({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      otp: new FormControl(''),
-      password: new FormControl('', [Validators.required, Validators.minLength(6)]),
-      confirmPassword: new FormControl(['']),
-      emailOrMobile: new FormControl('', [Validators.required]),
+      firstName: new UntypedFormControl('', [Validators.required]),
+      lastName: new UntypedFormControl('', [Validators.required]),
+      otp: new UntypedFormControl(''),
+      password: new UntypedFormControl('', [Validators.required, Validators.minLength(6)]),
+      confirmPassword: new UntypedFormControl(['']),
+      emailOrMobile: new UntypedFormControl('', [Validators.required]),
     }, {})
   }
 

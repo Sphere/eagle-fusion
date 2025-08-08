@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatPaginator } from '@angular/material/paginator'
 import { MatTableDataSource } from '@angular/material/table'
@@ -44,12 +44,12 @@ export class IapAssessmentComponent implements OnInit {
   ) { }
 
   _id!: string
-  contentForm = new FormGroup({
-    assessmentInstruction: new FormControl(''),
+  contentForm = new UntypedFormGroup({
+    assessmentInstruction: new UntypedFormControl(''),
   })
   mimeTypeRoute = ''
   dummyResponse!: any
-  generalDetailsForm!: FormGroup
+  generalDetailsForm!: UntypedFormGroup
   loaderFlag = false
   contestData!: IAssessmentDetails
   options = [
@@ -74,12 +74,12 @@ export class IapAssessmentComponent implements OnInit {
 
   location = CONTENT_BASE_WEBHOST_ASSETS
   sectionDataList: ISectionDetailsContent[] = []
-  addSectionForm = new FormGroup({
-    sectionName: new FormControl(''),
-    sectionDescription: new FormControl(''),
+  addSectionForm = new UntypedFormGroup({
+    sectionName: new UntypedFormControl(''),
+    sectionDescription: new UntypedFormControl(''),
   })
-  groupForm = new FormGroup({
-    randomization: new FormControl(''),
+  groupForm = new UntypedFormGroup({
+    randomization: new UntypedFormControl(''),
   })
   objQuestionData = []
   groupQuestionData!: any[]
@@ -416,7 +416,7 @@ export class IapAssessmentComponent implements OnInit {
           data: this.contentService.getOriginalMeta(this.currentContent),
         })
 
-        dialogRef.afterClosed().subscribe((commentsForm: FormGroup) => {
+        dialogRef.afterClosed().subscribe((commentsForm: UntypedFormGroup) => {
           this.publishCall(commentsForm)
         })
       } else {
@@ -427,7 +427,7 @@ export class IapAssessmentComponent implements OnInit {
     })
   }
 
-  publishCall(commentsForm: FormGroup) {
+  publishCall(commentsForm: UntypedFormGroup) {
     this.loaderService.changeLoad.next(true)
     const actionType = this.getAction()
     if (actionType === 'publish') {
@@ -443,7 +443,7 @@ export class IapAssessmentComponent implements OnInit {
       this.finalCall(commentsForm)
     }
   }
-  finalCall(commentsForm: FormGroup) {
+  finalCall(commentsForm: UntypedFormGroup) {
     if (commentsForm) {
       const body: NSApiRequest.IForwardBackwardActionGeneral = {
         comment: commentsForm.controls.comments.value,

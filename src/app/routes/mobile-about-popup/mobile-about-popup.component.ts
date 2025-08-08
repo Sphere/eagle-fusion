@@ -1,5 +1,5 @@
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 // import * as _ from 'lodash-es'
@@ -14,7 +14,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
   styleUrls: ['./mobile-about-popup.component.scss'],
 })
 export class MobileAboutPopupComponent implements OnInit {
-  aboutForm: FormGroup
+  aboutForm: UntypedFormGroup
   userProfileData!: any
   userID = ''
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -26,8 +26,8 @@ export class MobileAboutPopupComponent implements OnInit {
     private UserAgentResolverService: UserAgentResolverService,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {
-    this.aboutForm = new FormGroup({
-      about: new FormControl('', [Validators.required, Validators.maxLength(500)]),
+    this.aboutForm = new UntypedFormGroup({
+      about: new UntypedFormControl('', [Validators.required, Validators.maxLength(500)]),
     })
   }
   ngOnInit() {

@@ -8,7 +8,7 @@ import { IWidgetData } from './content-picker-v2.model'
 // import { IWidgetData, IAppliedFilters } from './content-picker-v2.model'
 import { NsContent } from '../../_services/widget-content.model'
 import { ContentPickerV2Service } from './content-picker-v2.service'
-import { FormControl } from '@angular/forms'
+import { UntypedFormControl } from '@angular/forms'
 import { distinctUntilChanged } from 'rxjs/operators'
 
 @Component({
@@ -39,8 +39,8 @@ export class ContentPickerV2Component implements OnInit, OnDestroy {
   fetchStatus: 'none' | 'fetching' | 'done' | 'error'
   searchConfig: any = null
   objKey = Object.keys
-  sortOrderControl = new FormControl('desc')
-  sortByControl = new FormControl()
+  sortOrderControl = new UntypedFormControl('desc')
+  sortByControl = new UntypedFormControl()
   searchApiSvc: any
 
   constructor(

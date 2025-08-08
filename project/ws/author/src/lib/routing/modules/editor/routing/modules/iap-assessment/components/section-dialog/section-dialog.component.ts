@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import { FormControl, FormGroup } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { IapAssessmentService } from '../../services/iap-assessment.service'
@@ -29,9 +29,9 @@ export class SectionDialogComponent implements OnInit {
   }
   objectiveQuestionsData: IQuestionDetailsContent[] = []
   groupQuestionsData = []
-  addSectionForm = new FormGroup({
-    sectionName: new FormControl(this.data.sectionName),
-    sectionDescription: new FormControl(this.data.sectionDescription),
+  addSectionForm = new UntypedFormGroup({
+    sectionName: new UntypedFormControl(this.data.sectionName),
+    sectionDescription: new UntypedFormControl(this.data.sectionDescription),
   })
 
   ngOnInit() {

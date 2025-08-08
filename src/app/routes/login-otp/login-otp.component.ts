@@ -1,6 +1,6 @@
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
 import { Observable } from 'rxjs'
@@ -19,7 +19,7 @@ export class LoginOtpComponent implements OnInit {
   [x: string]: any
 
   isLoading = false
-  loginOtpForm!: FormGroup
+  loginOtpForm!: UntypedFormGroup
   @Input() signUpdata: any
   @Input() loginData: any
   @Output() redirectToParent = new EventEmitter()
@@ -37,7 +37,7 @@ export class LoginOtpComponent implements OnInit {
 
   constructor(
     //private router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     public signupService: SignupService,
     //private userProfileSvc: UserProfileService,

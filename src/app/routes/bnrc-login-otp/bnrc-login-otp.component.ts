@@ -1,6 +1,6 @@
 
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
@@ -13,7 +13,7 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 export class BnrcLoginOtpComponent implements OnInit {
   [x: string]: any
   isLoading = false
-  loginOtpForm: FormGroup
+  loginOtpForm: UntypedFormGroup
   @Input() signUpdata: any
   @Input() loginData: any
   @Output() redirectToParent = new EventEmitter()
@@ -22,13 +22,13 @@ export class BnrcLoginOtpComponent implements OnInit {
   redirectUrl = ''
   constructor(
     public router: Router,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private userProfileSvc: UserProfileService,
 
   ) {
     this.loginOtpForm = this.fb.group({
-      code: new FormControl('', [Validators.required]),
+      code: new UntypedFormControl('', [Validators.required]),
     })
   }
 

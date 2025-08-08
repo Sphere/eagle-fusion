@@ -1,7 +1,7 @@
 import { IWidgetCardBreadcrumb } from '@ws-widget/collection/src/lib/card-breadcrumb/card-breadcrumb.model'
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators'
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms'
+import { UntypedFormGroup, UntypedFormBuilder, UntypedFormArray, Validators } from '@angular/forms'
 
 @Component({
   selector: 'ws-auth-breadcrum',
@@ -10,12 +10,12 @@ import { FormGroup, FormBuilder, FormArray, Validators } from '@angular/forms'
 })
 export class BreadcrumComponent implements OnInit {
 
-  form!: FormGroup
+  form!: UntypedFormGroup
   @Input() isSubmitPressed = false
   @Input() content!: IWidgetCardBreadcrumb
   @Output() data = new EventEmitter<{ content: IWidgetCardBreadcrumb, isValid: boolean }>()
 
-  constructor(private fb: FormBuilder) { }
+  constructor(private fb: UntypedFormBuilder) { }
 
   ngOnInit() {
     this.form = this.fb.group({
@@ -37,8 +37,8 @@ export class BreadcrumComponent implements OnInit {
     })
   }
 
-  get path(): FormArray {
-    return this.form.get('path') as FormArray
+  get path(): UntypedFormArray {
+    return this.form.get('path') as UntypedFormArray
   }
 
   addPath(text: string, url: string) {

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
-import { AbstractControl, FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { AbstractControl, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 // import { MatSnackBar } from '@angular/material/snack-bar'
 // import { MatDialog } from '@angular/material/dialog'
 import { ConfigurationsService } from '@ws-widget/utils'
@@ -19,7 +19,7 @@ import { URLCheckerClass } from './url-upload.helper'
   styleUrls: ['./url-upload.component.scss'],
 })
 export class UrlUploadComponent implements OnInit {
-  urlUploadForm!: FormGroup
+  urlUploadForm!: UntypedFormGroup
   // iprAccepted = false
   currentContent = ''
   canUpdate = true
@@ -28,7 +28,7 @@ export class UrlUploadComponent implements OnInit {
   @Output() data = new EventEmitter<string>()
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     // private snackBar: MatSnackBar,
     // private dialog: MatDialog,
     private contentService: EditorContentService,

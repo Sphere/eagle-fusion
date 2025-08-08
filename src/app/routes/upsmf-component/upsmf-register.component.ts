@@ -4,7 +4,7 @@ import { ConfigurationsService, ValueService } from '../../../../library/ws-widg
 import { IUserProfileDetailsFromRegistry } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '@ws-widget/collection'
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 // import { constructReq } from '../request-util'
 import { MatDialog } from '@angular/material/dialog'
@@ -35,7 +35,7 @@ export class UpsmfRegisterComponent implements OnInit {
   @Output() passProfession = new EventEmitter<string>();
   showLogOutIcon = false
   trigerrNavigation = true
-  bnrcDetailForm: FormGroup
+  bnrcDetailForm: UntypedFormGroup
   orgTypeField = false
   orgOthersField = false
   HealthcareWorker = false
@@ -151,41 +151,41 @@ export class UpsmfRegisterComponent implements OnInit {
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private dialog: MatDialog,
     private loader: LoaderService,
 
   ) {
     this.bnrcDetailForm = this.formBuilder.group({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      phone: new FormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
-      email: new FormControl('', [Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
-      role: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      district: new FormControl('', [Validators.required]),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      courseSelection: new FormControl('', []),
-      instituteType: new FormControl('', []),
-      upsmfRegistrationNumber: new FormControl('', []),
-      hrmsId: new FormControl('', []),
-      facultyType: new FormControl('', []),
+      firstName: new UntypedFormControl('', [Validators.required]),
+      lastName: new UntypedFormControl('', [Validators.required]),
+      phone: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
+      email: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      role: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      district: new UntypedFormControl('', [Validators.required]),
+      instituteName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseSelection: new UntypedFormControl('', []),
+      instituteType: new UntypedFormControl('', []),
+      upsmfRegistrationNumber: new UntypedFormControl('', []),
+      hrmsId: new UntypedFormControl('', []),
+      facultyType: new UntypedFormControl('', []),
     })
   }
   // Define the form group creation in a separate method
-  createFormGroup(): FormGroup {
+  createFormGroup(): UntypedFormGroup {
     return this.formBuilder.group({
-      firstName: new FormControl('', [Validators.required]),
-      lastName: new FormControl('', [Validators.required]),
-      phone: new FormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
-      email: new FormControl('', [Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
-      role: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      district: new FormControl('', [Validators.required]),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      courseSelection: new FormControl('', []),
-      instituteType: new FormControl('', []),
-      upsmfRegistrationNumber: new FormControl('', []),
-      hrmsId: new FormControl('', []),
-      facultyType: new FormControl('', []),
+      firstName: new UntypedFormControl('', [Validators.required]),
+      lastName: new UntypedFormControl('', [Validators.required]),
+      phone: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]),
+      email: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/)]),
+      role: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      district: new UntypedFormControl('', [Validators.required]),
+      instituteName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseSelection: new UntypedFormControl('', []),
+      instituteType: new UntypedFormControl('', []),
+      upsmfRegistrationNumber: new UntypedFormControl('', []),
+      hrmsId: new UntypedFormControl('', []),
+      facultyType: new UntypedFormControl('', []),
     })
   }
 

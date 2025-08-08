@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import {
@@ -21,8 +21,8 @@ export class AlmostDoneComponent implements OnInit {
   @Input() yourBackground: any
   @Input() backgroundSelect: any
   @Output() redirectToParent = new EventEmitter()
-  createUserForm!: FormGroup
-  almostDoneForm!: FormGroup
+  createUserForm!: UntypedFormGroup
+  almostDoneForm!: UntypedFormGroup
   professionOthersField = false
   orgOthersField = false
   rnFieldDisabled = true
@@ -33,7 +33,7 @@ export class AlmostDoneComponent implements OnInit {
   email = ''
   govtOrgMeta!: IGovtOrgMeta
   masterNationalities: any = []
-  public degrees!: FormArray
+  public degrees!: UntypedFormArray
   profession = ''
   studentInstitute = ''
   studentCourse = ''
@@ -58,7 +58,7 @@ export class AlmostDoneComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     //private router: Router,
     public snackBar: MatSnackBar,
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
     private activateRoute: ActivatedRoute,
     private http: HttpClient,
     public UserAgentResolverService: UserAgentResolverService,
@@ -113,84 +113,84 @@ export class AlmostDoneComponent implements OnInit {
   }
 
   almostDoneFormFields() {
-    return new FormGroup({
-      selectBackground: new FormControl(),
-      professSelected: new FormControl(),
-      block: new FormControl(),
-      subcentre: new FormControl(),
-      locationselect: new FormControl(),
-      profession: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      rnNumber: new FormControl('', [Validators.pattern(/[^\s]/)]),
-      orgType: new FormControl(),
-      orgName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      professionOtherSpecify: new FormControl(),
-      designationName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      orgOtherSpecify: new FormControl(),
-      instituteName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
-      othersProfession: new FormControl(),
+    return new UntypedFormGroup({
+      selectBackground: new UntypedFormControl(),
+      professSelected: new UntypedFormControl(),
+      block: new UntypedFormControl(),
+      subcentre: new UntypedFormControl(),
+      locationselect: new UntypedFormControl(),
+      profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      rnNumber: new UntypedFormControl('', [Validators.pattern(/[^\s]/)]),
+      orgType: new UntypedFormControl(),
+      orgName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      professionOtherSpecify: new UntypedFormControl(),
+      designationName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      orgOtherSpecify: new UntypedFormControl(),
+      instituteName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      courseName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
+      othersProfession: new UntypedFormControl(),
     })
   }
 
   createUserFormFields() {
-    return new FormGroup({
-      firstname: new FormControl('', []),
-      middlename: new FormControl('', []),
-      surname: new FormControl('', []),
-      about: new FormControl(''),
-      countryCode: new FormControl('', []),
-      mobile: new FormControl('', []),
-      telephone: new FormControl('', []),
-      primaryEmail: new FormControl('', []),
-      primaryEmailType: new FormControl('', []),
-      secondaryEmail: new FormControl('', []),
-      nationality: new FormControl('', []),
-      dob: new FormControl('', []),
-      domicileMedium: new FormControl('', []),
-      regNurseRegMidwifeNumber: new FormControl('', []),
-      knownLanguages: new FormControl([], []),
-      residenceAddress: new FormControl('', []),
-      schoolName10: new FormControl('', []),
-      yop10: new FormControl('', []),
-      schoolName12: new FormControl('', []),
-      yop12: new FormControl('', []),
+    return new UntypedFormGroup({
+      firstname: new UntypedFormControl('', []),
+      middlename: new UntypedFormControl('', []),
+      surname: new UntypedFormControl('', []),
+      about: new UntypedFormControl(''),
+      countryCode: new UntypedFormControl('', []),
+      mobile: new UntypedFormControl('', []),
+      telephone: new UntypedFormControl('', []),
+      primaryEmail: new UntypedFormControl('', []),
+      primaryEmailType: new UntypedFormControl('', []),
+      secondaryEmail: new UntypedFormControl('', []),
+      nationality: new UntypedFormControl('', []),
+      dob: new UntypedFormControl('', []),
+      domicileMedium: new UntypedFormControl('', []),
+      regNurseRegMidwifeNumber: new UntypedFormControl('', []),
+      knownLanguages: new UntypedFormControl([], []),
+      residenceAddress: new UntypedFormControl('', []),
+      schoolName10: new UntypedFormControl('', []),
+      yop10: new UntypedFormControl('', []),
+      schoolName12: new UntypedFormControl('', []),
+      yop12: new UntypedFormControl('', []),
       degrees: this.fb.array([this.createDegree()]),
       postDegrees: this.fb.array([this.createDegree()]),
-      certificationDesc: new FormControl('', []),
-      interests: new FormControl([], []),
-      hobbies: new FormControl([], []),
-      skillAquiredDesc: new FormControl('', []),
-      isGovtOrg: new FormControl(false, []),
-      orgName: new FormControl('', []),
-      orgNameOther: new FormControl('', []),
-      industry: new FormControl('', []),
-      industryOther: new FormControl('', []),
-      designation: new FormControl('', []),
-      profession: new FormControl('', []),
-      location: new FormControl('', []),
-      locationOther: new FormControl('', []),
-      doj: new FormControl('', []),
-      orgDesc: new FormControl('', []),
-      payType: new FormControl('', []),
-      service: new FormControl('', []),
-      cadre: new FormControl('', []),
-      allotmentYear: new FormControl('', []),
-      otherDetailsDoj: new FormControl('', []),
-      civilListNo: new FormControl('', []),
-      employeeCode: new FormControl('', []),
-      otherDetailsOfficeAddress: new FormControl('', []),
-      otherDetailsOfficePinCode: new FormControl('', []),
-      residenceState: new FormControl('', []),
-      residenceDistrict: new FormControl('', []),
-      orgType: new FormControl('', []),
+      certificationDesc: new UntypedFormControl('', []),
+      interests: new UntypedFormControl([], []),
+      hobbies: new UntypedFormControl([], []),
+      skillAquiredDesc: new UntypedFormControl('', []),
+      isGovtOrg: new UntypedFormControl(false, []),
+      orgName: new UntypedFormControl('', []),
+      orgNameOther: new UntypedFormControl('', []),
+      industry: new UntypedFormControl('', []),
+      industryOther: new UntypedFormControl('', []),
+      designation: new UntypedFormControl('', []),
+      profession: new UntypedFormControl('', []),
+      location: new UntypedFormControl('', []),
+      locationOther: new UntypedFormControl('', []),
+      doj: new UntypedFormControl('', []),
+      orgDesc: new UntypedFormControl('', []),
+      payType: new UntypedFormControl('', []),
+      service: new UntypedFormControl('', []),
+      cadre: new UntypedFormControl('', []),
+      allotmentYear: new UntypedFormControl('', []),
+      otherDetailsDoj: new UntypedFormControl('', []),
+      civilListNo: new UntypedFormControl('', []),
+      employeeCode: new UntypedFormControl('', []),
+      otherDetailsOfficeAddress: new UntypedFormControl('', []),
+      otherDetailsOfficePinCode: new UntypedFormControl('', []),
+      residenceState: new UntypedFormControl('', []),
+      residenceDistrict: new UntypedFormControl('', []),
+      orgType: new UntypedFormControl('', []),
     })
   }
 
-  createDegree(): FormGroup {
+  createDegree(): UntypedFormGroup {
     return this.fb.group({
-      degree: new FormControl('', []),
-      instituteName: new FormControl('', []),
-      yop: new FormControl('', []),
+      degree: new UntypedFormControl('', []),
+      instituteName: new UntypedFormControl('', []),
+      yop: new UntypedFormControl('', []),
     })
   }
 
@@ -350,12 +350,12 @@ export class AlmostDoneComponent implements OnInit {
     //   // }
     // }
     if (this.profession === 'student' && this.studentInstitute) {
-      this.degrees = this.createUserForm.get('degrees') as FormArray
+      this.degrees = this.createUserForm.get('degrees') as UntypedFormArray
       this.degrees.removeAt(0)
       this.degrees.push(this.fb.group({
-        degree: new FormControl(this.studentCourse, []),
-        instituteName: new FormControl(this.studentInstitute, []),
-        yop: new FormControl('', []),
+        degree: new UntypedFormControl(this.studentCourse, []),
+        instituteName: new UntypedFormControl(this.studentInstitute, []),
+        yop: new UntypedFormControl('', []),
       }))
     }
 

@@ -1,5 +1,5 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -17,7 +17,7 @@ import { WidgetContentService } from '../../../../../library/ws-widget/collectio
   styleUrls: ['./education-edit.component.scss'],
 })
 export class EducationEditComponent implements OnInit {
-  educationForm: FormGroup
+  educationForm: UntypedFormGroup
   academics: any = []
   userID = ''
   userProfileData!: any
@@ -38,11 +38,11 @@ export class EducationEditComponent implements OnInit {
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
   ) {
-    this.educationForm = new FormGroup({
-      courseDegree: new FormControl('', [Validators.required]),
-      courseName: new FormControl('', [Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
-      institutionName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
-      yearPassing: new FormControl('', [Validators.required, Validators.pattern(this.yearPattern)]),
+    this.educationForm = new UntypedFormGroup({
+      courseDegree: new UntypedFormControl('', [Validators.required]),
+      courseName: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
+      institutionName: new UntypedFormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z][a-zA-Z\s]*$/)]),
+      yearPassing: new UntypedFormControl('', [Validators.required, Validators.pattern(this.yearPattern)]),
     })
     this.academics = [
       {

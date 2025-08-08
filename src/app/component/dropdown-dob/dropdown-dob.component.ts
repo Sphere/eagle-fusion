@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnInit, Output, Input, ChangeDetectorRef } from '@angular/core'
-import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 
 @Component({
   selector: 'ws-dropdown-dob',
@@ -11,7 +11,7 @@ export class DropdownDobComponent implements OnInit {
   @Input() dob?: string
   @Input() isEkshamata: boolean = false
 
-  dobForm: FormGroup
+  dobForm: UntypedFormGroup
   dateValue: number[] = [];
   monthValue = [
     { id: 1, name: 'January' }, { id: 2, name: 'February' },
@@ -25,10 +25,10 @@ export class DropdownDobComponent implements OnInit {
 
   constructor(public cdr: ChangeDetectorRef) {
     this.initYear()
-    this.dobForm = new FormGroup({
-      dateField: new FormControl('', Validators.required),
-      monthField: new FormControl('', Validators.required),
-      yearField: new FormControl('', Validators.required),
+    this.dobForm = new UntypedFormGroup({
+      dateField: new UntypedFormControl('', Validators.required),
+      monthField: new UntypedFormControl('', Validators.required),
+      yearField: new UntypedFormControl('', Validators.required),
     })
 
     this.dobForm.get('monthField')!.valueChanges.subscribe(month => this.updateDays(month))

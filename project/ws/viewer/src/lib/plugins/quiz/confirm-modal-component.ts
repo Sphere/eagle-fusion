@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
-import { FormBuilder, FormGroup, Validators } from '@angular/forms'
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
@@ -13,7 +13,7 @@ import { ISearchContent } from '@ws/author/src/lib/interface/search'
   encapsulation: ViewEncapsulation.Emulated,
 })
 export class ConfirmmodalComponent implements OnInit {
-  ratingsForm!: FormGroup
+  ratingsForm!: UntypedFormGroup
   contentMeta!: ISearchContent
   isSubmitPressed = false
   children = 0
@@ -27,7 +27,7 @@ export class ConfirmmodalComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<ConfirmmodalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     public contentSvc: WidgetContentService,

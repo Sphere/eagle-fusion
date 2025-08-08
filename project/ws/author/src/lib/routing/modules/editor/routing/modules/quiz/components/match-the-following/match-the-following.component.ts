@@ -14,11 +14,11 @@ import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 import {
-  FormGroup,
-  FormBuilder,
+  UntypedFormGroup,
+  UntypedFormBuilder,
   Validators,
-  FormControl,
-  FormArray,
+  UntypedFormControl,
+  UntypedFormArray,
   AbstractControl,
 } from '@angular/forms'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
@@ -45,7 +45,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
   @Input() currentId = ''
   @Input() showHint!: boolean
   selectedQuiz?: MatchQuiz
-  quizForm!: FormGroup
+  quizForm!: UntypedFormGroup
   matchOptions: any = {}
   canUpdate = true
   editColName?: 'colAName' | 'colBName'
@@ -65,7 +65,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
   isSmallScreen = false
 
   constructor(
-    private formBuilder: FormBuilder,
+    private formBuilder: UntypedFormBuilder,
     private dialog: MatDialog,
     private snackBar: MatSnackBar,
     private quizStoreSvc: QuizStoreService,
@@ -100,7 +100,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
 
   openCkEditor(index: number) {
     const hint =
-      (((this.quizForm.controls.options as FormArray).at(index).get('hint') as FormControl) || {})
+      (((this.quizForm.controls.options as UntypedFormArray).at(index).get('hint') as UntypedFormControl) || {})
         .value || ''
     const dialogRef = this.dialog.open(OpenPlainCkEditorComponent, {
       width: '800px',
@@ -113,7 +113,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
     })
     dialogRef.afterClosed().subscribe(res => {
       if (res !== undefined) {
-        const optionsArr = this.quizForm.controls['options'] as FormArray
+        const optionsArr = this.quizForm.controls['options'] as UntypedFormArray
         if (optionsArr && optionsArr.at(index) && optionsArr.at(index).get('hint')) {
           (optionsArr.at(index).get('hint') as AbstractControl).setValue(res)
         }
@@ -148,7 +148,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
     const optionsArr = this.quizForm.controls['options'].value
     moveItemInArray(optionsArr, event.previousIndex, event.currentIndex)
     for (let i = 0; i < optionsArr.length; i = i + 1) {
-      (this.quizForm.controls['options'] as FormArray).at(i).setValue(optionsArr[i])
+      (this.quizForm.controls['options'] as UntypedFormArray).at(i).setValue(optionsArr[i])
     }
   }
 
@@ -177,7 +177,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
     })
     confirmDelete.afterClosed().subscribe(confirm => {
       if (confirm && this.selectedQuiz) {
-        const optionsArr = this.quizForm.controls['options'] as FormArray
+        const optionsArr = this.quizForm.controls['options'] as UntypedFormArray
         optionsArr.removeAt(optionIndex)
         this.selectedQuiz.options.splice(optionIndex, 1)
         if (this.selectedQuiz.options.length < this.matchOptions.minOptions) {
@@ -213,7 +213,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
   }
 
   updateContentService($event: any, optionIndex: number) {
-    const optionsArr = this.quizForm.controls['options'] as FormArray
+    const optionsArr = this.quizForm.controls['options'] as UntypedFormArray
     if (optionsArr && optionsArr.at(optionIndex) && optionsArr.at(optionIndex).get('hint')) {
       (optionsArr.at(optionIndex).get('hint') as AbstractControl).setValue($event)
     }
@@ -224,9 +224,9 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
     const newControl = this.formBuilder.group({
       text: [optionObj.text || '', [Validators.required, Validators.pattern(noWhiteSpace)]],
       match: [optionObj.match || '', [Validators.required, Validators.pattern(noWhiteSpace)]],
-      hint: new FormControl(optionObj.hint || ''),
+      hint: new UntypedFormControl(optionObj.hint || ''),
     })
-    const optionsArr = this.quizForm.controls['options'] as FormArray
+    const optionsArr = this.quizForm.controls['options'] as UntypedFormArray
     optionsArr.push(newControl)
   }
 
@@ -235,7 +235,7 @@ export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy 
     if (newData && newData.isInValid) {
       Object.keys(this.quizForm.controls).map(v => {
         if (v === 'options') {
-          const optionsArr = this.quizForm.controls[v] as FormArray
+          const optionsArr = this.quizForm.controls[v] as UntypedFormArray
           optionsArr.controls.map((d: any) => {
             Object.keys(d.controls).map(e => {
               if (e === 'text' || e === 'match') {
