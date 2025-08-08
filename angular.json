@@ -90,7 +90,6 @@
                 }
               ],
               "optimization": true,
-              "outputHashing": "all",
               "sourceMap": false,
               "statsJson": true,
               "namedChunks": false,

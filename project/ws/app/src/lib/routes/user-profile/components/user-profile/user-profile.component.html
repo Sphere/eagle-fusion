@@ -411,7 +411,7 @@
                       Postal Address
                     </p>
                     <mat-form-field appearance="outline" class="w-full margin-top-xs">
-                      <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="3"
+                      <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="3"
                         formControlName="residenceAddress" placeholder="Type Your Residence Address Here"
                         #residenceAddress></textarea>
                       <!-- <input matInput #residenceAddress formControlName="residenceAddress"
@@ -805,7 +805,7 @@
                       Address
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
-                      <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="4"
+                      <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
                         formControlName="orgDesc" placeholder="Type Your your Address Here" #orgDesc></textarea>
                       <mat-hint align="end">{{ orgDesc.value.length }} /500 <span>characters</span></mat-hint>
                       <mat-error>
@@ -982,7 +982,7 @@
                       Description
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
-                      <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="4"
+                      <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
                         formControlName="skillAquiredDesc" placeholder="Skills acquired or courses completed"
                         #skillAquiredDesc></textarea>
                       <!-- <mat-hint align="end">{{ skillAquiredDesc.value.length }} /200 characters</mat-hint>
@@ -997,7 +997,7 @@
                       Description
                     </p>
                     <mat-form-field appearance="outline" class="margin-top-xs full-width">
-                      <textarea matInput [matTextareaAutosize] [matAutosizeMaxRows]="10" [matAutosizeMinRows]="4"
+                      <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="10" [cdkAutosizeMinRows]="4"
                         formControlName="certificationDesc" placeholder="Provide certification details"
                         #certificationDesc></textarea>
                       <!-- <mat-hint align="end">{{ certificationDesc.value.length }} /200 characters</mat-hint>

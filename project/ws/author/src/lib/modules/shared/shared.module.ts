@@ -52,6 +52,7 @@ import { StatusTrackComponent } from './components/status-track/status-track.com
 import { PlayerNavigationWidgetComponent } from '../../../../../../../library/ws-widget/collection/src/lib/player-navigation-widget/player-navigation-widget.component'
 import { RouterModule } from '@angular/router'
 import { CourseRatingDialogComponent } from './components/course-rating/course-rating-dialog.component'
+import { TextFieldModule } from '@angular/cdk/text-field'
 
 @NgModule({
     declarations: [
@@ -105,7 +106,8 @@ import { CourseRatingDialogComponent } from './components/course-rating/course-r
         MatProgressBarModule,
         // ImageCropModule,
         PipeContentRouteModule,
-        RouterModule
+        RouterModule,
+        TextFieldModule
     ],
     exports: [
         MatIconModule,
@@ -154,7 +156,8 @@ import { CourseRatingDialogComponent } from './components/course-rating/course-r
         UnpublishDialogComponent,
         ShowHideToolTipDirective,
         StatusTrackComponent,
-        PlayerNavigationWidgetComponent
+        PlayerNavigationWidgetComponent,
+        TextFieldModule
     ],
     providers: [
         ApiService,

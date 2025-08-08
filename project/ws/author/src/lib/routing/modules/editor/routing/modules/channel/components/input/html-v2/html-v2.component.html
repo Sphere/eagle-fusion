@@ -14,7 +14,7 @@
     <mat-form-field appearance="outline" class="w-full">
       <mat-label i18n>Paste HTML Code</mat-label>
       <textarea rows="4" type="text" matInput i18n-placeholder placeholder="Provide HTML Code" #html
-        [value]="content.html || ''" [matTextareaAutosize]="true" (change)="update($event, dataType)">
+        [value]="content.html || ''" cdkTextareaAutosize="true" (change)="update($event, dataType)">
         </textarea>
     </mat-form-field>
   </div>
