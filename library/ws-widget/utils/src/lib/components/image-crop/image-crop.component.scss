@@ -15,10 +15,10 @@
   margin-right: auto;
   padding: 0em 1.25em;
 
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     padding: 0em;
-    width: 100%
+    width: 100%;
   }
 }
 
@@ -41,7 +41,7 @@ mat-toolbar {
 mat-dialog-content {
   padding: 1.25em 1.25em !important;
 
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     padding: 0.25em 0.5em !important;
   }
@@ -50,14 +50,14 @@ mat-dialog-content {
 .heightwidth {
   display: flex;
 
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     display: block;
   }
 }
 
 .mat-button {
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     min-width: auto;
     padding: 0 14px;
@@ -87,7 +87,7 @@ mat-dialog-content {
 } */
 
 .button-text {
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     display: none;
   }
@@ -108,7 +108,7 @@ mat-dialog-content {
   margin-left: auto;
   margin-right: auto;
 
-  @media only screen and(max-width: 1030px) {
+  @media only screen and (max-width: 1030px) {
     // media less than 1030px
     padding: 0em;
     width: 100%
