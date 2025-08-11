@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
 import { Router } from '@angular/router'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { Title } from '@angular/platform-browser'
 

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { ISelectorResponsive, ISelectorResponsiveUnit } from '@ws-widget/collection/src/public-api'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { WIDGET_LIBRARY } from '../../../constants/widet'

@@ -3,7 +3,7 @@ import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@ang
 import { ActivatedRoute, Router } from '@angular/router'
 import { UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms'
 // import { mustMatch } from '../password-validator'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 // import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
 // import { EmailMobileValidators } from '../emailMobile.validator'
 

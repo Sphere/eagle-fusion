@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, OnChanges, OnDestroy } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import {
   UntypedFormGroup,
   UntypedFormBuilder,
@@ -9,7 +9,7 @@ import {
   UntypedFormControl,
 } from '@angular/forms'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
-import { MatSnackBar, MatSnackBarRef } from '@angular/material/snack-bar'
+import { MatLegacySnackBar as MatSnackBar, MatLegacySnackBarRef as MatSnackBarRef } from '@angular/material/legacy-snack-bar'
 import { debounceTime, map } from 'rxjs/operators'
 import { Observable, Subscription } from 'rxjs'
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'

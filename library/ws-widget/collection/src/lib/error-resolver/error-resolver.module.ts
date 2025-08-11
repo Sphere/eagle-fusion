@@ -12,7 +12,7 @@ import { ErrorNotFoundComponent } from './components/error-not-found/error-not-f
 import { ErrorServiceUnavailableComponent } from './components/error-service-unavailable/error-service-unavailable.component'
 import { ErrorSomethingWrongComponent } from './components/error-something-wrong/error-something-wrong.component'
 
-import { MatButtonModule } from '@angular/material/button'
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
 
 @NgModule({
     declarations: [

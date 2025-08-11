@@ -4,7 +4,7 @@ import { GalleryViewComponent } from './gallery-view.component'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { HorizontalScrollerModule } from '../../../../utils/src/public-api'
 import { MatIconModule } from '@angular/material/icon'
-import { MatCardModule } from '@angular/material/card'
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
 
 @NgModule({
     declarations: [GalleryViewComponent],

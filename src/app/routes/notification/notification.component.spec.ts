@@ -1,7 +1,7 @@
 import { NotificationsComponent } from './notification.component'
 import { of } from 'rxjs'
 import { ChangeDetectorRef } from '@angular/core'
-import { MatDialogRef } from '@angular/material/dialog'
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
 import { Socket } from 'socket.io-client'
 
 describe('NotificationsComponent', () => {

@@ -11,11 +11,11 @@ import {
   ChangeDetectorRef,
   OnDestroy,
 } from '@angular/core'
-import { MatChipInputEvent } from '@angular/material/chips'
+import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { ISortEvent } from '../../../../../../../../../directives/draggable/sortable-list.directive'
 

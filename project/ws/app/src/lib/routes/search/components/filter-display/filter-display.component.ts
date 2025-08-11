@@ -152,7 +152,7 @@ export class FilterDisplayComponent implements OnInit {
   lowerCaseFilter(filterObj: any, filterKeys: string[]) {
     filterKeys.forEach(data => {
       Object.defineProperty(filterObj, data.toLowerCase(), Object.getOwnPropertyDescriptor(filterObj, data) || {})
-      if (filterObj[data].value && filterObj[data].value !== {}) {
+      if (filterObj[data].value && Object.keys(filterObj[data].value).length > 0) {
         this.lowerCaseFilter(filterObj[data].value, Object.keys(filterObj[data].value))
       }
     })

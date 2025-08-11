@@ -1,8 +1,8 @@
 import { APP_BASE_HREF } from '@angular/common'
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { MatDialog } from '@angular/material/dialog'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
   AUTHORING_CONTENT_BASE,

@@ -1,6 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { ActivatedRoute, ParamMap, Router } from '@angular/router'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { IWsEmailUserId, IWsUserFollow } from '../../model/leadership-email.model'

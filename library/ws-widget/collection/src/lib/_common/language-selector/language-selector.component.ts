@@ -1,6 +1,6 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core'
 import { ConfigurationsService, NsInstanceConfig } from '../../../../../utils/src/public-api'
-import { MatSelectChange } from '@angular/material/select'
+import { MatLegacySelectChange as MatSelectChange } from '@angular/material/legacy-select'
 
 @Component({
   selector: 'ws-widget-language-selector',

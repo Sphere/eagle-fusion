@@ -12,7 +12,7 @@ import {
   ConfigurationsService, ValueService
 } from '@ws-widget/utils'
 import { Observable } from "rxjs"
-import { MatDialogRef } from '@angular/material/dialog'
+import { MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
 
 @Component({
   selector: "app-notification",

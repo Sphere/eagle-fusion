@@ -5,10 +5,10 @@ import { IapRoutingModule } from './iap-routing.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { IapModule as IapViewContainerModule } from '../../route-view-container/iap/iap.module'
 
-import { MatCardModule } from '@angular/material/card'
+import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
 import { MatDividerModule } from '@angular/material/divider'
-import { MatButtonModule } from '@angular/material/button'
-import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
+import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar'
 
 
 import {

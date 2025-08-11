@@ -86,7 +86,7 @@ $theme-background: mat.define-palette(mat.$blue-palette);
         $custom-background-color: #ffffff;
         color: #424242 !important;
 
-        $custom-typography: mat.define-typography-config(
+        $custom-typography: mat.define-legacy-typography-config(
             $font-family: 'Roboto'
         );
         $background: map-get($theme, background);
@@ -97,8 +97,8 @@ $theme-background: mat.define-palette(mat.$blue-palette);
         // @include mat-button-theme($candy-app-theme);
         // @include mat-checkbox-theme($candy-app-theme);
         // @include mat-core($custom-typography);
-        @include mat.all-component-typographies($custom-typography);
-        @include mat.all-component-themes($theme);
+        @include mat.all-legacy-component-typographies($custom-typography);
+        @include mat.all-legacy-component-themes($theme);
         @include theme-based-configurations($theme);
         $background: $background-color;
         .mat-app-background {
@@ -109,15 +109,15 @@ $theme-background: mat.define-palette(mat.$blue-palette);
     &.night-mode {
         $theme: mat.define-dark-theme($theme-primary, $theme-accent, $theme-warn);
         $custom-background-color: #444444;
-        $custom-typography: mat.define-typography-config(
+        $custom-typography: mat.define-legacy-typography-config(
             $font-family: 'Roboto'
         );
 
         $background: map-get($theme, background);
         $background: map_merge($background, (background: $custom-background-color));
         $theme: map_merge($theme, (background: $background));
-        @include mat.all-component-typographies($custom-typography);
-        @include mat.all-component-themes($theme);
+        @include mat.all-legacy-component-typographies($custom-typography);
+        @include mat.all-legacy-component-themes($theme);
         @include theme-based-configurations($theme);
         $background: $background-color;
     }

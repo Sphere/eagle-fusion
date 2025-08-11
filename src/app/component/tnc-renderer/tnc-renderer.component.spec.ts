@@ -5,7 +5,7 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { of } from 'rxjs'
 import { CUSTOM_ELEMENTS_SCHEMA } from '@angular/core' // Import CUSTOM_ELEMENTS_SCHEMA
 import { MatIconModule } from '@angular/material/icon' // Import MatIconModule
-import { MatMenuModule } from '@angular/material/menu' // Import MatMenuModule
+import { MatLegacyMenuModule as MatMenuModule } from '@angular/material/legacy-menu' // Import MatMenuModule
 import { HttpClientTestingModule } from '@angular/common/http/testing' // Import HttpClientTestingModule
 import { PipeSafeSanitizerPipe } from '../../../../library/ws-widget/utils/src/lib/pipes/pipe-safe-sanitizer/pipe-safe-sanitizer.pipe'
 

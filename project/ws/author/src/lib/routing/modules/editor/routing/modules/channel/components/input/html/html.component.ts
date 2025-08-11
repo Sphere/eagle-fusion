@@ -6,7 +6,7 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { UploadService } from '@ws/author/src/lib/routing/modules/editor/shared/services/upload.service'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import mustache from 'mustache'
 

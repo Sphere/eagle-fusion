@@ -18,7 +18,7 @@ import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import get from 'lodash/get'
-import { MatDialog } from '@angular/material/dialog'
+import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 
 @Component({

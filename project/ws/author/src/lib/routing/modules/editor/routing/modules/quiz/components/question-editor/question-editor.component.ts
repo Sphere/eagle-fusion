@@ -1,5 +1,5 @@
 import { Component, OnInit, Input, OnChanges, OnDestroy } from '@angular/core'
-import { MatSnackBar } from '@angular/material/snack-bar'
+import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
 import { QuizStoreService } from '../../services/store.service'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component.ts'
 import { NOTIFICATION_TIME, ASSESSMENT } from '../../constants/quiz-constants'

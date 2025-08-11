@@ -26,13 +26,13 @@ $theme-background: mat.define-palette(mat.$red-palette);
     // $background: map-get($theme, background);
     // $background: map_merge($background, (background: $custom-background-color));
     // $theme: map_merge($theme, (background: $background));
-    @include mat.all-component-themes($theme);
+    @include mat.all-legacy-component-themes($theme);
     @include theme-based-configurations($theme);
     // $background: $background-color;
   }
   &.night-mode {
     $theme: mat.define-dark-theme($theme-primary, $theme-accent, $theme-warn);
-    @include mat.all-component-themes($theme);
+    @include mat.all-legacy-component-themes($theme);
     @include theme-based-configurations($theme);
   }
 }

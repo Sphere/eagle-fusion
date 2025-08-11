@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing'
-import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar' // Import MatSnackBarModule
+import { MatLegacySnackBarModule as MatSnackBarModule, MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar' // Import MatSnackBarModule
 import { RouterTestingModule } from '@angular/router/testing'
 
 import { BnrcLoginOtpComponent } from './bnrc-login-otp.component'
