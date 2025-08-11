@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable, LOCALE_ID } from '@angular/core'
-import { ActivatedRouteSnapshot, Resolve } from '@angular/router'
+import { ActivatedRouteSnapshot } from '@angular/router'
 import { forkJoin, Observable, of } from 'rxjs'
 import { catchError, map, mergeMap } from 'rxjs/operators'
 import { ConfigurationsService } from '../services/configurations.service'
@@ -12,7 +12,7 @@ import { NsContent } from '../../../../collection/src/lib/_services/widget-conte
 @Injectable({
   providedIn: 'root',
 })
-export class PageResolve implements Resolve<IResolveResponse<NsPage.IPage>> {
+export class PageResolve  {
   private baseUrl = this.configSvc.sitePath
   constructor(
     private configSvc: ConfigurationsService,

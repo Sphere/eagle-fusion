@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { ActivatedRouteSnapshot, Resolve, Router } from '@angular/router'
+import { ActivatedRouteSnapshot, Router } from '@angular/router'
 import { catchError, map, tap } from 'rxjs/operators'
 import { Observable, of } from 'rxjs'
 import { AccessControlService } from '@ws/author'
@@ -12,10 +12,7 @@ import { Platform } from '@angular/cdk/platform'
 // const ADDITIONAL_FIELDS_IN_CONTENT = ['creatorContacts', 'source', 'exclusiveContent', 'body']
 @Injectable()
 export class ViewerResolve
-  implements
-  Resolve<
-    Observable<IResolveResponse<NsContent.IContent>> | IResolveResponse<NsContent.IContent> | null
-  > {
+   {
   constructor(
     private contentSvc: WidgetContentService,
     private viewerDataSvc: ViewerDataService,

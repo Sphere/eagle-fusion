@@ -1,6 +1,6 @@
 import { INIT } from '@ws/author/src/lib/constants/apiEndpoints'
 import { Injectable } from '@angular/core'
-import { Resolve } from '@angular/router'
+
 import { Observable } from 'rxjs'
 import { ApiService } from './api.service'
 import { AccessControlService } from './access-control.service'
@@ -8,7 +8,7 @@ import { AccessControlService } from './access-control.service'
 @Injectable({
   providedIn: 'root',
 })
-export class AuthInitResolver implements Resolve<any> {
+export class AuthInitResolver  {
 
   constructor(
     private svc: ApiService,

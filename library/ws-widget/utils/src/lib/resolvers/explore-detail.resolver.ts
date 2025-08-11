@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { map, catchError } from 'rxjs/operators'
@@ -11,11 +11,7 @@ import { ConfigurationsService } from '../services/configurations.service'
   providedIn: 'root',
 })
 export class ExploreDetailResolve
-  implements
-  Resolve<
-  | Observable<IResolveResponse<any>>
-  | IResolveResponse<any>
-  > {
+   {
   private baseUrl = this.configSvc.sitePath
   isIntranetAllowedSettings = false
   constructor(

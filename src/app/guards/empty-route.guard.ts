@@ -1,18 +1,12 @@
 import { Injectable } from '@angular/core'
-import {
-  CanActivate,
-  ActivatedRouteSnapshot,
-  RouterStateSnapshot,
-  UrlTree,
-  Router,
-} from '@angular/router'
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router'
 import { Observable } from 'rxjs'
 import { ConfigurationsService } from '@ws-widget/utils'
 
 @Injectable({
   providedIn: 'root',
 })
-export class EmptyRouteGuard implements CanActivate {
+export class EmptyRouteGuard  {
   // constructor(private router: Router, private configSvc: ConfigurationsService) {}
   constructor(private router: Router, private configSvc: ConfigurationsService) { }
   canActivate(

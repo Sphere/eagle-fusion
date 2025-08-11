@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { map, catchError } from 'rxjs/operators'
@@ -9,11 +9,7 @@ import { IResolveResponse } from '@ws-widget/utils'
   providedIn: 'root',
 })
 export class MarketingOfferingResolve
-  implements
-  Resolve<
-  | Observable<IResolveResponse<any>>
-  | IResolveResponse<any>
-  > {
+   {
   constructor(
     private http: HttpClient,
   ) { }

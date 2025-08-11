@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router'
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { NsInstanceConfig, ConfigurationsService, IResolveResponse } from '@ws-widget/utils'
 
 @Injectable()
-export class ConfigResolverService implements Resolve<Observable<NsInstanceConfig.IConfig>> {
+export class ConfigResolverService  {
 
   constructor(private configSvc: ConfigurationsService) { }
 

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot } from '@angular/router'
+import { ActivatedRouteSnapshot, Router, RouterStateSnapshot } from '@angular/router'
 import { NsContent, PipeContentRoutePipe, WidgetContentService } from '@ws-widget/collection'
 import { IResolveResponse } from '@ws-widget/utils/src/public-api'
 import { Observable, of } from 'rxjs'
@@ -50,10 +50,7 @@ const ADDITIONAL_FIELDS_IN_CONTENT = [
 ]
 @Injectable()
 export class AppTocResolverService
-  implements
-  Resolve<
-  Observable<IResolveResponse<NsContent.IContent>> | IResolveResponse<NsContent.IContent>
-  > {
+   {
   constructor(
     private contentSvc: WidgetContentService,
     private routePipe: PipeContentRoutePipe,

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { Resolve } from '@angular/router'
+
 import { Observable, of } from 'rxjs'
 import { map, catchError } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
@@ -16,7 +16,7 @@ const API_END_POINTS = {
   ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role',
 }
 @Injectable()
-export class TncPublicResolverService implements Resolve<Observable<IResolveResponse<NsTnc.ITnc>> | IResolveResponse<NsTnc.ITnc>> {
+export class TncPublicResolverService  {
 
   constructor(
     private http: HttpClient,

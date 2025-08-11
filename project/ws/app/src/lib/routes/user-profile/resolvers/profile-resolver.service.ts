@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core'
-import { ActivatedRouteSnapshot, Resolve, RouterStateSnapshot } from '@angular/router'
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of } from 'rxjs'
 import { NsUser, ConfigurationsService, IResolveResponse } from '@ws-widget/utils'
 
 @Injectable()
-export class ProfileResolverService implements Resolve<Observable<NsUser.IUserProfile>> {
+export class ProfileResolverService  {
 
   constructor(private configSvc: ConfigurationsService) { }
 

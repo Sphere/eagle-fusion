@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core'
-import { CanActivate, ActivatedRouteSnapshot, Router } from '@angular/router'
+import { ActivatedRouteSnapshot, Router } from '@angular/router'
 import get from 'lodash/get'
 import forEach from 'lodash/forEach'
 import { forkJoin, of } from 'rxjs'
@@ -11,7 +11,7 @@ import { viewerRouteGenerator } from '@ws-widget/collection'
 @Injectable({
   providedIn: 'root',
 })
-export class SelfAssessmentGuard implements CanActivate {
+export class SelfAssessmentGuard  {
 
   resumeData: any = null
   eventData: any = null

@@ -1,18 +1,14 @@
 import { Injectable } from '@angular/core'
-import {
-  ActivatedRouteSnapshot,
-  CanActivate,
-  Router,
-  // RouterStateSnapshot,
-  UrlTree,
-} from '@angular/router'
+import { ActivatedRouteSnapshot, Router, 
+// RouterStateSnapshot,
+UrlTree } from '@angular/router'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class GeneralGuard implements CanActivate {
+export class GeneralGuard  {
   dobFlag = false
   isXSmall = false
   locale = ''
