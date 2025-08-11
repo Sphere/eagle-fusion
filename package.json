@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "ng": "ng",
-    "start": "NODE_OPTIONS=--openssl-legacy-provider node --max_old_space_size=10000 ./node_modules/@angular/cli/bin/ng serve --proxy-config proxy/localhost.proxy.json -o",
+    "start": "node --max_old_space_size=10000 ./node_modules/@angular/cli/bin/ng serve --proxy-config proxy/localhost.proxy.json -o",
     "start:hi": "node --max_old_space_size=10000 ./node_modules/@angular/cli/bin/ng serve --proxy-config proxy/localhost.proxy.json -o --c=hi",
     "dev": "npm run start:eagle-dev",
     "build": "NODE_OPTIONS=--openssl-legacy-provider node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --configuration production --output-path=dist/www/en --base-href=/ --vendor-chunk --common-chunk --verbose",
