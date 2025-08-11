@@ -57,12 +57,12 @@
         <mat-list-item *ngIf="isEkshamata" class="link-header" i18n> Policies </mat-list-item>
         <mat-list-item *ngIf="!isEkshamata" class="link-header" i18n> Quick Links </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}" i18n>
+          <a routerLink="/public/tnc" [queryParams]="{panel: 'dp'}" i18n>
             Privacy policy
           </a>
         </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
-          <a class="list-item" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}" i18n>
+          <a routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}" i18n>
             Terms of Use
           </a>
         </mat-list-item>
@@ -71,10 +71,10 @@
       <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
         <mat-list-item>
           <a *ngIf="!isEkshamata" href="http://support.aastrika.org/support/solutions" target="_blank" i18n
-            id="footer-help-contact" class="list-item link-header" i18n>Help & Contact </a>
+            id="footer-help-contact" class="link-header" i18n>Help & Contact </a>
           <a *ngIf="isEkshamata&&(configSvc.hostedInfo?.email||configSvc.hostedInfo?.phone)"
             href="http://support.aastrika.org/support/solutions" target="_blank" i18n id="footer-help-contact"
-            class="list-item link-header" i18n>Help & Contact </a>
+            class="link-header" i18n>Help & Contact </a>
         </mat-list-item>
         <!-- <mat-list-item> <a routerLink="/app/social/blogs" i18n>Blog</a> </mat-list-item> -->
         <mat-list-item *ngIf="!isEkshamata" style="margin-top: 10px;">
