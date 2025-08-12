@@ -7,10 +7,9 @@ import {
   ComponentRef,
   Type,
 } from '@angular/core'
-import { NsWidgetResolver } from '../public-api'
+import { NsWidgetResolver } from '../lib/widget-resolver.model'
 import { DomSanitizer } from '@angular/platform-browser'
 import { InvalidRegistrationComponent } from './invalid-registration/invalid-registration.component'
-import { InvalidPermissionComponent } from './invalid-permission/invalid-permission.component'
 import { UnresolvedComponent } from './unresolved/unresolved.component'
 
 @Injectable({
@@ -81,9 +80,6 @@ export class ExploreResolverService {
       }
       // Not properly registered
       return this.widgetResolved(containerRef, receivedConfig, InvalidRegistrationComponent)
-      // }
-      // No Permission
-      return this.widgetResolved(containerRef, receivedConfig, InvalidPermissionComponent)
     }
     // Not Resolved
     return this.widgetResolved(containerRef, receivedConfig, UnresolvedComponent)

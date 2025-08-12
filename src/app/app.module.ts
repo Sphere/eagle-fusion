@@ -4,7 +4,7 @@ import {
   CommonModule
 } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
-import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
+import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core'
 // import { GestureConfig } from '@angular/material/core/gestures/gesture-config'
 // import * as Hammer from 'hammerjs'
 import { MatLegacyButtonModule as MatButtonModule } from '@angular/material/legacy-button'
@@ -432,7 +432,7 @@ const dbConfig: DBConfig = {
     Title,
     UserAgentResolverService,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AppModule { }
 

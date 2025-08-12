@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 import { LoggerService } from './logger.service'
-import { NsInstanceConfig } from './configurations.model'
+import { NsInstanceConfig } from '../resolvers/configurations.model'
 import { HttpClient } from '@angular/common/http'
 import { IWsMsTokenModelResponse } from './ms-office.model'
 // TODO: Use a url-search-polyfill if the site didnot work in IE 11

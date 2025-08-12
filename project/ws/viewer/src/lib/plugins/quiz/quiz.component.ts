@@ -19,7 +19,6 @@ import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submi
 import { OnConnectionBindInfo } from 'jsplumb'
 import { QuizService } from './quiz.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
-export type FetchStatus = 'hasMore' | 'fetching' | 'done' | 'error' | 'none'
 import { ViewerUtilService } from './../../viewer-util.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AssesmentOverviewComponent } from './components/assesment-overview/assesment-overview.component'
@@ -42,7 +41,6 @@ import {
 } from '@ws-widget/utils'
 import moment from 'moment'
 // import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
-
 @Component({
   selector: 'viewer-plugin-quiz',
   templateUrl: './quiz.component.html',
@@ -84,7 +82,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   @ViewChild('submitModal', { static: false }) submitModal: ElementRef | null = null
   currentQuestionIndex = 0
   currentTheme = ''
-  fetchingResultsStatus: FetchStatus = 'none'
+  fetchingResultsStatus: NSQuiz.FetchStatus = 'none'
   isCompleted = false
   isIdeal = false
   isSubmitted = false

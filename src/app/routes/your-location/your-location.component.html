@@ -44,7 +44,7 @@
           <h3 class="mb-1" i18n>Your Location</h3>
           <div class="form-group input-box ">
             <select id="country" formControlName="country" class="form-control select-box" name="country-input-field"
-              (change)="countrySelect($event.target.value);disableNextBtn()">
+              (change)="countrySelect($event.target?.value);disableNextBtn()">
               <option [value]=null disabled i18n>Country</option>
               <option *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>
             </select>
@@ -69,7 +69,7 @@
 
           <div class="next-btn-div">
             <button class="form-group login-button" name="login" type="submit" id="next-btn"
-              [disabled]="!aboutYouForm?.valid || nextBtnDisable " (click)="onsubmit(aboutYouForm)" i18n>Next</button>
+              [disabled]="!aboutYouForm?.valid || nextBtnDisable " (click)="onsubmit()" i18n>Next</button>
           </div>
 
         </form>

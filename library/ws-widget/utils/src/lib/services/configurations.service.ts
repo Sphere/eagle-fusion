@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, ReplaySubject } from 'rxjs'
 import { environment } from '../../../../../../src/environments/environment'
-import { NsPage } from '../resolvers/page.model'
-import { NsAppsConfig, NsInstanceConfig, NsUser } from './configurations.model'
+import { NsAppsConfig, NsInstanceConfig, NsPage, NsUser } from '../resolvers/configurations.model'
 import { IUserPreference } from './user-preference.model'
 
 let instanceConfigPath: string | null = window.location.host

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core'
 // import { AuthKeycloakService } from '@ws-widget/utils'
-import { NsContent } from '../../../library/ws-widget/collection/src/public-api'
+import { NsContent } from '../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
 // tslint:disable-next-line: max-line-length
 import {
   CHAT_BOT_VISIBILITY,
@@ -33,7 +33,7 @@ export class MobileAppsService {
   constructor(
     // private authSvc: AuthKeycloakService,
     private navigateSvc: NavigationExternalService,
-  ) {}
+  ) { }
 
   init() {
     this.setupGlobalMethods()

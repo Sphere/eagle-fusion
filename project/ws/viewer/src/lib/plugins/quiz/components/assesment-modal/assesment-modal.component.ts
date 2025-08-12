@@ -4,7 +4,6 @@ import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
 import { first, map, takeUntil } from 'rxjs/operators'
-import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 declare var $: any
@@ -47,7 +46,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   progressbarValue = 0
   isCompleted = false
   isCompetencyComplted = false
-  fetchingResultsStatus: FetchStatus = 'none'
+  fetchingResultsStatus: NSQuiz.FetchStatus = 'none'
   questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
   dialog: any

@@ -4,9 +4,6 @@
     "outDir": "./out-tsc/app",
     "types": ["node", "@types/zip.js"]
   },
-  "angularCompilerOptions": {
-    "enableIvy": false
-  },
   "files": ["global.d.ts"],
   "include": ["src/**/*.ts"],
   "exclude": ["src/test.ts", "src/**/*.spec.ts", "setup-jest.ts"]

@@ -4,7 +4,6 @@ import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
-import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
 //import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
@@ -34,7 +33,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   result = 0
   progressbarValue = 0
   isCompleted = false
-  fetchingResultsStatus: FetchStatus = 'none'
+  fetchingResultsStatus: NSQuiz.FetchStatus = 'none'
   questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
   dialog: any
