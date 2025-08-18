@@ -59,16 +59,18 @@ export class YourLocationComponent implements OnInit {
       this.states = data.states
     })
   }
-  countrySelect(option: any) {
+  countrySelect(event: Event) {
     console.log(this.aboutYouForm.controls)
-    this.setCountryCode(option)
-    if (option === 'India') {
+    let option = event.target as HTMLInputElement
+    this.setCountryCode(option.value)
+    if (option.value === 'India') {
       this.selectDisable = false
     } else {
       this.selectDisable = true
       this.aboutYouForm.controls.state.setValue(null)
       this.aboutYouForm.controls.distict.setValue(null)
     }
+    this.disableNextBtn()
   }
   setCountryCode(country: string) {
     const selectedCountry = this.countries.filter((e: any) => e.name.toLowerCase() === country.toLowerCase())
@@ -103,14 +105,16 @@ export class YourLocationComponent implements OnInit {
     }
   }
 
-  stateSelect(option: any) {
+  stateSelect(event: Event) {
+    let option = event.target as HTMLInputElement
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
       statesdata.states.map((item: any) => {
-        if (item.state === option) {
+        if (item.state === option.value) {
           this.disticts = item.districts
         }
       })
     })
+    this.disableNextBtn()
   }
 
   onsubmit() {

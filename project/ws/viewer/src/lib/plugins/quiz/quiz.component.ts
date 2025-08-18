@@ -9,7 +9,7 @@ import {
   ViewChild, ViewChildren,
 } from '@angular/core'
 import { Location } from '@angular/common'
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { MatSidenav } from '@angular/material/sidenav'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map, takeUntil, first } from 'rxjs/operators'
@@ -25,8 +25,7 @@ import { AssesmentOverviewComponent } from './components/assesment-overview/asse
 import { AssesmentModalComponent } from './components/assesment-modal/assesment-modal.component'
 import { AssesmentCloseModalComponent } from './components/assesment-close-modal/assesment-close-modal.component'
 import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
-import get from 'lodash/get'
-import isNull from 'lodash/isNull'
+import { get, isNull } from 'lodash'
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewerDataService } from '../../viewer-data.service'
 import { PlayerStateService } from '../../player-state.service'

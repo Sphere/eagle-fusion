@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, UtilityService, NsInstanceConfig, AuthKeycloakService } from '@ws-widget/utils'
 import { Subscription, of } from 'rxjs'
@@ -12,8 +12,7 @@ import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserProfileService } from '../../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { Title } from '@angular/platform-browser'
-import get from 'lodash/get'
-import forEach from 'lodash/forEach'
+import { get, forEach } from 'lodash'
 
 @Component({
   selector: 'ws-widget-card-content',

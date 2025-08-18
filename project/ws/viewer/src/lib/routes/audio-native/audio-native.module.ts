@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
+import { MatCardModule } from '@angular/material/card'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatIconModule } from '@angular/material/icon'
-import { MatLegacySnackBarModule as MatSnackBarModule } from '@angular/material/legacy-snack-bar'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 
 import { WidgetResolverModule } from '@ws-widget/resolver'

@@ -1,8 +1,8 @@
 import { APP_BASE_HREF } from '@angular/common'
 import { ChangeDetectorRef, Component, Inject, OnDestroy, OnInit } from '@angular/core'
 import { UntypedFormGroup } from '@angular/forms'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { MatDialog } from '@angular/material/dialog'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute, Router } from '@angular/router'
 import {
   AUTHORING_CONTENT_BASE,
@@ -446,10 +446,10 @@ export class ChannelComponent implements OnInit, OnDestroy {
         if (v.artifactURL) {
           meta.artifactUrl = v.artifactURL
           meta.lastUpdatedOn = `${new Date()
-              .toISOString()
-              .replace(/-/g, '')
-              .replace(/:/g, '')
-              .split('.')[0]
+            .toISOString()
+            .replace(/-/g, '')
+            .replace(/:/g, '')
+            .split('.')[0]
             }+0000`
         }
         return this.triggerSave(meta, id)

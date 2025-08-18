@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import includes from 'lodash/includes'
-import find from 'lodash/find'
+import { find, includes } from 'lodash'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { Meta, Title } from '@angular/platform-browser'

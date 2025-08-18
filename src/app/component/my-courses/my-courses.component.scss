@@ -103,7 +103,7 @@
   }
   ::ng-deep .mat-tab-label {
     padding: 0px !important; // adjust this to whatever padding you need
-    justify-content: left !important;
+    justify-content: end !important;
   }
 }
 
@@ -120,7 +120,7 @@
 
   ::ng-deep .mat-tab-label {
     padding: 0px !important; // adjust this to whatever padding you need
-    justify-content: left !important;
+    justify-content: end !important;
   }
 
   .myCoursesList {
@@ -161,7 +161,7 @@
 
   .card-thumbnail {
     $image-height: 65px;
-    width: (16 / 9) * $image-height;
+    width: calc(16 / 9) * $image-height;
     cursor: pointer;
     height: 70px;
     min-width: 100px;

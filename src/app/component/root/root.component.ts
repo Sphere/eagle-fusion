@@ -37,11 +37,10 @@ import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import split from 'lodash/split'
-import { Plugins } from '@capacitor/core'
+import { split } from 'lodash'
+import { App } from '@capacitor/app'
 import dayjs from 'dayjs'
 //import { v4 as uuid } from 'uuid'
-const { App } = Plugins
 // NOSONAR - This commented code is intentional
 //import { SignupService } from 'src/app/routes/signup/signup.service'
 // import { SwUpdate } from '@angular/service-worker'

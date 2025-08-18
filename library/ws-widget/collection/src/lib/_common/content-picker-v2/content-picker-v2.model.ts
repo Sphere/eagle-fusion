@@ -5,10 +5,10 @@ export interface IAppliedFilters {
 
 export interface IWidgetData {
   preselected?: Set<string>
-  includedFilters?: IFilter
+  includedFilters?: IIncludedFilters
   preAppliedFilters?: IFilter
   mode?: 'ids' | 'query'
-  sortableFields?: NSSearch.ISearchSort
+  sortableFields?: NSSearch.ISearchV6VisibleFilters
 }
 
 export interface IFilter {

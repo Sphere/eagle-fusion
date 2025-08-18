@@ -120,12 +120,12 @@ $banner-min-height: 200px;
 
     .dot.active {
       background-color: #d3d3d3;
-      height: $size-s + ($size-xs / 4);
-      width: $size-s + ($size-xs / 4);
+      height: $size-s + calc($size-xs / 4);
+      width: $size-s + calc($size-xs / 4);
 
       @include breakpoint-xs {
-        height: $size-xs + ($size-xs / 4);
-        width: $size-xs + ($size-xs / 4);
+        height: $size-xs + calc($size-xs / 4);
+        width: $size-xs + calc($size-xs / 4);
       }
     }
   }

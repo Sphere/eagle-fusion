@@ -9,7 +9,7 @@ import {
   ROOT_WIDGET_CONFIG,
   // CustomTourService
 } from '@ws-widget/collection'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatDialog } from '@angular/material/dialog'
 import { AccessControlService } from '../../../../project/ws/author/src/public-api'
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
   featureWidgets: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[]

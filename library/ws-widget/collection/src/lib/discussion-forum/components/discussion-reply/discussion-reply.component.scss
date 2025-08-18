@@ -3,7 +3,7 @@
 
 .reply-container {
   // display: flex;
-  margin-top: $size-xs / 2;
+  margin-top: calc($size-xs / 2);
   margin-bottom: -40px;
   padding: 15px 0 0 15px;
   @include breakpoint-xs {

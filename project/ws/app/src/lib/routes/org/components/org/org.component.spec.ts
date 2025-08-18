@@ -1,8 +1,8 @@
 import { ActivatedRoute } from '@angular/router'
 import { OrgComponent } from './org.component'
 import { MatIconModule } from '@angular/material/icon'
-import { MatLegacyCardModule as MatCardModule } from '@angular/material/legacy-card'
-import { MdePopoverModule } from '@material-extended/mde'
+import { MatCardModule } from '@angular/material/card'
+// import { MdePopoverModule } from '@material-extended/mde'
 import { ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing'
 import { HttpClientTestingModule } from '@angular/common/http/testing'
 import { RouterTestingModule } from '@angular/router/testing'
@@ -17,7 +17,7 @@ describe('OrgComponent', () => {
   beforeEach(fakeAsync(() => {
     TestBed.configureTestingModule({
       declarations: [OrgComponent],
-      imports: [MdePopoverModule, MatIconModule, MatCardModule, HttpClientTestingModule, RouterTestingModule],
+      imports: [MatIconModule, MatCardModule, HttpClientTestingModule, RouterTestingModule],
       providers: [
         {
           provide: ActivatedRoute,

@@ -1,8 +1,8 @@
 import { DeleteDialogComponent } from '@ws/author/src/lib/modules/shared/components/delete-dialog/delete-dialog.component'
 import { Component, OnInit, OnDestroy, ViewChild, Input } from '@angular/core'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatDialog } from '@angular/material/dialog'
 import { UploadAudioComponent } from '../upload-audio/upload-audio.component'
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'

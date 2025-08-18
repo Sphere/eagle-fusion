@@ -4,15 +4,14 @@ import {
 } from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig, ValueService } from '@ws-widget/utils'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatDialog } from '@angular/material/dialog'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 // import { Router } from '@angular/router'
 import { Location } from '@angular/common'
 // declare const gapi: any
 /* tslint:disable*/
-import compact from 'lodash/compact'
-import get from 'lodash/get'
+import { compact, get } from 'lodash'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 //import { WidgetContentService } from '../_services/widget-content.service'
 import { IBtnAppsConfig } from '../btn-apps/btn-apps.model'

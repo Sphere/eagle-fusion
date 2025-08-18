@@ -6,7 +6,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import { WebCourseCardComponent } from './web-course-card.component'
 import { Title } from '@angular/platform-browser'
-import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
 
 describe('WebCourseCardComponent', () => {
   let component: WebCourseCardComponent

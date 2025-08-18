@@ -23,11 +23,11 @@
 
   .dot.active {
     background-color: #d3d3d3;
-    height: $size-m + ($size-xs / 4);
-    width: $size-m + ($size-xs / 4);
+    height: $size-m + calc($size-xs / 4);
+    width: $size-m + calc($size-xs / 4);
     // @include breakpoint-lt-m {
-    //   height: $size-xs + ($size-xs / 4);
-    //   width: $size-xs + ($size-xs / 4);
+    //   height: $size-xs + calc($size-xs / 4);
+    //   width: $size-xs + calc($size-xs / 4);
     // }
   }
 }

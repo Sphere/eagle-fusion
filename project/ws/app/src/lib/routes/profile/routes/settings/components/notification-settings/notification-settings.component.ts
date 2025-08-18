@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { NsSettings } from '../../settings.model'
 import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
 import { SettingsService } from '../../settings.service'
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
   selector: 'ws-app-notification-settings',

@@ -1,4 +1,4 @@
-import { IWidgetCardBreadcrumb } from '@ws-widget/collection/src/lib/card-breadcrumb/card-breadcrumb.model'
+// import { IWidgetCardBreadcrumb } from '@ws-widget/collection/src/lib/card-breadcrumb/card-breadcrumb.model'
 import { distinctUntilChanged, debounceTime } from 'rxjs/operators'
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { UntypedFormGroup, UntypedFormBuilder, UntypedFormArray, Validators } from '@angular/forms'
@@ -12,8 +12,8 @@ export class BreadcrumComponent implements OnInit {
 
   form!: UntypedFormGroup
   @Input() isSubmitPressed = false
-  @Input() content!: IWidgetCardBreadcrumb
-  @Output() data = new EventEmitter<{ content: IWidgetCardBreadcrumb, isValid: boolean }>()
+  @Input() content!: any
+  @Output() data = new EventEmitter<{ content: any, isValid: boolean }>()
 
   constructor(private fb: UntypedFormBuilder) { }
 

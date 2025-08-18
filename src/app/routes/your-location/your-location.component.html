@@ -44,7 +44,7 @@
           <h3 class="mb-1" i18n>Your Location</h3>
           <div class="form-group input-box ">
             <select id="country" formControlName="country" class="form-control select-box" name="country-input-field"
-              (change)="countrySelect($event.target?.value);disableNextBtn()">
+              (change)="countrySelect($event)">
               <option [value]=null disabled i18n>Country</option>
               <option *ngFor="let country of countries" [value]="country.name">{{ country.name }}</option>
             </select>
@@ -52,8 +52,7 @@
 
           <div class="form-group input-box">
             <select id="state" formControlName="state" class="form-control select-box" name="state-input-field"
-              (change)="stateSelect($event.target.value);disableNextBtn()"
-              [attr.disabled]="selectDisable ? 'disabled' : null">
+              (change)="stateSelect($event)" [attr.disabled]="selectDisable ? 'disabled' : null">
               <option [value]=null disabled i18n>State</option>
               <option *ngFor="let state of states" [value]="state.name">{{ state.name }}</option>
             </select>

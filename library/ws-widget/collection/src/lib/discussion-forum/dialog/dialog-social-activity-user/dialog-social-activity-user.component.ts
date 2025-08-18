@@ -1,6 +1,6 @@
 import { Component, OnInit, Inject } from '@angular/core'
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog'
-import { MatLegacyTabChangeEvent as MatTabChangeEvent } from '@angular/material/legacy-tabs'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatTabChangeEvent } from '@angular/material/tabs'
 import { HttpErrorResponse } from '@angular/common/http'
 
 import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'

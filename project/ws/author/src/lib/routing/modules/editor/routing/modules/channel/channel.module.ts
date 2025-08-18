@@ -18,7 +18,6 @@ import { EmbedComponent } from './components/input/embed/embed.component'
 import { GalleryWidgetComponent } from './components/input/gallery-widget/gallery-widget.component'
 import { HtmlComponent } from './components/input/html/html.component'
 import { ImageMapComponent } from './components/input/image-map/image-map.component'
-import { InputComponent } from './components/input/input/input.component'
 import { SliderComponent } from './components/input/slider/slider.component'
 import { PageEditorComponent } from './components/page-editor/page-editor.component'
 import { TemplateComponent } from './components/template/template.component'
@@ -46,7 +45,6 @@ import { SearchTemplateComponent } from './components/input/search-template/sear
 import { ChannelResolverService } from './services/resolver.service'
 import { MediaWrapperComponent } from './components/input/media-wrapper/media-wrapper.component'
 import { IntranetSelectorComponent } from './components/input/intranet-selector/intranet-selector.component'
-import { DraggableModule } from '../../../../../../directives/draggable/draggable.module'
 @NgModule({
     declarations: [
         ChannelComponent,
@@ -59,7 +57,6 @@ import { DraggableModule } from '../../../../../../directives/draggable/draggabl
         TabComponent,
         SelectorResponsiveComponent,
         GalleryComponent,
-        InputComponent,
         ChipsComponent,
         BreadcrumComponent,
         AudioVideoComponent,
@@ -96,9 +93,8 @@ import { DraggableModule } from '../../../../../../directives/draggable/draggabl
         WidgetResolverModule,
         HorizontalScrollerModule,
         DragDropModule,
-        PickerContentModule,
-        DraggableModule,
+        PickerContentModule
     ],
     providers: [ChannelResolverService]
 })
-export class ChannelModule {}
+export class ChannelModule { }

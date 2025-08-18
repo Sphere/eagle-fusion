@@ -17,8 +17,8 @@ import { HttpClient } from '@angular/common/http'
 import { SignupService } from '../signup/signup.service'
 import { delay, mergeMap } from 'rxjs/operators'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-import get from 'lodash/get'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { get } from 'lodash'
+import { MatDialog } from '@angular/material/dialog'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 
 @Component({

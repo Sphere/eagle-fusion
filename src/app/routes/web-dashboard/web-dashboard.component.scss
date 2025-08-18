@@ -21,7 +21,7 @@
 .ekshamta-banner-container{
    display: flex;
   flex: 100%;
-  justify-content: end;
+  justify-content: flex-end;
   transition: transform 0.3s ease
 }
 .banner-sub-heading{
@@ -44,7 +44,7 @@ height: 134.79px;
   display: flex;
     flex-direction: column;
     flex: 35%;
-    justify-content: left;
+    justify-content: flex-end;
         padding-left: 85px;
 }
 .banner-heading{

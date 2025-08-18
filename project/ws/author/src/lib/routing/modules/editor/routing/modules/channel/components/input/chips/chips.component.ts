@@ -11,13 +11,12 @@ import {
   ChangeDetectorRef,
   OnDestroy,
 } from '@angular/core'
-import { MatLegacyChipInputEvent as MatChipInputEvent } from '@angular/material/legacy-chips'
+import { MatChipInputEvent } from '@angular/material/chips'
 import { CdkDragDrop, moveItemInArray } from '@angular/cdk/drag-drop'
 import { NotificationComponent } from '@ws/author/src/lib/modules/shared/components/notification/notification.component'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
-import { ISortEvent } from '../../../../../../../../../directives/draggable/sortable-list.directive'
 
 @Component({
   selector: 'ws-auth-chips',
@@ -119,7 +118,7 @@ export class ChipsComponent implements OnInit, OnDestroy, AfterViewInit {
     })
   }
 
-  sort(event: ISortEvent) {
+  sort(event: any) {
     const current = this.value[event.currentIndex]
     const swapWith = this.value[event.newIndex]
     this.value[event.newIndex] = current

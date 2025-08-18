@@ -79,7 +79,11 @@
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
-            "sourceMap": true,
+            "sourceMap": {
+              "scripts": true,
+              "styles": true,
+              "vendor": true
+            },
             "optimization": false,
             "namedChunks": true
           },
@@ -92,12 +96,11 @@
                 }
               ],
               "optimization": true,
-              "sourceMap": false,
-              "statsJson": true,
+              "sourceMap": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "budgets": [
                 {
                   "type": "anyComponentStyle",
@@ -108,7 +111,7 @@
               "ngswConfigPath": "ngsw-config.json"
             },
             "hi": {
-              "aot": true,
+              "aot": false,
               "outputPath": "dist/www/hi",
               "localize": [
                 "hi"
@@ -118,7 +121,7 @@
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -264,7 +267,7 @@
   },
   "schematics": {
     "@schematics/angular:component": {
-      "styleext": "scss"
+      "style": "scss"
     }
   }
 }

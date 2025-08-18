@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core'
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog'
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import * as iapInterface from '../../interface/iap-assessment.interface'
 import { IapAssessmentService } from '../../services/iap-assessment.service'
 
@@ -13,7 +13,7 @@ export class ViewQuestionDialogComponent implements OnInit {
     public iapService: IapAssessmentService,
     public dialogRef: MatDialogRef<ViewQuestionDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: iapInterface.IQuestionDetailsContent,
-  ) {}
+  ) { }
 
-  ngOnInit() {}
+  ngOnInit() { }
 }

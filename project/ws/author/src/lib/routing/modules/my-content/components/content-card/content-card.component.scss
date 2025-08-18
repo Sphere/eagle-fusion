@@ -73,7 +73,7 @@ mat-card-actions {
 
 mat-card-content {
   margin-top: 0px;
-  margin-bottom: ($card-padding / 2) + $action-btn-size;
+  margin-bottom: calc($card-padding / 2) + $action-btn-size;
   margin-left: -0.5 * $card-padding;
   margin-right: -0.5 * $card-padding;
 }

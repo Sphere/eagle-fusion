@@ -24,7 +24,7 @@
   flex: 0 0 75%;
   box-sizing: border-box;
   display: flex;
-  justify-content: end;
+  justify-content: flex-end;
   align-items: center;
   flex-direction: column;
   margin-top: 10px;
@@ -33,7 +33,7 @@
 .ekshamta-banner-container{
    display: flex;
   flex: 100%;
-  justify-content: end;
+  justify-content: flex-end;
   transition: transform 0.3s ease
 }
 .banner-sub-heading{

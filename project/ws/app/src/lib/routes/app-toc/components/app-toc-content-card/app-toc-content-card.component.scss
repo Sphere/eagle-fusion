@@ -14,7 +14,7 @@
   .card-thumbnail {
     $image-height: 65px;
     height: $image-height;
-    width: (16 / 9) * $image-height;
+    width: calc(16 / 9) * $image-height;
     margin: 0 $size-s;
     cursor: pointer;
     // background: url(image.png);
@@ -76,7 +76,7 @@ height: 41px;
   .card-thumbnail {
     $image-height: 65px;
     height: $image-height;
-    width: (16 / 9) * $image-height;
+    width: calc(16 / 9) * $image-height;
     margin-right: $size-s;
     cursor: pointer;
   }

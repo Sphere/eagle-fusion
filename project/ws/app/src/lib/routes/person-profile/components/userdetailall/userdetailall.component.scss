@@ -143,5 +143,5 @@ $description-line-height: 3em;
 }
 
 .margin-top-xxs {
-  margin-top: $size-xs / 2;
+  margin-top: calc($size-xs / 2);
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { AppCallBackService } from '../../services/app-call-back.service'
-import get from 'lodash/get'
+import { get } from 'lodash'
 
 @Component({
   selector: 'ws-app-call-back',

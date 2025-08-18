@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 import { RouterModule, Routes } from '@angular/router'
 import { ErrorResolverComponent, PageComponent, PageModule } from '@ws-widget/collection'
 import { ExploreDetailResolve, PageResolve } from '@ws-widget/utils'
@@ -62,6 +62,8 @@ import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
 import { NotificationsComponent } from './routes/notification/notification.component'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
+import { CommonModule } from '@angular/common'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
@@ -595,6 +597,9 @@ const routes: Routes = [
   imports: [
     PageModule,
     FeaturesModule,
+    ReactiveFormsModule,
+    FormsModule,
+    CommonModule,
     RouterModule.forRoot(routes, {
       onSameUrlNavigation: 'reload',
       anchorScrolling: 'enabled',
@@ -604,6 +609,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [ExploreDetailResolve],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppRoutingModule {
   paramsJSON!: string

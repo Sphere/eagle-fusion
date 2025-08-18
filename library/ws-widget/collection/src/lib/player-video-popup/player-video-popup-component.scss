@@ -327,7 +327,7 @@ white-space: break-spaces;
 }
 .result-message-container{
   display: flex;
-    justify-content: end;
+    justify-content: flex-end;
     flex-direction: column;
 }
 .result-answer-info{

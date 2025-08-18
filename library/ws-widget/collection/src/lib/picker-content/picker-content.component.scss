@@ -6,7 +6,7 @@
 }
 
 .margin-bottom-xxs {
-  margin-bottom: $size-xs / 2 !important;
+  margin-bottom: calc($size-xs / 2) !important;
 }
 
 .leading-none {

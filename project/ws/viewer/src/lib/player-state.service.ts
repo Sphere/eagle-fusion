@@ -1,8 +1,6 @@
 import { Injectable } from '@angular/core'
 import { BehaviorSubject, ReplaySubject } from 'rxjs'
-import get from 'lodash/get'
-import isUndefined from 'lodash/isUndefined'
-
+import { get, isUndefined } from 'lodash'
 import { map, take } from 'rxjs/operators'
 
 export interface IPlayerSateStore {

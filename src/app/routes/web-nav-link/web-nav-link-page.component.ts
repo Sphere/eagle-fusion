@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
 import { SignupService } from '../signup/signup.service'

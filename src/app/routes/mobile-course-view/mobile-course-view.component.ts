@@ -5,9 +5,8 @@ import { of } from 'rxjs'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { SignupService } from '../signup/signup.service'
-import forEach from 'lodash/forEach'
+import { forEach, get } from 'lodash'
 import { Title } from '@angular/platform-browser'
-import * as _ from 'lodash'
 
 @Component({
   selector: 'ws-mobile-course-view',
@@ -107,7 +106,7 @@ export class MobileCourseViewComponent implements OnInit {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
-          if (this.userProfileSvc.isBackgroundDetailsFilled(_.get(userDetails, 'profileDetails.profileReq'))) {
+          if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
 
             // location.href = url
             this.router.navigateByUrl(url)

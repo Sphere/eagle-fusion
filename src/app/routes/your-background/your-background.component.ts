@@ -1,10 +1,11 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { FormGroup } from '@angular/forms'
 
 @Component({
   selector: 'ws-your-background',
@@ -12,7 +13,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
   styleUrls: ['./your-background.component.scss'],
 })
 export class YourBackgroundComponent implements OnInit {
-  @Input() aboutYou: any
+  @Input() aboutYou!: FormGroup
   bgImgSelect: any
   almostDone = false
   professions: any

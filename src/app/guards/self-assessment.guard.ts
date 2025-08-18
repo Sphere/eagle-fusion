@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, Router } from '@angular/router'
-import get from 'lodash/get'
-import forEach from 'lodash/forEach'
+import { get, forEach } from 'lodash'
 import { forkJoin, of } from 'rxjs'
 import { mergeMap } from 'rxjs/operators'
 import { WidgetContentService } from '../../../library/ws-widget/collection/src/public-api'
@@ -11,7 +10,7 @@ import { viewerRouteGenerator } from '@ws-widget/collection'
 @Injectable({
   providedIn: 'root',
 })
-export class SelfAssessmentGuard  {
+export class SelfAssessmentGuard {
 
   resumeData: any = null
   eventData: any = null

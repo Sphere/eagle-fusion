@@ -1,7 +1,7 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import { Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
-import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef } from '@angular/material/legacy-dialog'
+import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import {

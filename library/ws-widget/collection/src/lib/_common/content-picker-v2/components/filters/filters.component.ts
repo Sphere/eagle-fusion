@@ -9,9 +9,9 @@ import { IAppliedFilters, IFilter, IIncludedFilters } from '../../content-picker
 export class FiltersComponent implements OnInit {
 
   @Input()
-  includedFilters: IIncludedFilters = {}
+  includedFilters!: IIncludedFilters
   @Input()
-  preAppliedFilters: IFilter = {}
+  preAppliedFilters!: IFilter
 
   @Output()
   appliedFiltersEmitter = new EventEmitter<IAppliedFilters>()
@@ -20,7 +20,7 @@ export class FiltersComponent implements OnInit {
   closeSideNav = new EventEmitter()
 
   appliedFilters: IAppliedFilters = {}
-  objKeys = Object.keys
+  objKeys: string[] = []
 
   constructor() { }
 
@@ -45,6 +45,7 @@ export class FiltersComponent implements OnInit {
       this.appliedFilters[key] = new Set(this.preAppliedFilters[key])
     })
     this.appliedFiltersEmitter.emit(this.appliedFilters)
+    this.objKeys = Object.keys(this.includedFilters)
   }
 
 }

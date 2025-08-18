@@ -2,8 +2,8 @@
   <h2 i18n>Filters</h2>
   <mat-icon (click)="closeFilter()" class="cursor-pointer">close</mat-icon>
 </div>
-<mat-accordion>
-  <mat-expansion-panel *ngFor="let key of objKeys(includedFilters)">
+<mat-accordion *ngIf="objKeys.length > 0">
+  <mat-expansion-panel *ngFor="let key of objKeys">
     <mat-expansion-panel-header>
       {{includedFilters[key].displayName}}
     </mat-expansion-panel-header>

@@ -5,14 +5,14 @@ import { forkJoin, Observable, of } from 'rxjs'
 import { catchError, map, mergeMap } from 'rxjs/operators'
 import { ConfigurationsService } from '../services/configurations.service'
 import { JSON_MAP } from './page.constant'
-import { NsPage } from './page.model'
+import { NsPage } from './configurations.model'
 import { IResolveResponse } from './resolver.model'
 import { NsContent } from '../../../../collection/src/lib/_services/widget-content.model'
 
 @Injectable({
   providedIn: 'root',
 })
-export class PageResolve  {
+export class PageResolve {
   private baseUrl = this.configSvc.sitePath
   constructor(
     private configSvc: ConfigurationsService,

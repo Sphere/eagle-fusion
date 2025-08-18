@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ContentProgressComponent } from './content-progress.component'
-import { MatLegacyProgressBarModule as MatProgressBarModule } from '@angular/material/legacy-progress-bar'
-import { MatLegacyTooltipModule as MatTooltipModule } from '@angular/material/legacy-tooltip'
+import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatTooltipModule } from '@angular/material/tooltip'
 
 @NgModule({
   declarations: [ContentProgressComponent],

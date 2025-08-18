@@ -1,8 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatDialog } from '@angular/material/dialog'
 import { ScrollService } from '../../services/scroll.service'
-import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import * as _ from 'lodash'
 @Component({

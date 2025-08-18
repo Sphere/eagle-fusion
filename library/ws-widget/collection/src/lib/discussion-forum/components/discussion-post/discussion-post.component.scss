@@ -34,7 +34,7 @@
   display: flex;
   align-items: stretch;
   padding: $size-s;
-  margin-top: $size-xs / 2;
+  margin-top: calc($size-xs / 2);
   .write-reply-user-image {
     $size: 36px;
     width: $size;

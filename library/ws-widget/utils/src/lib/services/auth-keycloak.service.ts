@@ -49,7 +49,7 @@ export class AuthKeycloakService {
   get isLoggedIn$() {
     return this.loginChangeSubject.asObservable()
   }
-  get isLoggedIn(): Promise<boolean> {
+  get isLoggedIn(): boolean {
     return this.keycloakSvc.isLoggedIn()
   }
   get isAuthenticated(): boolean | undefined {
@@ -201,7 +201,7 @@ export class AuthKeycloakService {
         case KeycloakEventType.OnAuthSuccess:
           break
         case KeycloakEventType.OnReady:
-          this.loginChangeSubject.next(event.args)
+          this.loginChangeSubject.next(event?.args as any)
           if (event.args) {
             //   this.saveKeycloakConfig()
           }

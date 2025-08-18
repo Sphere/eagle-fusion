@@ -3,9 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { map, share } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
-import get from 'lodash/get'
-import isUndefined from 'lodash/isUndefined'
-
+import { get, isUndefined } from 'lodash'
 import { v4 as uuid } from 'uuid'
 
 const API_END_POINTS = {

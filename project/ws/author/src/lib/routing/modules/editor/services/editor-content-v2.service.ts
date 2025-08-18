@@ -1,6 +1,6 @@
 import { NSContent } from '@ws/author/src/lib/interface/content'
 import { Injectable } from '@angular/core'
-import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject'
+import { BehaviorSubject } from 'rxjs'
 // const sizeof = require('object-sizeof')
 
 interface IHierarchyData {
@@ -22,7 +22,7 @@ export class EditorContentV2Service {
   changeActiveParentCont = new BehaviorSubject<string>('')
   onContentChange = new BehaviorSubject<string>('')
   onDataChange = new BehaviorSubject<string>('')
-  constructor() {}
+  constructor() { }
 
   // isSizeExceedsLimit(): boolean {
   //   const totalSize: { [key: string]: any } = {}

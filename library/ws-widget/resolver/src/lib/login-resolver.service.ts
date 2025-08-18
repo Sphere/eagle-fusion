@@ -79,6 +79,7 @@ export class LoginResolverService {
       // Not properly registered
       return this.widgetResolved(containerRef, receivedConfig, InvalidRegistrationComponent)
     }
+    return null
   }
 
   private widgetResolved(

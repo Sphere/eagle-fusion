@@ -17,7 +17,7 @@ import { NsContent } from '../_services/widget-content.model'
 import { WidgetContentService } from '../_services/widget-content.service'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-popup-component'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatDialog } from '@angular/material/dialog'
 import { interval, Subscription } from 'rxjs'
 import 'videojs-markers'
 

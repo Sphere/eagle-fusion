@@ -1,7 +1,7 @@
 import { Component, OnDestroy, ViewChild, ElementRef, OnInit, AfterViewChecked } from '@angular/core'
 import { UntypedFormGroup, UntypedFormControl, Validators, UntypedFormBuilder } from '@angular/forms'
 import { Subscription } from 'rxjs'
-import { MatLegacySnackBar as MatSnackBar } from '@angular/material/legacy-snack-bar'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 import { mustMatch } from '../password-validator'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'

@@ -185,7 +185,7 @@ export class EditorContentService {
     delete requestBody.accessPaths
     return this.editorService
       .createAndReadContent(requestBody)
-      .pipe(tap(v => this.setOriginalMeta(v)))
+      .pipe(tap((v: any) => this.setOriginalMeta(v)))
   }
 
   isValid(id: string): boolean {

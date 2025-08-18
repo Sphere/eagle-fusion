@@ -1,6 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core'
 import { ScrollService } from '../../services/scroll.service'
-import { MatLegacyDialog as MatDialog } from '@angular/material/legacy-dialog'
+import { MatDialog } from '@angular/material/dialog'
 import { VideoPopupComponent } from '../how-does-it-works-popup/how-does-it-works-popup.component'
 
 @Component({

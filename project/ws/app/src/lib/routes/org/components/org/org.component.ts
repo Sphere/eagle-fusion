@@ -9,7 +9,7 @@ import { MdePopoverTrigger } from '@material-extended/mde'
 import { HttpClient } from '@angular/common/http'
 import { forkJoin } from 'rxjs'
 import { WidgetUserService } from '@ws-widget/collection'
-import uniqBy from 'lodash/uniqBy'
+import { uniqBy } from 'lodash'
 
 @Component({
   selector: 'ws-app-org',
