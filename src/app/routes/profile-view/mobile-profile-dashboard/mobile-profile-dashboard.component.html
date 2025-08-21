@@ -21,12 +21,12 @@
       </span>
     </div>
     <div class="flex justify-center">
-      <button *ngIf="!isEkshamata" i18n class="help-btn mt-4 mb-4" (click)="showSocialChats()">
+      <button *ngIf="!isEkshamata" i18n class="help-btn mt-4 cursor-pointer mb-4" (click)="showSocialChats()">
         Help and Support
         <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
       </button>
       <a *ngIf="isEkshamata&&configSvc.hostedInfo?.phone"
-        [href]="'tel:' + configSvc.hostedInfo?.phone.replace('tel:', '')" class="help-btn mt-4 mb-4">
+        [href]="'tel:' + configSvc.hostedInfo?.phone.replace('tel:', '')" class="help-btn cursor-pointer mt-4 mb-4">
         Help and Support
         <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
       </a>
@@ -184,7 +184,7 @@
         <img alt="My Certificates" src="/fusion-assets/images/Group.svg" width="35" height="23" /><span i18n>My
           Certificates</span>
       </a>
-      <button i18n *ngIf="!isEkshamata" i18n class="web-help-btn mt-2 mb-2" (click)="showSocialChats()">
+      <button i18n *ngIf="!isEkshamata" i18n class="web-help-btn mt-2 mb-2 cursor-pointer" (click)="showSocialChats()">
         Help and Support
         <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
       </button>
@@ -352,6 +352,10 @@
         <p class="whtsapp-text" i18n>Chat with us on WhatsApp</p>
       </div>
     </a>
-    <a class="fcapp-text cursor-pointer" onclick="window.fcWidget.open();window.fcWidget.show();" i18n>Connect with
-      us</a>
+    <a class="fcapp-text cursor-pointer" (click)="showChat()">
+      <img src="/fusion-assets/icons/chat-wa.png" class="whatsapp-icon1" alt="whatsapp" />
+      <div>
+        <p class="whtsapp-text1" i18n>Connect with us</p>
+      </div>
+    </a>
   </div>

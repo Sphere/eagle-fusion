@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, Renderer2 as Renderer } from '@angular/core'
+import { Component, OnInit, Inject } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -61,7 +61,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService,
-    private readonly _renderer2: Renderer,
+    // private readonly _renderer2: Renderer,
     @Inject(DOCUMENT) private _document: Document
 
   ) {
@@ -182,29 +182,43 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
 
+  showChat() {
+    const el = this._document.getElementById('widget')
+    if (el) {
+      el.style.display = 'block'
+
+      setTimeout(() => {
+        const btn = el.querySelector('button') as HTMLElement
+        if (btn) {
+          const ariaLabel = btn.getAttribute('aria-label')
+          if (ariaLabel === 'Open chat') {
+            btn.click()
+            console.log('Chat opened')
+          }
+        } else {
+          console.warn('Button not found inside widget yet')
+        }
+      }, 300)
+    }
+  }
+
   showSocialChats() {
     try {
       setTimeout(() => {
         this.isCommonChatEnabled = false
-        window.fcWidget.init()
-        window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
-        window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
+
       }, 300)
-      // window.fcWidget.show()
-      // this.isCommonChatEnabled = false
-      const script = this._renderer2.createElement('script')
-      script.src = '//in.fw-cdn.com/30492305/271953.js'
-      this._renderer2.appendChild(this._document.body, script)
     } catch (error) {
-      // tslint:disable-next-line:no-console
-      console.log(error)
+      console.error('Error showing social chats:', error)
     }
   }
   backToChatIcon() {
     try {
       this.isCommonChatEnabled = true
-      window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
-      window.fcWidget.init()
+      const el = this._document.getElementById('widget')
+      if (el) {
+        el.style.display = 'none'
+      }
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)
