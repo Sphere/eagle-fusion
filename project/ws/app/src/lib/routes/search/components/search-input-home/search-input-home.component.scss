@@ -7,6 +7,10 @@ ws-app-search-input-home .autocomplete-form {
   font-size: 0.75em;
   display: block;
   margin: auto;
+  margin-top: 20px !important;
+  .mat-mdc-text-field-wrapper {
+    --mdc-outlined-text-field-outline-width: 0px !important;
+  }
 }
 
 .search-home {
