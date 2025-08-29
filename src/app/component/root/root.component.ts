@@ -6,9 +6,7 @@ import {
   OnInit,
   ViewChild,
   ViewContainerRef,
-  Inject,
   OnDestroy,
-  Renderer2 as Renderer
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -47,7 +45,7 @@ import dayjs from 'dayjs'
 import { environment } from '../../../environments/environment'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
-import { DOCUMENT } from '@angular/common'
+// import { DOCUMENT } from '@angular/common'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
 import { DomSanitizer } from '@angular/platform-browser'
@@ -125,7 +123,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     //private signupService: SignupService,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
-    private readonly _renderer2: Renderer,
+    // private readonly _renderer2: Renderer,
     private sanitizer: DomSanitizer,
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
@@ -136,7 +134,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly storage: LocalStorageService,
     private readonly events: Events,
 
-    @Inject(DOCUMENT) private _document: Document
+    // @Inject(DOCUMENT) private _document: Document
   ) {
     this.domain = window.location.hostname
     if (this.domain.includes('ekshamata')) {
@@ -804,24 +802,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  showSocialChats() {
-    try {
-      setTimeout(() => {
-        this.isCommonChatEnabled = false
-        window.fcWidget.init()
-        window.fcWidget.setConfig({ headerProperty: { hideChatButton: false } })
-        window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
-      }, 300)
-      // window.fcWidget.show()
-      // this.isCommonChatEnabled = false
-      const script = this._renderer2.createElement('script')
-      script.src = '//in.fw-cdn.com/30492305/271953.js'
-      this._renderer2.appendChild(this._document.body, script)
-    } catch (error) {
-      // tslint:disable-next-line:no-console
-      console.log(error)
-    }
-  }
+
   setCompetencyConfig(data: any) {
     if (data.profileDetails) {
       this.CompetencyConfiService.setConfig(data.profileDetails.profileReq, data.profileDetails)

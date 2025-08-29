@@ -361,12 +361,23 @@ color: #000000;
   z-index: 1;
   position: fixed;
 }
+.cursor-pointer{
+  cursor: pointer;
+}
 .whatsapp-icon {
   cursor: pointer;
   z-index: 1;
   left: 1.2rem;
   position: fixed;
   bottom: 6.3rem;
+  width: 3.9rem;
+}
+.whatsapp-icon1 {
+  cursor: pointer;
+  z-index: 1;
+  left: 1.2rem;
+  position: fixed;
+  bottom: 1.3rem;
   width: 3.9rem;
 }
 .whtsapp-text {
@@ -377,6 +388,17 @@ color: #000000;
   left: 6.1rem;
   position: fixed;
   bottom: 6.9rem;
+  padding: 0.1rem;
+  border-radius: 0.3rem;
+}
+.whtsapp-text1 {
+  font-weight: 500;
+  color: #1C5D95;
+  background-color: white;
+  z-index: 1;
+  left: 6.1rem;
+  position: fixed;
+  bottom: 1.9rem;
   padding: 0.1rem;
   border-radius: 0.3rem;
 }
@@ -420,4 +442,23 @@ color: #000000;
 
   .main-block{
     padding-left: 1.5rem;
+  }
+
+  @include breakpoint-xs {
+   .whatsapp-icon {
+  bottom: 9.3rem;
+}
+.whatsapp-icon1 {
+    bottom: 4.3rem;
+}
+.whtsapp-text {
+font-weight: 500;
+    bottom: 9.9rem;
+}
+.whtsapp-text1 {
+  bottom: 4.9rem;
+}
+.cross-icon {
+  bottom: 14.5rem;
+}
   }
