@@ -56,7 +56,7 @@ h3 {
   text-align: center;
 }
 
-::ng-deep.close-modal .mat-dialog-container {
+::ng-deep.close-modal .mat-mdc-dialog-container {
   border-radius: 34px !important;
 
   @include breakpoint-xs {
@@ -64,7 +64,7 @@ h3 {
   }
 }
 
-::ng-deep.assesment-close-modal .mat-dialog-container {
+::ng-deep.assesment-close-modal .mat-mdc-dialog-container {
   border-radius: 34px !important;
 
   @include breakpoint-xs {

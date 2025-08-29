@@ -1,5 +1,5 @@
 # Use Node 16, compatible with Angular 12
-FROM node:16.16.0
+FROM node:18.20.8
 
 # Set the working directory in the container
 WORKDIR /app
@@ -8,10 +8,10 @@ WORKDIR /app
 COPY . .
 
 # Install Angular CLI globally with a specific version
-RUN npm install -g @angular/cli@12.2.18
+RUN npm install -g @angular/cli@16.2.16
 
 # Ensure @angular/localize is installed for i18n support
-RUN yarn add @angular/localize@12.2.17
+RUN yarn add @angular/localize@16.2.12
 
 # Install project dependencies (using yarn instead of npm to keep the build consistent)
 RUN yarn install

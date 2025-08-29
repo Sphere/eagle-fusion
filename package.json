@@ -32,7 +32,7 @@
   "private": true,
   "dependencies": {
     "@aastrika_npmjs/competency-web": "^0.0.5",
-    "@aastrika_npmjs/discussions-ui-v8": "^2.1.19",
+    "@aastrika_npmjs/discussions-ui-v8": "^4.0.0",
     "@angular/animations": "^16.2.12",
     "@angular/cdk": "^16.2.14",
     "@angular/common": "^16.2.12",
@@ -81,7 +81,7 @@
     "mustache": "4.2.0",
     "ng-circle-progress": "1.7.1",
     "ng-mocks": "^14.13.1",
-    "ngx-chips": "2.1.0",
+    "ngx-chips": "2.2.2",
     "ngx-extended-pdf-viewer": "16.0.2",
     "ngx-image-cropper": "6.0.2",
     "ngx-indexed-db": "19.4.3",

@@ -28,7 +28,7 @@ color: #000000;
 :host ::ng-deep .custom-notification-modal {
     border-radius: 10px !important;
 }
-:host ::ng-deep .mat-dialog-container{
+:host ::ng-deep .mat-mdc-dialog-container{
     padding: 0px !important;
     border-radius: 10px !important;
 }
@@ -57,7 +57,7 @@ cdk-overlay-pane .custom-notification-modal{
     border-right: 10px solid transparent;
     border-bottom: 10px solid white; /* Color same as modal background */
 }
-::ng-deep .cdk-overlay-container .mat-dialog-container {
+::ng-deep .cdk-overlay-container .mat-mdc-dialog-container {
     padding: 0px !important;
     border-radius: 10px !important;
     overflow-y: scroll !important;

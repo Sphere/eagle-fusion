@@ -1,11 +1,11 @@
 .dialog-content {
   padding: 20px; /* Adjust the padding value as needed */
 }
-.cdk-global-overlay-wrapper .mat-dialog-container {
-    border-radius: 30px;
+.cdk-global-overlay-wrapper .mat-mdc-dialog-container {
+    border-radius: 30px !important;
 }
 @media (min-width:320px)  {
-.mat-dialog-container {
+.mat-mdc-dialog-container {
  padding: 0px 15px 5px !important;
 }
 
@@ -15,7 +15,7 @@ width: 210px !important;
 }
 }
 @media (min-width:375px)  {
-.mat-dialog-container {
+.mat-mdc-dialog-container {
  padding: 0px 15px 5px !important;
 }
 
@@ -25,7 +25,7 @@ width: 210px !important;
 }
 }
 @media (min-width:390px)  {
-.mat-dialog-container {
+.mat-mdc-dialog-container {
  padding: 0px 15px 10px !important;
 }
 
@@ -35,7 +35,7 @@ width: 210px !important;
 }
 }
 @media (min-width:414px)  {
-.mat-dialog-container {
+.mat-mdc-dialog-container {
  padding: 0px 15px 10px !important;
 }
 
@@ -45,7 +45,7 @@ width: 210px !important;
 }
 }
 @media (min-width:425px)  {
-.mat-dialog-container {
+.mat-mdc-dialog-container {
  padding: 0px 35px 20px !important;
 }
 
@@ -54,7 +54,7 @@ width: 210px !important;
   height: 250px !important;
 }
 }
-.mat-dialog-container {
+.mat-mdc-dialog-container {
  padding: 0px 35px 20px;
 }
 @media (min-width:980px)  {

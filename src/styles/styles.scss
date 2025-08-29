@@ -1104,6 +1104,6 @@ button.submit-btn[disabled] {
   }
 }
 
-.cdk-overlay-container .mat-dialog-container {
-    border-radius: 30px;
+.cdk-overlay-container .mat-mdc-dialog-container {
+    border-radius: 30px !important;
 }
