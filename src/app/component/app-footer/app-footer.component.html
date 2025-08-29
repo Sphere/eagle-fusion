@@ -29,7 +29,8 @@
   <div class="mat-body  footer-flex mb-4" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}" class="footer-first-col">
       <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item *ngIf="isEkshamata" class="link-header" i18n> In collaboration with</mat-list-item>
+        <mat-list-item *ngIf="isEkshamata" i18n> <span class="link-header"> In collaboration with
+          </span></mat-list-item>
         <mat-list-item style="margin-top: 10px;">
           <img class="footer-aastar-logo" loading="lazy" [src]="appIcon" alt="Angular icon" id="footer-aastar-logo">
         </mat-list-item>
@@ -54,8 +55,8 @@
       </mat-list>
 
       <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item *ngIf="isEkshamata" class="link-header" i18n> Policies </mat-list-item>
-        <mat-list-item *ngIf="!isEkshamata" class="link-header" i18n> Quick Links </mat-list-item>
+        <mat-list-item *ngIf="isEkshamata" i18n> <span class="link-header"> Policies </span> </mat-list-item>
+        <mat-list-item *ngIf="!isEkshamata" i18n> <span class="link-header"> Quick Links </span></mat-list-item>
         <mat-list-item style="margin-top: 10px;">
           <a routerLink="/public/tnc" [queryParams]="{panel: 'dp'}" i18n>
             Privacy policy
@@ -123,7 +124,7 @@
       </mat-list>
 
       <mat-list *ngIf="!isEkshamata" class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item class="link-header" i18n> Additional Links </mat-list-item>
+        <mat-list-item i18n> <span class="link-header"> Additional Links </span> </mat-list-item>
         <mat-list-item class="foundation-container" style="margin-top: 10px;"><span i18n>Aastrika Foundation </span>:
           <a target="_blank" class="list-item-link" href="https://www.aastrika.org/">
             https://www.aastrika.org/

@@ -47,7 +47,7 @@ color: #7B6961 !important;
     .social-logo-container{
     margin-top: 15px;
     }
-    .foundation-container .mat-list-item-content{
+    .foundation-container .mdc-list-item__content{
       display: flex;
       flex-direction: column;
     }
@@ -180,7 +180,7 @@ color: #7B6961 !important;
 //   }
 // }
 
-::ng-deep .social-logo-container > .mat-list-item-content {
+::ng-deep .social-logo-container > .mdc-list-item__content {
   @include breakpoint-s {
     margin-top: 10px !important;
     margin-left:0px !important;
@@ -313,7 +313,7 @@ height: auto;
   }
 }
 
-::ng-deep .footer-container .mat-list-base .mat-list-item .mat-list-item-content {
+::ng-deep .footer-container .mat-list-base .mat-list-item .mdc-list-item__content {
   padding: 0;
 
 color: #7B6961;
@@ -486,12 +486,10 @@ hr.new1{
 }
 .whatsapp-logo-container{
   margin-top: 5px;
-  width: 225px;
+  width: 230px;
   border: 1px solid #7B6961 !important;
   border-radius: 100px;
   display: flex;
-  justify-content: flex-end;
-  padding-left: 5px;
   align-items: center;
   color: #7B6961 !important;
    @include breakpoint-s {
