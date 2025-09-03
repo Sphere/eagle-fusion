@@ -303,7 +303,7 @@ span.mat-button-wrapper {
   border-bottom: 1px solid #DDDDDD;
 }
 
-::ng-deep .mat-list-base {
+::ng-deep .mat-mdc-list-base {
   display: flex !important;
   flex-direction: column !important;
   gap: 10px;
@@ -316,4 +316,12 @@ span.mat-button-wrapper {
 .flex-row {
   display: flex;
   align-items: center;
+}
+:host::ng-deep .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background {
+  .mdc-radio__outer-circle {
+    border-color: #424242 !important;
+  }
+  .mdc-radio__inner-circle {
+    border-color: #424242 !important;
+  }
 }

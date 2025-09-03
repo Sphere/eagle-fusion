@@ -8,7 +8,7 @@
               src="/fusion-assets/images/aastrika-foundation-logo.svg" width="auto" height="40"
               style="margin: 15px 0px;" />
             <img alt="logo" *ngIf="!isEkshamtaLogin" loading="lazy" src="/fusion-assets/images/sphere-new-logo.svg"
-              width="auto" height="70" style="margin-left: -15px;" />
+              width="auto" height="70" style="margin-left: -15px; height: 70px;" />
           </a>
         </div>
         <div class="max-container" *ngIf="!otpPage">
@@ -49,56 +49,48 @@
             </div>
           </div>
           <div id="usePasswordDiv" class="mw-100" *ngIf="selectedField === 'password'">
-            <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
+            <form [formGroup]="loginPwdForm" id="form-login" (ngSubmit)="submitDetails(loginPwdForm)">
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                   <mat-label i18n>Phone Number (or) Email ID</mat-label>
-                  <input autofocus="" autocomplete="off" tabindex="0" id="emailOrMobile" required=""
-                    (input)="checkMobileEmail2()" type="text" class="input-field" trim="blur" matInput
-                    formControlName="emailOrMobile" #emailOrMobile i18n-placeholder />
-                  <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
-                    i18n>Invalid
-                    email or number</mat-error>
+                  <input matInput id="emailOrMobile" formControlName="emailOrMobile" type="text" autocomplete="off"
+                    required (input)="checkMobileEmail2()" i18n-placeholder />
+                  <mat-error *ngIf="loginPwdForm.controls['emailOrMobile'].hasError('pattern')" i18n>
+                    Invalid email or number
+                  </mat-error>
                 </mat-form-field>
               </div>
               <div class="field">
                 <div class="field-edit-width">
                   <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                     <mat-label i18n>Enter Password</mat-label>
-                    <input autofocus="" tabindex="0" id="emailOrMobile" required="" [type]="hide2 ? 'password' : 'text'"
-                      (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
-                      #emailOrMobile i18n-placeholder />
-                    <div class="input-group-append">
-                      <span class="input-group-text eye-icon" (click)="toggle2()" (keydown)="handleKeyDown($event)"
-                        style="cursor: pointer;" style="cursor: pointer;">
-                        <i [ngClass]="iconChange2" aria-hidden="true"></i>
-                      </span>
-                    </div>
-                    <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
-                      i18n>Invalid
-                      email or number</mat-error>
+                    <input matInput id="password" formControlName="password" [type]="hide2 ? 'password' : 'text'"
+                      required autocomplete="off" (input)="checkPassword()" i18n-placeholder />
+                    <button mat-icon-button matSuffix type="button" (click)="toggle2()"
+                      (keydown)="handleKeyDown($event)" aria-label="Toggle password visibility">
+                      <mat-icon>{{ hide2 ? 'visibility_off' : 'visibility' }}</mat-icon>
+                    </button>
+                    <mat-error *ngIf="loginPwdForm.controls['password'].hasError('required')" i18n>
+                      This field is required
+                    </mat-error>
                   </mat-form-field>
                 </div>
-                <mat-error class="text-danger" i18n
-                  *ngIf="loginPwdForm.controls['password'].hasError('required') &&
-                                                                              (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">
-                  This field is required</mat-error>
               </div>
-              <div class="field">
-              </div>
+
               <div class="flex justify-end">
                 <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
-                  href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">Forgot
-                  Password?</a>
+                  [href]="'/public/forgot-password?value=true&version=null' + (isEkshamtaLogin ? '&isEkshamataLogin=true' : '')">
+                  Forgot Password?
+                </a>
               </div>
               <div class="field flex justify-content-center">
-                <button id="login-username-password" class="ui fluid button blueButton"
-                  (click)="submitDetails(loginPwdForm)" [disabled]="!loginPwdForm?.valid" i18n>Login</button>
+                <button id="login-username-password" mat-flat-button color="primary" type="submit"
+                  [disabled]="!loginPwdForm?.valid" i18n>Login</button>
               </div>
               <div *ngIf="!isEkshamtaLogin" class="field or-container">
                 <div class="or-holder" id="or-holder" style="text-align: center;">
-                  <span class=""></span>
-                  <span class="" i18n>or</span>
+                  <span></span>
+                  <span i18n>or</span>
                 </div>
               </div>
 

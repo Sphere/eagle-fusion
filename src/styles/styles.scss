@@ -262,7 +262,7 @@ mat-toolbar {
 // Apply custom scroll
 .mat-drawer-inner-container,
 .mat-drawer-content,
-.mat-dialog-content,
+.mat-mdc-dialog-content,
 .mat-select-panel,
 textarea {
   @extend .custom-scroll;
@@ -1074,7 +1074,8 @@ button.submit-btn[disabled] {
   }
 }
 
-.language-modal {
+.language-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 30px !important;
   padding: 22px;
 
   @include breakpoint-xs {
@@ -1106,4 +1107,11 @@ button.submit-btn[disabled] {
 
 .cdk-overlay-container .mat-mdc-dialog-container {
     border-radius: 30px !important;
+}
+
+.howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 30px !important;
+  .mat-mdc-dialog-content.mdc-dialog__content {
+    padding: 10px 12px 12px 12px !important;
+  }
 }

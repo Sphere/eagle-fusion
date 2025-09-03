@@ -38,7 +38,7 @@ mat-toolbar {
   z-index: 1 !important;
 }
 
-mat-dialog-content {
+mat-mdc-dialog-content {
   padding: 1.25em 1.25em !important;
 
   @media only screen and (max-width: 1030px) {
@@ -56,7 +56,7 @@ mat-dialog-content {
   }
 }
 
-.mat-button {
+.mat-mdc-button {
   @media only screen and (max-width: 1030px) {
     // media less than 1030px
     min-width: auto;

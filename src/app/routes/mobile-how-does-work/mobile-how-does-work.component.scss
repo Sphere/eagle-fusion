@@ -55,3 +55,7 @@ video::-webkit-media-controls-play-button {
     height: 100px;
     pointer-events: none;
 }
+
+.howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface{
+  border-radius: 30px !important;
+}

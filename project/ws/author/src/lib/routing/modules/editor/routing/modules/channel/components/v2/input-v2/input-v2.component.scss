@@ -10,11 +10,11 @@ mat-expansion-panel {
   margin-bottom: 1rem !important;
 }
 
-.mat-dialog-content {
+.mat-mdc-dialog-content {
   overflow: hidden;
 }
 
-mat-dialog-content {
+mat-mdc-dialog-content {
   min-width: 600px;
   min-height: 200px;
   overflow-y: auto !important;

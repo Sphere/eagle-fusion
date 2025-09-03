@@ -20,7 +20,7 @@ button.primary-color.mat-raised-button.mat-button-base.mat-primary {
   flex-direction: column;
 }
 
-::ng-deep .mat-list-base {
+::ng-deep .mat-mdc-list-base {
   display: flex !important;
   flex-direction: column !important;
   gap: 10px;

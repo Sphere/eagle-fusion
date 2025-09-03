@@ -159,17 +159,15 @@
       background-color: transparent !important;
     }
 
-    .mat-radio-button {
+    .mat-mdc-radio-button {
       background-color: transparent !important;
 
-      .mat-radio-container {
-        .mat-radio-inner-circle {
-          background-color: $colorPrimaryLight !important;
-        }
+      .mdc-radio__inner-circle {
+        background-color: $colorPrimaryLight !important;
+      }
 
-        .mat-radio-outer-circle {
-          border-color: $colorPrimaryLight !important;
-        }
+      .mdc-radio__outer-circle {
+        border-color: $colorPrimaryLight !important;
       }
     }
 
@@ -178,17 +176,14 @@
       background-color: $colorPrimaryDark !important;
     }
   } @else {
-    .mat-radio-button {
+    .mat-mdc-radio-button {
       background-color: transparent !important;
+      .mdc-radio__inner-circle {
+        background-color: $colorPrimaryDark !important;
+      }
 
-      .mat-radio-container {
-        .mat-radio-inner-circle {
-          background-color: $colorPrimaryDark !important;
-        }
-
-        .mat-radio-outer-circle {
-          border-color: $colorPrimaryDark !important;
-        }
+      .mdc-radio__outer-circle {
+        border-color: $colorPrimaryDark !important;
       }
     }
 
@@ -205,7 +200,7 @@
       background-color: $linkActiveColor !important;
     }
 
-    .mat-input-element {
+    .mdc-text-field__input {
       caret-color: $colorText;
     }
 
@@ -223,7 +218,7 @@
     // .mat-form-field-outline-apperance-outline.mat-focused.mat-form-field-outline-thick {
     //   color: red !important;
     // }
-    .mat-form-field.mat-focused .mat-form-field-label {
+    .mat-form-field.mat-focused .mdc-floating-label {
       color: $colorPrimaryDark !important;
     }
 
@@ -471,4 +466,9 @@
 
 .theme-igot.day-mode .mat-checkbox-checked.mat-primary .mat-checkbox-background {
   background-color: #f5d58d !important;
+}
+
+::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border: none;
 }

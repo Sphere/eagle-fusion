@@ -112,7 +112,7 @@ color: #7B6961 !important;
       padding-bottom: 20px;
     }
 
-    mat-list-item {
+    mat-mdc-list-item {
 
       font-weight: 400;
       font-size: 16px;
@@ -162,7 +162,7 @@ color: #7B6961 !important;
   margin-top: 10px;
 }
 
-.mat-list-base .mat-list-item {
+.mat-mdc-list-base .mat-mdc-list-item {
   height: 37px !important;
   color: #353535 !important;
   font-size: 16px !important;
@@ -170,7 +170,7 @@ color: #7B6961 !important;
 }
 
 
-.theme-igot.day-mode .mat-list-base .mat-list-item a {
+.theme-igot.day-mode .mat-mdc-list-base .mat-mdc-list-item a {
   font-size: 14px !important;
 }
 
@@ -193,7 +193,7 @@ color: #7B6961 !important;
     margin-left:0px !important; }
 
 }
- .mat-list-item{
+ .mat-mdc-list-item{
   @include breakpoint-s {
     margin-top: 0px !important
   }
@@ -270,7 +270,7 @@ color: #7B6961 !important;
   padding: 8px;
 }
 .footer-aastar-logo{
-  width: 160px;
+  width: 190px;
   // margin-top: 30px;
 }
 img.docs-footer-aastar-logo {
@@ -313,7 +313,7 @@ height: auto;
   }
 }
 
-::ng-deep .footer-container .mat-list-base .mat-list-item .mdc-list-item__content {
+::ng-deep .footer-container .mat-mdc-list-base .mat-mdc-list-item .mdc-list-item__content {
   padding: 0;
 
 color: #7B6961;
@@ -485,13 +485,14 @@ hr.new1{
  border-top: 1px solid #9F8D85;
 }
 .whatsapp-logo-container{
-  margin-top: 5px;
+  margin-block: 5px;
   width: 230px;
   border: 1px solid #7B6961 !important;
   border-radius: 100px;
   display: flex;
   align-items: center;
   color: #7B6961 !important;
+  height: 35px;
    @include breakpoint-s {
     font-size: 12px;
     width: 160px;
