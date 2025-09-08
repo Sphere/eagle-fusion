@@ -186,6 +186,14 @@ export class ViewerUtilService {
 
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
     let req: any
+
+    if (!collectionId) {
+      const storedCollectionId = localStorage.getItem('collectionId')
+      if (storedCollectionId) {
+        collectionId = storedCollectionId
+      }
+    }
+
     if (this.configservice.userProfile) {
       let checkCollectionId = ''
       if (contentId === collectionId) {
