@@ -48,18 +48,14 @@
               </div>
             </div>
             <div class="form-group mt-4 mb-4 activeLink">
-              <span i18n>Did not receive a </span><span i18n>OTP?</span>
+              <span i18n>Did not receive a </span><span i18n> OTP? </span>
               <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)" i18n> Click Here </span><span
                 i18n>to resend</span>
             </div>
-            <span *ngIf="!loginVerification">
+            <div class="form-group-button">
               <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
-                type="submit" (click)="verifyOtp()" i18n>Next</button>
-            </span>
-            <span *ngIf="loginVerification">
-              <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
-                type="submit" (click)="loginVerifyOtp()" i18n>Next</button>
-            </span>
+                type="submit" (click)="!loginVerification ? verifyOtp() : loginVerifyOtp()" i18n>Next</button>
+            </div>
           </form>
         </div>
       </div>

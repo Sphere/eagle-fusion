@@ -576,18 +576,18 @@ h3.shepherd-title {
   font-weight: 500 !important;
 }
 
-.mat-raised-button {
+.mat-mdc-raised-button {
   line-height: 40px !important;
   box-shadow: none !important;
   background-color: #f5d58d;
 }
 
-.theme-igot.day-mode .mat-raised-button.mat-primary {
+.theme-igot.day-mode .mat-mdc-raised-button.mat-primary {
   background-color: #f5d58d !important;
   line-height: 40px !important;
 }
 
-.theme-igot.day-mode .mat-raised-button[disabled][disabled] {
+.theme-igot.day-mode .mat-mdc-raised-button[disabled][disabled] {
   // background-color: white !important;
 }
 

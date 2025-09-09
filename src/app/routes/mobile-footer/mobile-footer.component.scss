@@ -36,6 +36,7 @@
   /* identical to box height, or 120% */
   letter-spacing: -0.02em;
   color: #7B6961 !important;
+  margin-top: 25px !important;
 }
 
 .transform-header {
@@ -156,18 +157,18 @@
   color: #7B6961;
 }
 
-hr.new1 {
-  border-top: 1px solid #9F8D85;
-}
+// hr.new1 {
+//   border-top: 1px solid #9F8D85;
+// }
 
 .whatsapp-logo-container {
   margin-top: 10px;
-  width: 210px;
+  width: 200px;
   border: 1px solid #7B6961 !important;
   border-radius: 100px;
   display: flex;
   justify-content: flex-end;
-  padding-left: 5px;
+  // padding-left: 5px;
   align-items: center;
   color: #7B6961 !important;
 }

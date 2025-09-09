@@ -310,6 +310,7 @@ height: auto;
   @include breakpoint-s {
     width: 150px;
       margin-top: 0px !important;
+      max-width: 200px !important;
   }
 }
 
@@ -335,7 +336,9 @@ color: #7B6961;
     font-size: 14px;
   }
 }
-
+::ng-deep .footer-container .mat-mdc-list-base .mat-mdc-list-item {
+  padding: 5px !important;
+}
 @media screen and (min-width:1200px) {
   .left-content {
     margin-left: 10%;
@@ -492,7 +495,7 @@ hr.new1{
   display: flex;
   align-items: center;
   color: #7B6961 !important;
-  height: 35px;
+  height: 32px;
    @include breakpoint-s {
     font-size: 12px;
     width: 160px;

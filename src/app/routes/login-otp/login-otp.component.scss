@@ -34,13 +34,10 @@
     margin-top: 1rem;
   }
 .login-card {
-  margin: 0;
-    padding: 0px 20px 30px 30px;
-
-  //padding: 20px 20px 30px 20px;
-  color: #000;
-  font-size: 14px;
-  line-height: 17px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .check-email-text {
@@ -65,10 +62,6 @@ color: #808080;
   text-align: center;
 }
 
-.input-content {
-  position: absolute;
-}
-
 .input-box {
   width: 295px;
   height: 35px;
@@ -89,7 +82,7 @@ color: #808080;
   border: 0;
   font-size: 16px;
   line-height: 19px;
-  position: absolute;
+  // position: absolute;
   right: 0;
 }
 
@@ -107,9 +100,9 @@ color: #808080;
     width: 100%;
   }
 
-  .img-box {
-    width: 90%;
-  }
+  // .img-box {
+  //   width: 90%;
+  // }
 }
 .red-text {
   color: red;
@@ -183,6 +176,11 @@ color: #808080;
     right: 12px;
     z-index: 9999;
   }
+}
+
+.top-blue-color {
+  display: flex;
+  align-items: center;
 }
   .otp-input{
     border: none;
@@ -260,4 +258,15 @@ color: #808080;
 
 button:disabled {
   opacity: 0.5;
+}
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.form-group-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
