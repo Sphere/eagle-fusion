@@ -26,12 +26,12 @@ border-radius: 10px 0px 0px 0px;
 
 }
 :host ::ng-deep {
-  .mat-progress-bar-fill:after {
+  .mat-mdc-progress-bar-fill:after {
     background: #469788 !important;
     // border-radius: 10px;
   }
 
-  .mat-progress-bar-buffer {
+  .mat-mdc-progress-bar-buffer {
     background-color: #DCDCDC !important
   }
 }
@@ -172,10 +172,10 @@ margin: 0px !important;
 .bg-cont-white {
   background-color: #fff;
 }
-:host ::ng-deep .theme-igot.day-mode .mat-progress-bar-fill::after {
+:host ::ng-deep .theme-igot.day-mode .mat-mdc-progress-bar-fill::after {
     background: #469788 !important;
 }
-::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
+::ng-deep.theme-igot.day-mode .mat-mdc-progress-bar-buffer {
   background-color: #DCDCDC !important;
 }
 
@@ -189,13 +189,14 @@ margin: 0px !important;
   justify-content: center;
 }
 
-.mat-progress-bar {
+.mat-mdc-progress-bar {
   width: 100%;
   border-radius: 40px;
   height: 8px;
+  --mdc-linear-progress-active-indicator-color: #469788 !important;
 }
 
-::ng-deep.theme-igot.day-mode .mat-progress-bar-buffer {
+::ng-deep.theme-igot.day-mode .mat-mdc-progress-bar-buffer {
   background-color: #EDEDED;
 }
 .fitsize {
@@ -836,7 +837,7 @@ $title-line-count: 2;
   }
 }
 
-::ng-deep .theme-igot.day-mode .mat-progress-bar-buffer {
+::ng-deep .theme-igot.day-mode .mat-mdc-progress-bar-buffer {
   background-color: bisque;
 }
 

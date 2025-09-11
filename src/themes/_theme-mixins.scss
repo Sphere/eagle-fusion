@@ -57,7 +57,7 @@
     background: rgba($colorPrimary, 0.7);
   }
 
-  .mat-progress-bar-fill::after {
+  .mat-mdc-progress-bar-fill::after {
     background: #469788 !important;
   }
 
@@ -471,4 +471,8 @@
 ::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
 ::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
   border: none !important;
+}
+
+::ng-deep .theme-igot.day-mode .mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #469788 !important;
 }

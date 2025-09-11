@@ -34,7 +34,7 @@
 .pencil {
   position: relative;
   left: 1px;
-  top: -11px;
+  top: 1px;
   font-size: 20px;
   color: #fff;
 }
@@ -156,6 +156,18 @@
 
 .div {
   display: inline-grid;
+  a {
+    display: flex;
+    align-items: center;
+    img {
+      height: 20px;
+    }
+  }
+  button {
+    img {
+      height: 20px;
+    }
+  }
 }
 
 .div a {

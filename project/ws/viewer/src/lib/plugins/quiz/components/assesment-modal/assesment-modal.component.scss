@@ -152,29 +152,29 @@
   border: 1px solid rgba(0, 0, 0, 0.12) !important;
 }
 
-// ::ng-deep mat-progress-bar .mat-progress-bar-buffer {
+// ::ng-deep mat-mdc-progress-bar .mat-mdc-progress-bar-buffer {
 //   background: #E4E8EB !important;
 // }
 
-// ::ng-deep .mat-progress-bar .mat-progress-bar-fill::after {
+// ::ng-deep .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
 //   background: #1C5D95 !important;
 // }
 .audio-progress-bar {
-  &.mat-progress-bar {
+  &.mat-mdc-progress-bar {
     width: 128.03px;
     height: 12.6px;
     border-radius: 3.97614px;
   }
 
-  .mat-progress-bar .mat-progress-bar-fill::after {
+  .mat-mdc-progress-bar .mat-mdc-progress-bar-fill::after {
     background: #1c5d95 !important;
   }
 
-  .mat-progress-bar-fill::after {
+  .mat-mdc-progress-bar-fill::after {
     background: #1c5d95 !important;
   }
 
-  .mat-progress-bar-buffer {
+  .mat-mdc-progress-bar-buffer {
     background: #e4e8eb !important;
   }
 }
@@ -232,7 +232,7 @@
 //   }
 // }
 
-::ng-deep .mat-progress-bar {
+::ng-deep .mat-mdc-progress-bar {
   width: 128.03px;
   height: 12.6px;
   border-radius: 3.97614px;

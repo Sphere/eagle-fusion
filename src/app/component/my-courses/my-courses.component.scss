@@ -47,7 +47,7 @@
     margin-left: 15px;
     margin-bottom: 10px;
   }
-  ::ng-deep .mat-progress-bar {
+  ::ng-deep .mat-mdc-progress-bar {
     width: 100% !important;
 
   }
@@ -98,7 +98,7 @@
   .resource-container {
     margin: 20px 0px 8px 1px !important;
   }
-  ::ng-deep .mat-progress-bar {
+  ::ng-deep .mat-mdc-progress-bar {
     width: 50% !important;
   }
   ::ng-deep .mat-tab-label {
@@ -111,7 +111,7 @@
   .paddingView {
     padding: 10px 315px 10px 60px;
   }
-  :host ::ng-deep .mat-progress-bar {
+  :host ::ng-deep .mat-mdc-progress-bar {
       width: 50% !important;
   }
   .resource-container {
@@ -198,12 +198,12 @@
 }
 
 :host ::ng-deep {
-  .mat-progress-bar-fill:after {
+  .mat-mdc-progress-bar-fill:after {
     background: #2E6491 !important;
     border-radius: 10px;
   }
 
-  .mat-progress-bar-buffer {
+  .mat-mdc-progress-bar-buffer {
     background-color: #F7F7F7 !important
   }
 }
@@ -222,7 +222,7 @@
   opacity: 1;
 }
 
-::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+::ng-deep .mat-mdc-tab-group.mat-primary .mat-ink-bar {
   background-color: rgb(3, 22, 21) !important;
 }
 
