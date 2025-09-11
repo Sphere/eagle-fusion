@@ -458,9 +458,11 @@ export class BnrcRegisterComponent implements OnInit {
         setValidators('block', [Validators.required])
         setValidators('facilityName', [Validators.required])
         setValidators('nin', [Validators.required])
+        setValidators('serviceType', [Validators.required])
+
         clearValidatorsAndReset([
           'courseSelection', 'facultyType', 'hrmsId', 'publicFacilityType',
-          'serviceType', 'instituteName', 'instituteType'
+          'instituteName', 'instituteType'
         ])
         break
       }
