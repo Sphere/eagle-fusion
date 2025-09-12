@@ -117,7 +117,7 @@ gap: 0px;
 .card-long{
   padding: 5px;
   display: flex;
-width: 100%;
+width: 99%;
 height: 81px;
 top: 8px !important;
 left: 8px !important;
@@ -205,6 +205,7 @@ height: 16px;
   width: 100%;
   border-radius: 40px;
   height: 8px;
+  border: 2px solid #EDEDED;
   --mdc-linear-progress-active-indicator-color: #469788 !important;
   --mdc-linear-progress-track-color: #EDEDED !important;
 }

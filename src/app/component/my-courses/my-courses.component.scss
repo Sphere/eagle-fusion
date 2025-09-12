@@ -2,7 +2,7 @@
 
 
 :host ::ng-deep .card-long {
-  width: 100% !important;
+  width: 99% !important;
 }
 ::ng-deep .text-block-mini{
   flex: 75%;
@@ -364,4 +364,10 @@
     height: 78px;
     opacity: 0;
   }
+}
+
+::ng-deep .mat-tab-group .mat-mdc-tab-header{
+  --mat-tab-header-active-label-text-color: grey !important;
+  --mat-tab-header-active-ripple-color: black !important;
+  --mat-tab-header-inactive-ripple-color: black !important;
 }
