@@ -419,6 +419,7 @@ export class BnrcRegisterComponent implements OnInit {
         setValidators('roleForInService', [Validators.required])
         setValidators('serviceType', [Validators.required])
         setValidators('facilityName', [Validators.required])
+        setValidators('block', [Validators.required])
 
         clearValidatorsAndReset([
           'courseSelection', 'facultyType', 'privateFacilityType', 'instituteType', 'instituteName'
@@ -438,6 +439,7 @@ export class BnrcRegisterComponent implements OnInit {
 
         setValidators('privateFacilityType', [Validators.required])
         setValidators('facilityName', [Validators.required])
+        setValidators('block', [Validators.required])
 
         clearValidatorsAndReset([
           'courseSelection', 'facultyType', 'hrmsId', 'publicFacilityType',
