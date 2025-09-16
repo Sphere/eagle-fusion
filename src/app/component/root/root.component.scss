@@ -215,3 +215,20 @@ letter-spacing: -0.02em;
 
 color: #000000;
 }
+
+::ng-deep .logout-dialog-container {
+  .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+    border-radius: 30px !important;
+    margin: 10px !important;
+  }
+
+  ws-utils-logout {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+}
+
+::ng-deep lib-discuss-card .discuss-card-title {
+  font-weight: 400 !important;
+}

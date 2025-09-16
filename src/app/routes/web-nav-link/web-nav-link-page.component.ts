@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
 import { SignupService } from '../signup/signup.service'
@@ -268,6 +268,8 @@ export class WebNavLinkPageComponent implements OnInit {
     }
   }
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container'
+    })
   }
 }

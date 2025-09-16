@@ -9,7 +9,7 @@ import {
   ROOT_WIDGET_CONFIG,
   // CustomTourService
 } from '@ws-widget/collection'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { AccessControlService } from '../../../../project/ws/author/src/public-api'
 interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
   featureWidgets: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[]
@@ -139,7 +139,9 @@ export class FeaturesComponent implements OnInit, OnDestroy {
   }
 
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container'
+    })
   }
   startTour() {
     // this.tour.startTour()

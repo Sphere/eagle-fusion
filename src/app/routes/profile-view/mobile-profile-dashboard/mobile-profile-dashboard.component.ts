@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
@@ -225,7 +225,9 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container'
+    })
   }
   processCertiFicate(data: any) {
 

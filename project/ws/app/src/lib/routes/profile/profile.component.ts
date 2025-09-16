@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, LogoutComponent, NsPage, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
@@ -64,6 +64,8 @@ export class ProfileComponent implements OnInit, OnDestroy {
     }
   }
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container'
+    })
   }
 }

@@ -1115,3 +1115,9 @@ button.submit-btn[disabled] {
     padding: 10px 12px 12px 12px !important;
   }
 }
+
+::ng-deep .logout-dialog-container {
+  .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+    border-radius: 30px !important;
+  }
+}

@@ -6,7 +6,19 @@
   line-height: 1.5 !important;
 }
 .close-btn{
-  margin-top: 1rem;
+  margin-block: 1rem;
   float: right;
   background: #f5d58d !important;
+}
+
+.share-dialog {
+  margin-inline: 2rem;
+}
+.heading {
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  font-family: Roboto, sans-serif;
+  letter-spacing: normal;
+  margin: 0 0 16px;
 }

@@ -1,4 +1,4 @@
-<h1 mat-dialog-title>{{ data.content.name }}</h1>
+<h1 mat-dialog-title class="heading">{{ data.content.name }}</h1>
 <!-- <div mat-dialog-content> -->
 <!-- <h3 class="mat-h3" i18n>Share with
     <ng-container *ngIf="isSocialMediaShareEnabled">
@@ -28,7 +28,7 @@
   #successToast /> -->
 
 
-<div *ngIf="isSocialMediaShareEnabled">
+<div *ngIf="isSocialMediaShareEnabled" class="share-dialog">
   <!-- <h2 class="mat-h2 margin-remove" i18n>
     OR
   </h2> -->

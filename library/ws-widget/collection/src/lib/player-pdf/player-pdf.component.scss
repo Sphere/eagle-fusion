@@ -75,3 +75,8 @@
 #fullScreenContainer {
   min-height: 75vh;
 }
+
+
+::ng-deep .auto-mat-form-field-input-infix .mat-mdc-text-field-wrapper {
+  background: transparent !important;
+}

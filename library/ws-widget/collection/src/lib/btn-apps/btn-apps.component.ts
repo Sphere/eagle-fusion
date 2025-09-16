@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { IBtnAppsConfig } from './btn-apps.model'
 import { Router, NavigationStart, NavigationEnd } from '@angular/router'
-import { MatDialog } from '@angular/material/dialog'
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 
 @Component({
   selector: 'ws-widget-btn-apps',
@@ -109,6 +109,8 @@ export class BtnAppsComponent extends WidgetBaseComponent
   }
 
   logout() {
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
+      panelClass: 'logout-dialog-container'
+    })
   }
 }

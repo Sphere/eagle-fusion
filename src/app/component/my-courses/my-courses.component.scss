@@ -188,6 +188,9 @@
   border-radius: 10px;
 }
 
+::ng-deep .progress-bar {
+  background-color: #c8c7c7 !important;
+}
 .value {
   color: #000000;
   width: 275px;
@@ -203,7 +206,7 @@
     border-radius: 10px;
   }
 
-  .mat-mdc-progress-bar-buffer {
+  .mdc-linear-progress__buffer {
     background-color: #F7F7F7 !important
   }
 }
@@ -218,12 +221,25 @@
   background: #00000085;
 }
 
-::ng-deep .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab--active {
   opacity: 1;
+  --mat-tab-header-active-label-text-color: black !important;
+  --mdc-tab-indicator-active-indicator-color: black !important;
+  --mat-tab-header-active-focus-label-text-color: black !important;
+  --mat-tab-header-active-hover-label-text-color: black !important;
+  --mat-tab-header-active-focus-indicator-color: black !important;
+  --mat-tab-header-active-hover-indicator-color: black !important;
 }
 
 ::ng-deep .mat-mdc-tab-group.mat-primary .mat-ink-bar {
   background-color: rgb(3, 22, 21) !important;
+}
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
+  --mat-tab-header-inactive-ripple-color: grey !important;
+}
+
+::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid rgb(204, 203, 203);
 }
 
 .fitsize {

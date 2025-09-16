@@ -16,6 +16,10 @@
   margin-bottom: 10px;
 }
 
+.duration-block {
+  display: flex;
+}
+
 .cne-block {
   padding: 10px 15px;
   width: 133px;
@@ -203,10 +207,13 @@
   margin-left: 10px;
 }
 
-.mat-mdc-progress-bar {
+::ng-deep .new-w.mat-mdc-progress-bar {
   width: 25%;
   border-radius: 40px;
   height: 20px;
+  --mdc-linear-progress-active-indicator-color: #469788 !important;
+  --mdc-linear-progress-active-indicator-height: 20px !important;
+  --mdc-linear-progress-track-height: 20px !important;
 
   @include breakpoint-xs {
     width: 100% !important;
@@ -237,7 +244,7 @@
   border-radius: 40px;
 }
 
-::ng-deep.theme-igot.day-mode .mat-mdc-progress-bar-buffer {
+::ng-deep.theme-igot.day-mode .mat-mdc-progress-bar--buffer {
   background-color: #EDEDED;
   // background-color: #E7E6E6 !important;
 }
@@ -289,4 +296,8 @@ letter-spacing: -0.02em;
 text-align: left;
 color: #000000;
 
+}
+
+::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 30px !important;
 }

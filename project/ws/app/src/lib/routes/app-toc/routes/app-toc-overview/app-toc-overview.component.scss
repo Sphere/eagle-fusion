@@ -49,3 +49,11 @@
     justify-content: space-between;
   }
 }
+
+.break-words {
+  margin-bottom: 2rem !important;
+}
+
+::ng-deep .mat-mdc-card-content {
+  padding: 0 !important;
+}

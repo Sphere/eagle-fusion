@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core'
-import { ActivatedRoute, Data, Router } from '@angular/router'
+import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
@@ -95,7 +95,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   rowDetails: any | undefined
   optmisticPercentage: number = 0
   finishedPercentage: any | undefined
-
+  selectedIndex = 0;
+  visibleTabs: string[] = ['overview'];
   @HostListener('window:scroll', ['$event'])
   handleScroll() {
     const windowScroll = window.pageYOffset
@@ -190,7 +191,59 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         console.log('error on batchSubscription')
       },
     )
+    this.updateVisibleTabs()
+    this.setTabIndex()
   }
+
+  updateVisibleTabs() {
+    this.visibleTabs = ['overview']
+    if (this.content?.resourceType === 'Certification') {
+      this.visibleTabs.push('certification')
+    }
+    if (this.content?.children?.length) {
+      this.visibleTabs.push('chapters')
+    }
+    if (this.content?.references) {
+      this.visibleTabs.push('references')
+    }
+    this.visibleTabs.push('discuss')
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const route = this.route.firstChild?.snapshot?.url[0]?.path
+        this.selectedIndex = this.visibleTabs.indexOf(route || 'overview')
+      }
+    })
+  }
+
+  setTabIndex() {
+    this.selectedIndex = this.visibleTabs.indexOf(this.routelinK)
+    if (this.selectedIndex === -1) {
+      this.selectedIndex = 0 // default to overview
+    }
+  }
+
+  onTabChange(index: number) {
+    const selectedRoute = this.visibleTabs[index]
+    if (selectedRoute === 'discuss') {
+      this.redirectTo()
+    } else {
+      this.toggleComponent(selectedRoute)
+      // Prepare query params conditionally
+      let queryParams: any = {}
+      if (selectedRoute === 'chapters' || selectedRoute === 'references') {
+        queryParams = {
+          batchId: this.batchId,
+          contentId: this.content.identifier,
+        }
+      }
+      // Navigate with query params
+      this.router.navigate([`./${selectedRoute}`], {
+        relativeTo: this.route,
+        queryParams,
+      })
+    }
+  }
+
   async show() {
     try {
       this.databaseAndTablesExist = await this.onlineIndexedDbService.checkDatabaseTablesExists()

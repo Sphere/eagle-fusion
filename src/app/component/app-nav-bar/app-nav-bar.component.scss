@@ -283,3 +283,25 @@
   align-self: center;
   margin-right: 10px;
 }
+
+::ng-deep lib-competency-dashboard .mat-mdc-tab-body {
+  background-color: #fffbfb !important;
+
+  lib-self-assessment-card .card_box {
+    background-color: #fffbfb !important;
+  }
+
+  lib-gained-comptency-card .card-container {
+    background-color: #fffbfb !important;
+  }
+
+  lib-active-summary mat-expansion-panel,mat-expansion-panel-header {
+    background-color: #fffbfb !important;
+
+    mat-panel-description {
+      .green-bar  .mdc-linear-progress__primary-bar .mdc-linear-progress__bar-inner {
+        border-color: #52ad9d !important;
+      }
+    }
+  }
+}

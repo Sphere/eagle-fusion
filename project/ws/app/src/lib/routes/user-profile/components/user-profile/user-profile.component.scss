@@ -330,14 +330,14 @@ input.mdc-text-field__input {
   transform: none !important;
 }
 
-::ng-deep .mat-tab-label-container .mat-tab-list {
-  .mat-tab-labels .mat-tab-label {
+::ng-deep .mat-mdc-tab-label-container .mat-mdc-tab-list {
+  .mat-mdc-tab-labels .mdc-tab__text-label {
     font-size: 18px;
     color: #222222;
   }
 
-  .mat-tab-labels .mat-tab-label-active {
-    .mat-tab-label-content {
+  .mat-mdc-tab-labels .mdc-tab--active {
+    .mdc-tab__content .mdc-tab__text-label{
       color: #f5d58d;
     }
   }

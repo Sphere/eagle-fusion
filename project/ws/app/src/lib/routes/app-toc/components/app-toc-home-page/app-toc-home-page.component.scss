@@ -11,7 +11,8 @@
 
 .toc-body {
   @extend %container-padding;
-  padding-top: 0px !important;
+  padding-top: 10px !important;
+  background-color: white;
 
   @include breakpoint-s {
     padding-right: 1rem;
@@ -125,4 +126,45 @@
   top: 50%;
   left: 50%;
   z-index: 1000;
+}
+
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab-indicator--active.mdc-tab--active {
+  --mat-tab-header-active-label-text-color: black !important;
+  --mdc-tab-indicator-active-indicator-color: black !important;
+  --mat-tab-header-active-focus-label-text-color: black !important;
+  --mat-tab-header-active-hover-label-text-color: black !important;
+  --mat-tab-header-active-focus-indicator-color: black !important;
+  --mat-tab-header-active-hover-indicator-color: black !important;
+}
+
+::ng-deep .toc-links .mat-mdc-tab-list .mat-mdc-tab-labels {
+  background-color: white !important;
+}
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
+  --mat-tab-header-inactive-ripple-color: grey !important;
+  .mat-mdc-tab {
+    flex-grow:  0 !important;
+  }
+  .mdc-tab__content {
+    color: #424242 !important;
+    font-size: 18px !important;
+  }
+}
+
+::ng-deep .mat-mdc-tab-header {
+  border-bottom: 1px solid rgb(204, 203, 203);
+}
+
+::ng-deep .mat-mdc-tab-body-active {
+  background-color: white !important;
+}
+
+::ng-deep .mat-tab-group .mat-mdc-tab-header{
+  --mat-tab-header-active-label-text-color: grey !important;
+  --mat-tab-header-active-ripple-color: black !important;
+  --mat-tab-header-inactive-ripple-color: black !important;
+}
+
+::ng-deep lib-discuss-card .discuss-card-title {
+  font-weight: 400 !important;
 }
