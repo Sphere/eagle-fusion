@@ -41,7 +41,7 @@
   top: 0px;
 }
 :host ::ng-deep .form-control:disabled, .form-control[readonly] {
-    background-color: #ffffff !important;
+    background-color: transparent !important;
 }
 .field-fullwidth {
   width: 100% !important;
@@ -83,7 +83,7 @@
 
 .form-control:disabled,
 .form-control[readonly] {
-  background-color: #ffffff;
+  background-color: transparent;
   opacity: 1;
 }
 
@@ -110,3 +110,11 @@ img.lang-img {
 //   color: #d32f2f;
 //   content: "* ";
 // }
+
+input {
+  background-color: transparent !important;
+}
+
+.select-box {
+  background-color: transparent !important;
+}

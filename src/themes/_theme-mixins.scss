@@ -121,7 +121,7 @@
       background-color: $colorAccentLight !important;
     }
 
-    .mat-option.mat-selected:not(.mat-option-multiple) {
+    .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple){
       background: $colorPrimaryDark !important;
       // color: red;
     }
@@ -227,7 +227,7 @@
       border: 0.5px solid;
     }
 
-    .mat-option.mat-selected:not(.mat-option-multiple) {
+    .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple) {
       background: $colorAccent !important;
     }
 
@@ -476,4 +476,8 @@
 ::ng-deep .theme-igot.day-mode .mat-mdc-progress-bar {
   --mdc-linear-progress-active-indicator-color: #469788 !important;
   --mdc-linear-progress-track-color: #EDEDED !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple){
+  background-color: #f5d58d !important;
 }

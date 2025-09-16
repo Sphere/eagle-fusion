@@ -1,6 +1,10 @@
 @import 'ws-vars';
 @import 'ws-mixins';
 
+.quiz-container {
+  margin: 2rem;
+}
+
 .app-class .mat-list-option {
   padding-top: $size-m;
   padding-bottom: $size-m;
@@ -39,6 +43,9 @@ letter-spacing: -2%;
     .mat-radio-outer-circle{
       color: #757575 !important;
     }
+  }
+  .mdc-form-field .mdc-label {
+    margin-bottom: 0px !important;
   }
 }
 .custom-list .mat-list-option.mat-focus-indicator {
@@ -316,18 +323,21 @@ white-space: break-spaces;
   border-radius: 30px;
   color: #469788 !important;
   padding: 8px 14px;
-    margin-left: -14px;
+    margin-left: 0px;
 }
 .wrong-answer{
   background-color: #FFDFDD !important;
   border-radius: 30px;
   color:#ED2C23 !important;
   padding: 8px 14px;
-    margin-left: -14px;
+    margin-left: 0px;
 }
 .result-message{
     border-radius: 8px 8px 0px 0px;
-
+    img {
+      width: 14px;
+      height: 15px;
+    }
 }
 .result-message-container{
   display: flex;
@@ -356,4 +366,17 @@ letter-spacing: -0.02em;
 text-align: left;
 text-underline-position: from-font;
 text-decoration-skip-ink: none;
+}
+.correct-text,
+.correct-answer, .wrong-answer {
+  display: flex;
+  align-items: center;
+}
+::ng-deep .mat-mdc-radio-button .mdc-radio .mdc-radio__native-control:enabled:checked+.mdc-radio__background {
+  .mdc-radio__outer-circle {
+    border-color: #424242 !important;
+  }
+  .mdc-radio__inner-circle {
+    border-color: #424242 !important;
+  }
 }

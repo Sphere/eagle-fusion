@@ -4,7 +4,7 @@
 }
 
 ::ng-deep mat-form-field .mat-form-field-infix .mdc-floating-label,
-::ng-deep mat-form-field .mat-form-field-infix .mat-select-value {
+::ng-deep mat-form-field .mat-form-field-infix .mat-mdc-select-value {
   line-height: normal !important;
 }
 
@@ -326,7 +326,7 @@ input.mdc-text-field__input {
   border-radius: 4px !important;
 }
 
-::ng-deep .mat-form-field-appearance-outline .mat-select-arrow-wrapper {
+::ng-deep .mat-form-field-appearance-outline .mat-mdc-select-arrow-wrapper {
   transform: none !important;
 }
 

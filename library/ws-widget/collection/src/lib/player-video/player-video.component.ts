@@ -234,6 +234,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     const confirmdialog = this.dialog.open(PlayerVideoPopupComponent, {
       width: '600px',
       data: { questions },
+      panelClass: 'quiz-modal-container',
     })
 
     if (confirmdialog) {

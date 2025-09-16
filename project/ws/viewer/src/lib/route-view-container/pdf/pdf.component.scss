@@ -177,3 +177,10 @@
 //     position: fixed;
 //   }
 // }
+
+mat-card {
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  border: none !important;
+  background-color: transparent !important;
+}

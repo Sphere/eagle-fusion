@@ -69,6 +69,7 @@
   color: #154976;
   padding: 0px 25px 0px;
   margin-bottom: -16px !important;
+  position: absolute;
 
   span {
     font-size: 15px;
@@ -94,8 +95,9 @@
   letter-spacing: -0.02em;
   color: #154976;
   padding: 0px 24px 0px;
-  margin-top: 10px !important;
-  margin-bottom: 0 !important;
+  margin-top: -12px !important;
+  margin-bottom: 16px !important;
+  position: relative;
 
   @include breakpoint-xs {
     font-size: 12px !important;
@@ -127,8 +129,8 @@
 
 }
 
-::ng-deep.overview-modal .mat-mdc-dialog-container {
-  border-radius: 40px !important;
+::ng-deep.overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface{
+  border-radius: 30px !important;
 }
 
 ::ng-deep .btn.btn-active.mat-mdc-raised-button.mat-mdc-button-base {

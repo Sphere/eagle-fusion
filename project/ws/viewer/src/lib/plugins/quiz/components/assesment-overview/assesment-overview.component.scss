@@ -5,6 +5,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 1.875rem;
 }
 
 .close {
@@ -76,12 +77,13 @@
   font-style: normal;
   font-weight: 500;
   font-size: 34px !important;
-  line-height: 69px;
+  line-height: 50px;
   text-align: center;
   letter-spacing: -0.02em;
   color: #154976;
   padding: 0px 25px 0px;
   margin-bottom: 0 !important;
+  position: relative;
 
   span {
     font-size: 15px;
@@ -115,8 +117,8 @@
   letter-spacing: -0.02em;
   color: #154976;
   padding: 0px 24px 0px;
-  margin-top: 10px !important;
   margin-bottom: 0 !important;
+  position: relative;
 
   @include breakpoint-xs {
     font-size: 12px !important;
@@ -156,8 +158,8 @@
 
 }
 
-::ng-deep.overview-modal .mat-mdc-dialog-container {
-  border-radius: 34px !important;
+::ng-deep.overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface{
+  border-radius: 30px !important;
 }
 
 ::ng-deep .btn.btn-active.mat-mdc-raised-button.mat-mdc-button-base {

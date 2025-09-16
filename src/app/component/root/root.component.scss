@@ -232,3 +232,8 @@ color: #000000;
 ::ng-deep lib-discuss-card .discuss-card-title {
   font-weight: 400 !important;
 }
+
+::ng-deep .mat-mdc-option .mdc-list-item--selected.mat-mdc-option-active {
+  background-color: #f5d58d !important;
+  --mat-option-selected-state-layer-color: #f5d58d !important;
+}

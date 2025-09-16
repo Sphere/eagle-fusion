@@ -31,7 +31,7 @@
 }
 .form-control:disabled,
 .form-control[readonly] {
-  background-color: #ffffff;
+  background-color: transparent;
   opacity: 1;
 }
 .heading,
@@ -88,4 +88,25 @@
   line-height: 19px;
   float: right;
   cursor: pointer;
+}
+
+input {
+  background-color: transparent !important;
+}
+.select-box {
+  background-color: transparent;
+}
+
+::ng-deep .field-fullwidth.mat-focused .mat-mdc-text-field-wrapper .mdc-notched-outline {
+  border: 1px solid #424242 !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected,
+::ng-deep .mat-mdc-option.mat-selected {
+  background-color: #f5d58d !important;
+  color: #fff !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected:hover {
+  background-color: #f5d58d !important;
 }

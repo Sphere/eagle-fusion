@@ -10,3 +10,7 @@
   width: 100%;
   min-height: 200px;
 }
+
+::ng-deep .quiz-modal-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 30px !important;
+}
