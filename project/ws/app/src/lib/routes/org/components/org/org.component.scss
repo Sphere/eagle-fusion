@@ -312,9 +312,12 @@ mat-card.card-standard-container.mr-8 .mat-card {
 .popover-card {
   min-width: 350px;
   max-width: 350px;
-  max-height: 500px;
-  box-shadow: 1px 0px 6px 0px rgba(0, 0, 0, 0.3) !important;
+  max-height: auto;
+  box-shadow: none !important;
   background-color: #fff;
+  .mat-button-base {
+    background-color: #f7c57a;
+  }
 }
 
 .photo {

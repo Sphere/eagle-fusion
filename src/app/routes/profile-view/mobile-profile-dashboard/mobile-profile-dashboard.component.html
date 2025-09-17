@@ -28,14 +28,14 @@
       <a *ngIf="isEkshamata&&configSvc.hostedInfo?.phone"
         [href]="'tel:' + configSvc.hostedInfo?.phone.replace('tel:', '')" class="help-btn cursor-pointer mt-4 mb-4">
         Help and Support
-        <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
+        <img width="20" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
       </a>
     </div>
 
     <div class="div mobile-div">
       <a class="border-btm mt-2" [class.active]="selectedIndex === 'language'"
         (click)="selectedIndex = 'language'; changeFunction('language')">
-        <div>
+        <div class="flex items-center">
           <img alt="Language Preference" src="/fusion-assets/icons/language-icon.svg" width="35" height="23" />
           <span class="options" i18n>Language Preference</span>
         </div>
@@ -44,7 +44,7 @@
       </a>
       <a class="border-btm" [class.active]="selectedIndex === 'certificates'"
         (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
-        <div>
+        <div class="flex items-center">
           <img alt="My Certificates" src="/fusion-assets/icons/certificate-icon1.svg" width="35" height="23" />
           <span class="options" i18n>My Certificates</span>
         </div>
@@ -53,7 +53,7 @@
       </a>
       <a class="border-btm" [class.active]="selectedIndex === 'personal'"
         (click)="selectedIndex = 'personal'; changeFunction('personal')">
-        <div>
+        <div class="flex items-center">
           <img alt="personal details" src="/fusion-assets/icons/personal-details.svg" width="35" height="18" />
           <span i18n class="options">Profile Details</span>
         </div>
@@ -62,7 +62,7 @@
       </a>
       <a class="border-btm" [class.active]="selectedIndex === 'organization'"
         (click)="selectedIndex = 'organization'; changeFunction('organization')">
-        <div>
+        <div class="flex items-center">
           <img alt="Organization details" src="/fusion-assets/icons/org-profile.svg" width="35" height="22" />
           <span i18n class="options">Organization Details</span>
         </div>
@@ -71,7 +71,7 @@
       </a>
       <a class="last-option" [class.active]="selectedIndex === 'academic'"
         (click)="selectedIndex = 'academic'; changeFunction('academic')">
-        <div>
+        <div class="flex items-center">
           <img alt="Academic details" src="/fusion-assets/icons/academic-icon.svg" width="35" height="23" />
           <span class="options" i18n>Academic Details</span>
 
