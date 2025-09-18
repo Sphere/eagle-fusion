@@ -58,10 +58,8 @@
 }
 
 .close-icon {
-  padding: 0px !important;
-  display: flex;
-  justify-content: flex-end;
-  float: right;
+  background-color: white !important;
+  margin-top: 5px !important;
 }
 
 ::ng-deep .mat-mdc-dialog-container {
@@ -120,7 +118,7 @@
 
 .relative {
   display: flex;
-  flex-direction: column;
+  // flex-direction: column;
 }
 
 .m-0 {

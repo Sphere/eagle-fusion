@@ -217,7 +217,7 @@ export class CreateAccountComponent implements OnInit {
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',
       width: '312px',
-      height: '186px',
+      height: '30%',
       data: {
         selected: "name",
         details: {
@@ -442,7 +442,7 @@ export class CreateAccountComponent implements OnInit {
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',
       width: '312px',
-      height: '186px',
+      height: '30%',
       data: {
         selected: "userExist",
       },

@@ -15,7 +15,7 @@
     </div>
     <mat-dialog-content>
         <form [formGroup]="ratingsForm">
-            <div class="margin-top-s center-align">
+            <div class="center-align">
                 <div class="star-rating">
                     <img *ngFor="let star of stars; let i = index"
                         [src]="star <= selectedRating ? '/fusion-assets/icons/star-filled.png' : '/fusion-assets/icons/star.png'"
@@ -23,9 +23,10 @@
                 </div>
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
-                <textarea (input)="setRating(selectedRating)" i18n i18n-placeholder style="height: 96px;padding: 10px;"
-                    rows="4" matInput placeholder=" Tell us more about what you felt" name="name"
-                    formControlName="review" required></textarea>
+                <textarea (input)="setRating(selectedRating)" i18n i18n-placeholder
+                    style="height: 96px;padding: 10px; width: 96%;" rows="4" matInput
+                    placeholder=" Tell us more about what you felt" name="name" formControlName="review"
+                    required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">
                     Comments is mandatory
                 </mat-error>
