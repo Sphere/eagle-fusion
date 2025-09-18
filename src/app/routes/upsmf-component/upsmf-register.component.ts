@@ -116,7 +116,8 @@ export class UpsmfRegisterComponent implements OnInit {
       district: new FormControl(''),
       block: new FormControl(''),
       facilityType: new FormControl(''),
-      facilityName: new FormControl('')
+      facilityName: new FormControl(''),
+      facilityCode: new FormControl('')  // Removed as per new requirements
     })
   }
 
@@ -295,6 +296,17 @@ export class UpsmfRegisterComponent implements OnInit {
     this.anmRegistrationForm.get('facilityName')?.reset()
   }
 
+  // onFacilityNameChange(selectedFacility: any): void {
+  //   console.log('Selected facility:', selectedFacility)
+
+  //   // Set facility code based on selected facility
+  //   if (selectedFacility && selectedFacility.code) {
+  //     this.anmRegistrationForm.get('facilityCode')?.setValue(selectedFacility.code)
+  //   }
+
+  //   console.log('Facility code set to:', this.anmRegistrationForm.get('facilityCode')?.value)
+  // }
+
   private resetFormValidation(): void {
     const governmentFields = ['serviceType', 'hrmsId', 'district', 'block', 'facilityType', 'facilityName']
     const privateFields = ['district', 'facilityName']
@@ -355,6 +367,7 @@ export class UpsmfRegisterComponent implements OnInit {
     this.anmRegistrationForm.markAllAsTouched()
 
     if (this.anmRegistrationForm.valid) {
+
       this.loader.changeLoad.next(true)
       this.isSubmitting = true
 
@@ -451,7 +464,11 @@ export class UpsmfRegisterComponent implements OnInit {
 
   createUser(event: any): void {
     console.log("event", event)
-
+    if (this.isGovernmentEmployee) {
+      const code = this.anmRegistrationForm.value.facilityName.code
+      this.anmRegistrationForm.get('facilityName')?.setValue(this.anmRegistrationForm.value.facilityName.name)
+      this.anmRegistrationForm.get('facilityCode')?.setValue(String(code))
+    }
     // Determine which form data to use
     const currentForm = this.isInService ? this.anmRegistrationForm : this.preServiceForm
     const formValues = {
