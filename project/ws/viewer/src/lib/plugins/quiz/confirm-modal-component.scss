@@ -134,3 +134,12 @@
   text-align: center !important;
 
 }
+
+textarea.mat-mdc-input-element {
+  caret-color: #000; /* keep cursor visible */
+}
+
+/* Remove blue outline only on textarea */
+textarea.mat-mdc-input-element:focus {
+  outline: none !important;
+}
