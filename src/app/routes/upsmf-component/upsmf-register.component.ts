@@ -3,6 +3,7 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpClient } from '@angular/common/http'
+import { ActivatedRoute } from '@angular/router'
 
 import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -15,23 +16,43 @@ import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
   styleUrls: ['./upsmf-register.component.scss'],
 })
 export class UpsmfRegisterComponent implements OnInit {
+  // Form groups
   anmRegistrationForm: FormGroup
-  districts: string[] = [];
-  blocks: string[] = [];
-  facilityTypes: string[] = [];
-  availableFacilities: any[] = [];
+  preServiceForm: FormGroup
 
-  // UI State
-  showbackButton = false;
-  otpPage = false;
-  isSubmitting = false;
-  isGovernmentEmployee = false;
-  isPrivateEmployee = false;
-  isEkshamata = true; // Flag for DOB component
+  // Service type flags
+  isInService = false
+  isPreService = false
+
+  // Role flags for pre-service
+  isStudent = false
+  isFaculty = false
+
+  // Employment type flags for in-service
+  isGovernmentEmployee = false
+  isPrivateEmployee = false
+  isEkshamata = true // Flag for DOB component
+
+  // Form submission flags
+  isSubmitting = false
+  otpPage = false
+  showbackButton = false
+
+  // Dropdown data
+  districts: string[] = []
+  blocks: string[] = []
+  facilityTypes: string[] = []
+  availableFacilities: any[] = []
+
+  // Pre-service specific options
+  professions = ['Student', 'Faculty']
+  instituteTypes = ['Government Medical College', 'Private Medical College', 'Nursing School', 'ANM Training Institute', 'Government Nursing College', 'Private Nursing College']
+  courseSelection = ['ANM Course', 'GNM Course', 'B.Sc Nursing', 'Post Basic B.Sc Nursing', 'M.Sc Nursing']
+  facultyTypes = ['Professor', 'Associate Professor', 'Assistant Professor', 'Lecturer', 'Clinical Instructor', 'Principal', 'Vice Principal']
 
   // Data URLs
-  biharDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/up_District.json?cb=${Date.now()}`;
-  biharDistrictData: any = {};
+  biharDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/up_District.json?cb=${Date.now()}`
+  biharDistrictData: any = {}
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
 
@@ -44,17 +65,35 @@ export class UpsmfRegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private loader: LoaderService,
+    private route: ActivatedRoute
   ) {
-    this.anmRegistrationForm = this.createFormGroup()
+    this.anmRegistrationForm = this.createInServiceFormGroup()
+    this.preServiceForm = this.createPreServiceFormGroup()
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
+    // Check query parameter to determine service type
+    this.route.queryParams.subscribe(params => {
+      const service = params['service']
+      if (service === 'inservice') {
+        this.isInService = true
+        this.isPreService = false
+      } else if (service === 'preservice') {
+        this.isPreService = true
+        this.isInService = false
+      } else {
+        // Default to in-service if no valid parameter
+        this.isInService = true
+        this.isPreService = false
+      }
+    })
+
     this.loadDistrictData()
     this.setupFormSubscriptions()
     this.setupResponsiveLayout()
   }
 
-  private createFormGroup(): FormGroup {
+  private createInServiceFormGroup(): FormGroup {
     return this.formBuilder.group({
       firstName: new FormControl('', [
         Validators.required,
@@ -70,7 +109,6 @@ export class UpsmfRegisterComponent implements OnInit {
       ]),
       dob: new FormControl('', [Validators.required]),
       regNurseRegMidwifeNumber: new FormControl('', [Validators.required]),
-
       roleForInService: new FormControl('', [Validators.required]),
       role: new FormControl(''),
       serviceType: new FormControl(''),
@@ -79,6 +117,31 @@ export class UpsmfRegisterComponent implements OnInit {
       block: new FormControl(''),
       facilityType: new FormControl(''),
       facilityName: new FormControl('')
+    })
+  }
+
+  private createPreServiceFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+      ]),
+      phone: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[6-9]\d{9}$/)
+      ]),
+      district: new FormControl('', [Validators.required]),
+      role: new FormControl('', [Validators.required]),
+      instituteName: new FormControl(''),
+      instituteType: new FormControl(''),
+      courseSelection: new FormControl(''),
+      facultyType: new FormControl(''),
+      hrmsId: new FormControl(''),
+      upsmfRegistrationNumber: new FormControl('')
     })
   }
 
@@ -94,17 +157,17 @@ export class UpsmfRegisterComponent implements OnInit {
   }
 
   private setupFormSubscriptions(): void {
-    // District change for government employees
+    // District change for government employees (in-service only)
     this.anmRegistrationForm.get('district')?.valueChanges.subscribe(selectedDistrict => {
       this.onDistrictChange(selectedDistrict)
     })
 
-    // Block change for government employees
+    // Block change for government employees (in-service only)
     this.anmRegistrationForm.get('block')?.valueChanges.subscribe(selectedBlock => {
       this.onBlockChange(selectedBlock)
     })
 
-    // Facility type change
+    // Facility type change (in-service only)
     this.anmRegistrationForm.get('facilityType')?.valueChanges.subscribe(facilityType => {
       this.onFacilityTypeChange(facilityType)
     })
@@ -114,6 +177,52 @@ export class UpsmfRegisterComponent implements OnInit {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.showbackButton = isXSmall
     })
+  }
+
+  // Pre-service role selection handler
+  onRoleChange(selectedRole: string): void {
+    this.isStudent = selectedRole === 'Student'
+    this.isFaculty = selectedRole === 'Faculty'
+
+    // Update validators based on role
+    this.updatePreServiceValidators()
+  }
+
+  private updatePreServiceValidators(): void {
+    const instituteNameControl = this.preServiceForm.get('instituteName')
+    const instituteTypeControl = this.preServiceForm.get('instituteType')
+    const courseSelectionControl = this.preServiceForm.get('courseSelection')
+    const facultyTypeControl = this.preServiceForm.get('facultyType')
+    const hrmsIdControl = this.preServiceForm.get('hrmsId')
+    const upsmfRegistrationControl = this.preServiceForm.get('upsmfRegistrationNumber')
+
+      // Clear existing validators
+      ;[instituteNameControl, instituteTypeControl, courseSelectionControl,
+        facultyTypeControl, hrmsIdControl, upsmfRegistrationControl].forEach(control => {
+          control?.clearValidators()
+          control?.setValue('')
+          control?.updateValueAndValidity()
+        })
+
+    if (this.isStudent) {
+      // Student-specific required fields
+      instituteNameControl?.setValidators([Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)])
+      instituteTypeControl?.setValidators([Validators.required])
+      courseSelectionControl?.setValidators([Validators.required])
+    } else if (this.isFaculty) {
+      // Faculty-specific required fields
+      instituteNameControl?.setValidators([Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)])
+      instituteTypeControl?.setValidators([Validators.required])
+      facultyTypeControl?.setValidators([Validators.required])
+      hrmsIdControl?.setValidators([Validators.required])
+      upsmfRegistrationControl?.setValidators([Validators.required])
+    }
+
+    // Update validity
+    ;[instituteNameControl, instituteTypeControl, courseSelectionControl,
+      facultyTypeControl, hrmsIdControl, upsmfRegistrationControl].forEach(control => {
+        control?.updateValueAndValidity()
+      })
   }
 
   onEmploymentTypeChange(roleForInService: string): void {
@@ -127,12 +236,18 @@ export class UpsmfRegisterComponent implements OnInit {
       this.isGovernmentEmployee = false
       this.isPrivateEmployee = true
       this.setPrivateValidators()
+      this.anmRegistrationForm.get('serviceType')?.setValue('Private')
     }
   }
 
   onDobChange(dobValue: string): void {
-    this.anmRegistrationForm.get('dob')?.setValue(dobValue)
-    this.anmRegistrationForm.get('dob')?.updateValueAndValidity()
+    if (this.isInService) {
+      this.anmRegistrationForm.get('dob')?.setValue(dobValue)
+      this.anmRegistrationForm.get('dob')?.updateValueAndValidity()
+    } else if (this.isPreService) {
+      this.preServiceForm.get('dob')?.setValue(dobValue)
+      this.preServiceForm.get('dob')?.updateValueAndValidity()
+    }
   }
 
   onDistrictChange(selectedDistrict: string): void {
@@ -182,20 +297,20 @@ export class UpsmfRegisterComponent implements OnInit {
 
   private resetFormValidation(): void {
     const governmentFields = ['serviceType', 'hrmsId', 'district', 'block', 'facilityType', 'facilityName']
-    const privateFields = ['district', 'facilityName'];
+    const privateFields = ['district', 'facilityName']
 
-    [...governmentFields, ...privateFields].forEach(fieldName => {
-      const control = this.anmRegistrationForm.get(fieldName)
-      if (control) {
-        control.clearValidators()
-        control.setValue('')
-        control.updateValueAndValidity()
-      }
-    })
+      ;[...governmentFields, ...privateFields].forEach(fieldName => {
+        const control = this.anmRegistrationForm.get(fieldName)
+        if (control) {
+          control.clearValidators()
+          control.setValue('')
+          control.updateValueAndValidity()
+        }
+      })
   }
 
   private setGovernmentValidators(): void {
-    this.anmRegistrationForm.controls.role.setValue('ANM-UP')
+    this.anmRegistrationForm.controls['role'].setValue('ANM-UP')
     this.anmRegistrationForm.get('serviceType')?.setValidators([Validators.required])
     this.anmRegistrationForm.get('hrmsId')?.setValidators([
       Validators.required,
@@ -211,7 +326,7 @@ export class UpsmfRegisterComponent implements OnInit {
   }
 
   private setPrivateValidators(): void {
-    this.anmRegistrationForm.controls.role.setValue('ANM-UP')
+    this.anmRegistrationForm.controls['role'].setValue('ANM-UP')
     this.anmRegistrationForm.get('district')?.setValidators([Validators.required])
     this.anmRegistrationForm.get('facilityName')?.setValidators([
       Validators.required,
@@ -227,7 +342,16 @@ export class UpsmfRegisterComponent implements OnInit {
     })
   }
 
+  // Form submission handlers
   onSubmit(): void {
+    if (this.isInService) {
+      this.onSubmitInService()
+    } else if (this.isPreService) {
+      this.onSubmitPreService()
+    }
+  }
+
+  onSubmitInService(): void {
     this.anmRegistrationForm.markAllAsTouched()
 
     if (this.anmRegistrationForm.valid) {
@@ -250,20 +374,48 @@ export class UpsmfRegisterComponent implements OnInit {
         }
       )
     } else {
-      this.handleFormErrors()
+      this.handleFormErrors(this.anmRegistrationForm)
     }
   }
 
-  private handleFormErrors(): void {
+  onSubmitPreService(): void {
+    this.preServiceForm.markAllAsTouched()
+
+    if (this.preServiceForm.valid) {
+      this.loader.changeLoad.next(true)
+      this.isSubmitting = true
+
+      const phone = { phone: this.preServiceForm.value.phone }
+
+      this.userProfileSvc.bnrcSendOtp(phone).subscribe(
+        (res: any) => {
+          if (res.status === 'success') {
+            this.otpPage = true
+            this.openSnackbar(res.message)
+          }
+        },
+        (error) => {
+          this.isSubmitting = false
+          this.loader.changeLoad.next(false)
+          this.openSnackbar(error.error.message)
+        }
+      )
+    } else {
+      this.handleFormErrors(this.preServiceForm)
+    }
+  }
+
+  private handleFormErrors(formGroup: FormGroup): void {
     const missingFields: string[] = []
 
-    Object.keys(this.anmRegistrationForm.controls).forEach(controlName => {
-      const control = this.anmRegistrationForm.get(controlName)
+    Object.keys(formGroup.controls).forEach(controlName => {
+      const control = formGroup.get(controlName)
       if (control && control.errors && control.errors['required']) {
         missingFields.push(this.getFieldDisplayName(controlName))
       }
     })
 
+    // Optional: Uncomment to show missing fields message
     // if (missingFields.length > 0) {
     //   const errorMessage = `The following fields are required: ${missingFields.join(', ')}.`
     //   this.openSnackbar(errorMessage)
@@ -285,7 +437,13 @@ export class UpsmfRegisterComponent implements OnInit {
       district: 'District',
       block: 'Block',
       facilityType: 'Facility Type',
-      facilityName: 'Facility Name'
+      facilityName: 'Facility Name',
+      role: 'Role',
+      instituteName: 'Name of Institute',
+      instituteType: 'Type of Institute',
+      courseSelection: 'Course Selection',
+      facultyType: 'Type of Faculty',
+      upsmfRegistrationNumber: 'UPSMF Registration Number'
     }
 
     return fieldNames[fieldName] || fieldName
@@ -293,16 +451,25 @@ export class UpsmfRegisterComponent implements OnInit {
 
   createUser(event: any): void {
     console.log("event", event)
+
+    // Determine which form data to use
+    const currentForm = this.isInService ? this.anmRegistrationForm : this.preServiceForm
     const formValues = {
-      ...this.anmRegistrationForm.value,
-      phone: +this.anmRegistrationForm.value.phone
+      ...currentForm.value,
+      phone: +currentForm.value.phone
+    }
+
+    // Add service type identifier
+    if (this.isPreService) {
+      formValues.serviceType = this.isStudent ? 'Student' : 'Faculty'
+      formValues.role = formValues.serviceType
     }
 
     const reqUpdate = {
       request: { formValues }
     }
 
-    this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
+    this.userProfileSvc.upsmfRegistration(reqUpdate).subscribe(
       (res: any) => {
         this.isSubmitting = false
         this.loader.changeLoad.next(false)
@@ -323,24 +490,43 @@ export class UpsmfRegisterComponent implements OnInit {
   }
 
   private resetForm(): void {
-    this.anmRegistrationForm.reset()
-    this.anmRegistrationForm = this.createFormGroup()
-    this.isGovernmentEmployee = false
-    this.isPrivateEmployee = false
+    if (this.isInService) {
+      this.anmRegistrationForm.reset()
+      this.anmRegistrationForm = this.createInServiceFormGroup()
+      this.isGovernmentEmployee = false
+      this.isPrivateEmployee = false
+    } else if (this.isPreService) {
+      this.preServiceForm.reset()
+      this.preServiceForm = this.createPreServiceFormGroup()
+      this.isStudent = false
+      this.isFaculty = false
+    }
+
     this.otpPage = false
   }
 
   private showSuccessDialog(): void {
+    const message = 'कृपया ई-क्षमता ऐप डाउनलोड करें और दिए गए मोबाइल नंबर के साथ ओटीपी का उपयोग करके लॉगिन करें । Kindly download the e- Kshamata app and login using your given mobile number with OTP'
+
     this.dialog.open(BnrcmodalComponent, {
       width: '350px',
       height: '305px',
       panelClass: 'overview-modal',
       disableClose: true,
-      data: { message: 'कृपया ई-क्षमता ऐप डाउनलोड करें और दिए गए मोबाइल नंबर के साथ ओटीपी का उपयोग करके लॉगिन करें । Kindly download the e- Kshamata app and login using your given mobile number with OTP.', from: 'Upsmf' },
+      data: {
+        message: message,
+        from: 'Upsmf'
+      },
     })
   }
 
   public openSnackbar(primaryMsg: string, duration: number = 10000): void {
     this.snackBar.open(primaryMsg, 'X', { duration })
+  }
+
+  // Utility method for field assignment (if needed for pre-service form)
+  assignFields(fieldName: string, value: any, event: any): void {
+    console.log('Field assignment:', fieldName, value, event)
+    // Additional field processing logic can be added here if needed
   }
 }
