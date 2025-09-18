@@ -373,7 +373,7 @@ export class UpsmfRegisterComponent implements OnInit {
 
       const phone = { phone: this.anmRegistrationForm.value.phone }
 
-      this.userProfileSvc.bnrcSendOtp(phone).subscribe(
+      this.userProfileSvc.upsmfSendOtp(phone).subscribe(
         (res: any) => {
           if (res.status === 'success') {
             this.otpPage = true
@@ -400,7 +400,7 @@ export class UpsmfRegisterComponent implements OnInit {
 
       const phone = { phone: this.preServiceForm.value.phone }
 
-      this.userProfileSvc.bnrcSendOtp(phone).subscribe(
+      this.userProfileSvc.upsmfSendOtp(phone).subscribe(
         (res: any) => {
           if (res.status === 'success') {
             this.otpPage = true
