@@ -117,9 +117,9 @@ const routes: Routes = [
     component: BnrcRegisterComponent,
   },
   {
-    path: 'upsmf/register',
+    path: 'uttarpradesh/register',
     data: {
-      title: 'Aastrika Sphere - UPSMF Registration'
+      title: 'Aastrika Sphere - Uttar Pradesh Registration'
     },
     component: UpsmfRegisterComponent,
   },
