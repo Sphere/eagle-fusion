@@ -186,6 +186,10 @@ export class MobileProfileDashboardComponent implements OnInit {
     const el = this._document.getElementById('widget')
     if (el) {
       el.style.display = 'block'
+      console.log("this.userData", this.profileData)
+      el.setAttribute('userId', this.profileData.userId)
+      el.setAttribute('firstName', this.profileData.personalDetails.firstname)
+      el.setAttribute('lastName', this.profileData.personalDetails.surname)
 
       setTimeout(() => {
         const btn = el.querySelector('button') as HTMLElement

@@ -429,7 +429,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (event.url.includes('/public/login') || event.url.includes('app/new-tnc')) {
           this.showmobileFooter = false
         }
-        if (event.url.includes('/bnrc/register') || event.url.includes('/upsmf/register')) {
+        if (event.url.includes('/bnrc/register') || event.url.includes('/uttarpradesh/register')) {
           this.showmobileFooter = false
           this.disableChatForBnrc = true
         }

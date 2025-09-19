@@ -152,6 +152,15 @@
 
     </ng-container>
     <ng-container *ngIf="inService">
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="block" i18n-placeholder placeholder="Block">
+          <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="bnrcDetailForm.get('block')?.invalid && bnrcDetailForm.get('block')?.touched">
+        Block is required.
+      </mat-error>
       <ng-container *ngIf="!isInservice">
         <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -180,6 +189,17 @@
       </mat-error>
     </ng-container>
     <div *ngIf="publicHealthFacility">
+      <label i18n for="profession" style="display: block;">Block / आप जिस ब्लॉक में काम कर रहे हैं
+        / In which block you are working <span class="red-icon">*</span></label>
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="block" i18n-placeholder placeholder="Block">
+          <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="bnrcDetailForm.get('block')?.invalid && bnrcDetailForm.get('block')?.touched">
+        Block is required.
+      </mat-error>
       <ng-container *ngIf="!isInservice">
         <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -232,6 +252,17 @@
       </div>
     </div>
     <div *ngIf="privateHealthFacility">
+      <label i18n for="profession" style="display: block;">Block / आप जिस ब्लॉक में काम कर रहे हैं
+        / In which block you are working <span class="red-icon">*</span></label>
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="block" i18n-placeholder placeholder="Block">
+          <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="bnrcDetailForm.get('block')?.invalid && bnrcDetailForm.get('block')?.touched">
+        Block is required.
+      </mat-error>
       <ng-container *ngIf="!isInservice">
         <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
@@ -311,12 +342,22 @@
       <mat-error *ngIf="bnrcDetailForm.get('facilityName')?.invalid && bnrcDetailForm.get('facilityName')?.touched">
         AAM-SHC is required.
       </mat-error>
-      <ng-container *ngIf="false">
-        <label i18n for="profession">NIN NO</label>
+      <ng-container>
+        <label i18n for="profession">NIN Number</label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-          <input matInput placeholder="NIN" formControlName="nin" readonly>
+          <input matInput placeholder="NIN" formControlName="nin" readonly disabled>
         </mat-form-field>
       </ng-container>
+      <label i18n for="profession">Type of service <span class="red-icon">*</span></label>
+      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-select formControlName="serviceType" i18n-placeholder placeholder="Type of service">
+          <mat-option [value]="profession" *ngFor="let profession of serviceType">{{profession}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-error *ngIf="bnrcDetailForm.get('serviceType')?.invalid && bnrcDetailForm.get('serviceType')?.touched">
+        Type of service is required.
+      </mat-error>
 
     </div>
 

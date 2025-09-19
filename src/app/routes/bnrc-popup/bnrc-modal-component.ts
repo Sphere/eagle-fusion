@@ -32,7 +32,7 @@ export class BnrcmodalComponent implements OnInit {
 
   done(value: string) {
     if (value === 'download') {
-      window.location.href = 'https://bit.ly/E-kshamataApp'
+      window.location.href = 'https://links-ekshamata.aastrika.org'
     } else {
       if (this.data.from === 'Upsmf') {
         window.location.href = 'https://upsmf.aastrika.org/'

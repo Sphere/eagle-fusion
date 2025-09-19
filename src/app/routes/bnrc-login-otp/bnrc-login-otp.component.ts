@@ -49,9 +49,9 @@ export class BnrcLoginOtpComponent implements OnInit {
       otp: this.loginOtpForm.value.code,
     }
     const currentUrl = this.router.url
-    console.log("url", currentUrl.includes('upsmf/register'))
+    console.log("url", currentUrl.includes('uttarpradesh/register'))
 
-    const validateOtpMethod = currentUrl.includes('upsmf/register')
+    const validateOtpMethod = currentUrl.includes('uttarpradesh/register')
       ? this.userProfileSvc.upsmfValidateOtp.bind(this.userProfileSvc)
       : this.userProfileSvc.bnrcValidateOtp.bind(this.userProfileSvc)
 
@@ -78,9 +78,9 @@ export class BnrcLoginOtpComponent implements OnInit {
       phone: this.loginData.value.phone,
     }
     const currentUrl = this.router.url
-    console.log("url", currentUrl.includes('upsmf/register'))
+    console.log("url", currentUrl.includes('uttarpradesh/register'))
 
-    const resendOtpMethod = currentUrl.includes('upsmf/register')
+    const resendOtpMethod = currentUrl.includes('uttarpradesh/register')
       ? this.userProfileSvc.upsmfResendOtp.bind(this.userProfileSvc)
       : this.userProfileSvc.bnrcResendOtp.bind(this.userProfileSvc)
 
