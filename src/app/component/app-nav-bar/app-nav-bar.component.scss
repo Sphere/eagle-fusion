@@ -284,23 +284,66 @@
   margin-right: 10px;
 }
 
-::ng-deep lib-competency-dashboard .mat-mdc-tab-body {
-  background-color: #fffbfb !important;
+::ng-deep .mat-tab-group.mat-primary .mat-ink-bar {
+  background-color: rgb(3, 22, 21) !important;
+}
+::ng-deep .mat-tab-list .mat-tab-labels {
+  --mat-tab-header-inactive-ripple-color: grey !important;
+}
 
-  lib-self-assessment-card .card_box {
-    background-color: #fffbfb !important;
+::ng-deep lib-competency-dashboard  {
+  .mat-tab-list .mat-tab-labels .mat-tab-label-active {
+    opacity: 1;
+    --mat-tab-header-active-label-text-color: #424242!important;
+    --mdc-tab-indicator-active-indicator-color: #424242!important;
+    --mat-tab-header-active-focus-label-text-color: #424242!important;
+    --mat-tab-header-active-hover-label-text-color: #424242!important;
+    --mat-tab-header-active-focus-indicator-color: #424242!important;
+    --mat-tab-header-active-hover-indicator-color: #424242!important;
   }
-
-  lib-gained-comptency-card .card-container {
-    background-color: #fffbfb !important;
+  .mat-tab-label {
+    justify-content: center !important;
   }
+  h1 {
+    font-weight: 400 !important;
+  }
+  .mat-tab-header {
+  border-bottom: 1px solid rgb(204, 203, 203);
+  .mat-tab-label-content {
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 500;
+  }
+  }
+  .mat-tab-body-wrapper {
+    background-color: transparent !important;
 
-  lib-active-summary mat-expansion-panel,mat-expansion-panel-header {
-    background-color: #fffbfb !important;
+    lib-self-assessment-card .card_box {
+      background-color: transparent !important;
+    }
 
-    mat-panel-description {
-      .green-bar  .mdc-linear-progress__primary-bar .mdc-linear-progress__bar-inner {
-        border-color: #52ad9d !important;
+    lib-gained-comptency-card .card-container {
+      background-color: transparent !important;
+      mat-expansion-panel {
+        background-color: transparent !important;
+        .log {
+          font-weight: 400 !important;
+        }
+      }
+    }
+
+    lib-active-summary mat-expansion-panel,mat-expansion-panel-header {
+      background-color: transparent !important;
+      .activity-title {
+        font-weight: 400 !important;
+      }
+      mat-panel-description {
+        .role-title {
+          font-weight: 400 !important;
+        }
+        .green-bar  .mdc-linear-progress__primary-bar .mdc-linear-progress__bar-inner {
+          border-color: #469788!important
+        }
       }
     }
   }

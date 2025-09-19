@@ -28,7 +28,7 @@
   //margin-left: 20px;
   margin-top: 20px;
   margin-bottom: 0px;
-
+  font: 400 24px / 32px Roboto;
   @include breakpoint-xs {
     margin-top: 0px;
   }
@@ -46,6 +46,7 @@
   #heading {
     margin-left: 15px;
     margin-bottom: 10px;
+    font: 400 24px / 32px Roboto;
   }
   ::ng-deep .mat-mdc-progress-bar {
     width: 100% !important;
@@ -236,10 +237,21 @@
 }
 ::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
   --mat-tab-header-inactive-ripple-color: grey !important;
+  .mat-mdc-tab {
+    padding-left: 24px !important;
+    padding-right: 24px !important;
+    .mdc-tab__text-label {
+      font-family: 'Roboto' !important;
+    }
+  }
 }
 
 ::ng-deep .mat-mdc-tab-header {
   border-bottom: 1px solid rgb(204, 203, 203);
+  .mdc-tab__text-label {
+    font-size: 14px;
+    font-weight: 500;
+  }
 }
 
 .fitsize {
