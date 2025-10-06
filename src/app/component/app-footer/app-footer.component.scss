@@ -496,6 +496,8 @@ hr.new1{
   align-items: center;
   color: #7B6961 !important;
   height: 32px;
+  font-weight: 400 !important;
+  font-size: 15px !important;
    @include breakpoint-s {
     font-size: 12px;
     width: 160px;
