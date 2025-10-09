@@ -110,3 +110,13 @@ input {
 ::ng-deep .mat-mdc-option.mdc-list-item--selected:hover {
   background-color: #f5d58d !important;
 }
+
+::ng-deep .mat-mdc-option {
+  font-weight: 500 !important;
+  font-size: 16px !important;
+}
+
+::ng-deep .mat-mdc-select .mat-mdc-select-trigger .mat-mdc-select-value {
+  font-weight: 500 !important;
+  font-size: 16px !important;
+}

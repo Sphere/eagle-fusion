@@ -4,6 +4,8 @@
 .assesment-container {
   display: flex;
   flex-direction: column;
+  margin-inline: 1rem;
+  margin-top: 2rem !important;
 
   .close {
     place-self: end;
@@ -16,6 +18,14 @@
   }
 }
 
+::ng-deep mat-tab-group .mdc-tab__content .mdc-tab__text-label {
+  font-size: 18px !important;
+  font-weight: 500 !important;
+}
+
+.mat-body-strong {
+  font-weight: 500 !important;
+}
 .main .child {
   height: 100%;
   padding: 0;
@@ -180,11 +190,11 @@
 }
 
 .btn-lg {
-  width: 155px !important;
+  width: 65% !important;
 }
 
 .btn-xll {
-  width: 220px !important;
+  width: 65% !important;
 }
 
 
@@ -339,4 +349,17 @@
     }
   }
 
+}
+::ng-deep .assessment-tab .mat-mdc-tab-group .mat-mdc-tab-list .mat-mdc-tab-labels {
+  --mat-tab-header-inactive-ripple-color: grey !important;
+  font-weight: 500 !important;
+  .mat-mdc-tab .mdc-tab__text-label {
+    font-family: 'Roboto' !important;
+    font-weight: 500 !important;
+  }
+}
+mat-progress-bar {
+ --mdc-linear-progress-active-indicator-color: #469788 !important;
+  --mdc-linear-progress-active-indicator-height: 20px !important;
+  --mdc-linear-progress-track-height: 20px !important;
 }

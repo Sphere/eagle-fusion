@@ -32,6 +32,7 @@
 .quiz-question {
   overflow-x: auto;
   margin: 10px 0 0 0 !important;
+  font-weight: 400;
 
   @include breakpoint-xs {
     margin: 0 !important;
@@ -62,6 +63,19 @@ correct-option {
 .quiz-radio-button {
   margin: 5px;
   padding: 8px;
+}
+
+::ng-deep .mat-mdc-radio-button .mdc-form-field .mdc-label {
+  font-weight: 400 !important;
+}
+
+::ng-deep .mdc-radio__native-control:enabled:checked+.mdc-radio__background {
+  .mdc-radio__outer-circle {
+    border-color: #424242 !important;
+  }
+  .mdc-radio__inner-circle {
+    border-color: #424242 !important;
+  }
 }
 
 .quiz-selected-value {

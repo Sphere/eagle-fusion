@@ -79,7 +79,7 @@
   width: 100%;
   .mat-mdc-text-field-wrapper {
     box-shadow: 0 0 4px 0 #00000026 !important;
-    background-color: transparent !important;
+    background-color: #f2f2f2 !important;
   }
 }
 .eye-icon{
@@ -91,7 +91,7 @@
 }
 ::ng-deep .mat-form-field-flex{
     box-shadow: 0px 0px 4px 0px #00000026;
-    background: #FFFFFF !important;
+    background: #f2f2f2 !important;
 }
 .btm-block-img{
       position: absolute;
@@ -376,9 +376,9 @@ span.mat-button-wrapper {
 }
 
 ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--filled:hover {
-  background-color: transparent !important; /* hover background */
+  background-color: #f2f2f2 !important; /* hover background */
 }
 
 ::ng-deep .mat-mdc-text-field-wrapper.mdc-text-field--filled.mdc-text-field--focused {
-  background-color: transparent !important; /* focus background */
+  background-color: #f2f2f2 !important; /* focus background */
 }

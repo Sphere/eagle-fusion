@@ -168,3 +168,8 @@
 ::ng-deep lib-discuss-card .discuss-card-title {
   font-weight: 400 !important;
 }
+
+::ng-deep .toc-body .mdc-tab__text-label {
+  font-size: 18px !important;
+  font-weight: 500;
+}

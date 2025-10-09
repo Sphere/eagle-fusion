@@ -143,3 +143,8 @@ textarea.mat-mdc-input-element {
 textarea.mat-mdc-input-element:focus {
   outline: none !important;
 }
+
+::ng-deep .close-icon .mdc-button__ripple::before,
+ .close-icon .mdc-button__ripple::after {
+  background-color: transparent !important;
+}
