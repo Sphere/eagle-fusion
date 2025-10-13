@@ -68,7 +68,11 @@ export class PublicTocComponent implements OnInit, OnDestroy {
             const langPrefix = lang === 'hi' ? 'hi/' : ''
             const redirectUrl = `${baseUrl}${langPrefix}public/toc/overview/${this.courseid}/${slug}`
 
-            location.href = redirectUrl
+            // Only redirect if needed
+            if (window.location.href !== redirectUrl) {
+              this.router.navigateByUrl(redirectUrl)
+            }
+            // location.href = redirectUrl
             this.isLoading = false
           },
           err => {
