@@ -28,6 +28,7 @@ export class WorkInfoListComponent implements OnInit {
   studentList = ['Bsc nursing', 'GNM', 'ANM/MPW', 'Midwife', 'Medical Student', 'Other']
   districtUrl = '../../../fusion-assets/files/district.json'
   userProfileData!: IUserProfileDetailsFromRegistry
+  ekshamataData: any
   showbackButton = false
   @Output() passProfession = new EventEmitter<string>();
   showLogOutIcon = false
@@ -137,6 +138,7 @@ export class WorkInfoListComponent implements OnInit {
           if (data) {
 
             const newData = data.profileDetails.profileReq
+            this.ekshamataData = data
             this.userProfileData = data.profileDetails.profileReq
             if (newData && newData.professionalDetails) {
               (newData.professionalDetails[0].orgType === 'Others' && newData.professionalDetails[0].orgOtherSpecify) ? this.orgOthersField = true : this.orgOthersField = false;

@@ -4,8 +4,15 @@
     [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
 
   <p class="text-2xl mt-2 mb-2" i18n>Education</p>
-
-  <div class="inline-block">
+  <ng-container *ngIf="isEkshamata">
+    <div class="form-group input-box"
+      *ngIf="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.instituteName">
+      <label i18n>Institution Name</label>
+      <input type="text" class="form-control"
+        [value]="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.instituteName" readonly disabled />
+    </div>
+  </ng-container>
+  <div class="inline-block" *ngIf="!isEkshamata">
     <div *ngFor="let academic of academicsArray">
       <div *ngIf="!isEkshamata" class="edit-icon">
         <mat-icon *ngIf="academicsArray.length>0 && academic.nameOfInstitute" class="float-right pencil cursor-pointer"
