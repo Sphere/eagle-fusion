@@ -99,7 +99,7 @@ export class InitService {
   }
 
   async init() {
-   // this.logger.removeConsoleAccess()
+    // this.logger.removeConsoleAccess()
     const authenticated = await this.authSvc.initAuth()
     const loginData = localStorage.getItem('loginDetailsWithToken')
     if (authenticated) {

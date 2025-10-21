@@ -18,6 +18,7 @@ const API_END_POINTS = {
   SETPASSWORD_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
   profilePid: '/apis/proxies/v8/api/user/v2/read',
   newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
+  newssowithMobileEmailOrgForm: '/apis/public/v8/signupWithAutoLoginOrgForm/register',
   validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin',
   sendUserOTP: '/apis/public/v8/ssoLogin/otp/sendOtp',
   newLogin: '/apis/public/v8/ssoLogin/login',
@@ -64,6 +65,14 @@ export class SignupService {
   }
   ssoWithMobileEmail(data: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.newssowithMobileEmail, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+
+  ssoWithMobileEmailOrgForm(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.newssowithMobileEmailOrgForm, data).pipe(
       map(response => {
         return response
       }),

@@ -135,6 +135,13 @@ const routes: Routes = [
     component: CreateAccountComponent,
   },
   {
+    path: 'app/create-account/:stateCode/:orgName/:role',
+    component: CreateAccountComponent,
+    data: {
+      title: 'Create Account'
+    }
+  },
+  {
     path: 'app/complete-profile',
     component: CompleteProfileComponent,
   },

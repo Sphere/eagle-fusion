@@ -396,6 +396,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
                   this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
                   // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
                 } else {
+                  const isTamilNaduUser = localStorage.getItem('isTamilNaduUser') === 'true'
+                  if (isTamilNaduUser) {
+                    localStorage.removeItem('isTamilNaduUser')
+                    const orgId = encodeURIComponent('Tamil Nadu Nurses and Midwives Council (TNNMC)')
+                    this.router.navigate([`/app/org-details`], { queryParams: { orgId } })
+                    return
+                  }
                   const url = `page/home`
                   if (this.lang === 'en') {
                     window.location.assign(`${location.origin}/${url}`)
@@ -406,6 +413,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
                 }
               } else {
                 if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
+                  const isTamilNaduUser = localStorage.getItem('isTamilNaduUser') === 'true'
+                  if (isTamilNaduUser) {
+                    localStorage.removeItem('isTamilNaduUser')
+                    const orgId = encodeURIComponent('Tamil Nadu Nurses and Midwives Council (TNNMC)')
+                    this.router.navigate([`/app/org-details`], { queryParams: { orgId } })
+                    return
+                  }
                   const url = `page/home`
                   if (this.lang === 'en') {
                     window.location.assign(`${location.origin}/${url}`)
@@ -418,6 +432,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
             })
           }
         } else {
+          const isTamilNaduUser = localStorage.getItem('isTamilNaduUser') === 'true'
+          if (isTamilNaduUser) {
+            localStorage.removeItem('isTamilNaduUser')
+            const orgId = encodeURIComponent('Tamil Nadu Nurses and Midwives Council (TNNMC)')
+            this.router.navigate([`/app/org-details`], { queryParams: { orgId } })
+            return
+          }
           const url = `page/home`
           if (this.lang === 'en') {
             window.location.assign(`${location.origin}/${url}`)
