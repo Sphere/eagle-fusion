@@ -30,7 +30,10 @@ const API_ENDPOINTS = {
   upsmfSendOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/sendOtp',
   upsmfReSendOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/resendOtp',
   upsmfValidateOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/validateOtp',
-
+  mpRegistration: '/apis/public/v8/mpNHMUserCreation/createUser',
+  mpSendOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/sendOtp',
+  mpReSendOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/resendOtp',
+  mpValidateOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/validateOtp',
 
   // getProfilePageMeta: '/apis/protected/v8/user/profileDetails/getProfilePageMeta',
 }
@@ -75,6 +78,19 @@ export class UserProfileService {
   }
   upsmfResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.upsmfReSendOtpRegistration, phone)
+  }
+
+  mpValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
+    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.mpValidateOtpRegistration, value)
+  }
+  mpRegistration(value: any): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.mpRegistration, { value })
+  }
+  mpSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
+    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.mpSendOtpRegistration, phone)
+  }
+  mpResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
+    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.mpReSendOtpRegistration, phone)
   }
 
   upsmfValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
