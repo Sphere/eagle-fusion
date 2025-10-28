@@ -53,7 +53,7 @@ a.blue,
   box-sizing: border-box;
 
   @include breakpoint-gt-s {
-    max-width: 30%;
+    max-width: 40% !important;
   }
 
   @include breakpoint-gt-m {

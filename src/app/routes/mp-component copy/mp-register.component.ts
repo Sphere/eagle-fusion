@@ -3,8 +3,6 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpClient } from '@angular/common/http'
-import { ActivatedRoute } from '@angular/router'
-
 import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
@@ -16,24 +14,7 @@ import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
   styleUrls: ['./mp-register.component.scss'],
 })
 export class MpRegisterComponent implements OnInit {
-  // Form groups
   anmRegistrationForm: FormGroup
-  choRegistrationForm: FormGroup
-
-  // Service type flags
-  isANMMP = false
-  isCHOMP = false
-
-  // Role flags for pre-service
-  isStudent = false
-  isFaculty = false
-
-  // Employment type flags for in-service
-  isGovernmentEmployee = false
-  isPrivateEmployee = false
-  isEkshamata = true // Flag for DOB component
-
-  // Form submission flags
   isSubmitting = false
   otpPage = false
   showbackButton = false
@@ -43,16 +24,11 @@ export class MpRegisterComponent implements OnInit {
   blocks: string[] = []
   facilityTypes: string[] = []
   availableFacilities: any[] = []
-
-  // Pre-service specific options
-  professions = ['Student', 'Faculty']
-  instituteTypes = ['Government Medical College', 'Private Medical College', 'Nursing School', 'ANM Training Institute', 'Government Nursing College', 'Private Nursing College']
-  courseSelection = ['ANM Course', 'GNM Course', 'B.Sc Nursing', 'Post Basic B.Sc Nursing', 'M.Sc Nursing']
-  facultyTypes = ['Professor', 'Associate Professor', 'Assistant Professor', 'Lecturer', 'Clinical Instructor', 'Principal', 'Vice Principal']
-
-  // Data URLs
-  biharDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/up_District.json?cb=${Date.now()}`
   biharDistrictData: any = {}
+
+  // JSON URLs
+  mpANMDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_anm_District.json?cb=${Date.now()}`
+  mpCHODistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_cho_District.json?cb=${Date.now()}`
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
 
@@ -65,112 +41,96 @@ export class MpRegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private loader: LoaderService,
-    private route: ActivatedRoute
   ) {
-    this.anmRegistrationForm = this.createANMMOFormGroup()
-    this.choRegistrationForm = this.createCHOFormGroup()
+    this.anmRegistrationForm = this.createFormGroup()
   }
 
   ngOnInit(): void {
-    // Check query parameter to determine service type
-    this.route.queryParams.subscribe(params => {
-      const service = params['service']
-      if (service.toLowerCase() === 'anm-mp') {
-        this.isANMMP = true
-        this.isCHOMP = false
-      } else if (service === 'cho-mp') {
-        this.isCHOMP = true
-        this.isANMMP = false
-      } else {
-        // Default to in-service if no valid parameter
-        this.isANMMP = true
-        this.isCHOMP = false
-      }
-    })
-
-    this.loadDistrictData()
     this.setupFormSubscriptions()
     this.setupResponsiveLayout()
   }
 
-  private createANMMOFormGroup(): FormGroup {
+  /** Create single unified form */
+  private createFormGroup(): FormGroup {
     return this.formBuilder.group({
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
-      ]),
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
-      ]),
-      phone: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[6-9]\d{9}$/)
-      ]),
-      dob: new FormControl('', [Validators.required]),
-      regNurseRegMidwifeNumber: new FormControl('', [Validators.required]),
-      roleForInService: new FormControl('', [Validators.required]),
-      role: new FormControl(''),
-      serviceType: new FormControl(''),
-      hrmsId: new FormControl(''),
-      district: new FormControl(''),
-      block: new FormControl(''),
-      facilityType: new FormControl(''),
-      facilityName: new FormControl(''),
-      facilityCode: new FormControl('')  // Removed as per new requirements
+      firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)]],
+      lastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)]],
+      phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
+      role: ['', Validators.required], // ANM-MP or CHO-MP
+      district: ['', Validators.required],
+      block: ['', Validators.required],
+      facilityType: ['', Validators.required],
+      facilityName: ['', Validators.required],
     })
   }
 
-  private createCHOFormGroup(): FormGroup {
-    return this.formBuilder.group({
-      firstName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
-      ]),
-      lastName: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
-      ]),
-      phone: new FormControl('', [
-        Validators.required,
-        Validators.pattern(/^[6-9]\d{9}$/)
-      ]),
-      district: new FormControl('', [Validators.required]),
-      role: new FormControl('', [Validators.required]),
-      instituteName: new FormControl(''),
-      instituteType: new FormControl(''),
-      courseSelection: new FormControl(''),
-      facultyType: new FormControl(''),
-      hrmsId: new FormControl(''),
-      upsmfRegistrationNumber: new FormControl('')
-    })
-  }
+  /** Load district JSON based on role */
+  private loadDistrictData(role: string): void {
+    const url = role === 'ANM-MP' ? this.mpANMDistrictUrl : this.mpCHODistrictUrl
 
-  private loadDistrictData(): void {
-    console.log("called")
-    this.http.get(this.biharDistrictUrl).subscribe((districtData: any) => {
-      console.log("districtData", districtData.length > 0)
+    this.http.get(url).subscribe((districtData: any) => {
       if (Array.isArray(districtData) && districtData.length > 0) {
         this.biharDistrictData = districtData[0]
         this.districts = Object.keys(this.biharDistrictData)
+      } else {
+        this.biharDistrictData = {}
+        this.districts = []
       }
+      console.log("distritc", this.districts)
+      this.resetDropdownsBelow('district')
     })
   }
 
+  /** Form change subscriptions */
   private setupFormSubscriptions(): void {
-    // District change for government employees (in-service only)
+    // Role change → load S3 JSON
+    this.anmRegistrationForm.get('role')?.valueChanges.subscribe(role => {
+      if (role) {
+        this.anmRegistrationForm.patchValue({
+          district: '',
+          block: '',
+          facilityType: '',
+          facilityName: ''
+        })
+        this.districts = []
+        this.blocks = []
+        this.facilityTypes = []
+        this.availableFacilities = []
+        this.loadDistrictData(role)
+      }
+    })
+
+    // District change → populate blocks
     this.anmRegistrationForm.get('district')?.valueChanges.subscribe(selectedDistrict => {
-      this.onDistrictChange(selectedDistrict)
+      if (selectedDistrict && this.biharDistrictData[selectedDistrict]) {
+        this.blocks = Object.keys(this.biharDistrictData[selectedDistrict])
+      } else {
+        this.blocks = []
+      }
+      this.resetDropdownsBelow('block')
     })
 
-    // Block change for government employees (in-service only)
+    // Block change → populate facility types
     this.anmRegistrationForm.get('block')?.valueChanges.subscribe(selectedBlock => {
-      this.onBlockChange(selectedBlock)
+      const district = this.anmRegistrationForm.get('district')?.value
+      if (district && selectedBlock && this.biharDistrictData[district][selectedBlock]) {
+        this.facilityTypes = Object.keys(this.biharDistrictData[district][selectedBlock])
+      } else {
+        this.facilityTypes = []
+      }
+      this.resetDropdownsBelow('facilityType')
     })
 
-    // Facility type change (in-service only)
-    this.anmRegistrationForm.get('facilityType')?.valueChanges.subscribe(facilityType => {
-      this.onFacilityTypeChange(facilityType)
+    // Facility type change → populate facility names
+    this.anmRegistrationForm.get('facilityType')?.valueChanges.subscribe(selectedFacilityType => {
+      const district = this.anmRegistrationForm.get('district')?.value
+      const block = this.anmRegistrationForm.get('block')?.value
+      if (district && block && selectedFacilityType && this.biharDistrictData[district][block][selectedFacilityType]) {
+        this.availableFacilities = this.biharDistrictData[district][block][selectedFacilityType]
+      } else {
+        this.availableFacilities = []
+      }
+      this.anmRegistrationForm.get('facilityName')?.reset()
     })
   }
 
@@ -180,197 +140,28 @@ export class MpRegisterComponent implements OnInit {
     })
   }
 
-  // Pre-service role selection handler
-  onRoleChange(selectedRole: string): void {
-    this.isStudent = selectedRole === 'Student'
-    this.isFaculty = selectedRole === 'Faculty'
-
-    // Update validators based on role
-    this.updatePreServiceValidators()
-  }
-
-  private updatePreServiceValidators(): void {
-    const instituteNameControl = this.choRegistrationForm.get('instituteName')
-    const instituteTypeControl = this.choRegistrationForm.get('instituteType')
-    const courseSelectionControl = this.choRegistrationForm.get('courseSelection')
-    const facultyTypeControl = this.choRegistrationForm.get('facultyType')
-    const hrmsIdControl = this.choRegistrationForm.get('hrmsId')
-    const upsmfRegistrationControl = this.choRegistrationForm.get('upsmfRegistrationNumber')
-
-      // Clear existing validators
-      ;[instituteNameControl, instituteTypeControl, courseSelectionControl,
-        facultyTypeControl, hrmsIdControl, upsmfRegistrationControl].forEach(control => {
-          control?.clearValidators()
-          control?.setValue('')
-          control?.updateValueAndValidity()
-        })
-
-    if (this.isStudent) {
-      // Student-specific required fields
-      instituteNameControl?.setValidators([Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)])
-      instituteTypeControl?.setValidators([Validators.required])
-      courseSelectionControl?.setValidators([Validators.required])
-    } else if (this.isFaculty) {
-      // Faculty-specific required fields
-      instituteNameControl?.setValidators([Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)])
-      instituteTypeControl?.setValidators([Validators.required])
-      facultyTypeControl?.setValidators([Validators.required])
-      hrmsIdControl?.setValidators([Validators.required])
-      upsmfRegistrationControl?.setValidators([Validators.required])
-    }
-
-    // Update validity
-    ;[instituteNameControl, instituteTypeControl, courseSelectionControl,
-      facultyTypeControl, hrmsIdControl, upsmfRegistrationControl].forEach(control => {
-        control?.updateValueAndValidity()
-      })
-  }
-
-  onEmploymentTypeChange(roleForInService: string): void {
-    this.resetFormValidation()
-
-    if (roleForInService === 'Government') {
-      this.isGovernmentEmployee = true
-      this.isPrivateEmployee = false
-      this.setGovernmentValidators()
-    } else if (roleForInService === 'Private') {
-      this.isGovernmentEmployee = false
-      this.isPrivateEmployee = true
-      this.setPrivateValidators()
-      this.anmRegistrationForm.get('serviceType')?.setValue('Private')
-    }
-  }
-
-  onDobChange(dobValue: string): void {
-    if (this.isANMMP) {
-      this.anmRegistrationForm.get('dob')?.setValue(dobValue)
-      this.anmRegistrationForm.get('dob')?.updateValueAndValidity()
-    } else if (this.isCHOMP) {
-      this.choRegistrationForm.get('dob')?.setValue(dobValue)
-      this.choRegistrationForm.get('dob')?.updateValueAndValidity()
-    }
-  }
-
-  onDistrictChange(selectedDistrict: string): void {
-    if (selectedDistrict && this.biharDistrictData[selectedDistrict]) {
-      this.blocks = Object.keys(this.biharDistrictData[selectedDistrict])
-    } else {
+  private resetDropdownsBelow(field: string): void {
+    if (field === 'district') {
       this.blocks = []
-    }
-
-    // Reset dependent fields
-    this.facilityTypes = []
-    this.availableFacilities = []
-    this.anmRegistrationForm.get('block')?.reset()
-    this.anmRegistrationForm.get('facilityType')?.reset()
-    this.anmRegistrationForm.get('facilityName')?.reset()
-  }
-
-  onBlockChange(selectedBlock: string): void {
-    const selectedDistrict = this.anmRegistrationForm.get('district')?.value
-
-    if (selectedDistrict && selectedBlock && this.biharDistrictData[selectedDistrict][selectedBlock]) {
-      this.facilityTypes = Object.keys(this.biharDistrictData[selectedDistrict][selectedBlock])
-    } else {
       this.facilityTypes = []
-    }
-
-    // Reset dependent fields
-    this.availableFacilities = []
-    this.anmRegistrationForm.get('facilityType')?.reset()
-    this.anmRegistrationForm.get('facilityName')?.reset()
-  }
-
-  onFacilityTypeChange(selectedFacilityType: string): void {
-    const selectedDistrict = this.anmRegistrationForm.get('district')?.value
-    const selectedBlock = this.anmRegistrationForm.get('block')?.value
-
-    if (selectedDistrict && selectedBlock && selectedFacilityType &&
-      this.biharDistrictData[selectedDistrict][selectedBlock][selectedFacilityType]) {
-      this.availableFacilities = this.biharDistrictData[selectedDistrict][selectedBlock][selectedFacilityType]
-    } else {
       this.availableFacilities = []
+      this.anmRegistrationForm.patchValue({ block: '', facilityType: '', facilityName: '' })
+    } else if (field === 'block') {
+      this.facilityTypes = []
+      this.availableFacilities = []
+      this.anmRegistrationForm.patchValue({ facilityType: '', facilityName: '' })
+    } else if (field === 'facilityType') {
+      this.availableFacilities = []
+      this.anmRegistrationForm.patchValue({ facilityName: '' })
     }
-
-    // Reset facility selection
-    this.anmRegistrationForm.get('facilityName')?.reset()
   }
 
-  // onFacilityNameChange(selectedFacility: any): void {
-  //   console.log('Selected facility:', selectedFacility)
-
-  //   // Set facility code based on selected facility
-  //   if (selectedFacility && selectedFacility.code) {
-  //     this.anmRegistrationForm.get('facilityCode')?.setValue(selectedFacility.code)
-  //   }
-
-  //   console.log('Facility code set to:', this.anmRegistrationForm.get('facilityCode')?.value)
-  // }
-
-  private resetFormValidation(): void {
-    const governmentFields = ['serviceType', 'hrmsId', 'district', 'block', 'facilityType', 'facilityName']
-    const privateFields = ['district', 'facilityName']
-
-      ;[...governmentFields, ...privateFields].forEach(fieldName => {
-        const control = this.anmRegistrationForm.get(fieldName)
-        if (control) {
-          control.clearValidators()
-          control.setValue('')
-          control.updateValueAndValidity()
-        }
-      })
-  }
-
-  private setGovernmentValidators(): void {
-    this.anmRegistrationForm.controls['role'].setValue('ANM-UP')
-    this.anmRegistrationForm.get('serviceType')?.setValidators([Validators.required])
-    this.anmRegistrationForm.get('hrmsId')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^[0-9]{5,8}$/)  // only numbers, 5–8 digits
-    ])
-
-    this.anmRegistrationForm.get('district')?.setValidators([Validators.required])
-    this.anmRegistrationForm.get('block')?.setValidators([Validators.required])
-    this.anmRegistrationForm.get('facilityType')?.setValidators([Validators.required])
-    this.anmRegistrationForm.get('facilityName')?.setValidators([Validators.required])
-
-    this.updateFormValidation(['serviceType', 'hrmsId', 'district', 'block', 'facilityType', 'facilityName'])
-  }
-
-  private setPrivateValidators(): void {
-    this.anmRegistrationForm.controls['role'].setValue('ANM-UP')
-    this.anmRegistrationForm.get('district')?.setValidators([Validators.required])
-    this.anmRegistrationForm.get('facilityName')?.setValidators([
-      Validators.required,
-      Validators.pattern(/^[A-Za-z, ]+$/)
-    ])
-
-    this.updateFormValidation(['district', 'facilityName'])
-  }
-
-  private updateFormValidation(fields: string[]): void {
-    fields.forEach(fieldName => {
-      this.anmRegistrationForm.get(fieldName)?.updateValueAndValidity()
-    })
-  }
-
-  // Form submission handlers
+  // ---------- Form Submission ----------
   onSubmit(): void {
-    if (this.isANMMP) {
-      this.onSubmitANMMP()
-    } else if (this.isCHOMP) {
-      this.onSubmitCHO()
-    }
-  }
-
-  onSubmitANMMP(): void {
     this.anmRegistrationForm.markAllAsTouched()
-
     if (this.anmRegistrationForm.valid) {
-
       this.loader.changeLoad.next(true)
       this.isSubmitting = true
-
       const phone = { phone: this.anmRegistrationForm.value.phone }
 
       this.userProfileSvc.mpSendOtp(phone).subscribe(
@@ -391,106 +182,23 @@ export class MpRegisterComponent implements OnInit {
     }
   }
 
-  onSubmitCHO(): void {
-    this.choRegistrationForm.markAllAsTouched()
-
-    if (this.choRegistrationForm.valid) {
-      this.loader.changeLoad.next(true)
-      this.isSubmitting = true
-
-      const phone = { phone: this.choRegistrationForm.value.phone }
-
-      this.userProfileSvc.mpSendOtp(phone).subscribe(
-        (res: any) => {
-          if (res.status === 'success') {
-            this.otpPage = true
-            this.openSnackbar(res.message)
-          }
-        },
-        (error) => {
-          this.isSubmitting = false
-          this.loader.changeLoad.next(false)
-          this.openSnackbar(error.error.message)
-        }
-      )
-    } else {
-      this.handleFormErrors(this.choRegistrationForm)
-    }
-  }
-
   private handleFormErrors(formGroup: FormGroup): void {
-    const missingFields: string[] = []
-
     Object.keys(formGroup.controls).forEach(controlName => {
       const control = formGroup.get(controlName)
-      if (control && control.errors && control.errors['required']) {
-        missingFields.push(this.getFieldDisplayName(controlName))
+      if (control?.errors?.['required']) {
+        console.warn(`${controlName} is required.`)
       }
     })
-
-    // Optional: Uncomment to show missing fields message
-    // if (missingFields.length > 0) {
-    //   const errorMessage = `The following fields are required: ${missingFields.join(', ')}.`
-    //   this.openSnackbar(errorMessage)
-    // } else {
-    //   this.openSnackbar('Please check the form for validation errors.')
-    // }
   }
 
-  private getFieldDisplayName(fieldName: string): string {
-    const fieldNames: { [key: string]: string } = {
-      firstName: 'First Name',
-      lastName: 'Last Name',
-      phone: 'Phone Number',
-      dob: 'Date of Birth',
-      regNurseRegMidwifeNumber: 'Nursing Registration Number',
-      roleForInService: 'Employment Type',
-      serviceType: 'Type of Service',
-      hrmsId: 'eHRMS Number',
-      district: 'District',
-      block: 'Block',
-      facilityType: 'Facility Type',
-      facilityName: 'Facility Name',
-      role: 'Role',
-      instituteName: 'Name of Institute',
-      instituteType: 'Type of Institute',
-      courseSelection: 'Course Selection',
-      facultyType: 'Type of Faculty',
-      upsmfRegistrationNumber: 'UPSMF Registration Number'
-    }
-
-    return fieldNames[fieldName] || fieldName
-  }
-
-  createUser(event: any): void {
-    console.log("event", event)
-    if (this.isGovernmentEmployee) {
-      const code = this.anmRegistrationForm.value.facilityName.code
-      this.anmRegistrationForm.get('facilityName')?.setValue(this.anmRegistrationForm.value.facilityName.name)
-      this.anmRegistrationForm.get('facilityCode')?.setValue(String(code))
-    }
-    // Determine which form data to use
-    const currentForm = this.isANMMP ? this.anmRegistrationForm : this.choRegistrationForm
-    const formValues = {
-      ...currentForm.value,
-      phone: +currentForm.value.phone
-    }
-
-    // Add service type identifier
-    if (this.isCHOMP) {
-      formValues.serviceType = this.isStudent ? 'Student' : 'Faculty'
-      formValues.role = formValues.serviceType
-    }
-
-    const reqUpdate = {
-      request: { formValues }
-    }
+  createUser(): void {
+    const formValues = { ...this.anmRegistrationForm.value, phone: +this.anmRegistrationForm.value.phone }
+    const reqUpdate = { request: { formValues } }
 
     this.userProfileSvc.mpRegistration(reqUpdate).subscribe(
       (res: any) => {
         this.isSubmitting = false
         this.loader.changeLoad.next(false)
-
         if (res.status === 'SUCCESS') {
           this.resetForm()
           this.showSuccessDialog()
@@ -507,33 +215,19 @@ export class MpRegisterComponent implements OnInit {
   }
 
   private resetForm(): void {
-    if (this.isANMMP) {
-      this.anmRegistrationForm.reset()
-      this.anmRegistrationForm = this.createANMMOFormGroup()
-      this.isGovernmentEmployee = false
-      this.isPrivateEmployee = false
-    } else if (this.isCHOMP) {
-      this.choRegistrationForm.reset()
-      this.choRegistrationForm = this.createCHOFormGroup()
-      this.isStudent = false
-      this.isFaculty = false
-    }
-
+    this.anmRegistrationForm.reset()
     this.otpPage = false
   }
 
   private showSuccessDialog(): void {
-    const message = 'कृपया ई-क्षमता ऐप डाउनलोड करें और दिए गए मोबाइल नंबर के साथ ओटीपी का उपयोग करके लॉगिन करें । Kindly download the e- Kshamata app and login using your given mobile number with OTP'
+    const message = 'कृपया ई-क्षमता ऐप डाउनलोड करें और दिए गए मोबाइल नंबर के साथ ओटीपी का उपयोग करके लॉगिन करें । Kindly download the e-Kshamata app and login using your given mobile number with OTP'
 
     this.dialog.open(BnrcmodalComponent, {
       width: '350px',
       height: '305px',
       panelClass: 'overview-modal',
       disableClose: true,
-      data: {
-        message: message,
-        from: 'Upsmf'
-      },
+      data: { message, from: 'Upsmf' },
     })
   }
 
@@ -541,9 +235,7 @@ export class MpRegisterComponent implements OnInit {
     this.snackBar.open(primaryMsg, 'X', { duration })
   }
 
-  // Utility method for field assignment (if needed for pre-service form)
   assignFields(fieldName: string, value: any, event: any): void {
     console.log('Field assignment:', fieldName, value, event)
-    // Additional field processing logic can be added here if needed
   }
 }
