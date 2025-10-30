@@ -95,6 +95,7 @@ import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashb
 
 import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
+import { MpRegisterComponent } from './routes/mp-component copy/mp-register.component'
 
 // import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 // import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
@@ -280,6 +281,7 @@ const dbConfig: DBConfig = {
     CreateAccountComponent,
     BnrcRegisterComponent,
     UpsmfRegisterComponent,
+    MpRegisterComponent,
     NotificationsComponent,
     YourLocationComponent,
     NewTncComponent,
