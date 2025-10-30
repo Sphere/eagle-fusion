@@ -62,7 +62,7 @@ import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
 import { NotificationsComponent } from './routes/notification/notification.component'
-import { MpRegisterComponent } from './routes/mp-component copy/mp-register.component'
+import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
