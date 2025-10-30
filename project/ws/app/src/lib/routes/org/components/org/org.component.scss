@@ -620,3 +620,48 @@ gap: 0px;
 
 
 }
+
+.language-filter-container {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: column;
+  gap: 1rem;
+
+  .filter-label {
+    color: #000 !important;
+    width: 125;
+height: 19;
+font-family: Roboto;
+font-weight: 400;
+font-style: Regular;
+font-size: 16px;
+line-height: 100%;
+letter-spacing: -2%;
+
+  }
+
+  .filter-buttons {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  .filter-btn {
+    width: 88px;
+    height: 38px;
+    background-color: #ffffff;
+    border-radius: 50px;
+    color: #1C5D95;
+    border: 1px solid #1C5D95;
+    font-size: 16px;
+    line-height: 19px;
+    float: right;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &.active {
+      background-color: #1C5D95;
+      color: white;
+      border-color: #1C5D95;
+    }
+  }
+}
