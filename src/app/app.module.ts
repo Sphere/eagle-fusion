@@ -96,7 +96,7 @@ import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashb
 import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
-
+import { OrgSelectiveCourseComponent } from 'project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.component'
 // import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 // import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
@@ -282,6 +282,7 @@ const dbConfig: DBConfig = {
     BnrcRegisterComponent,
     UpsmfRegisterComponent,
     MpRegisterComponent,
+    OrgSelectiveCourseComponent,
     NotificationsComponent,
     YourLocationComponent,
     NewTncComponent,

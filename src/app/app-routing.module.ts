@@ -63,7 +63,7 @@ import { PublicLoginComponent } from './public-login/public-login.component'
 import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.component'
 import { NotificationsComponent } from './routes/notification/notification.component'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
-
+import { OrgSelectiveCourseComponent } from 'project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -213,6 +213,10 @@ const routes: Routes = [
     resolve: {
       orgData: OrgServiceService,
     },
+  },
+  {
+    path: 'app/org-selective-course',
+    component: OrgSelectiveCourseComponent,
   },
   {
     path: 'app/personal-detail-edit',

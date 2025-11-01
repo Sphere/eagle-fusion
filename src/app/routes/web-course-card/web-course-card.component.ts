@@ -27,7 +27,8 @@ export class WebCourseCardComponent implements OnInit {
       certification: true,
       sourceName: true,
       rating: true,
-      cnePoints: true
+      cnePoints: true,
+      cneName: true,
     },
   }
   isLoggedIn = false

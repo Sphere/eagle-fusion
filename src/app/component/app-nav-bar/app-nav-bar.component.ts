@@ -193,20 +193,29 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   goHomePage() {
-    // localStorage.setItem('url_before_login', '/page/home')
-    //if (this.showNavLinkPage) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1)
-    let url2 = `${document.baseURI}`
-    if (url2.includes('hi')) {
-      url2 = url2.replace(/hi\//g, '')
+    const user = this.configSvc.unMappedUser
+    const org = this.configSvc?.userProfile?.rootOrgId || ''
+    const lang = user?.profileDetails?.preferences?.language ||
+      (location.href.includes('/hi/') ? 'hi' : 'en')
+
+    const selectiveData = this.configSvc.orgSelectiveCourseConfig
+    console.log('Loaded orgSelectiveCourseConfig:', selectiveData)
+
+    // Default home path
+    let homePath = lang === 'hi' ? '/hi/page/home' : '/page/home'
+
+    // ✅ If org matches selective config, go to selective home
+    if (selectiveData && selectiveData.orgId === org) {
+      homePath = lang === 'hi' ? '/hi/app/org-selective-course' : '/app/org-selective-course'
+      console.log('🏫 Redirecting to selective org homepage for:', org)
     }
-    let url = url1 === 'hi' ? '/page/home' : 'page/home'
-    location.href = `${url2}${url1}${url}`
-    //location.href = '/page/home'
-    //}
+
+    // ✅ Use Angular Router navigation instead of location.href
+    this.router.navigate([homePath])
   }
+
+
+
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
       if (property === 'mode') {

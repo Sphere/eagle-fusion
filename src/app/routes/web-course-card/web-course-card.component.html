@@ -120,6 +120,11 @@
           <img alt="" class="appIcon fitsizeMini"
             src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
           <ng-container>
+            <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
+              CNE: {{courseData.cneName}}
+            </div>
+          </ng-container>
+          <ng-container>
             <div *ngIf="displayConfig?.badges?.certification === true&&courseData.issueCertification"
               class="certificate-name">
               Certificate

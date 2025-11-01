@@ -445,6 +445,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('/app/org-selective-course')) {
+          this.isNavBarRequired = false
+          this.showmobileFooter = false
+
         } else if (event.url.includes('app/toc')) {
           if (this.configSvc.userProfile !== null) {
             this.mobileView = false

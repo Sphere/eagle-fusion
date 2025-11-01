@@ -51,6 +51,7 @@ export class ConfigurationsService {
   isAuthenticated = false
   isNewUser = false
   isActive = true
+  orgSelectiveCourseConfig: any = {}   // holds the org-selective-course.json data
 
   // pinnedApps
   pinnedApps = new BehaviorSubject<Set<string>>(new Set())

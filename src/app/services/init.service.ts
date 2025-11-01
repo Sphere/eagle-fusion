@@ -59,6 +59,10 @@ const endpoint = {
 })
 export class InitService {
   private baseUrl = 'assets/configurations'
+  private readonly CONFIG_URL = 'https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json'
+  private readonly REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000 // 24 hours
+  private orgSelectiveConfig: any | null = null
+
   domain: string = ''
   constructor(
     private logger: LoggerService,
@@ -115,7 +119,6 @@ export class InitService {
 
 
 
-
     await this.fetchDefaultConfig()
     // const authenticated = await this.authSvc.initAuth()
 
@@ -168,6 +171,7 @@ export class InitService {
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
       const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
       await this.fetchFeaturesStatus() // feature: depends only on details
+      await this.fetchOrgSelectiveConfig()
 
       /**
        * Wait for the widgets and get the list of restricted widgets
@@ -216,6 +220,44 @@ export class InitService {
     //     // throw new DataResponseError('COOKIE_SET_FAILURE')
     //   })
     return true
+  }
+  /** ✅ Fetches config once and caches it */
+  private async fetchOrgSelectiveConfig(): Promise<void> {
+    try {
+      const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
+
+      // Fetch the org-selective-course.json from S3
+      const orgSelectiveData = await this.http
+        .get<any>(s3Url)
+        .toPromise()
+      debugger
+      if (orgSelectiveData && orgSelectiveData.orgs) {
+        if (this.configSvc.userProfile?.rootOrgId) {
+          let rootOrgId = this.configSvc.userProfile.rootOrgId
+          console.log('Root Org ID:', rootOrgId)
+          debugger
+          // find org entry from JSON
+          const matchedOrg = orgSelectiveData.orgs.find((item: any) => item.orgId === rootOrgId)
+
+          if (matchedOrg) {
+            this.configSvc.orgSelectiveCourseConfig = matchedOrg
+            console.log('✅ Org Selective Config Found:', matchedOrg)
+          } else {
+            console.log('⚠️ No matching org found in org-selective-course.json')
+          }
+        } else {
+          console.log('⚠️ No userProfile or rootOrgId found')
+        }
+      }
+    } catch (error) {
+      console.error('❌ Failed to fetch org-selective-course.json:', error)
+    }
+  }
+
+
+  /** ✅ Public getter for components/services */
+  getOrgSelectiveConfig(): any {
+    return this.orgSelectiveConfig
   }
   private async fetchHostedConfig(): Promise<any> {
     // use the rootOrg and org to fetch the instance
