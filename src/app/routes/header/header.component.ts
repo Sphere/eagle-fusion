@@ -23,7 +23,7 @@ export class HeaderComponent implements OnInit {
     //console.log(this.result)
   }
   homePage() {
-    if (localStorage.getItem('isTamilNaduUser') === 'false') {
+    if (localStorage.getItem('isOrgSelectiveCourse') === 'false') {
       location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
     }
   }

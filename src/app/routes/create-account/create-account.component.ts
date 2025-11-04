@@ -117,7 +117,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
   // Observables
   isXSmall$: Observable<boolean>
-  isTamilNaduUser = false;
+  isOrgSelectiveCourse = false;
 
   // Cleanup
   private destroy$ = new Subject<void>();
@@ -178,8 +178,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
         this.http.get<any>(`https://aastar-assets.s3.ap-south-1.amazonaws.com/data/state-org-role.json?cb=${Date.now()}`)
           .pipe(takeUntil(this.destroy$))
           .subscribe(data => {
-            localStorage.setItem('isTamilNaduUser', 'true')
-            this.isTamilNaduUser = true
+            localStorage.setItem('isOrgSelectiveCourse', 'true')
+            this.isOrgSelectiveCourse = true
             // Find state
             const stateObj = data.states.find(
               (s: any) => s.code.toLowerCase() === stateCode.toLowerCase()
@@ -336,10 +336,12 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     this.otpPage = otpPage
   }
 
-  homePage(): void {
-    const homeUrl = this.configSvc?.unMappedUser?.id ? '/page/home' : '/public/home'
-    location.href = homeUrl
+  homePage() {
+    if (localStorage.getItem('isOrgSelectiveCourse') === 'false') {
+      location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+    }
   }
+
 
   private navigateToHome(force = false): void {
     if (force) {
@@ -501,7 +503,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
     this.uploadSaveData = true
 
-    if (this.isTamilNaduUser) {
+    if (this.isOrgSelectiveCourse) {
       this.signupService
         .ssoWithMobileEmailOrgForm(reqObj)
         .pipe(takeUntil(this.destroy$))

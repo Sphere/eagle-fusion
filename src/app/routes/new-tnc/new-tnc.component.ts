@@ -384,6 +384,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
         localStorage.removeItem('utm_source')
         this.configSvc.profileDetailsStatus = true
         this.configSvc.hasAcceptedTnc = true
+
+        const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+        const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+
         if (this.result.tncStatus) {
           if (this.configSvc.unMappedUser) {
             this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(400), mergeMap((userData: any) => {
@@ -392,69 +396,72 @@ export class NewTncComponent implements OnInit, OnDestroy {
               if (!this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
                 if (localStorage.getItem('url_before_login')) {
                   const courseUrl = localStorage.getItem('url_before_login')
-                  // const url = `app/about-you`
                   this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-                  // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
                 } else {
-                  const isTamilNaduUser = localStorage.getItem('isTamilNaduUser') === 'true'
-                  if (isTamilNaduUser) {
-                    localStorage.removeItem('isTamilNaduUser')
-                    const orgId = encodeURIComponent('Tamil Nadu Nurses and Midwives Council (TNNMC)')
-                    this.router.navigate([`/app/org-details`], { queryParams: { orgId } })
-                    return
-                  }
-                  const url = `page/home`
-                  if (this.lang === 'en') {
-                    window.location.assign(`${location.origin}/${url}`)
-                  } else {
-                    window.location.assign(`${location.origin}/${this.lang}/${url}`)
-                  }
-
+                  this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-incomplete')
                 }
               } else {
                 if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
-                  const isTamilNaduUser = localStorage.getItem('isTamilNaduUser') === 'true'
-                  if (isTamilNaduUser) {
-                    localStorage.removeItem('isTamilNaduUser')
-                    const orgId = encodeURIComponent('Tamil Nadu Nurses and Midwives Council (TNNMC)')
-                    this.router.navigate([`/app/org-details`], { queryParams: { orgId } })
-                    return
-                  }
-                  const url = `page/home`
-                  if (this.lang === 'en') {
-                    window.location.assign(`${location.origin}/${url}`)
-                  } else {
-                    window.location.assign(`${location.origin}/${this.lang}/${url}`)
-                  }
+                  this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-complete')
+                } else {
+                  location.href = localStorage.getItem('url_before_login') || ''
                 }
-                location.href = localStorage.getItem('url_before_login') || ''
               }
             })
           }
         } else {
-          const isTamilNaduUser = localStorage.getItem('isTamilNaduUser') === 'true'
-          if (isTamilNaduUser) {
-            localStorage.removeItem('isTamilNaduUser')
-            const orgId = encodeURIComponent('Tamil Nadu Nurses and Midwives Council (TNNMC)')
-            this.router.navigate([`/app/org-details`], { queryParams: { orgId } })
-            return
-          }
-          const url = `page/home`
-          if (this.lang === 'en') {
-            window.location.assign(`${location.origin}/${url}`)
-          } else {
-            window.location.assign(`${location.origin}/${this.lang}/${url}`)
-          }
+          this.navigateToHome(rootOrgId, orgSelectiveConfig, 'tnc-not-accepted')
         }
       }
     },
       (err: any) => {
         this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
-        // TO DO: Telemetry event for failure
         this.errorInAccepting = true
         this.isAcceptInProgress = false
       },
     )
+  }
+
+  private navigateToHome(rootOrgId: string, orgSelectiveConfig: any, scenario: string) {
+    let homePath = '/page/home'
+    let queryParams: any = {}
+
+    // ✅ Check if user belongs to selective org config
+    if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+      const redirectUrl = orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
+      console.log(`Redirecting to selective org [${scenario}]:`, redirectUrl)
+
+      // Parse URL to extract path and query params
+      const urlParts = redirectUrl.split('?')
+      homePath = urlParts[0]
+
+      if (urlParts[1]) {
+        const params = new URLSearchParams(urlParts[1])
+        params.forEach((value, key) => {
+          queryParams[key] = value
+        })
+      }
+    } else {
+      console.log(` Redirecting to home [${scenario}]`)
+    }
+
+    // Handle language prefix
+    let fullPath = homePath
+    const prefix = this.lang === 'hi' ? '/hi' : ''
+
+    if (prefix === '/hi' && !homePath.startsWith('/hi')) {
+      fullPath = `/hi${homePath}`
+    } else if (prefix === '' && homePath.startsWith('/hi')) {
+      fullPath = homePath.replace('/hi/', '/')
+    }
+
+    // Remove leading slash for proper navigation
+    const cleanPath = fullPath.startsWith('/') ? fullPath.slice(1) : fullPath
+    const pathSegments = cleanPath.split('/').filter(Boolean)
+
+    this.router.navigate([`/${pathSegments[0]}`, ...pathSegments.slice(1)], {
+      queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined
+    })
   }
 
 }

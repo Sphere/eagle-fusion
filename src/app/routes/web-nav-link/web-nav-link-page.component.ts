@@ -181,14 +181,41 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showHome = true
       this.showCompetency = false
       this.showNotification = false
-      debugger
+
       let homePath = '/page/home'
+      let queryParams: any = {}
+
       if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-        homePath = '/app/org-selective-course'
+        const redirectUrl = orgSelectiveConfig.redirectUrl || homePath
         console.log('🏫 Selective org →', rootOrgId)
+
+        // Parse URL to extract path and query params
+        const urlParts = redirectUrl.split('?')
+        homePath = urlParts[0]
+
+        // Extract query params if they exist
+        if (urlParts[1]) {
+          const params = new URLSearchParams(urlParts[1])
+          params.forEach((value, key) => {
+            queryParams[key] = value
+          })
+        }
       }
 
-      navigate(homePath)
+      // Add language prefix and navigate
+      let fullPath = homePath
+
+      // Handle language prefix
+      if (prefix === '/hi' && !homePath.startsWith('/hi')) {
+        fullPath = `/hi${homePath}`
+      } else if (prefix === '' && homePath.startsWith('/hi')) {
+        fullPath = homePath.replace('/hi/', '/')
+      }
+
+      const pathSegments = fullPath.split('/').filter(Boolean)
+      this.router.navigate([`/${pathSegments[0]}`, ...pathSegments.slice(1)], {
+        queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined
+      })
     }
 
     else if (text === 'mycourses') {

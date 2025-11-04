@@ -201,18 +201,36 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     const selectiveData = this.configSvc.orgSelectiveCourseConfig
     console.log('Loaded orgSelectiveCourseConfig:', selectiveData)
 
-    // Default home path
-    let homePath = lang === 'hi' ? '/hi/page/home' : '/page/home'
+    // Set prefix for language
+    const prefix = lang === 'hi' ? '/hi' : ''
 
-    // ✅ If org matches selective config, go to selective home
+    // Default home path
+    let homePath = `${prefix}/page/home`
+    let queryParams: any = {}
+
+    // If selective org matches, use redirectUrl from config
     if (selectiveData && selectiveData.orgId === org) {
-      homePath = lang === 'hi' ? '/hi/app/org-selective-course' : '/app/org-selective-course'
-      console.log('🏫 Redirecting to selective org homepage for:', org)
+      console.log('Redirecting to selective org homepage for:', org)
+
+      const redirectUrl = selectiveData.redirectUrl || `${prefix}/page/home`
+      const urlParts = redirectUrl.split('?')
+
+      // Extract the main path
+      homePath = `${prefix}/${urlParts[0].replace(/^\//, '')}`
+
+      // Extract query params if any
+      if (urlParts[1]) {
+        const params = new URLSearchParams(urlParts[1])
+        params.forEach((value, key) => {
+          queryParams[key] = value
+        })
+      }
     }
 
-    // ✅ Use Angular Router navigation instead of location.href
-    this.router.navigate([homePath])
+    console.log('Navigating to:', homePath, 'with params:', queryParams)
+    this.router.navigate([homePath], { queryParams })
   }
+
 
 
 

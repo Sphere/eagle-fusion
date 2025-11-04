@@ -311,4 +311,6 @@ span.mat-button-wrapper {
 .radioBlock{
   display: flex;
   flex-direction: column;
+  z-index: 2;
+  position: absolute;
 }

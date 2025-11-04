@@ -74,7 +74,7 @@ letter-spacing: 0%;
         max-width: 1280px;
     }
     .site-lp-page{
-      padding-top: 80px;
+      padding-top: 0px;
     }
 }
 .large-text {
@@ -128,6 +128,14 @@ ease-in-out;
     line-height: 1.14286em;
 }
 @media screen and (min-width: 1024px) {
+  .line-label {
+    justify-content: start !important;
+}
+  .flex-middle {
+    align-items: start;
+    position: relative;
+    left: 120px;
+}
   .site-footer--lp {
         padding-top: 48px;
         padding-bottom: 48px;
@@ -160,7 +168,7 @@ letter-spacing: 0%;
 
     }
     .banner {
-        min-height: 460px !important;
+        min-height: 10px !important;
     }
         .banner__content-wrap {
         padding-top: 60px !important;
@@ -521,7 +529,7 @@ letter-spacing: 2%;
     max-width: 88px;
   }
   .banner{
-    margin-top: 50px;
+    margin-top: 0px;
       height: 225px;
   }
   .org-body {

@@ -32,6 +32,7 @@ export class PublicLoginComponent implements OnInit {
   iconChange2 = 'fas fa-eye-slash'
   emailPhoneType: any = 'phone'
   isEkshamtaLogin = false
+  isOrgSelectiveCourse = false
   routerLink = 'public/home'
   constructor(
     private spherFormBuilder: FormBuilder,
@@ -135,6 +136,11 @@ export class PublicLoginComponent implements OnInit {
         OTPcode: ['', Validators.required]
       })
     }
+    console.log("localStorage.getItem('isOrgSelectiveCourse')", localStorage.getItem('isOrgSelectiveCourse'))
+    if (localStorage.getItem('isOrgSelectiveCourse') === 'true') {
+      this.isOrgSelectiveCourse = true
+    }
+    console.log("this.isOrgSelectiveCourse", this.isOrgSelectiveCourse)
 
   }
   updateOtpCode(): void {
@@ -235,24 +241,21 @@ export class PublicLoginComponent implements OnInit {
 
 
   submitDetails(form: any) {
-
     if (form.status === "VALID") {
       try {
-
         (window as any).fbq('track', 'SubmitApplication')
       }
       catch (e) {
         console.error("fb pixel error")
       }
+
       let phone = this.loginPwdForm.controls.emailOrMobile.value
       let type = ''
-      // const validphone = /^[6-9]\d{9}$/.test(phone)
       phone = phone.replace(/[^0-9+#]/g, '')
+
       if (phone.length >= 10) {
-        // this.otpPage = true
         type = 'phone'
       } else {
-        // this.otpPage = true
         let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
@@ -274,27 +277,66 @@ export class PublicLoginComponent implements OnInit {
           "userPassword": this.loginPwdForm.controls.password.value
         }
       }
+
       console.log(type, 'check')
       this.signupService.loginAPI(req).subscribe(res => {
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res.status)
         this.openSnackbar(res.msg ?? res.message)
+
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             let lang = (result && result.language !== undefined) ? result.language : 'en'
-            lang = lang === 'en' ? '' : 'hi'
+            const langPrefix = lang === 'hi' ? 'hi' : ''
+
             console.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
 
+            const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+            const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+
+            let homePath = '/page/home'
+            let queryParams: any = {}
+
+            // Check if user belongs to selective org config
+            if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+              const redirectUrl = orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
+              console.log('Redirecting to selective org:', redirectUrl)
+
+              // Parse URL to extract path and query params
+              const urlParts = redirectUrl.split('?')
+              homePath = urlParts[0]
+
+              if (urlParts[1]) {
+                const params = new URLSearchParams(urlParts[1])
+                params.forEach((value, key) => {
+                  queryParams[key] = value
+                })
+              }
+            }
+
+            // Handle URL before login redirect
             if (localStorage.getItem('url_before_login')) {
               let url = localStorage.getItem('url_before_login') || ''
-              url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+              url = langPrefix ? `${langPrefix}/${url}` : url
               location.href = url
             } else {
-              let url = '/page/home'
-              url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
-              window.location.href = url
+              // Build final URL with language and query params
+              let finalUrl = homePath
+              if (langPrefix && !homePath.startsWith(`/${langPrefix}`)) {
+                finalUrl = `/${langPrefix}${homePath}`
+              }
+
+              // Add query params if they exist
+              if (Object.keys(queryParams).length > 0) {
+                const queryString = Object.entries(queryParams)
+                  .map(([key, value]) => `${key}=${encodeURIComponent(value as string)}`)
+                  .join('&')
+                finalUrl = `${finalUrl}?${queryString}`
+              }
+
+              window.location.href = finalUrl
             }
           })
         }, 500)

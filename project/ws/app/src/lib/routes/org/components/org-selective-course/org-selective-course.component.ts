@@ -1,37 +1,44 @@
 import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
-import { forkJoin } from 'rxjs'
+import { forkJoin, of } from 'rxjs'
 import { uniqBy } from 'lodash'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { WidgetUserService } from '@ws-widget/collection'
+import { Router } from '@angular/router'
+
 interface OrgSelectiveCourseJson {
-  orgs: {
-    orgId: string
-    orgName: string
-    orgHeaderLogo: string
-    bannerImage: string,
-    banner?: OrgBanner
-    semesters: {
-      name: string
-      courses: string[]
-      sourceName?: string
+  states: {
+    code: string
+    name: string
+    districts?: string[]
+    organisations: {
+      orgId?: string
+      id?: string
+      orgName: string
+      orgHeaderLogo?: string
+      bannerImage?: string
+      banner?: OrgBanner
+      semesters: {
+        name: string
+        courses: string[]
+        sourceName?: string
+      }[]
     }[]
   }[]
 }
+
 interface OrgBanner {
   title?: string
   subtitle?: string
   points?: string[]
 }
 
-
 @Component({
   selector: 'ws-org-selective-course',
   templateUrl: './org-selective-course.component.html',
   styleUrls: ['./org-selective-course.component.scss'],
 })
-
 export class OrgSelectiveCourseComponent implements OnInit {
   courseData: any[] = []
   semesterData: any[] = []
@@ -44,14 +51,16 @@ export class OrgSelectiveCourseComponent implements OnInit {
   bannerTitle: string = ''
   bannerSubtitle: string = ''
   bannerPoints!: string[]
-  isLoggedIn: boolean = false
+  isLoggedIn = false
+
   myCourseDisplayConfig = {
     displayType: 'card-mini',
     badges: {
       cneName: false,
       rating: true,
       completionPercentage: true,
-      mobilesourceName: true
+      mobilesourceName: true,
+      publicSourceName: false,
     },
   }
 
@@ -63,18 +72,31 @@ export class OrgSelectiveCourseComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private readonly userSvc: WidgetUserService,
+    private router: Router,
+
   ) { }
 
   ngOnInit(): void {
-    if (this.configSvc.userProfile) {
-      this.isLoggedIn = true
-    } else {
-      this.isLoggedIn = false
+    this.isLoggedIn = !!this.configSvc.userProfile
+    if (!this.isLoggedIn) {
+      this.myCourseDisplayConfig = {
+        displayType: 'card-mini',
+        badges: {
+          cneName: false,
+          rating: false,
+          completionPercentage: false,
+          mobilesourceName: false,
+          publicSourceName: true,
+        },
+      }
+
+      this.myCourseWebDisplayConfig = this.myCourseDisplayConfig
     }
+
     this.orgId = this.configSvc?.userProfile?.rootOrgId || ''
     this.userId = this.configSvc?.userProfile?.userId || ''
     console.log('Root Org ID:', this.orgId)
-    console.log('User ID:', this.userId)
+    console.log('User ID:', this.userId, this.myCourseDisplayConfig)
     this.loadOrgSelectiveCourses()
   }
 
@@ -86,75 +108,123 @@ export class OrgSelectiveCourseComponent implements OnInit {
 
     const cachedOrgConfig = this.configSvc.orgSelectiveCourseConfig
     const orgId = this.orgId
+    const urlParams = new URLSearchParams(window.location.search)
+    const orgNameFromUrl = urlParams.get('org')?.trim()
 
-    // ✅ Step 1: If cached org config exists, use it directly
-    if (cachedOrgConfig && cachedOrgConfig.orgId === orgId) {
-      console.log('✅ Using cached org config for:', orgId)
+    // Use cached config if already matched
+    if (
+      cachedOrgConfig &&
+      (cachedOrgConfig.orgId === orgId ||
+        cachedOrgConfig.id === orgId ||
+        (orgNameFromUrl &&
+          cachedOrgConfig.orgName?.toLowerCase() === orgNameFromUrl.toLowerCase()))
+    ) {
+      console.log('Using cached org config for:', cachedOrgConfig.orgName || orgId)
       this.handleOrgData(cachedOrgConfig)
       return
     }
 
-    // ✅ Step 2: Fallback — fetch S3 JSON only if not cached
+    // Fetch JSON from S3
     const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
+    const hasUser = !!this.userId
+
+    const s3Request = this.http.get<OrgSelectiveCourseJson>(s3Url)
+    const userCoursesRequest = hasUser
+      ? this.userSvc.fetchUserBatchList(this.userId)
+      : of([])
 
     forkJoin({
-      s3Data: this.http.get<OrgSelectiveCourseJson>(s3Url),
-      userCourses: this.userSvc.fetchUserBatchList(this.userId)
+      s3Data: s3Request,
+      userCourses: userCoursesRequest,
     }).subscribe({
       next: ({ s3Data, userCourses }) => {
-        const org = s3Data.orgs.find((o) => o.orgId === orgId)
-
-        if (!org) {
-          console.warn('⚠️ No org found for this rootOrgId:', orgId)
+        if (!s3Data?.states || !Array.isArray(s3Data.states)) {
+          console.warn('Invalid org-selective-course.json format')
           this.isLoading = false
           return
         }
 
-        // cache org config for next time
-        this.configSvc.orgSelectiveCourseConfig = org
+        let matchedOrg: any = null
 
-        // process the data
-        this.handleOrgData(org, userCourses)
+        //1. Logged-in users → match by orgId or id
+        if (orgId) {
+          for (const state of s3Data.states) {
+            const found = state.organisations.find(
+              (o) => o.orgId === orgId
+            )
+            if (found) {
+              matchedOrg = found
+              break
+            }
+          }
+        }
+
+        //2. Public users → match by orgName param
+        if (!matchedOrg && orgNameFromUrl) {
+          for (const state of s3Data.states) {
+            const found = state.organisations.find(
+              (o) =>
+                o.orgName?.toLowerCase().trim() === orgNameFromUrl.toLowerCase().trim()
+            )
+            if (found) {
+              matchedOrg = found
+              break
+            }
+          }
+        }
+
+        //3. No match found
+        if (!matchedOrg) {
+          console.warn('No org found for:', orgId || orgNameFromUrl)
+          this.isLoading = false
+          return
+        }
+
+        // Cache for later reuse
+        this.configSvc.orgSelectiveCourseConfig = matchedOrg
+
+        // Load org data + user progress
+        this.handleOrgData(matchedOrg, userCourses)
       },
       error: (err) => {
-        console.error('❌ Error fetching S3 org JSON or user courses:', err)
+        console.error('Error fetching S3 org JSON or user courses:', err)
         this.isLoading = false
-      }
+      },
     })
   }
 
+  /**
+   * Populate org banner, logo, and courses
+   */
   private handleOrgData(org: any, userCourses: any[] = []) {
-    console.log('🎯 Loaded org config:', org)
+    console.log('Loaded org config:', org)
+    localStorage.setItem('isOrgSelectiveCourse', 'true')
 
     this.orgLogo = org.orgHeaderLogo || ''
     this.bannerImage = org.bannerImage || ''
     this.bannerTitle = org.banner?.title || ''
+    this.bannerSubtitle = org.banner?.subtitle || ''
     this.bannerPoints = org.banner?.points || []
 
-    const allCourseIds = [].concat(...org.semesters.map((sem: any) => sem.courses))
+    const allCourseIds = org.semesters?.flatMap((sem: any) => sem.courses) || []
     if (!allCourseIds.length) {
-      console.warn('⚠️ No courses found for org', org.orgName)
+      console.warn('No courses found for org', org.orgName)
       this.isLoading = false
       return
     }
 
-    const requests = allCourseIds.map((id: string) =>
-      this.orgService.getSearchResultsV7ById(id)
-    )
+    // Pass all IDs as an array instead of one by one
+    this.orgService.getSearchResultsV7ById(allCourseIds).subscribe({
+      next: (response: any) => {
+        const allCourses = response?.result?.content || []
 
-    forkJoin(requests).subscribe({
-      next: (responses: any[]) => {
-        const allCourses = responses
-          .map(r => r?.result?.content?.[0])
-          .filter(Boolean)
-
-        const enrichedCourses = allCourses.map(course => {
+        const enrichedCourses = allCourses.map((course: any) => {
           const userProgress = userCourses.find(
             (u: any) => u.courseId === course.identifier
           )
           return {
             ...course,
-            completionPercentage: userProgress?.completionPercentage ?? 0
+            completionPercentage: userProgress?.completionPercentage ?? 0,
           }
         })
 
@@ -163,25 +233,51 @@ export class OrgSelectiveCourseComponent implements OnInit {
         this.isLoading = false
       },
       error: (err) => {
-        console.error('❌ Error fetching course data:', err)
+        console.error('Error fetching course data:', err)
         this.isLoading = false
-      }
+      },
     })
   }
-
-
 
   /**
    * Build semester-wise structure for UI rendering
    */
   buildSemesterWiseData(semesters: any[]) {
-    this.semesterData = semesters.map(sem => ({
+    this.semesterData = semesters.map((sem) => ({
       name: sem.name,
       courses: sem.courses
-        .map((id: string) => this.courseData.find(c => c.identifier === id))
-        .filter(Boolean)
+        .map((id: string) => this.courseData.find((c) => c.identifier === id))
+        .filter(Boolean),
     }))
-
     console.log('Final Semester Data:', this.semesterData)
   }
+  login() {
+    this.router.navigateByUrl('/public/login')
+  }
+  signUp() {
+    const cachedOrgConfig = this.configSvc.orgSelectiveCourseConfig
+    const urlParams = new URLSearchParams(window.location.search)
+    const orgNameFromUrl = urlParams.get('org')?.trim()
+
+    // If no org data available, stay safe
+    if (!cachedOrgConfig && !orgNameFromUrl) {
+      console.warn('No organization data found for signup')
+      this.router.navigateByUrl('/app/create-account')
+      return
+    }
+
+    // Determine state code and org name
+    const stateCode = cachedOrgConfig?.stateCode || 'TN'
+    const orgName = cachedOrgConfig?.orgName || orgNameFromUrl || 'UnknownOrg'
+
+    // Determine user role (can also come from org config if needed)
+    const role = cachedOrgConfig?.signupRole || 'TNNMC-Student'
+
+    // Construct dynamic URL
+    const path = `/app/create-account/${encodeURIComponent(stateCode)}/${encodeURIComponent(orgName)}/${encodeURIComponent(role)}`
+
+    console.log('Navigating to:', path)
+    this.router.navigateByUrl(path)
+  }
+
 }

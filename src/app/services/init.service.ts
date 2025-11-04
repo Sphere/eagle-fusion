@@ -59,8 +59,6 @@ const endpoint = {
 })
 export class InitService {
   private baseUrl = 'assets/configurations'
-  private readonly CONFIG_URL = 'https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json'
-  private readonly REFRESH_INTERVAL_MS = 24 * 60 * 60 * 1000 // 24 hours
   private orgSelectiveConfig: any | null = null
 
   domain: string = ''
@@ -221,38 +219,86 @@ export class InitService {
     //   })
     return true
   }
-  /** ✅ Fetches config once and caches it */
+  /** Fetches config once and caches it */
   private async fetchOrgSelectiveConfig(): Promise<void> {
     try {
       const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
+      const orgSelectiveData = await this.http.get<any>(s3Url).toPromise()
 
-      // Fetch the org-selective-course.json from S3
-      const orgSelectiveData = await this.http
-        .get<any>(s3Url)
-        .toPromise()
-      debugger
-      if (orgSelectiveData && orgSelectiveData.orgs) {
+      if (orgSelectiveData && Array.isArray(orgSelectiveData.states)) {
+        let matchedOrg: any = null
+
+        // 1. Try matching for logged-in user (rootOrgId)
         if (this.configSvc.userProfile?.rootOrgId) {
-          let rootOrgId = this.configSvc.userProfile.rootOrgId
+          const rootOrgId = this.configSvc.userProfile.rootOrgId
           console.log('Root Org ID:', rootOrgId)
-          debugger
-          // find org entry from JSON
-          const matchedOrg = orgSelectiveData.orgs.find((item: any) => item.orgId === rootOrgId)
 
-          if (matchedOrg) {
-            this.configSvc.orgSelectiveCourseConfig = matchedOrg
-            console.log('✅ Org Selective Config Found:', matchedOrg)
-          } else {
-            console.log('⚠️ No matching org found in org-selective-course.json')
+          for (const state of orgSelectiveData.states) {
+            const found = state.organisations?.find(
+              (org: any) => org.orgId === rootOrgId
+            )
+            if (found) {
+              matchedOrg = found
+              break
+            }
           }
-        } else {
-          console.log('⚠️ No userProfile or rootOrgId found')
         }
+
+        // 2. If no match found, check ?org= param (public route)
+        if (!matchedOrg) {
+          const urlParams = new URLSearchParams(window.location.search)
+          let orgNameFromUrl = urlParams.get('org')
+
+          if (orgNameFromUrl) {
+            // Decode + sanitize URL param
+            orgNameFromUrl = decodeURIComponent(orgNameFromUrl)
+              .replace(/\+/g, ' ')
+              .trim()
+              .toLowerCase()
+              .replace(/&/g, 'and')
+
+            console.log('Normalized Org from URL:', orgNameFromUrl)
+
+            // Iterate over all orgs to find match
+            for (const state of orgSelectiveData.states) {
+              const found = state.organisations?.find((org: any) => {
+                const orgNameNormalized = (org.orgName || '')
+                  .toLowerCase()
+                  .trim()
+                  .replace(/&/g, 'and')
+                return orgNameNormalized === orgNameFromUrl
+              })
+              if (found) {
+                matchedOrg = found
+                break
+              }
+            }
+          }
+        }
+
+        // 🔹 3. Save matched config
+        if (matchedOrg) {
+          this.configSvc.orgSelectiveCourseConfig = matchedOrg
+          console.log('Org Selective Config Found:', matchedOrg.orgName)
+        } else {
+          console.warn('No matching org found in org-selective-course.json')
+          console.warn(
+            'Available org names:',
+            orgSelectiveData.states.flatMap((s: any) =>
+              s.organisations.map((o: any) => o.orgName)
+            )
+          )
+        }
+      } else {
+        console.warn('org-selective-course.json missing or invalid format')
       }
     } catch (error) {
-      console.error('❌ Failed to fetch org-selective-course.json:', error)
+      console.error('Failed to fetch org-selective-course.json:', error)
     }
   }
+
+
+
 
 
   /** ✅ Public getter for components/services */

@@ -21,7 +21,7 @@ export class MobileCourseViewComponent implements OnInit {
 
   @Input() enableConfig = false
   isLoggedIn = false
-
+  displayStyle = 'none'
   @Input()
   displayConfig = {
     displayType: 'card-badges',
@@ -77,6 +77,41 @@ export class MobileCourseViewComponent implements OnInit {
     localStorage.setItem('tocData', JSON.stringify(data))
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
   }
+  showPopup() {
+    this.displayStyle = 'block'
+  }
+  closePopup() {
+    this.displayStyle = 'none'
+  }
+  orgLogin() {
+    this.router.navigateByUrl('public/login')
+  }
+  orgCreateAccount() {
+    const cachedOrgConfig = this.configSvc.orgSelectiveCourseConfig
+    const urlParams = new URLSearchParams(window.location.search)
+    const orgNameFromUrl = urlParams.get('org')?.trim()
+
+    // If no org data available, stay safe
+    if (!cachedOrgConfig && !orgNameFromUrl) {
+      console.warn('No organization data found for signup')
+      this.router.navigateByUrl('/app/create-account')
+      return
+    }
+
+    // Determine state code and org name
+    const stateCode = cachedOrgConfig?.stateCode || 'TN'
+    const orgName = cachedOrgConfig?.orgName || orgNameFromUrl || 'UnknownOrg'
+
+    // Determine user role (can also come from org config if needed)
+    const role = cachedOrgConfig?.signupRole || 'TNNMC-Student'
+
+    // Construct dynamic URL
+    const path = `/app/create-account/${encodeURIComponent(stateCode)}/${encodeURIComponent(orgName)}/${encodeURIComponent(role)}`
+
+    console.log('Navigating to:', path)
+    this.router.navigateByUrl(path)
+
+  }
   slugify(text: string): string {
     return text
       .toLowerCase()
@@ -89,7 +124,13 @@ export class MobileCourseViewComponent implements OnInit {
     if (this.isLoggedIn) {
       this.navigateToToc(course.identifier)
     } else {
-      this.login(course)
+      const currentRoute = this.router.url
+
+      if (currentRoute.includes('org-selective-course')) {
+        this.showPopup()
+      } else {
+        this.login(course)
+      }
     }
   }
 
