@@ -7950,6 +7950,7 @@
       <trans-unit id="1c7c47c2bc370a40579ecb0357e22428faf8d04e" datatype="html">
         <source>
                   This field is required</source>
+        <target>यह फ़ील्ड आवश्यक है</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
           <context context-type="linenumber">85</context>
