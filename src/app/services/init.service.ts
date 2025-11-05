@@ -169,8 +169,6 @@ export class InitService {
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
       const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
       await this.fetchFeaturesStatus() // feature: depends only on details
-      await this.fetchOrgSelectiveConfig()
-
       /**
        * Wait for the widgets and get the list of restricted widgets
        */
@@ -497,6 +495,12 @@ export class InitService {
           }
         } else {
           //this.authSvc.logout()
+        }
+        // 🔹 Now that we have userProfile.rootOrgId, fetch org-selective config
+        try {
+          await this.fetchOrgSelectiveConfig()
+        } catch (err) {
+          console.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
         }
         const details = {
           group: [],

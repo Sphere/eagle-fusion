@@ -295,7 +295,7 @@ export class PublicLoginComponent implements OnInit {
 
             const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
             const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-
+            console.log("rootOrgId:", rootOrgId, "orgSelectiveConfig:", orgSelectiveConfig, "this.configSvc.userProfile", this.configSvc.userProfile)
             let homePath = '/page/home'
             let queryParams: any = {}
 

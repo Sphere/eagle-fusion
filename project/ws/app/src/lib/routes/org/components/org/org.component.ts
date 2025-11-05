@@ -1,5 +1,4 @@
 import {
-  // AuthKeycloakService,
   ConfigurationsService, ValueService
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
@@ -18,7 +17,6 @@ import uniqBy from 'lodash/uniqBy'
 })
 export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger
-  //defaultUrl = '/fusion-assets/images/frame-156.svg'
   orgName!: string
   courseData!: any
   routeSubscription: any
@@ -31,7 +29,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   competencyData: { identifier: string, name: any; levels: string }[] = []
   rating = 4
   starCount = 5
-  stars: number[] = [1, 2, 3, 4, 5];
+  stars: number[] = [1, 2, 3, 4, 5]
   color = 'accent'
   ratingArr: any = []
   index = 0
@@ -46,31 +44,30 @@ export class OrgComponent implements OnInit, OnDestroy {
   myCourseDisplayConfig: any
   isMobile = false
   isXSmall$ = this.valueSvc.isXSmall$
-  showAllUserEnrollCourses: boolean = false;
+  showAllUserEnrollCourses: boolean = false
+  showAllCompletedCourses: boolean = false
+  selectedLanguage: string = 'all' // Default to 'all'
 
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
     private router: Router,
     private http: HttpClient,
-    // private authSvc: AuthKeycloakService,
     private configSvc: ConfigurationsService,
     private readonly userSvc: WidgetUserService,
     private valueSvc: ValueService,
   ) {
     this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
-
-
   }
+
   @HostListener('window:popstate', ['$event'])
   onPopState(event: any) {
     console.log(event)
-    //window.location.href = '/public/home'
     let url = sessionStorage.getItem('currentURL')
     if (url) {
       location.href = url
     }
-    //window.history.go(-1)
   }
+
   ngOnInit() {
     for (this.index = 0; this.index < this.starCount; this.index++) {
       this.ratingArr.push(this.index)
@@ -94,7 +91,6 @@ export class OrgComponent implements OnInit, OnDestroy {
             if (this.currentOrgData) {
               this.currentOrgData = this.currentOrgData[0]
               this.formattedAbout = this.formatAbout(this.currentOrgData.about)
-              // console.log("this.currentOrgData", this.currentOrgData)
               if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
                 console.log("this.currentOrgData.closedCoursesList present", this.currentOrgData.closedCoursesList)
                 if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)' && this.currentOrgData) {
@@ -103,7 +99,6 @@ export class OrgComponent implements OnInit, OnDestroy {
                     this.formatmyCourseResponse(res[0])
                   })
                 }
-                // to combine both hardcoded courses with source name course
                 forkJoin([
                   this.orgService.getSearchResultsV7ById(this.currentOrgData.closedCoursesList),
                   this.orgService.getSearchV7Results(this.orgName)
@@ -113,7 +108,6 @@ export class OrgComponent implements OnInit, OnDestroy {
                     (org: any) => org.sourceName === this.currentOrgData.sourceName
                   )
 
-                  // Combine and filter by unique identifier
                   const allCourses = [...closedCourses, ...taggedCourses]
                   this.courseData = uniqBy(allCourses, 'identifier')
 
@@ -161,7 +155,7 @@ export class OrgComponent implements OnInit, OnDestroy {
           console.error('HTTP error', error)
         }
       )
-    console.log("this.currentOrgData", this.currentOrgData)
+
     let userId
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId
@@ -169,25 +163,66 @@ export class OrgComponent implements OnInit, OnDestroy {
       userId = this.configSvc.unMappedUser?.id
     }
 
-
     this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
       if (userEnrolled && userEnrolled.length > 0) {
         this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
         this.competency_offered = userEnrolled[0].competency_offered || undefined
       }
     })
-    console.log("this.currentOrgData.closedCoursesList", this.currentOrgData)
 
-
-    // this.orgService.getDatabyOrgId().then((data: any) => {
-    //   console.log(data)
-    //   this.courseData = data
-    //   this.courseCount = this.courseData.result.length
-    // })
-    // console.log(this.configSvc)
-    // this.configSvc.unMappedUser!.identifier ? this.btnText = 'View Course' : this.btnText = 'Login'
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
+
+  filterByLanguage(language: string): void {
+    this.selectedLanguage = language
+    this.cardLimit = 5 // Reset card limit when filtering
+  }
+
+  getFilteredCourseData(): any[] {
+    if (!this.courseData) {
+      return []
+    }
+
+    if (this.selectedLanguage === 'all') {
+      return this.courseData
+    }
+
+    return this.courseData.filter((course: any) => {
+      const courseLanguage = course.lang || 'en'
+      return courseLanguage === this.selectedLanguage
+    })
+  }
+
+  getFilteredUserEnrollCourse(): any[] {
+    if (!this.userEnrollCourse) {
+      return []
+    }
+
+    if (this.selectedLanguage === 'all') {
+      return this.userEnrollCourse
+    }
+
+    return this.userEnrollCourse.filter((course: any) => {
+      const courseLanguage = course.lang || 'en'
+      return courseLanguage === this.selectedLanguage
+    })
+  }
+
+  getFilteredCompletedCourse(): any[] {
+    if (!this.completedCourse) {
+      return []
+    }
+
+    if (this.selectedLanguage === 'all') {
+      return this.completedCourse
+    }
+
+    return this.completedCourse.filter((course: any) => {
+      const courseLanguage = course.lang || 'en'
+      return courseLanguage === this.selectedLanguage
+    })
+  }
+
   getDisplayedItems(items: any[], showAll: boolean): any[] {
     if (showAll) {
       return items
@@ -199,16 +234,19 @@ export class OrgComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   viewAllItems(section: string): void {
     switch (section) {
       case 'userEnrollCourses':
         this.showAllUserEnrollCourses = !this.showAllUserEnrollCourses
         break
+      case 'completedCourses':
+        this.showAllCompletedCourses = !this.showAllCompletedCourses
+        break
     }
   }
-  formatmyCourseResponse(res: any) {
-    this.currentOrgData.closedCoursesList
 
+  formatmyCourseResponse(res: any) {
     if (this.currentOrgData?.closedCoursesList && this.currentOrgData?.closedCoursesList.length > 0) {
       res = res.filter((item: any) => this.currentOrgData.closedCoursesList.includes(item.content.identifier))
     }
@@ -224,13 +262,14 @@ export class OrgComponent implements OnInit, OnDestroy {
         completionPercentage: key.completionPercentage,
         sourceName: key.content?.sourceName,
         issueCertification: key.content?.issueCertification,
-        averageRating: key.content?.averageRating
+        averageRating: key.content?.averageRating,
+        lang: key.content?.lang || 'en' // Add language property
       }
 
       if (key.completionPercentage < 100) {
-        this.userEnrollCourse.push(courseData) // Incomplete courses go to continueLearning
+        this.userEnrollCourse.push(courseData)
       } else {
-        this.completedCourse.push(courseData) // Complete courses go to completedLearning
+        this.completedCourse.push(courseData)
       }
     })
     console.log("this.myCourse", this.completedCourse, this.userEnrollCourse)
@@ -246,18 +285,19 @@ export class OrgComponent implements OnInit, OnDestroy {
       }
     }
   }
+
   getStarImage(index: number, averageRating: number): string {
     const fullStarUrl = '/fusion-assets/icons/toc_star.png'
     const halfStarUrl = '/fusion-assets/icons/Half_star1.svg'
     const emptyStarUrl = '/fusion-assets/icons/empty_star.png'
 
-    const decimalPart = averageRating - Math.floor(averageRating) // Calculate the decimal part of the average rating
+    const decimalPart = averageRating - Math.floor(averageRating)
     if (index + 1 <= Math.floor(averageRating)) {
-      return fullStarUrl // Full star
+      return fullStarUrl
     } else if (decimalPart >= 0.1 && decimalPart <= 0.9 && index === Math.floor(averageRating)) {
-      return halfStarUrl // Half star
+      return halfStarUrl
     } else {
-      return emptyStarUrl // Empty star
+      return emptyStarUrl
     }
   }
 
@@ -266,9 +306,10 @@ export class OrgComponent implements OnInit, OnDestroy {
     return text
       .replace(/\n/g, '<br>')
       .replace(/\u2022/g, '&bull;')
-      .replace(/\\u2019/g, '&#8217;') // right single quotation mark
-      .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;') // replace tab with spaces for proper alignment
+      .replace(/\\u2019/g, '&#8217;')
+      .replace(/\t/g, '&nbsp;&nbsp;&nbsp;&nbsp;')
   }
+
   add(a: number, b: number): number {
     return a + b
   }
@@ -278,7 +319,6 @@ export class OrgComponent implements OnInit, OnDestroy {
     if (url) {
       location.href = url
     } else {
-
       let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
       let url1 = local === 'hi' ? 'hi' : ""
       console.log(url1)
@@ -288,26 +328,20 @@ export class OrgComponent implements OnInit, OnDestroy {
       }
       let url = url1 === 'hi' ? '/page/home' : 'page/home'
       this.router.navigateByUrl(`${url1}${url}`)
-      //location.href = `${url3}${url1}${url}`
     }
   }
 
   toggleCardLimit() {
     if (this.cardLimit === 5) {
-      this.cardLimit = this.courseData.length
+      this.cardLimit = this.getFilteredCourseData().length
     } else {
       this.cardLimit = 5
     }
   }
+
   gotoOverview(identifier: any) {
     sessionStorage.setItem('cURL', location.href)
-    // if (this.configSvc.isAuthenticated) {
     this.router.navigate([`/app/toc/${identifier}/overview`])
-    // } else {
-    // const url = `/app/toc/${identifier}/overview`
-    // localStorage.setItem('selectedCourse', url)
-    // this.authSvc.login('S', url)
-    // }
   }
 
   showMoreCourses() {
@@ -317,23 +351,18 @@ export class OrgComponent implements OnInit, OnDestroy {
   goToProfile(id: string) {
     this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
   }
+
   showTarget(event: any) {
     if (window.innerWidth - event.clientX < 483) {
       this.showEndPopup = true
       this.target.targetOffsetX = event.clientX + 1
-    } else {
-      // console.log('this.showEndPopup', this.showEndPopup)
     }
   }
+
   loginRedirect(contentId: any) {
-    // if (this.configSvc.isAuthenticated) {
     this.router.navigateByUrl(`/app/toc/${contentId}/overview`)
-    // } else {
-    //   const url = `/app/toc/${contentId}/overview`
-    //   localStorage.setItem('selectedCourse', url)
-    //   this.authSvc.login(key, url)
-    // }
   }
+
   ngOnDestroy() {
     this.orgService.hideHeaderFooter.next(false)
     if (this.routeSubscription) {
@@ -341,17 +370,18 @@ export class OrgComponent implements OnInit, OnDestroy {
     }
     this.orgService.hideHeaderFooter.next(false)
   }
+
   goToLink(a: string) {
     window.open(a, '_blank')
   }
-  showIcon(index: number) {
 
+  showIcon(index: number) {
     if (this.rating >= index + 1) {
       return 'star'
     }
     return 'star_border'
-
   }
+
   groupCompetenciesById(courseData: any[]): any[] {
     const grouped: { [key: string]: any } = {}
 
@@ -385,7 +415,5 @@ export class OrgComponent implements OnInit, OnDestroy {
     let value = Object.values(grouped)
     console.log("grouped", value)
     return value
-
   }
-
 }
