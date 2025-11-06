@@ -222,11 +222,12 @@ export class OrgSelectiveCourseComponent implements OnInit {
           const userProgress = userCourses.find(
             (u: any) => u.courseId === course.identifier
           )
-          return {
-            ...course,
-            completionPercentage: userProgress?.completionPercentage ?? 0,
-          }
+          const completion = userProgress?.completionPercentage ?? 0
+          return completion > 0
+            ? { ...course, completionPercentage: completion }
+            : { ...course }
         })
+
 
         this.courseData = uniqBy(enrichedCourses, 'identifier')
         this.buildSemesterWiseData(org.semesters)

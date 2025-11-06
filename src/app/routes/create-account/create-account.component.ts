@@ -175,7 +175,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
         if (!stateCode || !orgName) return
 
-        this.http.get<any>(`https://aastar-assets.s3.ap-south-1.amazonaws.com/data/state-org-role.json?cb=${Date.now()}`)
+        this.http.get<any>(`https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`)
           .pipe(takeUntil(this.destroy$))
           .subscribe(data => {
             localStorage.setItem('isOrgSelectiveCourse', 'true')

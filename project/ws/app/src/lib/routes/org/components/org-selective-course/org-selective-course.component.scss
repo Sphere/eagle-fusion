@@ -10,8 +10,12 @@
     top: 0;
     display: block;
 }
+.no-results {
+        margin: 0 auto !important;
+        max-width: 1280px;
+}
 .banner{
-    margin-top: 80px;
+    margin-top: 80px !important;
   }
 .header-logo{
   width: 100%;
