@@ -204,7 +204,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
               this.createAccountForm.get('district')?.clearValidators()
             }
             this.createAccountForm.get('district')?.updateValueAndValidity()
-            this.organisationId = matchedOrg.id
+            this.organisationId = matchedOrg.orgId
             this.channelName = matchedOrg.orgName
             this.userRole = matchedRole || roleParam // fallback if no match
             this.state = stateObj.name
