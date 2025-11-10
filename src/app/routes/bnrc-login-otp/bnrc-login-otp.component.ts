@@ -85,7 +85,9 @@ export class BnrcLoginOtpComponent implements OnInit {
 
     const resendOtpMethod = currentUrl.includes('uttarpradesh/register')
       ? this.userProfileSvc.upsmfResendOtp.bind(this.userProfileSvc)
-      : this.userProfileSvc.bnrcResendOtp.bind(this.userProfileSvc)
+      : currentUrl.includes('madhyapradesh/register')
+        ? this.userProfileSvc.mpResendOtp.bind(this.userProfileSvc)
+        : this.userProfileSvc.bnrcResendOtp.bind(this.userProfileSvc)
 
     resendOtpMethod(request).subscribe(
       async (res: any) => {
