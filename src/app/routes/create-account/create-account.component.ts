@@ -84,6 +84,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   otpPage = false;
   emailDelaid = false;
   districts: any
+  districtInstituteMap: any
   showDistricts = false;
   // Email/Phone state
   phone = false;
@@ -91,7 +92,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   isMobile = false;
   isOtpValid = false;
   emailPhoneType: 'email' | 'phone' | null = null;
-
+  institutes: any[] = [];
   // Password validation images
   passwordValidation: PasswordValidation = {
     length: ASSET_PATHS.grayDot,
@@ -196,7 +197,12 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
               (r: string) => r.toLowerCase() === roleParam.toLowerCase()
             )
 
-            this.districts = stateObj.districts || []
+            this.districts = (stateObj.districts || []).map((d: any) => d.name)
+            this.districtInstituteMap = (stateObj.districts || []).reduce((acc: any, d: any) => {
+              acc[d.name] = d.institutes || []
+              return acc
+            }, {})
+
             this.showDistricts = !!this.districts.length
             if (this.showDistricts) {
               this.createAccountForm.get('district')?.setValidators([Validators.required])
@@ -214,10 +220,11 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
           })
       })
   }
-
-
-
-
+  onDistrictChange(district: string) {
+    this.institutes = this.districtInstituteMap[district] || []
+    this.createAccountForm.get('instituteName')?.setValue('')
+    this.createAccountForm.get('instituteName')?.setValidators([Validators.required])
+  }
 
   private initializeForms(): void {
     this.createAccountForm = this.fb.group({
@@ -225,6 +232,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       lastname: ['', [Validators.required, Validators.pattern(REGEX_PATTERNS.name)]],
       emailOrMobile: ['', [Validators.required, Validators.pattern(REGEX_PATTERNS.emailOrMobile)]],
       district: [''],
+      instituteName: ['']
     })
 
     this.createAccountWithPasswordForm = this.fb.group(
@@ -500,6 +508,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     if (this.channelName) reqObj.channelName = this.channelName
     if (this.selectedDistrict) reqObj.district = this.selectedDistrict
     if (this.state) reqObj.state = this.state
+    if (this.selectedDistrict) reqObj.instituteName = this.createAccountForm.get('instituteName')?.value
 
     this.uploadSaveData = true
 
@@ -538,6 +547,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     if (this.userRole) reqObj.role = this.userRole
     if (this.channelName) reqObj.channelName = this.channelName
     if (this.selectedDistrict) reqObj.district = this.selectedDistrict
+    if (this.state) reqObj.state = this.state
+    if (this.selectedDistrict) reqObj.instituteName = this.createAccountForm.get('instituteName')?.value
 
     this.uploadSaveData = true
 

@@ -180,28 +180,29 @@ export class WebCourseCardComponent implements OnInit {
   }
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
-    // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
-    const url = `app/toc/` + `${contentIdentifier}` + `/overview`
+    const url = `app/toc/${contentIdentifier}/overview`
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
       localStorage.setItem(`url_before_login`, url)
       this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
-        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
-          return of(data)
-        })).subscribe((userDetails: any) => {
-          if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
+        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
+          .pipe(delay(500))
+          .subscribe((userDetails: any) => {
+            const profileReq = get(userDetails, 'profileDetails.profileReq')
+            console.log('USER DETAILS FROM REGISTRY:', userDetails) // ← Add this
+            console.log('Profile Req:', profileReq) // ← Add this
 
-            // location.href = url
-            this.router.navigateByUrl(url)
-          } else {
-            const courseUrl = `/app/toc/${contentIdentifier}/overview`
-            this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-          }
-        })
+            if (this.userProfileSvc.isBackgroundDetailsFilled(profileReq)) {
+              this.router.navigateByUrl(url)
+            } else {
+              console.log('Background details not filled, redirecting to about-you')
+              const courseUrl = `/app/toc/${contentIdentifier}/overview`
+              this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+            }
+          })
       }
     }
-
   }
 }

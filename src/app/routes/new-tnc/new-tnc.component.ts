@@ -20,6 +20,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import get from 'lodash/get'
 import { MatDialog } from '@angular/material/dialog'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
+import { constructReq } from '../profile-view/request-util'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -53,6 +54,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   userData: any
   isXSmall$: Observable<boolean>
   langDialog: any
+  userProfileData!: any
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -243,29 +245,47 @@ export class NewTncComponent implements OnInit, OnDestroy {
     } catch (error) { }
   }
 
-  private constructReq(form: any) {
-    const userObject = form.value
-    Object.keys(userObject).forEach(key => {
-      if (userObject[key] === '') {
-        delete userObject[key]
-      }
-    })
-    if (this.configSvc.userProfile) {
-      this.userId = this.configSvc.userProfile.userId
-    }
+  // private constructReq(form: any) {
+  //   debugger
+  //   const userObject = form.value
+  //   Object.keys(userObject).forEach(key => {
+  //     if (userObject[key] === '') {
+  //       delete userObject[key]
+  //     }
+  //   })
 
-    const profileReq = {
-      profileReq: {
-        //id: this.userId,
-        //userId: this.userId,
-        id: this.result.userId,
-        userId: this.result.userId,
-        personalDetails: userObject,
+  //   if (this.configSvc.userProfile) {
+  //     this.userId = this.configSvc.userProfile.userId
+  //   }
 
-      },
-    }
-    return profileReq
-  }
+  //   const profileReq = {
+  //     profileReq: {
+  //       //id: this.userId,
+  //       //userId: this.userId,
+  //       id: this.result.userId,
+  //       userId: this.result.userId,
+  //       personalDetails: userObject,
+  //     },
+  //   }
+  //   profileReq.profileReq.personalDetails['postalAddress'] = 'India, Tamil nadu, Chennai'
+  //   if (this.configSvc.orgSelectiveCourseConfig && this.configSvc.orgSelectiveCourseConfig.orgId === this.configSvc.userProfile?.rootOrgId) {
+  //     let professionalDetails = this.configSvc.professionalDetails
+  //     // let professionalDetails = [
+  //     //   {
+  //     //     designation: 'TNNMC-Student',
+  //     //     name: 'Tamil nadu nurses and midwives council - pre service',
+  //     //     orgType: 'Public/Government Sector',
+  //     //     profession: 'Healthcare Worker',
+  //     //   }
+  //     // ]
+
+  //     console.log("professionalDetails", professionalDetails)
+  //     if (professionalDetails && professionalDetails.length > 0) {
+  //       profileReq.profileReq['professionalDetails'] = professionalDetails
+  //     }
+  //   }
+  //   return profileReq
+  // }
   homePage() {
     if (this.result.userId) {
       location.href = '/page/home'
@@ -346,31 +366,50 @@ export class NewTncComponent implements OnInit, OnDestroy {
       // this.updateUser(reqUpdate)
 
       //} else {
-      let profileRequest = this.constructReq(this.createUserForm)
-      const source = this.UserAgentResolverService.getSource()
-      const userSource = source ? JSON.parse(source) : null
-      const obj = {
-        preferences: {
-          language: this.lang,
-        },
-        ...(userSource ? { userSource } : {})
-        // personalDetails: profileRequest.profileReq.personalDetails
+      if (this.configSvc.userProfile) {
+        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+          async (data: any) => {
+            if (data) {
+              this.userProfileData = await data.profileDetails.profileReq
+              // let profileRequest = this.constructReq(this.createUserForm)
+              const source = this.UserAgentResolverService.getSource()
+              const userSource = source ? JSON.parse(source) : null
+              const obj = {
+                preferences: {
+                  language: this.lang,
+                },
+                ...(userSource ? { userSource } : {})
+                // personalDetails: profileRequest.profileReq.personalDetails
+              }
+              console.log("this.userProfileData", this.userProfileData)
+              let profileRequest = constructReq(this.createUserForm, this.userProfileData, userAgent, userCookie)
+
+              profileRequest = Object.assign(profileRequest, obj)
+              profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
+              const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+              const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+              if (orgSelectiveConfig && orgSelectiveConfig.orgId) {
+                if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+                  profileRequest.profileReq.personalDetails["dob"] = '01/01/2000'
+                }
+              }
+              const reqUpdate = {
+                request: {
+                  userId: this.result.userId,
+                  // profileDetails: Object.assign(profileRequest, Obj),
+                  profileDetails: { ...profileRequest, profileLocation: 'sphere-web/new-tnc' },
+                  tncAcceptedVersion: this.termsAccepted,
+                  tncAcceptedOn: new Date().getTime()
+                },
+              }
+              console.log(reqUpdate, 'sss')
+              console.log(this.termsAccepted)
+              this.updateUser(reqUpdate)
+              //}
+            }
+          })
       }
-      profileRequest = Object.assign(profileRequest, obj)
-      profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
-      const reqUpdate = {
-        request: {
-          userId: this.result.userId,
-          // profileDetails: Object.assign(profileRequest, Obj),
-          profileDetails: { ...profileRequest, profileLocation: 'sphere-web/new-tnc' },
-          tncAcceptedVersion: this.termsAccepted,
-          tncAcceptedOn: new Date().getTime()
-        },
-      }
-      console.log(reqUpdate, 'sss')
-      console.log(this.termsAccepted)
-      this.updateUser(reqUpdate)
-      //}
+
 
     } else {
       this.errorInAccepting = false

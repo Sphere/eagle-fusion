@@ -122,54 +122,54 @@ export const populateAcademics = (data?: any, userProfileData?: any) => {
 }
 
 export const getClass10 = (data: any, userProfileData?: any) => {
-  const class10 = find(userProfileData.academics, { type: 'X_STANDARD' })
+  const class10 = find(userProfileData?.academics, { type: 'X_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'X_STANDARD',
-    nameOfInstitute: data.courseDegree.type === 'X_STANDARD' ?
+    nameOfInstitute: data.courseDegree?.type === 'X_STANDARD' ?
       data.institutionName : get(class10, 'nameOfInstitute') ? get(class10, 'nameOfInstitute') : '',
-    yearOfPassing: data.courseDegree.type === 'X_STANDARD' ? `${data.yearPassing
+    yearOfPassing: data.courseDegree?.type === 'X_STANDARD' ? `${data.yearPassing
       }` : get(class10, 'yearOfPassing') ? get(class10, 'yearOfPassing') : '',
   })
 }
 
 export const getClass12 = (data: any, userProfileData?: any) => {
-  const class12 = find(userProfileData.academics, { type: 'XII_STANDARD' })
+  const class12 = find(userProfileData?.academics, { type: 'XII_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'XII_STANDARD',
-    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName :
+    nameOfInstitute: data.courseDegree?.type === 'XII_STANDARD' ? data.institutionName :
       get(class12, 'nameOfInstitute') ? get(class12, 'nameOfInstitute') : '',
-    yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
+    yearOfPassing: data.courseDegree?.type === 'XII_STANDARD' ? `${data.yearPassing
       }` : get(class12, 'yearOfPassing') ? get(class12, 'yearOfPassing') : '',
   })
 }
 
 export const getDegree = (data: any, userProfileData?: any) => {
-  const GRADUATE = find(userProfileData.academics, { type: 'GRADUATE' })
+  const GRADUATE = find(userProfileData?.academics, { type: 'GRADUATE' })
   return ({
-    nameOfQualification: data.courseDegree.type === 'GRADUATE'
+    nameOfQualification: data.courseDegree?.type === 'GRADUATE'
       && data.courseName ? data.courseName :
       get(GRADUATE, 'nameOfQualification') ?
         get(GRADUATE, 'nameOfQualification') : '',
     type: 'GRADUATE',
-    nameOfInstitute: data.courseDegree.type === 'GRADUATE' && data.institutionName ?
+    nameOfInstitute: data.courseDegree?.type === 'GRADUATE' && data.institutionName ?
       data.institutionName : get(GRADUATE, 'nameOfInstitute') ? get(GRADUATE, 'nameOfInstitute') : '',
-    yearOfPassing: data.courseDegree.type === 'GRADUATE' ? `${data.yearPassing
+    yearOfPassing: data.courseDegree?.type === 'GRADUATE' ? `${data.yearPassing
       }` : get(GRADUATE, 'yearOfPassing') ? get(GRADUATE, 'yearOfPassing') : '',
   })
 }
 
 export const getPostDegree = (data: any, userProfileData?: any) => {
-  const POSTGRADUATE = find(userProfileData.academics, { type: 'POSTGRADUATE' })
+  const POSTGRADUATE = find(userProfileData?.academics, { type: 'POSTGRADUATE' })
   return ({
-    nameOfQualification: data.courseDegree.type === 'POSTGRADUATE'
+    nameOfQualification: data.courseDegree?.type === 'POSTGRADUATE'
       && data.courseName ? data.courseName : get(POSTGRADUATE, 'nameOfQualification') ?
       get(POSTGRADUATE, 'nameOfQualification') : '',
     type: 'POSTGRADUATE',
-    nameOfInstitute: data.courseDegree.type === 'POSTGRADUATE' ? data.institutionName :
+    nameOfInstitute: data.courseDegree?.type === 'POSTGRADUATE' ? data.institutionName :
       get(POSTGRADUATE, 'nameOfInstitute') ? get(POSTGRADUATE, 'nameOfInstitute') : '',
-    yearOfPassing: data.courseDegree.type === 'POSTGRADUATE' ? `${data.yearPassing
+    yearOfPassing: data.courseDegree?.type === 'POSTGRADUATE' ? `${data.yearPassing
       }` : get(POSTGRADUATE, 'yearOfPassing') ? get(POSTGRADUATE, 'yearOfPassing') : '',
   })
 }

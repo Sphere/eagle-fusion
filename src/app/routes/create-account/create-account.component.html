@@ -137,18 +137,32 @@
 
               <div *ngIf="showDistricts">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label i18n>District</mat-label>
-                  <mat-select formControlName="district" aria-required="true">
-                    <mat-option *ngFor="let district of districts" [value]="district" i18n>
+                  <mat-label>District</mat-label>
+                  <mat-select formControlName="district" (selectionChange)="onDistrictChange($event.value)">
+                    <mat-option *ngFor="let district of districts" [value]="district">
                       {{ district }}
                     </mat-option>
                   </mat-select>
-
-                  <mat-error *ngIf="createAccountForm.get('district')?.hasError('required')" i18n>
+                  <mat-error *ngIf="createAccountForm.get('district')?.hasError('required')">
                     This field is required
                   </mat-error>
                 </mat-form-field>
               </div>
+
+              <div>
+                <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                  <mat-label>Institute Name</mat-label>
+                  <mat-select formControlName="instituteName">
+                    <mat-option *ngFor="let inst of institutes" [value]="inst">
+                      {{ inst }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="createAccountForm.get('instituteName')?.hasError('required')">
+                    This field is required
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
 
 
               <!-- Login Method Selection -->
