@@ -19,14 +19,12 @@
       <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" />
     </div>
     <img [src]="currentOrgData.bgImage" class="banner" *ngIf="currentOrgData.bgImage" />
-    <!-- <img [src]="currentOrgData?.logo" class="logo" /> -->
     <div class="flex-auto mr-4">
       <div class="image-outer">
         <img [src]="currentOrgData?.logo " alt=" Logo" class="org-logo" *ngIf="currentOrgData.logo !== ''" />
       </div>
     </div>
   </div>
-
 
   <div class="course-container py-1 px-4"
     [ngClass]="{'mt-5': currentOrgData?.sourceName === 'Indian Nursing Council','org-body': true}">
@@ -35,10 +33,6 @@
     </p>
     <p class="org-desc mb-1" [innerHTML]="formattedAbout"></p>
 
-    <!-- <div class="org-details-block">
-      <img src="/fusion-assets/icons/ion_people-sharp.svg" />
-      <div class="org-details">Nationwide Quality Of Care Network</div>
-    </div> -->
     <div class="org-details-block" *ngIf="courseCount&&courseCount.length">
       <div class="org-details" *ngIf="orgUserCourseEnrolled>0">
         <img alt="icon" src="/fusion-assets/icons/ion_people-sharp.svg">
@@ -53,16 +47,28 @@
         {{competency_offered === 1 ? '1 Competency offered': competency_offered + ' Competencies offered'}}
       </div>
     </div>
-    <!-- <div class="org-details-block">
-      <img src="/fusion-assets/icons/ph_medal.svg">
-      <div class="org-details">
-        12 Competencies offered
+    <!-- Language Filter Section -->
+    <div class="language-filter-container">
+      <div>
+        <span class="filter-label" i18n>Filter by Language</span>
       </div>
-    </div> -->
+      <div class="filter-buttons">
+        <button [class.active]="selectedLanguage === 'all'" (click)="filterByLanguage('all')" class="filter-btn" i18n>
+          All
+        </button>
+        <button [class.active]="selectedLanguage === 'en'" (click)="filterByLanguage('en')" class="filter-btn" i18n>
+          English
+        </button>
+        <button [class.active]="selectedLanguage === 'hi'" (click)="filterByLanguage('hi')" class="filter-btn" i18n>
+          हिंदी
+        </button>
+      </div>
+    </div>
   </div>
+
   <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
     class="course-container py-1 px-4 ">
-    <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse?.length > 0">
+    <section class="mt-4 view-all-course-container" *ngIf="getFilteredUserEnrollCourse()?.length > 0">
       <div class="mb-4 line-label bg-green flex scroller-container">
         <div class="w-100">
           <div class="flex flex-middle border-top">
@@ -70,20 +76,20 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="userEnrollCourse?.length > 0 && isMobile === false">
+      <ng-container *ngIf="getFilteredUserEnrollCourse()?.length > 0 && isMobile === false">
         <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-          <div *ngFor="let course of userEnrollCourse">
+          <div *ngFor="let course of getFilteredUserEnrollCourse()">
             <ng-container>
               <ws-web-course-card [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
             </ng-container>
           </div>
         </ws-utils-horizontal-scroller>
       </ng-container>
-      <ng-container *ngIf="userEnrollCourse?.length > 0 && isMobile === true">
-        <div *ngFor="let course of getDisplayedItems(userEnrollCourse, showAllUserEnrollCourses)">
+      <ng-container *ngIf="getFilteredUserEnrollCourse()?.length > 0 && isMobile === true">
+        <div *ngFor="let course of getDisplayedItems(getFilteredUserEnrollCourse(), showAllUserEnrollCourses)">
           <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
         </div>
-        <button i18n *ngIf="userEnrollCourse?.length > 5" (click)="viewAllItems('userEnrollCourses')"
+        <button i18n *ngIf="getFilteredUserEnrollCourse()?.length > 5" (click)="viewAllItems('userEnrollCourses')"
           class="view-all-course">
           {{ showAllUserEnrollCourses ? 'Hide' : 'View all' }}
           <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
@@ -91,16 +97,15 @@
       </ng-container>
     </section>
   </div>
+
   <div class="course-container py-1 px-4 ">
-    <div class="w-100">
+    <div class="w-100" *ngIf="getFilteredCourseData()?.length > 0">
       <div class="flex flex-middle border-top">
         <span class="course-header" i18n>Courses</span>
       </div>
     </div>
-
-    <div class="mt-4 course-body" *ngIf="courseData">
-      <!-- <div> -->
-      <ng-container *ngFor="let widget of courseData.slice(0,cardLimit)">
+    <div class="mt-4 course-body" *ngIf="getFilteredCourseData()">
+      <ng-container *ngFor="let widget of getFilteredCourseData().slice(0,cardLimit)">
         <div class="card-standard-container mb-6 1 cursor-pointer">
           <a (click)="gotoOverview(widget.identifier)" class="rounded-t py-2" role="link" aria-label="Content"
             #target="mdePopoverTrigger" i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1"
@@ -125,9 +130,7 @@
             <ng-container *ngIf="widget.averageRating && widget.averageRating > 0">
               <div class="rating-block mb-2">
                 <span class="average-rating">{{widget.averageRating | number: '1.0-1'}}</span>
-                <!-- <ng-container *ngIf="widget.averageRating>0"> -->
                 <img *ngFor="let star of stars; let i = index" [src]="getStarImage(i,widget.averageRating)" alt="Star">
-                <!-- </ng-container> -->
               </div>
             </ng-container>
 
@@ -171,9 +174,6 @@
                 <span class="mr-1 orange-text" i18n>Duration</span>:
                 <mat-icon>access_time</mat-icon>
                 <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
-                <span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
-
-                </span>
               </div>
               <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.childNodes?.length}}</p>
               <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
@@ -198,19 +198,17 @@
         </mde-popover>
       </ng-container>
 
-      <!-- </div> -->
-      <div class="w-100 load-more-block" *ngIf="courseData&&courseData.length > 5">
-        <!-- <a class="blue-link float-right cursor-pointer" (click)="showMoreCourses()" i18n>View all</a> -->
+      <div class="w-100 load-more-block" *ngIf="getFilteredCourseData() && getFilteredCourseData().length > 5">
         <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5" i18n>Load More</button>
         <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5" i18n>Load Less</button>
       </div>
 
     </div>
-
   </div>
+
   <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
     class="course-container py-4 px-4 mb-4">
-    <section class="view-all-course-container" *ngIf="completedCourse?.length > 0">
+    <section class="view-all-course-container" *ngIf="getFilteredCompletedCourse()?.length > 0">
       <div class="mb-4 line-label bg-green flex scroller-container">
         <div class="w-100">
           <div class="flex flex-middle border-top">
@@ -218,28 +216,29 @@
           </div>
         </div>
       </div>
-      <ng-container *ngIf="completedCourse?.length > 0 && isMobile === false">
+      <ng-container *ngIf="getFilteredCompletedCourse()?.length > 0 && isMobile === false">
         <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-          <div *ngFor="let course of completedCourse">
+          <div *ngFor="let course of getFilteredCompletedCourse()">
             <ng-container>
               <ws-web-course-card [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
             </ng-container>
           </div>
         </ws-utils-horizontal-scroller>
       </ng-container>
-      <ng-container *ngIf="completedCourse?.length > 0 && isMobile === true">
-        <div *ngFor="let course of getDisplayedItems(completedCourse, showAllUserEnrollCourses)">
+      <ng-container *ngIf="getFilteredCompletedCourse()?.length > 0 && isMobile === true">
+        <div *ngFor="let course of getDisplayedItems(getFilteredCompletedCourse(), showAllCompletedCourses)">
           <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
         </div>
-        <button i18n *ngIf="completedCourse?.length > 5" (click)="viewAllItems('completedCourses')"
+        <button i18n *ngIf="getFilteredCompletedCourse()?.length > 5" (click)="viewAllItems('completedCourses')"
           class="view-all-course">
-          {{ showAllUserEnrollCourses ? 'Hide' : 'View all' }}
+          {{ showAllCompletedCourses ? 'Hide' : 'View all' }}
           <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
         </button>
       </ng-container>
     </section>
   </div>
 </div>
+
 <div class="container" *ngIf="!currentOrgData">
   <div class="centered-div">
     <h3 class="mt-15" i18n>No org details found</h3>

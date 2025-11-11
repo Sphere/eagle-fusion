@@ -53,7 +53,10 @@ export class BnrcLoginOtpComponent implements OnInit {
 
     const validateOtpMethod = currentUrl.includes('uttarpradesh/register')
       ? this.userProfileSvc.upsmfValidateOtp.bind(this.userProfileSvc)
-      : this.userProfileSvc.bnrcValidateOtp.bind(this.userProfileSvc)
+      : currentUrl.includes('madhyapradesh/register')
+        ? this.userProfileSvc.mpValidateOtp.bind(this.userProfileSvc)
+        : this.userProfileSvc.bnrcValidateOtp.bind(this.userProfileSvc)
+
 
     validateOtpMethod(request).subscribe(
       (res: any) => {

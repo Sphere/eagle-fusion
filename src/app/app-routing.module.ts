@@ -64,6 +64,7 @@ import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.compo
 import { NotificationsComponent } from './routes/notification/notification.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
+import { MpRegisterComponent } from './routes/mp-component copy/mp-register.component'
 
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
@@ -124,6 +125,13 @@ const routes: Routes = [
       title: 'Aastrika Sphere - Uttar Pradesh Registration'
     },
     component: UpsmfRegisterComponent,
+  },
+  {
+    path: 'madhyapradesh/register',
+    data: {
+      title: 'Aastrika Sphere - Madhya Pradesh Registration'
+    },
+    component: MpRegisterComponent,
   },
   {
     path: 'app/about-you',
