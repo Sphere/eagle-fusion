@@ -147,21 +147,22 @@
                     This field is required
                   </mat-error>
                 </mat-form-field>
+                <div>
+                  <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                    <mat-label>Institute Name</mat-label>
+                    <mat-select formControlName="instituteName">
+                      <mat-option *ngFor="let inst of institutes" [value]="inst">
+                        {{ inst }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="createAccountForm.get('instituteName')?.hasError('required')">
+                      This field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
               </div>
 
-              <div>
-                <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label>Institute Name</mat-label>
-                  <mat-select formControlName="instituteName">
-                    <mat-option *ngFor="let inst of institutes" [value]="inst">
-                      {{ inst }}
-                    </mat-option>
-                  </mat-select>
-                  <mat-error *ngIf="createAccountForm.get('instituteName')?.hasError('required')">
-                    This field is required
-                  </mat-error>
-                </mat-form-field>
-              </div>
+
 
 
 

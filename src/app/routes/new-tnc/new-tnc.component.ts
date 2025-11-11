@@ -386,6 +386,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
               profileRequest = Object.assign(profileRequest, obj)
               profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
+              profileRequest.profileReq.personalDetails["tncAccepted"] = 'true'
               const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
               const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
               if (orgSelectiveConfig && orgSelectiveConfig.orgId) {
@@ -465,7 +466,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     let homePath = '/page/home'
     let queryParams: any = {}
 
-    // ✅ Check if user belongs to selective org config
+    // Check if user belongs to selective org config
     if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
       const redirectUrl = orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
       console.log(`Redirecting to selective org [${scenario}]:`, redirectUrl)
@@ -481,7 +482,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         })
       }
     } else {
-      console.log(` Redirecting to home [${scenario}]`)
+      console.log(`Redirecting to home [${scenario}]`)
     }
 
     // Handle language prefix
@@ -498,9 +499,25 @@ export class NewTncComponent implements OnInit, OnDestroy {
     const cleanPath = fullPath.startsWith('/') ? fullPath.slice(1) : fullPath
     const pathSegments = cleanPath.split('/').filter(Boolean)
 
-    this.router.navigate([`/${pathSegments[0]}`, ...pathSegments.slice(1)], {
-      queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined
-    })
+    const finalPath = `/${pathSegments.join('/')}`
+    const queryString = Object.keys(queryParams).length
+      ? '?' +
+      Object.entries(queryParams)
+        .map(([key, val]) => `${key}=${encodeURIComponent(val as string)}`)
+        .join('&')
+      : ''
+
+    // Reload only if navigating to `/page/home`
+    if (finalPath === '/page/home') {
+      console.log('Reloading page for /page/home')
+      window.location.assign(`${location.origin}${finalPath}${queryString}`)
+    } else {
+      console.log('Navigating internally to:', finalPath)
+      this.router.navigate([finalPath], {
+        queryParams: Object.keys(queryParams).length ? queryParams : undefined,
+      })
+    }
   }
+
 
 }
