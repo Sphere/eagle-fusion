@@ -274,6 +274,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
+          const res = data["result"]["contentList"].find(
+            (obj: any) => obj.contentId === id
+          )
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
           result['type'] = 'PDF'
           this.contentSvc.changeMessage(result)
         })
@@ -293,6 +297,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
+          const res = data["result"]["contentList"].find(
+            (obj: any) => obj.contentId === id
+          )
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
           result['type'] = 'PDF'
           this.contentSvc.changeMessage(result)
         })
@@ -377,6 +385,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
               const result = data.result
               result['type'] = 'PDF'
+              const res = data["result"]["contentList"].find(
+                (obj: any) => obj.contentId === this.identifier
+              )
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
               this.contentSvc.changeMessage(result)
             })
           }
@@ -385,6 +397,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
               const result = data.result
               result['type'] = 'PDF'
+              const res = data["result"]["contentList"].find(
+                (obj: any) => obj.contentId === this.identifier
+              )
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
               this.contentSvc.changeMessage(result)
             })
           }

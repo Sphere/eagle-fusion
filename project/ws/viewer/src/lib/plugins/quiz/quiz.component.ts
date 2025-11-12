@@ -350,6 +350,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             if (data.params.status === "success") {
               const result = data.result
               result['type'] = 'assessment'
+              const res = data["result"]["contentList"].find(
+                (obj: any) => obj.contentId === this.htmlContent?.identifier
+              )
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'assessment' })
               this.contentSvc.changeMessage(result)
 
             }
@@ -587,6 +591,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             if (data.params.status === "success") {
               const result = data.result
               result['type'] = 'quiz'
+              const res = data["result"]["contentList"].find(
+                (obj: any) => obj.contentId === this.htmlContent?.identifier
+              )
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'quiz' })
               this.contentSvc.changeMessage(result)
             }
           })
@@ -897,6 +905,10 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             if (data.params.status === "success") {
               const result = data.result
               result['type'] = 'quiz'
+              const res = data["result"]["contentList"].find(
+                (obj: any) => obj.contentId === this.htmlContent?.identifier
+              )
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'quiz' })
               this.contentSvc.changeMessage(result)
 
             }

@@ -566,6 +566,10 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
           const result = data.result
           result['type'] = 'assessment'
+          const res = data["result"]["contentList"].find(
+            (obj: any) => obj.contentId === data.nextContentId
+          )
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'assessment' })
           this.contentSvc.changeMessage(result)
         })
 

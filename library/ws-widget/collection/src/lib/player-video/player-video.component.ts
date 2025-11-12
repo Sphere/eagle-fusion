@@ -433,6 +433,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
                   const result = data.result
                   result['type'] = 'Video'
+                  const res = data["result"]["contentList"].find(
+                    (obj: any) => obj.contentId === identifier
+                  )
+                  this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'video/mp4' })
                   this.contentSvc.changeMessage(result)
                 })
               // this.contentSvc.changeMessage('Video')
@@ -457,6 +461,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
                 const result = data.result
                 result['type'] = 'Video'
+                const res = data["result"]["contentList"].find(
+                  (obj: any) => obj.contentId === identifier
+                )
+                this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'video/mp4' })
                 this.contentSvc.changeMessage(result)
               })
             // this.contentSvc.changeMessage('Video')
@@ -479,6 +487,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
                   const result = data.result
                   result['type'] = 'Video'
+                  const res = data["result"]["contentList"].find(
+                    (obj: any) => obj.contentId === identifier
+                  )
+                  this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'video/mp4' })
                   this.contentSvc.changeMessage(result)
                 })
             }
@@ -550,6 +562,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           .realTimeProgressUpdate(this.widgetData.identifier, data, collectionId, batchId).subscribe((data: any) => {
             const result = data.result
             result['type'] = 'Video'
+            const res = data["result"]["contentList"].find(
+              (obj: any) => obj.contentId === this.widgetData.identifier
+            )
+            this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'video/mp4' })
             this.contentSvc.changeMessage(result)
           })
       }
