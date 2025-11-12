@@ -17,6 +17,7 @@ import {
   ValueService,
   ConfigurationsService,
   TelemetryService,
+  EventService,
 } from '@ws-widget/utils'
 // import moment from 'moment'
 // import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
@@ -74,6 +75,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private viewerSvc: ViewerUtilService,
     public playerStateService: PlayerStateService,
     private contentSvc: WidgetContentService,
+    private events: EventService
   ) { }
 
   ngOnInit() {
@@ -93,7 +95,16 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.isCompetency = this.route.snapshot.queryParams.competency
   }
   ngAfterViewInit() {
-    this.telemetrySvc.start('assessment', 'assessment-start', this.assesmentdata.generalData.identifier)
+    let object = {
+      "id": this.assesmentdata.generalData.identifier,
+      "type": "assessment",
+      "version": "",
+      "rollup": {
+        "l1": this.assesmentdata.generalData.collectionId,
+        "l2": this.assesmentdata.generalData.identifier
+      }
+    }
+    this.telemetrySvc.start('assessment', 'assessment-start', this.assesmentdata.generalData.identifier, object)
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
@@ -113,9 +124,13 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       contentId: this.assesmentdata.generalData.identifier,
       name: this.assesmentdata.generalData.name,
       moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+      "rollup": {
+        "l1": this.assesmentdata.generalData.collectionId,
+        "l2": this.assesmentdata.generalData.identifier
+      }
     }
 
-    this.telemetrySvc.start('assessment', 'assessment-close-start', this.assesmentdata.generalData.identifier)
+    this.telemetrySvc.start('assessment', 'assessment-close-start', this.assesmentdata.generalData.identifier, data)
     this.telemetrySvc.end('assessment', 'assessment-close-end', this.assesmentdata.generalData.identifier, data)
   }
 
@@ -164,6 +179,10 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
               contentId: this.assesmentdata.generalData.identifier,
               name: this.assesmentdata.generalData.name,
               moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+              "rollup": {
+                "l1": this.assesmentdata.generalData.collectionId,
+                "l2": this.assesmentdata.generalData.identifier
+              }
             }
             this.telemetrySvc.end('assessment', 'assessment-auto-submit', this.assesmentdata.generalData.identifier, data)
             this.isIdeal = true
@@ -196,7 +215,28 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     } else {
       this.questionAnswerHash[question.questionId] = [optionId]
     }
+    this.generateInteractTelemetry("", question, qindex)
     this.questionAnswerHash['qslideIndex'] = qindex
+  }
+
+  generateInteractTelemetry(
+    status?: string,
+    question?: NSQuiz.IQuestion,
+    qindex?: number
+  ) {
+    const value = new Map()
+    value["courseID"] = this.assesmentdata?.generalData?.collectionId
+    value["questionType"] = question ? question.questionType : ""
+    value["identifier"] = this.assesmentdata?.generalData?.identifier
+    value["questionId"] = question ? question.questionId : ""
+    value["qindex"] = question ? qindex : ""
+    this.events.raiseInteractTelemetry(status ? 'TOUCH' : 'select-option', status
+      ? status === "next"
+        ? 'next-question-clicked'
+        : 'previous-question-clicked'
+      : 'answer-clicked',
+      value
+    )
   }
 
   proceedToSubmit() {
@@ -248,6 +288,10 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           contentId: this.assesmentdata.generalData.identifier,
           name: this.assesmentdata.generalData.name,
           moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          "rollup": {
+            "l1": this.assesmentdata.generalData.collectionId,
+            "l2": this.assesmentdata.generalData.identifier
+          }
         }
         this.telemetrySvc.end('assessment', 'assessment-submit', this.assesmentdata.generalData.identifier, data)
         window.scrollTo(0, 0)
@@ -286,6 +330,10 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           contentId: this.assesmentdata.generalData.identifier,
           name: this.assesmentdata.generalData.name,
           moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          "rollup": {
+            "l1": this.assesmentdata.generalData.collectionId,
+            "l2": this.assesmentdata.generalData.identifier
+          }
         }
         this.telemetrySvc.end('competency', 'competency-submit', this.assesmentdata.generalData.identifier, data1)
         window.scrollTo(0, 0)
@@ -526,6 +574,12 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
   nextQuestion() {
     // tslint:disable-next-line:max-line-length
+    this.generateInteractTelemetry(
+      "next",
+      this.assesmentdata.questions.questions[
+      this.questionAnswerHash["qslideIndex"]
+      ]
+    )
     if (this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']] && this.assesmentdata.questions.questions[this.questionAnswerHash['qslideIndex']].questionType === 'mtf') {
       const submitQuizJson = JSON.parse(JSON.stringify(this.assesmentdata.questions))
       let userAnswer: any = {}
@@ -587,7 +641,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.disableNext = false
     }
     this.diablePrevious = true
-
+    this.generateInteractTelemetry("back")
     this.progressbarValue -= 100 / this.totalQuestion
     if (this.quizService.questionState.active_slide_index === 0) {
       return

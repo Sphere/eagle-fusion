@@ -382,8 +382,16 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-
-      this.telemetrySvc.start('video', 'video-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier)
+      let object = {
+        "id": identifier,
+        "type": "video/mp4",
+        "version": "",
+        "rollup": {
+          "l1": collectionId,
+          "l2": identifier
+        }
+      }
+      this.telemetrySvc.start('video', 'video-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, object)
 
       let userId
       if (this.configSvc.userProfile) {
@@ -411,6 +419,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             contentId: this.widgetData.identifier,
             name: this.viewerDataSvc.resource!.name,
             moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+            "rollup": {
+              "l1": collectionId,
+              "l2": identifier
+            }
           }
           this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
@@ -433,6 +445,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               contentId: this.widgetData.identifier,
               name: this.viewerDataSvc.resource!.name,
               moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+              "rollup": {
+                "l1": collectionId,
+                "l2": identifier
+              }
             }
             this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
@@ -451,6 +467,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                 contentId: this.widgetData.identifier,
                 name: this.viewerDataSvc.resource!.name,
                 moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+                "rollup": {
+                  "l1": collectionId,
+                  "l2": identifier
+                }
               }
               this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
