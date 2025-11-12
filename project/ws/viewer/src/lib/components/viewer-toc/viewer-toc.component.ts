@@ -57,12 +57,6 @@ interface ICollectionCard {
   duration: number
   redirectUrl: string | null
 }
-@NgModule({
-  imports: [
-    MatTooltipModule,
-
-  ],
-})
 @Component({
   selector: 'viewer-viewer-toc',
   templateUrl: './viewer-toc.component.html',

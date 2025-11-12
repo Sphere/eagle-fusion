@@ -51,6 +51,7 @@ import { FilterResourcePipe } from './pipes/filter-resource.pipe'
 // import { BtnMailUserModule } from './../../../../../library/ws-widget/collection/src/lib/btn-mail-user/btn-mail-user.module'
 import { UserImageModule } from './../../../../../library/ws-widget/collection/src/lib/_common/user-image/user-image.module'
 import { AppTocModule } from '@ws/app'
+import { MatTooltipModule } from '@angular/material/tooltip'
 @NgModule({
   declarations: [ViewerComponent, ViewerTocComponent, FilterResourcePipe],
   imports: [
@@ -62,6 +63,7 @@ import { AppTocModule } from '@ws/app'
     MatButtonModule,
     MatDividerModule,
     MatSlideToggleModule,
+    MatTooltipModule,
     MatListModule,
     MatTreeModule,
     MatInputModule,
