@@ -68,34 +68,37 @@ export class MyCoursesComponent implements OnInit {
 
           // Only process courses with competency === false
           // Only process courses where competency is either false or not present
-          if (competency === false) {
-            if (key.completionPercentage !== 100) {
-              const myCourseObject = {
-                identifier: key.content.identifier,
-                appIcon: key.content.appIcon,
-                thumbnail: key.content.thumbnail,
-                name: key.content.name,
-                dateTime: key.dateTime,
-                completionPercentage: key.completionPercentage,
-                sourceName: key.content.sourceName,
-                issueCertification: key.content.issueCertification
-              }
+          if (key?.content?.identifier) {
 
-              this.startedCourse.push(myCourseObject)
-              this.isLoading = false
-            } else {
-              const completedCourseObject = {
-                identifier: key.content.identifier,
-                appIcon: key.content.appIcon,
-                thumbnail: key.content.thumbnail,
-                name: key.content.name,
-                dateTime: key.dateTime,
-                completionPercentage: key.completionPercentage,
-                sourceName: key.content.sourceName,
-                issueCertification: key.content.issueCertification
-              }
+            if (competency === false) {
+              if (key.completionPercentage !== 100) {
+                const myCourseObject = {
+                  identifier: key.content.identifier,
+                  appIcon: key.content.appIcon,
+                  thumbnail: key.content.thumbnail,
+                  name: key.content.name,
+                  dateTime: key.dateTime,
+                  completionPercentage: key.completionPercentage,
+                  sourceName: key.content.sourceName,
+                  issueCertification: key.content.issueCertification
+                }
 
-              this.completedCourse.push(completedCourseObject)
+                this.startedCourse.push(myCourseObject)
+                this.isLoading = false
+              } else {
+                const completedCourseObject = {
+                  identifier: key.content.identifier,
+                  appIcon: key.content.appIcon,
+                  thumbnail: key.content.thumbnail,
+                  name: key.content.name,
+                  dateTime: key.dateTime,
+                  completionPercentage: key.completionPercentage,
+                  sourceName: key.content.sourceName,
+                  issueCertification: key.content.issueCertification
+                }
+
+                this.completedCourse.push(completedCourseObject)
+              }
             }
           }
         })
