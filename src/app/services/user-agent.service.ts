@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 
 @Injectable({
@@ -5,7 +6,7 @@ import { Injectable } from '@angular/core'
 })
 export class UserAgentResolverService {
 
-  constructor(
+  constructor(private http: HttpClient
   ) { }
 
   getUserAgent(): any {
@@ -129,6 +130,21 @@ export class UserAgentResolverService {
       return utm_source && utm_source.trim() !== ''
         ? utm_source
         : ""
+    }
+  }
+
+  async isEditableForSphere(data: any): Promise<boolean> {
+    try {
+      const orgData = await this.http
+        .get<{ id: string }[]>(`https://aastar-app-assets.s3.ap-south-1.amazonaws.com/sphere_profile_update_org.json`)
+        .toPromise()
+      const allowedOrgIds = orgData.map(item => item.id)
+      const hasAccess = allowedOrgIds.includes(data?.rootOrgId)
+      console.log('Editable Access Check:', { rootOrgId: data?.rootOrgId, hasAccess })
+      return hasAccess
+    } catch (error) {
+      console.error('Error fetching org config:', error)
+      return false
     }
   }
 
