@@ -33,6 +33,7 @@ export class PublicLoginComponent implements OnInit {
   emailPhoneType: any = 'phone'
   isEkshamtaLogin = false
   routerLink = 'public/home'
+  isOrgSelectiveCourse: boolean = false
   constructor(
     private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
@@ -74,6 +75,9 @@ export class PublicLoginComponent implements OnInit {
         this.routerLink = '/public/home'
       }
     })
+    if (localStorage.getItem('isOrgSelectiveCourse') === 'true') {
+      this.isOrgSelectiveCourse = true
+    }
     this.initializeForm()
   }
 

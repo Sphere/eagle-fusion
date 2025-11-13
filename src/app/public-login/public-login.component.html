@@ -15,7 +15,8 @@
         <div class="max-container" *ngIf="!otpPage">
           <div class="flex justify-content-between top-block">
             <div class="flex justify-content-between align-items-center back-btn">
-              <button (click)="redirect('createAccount')" mat-icon-button [disableRipple]="true" class="back-icon">
+              <button *ngIf="!isOrgSelectiveCourse" (click)="redirect('createAccount')" mat-icon-button
+                [disableRipple]="true" class="back-icon">
                 <mat-icon>chevron_left</mat-icon>
               </button>
             </div>
@@ -26,10 +27,12 @@
           <div class="ui header mtb">
             <h1 class="mb-0" i18n> Welcome! </h1>
           </div>
-          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="!isEkshamtaLogin">Login with your Aastrika
+          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse">
+            Login with your Aastrika
             account
           </h4>
-          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="isEkshamtaLogin">Login with your account
+          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="isEkshamtaLogin||isOrgSelectiveCourse">
+            Login with your account
           </h4>
           <div class="field  type-container mw-100">
             <div class="heading" style="margin-right: 30px;">
@@ -232,7 +235,8 @@
   <div class="login-page-content max-container" *ngIf="!otpPage">
     <div *ngIf="(isXSmall$ | async) === true" class="flex justify-content-between top-block">
       <div class="flex justify-content-between align-items-center back-btn">
-        <button (click)="redirect('createAccount')" mat-icon-button [disableRipple]="true" class="back-icon">
+        <button *ngIf="!isOrgSelectiveCourse" (click)="redirect('createAccount')" mat-icon-button [disableRipple]="true"
+          class="back-icon">
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
@@ -243,10 +247,12 @@
     <div class="padding-20 ui header mtb1">
       <h1 class="welcome" i18n> Welcome! </h1>
     </div>
-    <h4 *ngIf="isEkshamtaLogin" class=" padding-20 info-text fwb" style="font-weight: 500;margin-top:0px" i18n>Login
+    <h4 *ngIf="isEkshamtaLogin||isOrgSelectiveCourse" class=" padding-20 info-text fwb"
+      style="font-weight: 500;margin-top:0px" i18n>Login
       with your account
     </h4>
-    <h4 *ngIf="!isEkshamtaLogin" class=" padding-20 info-text fwb" style="font-weight: 500;margin-top:0px" i18n>Login
+    <h4 *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class=" padding-20 info-text fwb"
+      style="font-weight: 500;margin-top:0px" i18n>Login
       with your Aastrika account
     </h4>
     <!-- <div class="formMsg  textCenter">
