@@ -229,7 +229,15 @@ color: #000000;
   }
 }
 
-::ng-deep lib-discuss-card .discuss-card-title {
+::ng-deep lib-discuss-card {
+.discuss-card-content {
+  background: transparent !important;
+}
+.discuss-card-title {
+  font-weight: 400 !important;
+}
+}
+.discuss-card-title {
   font-weight: 400 !important;
 }
 
