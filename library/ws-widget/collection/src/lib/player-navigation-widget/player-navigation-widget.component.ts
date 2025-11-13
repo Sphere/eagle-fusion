@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { PlayerStateService } from '../../../../../../project/ws/viewer/src/lib/player-state.service'
+import { EventService } from '../../../../utils/src/public-api'
 
 @Component({
   selector: 'app-player-navigation-widget',
@@ -18,6 +19,7 @@ export class PlayerNavigationWidgetComponent implements OnInit {
   constructor(
     private viewerDataSvc: PlayerStateService,
     private router: Router,
+    private events: EventService
   ) { }
 
   ngOnInit() {
@@ -33,11 +35,13 @@ export class PlayerNavigationWidgetComponent implements OnInit {
 
   navigateToPreResource() {
     if (this.prevResourceUrl) {
+      this.generateInteractTelemetry('previous', this.prevResourceUrl.split('/').pop())
       this.router.navigate([this.prevResourceUrl], { queryParamsHandling: 'preserve' })
     }
   }
 
   navigateToNextResource() {
+    this.generateInteractTelemetry('next', this.nextResourceUrl?.split('/').pop())
     this.router.navigate([this.nextResourceUrl ? this.nextResourceUrl : ''], { queryParamsHandling: 'preserve' })
   }
 
@@ -50,5 +54,15 @@ export class PlayerNavigationWidgetComponent implements OnInit {
   }
   stopPropagation() {
     return
+  }
+
+  generateInteractTelemetry(status, identifier?) {
+    const value = new Map()
+    value['identifier'] = identifier
+    this.events.raiseInteractTelemetry(
+      'select-content',
+      `play-${status}-content`,
+      value
+    )
   }
 }

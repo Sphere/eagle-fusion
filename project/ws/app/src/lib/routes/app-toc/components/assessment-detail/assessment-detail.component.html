@@ -1,12 +1,13 @@
 <div class="overview-container">
 
   <div class="header1">
-    <div *ngIf="resourceLink; else elseRouterLock">
+    <!-- <div *ngIf="resourceLink; else elseRouterLock">
       <a [routerLink]="resourceLink?.url? resourceLink.url : content.viewerUrl "
         [queryParams]="resourceLink?.queryParams?resourceLink.queryParams : 'preserve' ">
         {{content.name}}
       </a>
-    </div>
+    </div> -->
+    {{ content.name }}
     <ng-template #elseRouterLock>
       {{content.name}}
     </ng-template>
