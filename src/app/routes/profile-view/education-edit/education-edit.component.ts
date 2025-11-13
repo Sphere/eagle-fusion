@@ -28,6 +28,7 @@ export class EducationEditComponent implements OnInit {
   change: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
+  isEditableForSphere: boolean = false
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -112,8 +113,14 @@ export class EducationEditComponent implements OnInit {
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
+        async (data: any) => {
           if (data) {
+            this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
+            if (this.isEditableForSphere) {
+              this.educationForm.enable()
+            } else {
+              this.educationForm.disable()
+            }
             this.userProfileData = data.profileDetails.profileReq
           }
         })

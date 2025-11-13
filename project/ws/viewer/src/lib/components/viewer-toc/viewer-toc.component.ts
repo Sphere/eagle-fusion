@@ -1,10 +1,8 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
-  NgModule,
   Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
-import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -57,12 +55,6 @@ interface ICollectionCard {
   duration: number
   redirectUrl: string | null
 }
-@NgModule({
-  imports: [
-    MatTooltipModule,
-
-  ],
-})
 @Component({
   selector: 'viewer-viewer-toc',
   templateUrl: './viewer-toc.component.html',

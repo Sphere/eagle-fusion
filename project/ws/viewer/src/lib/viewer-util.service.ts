@@ -1,4 +1,4 @@
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, EventService } from '@ws-widget/utils'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import {
@@ -25,7 +25,8 @@ export class ViewerUtilService {
   competencyAsessment = new BehaviorSubject<any>(false)
   competencyAsessment$ = this.competencyAsessment.asObservable()
   constructor(private http: HttpClient, private configservice: ConfigurationsService,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
+    private events: EventService
   ) { }
 
   private currentResource = new BehaviorSubject<NsContent.IContent | null>(null)
@@ -206,6 +207,8 @@ export class ViewerUtilService {
       if (percentage > 95) {
         percentage = 100
       }
+      let mime_type = request.mime_type
+      this.generateInteractTelemetry('progress-update-attempt', { contentId, checkCollectionId, percentage, mime_type })
       req = {
         request: {
           userId: this.configservice.userProfile.userId || '',
@@ -328,6 +331,21 @@ export class ViewerUtilService {
         this.downloadRegex,
         this.regexDownloadReplace,
       ),
+    )
+  }
+
+  generateInteractTelemetry(actionId: string, contentData) {
+    let objRollup = { l1: '', l2: '' }
+    objRollup.l1 = contentData.courseId || ''
+    objRollup.l2 = contentData.contentId || ''
+    const value = new Map()
+    value['identifier'] = contentData?.contentId || ''
+    value['progress'] = contentData?.completionPercentage || contentData?.percentage || 0
+    value['rollup'] = objRollup
+    this.events.raiseInteractTelemetry(
+      actionId,
+      contentData.mimeType,
+      value
     )
   }
 

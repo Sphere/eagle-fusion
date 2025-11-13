@@ -530,8 +530,17 @@ export class SCORMAdapterService {
           console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '488')
           this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
             if (this.scormData) {
+              let object = {
+                "id": this.contentId,
+                "type": "scorm",
+                "version": "",
+                "rollup": {
+                  "l1": this.activatedRoute.snapshot.queryParams.collectionId,
+                  "l2": this.contentId
+                }
+              }
               this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
-                this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
+                this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, object)
               if (this.activatedRoute.snapshot.queryParams.collectionId) {
                 let data2: any = {
                   courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -541,7 +550,11 @@ export class SCORMAdapterService {
                   moduleId: this.parent,
                   duration: this.scormData["cmi.core.session_time"],
                   type: 'scrom',
-                  mode: 'scrom-play'
+                  mode: 'scrom-play',
+                  "rollup": {
+                    "l1": this.activatedRoute.snapshot.queryParams.collectionId,
+                    "l2": this.contentId
+                  }
                 }
                 this.telemetrySvc.end('scorm', 'scorm-close', this.activatedRoute.snapshot.queryParams.collectionId ?
                   this.activatedRoute.snapshot.queryParams.collectionId : this.contentId, data2)
