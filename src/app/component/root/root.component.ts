@@ -739,7 +739,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     res.forEach((key: any) => {
       if (key?.content?.identifier) {
-
         if (key.completionPercentage !== 100) {
           myCourseObject = {
             identifier: key.content.identifier,
@@ -773,6 +772,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     this.userEnrollCourse = myCourse
   }
+
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
     try {

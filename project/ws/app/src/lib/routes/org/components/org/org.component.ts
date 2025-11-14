@@ -253,23 +253,26 @@ export class OrgComponent implements OnInit, OnDestroy {
     console.log("orgFltered", res)
 
     res.forEach((key: any) => {
-      const courseData = {
-        identifier: key.content?.identifier,
-        appIcon: key.content?.appIcon,
-        thumbnail: key.content?.thumbnail,
-        name: key.content?.name,
-        dateTime: key.dateTime,
-        completionPercentage: key.completionPercentage,
-        sourceName: key.content?.sourceName,
-        issueCertification: key.content?.issueCertification,
-        averageRating: key.content?.averageRating,
-        lang: key.content?.lang || 'en' // Add language property
-      }
+      if (key?.content?.identifier) {
 
-      if (key.completionPercentage < 100) {
-        this.userEnrollCourse.push(courseData)
-      } else {
-        this.completedCourse.push(courseData)
+        const courseData = {
+          identifier: key.content?.identifier,
+          appIcon: key.content?.appIcon,
+          thumbnail: key.content?.thumbnail,
+          name: key.content?.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content?.sourceName,
+          issueCertification: key.content?.issueCertification,
+          averageRating: key.content?.averageRating,
+          lang: key.content?.lang || 'en' // Add language property
+        }
+
+        if (key.completionPercentage < 100) {
+          this.userEnrollCourse.push(courseData)
+        } else {
+          this.completedCourse.push(courseData)
+        }
       }
     })
     console.log("this.myCourse", this.completedCourse, this.userEnrollCourse)
