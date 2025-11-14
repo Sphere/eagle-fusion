@@ -1729,7 +1729,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">211</context>
+          <context context-type="linenumber">213</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b9aa56c112946abe350837e71710715a98a879cd" datatype="html">
@@ -1746,7 +1746,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">213</context>
+          <context context-type="linenumber">215</context>
         </context-group>
       </trans-unit>
       <trans-unit id="053e81597467a642e04109eebe934c84e6a1f467" datatype="html">
@@ -1761,23 +1761,23 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">216</context>
+          <context context-type="linenumber">218</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">102</context>
+          <context context-type="linenumber">105</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">140</context>
+          <context context-type="linenumber">143</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">325</context>
+          <context context-type="linenumber">331</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">360</context>
+          <context context-type="linenumber">366</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a8b24f2c3a5d0edfeed7074907536ed10540cba6" datatype="html">
@@ -1794,7 +1794,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">218</context>
+          <context context-type="linenumber">220</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f4e5648c91dc2b60e83d03278c812783251b1ba1" datatype="html">
@@ -2934,11 +2934,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">97</context>
+          <context context-type="linenumber">100</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">320</context>
+          <context context-type="linenumber">326</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4d528d81243448524f3e1de53c8b67e41aa7639f" datatype="html">
@@ -2978,7 +2978,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">308</context>
+          <context context-type="linenumber">314</context>
         </context-group>
       </trans-unit>
       <trans-unit id="16778915b3181084eb7357a11b609bc0983f78c5" datatype="html">
@@ -3021,11 +3021,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">203</context>
+          <context context-type="linenumber">206</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">428</context>
+          <context context-type="linenumber">434</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
@@ -3079,11 +3079,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">197</context>
+          <context context-type="linenumber">200</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">421</context>
+          <context context-type="linenumber">427</context>
         </context-group>
       </trans-unit>
       <trans-unit id="34557152cff7bc7db72a2a8706794d7fba4bac86" datatype="html">
@@ -3267,7 +3267,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">211</context>
+          <context context-type="linenumber">226</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3a8e04b34236be1cb450987973bcb7b33d483e35" datatype="html">
@@ -3417,7 +3417,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">196</context>
+          <context context-type="linenumber">211</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
@@ -3436,11 +3436,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">171</context>
+          <context context-type="linenumber">174</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">391</context>
+          <context context-type="linenumber">397</context>
         </context-group>
       </trans-unit>
       <trans-unit id="244aae9346da82b0922506c2d2581373a15641cc" datatype="html">
@@ -3451,11 +3451,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">175</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">392</context>
+          <context context-type="linenumber">398</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9cfc24b69059eceab71ce2989a0edde02e75db0c" datatype="html">
@@ -3470,11 +3470,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">173</context>
+          <context context-type="linenumber">176</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">393</context>
+          <context context-type="linenumber">399</context>
         </context-group>
       </trans-unit>
       <trans-unit id="7df6f6401d1ea30cce7c8caa4670822678062683" datatype="html">
@@ -3485,11 +3485,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">175</context>
+          <context context-type="linenumber">178</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">395</context>
+          <context context-type="linenumber">401</context>
         </context-group>
       </trans-unit>
       <trans-unit id="becb1e5d5695065307b659fa0a3385478d955933" datatype="html">
@@ -3507,11 +3507,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">182</context>
+          <context context-type="linenumber">185</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">402</context>
+          <context context-type="linenumber">408</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0bff55758cd0da9aee9e90d4c3a660862a93561d" datatype="html">
@@ -3767,19 +3767,19 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">56</context>
+          <context context-type="linenumber">59</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">123</context>
+          <context context-type="linenumber">126</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">279</context>
+          <context context-type="linenumber">285</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">343</context>
+          <context context-type="linenumber">349</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3ac65f23ba14ab87a62722724b3ec3f0ea367185" datatype="html">
@@ -3791,56 +3791,11 @@
           <context context-type="linenumber">133</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f4b73761d75e38e805dbd99127e3b8122345b6be" datatype="html">
-        <source>District</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">140</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">50</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">92</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">131</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
-          <context context-type="linenumber">313</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
-          <context context-type="linenumber">212</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f108f26c1f73b22488fc6d3842835f343e66d512" datatype="html">
-        <source>
-                      <x id="INTERPOLATION" equiv-text="{{ district }}"/>
-                    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">142</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="537864df71e5ae108d8625f42b907e3c8d9c11b7" datatype="html">
-        <source>
-                    This field is required
-                  </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">147</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="dfed6453bdc7e813c2cf4eea0671888f5b3658f4" datatype="html">
         <source>Choose your Login method</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">156</context>
+          <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f7295124c443e791cce0cf94a21f2df169942c7c" datatype="html">
@@ -3849,7 +3804,7 @@
                   </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">160</context>
+          <context context-type="linenumber">175</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d3afaa2117dd52cb1f26a60f6f50e6b609de0c17" datatype="html">
@@ -3858,7 +3813,7 @@
                   </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">164</context>
+          <context context-type="linenumber">179</context>
         </context-group>
       </trans-unit>
       <trans-unit id="474d382268fe22b2dbbafd2e0155f9b0fb8bc95a" datatype="html">
@@ -3867,14 +3822,14 @@
                 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">172</context>
+          <context context-type="linenumber">187</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b2a39bdc905ef652ae26dee6261e777b69d37712" datatype="html">
         <source>Set your password</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">203</context>
+          <context context-type="linenumber">218</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dac37016505c99ed81a02c85a4d77ffb8815d1dc" datatype="html">
@@ -3884,7 +3839,7 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">221</context>
+          <context context-type="linenumber">236</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b2c46a87e970798c6f8ef6bd9f62cc107bcf0e76" datatype="html">
@@ -3894,7 +3849,7 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">226</context>
+          <context context-type="linenumber">241</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0de974e40a4cb69d1ac5dff08b922baf2ee3c035" datatype="html">
@@ -3904,14 +3859,14 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">232</context>
+          <context context-type="linenumber">247</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c1b7e6d75ff4285c7636c67e5ef259629b81725b" datatype="html">
         <source>Confirm Password</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">240</context>
+          <context context-type="linenumber">255</context>
         </context-group>
       </trans-unit>
       <trans-unit id="95d3ff5cb513c66070e4e4c39e6fcc8a0af6eecb" datatype="html">
@@ -3921,7 +3876,7 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">250</context>
+          <context context-type="linenumber">265</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5025bc553ecf3f47a9e621cb8d5776b76a58512f" datatype="html">
@@ -3931,42 +3886,42 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">255</context>
+          <context context-type="linenumber">270</context>
         </context-group>
       </trans-unit>
       <trans-unit id="41f3b637fb49d7eb6a0ab5bb316f743b1d521554" datatype="html">
         <source>Password Requirements:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">263</context>
+          <context context-type="linenumber">278</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5bd4658c1ba4987c522465ac6e00ee9b23ec847b" datatype="html">
         <source>Minimum 8 characters</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">268</context>
+          <context context-type="linenumber">283</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1f98ce57e75e0c63f71fb37b785167f9fc257125" datatype="html">
         <source>One capital letter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">274</context>
+          <context context-type="linenumber">289</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ca7ffb7f094339a2159a3196187f858740cdf306" datatype="html">
         <source>One number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">280</context>
+          <context context-type="linenumber">295</context>
         </context-group>
       </trans-unit>
       <trans-unit id="156fdfa04531d492b2ad8ccaf1b1780746333778" datatype="html">
         <source>One special character</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">286</context>
+          <context context-type="linenumber">301</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fbe8ed04887bb2f2687d8e3153aef4711474660f" datatype="html">
@@ -3975,35 +3930,35 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">292</context>
+          <context context-type="linenumber">307</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6c180c80bbc34931e1fef58561b3654e7c02b547" datatype="html">
         <source>Thanks for Signing up</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">317</context>
+          <context context-type="linenumber">332</context>
         </context-group>
       </trans-unit>
       <trans-unit id="91f09ae4014bbe91e6841761d45d4e7c6ee56cab" datatype="html">
         <source>Signup successful</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">317</context>
+          <context context-type="linenumber">332</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9d5aefcfd4cf8fbf0d4efcab399e8d7077245a09" datatype="html">
         <source>Error Signing up!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">320</context>
+          <context context-type="linenumber">335</context>
         </context-group>
       </trans-unit>
       <trans-unit id="16dff0311b1703193ba37ccc99fedba5d1207714" datatype="html">
         <source>unable to signup</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">320</context>
+          <context context-type="linenumber">335</context>
         </context-group>
       </trans-unit>
       <trans-unit id="370baa3e2374873e05277fd601dc2af10cc49203" datatype="html">
@@ -4111,7 +4066,7 @@
           <context context-type="linenumber">249</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mp-component copy/mp-register.component.html</context>
+          <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
           <context context-type="linenumber">78</context>
         </context-group>
       </trans-unit>
@@ -4130,8 +4085,12 @@
           <context context-type="linenumber">131</context>
         </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="sourcefile">src/app/routes/bnrc-component/bnrc-register.component.html</context>
+          <context context-type="linenumber">313</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/profile-view/personal-detail-edit/personal-detail-edit.component.html</context>
+          <context context-type="linenumber">212</context>
         </context-group>
       </trans-unit>
       <trans-unit id="43e7c17796df4af893abda2c95b8133de7cd74ce" datatype="html">
@@ -4475,20 +4434,12 @@
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
           <context context-type="linenumber">145</context>
         </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">98</context>
-        </context-group>
       </trans-unit>
       <trans-unit id="7ee284ea207ba05c097a213f72f08878499464d9" datatype="html">
         <source>Posting Facility / पोस्टिंग सुविधा <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
           <context context-type="linenumber">157</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">110</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3128ab14aa4159b7d767af2aaaf9063603401776" datatype="html">
@@ -4591,6 +4542,20 @@
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
           <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="560c8fc88907a8198f67a99983220721ad696848" datatype="html">
+        <source>Facility Type / स्वास्थ्य संस्था का प्रकार <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
+          <context context-type="linenumber">98</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="4cc01ea4574af6dcc452d5545750fa5eb6b1ddcb" datatype="html">
+        <source>Posting Facility / पोस्टिंग स्वास्थ्य संस्था <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
+          <context context-type="linenumber">110</context>
         </context-group>
       </trans-unit>
       <trans-unit id="37bd0b93bdae47b3a7f75a270b760d0d8a1fa12d" datatype="html">
@@ -5876,7 +5841,7 @@
         <source>Minutes</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">28</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
@@ -5887,7 +5852,7 @@
         <source>Questions</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">33</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
@@ -5902,7 +5867,7 @@
         <source>Required</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/app/src/lib/routes/app-toc/components/assessment-detail/assessment-detail.component.html</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">37</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-overview/assesment-overview.component.html</context>
@@ -6484,21 +6449,21 @@
                   details</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">173</context>
+          <context context-type="linenumber">174</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4cd979821c89535df23df1c8ac8f260673610d90" datatype="html">
         <source>Resume</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">177</context>
         </context-group>
       </trans-unit>
       <trans-unit id="bf612b44e3ba6c05c219aceac6a6ed6c37df1dc4" datatype="html">
         <source>Complete</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">182</context>
+          <context context-type="linenumber">183</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0e090371325e4b07a054bca8432614ff946e141c" datatype="html">
@@ -6558,35 +6523,37 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">22</context>
+          <context context-type="linenumber">23</context>
         </context-group>
       </trans-unit>
       <trans-unit id="019dc5cd8308b25e9c4e14dadbd3d73a6606021b" datatype="html">
         <source> Welcome! </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">27</context>
+          <context context-type="linenumber">28</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">244</context>
+          <context context-type="linenumber">248</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="0b219858668be882d19bcfe7b5db27212165ddb2" datatype="html">
-        <source>Login with your Aastrika
+      <trans-unit id="f641bfea324041fcbb2d4b4aa3b7a1b1a8f678d6" datatype="html">
+        <source>
+            Login with your Aastrika
             account
           </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">29</context>
+          <context context-type="linenumber">30</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="515410c94f9ebd1524aa6a1ee5c0dd69578757bd" datatype="html">
-        <source>Login with your account
+      <trans-unit id="afb61113d09aa5b9b229a2473b44ccef35f217c5" datatype="html">
+        <source>
+            Login with your account
           </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">32</context>
+          <context context-type="linenumber">34</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3d0417900c55ceb396ddee511f9f0dba4f46441c" datatype="html">
@@ -6595,7 +6562,7 @@
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">39</context>
+          <context context-type="linenumber">42</context>
         </context-group>
       </trans-unit>
       <trans-unit id="51f66cb310de71f53570a39ebf74c20389e75ee8" datatype="html">
@@ -6604,7 +6571,7 @@
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">47</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="63b8f8b0e0093c7953bc05718e3fa3db006ea6f9" datatype="html">
@@ -6612,22 +6579,22 @@
                     email or number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">61</context>
+          <context context-type="linenumber">64</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">128</context>
+          <context context-type="linenumber">131</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e13796974274fd6b6bbc61a60fac4e14e6e29b6d" datatype="html">
         <source>Enter Password</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">291</context>
+          <context context-type="linenumber">297</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5fc9523dfe09cc4fe07fd4a77c17de38aba9af50" datatype="html">
@@ -6635,7 +6602,7 @@
                       email or number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">79</context>
+          <context context-type="linenumber">82</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1c7c47c2bc370a40579ecb0357e22428faf8d04e" datatype="html">
@@ -6643,7 +6610,7 @@
                   This field is required</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">85</context>
+          <context context-type="linenumber">88</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d612c718ebafd2477dcf33f136e9c79c55340953" datatype="html">
@@ -6651,37 +6618,37 @@
                   Password?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">92</context>
+          <context context-type="linenumber">95</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d8f431a5cd267360b3df8c205f5a99e4386fcc26" datatype="html">
         <source>Create an Account</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">111</context>
+          <context context-type="linenumber">114</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">147</context>
+          <context context-type="linenumber">150</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">332</context>
+          <context context-type="linenumber">338</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">367</context>
+          <context context-type="linenumber">373</context>
         </context-group>
       </trans-unit>
       <trans-unit id="18e212176ce348abbff20d672b73f488920b320f" datatype="html">
         <source>Get OTP</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">135</context>
+          <context context-type="linenumber">138</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">355</context>
+          <context context-type="linenumber">361</context>
         </context-group>
       </trans-unit>
       <trans-unit id="56baaba2bf142b101bca850f3b20c4bb12751fee" datatype="html">
@@ -6691,18 +6658,18 @@
                 </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">166</context>
+          <context context-type="linenumber">169</context>
         </context-group>
       </trans-unit>
       <trans-unit id="976fa36d952739140bf66489d332e108cc4e1fee" datatype="html">
         <source><x id="INTERPOLATION" equiv-text="{{loginForm.value.emailOrMobile}}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">176</context>
+          <context context-type="linenumber">179</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">396</context>
+          <context context-type="linenumber">402</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f40951acd2d210277abf1ae59c3b61e3964f2276" datatype="html">
@@ -6710,11 +6677,11 @@
                     OTP</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">207</context>
+          <context context-type="linenumber">210</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">432</context>
+          <context context-type="linenumber">438</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b4c15d181803ce0f3635bc4998772e2fc92c360e" datatype="html">
@@ -6723,7 +6690,7 @@
       </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">239</context>
+          <context context-type="linenumber">243</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c526fedd7b94cfa6921b0fac0d36a21ea91cdee5" datatype="html">
@@ -6732,7 +6699,7 @@
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">246</context>
+          <context context-type="linenumber">251</context>
         </context-group>
       </trans-unit>
       <trans-unit id="72a49f72dc9e0577b98cad348385723bd878cfea" datatype="html">
@@ -6741,7 +6708,7 @@
     </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">249</context>
+          <context context-type="linenumber">255</context>
         </context-group>
       </trans-unit>
       <trans-unit id="914af8e3800ce5debe7b936d27be93cf6f42eab0" datatype="html">
@@ -6750,7 +6717,7 @@
         </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">262</context>
+          <context context-type="linenumber">268</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4307c541c57812ea33d864288bc964391395a24b" datatype="html">
@@ -6759,7 +6726,7 @@
         </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">270</context>
+          <context context-type="linenumber">276</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9df4a53518473f823bf4897928e02115f6d846e6" datatype="html">
@@ -6767,11 +6734,11 @@
               email or number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">284</context>
+          <context context-type="linenumber">290</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">348</context>
+          <context context-type="linenumber">354</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4cac75849db5d171989cf2b84306246b2a77f47b" datatype="html">
@@ -6779,7 +6746,7 @@
                 email or number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">302</context>
+          <context context-type="linenumber">308</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8292decb91d7607343ef0a3564a637a2bd227031" datatype="html">
@@ -6787,7 +6754,7 @@
             Password?</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">315</context>
+          <context context-type="linenumber">321</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d188bef8f00cbe129391ff0d85e4fc5550ca99b5" datatype="html">
@@ -6796,7 +6763,7 @@
           </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
-          <context context-type="linenumber">386</context>
+          <context context-type="linenumber">392</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d1294fe727e5293836ae367db2cfcecbda78ae61" datatype="html">
