@@ -20,6 +20,7 @@ const API_END_POINTS = {
   newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
   newssowithMobileEmailOrgForm: '/apis/public/v8/signupWithAutoLoginOrgForm/register',
   validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin',
+  validateOrgOTP: '/apis/public/v8/signupWithAutoLoginOrgForm/validateOtpWithLogin',
   sendUserOTP: '/apis/public/v8/ssoLogin/otp/sendOtp',
   newLogin: '/apis/public/v8/ssoLogin/login',
   resendOTP: '/apis/public/v8/ssoLogin/otp/resendOtp'
@@ -37,6 +38,13 @@ export class SignupService {
 
   ssoValidateOTP(data: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.validateOTP, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+  ssoValidateOrgOTP(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.validateOrgOTP, data).pipe(
       map(response => {
         return response
       }),

@@ -199,8 +199,13 @@ export class LoginOtpComponent implements OnInit {
       }
     }
     this.isLoading = true
+    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    const otpService$ = isOrgSelectiveCourse
+      ? this.signupService.ssoValidateOrgOTP(request)
+      : this.signupService.ssoValidateOTP(request)
+
     //this.signupService.validateOtp(request).subscribe(
-    this.signupService.ssoValidateOTP(request).subscribe(
+    otpService$.subscribe(
       async (res: any) => {
         let res1 = await res
         console.log(res1)
@@ -335,8 +340,13 @@ export class LoginOtpComponent implements OnInit {
         organisationId
       }
     }
+    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    const otpService$ = isOrgSelectiveCourse
+      ? this.signupService.ssoValidateOrgOTP(request)
+      : this.signupService.ssoValidateOTP(request)
+
     //this.signupService.validateOtp(request).subscribe(
-    this.signupService.ssoValidateOTP(request).subscribe(
+    otpService$.subscribe(
       async (res: any) => {
         console.log(res, '2')
         this.openSnackbar(res.message)
