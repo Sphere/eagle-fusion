@@ -83,10 +83,11 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.router.navigate(['error-service-unavailable'])
       }
     })
-
+    console.log("this.configSvc.unMappedUser", this.configSvc.unMappedUser)
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((userDetails: any) => {
         this.userData = userDetails
+        console.log("this.userData", this.userData)
         if (userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined) {
           console.log(userDetails.profileDetails!.profileReq!.personalDetails!)
           this.showAcceptbtn = true
@@ -366,7 +367,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       // this.updateUser(reqUpdate)
 
       //} else {
-      if (this.configSvc.userProfile) {
+      if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
           async (data: any) => {
             if (data) {
@@ -388,7 +389,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
               profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/new-tnc'
               profileRequest.profileReq.personalDetails["tncAccepted"] = 'true'
               const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-              const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+              const rootOrgId = this.configSvc.userProfile?.rootOrgId || this.configSvc.unMappedUser?.rootOrgId
               if (orgSelectiveConfig && orgSelectiveConfig.orgId) {
                 if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
                   profileRequest.profileReq.personalDetails["dob"] = '01/01/2000'
@@ -425,7 +426,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.configSvc.profileDetailsStatus = true
         this.configSvc.hasAcceptedTnc = true
 
-        const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+        const rootOrgId = this.configSvc.userProfile?.rootOrgId || this.configSvc.unMappedUser?.rootOrgId
         const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
 
         if (this.result.tncStatus) {
