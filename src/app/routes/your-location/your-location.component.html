@@ -32,7 +32,7 @@
             <pre *ngIf="invalidDob" class="text-danger" i18n>You must be at least 18 years old</pre>
           </div> -->
           <!-- dropdown dob -->
-          <h3 class="mb-1" for="dob" i18n>Date of Birth</h3>
+          <h3 class="mb-1 label" for="dob" i18n>Date of Birth</h3>
           <div class="form-group ">
             <!-- <lable>Date of Birth</lable> -->
             <ws-dropdown-dob (dobValue)="dobData($event)"></ws-dropdown-dob>
@@ -41,7 +41,7 @@
             <pre *ngIf="invalidDob" class="text-danger" i18n>You must be at least 18 years old</pre>
           </div>
 
-          <h3 class="mb-1" i18n>Your Location</h3>
+          <h3 class="mb-1 label" i18n>Your Location</h3>
           <div class="form-group input-box ">
             <select id="country" formControlName="country" class="form-control select-box" name="country-input-field"
               (change)="countrySelect($event)">

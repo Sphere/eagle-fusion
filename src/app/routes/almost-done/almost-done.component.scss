@@ -20,7 +20,7 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
-  background: #fff;
+  background: transparent;
 }
 .input-box {
   padding: 3px 0 3px 6px;
@@ -47,11 +47,11 @@
   box-shadow: none;
 }
 .form-control:disabled {
-  background-color: #fff;
+  background-color: transparent !important;
   color: #808080;
 }
 .form-control[readonly] ::placeholder{
-  background-color: #ffff !important;
+  background-color: transparent !important;
   color: #e3e3e3;
   border-color: #e3e3e3;
 }
@@ -113,7 +113,7 @@ select option:first-child {
   color: #808080;
 }
 .form-control[readonly] {
-  background-color: #fff;
+  background-color: transparent;
   color: #E3E3E3;
   opacity: 0.6;
 }

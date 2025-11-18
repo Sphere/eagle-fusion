@@ -38,15 +38,21 @@
 
   @media screen and (min-width: 500px) {
     width: 130px;
-    height: calc(9 * $width-s / 16);
+    height: calc(9 * $width-s / 12);
   }
 
   img {
     max-width: 100%;
     height: auto;
     max-height: 100%;
-    width: auto;
+    width: 100%;
   }
+}
+
+.mat-title{
+  font-size: 20px !important;
+  font-weight: 500 !important;
+  line-height: 32px !important;
 }
 
 .completed-icon {

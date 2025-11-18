@@ -129,3 +129,12 @@ ws-app-search-input-home .feature-group {
 // 821
 @media only screen and (max-width: 821px) {
 }
+
+
+.mdc-text-field--no-label .mdc-text-field__input {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  line-height: normal !important;
+  height: 34px !important; /* or your required height */
+  caret-color: #000 !important; /* Ensure caret visible */
+}

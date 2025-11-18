@@ -54,9 +54,10 @@
 .select-box{
   border: none;
   width: 97%;
-  height: 44px;
+  height: 40px;
   font-size: 16px;
   line-height: 19px;
+  background: transparent;
 }
 .select-box:focus{
   outline: none!important;
@@ -137,4 +138,11 @@ select option {
   .login-card {
     margin-top: 100px;
   }
+}
+.login-card {
+  background: transparent !important;
+}
+
+.label {
+  font-weight: 400 !important
 }
