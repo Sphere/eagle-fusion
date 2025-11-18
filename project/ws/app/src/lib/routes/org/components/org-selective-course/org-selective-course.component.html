@@ -8,7 +8,8 @@
   </header><!-- #masthead -->
   <div id="primary" class="content-area lp-page">
     <main id="main" class="site-main lp-page__components">
-      <div class="banner wrapper component">
+      <div class="banner wrapper component"
+        [ngClass]="{ 'banner--logged-in': isLoggedIn, 'banner--logged-out': !isLoggedIn }">
         <img class="org-selective-banner" [src]="bannerImage" alt="banner" loading="lazy">
 
         <div class=" banner__content-wrap" *ngIf="bannerTitle || bannerPoints?.length > 0">

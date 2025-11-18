@@ -552,16 +552,24 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
     this.uploadSaveData = true
 
-    const signupObservable = this.organisationId
-      ? this.signupService.ssoWithMobileEmailOrgForm(reqObj)
-      : this.signupService.ssoWithMobileEmail(reqObj)
 
-    signupObservable
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        res => this.handleSignupSuccess(res, 'mobile'),
-        err => this.handleSignupError(err)
-      )
+    if (this.isOrgSelectiveCourse) {
+      this.signupService
+        .ssoWithMobileEmailOrgForm(reqObj)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          res => this.handleSignupSuccess(res, 'mobile'),
+          err => this.handleSignupError(err)
+        )
+    } else {
+      this.signupService
+        .ssoWithMobileEmail(reqObj)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          res => this.handleSignupSuccess(res, 'mobile'),
+          err => this.handleSignupError(err)
+        )
+    }
   }
 
 
