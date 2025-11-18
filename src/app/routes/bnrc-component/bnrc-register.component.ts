@@ -75,6 +75,9 @@ export class BnrcRegisterComponent implements OnInit {
   message: string = ''
   biharDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bihar-district.json?cb = ${Date.now()}`
   instituteNameUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bnrc-institute.json?cb = ${Date.now()}`;
+  // instituteNameUrl = '../../../fusion-assets/files/district_institutes_option_a.json'
+  institutesData: any = []
+  currentDistrictInstitutes: any = []
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   hrmsErr: boolean = false
   bnrcErr: boolean = false
@@ -191,7 +194,31 @@ export class BnrcRegisterComponent implements OnInit {
       this.bnrcDetailForm.get('facilityName')?.reset()
       this.bnrcDetailForm.get('nin')?.reset()
       this.aamShcs = []
+      const instCtrl = this.bnrcDetailForm.get('instituteName')
+
+      // reset input box
+      instCtrl?.setValue(null, { emitEvent: false })
+      instCtrl?.setErrors({ required: true })
+      instCtrl?.markAsTouched()
+
+      // load institutes of district
+      if (selectedDistrict) {
+        const districtInstitutes = this.institutesData[selectedDistrict] || []
+        this.currentDistrictInstitutes = districtInstitutes.map(name => ({ name }))
+        this.institutes = this.currentDistrictInstitutes          // 🔥 FIX
+      } else {
+        this.currentDistrictInstitutes = []
+        this.institutes = []                                      // 🔥 FIX
+      }
+
+      this.filteredInstitutes = this.bnrcDetailForm.controls['instituteName'].valueChanges.pipe(
+        startWith(''),
+        map(value => this._filter(value)),
+      )
     })
+
+
+
 
     this.bnrcDetailForm.get('block')?.valueChanges.subscribe(selectedBlock => {
       const selectedDistrict = this.bnrcDetailForm.get('district')?.value
@@ -216,7 +243,11 @@ export class BnrcRegisterComponent implements OnInit {
 
 
     this.http.get(this.instituteNameUrl).subscribe((instituteData: any) => {
-      this.institutes = instituteData.institueName // Store the institutes data
+      this.institutesData = instituteData   // full district → list json
+
+      // default empty list
+      this.currentDistrictInstitutes = []
+
       this.filteredInstitutes = this.bnrcDetailForm.controls['instituteName'].valueChanges.pipe(
         startWith(''),
         map(value => this._filter(value)),
@@ -230,6 +261,7 @@ export class BnrcRegisterComponent implements OnInit {
         })
       )
     })
+
     this.route.queryParams.subscribe(params => {
       const service = params['service']
       if (service === 'inservice') {
@@ -292,15 +324,15 @@ export class BnrcRegisterComponent implements OnInit {
     })
   }
   private _filter(value: string): { name: string }[] {
-    console.log("value", value)
-    if (value) {
-      const filterValue = value.toLowerCase().replace(/,/g, '') // Remove commas from input
-      return this.institutes.filter(institute =>
-        institute.name.toLowerCase().replace(/,/g, '').includes(filterValue)
-      )
-    }
-    return []
+    if (!value) return this.currentDistrictInstitutes
+
+    const filterValue = value.toLowerCase().replace(/,/g, '')
+
+    return this.currentDistrictInstitutes.filter(ins =>
+      ins.name.toLowerCase().replace(/,/g, '').includes(filterValue)
+    )
   }
+
 
 
   assignFields(fieldName: string, value: string, event: any) {
