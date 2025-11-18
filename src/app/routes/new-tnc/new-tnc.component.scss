@@ -32,11 +32,12 @@
 }
 
 /* Change the color of the checked state to blue */
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+::ng-deep .mat-mdc-checkbox.mat-mdc-checkbox-checked.mat-accent .mdc-checkbox__background {
   background-color: #1C5D95 !important;
+  border-color: #1C5D95 !important;
 }
 
-::ng-deep .theme-igot.day-mode .mat-checkbox {
+::ng-deep .theme-igot.day-mode .mat-mdc-checkbox {
   margin-top: -10px;
 }
 
@@ -113,7 +114,7 @@
     width: 70%;
   }
 
-  ::ng-deep .theme-igot.day-mode .mat-checkbox {
+  ::ng-deep .theme-igot.day-mode .mat-mdc-checkbox {
     margin-top: 7px !important;
   }
 

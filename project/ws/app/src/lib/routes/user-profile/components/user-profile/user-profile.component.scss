@@ -317,12 +317,12 @@ input.mdc-text-field__input {
   padding: 8px 0;
 }
 
-::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+::ng-deep .mat-mdc-checkbox-checked.mat-accent .mdc-checkbox__background {
   background: #f5d58d 0% 0% no-repeat padding-box !important;
   border-radius: 4px;
 }
 
-::ng-deep .mat-checkbox .mat-checkbox-frame {
+::ng-deep .mat-mdc-checkbox .mdc-checkbox-frame {
   border-radius: 4px !important;
 }
 
