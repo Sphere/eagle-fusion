@@ -167,15 +167,20 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     this.route.paramMap
       .pipe(takeUntil(this.destroy$))
       .subscribe(params => {
-        this.setPageState(false, true, false, false)
-
         const stateCode = params.get('stateCode') || ''
         const orgName = params.get('orgName') || ''
         const roleParam = params.get('role') || ''
         this.userRole = '' // reset for safety
 
-        if (!stateCode || !orgName) return
+        // If no state code or org name, show language page
+        if (!stateCode || !orgName) {
+          this.setPageState(true, false, false, false)
+          localStorage.setItem('isOrgSelectiveCourse', 'false')
+          return
+        }
 
+        // Organization-specific signup flow
+        this.setPageState(false, true, false, false)
         this.http.get<any>(`https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`)
           .pipe(takeUntil(this.destroy$))
           .subscribe(data => {

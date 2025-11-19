@@ -84,23 +84,37 @@ export class NewTncComponent implements OnInit, OnDestroy {
       }
     })
     console.log("this.configSvc.unMappedUser", this.configSvc.unMappedUser)
-    if (this.configSvc.unMappedUser) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((userDetails: any) => {
-        this.userData = userDetails
-        console.log("this.userData", this.userData)
-        if (userDetails.profileDetails!.profileReq!.personalDetails!.tncAccepted === undefined) {
-          console.log(userDetails.profileDetails!.profileReq!.personalDetails!)
-          this.showAcceptbtn = true
-        } else {
-          this.showAcceptbtn = false
-        }
-      })
-    }
 
+    // Initialize form first
     this.signupService.fetchStartUpDetails().then(result => {
       this.result = result
       this.createUserForm = this.createTncFormFields()
+      this.checkTncAcceptanceStatus()
     })
+  }
+
+  private checkTncAcceptanceStatus(): void {
+    if (this.configSvc.unMappedUser) {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        (userDetails: any) => {
+          this.userData = userDetails
+          console.log("this.userData", this.userData)
+          // Check if tncAccepted is undefined (not accepted yet)
+          const tncAccepted = userDetails.profileDetails?.profileReq?.personalDetails?.tncAccepted
+          this.showAcceptbtn = tncAccepted === undefined || tncAccepted === null || tncAccepted === false
+          console.log("TNC Accepted:", tncAccepted, "Show Button:", this.showAcceptbtn)
+        },
+        (error: any) => {
+          console.error('Error fetching user details:', error)
+          this.showAcceptbtn = true // Show button if there's an error fetching details
+        }
+      )
+    } else {
+      // If unMappedUser is not available, check result.userId
+      if (this.result && this.result.userId) {
+        this.showAcceptbtn = true
+      }
+    }
   }
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter' || event.key === ' ') {
@@ -472,7 +486,6 @@ export class NewTncComponent implements OnInit, OnDestroy {
       const redirectUrl = orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
       console.log(`Redirecting to selective org [${scenario}]:`, redirectUrl)
 
-      // Parse URL to extract path and query params
       const urlParts = redirectUrl.split('?')
       homePath = urlParts[0]
 
@@ -496,7 +509,6 @@ export class NewTncComponent implements OnInit, OnDestroy {
       fullPath = homePath.replace('/hi/', '/')
     }
 
-    // Remove leading slash for proper navigation
     const cleanPath = fullPath.startsWith('/') ? fullPath.slice(1) : fullPath
     const pathSegments = cleanPath.split('/').filter(Boolean)
 
@@ -508,17 +520,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
         .join('&')
       : ''
 
-    // Reload only if navigating to `/page/home`
-    if (finalPath === '/page/home') {
-      console.log('Reloading page for /page/home')
-      window.location.assign(`${location.origin}${finalPath}${queryString}`)
-    } else {
-      console.log('Navigating internally to:', finalPath)
-      this.router.navigate([finalPath], {
-        queryParams: Object.keys(queryParams).length ? queryParams : undefined,
-      })
-    }
+    console.log('Reloading page for:', finalPath)
+    window.location.assign(`${location.origin}${finalPath}${queryString}`)
   }
+
 
 
 }
