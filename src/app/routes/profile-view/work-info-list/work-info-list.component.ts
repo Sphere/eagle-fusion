@@ -53,7 +53,7 @@ export class WorkInfoListComponent implements OnInit {
   hideAsha = false
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   @Input() isEkshamata: boolean = false
-
+  isEditableForSphere: boolean = false
   constructor(
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
@@ -134,9 +134,14 @@ export class WorkInfoListComponent implements OnInit {
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
+        async (data: any) => {
           if (data) {
-
+            this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
+            if (this.isEditableForSphere) {
+              this.personalDetailForm.enable()
+            } else {
+              this.personalDetailForm.disable()
+            }
             const newData = data.profileDetails.profileReq
             this.ekshamataData = data
             this.userProfileData = data.profileDetails.profileReq

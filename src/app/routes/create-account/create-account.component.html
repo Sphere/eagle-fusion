@@ -1,280 +1,335 @@
-<ws-header *ngIf="(isXSmall$ | async) !== true"></ws-header>
+<!-- Header Section -->
+<ws-header *ngIf="!(isXSmall$ | async)"></ws-header>
 
-<nav aria-label="navbar" *ngIf="(isXSmall$ | async) === true && langPage" class="nav-bar-bg">
-  <a class="navbar-brand cursor-pointer" (click)="homePage()">
-    <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
+<!-- Mobile Navigation - Language Page -->
+<nav *ngIf="(isXSmall$ | async) && langPage" class="nav-bar-bg" aria-label="Language selection navigation">
+  <a class="navbar-brand cursor-pointer" (click)="homePage()" aria-label="Go to home page">
+    <img alt="Sphere logo" width="125" height="65" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>
   <div class="lang-top-bg-block">
-    <img alt="logo" class="lang-top-bg" src="./../../../fusion-assets/icons/create-account-bg.svg">
+    <img alt="Decorative background" class="lang-top-bg" src="./../../../fusion-assets/icons/create-account-bg.svg">
   </div>
 </nav>
-<nav aria-label="navbar
-" *ngIf="(isXSmall$ | async) === true && !langPage" class="nav-bar-bg1">
-  <a class="navbar-brand cursor-pointer" (click)="homePage()">
-    <img alt="logo" width="125px" height="65px" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
+
+<!-- Mobile Navigation - Other Pages -->
+<nav *ngIf="(isXSmall$ | async) && !langPage" class="nav-bar-bg1" aria-label="Main navigation">
+  <a class="navbar-brand cursor-pointer" (click)="homePage()" aria-label="Go to home page">
+    <img alt="Sphere logo" width="125" height="65" src="./../../../fusion-assets/images/Sphere_Logo_3.svg">
   </a>
 </nav>
-<!-- Create Account Form -->
-<div class="top-blue-color" *ngIf="createAccount">
-  <div class="login-page-content">
-    <div *ngIf="(isXSmall$ | async) === true" class="flex justify-content-between top-block">
-      <div class="flex justify-content-between align-items-center back-btn">
-        <button (click)="redirect('createAccount')" mat-icon-button [disableRipple]="true" class="back-icon">
+
+<!-- Language Selection Page -->
+<ng-container *ngIf="langPage">
+  <div class="btm-blue-color">
+    <div class="login-page-content">
+      <!-- Mobile Back Button -->
+      <div *ngIf="isXSmall$ | async" class="flex justify-content-between top-block">
+        <button (click)="redirect('lang')" mat-icon-button [disableRipple]="true" class="back-icon"
+          aria-label="Go back">
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" (keydown)="handleKeyDown($event)" class=" help-btn"><span i18n>Help</span>
-        <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
-      </div>
-    </div>
-    <div class="login-card">
-      <div>
+
+      <div class="login-card">
         <div class="lang-subtitle">
-          <h1 class="display-3 mb-1" i18n>Create your account</h1>
-          <h4 class="info-text" i18n>Start by entering your details</h4>
+          <h1 class="display-3 mb-1" i18n>Select Language</h1>
         </div>
-        <!-- <div class="flex gap-2">
-          <h3 class="mb-2"><span i18n>Language for Learning </span>: <span
-              class="display-language">{{preferedLanguage.lang}}</span></h3>
-          <img src="/fusion-assets/icons/lang-icon.png" class="lang-img cursor-pointer" (click)="changeLanguage()" />
-        </div> -->
+
         <div class="input-content">
-          <div class="input-content-wrapper">
-            <form [formGroup]="createAccountForm" id="form-login" action="" method="post">
+          <div class="input-content-wrapper radioBlock">
+            <mat-radio-group class="flex flex-col" [(ngModel)]="preferredLanguage"
+              [ngModelOptions]="{ standalone: true }" aria-label="Language selection">
 
-              <div class="field-edit-width">
-                <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label i18n>First Name</mat-label>
-                  <input id="firstname" required="" type="text" class="input-field" matInput formControlName="firstname"
-                    #firstname i18n-placeholder />
-                  <mat-error class="text-danger flex-row" i18n
-                    *ngIf="createAccountForm.controls['firstname'].hasError('required') &&
-                                    (createAccountForm.controls['firstname'].dirty || createAccountForm.controls['firstname'].touched)">This field is
-                    required</mat-error>
-                  <mat-error class="text-danger flex-row" i18n
-                    *ngIf="createAccountForm.controls['firstname'].hasError('pattern') &&
-                                  (createAccountForm.controls['firstname'].dirty || createAccountForm.controls['firstname'].touched)">Invalid name
-                    format</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="field-edit-width">
-                <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label i18n>Last Name</mat-label>
-                  <input id="lastname" required="" type="text" class="input-field" matInput formControlName="lastname"
-                    #lastname i18n-placeholder />
-                  <mat-error class="text-danger flex-row" i18n
-                    *ngIf="createAccountForm.controls['lastname'].hasError('required') &&
-                                    (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">This field is
-                    required</mat-error>
-                  <mat-error class="text-danger flex-row" i18n
-                    *ngIf="createAccountForm.controls['lastname'].hasError('pattern')
-                                    && (createAccountForm.controls['lastname'].dirty || createAccountForm.controls['lastname'].touched)">Invalid name
-                    format</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="field-edit-width">
-                <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label i18n>Phone Number (or) Email ID</mat-label>
-                  <input id="email-field" required="" type="text" class="input-field" matInput
-                    formControlName="emailOrMobile" #emailOrMobile i18n-placeholder autocomplete="off" />
-                  <mat-error class="text-danger flex-row" i18n *ngIf="emailOrMobileErrorStatus === 'required'">This
-                    field is
-                    required</mat-error>
-                  <mat-error class="text-danger flex-row" i18n *ngIf="emailOrMobileErrorStatus === 'pattern'">Invalid
-                    email or
-                    number</mat-error>
-                </mat-form-field>
-              </div>
-              <div class="form-group radioBlock">
-                <span class="info-text" i18n>Choose your Login method</span>
-                <mat-radio-group style="display: contents;flex-direction: column;" class="radio my-auto"
-                  [(ngModel)]="loginSelected" [ngModelOptions]="{ standalone: true }">
-                  <mat-radio-button style="margin: 15px 0px;" class="radioButton" [value]="'otp'" i18n
-                    (change)="loginSelected = 'otp'">By OTP</mat-radio-button>
-                  <mat-radio-button class="radioButton" [value]="'password'" i18n
-                    (change)="loginSelected = 'password'">By
-                    password</mat-radio-button>
-                </mat-radio-group>
-              </div>
-              <div class="next-btn-div">
-                <button [disabled]="!createAccountForm?.valid" class="btn next-button z-btn" name="login" type="submit"
-                  id="next-btn" i18n (click)="optionSelected()">Next</button>
-              </div>
+              <mat-radio-button class="line-bottom radioButton my-3" value="en"
+                [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'en' }"
+                (change)="preferredLanguageChange('en')" i18n>
+                English
+              </mat-radio-button>
 
-            </form>
+              <mat-radio-button class="line-bottom radioButton" value="hi"
+                [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'hi' }"
+                (change)="preferredLanguageChange('hi')" i18n>
+                हिंदी
+              </mat-radio-button>
+            </mat-radio-group>
 
+            <div class="next-btn-div">
+              <button class="btn next-button" type="button" [disabled]="!preferredLanguage" (click)="langChanged()"
+                i18n>
+                Next
+              </button>
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   </div>
+</ng-container>
 
-</div>
-<div class="top-blue-color" *ngIf="confirmPassword">
-  <div class="login-page-content">
-    <div *ngIf="(isXSmall$ | async) === true" class="flex justify-content-between top-block">
-      <div class="flex justify-content-between align-items-center back-btn">
-        <button (click)="redirect('confirmPassword')" mat-icon-button [disableRipple]="true" class="back-icon">
+<!-- Create Account Form -->
+<ng-container *ngIf="createAccount">
+  <div class="top-blue-color">
+    <div class="login-page-content">
+      <!-- Mobile Header with Back and Help -->
+      <div *ngIf="isXSmall$ | async" class="flex justify-content-between top-block">
+        <button (click)="redirect('createAccount')" mat-icon-button [disableRipple]="true" class="back-icon"
+          aria-label="Go back">
           <mat-icon>chevron_left</mat-icon>
         </button>
+
+        <button (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn" aria-label="Get help">
+          <span i18n>Help</span>
+          <img class="help-icon" alt="" src="../../../fusion-assets/icons/support_agent_blue.png">
+        </button>
       </div>
-      <div (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn"><span i18n>Help</span>
-        <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+
+      <div class="login-card">
+        <div class="lang-subtitle">
+          <h1 class="display-3 mb-1" i18n>Create your account</h1>
+          <p class="info-text" i18n>Start by entering your details</p>
+        </div>
+
+        <div class="input-content">
+          <div class="input-content-wrapper">
+            <form [formGroup]="createAccountForm" id="form-login" novalidate (ngSubmit)="optionSelected()">
+
+              <!-- First Name Field -->
+              <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                <mat-label i18n>First Name</mat-label>
+                <input id="firstname" type="text" class="input-field" matInput formControlName="firstname"
+                  autocomplete="given-name" aria-required="true">
+
+                <mat-error *ngIf="createAccountForm.get('firstname')?.hasError('required')" i18n>
+                  This field is required
+                </mat-error>
+                <mat-error *ngIf="createAccountForm.get('firstname')?.hasError('pattern')" i18n>
+                  Invalid name format
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Last Name Field -->
+              <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                <mat-label i18n>Last Name</mat-label>
+                <input id="lastname" type="text" class="input-field" matInput formControlName="lastname"
+                  autocomplete="family-name" aria-required="true">
+
+                <mat-error *ngIf="createAccountForm.get('lastname')?.hasError('required')" i18n>
+                  This field is required
+                </mat-error>
+                <mat-error *ngIf="createAccountForm.get('lastname')?.hasError('pattern')" i18n>
+                  Invalid name format
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Email or Phone Field -->
+              <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                <mat-label i18n>Phone Number (or) Email ID</mat-label>
+                <input id="email-field" type="text" class="input-field" matInput formControlName="emailOrMobile"
+                  autocomplete="off" aria-required="true">
+
+                <mat-error *ngIf="emailOrMobileErrorStatus === 'required'" i18n>
+                  This field is required
+                </mat-error>
+                <mat-error *ngIf="emailOrMobileErrorStatus === 'pattern'" i18n>
+                  Invalid email or number
+                </mat-error>
+              </mat-form-field>
+
+              <div *ngIf="showDistricts">
+                <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                  <mat-label>District</mat-label>
+                  <mat-select formControlName="district" (selectionChange)="onDistrictChange($event.value)">
+                    <mat-option *ngFor="let district of districts" [value]="district">
+                      {{ district }}
+                    </mat-option>
+                  </mat-select>
+                  <mat-error *ngIf="createAccountForm.get('district')?.hasError('required')">
+                    This field is required
+                  </mat-error>
+                </mat-form-field>
+                <div>
+                  <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+                    <mat-label>Institute Name</mat-label>
+                    <mat-select formControlName="instituteName">
+                      <mat-option *ngFor="let inst of institutes" [value]="inst">
+                        {{ inst }}
+                      </mat-option>
+                    </mat-select>
+                    <mat-error *ngIf="createAccountForm.get('instituteName')?.hasError('required')">
+                      This field is required
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+
+
+
+
+
+              <!-- Login Method Selection -->
+              <div class="form-group radioBlock">
+                <span class="info-text" i18n>Choose your Login method</span>
+                <mat-radio-group class="flex flex-col radio my-auto" [(ngModel)]="loginSelected"
+                  [ngModelOptions]="{ standalone: true }" aria-label="Login method selection">
+
+                  <mat-radio-button class="radioButton my-3" value="otp" (change)="loginSelected = 'otp'" i18n>
+                    By OTP
+                  </mat-radio-button>
+
+                  <mat-radio-button class="radioButton" value="password" (change)="loginSelected = 'password'" i18n>
+                    By password
+                  </mat-radio-button>
+                </mat-radio-group>
+              </div>
+
+              <!-- Submit Button -->
+              <div class="next-btn-div">
+                <button class="btn next-button z-btn" type="submit" [disabled]="!createAccountForm.valid" i18n>
+                  Next
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
       </div>
     </div>
+  </div>
+</ng-container>
 
-    <div class="login-card">
-      <div>
+<!-- Password Setup Form -->
+<ng-container *ngIf="confirmPassword">
+  <div class="top-blue-color">
+    <div class="login-page-content">
+      <!-- Mobile Header with Back and Help -->
+      <div *ngIf="isXSmall$ | async" class="flex justify-content-between top-block">
+        <button (click)="redirect('confirmPassword')" mat-icon-button [disableRipple]="true" class="back-icon"
+          aria-label="Go back">
+          <mat-icon>chevron_left</mat-icon>
+        </button>
+
+        <button (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn" aria-label="Get help">
+          <span i18n>Help</span>
+          <img class="help-icon" alt="" src="../../../fusion-assets/icons/support_agent_blue.png">
+        </button>
+      </div>
+
+      <div class="login-card">
         <div class="lang-subtitle">
           <h1 class="display-3 mb-1" i18n>Set your password</h1>
         </div>
-        <form [formGroup]="createAccountWithPasswordForm" id="form-login" action="" method="post">
 
+        <form [formGroup]="createAccountWithPasswordForm" id="form-password" novalidate
+          (ngSubmit)="onSubmit(createAccountWithPasswordForm, createAccountForm); eventTrigger('Create Account Page', 'next-btn', createAccountForm)">
 
-          <div class="field-edit-width">
-            <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-              <mat-label i18n>Password</mat-label>
-              <input id="password-field" [type]="hide1 ? 'password' : 'text'" class="input-field" matInput
-                formControlName="password" #password i18n-placeholder />
-              <div class="input-group-addon iconPosition1">
-                <a href="javascript:void(0)" (click)="toggle1()">
-                  <i [ngClass]="iconChange1" aria-hidden="true"></i>
-                </a>
-              </div>
-              <mat-error class="text-danger flex-row" i18n
-                *ngIf="createAccountWithPasswordForm.controls['password'].hasError('required') &&
-                              (createAccountWithPasswordForm.controls['password'].dirty || createAccountWithPasswordForm.controls['password'].touched)">
-                <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg" />
-                This field is required
-              </mat-error>
-              <mat-error class="text-danger flex-row" i18n
-                *ngIf="createAccountWithPasswordForm.controls['password'].hasError('pattern') &&
-                              (createAccountWithPasswordForm.controls['password'].dirty || createAccountWithPasswordForm.controls['password'].touched)">
-                <img alt="" class="mr-1" src="../../../fusion-assets/icons/ex-mark.svg" />
-                The password does not meet the required criteria.
-              </mat-error>
-              <mat-error class="text-success flex-row" i18n
-                *ngIf="!createAccountWithPasswordForm.controls['password'].hasError('pattern') &&
-                                  !createAccountWithPasswordForm.controls['password'].hasError('required') &&
-                                  (createAccountWithPasswordForm.controls['password'].dirty || createAccountWithPasswordForm.controls['password'].touched)">
-                <img alt="" class="mr-1" src="../../../fusion-assets/icons/check-mark.svg" />
-                The password meets the required criteria.
-              </mat-error>
-            </mat-form-field>
-          </div>
+          <!-- Password Field -->
+          <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+            <mat-label i18n>Password</mat-label>
+            <input id="password-field" [type]="hide1 ? 'password' : 'text'" class="input-field" matInput
+              formControlName="password" autocomplete="new-password" aria-required="true">
 
+            <div class="input-group-addon iconPosition1">
+              <a href="javascript:void(0)" (click)="toggle1()">
+                <i [ngClass]="iconChange1" aria-hidden="true"></i>
+              </a>
+            </div>
 
+            <mat-error *ngIf="createAccountWithPasswordForm.get('password')?.hasError('required')" i18n>
+              <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg">
+              This field is required
+            </mat-error>
 
-          <div class="field-edit-width">
-            <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-              <mat-label i18n>Confirm Password</mat-label>
-              <input id="confpassword-field" [type]="hide2 ? 'password' : 'text'" class="input-field" matInput
-                formControlName="confirmPassword" #password i18n-placeholder />
-              <div class="input-group-addon iconPosition1">
-                <a href="javascript:void(0)" (click)="toggle2()">
-                  <i [ngClass]="iconChange2" aria-hidden="true"></i>
-                </a>
-              </div>
-              <mat-error class="text-danger flex-row" i18n
-                *ngIf="createAccountWithPasswordForm.controls['confirmPassword'].hasError('required') &&
-                                                (createAccountWithPasswordForm.controls['confirmPassword'].dirty || createAccountWithPasswordForm.controls['confirmPassword'].touched)"><img
-                  alt="" class="mr-1" src="../../../fusion-assets/icons/ex-mark.svg" />This
-                field is required.</mat-error>
-              <mat-error class="text-danger flex-row" i18n
-                *ngIf="createAccountWithPasswordForm.controls['confirmPassword'].hasError('mustMatch') && (createAccountWithPasswordForm.controls['confirmPassword'].dirty || createAccountWithPasswordForm.controls['confirmPassword'].touched)"><img
-                  alt="" class="mr-1" src="../../../fusion-assets/icons/ex-mark.svg" />Password
-                does not match</mat-error>
-            </mat-form-field>
-          </div>
+            <mat-error *ngIf="createAccountWithPasswordForm.get('password')?.hasError('pattern')" i18n>
+              <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg">
+              The password does not meet the required criteria.
+            </mat-error>
 
-          <div class="flex flex-col">
+            <mat-hint class="text-success" *ngIf="createAccountWithPasswordForm.get('password')?.valid &&
+                     createAccountWithPasswordForm.get('password')?.dirty" i18n>
+              <img class="mr-1" alt="" src="../../../fusion-assets/icons/check-mark.svg">
+              The password meets the required criteria.
+            </mat-hint>
+          </mat-form-field>
+
+          <!-- Confirm Password Field -->
+          <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
+            <mat-label i18n>Confirm Password</mat-label>
+            <input id="confpassword-field" [type]="hide2 ? 'password' : 'text'" class="input-field" matInput
+              formControlName="confirmPassword" autocomplete="new-password" aria-required="true">
+
+            <div class="input-group-addon iconPosition1">
+              <a href="javascript:void(0)" (click)="toggle2()">
+                <i [ngClass]="iconChange2" aria-hidden="true"></i>
+              </a>
+            </div>
+
+            <mat-error *ngIf="createAccountWithPasswordForm.get('confirmPassword')?.hasError('required')" i18n>
+              <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg">
+              This field is required.
+            </mat-error>
+
+            <mat-error *ngIf="createAccountWithPasswordForm.get('confirmPassword')?.hasError('mustMatch')" i18n>
+              <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg">
+              Password does not match
+            </mat-error>
+          </mat-form-field>
+
+          <!-- Password Requirements -->
+          <div class="flex flex-col" role="status" aria-live="polite">
             <span class="mt-3 mb-3" i18n>Password Requirements:</span>
-            <span class="mb-2 flex-row">
-              <img class="gray-dot mr-2" alt="" [src]="passwordLengthImage" />
+
+            <span class="mb-2">
+              <img class="gray-dot mr-2" [src]="passwordValidation.length"
+                [alt]="passwordValidation.length.includes('tick') ? 'Requirement met' : 'Requirement not met'">
               <span i18n>Minimum 8 characters</span>
             </span>
-            <span class="mb-2 flex-row">
-              <img class="gray-dot mr-2" alt="" [src]="passwordUppercaseImage" />
+
+            <span class="mb-2">
+              <img class="gray-dot mr-2" [src]="passwordValidation.uppercase"
+                [alt]="passwordValidation.uppercase.includes('tick') ? 'Requirement met' : 'Requirement not met'">
               <span i18n>One capital letter</span>
             </span>
-            <span class="mb-2 flex-row">
-              <img class="gray-dot mr-2" alt="" [src]="passwordNumberImage" />
+
+            <span class="mb-2">
+              <img class="gray-dot mr-2" [src]="passwordValidation.number"
+                [alt]="passwordValidation.number.includes('tick') ? 'Requirement met' : 'Requirement not met'">
               <span i18n>One number</span>
             </span>
-            <span class="mb-2 flex-row">
-              <img class="gray-dot mr-2" alt="" [src]="passwordSpecialCharImage" />
+
+            <span class="mb-2">
+              <img class="gray-dot mr-2" [src]="passwordValidation.specialChar"
+                [alt]="passwordValidation.specialChar.includes('tick') ? 'Requirement met' : 'Requirement not met'">
               <span i18n>One special character</span>
             </span>
           </div>
+
+          <!-- Submit Button -->
           <div class="next-btn-div">
-            <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
-              [disabled]="!createAccountWithPasswordForm?.valid"
-              (click)="onSubmit(createAccountWithPasswordForm,createAccountForm); eventTrigger('Create Account Page', 'next-btn', createAccountForm)">Next</button>
+            <button class="btn next-button" type="submit" [disabled]="!createAccountWithPasswordForm.valid" i18n>
+              Next
+            </button>
           </div>
         </form>
       </div>
     </div>
   </div>
-</div>
-<!-- Create Account Form -->
-<div class="btm-blue-color" *ngIf="langPage">
-
-  <div class="login-page-content">
-    <div *ngIf="(isXSmall$ | async) === true" class="flex justify-content-between top-block">
-      <div class="flex justify-content-between align-items-center back-btn">
-        <button (click)="redirect('lang')" mat-icon-button [disableRipple]="true" class="back-icon">
-          <mat-icon>chevron_left</mat-icon>
-        </button>
-      </div>
-    </div>
-    <div class="login-card">
-      <div>
-        <div class="lang-subtitle">
-          <h1 class="display-3 mb-1" i18n>Select Language</h1>
-        </div>
-        <div class="input-content">
-          <div class="input-content-wrapper radioBlock">
-            <mat-radio-group style="display: flex; flex-direction: column;" [(ngModel)]="preferredLanguage"
-              [ngModelOptions]="{ standalone: true }">
-              <mat-radio-button style="margin: 15px 0px;" class="line-bottom radioButton" [value]="'en'" i18n
-                [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'en' }"
-                (change)="preferredLanguageChange('en')">
-                English
-              </mat-radio-button>
-              <mat-radio-button class="line-bottom radioButton" [value]="'hi'" i18n
-                [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'hi' }"
-                (change)="preferredLanguageChange('hi')">
-                हिंदी
-              </mat-radio-button>
-            </mat-radio-group>
-            <div class="next-btn-div">
-              <button class="btn next-button" name="login" type="submit" id="next-btn" i18n
-                [disabled]="!preferredLanguage" (click)="langChanged();">Next</button>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-  </div>
-
-</div>
-
-<!-- Create Account Form Close-->
-<input type="hidden" i18-value i18-aria-value aria-value="Signup successful" value="Thanks for Signing up"
-  #toastSuccess />
-<input type="hidden" i18-value i18-aria-value aria-value="unable to signup" value="Error Signing up!" #toastError />
-
-<ng-container *ngIf="otpPage">
-  <!-- OTP Form -->
-
-  <div class="otp-page">
-    <ws-login-otp [signUpdata]="createAccountForm" (backToCreate)="redirect($event)"
-      (redirectToParent)="showParentForm($event)"></ws-login-otp>
-  </div>
-  <!-- OTP Form Close-->
 </ng-container>
-<div *ngIf="(isXSmall$ | async) === true" class="btm-block-img">
-  <img alt="logo" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
+
+<!-- OTP Verification Page -->
+<ng-container *ngIf="otpPage">
+  <div class="otp-page">
+    <ws-login-otp [organisationId]="organisationId" [signUpdata]="createAccountForm" (backToCreate)="redirect($event)"
+      (redirectToParent)="showParentForm($event)">
+    </ws-login-otp>
+  </div>
+</ng-container>
+
+<!-- Mobile Bottom Decorative Image -->
+<div *ngIf="isXSmall$ | async" class="btm-block-img">
+  <img alt="Decorative frame" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
 </div>
+
+<!-- Hidden Toast Messages (for i18n) -->
+<input type="hidden" value="Thanks for Signing up" i18n-value i18n-aria-value aria-value="Signup successful"
+  #toastSuccess>
+
+<input type="hidden" value="Error Signing up!" i18n-value i18n-aria-value aria-value="unable to signup" #toastError>

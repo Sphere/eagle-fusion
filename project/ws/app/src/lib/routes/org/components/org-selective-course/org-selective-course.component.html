@@ -1,0 +1,126 @@
+<div id="page" class="site site-lp-page">
+  <header id="masthead" class="site-header site-header--lp">
+    <div class="site-header__wrap site-header__wrap--lp wrapper">
+      <div class="site-branding">
+        <img [src]="orgLogo" class="header-logo" alt="header" decoding="async" loading="lazy">
+      </div><!-- .site-branding -->
+    </div> <!-- .site-header__wrap -->
+  </header><!-- #masthead -->
+  <div id="primary" class="content-area lp-page">
+    <main id="main" class="site-main lp-page__components">
+      <div class="banner wrapper component"
+        [ngClass]="{ 'banner--logged-in': isLoggedIn, 'banner--logged-out': !isLoggedIn }">
+        <img class="org-selective-banner" [src]="bannerImage" alt="banner" loading="lazy">
+
+        <div class=" banner__content-wrap" *ngIf="bannerTitle || bannerPoints?.length > 0">
+          <div class="banner__content-container">
+            <h3 class="banner__title">{{ bannerTitle }}</h3>
+            <div class="banner__content">
+              <ul>
+                <li *ngFor="let item of bannerPoints">{{ item }}</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- .banner -->
+      <div class="courses-block component">
+        <div class="mb-4  flex scroller-container margin-top-20">
+          <div class="w-100 line-label bg-green">
+            <div class="flex flex-middle">
+              <span class="course-header" i18n>Elective Courses</span>
+            </div>
+          </div>
+        </div>
+        <div class="wrapper filter-section">
+          <div *ngFor="let sem of semesterData">
+            <span class="filter-btn" i18n>{{ sem.name }}</span>
+          </div>
+        </div>
+        <div *ngIf="isLoading" class="wrapper course-section loading">
+          Loading courses...
+        </div>
+
+        <div class="course-section" *ngIf="!isLoading">
+          <div *ngFor="let sem of semesterData">
+            <div class="wrapper">
+              <h2 class="semester-title margin-top-20">{{ sem.name }}</h2>
+            </div>
+            <div class="wrapper resource-container" *ngIf="sem.courses.length > 0; else noCourses">
+              <div *ngFor="let widget of sem.courses; let last = last" [ngClass]="{ 'last-child1': last }">
+                <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="myCourseDisplayConfig"
+                  [courseData]="widget"></ws-mobile-course-view>
+                <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="myCourseWebDisplayConfig"
+                  [courseData]="widget"></ws-web-course-card>
+              </div>
+            </div>
+            <ng-template #noCourses>
+              <p class="no-results">No courses available for this semester.</p>
+            </ng-template>
+          </div>
+        </div>
+      </div> <!-- .courses-block -->
+      <!-- <ng-container *ngIf="!isLoggedIn">
+
+        <div class="discover-block">
+          <div class="discover-block__header mb-4 flex scroller-container margin-top-20">
+            <div class="w-100 line-label bg-green">
+              <div class="flex flex-middle">
+                <span class="course-header" i18n>Discover Now</span>
+              </div>
+            </div>
+          </div>
+          <div class="wrapper">
+            <div class="discover-block__top-content">
+              <p class="over-title">Over 200 free courses with certificates on <a class="aastrika_link"
+                  href="#">Aastrika
+                  Sphere</a>.</p>
+            </div>
+
+            <div class="discover-block__col2-section">
+              <div>
+                <img loading="lazy" width="650" height="413" src="/fusion-assets/images/laptop.png"
+                  class="discover-block__col2-section__img" alt="Laptop" decoding="async">
+              </div>
+              <div class="discover-block__col2-section__right">
+                <div class="discover-block__col2-section__col">
+                  <div>
+                    <p class="discover-title"><span class="large-text">Get started<br>
+                      </span>to enhance your knowledge and skills.</p>
+                  </div>
+                  <a (click)="login()" class="btn filled mb-2" id="english-login-to-sphere">Login</a>
+                </div>
+
+                <div class="discover-block__col2-section__col mt-2">
+                  <div>
+                    <p class="discover-title">don’t have an account?<br>
+                      <span class="large-text">Create a new account</span>
+                    </p>
+                  </div>
+                  <a (click)="signUp()" target="_blank" class="btn outline" id="english-create-account-sphere">Create
+                    account</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container> -->
+    </main><!-- #main -->
+  </div><!-- #primary -->
+
+
+  <footer id="colophon" class="site-footer site-footer--lp">
+    <div class="site-footer__wrap--lp wrapper">
+      <img width="222" height="80" src="/fusion-assets/images/Sphere_Logo_4.svg" class="site-footer__lp-logo"
+        alt="Sphere Logo" decoding="async" loading="lazy">
+      <div class="site-footer__lp-content">
+        <p><span class="semibold-font">Download sphere app on mobile</span></p>
+        <p><a href="https://play.google.com/store/search?q=aastrika+sphere&amp;c=apps&amp;hl=en" target="_blank"
+            rel="noopener"><img loading="lazy" class="alignnone size-full wp-image-1179"
+              src="/fusion-assets/images/Play-store.png" loading="lazy" alt="Play Store" width="200" height="61"></a>
+        </p>
+      </div>
+      <p class="site-footer__lp-copyright">@2024 AastarUrmika Health Systems ("Aastrika Foundation")</p>
+    </div>
+  </footer><!-- #colophon -->
+</div><!-- #page -->

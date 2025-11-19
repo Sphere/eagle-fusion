@@ -16,7 +16,9 @@ const API_END_POINTS = {
   SETPASSWORD_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
   profilePid: '/apis/proxies/v8/api/user/v2/read',
   newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
+  newssowithMobileEmailOrgForm: '/apis/public/v8/signupWithAutoLoginOrgForm/register',
   validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin',
+  validateOrgOTP: '/apis/public/v8/signupWithAutoLoginOrgForm/validateOtpWithLogin',
   sendUserOTP: '/apis/public/v8/ssoLogin/otp/sendOtp',
   newLogin: '/apis/public/v8/ssoLogin/login',
   resendOTP: '/apis/public/v8/ssoLogin/otp/resendOtp'
@@ -34,6 +36,13 @@ export class SignupService {
 
   ssoValidateOTP(data: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.validateOTP, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+  ssoValidateOrgOTP(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.validateOrgOTP, data).pipe(
       map(response => {
         return response
       }),
@@ -62,6 +71,14 @@ export class SignupService {
   }
   ssoWithMobileEmail(data: any): Observable<any> {
     return this.http.post<any>(API_END_POINTS.newssowithMobileEmail, data).pipe(
+      map(response => {
+        return response
+      }),
+    )
+  }
+
+  ssoWithMobileEmailOrgForm(data: any): Observable<any> {
+    return this.http.post<any>(API_END_POINTS.newssowithMobileEmailOrgForm, data).pipe(
       map(response => {
         return response
       }),
@@ -215,6 +232,11 @@ export class SignupService {
             email: 'null',
           }
         }
+        try {
+          await this.fetchOrgSelectiveConfig()
+        } catch (err) {
+          console.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
+        }
         const details = {
           group: [],
           profileDetailsStatus: !!get(userPidProfile, 'profileDetails.mandatoryFieldsExists'),
@@ -269,6 +291,82 @@ export class SignupService {
     // // tslint:disable-next-line:max-line-length
     // const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
     // window.location.href = keycloakurl
+  }
+  private async fetchOrgSelectiveConfig(): Promise<void> {
+    try {
+      const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
+      const orgSelectiveData = await this.http.get<any>(s3Url).toPromise()
+
+      if (orgSelectiveData && Array.isArray(orgSelectiveData.states)) {
+        let matchedOrg: any = null
+
+        // 1. Try matching for logged-in user (rootOrgId)
+        if (this.configSvc.userProfile?.rootOrgId) {
+          const rootOrgId = this.configSvc.userProfile.rootOrgId
+          console.log('Root Org ID:', rootOrgId)
+
+          for (const state of orgSelectiveData.states) {
+            const found = state.organisations?.find(
+              (org: any) => org.orgId === rootOrgId
+            )
+            if (found) {
+              matchedOrg = found
+              break
+            }
+          }
+        }
+
+        // 2. If no match found, check ?org= param (public route)
+        if (!matchedOrg) {
+          const urlParams = new URLSearchParams(window.location.search)
+          let orgNameFromUrl = urlParams.get('org')
+
+          if (orgNameFromUrl) {
+            // Decode + sanitize URL param
+            orgNameFromUrl = decodeURIComponent(orgNameFromUrl)
+              .replace(/\+/g, ' ')
+              .trim()
+              .toLowerCase()
+              .replace(/&/g, 'and')
+
+            console.log('Normalized Org from URL:', orgNameFromUrl)
+
+            // Iterate over all orgs to find match
+            for (const state of orgSelectiveData.states) {
+              const found = state.organisations?.find((org: any) => {
+                const orgNameNormalized = (org.orgName || '')
+                  .toLowerCase()
+                  .trim()
+                  .replace(/&/g, 'and')
+                return orgNameNormalized === orgNameFromUrl
+              })
+              if (found) {
+                matchedOrg = found
+                break
+              }
+            }
+          }
+        }
+
+        // 🔹 3. Save matched config
+        if (matchedOrg) {
+          this.configSvc.orgSelectiveCourseConfig = matchedOrg
+          console.log('Org Selective Config Found:', matchedOrg.orgName)
+        } else {
+          console.warn('No matching org found in org-selective-course.json')
+          console.warn(
+            'Available org names:',
+            orgSelectiveData.states.flatMap((s: any) =>
+              s.organisations.map((o: any) => o.orgName)
+            )
+          )
+        }
+      } else {
+        console.warn('org-selective-course.json missing or invalid format')
+      }
+    } catch (error) {
+      console.error('Failed to fetch org-selective-course.json:', error)
+    }
   }
 
 }

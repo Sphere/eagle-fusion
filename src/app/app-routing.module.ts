@@ -64,8 +64,8 @@ import { TnaiCallbackComponent } from 'src/app/tnai-callback/tnai-callback.compo
 import { NotificationsComponent } from './routes/notification/notification.component'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
-import { MpRegisterComponent } from './routes/mp-component copy/mp-register.component'
-
+import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
+import { OrgSelectiveCourseComponent } from 'project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
@@ -145,6 +145,13 @@ const routes: Routes = [
     component: CreateAccountComponent,
   },
   {
+    path: 'app/create-account/:stateCode/:orgName/:role',
+    component: CreateAccountComponent,
+    data: {
+      title: 'Create Account'
+    }
+  },
+  {
     path: 'app/complete-profile',
     component: CompleteProfileComponent,
   },
@@ -208,6 +215,10 @@ const routes: Routes = [
     resolve: {
       orgData: OrgServiceService,
     },
+  },
+  {
+    path: 'app/org-selective-course',
+    component: OrgSelectiveCourseComponent,
   },
   {
     path: 'app/personal-detail-edit',

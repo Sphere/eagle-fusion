@@ -70,6 +70,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   stateUrl = '/fusion-assets/files/state.json'
   selectDisable = true
   countryName: boolean = false
+  isEditableForSphere: boolean = false
   @Input() isEkshamata: boolean = false
   constructor(
     private configSvc: ConfigurationsService,
@@ -233,8 +234,14 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   getUserDetails() {
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        (data: any) => {
+        async (data: any) => {
           if (data) {
+            this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
+            if (this.isEditableForSphere) {
+              this.personalDetailForm.enable()
+            } else {
+              this.personalDetailForm.disable()
+            }
             this.userProfileData = data.profileDetails.profileReq
             this.userlang = data
             console.log(data.profileDetails.profileReq.personalDetails.dob, ';')

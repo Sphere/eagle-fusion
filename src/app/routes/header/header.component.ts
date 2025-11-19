@@ -23,6 +23,8 @@ export class HeaderComponent implements OnInit {
     //console.log(this.result)
   }
   homePage() {
-    location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+    if (localStorage.getItem('isOrgSelectiveCourse') === 'false') {
+      location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+    }
   }
 }

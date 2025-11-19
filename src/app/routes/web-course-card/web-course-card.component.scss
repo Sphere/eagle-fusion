@@ -1,3 +1,6 @@
+@import 'ws-mixins';
+@import 'ws-vars';
+
 /************/
 
 .course-container {
@@ -947,4 +950,84 @@ letter-spacing: -0.02em;
 text-align: left;
 color: #808080 !important;
 padding: 5px 0px 0px 0px;
+}
+
+.btn-active {
+  color: #1c5d95 !important;
+  border-radius: 50px;
+  border: 1px solid #1c5d95 !important;
+  margin-left: 10px;
+  width: 13%;
+
+  @include breakpoint-xs {
+    width: 100% !important;
+  }
+}
+
+.share-img {
+  width: 42px;
+  height: 42px;
+  border: 1px solid #1c5d95;
+  box-sizing: border-box;
+  border-radius: 49%;
+  padding: 9px 12px 0px;
+  margin-left: 10px;
+}
+
+.login-btn {
+  padding: 8px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: #2E6491 !important;
+  border-radius: 50px;
+  color: #FFFFFF !important;
+  font-family: Roboto, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  border: none;
+  cursor: pointer;
+  width: 300px;
+  margin-top: 20px;
+}
+
+.header-btn {
+  padding: 8px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: #2E6491 !important;
+  border-radius: 50px;
+  color: #FFFFFF !important;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  border: none;
+  cursor: pointer;
+}
+
+.new-user-btn {
+  display: inline-flex;
+  padding: 8px 32px;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+  background-color: #FFFFFF !important;
+  border-radius: 50px;
+  color: #2E6491 !important;
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 16px;
+  cursor: pointer;
+  border: 1px solid #2E6491;
+}
+
+.modal {
+  overflow: inherit !important;
 }

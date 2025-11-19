@@ -26,9 +26,11 @@ export class WebCourseCardComponent implements OnInit {
       certification: true,
       sourceName: true,
       rating: true,
-      cnePoints: true
+      cnePoints: true,
+      cneName: true,
     },
   }
+  displayStyle = 'none'
   isLoggedIn = false
   constructor(private router: Router,
     private configSvc: ConfigurationsService,
@@ -121,39 +123,85 @@ export class WebCourseCardComponent implements OnInit {
       .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
   }
 
+
   redirectPage(course: any) {
     if (this.isLoggedIn) {
       console.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
       console.log('else')
-      this.login(course)
+      const currentRoute = this.router.url
+
+      if (currentRoute.includes('org-selective-course')) {
+        const url = `app/toc/` + `${course.identifier}` + `/overview`
+        localStorage.setItem(`url_before_login`, url)
+        this.showPopup()
+      } else {
+        this.login(course)
+      }
     }
+  }
+
+  showPopup() {
+    this.displayStyle = 'block'
+  }
+  closePopup() {
+    this.displayStyle = 'none'
+  }
+  orgLogin() {
+    this.router.navigateByUrl('public/login')
+  }
+  orgCreateAccount() {
+    const cachedOrgConfig = this.configSvc.orgSelectiveCourseConfig
+    const urlParams = new URLSearchParams(window.location.search)
+    const orgNameFromUrl = urlParams.get('org')?.trim()
+
+    // If no org data available, stay safe
+    if (!cachedOrgConfig && !orgNameFromUrl) {
+      console.warn('No organization data found for signup')
+      this.router.navigateByUrl('/app/create-account')
+      return
+    }
+
+    // Determine state code and org name
+    const stateCode = cachedOrgConfig?.stateCode || 'TN'
+    const orgName = cachedOrgConfig?.orgName || orgNameFromUrl || 'UnknownOrg'
+
+    // Determine user role (can also come from org config if needed)
+    const role = cachedOrgConfig?.signupRole || 'TNNMC-Student'
+
+    // Construct dynamic URL
+    const path = `/app/create-account/${encodeURIComponent(stateCode)}/${encodeURIComponent(orgName)}/${encodeURIComponent(role)}`
+
+    console.log('Navigating to:', path)
+    this.router.navigateByUrl(path)
+
   }
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
-    // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
-    const url = `app/toc/` + `${contentIdentifier}` + `/overview`
+    const url = `app/toc/${contentIdentifier}/overview`
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
       localStorage.setItem(`url_before_login`, url)
       this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
-        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
-          return of(data)
-        })).subscribe((userDetails: any) => {
-          if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
+        this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
+          .pipe(delay(500))
+          .subscribe((userDetails: any) => {
+            const profileReq = get(userDetails, 'profileDetails.profileReq')
+            console.log('USER DETAILS FROM REGISTRY:', userDetails) // ← Add this
+            console.log('Profile Req:', profileReq) // ← Add this
 
-            // location.href = url
-            this.router.navigateByUrl(url)
-          } else {
-            const courseUrl = `/app/toc/${contentIdentifier}/overview`
-            this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-          }
-        })
+            if (this.userProfileSvc.isBackgroundDetailsFilled(profileReq)) {
+              this.router.navigateByUrl(url)
+            } else {
+              console.log('Background details not filled, redirecting to about-you')
+              const courseUrl = `/app/toc/${contentIdentifier}/overview`
+              this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+            }
+          })
       }
     }
-
   }
 }

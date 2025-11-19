@@ -58,6 +58,8 @@ const endpoint = {
 })
 export class InitService {
   private baseUrl = 'assets/configurations'
+  private orgSelectiveConfig: any | null = null
+
   domain: string = ''
   constructor(
     private logger: LoggerService,
@@ -114,7 +116,6 @@ export class InitService {
 
 
 
-
     await this.fetchDefaultConfig()
     // const authenticated = await this.authSvc.initAuth()
 
@@ -167,7 +168,6 @@ export class InitService {
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
       const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
       await this.fetchFeaturesStatus() // feature: depends only on details
-
       /**
        * Wait for the widgets and get the list of restricted widgets
        */
@@ -215,6 +215,92 @@ export class InitService {
     //     // throw new DataResponseError('COOKIE_SET_FAILURE')
     //   })
     return true
+  }
+  /** Fetches config once and caches it */
+  private async fetchOrgSelectiveConfig(): Promise<void> {
+    try {
+      const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
+      const orgSelectiveData = await this.http.get<any>(s3Url).toPromise()
+
+      if (orgSelectiveData && Array.isArray(orgSelectiveData.states)) {
+        let matchedOrg: any = null
+
+        // 1. Try matching for logged-in user (rootOrgId)
+        if (this.configSvc.userProfile?.rootOrgId) {
+          const rootOrgId = this.configSvc.userProfile.rootOrgId
+          console.log('Root Org ID:', rootOrgId)
+
+          for (const state of orgSelectiveData.states) {
+            const found = state.organisations?.find(
+              (org: any) => org.orgId === rootOrgId
+            )
+            if (found) {
+              matchedOrg = found
+              break
+            }
+          }
+        }
+
+        // 2. If no match found, check ?org= param (public route)
+        if (!matchedOrg) {
+          const urlParams = new URLSearchParams(window.location.search)
+          let orgNameFromUrl = urlParams.get('org')
+
+          if (orgNameFromUrl) {
+            // Decode + sanitize URL param
+            orgNameFromUrl = decodeURIComponent(orgNameFromUrl)
+              .replace(/\+/g, ' ')
+              .trim()
+              .toLowerCase()
+              .replace(/&/g, 'and')
+
+            console.log('Normalized Org from URL:', orgNameFromUrl)
+
+            // Iterate over all orgs to find match
+            for (const state of orgSelectiveData.states) {
+              const found = state.organisations?.find((org: any) => {
+                const orgNameNormalized = (org.orgName || '')
+                  .toLowerCase()
+                  .trim()
+                  .replace(/&/g, 'and')
+                return orgNameNormalized === orgNameFromUrl
+              })
+              if (found) {
+                matchedOrg = found
+                break
+              }
+            }
+          }
+        }
+
+        // 🔹 3. Save matched config
+        if (matchedOrg) {
+          this.configSvc.orgSelectiveCourseConfig = matchedOrg
+          console.log('Org Selective Config Found:', matchedOrg.orgName)
+        } else {
+          console.warn('No matching org found in org-selective-course.json')
+          console.warn(
+            'Available org names:',
+            orgSelectiveData.states.flatMap((s: any) =>
+              s.organisations.map((o: any) => o.orgName)
+            )
+          )
+        }
+      } else {
+        console.warn('org-selective-course.json missing or invalid format')
+      }
+    } catch (error) {
+      console.error('Failed to fetch org-selective-course.json:', error)
+    }
+  }
+
+
+
+
+
+  /** ✅ Public getter for components/services */
+  getOrgSelectiveConfig(): any {
+    return this.orgSelectiveConfig
   }
   private async fetchHostedConfig(): Promise<any> {
     // use the rootOrg and org to fetch the instance
@@ -408,6 +494,12 @@ export class InitService {
           }
         } else {
           //this.authSvc.logout()
+        }
+        // 🔹 Now that we have userProfile.rootOrgId, fetch org-selective config
+        try {
+          await this.fetchOrgSelectiveConfig()
+        } catch (err) {
+          console.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
         }
         const details = {
           group: [],

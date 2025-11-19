@@ -22,6 +22,7 @@ export class LoginOtpComponent implements OnInit {
   loginOtpForm!: UntypedFormGroup
   @Input() signUpdata: any
   @Input() loginData: any
+  @Input() organisationId: string = '0132317968766894088'
   @Output() redirectToParent = new EventEmitter()
   @Output() backToCreate = new EventEmitter<string>()
   emailPhoneType: any = 'phone'
@@ -176,6 +177,7 @@ export class LoginOtpComponent implements OnInit {
     let phone = this.signUpdata.value.emailOrMobile
     console.log(this.signUpdata.value)
     phone = phone.replace(/[^0-9+#]/g, '')
+    const organisationId = this.organisationId
     // at least 10 in number
     if (phone.length >= 10) {
       request = {
@@ -183,6 +185,7 @@ export class LoginOtpComponent implements OnInit {
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
+        organisationId
       }
 
     } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
@@ -192,11 +195,17 @@ export class LoginOtpComponent implements OnInit {
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
+        organisationId
       }
     }
     this.isLoading = true
+    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    const otpService$ = isOrgSelectiveCourse
+      ? this.signupService.ssoValidateOrgOTP(request)
+      : this.signupService.ssoValidateOTP(request)
+
     //this.signupService.validateOtp(request).subscribe(
-    this.signupService.ssoValidateOTP(request).subscribe(
+    otpService$.subscribe(
       async (res: any) => {
         let res1 = await res
         console.log(res1)
@@ -312,12 +321,14 @@ export class LoginOtpComponent implements OnInit {
   async loginVerifyOtp() {
     let request: any = []
     const username = this.loginData.value.username
+    const organisationId = this.organisationId
     if (!username.includes('@')) {
       request = {
         phone: this.loginData.value.username,
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
+        organisationId
       }
 
     } else {
@@ -326,10 +337,16 @@ export class LoginOtpComponent implements OnInit {
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
+        organisationId
       }
     }
+    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    const otpService$ = isOrgSelectiveCourse
+      ? this.signupService.ssoValidateOrgOTP(request)
+      : this.signupService.ssoValidateOTP(request)
+
     //this.signupService.validateOtp(request).subscribe(
-    this.signupService.ssoValidateOTP(request).subscribe(
+    otpService$.subscribe(
       async (res: any) => {
         console.log(res, '2')
         this.openSnackbar(res.message)

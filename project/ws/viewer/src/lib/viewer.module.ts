@@ -64,6 +64,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     MatDividerModule,
     MatTooltipModule,
     MatSlideToggleModule,
+    MatTooltipModule,
     MatListModule,
     MatTreeModule,
     MatInputModule,

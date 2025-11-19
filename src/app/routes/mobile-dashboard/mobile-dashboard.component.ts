@@ -403,35 +403,37 @@ export class MobileDashboardComponent implements OnInit {
     const myCourse: any = []
     let myCourseObject = {}
     res.forEach((key: any) => {
-      if (key.completionPercentage !== 100) {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating
-        }
+      if (key?.content?.identifier) {
 
-      } else {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating
-        }
+        if (key.completionPercentage !== 100) {
+          myCourseObject = {
+            identifier: key.content.identifier,
+            appIcon: key.content.appIcon,
+            thumbnail: key.content.thumbnail,
+            name: key.content.name,
+            dateTime: key.dateTime,
+            completionPercentage: key.completionPercentage,
+            sourceName: key.content.sourceName,
+            issueCertification: key.content.issueCertification,
+            averageRating: key.content.averageRating
+          }
 
+        } else {
+          myCourseObject = {
+            identifier: key.content.identifier,
+            appIcon: key.content.appIcon,
+            thumbnail: key.content.thumbnail,
+            name: key.content.name,
+            dateTime: key.dateTime,
+            completionPercentage: key.completionPercentage,
+            sourceName: key.content.sourceName,
+            issueCertification: key.content.issueCertification,
+            averageRating: key.content.averageRating
+          }
+
+        }
+        myCourse.push(myCourseObject)
       }
-      myCourse.push(myCourseObject)
-
     })
 
 

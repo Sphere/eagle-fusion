@@ -164,17 +164,17 @@ export class WebNavLinkPageComponent implements OnInit {
   }
 
   async redirect(text: string) {
-    let userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
-    let local: string
+    const userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId
+    const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
 
-    if (userProfile && userProfile.language !== undefined) {
-      local = userProfile.language
-    } else {
-      local = location.href.includes('/hi/') ? 'hi' : 'en'
-    }
+    const local = userProfile?.language ?? (location.href.includes('/hi/') ? 'hi' : 'en')
+    const isHindi = local === 'hi'
+    const prefix = isHindi ? '/hi' : ''
 
-    let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1, text)
+    const navigate = (path: string) => this.router.navigate([`${prefix}${path}`])
+
+    console.log('🌐 Lang:', local, '| Action:', text)
 
     if (text === 'home') {
       this.showProfile = false
@@ -182,30 +182,68 @@ export class WebNavLinkPageComponent implements OnInit {
       this.showCompetency = false
       this.showNotification = false
 
-      let url = url1 === 'hi' ? '/page/home' : 'page/home'
-      this.router.navigate([url]) // Secure navigation
-    }
-    else if (text === 'mycourses') {
-      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
-      let result = await this.signupService.getUserData()
-      this.configSvc.unMappedUser = result
-      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        this.router.navigate([url])
-      } else {
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
+      let homePath = '/page/home'
+      let queryParams: any = {}
+
+      if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+        const redirectUrl = orgSelectiveConfig.redirectUrl || homePath
+        console.log('🏫 Selective org →', rootOrgId)
+
+        // Parse URL to extract path and query params
+        const urlParts = redirectUrl.split('?')
+        homePath = urlParts[0]
+
+        // Extract query params if they exist
+        if (urlParts[1]) {
+          const params = new URLSearchParams(urlParts[1])
+          params.forEach((value, key) => {
+            queryParams[key] = value
+          })
+        }
       }
+
+      // Add language prefix and navigate
+      let fullPath = homePath
+
+      // Handle language prefix
+      if (prefix === '/hi' && !homePath.startsWith('/hi')) {
+        fullPath = `/hi${homePath}`
+      } else if (prefix === '' && homePath.startsWith('/hi')) {
+        fullPath = homePath.replace('/hi/', '/')
+      }
+
+      const pathSegments = fullPath.split('/').filter(Boolean)
+      this.router.navigate([`/${pathSegments[0]}`, ...pathSegments.slice(1)], {
+        queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined
+      })
     }
-    else if (text === 'competency') {
-      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-      let result = await this.signupService.getUserData()
+
+    else if (text === 'mycourses') {
+      const result = await this.signupService.getUserData()
+      this.configSvc.unMappedUser = result
 
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
-        this.router.navigate([url])
+        navigate('/app/user/my_courses')
       } else {
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
+        this.router.navigate([`${prefix}/app/about-you`], {
+          queryParams: { redirect: `${prefix}/page/home` },
+        })
       }
     }
+
+    else if (text === 'competency') {
+      localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
+      const result = await this.signupService.getUserData()
+
+      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
+        navigate('/app/user/competency')
+      } else {
+        this.router.navigate([`${prefix}/app/about-you`], {
+          queryParams: { redirect: `${prefix}/page/home` },
+        })
+      }
+    }
+
     else if (text === 'notification') {
       this.showProfile = false
       this.showHome = false
@@ -216,34 +254,26 @@ export class WebNavLinkPageComponent implements OnInit {
         width: '400px',
         maxHeight: '80vh',
         panelClass: 'custom-notification-modal',
-        position: { top: '60px', right: '10px' }
+        position: { top: '60px', right: '10px' },
       })
 
-      dialogRef.afterClosed().subscribe(() => {
-        console.log('Notification modal closed')
-      })
+      dialogRef.afterClosed().subscribe(() => console.log('🔔 Notification modal closed'))
     }
+
     else {
-      let result = await this.signupService.getUserData()
-      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        this.showProfile = true
-        let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-        this.router.navigate([url])
+      const result = await this.signupService.getUserData()
+      const hasProfile = !!result?.profileDetails?.profileReq?.personalDetails?.dob
+
+      if (hasProfile) {
+        navigate('/app/profile-view')
       } else {
-        this.showProfile = false
-        if (localStorage.getItem('url_before_login')) {
-          const courseUrl = localStorage.getItem('url_before_login')
-          this.showProfile = true
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-        } else {
-          this.showProfile = true
-          this.showHome = false
-          this.showCompetency = false
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
-        }
+        const redirectUrl = localStorage.getItem('url_before_login') || `${prefix}/page/home`
+        this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: redirectUrl } })
       }
     }
   }
+
+
 
   openNotificationDialog() {
     if (!this.notificationDialogRef) {

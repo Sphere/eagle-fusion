@@ -154,19 +154,39 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
   }
   async redirect(text: any) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
+    let local = (this.configSvc.unMappedUser &&
+      this.configSvc.unMappedUser!.profileDetails &&
+      this.configSvc.unMappedUser!.profileDetails!.preferences &&
+      this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined)
+      ? this.configSvc.unMappedUser.profileDetails.preferences.language
+      : location.href.includes('/hi/') === true ? 'hi' : 'en'
+
+    let url1 = local === 'hi' ? 'hi' : ''
     let url3 = `${document.baseURI}`
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
     }
 
-    if (text.name === 'Home' || text.name === "होम") {
-      this.currentText = text.name
-      let url = url1 === 'hi' ? '/page/home' : 'page/home'
-      location.href = `${url3}${url1}${url}`
+    // ✅ Selective org config
+    const org = this.configSvc?.userProfile?.rootOrgId || ''
+    const selectiveData = this.configSvc.orgSelectiveCourseConfig
 
-    } else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
+    if (text.name === 'Home' || text.name === 'होम') {
+      this.currentText = text.name
+
+      // ✅ Default home path
+      let url = url1 === 'hi' ? '/page/home' : 'page/home'
+
+      // ✅ If org matches selective config, redirect to selective course page
+      if (selectiveData && selectiveData.orgId === org) {
+        url = 'app/org-selective-course'
+        console.log('🏫 Redirecting to selective org homepage for:', org)
+      }
+
+      location.href = `${url3}${url1}${url}`
+    }
+
+    else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
       this.currentText = text.name
       let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
       let result = await this.signupService.getUserData()
@@ -180,7 +200,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       this.currentText = text.name
       let url = url1 === 'hi' ? '/notification' : 'notification'
       location.href = `${url3}${url1}${url}`
-    } else if (text.name === 'Competency' || text.name === "योग्यता") {
+    } else if (text.name === 'Competency' || text.name === 'योग्यता') {
       this.currentText = text.name
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
@@ -191,7 +211,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         let url = url1 === 'hi' ? '/page/home' : 'page/home'
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
       }
-    } else if (text.name === "खोज" || text.name === "Search") {
+    } else if (text.name === 'खोज' || text.name === 'Search') {
       this.navOption.changeNavBarActive('search')
       this.currentText = text.name
       let url = url1 === 'hi' ? '/app/search/home' : 'app/search/home'
@@ -206,10 +226,8 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-          // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
           this.currentText = 'Home'
-          //const url = '/page/home'
           let url4 = `${document.baseURI}`
           let url = url1 === 'hi' ? '/page/home' : 'page/home'
           if (url4.includes('hi')) {
@@ -220,6 +238,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       }
     }
   }
+
   search() {
     if (this.router.url.includes('/page/home')) {
       this.searchApi.changeMessage('search')

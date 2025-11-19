@@ -243,7 +243,16 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       }
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-      this.telemetrySvc.start('pdf', 'pdf-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier)
+      let object = {
+        "id": id,
+        "type": "application/pdf",
+        "version": "",
+        "rollup": {
+          "l1": collectionId,
+          "l2": id
+        }
+      }
+      this.telemetrySvc.start('pdf', 'pdf-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, object)
 
       const temp = [...realTimeProgressRequest.current]
       // const latest = parseFloat(temp.slice(-1) || '0')
@@ -256,11 +265,19 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           contentId: this.widgetData.identifier,
           name: this.viewerDataSvc.resource!.name,
           moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          "rollup": {
+            "l1": collectionId,
+            "l2": id
+          }
         }
         this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
+          const res = data["result"]["contentList"].find(
+            (obj: any) => obj.contentId === id
+          )
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
           result['type'] = 'PDF'
           this.contentSvc.changeMessage(result)
         })
@@ -271,11 +288,19 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           contentId: this.widgetData.identifier,
           name: this.viewerDataSvc.resource!.name,
           moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          "rollup": {
+            "l1": collectionId,
+            "l2": id
+          }
         }
         this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
+          const res = data["result"]["contentList"].find(
+            (obj: any) => obj.contentId === id
+          )
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
           result['type'] = 'PDF'
           this.contentSvc.changeMessage(result)
         })
@@ -286,6 +311,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           contentId: this.widgetData.identifier,
           name: this.viewerDataSvc.resource!.name,
           moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          "rollup": {
+            "l1": collectionId,
+            "l2": id
+          }
         }
         this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
       }
@@ -356,6 +385,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
               const result = data.result
               result['type'] = 'PDF'
+              const res = data["result"]["contentList"].find(
+                (obj: any) => obj.contentId === this.identifier
+              )
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
               this.contentSvc.changeMessage(result)
             })
           }
@@ -364,6 +397,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
               const result = data.result
               result['type'] = 'PDF'
+              const res = data["result"]["contentList"].find(
+                (obj: any) => obj.contentId === this.identifier
+              )
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
               this.contentSvc.changeMessage(result)
             })
           }

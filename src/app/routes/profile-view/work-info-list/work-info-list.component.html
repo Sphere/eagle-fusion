@@ -261,7 +261,7 @@
 
     </ng-container>
     <!-- Background: Faculty -->
-    <div *ngIf="!isEkshamata">
+    <div *ngIf="!isEkshamata&&isEditableForSphere">
       <button [disabled]="personalDetailForm?.invalid" type="submit" (click)="onSubmit(personalDetailForm)"
         class="save-btn" i18n>Save</button>
     </div>

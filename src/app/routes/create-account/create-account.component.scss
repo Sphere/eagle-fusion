@@ -57,7 +57,7 @@
 .iconPosition1 {
   position: absolute;
   right: 5px;
-  top: 20px;
+  top: 0px;
 }
 
 .text-success {
@@ -332,6 +332,8 @@ span.mat-button-wrapper {
 .radioBlock{
   display: flex;
   flex-direction: column;
+  z-index: 2;
+  position: absolute;
 }
 
 .flex-row {

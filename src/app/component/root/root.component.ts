@@ -444,6 +444,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
           // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('/app/org-selective-course')) {
+          this.isNavBarRequired = false
+          this.showmobileFooter = false
+
         } else if (event.url.includes('app/toc')) {
           if (this.configSvc.userProfile !== null) {
             this.mobileView = false
@@ -733,39 +737,41 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     let myCourseObject = {}
 
     res.forEach((key: any) => {
-      if (key.completionPercentage !== 100) {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating
+      if (key?.content?.identifier) {
+        if (key.completionPercentage !== 100) {
+          myCourseObject = {
+            identifier: key.content.identifier,
+            appIcon: key.content.appIcon,
+            thumbnail: key.content.thumbnail,
+            name: key.content.name,
+            dateTime: key.dateTime,
+            completionPercentage: key.completionPercentage,
+            sourceName: key.content.sourceName,
+            issueCertification: key.content.issueCertification,
+            averageRating: key.content.averageRating
+          }
+
+        } else {
+          myCourseObject = {
+            identifier: key.content.identifier,
+            appIcon: key.content.appIcon,
+            thumbnail: key.content.thumbnail,
+            name: key.content.name,
+            dateTime: key.dateTime,
+            completionPercentage: key.completionPercentage,
+            sourceName: key.content.sourceName,
+            issueCertification: key.content.issueCertification,
+            averageRating: key.content.averageRating
+
+          }
+
         }
-
-      } else {
-        myCourseObject = {
-          identifier: key.content.identifier,
-          appIcon: key.content.appIcon,
-          thumbnail: key.content.thumbnail,
-          name: key.content.name,
-          dateTime: key.dateTime,
-          completionPercentage: key.completionPercentage,
-          sourceName: key.content.sourceName,
-          issueCertification: key.content.issueCertification,
-          averageRating: key.content.averageRating
-
-        }
-
+        myCourse.push(myCourseObject)
       }
-      myCourse.push(myCourseObject)
-
     })
     this.userEnrollCourse = myCourse
   }
+
   ngAfterViewInit() {
     // this.initAppUpdateCheck()
     try {

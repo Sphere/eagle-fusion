@@ -33,6 +33,7 @@ export class PublicLoginComponent implements OnInit {
   emailPhoneType: any = 'phone'
   isEkshamtaLogin = false
   routerLink = 'public/home'
+  isOrgSelectiveCourse: boolean = false
   constructor(
     private spherFormBuilder: UntypedFormBuilder,
     public signupService: SignupService,
@@ -74,6 +75,9 @@ export class PublicLoginComponent implements OnInit {
         this.routerLink = '/public/home'
       }
     })
+    if (localStorage.getItem('isOrgSelectiveCourse') === 'true') {
+      this.isOrgSelectiveCourse = true
+    }
     this.initializeForm()
   }
 
@@ -292,9 +296,20 @@ export class PublicLoginComponent implements OnInit {
               url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
               location.href = url
             } else {
-              let url = '/page/home'
-              url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
-              window.location.href = url
+              const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+              const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+              if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+                const redirectUrl =
+                  orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
+                console.log(
+                  `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
+                )
+                window.location.href = redirectUrl
+              } else {
+                let url = '/page/home'
+                url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+                window.location.href = url
+              }
             }
           })
         }, 500)
@@ -422,9 +437,21 @@ export class PublicLoginComponent implements OnInit {
                 url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
                 location.href = url
               } else {
-                let url = '/page/home'
-                url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
-                window.location.href = url
+                const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+                const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+                if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+                  const redirectUrl =
+                    orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
+                  console.log(
+                    `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
+                  )
+                  window.location.href = redirectUrl
+                } else {
+                  let url = '/page/home'
+                  url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
+                  window.location.href = url
+                }
+
               }
             }
           })

@@ -58,6 +58,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           console.log(data.result.contentList)
           const result = data.result
           result['type'] = 'youtube'
+          const res = data["result"]["contentList"].find(
+            (obj: any) => obj.contentId === this.htmlContent?.identifier
+          )
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'youtube' })
           this.contentSvc.changeMessage(result)
         })
 
@@ -137,6 +141,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           console.log(data.result.contentList)
           const result = data.result
           result['type'] = 'docs.google'
+          const res = data["result"]["contentList"].find(
+            (obj: any) => obj.contentId === this.htmlContent?.identifier
+          )
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'docs.google' })
           this.contentSvc.changeMessage(result)
         })
       }, 50)
@@ -223,6 +231,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   console.log(data.result.contentList)
                   const result = data.result
                   result['type'] = 'html'
+                  const res = data["result"]["contentList"].find(
+                    (obj: any) => obj.contentId === this.htmlContent?.identifier
+                  )
+                  this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'html' })
                   this.contentSvc.changeMessage(result)
                 })
               this.contentSvc.changeMessage('html')
@@ -483,6 +495,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                     console.log(data.result.contentList)
                     const result = data.result
                     result['type'] = 'html'
+                    const res = data["result"]["contentList"].find(
+                      (obj: any) => obj.contentId === this.htmlContent?.identifier
+                    )
+                    this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'html' })
                     this.contentSvc.changeMessage(result)
                   })
                 // this.contentSvc.changeMessage('html')
@@ -701,6 +717,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               console.log(data.result.contentList)
               const result = data.result
               result['type'] = 'html'
+              const res = data["result"]["contentList"].find(
+                (obj: any) => obj.contentId === this.htmlContent?.identifier
+              )
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'html' })
               this.contentSvc.changeMessage(result)
             })
           // this.contentSvc.changeMessage('html')

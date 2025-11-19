@@ -123,11 +123,15 @@
     </ws-widget-display-content-type-icon> -->
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
-      <ws-app-assessment-detail
-        [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode || content.hideLocIcon ? resourceLink : ''"
-        [content]="content">
+      <a style="width: 100%" class="block no-underline"
+        [routerLink]="resourceLink?.url ? resourceLink.url : content.viewerUrl"
+        [queryParams]="resourceLink?.queryParams ? resourceLink.queryParams : 'preserve'">
+        <ws-app-assessment-detail
+          [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode || content.hideLocIcon ? resourceLink : ''"
+          [content]="content">
 
-      </ws-app-assessment-detail>
+        </ws-app-assessment-detail>
+      </a>
       <div class="align-rt progrss-box">
         <span class="content-check"
           *ngIf="content?.completionPercentage===100 && content?.completionStatus == 2; else elseAssesmentPercentage">

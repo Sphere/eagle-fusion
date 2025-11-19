@@ -121,54 +121,54 @@ export const populateAcademics = (data?: any, userProfileData?: any) => {
 }
 
 export const getClass10 = (data: any, userProfileData?: any) => {
-  const class10 = find(userProfileData.academics, { type: 'X_STANDARD' })
+  const class10 = find(userProfileData?.academics, { type: 'X_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'X_STANDARD',
-    nameOfInstitute: data.courseDegree.type === 'X_STANDARD' ?
+    nameOfInstitute: data.courseDegree?.type === 'X_STANDARD' ?
       data.institutionName : get(class10, 'nameOfInstitute') ? get(class10, 'nameOfInstitute') : '',
-    yearOfPassing: data.courseDegree.type === 'X_STANDARD' ? `${data.yearPassing
+    yearOfPassing: data.courseDegree?.type === 'X_STANDARD' ? `${data.yearPassing
       }` : get(class10, 'yearOfPassing') ? get(class10, 'yearOfPassing') : '',
   })
 }
 
 export const getClass12 = (data: any, userProfileData?: any) => {
-  const class12 = find(userProfileData.academics, { type: 'XII_STANDARD' })
+  const class12 = find(userProfileData?.academics, { type: 'XII_STANDARD' })
   return ({
     nameOfQualification: '',
     type: 'XII_STANDARD',
-    nameOfInstitute: data.courseDegree.type === 'XII_STANDARD' ? data.institutionName :
+    nameOfInstitute: data.courseDegree?.type === 'XII_STANDARD' ? data.institutionName :
       get(class12, 'nameOfInstitute') ? get(class12, 'nameOfInstitute') : '',
-    yearOfPassing: data.courseDegree.type === 'XII_STANDARD' ? `${data.yearPassing
+    yearOfPassing: data.courseDegree?.type === 'XII_STANDARD' ? `${data.yearPassing
       }` : get(class12, 'yearOfPassing') ? get(class12, 'yearOfPassing') : '',
   })
 }
 
 export const getDegree = (data: any, userProfileData?: any) => {
-  const GRADUATE = find(userProfileData.academics, { type: 'GRADUATE' })
+  const GRADUATE = find(userProfileData?.academics, { type: 'GRADUATE' })
   return ({
-    nameOfQualification: data.courseDegree.type === 'GRADUATE'
+    nameOfQualification: data.courseDegree?.type === 'GRADUATE'
       && data.courseName ? data.courseName :
       get(GRADUATE, 'nameOfQualification') ?
         get(GRADUATE, 'nameOfQualification') : '',
     type: 'GRADUATE',
-    nameOfInstitute: data.courseDegree.type === 'GRADUATE' && data.institutionName ?
+    nameOfInstitute: data.courseDegree?.type === 'GRADUATE' && data.institutionName ?
       data.institutionName : get(GRADUATE, 'nameOfInstitute') ? get(GRADUATE, 'nameOfInstitute') : '',
-    yearOfPassing: data.courseDegree.type === 'GRADUATE' ? `${data.yearPassing
+    yearOfPassing: data.courseDegree?.type === 'GRADUATE' ? `${data.yearPassing
       }` : get(GRADUATE, 'yearOfPassing') ? get(GRADUATE, 'yearOfPassing') : '',
   })
 }
 
 export const getPostDegree = (data: any, userProfileData?: any) => {
-  const POSTGRADUATE = find(userProfileData.academics, { type: 'POSTGRADUATE' })
+  const POSTGRADUATE = find(userProfileData?.academics, { type: 'POSTGRADUATE' })
   return ({
-    nameOfQualification: data.courseDegree.type === 'POSTGRADUATE'
+    nameOfQualification: data.courseDegree?.type === 'POSTGRADUATE'
       && data.courseName ? data.courseName : get(POSTGRADUATE, 'nameOfQualification') ?
       get(POSTGRADUATE, 'nameOfQualification') : '',
     type: 'POSTGRADUATE',
-    nameOfInstitute: data.courseDegree.type === 'POSTGRADUATE' ? data.institutionName :
+    nameOfInstitute: data.courseDegree?.type === 'POSTGRADUATE' ? data.institutionName :
       get(POSTGRADUATE, 'nameOfInstitute') ? get(POSTGRADUATE, 'nameOfInstitute') : '',
-    yearOfPassing: data.courseDegree.type === 'POSTGRADUATE' ? `${data.yearPassing
+    yearOfPassing: data.courseDegree?.type === 'POSTGRADUATE' ? `${data.yearPassing
       }` : get(POSTGRADUATE, 'yearOfPassing') ? get(POSTGRADUATE, 'yearOfPassing') : '',
   })
 }
@@ -176,26 +176,26 @@ export const getPostDegree = (data: any, userProfileData?: any) => {
 export const getOrganisationsHistory = (form: any, userProfileData: any) => {
   const organisations: any = []
   const org = {
-    orgType: get(form.value, 'orgType') ? form.value.orgType : userProfileData.professionalDetails[0].orgType,
+    orgType: get(form.value, 'orgType') ? form.value.orgType : userProfileData?.professionalDetails?.[0]?.orgType || '',
     professionOtherSpecify: get(form.value, 'professionOtherSpecify') ? form.value.professionOtherSpecify :
-      userProfileData.professionalDetails[0].professionOtherSpecify,
+      userProfileData?.professionalDetails?.[0]?.professionOtherSpecify || '',
     orgOtherSpecify: get(form.value, 'orgOtherSpecify') ? form.value.orgOtherSpecify :
-      userProfileData.professionalDetails[0].orgOtherSpecify,
+      userProfileData?.professionalDetails?.[0]?.orgOtherSpecify || '',
     name: get(form.value, 'organizationName', get(userProfileData, 'professionalDetails[0].name', '')),
     nameOther: get(form.value, 'orgNameOther') ? form.value.orgNameOther : '',
     industry: get(form.value, 'industry') ? form.value.industry : '',
     industryOther: get(form.value, 'industryOther') ? form.value.industryOther : '',
-    designation: get(form.value, 'designation') ? form.value.designation : userProfileData.professionalDetails[0].designation,
-    profession: get(form.value, 'profession') ? form.value.profession : userProfileData.professionalDetails[0].profession,
-    location: get(form.value, 'location') ? form.value.location : userProfileData.professionalDetails[0].location,
+    designation: get(form.value, 'designation') ? form.value.designation : userProfileData?.professionalDetails?.[0]?.designation,
+    profession: get(form.value, 'profession') ? form.value.profession : userProfileData?.professionalDetails?.[0]?.profession,
+    location: get(form.value, 'location') ? form.value.location : userProfileData?.professionalDetails?.[0]?.location,
     responsibilities: '',
-    doj: get(form.value, 'doj') ? form.value.doj : userProfileData.professionalDetails[0].doj,
+    doj: get(form.value, 'doj') ? form.value.doj : userProfileData?.professionalDetails?.[0]?.doj,
     description: get(form.value, 'orgDesc') ? form.value.orgDesc : '',
     completePostalAddress: '',
     additionalAttributes: {},
     osid: get(userProfileData, 'professionalDetails[0].osid') || undefined,
-    block: get(form.value, 'block') ? form.value.block : userProfileData.professionalDetails[0].block,
-    subcentre: get(form.value, 'subcentre') ? form.value.subcentre : userProfileData.professionalDetails[0].subcentre,
+    block: get(form.value, 'block') ? form.value.block : userProfileData?.professionalDetails?.[0]?.block,
+    subcentre: get(form.value, 'subcentre') ? form.value.subcentre : userProfileData?.professionalDetails?.[0]?.subcentre,
   }
   organisations.push(org)
   return organisations

@@ -363,6 +363,7 @@ export class TelemetryService {
             object: {
               ver: '1.0.0',
               id: '',
+              rollup: {}
             },
             tags: [],
             edata,
@@ -422,6 +423,7 @@ export class TelemetryService {
             object: {
               ver: '1.0.0',
               id: '',
+              rollup: {}
             },
             tags: [],
             edata,
