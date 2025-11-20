@@ -202,14 +202,19 @@ export class WebNavLinkPageComponent implements OnInit {
         }
       }
 
-      // Add language prefix and navigate
+      // Handle language prefix properly - avoid duplication
       let fullPath = homePath
 
-      // Handle language prefix
+      // Remove /hi from homePath if it exists
+      if (homePath.startsWith('/hi/')) {
+        homePath = homePath.substring(3) // Remove '/hi'
+      }
+
+      // Add language prefix only if needed
       if (prefix === '/hi' && !homePath.startsWith('/hi')) {
         fullPath = `/hi${homePath}`
-      } else if (prefix === '' && homePath.startsWith('/hi')) {
-        fullPath = homePath.replace('/hi/', '/')
+      } else {
+        fullPath = homePath
       }
 
       const pathSegments = fullPath.split('/').filter(Boolean)

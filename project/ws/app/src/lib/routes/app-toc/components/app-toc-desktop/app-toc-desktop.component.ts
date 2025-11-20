@@ -293,19 +293,21 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     local = local === 'en' ? '' : 'hi'
     console.log(local)
     let url = ''
-    if (sessionStorage.getItem('cURL')) {
+
+    // Check if coming from org-selective-course
+    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+
+    if (isOrgSelectiveCourse && orgSelectiveConfig?.redirectUrl) {
+      // Redirect to orgSelectiveConfig.redirectUrl
+      console.log('Redirecting to org-selective URL:', orgSelectiveConfig.redirectUrl)
+      url = orgSelectiveConfig.redirectUrl
+      location.href = url
+    } else if (sessionStorage.getItem('cURL')) {
       url = sessionStorage.getItem('cURL') || ''
       location.href = url
     } else {
-
       this.navService.nativeWindow.history.back()
-      // url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
-      // console.log(url)
-      // let url3 = `${document.baseURI}`
-      // if (url3.includes('hi')) {
-      //   url3 = url3.replace(/hi\//g, '')
-      // }
-      // location.href = `${url3}${url}`
     }
   }
 

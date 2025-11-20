@@ -456,10 +456,14 @@ export class NewTncComponent implements OnInit, OnDestroy {
                   this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-incomplete')
                 }
               } else {
-                if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
-                  this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-complete')
+                // Background details are filled - redirect to url_before_login if available
+                const urlBeforeLogin = localStorage.getItem('url_before_login')
+                if (urlBeforeLogin) {
+                  console.log('Redirecting to url_before_login:', urlBeforeLogin)
+                  window.location.href = urlBeforeLogin
                 } else {
-                  location.href = localStorage.getItem('url_before_login') || ''
+                  // No url_before_login, redirect to home
+                  this.navigateToHome(rootOrgId, orgSelectiveConfig, 'background-complete')
                 }
               }
             })
