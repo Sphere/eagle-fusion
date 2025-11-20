@@ -142,6 +142,13 @@ const routes: Routes = [
     data: {
       title: 'Aastrika Sphere - Create Account'
     },
+    component: CreateAccountComponent
+  },
+  {
+    path: ':lang/app/create-account',
+    data: {
+      title: 'Aastrika Sphere - Create Account'
+    },
     component: CreateAccountComponent,
   },
   {
