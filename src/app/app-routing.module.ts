@@ -406,6 +406,30 @@ const routes: Routes = [
     canActivate: [GeneralGuard],
   },
   {
+    path: 'hi/app/about-you',
+    component: AboutYou,
+  },
+  {
+    path: 'hi/app/user/competency',
+    component: CompetencyDashboardComponent,
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'hi/app/user/my_courses',
+    component: MyCoursesComponent,
+    canActivate: [GeneralGuard]
+  },
+  {
+    path: 'hi/notification',
+    component: NotificationsComponent,
+    canActivate: [GeneralGuard],
+    data: { animation: 'notification' }
+  },
+  {
+    path: 'hi/app/org-selective-course',
+    component: OrgSelectiveCourseComponent,
+  },
+  {
     path: 'login',
     canActivate: [LoginGuard],
     component: LoginRootComponent,

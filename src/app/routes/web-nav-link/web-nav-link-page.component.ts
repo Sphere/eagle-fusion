@@ -172,16 +172,25 @@ export class WebNavLinkPageComponent implements OnInit {
     const isHindi = local === 'hi'
     const prefix = isHindi ? '/hi' : ''
 
-    // Helper function to navigate with proper language prefix handling
-    const navigate = (path: string) => {
-      // Remove /hi from path if it exists to avoid duplication
+    // Helper function to navigate using router (no full page reload)
+    const navigateWithRouter = (path: string, queryParams: any = {}) => {
+      // Clean path of /hi/ if it exists
       let cleanPath = path
       if (cleanPath.startsWith('/hi/')) {
         cleanPath = cleanPath.substring(3)
       }
-      // Add prefix if not already present
+
+      // Build final path with language prefix
       const finalPath = prefix ? `${prefix}${cleanPath}` : cleanPath
-      this.router.navigate([finalPath])
+
+      // Parse path segments for router navigation
+      const pathSegments = finalPath.split('/').filter(Boolean)
+      const navigationPath = `/${pathSegments.join('/')}`
+
+      this.router.navigate([navigationPath], {
+        queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined,
+        replaceUrl: false
+      })
     }
 
     console.log('🌐 Lang:', local, '| Action:', text)
@@ -212,33 +221,20 @@ export class WebNavLinkPageComponent implements OnInit {
         }
       }
 
-      // Handle language prefix properly - avoid duplication
-      let fullPath = homePath
-
-      // Remove /hi from homePath if it exists
-      if (homePath.startsWith('/hi/')) {
-        homePath = homePath.substring(3) // Remove '/hi'
-      }
-
-      // Add language prefix only if needed
-      if (prefix === '/hi' && !homePath.startsWith('/hi')) {
-        fullPath = `/hi${homePath}`
-      } else {
-        fullPath = homePath
-      }
-
-      const pathSegments = fullPath.split('/').filter(Boolean)
-      this.router.navigate([`/${pathSegments[0]}`, ...pathSegments.slice(1)], {
-        queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined
-      })
+      navigateWithRouter(homePath, queryParams)
     }
 
     else if (text === 'mycourses') {
+      this.showProfile = false
+      this.showHome = false
+      this.showCompetency = false
+      this.showNotification = false
+
       const result = await this.signupService.getUserData()
       this.configSvc.unMappedUser = result
 
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        navigate('/app/user/my_courses')
+        navigateWithRouter('/app/user/my_courses')
       } else {
         this.router.navigate([`${prefix}/app/about-you`], {
           queryParams: { redirect: `${prefix}/page/home` },
@@ -247,11 +243,16 @@ export class WebNavLinkPageComponent implements OnInit {
     }
 
     else if (text === 'competency') {
+      this.showProfile = false
+      this.showCompetency = true
+      this.showHome = false
+      this.showNotification = false
+
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
       const result = await this.signupService.getUserData()
 
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        navigate('/app/user/competency')
+        navigateWithRouter('/app/user/competency')
       } else {
         this.router.navigate([`${prefix}/app/about-you`], {
           queryParams: { redirect: `${prefix}/page/home` },
@@ -276,11 +277,17 @@ export class WebNavLinkPageComponent implements OnInit {
     }
 
     else {
+      // Profile
+      this.showProfile = true
+      this.showHome = false
+      this.showCompetency = false
+      this.showNotification = false
+
       const result = await this.signupService.getUserData()
       const hasProfile = !!result?.profileDetails?.profileReq?.personalDetails?.dob
 
       if (hasProfile) {
-        navigate('/app/profile-view')
+        navigateWithRouter('/app/profile-view')
       } else {
         const redirectUrl = localStorage.getItem('url_before_login') || `${prefix}/page/home`
         this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: redirectUrl } })
