@@ -34,10 +34,9 @@ export class WebCourseCardComponent implements OnInit {
   displayStyle = 'none'
   isLoggedIn = false
 
-  // Helper to get language prefix
+  // Helper to get language prefix - use user preference ONLY, not URL
   private getLanguagePrefix(): string {
-    const local = this.configSvc.unMappedUser?.profileDetails?.preferences?.language
-      ?? (location.href.includes('/hi/') ? 'hi' : 'en')
+    const local = this.configSvc.unMappedUser?.profileDetails?.preferences?.language ?? 'en'
     return local === 'hi' ? '/hi' : ''
   }
 

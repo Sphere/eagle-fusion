@@ -125,7 +125,8 @@ export class MobileCourseViewComponent implements OnInit {
       this.navigateToToc(course.identifier)
     } else {
       const currentRoute = this.router.url
-
+      localStorage.setItem('tocData', JSON.stringify(course))
+      localStorage.setItem(`url_before_login`, `app/toc/` + `${course.identifier}` + `/overview`)
       if (currentRoute.includes('org-selective-course')) {
         this.showPopup()
       } else {

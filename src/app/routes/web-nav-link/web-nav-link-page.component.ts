@@ -168,7 +168,8 @@ export class WebNavLinkPageComponent implements OnInit {
     const rootOrgId = this.configSvc.userProfile?.rootOrgId
     const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
 
-    const local = userProfile?.language ?? (location.href.includes('/hi/') ? 'hi' : 'en')
+    // Use user preference ONLY - don't detect from URL to avoid double /hi
+    const local = userProfile?.language ?? 'en'
     const isHindi = local === 'hi'
     const prefix = isHindi ? '/hi' : ''
 

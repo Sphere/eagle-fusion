@@ -154,26 +154,10 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
   }
   async redirect(text: any) {
-    let local = (this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser!.profileDetails &&
-      this.configSvc.unMappedUser!.profileDetails!.preferences &&
-      this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined)
-      ? this.configSvc.unMappedUser.profileDetails.preferences.language
-      : location.href.includes('/hi/') === true ? 'hi' : 'en'
-
-    // Build language prefix correctly
-    let langPrefix = local === 'hi' ? '/hi' : ''
-    let baseUrl = `${document.baseURI}`
-
-    // Remove /hi/ from baseUrl if it exists to avoid duplication
-    if (baseUrl.includes('/hi/')) {
-      baseUrl = baseUrl.replace(/\/hi\//g, '/')
-    }
-
-    // Ensure baseUrl ends without trailing slash for clean concatenation
-    if (baseUrl.endsWith('/')) {
-      baseUrl = baseUrl.slice(0, -1)
-    }
+    // Use user preference ONLY, don't detect from URL to avoid double /hi
+    const local = this.configSvc.unMappedUser?.profileDetails?.preferences?.language ?? 'en'
+    const langPrefix = local === 'hi' ? '/hi' : ''
+    const baseUrl = document.baseURI.endsWith('/') ? document.baseURI.slice(0, -1) : document.baseURI
 
     // ✅ Selective org config
     const org = this.configSvc?.userProfile?.rootOrgId || ''

@@ -282,29 +282,40 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   redirect() {
     console.log(this.configSvc, 'key')
-    let local = (
-      this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.preferences &&
-      this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined
-    )
-      ? this.configSvc.unMappedUser.profileDetails.preferences.language
-      : (location.href.includes('/hi/') ? 'hi' : '')
-    local = local === 'en' ? '' : 'hi'
-    console.log(local)
+    // Use user preference ONLY - don't detect from URL
+    const local = this.configSvc.unMappedUser?.profileDetails?.preferences?.language ?? 'en'
+    console.log("language:", local)
     let url = ''
 
     // Check if coming from org-selective-course
     const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
     const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
 
+    // Helper function to ensure language prefix consistency
+    const ensureLanguagePrefix = (urlToCheck: string): string => {
+      const langPrefix = local === 'hi' ? '/hi' : ''
+
+      // Remove existing /hi/ prefix if present to avoid duplication
+      let cleanUrl = urlToCheck
+      if (cleanUrl.startsWith('/hi/')) {
+        cleanUrl = cleanUrl.substring(3) // Remove /hi/
+      }
+
+      // Add language prefix if it's needed (language is Hindi)
+      if (langPrefix && cleanUrl.startsWith('/')) {
+        return `${langPrefix}${cleanUrl}`
+      }
+      return cleanUrl
+    }
+
     if (isOrgSelectiveCourse && orgSelectiveConfig?.redirectUrl) {
-      // Redirect to orgSelectiveConfig.redirectUrl
+      // Redirect to orgSelectiveConfig.redirectUrl with language prefix
       console.log('Redirecting to org-selective URL:', orgSelectiveConfig.redirectUrl)
-      url = orgSelectiveConfig.redirectUrl
+      url = ensureLanguagePrefix(orgSelectiveConfig.redirectUrl)
       location.href = url
     } else if (sessionStorage.getItem('cURL')) {
       url = sessionStorage.getItem('cURL') || ''
+      url = ensureLanguagePrefix(url)
       location.href = url
     } else {
       this.navService.nativeWindow.history.back()

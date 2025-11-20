@@ -453,6 +453,7 @@ line-height: 25px;
 
 
 @media (min-width:320px) and (max-width:600px)  {
+
   .resource-container{
     display: block;
   }
@@ -544,6 +545,9 @@ letter-spacing: 2%;
   .banner{
     margin-top: 0px !important;
       height: 225px;
+  }
+    .banner--logged-in{
+    margin-top: 60px !important;
   }
   .org-body {
     padding: 10px;
