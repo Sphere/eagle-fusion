@@ -4080,7 +4080,7 @@
         </context-group>
        <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">218</context>
+          <context context-type="linenumber">217</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
@@ -4173,7 +4173,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">213</context>
+          <context context-type="linenumber">212</context>
         </context-group>
       </trans-unit>
             <trans-unit id="a59beb97f1b2f0d8cf4e7df77dab55205cfa9f47" datatype="html">
@@ -4231,7 +4231,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">215</context>
+          <context context-type="linenumber">214</context>
         </context-group>
       </trans-unit>
       <trans-unit id="a8b24f2c3a5d0edfeed7074907536ed10540cba6" datatype="html">
@@ -4253,7 +4253,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">220</context>
+          <context context-type="linenumber">219</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/public-login/public-login.component.html</context>
@@ -7003,7 +7003,7 @@
                <context-group purpose="location">
 
         <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">169</context>
+          <context context-type="linenumber">182</context>
            </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/component/my-courses/my-courses.component.html</context>
@@ -7926,13 +7926,17 @@
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
           <context context-type="linenumber">161</context>
         </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
+          <context context-type="linenumber">173</context>
+        </context-group>
       </trans-unit>
        <trans-unit id="4cd979821c89535df23df1c8ac8f260673610d90" datatype="html">
         <source>Resume</source>
         <target>दोबारा शुरू करें</target>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/web-course-card/web-course-card.component.html</context>
-          <context context-type="linenumber">164</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
        <trans-unit id="63a351a37658904fdd8bf69d5a06315464ae1219" datatype="html">

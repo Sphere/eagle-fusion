@@ -110,6 +110,12 @@ export class OrgSelectiveCourseComponent implements OnInit {
     const orgId = this.orgId
     const urlParams = new URLSearchParams(window.location.search)
     const orgNameFromUrl = urlParams.get('org')?.trim()
+    const hasUser = !!this.userId
+
+    // Always fetch user courses if user exists (even with cached config)
+    const userCoursesRequest = hasUser
+      ? this.userSvc.fetchUserBatchList(this.userId)
+      : of([])
 
     // Use cached config if already matched
     if (
@@ -120,24 +126,29 @@ export class OrgSelectiveCourseComponent implements OnInit {
           cachedOrgConfig.orgName?.toLowerCase() === orgNameFromUrl.toLowerCase()))
     ) {
       console.log('Using cached org config for:', cachedOrgConfig.orgName || orgId)
-      this.handleOrgData(cachedOrgConfig)
+      // Still fetch user courses for cached config
+      userCoursesRequest.subscribe({
+        next: (userCourses) => {
+          this.handleOrgData(cachedOrgConfig, userCourses)
+        },
+        error: (err) => {
+          console.error('Error fetching user courses:', err)
+          this.handleOrgData(cachedOrgConfig, [])
+        },
+      })
       return
     }
 
     // Fetch JSON from S3
     const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
-    const hasUser = !!this.userId
-
     const s3Request = this.http.get<OrgSelectiveCourseJson>(s3Url)
-    const userCoursesRequest = hasUser
-      ? this.userSvc.fetchUserBatchList(this.userId)
-      : of([])
 
     forkJoin({
       s3Data: s3Request,
       userCourses: userCoursesRequest,
     }).subscribe({
       next: ({ s3Data, userCourses }) => {
+        console.log("userCourses", userCourses)
         if (!s3Data?.states || !Array.isArray(s3Data.states)) {
           console.warn('Invalid org-selective-course.json format')
           this.isLoading = false
@@ -217,18 +228,21 @@ export class OrgSelectiveCourseComponent implements OnInit {
     this.orgService.getSearchResultsV7ById(allCourseIds).subscribe({
       next: (response: any) => {
         const allCourses = response?.result?.content || []
+        console.log('All fetched courses:', allCourses)
+        console.log('User courses with progress:', userCourses)
 
         const enrichedCourses = allCourses.map((course: any) => {
           const userProgress = userCourses.find(
             (u: any) => u.courseId === course.identifier
           )
           const completion = userProgress?.completionPercentage ?? 0
-          return completion > 0
-            ? { ...course, completionPercentage: completion }
-            : { ...course }
+          console.log(`Course: ${course.identifier}, Progress:`, userProgress, 'Completion:', completion)
+
+          // Always include completionPercentage (even if 0)
+          return { ...course, completionPercentage: completion }
         })
 
-
+        console.log('Enriched courses:', enrichedCourses)
         this.courseData = uniqBy(enrichedCourses, 'identifier')
         this.buildSemesterWiseData(org.semesters)
         this.isLoading = false
@@ -251,6 +265,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
         .filter(Boolean),
     }))
     console.log('Final Semester Data:', this.semesterData)
+    console.log('Sample course with completionPercentage:', this.semesterData[0]?.courses[0])
   }
   login() {
     this.router.navigateByUrl('/public/login')
