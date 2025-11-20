@@ -506,6 +506,37 @@ const routes: Routes = [
     },
     canActivate: [GeneralGuard],
   },
+  {
+    path: 'hi/page/toc',
+    redirectTo: '/',
+    pathMatch: 'full',
+  },
+  {
+    path: 'hi/page/toc/:id',
+    data: {
+      pageType: 'page',
+      pageKey: 'toc',
+    },
+    resolve: {
+      pageData: PageResolve,
+      content: AppTocResolverService,
+    },
+    runGuardsAndResolvers: 'paramsChange',
+    component: PageComponent,
+    canActivate: [GeneralGuard],
+  },
+  {
+    path: 'hi/page/:id',
+    component: PageComponent,
+    data: {
+      pageType: 'page',
+      pageKey: 'id',
+    },
+    resolve: {
+      pageData: PageResolve,
+    },
+    canActivate: [GeneralGuard],
+  },
   // {
   //   path: 'page/explore/:tags',
   //   data: {

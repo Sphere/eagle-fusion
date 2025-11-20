@@ -172,18 +172,15 @@ export class WebNavLinkPageComponent implements OnInit {
     const isHindi = local === 'hi'
     const prefix = isHindi ? '/hi' : ''
 
-    // Helper function to navigate using router (no full page reload)
     const navigateWithRouter = (path: string, queryParams: any = {}) => {
-      // Clean path of /hi/ if it exists
-      let cleanPath = path
-      if (cleanPath.startsWith('/hi/')) {
-        cleanPath = cleanPath.substring(3)
-      }
 
-      // Build final path with language prefix
-      const finalPath = prefix ? `${prefix}${cleanPath}` : cleanPath
+      // Remove /hi/ or /en/ prefix only if present at start
+      let cleanPath = path.replace(/^\/(hi|en)\//, '')
 
-      // Parse path segments for router navigation
+      // Re-apply prefix safely once
+      const finalPath = `${prefix}${cleanPath}`.replace(/\/+/g, '/')
+
+      // Convert properly for Angular navigation
       const pathSegments = finalPath.split('/').filter(Boolean)
       const navigationPath = `/${pathSegments.join('/')}`
 
@@ -195,6 +192,7 @@ export class WebNavLinkPageComponent implements OnInit {
 
     console.log('🌐 Lang:', local, '| Action:', text)
 
+    // ---------------- HOME ----------------
     if (text === 'home') {
       this.showProfile = false
       this.showHome = true
@@ -208,23 +206,21 @@ export class WebNavLinkPageComponent implements OnInit {
         const redirectUrl = orgSelectiveConfig.redirectUrl || homePath
         console.log('🏫 Selective org →', rootOrgId)
 
-        // Parse URL to extract path and query params
         const urlParts = redirectUrl.split('?')
         homePath = urlParts[0]
 
-        // Extract query params if they exist
         if (urlParts[1]) {
           const params = new URLSearchParams(urlParts[1])
-          params.forEach((value, key) => {
-            queryParams[key] = value
-          })
+          params.forEach((value, key) => (queryParams[key] = value))
         }
       }
 
       navigateWithRouter(homePath, queryParams)
+      return
     }
 
-    else if (text === 'mycourses') {
+    // ---------------- MY COURSES ----------------
+    if (text === 'mycourses') {
       this.showProfile = false
       this.showHome = false
       this.showCompetency = false
@@ -240,15 +236,18 @@ export class WebNavLinkPageComponent implements OnInit {
           queryParams: { redirect: `${prefix}/page/home` },
         })
       }
+      return
     }
 
-    else if (text === 'competency') {
+    // ---------------- COMPETENCY ----------------
+    if (text === 'competency') {
       this.showProfile = false
       this.showCompetency = true
       this.showHome = false
       this.showNotification = false
 
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
+
       const result = await this.signupService.getUserData()
 
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
@@ -258,9 +257,11 @@ export class WebNavLinkPageComponent implements OnInit {
           queryParams: { redirect: `${prefix}/page/home` },
         })
       }
+      return
     }
 
-    else if (text === 'notification') {
+    // ---------------- NOTIFICATION ----------------
+    if (text === 'notification') {
       this.showProfile = false
       this.showHome = false
       this.showCompetency = false
@@ -274,26 +275,26 @@ export class WebNavLinkPageComponent implements OnInit {
       })
 
       dialogRef.afterClosed().subscribe(() => console.log('🔔 Notification modal closed'))
+      return
     }
 
-    else {
-      // Profile
-      this.showProfile = true
-      this.showHome = false
-      this.showCompetency = false
-      this.showNotification = false
+    // ---------------- PROFILE ----------------
+    this.showProfile = true
+    this.showHome = false
+    this.showCompetency = false
+    this.showNotification = false
 
-      const result = await this.signupService.getUserData()
-      const hasProfile = !!result?.profileDetails?.profileReq?.personalDetails?.dob
+    const result = await this.signupService.getUserData()
+    const hasProfile = !!result?.profileDetails?.profileReq?.personalDetails?.dob
 
-      if (hasProfile) {
-        navigateWithRouter('/app/profile-view')
-      } else {
-        const redirectUrl = localStorage.getItem('url_before_login') || `${prefix}/page/home`
-        this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: redirectUrl } })
-      }
+    if (hasProfile) {
+      navigateWithRouter('/app/profile-view')
+    } else {
+      const redirectUrl = localStorage.getItem('url_before_login') || `${prefix}/page/home`
+      this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: redirectUrl } })
     }
   }
+
 
 
 
