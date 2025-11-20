@@ -172,7 +172,17 @@ export class WebNavLinkPageComponent implements OnInit {
     const isHindi = local === 'hi'
     const prefix = isHindi ? '/hi' : ''
 
-    const navigate = (path: string) => this.router.navigate([`${prefix}${path}`])
+    // Helper function to navigate with proper language prefix handling
+    const navigate = (path: string) => {
+      // Remove /hi from path if it exists to avoid duplication
+      let cleanPath = path
+      if (cleanPath.startsWith('/hi/')) {
+        cleanPath = cleanPath.substring(3)
+      }
+      // Add prefix if not already present
+      const finalPath = prefix ? `${prefix}${cleanPath}` : cleanPath
+      this.router.navigate([finalPath])
+    }
 
     console.log('🌐 Lang:', local, '| Action:', text)
 
