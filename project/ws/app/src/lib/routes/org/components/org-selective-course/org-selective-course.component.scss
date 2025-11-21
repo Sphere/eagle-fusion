@@ -453,7 +453,15 @@ line-height: 25px;
 
 
 @media (min-width:320px) and (max-width:600px)  {
+  .banner{
+    &--logged-in {
+      margin-top: 80px !important;
+    }
 
+    &--logged-out {
+      margin-top: 0px !important;
+    }
+  }
   .resource-container{
     display: block;
   }
@@ -466,7 +474,7 @@ line-height: 25px;
         margin-bottom: 0px;
         margin-top: 25px;
         padding-bottom: 60px;
-}
+  }
   .site-footer__wrap--lp.wrapper{
   display: flex;
     flex-direction: column;
