@@ -277,25 +277,25 @@
           <div class="flex flex-col" role="status" aria-live="polite">
             <span class="mt-3 mb-3" i18n>Password Requirements:</span>
 
-            <span class="mb-2">
+            <span class="mb-2 flex align-items-center">
               <img class="gray-dot mr-2" [src]="passwordValidation.length"
                 [alt]="passwordValidation.length.includes('tick') ? 'Requirement met' : 'Requirement not met'">
               <span i18n>Minimum 8 characters</span>
             </span>
 
-            <span class="mb-2">
+            <span class="mb-2 flex align-items-center">
               <img class="gray-dot mr-2" [src]="passwordValidation.uppercase"
                 [alt]="passwordValidation.uppercase.includes('tick') ? 'Requirement met' : 'Requirement not met'">
               <span i18n>One capital letter</span>
             </span>
 
-            <span class="mb-2">
+            <span class="mb-2 flex align-items-center">
               <img class="gray-dot mr-2" [src]="passwordValidation.number"
                 [alt]="passwordValidation.number.includes('tick') ? 'Requirement met' : 'Requirement not met'">
               <span i18n>One number</span>
             </span>
 
-            <span class="mb-2">
+            <span class="mb-2 flex align-items-center">
               <img class="gray-dot mr-2" [src]="passwordValidation.specialChar"
                 [alt]="passwordValidation.specialChar.includes('tick') ? 'Requirement met' : 'Requirement not met'">
               <span i18n>One special character</span>

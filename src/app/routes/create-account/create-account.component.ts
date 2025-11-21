@@ -402,7 +402,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       CreateAccountDialogComponent,
       { selected: 'name', details: { firstname, lastname } },
       '312px',
-      '186px'
+      '30%'
     )
 
     this.dialogRef
@@ -429,7 +429,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       CreateAccountDialogComponent,
       { selected: 'userExist' },
       '312px',
-      '186px'
+      '30%'
     )
 
     this.dialogRef
@@ -461,7 +461,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     component: any,
     data: any,
     width = '312px',
-    height = '186px'
+    height = '30%'
   ): MatDialogRef<any> {
     return this.dialog.open(component, {
       panelClass: 'language-modal',

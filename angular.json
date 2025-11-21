@@ -85,8 +85,7 @@
               "vendor": true
             },
             "optimization": false,
-            "namedChunks": true,
-            "localize": true
+            "namedChunks": true
           },
           "configurations": {
             "production": {
