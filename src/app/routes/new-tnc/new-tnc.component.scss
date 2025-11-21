@@ -201,3 +201,7 @@
   opacity: 0.7;
   background-color: grey;
 }
+
+::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled~.mdc-checkbox__background .mdc-checkbox__checkmark {
+  color: white !important;
+}
