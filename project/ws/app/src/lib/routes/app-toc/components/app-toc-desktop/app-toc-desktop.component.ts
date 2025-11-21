@@ -282,43 +282,39 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   redirect() {
     console.log(this.configSvc, 'key')
-    // Use user preference ONLY - don't detect from URL
-    const local = this.configSvc.unMappedUser?.profileDetails?.preferences?.language ?? 'en'
-    console.log("language:", local)
+    let local = (
+      this.configSvc.unMappedUser &&
+      this.configSvc.unMappedUser.profileDetails &&
+      this.configSvc.unMappedUser.profileDetails.preferences &&
+      this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined
+    )
+      ? this.configSvc.unMappedUser.profileDetails.preferences.language
+      : (location.href.includes('/hi/') ? 'hi' : '')
+    local = local === 'en' ? '' : 'hi'
+    console.log(local)
     let url = ''
 
-    // Check if coming from org-selective-course
-    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    // ✅ Check if orgSelectiveConfig matches and redirect accordingly
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
     const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
 
-    // Helper function to ensure language prefix consistency
-    const ensureLanguagePrefix = (urlToCheck: string): string => {
-      const langPrefix = local === 'hi' ? '/hi' : ''
-
-      // Remove existing /hi/ prefix if present to avoid duplication
-      let cleanUrl = urlToCheck
-      if (cleanUrl.startsWith('/hi/')) {
-        cleanUrl = cleanUrl.substring(3) // Remove /hi/
-      }
-
-      // Add language prefix if it's needed (language is Hindi)
-      if (langPrefix && cleanUrl.startsWith('/')) {
-        return `${langPrefix}${cleanUrl}`
-      }
-      return cleanUrl
-    }
-
-    if (isOrgSelectiveCourse && orgSelectiveConfig?.redirectUrl) {
-      // Redirect to orgSelectiveConfig.redirectUrl with language prefix
-      console.log('Redirecting to org-selective URL:', orgSelectiveConfig.redirectUrl)
-      url = ensureLanguagePrefix(orgSelectiveConfig.redirectUrl)
-      location.href = url
-    } else if (sessionStorage.getItem('cURL')) {
+    if (sessionStorage.getItem('cURL')) {
       url = sessionStorage.getItem('cURL') || ''
-      url = ensureLanguagePrefix(url)
       location.href = url
+    } else if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+      // ✅ Redirect to selective org course page instead of home
+      const redirectUrl = orgSelectiveConfig.redirectUrl || '/page/home'
+      console.log('🏫 Redirecting to selective org page:', redirectUrl)
+      location.href = `${document.baseURI.replace(/\/hi$/, '').replace(/\/$/, '')}${redirectUrl}`
     } else {
       this.navService.nativeWindow.history.back()
+      // url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
+      // console.log(url)
+      // let url3 = `${document.baseURI}`
+      // if (url3.includes('hi')) {
+      //   url3 = url3.replace(/hi\//g, '')
+      // }
+      // location.href = `${url3}${url}`
     }
   }
 

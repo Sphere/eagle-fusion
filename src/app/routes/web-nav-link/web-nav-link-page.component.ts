@@ -164,105 +164,60 @@ export class WebNavLinkPageComponent implements OnInit {
   }
 
   async redirect(text: string) {
-    const userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
+    let userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
     const rootOrgId = this.configSvc.userProfile?.rootOrgId
     const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+    let local: string
 
-    // Use user preference ONLY - don't detect from URL to avoid double /hi
-    const local = userProfile?.language ?? 'en'
-    const isHindi = local === 'hi'
-    const prefix = isHindi ? '/hi' : ''
-
-    const navigateWithRouter = (path: string, queryParams: any = {}) => {
-
-      // Remove /hi/ or /en/ prefix only if present at start
-      let cleanPath = path.replace(/^\/(hi|en)\//, '')
-
-      // Re-apply prefix safely once
-      const finalPath = `${prefix}${cleanPath}`.replace(/\/+/g, '/')
-
-      // Convert properly for Angular navigation
-      const pathSegments = finalPath.split('/').filter(Boolean)
-      const navigationPath = `/${pathSegments.join('/')}`
-
-      this.router.navigate([navigationPath], {
-        queryParams: Object.keys(queryParams).length > 0 ? queryParams : undefined,
-        replaceUrl: false
-      })
+    if (userProfile && userProfile.language !== undefined) {
+      local = userProfile.language
+    } else {
+      local = location.href.includes('/hi/') ? 'hi' : 'en'
     }
 
-    console.log('🌐 Lang:', local, '| Action:', text)
+    let url1 = local === 'hi' ? 'hi' : ""
+    console.log(url1, text)
 
-    // ---------------- HOME ----------------
     if (text === 'home') {
       this.showProfile = false
       this.showHome = true
       this.showCompetency = false
       this.showNotification = false
 
-      let homePath = '/page/home'
-      let queryParams: any = {}
-
+      let url = 'page/home'
       if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-        const redirectUrl = orgSelectiveConfig.redirectUrl || homePath
-        console.log('🏫 Selective org →', rootOrgId)
-
-        const urlParts = redirectUrl.split('?')
-        homePath = urlParts[0]
-
-        if (urlParts[1]) {
-          const params = new URLSearchParams(urlParts[1])
-          params.forEach((value, key) => (queryParams[key] = value))
-        }
+        const redirectUrl = orgSelectiveConfig.redirectUrl || 'page/home'
+        url = redirectUrl.startsWith('/') ? redirectUrl.substring(1) : redirectUrl
+        console.log('🏫 Selective org redirect →', url)
       }
 
-      navigateWithRouter(homePath, queryParams)
-      return
+      if (url1 === 'hi') {
+        url = '/' + url
+      }
+      this.router.navigate([url]) // Secure navigation
     }
-
-    // ---------------- MY COURSES ----------------
-    if (text === 'mycourses') {
-      this.showProfile = false
-      this.showHome = false
-      this.showCompetency = false
-      this.showNotification = false
-
-      const result = await this.signupService.getUserData()
+    else if (text === 'mycourses') {
+      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
+      let result = await this.signupService.getUserData()
       this.configSvc.unMappedUser = result
-
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        navigateWithRouter('/app/user/my_courses')
+        this.router.navigate([url])
       } else {
-        this.router.navigate([`${prefix}/app/about-you`], {
-          queryParams: { redirect: `${prefix}/page/home` },
-        })
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
       }
-      return
     }
-
-    // ---------------- COMPETENCY ----------------
-    if (text === 'competency') {
-      this.showProfile = false
-      this.showCompetency = true
-      this.showHome = false
-      this.showNotification = false
-
+    else if (text === 'competency') {
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-
-      const result = await this.signupService.getUserData()
+      let result = await this.signupService.getUserData()
 
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        navigateWithRouter('/app/user/competency')
+        let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
+        this.router.navigate([url])
       } else {
-        this.router.navigate([`${prefix}/app/about-you`], {
-          queryParams: { redirect: `${prefix}/page/home` },
-        })
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
       }
-      return
     }
-
-    // ---------------- NOTIFICATION ----------------
-    if (text === 'notification') {
+    else if (text === 'notification') {
       this.showProfile = false
       this.showHome = false
       this.showCompetency = false
@@ -272,27 +227,32 @@ export class WebNavLinkPageComponent implements OnInit {
         width: '400px',
         maxHeight: '80vh',
         panelClass: 'custom-notification-modal',
-        position: { top: '60px', right: '10px' },
+        position: { top: '60px', right: '10px' }
       })
 
-      dialogRef.afterClosed().subscribe(() => console.log('🔔 Notification modal closed'))
-      return
+      dialogRef.afterClosed().subscribe(() => {
+        console.log('Notification modal closed')
+      })
     }
-
-    // ---------------- PROFILE ----------------
-    this.showProfile = true
-    this.showHome = false
-    this.showCompetency = false
-    this.showNotification = false
-
-    const result = await this.signupService.getUserData()
-    const hasProfile = !!result?.profileDetails?.profileReq?.personalDetails?.dob
-
-    if (hasProfile) {
-      navigateWithRouter('/app/profile-view')
-    } else {
-      const redirectUrl = localStorage.getItem('url_before_login') || `${prefix}/page/home`
-      this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: redirectUrl } })
+    else {
+      let result = await this.signupService.getUserData()
+      if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
+        this.showProfile = true
+        let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
+        this.router.navigate([url])
+      } else {
+        this.showProfile = false
+        if (localStorage.getItem('url_before_login')) {
+          const courseUrl = localStorage.getItem('url_before_login')
+          this.showProfile = true
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+        } else {
+          this.showProfile = true
+          this.showHome = false
+          this.showCompetency = false
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
+        }
+      }
     }
   }
 
