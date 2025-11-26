@@ -29,6 +29,7 @@ export class MpRegisterComponent implements OnInit {
   // JSON URLs
   mpANMDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_anm_District.json?cb=${Date.now()}`
   mpCHODistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_cho_District.json?cb=${Date.now()}`
+  mpTRAINERDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_trainer_district.json?cb=${Date.now()}`
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
 
@@ -66,7 +67,13 @@ export class MpRegisterComponent implements OnInit {
 
   /** Load district JSON based on role */
   private loadDistrictData(role: string): void {
-    const url = role === 'ANM-MP' ? this.mpANMDistrictUrl : this.mpCHODistrictUrl
+    let url = this.mpCHODistrictUrl
+
+    if (role === 'ANM-MP') {
+      url = this.mpANMDistrictUrl
+    } else if (role === 'Trainer-MP') {
+      url = this.mpTRAINERDistrictUrl
+    }
 
     this.http.get(url).subscribe((districtData: any) => {
       if (Array.isArray(districtData) && districtData.length > 0) {
