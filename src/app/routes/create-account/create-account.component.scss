@@ -43,6 +43,7 @@
   color: #000;
   font-size: 14px;
   line-height: 17px;
+  overflow: visible;
 }
 
 .label-text {
@@ -91,14 +92,16 @@
     background: #FFFFFF !important;
 }
 .btm-block-img{
-      position: absolute;
-    bottom: 0px;
-    text-align: center;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    z-index: 0000;
+  position: relative;
+  bottom: auto;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  z-index: 0;
+  margin-top: 20px;
+  // padding-bottom: 20px;
 }
 .btm-bg{
   width: 216px;
@@ -131,7 +134,9 @@ a {
 }
 .next-button {
   margin-top: 0px;
-  width: 35%;
+  width: auto;
+  min-width: 100px;
+  padding: 0px 24px;
   height: 38px;
   background: #1C5D95;
   border-radius: 50px;
@@ -152,6 +157,7 @@ a {
 .next-btn-div {
   text-align: right;
   margin: 1rem 0;
+  overflow: visible;
 }
 @media screen and (max-height: 700px) {
   /* Adjust the height for mobile screens */
@@ -325,9 +331,27 @@ span.mat-button-wrapper {
   flex-direction: column !important;
   gap: 10px;
 }
-.radioBlock{
+
+.radioBlock {
   display: flex;
   flex-direction: column;
   z-index: 2;
   position: absolute;
+}
+
+.login-method-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.login-method-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+
+  .next-btn-div {
+    align-self: flex-end;
+    margin: 0;
+  }
 }

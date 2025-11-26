@@ -167,30 +167,37 @@
 
 
               <!-- Login Method Selection -->
-              <div class="form-group radioBlock">
+              <div class="form-group login-method-container">
                 <span class="info-text" i18n>Choose your Login method</span>
-                <mat-radio-group class="flex flex-col radio my-auto" [(ngModel)]="loginSelected"
-                  [ngModelOptions]="{ standalone: true }" aria-label="Login method selection">
+                <div class="login-method-wrapper">
+                  <mat-radio-group class="flex flex-col radio my-auto" [(ngModel)]="loginSelected"
+                    [ngModelOptions]="{ standalone: true }" aria-label="Login method selection">
 
-                  <mat-radio-button class="radioButton my-3" value="otp" (change)="loginSelected = 'otp'" i18n>
-                    By OTP
-                  </mat-radio-button>
+                    <mat-radio-button class="radioButton my-3" value="otp" (change)="loginSelected = 'otp'" i18n>
+                      By OTP
+                    </mat-radio-button>
 
-                  <mat-radio-button class="radioButton" value="password" (change)="loginSelected = 'password'" i18n>
-                    By password
-                  </mat-radio-button>
-                </mat-radio-group>
-              </div>
+                    <mat-radio-button class="radioButton" value="password" (change)="loginSelected = 'password'" i18n>
+                      By password
+                    </mat-radio-button>
+                  </mat-radio-group>
 
-              <!-- Submit Button -->
-              <div class="next-btn-div">
-                <button class="btn next-button z-btn" type="submit" [disabled]="!createAccountForm.valid" i18n>
-                  Next
-                </button>
+                  <!-- Submit Button -->
+                  <div class="next-btn-div">
+                    <button class="btn next-button z-btn" type="submit" [disabled]="!createAccountForm.valid" i18n>
+                      Next
+                    </button>
+                  </div>
+                </div>
               </div>
             </form>
           </div>
         </div>
+      </div>
+
+      <!-- Mobile Bottom Decorative Image -->
+      <div *ngIf="isXSmall$ | async" class="btm-block-img">
+        <img alt="Decorative frame" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
       </div>
     </div>
   </div>
@@ -322,11 +329,6 @@
     </ws-login-otp>
   </div>
 </ng-container>
-
-<!-- Mobile Bottom Decorative Image -->
-<div *ngIf="isXSmall$ | async" class="btm-block-img">
-  <img alt="Decorative frame" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
-</div>
 
 <!-- Hidden Toast Messages (for i18n) -->
 <input type="hidden" value="Thanks for Signing up" i18n-value i18n-aria-value aria-value="Signup successful"
