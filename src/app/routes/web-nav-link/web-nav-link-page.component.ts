@@ -189,6 +189,8 @@ export class WebNavLinkPageComponent implements OnInit {
         const redirectUrl = orgSelectiveConfig.redirectUrl || 'page/home'
         url = redirectUrl.startsWith('/') ? redirectUrl.substring(1) : redirectUrl
         console.log('🏫 Selective org redirect →', url)
+        window.location.href = url
+        return
       }
 
       if (url1 === 'hi') {
