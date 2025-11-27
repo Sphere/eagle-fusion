@@ -75,7 +75,9 @@ export class OrgSelectiveCourseComponent implements OnInit {
     private router: Router,
 
   ) { }
-
+  sanitizeId(name: string): string {
+    return name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
+  }
   ngOnInit(): void {
     this.isLoggedIn = !!this.configSvc.userProfile
     if (!this.isLoggedIn) {
@@ -99,6 +101,8 @@ export class OrgSelectiveCourseComponent implements OnInit {
     console.log('User ID:', this.userId, this.myCourseDisplayConfig)
     this.loadOrgSelectiveCourses()
   }
+
+
 
   /**
    * Load org-specific courses from S3 and merge with user progress data
@@ -203,6 +207,18 @@ export class OrgSelectiveCourseComponent implements OnInit {
       },
     })
   }
+
+  scrollToSem(semName: string) {
+    const id = this.sanitizeId(semName)
+    const element = document.getElementById(id)
+
+    if (element) {
+      const y = element.getBoundingClientRect().top + window.pageYOffset - 80  // scroll 10px above the name
+      window.scrollTo({ top: y, behavior: 'smooth' })
+    }
+  }
+
+
 
   /**
    * Populate org banner, logo, and courses

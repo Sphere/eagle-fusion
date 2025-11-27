@@ -39,6 +39,7 @@
 }
 
 .filter-btn {
+  cursor: pointer;
   display: inline-flex;     /* Makes button fit to content */
   width: auto;              /* Prevents full-width expansion */
   white-space: nowrap;      /* Keeps text on one line */
