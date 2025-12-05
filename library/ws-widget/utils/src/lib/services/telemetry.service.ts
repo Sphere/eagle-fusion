@@ -317,7 +317,7 @@ export class TelemetryService {
       console.log('Error in telemetry paramTrigger', e)
     }
   }
-  async paramTriggerEnd(param: any, browserName: any, OS: any, eparams: any, user: any) {
+  async paramTriggerEnd(param: any, browserName: any, OS: any, eparams: any, user: any, rollup: any) {
     const page = this.getPageDetails()
     try {
       let edata = {
@@ -344,7 +344,7 @@ export class TelemetryService {
             ver: '3.0',
             mid: '',
             actor: {
-              id: user.userToken,
+              id: user.userId,
               type: 'User',
             },
             context: {
@@ -358,12 +358,12 @@ export class TelemetryService {
               sid: '',
               did: '',
               cdata: [],
-              rollup: {},
+              rollup: rollup,
             },
             object: {
               ver: '1.0.0',
               id: '',
-              rollup: {}
+              rollup: rollup
             },
             tags: [],
             edata,
@@ -377,7 +377,7 @@ export class TelemetryService {
       console.log('Error in telemetry paramTrigger', e)
     }
   }
-  async paramTriggerStart(param: any, browserName: any, OS: any, eparams: any, user: any) {
+  async paramTriggerStart(param: any, browserName: any, OS: any, eparams: any, user: any, rollup: any) {
     const page = this.getPageDetails()
     try {
       let edata = {
@@ -404,7 +404,7 @@ export class TelemetryService {
             ver: '3.0',
             mid: '',
             actor: {
-              id: user.userToken,
+              id: user.userId,
               type: 'User',
             },
             context: {
@@ -418,12 +418,12 @@ export class TelemetryService {
               sid: '',
               did: '',
               cdata: [],
-              rollup: {},
+              rollup: rollup,
             },
             object: {
               ver: '1.0.0',
               id: '',
-              rollup: {}
+              rollup: rollup
             },
             tags: [],
             edata,

@@ -124,12 +124,15 @@ export class MobileScromAdapterService {
     if (data["cmi.core.lesson_status"] === 'incomplete') {
       const paramMap = this.route.snapshot.queryParamMap
       const params: any = {}
-      paramMap.keys.forEach((key: any) => {
-        const paramValue = paramMap.get(key)
-        params[key] = paramValue
+      paramMap.keys.forEach((key: string) => {
+        const lowerKey = key.toLowerCase()
+        if (lowerKey !== 'authorization' && lowerKey !== 'usertoken') {
+          params[key] = paramMap.get(key)
+        }
       })
       const paramsJSON = JSON.stringify(params)
       const userAgent = this.UserAgentResolverService.getUserAgent()
+      const rollup = { l1: this.getProperty('courseId') || "", l2: this.getProperty('contentId') || '' }
       const startEparams = {
         type: 'scorm',
         mode: 'scorm-start',
@@ -138,10 +141,10 @@ export class MobileScromAdapterService {
         duration: 0,
       }
       const user = {
-        userToken: this.getProperty('userToken')
+        id: this.getProperty('userId')
       }
       this.telemetrySvc.
-        paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user)
+        paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user, rollup)
 
       if (data) {
         const endEparams = {
@@ -149,10 +152,10 @@ export class MobileScromAdapterService {
           mode: 'scorm-close',
           pageid: this.route.snapshot.queryParams.courseId ?
             this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
-          duration: data["cmi.core.session_time"],
+          duration: this.convertDurationToEpoch(data["cmi.core.session_time"]),
         }
         this.telemetrySvc.
-          paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user)
+          paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user, rollup)
       }
     }
     if (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed') {
@@ -161,12 +164,15 @@ export class MobileScromAdapterService {
           console.log(response)
           const paramMap = this.route.snapshot.queryParamMap
           const params: any = {}
-          paramMap.keys.forEach((key: any) => {
-            const paramValue = paramMap.get(key)
-            params[key] = paramValue
+          paramMap.keys.forEach((key: string) => {
+            const lowerKey = key.toLowerCase()
+            if (lowerKey !== 'authorization' && lowerKey !== 'usertoken') {
+              params[key] = paramMap.get(key)
+            }
           })
           const paramsJSON = JSON.stringify(params)
           const userAgent = this.UserAgentResolverService.getUserAgent()
+          const rollup = { l1: this.getProperty('courseId') || '', l2: this.getProperty('contentId') || '' }
           const startEparams = {
             type: 'scorm',
             mode: 'scorm-start',
@@ -175,10 +181,10 @@ export class MobileScromAdapterService {
             duration: 0,
           }
           const user = {
-            userToken: this.getProperty('userToken')
+            id: this.getProperty('userId')
           }
           this.telemetrySvc.
-            paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user)
+            paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user, rollup)
 
           if (data) {
             const endEparams = {
@@ -186,10 +192,10 @@ export class MobileScromAdapterService {
               mode: 'scorm-close',
               pageid: this.route.snapshot.queryParams.courseId ?
                 this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
-              duration: data["cmi.core.session_time"],
+              duration: this.convertDurationToEpoch(data["cmi.core.session_time"]),
             }
             this.telemetrySvc.
-              paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user)
+              paramTriggerEnd(paramsJSON, userAgent.browserName, userAgent.OS, endEparams, user, rollup)
           }
           const result = await response.result
           result["type"] = 'scorm'
@@ -389,5 +395,14 @@ export class MobileScromAdapterService {
     }
     return this.http.post(options.url, options.payload, { headers })
 
+  }
+
+  convertDurationToEpoch(duration: any): number {
+    // Split HH:MM:SS.ms
+    const [hours, minutes, seconds, ms] = duration.split(/[:.]/).map(Number)
+    // Convert to seconds
+    const durationSeconds = hours * 3600 + minutes * 60 + seconds + ms / 1000
+    const currentEpochFloat = Date.now() / 1000
+    return currentEpochFloat + durationSeconds
   }
 }
