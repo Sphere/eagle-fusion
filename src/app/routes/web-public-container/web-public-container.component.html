@@ -2,10 +2,10 @@
   <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse && userEnrollCourse.length>0">
     <div class=" line-label bg-green flex scroller-container">
       <div>
-        <span class="header1 header0" i18n>CONTINUE LEARNING</span>
+        <span class="header1 header0">{{ 'CONTINUE LEARNING' | translate }}</span>
       </div>
-      <button i18n (click)="viewAllCourse('continueLearning')" class="view-all-course">
-        View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
+      <button (click)="viewAllCourse('continueLearning')" class="view-all-course">
+        {{ 'View all' | translate }} <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
       </button>
     </div>
 
@@ -23,10 +23,10 @@
   <section class="mt-4 view-all-course-container" *ngIf="coursesForUP && coursesForUP.length>0">
     <div class="line-label orange flex scroller-container">
       <div>
-        <span class="header1" i18n>TOP COURSES</span>
+        <span class="header1">{{ 'TOP COURSES' | translate }}</span>
       </div>
-      <button i18n (click)="viewAllCourse('topCourse')" class="view-all-course">
-        View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
+      <button (click)="viewAllCourse('topCourse')" class="view-all-course">
+        {{ 'View all' | translate }} <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
       </button>
 
     </div>
@@ -43,10 +43,10 @@
   <section class="mt-4 view-all-course-container" *ngIf="coursesForYou && coursesForYou.length>0">
     <div class="line-label orange flex scroller-container">
       <div>
-        <span class="header1" i18n>FOR YOU</span>
+        <span class="header1">{{ 'FOR YOU' | translate }}</span>
       </div>
-      <button i18n (click)="viewAllCourse('formatForYouCourses')" class="view-all-course">
-        View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
+      <button (click)="viewAllCourse('formatForYouCourses')" class="view-all-course">
+        {{ 'View all' | translate }} <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
       </button>
     </div>
     <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
@@ -63,10 +63,10 @@
   <section class="mt-4 view-all-course-container" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
     <div class="line-label orange flex scroller-container">
       <div>
-        <span class="header1" i18n>TOP COURSES</span>
+        <span class="header1">{{ 'TOP COURSES' | translate }}</span>
       </div>
-      <button i18n (click)="viewAllCourse('topCourse')" class="view-all-course">
-        View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
+      <button (click)="viewAllCourse('topCourse')" class="view-all-course">
+        {{ 'View all' | translate }} <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
       </button>
 
     </div>
@@ -82,11 +82,11 @@
 <!-- Featured Section-->
 <!-- <section *ngIf="featuredCourse && featuredCourse.length>0" class=" featuredCourse-section">
   <div class="line-label orange flex scroller-container">
-    <div i18n>
-      <span class="header1" i18n>FEATURED COURSES</span>
+    <div>
+      <span class="header1">{{ 'FEATURED COURSES' | translate }}</span>
     </div>
-    <button i18n (click)="viewAllCourse()" class="view-all-course">
-      View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
+    <button (click)="viewAllCourse()" class="view-all-course">
+      {{ 'View all' | translate }} <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
     </button>
   </div>
   <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
@@ -103,10 +103,10 @@
 <section #scrollToCneCourses class="scrollToCneCourses mt-4 view-all-course-container"
   *ngIf="cneCourse && cneCourse.length>0&&!isEkshamata">
   <div class="line-label orange flex scroller-container">
-    <span class="header1" i18n>CNE COURSES</span>
+    <span class="header1">{{ 'CNE COURSES' | translate }}</span>
 
-    <button i18n (click)="viewAllCourse()" class="view-all-course">
-      View all <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
+    <button (click)="viewAllCourse()" class="view-all-course">
+      {{ 'View all' | translate }} <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
     </button>
   </div>
   <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">

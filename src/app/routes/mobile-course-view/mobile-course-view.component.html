@@ -37,7 +37,7 @@
           <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
         </div>
         <div *ngIf="enableConfig" class="p-2">
-          <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+          <a class="btn start-btn">{{'Start now!' }}</a>
         </div>
         <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
           <div class="competency-card flex m-3">
@@ -105,8 +105,7 @@
               {{courseData?.completionPercentage}}%
             </mat-progress-bar>
             <!-- <div class="">
-              <span class="completionPercentage">{{ courseData?.completionPercentage ?
-                courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
+              <span class="completionPercentage">{{ courseData?.completionPercentage [innerHTML]="'Complete' | translate"></span></span>
             </div> -->
             <ng-container *ngIf="displayConfig?.badges?.mobilesourceName&&courseData.sourceName">
               <div [ngClass]="{'top-border': displayConfig?.badges?.sourceLine}" class="mobile-source-name">
@@ -139,16 +138,14 @@
       <!-- Modal body -->
       <div class="modal-body text-center" style="padding: 0px;">
         <div>
-          <h3 i18n style="  color: #000 !important;font-weight: 500;">Login/create an account to start the course</h3>
-          <button name="start" color="primary" i18n (click)="orgLogin()" style="width: 200px !important;"
-            class="header-btn  mat-button-base">
+          <h3>{{ 'Login/create an account to start the course' | translate }}</h4>{{ 'Login/create an account to start the course' | translate }}</h3>
+          <button [innerHTML]="'
             Login
-          </button>
-          <p style="margin-top: 10px;font-weight: 400;" i18n>or</p>
-          <button name="start" stye="padding: 8px 22px;    width: 200px;
-    font-size: 16px !important;" color="primary" i18n (click)="orgCreateAccount()" class="new-user-btn">
+          ' | translate"></button>
+          <p [innerHTML]="'or' | translate"></p>
+          <button [innerHTML]="'
             Create a new account
-          </button>
+          ' | translate"></button>
         </div>
       </div>
       <!-- Modal footer -->
@@ -161,8 +158,7 @@
             <img src="/fusion-assets/icons/Frame-150.svg">
           </div>
         </div>
-        <!-- <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()"
-          i18n>Close</button> -->
+        <!-- <button [innerHTML]="'Close' | translate"></button> -->
       </div>
 
     </div>

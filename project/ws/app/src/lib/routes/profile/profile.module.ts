@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { TranslateModule } from '@ngx-translate/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
@@ -32,6 +33,7 @@ import { SettingsModule } from './routes/settings/settings.module'
   imports: [
     // BadgesModule,
     CommonModule,
+    TranslateModule,
     ProfileRoutingModule,
     // CompetencyModule,
     DashboardModule,
@@ -49,6 +51,7 @@ import { SettingsModule } from './routes/settings/settings.module'
     MatSidenavModule,
     MatToolbarModule,
   ],
+  exports: [TranslateModule],
   providers: [
     // InterestUserResolve,
     // BadgesResolver2,

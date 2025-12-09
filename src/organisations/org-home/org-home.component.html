@@ -90,7 +90,7 @@
         <a class="btn btn-link" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}">Privacy Policy</a><br>
         <a class="btn btn-link" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}">Terms of use</a><br>
         <!-- <a class="btn btn-link" href="https://www.aastrika.org/team/" target="_blank" id=footer-team>Team</a>
-        <a href="http://support.aastrika.org/support/solutions" target="_blank" i18n id="footer-help-contact"
+        <a href="http://support.aastrika.org/support/solutions" target="_blank">{{ 'Help' | translate }}</a>
           class="list-item">Help & Contact</a>
         <a class="btn btn-link" href="#">Blog</a> -->
         <a class="btn btn-link" href="https://www.aastrika.org/vision/" target="_blank">Vision</a>
@@ -110,8 +110,8 @@
           <img class="img-fluid  img-responsive partner-logo" src="./../../fusion-assets/logos/partner-3.svg">
         </a>
         <br>
-        <div class="text-dark mt-1" i18n>© 2024
-          AastarUrmika Health Systems Pvt Ltd. All rights reserved.
+        <div class="text-dark mt-1">
+          {{ '© 2024 AastarUrmika Health Systems Pvt Ltd. All rights reserved.' | translate }}
           <br><br> <br>
         </div>
       </div>

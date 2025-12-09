@@ -3,9 +3,9 @@
   <!--upskill now section-->
   <div class="carousel">
     <div class="banner-heading-container">
-      <div class="banner-mini-heading" i18n>Welcome !</div>
-      <div class="banner-heading"><span i18n>{{ firstName ? firstName : '' }}</span></div>
-      <div class="banner-sub-heading"><span i18n>Start Learning</span></div>
+      <div class="banner-mini-heading">{{ 'Welcome !' | translate }}</div>
+      <div class="banner-heading"><span>{{ firstName ? (firstName | translate) : ('' | translate) }}</span></div>
+      <div class="banner-sub-heading"><span>{{ 'Start Learning' | translate }}</span></div>
     </div>
     <!-- for ekshamata banner scroll images -->
     <div *ngIf="isEkshamata" class="ekshamta-banner-container">

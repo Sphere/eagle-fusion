@@ -28,10 +28,10 @@
           <p class="name">{{courseData.name}}</p>
           <!-- <p class="creator" *ngIf="courseData.creator">{{courseData.creator}}</p> -->
 
-          <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
+          <!-- <p class="description" *ngIf="enableConfig">{{courseData.description}}</p> -->
         </div>
         <div *ngIf="enableConfig" class="p-2">
-          <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+          <a class="btn start-btn">{{ 'Start now!' | translate }}</a>
         </div>
         <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
           <div class="competency-card flex m-3">
@@ -65,10 +65,11 @@
       <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
         {{ courseData.subTitle }}
       </div>
-      <div class="mb-2" *ngIf="courseData?.lastPublishedOn"><span class="fw-500" i18n>Published On</span>:
+      <div class="mb-2" *ngIf="courseData?.lastPublishedOn"><span class="fw-500">{{ 'Published On' | translate
+          }}</span>:
         {{courseData?.lastPublishedOn | date }}</div>
       <div *ngIf="courseData.duration" class="duration mb-2" i18n-title title="Duration">
-        <span class="mr-1 orange-text" i18n>Duration</span>:
+        <span class="mr-1 orange-text">{{ 'Duration' | translate }}</span>:
         <mat-icon>access_time</mat-icon>
         <span class="time-text fs-13">{{ courseData.duration| pipeDurationTransform: 'hms' }}</span>
         <!--<span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
@@ -77,18 +78,18 @@
             </div>
           </span> -->
       </div>
-      <p *ngIf="courseData?.completionPercentage"><span class="fw-500" i18n>Progress</span>: {{
+      <p *ngIf="courseData?.completionPercentage"><span class="fw-500">{{ 'Progress' | translate }}</span>: {{
         courseData?.completionPercentage}} %</p>
       <!-- <p><span class="fw-500">Number of modules:</span> {{ courseData?.childNodes?.length}}</p> -->
-      <p *ngIf="courseData?.creator"><span class="fw-500" i18n>Author</span>: {{
+      <p *ngIf="courseData?.creator"><span class="fw-500">{{ 'Author' | translate }}</span>: {{
         courseData?.creator}}
       </p>
-      <p *ngIf="courseData?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+      <p *ngIf="courseData?.creatorContacts"><span class="fw-500">{{ 'Author' | translate }}</span>: {{
         courseData?.creatorContacts[0]?.name}}</p>
 
-      <p *ngIf="courseData?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
+      <p *ngIf="courseData?.uniqueUsersCount"><span class="fw-500">{{ 'Users enrolled' | translate }}</span>:
         {{courseData?.uniqueUsersCount}}</p>
-      <p *ngIf="courseData?.sourceName"><span class="fw-500" i18n>Source</span>:
+      <p *ngIf="courseData?.sourceName"><span class="fw-500">{{ 'Source' | translate }}</span>:
         {{courseData.sourceName}}
       </p>
       <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
@@ -96,12 +97,12 @@
           {{ courseData.description | pipeHtmlTagRemoval }}
         </div> -->
       <div class="mt-0 flex">
-        <button *ngIf="isUserLoggedIn === true" mat-raised-button i18n
+        <button *ngIf="isUserLoggedIn === true" mat-raised-button
           class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
-          View Course</button>
-        <button *ngIf="isUserLoggedIn === false" mat-raised-button i18n
+          {{ 'View Course' | translate }}</button>
+        <button *ngIf="isUserLoggedIn === false" mat-raised-button
           class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
-          View Course </button>
+          {{ 'View Course' | translate }}</button>
         <div class="flex">
           <ws-widget-btn-content-share [widgetData]="courseData"></ws-widget-btn-content-share>
         </div>
@@ -123,13 +124,13 @@
           <!-- <p class="description" *ngIf="enableConfig">{{courseData.description}}</p> -->
         </div>
         <div *ngIf="enableConfig" class="p-2">
-          <a class="btn start-btn" i18n>{{'Start now!' }}</a>
+          <a class="btn start-btn">{{ 'Start now!' | translate }}</a>
         </div>
         <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0  && showCompentencyDetails">
           <div class="flex flex-col m-3 ">
-            <div><span class="font-medium" i18n>Competency Name: </span> {{cometencyData[0].name}}</div>
+            <div><span class="font-medium">{{ 'Competency Name:' | translate }}</span> {{cometencyData[0].name}}</div>
             <div class="flex flex-row">
-              <span class="font-medium" i18n>Levels : </span>
+              <span class="font-medium">{{ 'Levels:' | translate }}</span>
               <ng-container *ngFor="let competency of cometencyData; let last = last; ">
                 <div>{{competency.levels}}
                   <span *ngIf="!last">, </span>

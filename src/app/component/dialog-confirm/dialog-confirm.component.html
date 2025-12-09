@@ -3,8 +3,8 @@
   {{ data.body }}
 </div>
 <div mat-dialog-actions class="flex-row-reverse">
-  <button mat-flat-button color="primary" (click)="confirmed()" i18n>
+  <button [innerHTML]="'
     Yes
-  </button>
-  <button mat-button class="margin-right-xs" [mat-dialog-close] cdkFocusInitial i18n>No</button>
+  ' | translate"></button>
+  <button [innerHTML]="'No' | translate"></button>
 </div>

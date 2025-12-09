@@ -30,7 +30,7 @@
     </section>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
-      <h3 class="mt-15" i18n>You're offline. Check your internet connection</h3>
+      <h3>{{ 'You're offline. Check your internet connection' | translate }}</h3>
     </div>
   </div>
 
@@ -83,7 +83,6 @@
     </div>
   </ng-container>
 
-
   <!-- Desktop Footer -->
   <ws-app-footer class="hide-in-mobile app-footer " [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
     *ngIf="showNavbar && !hideHeaderFooter && showmobileFooter">
@@ -94,8 +93,6 @@
       [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
     </ws-app-nav-bar>
   </ng-container>
-
-  <ng-container #previewContainer></ng-container>
 
   <input #appUpdateTitle type="hidden" i18n-value value="App Update" />
   <input #appUpdateBody type="hidden" i18n-value value="App has been updated. Do you want to load new version?" />
@@ -116,7 +113,7 @@
       *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline&&isHomePage"></ws-mobile-dashboard>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
-      <h3 class="mt-15" i18n>You're offline. Check your internet connection</h3>
+      <h3>{{ 'You're offline. Check your internet connection' | translate }}</h3>
     </div>
     <!-- Featured Section-->
     <section *ngIf="(isXSmall$ | async) === false&&isHomePage">
@@ -137,14 +134,15 @@
     </ng-container>
   </div>
 </div>
+
 <div *ngIf="!isCommonChatEnabled">
   <img src="/fusion-assets/images/cross.svg" (keydown)="handleKeyDown($event)" class="cross-icon" alt="cross"
     (click)="backToChatIcon()" />
   <a href="https://wa.me/919632013414?text=Hi" target="_blank">
     <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp" />
     <div>
-      <p class="whtsapp-text" i18n>Chat with us on WhatsApp</p>
+      <p [innerHTML]="'Chat with us on WhatsApp' | translate"></p>
     </div>
   </a>
-  <button class="fcapp-text cursor-pointer" (click)="openFreshChat()" i18n>Connect with us</button>
+  <button [innerHTML]="'Connect with us' | translate"></button>
 </div>

@@ -48,13 +48,13 @@
       <div class="card-section">
         <h3 class="mat-h3">
           <img src=".\fusion-assets\images\Ellipseblue1.png">
-          <ng-container i18n="quiz difficulty label">Difficulty : </ng-container>
+          <ng-container>{{ 'Difficulty : ' | translate }}</ng-container>
           {{ complexityLevel }}
         </h3>
         <h3 class="mat-h3">
-          <ng-container>
+            <ng-container>
             <img src=".\fusion-assets\images\Ellipseblue1.png">
-            <ng-container i18n="quiz duration label">11 : </ng-container>
+            <ng-container>{{ 'Duration : ' | translate }}</ng-container>
             <ng-container *ngIf="duration">{{
               duration | pipeDurationTransform: 'hms'
               }}</ng-container>
@@ -65,7 +65,7 @@
         </h3>
         <h3 class="mat-h3">
           <img src=".\fusion-assets\images\Ellipseblue1.png">
-          <ng-container i18n="quiz number of questions label">Questions : </ng-container>
+          <ng-container>{{ 'Questions : ' | translate }}</ng-container>
           {{ noOfQuestions }}
         </h3>
       </div>

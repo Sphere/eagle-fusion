@@ -3,8 +3,11 @@ import {
   APP_BASE_HREF, PlatformLocation,
   CommonModule
 } from '@angular/common'
-import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http'
+import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http'
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core'
+import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core'
+import { SharedModule } from './shared/shared.module'
 // import { GestureConfig } from '@angular/material/core/gestures/gesture-config'
 // import * as Hammer from 'hammerjs'
 import { MatButtonModule } from '@angular/material/button'
@@ -28,11 +31,15 @@ import { MatListModule } from '@angular/material/list'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatSelectModule } from '@angular/material/select'
+import { MatChipsModule } from '@angular/material/chips'
+import { MatTabsModule } from '@angular/material/tabs'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 import { BrowserModule, HAMMER_GESTURE_CONFIG, Title, HammerGestureConfig } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
-  BtnFeatureModule, ErrorResolverModule,
+  ErrorResolverModule,
   // TourModule,
   WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe,
 } from '@ws-widget/collection'
@@ -40,9 +47,9 @@ import {
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   ImageCropModule,
-  LoggerService, PipeSafeSanitizerModule,
+  LoggerService,
 } from '@ws-widget/utils'
-import { SearchModule } from '@ws/app/src/public-api'
+
 import 'hammerjs'
 import { KeycloakAngularModule } from 'keycloak-angular'
 import { AppRoutingModule } from './app-routing.module'
@@ -63,10 +70,7 @@ import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
 import { TncRendererComponent } from './component/tnc-renderer/tnc-renderer.component'
 // import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
-import { PublicAboutModule } from './routes/public/public-about/public-about.module'
-import { PublicHomeModule } from './routes/public/public-home/public-home.module'
-import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
-import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
+
 import { TncComponent } from './routes/tnc/tnc.component'
 import { RegisterComponent } from './routes/register/register.component'
 import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
@@ -75,10 +79,10 @@ import { AppInterceptorService } from './services/app-interceptor.service'
 import { AppRetryInterceptorService } from './services/app-retry-interceptor.service'
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
+import { LanguageService } from './services/language.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
-import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
+
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
-import { MdePopoverModule } from '@material-extended/mde'
 import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { BnrcLoginOtpComponent } from './routes/bnrc-login-otp/bnrc-login-otp.component'
@@ -112,7 +116,6 @@ import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work
 import { CertificateReceivedComponent } from './routes/profile-view/certificate-received/certificate-received.component'
 import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { LoaderService } from '../../project/ws/author/src/public-api'
-import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
 import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
@@ -178,6 +181,11 @@ const appInitializer = (initSvc: InitService, logger: LoggerService) => async ()
 
 const getBaseHref = (platformLocation: PlatformLocation): string => {
   return platformLocation.getBaseHrefFromDOM()
+}
+
+// ngx-translate HttpLoaderFactory
+export function HttpLoaderFactory(http: HttpClient) {
+  return new TranslateHttpLoader(http, './assets/i18n/', '.json')
 }
 
 if (Capacitor.getPlatform() === 'ios') {
@@ -333,13 +341,26 @@ const dbConfig: DBConfig = {
     PlayerVideoPopupComponent
   ],
   imports: [
+    // Translation module MUST be configured with forRoot() FIRST and BEFORE all other modules
+    TranslateModule.forRoot({
+      defaultLanguage: 'en',
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient]
+      }
+    }),
+    // Core modules
+    BrowserModule,
+    BrowserAnimationsModule,
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
-    BrowserModule,
-    CommonModule,
     HttpClientModule,
     HttpClientJsonpModule,
-    BrowserAnimationsModule,
+    // Shared module that also exports TranslateModule
+    SharedModule,
+    // Then other modules
     KeycloakAngularModule,
     AppRoutingModule,
     ...WIDGET_REGISTERED_MODULES,
@@ -362,25 +383,16 @@ const dbConfig: DBConfig = {
     MatInputModule,
     MatFormFieldModule,
     MatTooltipModule,
-    SearchModule,
-    BtnFeatureModule,
-    PublicAboutModule,
-    PublicHomeModule,
-    PublicContactModule,
-    PublicFaqModule,
-    // MobileAppModule,
-    PipeSafeSanitizerModule,
-    // TourModule,
-    SlidersModule,
-    MdePopoverModule,
+    MatChipsModule,
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatExpansionModule,
+    MatTabsModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
-    SharedModule,
     OrganisationsModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
@@ -394,9 +406,13 @@ const dbConfig: DBConfig = {
     TextFieldModule
   ],
   exports: [
-    TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
+    TncComponent,
+    AppPublicNavBarComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
     MobileDashboardComponent,
     CertificateReceivedComponent,
+    TranslateModule,  // Add this line
   ],
   bootstrap: [RootComponent],
   providers: [
@@ -434,6 +450,15 @@ const dbConfig: DBConfig = {
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
     Title,
     UserAgentResolverService,
+    // ngx-translate Language Service
+    {
+      provide: APP_INITIALIZER,
+      useFactory: (languageService: LanguageService) => () => {
+        return languageService.initializeLanguage()
+      },
+      deps: [LanguageService],
+      multi: true
+    }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

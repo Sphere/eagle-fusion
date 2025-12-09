@@ -3,11 +3,11 @@
   <ws-mobile-profile-nav [trigerrNavigation]=" trigerrNavigation" [showbackButton]="showbackButton"
     [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
 
-  <p class="text-2xl mt-2 mb-2" i18n>Education</p>
+  <p [innerHTML]="'Education' | translate"></p>
   <ng-container *ngIf="isEkshamata">
     <div class="form-group input-box"
       *ngIf="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.instituteName">
-      <label i18n>Institution Name</label>
+      <label [innerHTML]="'Institution Name' | translate"></label>
       <input type="text" class="form-control"
         [value]="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.instituteName" readonly disabled />
     </div>
@@ -31,7 +31,7 @@
   <mat-divider class="mt-2"></mat-divider>
 
   <div *ngIf="!isEkshamata&&isEditableForSphere" class="mt-3">
-    <p class="add-edu-txt inline-block cursor-pointer" (click)="redirectTo(false)" i18n>+ Add Education</p>
+    <p [innerHTML]="'+ Add Education' | translate"></p>
   </div>
 
 </div>

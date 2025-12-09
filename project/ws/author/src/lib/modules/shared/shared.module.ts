@@ -4,6 +4,7 @@ import { ConditionCheckService } from './services/condition-check.service'
 import { PipeContentRouteModule } from '@ws-widget/collection'
 import { CommonModule } from '@angular/common'
 import { NgModule } from '@angular/core'
+import { TranslateModule } from '@ngx-translate/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatButtonModule } from '@angular/material/button'
@@ -73,6 +74,7 @@ import { TextFieldModule } from '@angular/cdk/text-field'
     ],
     imports: [
         CommonModule,
+        TranslateModule,
         MatIconModule,
         MatToolbarModule,
         MatFormFieldModule,
@@ -157,7 +159,8 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         ShowHideToolTipDirective,
         StatusTrackComponent,
         PlayerNavigationWidgetComponent,
-        TextFieldModule
+        TextFieldModule,
+        TranslateModule
     ],
     providers: [
         ApiService,

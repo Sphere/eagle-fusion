@@ -2,24 +2,16 @@
 <div class="banner-container">
   <div class="carousel">
     <div class="banner-heading-container px-4">
-      <div class="banner-heading" i18n>Access free Healthcare courses</div>
-      <div class="banner-mini-heading" i18n>
+      <div [innerHTML]="'Access free Healthcare courses' | translate"></div>
+      <div [innerHTML]="'
         High quality content from experts
-      </div>
+      ' | translate"></div>
       <!-- <div class="create-account">
         <a role="button" matRipple class="flex flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
-            <button mat-raised-button [ngStyle]="{
-                                          'width':'160px',
-                                          'height':'auto',
-                                              'background-color': '#2E6491',
-                                              'border': '1px solid #2E6491',
-                                              'border-radius': '20px',
-                                              'color': 'white',
-                                              'font-size': '16px',
-                                              'font-weight': '400'}" i18n>
-              Create Account</button>
+            <button [innerHTML]="'
+              Create Account' | translate"></button>
           </ng-container>
         </a>
       </div> -->
@@ -64,45 +56,38 @@
       <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}</div>
     </div>
-    <p class="info-text" i18n>Learners onboarded</p>
+    <p [innerHTML]="'Learners onboarded' | translate"></p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}</div>
     </div>
-    <p class="info-text" i18n>Number of courses</p>
+    <p [innerHTML]="'Number of courses' | translate"></p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_points}}</div>
     </div>
-    <p class="info-text" i18n>CNE Hours</p>
+    <p [innerHTML]="'CNE Hours' | translate"></p>
   </div>
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}</div>
     </div>
-    <p class="info-text" i18n>Total certificate issued</p>
+    <p [innerHTML]="'Total certificate issued' | translate"></p>
   </div>
 </div>
 <div class="create-account">
-  <h3 i18n class="text-center" style="font-weight: 550;margin-top: 5px;margin-bottom: 5px;">New User?</h3>
+  <h3>{{ 'New User?' | translate }}</h3>
   <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
     class="flex items-center flex-col mt px-2 box-sizing-box" (click)="createAcct()" active
     [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
     <ng-container>
-      <button mat-raised-button [ngStyle]="{
-            'background-color': '#2E6491',
-            'width': '100%',
-            'border': '1px solid #2E6491',
-            'border-radius': '20px',
-            'color': 'white',
-            'font-size': '16px',
-            'font-weight': '400'}" i18n>
-        Create Account</button>
+      <button [innerHTML]="'
+        Create Account' | translate"></button>
     </ng-container>
   </a>
 </div>

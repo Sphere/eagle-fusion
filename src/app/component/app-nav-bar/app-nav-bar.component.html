@@ -3,9 +3,9 @@
   style="    justify-content: end;">
   <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
     <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
-      <img [src]="appIcon" loading="lazy" i18n alt="Application Logo" id="app-logo" class="app-logo"
+      <img [src]="appIcon" loading="lazy" alt="Application Logo" id="app-logo" class="app-logo"
         style="position: relative;" />
-      <img *ngIf="orgLogo&&!isXSmall" [src]="orgLogo" loading="lazy" i18n alt="Application Logo" id="app-logo"
+      <img *ngIf="orgLogo&&!isXSmall" [src]="orgLogo" loading="lazy" alt="Application Logo" id="app-logo"
         class="app-logo ml-4" style="position: relative;" />
 
     </a>
@@ -67,9 +67,8 @@
       <h3 class="mt-name">{{courseNameHeader}}</h3>
 
       <span class="spacer"></span>
-      <button mat-raised-button i18n class="header-btn text-white ws-mat-primary-background mat-button-base"
-        (click)="headerService.saveCourseContent()">
-        Save</button>
+      <button [innerHTML]="'
+        Save' | translate"></button>
 
       <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
         *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
@@ -88,15 +87,8 @@
           class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
-            <button mat-raised-button [ngStyle]="{
-            'background-color': '#2E6491',
-            'width': '100%',
-            'border': '1px solid #2E6491',
-            'border-radius': '20px',
-            'color': 'white',
-            'font-size': '16px',
-            'font-weight': '400'}" i18n>
-              Create Account</button>
+            <button [innerHTML]="'
+              Create Account' | translate"></button>
           </ng-container>
         </a>
       </div>
@@ -109,7 +101,7 @@
             matTooltip="Home">Home</span>
         </ng-container>
         <ng-container *ngIf="appBottomIcon">
-          <img width="40px" height="40px" [src]="appBottomIcon" i18n alt="Home" />
+          <img width="40px" height="40px" [src]="appBottomIcon" alt="Home" />
         </ng-container>
       </a> -->
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">

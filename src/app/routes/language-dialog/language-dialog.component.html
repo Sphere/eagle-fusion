@@ -4,9 +4,9 @@
   </button>
   <div class="language">
     <strong>
-      <h1 class="mb-1" i18n>Select Preferred Language for learning</h1>
+      <h1>{{ 'Select Preferred Language for learning' | translate }}</h1>
     </strong>
-    <p i18n>You can change this setting under "Profile"</p>
+    <p [innerHTML]="'You can change this setting under &quot;Profile&quot;' | translate"></p>
   </div>
 
   <div class="search-box pb-2 d-none">
@@ -23,8 +23,7 @@
   </mat-selection-list>
 
   <div mat-dialog-actions align="end" class="lang-done">
-    <button class="btn-done cursor-pointer" id="language-select-btn-1" (click)="multiLanguage(preferredLanguage)"
-      i18n>Done</button>
+    <button [innerHTML]="'Done' | translate"></button>
   </div>
 </div>
 
@@ -41,9 +40,9 @@
 
   <div class="language">
     <strong>
-      <h1 class="mb-1" i18n>Select Preferred Language for learning</h1>
+      <h1>{{ 'Select Preferred Language for learning' | translate }}</h1>
     </strong>
-    <p i18n>You can change this setting under "Profile"</p>
+    <p [innerHTML]="'You can change this setting under &quot;Profile&quot;' | translate"></p>
   </div>
 
   <div class="search-box pb-2 d-none">
@@ -63,8 +62,7 @@
   </mat-selection-list>
 
   <div mat-dialog-actions align="end" class="lang-done">
-    <button class="btn-done cursor-pointer" id="language-select-btn-2" (click)="chooseLanguage(preferredLanguage)"
-      i18n>Apply</button>
+    <button [innerHTML]="'Apply' | translate"></button>
   </div>
 
 

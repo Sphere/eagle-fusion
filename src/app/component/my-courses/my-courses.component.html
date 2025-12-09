@@ -1,5 +1,5 @@
 <div class="paddingView">
-  <h1 id="heading" i18n>My Courses</h1>
+  <h1>{{ 'My Courses' | translate }}</h1>
   <mat-tab-group [selectedIndex]="selectedIndex" mat-stretch-tabs="false" mat-align-tabs="start">
     <mat-tab label="Started ({{this.startedCourse.length}})" i18n-label>
       <!--Started -->
@@ -12,18 +12,18 @@
 
       </div>
       <div class="flex justify-center flex-col no-content" *ngIf="this.startedCourse.length === 0">
-        <h3 class="mt15" i18n>You have not started any courses.</h3>
+        <h3>{{ 'You have not started any courses.' | translate }}</h3>
         <div class="text-center">
-          <button class="outline-btn cursor-pointer" i18n (click)="tabClick()">Check out courses for
+          <button [innerHTML]="'Check out courses for
             you
-          </button>
+          ' | translate"></button>
         </div>
       </div>
     </mat-tab>
     <mat-tab label="For You ({{this.coursesForYou.length}})" id="trig" i18n-label>
       <!-- For You -->
       <div class="flex justify-center flex-col no-content" *ngIf="this.coursesForYou.length === 0">
-        <h3 class="mt15" i18n>You have no courses.</h3>
+        <h3>{{ 'You have no courses.' | translate }}</h3>
       </div>
       <ng-container *ngIf="this.coursesForYou && this.coursesForYou.length>0">
         <div *ngFor="let courseData of coursesForYou; let last = last" class="responsiveDiv"
@@ -39,7 +39,7 @@
     <mat-tab label="Completed ({{this.completedCourse.length}})" i18n-label>
       <!-- Completed -->
       <div class="flex justify-center flex-col no-content" *ngIf="this.completedCourse.length === 0">
-        <h3 class="mt15" i18n>You have not completed any courses.</h3>
+        <h3>{{ 'You have not completed any courses.' | translate }}</h3>
       </div>
 
       <div class="resource-container" *ngFor="let data of completedCourse; let last = last"

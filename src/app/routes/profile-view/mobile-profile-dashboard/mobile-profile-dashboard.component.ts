@@ -15,6 +15,7 @@ import { ConfigService as CompetencyConfiService } from '../../competency/servic
 import * as _ from './lodash'
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { DOCUMENT } from '@angular/common'
+import { LanguageService } from '../../../../../src/app/services/language.service'
 
 @Component({
   selector: 'ws-mobile-profile-dashboard',
@@ -61,6 +62,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private domSanitizer: DomSanitizer,
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService,
+    private languageService: LanguageService,
     // private readonly _renderer2: Renderer,
     @Inject(DOCUMENT) private _document: Document
 
@@ -348,20 +350,20 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
   storeLanguage(lang: string) {
+    // Update language using LanguageService
+    this.languageService.setLanguage(lang)
+
+    // Update user profile in backend
     const obj = {
       preferences: {
         language: lang,
       },
-      // personalDetails: this.userInfo.profileDetails.profileReq.personalDetails,
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
-
     }
 
     const userdata = Object.assign(this.userInfo.profileDetails, obj)
     userdata.profileReq.personalDetails["profileLocation"] = 'sphere-web/mobile-profile-dashboard-store-language'
 
-    console.log(userdata, 'p')
-    //   // this.chosenLanguage = path.value
     const reqUpdate = {
       request: {
         userId: userdata.profileReq.id,
@@ -372,31 +374,27 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
-      console.log(result)
-      if (lang === 'en') {
-        // this.chosenLanguage = ''
-        window.location.assign(`${location.origin}/app/profile-view`)
-        // window.location.reload(true)
-      } else {
-        // window.location.reload(true)
-        window.location.assign(`${location.origin}/${lang}/app/profile-view`)
-      }
+      console.log('Language updated in profile:', result)
+      // No page reload needed anymore!
     },
-      () => {
+      (error) => {
+        console.error('Error updating language:', error)
       })
   }
   saveLanguage(form: any) {
-    console.log(form)
+    console.log('Saving language preference:', form.value)
+
+    // Update language using LanguageService
+    this.languageService.setLanguage(form.value.language)
 
     const obj = {
       preferences: {
         language: form.value.language,
       },
-      // personalDetails: this.userData['profileDetails'].profileReq.personalDetails,
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
     const userdata = Object.assign(this.userData['profileDetails'], obj)
-    //   // this.chosenLanguage = path.value
+
     const reqUpdate = {
       request: {
         userId: this.userData.identifier,
@@ -404,19 +402,12 @@ export class MobileProfileDashboardComponent implements OnInit {
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
-      console.log(result)
-      if (form.value.language === 'en') {
-        // this.chosenLanguage = ''
-        window.location.assign(`${location.origin}/app/profile-view`)
-        // window.location.reload(true)
-      } else {
-        // window.location.reload(true)
-        window.location.assign(`${location.origin}/${form.value.language}/app/profile-view`)
-      }
+      console.log('Language saved successfully:', result)
+      // No page reload needed! LanguageService handles the UI update
     },
-      () => {
+      (error) => {
+        console.error('Error saving language:', error)
       })
-    // })
   }
   getUserDetails() {
     if (this.configSvc.userProfile) {

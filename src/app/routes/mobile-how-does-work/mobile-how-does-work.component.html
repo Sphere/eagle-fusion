@@ -1,6 +1,6 @@
 <section id="scrollToHowSphereWorks">
-  <p class="header2 mb-0" i18n>How Sphere works</p>
-  <p class="lable1 grey-color" i18n>3 simple steps</p>
+  <p [innerHTML]="'How Sphere works' | translate"></p>
+  <p [innerHTML]="'3 simple steps' | translate"></p>
   <div class="mt-2">
     <div class="how-work-content" (click)="openVideoPopup('0')">
 
@@ -11,9 +11,9 @@
         webkitallowfullscreen mozAllowFullScreen style="border:none"
         allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Register for a course"></iframe>
       <div class="video-div">
-        <p class="videoTitle" i18n>Register for a course</p>
-        <p class="leading-snug videoDes" i18n>Explore various courses and pick the ones you like
-        </p>
+        <p [innerHTML]="'Register for a course' | translate"></p>
+        <p [innerHTML]="'Explore various courses and pick the ones you like
+        ' | translate"></p>
       </div>
 
     </div>
@@ -26,9 +26,9 @@
         webkitallowfullscreen mozAllowFullScreen style="border:none"
         allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Take the course"></iframe>
       <div class="video-div">
-        <p class="videoTitle" i18n>Take the course</p>
-        <p class="leading-snug videoDes" i18n>Access the course anytime, at your convinience
-        </p>
+        <p [innerHTML]="'Take the course' | translate"></p>
+        <p [innerHTML]="'Access the course anytime, at your convinience
+        ' | translate"></p>
       </div>
 
     </div>
@@ -41,9 +41,9 @@
         webkitallowfullscreen mozAllowFullScreen style="border:none"
         allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Get certified"></iframe>
       <div class="video-div">
-        <p class="videoTitle" i18n>Get certified</p>
-        <p class="leading-snug videoDes" i18n>Receive downloadable and shareable certificates
-        </p>
+        <p [innerHTML]="'Get certified' | translate"></p>
+        <p [innerHTML]="'Receive downloadable and shareable certificates
+        ' | translate"></p>
       </div>
 
     </div>

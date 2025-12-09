@@ -2,18 +2,17 @@
   <img src="/fusion-assets/icons/info_icon-acc.png" class="info-icon" alt="" />
   <div>
     <div class="language">
-      <h1 class="mb-1 firstName" i18n>{{ firstName }} {{ lastName }}</h1>
+      <h1 class="mb-1 firstName">{{ firstName }} {{ lastName }}</h1>
     </div>
     <div>
-      <p class="info" i18n>will be displayed on the certificate.</p>
+      <p [innerHTML]="'will be displayed on the certificate.' | translate"></p>
     </div>
   </div>
   <div mat-dialog-actions class="lang-done">
-    <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('edit')" i18n>Edit
-      name</button>
-    <button class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1" (click)="confirm('confirm')"
-      i18n>Confirm
-      name</button>
+    <button [innerHTML]="'Edit
+      name' | translate"></button>
+    <button [innerHTML]="'Confirm
+      name' | translate"></button>
   </div>
 </div>
 
@@ -21,28 +20,26 @@
   <img src="/fusion-assets/icons/red-ex-acc.png" class="info-icon" alt="" />
   <div>
     <div class="language">
-      <h1 class="mb-1 exist" i18n>User already exists.</h1>
+      <h1>{{ 'User already exists.' | translate }}</h1>
     </div>
   </div>
   <div mat-dialog-actions class="lang-done">
-    <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('again')" i18n>Try
-      again</button>
-    <button class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1" (click)="confirm('login')"
-      i18n>Login</button>
+    <button [innerHTML]="'Try
+      again' | translate"></button>
+    <button [innerHTML]="'Login' | translate"></button>
   </div>
 </div>
 <div *ngIf="name==='userNotExist'" class="lang-box">
   <img src="/fusion-assets/icons/red-ex-acc.png" class="info-icon" alt="" />
   <div>
     <div class="language">
-      <h1 class="mb-1 exist" i18n>User doesn’t exist.</h1>
+      <h1>{{ 'User doesn’t exist.' | translate }}</h1>
     </div>
   </div>
   <div mat-dialog-actions class="lang-done">
-    <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('again')" i18n>Try
-      again</button>
-    <button *ngIf="!userNotExistEkshamta" class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1"
-      (click)="confirm('createAccount')" i18n>Create account</button>
+    <button [innerHTML]="'Try
+      again' | translate"></button>
+    <button [innerHTML]="'Create account' | translate"></button>
   </div>
 </div>
 <div *ngIf="name==='help'" class="lang-box">
@@ -52,7 +49,7 @@
   <img src="/fusion-assets/icons/chat.png" class="info-icon" alt="" />
   <div>
     <div class="language mt-2">
-      <h1 class="mb-1 exist" i18n>Aastrika Sphere chat support</h1>
+      <h1>{{ 'Aastrika Sphere chat support' | translate }}</h1>
     </div>
   </div>
   <div mat-dialog-actions class="help-done mt-1">
@@ -60,13 +57,13 @@
       class="flex cursor-pointer align-items-center wa-block">
       <img src="/fusion-assets/images/whatsapp-icon.svg" class="whatsapp-icon" alt="whatsapp" />
       <div>
-        <p class="whtsapp-text m-0" i18n>Chat with us on WhatsApp</p>
+        <p [innerHTML]="'Chat with us on WhatsApp' | translate"></p>
       </div>
     </a>
     <button class="flex align-items-center fcapp-text cursor-pointer ca-block" (click)="showChat()">
       <img src="/fusion-assets/icons/chat-wa.png" class="whatsapp-icon" alt="whatsapp" />
       <div>
-        <p class="ca-text m-0" i18n>Chat with us</p>
+        <p [innerHTML]="'Chat with us' | translate"></p>
       </div>
     </button>
   </div>

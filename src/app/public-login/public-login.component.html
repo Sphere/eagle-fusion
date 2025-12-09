@@ -20,81 +20,77 @@
                 <mat-icon>chevron_left</mat-icon>
               </button>
             </div>
-            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="handleKeyDowns($event)" class="help-btn" i18n>Help
-              <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+            <div [innerHTML]="'Help
+              ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
             </div>
           </div>
           <div class="ui header mtb">
-            <h1 class="mb-0" style="font-weight: 400;" i18n> Welcome! </h1>
+            <h1>{{ ' Welcome! ' | translate }}</h1>
           </div>
-          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse">
+          <h4>{{ '
             Login with your Aastrika
             account
-          </h4>
-          <h4 class="fwb" style="font-weight: 500;margin-top:0px" i18n *ngIf="isEkshamtaLogin||isOrgSelectiveCourse">
+          ' | translate }}</h4>
+          <h4>{{ '
             Login with your account
-          </h4>
+          ' | translate }}</h4>
           <div class="field  type-container mw-100">
             <div class="heading" style="margin-right: 30px;">
               <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
                 style="cursor: pointer;" checked="true">&nbsp;
-              <label id="useOTPLabel" for="useOTPRB" class="" i18n style="cursor: pointer;"
-                [ngClass]="{'font-weight-500': selectedField === 'otp'}">
+              <label [innerHTML]="'
                 Login with OTP
-              </label>
+              ' | translate"></label>
             </div>
             <div style="cursor: pointer;">
               <input type="radio" (click)="passwordOrOtp('password');" name="usePasswordOrOTP" id="usePasswordRB"
                 style="cursor: pointer;">&nbsp;
-              <label id="usePasswordLabel" for="usePasswordRB" class="" i18n style="cursor: pointer;"
-                [ngClass]="{'font-weight-500': selectedField === 'password'}">
+              <label [innerHTML]="'
                 Login with Password
-              </label>
+              ' | translate"></label>
             </div>
           </div>
           <div id="usePasswordDiv" class="mw-100" *ngIf="selectedField === 'password'">
             <form [formGroup]="loginPwdForm" id="form-login" (ngSubmit)="submitDetails(loginPwdForm)">
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label i18n>Phone Number (or) Email ID</mat-label>
+                  <mat-label [innerHTML]="'Phone Number (or) Email ID' | translate"></mat-label>
                   <input matInput id="emailOrMobile" formControlName="emailOrMobile" type="text" autocomplete="off"
                     required (input)="checkMobileEmail2()" i18n-placeholder />
-                  <mat-error *ngIf="loginPwdForm.controls['emailOrMobile'].hasError('pattern')" i18n>
+                  <mat-error [innerHTML]="'
                     Invalid email or number
-                  </mat-error>
+                  ' | translate"></mat-error>
                 </mat-form-field>
               </div>
               <div class="field">
                 <div class="field-edit-width">
                   <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                    <mat-label i18n>Enter Password</mat-label>
+                    <mat-label [innerHTML]="'Enter Password' | translate"></mat-label>
                     <input matInput id="password" formControlName="password" [type]="hide2 ? 'password' : 'text'"
                       required autocomplete="off" (input)="checkPassword()" i18n-placeholder />
                     <button mat-icon-button matSuffix type="button" (click)="toggle2()"
                       (keydown)="handleKeyDown($event)" aria-label="Toggle password visibility">
                       <mat-icon>{{ hide2 ? 'visibility_off' : 'visibility' }}</mat-icon>
                     </button>
-                    <mat-error *ngIf="loginPwdForm.controls['password'].hasError('required')" i18n>
+                    <mat-error [innerHTML]="'
                       This field is required
-                    </mat-error>
+                    ' | translate"></mat-error>
                   </mat-form-field>
                 </div>
               </div>
 
               <div class="flex justify-end">
-                <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1" i18n
-                  [href]="'/public/forgot-password?value=true&version=null' + (isEkshamtaLogin ? '&isEkshamataLogin=true' : '')">
+                <a [innerHTML]="'
                   Forgot Password?
-                </a>
+                ' | translate"></a>
               </div>
               <div class="field flex justify-content-center">
-                <button id="login-username-password" mat-flat-button color="primary" type="submit"
-                  class="ui fluid btn blueButton" [disabled]="!loginPwdForm?.valid" i18n>Login</button>
+                <button [innerHTML]="'Login' | translate"></button>
               </div>
               <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
                 <div class="or-holder" id="or-holder" style="text-align: center;">
                   <span></span>
-                  <span i18n>or</span>
+                  <span [innerHTML]="'or' | translate"></span>
                 </div>
               </div>
 
@@ -102,8 +98,7 @@
                 <!-- Debug: isEkshamtaLogin={{isEkshamtaLogin}}, isOrgSelectiveCourse={{isOrgSelectiveCourse}} -->
 
                 <div class="ui flex justify-content-center content  signUpMsg">
-                  <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
-                    style="display: block;" i18n>Create an Account</a>
+                  <a [innerHTML]="'Create an Account' | translate"></a>
 
                   <div id="selfSingUp" style="height: 30px;">
                   </div>
@@ -115,31 +110,28 @@
             <form [formGroup]="loginForm" id="kc-form-login" class=" ui form" action="" method="post" method="post">
               <div class="field-edit-width">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label i18n>Phone Number (or) Email ID</mat-label>
+                  <mat-label [innerHTML]="'Phone Number (or) Email ID' | translate"></mat-label>
                   <input autocomplete="off" tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail()"
                     type="text" class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile
                     i18n-placeholder />
-                  <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
-                    i18n>Invalid
-                    email or number</mat-error>
+                  <mat-error [innerHTML]="'Invalid
+                    email or number' | translate"></mat-error>
                 </mat-form-field>
               </div>
               <div class="mdc-card__actions">
                 <div class="field flex justify-content-center">
-                  <button tabindex="0" name="otp-login" id="otp-login" type="submit" class="ui fluid btn blueButton"
-                    (click)="otpClick(loginForm)" [disabled]="!loginForm?.valid" i18n>Get OTP</button>
+                  <button [innerHTML]="'Get OTP' | translate"></button>
                 </div>
                 <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
                   <div class="or-holder" id="or-holder" style="text-align: center;">
                     <span class=""></span>
-                    <span class="" i18n>or</span>
+                    <span [innerHTML]="'or' | translate"></span>
                   </div>
                 </div>
 
                 <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration" class="field">
                   <div class="ui content flex justify-content-center  signUpMsg">
-                    <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
-                      style="display: block;" i18n>Create an Account</a>
+                    <a [innerHTML]="'Create an Account' | translate"></a>
                   </div>
                 </div>
                 <div id="selfSingUp" style="height: 30px;">
@@ -158,23 +150,22 @@
                     <mat-icon>chevron_left</mat-icon>
                   </button>
                 </div>
-                <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>
+                <div [innerHTML]="'
                   Help
-                  <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+                  ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
                 </div>
               </div>
-              <div class="check-email-text"><span i18n>Check your </span> <span *ngIf="emailPhoneType === 'email'"
-                  i18n>Email</span>
-                <span *ngIf="emailPhoneType === 'phone'" i18n>SMS</span>!
+              <div class="check-email-text"><span [innerHTML]="'Check your ' | translate"></span> <span [innerHTML]="'Email' | translate"></span>
+                <span [innerHTML]="'SMS' | translate"></span>!
               </div>
-              <div class="enter-code-text mt-2 mb-2"><span i18n>We have sent an OTP to </span><span class="text-dark"
-                  i18n>{{loginForm.value.emailOrMobile}}</span>
+              <div class="enter-code-text mt-2 mb-2"><span [innerHTML]="'We have sent an OTP to ' | translate"></span><span class="text-dark"
+                 >{{loginForm.value.emailOrMobile}}</span>
               </div>
               <div class="img-box">
                 <img alt="" style="width: 200px; height: 150px;" src="../../../fusion-assets/images/Frame150.svg">
               </div>
               <div class="login-timer">
-                <span class="login-timer-text" i18n>OTP expires in</span>&nbsp;<span
+                <span [innerHTML]="'OTP expires in' | translate"></span>&nbsp;<span
                   class="login-timer-count">{{resendTimerText}}</span>&nbsp;
               </div>
               <form [formGroup]="OTPForm" class="ui form" action="" method="post" method="post" id="kc-totp-login-form">
@@ -194,13 +185,11 @@
                 </div>
 
                 <div class="field flex justify-content-center mt-4">
-                  <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid" class="ui fluid submit button blueButton"
-                    name="submit-OTP" id="submit-OTP" type="submit" i18n>Submit</button>
+                  <button [innerHTML]="'Submit' | translate"></button>
                 </div>
                 <div class="field flex justify-content-center">
-                  <button (click)="resendOTP()" class="ui fluid submit btn button whiteButton" name="resend-OTP"
-                    id="resend-OTP" type="submit" i18n>Resend
-                    OTP</button>
+                  <button [innerHTML]="'Resend
+                    OTP' | translate"></button>
                 </div>
               </form>
             </div>
@@ -232,21 +221,19 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>Help
-        <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+      <div [innerHTML]="'Help
+        ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
     <div class="padding-20 ui header mtb1">
-      <h1 class="welcome" i18n> Welcome! </h1>
+      <h1>{{ ' Welcome! ' | translate }}</h1>
     </div>
-    <h4 *ngIf="isEkshamtaLogin||isOrgSelectiveCourse" class=" padding-20 info-text fwb"
-      style="font-weight: 500;margin-top:0px" i18n>Login
+    <h4 *ngIf="isEkshamtaLogin||isOrgSelectiveCourse" class=" padding-20 info-text [innerHTML]="'Login
       with your account
-    </h4>
-    <h4 *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class=" padding-20 info-text fwb"
-      style="font-weight: 500;margin-top:0px" i18n>Login
+    ' | translate"></h4>
+    <h4 *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class=" padding-20 info-text [innerHTML]="'Login
       with your Aastrika account
-    </h4>
+    ' | translate"></h4>
     <!-- <div class="formMsg  textCenter">
               <div id="success-msg" class="ui text success hide">suceess</div>
               <div id="error-msg" class="ui text error hide">error</div>
@@ -256,37 +243,34 @@
         <input type="radio" (click)="passwordOrOtp('otp')" (keydown)="handleKeyDown1($event,'otp')"
           name="usePasswordOrOTP" id="useOTPRB" style="cursor: pointer;" checked="true">
         &nbsp;
-        <label id="useOTPLabel" for="useOTPRB" class="option" i18n style="cursor: pointer;"
-          [ngClass]="{'font-weight-500': selectedField === 'otp'}">
+        <label [innerHTML]="'
           By OTP
-        </label>
+        ' | translate"></label>
       </div>
       <div style="cursor: pointer;">
         <input type="radio" (click)="passwordOrOtp('password');" (keydown)="handleKeyDown1($event,'password')"
           name="usePasswordOrOTP" id="usePasswordRB" style="cursor: pointer;">&nbsp;
-        <label id="usePasswordLabel" for="usePasswordRB" class="option" i18n style="cursor: pointer;"
-          [ngClass]="{'font-weight-500': selectedField === 'password'}">
+        <label [innerHTML]="'
           By Password
-        </label>
+        ' | translate"></label>
       </div>
     </div>
     <div id=" usePasswordDiv" class=" padding-20 mw-100" *ngIf="selectedField === 'password'">
       <form [formGroup]="loginPwdForm" id="form-login" action="" method="post">
         <div class="field-edit-width">
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-            <mat-label i18n>Phone Number (or) Email ID</mat-label>
+            <mat-label [innerHTML]="'Phone Number (or) Email ID' | translate"></mat-label>
             <input autofocus="" tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail2()" type="text"
               class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile
               i18n-placeholder />
-            <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
-              i18n>Invalid
-              email or number</mat-error>
+            <mat-error [innerHTML]="'Invalid
+              email or number' | translate"></mat-error>
           </mat-form-field>
         </div>
         <div class="field">
           <div class="field-edit-width">
             <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-              <mat-label i18n>Enter Password</mat-label>
+              <mat-label [innerHTML]="'Enter Password' | translate"></mat-label>
               <input autofocus="" tabindex="0" id="emailOrMobile" required="" [type]="hide2 ? 'password' : 'text'"
                 (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
                 #emailOrMobile i18n-placeholder />
@@ -296,38 +280,32 @@
                   <i [ngClass]="iconChange2" aria-hidden="true"></i>
                 </span>
               </div>
-              <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
-                i18n>Invalid
-                email or number</mat-error>
+              <mat-error [innerHTML]="'Invalid
+                email or number' | translate"></mat-error>
             </mat-form-field>
           </div>
-          <mat-error class="text-danger" i18n
-            *ngIf="loginPwdForm.controls['password'].hasError('required') &&
-                                                                (loginPwdForm.controls['password'].dirty || loginPwdForm.controls['password'].touched)">
-            This field is required</mat-error>
+          <mat-error [innerHTML]="'
+            This field is required' | translate"></mat-error>
         </div>
         <div class="field">
         </div>
         <div class="flex justify-end mt-2">
-          <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" i18n
-            href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">Forgot
-            Password?</a>
+          <a [innerHTML]="'Forgot
+            Password?' | translate"></a>
         </div>
         <div class="field flex justify-content-center">
-          <button id="login-username-password" class="ui fluid button blueButton" (click)="submitDetails(loginPwdForm)"
-            [disabled]="!loginPwdForm?.valid" i18n>Login</button>
+          <button [innerHTML]="'Login' | translate"></button>
         </div>
         <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
           <div class="or-holder" id="or-holder" style=" text-align: center;">
             <span class=""></span>
-            <span class="" i18n>or</span>
+            <span [innerHTML]="'or' | translate"></span>
           </div>
         </div>
 
         <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration" class="field">
           <div class="ui content flex justify-content-center  signUpMsg">
-            <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
-              style="display: block;" i18n>Create an Account</a>
+            <a [innerHTML]="'Create an Account' | translate"></a>
             <div id="selfSingUp" style="height: 30px;">
             </div>
           </div>
@@ -338,31 +316,28 @@
       <form [formGroup]="loginForm" id="kc-form-login" class=" ui form" action="" method="post" method="post">
         <div class="field-edit-width">
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-            <mat-label i18n>Phone Number (or) Email ID</mat-label>
+            <mat-label [innerHTML]="'Phone Number (or) Email ID' | translate"></mat-label>
             <input tabindex="0" id="emailOrMobile" required="" (input)="checkMobileEmail()" type="text"
               class="input-field" trim="blur" matInput formControlName="emailOrMobile" #emailOrMobile
               i18n-placeholder />
-            <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')"
-              i18n>Invalid
-              email or number</mat-error>
+            <mat-error [innerHTML]="'Invalid
+              email or number' | translate"></mat-error>
           </mat-form-field>
         </div>
         <div class="mdc-card__actions">
           <div class="field flex justify-content-center">
-            <button tabindex="0" name="otp-login" id="otp-login" type="submit" class="ui fluid btn blueButton"
-              (click)="otpClick(loginForm)" [disabled]="!loginForm?.valid" i18n>Get OTP</button>
+            <button [innerHTML]="'Get OTP' | translate"></button>
           </div>
           <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
             <div class="or-holder" id="or-holder" style=" text-align: center;">
               <span class=""></span>
-              <span class="" i18n>or</span>
+              <span [innerHTML]="'or' | translate"></span>
             </div>
           </div>
 
           <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" id="kc-registration" class="field">
             <div class="ui content flex justify-content-center  signUpMsg">
-              <a class="ui fluid btn whiteButton" href="/app/create-account" id="createAccount-loginOTP"
-                style="display: block;" i18n>Create an Account</a>
+              <a [innerHTML]="'Create an Account' | translate"></a>
             </div>
           </div>
           <div id="selfSingUp" style="height: 30px;">
@@ -381,23 +356,22 @@
               <mat-icon>chevron_left</mat-icon>
             </button>
           </div>
-          <div *ngIf="!isEkshamtaLogin" (keydown)="handleKeyDowns($event)" (click)="help()" class="help-btn" i18n>Help
-            <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+          <div [innerHTML]="'Help
+            ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
           </div>
         </div>
         <div class="login-card">
-          <div class="check-email-text"><span i18n>Check your </span> <span *ngIf="emailPhoneType === 'email'"
-              i18n>Email</span>
-            <span *ngIf="emailPhoneType === 'phone'" i18n>SMS</span>!
+          <div class="check-email-text"><span [innerHTML]="'Check your ' | translate"></span> <span [innerHTML]="'Email' | translate"></span>
+            <span [innerHTML]="'SMS' | translate"></span>!
           </div>
-          <div class="enter-code-text mt-2 mb-4"><span i18n>We have sent an OTP to </span><span class="text-dark"
-              i18n>{{loginForm.value.emailOrMobile}}</span>
+          <div class="enter-code-text mt-2 mb-4"><span [innerHTML]="'We have sent an OTP to ' | translate"></span><span class="text-dark"
+             >{{loginForm.value.emailOrMobile}}</span>
           </div>
           <div class="img-box">
             <img alt="" width="250" height="200" src="../../../fusion-assets/images/Frame150.svg">
           </div>
           <div class="login-timer">
-            <span class="login-timer-text" i18n>OTP expires in</span>&nbsp;<span
+            <span [innerHTML]="'OTP expires in' | translate"></span>&nbsp;<span
               class="login-timer-count">{{resendTimerText}}</span>&nbsp;minutes
           </div>
 
@@ -422,13 +396,11 @@
 
                 </div>
                 <div class="field">
-                  <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid" class="ui fluid submit button blueButton"
-                    name="submit-OTP" id="submit-OTP" type="submit" i18n>Submit</button>
+                  <button [innerHTML]="'Submit' | translate"></button>
                 </div>
                 <div class="field">
-                  <button (click)="resendOTP()" style="width: 100%;" class="ui fluid submit btn button whiteButton"
-                    name="resend-OTP" id="resend-OTP" type="submit" i18n>Resend
-                    OTP</button>
+                  <button [innerHTML]="'Resend
+                    OTP' | translate"></button>
                 </div>
               </form>
             </div>

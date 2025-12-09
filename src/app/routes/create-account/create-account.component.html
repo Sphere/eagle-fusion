@@ -32,7 +32,7 @@
 
       <div class="login-card">
         <div class="lang-subtitle">
-          <h1 class="display-3 mb-1" i18n>Select Language</h1>
+          <h1>{{ 'Select Language' | translate }}</h1>
         </div>
 
         <div class="input-content">
@@ -40,24 +40,19 @@
             <mat-radio-group class="flex flex-col" [(ngModel)]="preferredLanguage"
               [ngModelOptions]="{ standalone: true }" aria-label="Language selection">
 
-              <mat-radio-button class="line-bottom radioButton my-3" value="en"
-                [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'en' }"
-                (change)="preferredLanguageChange('en')" i18n>
+              <mat-radio-button [innerHTML]="'
                 English
-              </mat-radio-button>
+              ' | translate"></mat-radio-button>
 
-              <mat-radio-button class="line-bottom radioButton" value="hi"
-                [ngClass]="{ 'checked mat-radio-checked': preferredLanguage === 'hi' }"
-                (change)="preferredLanguageChange('hi')" i18n>
+              <mat-radio-button [innerHTML]="'
                 हिंदी
-              </mat-radio-button>
+              ' | translate"></mat-radio-button>
             </mat-radio-group>
 
             <div class="next-btn-div">
-              <button class="btn next-button-lang" type="button" [disabled]="!preferredLanguage" (click)="langChanged()"
-                i18n>
+              <button [innerHTML]="'
                 Next
-              </button>
+              ' | translate"></button>
             </div>
           </div>
         </div>
@@ -78,15 +73,15 @@
         </button>
 
         <button (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn" aria-label="Get help">
-          <span i18n>Help</span>
+          <span [innerHTML]="'Help' | translate"></span>
           <img class="help-icon" alt="" src="../../../fusion-assets/icons/support_agent_blue.png">
         </button>
       </div>
 
       <div class="login-card">
         <div class="lang-subtitle">
-          <h1 class="display-3 mb-1" i18n>Create your account</h1>
-          <p class="info-text" i18n>Start by entering your details</p>
+          <h1>{{ 'Create your account' | translate }}</h1>
+          <p [innerHTML]="'Start by entering your details' | translate"></p>
         </div>
 
         <div class="input-content">
@@ -95,44 +90,44 @@
 
               <!-- First Name Field -->
               <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                <mat-label i18n>First Name</mat-label>
+                <mat-label [innerHTML]="'First Name' | translate"></mat-label>
                 <input id="firstname" type="text" class="input-field" matInput formControlName="firstname"
                   autocomplete="given-name" aria-required="true">
 
-                <mat-error *ngIf="createAccountForm.get('firstname')?.hasError('required')" i18n>
+                <mat-error [innerHTML]="'
                   This field is required
-                </mat-error>
-                <mat-error *ngIf="createAccountForm.get('firstname')?.hasError('pattern')" i18n>
+                ' | translate"></mat-error>
+                <mat-error [innerHTML]="'
                   Invalid name format
-                </mat-error>
+                ' | translate"></mat-error>
               </mat-form-field>
 
               <!-- Last Name Field -->
               <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                <mat-label i18n>Last Name</mat-label>
+                <mat-label [innerHTML]="'Last Name' | translate"></mat-label>
                 <input id="lastname" type="text" class="input-field" matInput formControlName="lastname"
                   autocomplete="family-name" aria-required="true">
 
-                <mat-error *ngIf="createAccountForm.get('lastname')?.hasError('required')" i18n>
+                <mat-error [innerHTML]="'
                   This field is required
-                </mat-error>
-                <mat-error *ngIf="createAccountForm.get('lastname')?.hasError('pattern')" i18n>
+                ' | translate"></mat-error>
+                <mat-error [innerHTML]="'
                   Invalid name format
-                </mat-error>
+                ' | translate"></mat-error>
               </mat-form-field>
 
               <!-- Email or Phone Field -->
               <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                <mat-label i18n>Phone Number (or) Email ID</mat-label>
+                <mat-label [innerHTML]="'Phone Number (or) Email ID' | translate"></mat-label>
                 <input id="email-field" type="text" class="input-field" matInput formControlName="emailOrMobile"
                   autocomplete="off" aria-required="true">
 
-                <mat-error *ngIf="emailOrMobileErrorStatus === 'required'" i18n>
+                <mat-error [innerHTML]="'
                   This field is required
-                </mat-error>
-                <mat-error *ngIf="emailOrMobileErrorStatus === 'pattern'" i18n>
+                ' | translate"></mat-error>
+                <mat-error [innerHTML]="'
                   Invalid email or number
-                </mat-error>
+                ' | translate"></mat-error>
               </mat-form-field>
 
               <div *ngIf="showDistricts">
@@ -168,25 +163,25 @@
 
               <!-- Login Method Selection -->
               <div class="form-group radioBlock">
-                <span class="info-text" i18n>Choose your Login method</span>
+                <span [innerHTML]="'Choose your Login method' | translate"></span>
                 <mat-radio-group class="flex flex-col radio my-auto" [(ngModel)]="loginSelected"
                   [ngModelOptions]="{ standalone: true }" aria-label="Login method selection">
 
-                  <mat-radio-button class="radioButton my-3" value="otp" (change)="loginSelected = 'otp'" i18n>
+                  <mat-radio-button [innerHTML]="'
                     By OTP
-                  </mat-radio-button>
+                  ' | translate"></mat-radio-button>
 
-                  <mat-radio-button class="radioButton" value="password" (change)="loginSelected = 'password'" i18n>
+                  <mat-radio-button [innerHTML]="'
                     By password
-                  </mat-radio-button>
+                  ' | translate"></mat-radio-button>
                 </mat-radio-group>
               </div>
 
               <!-- Submit Button -->
               <div class="next-btn-div">
-                <button class="btn next-button z-btn" type="submit" [disabled]="!createAccountForm.valid" i18n>
+                <button [innerHTML]="'
                   Next
-                </button>
+                ' | translate"></button>
               </div>
             </form>
           </div>
@@ -208,14 +203,14 @@
         </button>
 
         <button (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn" aria-label="Get help">
-          <span i18n>Help</span>
+          <span [innerHTML]="'Help' | translate"></span>
           <img class="help-icon" alt="" src="../../../fusion-assets/icons/support_agent_blue.png">
         </button>
       </div>
 
       <div class="login-card">
         <div class="lang-subtitle">
-          <h1 class="display-3 mb-1" i18n>Set your password</h1>
+          <h1>{{ 'Set your password' | translate }}</h1>
         </div>
 
         <form [formGroup]="createAccountWithPasswordForm" id="form-password" novalidate
@@ -223,7 +218,7 @@
 
           <!-- Password Field -->
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-            <mat-label i18n>Password</mat-label>
+            <mat-label [innerHTML]="'Password' | translate"></mat-label>
             <input id="password-field" [type]="hide1 ? 'password' : 'text'" class="input-field" matInput
               formControlName="password" autocomplete="new-password" aria-required="true">
 
@@ -233,18 +228,18 @@
               </a>
             </div>
 
-            <mat-error *ngIf="createAccountWithPasswordForm.get('password')?.hasError('required')" i18n>
+            <mat-error *ngIf="createAccountWithPasswordForm.get('password')?.hasError('required')">
               <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg">
               This field is required
             </mat-error>
 
-            <mat-error *ngIf="createAccountWithPasswordForm.get('password')?.hasError('pattern')" i18n>
+            <mat-error *ngIf="createAccountWithPasswordForm.get('password')?.hasError('pattern')">
               <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg">
               The password does not meet the required criteria.
             </mat-error>
 
             <mat-hint class="text-success" *ngIf="createAccountWithPasswordForm.get('password')?.valid &&
-                     createAccountWithPasswordForm.get('password')?.dirty" i18n>
+                     createAccountWithPasswordForm.get('password')?.dirty">
               <img class="mr-1" alt="" src="../../../fusion-assets/icons/check-mark.svg">
               The password meets the required criteria.
             </mat-hint>
@@ -252,7 +247,7 @@
 
           <!-- Confirm Password Field -->
           <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-            <mat-label i18n>Confirm Password</mat-label>
+            <mat-label [innerHTML]="'Confirm Password' | translate"></mat-label>
             <input id="confpassword-field" [type]="hide2 ? 'password' : 'text'" class="input-field" matInput
               formControlName="confirmPassword" autocomplete="new-password" aria-required="true">
 
@@ -262,12 +257,12 @@
               </a>
             </div>
 
-            <mat-error *ngIf="createAccountWithPasswordForm.get('confirmPassword')?.hasError('required')" i18n>
+            <mat-error *ngIf="createAccountWithPasswordForm.get('confirmPassword')?.hasError('required')">
               <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg">
               This field is required.
             </mat-error>
 
-            <mat-error *ngIf="createAccountWithPasswordForm.get('confirmPassword')?.hasError('mustMatch')" i18n>
+            <mat-error *ngIf="createAccountWithPasswordForm.get('confirmPassword')?.hasError('mustMatch')">
               <img class="mr-1" alt="" src="../../../fusion-assets/icons/ex-mark.svg">
               Password does not match
             </mat-error>
@@ -275,38 +270,38 @@
 
           <!-- Password Requirements -->
           <div class="flex flex-col" role="status" aria-live="polite">
-            <span class="mt-3 mb-3" i18n>Password Requirements:</span>
+            <span [innerHTML]="'Password Requirements:' | translate"></span>
 
             <span class="mb-2 flex align-items-center">
               <img class="gray-dot mr-2" [src]="passwordValidation.length"
                 [alt]="passwordValidation.length.includes('tick') ? 'Requirement met' : 'Requirement not met'">
-              <span i18n>Minimum 8 characters</span>
+              <span [innerHTML]="'Minimum 8 characters' | translate"></span>
             </span>
 
             <span class="mb-2 flex align-items-center">
               <img class="gray-dot mr-2" [src]="passwordValidation.uppercase"
                 [alt]="passwordValidation.uppercase.includes('tick') ? 'Requirement met' : 'Requirement not met'">
-              <span i18n>One capital letter</span>
+              <span [innerHTML]="'One capital letter' | translate"></span>
             </span>
 
             <span class="mb-2 flex align-items-center">
               <img class="gray-dot mr-2" [src]="passwordValidation.number"
                 [alt]="passwordValidation.number.includes('tick') ? 'Requirement met' : 'Requirement not met'">
-              <span i18n>One number</span>
+              <span [innerHTML]="'One number' | translate"></span>
             </span>
 
             <span class="mb-2 flex align-items-center">
               <img class="gray-dot mr-2" [src]="passwordValidation.specialChar"
                 [alt]="passwordValidation.specialChar.includes('tick') ? 'Requirement met' : 'Requirement not met'">
-              <span i18n>One special character</span>
+              <span [innerHTML]="'One special character' | translate"></span>
             </span>
           </div>
 
           <!-- Submit Button -->
           <div class="next-btn-div">
-            <button class="btn next-button" type="submit" [disabled]="!createAccountWithPasswordForm.valid" i18n>
+            <button [innerHTML]="'
               Next
-            </button>
+            ' | translate"></button>
           </div>
         </form>
       </div>

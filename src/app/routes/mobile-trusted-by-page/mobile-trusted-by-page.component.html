@@ -1,11 +1,11 @@
 <!--trusted by banner-->
 <div class="trusted-by-container">
-  <div class="trusted-by-heading" i18n>
+  <div [innerHTML]="'
     Trusted By
-  </div>
-  <div class="trusted-by-ord-heading" i18n>
+  ' | translate"></div>
+  <div [innerHTML]="'
     50+ Partner Organizations and Growing
-  </div>
+  ' | translate"></div>
   <div class="">
     <img src="/fusion-assets/images/trusted-banner-sphere.png" class="trusted-by-img" alt="Sphere" />
     <svg xmlns="http://www.w3.org/2000/svg" width="280" height="2" viewBox="0 0 280 2" fill="none">
@@ -29,8 +29,7 @@
 </div>
 <div class="rmc-container">
   <img class="trusted-by-img8" src="/fusion-assets/icons/wrai.jpg " alt="Sphere" />
-  <span class="rmc-text" i18n>We are endorsing the WRAI RMC Charter</span>
-  <a target="_blank" href="https://www.c3india.org/assets/c3india/images_c3wrai/pdf/rmc-charter.pdf"
-    class="button-wrai-rmc" i18n>Read
-    Charter</a>
+  <span [innerHTML]="'We are endorsing the WRAI RMC Charter' | translate"></span>
+  <a [innerHTML]="'Read
+    Charter' | translate"></a>
 </div>

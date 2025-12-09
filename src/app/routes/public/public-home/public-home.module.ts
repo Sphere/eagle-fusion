@@ -2,6 +2,7 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
+import { TranslateModule } from '@ngx-translate/core'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatDividerModule } from '@angular/material/divider'
 import { MatExpansionModule } from '@angular/material/expansion'
@@ -59,6 +60,7 @@ import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-containe
   imports: [
     MatProgressBarModule,
     CommonModule,
+    TranslateModule,
     MatToolbarModule,
     MatDividerModule,
     MatExpansionModule,
@@ -88,6 +90,7 @@ import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-containe
     PublicTocComponent,
     PublicTocBannerComponent,
     PublicTocOverviewComponent,
-    KeycloakCallbackComponent],
+    KeycloakCallbackComponent,
+    TranslateModule],
 })
 export class PublicHomeModule { }

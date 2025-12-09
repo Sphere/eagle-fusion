@@ -3,5 +3,5 @@
   {{ data.body }}
 </div>
 <div mat-dialog-actions>
-  <button id="login-username-password" class="ui fluid button blueButton" (click)="confirmed()" i18n>Login</button>
+  <button [innerHTML]="'Login' | translate"></button>
 </div>

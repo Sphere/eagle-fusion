@@ -1,13 +1,13 @@
 
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { TranslateModule } from '@ngx-translate/core'
 // import { OrgRoutingModule } from './org-routing.module'
 // import { OrgComponent } from './components/org/org.component'
 import { HorizontalScrollerModule } from '@ws-widget/utils'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { CardContentModule, PipeContentRoutePipe } from '@ws-widget/collection'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
-import { MdePopoverModule } from '@material-extended/mde'
 
 import { MatCardModule } from '@angular/material/card'
 import { MatChipsModule } from '@angular/material/chips'
@@ -24,6 +24,7 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
   declarations: [AllCoursesComponent],
   imports: [
     CommonModule,
+    TranslateModule,
     // OrgRoutingModule,
     MatCardModule,
     MatChipsModule,
@@ -38,8 +39,8 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
     WidgetResolverModule,
     CardContentModule,
     InfiniteScrollModule,
-    MdePopoverModule,
   ],
+  exports: [TranslateModule],
   providers: [PipeContentRoutePipe],
 })
 export class OrgModule { }

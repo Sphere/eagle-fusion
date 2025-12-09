@@ -2,13 +2,13 @@
   <button (click)="backBtnClick()" mat-icon-button
     class="back-icon text-left"><mat-icon>chevron_left</mat-icon></button>
   <div *ngIf="showTerms==='terms'" class="mat-app-background padding-s margin-bottom-s">
-    <h3 *ngIf="!generalTnc?.isAccepted && generalTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
+    <h3 *ngIf="!generalTnc?.isAccepted" [innerHTML]="'
       Terms and Conditions have been updated.
-    </h3>
+    ' | translate"></h3>
     <!-- <div class="flex items-center justify-between">
       <div style="display: flex;flex-direction: column;" *ngIf="generalTnc?.version">
-        <ng-container i18n><span style="margin-left: -12px !important" i18n>Terms of use</span></ng-container>
-        <ng-container i18n><span style="margin-left: -12px !important;margin-top: 10px;" i18n>T&C Version :{{
+        <ng-container><span [innerHTML]="'Terms of use' | translate"></span></ng-container>
+        <ng-container><span style="margin-left: -12px !important;margin-top: 10px;">T&C Version :{{
             generalTnc?.version }}
           </span></ng-container>
       </div>
@@ -16,22 +16,22 @@
   </div>
   <article *ngIf="showTerms==='terms'" [innerHTML]="generalTnc?.content" class="text-justify"></article>
   <!-- <mat-action-row *ngIf="dpTnc === 'Data Privacy'">
-    <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'" i18n>
+    <button [innerHTML]="'
       View Privacy Policy
-    </button>
-    <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'" i18n>
+    ' | translate"></button>
+    <button [innerHTML]="'
       Data Privacy
-    </button>
+    ' | translate"></button>
   </mat-action-row> -->
 
   <div *ngIf="showTerms==='privacy'" class="mat-app-background padding-s margin-bottom-s">
-    <h3 *ngIf=" dpTnc?.acceptedVersion.length" class="ws-mat-primary-text" i18n>
+    <h3>{{ '
       Data privacy has been upgraded.
-    </h3>
+      ' | translate }}</h3>
     <div class="flex items-center justify-between">
 
       <div *ngIf="dpTnc?.version">
-        <ng-container i18n>Data Privacy Version: </ng-container>
+        <ng-container [innerHTML]="'Data Privacy Version: ' | translate"></ng-container>
         <span class="ws-mat-primary-text">{{ dpTnc?.version }}</span>
       </div>
 

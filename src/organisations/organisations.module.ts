@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
+import { TranslateModule } from '@ngx-translate/core'
 import { OrgHomeComponent } from './org-home/org-home.component'
 import { RouterModule, Routes } from '@angular/router'
 import { AppComponent } from './public/app/app.component'
@@ -47,7 +48,8 @@ const routes: Routes = [
   imports: [
     RouterModule.forChild(routes),
     CommonModule,
+    TranslateModule,
   ],
-  exports: [OrgHomeComponent],
+  exports: [OrgHomeComponent, TranslateModule],
 })
 export class OrganisationsModule { }
