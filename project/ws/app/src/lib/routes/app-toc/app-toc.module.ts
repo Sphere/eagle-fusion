@@ -2,7 +2,6 @@ import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { TranslateModule } from '@ngx-translate/core'
 import { SharedModule } from '../../../../../../../src/app/shared/shared.module'
 import { AppTocRoutingModule } from './app-toc-routing.module'
 import { NgCircleProgressModule } from 'ng-circle-progress'
@@ -152,7 +151,6 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
   ],
   imports: [
     CommonModule,
-    TranslateModule,
     SharedModule,
     RouterModule,
     ReactiveFormsModule,

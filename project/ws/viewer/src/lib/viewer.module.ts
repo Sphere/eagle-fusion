@@ -1,7 +1,6 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
-import { TranslateModule } from '@ngx-translate/core'
 import { SharedModule } from '../../../src/app/shared/shared.module'
 import { NgCircleProgressModule } from 'ng-circle-progress'
 import { MatCardModule } from '@angular/material/card'
@@ -58,7 +57,6 @@ import { MatTooltipModule } from '@angular/material/tooltip'
   declarations: [ViewerComponent, ViewerTocComponent, FilterResourcePipe],
   imports: [
     CommonModule,
-    TranslateModule,
     SharedModule,
     MatCardModule,
     MatSidenavModule,
