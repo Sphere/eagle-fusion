@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatIconModule } from '@angular/material/icon'
@@ -55,5 +55,6 @@ import { SettingsService } from './settings.service'
   ],
   exports: [SettingsComponent],
   providers: [SettingsService],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SettingsModule { }

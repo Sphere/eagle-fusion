@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
@@ -85,6 +85,7 @@ import { FollowingListComponent } from './components/following-list/following-li
         // BtnFollowModule,
     ],
     exports: [UserdetailallComponent, ProfileSettingsComponent],
-    providers: [MyContentService, AuthInitService, ApiService, AccessControlService]
+    providers: [MyContentService, AuthInitService, ApiService, AccessControlService],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class PersonProfileModule { }
