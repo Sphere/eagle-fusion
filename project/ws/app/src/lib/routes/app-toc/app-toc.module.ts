@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
@@ -229,6 +229,7 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     AccessControlService,
     ProfileResolverService,
   ],
-  exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent]
+  exports: [AppTocDiscussionComponent, AppTocCohortsComponent, AssessmentDetailComponent, AllDiscussionWidgetComponent],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppTocModule { }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'
 import { NgCircleProgressModule } from 'ng-circle-progress'
@@ -99,5 +99,6 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     AppTocModule,
     NgCircleProgressModule.forRoot({}),
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class ViewerModule { }

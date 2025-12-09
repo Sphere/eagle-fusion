@@ -1,5 +1,4 @@
-
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
 // import { OrgRoutingModule } from './org-routing.module'
@@ -8,6 +7,7 @@ import { HorizontalScrollerModule } from '@ws-widget/utils'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import { CardContentModule, PipeContentRoutePipe } from '@ws-widget/collection'
 import { InfiniteScrollModule } from 'ngx-infinite-scroll'
+import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 
 import { MatCardModule } from '@angular/material/card'
 import { MatChipsModule } from '@angular/material/chips'
@@ -25,6 +25,8 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
   imports: [
     CommonModule,
     TranslateModule,
+    FormsModule,
+    ReactiveFormsModule,
     // OrgRoutingModule,
     MatCardModule,
     MatChipsModule,
@@ -42,5 +44,6 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
   ],
   exports: [TranslateModule],
   providers: [PipeContentRoutePipe],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class OrgModule { }

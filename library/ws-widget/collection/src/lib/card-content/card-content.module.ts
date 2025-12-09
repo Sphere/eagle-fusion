@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatChipsModule } from '@angular/material/chips'
@@ -62,6 +62,7 @@ import { BtnContentShareModule } from '../btn-content-share/btn-content-share.mo
         // BtnContentFeedbackV2Module,
         // BtnKbAnalyticsModule,
     ],
-    exports: [CardContentComponent]
+    exports: [CardContentComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class CardContentModule { }
