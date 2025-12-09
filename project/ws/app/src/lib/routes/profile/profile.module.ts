@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common'
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { TranslateModule } from '@ngx-translate/core'
+import { SharedModule } from '../../../../../../../src/app/shared/shared.module'
 import { MatButtonModule } from '@angular/material/button'
 import { MatIconModule } from '@angular/material/icon'
 import { MatListModule } from '@angular/material/list'
@@ -34,6 +35,7 @@ import { SettingsModule } from './routes/settings/settings.module'
     // BadgesModule,
     CommonModule,
     TranslateModule,
+    SharedModule,
     ProfileRoutingModule,
     // CompetencyModule,
     DashboardModule,

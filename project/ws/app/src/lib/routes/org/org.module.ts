@@ -1,6 +1,7 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
+import { SharedModule } from '../../../../../../../src/app/shared/shared.module'
 // import { OrgRoutingModule } from './org-routing.module'
 // import { OrgComponent } from './components/org/org.component'
 import { HorizontalScrollerModule } from '@ws-widget/utils'
@@ -25,6 +26,7 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
   imports: [
     CommonModule,
     TranslateModule,
+    SharedModule,
     FormsModule,
     ReactiveFormsModule,
     // OrgRoutingModule,
