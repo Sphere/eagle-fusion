@@ -1,5 +1,5 @@
 import { EventResolverService } from './services/event-resolver.service'
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { AppEventComponent } from './components/app-event/app-event.component'
 import { AppEventRoutingModule } from './app-event-routing.module'
@@ -59,5 +59,6 @@ import { CardDetailsModule } from './components/card-details/card-details.module
     EventResolverService,
     EventService,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppEventModule { }

@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { CommonModule } from '@angular/common'
 
 import { AppSetupRoutingModule } from './app-setup-routing.module'
@@ -77,5 +77,6 @@ import { Globals } from './globals'
     // InterestModule,
   ],
   providers: [TncAppResolverService, Globals],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppSetupModule { }

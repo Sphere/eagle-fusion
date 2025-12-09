@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common'
-import { NgModule } from '@angular/core'
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatButtonModule } from '@angular/material/button'
@@ -130,5 +130,6 @@ import { PublicHomeModule } from '../../../../../../../src/app/routes/public/pub
   providers: [
     // TrainingApiService, TrainingService
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class SearchModule { }
