@@ -124,8 +124,8 @@
 
     <ng-container *ngIf="resourceContentType === 'Assessment'">
       <a style="width: 100%" class="block no-underline"
-        [routerLink]="resourceLink?.url ? resourceLink.url : content.viewerUrl"
-        [queryParams]="resourceLink?.queryParams ? resourceLink.queryParams : 'preserve'">
+        [routerLink]="(content?.completionPercentage > 0 || content.index === 1 || !disabledNode || content.hideLocIcon) ? (resourceLink?.url || content.viewerUrl) : null"
+        [queryParams]="(content?.completionPercentage > 0 || content.index === 1 || !disabledNode || content.hideLocIcon) ? (resourceLink?.queryParams || 'preserve') : null">
         <ws-app-assessment-detail
           [resourceLink]="content?.completionPercentage > 0 ||  content.index  === 1 || !disabledNode || content.hideLocIcon ? resourceLink : ''"
           [content]="content">
