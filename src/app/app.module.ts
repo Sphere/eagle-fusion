@@ -341,7 +341,20 @@ const dbConfig: DBConfig = {
     PlayerVideoPopupComponent
   ],
   imports: [
-    // Translation module MUST be configured with forRoot() FIRST and BEFORE all other modules
+    // 1) Browser + animations first
+    BrowserModule,
+    BrowserAnimationsModule,
+
+    // 2) Http client BEFORE Translate.forRoot
+    HttpClientModule,
+    HttpClientJsonpModule,
+
+    // 3) Forms and routing
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
+
+    // 4) Initialize ngx-translate AFTER HttpClientModule
     TranslateModule.forRoot({
       defaultLanguage: 'en',
       loader: {
@@ -350,22 +363,14 @@ const dbConfig: DBConfig = {
         deps: [HttpClient]
       }
     }),
-    // Core modules
-    BrowserModule,
-    BrowserAnimationsModule,
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    HttpClientModule,
-    HttpClientJsonpModule,
-    // Shared module that also exports TranslateModule
+
+    // 5) Shared module which exports TranslateModule
     SharedModule,
-    // Then other modules
+
+    // 6) Then other modules
     KeycloakAngularModule,
-    AppRoutingModule,
     ...WIDGET_REGISTERED_MODULES,
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
-    // StickyHeaderModule,
     ErrorResolverModule,
     MatSliderModule,
     MatButtonModule,
@@ -406,13 +411,13 @@ const dbConfig: DBConfig = {
     TextFieldModule
   ],
   exports: [
+    TranslateModule,
     TncComponent,
     AppPublicNavBarComponent,
     RegisterComponent,
     ForgotPasswordComponent,
     MobileDashboardComponent,
     CertificateReceivedComponent,
-    TranslateModule,  // Add this line
   ],
   bootstrap: [RootComponent],
   providers: [
@@ -460,7 +465,7 @@ const dbConfig: DBConfig = {
       multi: true
     }
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class AppModule { }
 

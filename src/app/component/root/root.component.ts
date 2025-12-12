@@ -7,6 +7,7 @@ import {
   ViewChild,
   ViewContainerRef,
   OnDestroy,
+  Injector
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -59,6 +60,7 @@ import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service
 import { LocalStorageService } from '../../services/local-storage.service'
 import { Events } from '../../routes/notification/events'
 import { io } from "socket.io-client"
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'ws-root',
@@ -133,9 +135,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewerSvc: ViewerUtilService,
     private readonly storage: LocalStorageService,
     private readonly events: Events,
-
+    private injector: Injector
     // @Inject(DOCUMENT) private _document: Document
   ) {
+    const t = this.injector.get(TranslateService, null as any)
+    console.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
     this.domain = window.location.hostname
     if (this.domain.includes('ekshamata')) {
       this.isEkshamata = true
