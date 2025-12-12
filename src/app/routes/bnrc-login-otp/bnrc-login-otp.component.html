@@ -22,9 +22,8 @@
               resend</span>
           </div>
           <span>
-            <button [disabled]="!loginOtpForm?.valid && !disableSubmit"
-              class="form-group login-button mt-4 cursor-pointer" name="login" type="submit" (click)="loginVerifyOtp()"
-              i18n>Submit</button>
+            <button [disabled]="!loginOtpForm?.valid || isLoading" class="form-group login-button mt-4 cursor-pointer"
+              name="login" type="submit" (click)="loginVerifyOtp()" i18n>Submit</button>
           </span>
         </form>
       </div>

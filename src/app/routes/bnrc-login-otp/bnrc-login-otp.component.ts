@@ -60,8 +60,10 @@ export class BnrcLoginOtpComponent implements OnInit {
 
     if (!this.disableSubmit) {
       this.disableSubmit = true
+      this.isLoading = true
       validateOtpMethod(request).subscribe(
         (res: any) => {
+          this.isLoading = false
           if (res.status === 'success') {
             this.openSnackbar(res.message.message)
             this.redirectToParent.emit(res)
@@ -70,6 +72,7 @@ export class BnrcLoginOtpComponent implements OnInit {
         },
         (error: any) => {
           this.disableSubmit = false
+          this.isLoading = false
           const errorMessage = error.error && error.error.message ? error.error.message : (error.message || 'An unexpected error occurred')
           this.openSnackbar(errorMessage)  // Handle error response
         }
