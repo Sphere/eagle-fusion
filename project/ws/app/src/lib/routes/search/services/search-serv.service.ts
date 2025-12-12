@@ -507,6 +507,7 @@ export class SearchServService {
       eventLogLevel: WsEvents.WsEventLogLevel.Warn,
       data: {
         eventSubType: WsEvents.EnumTelemetrySubType.Interact,
+        pageid: '',
         object: {
           query,
           filters,

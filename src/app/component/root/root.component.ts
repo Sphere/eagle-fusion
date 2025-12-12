@@ -362,9 +362,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     this.btnBackSvc.initialize()
     // Application start telemetry
-
+    this.telemetrySvc.getTelemetryConfig()
+    this.telemetrySvc.impression('page-loaded', 'init', 'static-home')
     if (this.configSvc.isAuthenticated) {
-      this.telemetrySvc.start('app', 'view', '')
       this.appStartRaised = true
 
     } else {
@@ -616,7 +616,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       //   //this.showNavbar = true
       // }
       if (event instanceof NavigationEnd) {
-        this.telemetrySvc.impression()
+        // this.telemetrySvc.impression()
         const paramMap = this.activatedRoute.snapshot.queryParamMap
         const params: any = {}
 
@@ -628,7 +628,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.paramsJSON = JSON.stringify(params)
         const userAgent = this.UserAgentResolverService.getUserAgent()
 
-        this.telemetrySvc.paramTriggerImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
+        // this.telemetrySvc.paramTriggerImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         if (this.appStartRaised) {
           this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
           this.appStartRaised = false

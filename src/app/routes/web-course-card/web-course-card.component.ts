@@ -8,6 +8,7 @@ import { SignupService } from '../signup/signup.service'
 import forEach from 'lodash/forEach'
 import { Title } from '@angular/platform-browser'
 import get from 'lodash/get'
+import { TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-web-course-card',
@@ -44,7 +45,8 @@ export class WebCourseCardComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private signUpSvc: SignupService,
-    private titleService: Title
+    private titleService: Title,
+    private telemetrySvc: TelemetryService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
@@ -131,6 +133,7 @@ export class WebCourseCardComponent implements OnInit {
 
 
   redirectPage(course: any) {
+    this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course' })
     const prefix = this.getLanguagePrefix()
     if (this.isLoggedIn) {
       console.log('yes here')

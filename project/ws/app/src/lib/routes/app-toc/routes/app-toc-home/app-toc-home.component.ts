@@ -3,6 +3,7 @@ import { AppTocHomeDirective } from './app-toc-home.directive'
 import { AppTocHomeService } from './app-toc-home.service'
 import { Router } from '@angular/router'
 import { HttpClient } from '@angular/common/http'
+import { TelemetryService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-app-app-toc-home-root',
@@ -20,6 +21,7 @@ export class AppTocHomeComponent implements OnInit {
     private router: Router,
     private componentFactoryResolver: ComponentFactoryResolver,
     private appTocHomeSvc: AppTocHomeService,
+    private telemetrySvc: TelemetryService
   ) { }
 
   loadComponent() {
@@ -36,6 +38,7 @@ export class AppTocHomeComponent implements OnInit {
     if (courseId[0] === 'lex') {
       this.http.get(this.mappingUrl).subscribe((course: any) => {
         const courseNewId = course.find((data: { EagleID: string }) => data.EagleID === urlParams[3]).SunbirdID
+        this.telemetrySvc.impression('pageloaded', 'course-details', 'app-toc-overview', { id: courseNewId, type: 'course' })
         location.href = `/app/toc/${courseNewId}/overview`
       })
     }

@@ -62,6 +62,7 @@ export class PlayerNavigationWidgetComponent implements OnInit {
     this.events.raiseInteractTelemetry(
       'select-content',
       `play-${status}-content`,
+      'player',
       value
     )
   }

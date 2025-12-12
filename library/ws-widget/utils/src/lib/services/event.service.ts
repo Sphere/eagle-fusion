@@ -17,13 +17,14 @@ export class EventService {
   }
 
   // helper functions
-  raiseInteractTelemetry(type: string, subType: string | undefined, object: any, from?: string) {
+  raiseInteractTelemetry(type: string, subType: string | undefined, pageid: string, object: any, from?: string) {
     this.dispatchEvent<WsEvents.IWsEventTelemetryInteract>({
       eventType: WsEvents.WsEventType.Telemetry,
       eventLogLevel: WsEvents.WsEventLogLevel.Info,
       data: {
         type,
         subType,
+        pageid,
         object,
         eventSubType: WsEvents.EnumTelemetrySubType.Interact,
       },

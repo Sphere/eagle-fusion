@@ -136,8 +136,7 @@ export class MobileScromAdapterService {
       const startEparams = {
         type: 'scorm',
         mode: 'scorm-start',
-        pageid: this.route.snapshot.queryParams.courseId ?
-          this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+        pageid: 'player',
         duration: 0,
       }
       const user = {
@@ -150,8 +149,7 @@ export class MobileScromAdapterService {
         const endEparams = {
           type: 'scorm',
           mode: 'scorm-close',
-          pageid: this.route.snapshot.queryParams.courseId ?
-            this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+          pageid: 'player',
           duration: this.convertDurationToEpoch(data["cmi.core.session_time"]),
         }
         this.telemetrySvc.
@@ -176,8 +174,7 @@ export class MobileScromAdapterService {
           const startEparams = {
             type: 'scorm',
             mode: 'scorm-start',
-            pageid: this.route.snapshot.queryParams.courseId ?
-              this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+            pageid: 'player',
             duration: 0,
           }
           const user = {
@@ -190,8 +187,7 @@ export class MobileScromAdapterService {
             const endEparams = {
               type: 'scorm',
               mode: 'scorm-close',
-              pageid: this.route.snapshot.queryParams.courseId ?
-                this.route.snapshot.queryParams.courseId : this.route.snapshot.queryParamMap.get('identifier') || '',
+              pageid: 'player',
               duration: this.convertDurationToEpoch(data["cmi.core.session_time"]),
             }
             this.telemetrySvc.

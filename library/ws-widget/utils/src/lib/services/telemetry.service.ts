@@ -56,7 +56,7 @@ export class TelemetryService {
       this.pData = this.telemetryConfig.pdata
       this.addPlayerListener()
       this.addInteractListener()
-      this.addTimeSpentListener()
+      // this.addTimeSpentListener()
       this.addSearchListener()
       this.addHearbeatListener()
     }
@@ -71,6 +71,90 @@ export class TelemetryService {
       return this.configSvc.userProfile.rootOrgId
     }
     return ''
+  }
+
+  interact(type: string, mode: string, id: string, data?: any, actor?: any) {
+    try {
+      if (this.telemetryConfig) {
+        const page = this.getPageDetails()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const cookie = this.UserAgentResolverService.generateCookie()
+        const edata = {
+          type,
+          subtype: mode,
+          pageid: id,
+          uri: page.pageUrl,
+          browserName: userAgent.browserName,
+          OS: userAgent.OS,
+          timestamp: Date.now(),
+          userAgent,
+          cookie
+        }
+        $t.interact(edata, {
+          actor: {
+            ...actor && actor,
+          },
+          context: {
+            env: this.telemetryConfig.env,
+            channel: this.telemetryConfig.channel,
+            pdata: {
+              ...this.pData,
+              id: 'web-ui',
+              pid: 'sphere.aastrika.org'
+            },
+          },
+          object: {
+            ...(data) && data,
+          },
+        })
+      } else {
+        this.logger.error('Error Initializing Telemetry. Config missing.')
+      }
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in telemetry interact', e)
+    }
+  }
+
+  impression(type: string, mode: string, id: string, data?: any) {
+    this.getTelemetryConfig()
+    try {
+      if (this.telemetryConfig) {
+        const page = this.getPageDetails()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const cookie = this.UserAgentResolverService.generateCookie()
+        const edata = {
+          type,
+          subtype: mode,
+          pageid: id,
+          uri: page.pageUrl,
+          browserName: userAgent.browserName,
+          OS: userAgent.OS,
+          timestamp: Date.now(),
+          userAgent,
+          cookie
+        }
+        $t.impression(edata, {
+          context: {
+            env: this.telemetryConfig.env,
+            channel: this.telemetryConfig.channel,
+            pdata: {
+              ...this.pData,
+              id: 'web-ui',
+              pid: 'sphere.aastrika.org'
+            },
+          },
+          object: {
+            ...(data) && data,
+          },
+        })
+      } else {
+        this.logger.error('Error Initializing Telemetry. Config missing.')
+      }
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in telemetry impression', e)
+    }
   }
 
   start(type: string, mode: string, id: string, data?: any) {
@@ -191,44 +275,44 @@ export class TelemetryService {
     }
     this.pData = instanceConfig.telemetryConfig.pdata
   }
-  async impression() {
-    try {
-      const page = this.getPageDetails()
-      await this.getTelemetryConfig()
-      const edata = {
-        pageid: page.pageid, // Required. Unique page id
-        type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
-        uri: page.pageUrl,
-      }
-      if (page.objectId) {
-        const config = {
-          context: {
-            pdata: {
-              ...this.pData,
-              id: this.pData.id,
-            },
-          },
-          object: {
-            id: page.objectId,
-          },
-        }
-        $t.impression(edata, config)
-      } else {
-        $t.impression(edata, {
-          context: {
-            pdata: {
-              ...this.pData,
-              id: this.pData.id,
-            },
-          },
-        })
-      }
-      this.previousUrl = page.pageUrl
-    } catch (e) {
-      // tslint:disable-next-line: no-console
-      console.log('Error in telemetry impression', e)
-    }
-  }
+  // async impression() {
+  //   try {
+  //     const page = this.getPageDetails()
+  //     await this.getTelemetryConfig()
+  //     const edata = {
+  //       pageid: page.pageid, // Required. Unique page id
+  //       type: page.pageUrlParts[0], // Required. Impression type (list, detail, view, edit, workflow, search)
+  //       uri: page.pageUrl,
+  //     }
+  //     if (page.objectId) {
+  //       const config = {
+  //         context: {
+  //           pdata: {
+  //             ...this.pData,
+  //             id: this.pData.id,
+  //           },
+  //         },
+  //         object: {
+  //           id: page.objectId,
+  //         },
+  //       }
+  //       $t.impression(edata, config)
+  //     } else {
+  //       $t.impression(edata, {
+  //         context: {
+  //           pdata: {
+  //             ...this.pData,
+  //             id: this.pData.id,
+  //           },
+  //         },
+  //       })
+  //     }
+  //     this.previousUrl = page.pageUrl
+  //   } catch (e) {
+  //     // tslint:disable-next-line: no-console
+  //     console.log('Error in telemetry impression', e)
+  //   }
+  // }
   async publicImpression(param: any, browserName: any, OS: any) {
     try {
       const page = this.getPageDetails()
@@ -525,35 +609,35 @@ export class TelemetryService {
     }
   }
 
-  addTimeSpentListener() {
-    this.eventsSvc.events$
-      .pipe(
-        filter(
-          event =>
-            event &&
-            event.eventType === WsEvents.WsEventType.Telemetry &&
-            event.data.type === WsEvents.WsTimeSpentType.Page &&
-            event.data.mode &&
-            event.data,
-        ),
-      )
-      .subscribe(event => {
-        if (event.data.state === WsEvents.EnumTelemetrySubType.Loaded) {
-          this.start(
-            event.data.type || WsEvents.WsTimeSpentType.Page,
-            event.data.mode || WsEvents.WsTimeSpentMode.View,
-            event.data.pageId,
-          )
-        }
-        if (event.data.state === WsEvents.EnumTelemetrySubType.Unloaded) {
-          this.end(
-            event.data.type || WsEvents.WsTimeSpentType.Page,
-            event.data.mode || WsEvents.WsTimeSpentMode.View,
-            event.data.pageId,
-          )
-        }
-      })
-  }
+  // addTimeSpentListener() {
+  //   this.eventsSvc.events$
+  //     .pipe(
+  //       filter(
+  //         event =>
+  //           event &&
+  //           event.eventType === WsEvents.WsEventType.Telemetry &&
+  //           event.data.type === WsEvents.WsTimeSpentType.Page &&
+  //           event.data.mode &&
+  //           event.data,
+  //       ),
+  //     )
+  //     .subscribe(event => {
+  //       if (event.data.state === WsEvents.EnumTelemetrySubType.Loaded) {
+  //         this.start(
+  //           event.data.type || WsEvents.WsTimeSpentType.Page,
+  //           event.data.mode || WsEvents.WsTimeSpentMode.View,
+  //           event.data.pageId,
+  //         )
+  //       }
+  //       if (event.data.state === WsEvents.EnumTelemetrySubType.Unloaded) {
+  //         this.end(
+  //           event.data.type || WsEvents.WsTimeSpentType.Page,
+  //           event.data.mode || WsEvents.WsTimeSpentMode.View,
+  //           event.data.pageId,
+  //         )
+  //       }
+  //     })
+  // }
   addPlayerListener() {
     this.eventsSvc.events$
       .pipe(
@@ -635,7 +719,7 @@ export class TelemetryService {
                 type: event.data.type,
                 subtype: event.data.subType,
                 // object: event.data.object,
-                pageid: page.pageid,
+                pageid: event.data.pageid || page.pageid,
                 // target: { page },
               },
               {

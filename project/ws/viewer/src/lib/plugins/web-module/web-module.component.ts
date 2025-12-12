@@ -220,16 +220,17 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   pageChange(increment: number) {
-    this.raiseTelemetry('pageChange', 'click')
     if (increment === 1 && this.currentSlideNumber < this.slides.length) {
+      this.raiseTelemetry('next-page', 'collection-details')
       this.setPage(this.currentSlideNumber + 1)
     } else if (increment === -1 && this.currentSlideNumber > 1) {
+      this.raiseTelemetry('previous-page', 'collection-details')
       this.setPage(this.currentSlideNumber - 1)
     }
   }
   raiseTelemetry(action: string, event: string) {
     if (this.widgetData.identifier) {
-      this.events.raiseInteractTelemetry(action, event, {
+      this.events.raiseInteractTelemetry('btn-clicked', action, event, {
         contentId: this.widgetData.identifier,
       })
     }
@@ -242,7 +243,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
     this.scrollTimeInterval = setInterval(
       () => {
         if (this.isScrolled) {
-          this.raiseTelemetry('pageScroll', 'scroll')
+          this.raiseTelemetry('pageScroll', 'collection-details')
         }
       },
       2 * 60000,

@@ -336,7 +336,7 @@ export class ViewerUtilService {
 
   generateInteractTelemetry(actionId: string, contentData) {
     let objRollup = { l1: '', l2: '' }
-    objRollup.l1 = contentData.courseId || ''
+    objRollup.l1 = contentData.courseId || contentData.checkCollectionId || ''
     objRollup.l2 = contentData.contentId || ''
     const value = new Map()
     value['identifier'] = contentData?.contentId || ''
@@ -345,6 +345,7 @@ export class ViewerUtilService {
     this.events.raiseInteractTelemetry(
       actionId,
       contentData.mimeType,
+      'player',
       value
     )
   }

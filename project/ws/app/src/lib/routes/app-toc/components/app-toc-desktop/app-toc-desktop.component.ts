@@ -11,7 +11,7 @@ import {
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
-import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
+import { ConfigurationsService, TelemetryService, TFetchStatus } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
 // import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
@@ -128,7 +128,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private onlineIndexedDbService: IndexedDBService,
     private navService: WindowService,
     // private authAccessService: AccessControlService,
-    @Inject(DOCUMENT) public document: Document
+    @Inject(DOCUMENT) public document: Document,
+    private telemetrySvc: TelemetryService
   ) {
   }
   @HostListener('window:popstate', ['$event'])
@@ -572,6 +573,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
 
   redirectPage(updatedContentFound: any) {
+    this.telemetrySvc.interact('redirect-clicked', 'click', 'toc-page', { id: this.content!.identifier, type: 'course' })
     if (updatedContentFound === undefined) {
       let batchId = this.getBatchId()
       console.log(batchId, 'batchId')

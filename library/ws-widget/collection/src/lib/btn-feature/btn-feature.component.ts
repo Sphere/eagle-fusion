@@ -322,7 +322,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
   togglePin(featureId: string, event: any) {
     event.preventDefault()
     event.stopPropagation()
-    this.events.raiseInteractTelemetry('pin', 'feature', {
+    this.events.raiseInteractTelemetry('btn-clicked', 'pin', 'feature', {
       featureId,
     })
     this.configurationsSvc.pinnedApps.pipe(take(1)).subscribe(pinnedApps => {
