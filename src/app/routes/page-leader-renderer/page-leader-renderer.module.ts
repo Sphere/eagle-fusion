@@ -24,6 +24,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatDialogModule } from '@angular/material/dialog'
 import { MatSnackBarModule } from '@angular/material/snack-bar'
 import { MatInputModule } from '@angular/material/input'
+import { TranslateModule } from '@ngx-translate/core'
 
 import { WidgetResolverModule } from '../../../../library/ws-widget/resolver/src/public-api'
 
@@ -48,6 +49,7 @@ import { WidgetResolverModule } from '../../../../library/ws-widget/resolver/src
         MatTabsModule,
         MatToolbarModule,
         MatFormFieldModule,
+        TranslateModule,
         MatDialogModule,
         MatToolbarModule,
         MatProgressSpinnerModule,

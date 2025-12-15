@@ -5,9 +5,11 @@
 
 <ng-template #cardBadges>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
+    <!-- TODO: Popover trigger removed for Angular Ivy compatibility -->
+    <!-- [mdePopoverTriggerFor]="appPopover" mdePopoverTriggerOn="hover" #popoverTrigger="mdePopoverTrigger"
       [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300" [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290"
-      [mdePopoverOffsetY]="-340" (click)="redirectPage(courseData)">
+      [mdePopoverOffsetY]="-340" -->
+    <a (click)="redirectPage(courseData)">
       <div class="box">
         <div class="text-over">
           <img class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
@@ -56,7 +58,9 @@
     </a>
   </section>
 </ng-template>
-<mde-popover #appPopover="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="true">
+<!-- TODO: Popover requires MdePopoverModule which is not compatible with Angular Ivy -->
+<!-- Commented out for Angular 16 compatibility -->
+<!--
   <mat-card class="popover-card xs-hidden">
     <mat-card-content>
       <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
@@ -72,30 +76,7 @@
         <span class="mr-1 orange-text">{{ 'Duration' | translate }}</span>:
         <mat-icon>access_time</mat-icon>
         <span class="time-text fs-13">{{ courseData.duration| pipeDurationTransform: 'hms' }}</span>
-        <!--<span class="mt-0 flex justify-between items-center left-0 right-0 px-3 py-0">
-            <div class="flex items-start">
-              <ng-container [ngTemplateOutlet]="rating"></ng-container>
-            </div>
-          </span> -->
       </div>
-      <p *ngIf="courseData?.completionPercentage"><span class="fw-500">{{ 'Progress' | translate }}</span>: {{
-        courseData?.completionPercentage}} %</p>
-      <!-- <p><span class="fw-500">Number of modules:</span> {{ courseData?.childNodes?.length}}</p> -->
-      <p *ngIf="courseData?.creator"><span class="fw-500">{{ 'Author' | translate }}</span>: {{
-        courseData?.creator}}
-      </p>
-      <p *ngIf="courseData?.creatorContacts"><span class="fw-500">{{ 'Author' | translate }}</span>: {{
-        courseData?.creatorContacts[0]?.name}}</p>
-
-      <p *ngIf="courseData?.uniqueUsersCount"><span class="fw-500">{{ 'Users enrolled' | translate }}</span>:
-        {{courseData?.uniqueUsersCount}}</p>
-      <p *ngIf="courseData?.sourceName"><span class="fw-500">{{ 'Source' | translate }}</span>:
-        {{courseData.sourceName}}
-      </p>
-      <!-- <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title>
-          <div class="fw-500 mb-1">Course Description</div>
-          {{ courseData.description | pipeHtmlTagRemoval }}
-        </div> -->
       <div class="mt-0 flex">
         <button *ngIf="isUserLoggedIn === true" mat-raised-button
           class="header-btn text-white ws-mat-primary-background mat-button-base" (click)="redirectPage(courseData)">
@@ -109,7 +90,7 @@
       </div>
     </mat-card-content>
   </mat-card>
-</mde-popover>
+-->
 <ng-template #cardStandard>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
     <a (click)="redirectPage(courseData)">

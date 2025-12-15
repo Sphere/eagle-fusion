@@ -11,7 +11,8 @@
       <span [innerHTML]="'Last updated on' | translate"></span> : {{ content?.lastUpdatedOn | date }}
     </div>
     <div class="details"><span [innerHTML]="'Source' | translate"></span> : {{content?.sourceName}}</div>
-    <div class="details" *ngIf="content?.creator"><span [innerHTML]="'Author' | translate"></span> : {{content?.creator}}</div>
+    <div class="details" *ngIf="content?.creator"><span [innerHTML]="'Author' | translate"></span> :
+      {{content?.creator}}</div>
   </div>
   <div [innerHTML]="'View
     License Terms' | translate"></div>
@@ -36,7 +37,7 @@
       <!-- Modal body -->
       <div class="modal-body text-center" style="padding: 0px;">
         <div>
-          <h3>{{ 'Login/create an account to start the course' | translate }}</h4>{{ 'Login/create an account to start the course' | translate }}</h3>
+          <h3>{{ 'Login/create an account to start the course' | translate }}</h3>
           <button [innerHTML]="'
             Login
           ' | translate"></button>

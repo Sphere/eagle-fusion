@@ -42,7 +42,7 @@
           <div class="flex flex-middle">
             <img alt="Leader" class="mat-lite-background" [src]="leaderData?.profile?.profileImage" />
             <div class="margin-left-s">
-              <h2 class="margin-remove margin-top-xs">{{ leaderData?.profile.name }}</h3>{{ leaderData?.profile.name }}</h2>
+              <h2 class="margin-remove margin-top-xs">{{ leaderData?.profile.name }}</h2>
               <h3 class="margin-remove-bottom margin-top-xs">
                 {{ leaderData?.profile.designation }}
               </h3>
@@ -90,8 +90,6 @@
 
 <div class="text-center margin-top-m">
   <h2 class="mat-h2" *ngIf="!leaderData && !errorFetchingJson">
-    No Data Available for this leader.
-  </h3>
     No Data Available for this leader.
   </h2>
   <h2 class="mat-h2" *ngIf="errorFetchingJson">

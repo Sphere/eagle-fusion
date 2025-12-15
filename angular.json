@@ -32,7 +32,7 @@
               },
               {
                 "glob": "**/*.*",
-                "input": "./node_modules/@aastrika_npmjs/competency-web/assets",
+                "input": "./node_modules/@aastrika_npmjs/comptency/assets",
                 "output": "./assets/comptency"
               },
               "src/favicon.ico",
@@ -61,7 +61,7 @@
               "src/styles/styles.scss",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
-              "node_modules/@aastrika_npmjs/competency-web/assets/styles/global.scss",
+              "node_modules/@aastrika_npmjs/comptency/assets/styles/global.scss",
               "src/themes/theme-igot.scss",
               "src/fusion-assets/fonts/poppins/stylesheet.css",
               "node_modules/typeface-roboto/index.css",

@@ -116,6 +116,7 @@ export const WIDGET_REGISTERED_MODULES = [
   // BtnContentLikeModule,
   // BtnContentMailMeModule,
   BtnContentShareModule,
+  BtnFeatureModule,
   BtnFullscreenModule,
   // BtnGoalsModule,
   // BtnMailUserModule,

@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { RouterModule } from '@angular/router'
+import { MdePopoverModule } from '../../../../../../src/app/mocks/mde-popover.mock'
 import { DefaultThumbnailModule, PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemovalModule, PipePartialContentModule } from '@ws-widget/utils'
 // import { BtnChannelAnalyticsModule } from '../btn-channel-analytics/btn-channel-analytics.module'
 // import { BtnContentDownloadModule } from '../btn-content-download/btn-content-download.module'
@@ -37,6 +38,7 @@ import { BtnContentShareModule } from '../btn-content-share/btn-content-share.mo
         MatIconModule,
         MatButtonModule,
         MatTooltipModule,
+        MdePopoverModule,
         MatMenuModule,
         MatChipsModule,
         MatDividerModule,

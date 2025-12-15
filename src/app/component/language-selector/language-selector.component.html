@@ -1,7 +1,0 @@
-<div class="language-selector-container">
-  <select (change)="onLanguageChange($event)" [value]="(currentLanguage$ | async)" class="language-select">
-    <option *ngFor="let lang of languages" [value]="lang.code">
-      {{ lang.name }}
-    </option>
-  </select>
-</div>

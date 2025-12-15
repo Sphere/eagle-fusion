@@ -12,7 +12,7 @@
     <mat-form-field appearance="outline" class="py-1 textfield">
       <textarea matInput cdkTextareaAutosize [cdkAutosizeMaxRows]="5" [cdkAutosizeMinRows]="3" formControlName="about"
         i18n-placeholder placeholder="About" #about></textarea>
-      <mat-hint>{{ about.value.length [innerHTML]="'500 characters' | translate"></span></mat-hint>
+      <mat-hint>{{ about.value.length }} / <span [innerHTML]="'500 characters' | translate"></span></mat-hint>
       <mat-error *ngIf="aboutForm.controls['about'].touched && aboutForm.controls['about'].hasError('required')">
         About field is required
       </mat-error>

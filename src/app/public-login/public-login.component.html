@@ -21,7 +21,8 @@
               </button>
             </div>
             <div [innerHTML]="'Help
-              ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+              ' | translate">img class="help-icon" alt="help-icon"
+              src="../../../fusion-assets/icons/support_agent_blue.png" />
             </div>
           </div>
           <div class="ui header mtb">
@@ -30,10 +31,10 @@
           <h4>{{ '
             Login with your Aastrika
             account
-          ' | translate }}</h4>
+            ' | translate }}</h4>
           <h4>{{ '
             Login with your account
-          ' | translate }}</h4>
+            ' | translate }}</h4>
           <div class="field  type-container mw-100">
             <div class="heading" style="margin-right: 30px;">
               <input type="radio" (click)="passwordOrOtp('otp')" name="usePasswordOrOTP" id="useOTPRB"
@@ -152,14 +153,17 @@
                 </div>
                 <div [innerHTML]="'
                   Help
-                  ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+                  ' | translate">img class="help-icon" alt="help-icon"
+                  src="../../../fusion-assets/icons/support_agent_blue.png" />
                 </div>
               </div>
-              <div class="check-email-text"><span [innerHTML]="'Check your ' | translate"></span> <span [innerHTML]="'Email' | translate"></span>
+              <div class="check-email-text"><span [innerHTML]="'Check your ' | translate"></span> <span
+                  [innerHTML]="'Email' | translate"></span>
                 <span [innerHTML]="'SMS' | translate"></span>!
               </div>
-              <div class="enter-code-text mt-2 mb-2"><span [innerHTML]="'We have sent an OTP to ' | translate"></span><span class="text-dark"
-                 >{{loginForm.value.emailOrMobile}}</span>
+              <div class="enter-code-text mt-2 mb-2"><span
+                  [innerHTML]="'We have sent an OTP to ' | translate"></span><span
+                  class="text-dark">{{loginForm.value.emailOrMobile}}</span>
               </div>
               <div class="img-box">
                 <img alt="" style="width: 200px; height: 150px;" src="../../../fusion-assets/images/Frame150.svg">
@@ -222,16 +226,17 @@
         </button>
       </div>
       <div [innerHTML]="'Help
-        ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+        ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png"
+        />
       </div>
     </div>
     <div class="padding-20 ui header mtb1">
       <h1>{{ ' Welcome! ' | translate }}</h1>
     </div>
-    <h4 *ngIf="isEkshamtaLogin||isOrgSelectiveCourse" class=" padding-20 info-text [innerHTML]="'Login
+    <h4 *ngIf="isEkshamtaLogin||isOrgSelectiveCourse" class=" padding-20 info-text" [innerHTML]="'Login
       with your account
     ' | translate"></h4>
-    <h4 *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class=" padding-20 info-text [innerHTML]="'Login
+    <h4 *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class=" padding-20 info-text" [innerHTML]="'Login
       with your Aastrika account
     ' | translate"></h4>
     <!-- <div class="formMsg  textCenter">
@@ -357,15 +362,17 @@
             </button>
           </div>
           <div [innerHTML]="'Help
-            ' | translate">img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
+            ' | translate">img class="help-icon" alt="help-icon"
+            src="../../../fusion-assets/icons/support_agent_blue.png" />
           </div>
         </div>
         <div class="login-card">
-          <div class="check-email-text"><span [innerHTML]="'Check your ' | translate"></span> <span [innerHTML]="'Email' | translate"></span>
+          <div class="check-email-text"><span [innerHTML]="'Check your ' | translate"></span> <span
+              [innerHTML]="'Email' | translate"></span>
             <span [innerHTML]="'SMS' | translate"></span>!
           </div>
-          <div class="enter-code-text mt-2 mb-4"><span [innerHTML]="'We have sent an OTP to ' | translate"></span><span class="text-dark"
-             >{{loginForm.value.emailOrMobile}}</span>
+          <div class="enter-code-text mt-2 mb-4"><span [innerHTML]="'We have sent an OTP to ' | translate"></span><span
+              class="text-dark">{{loginForm.value.emailOrMobile}}</span>
           </div>
           <div class="img-box">
             <img alt="" width="250" height="200" src="../../../fusion-assets/images/Frame150.svg">

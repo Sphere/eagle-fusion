@@ -8,8 +8,19 @@ module.exports = {
   preset: 'jest-preset-angular',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'], // Ensure this path is correct
+  globals: {
+    'ts-jest': {
+      tsconfig: 'tsconfig.spec.json',
+      isolatedModules: true,
+      useESM: true,
+    },
+  },
   transform: {
-    '^.+\\.ts$': 'ts-jest',
+    '^.+\\.ts$': ['ts-jest', {
+      tsconfig: 'tsconfig.spec.json',
+      isolatedModules: true,
+      useESM: true,
+    }],
   },
   transformIgnorePatterns: [
     '/node_modules/(?!flat)/',
