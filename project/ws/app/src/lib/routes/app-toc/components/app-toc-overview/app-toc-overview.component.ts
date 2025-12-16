@@ -10,6 +10,7 @@ import { Observable, Subscription } from 'rxjs'
 // import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
+import { TelemetryService } from '../../../../../../../../../library/ws-widget/utils/src/lib/services/telemetry.service'
 
 @Component({
   selector: 'ws-app-app-toc-overview',
@@ -40,6 +41,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
     private router: Router,
+    private telemetrySvc: TelemetryService
   ) {
     if (this.configSvc.restrictedFeatures) {
       this.askAuthorEnabled = !this.configSvc.restrictedFeatures.has('askAuthor')
@@ -85,6 +87,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
           : this.content.body
         : '',
     )
+    this.telemetrySvc.impression('pageloaded', 'course-details', 'app-toc-overview', { id: this.content?.identifier, type: 'course' })
     this.contentParents = {}
     this.resetAndFetchTocStructure()
     this.getTrainingCount()

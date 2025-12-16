@@ -7,6 +7,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import { get, forEach } from 'lodash'
 import { Title } from '@angular/platform-browser'
+import { TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-web-course-card',
@@ -32,11 +33,19 @@ export class WebCourseCardComponent implements OnInit {
   }
   displayStyle = 'none'
   isLoggedIn = false
+
+  // Helper to get language prefix - use user preference ONLY, not URL
+  private getLanguagePrefix(): string {
+    const local = this.configSvc.unMappedUser?.profileDetails?.preferences?.language ?? 'en'
+    return local === 'hi' ? '/hi' : ''
+  }
+
   constructor(private router: Router,
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private signUpSvc: SignupService,
-    private titleService: Title
+    private titleService: Title,
+    private telemetrySvc: TelemetryService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
@@ -68,30 +77,28 @@ export class WebCourseCardComponent implements OnInit {
     }
   }
   clickToRedirect(data: any) {
+    const prefix = this.getLanguagePrefix()
     if (this.configSvc.userProfile === null) {
-      localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-      const url = localStorage.getItem(`url_before_login`) || ''
-      this.router.navigateByUrl(url)
+      const urlBeforeLogin = `${prefix}/app/toc/${data.identifier}/overview`
+      localStorage.setItem(`url_before_login`, urlBeforeLogin)
+      this.router.navigateByUrl(urlBeforeLogin)
     } else {
       this.raiseTelemetry(data)
     }
 
   }
   raiseTelemetry(data: any) {
+    const prefix = this.getLanguagePrefix()
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(50), mergeMap((data: any) => {
         return of(data)
       })).subscribe((userDetails: any) => {
         if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
-          // this.events.raiseInteractTelemetry('click', `${this.widgetType}-${this.widgetSubType}`, {
-          //   contentId: this.widgetData.content.identifier,
-          //   contentType: this.widgetData.content.contentType,
-          //   context: this.widgetData.context,
-          // })
-          this.router.navigateByUrl(`/app/toc/${data.identifier}/overview?primaryCategory=Course`)
+          // Navigate to course with language prefix
+          this.router.navigateByUrl(`${prefix}/app/toc/${data.identifier}/overview?primaryCategory=Course`)
         } else {
-          const url = `/app/toc/${data.identifier}/overview`
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: url } })
+          const url = `${prefix}/app/toc/${data.identifier}/overview`
+          this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: url } })
         }
       })
     }
@@ -125,6 +132,8 @@ export class WebCourseCardComponent implements OnInit {
 
 
   redirectPage(course: any) {
+    this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course' })
+    const prefix = this.getLanguagePrefix()
     if (this.isLoggedIn) {
       console.log('yes here')
       this.navigateToToc(course.identifier)
@@ -133,7 +142,7 @@ export class WebCourseCardComponent implements OnInit {
       const currentRoute = this.router.url
 
       if (currentRoute.includes('org-selective-course')) {
-        const url = `app/toc/` + `${course.identifier}` + `/overview`
+        const url = `${prefix}/app/toc/${course.identifier}/overview`
         localStorage.setItem(`url_before_login`, url)
         this.showPopup()
       } else {
@@ -179,7 +188,8 @@ export class WebCourseCardComponent implements OnInit {
   }
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
-    const url = `app/toc/${contentIdentifier}/overview`
+    const prefix = this.getLanguagePrefix()
+    const url = `${prefix}/app/toc/${contentIdentifier}/overview`
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
       localStorage.setItem(`url_before_login`, url)
@@ -197,8 +207,8 @@ export class WebCourseCardComponent implements OnInit {
               this.router.navigateByUrl(url)
             } else {
               console.log('Background details not filled, redirecting to about-you')
-              const courseUrl = `/app/toc/${contentIdentifier}/overview`
-              this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
+              const courseUrl = `${prefix}/app/toc/${contentIdentifier}/overview`
+              this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: courseUrl } })
             }
           })
       }

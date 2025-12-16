@@ -1103,12 +1103,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       this.events.raiseInteractTelemetry(
         action,
         event,
+        "quiz",
         {
           optionId,
         },
       )
     } else {
-      this.events.raiseInteractTelemetry(action, event, {
+      this.events.raiseInteractTelemetry(action, event, 'quiz', {
         contentId: this.identifier,
       })
     }

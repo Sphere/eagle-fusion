@@ -11,7 +11,7 @@ import {
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
-import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils'
+import { ConfigurationsService, TelemetryService, TFetchStatus } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
 // import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
@@ -128,7 +128,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private onlineIndexedDbService: IndexedDBService,
     private navService: WindowService,
     // private authAccessService: AccessControlService,
-    @Inject(DOCUMENT) public document: Document
+    @Inject(DOCUMENT) public document: Document,
+    private telemetrySvc: TelemetryService
   ) {
   }
   @HostListener('window:popstate', ['$event'])
@@ -294,20 +295,27 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     console.log(local)
     let url = ''
 
-    // Check if coming from org-selective-course
-    const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
+    // ✅ Check if orgSelectiveConfig matches and redirect accordingly
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
     const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
 
-    if (isOrgSelectiveCourse && orgSelectiveConfig?.redirectUrl) {
-      // Redirect to orgSelectiveConfig.redirectUrl
-      console.log('Redirecting to org-selective URL:', orgSelectiveConfig.redirectUrl)
-      url = orgSelectiveConfig.redirectUrl
-      location.href = url
-    } else if (sessionStorage.getItem('cURL')) {
+    if (sessionStorage.getItem('cURL')) {
       url = sessionStorage.getItem('cURL') || ''
       location.href = url
+    } else if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+      // ✅ Redirect to selective org course page instead of home
+      const redirectUrl = orgSelectiveConfig.redirectUrl || '/page/home'
+      console.log('🏫 Redirecting to selective org page:', redirectUrl)
+      location.href = `${document.baseURI.replace(/\/hi$/, '').replace(/\/$/, '')}${redirectUrl}`
     } else {
       this.navService.nativeWindow.history.back()
+      // url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
+      // console.log(url)
+      // let url3 = `${document.baseURI}`
+      // if (url3.includes('hi')) {
+      //   url3 = url3.replace(/hi\//g, '')
+      // }
+      // location.href = `${url3}${url}`
     }
   }
 
@@ -565,6 +573,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
 
   redirectPage(updatedContentFound: any) {
+    this.telemetrySvc.interact('redirect-clicked', 'click', 'toc-page', { id: this.content!.identifier, type: 'course' })
     if (updatedContentFound === undefined) {
       let batchId = this.getBatchId()
       console.log(batchId, 'batchId')

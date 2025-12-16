@@ -21,6 +21,7 @@
           <mat-select formControlName="role" placeholder="Position">
             <mat-option value="ANM-MP">ANM</mat-option>
             <mat-option value="CHO-MP">CHO</mat-option>
+            <mat-option value="Trainer-MP">Trainer</mat-option>
           </mat-select>
         </mat-form-field>
         <mat-error *ngIf="anmRegistrationForm.get('role')?.invalid && anmRegistrationForm.get('role')?.touched">

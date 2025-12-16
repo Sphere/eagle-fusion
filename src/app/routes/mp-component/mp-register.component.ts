@@ -29,6 +29,7 @@ export class MpRegisterComponent implements OnInit {
   // JSON URLs
   mpANMDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_anm_District.json?cb=${Date.now()}`
   mpCHODistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_cho_District.json?cb=${Date.now()}`
+  mpTRAINERDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_trainer_district.json?cb=${Date.now()}`
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
 
@@ -61,12 +62,19 @@ export class MpRegisterComponent implements OnInit {
       block: ['', Validators.required],
       facilityType: ['', Validators.required],
       facilityName: ['', Validators.required],
+      facilityCode: ['']
     })
   }
 
   /** Load district JSON based on role */
   private loadDistrictData(role: string): void {
-    const url = role === 'ANM-MP' ? this.mpANMDistrictUrl : this.mpCHODistrictUrl
+    let url = this.mpCHODistrictUrl
+
+    if (role === 'ANM-MP') {
+      url = this.mpANMDistrictUrl
+    } else if (role === 'Trainer-MP') {
+      url = this.mpTRAINERDistrictUrl
+    }
 
     this.http.get(url).subscribe((districtData: any) => {
       if (Array.isArray(districtData) && districtData.length > 0) {
@@ -90,7 +98,8 @@ export class MpRegisterComponent implements OnInit {
           district: '',
           block: '',
           facilityType: '',
-          facilityName: ''
+          facilityName: '',
+          facilityCode: ''
         })
         this.districts = []
         this.blocks = []
@@ -132,6 +141,17 @@ export class MpRegisterComponent implements OnInit {
       }
       this.anmRegistrationForm.get('facilityName')?.reset()
     })
+
+    // Facility name change → populate facility code
+    this.anmRegistrationForm.get('facilityName')?.valueChanges.subscribe(selectedFacilityName => {
+      const district = this.anmRegistrationForm.get('district')?.value
+      const block = this.anmRegistrationForm.get('block')?.value
+      const facilityType = this.anmRegistrationForm.get('facilityType')?.value
+      if (district && block && selectedFacilityName && this.biharDistrictData[district][block][facilityType]) {
+        const selectedObject = this.biharDistrictData[district][block][facilityType].find(x => x.name === selectedFacilityName)
+        this.anmRegistrationForm.get('facilityCode')?.setValue(selectedObject?.code ? `${selectedObject?.code}` : '')
+      }
+    })
   }
 
   private setupResponsiveLayout(): void {
@@ -145,14 +165,14 @@ export class MpRegisterComponent implements OnInit {
       this.blocks = []
       this.facilityTypes = []
       this.availableFacilities = []
-      this.anmRegistrationForm.patchValue({ block: '', facilityType: '', facilityName: '' })
+      this.anmRegistrationForm.patchValue({ block: '', facilityType: '', facilityName: '', facilityCode: '' })
     } else if (field === 'block') {
       this.facilityTypes = []
       this.availableFacilities = []
-      this.anmRegistrationForm.patchValue({ facilityType: '', facilityName: '' })
+      this.anmRegistrationForm.patchValue({ facilityType: '', facilityName: '', facilityCode: '' })
     } else if (field === 'facilityType') {
       this.availableFacilities = []
-      this.anmRegistrationForm.patchValue({ facilityName: '' })
+      this.anmRegistrationForm.patchValue({ facilityName: '', facilityCode: '' })
     }
   }
 

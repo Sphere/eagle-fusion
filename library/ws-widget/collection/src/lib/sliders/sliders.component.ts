@@ -104,7 +104,7 @@ export class SlidersComponent extends WidgetBaseComponent
     const path = window.location.pathname.replace('/', '')
     const url = path + window.location.search
 
-    this.events.raiseInteractTelemetry('click', 'banner', {
+    this.events.raiseInteractTelemetry('click', 'banner', 'slider', {
       pageUrl: url,
       bannerRedirectUrl: bannerUrl,
     })

@@ -392,7 +392,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           "l2": identifier
         }
       }
-      this.telemetrySvc.start('video', 'video-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, object)
+      this.telemetrySvc.start(object.type, 'video-start', 'player', object)
 
       let userId
       if (this.configSvc.userProfile) {
@@ -425,7 +425,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               "l2": identifier
             }
           }
-          this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
+          this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
 
           if (this.contentData && percent >= this.contentData.completionPercentage) {
             if (this.widgetData.identifier && identifier && data) {
@@ -455,7 +455,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                 "l2": identifier
               }
             }
-            this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
+            this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
 
             this.viewerSvc
               .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
@@ -481,7 +481,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                   "l2": identifier
                 }
               }
-              this.telemetrySvc.end('video', 'video-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
+              this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
 
               this.viewerSvc
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {

@@ -19,7 +19,8 @@
               resend' | translate"></span>
           </div>
           <span>
-            <button [innerHTML]="'Submit' | translate"></button>
+            <button [disabled]="!loginOtpForm?.valid || isLoading" class="form-group login-button mt-4 cursor-pointer"
+              name="login" type="submit" (click)="loginVerifyOtp()" [innerHTML]="'Submit' | translate"></button>
           </span>
         </form>
       </div>

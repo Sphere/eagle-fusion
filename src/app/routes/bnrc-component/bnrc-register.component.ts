@@ -91,7 +91,7 @@ export class BnrcRegisterComponent implements OnInit {
 
   biharDistrictData: any = {}
   aamShcs: { name: string; nin: number }[] = []
-
+  service: any
 
   registrationData: any = {} // your final JSON goes here
   constructor(
@@ -197,9 +197,11 @@ export class BnrcRegisterComponent implements OnInit {
       const instCtrl = this.bnrcDetailForm.get('instituteName')
 
       // reset input box
-      instCtrl?.setValue(null, { emitEvent: false })
-      instCtrl?.setErrors({ required: true })
-      instCtrl?.markAsTouched()
+      if (this.service == 'Student' && this.service == 'Faculty') {
+        instCtrl?.setValue(null, { emitEvent: false })
+        instCtrl?.setErrors({ required: true })
+        instCtrl?.markAsTouched()
+      }
 
       // load institutes of district
       if (selectedDistrict) {
@@ -264,6 +266,7 @@ export class BnrcRegisterComponent implements OnInit {
 
     this.route.queryParams.subscribe(params => {
       const service = params['service']
+      this.service = service
       if (service === 'inservice') {
         this.isANM = true
         this.isInservice = true

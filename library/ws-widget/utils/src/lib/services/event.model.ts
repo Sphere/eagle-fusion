@@ -25,11 +25,11 @@ export namespace WsEvents {
     Log = 'Log',
     Trace = 'Trace',
   }
-   export enum WsAuditTypes {
-     Created = 'Created',
-     Updated = 'Updated',
-     Deleted = 'Deleted',
-   }
+  export enum WsAuditTypes {
+    Created = 'Created',
+    Updated = 'Updated',
+    Deleted = 'Deleted',
+  }
   export enum WsTimeSpentType {
     Page = 'Page',
     Player = 'Player',
@@ -85,6 +85,7 @@ export namespace WsEvents {
   export interface IWsEventTelemetryInteract extends IWsEventTelemetry {
     type: string
     subType?: string
+    pageid: string
     object: any
   }
 

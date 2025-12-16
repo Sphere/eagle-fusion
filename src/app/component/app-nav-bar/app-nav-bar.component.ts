@@ -193,42 +193,31 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   goHomePage() {
-    const user = this.configSvc.unMappedUser
-    const org = this.configSvc?.userProfile?.rootOrgId || ''
-    const lang = user?.profileDetails?.preferences?.language ||
-      (location.href.includes('/hi/') ? 'hi' : 'en')
-
-    const selectiveData = this.configSvc.orgSelectiveCourseConfig
-    console.log('Loaded orgSelectiveCourseConfig:', selectiveData)
-
-    // Set prefix for language
-    const prefix = lang === 'hi' ? '/hi' : ''
-
-    // Default home path
-    let homePath = `${prefix}/page/home`
-    let queryParams: any = {}
-
-    // If selective org matches, use redirectUrl from config
-    if (selectiveData && selectiveData.orgId === org) {
-      console.log('Redirecting to selective org homepage for:', org)
-
-      const redirectUrl = selectiveData.redirectUrl || `${prefix}/page/home`
-      const urlParts = redirectUrl.split('?')
-
-      // Extract the main path
-      homePath = `${prefix}/${urlParts[0].replace(/^\//, '')}`
-
-      // Extract query params if any
-      if (urlParts[1]) {
-        const params = new URLSearchParams(urlParts[1])
-        params.forEach((value, key) => {
-          queryParams[key] = value
-        })
-      }
+    // localStorage.setItem('url_before_login', '/page/home')
+    //if (this.showNavLinkPage) {
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let url1 = local === 'hi' ? 'hi' : ""
+    console.log(url1)
+    let url2 = `${document.baseURI}`
+    if (url2.includes('hi')) {
+      url2 = url2.replace(/hi\//g, '')
     }
 
-    console.log('Navigating to:', homePath, 'with params:', queryParams)
-    this.router.navigate([homePath], { queryParams })
+    // ✅ Check if orgSelectiveConfig matches and redirect accordingly
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+    const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+
+    let url = ''
+    if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+      url = orgSelectiveConfig.redirectUrl || (url1 === 'hi' ? '/page/home' : 'page/home')
+      console.log('🏫 Redirecting to selective org page:', url)
+    } else {
+      url = url1 === 'hi' ? '/page/home' : 'page/home'
+    }
+
+    location.href = `${url2}${url1}${url}`
+    //location.href = '/page/home'
+    //}
   }
 
 

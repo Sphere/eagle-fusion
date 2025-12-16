@@ -252,7 +252,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           "l2": id
         }
       }
-      this.telemetrySvc.start('pdf', 'pdf-start', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, object)
+      this.telemetrySvc.start('application/pdf', 'pdf-start', 'player', object)
 
       const temp = [...realTimeProgressRequest.current]
       // const latest = parseFloat(temp.slice(-1) || '0')
@@ -270,7 +270,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
             "l2": id
           }
         }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
+        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1)
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
@@ -293,7 +293,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
             "l2": id
           }
         }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
+        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1)
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
@@ -316,7 +316,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
             "l2": id
           }
         }
-        this.telemetrySvc.end('pdf', 'pdf-close', this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier, data1)
+        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1)
       }
     }
     return

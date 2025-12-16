@@ -39,20 +39,13 @@
           <div class="input-content-wrapper radioBlock">
             <mat-radio-group class="flex flex-col" [(ngModel)]="preferredLanguage"
               [ngModelOptions]="{ standalone: true }" aria-label="Language selection">
-
-              <mat-radio-button [innerHTML]="'
-                English
-              ' | translate"></mat-radio-button>
-
-              <mat-radio-button [innerHTML]="'
-                हिंदी
-              ' | translate"></mat-radio-button>
+              <mat-radio-button value="en" class="mb-4">{{ 'English' | translate }}</mat-radio-button>
+              <mat-radio-button value="hi" class="mb-4">{{ 'हिंदी' | translate }}</mat-radio-button>
             </mat-radio-group>
 
             <div class="next-btn-div">
-              <button [innerHTML]="'
-                Next
-              ' | translate"></button>
+              <button mat-raised-button class="next-button" [disabled]="!preferredLanguage" (click)="langChanged()">{{
+                'Next' | translate }}</button>
             </div>
           </div>
         </div>
@@ -187,6 +180,11 @@
           </div>
         </div>
       </div>
+
+      <!-- Mobile Bottom Decorative Image -->
+      <div *ngIf="isXSmall$ | async" class="btm-block-img">
+        <img alt="Decorative frame" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
+      </div>
     </div>
   </div>
 </ng-container>
@@ -317,11 +315,6 @@
     </ws-login-otp>
   </div>
 </ng-container>
-
-<!-- Mobile Bottom Decorative Image -->
-<div *ngIf="isXSmall$ | async" class="btm-block-img">
-  <img alt="Decorative frame" class="btm-bg" src="../../fusion-assets/icons/Frame_149.svg">
-</div>
 
 <!-- Hidden Toast Messages (for i18n) -->
 <input type="hidden" value="Thanks for Signing up" i18n-value i18n-aria-value aria-value="Signup successful"

@@ -19,7 +19,7 @@ import {
   UtilityService,
 } from '@ws-widget/utils'
 import { of, Subscription } from 'rxjs'
-import { delay } from 'rxjs/operators'
+import { catchError, delay } from 'rxjs/operators'
 import { ViewerDataService } from '../../viewer-data.service'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { PlayerStateService } from '../../player-state.service'
@@ -42,7 +42,7 @@ interface IViewerTocCard {
 }
 import { HttpClient } from '@angular/common/http'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
-
+import { QuizService } from '../../plugins/quiz/quiz.service'
 export type TCollectionCardType = 'content' | 'playlist' | 'goals'
 
 interface ICollectionCard {
@@ -91,7 +91,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     private playerStateService: PlayerStateService,
     public router: Router,
     public dialog: MatDialog,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
+    public quizService: QuizService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -812,6 +813,19 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 }
               }
             } else if (this.contentSvc.showConformation) {
+              let finalCompetencies = []
+              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+
+                finalCompetencies = competencies_v1.map((competency: any) => {
+                  return {
+                    competencyName: competency.competencyName,
+                    competencyLevel: competency.level,
+                    competencyId: competency.competencyId
+                  }
+                })
+                console.log("finalCompetencies", finalCompetencies)
+              }
               const data = {
                 courseId: this.collectionId,
               }
@@ -821,6 +835,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
               // If the dialog is not already open, open it
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0 && data) {
+                if (finalCompetencies.length > 0) {
+                  finalCompetencies.forEach((competency: any) => {
+                    this.updatePassbookEntryPassbook(data, competency)
+                  })
+                }
                 confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
                   height: '405px',
@@ -844,6 +863,19 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 })
               }
             } else {
+              let finalCompetencies = []
+              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+
+                finalCompetencies = competencies_v1.map((competency: any) => {
+                  return {
+                    competencyName: competency.competencyName,
+                    competencyLevel: competency.level,
+                    competencyId: competency.competencyId
+                  }
+                })
+                console.log("finalCompetencies", finalCompetencies)
+              }
               console.log(rating, optmisticPercentage)
               const data = {
                 courseId: this.collectionId,
@@ -854,6 +886,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
               // If the dialog is not already open, open it
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                if (finalCompetencies.length > 0) {
+                  finalCompetencies.forEach((competency: any) => {
+                    this.updatePassbookEntryPassbook(data, competency)
+                  })
+                }
                 confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
                   height: '405px',
@@ -901,6 +938,19 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           if (this.playerStateService.isResourceCompleted()) {
             if (isNull(this.playerStateService.getNextResource()) || isEmpty(this.playerStateService.getNextResource())
               && this.contentSvc.showConformation) {
+              let finalCompetencies = []
+              if (this.heirarchy && this.heirarchy.competencies_v1 && this.heirarchy.competencies_v1.length > 0) {
+                const competencies_v1 = JSON.parse(this.heirarchy.competencies_v1)
+
+                finalCompetencies = competencies_v1.map((competency: any) => {
+                  return {
+                    competencyName: competency.competencyName,
+                    competencyLevel: competency.level,
+                    competencyId: competency.competencyId
+                  }
+                })
+                console.log("finalCompetencies", finalCompetencies)
+              }
               const data = {
                 courseId: this.collectionId,
               }
@@ -910,6 +960,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
               console.log(optmisticPercentage, Object.keys(rating).length)
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
+                if (finalCompetencies.length > 0) {
+                  finalCompetencies.forEach((competency: any) => {
+                    this.updatePassbookEntryPassbook(data, competency)
+                  })
+                }
                 confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
                   height: '405px',
@@ -1177,6 +1232,47 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource
     })
     this.isLoading = false
+  }
+
+  updatePassbookEntryPassbook(data: any, competency: any) {
+    console.log("data", data, competency, this.heirarchy)
+    const formatedData = {
+      request: {
+        userId: this.configSvc.userProfile!.userId,
+        typeName: 'competency',
+        competencyDetails: [
+          {
+            competencyId: competency.competencyId,
+            additionalParams: {
+              competencyName: competency.competencyName,
+            },
+            acquiredDetails: {
+              acquiredChannel: 'course',
+              competencyLevelId: competency.competencyLevel,
+              // effectiveDate: "2023-02-09 9:46:12",
+              additionalParams: {
+                courseName: this.heirarchy.name,
+                competencyName: competency.competencyName,
+                courseId: data.courseId,
+                ResourseId: '',
+              },
+            },
+          },
+        ],
+      }
+    }
+    this.quizService
+      .updatePassbook(formatedData)
+      .pipe(
+        catchError((error) => {
+          console.error('Update passbook failed:', error)
+          return of(null)
+        })
+      )
+      .subscribe((res) => {
+        console.log('Passbook updated successfully', res)
+      })
+
   }
 
   resourceContentTypeFunct(type: any): void {

@@ -34,7 +34,7 @@
         </div>
         <div class="wrapper filter-section">
           <div *ngFor="let sem of semesterData">
-            <span class="filter-btn" i18n>{{ sem.name }}</span>
+            <span class="filter-btn" i18n (click)="scrollToSem(sem.name)">{{ sem.name }}</span>
           </div>
         </div>
         <div *ngIf="isLoading" class="wrapper course-section loading">
@@ -43,7 +43,7 @@
 
         <div class="course-section" *ngIf="!isLoading">
           <div *ngFor="let sem of semesterData">
-            <div class="wrapper">
+            <div class="wrapper" [attr.id]="sanitizeId(sem.name)">
               <h2 class="semester-title margin-top-20">{{ sem.name }}</h2>
             </div>
             <div class="wrapper resource-container" *ngIf="sem.courses.length > 0; else noCourses">

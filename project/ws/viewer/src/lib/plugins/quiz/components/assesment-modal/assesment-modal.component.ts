@@ -76,10 +76,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   ) { }
 
   ngOnInit() {
-    // Telemetry.impression()
-    // Telemetry.start()
     console.log(this.assesmentdata)
-    this.telemetrySvc.impression()
+    this.telemetrySvc.getTelemetryConfig()
+    this.telemetrySvc.impression('assessment-page-loaded', 'popup-details', 'assessment-modal', { id: this.assesmentdata.generalData.identifier, type: 'assessment' })
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)
@@ -101,7 +100,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         "l2": this.assesmentdata.generalData.identifier
       }
     }
-    this.telemetrySvc.start('assessment', 'assessment-start', this.assesmentdata.generalData.identifier, object)
+    this.telemetrySvc.start('assessment', 'assessment-start', 'player', object)
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
@@ -127,8 +126,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       }
     }
 
-    this.telemetrySvc.start('assessment', 'assessment-close-start', this.assesmentdata.generalData.identifier, data)
-    this.telemetrySvc.end('assessment', 'assessment-close-end', this.assesmentdata.generalData.identifier, data)
+    this.telemetrySvc.start('assessment', 'assessment-close-start', 'player', data)
+    this.telemetrySvc.end('assessment', 'assessment-close-end', 'player', data)
   }
 
   closeDone() {
@@ -181,7 +180,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                 "l2": this.assesmentdata.generalData.identifier
               }
             }
-            this.telemetrySvc.end('assessment', 'assessment-auto-submit', this.assesmentdata.generalData.identifier, data)
+            this.telemetrySvc.end('assessment', 'assessment-auto-submit', 'player', data)
             this.isIdeal = true
             this.timeLeft = 0
             if (this.timerSubscription) {
@@ -232,6 +231,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         ? 'next-question-clicked'
         : 'previous-question-clicked'
       : 'answer-clicked',
+      'player',
       value
     )
   }
@@ -290,7 +290,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             "l2": this.assesmentdata.generalData.identifier
           }
         }
-        this.telemetrySvc.end('assessment', 'assessment-submit', this.assesmentdata.generalData.identifier, data)
+        this.telemetrySvc.end('assessment', 'assessment-submit', 'player', data)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true
@@ -332,7 +332,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             "l2": this.assesmentdata.generalData.identifier
           }
         }
-        this.telemetrySvc.end('competency', 'competency-submit', this.assesmentdata.generalData.identifier, data1)
+        this.telemetrySvc.end('competency', 'competency-submit', 'player', data1)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true

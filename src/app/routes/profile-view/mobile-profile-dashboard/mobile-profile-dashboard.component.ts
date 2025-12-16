@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject } from '@angular/core'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Router } from '@angular/router'
-import { ConfigurationsService, ValueService, LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -64,7 +64,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     private CompetencyConfiService: CompetencyConfiService,
     private languageService: LanguageService,
     // private readonly _renderer2: Renderer,
-    @Inject(DOCUMENT) private _document: Document
+    @Inject(DOCUMENT) private _document: Document,
+    private telemetrySvc: TelemetryService
 
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
@@ -231,9 +232,9 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
   logout() {
-    this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
-      panelClass: 'logout-dialog-container'
-    })
+    this.telemetrySvc.getTelemetryConfig()
+    this.telemetrySvc.interact('clicked', 'logout-clicked', 'profile', {}, { id: this.userInfo.profileDetails.profileReq.id, type: 'user' })
+    this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   processCertiFicate(data: any) {
 

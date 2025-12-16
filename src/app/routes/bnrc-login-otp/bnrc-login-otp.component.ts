@@ -20,6 +20,7 @@ export class BnrcLoginOtpComponent implements OnInit {
   emailPhoneType: any = 'phone'
   loginVerification = false
   redirectUrl = ''
+  disableSubmit: boolean = false
   constructor(
     public router: Router,
     private fb: UntypedFormBuilder,
@@ -57,26 +58,32 @@ export class BnrcLoginOtpComponent implements OnInit {
         ? this.userProfileSvc.mpValidateOtp.bind(this.userProfileSvc)
         : this.userProfileSvc.bnrcValidateOtp.bind(this.userProfileSvc)
 
-
-    validateOtpMethod(request).subscribe(
-      (res: any) => {
-        if (res.status === 'success') {
-          this.openSnackbar(res.message.message)
-          this.redirectToParent.emit(res)
-          return res
+    if (!this.disableSubmit) {
+      this.disableSubmit = true
+      this.isLoading = true
+      validateOtpMethod(request).subscribe(
+        (res: any) => {
+          this.isLoading = false
+          if (res.status === 'success') {
+            this.openSnackbar(res.message.message)
+            this.redirectToParent.emit(res)
+            return res
+          }
+        },
+        (error: any) => {
+          this.disableSubmit = false
+          this.isLoading = false
+          const errorMessage = error.error && error.error.message ? error.error.message : (error.message || 'An unexpected error occurred')
+          this.openSnackbar(errorMessage)  // Handle error response
         }
-      },
-      (error: any) => {
-        const errorMessage = error.error && error.error.message ? error.error.message : (error.message || 'An unexpected error occurred')
-        this.openSnackbar(errorMessage)  // Handle error response
-      }
-    )
+      )
+    }
 
   }
 
   resendOTP() {
     this.isLoading = true
-
+    this.disableSubmit = false
     const request = {
       phone: this.loginData.value.phone,
     }
