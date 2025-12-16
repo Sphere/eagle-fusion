@@ -97,21 +97,21 @@ export class MpRegisterComponent implements OnInit {
   /** Form change subscriptions */
   private setupFormSubscriptions(): void {
     // Role change → load S3 JSON
-    this.anmRegistrationForm.get('role')?.valueChanges.subscribe(role => {
-      // if (role) {
-      //   this.anmRegistrationForm.patchValue({
-      //     district: '',
-      //     block: '',
-      //     facilityType: '',
-      //     facilityName: '',
-      //     facilityCode: ''
-      //   })
-      //   this.districts = []
-      //   this.blocks = []
-      //   this.facilityTypes = []
-      //   this.availableFacilities = []
-      // }
-    })
+    // this.anmRegistrationForm.get('role')?.valueChanges.subscribe(role => {
+    //   // if (role) {
+    //   //   this.anmRegistrationForm.patchValue({
+    //   //     district: '',
+    //   //     block: '',
+    //   //     facilityType: '',
+    //   //     facilityName: '',
+    //   //     facilityCode: ''
+    //   //   })
+    //   //   this.districts = []
+    //   //   this.blocks = []
+    //   //   this.facilityTypes = []
+    //   //   this.availableFacilities = []
+    //   // }
+    // })
 
     // District change → populate blocks
     this.anmRegistrationForm.get('district')?.valueChanges.subscribe(selectedDistrict => {
