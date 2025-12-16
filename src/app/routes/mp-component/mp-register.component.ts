@@ -25,6 +25,11 @@ export class MpRegisterComponent implements OnInit {
   facilityTypes: string[] = []
   availableFacilities: any[] = []
   biharDistrictData: any = {}
+  showCustomFacilityInput = false
+  showCustomBlockInput = false
+  showFacilityTypeAsInput = false
+  showFacilityNameAsInput = false
+  allFacilityTypes: string[] = []
 
   // JSON URLs
   mpANMDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_anm_District.json?cb=${Date.now()}`
@@ -47,6 +52,7 @@ export class MpRegisterComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadDistrictData()
     this.setupFormSubscriptions()
     this.setupResponsiveLayout()
   }
@@ -57,24 +63,23 @@ export class MpRegisterComponent implements OnInit {
       firstName: ['', [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)]],
       lastName: ['', [Validators.required, Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)]],
       phone: ['', [Validators.required, Validators.pattern(/^[6-9]\d{9}$/)]],
-      role: ['', Validators.required], // ANM-MP or CHO-MP
+      role: ['', Validators.required],
       district: ['', Validators.required],
       block: ['', Validators.required],
+      blockOthers: [''],
+      customBlockName: [''],
       facilityType: ['', Validators.required],
+      customFacilityType: [''],
       facilityName: ['', Validators.required],
-      facilityCode: ['']
+      facilityCode: [''],
+      facilityNameOthers: [''],
+      customFacilityName: ['']
     })
   }
 
-  /** Load district JSON based on role */
-  private loadDistrictData(role: string): void {
-    let url = this.mpCHODistrictUrl
-
-    if (role === 'ANM-MP') {
-      url = this.mpANMDistrictUrl
-    } else if (role === 'Trainer-MP') {
-      url = this.mpTRAINERDistrictUrl
-    }
+  /** Load district JSON */
+  private loadDistrictData(): void {
+    const url = this.mpANMDistrictUrl
 
     this.http.get(url).subscribe((districtData: any) => {
       if (Array.isArray(districtData) && districtData.length > 0) {
@@ -93,63 +98,174 @@ export class MpRegisterComponent implements OnInit {
   private setupFormSubscriptions(): void {
     // Role change → load S3 JSON
     this.anmRegistrationForm.get('role')?.valueChanges.subscribe(role => {
-      if (role) {
-        this.anmRegistrationForm.patchValue({
-          district: '',
-          block: '',
-          facilityType: '',
-          facilityName: '',
-          facilityCode: ''
-        })
-        this.districts = []
-        this.blocks = []
-        this.facilityTypes = []
-        this.availableFacilities = []
-        this.loadDistrictData(role)
-      }
+      // if (role) {
+      //   this.anmRegistrationForm.patchValue({
+      //     district: '',
+      //     block: '',
+      //     facilityType: '',
+      //     facilityName: '',
+      //     facilityCode: ''
+      //   })
+      //   this.districts = []
+      //   this.blocks = []
+      //   this.facilityTypes = []
+      //   this.availableFacilities = []
+      // }
     })
 
     // District change → populate blocks
     this.anmRegistrationForm.get('district')?.valueChanges.subscribe(selectedDistrict => {
       if (selectedDistrict && this.biharDistrictData[selectedDistrict]) {
         this.blocks = Object.keys(this.biharDistrictData[selectedDistrict])
+        // Add "Others" option if not already present
+        if (!this.blocks.includes('Others')) {
+          this.blocks.push('Others')
+        }
       } else {
         this.blocks = []
       }
-      this.resetDropdownsBelow('block')
+      // Reset dependent fields but don't reset blocks
+      this.facilityTypes = []
+      this.availableFacilities = []
+      this.showCustomBlockInput = false
+      this.showFacilityTypeAsInput = false
+      this.showFacilityNameAsInput = false
+      this.anmRegistrationForm.patchValue({
+        block: '',
+        blockOthers: '',
+        customBlockName: '',
+        facilityType: '',
+        customFacilityType: '',
+        facilityName: '',
+        customFacilityNameForOthersBlock: '',
+        facilityCode: ''
+      })
     })
 
-    // Block change → populate facility types
+    // Block change → populate facility types or show custom input
     this.anmRegistrationForm.get('block')?.valueChanges.subscribe(selectedBlock => {
       const district = this.anmRegistrationForm.get('district')?.value
-      if (district && selectedBlock && this.biharDistrictData[district][selectedBlock]) {
-        this.facilityTypes = Object.keys(this.biharDistrictData[district][selectedBlock])
-      } else {
-        this.facilityTypes = []
-      }
-      this.resetDropdownsBelow('facilityType')
-    })
 
-    // Facility type change → populate facility names
+      if (selectedBlock === 'Others') {
+        // Show custom block input
+        this.showCustomBlockInput = true
+        this.showFacilityTypeAsInput = false
+        this.showFacilityNameAsInput = true
+        this.anmRegistrationForm.patchValue({
+          blockOthers: 'Others',
+          customBlockName: '',
+          facilityType: '',
+          customFacilityType: '',
+          facilityName: '',
+          customFacilityName: ''
+        })
+        this.anmRegistrationForm.get('customBlockName')?.setValidators([Validators.required])
+        this.anmRegistrationForm.get('customBlockName')?.updateValueAndValidity()
+        this.anmRegistrationForm.get('facilityType')?.setValidators([Validators.required])
+        this.anmRegistrationForm.get('facilityType')?.updateValueAndValidity()
+        this.anmRegistrationForm.get('customFacilityName')?.setValidators([Validators.required])
+        this.anmRegistrationForm.get('customFacilityName')?.updateValueAndValidity()
+        // Clear facilityName validator since we're using customFacilityName instead
+        this.anmRegistrationForm.get('facilityName')?.clearValidators()
+        this.anmRegistrationForm.get('facilityName')?.updateValueAndValidity()
+        // Get all facility types from all blocks
+        this.allFacilityTypes = this.getAllFacilityTypes(district)
+        this.facilityTypes = this.allFacilityTypes
+      } else {
+        this.showCustomBlockInput = false
+        this.showFacilityTypeAsInput = false
+        this.showFacilityNameAsInput = false
+        this.anmRegistrationForm.get('customBlockName')?.clearValidators()
+        this.anmRegistrationForm.get('customBlockName')?.updateValueAndValidity()
+        this.anmRegistrationForm.get('facilityType')?.clearValidators()
+        this.anmRegistrationForm.get('facilityType')?.updateValueAndValidity()
+        this.anmRegistrationForm.get('customFacilityName')?.clearValidators()
+        this.anmRegistrationForm.get('customFacilityName')?.updateValueAndValidity()
+        // Set facilityName validator for normal blocks
+        this.anmRegistrationForm.get('facilityName')?.setValidators([Validators.required])
+        this.anmRegistrationForm.get('facilityName')?.updateValueAndValidity()
+        this.anmRegistrationForm.patchValue({
+          blockOthers: '',
+          customBlockName: '',
+          customFacilityType: ''
+        })
+
+        if (district && selectedBlock && this.biharDistrictData[district][selectedBlock]) {
+          this.facilityTypes = Object.keys(this.biharDistrictData[district][selectedBlock])
+        } else {
+          this.facilityTypes = []
+        }
+      }
+      // Reset facility type and name fields
+      this.availableFacilities = []
+      this.anmRegistrationForm.patchValue({
+        facilityType: '',
+        customFacilityType: '',
+        facilityName: '',
+        facilityCode: ''
+      })
+    })    // Facility type change → populate facility names
     this.anmRegistrationForm.get('facilityType')?.valueChanges.subscribe(selectedFacilityType => {
       const district = this.anmRegistrationForm.get('district')?.value
       const block = this.anmRegistrationForm.get('block')?.value
-      if (district && block && selectedFacilityType && this.biharDistrictData[district][block][selectedFacilityType]) {
-        this.availableFacilities = this.biharDistrictData[district][block][selectedFacilityType]
+      const blockOthers = this.anmRegistrationForm.get('blockOthers')?.value
+
+      // If Others block is selected, populate facilities from all blocks
+      if (blockOthers === 'Others' && selectedFacilityType) {
+        this.availableFacilities = []
+        // Search through all blocks for facilities of this type
+        if (this.biharDistrictData[district]) {
+          Object.keys(this.biharDistrictData[district]).forEach(blockKey => {
+            if (this.biharDistrictData[district][blockKey][selectedFacilityType]) {
+              this.availableFacilities.push(...this.biharDistrictData[district][blockKey][selectedFacilityType])
+            }
+          })
+        }
+      } else if (district && block && selectedFacilityType && this.biharDistrictData[district][block][selectedFacilityType]) {
+        // Normal block - use specific block's facilities
+        this.availableFacilities = [...this.biharDistrictData[district][block][selectedFacilityType]]
       } else {
         this.availableFacilities = []
       }
-      this.anmRegistrationForm.get('facilityName')?.reset()
+
+      // Add "Others" option if not already present
+      if (!this.availableFacilities.find(f => f.name === 'Others')) {
+        this.availableFacilities.push({ name: 'Others' })
+      }
+
+      this.showCustomFacilityInput = false
+      this.anmRegistrationForm.patchValue({
+        facilityName: '',
+        facilityCode: '',
+        facilityNameOthers: '',
+        customFacilityName: ''
+      })
     })
 
-    // Facility name change → populate facility code
+    // Facility name change → populate facility code or show custom input
     this.anmRegistrationForm.get('facilityName')?.valueChanges.subscribe(selectedFacilityName => {
-      const district = this.anmRegistrationForm.get('district')?.value
-      const block = this.anmRegistrationForm.get('block')?.value
-      const facilityType = this.anmRegistrationForm.get('facilityType')?.value
-      if (district && block && selectedFacilityName && this.biharDistrictData[district][block][facilityType]) {
-        const selectedObject = this.biharDistrictData[district][block][facilityType].find(x => x.name === selectedFacilityName)
-        this.anmRegistrationForm.get('facilityCode')?.setValue(selectedObject?.code ? `${selectedObject?.code}` : '')
+      if (selectedFacilityName === 'Others') {
+        this.showCustomFacilityInput = true
+        this.anmRegistrationForm.patchValue({
+          facilityCode: '',
+          facilityNameOthers: 'Others',
+          customFacilityName: ''
+        })
+        this.anmRegistrationForm.get('customFacilityName')?.setValidators([Validators.required])
+        this.anmRegistrationForm.get('customFacilityName')?.updateValueAndValidity()
+      } else {
+        this.showCustomFacilityInput = false
+        this.anmRegistrationForm.get('customFacilityName')?.clearValidators()
+        this.anmRegistrationForm.get('customFacilityName')?.updateValueAndValidity()
+
+        const district = this.anmRegistrationForm.get('district')?.value
+        const block = this.anmRegistrationForm.get('block')?.value
+        const facilityType = this.anmRegistrationForm.get('facilityType')?.value
+        if (district && block && selectedFacilityName && this.biharDistrictData[district][block][facilityType]) {
+          const selectedObject = this.biharDistrictData[district][block][facilityType].find(x => x.name === selectedFacilityName)
+          this.anmRegistrationForm.get('facilityCode')?.setValue(selectedObject?.code ? `${selectedObject?.code}` : '')
+          this.anmRegistrationForm.patchValue({ facilityNameOthers: '' })
+        }
       }
     })
   }
@@ -161,19 +277,23 @@ export class MpRegisterComponent implements OnInit {
   }
 
   private resetDropdownsBelow(field: string): void {
-    if (field === 'district') {
-      this.blocks = []
-      this.facilityTypes = []
-      this.availableFacilities = []
-      this.anmRegistrationForm.patchValue({ block: '', facilityType: '', facilityName: '', facilityCode: '' })
-    } else if (field === 'block') {
-      this.facilityTypes = []
-      this.availableFacilities = []
-      this.anmRegistrationForm.patchValue({ facilityType: '', facilityName: '', facilityCode: '' })
-    } else if (field === 'facilityType') {
+    if (field === 'facilityType') {
       this.availableFacilities = []
       this.anmRegistrationForm.patchValue({ facilityName: '', facilityCode: '' })
     }
+  } private getAllFacilityTypes(district: string): string[] {
+    const allTypes = new Set<string>()
+    if (district && this.biharDistrictData[district]) {
+      const blocks = this.biharDistrictData[district]
+      Object.keys(blocks).forEach(blockName => {
+        if (blockName !== 'Others' && blocks[blockName]) {
+          Object.keys(blocks[blockName]).forEach(type => {
+            allTypes.add(type)
+          })
+        }
+      })
+    }
+    return Array.from(allTypes).sort()
   }
 
   // ---------- Form Submission ----------
@@ -213,9 +333,27 @@ export class MpRegisterComponent implements OnInit {
 
   createUser(): void {
     const formValues = { ...this.anmRegistrationForm.value, phone: +this.anmRegistrationForm.value.phone }
-    if (formValues.facilityName && formValues.facilityCode) {
+
+    // Handle block: if "Others" was selected, use customBlockName as block
+    if (formValues.blockOthers === 'Others' && formValues.customBlockName) {
+      formValues.block = formValues.customBlockName
+    }
+
+    // Handle facility name: use customFacilityName if provided, otherwise use facility name with code
+    if (formValues.customFacilityName) {
+      formValues.facilityName = formValues.customFacilityName
+    } else if (formValues.facilityName && formValues.facilityCode) {
+      // Otherwise, concatenate name and code
       formValues.facilityName = `${formValues.facilityName} - ${formValues.facilityCode}`
     }
+
+    // Clean up unnecessary fields before sending
+    // delete formValues.blockOthers
+    delete formValues.customBlockName
+    delete formValues.customFacilityType
+    // delete formValues.facilityNameOthers
+    delete formValues.customFacilityName
+
     const reqUpdate = { request: { formValues } }
 
     this.userProfileSvc.mpRegistration(reqUpdate).subscribe(
