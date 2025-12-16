@@ -213,6 +213,9 @@ export class MpRegisterComponent implements OnInit {
 
   createUser(): void {
     const formValues = { ...this.anmRegistrationForm.value, phone: +this.anmRegistrationForm.value.phone }
+    if (formValues.facilityName && formValues.facilityCode) {
+      formValues.facilityName = `${formValues.facilityName} - ${formValues.facilityCode}`
+    }
     const reqUpdate = { request: { formValues } }
 
     this.userProfileSvc.mpRegistration(reqUpdate).subscribe(

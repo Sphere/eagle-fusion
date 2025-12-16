@@ -112,8 +112,8 @@
           class="red-icon">*</span></label>
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
         <mat-select formControlName="facilityName" placeholder="Posting Facility">
-          <mat-option [value]="facility.name"
-            *ngFor="let facility of availableFacilities">{{facility.name}}</mat-option>
+          <mat-option [value]="facility.name" *ngFor="let facility of availableFacilities">{{facility.name}} -
+            {{facility.code}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-error
