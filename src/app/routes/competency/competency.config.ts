@@ -1,4 +1,3 @@
-export const COMPETENCY_REGISTRATION_CONFIG = {
-  config: {},
-  isOnlyPassbook: ''
+export function competencyConfigFactory() {
+  return JSON.parse(localStorage.getItem('competency') || '{}')
 }

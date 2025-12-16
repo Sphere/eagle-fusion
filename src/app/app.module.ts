@@ -89,7 +89,7 @@ import { OrgSelectiveCourseModule } from '../../project/ws/app/src/lib/routes/or
 // import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 // import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
-import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
+// import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
@@ -102,11 +102,10 @@ import { CoreModule } from './core/core.module'
 import { CompetencyModule as AppCompetencyModule } from './routes/competency/competency.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
-// import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
 import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
 import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
-import { COMPETENCY_REGISTRATION_CONFIG } from './routes/competency/competency.config'
+
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { UserAgentResolverService } from './services/user-agent.service'
 // import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
@@ -233,6 +232,11 @@ const dbConfig: DBConfig = {
   ]
 }
 
+const configFactory = () => {
+  const data = JSON.parse(localStorage.getItem('competency') || '{}')
+  return data.config
+}
+
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
   declarations: [
@@ -355,9 +359,9 @@ const dbConfig: DBConfig = {
     DiscussionUiModule,
     ImageCropModule,
     OrganisationsModule,
-    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    EntryModule,
     SelfAssessmentModule,
-    CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    CompetencyModule,
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,
@@ -374,7 +378,7 @@ const dbConfig: DBConfig = {
   ],
   bootstrap: [RootComponent],
   providers: [
-    { provide: 'configService', useClass: ConfigService },
+    { provide: 'config', useFactory: configFactory },
     {
       deps: [InitService, LoggerService],
       multi: true,

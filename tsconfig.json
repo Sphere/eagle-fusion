@@ -28,9 +28,15 @@
       "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
       "@ws-widget/collection": ["library/ws-widget/collection"],
       "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
-      "@ws-widget/utils": ["library/ws-widget/utils/src/public-api.ts"],
+      "@ws-widget/utils": ["library/ws-widget/utils"],
       "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
-      "@ws/app": ["project/ws/app"],
+      "@aastrika_npmjs/comptency/competency/services/configuration-context": [
+        "node_modules/@aastrika_npmjs/comptency/competency/services/configuration-context"
+      ],
+      "@aastrika_npmjs/comptency/entry-module/services/configuration-context": [
+        "node_modules/@aastrika_npmjs/comptency/entry-module/services/configuration-context"
+      ],
+      "@ws/app": ["project/ws/app/src/public-api"],
       "@ws/app/*": ["project/ws/app/*"],
       "@ws/author": ["project/ws/author"],
       "@ws/author/*": ["project/ws/author/*"],
