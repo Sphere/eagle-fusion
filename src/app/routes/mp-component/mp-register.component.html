@@ -95,28 +95,79 @@
         Block is required.
       </mat-error>
 
-      <label [innerHTML]="'Facility Type / स्वास्थ्य संस्था का प्रकार ' | translate"><span class="red-icon">*</span></label>
+      <!-- Custom Block Name Input (shown when Others is selected) -->
+      <div *ngIf="showCustomBlockInput">
+        <label i18n for="customBlockName" style="display: block;">Add Block Name / ब्लॉक का नाम जोड़ें <span
+            class="red-icon">*</span></label>
+        <div class="form-group input-box">
+          <input type="text" name="customBlockName" formControlName="customBlockName" class="form-control"
+            placeholder="Enter block name" autocomplete="off">
+        </div>
+        <mat-error
+          *ngIf="anmRegistrationForm.get('customBlockName')?.hasError('required') && anmRegistrationForm.get('customBlockName')?.touched">
+          Block Name is required.
+        </mat-error>
+      </div>
+
+      <label i18n for="facilityType" style="display: block;">Facility Type / स्वास्थ्य संस्था का प्रकार <span
+          class="red-icon">*</span></label>
+
+      <!-- Facility Type Dropdown (shown for both normal blocks and Others block) -->
       <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
         <mat-select formControlName="facilityType" placeholder="Facility Type">
           <mat-option [value]="facilityType" *ngFor="let facilityType of facilityTypes">{{facilityType}}</mat-option>
         </mat-select>
       </mat-form-field>
+
       <mat-error
-        *ngIf="anmRegistrationForm.get('facilityType')?.invalid && anmRegistrationForm.get('facilityType')?.touched">
+        *ngIf="anmRegistrationForm.get('facilityType')?.hasError('required') && anmRegistrationForm.get('facilityType')?.touched">
         Facility Type is required.
       </mat-error>
 
-      <label [innerHTML]="'Posting Facility / पोस्टिंग स्वास्थ्य संस्था ' | translate"><span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <label i18n for="facilityName" style="display: block;">Posting Facility / पोस्टिंग स्वास्थ्य संस्था <span
+          class="red-icon">*</span></label>
+
+      <!-- Facility Name Input (shown when Others block is selected) -->
+      <div *ngIf="showFacilityNameAsInput">
+        <div class="form-group input-box">
+          <input type="text" name="customFacilityName" formControlName="customFacilityName" class="form-control"
+            placeholder="Enter facility name" autocomplete="off">
+        </div>
+        <mat-error
+          *ngIf="anmRegistrationForm.get('customFacilityName')?.hasError('required') && anmRegistrationForm.get('customFacilityName')?.touched">
+          Facility Name is required.
+        </mat-error>
+      </div>
+
+      <!-- Facility Name Dropdown (shown for normal blocks) -->
+      <mat-form-field *ngIf="!showFacilityNameAsInput" appearance="outline" class="field-fullwidth"
+        style="width: 100%;">
         <mat-select formControlName="facilityName" placeholder="Posting Facility">
-          <mat-option [value]="facility.name"
-            *ngFor="let facility of availableFacilities">{{facility.name}}</mat-option>
+          <mat-option [value]="facility.name" *ngFor="let facility of availableFacilities">
+            <span *ngIf="facility.code">{{facility.name}} - {{facility.code}}</span>
+            <span *ngIf="!facility.code">{{facility.name}}</span>
+          </mat-option>
         </mat-select>
       </mat-form-field>
+
       <mat-error
-        *ngIf="anmRegistrationForm.get('facilityName')?.invalid && anmRegistrationForm.get('facilityName')?.touched">
+        *ngIf="!showFacilityNameAsInput && anmRegistrationForm.get('facilityName')?.invalid && anmRegistrationForm.get('facilityName')?.touched">
         Posting Facility is required.
       </mat-error>
+
+      <!-- Custom Facility Name Input (shown when Others is selected in facility dropdown) -->
+      <div *ngIf="!showFacilityNameAsInput && showCustomFacilityInput">
+        <label i18n for="customFacilityName" style="display: block;">Add Facility Name / सुविधा का नाम जोड़ें <span
+            class="red-icon">*</span></label>
+        <div class="form-group input-box">
+          <input type="text" name="customFacilityName" formControlName="customFacilityName" class="form-control"
+            placeholder="Enter facility name" autocomplete="off">
+        </div>
+        <mat-error
+          *ngIf="anmRegistrationForm.get('customFacilityName')?.hasError('required') && anmRegistrationForm.get('customFacilityName')?.touched">
+          Facility Name is required.
+        </mat-error>
+      </div>
 
       <div style="margin: 10px 0px; display: flex; justify-content: center;">
         <button [innerHTML]="'Submit' | translate"></button>
