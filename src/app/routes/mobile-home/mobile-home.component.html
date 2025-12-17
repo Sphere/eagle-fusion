@@ -2,10 +2,10 @@
 <div class="banner-container">
   <div class="carousel">
     <div class="banner-heading-container px-4">
-      <div [innerHTML]="'Access free Healthcare courses' | translate"></div>
-      <div [innerHTML]="'
+      <div>{{ 'Access free Healthcare courses' | translate }}</div>
+      <div>{{ '
         High quality content from experts
-      ' | translate"></div>
+        ' | translate }}</div>
       <!-- <div class="create-account">
         <a role="button" matRipple class="flex flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
@@ -56,28 +56,28 @@
       <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}</div>
     </div>
-    <p [innerHTML]="'Learners onboarded' | translate"></p>
+    <p>{{ 'Learners onboarded' | translate }}</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}</div>
     </div>
-    <p [innerHTML]="'Number of courses' | translate"></p>
+    <p>{{ 'Number of courses' | translate }}</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_points}}</div>
     </div>
-    <p [innerHTML]="'CNE Hours' | translate"></p>
+    <p>{{ 'CNE Hours' | translate }}</p>
   </div>
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}</div>
     </div>
-    <p [innerHTML]="'Total certificate issued' | translate"></p>
+    <p>{{ 'Total certificate issued' | translate }}</p>
   </div>
 </div>
 <div class="create-account">
@@ -86,8 +86,8 @@
     class="flex items-center flex-col mt px-2 box-sizing-box" (click)="createAcct()" active
     [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
     <ng-container>
-      <button [innerHTML]="'
-        Create Account' | translate"></button>
+      <button>{{ '
+        Create Account' | translate }}</button>
     </ng-container>
   </a>
 </div>

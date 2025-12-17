@@ -1,6 +1,6 @@
 <section id="scrollToHowSphereWorks">
-  <p [innerHTML]="'How Sphere works' | translate"></p>
-  <p [innerHTML]="'3 simple steps' | translate"></p>
+  <p class="header2 mb-0">{{ 'How Sphere works' | translate }}</p>
+  <p class="lable1 grey-color">{{ '3 simple steps' | translate }}</p>
   <div class="mt-2">
     <div class="how-work-content" (click)="openVideoPopup('0')">
 
@@ -11,9 +11,10 @@
         webkitallowfullscreen mozAllowFullScreen style="border:none"
         allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Register for a course"></iframe>
       <div class="video-div">
-        <p [innerHTML]="'Register for a course' | translate"></p>
-        <p [innerHTML]="'Explore various courses and pick the ones you like
-        ' | translate"></p>
+        <p class="videoTitle">{{ 'Register for a course' | translate }}</p>
+        <p class="leading-snug videoDes">{{ 'Explore various courses and pick the ones you like
+          ' | translate }}
+        </p>
       </div>
 
     </div>
@@ -26,9 +27,10 @@
         webkitallowfullscreen mozAllowFullScreen style="border:none"
         allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Take the course"></iframe>
       <div class="video-div">
-        <p [innerHTML]="'Take the course' | translate"></p>
-        <p [innerHTML]="'Access the course anytime, at your convinience
-        ' | translate"></p>
+        <p class="videoTitle">{{ 'Take the course' | translate }}</p>
+        <p class="leading-snug videoDes">{{ 'Access the course anytime, at your convinience
+          ' | translate }}
+        </p>
       </div>
 
     </div>
@@ -41,9 +43,10 @@
         webkitallowfullscreen mozAllowFullScreen style="border:none"
         allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Get certified"></iframe>
       <div class="video-div">
-        <p [innerHTML]="'Get certified' | translate"></p>
-        <p [innerHTML]="'Receive downloadable and shareable certificates
-        ' | translate"></p>
+        <p class="videoTitle">{{ 'Get certified' | translate }}</p>
+        <p class="leading-snug videoDes">{{ 'Receive downloadable and shareable certificates
+          ' | translate }}
+        </p>
       </div>
 
     </div>

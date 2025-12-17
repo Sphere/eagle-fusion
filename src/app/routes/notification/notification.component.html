@@ -3,7 +3,7 @@
 <div class="notification-container" [ngClass]="{'iswebView': isWebView}">
 
   <div class="notification_header">
-    <span [innerHTML]="'Notification' | translate"></span>
+    <span class="notification_header_title">{{ 'Notification' | translate }}</span>
     <div class="kebab-info" (click)="openDailog()" (keydown)="openDailog()">
       <img src="/fusion-assets/icons/kebab-menu.png" alt="Menu">
     </div>
@@ -13,12 +13,12 @@
     <div class="dropdown-item border-bottom-1" (click)="handleAction('read')" (keydown.enter)="handleAction('read')"
       (keydown.space)="handleAction('read')">
       <img src="/fusion-assets/icons/double_tick.png" alt="Tick" />
-      <span [innerHTML]="'Mark all as read' | translate"></span>
+      <span class="text-style">{{ 'Mark all as read' | translate }}</span>
     </div>
     <div class="dropdown-item" (click)="handleAction('clear')" (keydown.enter)="handleAction('clear')"
       (keydown.space)="handleAction('clear')">
       <img src="/fusion-assets/icons/close_blue.png" alt="Clear" />
-      <span [innerHTML]="'Clear all' | translate"></span>
+      <span class="text-style">{{ 'Clear all' | translate }}</span>
     </div>
   </div>
 
@@ -52,7 +52,7 @@
       </div>
     </div>
   </div>
-  <div [innerHTML]="'
-    No notification
-  ' | translate"></div>
+  <div *ngIf=" !unReadNotificationList.length && !readNotificationList.length" class="empty__notification__text">
+    {{ 'No notification' | translate }}
+  </div>
 </div>
