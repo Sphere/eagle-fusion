@@ -122,10 +122,6 @@ export class MpRegisterComponent implements OnInit {
     this.anmRegistrationForm.get('district')?.valueChanges.subscribe(selectedDistrict => {
       if (selectedDistrict && this.biharDistrictData[selectedDistrict]) {
         this.blocks = Object.keys(this.biharDistrictData[selectedDistrict])
-        // Add "Others" option if not already present
-        if (!this.blocks.includes('Others')) {
-          this.blocks.push('Others')
-        }
       } else {
         this.blocks = []
       }
@@ -232,11 +228,6 @@ export class MpRegisterComponent implements OnInit {
         this.availableFacilities = [...this.biharDistrictData[district][block][selectedFacilityType]]
       } else {
         this.availableFacilities = []
-      }
-
-      // Add "Others" option if not already present
-      if (!this.availableFacilities.find(f => f.name === 'Others')) {
-        this.availableFacilities.push({ name: 'Others' })
       }
 
       this.showCustomFacilityInput = false

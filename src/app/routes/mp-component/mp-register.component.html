@@ -158,8 +158,6 @@
 
       <!-- Custom Facility Name Input (shown when Others is selected in facility dropdown) -->
       <div *ngIf="!showFacilityNameAsInput && showCustomFacilityInput">
-        <label i18n for="customFacilityName" style="display: block;">Add Facility Name / सुविधा का नाम जोड़ें <span
-            class="red-icon">*</span></label>
         <div class="form-group input-box">
           <input type="text" name="customFacilityName" formControlName="customFacilityName" class="form-control"
             placeholder="Enter facility name" autocomplete="off">
