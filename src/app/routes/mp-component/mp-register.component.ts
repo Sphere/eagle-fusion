@@ -339,11 +339,15 @@ export class MpRegisterComponent implements OnInit {
       formValues.block = formValues.customBlockName
     }
 
-    // Handle facility name: use customFacilityName if provided, otherwise use facility name with code
-    if (formValues.customFacilityName) {
+    // Handle facility name based on different scenarios
+    if (formValues.blockOthers === 'Others' && formValues.customFacilityName) {
+      // When Others block is selected, use customFacilityName as facility name
+      formValues.facilityName = formValues.customFacilityName
+    } else if (formValues.facilityNameOthers === 'Others' && formValues.customFacilityName) {
+      // When Others facility is selected from dropdown, use customFacilityName
       formValues.facilityName = formValues.customFacilityName
     } else if (formValues.facilityName && formValues.facilityCode) {
-      // Otherwise, concatenate name and code
+      // When a proper facility is selected, concatenate name and code
       formValues.facilityName = `${formValues.facilityName} - ${formValues.facilityCode}`
     }
 
