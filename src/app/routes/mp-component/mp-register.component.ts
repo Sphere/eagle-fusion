@@ -18,6 +18,7 @@ export class MpRegisterComponent implements OnInit {
   isSubmitting = false
   otpPage = false
   showbackButton = false
+  isFormValid = false
 
   // Dropdown data
   districts: string[] = []
@@ -55,6 +56,10 @@ export class MpRegisterComponent implements OnInit {
     this.loadDistrictData()
     this.setupFormSubscriptions()
     this.setupResponsiveLayout()
+    // Track form validity changes
+    this.anmRegistrationForm.statusChanges.subscribe(() => {
+      this.isFormValid = this.anmRegistrationForm.valid
+    })
   }
 
   /** Create single unified form */
@@ -165,7 +170,7 @@ export class MpRegisterComponent implements OnInit {
         this.anmRegistrationForm.get('facilityType')?.updateValueAndValidity()
         this.anmRegistrationForm.get('customFacilityName')?.setValidators([Validators.required])
         this.anmRegistrationForm.get('customFacilityName')?.updateValueAndValidity()
-        // Clear facilityName validator since we're using customFacilityName instead
+        // Clear facilityName validator since we're using customFacilityName for Others block
         this.anmRegistrationForm.get('facilityName')?.clearValidators()
         this.anmRegistrationForm.get('facilityName')?.updateValueAndValidity()
         // Get all facility types from all blocks
@@ -177,7 +182,8 @@ export class MpRegisterComponent implements OnInit {
         this.showFacilityNameAsInput = false
         this.anmRegistrationForm.get('customBlockName')?.clearValidators()
         this.anmRegistrationForm.get('customBlockName')?.updateValueAndValidity()
-        this.anmRegistrationForm.get('facilityType')?.clearValidators()
+        // For normal blocks, facility type is required
+        this.anmRegistrationForm.get('facilityType')?.setValidators([Validators.required])
         this.anmRegistrationForm.get('facilityType')?.updateValueAndValidity()
         this.anmRegistrationForm.get('customFacilityName')?.clearValidators()
         this.anmRegistrationForm.get('customFacilityName')?.updateValueAndValidity()
@@ -299,6 +305,30 @@ export class MpRegisterComponent implements OnInit {
   // ---------- Form Submission ----------
   onSubmit(): void {
     this.anmRegistrationForm.markAllAsTouched()
+
+    // Additional validation checks for conditional fields
+    const facilityType = this.anmRegistrationForm.get('facilityType')?.value
+    const customBlockName = this.anmRegistrationForm.get('customBlockName')?.value
+    const blockOthers = this.anmRegistrationForm.get('blockOthers')?.value
+    const customFacilityName = this.anmRegistrationForm.get('customFacilityName')?.value
+    const showFacilityNameAsInput = this.showFacilityNameAsInput
+
+    // Validate conditional required fields
+    if (blockOthers === 'Others' && !customBlockName) {
+      this.openSnackbar('Block Name is required when "Others" is selected')
+      return
+    }
+
+    if (!facilityType) {
+      this.openSnackbar('Facility Type is required')
+      return
+    }
+
+    if (showFacilityNameAsInput && !customFacilityName) {
+      this.openSnackbar('Facility Name is required')
+      return
+    }
+
     if (this.anmRegistrationForm.valid) {
       this.loader.changeLoad.next(true)
       this.isSubmitting = true

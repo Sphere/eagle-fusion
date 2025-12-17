@@ -135,7 +135,7 @@
             placeholder="Enter facility name" autocomplete="off">
         </div>
         <mat-error
-          *ngIf="anmRegistrationForm.get('customFacilityName')?.hasError('required') && anmRegistrationForm.get('customFacilityName')?.touched">
+          *ngIf="(anmRegistrationForm.get('customFacilityName')?.hasError('required') && anmRegistrationForm.get('customFacilityName')?.touched) || (showFacilityNameAsInput && anmRegistrationForm.get('customFacilityName')?.invalid && !anmRegistrationForm.get('customFacilityName')?.value)">
           Facility Name is required.
         </mat-error>
       </div>
@@ -152,7 +152,7 @@
       </mat-form-field>
 
       <mat-error
-        *ngIf="!showFacilityNameAsInput && anmRegistrationForm.get('facilityName')?.invalid && anmRegistrationForm.get('facilityName')?.touched">
+        *ngIf="!showFacilityNameAsInput && anmRegistrationForm.get('facilityName')?.hasError('required') && anmRegistrationForm.get('facilityName')?.touched">
         Posting Facility is required.
       </mat-error>
 
@@ -171,7 +171,8 @@
       </div>
 
       <div style="margin: 10px 0px; display: flex; justify-content: center;">
-        <button [disabled]="isSubmitting" type="submit" (click)="onSubmit()" class="save-btn" i18n>Submit</button>
+        <button [disabled]="isSubmitting || !isFormValid" type="submit" (click)="onSubmit()" class="save-btn"
+          i18n>Submit</button>
       </div>
     </form>
   </div>
