@@ -23,6 +23,11 @@
   }
 }
 
+.mat-tool-navbar {
+  display: flex;
+  justify-content: left;
+  background: #fff !important;
+}
 
 @media (min-width:320px) and (max-width: 374px) {
   .navbar-gap {

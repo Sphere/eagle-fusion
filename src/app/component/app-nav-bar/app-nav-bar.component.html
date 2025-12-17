@@ -1,6 +1,5 @@
 <mat-toolbar *ngIf="this.configSvc.userProfile !== null&&!hideSearch" [color]="primaryNavbarBackground?.color"
-  [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar"
-  style="    justify-content: end;">
+  [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar">
   <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
     <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
       <img [src]="appIcon" loading="lazy" alt="Application Logo" id="app-logo" class="app-logo"
@@ -16,16 +15,10 @@
     <ng-container *ngIf="mode === 'top' && !courseNameHeader">
 
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
-        <!-- <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
-          *ngFor="let item of primaryNavbarConfig?.mediumScreen?.left">
-        </ng-container> -->
         <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
           [ref]="'home'"></ws-app-search-input-home>
         <img (click)="navigate()" style="position: absolute;right: 18px;" class="burger-menu" *ngIf="isXSmall"
           alt="icon" src="/fusion-assets/icons/Hamburger_menu-svg.svg">
-
-
-        <!-- <span class="spacer"></span> -->
 
         <div ngClass="search-small-logo" *ngIf="showSearchIcon">
           <ng-container [wsResolverWidget]="{
@@ -39,18 +32,13 @@
           }
         }
       }"></ng-container>
-          <!-- <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" /> -->
         </div>
 
         <button mat-raised-button *ngIf="allowAuthor"
           class="header-btn text-white ws-mat-primary-background mat-button-base hide-md"
           [routerLink]="'/author/create'">
           Add Course </button>
-
-        <!-- top-right Profile drop down -->
-        <!--         <img src="/fusion-assets/icons/lang-icon.png" class="lang-img" (click)="changeLanguage()" /> -->
         <section class="top-right-profile">
-
           <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
             *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
           </ng-container>
@@ -67,8 +55,9 @@
       <h3 class="mt-name">{{courseNameHeader}}</h3>
 
       <span class="spacer"></span>
-      <button [innerHTML]="'
-        Save' | translate"></button>
+      <button mat-raised-button class="header-btn text-white ws-mat-primary-background mat-button-base"
+        (click)="headerService.saveCourseContent()">
+        {{ 'Save' | translate }}</button>
 
       <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
         *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
@@ -87,8 +76,15 @@
           class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
-            <button [innerHTML]="'
-              Create Account' | translate"></button>
+            <button mat-raised-button [ngStyle]="{
+            'background-color': '#2E6491',
+            'width': '100%',
+            'border': '1px solid #2E6491',
+            'border-radius': '20px',
+            'color': 'white',
+            'font-size': '16px',
+            'font-weight': '400'}">
+              {{'Create Account' | translate }}</button>
           </ng-container>
         </a>
       </div>

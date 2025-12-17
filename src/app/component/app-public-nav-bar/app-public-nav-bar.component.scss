@@ -8,12 +8,6 @@
     max-width: 60px;
   }
 }
-
-@media only screen and (max-width: 599px) {
-  .application-logo {
-    max-width: 40%;
-  }
-}
 .navbar-container{
   background-color: #FFFFFF !important;
 }
@@ -39,7 +33,7 @@
 
 .my-search {
   display: flex;
-  margin-left: 16px;
+  margin-left: 8px;
   margin-right: 8px;
   text-align: center;
   flex: 1;

@@ -64,26 +64,31 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles/styles.scss",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
+              "node_modules/shepherd.js/dist/css/shepherd.css",
               "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
               "node_modules/@aastrika_npmjs/comptency/assets/styles/global.scss",
               "src/themes/theme-igot.scss",
+              "node_modules/pdfjs-dist/web/pdf_viewer.css",
               "src/fusion-assets/fonts/poppins/stylesheet.css",
               "node_modules/typeface-roboto/index.css",
               "src/styles.scss"
             ],
             "scripts": [
-              "src/fusion-assets/telemetry.min.js"
+              "node_modules/jquery/dist/jquery.min.js",
+              "src/fusion-assets/telemetry.min.js",
+              "node_modules/shepherd.js/dist/js/shepherd.min.js",
+              "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ],
-            "aot": true,
+            "aot": false,
             "vendorChunk": true,
             "extractLicenses": false,
-            "buildOptimizer": true,
+            "buildOptimizer": false,
             "sourceMap": {
-              "scripts": false,
-              "styles": false,
-              "vendor": false
+              "scripts": true,
+              "styles": true,
+              "vendor": true
             },
-            "optimization": true,
+            "optimization": false,
             "namedChunks": true
           },
           "configurations": {
@@ -95,9 +100,9 @@
                 }
               ],
               "optimization": true,
-              "sourceMap": false,
+              "sourceMap": true,
               "namedChunks": false,
-              "aot": true,
+              "aot": false,
               "vendorChunk": false,
               "buildOptimizer": false,
               "budgets": [
@@ -110,7 +115,7 @@
               "ngswConfigPath": "ngsw-config.json"
             },
             "hi": {
-              "aot": true,
+              "aot": false,
               "outputPath": "dist/www/hi",
               "localize": [
                 "hi"
@@ -120,14 +125,13 @@
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
                   "with": "src/environments/environment.prod.ts"
                 }
-              ],
-              "i18nMissingTranslation": "warning"
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -164,12 +168,6 @@
               "devServerTarget": "fusion:serve:production"
             }
           }
-        }
-      },
-      "i18n": {
-        "sourceLocale": "en",
-        "locales": {
-          "hi": "locale/messages.hi.xlf"
         }
       }
     },
