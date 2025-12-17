@@ -1,11 +1,11 @@
-<div style="background-image:url('/fusion-assets/images/Group-people.png')" *ngIf="(isXSmall) === false && !isLoggedIn"
+<div style="background-image:url('/fusion-assets/images/Group-people.png')" *ngIf="!isXSmall && !isLoggedIn"
   class="flex transform-footer-container">
   <div class="transform-header">
     {{"Transform your Healthcare career through Sphere!" | translate}}
   </div>
   <button (click)="createAcct()" class="start-today-button">{{"Start Today" | translate}}</button>
 </div>
-<div *ngIf="(isXSmall) === false && !isLoggedIn" class="flex-container">
+<div *ngIf="!isXSmall && !isLoggedIn" class="flex-container">
   <div class="part-a-partner center-partner">
     <div class="text-partners">
       {{"An initiative of" | translate}}
@@ -26,13 +26,13 @@
 
 <div class="mat-toolbar mat-ws-mat-primary-text footer-container pb-0 sm:px-48 md:px-10ss">
 
-  <div class="mat-body  footer-flex mb-4" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
+  <div class="mat-body footer-flex mb-4" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}" class="footer-first-col">
       <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
-        <mat-list-item *ngIf="isEkshamata"> <span class="link-header">{{ "In collaboration with" | translate }} </span>
-          </span></mat-list-item>
+        <mat-list-item *ngIf="isEkshamata"> <span class="link-header">
+            {{ "In collaboration with" | translate}}</span></mat-list-item>
         <mat-list-item style="margin-top: 10px; height: 60px !important;">
-          <img class=" footer-aastar-logo" loading="lazy" [src]="appIcon" alt="Angular icon" id="footer-aastar-logo">
+          <img class="footer-aastar-logo" loading="lazy" [src]="appIcon" alt="Angular icon" id="footer-aastar-logo">
         </mat-list-item>
       </mat-list>
       <mat-list *ngIf="isEkshamata" class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
@@ -83,8 +83,8 @@
         <mat-list-item *ngIf="!isEkshamata" style="margin-top: 10px;">
           <a class="link-text" href="mailto:support@aastrika.org">{{"support@aastrika.org" | translate}}</a>
         </mat-list-item>
-        <mat-list-item *ngIf="isEkshamata&&configSvc.hostedInfo?.phone" style="margin-top: 10px;">
-          <a class="link-text">{{configSvc.hostedInfo.phone}}</a>
+        <mat-list-item *ngIf="isEkshamata && configSvc.hostedInfo?.phone" style="margin-top: 10px;">
+          <a class="link-text"> {{ configSvc.hostedInfo.phone }}</a>
         </mat-list-item>
         <mat-list-item style="margin-top: 10px;">
           <a *ngIf="!isEkshamata" class="whatsapp-logo-container" href="https://wa.me/919632013414?text=Hi"
