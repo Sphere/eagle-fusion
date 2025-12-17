@@ -31,18 +31,12 @@ ws-app-search-input-home input {
   font-style: italic;
 }
 
-ws-app-search-input-home .search .mat-mdc-form-field {
-  .mat-mdc-text-field-wrapper {
-    padding-bottom: 0px !important;
-    height: 100%;
-    .mat-mdc-form-field-infix {
-      padding-top: 8px !important;
-      padding-bottom: 8px !important;
-      min-height: unset !important;
-    }
-  }
-  .mat-mdc-form-field-subscript-wrapper {
-    display: none;
+ws-app-search-input-home .search .mat-form-field-wrapper {
+  padding-bottom: 0px !important;
+  .mat-form-field-infix {
+    border-top-width: 5px !important;
+    padding: 0px;
+    padding-bottom: 5px;
   }
 }
 
