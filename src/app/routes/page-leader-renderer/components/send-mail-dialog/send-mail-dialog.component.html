@@ -4,16 +4,17 @@
     <mat-form-field>
       <textarea required [placeholder]="data?.placeholder" minlength="10" [disabled]="mailSendInProgress" rows="4"
         [(ngModel)]="mailBodyText" matInput name="answer" #mailBody="ngModel"></textarea>
-      <mat-error [innerHTML]="' Min length should be 10 characters ' | translate"></mat-error>
+      <mat-error i18n> Min length should be 10 characters </mat-error>
     </mat-form-field>
     <!-- <ws-spinner *ngIf="mailSendInProgress" [spinSize]="'small'" [spinWidth]="'thin'" [spinColor]="'primary'"
       class="margin-top-xs"></ws-spinner> -->
     <mat-spinner *ngIf="mailSendInProgress"></mat-spinner>
     <div class="flex flex-row-reverse margin-top-s">
-      <button [innerHTML]="'
+      <button [disabled]="sendMailForm.form.invalid || mailSendInProgress" type="submit" mat-raised-button
+        [color]="'primary'" i18n>
         Send Mail
-      ' | translate"></button>
-      <button mat-button type="reset">{{ 'Reset' | translate }}</button>
+      </button>
+      <button mat-button i18n="reset form" type="reset">Reset</button>
     </div>
   </form>
 </div>

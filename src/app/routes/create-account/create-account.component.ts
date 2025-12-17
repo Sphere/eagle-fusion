@@ -13,6 +13,7 @@ import { mustMatch } from '../password-validator'
 import { LoaderService } from '@ws/author/src/public-api'
 import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { HttpClient } from '@angular/common/http'
+import { LanguageService } from '../../services/language.service'
 
 // Constants
 const ASSET_PATHS = {
@@ -137,8 +138,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private route: ActivatedRoute,
-    private http: HttpClient
-
+    private http: HttpClient,
+    private languageService: LanguageService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeFromRoute()
@@ -672,24 +673,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     this.preferredLanguage = language.id
     localStorage.setItem(STORAGE_KEYS.preferredLanguage, JSON.stringify(language))
 
-    this.reloadWithLanguage(language.id)
-  }
-
-  private reloadWithLanguage(langId: string): void {
-    const lang = langId === 'hi' ? 'hi' : ''
-    const currentUrl = this.router.url
-    const hasHiInUrl = currentUrl.includes('hi')
-
-    let targetUrl: string
-
-    if (hasHiInUrl) {
-      const urlWithoutHi = currentUrl.split('hi/').join('')
-      targetUrl = lang ? `${location.origin}/${lang}${urlWithoutHi}` : `${location.origin}${urlWithoutHi}`
-    } else {
-      targetUrl = lang ? `${location.origin}/${lang}${currentUrl}` : `${location.origin}${currentUrl}`
-    }
-
-    window.location.assign(targetUrl)
+    // Use LanguageService to set the language instead of reloading the page
+    this.languageService.setLanguage(language.id)
   }
 
   // Form control getters
