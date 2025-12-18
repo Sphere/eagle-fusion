@@ -75,7 +75,7 @@
       </div>
       <div class="form-group input-box" *ngIf="professionOthersField">
         <input type="text" formControlName="professionOtherSpecify" i18n class="form-control" i18n-placeholder
-          placeholder="Please Specify*" autocomplete="off">
+          placeholder="{{'Please Specify*' | translate}}" autocomplete="off">
       </div>
       <mat-error class="text-danger mb-4"
         *ngIf="personalDetailForm.controls['professionOtherSpecify'].hasError('pattern')">
@@ -94,13 +94,13 @@
       </div>
       <div class="form-group input-box" *ngIf="orgOthersField">
         <input type="text" formControlName="orgOtherSpecify" class="form-control " i18n-placeholder
-          placeholder="Please Specify*" autocomplete="off">
+          placeholder="{{'Please Specify*' | translate}}" autocomplete="off">
       </div>
       <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgOtherSpecify'].hasError('pattern')">
         {{errorMsg}}</mat-error>
       <div class="form-group input-box">
         <input type="text" name="orgName" formControlName="orgName" i18n class="form-control"
-          placeholder="Organization Name" autocomplete="off">
+          placeholder="{{'Organization Name' | translate}}" autocomplete="off">
       </div>
 
     </ng-container>
@@ -139,20 +139,20 @@
           </select>
         </div>
         <div class="form-group input-box">
-          <input type="text" name="block" formControlName="block" class="form-control" placeholder="Block"
-            autocomplete="off" i18n-placeholder>
+          <input type="text" name="block" formControlName="block" class="form-control"
+            placeholder="{{'Block' | translate }}" autocomplete="off" i18n-placeholder>
         </div>
         <div class="form-group input-box">
-          <input type="text" name="subcentre" formControlName="subcentre" class="form-control" placeholder="Sub Centre"
-            autocomplete="off" i18n-placeholder>
+          <input type="text" name="subcentre" formControlName="subcentre" class="form-control"
+            placeholder="{{'Sub Centre' | translate}}" autocomplete="off" i18n-placeholder>
         </div>
       </div>
       <div *ngIf="selectedBg === 'Other'">
-        <input type="text" class="form-control" formControlName="designation" placeholder="Designation"
-          i18n-placeholder>
+        <input type="text" class="form-control" formControlName="designation"
+          placeholder="{{'Designation' | translate}}" i18n-placeholder>
         <div class="form-group mt-4 input-box">
           <input type="text" class="form-control" i18n-placeholder formControlName="nameOther"
-            placeholder="Please Specify Profession*" required>
+            placeholder="{{'Please Specify Profession*' | translate}}" required>
         </div>
         <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['profession'].hasError('pattern')">
           {{errorMsg}}</mat-error>
@@ -160,21 +160,21 @@
         <div class="form-group input-box">
           <select id="orgType" formControlName="orgType" class="form-control select-box"
             (change)="orgTypeSelect($event.target.value)" required>
-            <option [value]="null" i18n disabled>Organization Type*</option>
+            <option [value]="null" disabled>{{ 'Organization Type*' | translate }}</option>
             <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
           </select>
         </div>
 
         <div class="form-group input-box" *ngIf="orgOthersField">
-          <input type="text" formControlName="orgOtherSpecify" class="form-control" placeholder="Please Specify*"
-            i18n-placeholder autocomplete="off">
+          <input type="text" formControlName="orgOtherSpecify" class="form-control"
+            placeholder="{{'Please Specify*' | translate}}" i18n-placeholder autocomplete="off">
         </div>
         <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgOtherSpecify'].hasError('pattern')">
           {{errorMsg}}</mat-error>
 
         <div class="form-group input-box">
           <input type="text" name="orgName" formControlName="orgName" class="form-control"
-            placeholder="Organization Name" autocomplete="off" i18n-placeholder>
+            placeholder="{{'Organization Name' | translate}}" autocomplete="off" i18n-placeholder>
         </div>
         <mat-error class="text-danger mb-4" *ngIf="personalDetailForm.controls['orgName'].hasError('pattern')">
           {{errorMsg}}</mat-error>
