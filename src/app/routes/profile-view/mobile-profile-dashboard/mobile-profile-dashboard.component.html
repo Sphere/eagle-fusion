@@ -327,7 +327,6 @@
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
       <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">{{ 'My Certificates' |
         translate }}</p>
-      </p>
       <div *ngFor="let certificate of certificates">
         <ng-container *ngIf="certificates && certificates.length > 0">
           <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>

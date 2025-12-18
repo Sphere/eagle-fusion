@@ -64,180 +64,190 @@
 
           <div *ngIf="backgroundSelect === 'ASHA'">
             <div class="form-group input-box">
-              <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
-              <option *ngFor="let profession of ashaList" [value]="profession">{{ profession }}
-              </option>
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required>
+                <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
+                <option *ngFor="let profession of ashaList" [value]="profession">{{ profession }}</option>
               </select>
             </div>
-            <option [value]=null disabled>{{ 'City/Distict' | translate }}</option>
-            <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
-            </select>
+            <div class="form-group input-box">
+              <select id="district" formControlName="district" class="form-control select-box" required>
+                <option [value]=null disabled>{{ 'City/Distict' | translate }}</option>
+                <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
+              </select>
+            </div>
+            <div class="form-group input-box">
+              <input type="text" name="block" formControlName="block" class="form-control"
+                [placeholder]="'Block' | translate" autocomplete="off"
+                (change)="assignFields('block',almostDoneForm.controls['block'].value, $event)">
+            </div>
+            <div class="form-group input-box">
+              <input type="text" name="subcentre" formControlName="subcentre" class="form-control"
+                [placeholder]="'Sub Centre' | translate" autocomplete="off"
+                (change)="assignFields('subcentre',almostDoneForm.controls['subcentre'].value, $event)">
+            </div>
           </div>
-          <div class="form-group input-box">
-            <input type="text" name="block" formControlName="block" class="form-control"
-              [placeholder]="'Block' | translate" autocomplete="off"
-              (change)="assignFields('block',almostDoneForm.controls['block'].value, $event)">
+          <!-- Background: Healthcare Volunteer -->
+          <div *ngIf="backgroundSelect ==='Healthcare Volunteer'">
+            <div class="form-group input-box">
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required>
+                <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
+                <option *ngFor="let profession of healthcareVolunteerProfessions" [value]="profession">{{ profession }}
+                </option>
+              </select>
+            </div>
+
+            <div class="form-group input-box" *ngIf="professionOthersField">
+              <input type="text" formControlName="professionOtherSpecify" [placeholder]="'Please Specify*' | translate"
+                class="form-control" autocomplete="off">
+            </div>
+            <mat-error class="text-danger mb-4"
+              *ngIf="almostDoneForm.controls['professionOtherSpecify'].hasError('pattern')">
+              {{errorMsg}}</mat-error>
+
+            <div class="form-group input-box">
+              <select id="orgType" formControlName="orgType" class="form-control select-box" required
+                (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value, $event)">
+                <option [value]="null" disabled>{{ 'Organization Type*' | translate }}</option>
+                <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
+              </select>
+            </div>
+
+            <div class="form-group input-box" *ngIf="orgOthersField">
+              <input type="text" formControlName="orgOtherSpecify" class="form-control "
+                [placeholder]="'Please Specify*' | translate" autocomplete="off">
+            </div>
+            <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgOtherSpecify'].hasError('pattern')">
+              {{errorMsg}}</mat-error>
+
+            <div class="form-group input-box">
+              <input type="text" name="orgName" formControlName="orgName" class="form-control"
+                [placeholder]="'Organization Name' | translate" autocomplete="off"
+                (change)="assignFields('organizationName',almostDoneForm.controls['orgName'].value, $event)">
+            </div>
+            <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgName'].hasError('pattern')">
+              {{errorMsg}}</mat-error>
           </div>
-          <div class="form-group input-box">
-            <input type="text" name="subcentre" formControlName="subcentre" class="form-control"
-              [placeholder]="'Sub Centre' | translate" autocomplete="off"
-              (change)="assignFields('subcentre',almostDoneForm.controls['subcentre'].value, $event)">
+          <!-- Background: Healthcare Volunteer -->
+
+          <!-- Background: Student -->
+          <div *ngIf="backgroundSelect ==='Student'">
+            <div class="form-group input-box">
+              <select id="designation" formControlName="designation" class="form-control select-box" required>
+                <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
+                <option *ngFor="let designation of studentDesignations" [value]="designation">{{ designation }}</option>
+              </select>
+            </div>
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="courseName"
+                [placeholder]="'Qualification' | translate"
+                (change)="assignFields('coursename',almostDoneForm.controls['courseName'].value, $event)">
+            </div>
+            <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['courseName'].hasError('pattern')">
+              {{errorMsg}}</mat-error>
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="instituteName"
+                [placeholder]="'Institution Name' | translate"
+                (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)"
+                required>
+            </div>
+            <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['instituteName'].hasError('pattern')">
+              {{errorMsg}}</mat-error>
           </div>
+          <!-- Background: Student -->
+
+          <!-- Background: Faculty -->
+          <div *ngIf="backgroundSelect ==='Faculty'">
+            <div class="form-group input-box">
+              <select id="designation" formControlName="designation" class="form-control select-box" required>
+                <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
+                <option *ngFor="let designation of facultyDesignations" [value]="designation">{{ designation }}</option>
+              </select>
+            </div>
+
+            <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['profession'].hasError('pattern')">
+              {{errorMsg}}</mat-error>
+
+            <div class="form-group mt-4 input-box">
+              <input type="text" class="form-control" formControlName="orgName"
+                [placeholder]="'Institution Name*' | translate" required>
+            </div>
+            <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgName'].hasError('pattern')">
+              {{errorMsg}}</mat-error>
+
+          </div>
+          <!-- Background: Faculty -->
+
+          <!-- Background: Others -->
+          <div *ngIf="backgroundSelect ==='Others'">
+            <div class="form-group input-box">
+              <select id="selectedBg" formControlName="selectedBg" class="form-control select-box" required
+                (change)="selectedBg = $event.target.value">
+                <option [value]="null" disabled>{{ 'Select Background' | translate }}</option>
+                <option value="Mother/Family Members">Mother/Family Members</option>
+                <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>
+                <option value="Asha Trainer" *ngIf='!hideAsha'>Asha Trainer</option>
+                <option value="Other">Others</option>
+              </select>
+            </div>
+            <div *ngIf="selectedBg === 'Asha Facilitator' ||  selectedBg === 'Asha Trainer'">
+              <div class="form-group input-box">
+                <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
+                  (change)="assignFields('locationselect', $event.target.value, $event)">
+                  <option [value]=null disabled>{{ 'City/Distict' | translate }}</option>
+                  <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
+                </select>
+              </div>
+              <div class="form-group input-box">
+                <input type="text" name="block" formControlName="block" class="form-control"
+                  [placeholder]="'Block' | translate" autocomplete="off"
+                  (change)="assignFields('block',almostDoneForm.controls['block'].value, $event)">
+              </div>
+              <div class="form-group input-box">
+                <input type="text" name="subcentre" formControlName="subcentre" class="form-control"
+                  [placeholder]="'Sub Centre' | translate" autocomplete="off"
+                  (change)="assignFields('subcentre',almostDoneForm.controls['subcentre'].value, $event)">
+              </div>
+            </div>
+            <div *ngIf="selectedBg === 'Other'">
+              <div class="form-group mt-4 input-box">
+                <input type="text" class="form-control" formControlName="profession"
+                  [placeholder]="'Please Specify Profession*' | translate" required>
+              </div>
+              <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['profession'].hasError('pattern')">
+                {{errorMsg}}</mat-error>
+
+              <div class="form-group input-box">
+                <select id="orgType" formControlName="orgType" class="form-control select-box"
+                  (change)="orgTypeSelect($event.target.value)" required>
+                  <option [value]="null" disabled>{{ 'Organization Type*' | translate }}</option>
+                  <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
+                </select>
+              </div>
+
+              <div class="form-group input-box" *ngIf="orgOthersField">
+                <input type="text" formControlName="orgOtherSpecify" class="form-control"
+                  [placeholder]="'Please Specify*' | translate" autocomplete="off">
+              </div>
+              <mat-error class="text-danger mb-4"
+                *ngIf="almostDoneForm.controls['orgOtherSpecify'].hasError('pattern')">
+                {{errorMsg}}</mat-error>
+
+              <div class="form-group input-box">
+                <input type="text" name="orgName" formControlName="orgName" class="form-control"
+                  [placeholder]="'Organization Name' | translate" autocomplete="off">
+              </div>
+              <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgName'].hasError('pattern')">
+                {{errorMsg}}</mat-error>
+            </div>
+          </div>
+          <!-- Background: Others -->
+
+          <div class="next-btn-div">
+            <button class="form-group login-button" type="submit" (click)='onsubmit()' id="done-btn"
+              [disabled]="!almostDoneForm?.valid || enableSubmit">{{ 'Done' | translate }}</button>
+          </div>
+        </form>
       </div>
-      <!-- Background: Healthcare Volunteer -->
-      <div *ngIf="backgroundSelect ==='Healthcare Volunteer'">
-        <div class="form-group input-box">
-          <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
-          </option>
-          </select>
-        </div>
-
-        <div class="form-group input-box" *ngIf="professionOthersField">
-          <input type="text" formControlName="professionOtherSpecify" [placeholder]="'Please Specify*' | translate"
-            class="form-control" autocomplete="off">
-        </div>
-        <mat-error class="text-danger mb-4"
-          *ngIf="almostDoneForm.controls['professionOtherSpecify'].hasError('pattern')">
-          {{errorMsg}}</mat-error>
-
-        <div class="form-group input-box">
-          <select id="orgType" formControlName="orgType" class="form-control select-box" required
-            (change)="orgTypeSelect($event.target.value); assignFields('organizationType',$event.target.value, $event)">
-            <option [value]="null" disabled>{{ 'Organization Type*' | translate }}</option>
-            <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
-          </select>
-        </div>
-
-        <div class="form-group input-box" *ngIf="orgOthersField">
-          <input type="text" formControlName="orgOtherSpecify" class="form-control "
-            [placeholder]="'Please Specify*' | translate" autocomplete="off">
-        </div>
-        <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgOtherSpecify'].hasError('pattern')">
-          {{errorMsg}}</mat-error>
-
-        <div class="form-group input-box">
-          <input type="text" name="orgName" formControlName="orgName" class="form-control"
-            [placeholder]="'Organization Name' | translate" autocomplete="off"
-            (change)="assignFields('organizationName',almostDoneForm.controls['orgName'].value, $event)">
-        </div>
-        <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgName'].hasError('pattern')">
-          {{errorMsg}}</mat-error>
-      </div>
-      <!-- Background: Healthcare Volunteer -->
-
-      <!-- Background: Student -->
-      <div *ngIf="backgroundSelect ==='Student'">
-        <div class="form-group input-box">
-          <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
-          </option>
-          </select>
-        </div>
-        <div class="form-group mt-4 input-box">
-          <input type="text" class="form-control" formControlName="courseName"
-            [placeholder]="'Qualification' | translate"
-            (change)="assignFields('coursename',almostDoneForm.controls['courseName'].value, $event)">
-        </div>
-        <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['courseName'].hasError('pattern')">
-          {{errorMsg}}</mat-error>
-        <div class="form-group mt-4 input-box">
-          <input type="text" class="form-control" formControlName="instituteName"
-            [placeholder]="'Institution Name' | translate"
-            (change)="assignFields('institutionName',almostDoneForm.controls['instituteName'].value, $event)" required>
-        </div>
-        <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['instituteName'].hasError('pattern')">
-          {{errorMsg}}</mat-error>
-      </div>
-      <!-- Background: Student -->
-
-      <!-- Background: Faculty -->
-      <div *ngIf="backgroundSelect ==='Faculty'">
-        <div class="form-group input-box">
-          <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
-          </option>
-          </select>
-        </div>
-
-        <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['profession'].hasError('pattern')">
-          {{errorMsg}}</mat-error>
-
-        <div class="form-group mt-4 input-box">
-          <input type="text" class="form-control" formControlName="orgName"
-            [placeholder]="'Institution Name*' | translate" required>
-        </div>
-        <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgName'].hasError('pattern')">
-          {{errorMsg}}</mat-error>
-
-      </div>
-      <!-- Background: Faculty -->
-
-      <!-- Background: Others -->
-      <div *ngIf="backgroundSelect ==='Others'">
-        <div class="form-group input-box">
-          <option [value]="null" disabled>{{ 'Select Background' | translate }}</option>
-          <option value="Mother/Family Members">Mother/Family Members</option>
-          <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>
-          <option value="Asha Trainer" *ngIf='!hideAsha'>Asha Trainer</option>
-          <option value="Other">Others</option>
-          </select>
-        </div>
-        <div *ngIf="selectedBg === 'Asha Facilitator' ||  selectedBg === 'Asha Trainer'">
-          <div class="form-group input-box">
-            <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
-              (change)="assignFields('locationselect', $event.target.value, $event)">
-              <option [value]=null disabled>{{ 'City/Distict' | translate }}</option>
-              <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
-            </select>
-          </div>
-          <div class="form-group input-box">
-            <input type="text" name="block" formControlName="block" class="form-control"
-              [placeholder]="'Block' | translate" autocomplete="off"
-              (change)="assignFields('block',almostDoneForm.controls['block'].value, $event)">
-          </div>
-          <div class="form-group input-box">
-            <input type="text" name="subcentre" formControlName="subcentre" class="form-control"
-              [placeholder]="'Sub Centre' | translate" autocomplete="off"
-              (change)="assignFields('subcentre',almostDoneForm.controls['subcentre'].value, $event)">
-          </div>
-        </div>
-        <div *ngIf="selectedBg === 'Other'">
-          <div class="form-group mt-4 input-box">
-            <input type="text" class="form-control" formControlName="profession"
-              [placeholder]="'Please Specify Profession*' | translate" required>
-          </div>
-          <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['profession'].hasError('pattern')">
-            {{errorMsg}}</mat-error>
-
-          <div class="form-group input-box">
-            <select id="orgType" formControlName="orgType" class="form-control select-box"
-              (change)="orgTypeSelect($event.target.value)" required>
-              <option [value]="null" disabled>{{ 'Organization Type*' | translate }}</option>
-              <option *ngFor="let orgType of orgTypes" [value]="orgType">{{ orgType }}</option>
-            </select>
-          </div>
-
-          <div class="form-group input-box" *ngIf="orgOthersField">
-            <input type="text" formControlName="orgOtherSpecify" class="form-control"
-              [placeholder]="'Please Specify*' | translate" autocomplete="off">
-          </div>
-          <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgOtherSpecify'].hasError('pattern')">
-            {{errorMsg}}</mat-error>
-
-          <div class="form-group input-box">
-            <input type="text" name="orgName" formControlName="orgName" class="form-control"
-              [placeholder]="'Organization Name' | translate" autocomplete="off">
-          </div>
-          <mat-error class="text-danger mb-4" *ngIf="almostDoneForm.controls['orgName'].hasError('pattern')">
-            {{errorMsg}}</mat-error>
-        </div>
-      </div>
-      <!-- Background: Others -->
-
-      <div class="next-btn-div">
-        <button class="form-group login-button" type="submit" (click)='onsubmit()' id="done-btn"
-          [disabled]="!almostDoneForm?.valid || enableSubmit">{{ 'Done' | translate }}</button>
-      </div>
-      </form>
     </div>
   </div>
-</div>
 </div>
