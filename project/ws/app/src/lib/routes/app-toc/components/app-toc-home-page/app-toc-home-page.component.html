@@ -13,17 +13,17 @@
   <div role="main" class="toc-body" *ngIf="!errorCode; else tocError">
     <mat-tab-group [(selectedIndex)]="selectedIndex" mat-align-tabs="start" class="toc-links mt-8 mat-app-background"
       (selectedIndexChange)="onTabChange($event)">
-      <mat-tab label="Overview"></mat-tab>
+      <mat-tab label="{{'Overview' | translate}}"></mat-tab>
 
       <mat-tab *ngIf="content?.resourceType === 'Certification'"
         [label]="content?.isExternal ? 'Certification' : 'Take Certification'">
       </mat-tab>
 
-      <mat-tab *ngIf="content?.children?.length" label="Modules"></mat-tab>
+      <mat-tab *ngIf="content?.children?.length" label="{{'Modules' | translate}}"></mat-tab>
 
-      <mat-tab *ngIf="content?.references" label="Reference"></mat-tab>
+      <mat-tab *ngIf="content?.references" label="{{'Reference' | translate}}"></mat-tab>
 
-      <mat-tab label="Discussion">
+      <mat-tab label="{{'Discussion' | translate}}">
         <all-discussion-widget *ngIf="loadDiscussionWidget" style=' width: 100%;' [config]="discussionConfig">
         </all-discussion-widget>
       </mat-tab>
