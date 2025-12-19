@@ -207,8 +207,8 @@ export class ViewerUtilService {
       if (percentage > 95) {
         percentage = 100
       }
-      let mime_type = request.mime_type
-      this.generateInteractTelemetry('progress-update-attempt', { contentId, checkCollectionId, percentage, mime_type })
+      let mimeType = request.mime_type
+      this.generateInteractTelemetry('progress-update-attempt', { contentId, checkCollectionId, percentage, mimeType })
       req = {
         request: {
           userId: this.configservice.userProfile.userId || '',
@@ -336,17 +336,29 @@ export class ViewerUtilService {
 
   generateInteractTelemetry(actionId: string, contentData) {
     let objRollup = { l1: '', l2: '' }
-    objRollup.l1 = contentData.courseId || contentData.checkCollectionId || ''
+    let query = window.location.search
+    const params = new URLSearchParams(query)
+    const collectionId = params.get('collectionId')
+    objRollup.l1 = contentData.courseId || contentData.checkCollectionId || collectionId
     objRollup.l2 = contentData.contentId || ''
     const value = new Map()
-    value['identifier'] = contentData?.contentId || ''
-    value['progress'] = contentData?.completionPercentage || contentData?.percentage || 0
+    value['id'] = contentData?.contentId || ''
+    value['type'] = contentData.mimeType || ""
+    value["version"] = ""
     value['rollup'] = objRollup
+    const extras: any = {}
+    extras['values'] = [
+      {
+        "identifier": contentData?.contentId || '',
+        "progress": contentData?.completionPercentage || contentData?.percentage || 0
+      }
+    ]
     this.events.raiseInteractTelemetry(
       actionId,
       contentData.mimeType,
       'player',
-      value
+      value,
+      extras
     )
   }
 

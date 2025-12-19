@@ -1108,12 +1108,27 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         event,
         "quiz",
         {
-          optionId,
+          id: optionId,
+          type: 'quiz',
+          version: '',
+          rollup: {}
         },
+        {
+          values: [{
+            optionId
+          }]
+        }
       )
     } else {
       this.events.raiseInteractTelemetry(action, event, 'quiz', {
-        contentId: this.identifier,
+        id: this.identifier,
+        type: 'quiz',
+        version: '',
+        rollup: {}
+      }, {
+        values: [{
+          contentId: this.identifier,
+        }]
       })
     }
   }

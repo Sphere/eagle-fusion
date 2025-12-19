@@ -176,9 +176,12 @@ export class HtmlPickerComponent implements OnInit, OnDestroy {
   }
   raiseInteractTelemetry(action: string, event: string) {
     if (this.identifier) {
-      this.eventSvc.raiseInteractTelemetry(action, event, {
-        contentId: this.identifier,
-      })
+      this.eventSvc.raiseInteractTelemetry(action, event, 'html-picker', {
+        id: this.identifier,
+        type: 'scroll-picker',
+        verison: '',
+        rollup: {}
+      }, { values: [{ contentId: this.identifier, }] })
     }
     if (event === 'codeinput') {
       this.isInput = false
@@ -192,14 +195,14 @@ export class HtmlPickerComponent implements OnInit, OnDestroy {
       if (this.isInput) {
         this.raiseInteractTelemetry('editor', 'codeinput')
       }
-    },                               2 * 60000)
+    }, 2 * 60000)
   }
   startClickTimer() {
     this.clickInterval = setInterval(() => {
       if (this.isClick) {
         this.raiseInteractTelemetry('editor', 'buttonclick')
       }
-    },                               2 * 60000)
+    }, 2 * 60000)
   }
 
 }

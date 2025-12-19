@@ -573,7 +573,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
 
   redirectPage(updatedContentFound: any) {
-    this.telemetrySvc.interact('redirect-clicked', 'click', 'toc-page', { id: this.content!.identifier, type: 'course' })
+    this.telemetrySvc.interact('redirect-clicked', 'click', 'toc-page', { id: this.content!.identifier, type: 'course', version: "", rollup: {} })
     if (updatedContentFound === undefined) {
       let batchId = this.getBatchId()
       console.log(batchId, 'batchId')

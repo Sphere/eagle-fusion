@@ -231,7 +231,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   logout() {
     this.telemetrySvc.getTelemetryConfig()
-    this.telemetrySvc.interact('clicked', 'logout-clicked', 'profile', {}, { id: this.userInfo.profileDetails.profileReq.id, type: 'user' })
+    this.telemetrySvc.interact('clicked', 'logout-clicked', 'profile', {}, { id: this.userInfo.profileDetails.profileReq.id, type: 'user', version: "", rollup: {} })
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   processCertiFicate(data: any) {

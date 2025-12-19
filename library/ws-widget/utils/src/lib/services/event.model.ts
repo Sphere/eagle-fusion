@@ -86,7 +86,8 @@ export namespace WsEvents {
     type: string
     subType?: string
     pageid: string
-    object: any
+    object: any,
+    extras?: any
   }
 
   export interface IWsEventTelemetrySearch extends IWsEventTelemetry {
