@@ -39,8 +39,8 @@
         [ngClass]="{'ws-mat-primary-text link-active':  routelinK === 'overview'}" wsAppRetainScroll i18n>Overview</a>
       <a mat-tab-link *ngIf="content?.resourceType === 'Certification'" [routerLink]="'./certification'"
         routerLinkActive="ws-mat-primary-text link-active">
-        <ng-container *ngIf="content?.isExternal === true" i18n>Certification</ng-container>
-        <ng-container *ngIf="content?.isExternal === false" i18n>Take Certification</ng-container>
+        <ng-container *ngIf="content?.isExternal === true">{{'Certification' | translate}}</ng-container>
+        <ng-container *ngIf="content?.isExternal === false">{{'Take Certification' | translate}}</ng-container>
       </a>
 
       <a *ngIf="content?.children?.length" mat-tab-link (click)="toggleComponent('contents')"
@@ -55,9 +55,10 @@
         routerLinkActive="ws-mat-primary-text link-active" i18n>Cohorts</a> -->
 
       <a mat-tab-link (click)="toggleComponent('license')" [routerLink]="'./license'" [queryParams]="{license: license}"
-        [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll i18n>License</a>
+        [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsAppRetainScroll>{{'License' |
+        translate}}</a>
       <a mat-tab-link (click)="redirectTo()" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'discuss'}"
-        id="license-link" wsAppRetainScroll i18n>Discuss</a>
+        id="license-link" wsAppRetainScroll>{{'Discuss' | translate}}</a>
 
     </nav>
 

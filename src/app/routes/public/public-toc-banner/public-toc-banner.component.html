@@ -4,21 +4,20 @@
         {{ content?.name }} </span></div>
     <div class="subtitle">{{ content?.name }}</div>
     <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
-      <span [innerHTML]="'Duration ' | translate"></span>:
+      <span>{{ 'Duration' | translate }}</span> :
       {{ content?.duration | pipeDurationTransform: 'hms' }}
     </div>
     <div class="details" *ngIf="tocConfig?.atAGlance?.lastUpdatedOn?.enabled && content?.lastUpdatedOn">
-      <span [innerHTML]="'Last updated on' | translate"></span> : {{ content?.lastUpdatedOn | date }}
+      <span>{{ 'Last updated on' | translate }}</span> : {{ content?.lastUpdatedOn | date }}
     </div>
-    <div class="details"><span [innerHTML]="'Source' | translate"></span> : {{content?.sourceName}}</div>
-    <div class="details" *ngIf="content?.creator"><span [innerHTML]="'Author' | translate"></span> :
-      {{content?.creator}}</div>
+    <div class="details"><span>{{ 'Source' | translate }}</span> : {{content?.sourceName}}</div>
+    <div class="details" *ngIf="content?.creator"><span>{{ 'Author' | translate }}</span> : {{content?.creator}}</div>
   </div>
-  <div [innerHTML]="'View
-    License Terms' | translate"></div>
-  <button [innerHTML]="'
-    Start
-  ' | translate"></button>
+  <div class="lable1" [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'license'}" wsUtilsRetain>{{ 'View
+    License Terms' | translate }}</div>
+  <button name="start" color="primary" (click)="showPopup()" class="login-btn header-btn  mat-button-base">
+    {{ 'Start' | translate }}
+  </button>
 </div>
 <div class="modal fade" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': '50%'}">
   <div class="modal-dialog modal-sm">
@@ -37,14 +36,17 @@
       <!-- Modal body -->
       <div class="modal-body text-center" style="padding: 0px;">
         <div>
-          <h3>{{ 'Login/create an account to start the course' | translate }}</h3>
-          <button [innerHTML]="'
-            Login
-          ' | translate"></button>
-          <p [innerHTML]="'or' | translate"></p>
-          <button [innerHTML]="'
-            Create a new account
-          ' | translate"></button>
+          <h3 style="  color: #000 !important;font-weight: 500;">{{ 'Login/create an account to start the course' |
+            translate }}</h3>
+          <button name="start" color="primary" (click)="login()" style="width: 200px !important;"
+            class="header-btn  mat-button-base">
+            {{ 'Login' | translate }}
+          </button>
+          <p style="margin-top: 10px;font-weight: 400;">{{ 'or' | translate }}</p>
+          <button name="start" stye="padding: 8px 22px;    width: 200px;
+    font-size: 16px !important;" color="primary" (click)="createAcct()" class="new-user-btn">
+            {{ 'Create a new account' | translate }}
+          </button>
         </div>
       </div>
       <!-- Modal footer -->
@@ -57,7 +59,8 @@
             <img src="/fusion-assets/icons/Frame-150.svg">
           </div>
         </div>
-        <!-- <button [innerHTML]="'Close' | translate"></button> -->
+        <!-- <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()"
+          >{{ 'Close' | translate }}</button> -->
       </div>
 
     </div>

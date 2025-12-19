@@ -17,8 +17,9 @@
 
     <div class="title"><span style="word-wrap: break-word;" [title]="content?.name">
         {{ content?.name }} </span></div>
-    <div class="details mb-3" *ngIf="content?.creator"><span i18n>By</span>: <span class="blue-link cursor-pointer"
-        (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</span></div>
+    <div class="details mb-3" *ngIf="content?.creator"><span>{{ 'By' | translate }}</span>: <span
+        class="blue-link cursor-pointer" (click)="showOrgprofile(content?.sourceName)">{{content?.sourceName}}</span>
+    </div>
 
     <!-- <div class="subtitle">{{ content?.subTitle }}</div>
     <div class="details" *ngIf="tocConfig?.atAGlance?.duration?.enabled && content?.duration">
@@ -58,7 +59,7 @@
         <mat-progress-bar [mode]="'determinate'" [value]="
                     optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === null || optmisticPercentage === 0, 'thick': optmisticPercentage}"
-          i18n-aria-label>
+          [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
           {{optmisticPercentage}} %
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
@@ -69,7 +70,7 @@
         <mat-progress-bar [mode]="'determinate'" [value]="
         optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === undefined, 'thick': optmisticPercentage}"
-          i18n-aria-label>
+          [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
           {{optmisticPercentage}} %
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
@@ -78,7 +79,7 @@
         <mat-progress-bar [mode]="'determinate'" [value]="
                     optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === undefined, 'thick': optmisticPercentage}"
-          i18n-aria-label>
+          [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
           {{optmisticPercentage}} %
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
@@ -93,14 +94,14 @@
           <button mat-icon-button class="button-border" (click)="openDetails(content, tocConfig)">
             <img loading="lazy" src=".\fusion-assets\icons\details.svg" alt="detail-icon">
           </button>
-          <span class="btn-tittle" i18n>Details</span>
+          <span class="btn-tittle">{{ 'Details' | translate }}</span>
         </div>
 
         <div *ngIf="content?.competencies_v1" class="flex flex-col gap-1 justify-content-center align-items-center">
           <button mat-icon-button class="button-border" (click)="openCompetency(content)">
             <img loading="lazy" src=".\fusion-assets\icons\competency.svg" alt="competency-icon">
           </button>
-          <span class="btn-tittle" i18n>Competency</span>
+          <span class="btn-tittle">{{ 'Competency' | translate }}</span>
         </div>
 
         <!-- #if cetification ininrollment api -->
@@ -109,34 +110,34 @@
             <!-- sendApi() -->
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" data-toggle="modal" class="button-border"
-              i18n-matTooltip matTooltip="Preview Certificate">
+              [matTooltip]="'Preview Certificate' | translate">
               <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
                 style="background-color: cornflowerblue;width: 25px;height: auto;">
             </button>
-            <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
+            <span class="btn-tittle" *ngIf="content?.issueCertification === true">{{ 'Certificate' | translate }}</span>
           </ng-container>
           <!-- (click)="downloadCertificate(content, tocConfig)" -->
           <ng-template #download>
             <button mat-icon-button *ngIf="content?.issueCertification === true"
               (click)="downloadCertificate(content, tocConfig)" class="button-border" data-toggle="modal"
-              i18n-matTooltip matTooltip="Preview Certificate">
+              [matTooltip]="'Preview Certificate' | translate">
               <img loading="lazy" src=".\fusion-assets\icons\certificate-icon.svg" alt="download"
                 style="background-color: cornflowerblue;width: 25px;height: auto;">
             </button>
-            <span class="btn-tittle" *ngIf="content?.issueCertification === true" i18n>Certificate</span>
+            <span class="btn-tittle" *ngIf="content?.issueCertification === true">{{ 'Certificate' | translate }}</span>
           </ng-template>
 
         </div>
         <div class="flex flex-col gap-1 justify-content-center align-items-center">
           <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
           </ws-widget-btn-content-share>
-          <span class="btn-tittle" i18n>Share</span>
+          <span class="btn-tittle">{{ 'Share' | translate }}</span>
         </div>
       </div>
       <div class="flex gap-1">
         <button *ngIf="!batchData?.enrolled" id="start-btn" class="banner-btn cursor-pointer"
-          (click)="enrollUser(batchData.content)" i18n>
-          Start
+          (click)="enrollUser(batchData.content)">
+          {{ 'Start' | translate }}
         </button>
         <!--(click)="resumeBtn()" -->
         <ng-container *ngIf="!updatedContentStatus; else elseBlock1">
@@ -145,8 +146,8 @@
             [routerLink]="resumeResource ? resumeDataLink?.url : firstResourceLink?.url"
             [queryParams]="resumeData ? generateQuery('RESUME') : generateQuery('START')"
             class="banner-btn resumeButton">
-            <ng-container *ngIf="!forPreview || isInIFrame; else authView" i18n>
-              {{resumeData?"Resume":"Resume"}}
+            <ng-container *ngIf="!forPreview || isInIFrame; else authView">
+              {{ 'Resume' | translate }}
             </ng-container>
           </a>
         </ng-container>
@@ -156,20 +157,20 @@
           ((optmisticPercentage < 100 && finishedPercentage !== undefined) ||
           (optmisticPercentage < 100 && finishedPercentage === undefined))" (click)="redirectPage(updatedContentFound)"
             class="banner-btn resumeButton cursor-pointer">
-            <ng-container i18n>
-              Resume
+            <ng-container>
+              {{ 'Resume' | translate }}
             </ng-container>
           </a>
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && optmisticPercentage === 100 && content?.completionPercentage !== 100"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
-            <ng-container i18n>
-              Start Again
+            <ng-container>
+              {{ 'Start Again' | translate }}
             </ng-container>
           </a>
           <a *ngIf="showStart.show && !isPostAssessment && batchData?.enrolled && content?.completionPercentage === 100 && optmisticPercentage === 100"
             (click)="redirectPage(updatedContentFound)" class="banner-btn resumeButton cursor-pointer">
-            <ng-container i18n>
-              Start Again
+            <ng-container>
+              {{ 'Start Again' | translate }}
             </ng-container>
           </a>
         </ng-template>
@@ -252,8 +253,9 @@
       </div>
       <!-- Modal footer -->
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()"
-          i18n>Close</button>
+        <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()">
+          {{ 'Close' | translate }}
+        </button>
       </div>
 
     </div>

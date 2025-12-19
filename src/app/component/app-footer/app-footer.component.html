@@ -35,10 +35,83 @@
           <img class="footer-aastar-logo" loading="lazy" [src]="appIcon" alt="Angular icon" id="footer-aastar-logo">
         </mat-list-item>
       </mat-list>
-      <!-- EKSHAMATA SECTION -->
-      <ng-container *ngIf="isEkshamata">
-        <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
-          <mat-list-item><span class="link-header">{{ "Quick Links" | translate }}</span></mat-list-item>
+      <mat-list *ngIf="isEkshamata" class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item><span class="link-header">{{ "Quick Links" | translate }} </span></mat-list-item>
+        <mat-list-item style="margin-top: 10px;">
+          <a class="list-item" (click)="redirect('mycourses')">
+            {{"My Course" | translate }}
+          </a>
+        </mat-list-item>
+        <mat-list-item style="margin-top: 10px;">
+          <a class="list-item" (click)="redirect('competency')">
+            {{"Competency" | translate}}
+          </a>
+        </mat-list-item>
+        <mat-list-item style="margin-top: 10px;">
+          <a class="list-item" (click)="redirect('account')">
+            {{"Account" | translate}}
+          </a>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item *ngIf="isEkshamata"> <span class="link-header"> {{"Policies" | translate}} </span>
+        </mat-list-item>
+        <mat-list-item *ngIf="!isEkshamata"> <span class="link-header"> {{"Quick Links" | translate }}
+          </span></mat-list-item>
+        <mat-list-item>
+          <a routerLink="/public/tnc" [queryParams]="{panel: 'dp'}">
+            <span class="list-item"> {{"Privacy policy" | translate}}</span>
+          </a>
+        </mat-list-item>
+        <mat-list-item>
+          <a routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}">
+            <span class="list-item">{{"Terms of Use" | translate}}</span>
+          </a>
+        </mat-list-item>
+      </mat-list>
+
+      <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item>
+          <a *ngIf="!isEkshamata" href="http://support.aastrika.org/support/solutions" target="_blank"
+            id="footer-help-contact" class="link-header">{{'Help & Contact' | translate}} </a>
+          <a *ngIf="isEkshamata&&(configSvc.hostedInfo?.email||configSvc.hostedInfo?.phone)"
+            href="http://support.aastrika.org/support/solutions" target="_blank" id="footer-help-contact"
+            class="link-header">{{'Help & Contact' | translate}} </a>
+        </mat-list-item>
+        <!-- <mat-list-item> <a routerLink="/app/social/blogs">Blog</a> </mat-list-item> -->
+        <mat-list-item *ngIf="!isEkshamata" style="margin-top: 10px;">
+          <a class="link-text" href="mailto:support@aastrika.org">{{"support@aastrika.org" | translate}}</a>
+        </mat-list-item>
+        <mat-list-item *ngIf="isEkshamata && configSvc.hostedInfo?.phone" style="margin-top: 10px;">
+          <a class="link-text"> {{ configSvc.hostedInfo.phone }}</a>
+        </mat-list-item>
+        <mat-list-item style="margin-top: 10px;">
+          <a *ngIf="!isEkshamata" class="whatsapp-logo-container" href="https://wa.me/919632013414?text=Hi"
+            target="_blank">
+            <img alt="whatsapp" class="fa fa-whatsapp whatsapp-logo" src="/fusion-assets/icons/whatsapp.png" />
+            {{"Talk to us on WhatsApp" | translate}}
+          </a>
+        </mat-list-item>
+        <!-- <mat-list-item style="margin-top: 20px;"> -->
+        <!-- <p class="mat-subheading-2 flex flex-middle">
+            <img src="/fusion-assets/icons/lang-icon.png" width="35" height="24px" />
+            <ng-container>Choose your Language</ng-container>
+          </p> -->
+        <!--       <mat-form-field> -->
+        <!-- <label>Choose your Language</label>
+          <div class="d-inline" style="margin-top: -5px; font-size: small;">
+            <a (click)="langRedirect('')" class="languages">English</a>
+            <a (click)="langRedirect('hi')" class="languages">हिन्दी</a>
+          </div> -->
+        <!--     </mat-form-field> -->
+        <!-- </mat-list-item> -->
+      </mat-list>
+      <mat-list *ngIf="isEkshamata" class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item> <a id="footer-help-contact" class="list-item link-header">
+            {{"Experience e-kshamata app on mobile" | translate }} </a>
+        </mat-list-item>
+        <div class="flex" style="gap: 10px;">
           <mat-list-item style="margin-top: 10px;">
             <a class="list-item" (click)="redirect('mycourses')">{{"My Course" | translate}}</a>
           </mat-list-item>
@@ -48,46 +121,46 @@
           <mat-list-item style="margin-top: 10px;">
             <a class="list-item" (click)="redirect('account')">{{"Account" | translate}}</a>
           </mat-list-item>
-        </mat-list>
-        <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
-          <mat-list-item><span class="link-header">{{"Policies" | translate}}</span></mat-list-item>
+      </mat-list>
+      <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item><span class="link-header">{{"Policies" | translate}}</span></mat-list-item>
+        <mat-list-item style="margin-top: 10px;">
+          <a routerLink="/public/tnc" [queryParams]="{panel: 'dp'}">
+            <span class="list-item">{{"Privacy policy" | translate}}</span>
+          </a>
+        </mat-list-item>
+        <mat-list-item style="margin-top: 10px;">
+          <a routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}">
+            <span class="list-item">{{"Terms of Use" | translate}}</span>
+          </a>
+        </mat-list-item>
+      </mat-list>
+      <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item>
+          <a *ngIf="configSvc.hostedInfo?.email || configSvc.hostedInfo?.phone"
+            href="http://support.aastrika.org/support/solutions" target="_blank" id="footer-help-contact"
+            class="link-header">{{"Help & Contact" | translate}}</a>
+        </mat-list-item>
+        <mat-list-item *ngIf="configSvc.hostedInfo?.phone" style="margin-top: 10px;">
+          <a class="link-text">{{ configSvc.hostedInfo.phone }}</a>
+        </mat-list-item>
+      </mat-list>
+      <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list-item><a id="footer-help-contact" class="list-item link-header">
+            {{"Experience e-kshamata app on mobile" | translate}}</a></mat-list-item>
+        <div class="flex" style="gap: 10px;">
           <mat-list-item style="margin-top: 10px;">
-            <a routerLink="/public/tnc" [queryParams]="{panel: 'dp'}">
-              <span class="list-item">{{"Privacy policy" | translate}}</span>
+            <a href="https://play.google.com/store/apps/details?id=org.aastrika.ekshamata" target="_blank">
+              <img alt="google play" src="/fusion-assets/images/google_play.svg" width="150" height="50" />
             </a>
           </mat-list-item>
           <mat-list-item style="margin-top: 10px;">
-            <a routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}">
-              <span class="list-item">{{"Terms of Use" | translate}}</span>
+            <a href="https://apps.apple.com/in/app/e-kshamata/id6505063333" target="_blank">
+              <img alt="app store" src="/fusion-assets/images/app_store.svg" width="150" height="50" />
             </a>
           </mat-list-item>
-        </mat-list>
-        <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
-          <mat-list-item>
-            <a *ngIf="configSvc.hostedInfo?.email || configSvc.hostedInfo?.phone"
-              href="http://support.aastrika.org/support/solutions" target="_blank" id="footer-help-contact"
-              class="link-header">{{"Help & Contact" | translate}}</a>
-          </mat-list-item>
-          <mat-list-item *ngIf="configSvc.hostedInfo?.phone" style="margin-top: 10px;">
-            <a class="link-text">{{ configSvc.hostedInfo.phone }}</a>
-          </mat-list-item>
-        </mat-list>
-        <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
-          <mat-list-item><a id="footer-help-contact" class="list-item link-header">
-              {{"Experience e-kshamata app on mobile" | translate}}</a></mat-list-item>
-          <div class="flex" style="gap: 10px;">
-            <mat-list-item style="margin-top: 10px;">
-              <a href="https://play.google.com/store/apps/details?id=org.aastrika.ekshamata" target="_blank">
-                <img alt="google play" src="/fusion-assets/images/google_play.svg" width="150" height="50" />
-              </a>
-            </mat-list-item>
-            <mat-list-item style="margin-top: 10px;">
-              <a href="https://apps.apple.com/in/app/e-kshamata/id6505063333" target="_blank">
-                <img alt="app store" src="/fusion-assets/images/app_store.svg" width="150" height="50" />
-              </a>
-            </mat-list-item>
-          </div>
-        </mat-list>
+        </div>
+      </mat-list>
       </ng-container>
 
       <!-- NON-EKSHAMATA SECTION -->

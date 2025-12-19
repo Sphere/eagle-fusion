@@ -6,7 +6,7 @@
 
 <section class="mt-2 py-1 px-4" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
   <div class="line-label orange">
-    <span [innerHTML]="'Top Courses' | translate"></span>
+    <span class="header1 ">{{ 'Top Courses' | translate }}</span>
   </div>
 
   <div *ngFor="let course of getDisplayedItems(topCertifiedCourse, showAllTopCertifiedCourses)">
@@ -14,17 +14,16 @@
       [courseData]="course"></ws-mobile-course-view>
   </div>
 
-  <button *ngIf="topCertifiedCourse.length > 5" (click)="viewAllItems('topCertifiedCourses')"
-    class="view-all-course">
-    {{ showAllTopCertifiedCourses ? 'Hide' : 'View all' }}
+  <button *ngIf="topCertifiedCourse.length > 5" (click)="viewAllItems('topCertifiedCourses')" class="view-all-course">
+    {{ showAllTopCertifiedCourses ? ('Hide' | translate) : ('View all' | translate) }}
     <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
 </section>
 
 
 <!-- <section *ngIf="featuredCourse" class="py-1 px-4 p-4">
-  <div class="line-label orange">
-    <span [innerHTML]="'Featured' | translate"></span>
+  <div class="line-label orange" i18n>
+    <span class="header1 " i18n>Featured</span>
   </div>
   <div *ngFor="let course of getDisplayedItems(featuredCourse)">
     <ng-container *ngIf="featuredCourse && featuredCourse.length>0">
@@ -42,14 +41,14 @@
 <section #scrollToCneCourses id="scrollToCneCourses" class="scrollToCneCourses" class="py-1 px-4"
   *ngIf="cneCourse && cneCourse.length>0">
   <div class="line-label orange">
-    <span [innerHTML]="'CNE Courses' | translate"></span>
+    <span class="header1 cne-text ">{{ 'CNE Courses' | translate }}</span>
   </div>
   <div *ngFor="let course of getDisplayedItems(cneCourse, showAllCneCourses)">
     <ws-mobile-course-view [displayConfig]="topCNECourseDisplayConfig" [cnePoints]="'yes'"
       [courseData]="course"></ws-mobile-course-view>
   </div>
   <button *ngIf="cneCourse.length > 5" (click)="viewAllItems('cneCourses')" class="view-all-course">
-    {{ showAllCneCourses ? 'Hide' : 'View all' }}
+    {{ showAllCneCourses ? ('Hide' | translate) : ('View all' | translate) }}
     <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
 </section>

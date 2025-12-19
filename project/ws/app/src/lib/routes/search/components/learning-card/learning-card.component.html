@@ -42,12 +42,13 @@
             <!-- <span *ngIf="content.complexityLevel">
               | {{ content.complexityLevel | titlecase }} </span> -->
             <span *ngIf="content.exclusiveContent">
-              | <span class="ws-mat-primary-text font-normal" i18n>Paid Content</span></span>
+              | <span class="ws-mat-primary-text font-normal">{{'Paid Content' | translate}}</span></span>
           </span>
 
           <span *ngIf="content.duration">| {{ content.duration | pipeDurationTransform : 'hms' }} | </span>
           <!-- | pipeDurationTransform -->
-          <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s"><span i18n>Last Updated On :</span> {{
+          <span *ngIf="content.lastUpdatedOn" class="hidden-inline-s"><span>{{'Last Updated On :' | translate}}</span>
+            {{
             content.lastUpdatedOn | date
             }}</span>
           <!-- commented earlier -->
@@ -65,11 +66,11 @@
           <ng-container *ngIf="content.competencies_v1 && cometencyData.length > 0  ">
             <div class="flex flex-col mt-1 ">
 
-              <div *ngIf="cometencyData[0].name"><span class="font-medium" i18n>Competency Name : </span>
+              <div *ngIf="cometencyData[0].name"><span class="font-medium">{{'Competency Name :' | translate}}</span>
                 {{cometencyData[0].name}}</div>
 
               <div class="flex flex-row">
-                <span class="font-medium" i18n>Levels : &nbsp;</span>
+                <span class="font-medium">{{'Levels :' | translate}} &nbsp;</span>
                 <ng-container *ngFor="let competency of cometencyData; let last = last; ">
                   <div> {{competency.levels}}
                     <span *ngIf="!last">, </span>

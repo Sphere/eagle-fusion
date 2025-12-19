@@ -50,16 +50,16 @@
     <!-- Language Filter Section -->
     <div class="language-filter-container">
       <div>
-        <span class="filter-label" i18n>Filter by Language</span>
+        <span class="filter-label">{{'Filter by Language' | translate}}</span>
       </div>
       <div class="filter-buttons">
-        <button [class.active]="selectedLanguage === 'all'" (click)="filterByLanguage('all')" class="filter-btn" i18n>
+        <button [class.active]="selectedLanguage === 'all'" (click)="filterByLanguage('all')" class="filter-btn">
           All
         </button>
-        <button [class.active]="selectedLanguage === 'en'" (click)="filterByLanguage('en')" class="filter-btn" i18n>
+        <button [class.active]="selectedLanguage === 'en'" (click)="filterByLanguage('en')" class="filter-btn">
           English
         </button>
-        <button [class.active]="selectedLanguage === 'hi'" (click)="filterByLanguage('hi')" class="filter-btn" i18n>
+        <button [class.active]="selectedLanguage === 'hi'" (click)="filterByLanguage('hi')" class="filter-btn">
           हिंदी
         </button>
       </div>
@@ -72,7 +72,7 @@
       <div class="mb-4 line-label bg-green flex scroller-container">
         <div class="w-100">
           <div class="flex flex-middle border-top">
-            <span class="course-header" i18n>Continue Learning</span>
+            <span class="course-header">{{'Continue Learning' | translate}}</span>
           </div>
         </div>
       </div>
@@ -89,9 +89,9 @@
         <div *ngFor="let course of getDisplayedItems(getFilteredUserEnrollCourse(), showAllUserEnrollCourses)">
           <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
         </div>
-        <button i18n *ngIf="getFilteredUserEnrollCourse()?.length > 5" (click)="viewAllItems('userEnrollCourses')"
+        <button *ngIf="getFilteredUserEnrollCourse()?.length > 5" (click)="viewAllItems('userEnrollCourses')"
           class="view-all-course">
-          {{ showAllUserEnrollCourses ? 'Hide' : 'View all' }}
+          {{ showAllUserEnrollCourses ? ('Hide' | translate) : ('View all' | translate) }}
           <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
         </button>
       </ng-container>
@@ -101,7 +101,7 @@
   <div class="course-container py-1 px-4 ">
     <div class="w-100" *ngIf="getFilteredCourseData()?.length > 0">
       <div class="flex flex-middle border-top">
-        <span class="course-header" i18n>Courses</span>
+        <span class="course-header">{{'Courses' | translate}}</span>
       </div>
     </div>
     <div class="mt-4 course-body" *ngIf="getFilteredCourseData()">
@@ -139,7 +139,7 @@
                 <img src="/fusion-assets/icons/mdi_star-four-points-outline.svg">
                 <p class="cne-content mb-0">{{widget.cneName}} CNE Points</p>
               </div>
-              <p *ngIf="widget.issueCertification" class="certified-text" i18n>Certified</p>
+              <p *ngIf="widget.issueCertification" class="certified-text">{{'Certified' | translate}}</p>
             </div>
             <div class="border-block" *ngIf="widget && widget.competencies_v1?.length>0">
               <hr class="border-content">
@@ -168,23 +168,23 @@
                 {{ widget.subTitle }}
               </div>
 
-              <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span i18n>Published on</span>:
+              <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span>{{'Published on' | translate}}</span>:
                 {{widget?.lastPublishedOn | date }}</div>
               <div *ngIf="widget.duration" class="duration mb-2" title="Duration">
-                <span class="mr-1 orange-text" i18n>Duration</span>:
+                <span class="mr-1 orange-text">{{'Duration' | translate}}</span>:
                 <mat-icon>access_time</mat-icon>
                 <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
               </div>
-              <p><span class="fw-500" i18n>Number of modules</span>: {{ widget?.childNodes?.length}}</p>
-              <p *ngIf="widget?.creatorContacts"><span class="fw-500" i18n>Author</span>: {{
+              <p><span class="fw-500">{{'Number of modules' | translate}}</span>: {{ widget?.childNodes?.length}}</p>
+              <p *ngIf="widget?.creatorContacts"><span class="fw-500">{{'Author' | translate}}</span>: {{
                 widget?.creatorContacts[0]?.name}}</p>
 
-              <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500" i18n>Users enrolled</span>:
+              <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500">{{'Users enrolled' | translate}}</span>:
                 {{widget?.uniqueUsersCount}}</p>
-              <p *ngIf="widget?.sourceName"><span class="fw-500" i18n>Source</span>: {{widget.sourceName}}
+              <p *ngIf="widget?.sourceName"><span class="fw-500">{{'Source' | translate}}</span>: {{widget.sourceName}}
               </p>
               <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
-                <div class="fw-500 mb-1" i18n>Course Description</div>
+                <div class="fw-500 mb-1">{{'Course Description' | translate}}</div>
                 {{ widget.description }}
               </div>
 
@@ -199,8 +199,10 @@
       </ng-container>
 
       <div class="w-100 load-more-block" *ngIf="getFilteredCourseData() && getFilteredCourseData().length > 5">
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5" i18n>Load More</button>
-        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5" i18n>Load Less</button>
+        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit === 5">{{'Load More' |
+          translate}}</button>
+        <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5">{{'Load Less' |
+          translate}}</button>
       </div>
 
     </div>
@@ -212,7 +214,7 @@
       <div class="mb-4 line-label bg-green flex scroller-container">
         <div class="w-100">
           <div class="flex flex-middle border-top">
-            <span class="course-header" i18n>Completed</span>
+            <span class="course-header">{{'Completed' | translate}}</span>
           </div>
         </div>
       </div>
@@ -229,9 +231,9 @@
         <div *ngFor="let course of getDisplayedItems(getFilteredCompletedCourse(), showAllCompletedCourses)">
           <ws-mobile-course-view [displayConfig]="myCourseDisplayConfig" [courseData]="course"></ws-mobile-course-view>
         </div>
-        <button i18n *ngIf="getFilteredCompletedCourse()?.length > 5" (click)="viewAllItems('completedCourses')"
+        <button *ngIf="getFilteredCompletedCourse()?.length > 5" (click)="viewAllItems('completedCourses')"
           class="view-all-course">
-          {{ showAllCompletedCourses ? 'Hide' : 'View all' }}
+          {{ showAllCompletedCourses ? ('Hide' | translate) : ('View all' | translate) }}
           <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
         </button>
       </ng-container>
@@ -241,6 +243,6 @@
 
 <div class="container" *ngIf="!currentOrgData">
   <div class="centered-div">
-    <h3 class="mt-15" i18n>No org details found</h3>
+    <h3 class="mt-15">{{'No org details found' | translate}}</h3>
   </div>
 </div>

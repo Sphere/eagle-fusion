@@ -37,7 +37,7 @@
           <p class="description" *ngIf="enableConfig">{{courseData.description}}</p>
         </div>
         <div *ngIf="enableConfig" class="p-2">
-          <a class="btn start-btn">{{'Start now!' }}</a>
+          <a class="btn start-btn">{{ 'Start now!' | translate }}</a>
         </div>
         <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
           <div class="competency-card flex m-3">
@@ -101,11 +101,12 @@
             *ngIf="displayConfig?.badges?.completionPercentage === true||displayConfig?.badges?.mobilesourceName">
             <mat-progress-bar *ngIf="displayConfig?.badges?.completionPercentage === true" [mode]="'determinate'"
               [value]="courseData?.completionPercentage" class="progress-bar"
-              [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
+              [attr.aria-labelledby]="'m-c-' + courseData?.identifier">
               {{courseData?.completionPercentage}}%
             </mat-progress-bar>
             <!-- <div class="">
-              <span class="completionPercentage">{{ courseData?.completionPercentage [innerHTML]="'Complete' | translate"></span></span>
+              <span class="completionPercentage">{{ courseData?.completionPercentage ?
+                courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
             </div> -->
             <ng-container *ngIf="displayConfig?.badges?.mobilesourceName&&courseData.sourceName">
               <div [ngClass]="{'top-border': displayConfig?.badges?.sourceLine}" class="mobile-source-name">
@@ -138,14 +139,17 @@
       <!-- Modal body -->
       <div class="modal-body text-center" style="padding: 0px;">
         <div>
-          <h3>{{ 'Login/create an account to start the course' | translate }}</h3>
-          <button [innerHTML]="'
-            Login
-          ' | translate"></button>
-          <p [innerHTML]="'or' | translate"></p>
-          <button [innerHTML]="'
-            Create a new account
-          ' | translate"></button>
+          <h3 style="  color: #000 !important;font-weight: 500;">{{ 'Login/create an account to start the course' |
+            translate }}</h3>
+          <button name="start" color="primary" (click)="orgLogin()" style="width: 200px !important;"
+            class="header-btn  mat-button-base">
+            {{ 'Login' | translate }}
+          </button>
+          <p style="margin-top: 10px;font-weight: 400;">{{ 'or' | translate }}</p>
+          <button name="start" stye="padding: 8px 22px;    width: 200px;
+    font-size: 16px !important;" color="primary" (click)="orgCreateAccount()" class="new-user-btn">
+            {{ 'Create a new account' | translate }}
+          </button>
         </div>
       </div>
       <!-- Modal footer -->
@@ -158,7 +162,8 @@
             <img src="/fusion-assets/icons/Frame-150.svg">
           </div>
         </div>
-        <!-- <button [innerHTML]="'Close' | translate"></button> -->
+        <!-- <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()"
+          i18n>Close</button> -->
       </div>
 
     </div>

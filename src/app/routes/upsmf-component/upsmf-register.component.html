@@ -8,14 +8,13 @@
 
   <!-- In-Service ANM Registration Form -->
   <div *ngIf="isInService">
-    <p class="text-2xl mt-2 header-title">{{ 'E-kshamata Registration for ANM' | translate }}</p>
+    <p class="text-2xl mt-2 header-title" i18n>E-kshamata Registration for ANM</p>
     <p>Note - Please fill up this form in English only/ कृपया यह फॉर्म केवल अंग्रेजी में भरें</p>
 
     <form [formGroup]="anmRegistrationForm" class="mt-3 mb-10">
       <!-- Common Information -->
       <div class="form-section">
-        <label for="firstName" style="display: block;">{{ 'First Name / नाम' | translate }}<span
-            class="red-icon">*</span></label>
+        <label i18n for="firstName" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
           <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName"
             class="form-control" placeholder="First Name" autocomplete="off">
@@ -29,8 +28,7 @@
           First Name should be in English and should not start with a space.
         </mat-error>
 
-        <label for="lastName" style="display: block;">{{ 'Last Name / उपनाम' | translate }}<span
-            class="red-icon">*</span></label>
+        <label i18n for="lastName" style="display: block;">Last Name / उपनाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
           <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName"
             class="form-control" placeholder="Last Name" autocomplete="off">
@@ -44,7 +42,7 @@
           Last Name is required.
         </mat-error>
 
-        <label for="phone" style="display: block;">{{ 'Phone Number / मोबाइल नंबर' | translate }}<span
+        <label i18n for="phone" style="display: block;">Phone Number / मोबाइल नंबर <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
           <input type="text" name="phone" formControlName="phone" class="form-control" placeholder="Phone Number"
@@ -59,7 +57,7 @@
           Phone number is invalid
         </mat-error>
 
-        <label for="dob" style="display: block;">{{ 'Date of Birth / जन्म की तारीख' | translate }} <span
+        <label i18n for="dob" style="display: block;">Date of Birth / जन्म की तारीख <span
             class="red-icon">*</span></label>
         <div class="form-group">
           <ws-dropdown-dob (dobValue)="onDobChange($event)" [dob]="anmRegistrationForm.get('dob')?.value">
@@ -69,8 +67,8 @@
           Date of Birth is required.
         </mat-error>
 
-        <label for="regNurseRegMidwifeNumber">{{ 'Nursing Registration Number / नर्सिंग पंजीकरण संख्या' | translate }}
-          <span class="red-icon">*</span></label>
+        <label for="regNurseRegMidwifeNumber" i18n>Nursing Registration Number / नर्सिंग पंजीकरण संख्या <span
+            class="red-icon">*</span></label>
         <div class="form-group input-box">
           <input type="text" formControlName="regNurseRegMidwifeNumber" class="form-control"
             placeholder="Nursing Registration Number" autocomplete="off">
@@ -83,8 +81,8 @@
 
       <!-- Employment Type -->
       <div class="form-section">
-        <label for="roleForInService" style="display: block;">{{ 'Employment Type / रोखगार का प्रकार' | translate }}
-          <span class="red-icon">*</span></label>
+        <label i18n for="roleForInService" style="display: block;">Employment Type / रोजगार का प्रकार <span
+            class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select (selectionChange)="onEmploymentTypeChange($event.value)" formControlName="roleForInService"
             placeholder="Employment Type">
@@ -100,7 +98,7 @@
 
       <!-- Government Employee Section -->
       <div *ngIf="isGovernmentEmployee" class="form-section">
-        <label for="serviceType" style="display: block;">{{ 'Type of Service / सेवा का प्रकार' | translate }} <span
+        <label i18n for="serviceType" style="display: block;">Type of Service / सेवा का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="serviceType" placeholder="Type of Service">
@@ -113,7 +111,7 @@
           Type of Service is required.
         </mat-error>
 
-        <label for="hrmsId">{{ 'eHRMS Number / eHRMS संख्या' | translate }} <span class="red-icon">*</span></label>
+        <label for="hrmsId" i18n>eHRMS Number / eHRMS संख्या <span class="red-icon">*</span></label>
         <div class="form-group input-box">
           <input type="text" formControlName="hrmsId" class="form-control" placeholder="eHRMS Number (5-8 digits)"
             autocomplete="off">
@@ -124,8 +122,7 @@
             digits.</span>
         </mat-error>
 
-        <label for="district" style="display: block;">{{ 'District / लिलिली' | translate }} <span
-            class="red-icon">*</span></label>
+        <label i18n for="district" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="district" placeholder="District">
             <mat-option [value]="district" *ngFor="let district of districts">{{district}}</mat-option>
@@ -135,8 +132,7 @@
           District is required.
         </mat-error>
 
-        <label for="block" style="display: block;">{{ 'Block / वँओ' | translate }} <span
-            class="red-icon">*</span></label>
+        <label i18n for="block" style="display: block;">Block / ब्लॉक <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="block" placeholder="Block">
             <mat-option [value]="block" *ngFor="let block of blocks">{{block}}</mat-option>
@@ -146,7 +142,7 @@
           Block is required.
         </mat-error>
 
-        <label for="facilityType" style="display: block;">{{ 'Facility Type / सुविधा का प्रकार' | translate }} <span
+        <label i18n for="facilityType" style="display: block;">Facility Type / सुविधा का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="facilityType" placeholder="Facility Type">
@@ -158,7 +154,7 @@
           Facility Type is required.
         </mat-error>
 
-        <label for="facilityName" style="display: block;">{{ 'Posting Facility / पोस्टींग सुविधा' | translate }} <span
+        <label i18n for="facilityName" style="display: block;">Posting Facility / पोस्टिंग सुविधा <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="facilityName" placeholder="Posting Facility">
@@ -171,22 +167,45 @@
         </mat-error>
       </div>
 
+      <!-- Private Employee Section -->
+      <div *ngIf="isPrivateEmployee" class="form-section">
+        <label i18n for="district" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
+        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+          <mat-select formControlName="district" placeholder="District">
+            <mat-option [value]="district" *ngFor="let district of districts">{{district}}</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error *ngIf="anmRegistrationForm.get('district')?.invalid && anmRegistrationForm.get('district')?.touched">
+          District is required.
+        </mat-error>
+
+        <label for="facilityName" i18n>Posting Place / पोस्टिंग स्थान <span class="red-icon">*</span></label>
+        <div class="form-group input-box">
+          <input pattern="^[A-Za-z, ]+$" type="text" formControlName="facilityName" class="form-control"
+            placeholder="Hospital/Clinic Name" autocomplete="off">
+        </div>
+        <mat-error
+          *ngIf="anmRegistrationForm.get('facilityName')?.invalid && anmRegistrationForm.get('facilityName')?.touched">
+          Posting Facility is required.
+        </mat-error>
+      </div>
+
       <div style="margin: 10px 0px; display: flex; justify-content: center;">
-        <button [innerHTML]="'Submit' | translate"></button>
+        <button [disabled]="isSubmitting" type="submit" (click)="onSubmitInService()" class="save-btn"
+          i18n>Submit</button>
       </div>
     </form>
   </div>
 
   <!-- Pre-Service Registration Form -->
   <div *ngIf="isPreService">
-    <p [innerHTML]="'E-kshamata Registration for ANM' | translate"></p>
+    <p class="text-2xl mt-2 header-title" i18n>E-kshamata Registration for ANM</p>
     <p>Note - Please fill up this form in English only/ कृपया यह फॉर्म केवल अंग्रेजी में भरें</p>
 
     <form [formGroup]="preServiceForm" class="mt-3 mb-10">
       <!-- Common Information -->
       <div class="form-section">
-        <label for="firstName" style="display: block;">{{ 'First Name / नाम' | translate }}<span
-            class="red-icon">*</span></label>
+        <label i18n for="firstName" style="display: block;">First Name / नाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
           <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="firstName" formControlName="firstName"
             class="form-control" placeholder="First Name" autocomplete="off">
@@ -200,26 +219,25 @@
           First Name should be in English and should not start with a space.
         </mat-error>
 
-        <label for="lastName" style="display: block;">{{ 'Last Name / उपनाम' | translate }} <span
-            class="red-icon">*</span></label>
+        <label i18n for="lastName" style="display: block;">Last Name / उपनाम <span class="red-icon">*</span></label>
         <div class="form-group input-box">
           <input pattern="^[A-Za-z][A-Za-z\s]*$" type="text" name="lastName" formControlName="lastName"
             class="form-control" placeholder="Last Name" autocomplete="off">
         </div>
         <mat-error
-          *ngIf="preServiceForm.get('lastName')?.hasError('required') && preServiceForm.get('lastName')?.touched">
-          Last Name is required.
-        </mat-error>
-        <mat-error
           *ngIf="preServiceForm.get('lastName')?.hasError('pattern') && preServiceForm.get('lastName')?.touched">
           Last Name should be in English and should not start with a space.
         </mat-error>
+        <mat-error
+          *ngIf="preServiceForm.get('lastName')?.hasError('required') && preServiceForm.get('lastName')?.touched">
+          Last Name is required.
+        </mat-error>
 
-        <label for="phone" style="display: block;">{{ 'Phone Number / मोबाइल नंबर' | translate }} <span
+        <label i18n for="phone" style="display: block;">Phone Number / मोबाइल नंबर <span
             class="red-icon">*</span></label>
         <div class="form-group input-box">
-          <input pattern="^[0-9]{10}$" type="text" name="phone" formControlName="phone" class="form-control"
-            placeholder="Phone Number" autocomplete="off">
+          <input type="text" name="phone" formControlName="phone" class="form-control" placeholder="Phone Number"
+            autocomplete="off">
         </div>
         <mat-error *ngIf="preServiceForm.get('phone')?.hasError('required') && preServiceForm.get('phone')?.touched">
           Phone Number is required
@@ -228,8 +246,7 @@
           Phone number is invalid
         </mat-error>
 
-        <label for="district" style="display: block;">{{ 'District / लिलिली' | translate }} <span
-            class="red-icon">*</span></label>
+        <label i18n for="district" style="display: block;">District / ज़िला <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="district" placeholder="District">
             <mat-option [value]="district" *ngFor="let district of districts">{{district}}</mat-option>
@@ -242,7 +259,7 @@
 
       <!-- Role Selection -->
       <div class="form-section">
-        <label for="role" style="display: block;">{{ 'Role' | translate }}<span class="red-icon">*</span></label>
+        <label i18n for="role" style="display: block;">Role <span class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="role" i18n-placeholder placeholder="Role"
             (selectionChange)="onRoleChange($event.value)">
@@ -255,50 +272,9 @@
         </mat-error>
       </div>
 
-      <label for="instituteName" style="display: block;">{{ 'Name of Institute / संस्थान का नाम' | translate }} <span
-          class="red-icon">*</span></label>
-      <div class="form-group mt-4 input-box">
-        <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
-          formControlName="instituteName" placeholder="Name of Institute" i18n-placeholder
-          (change)="assignFields('institutionName', preServiceForm.controls['instituteName'].value, $event)" required>
-      </div>
-      <mat-error
-        *ngIf="preServiceForm.get('instituteName')?.hasError('required') && preServiceForm.get('instituteName')?.touched">
-        Name of Institute is required.
-      </mat-error>
-      <mat-error
-        *ngIf="preServiceForm.get('instituteName')?.hasError('pattern') && preServiceForm.get('instituteName')?.touched">
-        Name of Institute should be in English and should not start with a space.
-      </mat-error>
-
-      <label for="instituteType" style="display: block;">{{ 'Type of Institute / संस्थान का प्रकार' | translate }} <span
-          class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-        <mat-select formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
-          <mat-option [value]="type" *ngFor="let type of instituteTypes">{{type}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-error *ngIf="preServiceForm.get('instituteType')?.invalid && preServiceForm.get('instituteType')?.touched">
-        Type of Institute is required.
-      </mat-error>
-
-      <label for="courseSelection" style="display: block;">{{ 'Course Selection / पाठ्यक्रम चयन' | translate }} <span
-          class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
-        <mat-select formControlName="courseSelection" i18n-placeholder placeholder="Course selection">
-          <mat-option [value]="course" *ngFor="let course of courseSelection">{{course}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-error
-        *ngIf="preServiceForm.get('courseSelection')?.invalid && preServiceForm.get('courseSelection')?.touched">
-        Course is required.
-      </mat-error>
-
-      <!-- Faculty Specific Fields -->
-      <ng-container *ngIf="isFaculty">
-        <label for="instituteName" style="display: block;">{{ 'Name of Institute / संस्थान का नाम' | translate }}<span
+      <!-- Student Specific Fields -->
+      <ng-container *ngIf="isStudent">
+        <label i18n for="instituteName" style="display: block;">Name of Institute / संस्थान का नाम <span
             class="red-icon">*</span></label>
         <div class="form-group mt-4 input-box">
           <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
@@ -314,8 +290,8 @@
           Name of Institute should be in English and should not start with a space.
         </mat-error>
 
-        <label for="instituteType" style="display: block;">{{ 'Type of Institute / संस्थान का प्रकार' | translate
-          }}<span class="red-icon">*</span></label>
+        <label i18n for="instituteType" style="display: block;">Type of Institute /संस्थान का प्रकार <span
+            class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
             <mat-option [value]="type" *ngFor="let type of instituteTypes">{{type}}
@@ -326,7 +302,51 @@
           Type of Institute is required.
         </mat-error>
 
-        <label for="facultyType" style="display: block;">{{ 'Type Of Faculty / संकाय का प्रकार' | translate }}<span
+        <label i18n for="courseSelection" style="display: block;">Course Selection / पाठ्यक्रम चयन <span
+            class="red-icon">*</span></label>
+        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+          <mat-select formControlName="courseSelection" i18n-placeholder placeholder="Course selection">
+            <mat-option [value]="course" *ngFor="let course of courseSelection">{{course}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error
+          *ngIf="preServiceForm.get('courseSelection')?.invalid && preServiceForm.get('courseSelection')?.touched">
+          Course is required.
+        </mat-error>
+      </ng-container>
+
+      <!-- Faculty Specific Fields -->
+      <ng-container *ngIf="isFaculty">
+        <label i18n for="instituteName" style="display: block;">Name of Institute / संस्थान का नाम <span
+            class="red-icon">*</span></label>
+        <div class="form-group mt-4 input-box">
+          <input autocomplete="off" pattern="^[A-Za-z][A-Za-z\s]*$" type="text" class="form-control"
+            formControlName="instituteName" placeholder="Name of Institute" i18n-placeholder
+            (change)="assignFields('institutionName', preServiceForm.controls['instituteName'].value, $event)" required>
+        </div>
+        <mat-error
+          *ngIf="preServiceForm.get('instituteName')?.hasError('required') && preServiceForm.get('instituteName')?.touched">
+          Name of Institute is required.
+        </mat-error>
+        <mat-error
+          *ngIf="preServiceForm.get('instituteName')?.hasError('pattern') && preServiceForm.get('instituteName')?.touched">
+          Name of Institute should be in English and should not start with a space.
+        </mat-error>
+
+        <label i18n for="instituteType" style="display: block;">Type of Institute / संस्थान का प्रकार <span
+            class="red-icon">*</span></label>
+        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+          <mat-select formControlName="instituteType" i18n-placeholder placeholder="Type of Institute">
+            <mat-option [value]="type" *ngFor="let type of instituteTypes">{{type}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-error *ngIf="preServiceForm.get('instituteType')?.invalid && preServiceForm.get('instituteType')?.touched">
+          Type of Institute is required.
+        </mat-error>
+
+        <label i18n for="facultyType" style="display: block;">Type Of Faculty / संकाय का प्रकार <span
             class="red-icon">*</span></label>
         <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
           <mat-select formControlName="facultyType" i18n-placeholder placeholder="Type Of Faculty">
@@ -339,7 +359,7 @@
         </mat-error>
 
         <div class="form-group">
-          <label for="hrmsId">{{ 'HRMS/Manav Sampada id' | translate }}<span class="red-icon">*</span></label>
+          <label for="hrmsId" i18n>HRMS/Manav Sampada id <span class="red-icon">*</span></label>
           <input type="text" formControlName="hrmsId" class="form-control" i18n-placeholder
             placeholder="HRMS/Manav Sampada id" autocomplete="off">
           <mat-error *ngIf="preServiceForm.get('hrmsId')?.invalid && preServiceForm.get('hrmsId')?.touched">
@@ -348,8 +368,7 @@
         </div>
 
         <div class="form-group">
-          <label for="upsmfRegistrationNumber">{{ 'UPSMF Registration number' | translate }}<span
-              class="red-icon">*</span></label>
+          <label for="upsmfRegistrationNumber" i18n>UPSMF Registration number <span class="red-icon">*</span></label>
           <input type="text" formControlName="upsmfRegistrationNumber" class="form-control" i18n-placeholder
             placeholder="UPSMF Registration number" autocomplete="off">
           <mat-error
@@ -360,7 +379,8 @@
       </ng-container>
 
       <div style="margin: 10px 0px; display: flex; justify-content: center;">
-        <button [innerHTML]="'Submit' | translate"></button>
+        <button [disabled]="isSubmitting" type="submit" (click)="onSubmitPreService()" class="save-btn"
+          i18n>Submit</button>
       </div>
     </form>
   </div>

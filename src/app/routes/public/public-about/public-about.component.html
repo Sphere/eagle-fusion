@@ -1,9 +1,7 @@
 <!-- <mat-toolbar [color]="pageNavbar?.color" [ngStyle]="pageNavbar?.styles">
   <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'About',url:'none'}] }"></ws-widget-btn-page-back> -->
 <!-- <span class="margin-left-xs text-truncate">
-      <div class="public-page-container">
-    <span class="margin-left-xs">{{ 'About' | translate }}</span>
-  </div>
+    <span i18n="page title: about" class="margin-left-xs">About</span>
   </span> -->
 <!-- </mat-toolbar> -->
 <section class="about-content leading-relaxed" *ngIf="aboutPage">
@@ -24,8 +22,9 @@
               width="100%"></iframe>
           </div>
         </div>
-        <a [innerHTML]="'Read More
-        ' | translate"></a>
+        <a mat-raised-button *ngIf="aboutPage?.banner?.moreInfo" type="button" [href]="aboutPage?.banner?.moreInfo"
+          target="_blank" color="primary">{{'Read More' | translate}}
+        </a>
       </div>
     </div>
   </div>
@@ -127,8 +126,6 @@
             <mat-icon class="assessment-icon">{{ card.icon }}</mat-icon>
 
             <h3 class="mat-title font-bold title-text pl-4">
-              {{ card.title }}
-            </h4>
               {{ card.title }}
             </h3>
           </mat-card-title>

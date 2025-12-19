@@ -35,7 +35,7 @@
     <div class="div mobile-div">
       <a class="border-btm mt-2" [class.active]="selectedIndex === 'language'"
         (click)="selectedIndex = 'language'; changeFunction('language')">
-        <div class="flex items-center">
+        <div>
           <img alt="Language Preference" src="/fusion-assets/icons/language-icon.svg" width="35" height="23" />
           <span class="options">{{ 'Language Preference' | translate }}</span>
         </div>
@@ -44,7 +44,7 @@
       </a>
       <a class="border-btm" [class.active]="selectedIndex === 'certificates'"
         (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
-        <div class="flex items-center">
+        <div>
           <img alt="My Certificates" src="/fusion-assets/icons/certificate-icon1.svg" width="35" height="23" />
           <span class="options">{{ 'My Certificates' | translate }}</span>
         </div>
@@ -53,7 +53,7 @@
       </a>
       <a class="border-btm" [class.active]="selectedIndex === 'personal'"
         (click)="selectedIndex = 'personal'; changeFunction('personal')">
-        <div class="flex items-center">
+        <div>
           <img alt="personal details" src="/fusion-assets/icons/personal-details.svg" width="35" height="18" />
           <span class="options">{{ 'Profile Details' | translate }}</span>
         </div>
@@ -62,7 +62,7 @@
       </a>
       <a class="border-btm" [class.active]="selectedIndex === 'organization'"
         (click)="selectedIndex = 'organization'; changeFunction('organization')">
-        <div class="flex items-center">
+        <div>
           <img alt="Organization details" src="/fusion-assets/icons/org-profile.svg" width="35" height="22" />
           <span class="options">{{ 'Organization Details' | translate }}</span>
         </div>
@@ -71,7 +71,7 @@
       </a>
       <a class="last-option" [class.active]="selectedIndex === 'academic'"
         (click)="selectedIndex = 'academic'; changeFunction('academic')">
-        <div class="flex items-center">
+        <div>
           <img alt="Academic details" src="/fusion-assets/icons/academic-icon.svg" width="35" height="23" />
           <span class="options">{{ 'Academic Details' | translate }}</span>
 
@@ -139,24 +139,22 @@
           (click)="storeLanguage('hi')">{{ 'हिंदी' | translate }}</button>
         <!-- <p>
             <label class="radio cursor-pointer">
-              <input type="radio" name="language" value='en' formControlName="language"><span [innerHTML]="'English
-              ' | translate"></span>
+              <input type="radio" name="language" value='en' formControlName="language"><span style="margin-left:5px">{{ 'English' | translate }}</span>
             </label>
           </p> -->
         <!-- <label class="radio-inline cursor-pointer">
-            <input type="radio" name="language" value='hi' formControlName="language"><span [innerHTML]="'Hindi
-            ' | translate"></span>
+            <input type="radio" name="language" value='hi' formControlName="language"><span style=" margin-left:5px">{{ 'हिंदी' | translate }}</span>
           </label> -->
       </div>
-      <!-- <button [innerHTML]="'Save' | translate"></button> -->
+      <!-- <button type="submit" class="save-btn" (click)="saveLanguage(userForm)" i18n>Save</button> -->
       <!-- </form> -->
       <!-- <p class="head-2">{{userProfileData?.professionalDetails[0].designation}}</p> -->
     </div>
     <!-- <div class="d-flex gap-3">
-      <button [innerHTML]="'Edit
-      ' | translate"></button> -->
-    <!-- <button [innerHTML]="'Share
-    ' | translate"></button> -->
+      <!-- <button class="edit-button" (click)="personalDetailEdit()">{{ 'Edit' | translate }}
+      </button> -->
+    <!-- <button class="edit-button" (click)="personalDetailEdit()" i18n>Share
+    </button> -->
     <!-- </div> -->
     <div class="div">
       <a [class.active]="selectedIndex === 'personal'" (click)="selectedIndex = 'personal'; changeFunction('personal')">
@@ -198,7 +196,9 @@
       <!-- <div class="mt-3">
         <p class="text-xl inline-block header2">{{ 'About' | translate }}</p>
         <span class="spacer"></span>
-        <span matTooltip="Edit your About detail" class="cursor-pointer" i18n-matTooltip (click)="openAboutDialog()">
+        <span matTooltip="Edit your About detail" class="cursor-pointer" [matTooltip]="'Edit your About detail' | translate" (click)="openAboutDialog()">
+          <mat-icon class="float-right edit-pencil">edit</mat-icon>
+        </span>
           <mat-icon class="float-right edit-pencil">edit</mat-icon>
         </span>
       </div> -->
@@ -218,9 +218,9 @@
 
     <!-- About Section -->
     <!-- <div class="mt-3">
-      <p [innerHTML]="'About' | translate"></p>
+      <p class="text-xl inline-block header2">{{ 'About' | translate }}</p>
       <span class="spacer"></span>
-      <span matTooltip="Edit your About detail" class="cursor-pointer" i18n-matTooltip (click)="openAboutDialog()">
+      <span [matTooltip]="'Edit your About detail' | translate" class="cursor-pointer" (click)="openAboutDialog()">
         <mat-icon class="float-right edit-pencil">edit</mat-icon>
       </span>
       <p *ngIf="userProfileData?.personalDetails.about">{{userProfileData?.personalDetails.about}}</p>
@@ -233,7 +233,7 @@
     <!-- Education Section -->
     <!-- <div class="mt-3">
       <div>
-        <p class="text-xl inline-block header2">{{ 'Education' | translate }}</p>
+        <p class="text-xl inline-block header2" i18n>Education</p>
         <span class="cursor-pointer" i18n-matTooltip matTooltip="Edit your Education detail" (click)="eductionEdit()">
           <mat-icon class="float-right edit-pencil">edit</mat-icon>
         </span>
@@ -255,7 +255,7 @@
     <!-- Work Info Section -->
     <!-- <div class="mt-3 mb-4">
       <div>
-        <p class="text-xl header2 inline-block">{{ 'Work Info' | translate }}</p>
+        <p class="text-xl header2 inline-block" i18n>Work Info</p>
         <span class="cursor-pointer" i18n-matTooltip matTooltip="Edit your Work info detail" (click)="workInfoEdit()">
           <mat-icon class="float-right edit-pencil">edit</mat-icon>
         </span>
@@ -273,7 +273,7 @@
     </div> -->
     <!-- <a *ngIf="!showLogOutIcon" href="javascript:void(0)" mat-menu-item role="link" (click)="logout()" class="log-o"> -->
     <!-- <mat-icon>power_settings_new</mat-icon>&nbsp; -->
-    <!-- <span [innerHTML]="'Logout' | translate"></span>
+    <!-- <span i18n>Logout</span>
     </a> -->
 
   </div>
@@ -304,20 +304,18 @@
       [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
-      <h4 style="font-weight: 400; font-size: 1.5rem;">{{ 'Language Preference' | translate }}</h4>
+      <h4 style="    font-size: 1.5rem;">{{ 'Language Preference' | translate }}</h4>
       <form [formGroup]="userForm">
         <div class="form-group">
           <p>
             <label class="radio cursor-pointer">
               <input type="radio" name="language" value='en' formControlName="language"><span style="margin-left:5px">{{
-                'English' | translate }}
-              </span>
+                'English' | translate }}</span>
             </label>
           </p>
           <label class="radio-inline cursor-pointer">
             <input type="radio" name="language" value='hi' formControlName="language"><span style=" margin-left:5px">{{
-              'हिंदी' | translate }}
-            </span>
+              'हिंदी' | translate }}</span>
           </label>
         </div>
         <button type="submit" class="save-btn" (click)="saveLanguage(userForm)">{{ 'Save' | translate }}</button>
@@ -328,8 +326,7 @@
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
       <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">{{ 'My Certificates' |
-        translate }}
-      </p>
+        translate }}</p>
       <div *ngFor="let certificate of certificates">
         <ng-container *ngIf="certificates && certificates.length > 0">
           <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>

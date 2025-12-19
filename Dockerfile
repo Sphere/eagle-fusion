@@ -13,35 +13,30 @@ RUN npm install -g @angular/cli@16.2.16
 # Ensure @angular/localize is installed for i18n support
 RUN yarn add @angular/localize@16.2.12
 
-# Install project dependencies (using yarn instead of npm to keep the build consistent)
+# Install project dependencies (using yarn)
 RUN yarn install
 
 # Install specific packages (moment and vis-util)
 RUN yarn add moment vis-util
 
 # Build the project for production
-RUN ng build --configuration production --output-path=dist/www/en --base-href=/ --localize=false
-
-# Build for Hindi locale
-RUN ng build --configuration production --output-path=dist/www/hi --base-href=/hi/ --localize=false
+RUN ng build --configuration production --output-path=dist/www --base-href=/ --localize=false
 
 # Run the compression script (make sure it exists in your package.json)
-RUN npm run compress:brotli
+RUN yarn run compress:brotli
 # Uncomment if you need gzip compression
-# RUN npm run compress:gzip
+# RUN yarn run compress:gzip
 
 # Change working directory to the dist folder where the build output resides
 WORKDIR /app/dist
 
-# Copy client assets into the build output directories
-COPY assets/iGOT/client-assets/dist www/en/assets
-COPY assets/iGOT/client-assets/dist www/hi/assets
+# Copy client assets into the build output directory
+COPY assets/iGOT/client-assets/dist www/assets
 
 # Install production dependencies in the dist folder (for server-side execution)
-RUN npm install --production
-
+RUN yarn install --production
 # Expose port for the app
 EXPOSE 3004
 
 # Run the application (make sure 'serve:prod' exists in your package.json)
-CMD ["npm", "run", "serve:prod"]
+CMD ["yarn", "run", "serve:prod"]

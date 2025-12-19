@@ -1,23 +1,23 @@
 <div style="background-image:url('/fusion-assets/images/Group-people.png')" *ngIf="!createAcc"
   class="flex footer-container">
-  <div [innerHTML]="'
-    Transform your Healthcare career through Sphere!
-  ' | translate"></div>
-  <button [innerHTML]="'Start Today' | translate"></button>
+  <div class="transform-header">
+    {{ 'Transform your Healthcare career through Sphere!' | translate }}
+  </div>
+  <button (click)="createAcct()" class="start-today-button">{{ 'Start Today' | translate }}</button>
 </div>
 <div class="flex-container">
   <div class="part-a-partner center-partner">
-    <div [innerHTML]="'
-      An initiative of
-    ' | translate"></div>
+    <div class="text-partners">
+      {{ 'An initiative of' | translate }}
+    </div>
     <div class="flex-prop">
       <img class="part-a-img" src="/fusion-assets/icons/nike.png" alt="Card image cap">
     </div>
   </div>
   <div class="part-b-partner center-partner">
-    <div [innerHTML]="'
-      A collaboration with
-    ' | translate"></div>
+    <div class="text-partners">
+      {{ 'A collaboration with' | translate }}
+    </div>
     <div class="flex-prop">
       <img class="part-b-img" src="/fusion-assets/icons/sci.png" alt="Card image cap">
     </div>
@@ -27,20 +27,20 @@
 <div class="flex flex-column ">
   <img class="footer-logo" src="/fusion-assets/images/sphere-new-logo.svg">
   <div class="flex flex-column link-container">
-    <a [innerHTML]="'Quick Links' | translate"></a>
-    <a [innerHTML]="'Privacy policy ' | translate"></a>
-    <a [innerHTML]="'Terms of use' | translate"></a>
-    <!-- <hr class="new1"> -->
-    <a [innerHTML]="'Help and Contact' | translate"></a>
+    <a class="footer-heading">{{ 'Quick Links' | translate }}</a>
+    <a class="link-text" routerLink="/public/tnc" [queryParams]="{panel: 'dp'}">{{ 'Privacy policy ' | translate }}</a>
+    <a class="link-text" routerLink="/public/tnc" [queryParams]="{panel: 'tnc'}">{{ 'Terms of use' | translate }}</a>
+    <hr class="new1">
+    <a class="footer-heading">{{ 'Help and Contact' | translate }}</a>
     <a class="link-text" href="mailto:support@aastrika.org">support@aastrika.org</a>
     <a class="whatsapp-logo-container" href="https://wa.me/919632013414?text=Hi" target="_blank">
       <img class="fa fa-whatsapp whatsapp-logo" src="/fusion-assets/icons/whatsapp.png" />
-      Talk to us on WhatAapp
+      {{ 'Talk to us on WhatAapp' | translate }}
     </a>
-    <!-- <hr class="new1"> -->
+    <hr class="new1">
     <div class="flex flex-column">
-      <span [innerHTML]="'Additional Links' | translate"></span>
-      <div class="foundation-link"> <span [innerHTML]="'Aastrika Foundation ' | translate"></span> : <a target="_blank"
+      <span class="footer-heading">{{ 'Additional Links' | translate }}</span>
+      <div class="foundation-link"> <span>{{ 'Aastrika Foundation ' | translate }}</span> : <a target="_blank"
           class="foundation-text" href="https://www.aastrika.org/">
           https://www.aastrika.org/
         </a></div>
@@ -62,8 +62,8 @@
     </div>
     <div class="footer-text-container">
       <div class="footer-text">
-        &copy; <span [innerHTML]="'2024' | translate"></span>
-        <span [innerHTML]="'AastarUrmika Health Systems (&quot;Aastrika Foundation&quot;) ' | translate"></span>
+        &copy; <span style="margin-right: 3px;">{{ '2024' | translate }}</span>
+        <span>{{ 'AastarUrmika Health Systems ("Aastrika Foundation") ' | translate }}</span>
       </div>
     </div>
   </div>

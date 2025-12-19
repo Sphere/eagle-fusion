@@ -6,23 +6,24 @@
           <mat-icon>chevron_left</mat-icon>
         </button>
       </div>
-      <div (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn"><span [innerHTML]="'Help' | translate"></span>
+      <div (click)="help()" (keydown)="handleKeyDown($event)" class="help-btn"><span>{{ 'Help' | translate }}</span>
         <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
       </div>
     </div>
 
     <div class="login-card">
-      <div class="check-email-text"><span [innerHTML]="'Check your ' | translate"></span> <span [innerHTML]="'Email' | translate"></span>
-        <span [innerHTML]="'SMS' | translate"></span>!
+      <div class="check-email-text"><span>{{ 'Check your' | translate }} </span> <span *ngIf="emailPhoneType === 'email'"
+          >{{ 'Email' | translate }}</span>
+        <span *ngIf="emailPhoneType === 'phone'">{{ 'SMS' | translate }}</span>!
       </div>
-      <div class="enter-code-text mt-2 mb-4"><span [innerHTML]="'We have sent an OTP to ' | translate"></span><span class="text-dark"
-         >{{signUpdata.value.emailOrMobile}}</span>
+      <div class="enter-code-text mt-2 mb-4"><span>{{ 'We have sent an OTP to' | translate }} </span><span class="text-dark"
+          >{{signUpdata.value.emailOrMobile}}</span>
       </div>
       <div class="img-box">
         <img class="otp-image" alt="" src="../../../fusion-assets/images/Frame150.svg">
       </div>
       <div class="login-timer">
-        <span [innerHTML]="'OTP expires in' | translate"></span>&nbsp;<span class="login-timer-count"
+        <span class="login-timer-text">{{ 'OTP expires in' | translate }}</span>&nbsp;<span class="login-timer-count"
           [ngClass]="{ 'red-text': isBelowOneMinute }">{{resendTimerText}}</span>&nbsp;minutes
       </div>
 
@@ -43,16 +44,22 @@
               </div>
               <div *ngIf="emailPhoneType === 'email'" [formGroup]="loginOtpForm" class="otp-input-container">
                 <input tabindex="1" id="code" class="form-control input-box" formControlName="code" type="text"
-                  i18n-placeholder autocomplete="off" placeholder="{{emailPhoneType === 'email'? 'Code' : 'OTP'}}">
+                  autocomplete="off" [placeholder]="emailPhoneType === 'email' ? ('Code' | translate) : ('OTP' | translate)">
               </div>
             </div>
             <div class="form-group mt-4 mb-4 activeLink">
-              <span [innerHTML]="'Did not receive a ' | translate"></span><span [innerHTML]="' OTP? ' | translate"></span>
-              <span [innerHTML]="' Click Here ' | translate"></span><span [innerHTML]="'to resend' | translate"></span>
+              <span>{{ 'Did not receive a' | translate }} </span><span>{{ 'OTP?' | translate }}</span>
+              <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)">{{ 'Click Here' | translate }} </span><span
+                >{{ 'to resend' | translate }}</span>
             </div>
-            <div class="form-group-button">
-              <button [innerHTML]="'Next' | translate"></button>
-            </div>
+            <span *ngIf="!loginVerification">
+              <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
+                type="submit" (click)="verifyOtp()">{{ 'Next' | translate }}</button>
+            </span>
+            <span *ngIf="loginVerification">
+              <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
+                type="submit" (click)="loginVerifyOtp()">{{ 'Next' | translate }}</button>
+            </span>
           </form>
         </div>
       </div>
