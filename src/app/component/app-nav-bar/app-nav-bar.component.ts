@@ -13,6 +13,7 @@ import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
 import { appNavBarService } from './app-nav-bar.service'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -57,6 +58,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showNavLinkPage = true
   langPresent: boolean = false
   domain!: string
+  orgData: any
+  menuItems: any[] = []
 
   constructor(
     private domSanitizer: DomSanitizer,
@@ -67,7 +70,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private valueSvc: ValueService,
     public dialog: MatDialog,
     //location: Location,
-    public navOption: appNavBarService
+    public navOption: appNavBarService,
+    private playlistSvc: PlaylistService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
@@ -93,6 +97,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.cancelTour()
       }
     })
+
+    let configData = this.playlistSvc.getPlaylistData()
+    console.log('********* playlist data in nav bar ', configData)
+    this.orgData = configData.orgData
+    this.menuItems = configData.LAYOUT_HEADER.menuItems
     // Header view
   }
 
@@ -133,11 +142,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.instanceConfig) {
       if (localStorage.getItem('orgValue') === 'nhsrc') {
         this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          '/fusion-assets/images/sphere-new-logo.svg',
+          this.orgData.foundationLogo,
         )
       } else {
         this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          '/fusion-assets/images/sphere-new-logo.svg',
+          this.orgData.foundationLogo,
         )
       }
       this.instanceVal = this.configSvc.rootOrg || ''
@@ -167,7 +176,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
       this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
-      this.orgLogo = this.configSvc.hostedInfo?.logo
+      this.orgLogo = this.orgData.orgLogo
     }
   }
 

@@ -1,29 +1,29 @@
 <div class="link-container"
   *ngIf="data!.profileDetails!.profileReq!.personalDetails!.tncAccepted || data!.profileDetails!.profileReq!.personalDetails!.dob">
-  <div class="link-block">
-    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showHome }" (click)="redirect('home')" active
+  <div class="link-block" *ngFor="let item of menuItems">
+    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': item.show }" (click)="redirect(item)" active
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
-      <span class="link-text">{{ 'Home' | translate }}</span>
+      <span class="link-text" i18n>{{item.title | translate}}</span>
     </a>
   </div>
-  <div class="link-block">
+  <!-- <div class="link-block">
     <a role="button" matRipple (click)="redirect('mycourses')" [ngClass]="{'ws-mat-accent-text': mycourses }" active
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
-      <span class="link-text">{{ 'My Courses' | translate }}</span>
+      <span class="link-text" i18n>My Courses</span>
     </a>
   </div>
   <div class="link-block">
     <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showCompetency }" (click)="redirect('competency')"
       active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
-      <span class="link-text">{{ 'Competency' | translate }}</span>
+      <span class="link-text" i18n>Competency</span>
     </a>
   </div>
   <div class="link-block">
     <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': showProfile }" (click)="redirect('account')" active
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
-      <span class="link-text">{{ 'Account' | translate }}</span>
+      <span class="link-text" i18n>Account</span>
     </a>
-  </div>
+  </div> -->
   <div class="link-block">
     <button (keydown)="handleKeyDown($event)" (click)="redirect('notification')" matRipple
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer bg-transparent border-0">

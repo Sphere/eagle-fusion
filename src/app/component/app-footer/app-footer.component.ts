@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
-import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
+import { SafeUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   selector: 'ws-app-footer',
@@ -16,28 +17,33 @@ export class AppFooterComponent implements OnInit {
   isMedium = false
   currentYear = new Date().getFullYear()
   isLoggedIn = false
-
+  configData: any
+  orgData: any = {}
   constructor(
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
-    private domSanitizer: DomSanitizer,
-    private readonly router: Router
+    private readonly router: Router,
+    private playlistSvc: PlaylistService
   ) {
     this.isLoggedIn = !!this.configSvc.userProfile
     this.termsOfUser = !this.configSvc.restrictedFeatures?.has('termsOfUser')
-    if (this.configSvc.instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.app
-      )
-    }
-
+    // if (this.configSvc.instanceConfig) {
+    //   this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
+    //     this.configSvc.instanceConfig.logos.app
+    //   )
+    // }
+    let res = this.playlistSvc.getPlaylistData()
+    console.log('********* playlist data in nav bar ', res)
+    this.configData = res.LAYOUT_FOOTER
+    this.orgData = res.orgData
+    this.appIcon = this.orgData?.foundationLogo
   }
 
   ngOnInit() {
     if (this.isEkshamata) {
       this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
-    } else {
-      this.appIcon = '/fusion-assets/images/sphere-new-logo.svg'
+      // } else {
+      //   this.appIcon = '/fusion-assets/images/sphere-new-logo.svg'
     }
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
