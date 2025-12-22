@@ -542,20 +542,28 @@ export class SCORMAdapterService {
               this.telemetrySvc.start('scorm', 'scorm-start', 'player', object)
               if (this.activatedRoute.snapshot.queryParams.collectionId) {
                 let data2: any = {
-                  courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-                    this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
-                  contentId: this.contentId,
-                  name: this.htmlName,
-                  moduleId: this.parent,
-                  duration: this.scormData["cmi.core.session_time"],
+                  id: this.contentId,
                   type: 'scrom',
-                  mode: 'scrom-play',
+                  version: "",
                   "rollup": {
                     "l1": this.activatedRoute.snapshot.queryParams.collectionId,
                     "l2": this.contentId
                   }
                 }
-                this.telemetrySvc.end('scorm', 'scorm-close', 'player', data2)
+                const extras: any = {
+                  values: [{
+                    courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+                      this.activatedRoute.snapshot.queryParams.collectionId : this.contentId,
+                    contentId: this.contentId,
+                    name: this.htmlName,
+                    moduleId: this.parent,
+                    duration: this.scormData["cmi.core.session_time"],
+                    type: 'scrom',
+                    mode: 'scrom-play',
+
+                  }]
+                }
+                this.telemetrySvc.end('scorm', 'scorm-close', 'player', data2, extras)
               }
             }
             console.log(this.scormData, 'scormdata', postData)

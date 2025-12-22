@@ -38,7 +38,7 @@ export class AppTocHomeComponent implements OnInit {
     if (courseId[0] === 'lex') {
       this.http.get(this.mappingUrl).subscribe((course: any) => {
         const courseNewId = course.find((data: { EagleID: string }) => data.EagleID === urlParams[3]).SunbirdID
-        this.telemetrySvc.impression('pageloaded', 'course-details', 'app-toc-overview', { id: courseNewId, type: 'course' })
+        this.telemetrySvc.impression('pageloaded', 'course-details', 'app-toc-overview', { id: courseNewId, type: 'course', version: "", rollup: {} })
         location.href = `/app/toc/${courseNewId}/overview`
       })
     }

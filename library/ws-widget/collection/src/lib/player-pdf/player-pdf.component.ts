@@ -261,16 +261,23 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       const percent = parseFloat(percentMilis.toFixed(2))
       if (this.contentData && percent >= this.contentData.completionPercentage) {
         const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-          contentId: this.widgetData.identifier,
-          name: this.viewerDataSvc.resource!.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          "id": this.widgetData.identifier,
+          "type": "application/pdf",
+          "version": "",
           "rollup": {
             "l1": collectionId,
             "l2": id
           }
         }
-        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1)
+        const extras: any = {
+          values: [{
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+            contentId: this.widgetData.identifier,
+            name: this.viewerDataSvc.resource!.name,
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          }]
+        }
+        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
@@ -284,16 +291,23 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       }
       if (this.contentData === undefined && percent > 0) {
         const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-          contentId: this.widgetData.identifier,
-          name: this.viewerDataSvc.resource!.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          "id": this.widgetData.identifier,
+          "type": "application/pdf",
+          "version": "",
           "rollup": {
             "l1": collectionId,
             "l2": id
           }
         }
-        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1)
+        const extras: any = {
+          values: [{
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+            contentId: this.widgetData.identifier,
+            name: this.viewerDataSvc.resource!.name,
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          }]
+        }
+        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
 
         this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
           const result = data.result
@@ -307,16 +321,23 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       }
       if (this.contentData && percent > 95) {
         const data1: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-          contentId: this.widgetData.identifier,
-          name: this.viewerDataSvc.resource!.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          "id": this.widgetData.identifier,
+          "type": "application/pdf",
+          "version": "",
           "rollup": {
             "l1": collectionId,
             "l2": id
           }
         }
-        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1)
+        const extras: any = {
+          values: [{
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+            contentId: this.widgetData.identifier,
+            name: this.viewerDataSvc.resource!.name,
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          }]
+        }
+        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
       }
     }
     return

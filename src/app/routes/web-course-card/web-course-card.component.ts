@@ -133,7 +133,7 @@ export class WebCourseCardComponent implements OnInit {
 
 
   redirectPage(course: any) {
-    this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course' })
+    this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course', version: "", rollup: { l1: course.identifier } })
     const prefix = this.getLanguagePrefix()
     if (this.isLoggedIn) {
       console.log('yes here')
