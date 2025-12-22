@@ -323,7 +323,14 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     event.preventDefault()
     event.stopPropagation()
     this.events.raiseInteractTelemetry('btn-clicked', 'pin', 'feature', {
-      featureId,
+      id: featureId,
+      type: "",
+      version: "",
+      rollup: {}
+    }, {
+      values: [{
+        id: featureId
+      }]
     })
     this.configurationsSvc.pinnedApps.pipe(take(1)).subscribe(pinnedApps => {
       const newPinnedApps = new Set(pinnedApps)

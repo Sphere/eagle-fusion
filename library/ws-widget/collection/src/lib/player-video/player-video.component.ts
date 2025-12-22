@@ -416,16 +416,23 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           const data1: any = {
-            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-            contentId: this.widgetData.identifier,
-            name: this.viewerDataSvc.resource!.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+            "id": this.widgetData.identifier,
+            "type": "video/mp4",
+            "version": "",
             "rollup": {
               "l1": collectionId,
               "l2": identifier
             }
           }
-          this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
+          const extras: any = {
+            values: [{
+              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+              contentId: this.widgetData.identifier,
+              name: this.viewerDataSvc.resource!.name,
+              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+            }]
+          }
+          this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1, extras)
 
           if (this.contentData && percent >= this.contentData.completionPercentage) {
             if (this.widgetData.identifier && identifier && data) {
@@ -446,16 +453,23 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
           if (this.contentData === undefined && percent > 95) {
             const data1: any = {
-              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-              contentId: this.widgetData.identifier,
-              name: this.viewerDataSvc.resource!.name,
-              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+              "id": this.widgetData.identifier,
+              "type": "video/mp4",
+              "version": "",
               "rollup": {
                 "l1": collectionId,
                 "l2": identifier
               }
             }
-            this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
+            const extras: any = {
+              values: [{
+                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+                contentId: this.widgetData.identifier,
+                name: this.viewerDataSvc.resource!.name,
+                moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+              }]
+            }
+            this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1, extras)
 
             this.viewerSvc
               .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
@@ -472,16 +486,23 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           } else {
             if (this.contentData && this.contentData.completionPercentage && percent > 95) {
               const data1: any = {
-                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-                contentId: this.widgetData.identifier,
-                name: this.viewerDataSvc.resource!.name,
-                moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+                "id": this.widgetData.identifier,
+                "type": "video/mp4",
+                "version": "",
                 "rollup": {
                   "l1": collectionId,
                   "l2": identifier
                 }
               }
-              this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
+              const extras: any = {
+                values: [{
+                  courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+                  contentId: this.widgetData.identifier,
+                  name: this.viewerDataSvc.resource!.name,
+                  moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+                }]
+              }
+              this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1, extras)
 
               this.viewerSvc
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {

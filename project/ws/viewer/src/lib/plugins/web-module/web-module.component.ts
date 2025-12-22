@@ -231,8 +231,11 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
   raiseTelemetry(action: string, event: string) {
     if (this.widgetData.identifier) {
       this.events.raiseInteractTelemetry('btn-clicked', action, event, {
-        contentId: this.widgetData.identifier,
-      })
+        id: this.widgetData.identifier,
+        type: "",
+        version: "",
+        rollup: {}
+      }, { values: [{ contentId: this.widgetData.identifier, }] })
     }
     if (event === 'scroll') {
       this.isScrolled = false
