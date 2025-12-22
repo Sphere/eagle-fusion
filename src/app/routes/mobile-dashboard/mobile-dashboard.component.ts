@@ -294,6 +294,17 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.coursesForUP = myCourse
+
+    if (this.coursesForUP.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   private fetchCourseRecommendations() {
     if (this.configSvc.unMappedUser?.profileDetails?.profileReq?.professionalDetails) {
@@ -338,8 +349,19 @@ export class MobileDashboardComponent implements OnInit {
       myCourse.push(myCourseObject)
 
     })
-
+    console.log("myCourse", myCourse)
     this.coursesForYou = myCourse
+
+    if (this.coursesForYou.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   setCompetencyConfig(data: any) {
     if (data) {

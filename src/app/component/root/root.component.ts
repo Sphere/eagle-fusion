@@ -330,7 +330,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     if (this.configSvc.userProfile) {
-      this.getConnectToSocket()
+      // this.getConnectToSocket()
       this.userId = this.configSvc.userProfile.userId || ''
       console.log("this.configSvc.userProfile: ", this.configSvc.userProfile)
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {

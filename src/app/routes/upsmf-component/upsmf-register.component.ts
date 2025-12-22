@@ -19,10 +19,12 @@ export class UpsmfRegisterComponent implements OnInit {
   // Form groups
   anmRegistrationForm: FormGroup
   preServiceForm: FormGroup
+  medicalOfficerForm: FormGroup
 
   // Service type flags
   isInService = false
   isPreService = false
+  isMedicalOfficerUP = false
 
   // Role flags for pre-service
   isStudent = false
@@ -69,6 +71,7 @@ export class UpsmfRegisterComponent implements OnInit {
   ) {
     this.anmRegistrationForm = this.createInServiceFormGroup()
     this.preServiceForm = this.createPreServiceFormGroup()
+    this.medicalOfficerForm = this.createMedicalOfficerFormGroup()
   }
 
   ngOnInit(): void {
@@ -78,13 +81,20 @@ export class UpsmfRegisterComponent implements OnInit {
       if (service === 'inservice') {
         this.isInService = true
         this.isPreService = false
+        this.isMedicalOfficerUP = false
       } else if (service === 'preservice') {
         this.isPreService = true
         this.isInService = false
+        this.isMedicalOfficerUP = false
+      } else if (service === 'medicalofficerup') {
+        this.isMedicalOfficerUP = true
+        this.isInService = false
+        this.isPreService = false
       } else {
         // Default to in-service if no valid parameter
         this.isInService = true
         this.isPreService = false
+        this.isMedicalOfficerUP = false
       }
     })
 
@@ -143,6 +153,26 @@ export class UpsmfRegisterComponent implements OnInit {
       facultyType: new FormControl(''),
       hrmsId: new FormControl(''),
       upsmfRegistrationNumber: new FormControl('')
+    })
+  }
+
+  private createMedicalOfficerFormGroup(): FormGroup {
+    return this.formBuilder.group({
+      hrmsId: new FormControl('', [Validators.required]),
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+      ]),
+      role: new FormControl('', []),
+      phone: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]),
+      district: new FormControl('', [Validators.required]),
+      dob: new FormControl('', [Validators.required]),
+      dateOfJoining: new FormControl('', [Validators.required]),
+      seniorityNumber: new FormControl('', [])
     })
   }
 
@@ -249,6 +279,16 @@ export class UpsmfRegisterComponent implements OnInit {
       this.preServiceForm.get('dob')?.setValue(dobValue)
       this.preServiceForm.get('dob')?.updateValueAndValidity()
     }
+  }
+
+  onMedicalOfficerDobChange(dobValue: string): void {
+    this.medicalOfficerForm.get('dob')?.setValue(dobValue)
+    this.medicalOfficerForm.get('dob')?.updateValueAndValidity()
+  }
+
+  onDateOfJoiningChange(dateValue: string): void {
+    this.medicalOfficerForm.get('dateOfJoining')?.setValue(dateValue)
+    this.medicalOfficerForm.get('dateOfJoining')?.updateValueAndValidity()
   }
 
   onDistrictChange(selectedDistrict: string): void {
@@ -418,6 +458,32 @@ export class UpsmfRegisterComponent implements OnInit {
     }
   }
 
+  onSubmitMedicalOfficer(): void {
+    this.medicalOfficerForm.markAllAsTouched()
+
+    if (this.medicalOfficerForm.valid) {
+      this.loader.changeLoad.next(true)
+      this.isSubmitting = true
+
+      const phone = { phone: this.medicalOfficerForm.value.phone }
+      this.userProfileSvc.upsmfSendOtp(phone).subscribe(
+        (res: any) => {
+          if (res.status === 'success') {
+            this.otpPage = true
+            this.openSnackbar(res.message)
+          }
+        },
+        (error) => {
+          this.isSubmitting = false
+          this.loader.changeLoad.next(false)
+          this.openSnackbar(error.error.message)
+        }
+      )
+    } else {
+      this.handleFormErrors(this.preServiceForm)
+    }
+  }
+
   private handleFormErrors(formGroup: FormGroup): void {
     const missingFields: string[] = []
 
@@ -456,7 +522,9 @@ export class UpsmfRegisterComponent implements OnInit {
       instituteType: 'Type of Institute',
       courseSelection: 'Course Selection',
       facultyType: 'Type of Faculty',
-      upsmfRegistrationNumber: 'UPSMF Registration Number'
+      upsmfRegistrationNumber: 'UPSMF Registration Number',
+      dateOfJoining: 'Date of Joining',
+      seniorityNumber: 'Seniority Number'
     }
 
     return fieldNames[fieldName] || fieldName
@@ -469,8 +537,9 @@ export class UpsmfRegisterComponent implements OnInit {
       this.anmRegistrationForm.get('facilityName')?.setValue(this.anmRegistrationForm.value.facilityName.name)
       this.anmRegistrationForm.get('facilityCode')?.setValue(String(code))
     }
+
     // Determine which form data to use
-    const currentForm = this.isInService ? this.anmRegistrationForm : this.preServiceForm
+    const currentForm = this.isInService ? this.anmRegistrationForm : (this.isPreService ? this.preServiceForm : this.medicalOfficerForm)
     const formValues = {
       ...currentForm.value,
       phone: +currentForm.value.phone
@@ -480,6 +549,8 @@ export class UpsmfRegisterComponent implements OnInit {
     if (this.isPreService) {
       formValues.serviceType = this.isStudent ? 'Student' : 'Faculty'
       formValues.role = formValues.serviceType
+    } else if (this.isMedicalOfficerUP) {
+      formValues.role = 'Medical Officer-UP'
     }
 
     const reqUpdate = {
@@ -517,6 +588,9 @@ export class UpsmfRegisterComponent implements OnInit {
       this.preServiceForm = this.createPreServiceFormGroup()
       this.isStudent = false
       this.isFaculty = false
+    } else if (this.isMedicalOfficerUP) {
+      this.medicalOfficerForm.reset()
+      this.medicalOfficerForm = this.createMedicalOfficerFormGroup()
     }
 
     this.otpPage = false
