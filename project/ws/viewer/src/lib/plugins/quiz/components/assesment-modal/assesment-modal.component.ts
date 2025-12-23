@@ -81,7 +81,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit() {
     console.log(this.assesmentdata)
     this.telemetrySvc.getTelemetryConfig()
-    this.telemetrySvc.impression('assessment-page-loaded', 'popup-details', 'assessment-modal', { id: this.assesmentdata.generalData.identifier, type: 'assessment', version: "", rollup: { l1: this.assesmentdata.generalData.identifier } })
+    this.telemetrySvc.impression('assessment-page-loaded', 'popup-details', 'assessment-modal', { id: this.assesmentdata.generalData.identifier, type: 'application/json', version: "", rollup: { l1: this.assesmentdata.generalData.identifier } })
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)
@@ -96,7 +96,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   ngAfterViewInit() {
     let object = {
       "id": this.assesmentdata.generalData.identifier,
-      "type": "assessment",
+      "type": "application/json",
       "version": "",
       "rollup": {
         "l1": this.assesmentdata.generalData.collectionId,
@@ -120,7 +120,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
     const data: any = {
       id: this.assesmentdata.generalData.identifier,
-      type: "Assessment",
+      type: "application/json",
       version: "",
       "rollup": {
         "l1": this.assesmentdata.generalData.collectionId,
@@ -182,7 +182,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           if (this.timeLeft < 0) {
             const data: any = {
               id: this.assesmentdata.generalData.identifier,
-              type: "Assessment",
+              type: "application/json",
               version: "",
               "rollup": {
                 "l1": this.assesmentdata.generalData.collectionId,
@@ -239,7 +239,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   ) {
     const value = new Map()
     value["id"] = this.assesmentdata?.generalData?.identifier
-    value["type"] = "Assessment"
+    value["type"] = "application/json"
     value["version"] = ""
     value["rollup"] = { l1: this.assesmentdata?.generalData?.collectionId, l2: this.assesmentdata?.generalData?.identifier }
     const extras: any = {
@@ -307,7 +307,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       (res: NSQuiz.IQuizSubmitResponse) => {
         const data: any = {
           id: this.assesmentdata.generalData.identifier,
-          type: "Assessment",
+          type: "application/json",
           version: "",
           "rollup": {
             "l1": this.assesmentdata.generalData.collectionId,
@@ -601,11 +601,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       if (!isNull(data.nextResource)) {
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
           const result = data.result
-          result['type'] = 'assessment'
+          result['type'] = 'application/json'
           const res = data["result"]["contentList"].find(
             (obj: any) => obj.contentId === data.nextContentId
           )
-          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'assessment' })
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/json' })
           this.contentSvc.changeMessage(result)
         })
 

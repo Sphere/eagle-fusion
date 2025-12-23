@@ -59,7 +59,7 @@ export class PlayerNavigationWidgetComponent implements OnInit {
   generateInteractTelemetry(status, identifier?) {
     const value = new Map()
     value['id'] = identifier
-    value['type'] = "Assessment"
+    value['type'] = "application/json"
     value['version'] = ""
     value["rollup"] = { l1: identifier, l2: identifier }
     this.events.raiseInteractTelemetry(
