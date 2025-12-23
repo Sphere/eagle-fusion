@@ -10,6 +10,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { WidgetContentService } from '@ws-widget/collection'
 // import { environment } from 'src/environments/environment'
 import { catchError, switchMap } from 'rxjs/operators'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   selector: 'ws-web-public-container',
@@ -43,6 +44,7 @@ export class WebPublicComponent implements OnInit {
   CNECourseDisplayConfig: any
   @Input() isEkshamata: any
   isUpLogin: boolean = false
+  configData: any
   constructor(
     private router: Router,
     private http: HttpClient,
@@ -51,11 +53,14 @@ export class WebPublicComponent implements OnInit {
     public scrollService: ScrollService,
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
+    private playlistSvc: PlaylistService
     // private elementRef: ElementRef
   ) {
   }
 
   async ngOnInit() {
+    let res = this.playlistSvc.getHomeConfig()
+    this.configData = res.slice(1, -1)
     // Set up user enrolled display configurations
     this.setUserEnrolledDisplayConfig()
     if (this.isEkshamata) {

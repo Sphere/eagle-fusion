@@ -98,10 +98,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       }
     })
 
-    let configData = this.playlistSvc.getPlaylistData()
-    console.log('********* playlist data in nav bar ', configData)
-    this.orgData = configData.orgData
-    this.menuItems = configData.LAYOUT_HEADER.menuItems
+    this.orgData = this.playlistSvc.getOrgDetails()
+    let config = this.playlistSvc.getHeaderConfig()
+    this.menuItems = config.menuItems
     // Header view
   }
 

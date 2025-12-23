@@ -5,6 +5,7 @@ import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import * as _ from 'lodash'
+import { PlaylistService } from '../../services/playlist.service'
 @Component({
   selector: 'ws-web-dashboard',
   templateUrl: './web-dashboard.component.html',
@@ -26,22 +27,7 @@ export class WebDashboardComponent implements OnInit {
   preferedLanguage: any = { id: 'en', lang: 'English' }
   userData: any
   @Input() isEkshamata: any
-  dataCarousel: any = [
-    {
-      "title": "Check out courses with CNE Hours",
-      "titleHi": "सीएनई आवर्स के साथ पाठ्यक्रम देखें",
-      "img": "/fusion-assets/images/banner_1_cne.png",
-      "scrollEmit": "scrollToCneCourses",
-      "bg-color": "#D7AC5C;"
-    },
-    {
-      "title": "Watch tutorials on how sphere works",
-      "titleHi": "जानिए स्फीयर कैसे काम करता है",
-      "img": "/fusion-assets/images/banner_2.png",
-      "scrollEmit": "scrollToHowSphereWorks",
-      "bg-color": "#469788;;"
-    }
-  ]
+  dataCarousel: any = []
   bannerFirstImage: any
   bannerSecondImage: any
   userId: any
@@ -50,12 +36,14 @@ export class WebDashboardComponent implements OnInit {
   public intervalId: any
   lang: any = 'en'
   domain!: any
+  configData: any
   constructor(
     public router: Router,
     public dialog: MatDialog,
     public scrollService: ScrollService,
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
+    private playlistSvc: PlaylistService
   ) {
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -67,6 +55,8 @@ export class WebDashboardComponent implements OnInit {
     // this.lang = this.configSvc!.unMappedUser
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
+    this.configData = this.playlistSvc.getHomeConfig()[0]
+    this.dataCarousel = this.configData.data
     if (this.isEkshamata) {
       this.domain = window.location.hostname
 

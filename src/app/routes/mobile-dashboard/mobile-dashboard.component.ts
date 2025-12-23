@@ -10,12 +10,12 @@ import { uniqBy, includes, filter } from 'lodash'
 import { LanguageDialogComponent } from 'src/app/routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { DomSanitizer } from '@angular/platform-browser'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigService as CompetencyConfiService } from '../competency/services/config.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { environment } from 'src/environments/environment'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   selector: 'ws-mobile-dashboard',
@@ -28,7 +28,7 @@ export class MobileDashboardComponent implements OnInit {
   topCertifiedCourse: any = []
   featuredCourse: any = []
   userEnrollCourse: any
-  videoData: any
+  configData: any
   homeFeatureData: any
   homeFeature: any
   userId: any
@@ -46,22 +46,7 @@ export class MobileDashboardComponent implements OnInit {
   showAllCneCourses: boolean = false;
   showAllCoursesForUP: boolean = false;
   coursesForUP: any[] = []
-  dataCarousel: any = [
-    {
-      "title": "Check out courses with CNE Hours",
-      "titleHi": "सीएनई आवर्स के साथ पाठ्यक्रम देखें",
-      "img": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/cne.svg",
-      "scrollEmit": "scrollToCneCourses",
-      "bg-color": "#D7AC5C;"
-    },
-    {
-      "title": "Watch tutorials on how sphere works",
-      "titleHi": "जानिए स्फीयर कैसे काम करता है",
-      "img": "https://aastar-app-assets.s3.ap-south-1.amazonaws.com/how_works.svg",
-      "scrollEmit": "scrollToHowSphereWorks",
-      "bg-color": "#469788;;"
-    }
-  ]
+  dataCarousel: any[] = []
   topCertifiedCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   topCNECourseDisplayConfig: { displayType: string; badges: { cneName: boolean; rating: boolean; sourceName: boolean } } | undefined
   myCourseDisplayConfig: any
@@ -83,11 +68,11 @@ export class MobileDashboardComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     public dialog: MatDialog,
-    private sanitizer: DomSanitizer,
     private scrollService: ScrollService,
     private CompetencyConfiService: CompetencyConfiService,
     private contentSvc: WidgetContentService,
     private UserAgentResolverService: UserAgentResolverService,
+    private playlistSvc: PlaylistService
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
@@ -100,6 +85,9 @@ export class MobileDashboardComponent implements OnInit {
     // this.lang = this.configSvc!.unMappedUser
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
+    let data: any = this.playlistSvc.getHomeConfig()
+    this.dataCarousel = data[0]?.data
+    this.configData = data[5]
     if (this.isEkshamata) {
       this.showTopCourses()
 
@@ -112,11 +100,7 @@ export class MobileDashboardComponent implements OnInit {
         console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
       }
     }
-    if (this.configSvc &&
-      this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.preferences &&
-      this.configSvc.unMappedUser.profileDetails.preferences.language) {
+    if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {
       this.lang = location.href.includes('/hi/') ? 'hi' : 'en'
@@ -139,23 +123,6 @@ export class MobileDashboardComponent implements OnInit {
       }
     }
 
-    this.videoData = [
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
-        title: 'Register for a course',
-        description: 'Explore various courses and pick the ones you like',
-      },
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Kl28R7m2k50'),
-        title: 'Take the course',
-        description: 'Access the course anytime, at your convinience',
-      },
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/JTGzCkEXlmU'),
-        title: 'Get certified',
-        description: 'Receive downloadable and shareable certificates',
-      },
-    ]
     if (this.configSvc.userProfile) {
       this.fetchCourseRecommendations()
       // this.firstName = this.configSvc.userProfile

@@ -1,8 +1,8 @@
 <div class="link-container"
   *ngIf="data!.profileDetails!.profileReq!.personalDetails!.tncAccepted || data!.profileDetails!.profileReq!.personalDetails!.dob">
   <div class="link-block" *ngFor="let item of menuItems">
-    <a role="button" matRipple [ngClass]="{'ws-mat-accent-text': item.show }" (click)="redirect(item)" active
-      routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
+    <a role="button" *ngIf="item.type=='text'" matRipple [ngClass]="{'ws-mat-accent-text': item.show }"
+      (click)="redirect(item)" active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text" i18n>{{item.title | translate}}</span>
     </a>
   </div>

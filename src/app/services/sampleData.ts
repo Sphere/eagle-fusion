@@ -2,6 +2,8 @@ export const data = {
   "orgData": {
     "defaultLang": "hi",
     "foundationLogo": "/fusion-assets/images/sphere-new-logo.svg",
+    "source": "",
+    "role": ""
   },
   "LAYOUT_HEADER": {
     "appLogo": "",
@@ -12,8 +14,8 @@ export const data = {
       "icon": "",
       "placeholder": "What do you want to learn today?"
     },
-    "webMenuItems": ["homeTab", "CourseTab", "CompetencyTab", "AccountTab", "NotifTab"],
-    "mobileMenuItems": ["homeTab", "CourseTab", "CompetencyTab", "searchMob", "NotifTab"],
+    "webMenuItems": ["homeTab", "courseTab", "competencyTab", "accountTab", "notifTab"],
+    "mobileMenuItems": ["homeTab", "courseTab", "competencyTab", "searchMob", "notifTab"],
     "menuItems": [
       {
         "id": "homeTab",
@@ -28,7 +30,7 @@ export const data = {
         }
       },
       {
-        "id": "CourseTab",
+        "id": "courseTab",
         "title": "My Courses",
         "redirect": "app/user/my_courses",
         "active": true,
@@ -40,7 +42,7 @@ export const data = {
         }
       },
       {
-        "id": "CompetencyTab",
+        "id": "competencyTab",
         "title": "Competency",
         "redirect": "app/user/competency",
         "active": true,
@@ -64,7 +66,7 @@ export const data = {
         }
       },
       {
-        "id": "AccountTab",
+        "id": "accountTab",
         "title": "Account",
         "redirect": "app/profile-view",
         "active": true,
@@ -76,7 +78,7 @@ export const data = {
         }
       },
       {
-        "id": "NotifTab",
+        "id": "notifTab",
         "title": "Notification",
         "redirect": "notification",
         "active": false,
@@ -100,14 +102,149 @@ export const data = {
     "heading": "",
     "subHeading": "",
     "dataCorasoul": {},
-    "sections": [
-      {},
-      {}
-    ],
-    "MenuItemData": [
-      {
-      }
-    ]
+    "sections": {
+      "homeTab": [
+        {
+          "title": "Welcome !",
+          "subTitle": "Start Learning",
+          "show": true,
+          "data": [
+            {
+              "title": "Check out courses with CNE Hours",
+              "titleHi": "सीएनई आवर्स के साथ पाठ्यक्रम देखें",
+              "img": "/fusion-assets/images/banner_1_cne.png",
+              "scrollEmit": "scrollToCneCourses",
+              "bg-color": "#D7AC5C;"
+            },
+            {
+              "title": "Watch tutorials on how sphere works",
+              "titleHi": "जानिए स्फीयर कैसे काम करता है",
+              "img": "/fusion-assets/images/banner_2.png",
+              "scrollEmit": "scrollToHowSphereWorks",
+              "bg-color": "#469788;;"
+            }
+          ]
+        },
+        {
+          "title": "Continue Learning",
+          "playlistConfigId": "CONTINUE_LEARNING",
+          "subTitle": "",
+          "show": true,
+          "data": {},
+          "displayConfig": {
+            "displayType": 'card-mini',
+            "badges": {
+              "certification": true,
+              "rating": true,
+              "completionPercentage": true
+            }
+          },
+          "button": {
+            "label": "View All",
+            "img": "/fusion-assets/icons/Arrowpng.png",
+            "courseType": "continueLearning",
+            "routingUrl": "app/user/my_courses"
+          }
+        },
+        {
+          "title": "For You",
+          "playlistConfigId": "YOUR_PLANS_PLAYLIST",
+          "subTitle": "",
+          "show": "isUpLogin",
+          "data": {},
+          "displayConfig": {
+            "displayType": 'card-badges',
+            "badges": {
+              "certification": true,
+              "rating": true,
+              "sourceName": true
+            },
+          },
+          "button": {
+            "label": "View All",
+            "img": "/fusion-assets/icons/Arrowpng.png",
+            "courseType": "formatForYouCourses",
+            "routingUrl": "app/user/my_courses"
+          }
+        },
+        {
+          "title": "Top Courses",
+          "playlistConfigId": "TOP_COURSE_PLAYLIST",
+          "subTitle": "",
+          "data": {
+            "topCertifiedCourseIdentifier": [
+              "do_1134170689871134721450",
+              "do_11357408383009587211503",
+              "do_11342648503935795211688",
+              "do_1134170690099118081470",
+              "do_1134170690078638081468"
+            ]
+          },
+          "button": {
+            "label": "View All",
+            "img": "/fusion-assets/icons/Arrowpng.png",
+            "courseType": "topCourse",
+            "routingUrl": "app/search/topCourse"
+          }
+        },
+        {
+          "title": "CNE Courses",
+          "playlistConfigId": "CNE_COURSE_PLAYLIST",
+          "subTitle": "",
+          "data": {
+            "cneCoursesIdentifier": [
+              "do_11357413932438323211506",
+              "do_1136137511548764161792",
+              "do_1136208573316628481954",
+              "do_11376124906447667219",
+              "do_1137594994236129281162",
+              "do_11378822335428198411",
+              "do_1137937360086220801140",
+              "do_1137937626018693121165",
+              "do_1137533766819430401136",
+              "do_113759108993581056167",
+              "do_1134170689871134721450",
+              "do_1135953715273646081267",
+              "do_11342648503935795211688",
+              "do_113789659935694848169"
+            ]
+          },
+          "button": {
+            "label": "View All",
+            "img": "/fusion-assets/icons/Arrowpng.png",
+            "courseType": "",
+            "routingUrl": "app/search/topCourse"
+          }
+        },
+        {
+          "title": "How sphere works",
+          "subTitle": "In 3-simple videos we guide you through making an account and getting certified.",
+          "subTitleMobile": "3 simple steps",
+          "data": [
+            {
+              "url": "https://www.youtube.com/embed/1fqlys8mkHg",
+              "title": "Register for a course",
+              "description": "Explore various courses and pick the ones you like",
+            },
+            {
+              "url": "https://www.youtube.com/embed/Kl28R7m2k50",
+              "title": "Take the course",
+              "description": "Access the course anytime, at your convinience",
+            },
+            {
+              "url": "https://www.youtube.com/embed/JTGzCkEXlmU",
+              "title": "Get certified",
+              "description": "Receive downloadable and shareable certificates",
+            },
+          ]
+        }
+      ],
+      "courseTab": [],
+      "competencyTab": [],
+      "searchMob": [],
+      "accountTab": [],
+      "notifTab": []
+    }
   },
   "LAYOUT_FOOTER": {
     "footerLabel": `2024 AastarUrmika Health Systems ("Aastrika Foundation")`,

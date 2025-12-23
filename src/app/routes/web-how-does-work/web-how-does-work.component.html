@@ -1,44 +1,21 @@
 <div id="scrollToHowSphereWorks" class="scrollHowSphereWorks">
-  <p class="header2 mb-0">{{ 'How Sphere works' | translate }}</p>
-  <p class="label1">{{ 'In 3-simple videos we guide you through making an account and getting certified.' | translate }}
+  <p class="header2 mb-0">{{ config?.title | translate }}</p>
+  <p class="label1">{{ config?.subTitle | translate }}
   </p>
 </div>
 <section id="scrollToHowSphereWorks" class="scrollHowSphereWorks-block">
+  <ng-container *ngIf="videoData?.length>0">
+    <div class="block-container " *ngFor="let video of videoData">
+      <div class="how-work-content" (click)="openVideoPopup(video?.url)">
+        <iframe class="how-work-iframe" [src]="video.url" allowfullscreen webkitallowfullscreen mozAllowFullScreen
+          style="border:none" allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;"
+          [title]="video?.title | translate"></iframe>
+        <div class="video-div">
+          <p class="videoTitle">{{ video?.title | translate }}</p>
+          <p class="leading-snug videoDes">{{ video?.description | translate }}</p>
+        </div>
 
-  <div class="block-container ">
-    <div class="how-work-content" (click)="openVideoPopup('0')">
-      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/1fqlys8mkHg" allowfullscreen
-        webkitallowfullscreen mozAllowFullScreen style="border:none"
-        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Register for a course"></iframe>
-      <div class="video-div">
-        <p class="videoTitle">{{ 'Register for a course' | translate }}</p>
-        <p class="leading-snug videoDes">{{ 'Explore various courses and pick the ones you like' | translate }}</p>
       </div>
-
     </div>
-  </div>
-  <div class="block-container ">
-    <div class="how-work-content" (click)="openVideoPopup('1')">
-      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/Kl28R7m2k50" allowfullscreen
-        webkitallowfullscreen mozAllowFullScreen style="border:none"
-        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Take the course"></iframe>
-      <div class="video-div">
-        <p class="videoTitle">{{ 'Take the course' | translate }}</p>
-        <p class="leading-snug videoDes">{{ 'Access the course anytime, at your convinience' | translate }}</p>
-      </div>
-
-    </div>
-  </div>
-  <div class="block-container ">
-    <div class="how-work-content" (click)="openVideoPopup('2')">
-      <iframe class="how-work-iframe" src="https://www.youtube.com/embed/JTGzCkEXlmU" allowfullscreen
-        webkitallowfullscreen mozAllowFullScreen style="border:none"
-        allow="autoplay *; fullscreen *; encrypted-media *; microphone; camera;" title="Get certified"></iframe>
-      <div class="video-div">
-        <p class="videoTitle">{{ 'Get certified' | translate }}</p>
-        <p class="leading-snug videoDes">{{ 'Receive downloadable and shareable certificates' | translate }}</p>
-      </div>
-
-    </div>
-  </div>
+  </ng-container>
 </section>

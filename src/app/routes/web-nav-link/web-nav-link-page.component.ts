@@ -32,9 +32,10 @@ export class WebNavLinkPageComponent implements OnInit {
     private playlistSvc: PlaylistService
 
   ) {
-    let res = this.playlistSvc.getPlaylistData()
-    let config = res.LAYOUT_HEADER
-    this.menuItems = config.menuItems
+    let config = this.playlistSvc.getHeaderConfig()
+    this.menuItems = config.menuItems.filter(item =>
+      config.webMenuItems.includes(item.id)
+    )
     this.navOption.currentOption.subscribe((option: any) => {
       console.log(option, 'open')
       if (option === 'search') {
@@ -84,6 +85,7 @@ export class WebNavLinkPageComponent implements OnInit {
       menuItem.show = false
       if (menuItem.title == label) {
         menuItem.show = true
+        this.playlistSvc.setSelectedTab(menuItem.id)
       }
     })
   }

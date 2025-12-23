@@ -32,10 +32,10 @@ export class AppFooterComponent implements OnInit {
     //     this.configSvc.instanceConfig.logos.app
     //   )
     // }
-    let res = this.playlistSvc.getPlaylistData()
+    this.orgData = this.playlistSvc.getOrgDetails()
+    let res = this.playlistSvc.getFooterConfig()
     console.log('********* playlist data in nav bar ', res)
-    this.configData = res.LAYOUT_FOOTER
-    this.orgData = res.orgData
+    this.configData = res
     this.appIcon = this.orgData?.foundationLogo
   }
 

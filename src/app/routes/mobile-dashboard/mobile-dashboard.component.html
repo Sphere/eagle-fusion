@@ -4,8 +4,8 @@
     <p class="banner-heading text-2xl px-2 py-2 text-base text-capitalize"><span>{{ 'Welcome !' | translate
         }}</span>{{firstName?firstName:''}}
     </p>
-    <p class="banner-mini-heading px-2" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start">{{ 'Continue
-      Learning' | translate }}</p>
+    <p class="banner-mini-heading px-2" *ngIf="userEnrollCourse && userEnrollCourse.length>0 ; else start">
+      {{'ContinueLearning' | translate }}</p>
     <ng-template #start>
       <p class="text-2xl px-2 banner-mini-heading">{{ 'Start Learning' | translate }}</p>
     </ng-template>

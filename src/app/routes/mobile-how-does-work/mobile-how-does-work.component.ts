@@ -30,9 +30,9 @@ export class MobileHowDoesWorkComponent implements OnInit {
   //   }
   //   this.openPlayer.emit(emitData)
   // }
-  openVideoPopup(number: any) {
+  openVideoPopup(url: string) {
     this.dialog.open(VideoPopupComponent, {
-      data: { 'number': number },
+      data: { 'url': url },
       panelClass: 'howDoesItWorksDialog'
     })
   }

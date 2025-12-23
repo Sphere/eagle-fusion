@@ -49,7 +49,7 @@ import { Title } from '@angular/platform-browser'
 // import { DOCUMENT } from '@angular/common'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
-import { DomSanitizer } from '@angular/platform-browser'
+// import { DomSanitizer } from '@angular/platform-browser'
 import { forkJoin, Subscription } from 'rxjs'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
@@ -61,6 +61,7 @@ import { LocalStorageService } from '../../services/local-storage.service'
 import { Events } from '../../routes/notification/events'
 import { io } from "socket.io-client"
 import { TranslateService } from '@ngx-translate/core'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   selector: 'ws-root',
@@ -104,7 +105,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   online$: Observable<boolean>
   appOnline: boolean | undefined
   paramsJSON!: string
-  videoData: any
+  videoData: any = []
+  configData: any
 
   private routerEventsSubscription: Subscription
   isEkshamata: boolean = false
@@ -126,7 +128,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
     // private readonly _renderer2: Renderer,
-    private sanitizer: DomSanitizer,
+    // private sanitizer: DomSanitizer,
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
     private CompetencyConfiService: CompetencyConfiService,
@@ -135,7 +137,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewerSvc: ViewerUtilService,
     private readonly storage: LocalStorageService,
     private readonly events: Events,
-    private injector: Injector
+    private injector: Injector,
+    private playlistSvc: PlaylistService,
     // @Inject(DOCUMENT) private _document: Document
   ) {
     const t = this.injector.get(TranslateService, null as any)
@@ -672,23 +675,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isLoggedIn = false
     }
-    this.videoData = [
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
-        title: 'Register for a course',
-        description: 'Explore various courses and pick the ones you like',
-      },
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Kl28R7m2k50'),
-        title: 'Take the course',
-        description: 'Access the course anytime, at your convinience',
-      },
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/JTGzCkEXlmU'),
-        title: 'Get certified',
-        description: 'Receive downloadable and shareable certificates',
-      },
-    ]
+    this.playlistSvc.getPlaylistData()
+    let res = this.playlistSvc.getHomeConfig()
+    this.configData = res[5]
+    this.videoData = this.configData
+
     if (this.configSvc.userProfile) {
       forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
       this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {

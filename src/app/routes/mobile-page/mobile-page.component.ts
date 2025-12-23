@@ -2,12 +2,12 @@ import { HttpClient } from '@angular/common/http'
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { catchError, delay, switchMap } from 'rxjs/operators'
-import { DomSanitizer } from '@angular/platform-browser'
 import { of } from 'rxjs'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { filter, includes, uniqBy } from 'lodash'
 import { ScrollService } from '../../services/scroll.service'
 import { environment } from 'src/environments/environment'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   selector: 'ws-mobile-page',
@@ -39,36 +39,20 @@ export class MobilePageComponent implements OnInit {
   constructor(
     private router: Router,
     private http: HttpClient,
-    private sanitizer: DomSanitizer,
     private orgService: OrgServiceService,
     private scrollService: ScrollService,
-
+    private playlistSvc: PlaylistService
   ) { }
 
   async ngOnInit() {
+    let res = this.playlistSvc.getHomeConfig()
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       if (targetDivId === 'scrollToCneCourses') {
         console.log("test")
         this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
       }
     })
-    this.videoData = [
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/1fqlys8mkHg'),
-        title: 'Register for a course',
-        description: 'Explore various courses and pick the ones you like',
-      },
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/Kl28R7m2k50'),
-        title: 'Take the course',
-        description: 'Access the course anytime, at your convinience',
-      },
-      {
-        url: this.sanitizer.bypassSecurityTrustResourceUrl('https://www.youtube.com/embed/JTGzCkEXlmU'),
-        title: 'Get certified',
-        description: 'Receive downloadable and shareable certificates',
-      },
-    ]
+    this.videoData = res[5]
 
     this.http.get(`assets/configurations/mobile-public.json`).pipe(delay(500)).subscribe((res: any) => {
       this.pageLayout = res.pageLayout
