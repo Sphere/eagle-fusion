@@ -738,6 +738,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     let myCourseObject = {}
 
     res.forEach((key: any) => {
+      console.log("formatmyCourseResponse", key)
       if (key?.content?.identifier) {
         if (key.completionPercentage !== 100) {
           myCourseObject = {
@@ -749,7 +750,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             completionPercentage: key.completionPercentage,
             sourceName: key.content.sourceName,
             issueCertification: key.content.issueCertification,
-            averageRating: key.content.averageRating
+            averageRating: key.content.averageRating,
+            posterImage: key.content.posterImage
           }
 
         } else {
@@ -762,8 +764,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             completionPercentage: key.completionPercentage,
             sourceName: key.content.sourceName,
             issueCertification: key.content.issueCertification,
-            averageRating: key.content.averageRating
-
+            averageRating: key.content.averageRating,
+            posterImage: key.content.posterImage
           }
 
         }
