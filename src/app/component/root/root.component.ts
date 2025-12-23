@@ -752,6 +752,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             issueCertification: key.content.issueCertification,
             averageRating: key.content.averageRating,
             posterImage: key.content.posterImage
+
           }
 
         } else {
