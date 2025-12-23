@@ -103,6 +103,7 @@ export class TelemetryService {
               id: 'web-ui',
               pid: 'sphere.aastrika.org'
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             ...(data) && data,
@@ -144,6 +145,7 @@ export class TelemetryService {
               id: 'web-ui',
               pid: 'sphere.aastrika.org'
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             ...(data) && data,
@@ -178,6 +180,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.pData.id,
               },
+              sid: this.getTelemetrySessionId
             },
             object: {
               ...(data) && data,
@@ -208,6 +211,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             ...(data) && data,
@@ -237,6 +241,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId
           },
         },
       )
@@ -357,7 +362,7 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
               rollup: {},
@@ -442,7 +447,7 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
               rollup: rollup,
@@ -503,7 +508,7 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
               rollup: rollup,
@@ -561,6 +566,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             id: page.objectId,
@@ -574,6 +580,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId
           },
         })
       }
@@ -594,6 +601,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.externalApps[impressionData.subApplicationName],
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             id: page.objectId,
@@ -604,6 +612,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.externalApps[impressionData.subApplicationName],
             },
+            sid: this.getTelemetrySessionId
           },
         }
         $t.impression(impressionData.data, externalConfig)
@@ -709,6 +718,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.externalApps[event.from],
               },
+              sid: this.getTelemetrySessionId
             },
           }
           try {
@@ -734,6 +744,7 @@ export class TelemetryService {
                     ...this.pData,
                     id: this.pData.id,
                   },
+                  sid: this.getTelemetrySessionId
                 },
                 object: {
                   ...event.data.object,
@@ -765,6 +776,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.externalApps[event.from],
               },
+              sid: this.getTelemetrySessionId
             },
           }
           try {
@@ -789,6 +801,7 @@ export class TelemetryService {
                     ...this.pData,
                     id: this.pData.id,
                   },
+                  sid: this.getTelemetrySessionId
                 },
               })
           } catch (e) {
@@ -824,6 +837,7 @@ export class TelemetryService {
                   ...this.pData,
                   id: this.pData.id,
                 },
+                sid: this.getTelemetrySessionId
               },
             },
           )

@@ -80,7 +80,8 @@ export class MyCoursesComponent implements OnInit {
                   dateTime: key.dateTime,
                   completionPercentage: key.completionPercentage,
                   sourceName: key.content.sourceName,
-                  issueCertification: key.content.issueCertification
+                  issueCertification: key.content.issueCertification,
+                  posterImage: key.content.posterImage,
                 }
 
                 this.startedCourse.push(myCourseObject)
@@ -94,7 +95,8 @@ export class MyCoursesComponent implements OnInit {
                   dateTime: key.dateTime,
                   completionPercentage: key.completionPercentage,
                   sourceName: key.content.sourceName,
-                  issueCertification: key.content.issueCertification
+                  issueCertification: key.content.issueCertification,
+                  posterImage: key.content.posterImage,
                 }
 
                 this.completedCourse.push(completedCourseObject)

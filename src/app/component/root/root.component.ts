@@ -333,7 +333,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     if (this.configSvc.userProfile) {
-      this.getConnectToSocket()
+      // this.getConnectToSocket()
       this.userId = this.configSvc.userProfile.userId || ''
       console.log("this.configSvc.userProfile: ", this.configSvc.userProfile)
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
@@ -741,6 +741,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     let myCourseObject = {}
 
     res.forEach((key: any) => {
+      console.log("formatmyCourseResponse", key)
       if (key?.content?.identifier) {
         if (key.completionPercentage !== 100) {
           myCourseObject = {
@@ -752,7 +753,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             completionPercentage: key.completionPercentage,
             sourceName: key.content.sourceName,
             issueCertification: key.content.issueCertification,
-            averageRating: key.content.averageRating
+            averageRating: key.content.averageRating,
+            posterImage: key.content.posterImage
+
           }
 
         } else {
@@ -765,8 +768,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             completionPercentage: key.completionPercentage,
             sourceName: key.content.sourceName,
             issueCertification: key.content.issueCertification,
-            averageRating: key.content.averageRating
-
+            averageRating: key.content.averageRating,
+            posterImage: key.content.posterImage
           }
 
         }
