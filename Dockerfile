@@ -36,7 +36,7 @@ COPY assets/iGOT/client-assets/dist www/assets
 # Install production dependencies in the dist folder (for server-side execution)
 RUN yarn install --production
 # Expose port for the app
-EXPOSE 3004
+EXPOSE 3002
 
-# Run the application (make sure 'serve:prod' exists in your package.json)
-CMD ["yarn", "run", "serve:prod"]
+# Run the application on port 3002 to match Kubernetes service configuration
+CMD ["http-server", "-p", "3002", "-c-1", "dist/www"]
