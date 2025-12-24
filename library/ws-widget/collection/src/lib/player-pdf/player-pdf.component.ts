@@ -224,7 +224,11 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // if (!this.widgetData.disableTelemetry) {
     //   this.eventDispatcher(WsEvents.EnumTelemetrySubType.StateChange)
     // }
-
+    this.telemetrySvc.interact('application/pdf', 'page-change', 'player', {
+      id: this.widgetData.identifier,
+      type: 'application/pdf',
+      version: ''
+    })
   }
   // raiseTelemetry(action: string) {
   //   if (this.identifier) {
@@ -243,16 +247,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       }
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-      let object = {
-        "id": id,
-        "type": "application/pdf",
-        "version": "",
-        "rollup": {
-          "l1": collectionId,
-          "l2": id
-        }
-      }
-      this.telemetrySvc.start('application/pdf', 'pdf-start', 'player', object)
 
       const temp = [...realTimeProgressRequest.current]
       // const latest = parseFloat(temp.slice(-1) || '0')
@@ -440,6 +434,18 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // this.pdfInstance = pdf
     // this.totalPages = this.pdfInstance.numPages
     // this.zoom.enable()
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+
+    let object = {
+      "id": this.widgetData.identifier,
+      "type": "application/pdf",
+      "version": "",
+      "rollup": {
+        "l1": collectionId,
+        "l2": this.widgetData.identifier
+      }
+    }
+    this.telemetrySvc.start('application/pdf', 'pdf-start', 'player', object)
     this.currentPage.enable()
     this.currentPage.setValue(
       typeof this.widgetData.resumePage === 'number' &&
