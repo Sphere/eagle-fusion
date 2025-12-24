@@ -7,8 +7,8 @@ WORKDIR /app
 # Copy all files into the working directory
 COPY . .
 
-# Install Angular CLI globally with a specific version
-RUN npm install -g @angular/cli@16.2.16
+# Install Angular CLI and http-server globally with a specific version
+RUN npm install -g @angular/cli@16.2.16 http-server
 
 # Ensure @angular/localize is installed for i18n support
 RUN yarn add @angular/localize@16.2.12
