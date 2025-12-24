@@ -1,5 +1,5 @@
 <video #videoTag *ngIf="widgetData?.isVideojs" playsinline class="video-js vjs-default-skin vjs-big-play-centered"
-  controls muted>
+  controls muted (play)="onEventTrigger('start')" (pause)="onEventTrigger('pause')" (ended)="onEventTrigger('end')">
   <source [src]="widgetData.url" type="video/mp4" />
   <source [src]="widgetData.url" type="application/x-mpegURL" />
   <track kind="subtitles" [src]="widgetData.subtitleUrl" srclang="en" label="English" default />
@@ -7,7 +7,7 @@
 </video>
 
 <video [poster]="widgetData?.posterImage" playsinline #realvideoTag class="video-js" *ngIf="!widgetData?.isVideojs"
-  controls>
+  controls (play)="onEventTrigger('start')" (pause)="onEventTrigger('pause')" (ended)="onEventTrigger('end')">
   <source [src]="widgetData.url" type="video/mp4" />
   <source [src]="widgetData.url" type="application/x-mpegURL" />
   <track kind="subtitles" [src]="widgetData.subtitleUrl" srclang="en" label="English" default />

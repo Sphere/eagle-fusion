@@ -103,7 +103,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         "l2": this.assesmentdata.generalData.identifier
       }
     }
-    this.telemetrySvc.start('assessment', 'assessment-start', 'player', object)
+    this.telemetrySvc.start('application/json', 'assessment-start', 'player', object)
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
@@ -136,8 +136,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
       }]
     }
-    this.telemetrySvc.start('assessment', 'assessment-close-start', 'player', data, extras)
-    this.telemetrySvc.end('assessment', 'assessment-close-end', 'player', data, extras)
+    this.telemetrySvc.interact('application/json', 'assessment-close-start', 'player', data, extras)
+    this.telemetrySvc.interact('application/json', 'assessment-close-end', 'player', data, extras)
   }
 
   closeDone() {
@@ -197,7 +197,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                 moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
               }]
             }
-            this.telemetrySvc.end('assessment', 'assessment-auto-submit', 'player', data, extras)
+            this.telemetrySvc.end('application/json', 'assessment-auto-submit', 'player', data, extras)
             this.isIdeal = true
             this.timeLeft = 0
             if (this.timerSubscription) {
@@ -322,7 +322,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
           }]
         }
-        this.telemetrySvc.end('assessment', 'assessment-submit', 'player', data, extras)
+        this.telemetrySvc.end('application/json', 'assessment-submit', 'player', data, extras)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true
