@@ -1,5 +1,8 @@
-# Use Node 16, compatible with Angular 12
-FROM node:18.20.8
+# Use Node 20, required for Angular 16
+FROM node:20.12.2
+
+# Build argument for cache busting
+ARG BUILDKIT_INLINE_CACHE=1
 
 # Set the working directory in the container
 WORKDIR /app
@@ -39,5 +42,5 @@ RUN yarn install --production
 EXPOSE 3002
 
 # Run the application on port 3002 to match Kubernetes service configuration
-# Serve www directory with SPA fallback to index.html
-CMD ["http-server", "www", "-p", "3002", "-c-1", "-f"]
+# Serve from www/en where localized build output is created
+CMD ["http-server", "www/en", "-p", "3002", "-c-1", "-f"]

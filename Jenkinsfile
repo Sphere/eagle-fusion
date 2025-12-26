@@ -19,7 +19,7 @@ node() {
                    echo $commit_id> commit_id.txt
                    cd $docker_file_path
                    pwd
-                   docker build -t $docker_server/$docker_repo:$commit_id .
+                   docker build --no-cache -t $docker_server/$docker_repo:$commit_id .
                    docker tag $docker_server/$docker_repo:$commit_id $docker_server/$docker_repo:$image_tag
                    echo "docker build is completed !!!! Starting docker push"
                    '''
