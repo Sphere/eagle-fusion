@@ -333,6 +333,26 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         }
         this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
       }
+      if (this.contentData && this.contentData?.completionPercentage == 100) {
+        const data1: any = {
+          "id": this.widgetData.identifier,
+          "type": "application/pdf",
+          "version": "",
+          "rollup": {
+            "l1": collectionId,
+            "l2": id
+          }
+        }
+        const extras: any = {
+          values: [{
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+            contentId: this.widgetData.identifier,
+            name: this.viewerDataSvc.resource!.name,
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          }]
+        }
+        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
+      }
     }
     return
   }
