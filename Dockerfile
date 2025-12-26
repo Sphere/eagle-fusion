@@ -43,4 +43,4 @@ EXPOSE 3002
 
 # Run the application on port 3002 to match Kubernetes service configuration
 # Serve from www/en where localized build output is created
-CMD ["http-server", "www/en", "-p", "3002", "-c-1", "-f"]
+CMD ["http-server", "www", "-p", "3002", "-c-1", "-f"]
