@@ -39,5 +39,5 @@ RUN yarn install --production
 EXPOSE 3002
 
 # Run the application on port 3002 to match Kubernetes service configuration
-# www: serve the www directory, -p: port, -c-1: disable caching, --spa: fallback to index.html
-CMD ["http-server", "www", "-p", "3002", "-c-1", "--spa"]
+# Serve from www/en directory where the localized build output is located
+CMD ["http-server", "www/en", "-p", "3002", "-c-1", "--spa"]
