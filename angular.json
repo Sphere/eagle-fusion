@@ -111,7 +111,8 @@
                 }
               ],
               "serviceWorker": false,
-              "ngswConfigPath": "ngsw-config.json"
+              "ngswConfigPath": "ngsw-config.json",
+              "localize": false
             },
             "hi": {
               "aot": false,
