@@ -41,6 +41,11 @@
               "src/favicon.ico",
               "src/assets",
               {
+                "glob": "**/*.js",
+                "input": "src/assets",
+                "output": "/assets"
+              },
+              {
                 "glob": "**/*",
                 "input": "node_modules/ngx-extended-pdf-viewer/bleeding-edge/",
                 "output": "/bleeding-edge/"
