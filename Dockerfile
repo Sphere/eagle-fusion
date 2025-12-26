@@ -20,7 +20,7 @@ RUN yarn install
 RUN yarn add moment vis-util
 
 # Build the project for production
-RUN ng build --configuration production --output-path=dist/www --base-href=/ --localize=false
+RUN ng build --configuration production --output-path=dist/www --base-href=/
 
 # Run the compression script (make sure it exists in your package.json)
 RUN yarn run compress:brotli
