@@ -42,5 +42,5 @@ RUN yarn install --production
 EXPOSE 3002
 
 # Run the application on port 3002 to match Kubernetes service configuration
-# Serve from www/en where localized build output is created
-CMD ["http-server", "www", "-p", "3002", "-c-1", "-f"]
+# Use --spa flag for proper Angular SPA routing fallback to index.html
+CMD ["http-server", "www", "-p", "3002", "-c-1", "--spa"]
