@@ -24,6 +24,7 @@ import { MatSelectChange } from '@angular/material/select'
 import { MatTabChangeEvent } from '@angular/material/tabs'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
   selector: 'ws-app-settings',
@@ -72,6 +73,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
     private utilitySvc: UtilityService,
     private userProfileSvc: UserProfileService,
     private UserAgentResolverService: UserAgentResolverService,
+    private languageSvc: LanguageService,
   ) { }
 
   ngOnInit() {
@@ -266,36 +268,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
         selectedLangGroup: this.contentLanguage.join(','),
       })
       .then(() => {
+        // Use LanguageService for language switching instead of URL-based routing
         if (this.appLanguage !== this.chosenLanguage) {
-          if (this.chosenLanguage === 'en') {
-            this.chosenLanguage = ''
-          }
-          if (this.mode === 'settings') {
-            window.location.assign(`${location.origin}/${this.chosenLanguage}${this.router.url}`)
-          } else {
-            window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
-          }
+          this.languageSvc.setLanguage(this.chosenLanguage)
+          // Navigate to the same route, translations will be applied via ngx-translate
+          this.router.navigate([this.router.url])
         } else if (this.mode !== 'settings') {
           if (this.configSvc.userUrl) {
             this.router.navigateByUrl(this.configSvc.userUrl)
-          } else {
-            // this.router.navigate(['page', 'home'])
           }
-        } else {
-          if (this.chosenLanguage === 'en') {
-            this.chosenLanguage = ''
-            window.location.assign(`${location.origin}/page/home`)
-          } else {
-            window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
-          }
-        }
-        if (this.chosenLanguage === 'en') {
-          this.chosenLanguage = ''
-          window.location.assign(`${location.origin}/page/home`)
-          // window.location.reload(true)
-        } else {
-          // window.location.reload(true)
-          window.location.assign(`${location.origin}/${this.chosenLanguage}/page/home`)
         }
         this.snackBar.open(this.successToast.nativeElement.value)
       })

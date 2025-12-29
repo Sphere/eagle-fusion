@@ -6,6 +6,7 @@ import { catchError, retry, map } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
 import { NSSearch } from './widget-search.model'
+import { LanguageService } from '../../../../../../src/app/services/language.service'
 
 // TODO: move this in some common place
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
@@ -69,7 +70,8 @@ export class WidgetContentService {
   _showConformation: any
   constructor(
     private http: HttpClient,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private languageSvc: LanguageService
   ) { }
 
   fetchMarkAsCompleteMeta(identifier: string): Promise<any> {
@@ -329,8 +331,8 @@ export class WidgetContentService {
     )
   }
   searchV6(req: any) {
-    const url = location.href
-    if (url.includes('/hi/')) {
+    // Use LanguageService instead of checking location.href
+    if (this.languageSvc.isHindi()) {
       req.request.filters.lang = 'hi'
     }
     req.query = req.query || ''
@@ -343,8 +345,8 @@ export class WidgetContentService {
   }
 
   publicContentSearch(req: any) {
-    const url = location.href
-    if (url.includes('/hi/')) {
+    // Use LanguageService instead of checking location.href
+    if (this.languageSvc.isHindi()) {
       req.request.filters.lang = 'hi'
     }
     req.query = req.query || ''

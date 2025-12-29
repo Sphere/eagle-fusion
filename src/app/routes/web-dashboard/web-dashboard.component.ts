@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { LanguageService } from 'src/app/services/language.service'
 import * as _ from 'lodash'
 @Component({
   selector: 'ws-web-dashboard',
@@ -56,6 +57,7 @@ export class WebDashboardComponent implements OnInit {
     public scrollService: ScrollService,
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
+    private languageSvc: LanguageService,
   ) {
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -64,20 +66,7 @@ export class WebDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.lang = this.configSvc!.unMappedUser
-    //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
-    //   : location.href.includes('/hi/') ? 'hi' : 'en'
-    if (this.isEkshamata) {
-      this.domain = window.location.hostname
-
-      console.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-        console.log("yes here2 ", this.configSvc.hostedInfo)
-        this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
-        this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
-        console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
-      }
-    }
+    // Use LanguageService for language detection
     if (this.configSvc &&
       this.configSvc.unMappedUser &&
       this.configSvc.unMappedUser.profileDetails &&
@@ -85,23 +74,18 @@ export class WebDashboardComponent implements OnInit {
       this.configSvc.unMappedUser.profileDetails.preferences.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {
-      this.lang = location.href.includes('/hi/') ? 'hi' : 'en'
+      this.lang = this.languageSvc.getCurrentLanguage()
     }
     this.startCarousel()
     this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
       this.userData = await data
       this.firstName = _.get(this.userData, 'profileDetails.profileReq.personalDetails.firstname', '')
     })
-    if (localStorage.getItem('preferedLanguage')) {
-      let data: any
-      data = localStorage.getItem('preferedLanguage')
-      if (JSON.parse(data).selected === true) {
-        this.preferedLanguage = JSON.parse(data)
-      }
-    } else {
-      if (this.router.url.includes('hi')) {
-        this.preferedLanguage = { id: 'hi', lang: 'हिंदी' }
-      }
+
+    // Set preferred language from LanguageService
+    this.preferedLanguage = {
+      id: this.languageSvc.getCurrentLanguage(),
+      lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English'
     }
   }
   ngOnDestroy(): void {

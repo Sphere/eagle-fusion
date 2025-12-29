@@ -13,6 +13,7 @@ import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
 import { appNavBarService } from './app-nav-bar.service'
+import { LanguageService } from '../../services/language.service'
 
 @Component({
   selector: 'ws-app-nav-bar',
@@ -67,7 +68,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private valueSvc: ValueService,
     public dialog: MatDialog,
     //location: Location,
-    public navOption: appNavBarService
+    public navOption: appNavBarService,
+    private languageSvc: LanguageService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
@@ -75,9 +77,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       this.showNavLinkPage = false
     }
     console.log(location.href)
-    if (location.href.includes('/hi/')) {
-      this.langPresent = true
-    }
+    // Use LanguageService instead of checking location.href for /hi/
+    this.langPresent = this.languageSvc.isHindi()
     if (location.href.includes('/app/new-tnc')) {
       this.showNavLinkPage = false
     } else {
@@ -175,7 +176,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     this.router.navigateByUrl('app/create-account')
   }
   navigate() {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // Use LanguageService instead of checking location.href
+    const userLang = this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage()
+    let local = userLang
     let url1 = local === 'hi' ? 'hi' : ""
     // let url3 = `${document.baseURI}`
     // if (url3.includes('hi')) {
@@ -195,7 +198,9 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   goHomePage() {
     // localStorage.setItem('url_before_login', '/page/home')
     //if (this.showNavLinkPage) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // Use LanguageService instead of checking location.href
+    const userLang = this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage()
+    let local = userLang
     let url1 = local === 'hi' ? 'hi' : ""
     console.log(url1)
     let url2 = `${document.baseURI}`

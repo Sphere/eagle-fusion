@@ -15,6 +15,7 @@ import { ScrollService } from '../../services/scroll.service'
 import { ConfigService as CompetencyConfiService } from '../competency/services/config.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { LanguageService } from 'src/app/services/language.service'
 import { environment } from 'src/environments/environment'
 
 @Component({
@@ -88,6 +89,7 @@ export class MobileDashboardComponent implements OnInit {
     private CompetencyConfiService: CompetencyConfiService,
     private contentSvc: WidgetContentService,
     private UserAgentResolverService: UserAgentResolverService,
+    private languageSvc: LanguageService,
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
@@ -97,21 +99,7 @@ export class MobileDashboardComponent implements OnInit {
     this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
   }
   ngOnInit() {
-    // this.lang = this.configSvc!.unMappedUser
-    //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
-    //   : location.href.includes('/hi/') ? 'hi' : 'en'
-    if (this.isEkshamata) {
-      this.showTopCourses()
-
-      this.domain = window.location.hostname
-      console.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-        console.log("yes here2 ", this.configSvc.hostedInfo)
-        this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
-        this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
-        console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
-      }
-    }
+    // Use LanguageService for language detection instead of URL checks
     if (this.configSvc &&
       this.configSvc.unMappedUser &&
       this.configSvc.unMappedUser.profileDetails &&
@@ -119,7 +107,7 @@ export class MobileDashboardComponent implements OnInit {
       this.configSvc.unMappedUser.profileDetails.preferences.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {
-      this.lang = location.href.includes('/hi/') ? 'hi' : 'en'
+      this.lang = this.languageSvc.getCurrentLanguage()
     }
 
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
@@ -127,16 +115,11 @@ export class MobileDashboardComponent implements OnInit {
         this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
       }
     })
-    if (localStorage.getItem('preferedLanguage')) {
-      let data: any
-      data = localStorage.getItem('preferedLanguage')
-      if (JSON.parse(data).selected === true) {
-        this.preferedLanguage = JSON.parse(data)
-      }
-    } else {
-      if (this.router.url.includes('hi')) {
-        this.preferedLanguage = { id: 'hi', lang: 'हिंदी' }
-      }
+
+    // Set preferred language from LanguageService
+    this.preferedLanguage = {
+      id: this.languageSvc.getCurrentLanguage(),
+      lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English'
     }
 
     this.videoData = [
@@ -574,41 +557,14 @@ export class MobileDashboardComponent implements OnInit {
         }
         this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
           (res: any) => {
-
             if (res) {
-              if (this.router.url.includes('hi')) {
-                const lan = this.router.url.split('hi/').join('')
-                if (lang === 'hi') {
-                  window.location.assign(`${location.origin}/${lang}${lan}`)
-                } else {
-                  window.location.assign(`${location.origin}${lan}`)
-                }
-              } else {
-                if (lang === 'hi') {
-                  window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-                } else {
-                  window.location.assign(`${location.origin}${this.router.url}`)
-                }
-              }
+              // Use LanguageService to switch language instead of URL-based routing
+              this.languageSvc.setLanguage(lang)
+              this.lang = lang
             }
           },
-          () => {
-          })
+          () => { })
       })
-      // if (this.router.url.includes('hi')) {
-      //   const lan = this.router.url.split('hi/').join('')
-      //   if (lang === 'hi') {
-      //     window.location.assign(`${location.origin}/${lang}${lan}`)
-      //   } else {
-      //     window.location.assign(`${location.origin}${lang}${lan}`)
-      //   }
-      // } else {
-      //   if (lang === 'hi') {
-      //     window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-      //   } else {
-      //     window.location.assign(`${location.origin}${lang}${this.router.url}`)
-      //   }
-      // }
     })
   }
 }
