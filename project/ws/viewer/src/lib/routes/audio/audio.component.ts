@@ -158,7 +158,7 @@ export class AudioComponent implements OnInit, OnDestroy {
     const batchId = this.activatedRoute.snapshot.queryParams.batchId ?
       this.activatedRoute.snapshot.queryParams.batchId : audioId
 
-    this.telemetrySvc.start('audio', 'audio-start', 'player')
+    this.telemetrySvc.start('audio', 'audio-start', 'player', { id: audioId, type: "audio", version: "", rollup: { l1: collectionID, l2: audioId } })
 
     setTimeout(() => {
       const data2 = {

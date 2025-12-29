@@ -407,20 +407,13 @@ export class InitService {
 
   private async fetchAppsConfig(): Promise<NsAppsConfig.IAppsConfig> {
     let local: any
+    // Language is managed via LanguageService and ngx-translate
+    // Get language from user preferences or localStorage
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) {
       local = this.configSvc.unMappedUser.profileDetails.preferences.language === 'hi' ? 'hi' : ''
-      //local === 'hi' ? 'hi' : ''
-      if (location.href.includes('/hi/')) {
-        local = 'hi'
-      }
     } else {
-      if (location.href.includes('/hi/')) {
-        local = 'hi'
-      } else {
-        local = ''
-      }
+      local = localStorage.getItem('language') === 'hi' ? 'hi' : ''
     }
-    // local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
 
     const url = local === 'hi' ? `/feature/apps.${'hi'}.json` : `/feature/apps.json`
     console.log(local, 'local', url)

@@ -192,7 +192,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         return
       }
       if (this.isPublic) {
-        this.tncPublicSvc.getPublicTnc(locale).subscribe(data => {
+        this.tncPublicSvc.getPublicTnc().subscribe(data => {
           this.assignTncData(dpData, data)
         })
       } else {
@@ -220,7 +220,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         return
       }
       if (this.isPublic) {
-        this.tncPublicSvc.getPublicTnc(locale).subscribe(data => {
+        this.tncPublicSvc.getPublicTnc().subscribe(data => {
           this.assignDp(tncData, data)
         })
       } else {

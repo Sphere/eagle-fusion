@@ -6,6 +6,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { ISearchAutoComplete, ISearchQuery, ISuggestedFilters } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
+import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
   selector: 'ws-app-home',
@@ -32,7 +33,8 @@ export class HomeComponent implements OnInit {
     private router: Router,
     private route: ActivatedRoute,
     private searchSvc: SearchServService,
-    private searchApi: SearchApiService
+    private searchApi: SearchApiService,
+    private languageSvc: LanguageService
   ) {
     const isAutoCompleteAllowed = this.route.snapshot.data.pageData.data.search.isAutoCompleteAllowed
     if (typeof isAutoCompleteAllowed === 'undefined' ||
@@ -113,7 +115,8 @@ export class HomeComponent implements OnInit {
 
   getActivateLocale(): string {
     console.log(this.configSvc)
-    const locale = (this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : undefined
+    // Use LanguageService instead of checking location.href
+    const locale = (this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage()
     console.log(locale, 'homecompo')
     // (this.configSvc.unMappedUser.profileDetails?.preferences?.language) || 'en'
     // return this.searchSvc.getLanguageSearchIndex(locale)

@@ -116,15 +116,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
 
     this.user_id = this.configSvc.userProfile?.userId ?? ''
 
-    this.getAccessToken().then(() => {
-      this.getReadNotifications()
+    // this.getAccessToken().then(() => {
+    //   this.getReadNotifications()
 
-      if (!(this.socket?.connected)) {
-        this.connectSocket().then(() => this.getNotification())
-      } else {
-        this.getNotification()
-      }
-    })
+    //   if (!(this.socket?.connected)) {
+    //     this.connectSocket().then(() => this.getNotification())
+    //   } else {
+    //     this.getNotification()
+    //   }
+    // })
   }
 
 

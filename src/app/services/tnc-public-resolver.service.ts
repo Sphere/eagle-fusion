@@ -16,7 +16,7 @@ const API_END_POINTS = {
   ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role',
 }
 @Injectable()
-export class TncPublicResolverService  {
+export class TncPublicResolverService {
 
   constructor(
     private http: HttpClient,
@@ -29,33 +29,16 @@ export class TncPublicResolverService  {
       catchError(error => of({ error, data: null })),
     )
   }
-  getPublicTnc(locale?: string): Observable<NsTnc.ITnc> {
-    location.href.includes('/hi/')
-    let data: any
-    let lang: any
-    let url1: any
-    if (locale === null || locale === undefined) {
-      lang = location.href.includes('/hi/') === true ? 'hi' : 'en'
-    }
-    if (localStorage.getItem('preferedLanguage')) {
-      data = localStorage.getItem('preferedLanguage')
-      lang = JSON.parse(data)
-      if (lang.id) {
-        lang = lang.id !== 'en' ? lang.id : ''
-      }
-    }
-    if (lang === 'hi') {
-      url1 = `${this.configSvc.sitePath}/tnc.config.${'hi'}.json`
-    } else {
-      let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-      url1 = local === 'hi' ? `${this.configSvc.sitePath}/tnc.config.${'hi'}.json` : `${this.configSvc.sitePath}/tnc.config.json`
+  getPublicTnc(): Observable<NsTnc.ITnc> {
+    // Language detection uses LanguageService and localStorage (set by LanguageService)
+    let lang: string = localStorage.getItem('language') || 'en'
+
+    // Check user preferences as fallback
+    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language) {
+      lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     }
 
-
-    //let url = `${this.configSvc.sitePath}/tnc.config.json`
-    // if (locale) {
-    //   url += `?locale=${locale}`
-    // }
+    const url1 = lang === 'hi' ? `${this.configSvc.sitePath}/tnc.config.${'hi'}.json` : `${this.configSvc.sitePath}/tnc.config.json`
     return this.http.get<NsTnc.ITnc>(url1)
   }
 

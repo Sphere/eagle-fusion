@@ -508,6 +508,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       lastName: accountForm.value.lastname.trim(),
       email: accountForm.value.emailOrMobile.trim(),
       password: passwordForm.value.password.trim(),
+      language: this.preferedLanguage.id,
     }
     if (this.organisationId) reqObj.organisationId = this.organisationId
     if (this.userRole) reqObj.role = this.userRole
@@ -547,6 +548,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       lastName: accountForm.value.lastname.trim(),
       phone,
       password: passwordForm.value.password.trim(),
+      language: this.preferedLanguage.id,
     }
 
     if (this.organisationId) reqObj.organisationId = this.organisationId

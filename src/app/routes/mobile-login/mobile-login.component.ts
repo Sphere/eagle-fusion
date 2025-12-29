@@ -275,20 +275,10 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
       })
   }
   redirect(lang: string) {
-    if (lang !== '') {
-      if (this.router.url.includes('hi')) {
-        const lan = this.router.url.split('hi/').join('')
-        window.location.assign(`${location.origin}/${lang}${lan}`)
-      } else {
-        window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-      }
-    } else {
-      if (this.router.url.includes('hi')) {
-        const lan = this.router.url.split('hi/').join('')
-        window.location.assign(`${location.origin}${lang}${lan}`)
-      } else {
-        window.location.assign(`${location.origin}${lang}${this.router.url}`)
-      }
+    // Language switching via LanguageService instead of URL-based routing
+    // No need to construct URLs with language prefix; ngx-translate handles it
+    if (lang) {
+      this.router.navigate(['/page/home'])
     }
   }
 

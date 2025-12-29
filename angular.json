@@ -29,6 +29,7 @@
               "src/fusion-assets/images/",
               "src/robots.txt",
               "src/sitemap.xml",
+              "src/.htaccess",
               {
                 "glob": "**/*.*",
                 "input": "./node_modules/@aastrika_npmjs/discussions-ui-v8/assets",
@@ -41,6 +42,11 @@
               },
               "src/favicon.ico",
               "src/assets",
+              {
+                "glob": "**/*.js",
+                "input": "src/assets",
+                "output": "/assets"
+              },
               {
                 "glob": "**/*",
                 "input": "node_modules/ngx-extended-pdf-viewer/bleeding-edge/",

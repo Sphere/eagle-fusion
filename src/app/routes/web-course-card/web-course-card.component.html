@@ -118,7 +118,7 @@
       <div class="card-long">
         <div class="img-block">
           <img alt="" class="appIcon fitsizeMini"
-            src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+            src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}">
           <ng-container>
             <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
               CNE: {{courseData.cneName}}

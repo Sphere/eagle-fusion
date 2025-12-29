@@ -12,6 +12,7 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 import { appNavBarService } from 'src/app/component/app-nav-bar/app-nav-bar.service'
 import { LocalStorageService } from '../../../../../../src/app/services/local-storage.service'
 import { Events } from '../../../../../../src/app/routes/notification/events'
+import { LanguageService } from '../../../../../../src/app/services/language.service'
 // import { LocalStorageService } from "../../services/local-storage.service"
 
 export const typeMap = {
@@ -70,68 +71,37 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     public navOption: appNavBarService,
     public storage: LocalStorageService,
     private readonly event: Events,
+    private languageSvc: LanguageService
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.searchButton = false
     }
+    const isHindi = this.languageSvc.isHindi()
+
     this.navOption.currentOption.subscribe((option: any) => {
       console.log('options', option, window.location.href)
       if (window.location.href.includes('/app/profile-view')) {
-        if (window.location.href.includes('/hi/app/profile-view')) {
-          this.currentText = 'अकाउंट'
-        } else {
-          this.currentText = 'Account'
-        }
+        this.currentText = isHindi ? 'अकाउंट' : 'Account'
       }
       if (window.location.href.includes('/app/toc')) {
-        //this.currentText = ''
-        if (window.location.href.includes('/hi/app/toc')) {
-          this.currentText = 'होम'
-        } else {
-          this.currentText = 'Home'
-        }
+        this.currentText = isHindi ? 'होम' : 'Home'
       }
     })
 
     if (window.location.href.includes('/app/profile-view')) {
-      if (window.location.href.includes('/hi/app/profile-view')) {
-        this.currentText = 'अकाउंट'
-      } else {
-        this.currentText = 'Account'
-      }
+      this.currentText = isHindi ? 'अकाउंट' : 'Account'
     } else if (window.location.href.includes('user/my_courses')) {
-      if (window.location.href.includes('/hi/app/user/my_courses')) {
-        this.currentText = 'आपके पाठ्यक्रम'
-      } else {
-        this.currentText = 'My Courses'
-      }
+      this.currentText = isHindi ? 'आपके पाठ्यक्रम' : 'My Courses'
     } else if (window.location.href.includes('/page/home')) {
-      if (window.location.href.includes('/hi/page/home')) {
-        this.currentText = 'होम'
-      } else {
-        this.currentText = 'Home'
-      }
+      this.currentText = isHindi ? 'होम' : 'Home'
     } else if (window.location.href.includes('competency')) {
       localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-      if (window.location.href.includes('/hi/app/user/competency')) {
-        this.currentText = 'योग्यता'
-      } else {
-        this.currentText = 'Competency'
-      }
+      this.currentText = isHindi ? 'योग्यता' : 'Competency'
     } else if (window.location.href.includes('search')) {
-      if (window.location.href.includes('/hi/app/search/home')) {
-        this.currentText = 'खोज'
-      } else {
-        this.currentText = 'Search'
-      }
-    }
-    else if (window.location.href.includes('notification')) {
-      if (window.location.href.includes('/hi/notification')) {
-        this.currentText = 'अधिसूचना'
-      } else {
-        this.currentText = 'Notification'
-      }
+      this.currentText = isHindi ? 'खोज' : 'Search'
+    } else if (window.location.href.includes('notification')) {
+      this.currentText = isHindi ? 'अधिसूचना' : 'Notification'
     } else {
       this.currentText = ''
     }
@@ -323,7 +293,14 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     event.preventDefault()
     event.stopPropagation()
     this.events.raiseInteractTelemetry('btn-clicked', 'pin', 'feature', {
-      featureId,
+      id: featureId,
+      type: "",
+      version: "",
+      rollup: {}
+    }, {
+      values: [{
+        id: featureId
+      }]
     })
     this.configurationsSvc.pinnedApps.pipe(take(1)).subscribe(pinnedApps => {
       const newPinnedApps = new Set(pinnedApps)

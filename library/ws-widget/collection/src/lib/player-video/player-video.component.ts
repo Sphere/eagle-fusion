@@ -85,7 +85,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   }
   videoStates: { [videoId: string]: { popupTriggered: any, currentMilestone: any } } = {};
   popupTriggered = false
-
+  isResumeStarted = false
   constructor(
     private eventSvc: EventService,
     private contentSvc: WidgetContentService,
@@ -333,6 +333,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   }
 
   private initializePlayer() {
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+    const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
     console.log("initializePlayer")
 
     const dispatcher: telemetryEventDispatcherFunction = event => {
@@ -381,18 +383,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       }
     }
     const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-      let object = {
-        "id": identifier,
-        "type": "video/mp4",
-        "version": "",
-        "rollup": {
-          "l1": collectionId,
-          "l2": identifier
-        }
-      }
-      this.telemetrySvc.start(object.type, 'video-start', 'player', object)
 
       let userId
       if (this.configSvc.userProfile) {
@@ -415,18 +405,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           const latest = parseFloat(temp[temp.length - 1] ?? '0')
           const percentMilis = (latest / data.max_size) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
-          const data1: any = {
-            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-            contentId: this.widgetData.identifier,
-            name: this.viewerDataSvc.resource!.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-            "rollup": {
-              "l1": collectionId,
-              "l2": identifier
-            }
-          }
-          this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
-
           if (this.contentData && percent >= this.contentData.completionPercentage) {
             if (this.widgetData.identifier && identifier && data) {
               this.viewerSvc
@@ -445,18 +423,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           }
 
           if (this.contentData === undefined && percent > 95) {
-            const data1: any = {
-              courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-              contentId: this.widgetData.identifier,
-              name: this.viewerDataSvc.resource!.name,
-              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-              "rollup": {
-                "l1": collectionId,
-                "l2": identifier
-              }
-            }
-            this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
-
             this.viewerSvc
               .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
 
@@ -471,17 +437,6 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             // this.contentSvc.changeMessage('Video')
           } else {
             if (this.contentData && this.contentData.completionPercentage && percent > 95) {
-              const data1: any = {
-                courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-                contentId: this.widgetData.identifier,
-                name: this.viewerDataSvc.resource!.name,
-                moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-                "rollup": {
-                  "l1": collectionId,
-                  "l2": identifier
-                }
-              }
-              this.telemetrySvc.end("video/mp4", 'video-close', 'player', data1)
 
               this.viewerSvc
                 .realTimeProgressUpdate(identifier, data, collectionId, batchId).subscribe((data: any) => {
@@ -605,6 +560,60 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       console.error("Error fetching content or parsing videoQuestions:", error)
       this.widgetData.videoQuestions = [] // Set to an empty array in case of error
     }
+  }
+
+  onEventTrigger(event: 'start' | 'pause' | 'end') {
+    if (event === 'start') {
+      if (!this.isResumeStarted) {
+        this.isResumeStarted = true
+        this.onVideoPlay()
+      } else {
+        this.onVideoPause('start')
+      }
+    } else if (event === 'pause') {
+      this.onVideoPause('pause')
+    } else if (event === 'end') {
+      this.onVideoEnded()
+    }
+  }
+
+  onVideoPlay() {
+    console.log("Video play event")
+    this.telemetrySvc.start("video/mp4", 'start', 'player', {
+      "id": this.widgetData.identifier,
+      "type": "video/mp4",
+      "version": "",
+      "rollup": {
+        "l1": this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+        "l2": this.widgetData.identifier
+      }
+    })
+  }
+
+  onVideoPause(event: string) {
+    console.log("Video pause event")
+    this.telemetrySvc.interact('video/mp4', event, 'player', {
+      id: this.widgetData.identifier,
+      type: 'video/mp4',
+      version: '',
+      rollup: {
+        l1: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+        l2: this.widgetData.identifier,
+      },
+    })
+  }
+
+  onVideoEnded() {
+    console.log("Video ended event")
+    this.telemetrySvc.end('video/mp4', 'ended', 'player', {
+      id: this.widgetData.identifier,
+      type: 'video/mp4',
+      version: '',
+      rollup: {
+        l1: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+        l2: this.widgetData.identifier,
+      },
+    })
   }
 }
 

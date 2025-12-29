@@ -87,7 +87,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
           : this.content.body
         : '',
     )
-    this.telemetrySvc.impression('pageloaded', 'course-details', 'app-toc-overview', { id: this.content?.identifier, type: 'course' })
+    this.telemetrySvc.impression('pageloaded', 'course-details', 'app-toc-overview', { id: this.content?.identifier, type: 'course', version: "", rollup: {} })
     this.contentParents = {}
     this.resetAndFetchTocStructure()
     this.getTrainingCount()

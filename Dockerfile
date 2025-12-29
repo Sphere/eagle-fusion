@@ -1,5 +1,8 @@
-# Use Node 16, compatible with Angular 12
-FROM node:18.20.8
+# Use Node 20, required for Angular 16
+FROM node:20.12.2
+
+# Build argument for cache busting
+ARG BUILDKIT_INLINE_CACHE=1
 
 # Set the working directory in the container
 WORKDIR /app
@@ -7,8 +10,8 @@ WORKDIR /app
 # Copy all files into the working directory
 COPY . .
 
-# Install Angular CLI globally with a specific version
-RUN npm install -g @angular/cli@16.2.16
+# Install Angular CLI and http-server globally with a specific version
+RUN npm install -g @angular/cli@16.2.16 http-server
 
 # Ensure @angular/localize is installed for i18n support
 RUN yarn add @angular/localize@16.2.12
@@ -20,23 +23,29 @@ RUN yarn install
 RUN yarn add moment vis-util
 
 # Build the project for production
-RUN ng build --configuration production --output-path=dist/www --base-href=/ --localize=false
+RUN ng build --configuration production --output-path=dist/www --base-href=/
 
 # Run the compression script (make sure it exists in your package.json)
 RUN yarn run compress:brotli
 # Uncomment if you need gzip compression
 # RUN yarn run compress:gzip
 
-# Change working directory to the dist folder where the build output resides
-WORKDIR /app/dist
+# Change working directory to the app root
+WORKDIR /app
 
-# Copy client assets into the build output directory
-COPY assets/iGOT/client-assets/dist www/assets
+# Copy the server script
+COPY server.js ./
 
-# Install production dependencies in the dist folder (for server-side execution)
-RUN yarn install --production
+# Note: express and compression should already be in node_modules from yarn install above
+# If they're not in package.json, uncomment the line below:
+# RUN npm install express compression
+
+# Build output is at dist/www
+# Note: assets/iGOT/client-assets/dist will only be copied if it exists
+# COPY assets/iGOT/client-assets/dist dist/www/assets || true
+
 # Expose port for the app
-EXPOSE 3004
+EXPOSE 3002
 
-# Run the application (make sure 'serve:prod' exists in your package.json)
-CMD ["yarn", "run", "serve:prod"]
+# Run the Node.js server that properly handles SPA routing
+CMD ["node", "server.js"]

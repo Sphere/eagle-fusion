@@ -69,12 +69,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       if (this.htmlContent) {
         const data1: any = {
-          courseID: courseID,
-          contentId: this.htmlContent.identifier,
-          name: this.htmlContent.name,
-          moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          "id": this.htmlContent.identifier,
+          "type": "youtube",
+          "version": "",
+          "rollup": {
+            "l1": collectionId || courseID,
+            "l2": this.htmlContent.identifier
+          }
         }
-        this.telemetrySvc.end('youtube', 'youtube-close', 'player', data1)
+        const extras: any = {
+          values: [{
+            courseID: courseID,
+            contentId: this.htmlContent.identifier,
+            name: this.htmlContent.name,
+            moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          }]
+        }
+        this.telemetrySvc.end('youtube', 'youtube-close', 'player', data1, extras)
       }
       // this.contentSvc.changeMessage('youtube')
     }
@@ -151,12 +162,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       if (this.htmlContent) {
         const data1: any = {
-          courseID: courseID,
-          contentId: this.htmlContent.identifier,
-          name: this.htmlContent.name,
-          moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          "id": this.htmlContent.identifier,
+          "type": "docs.google",
+          "version": "",
+          "rollup": {
+            "l1": collectionId || courseID,
+            "l2": this.htmlContent.identifier
+          }
         }
-        this.telemetrySvc.end('docs.google', 'docs.google-close', 'player', data1)
+        const extras: any = {
+          values: [{
+            courseID: courseID,
+            contentId: this.htmlContent.identifier,
+            name: this.htmlContent.name,
+            moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          }]
+        }
+        this.telemetrySvc.end('docs.google', 'docs.google-close', 'player', data1, extras)
       }
 
       // this.contentSvc.changeMessage('docs.google')
@@ -243,11 +265,22 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       const courseId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       const obj = {
-        resourceID: this.htmlContent.identifier,
-        courseID: courseId,
-        moduleID: this.getModuleId(courseId, this.htmlContent.parent),
+        "id": this.htmlContent.identifier,
+        "type": "docs.google",
+        "version": "",
+        "rollup": {
+          "l1": courseId,
+          "l2": this.htmlContent.identifier
+        }
       }
-      this.telemetrySvc.end('player', 'view', 'player', obj)
+      const extras: any = {
+        values: [{
+          resourceID: this.htmlContent.identifier,
+          courseID: courseId,
+          moduleID: this.getModuleId(courseId, this.htmlContent.parent),
+        }]
+      }
+      this.telemetrySvc.end('player', 'view', 'player', obj, extras)
     }
 
     if (this.urlContains.includes('docs.google') && this.htmlContent !== null) {
@@ -424,12 +457,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       if (this.htmlContent) {
         const data: any = {
-          courseID: courseID,
-          contentId: this.htmlContent.identifier,
-          name: this.htmlContent.name,
-          moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          "id": this.htmlContent.identifier,
+          "type": "scrom",
+          "version": "",
+          "rollup": {
+            "l1": courseID,
+            "l2": this.htmlContent.identifier
+          }
         }
-        this.telemetrySvc.end('scorm', 'scorm-close', 'player', data)
+        const extras: any = {
+          values: [{
+            courseID: courseID,
+            contentId: this.htmlContent.identifier,
+            name: this.htmlContent.name,
+            moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          }]
+        }
+        this.telemetrySvc.end('scorm', 'scorm-close', 'player', data, extras)
       }
     }
 
@@ -502,12 +546,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
             if (this.htmlContent) {
               const data2: any = {
-                courseID: courseID,
-                contentId: this.htmlContent.identifier,
-                name: this.htmlContent.name,
-                moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+                "id": this.htmlContent.identifier,
+                "type": "html/x-url",
+                "version": "",
+                "rollup": {
+                  "l1": collectionId || courseID,
+                  "l2": this.htmlContent.identifier
+                }
               }
-              this.telemetrySvc.end('html/x-url', 'html/x-url-close', 'player', data2)
+              const extras: any = {
+                values: [{
+                  courseID: courseID,
+                  contentId: this.htmlContent.identifier,
+                  name: this.htmlContent.name,
+                  moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+                }]
+              }
+              this.telemetrySvc.end('html/x-url', 'html/x-url-close', 'player', data2, extras)
             }
           }
         }
@@ -624,12 +679,23 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
           if (this.htmlContent) {
             const data2: any = {
-              courseID: courseID,
-              contentId: this.htmlContent.identifier,
-              name: this.htmlContent.name,
-              moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+              "id": this.htmlContent.identifier,
+              "type": "html/lms",
+              "version": "",
+              "rollup": {
+                "l1": courseID,
+                "l2": this.htmlContent.identifier
+              }
             }
-            this.telemetrySvc.end('html/lms', 'html/lms-close', 'player', data2)
+            const extras: any = {
+              values: [{
+                courseID: courseID,
+                contentId: this.htmlContent.identifier,
+                name: this.htmlContent.name,
+                moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+              }]
+            }
+            this.telemetrySvc.end('html/lms', 'html/lms-close', 'player', data2, extras)
           }
 
         }
@@ -666,9 +732,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       /* tslint:disable-next-line */
       console.log(this.htmlContent.identifier)
       this.events.raiseInteractTelemetry(data.event, 'scrom', 'scrom-content', {
-        contentId: this.htmlContent.identifier,
+        id: this.htmlContent.identifier,
+        verison: "",
+        rollup: {},
         ...data,
-      })
+      }, { values: [{ contentId: this.htmlContent.identifier, }] })
     }
   }
   receiveMessage(msg: any) {
@@ -720,13 +788,24 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier
       if (this.htmlContent) {
         const data2: any = {
-          courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
-            this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
-          contentId: this.htmlContent.identifier,
-          name: this.htmlContent.name,
-          moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          "id": this.htmlContent.identifier,
+          "type": "html/open-in-newtab",
+          "version": "",
+          "rollup": {
+            "l1": collectionId || courseID,
+            "l2": this.htmlContent.identifier
+          }
         }
-        this.telemetrySvc.end('html/open-in-newtab', 'html/open-in-newtab-close', 'player', data2)
+        const extras: any = {
+          values: [{
+            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?
+              this.activatedRoute.snapshot.queryParams.collectionId : this.htmlContent.identifier,
+            contentId: this.htmlContent.identifier,
+            name: this.htmlContent.name,
+            moduleId: this.getModuleId(courseID, this.htmlContent.parent),
+          }]
+        }
+        this.telemetrySvc.end('html/open-in-newtab', 'html/open-in-newtab-close', 'player', data2, extras)
       }
       if (this.mobAppSvc && this.mobAppSvc.isMobile) {
         // window.open(this.htmlContent.artifactUrl)

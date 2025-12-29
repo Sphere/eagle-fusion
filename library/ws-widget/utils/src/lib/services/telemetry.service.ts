@@ -54,7 +54,7 @@ export class TelemetryService {
         // authtoken: this.authSvc.token,
       }
       this.pData = this.telemetryConfig.pdata
-      this.addPlayerListener()
+      // this.addPlayerListener()
       this.addInteractListener()
       // this.addTimeSpentListener()
       this.addSearchListener()
@@ -73,7 +73,7 @@ export class TelemetryService {
     return ''
   }
 
-  interact(type: string, mode: string, id: string, data?: any, actor?: any) {
+  interact(type: string, mode: string, id: string, data?: any, actor?: any, extras?: any) {
     try {
       if (this.telemetryConfig) {
         const page = this.getPageDetails()
@@ -81,8 +81,9 @@ export class TelemetryService {
         const cookie = this.UserAgentResolverService.generateCookie()
         const edata = {
           type,
-          subtype: mode,
+          mode,
           pageid: id,
+          extras,
           uri: page.pageUrl,
           browserName: userAgent.browserName,
           OS: userAgent.OS,
@@ -102,6 +103,7 @@ export class TelemetryService {
               id: 'web-ui',
               pid: 'sphere.aastrika.org'
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             ...(data) && data,
@@ -143,6 +145,7 @@ export class TelemetryService {
               id: 'web-ui',
               pid: 'sphere.aastrika.org'
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             ...(data) && data,
@@ -157,7 +160,7 @@ export class TelemetryService {
     }
   }
 
-  start(type: string, mode: string, id: string, data?: any) {
+  start(type: string, mode: string, id: string, data?: any, extras?: any) {
     try {
       if (this.telemetryConfig) {
         $t.start(
@@ -169,6 +172,7 @@ export class TelemetryService {
             type,
             mode,
             pageid: id,
+            extras
           },
           {
             context: {
@@ -176,6 +180,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.pData.id,
               },
+              sid: this.getTelemetrySessionId
             },
             object: {
               ...(data) && data,
@@ -191,13 +196,14 @@ export class TelemetryService {
     }
   }
 
-  end(type: string, mode: string, id: string, data?: any) {
+  end(type: string, mode: string, id: string, data?: any, extras?: any) {
     try {
       $t.end(
         {
           type,
           mode,
           pageid: id,
+          extras
         },
         {
           context: {
@@ -205,6 +211,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             ...(data) && data,
@@ -234,6 +241,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId
           },
         },
       )
@@ -354,7 +362,7 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
               rollup: {},
@@ -439,7 +447,7 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
               rollup: rollup,
@@ -447,6 +455,7 @@ export class TelemetryService {
             object: {
               ver: '1.0.0',
               id: '',
+              type: "",
               rollup: rollup
             },
             tags: [],
@@ -499,7 +508,7 @@ export class TelemetryService {
                 pid: '',
               },
               env: 'prod',
-              sid: '',
+              sid: this.getTelemetrySessionId,
               did: '',
               cdata: [],
               rollup: rollup,
@@ -507,6 +516,7 @@ export class TelemetryService {
             object: {
               ver: '1.0.0',
               id: '',
+              type: '',
               rollup: rollup
             },
             tags: [],
@@ -556,6 +566,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             id: page.objectId,
@@ -569,6 +580,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
+            sid: this.getTelemetrySessionId
           },
         })
       }
@@ -589,6 +601,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.externalApps[impressionData.subApplicationName],
             },
+            sid: this.getTelemetrySessionId
           },
           object: {
             id: page.objectId,
@@ -599,6 +612,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.externalApps[impressionData.subApplicationName],
             },
+            sid: this.getTelemetrySessionId
           },
         }
         $t.impression(impressionData.data, externalConfig)
@@ -704,6 +718,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.externalApps[event.from],
               },
+              sid: this.getTelemetrySessionId
             },
           }
           try {
@@ -717,9 +732,10 @@ export class TelemetryService {
             $t.interact(
               {
                 type: event.data.type,
-                subtype: event.data.subType,
+                mode: event.data.subType,
                 // object: event.data.object,
                 pageid: event.data.pageid || page.pageid,
+                extras: event.data.extras
                 // target: { page },
               },
               {
@@ -728,6 +744,7 @@ export class TelemetryService {
                     ...this.pData,
                     id: this.pData.id,
                   },
+                  sid: this.getTelemetrySessionId
                 },
                 object: {
                   ...event.data.object,
@@ -759,6 +776,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.externalApps[event.from],
               },
+              sid: this.getTelemetrySessionId
             },
           }
           try {
@@ -772,7 +790,7 @@ export class TelemetryService {
             $t.heartbeat(
               {
                 type: event.data.type,
-                // subtype: event.data.eventSubType,
+                // mode: event.data.eventSubType,
                 identifier: event.data.identifier,
                 // mimeType: event.data.mimeType,
                 // mode: event.data.mode,
@@ -783,6 +801,7 @@ export class TelemetryService {
                     ...this.pData,
                     id: this.pData.id,
                   },
+                  sid: this.getTelemetrySessionId
                 },
               })
           } catch (e) {
@@ -818,6 +837,7 @@ export class TelemetryService {
                   ...this.pData,
                   id: this.pData.id,
                 },
+                sid: this.getTelemetrySessionId
               },
             },
           )

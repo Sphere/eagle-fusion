@@ -14,6 +14,7 @@ import { ScrollService } from '../../services/scroll.service'
 import { ConfigService as CompetencyConfiService } from '../competency/services/config.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { LanguageService } from 'src/app/services/language.service'
 import { environment } from 'src/environments/environment'
 import { PlaylistService } from '../../services/playlist.service'
 
@@ -72,7 +73,8 @@ export class MobileDashboardComponent implements OnInit {
     private CompetencyConfiService: CompetencyConfiService,
     private contentSvc: WidgetContentService,
     private UserAgentResolverService: UserAgentResolverService,
-    private playlistSvc: PlaylistService
+    private playlistSvc: PlaylistService,
+    private languageSvc: LanguageService,
   ) {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
@@ -103,7 +105,7 @@ export class MobileDashboardComponent implements OnInit {
     if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {
-      this.lang = location.href.includes('/hi/') ? 'hi' : 'en'
+      this.lang = this.languageSvc.getCurrentLanguage()
     }
 
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
@@ -111,16 +113,11 @@ export class MobileDashboardComponent implements OnInit {
         this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
       }
     })
-    if (localStorage.getItem('preferedLanguage')) {
-      let data: any
-      data = localStorage.getItem('preferedLanguage')
-      if (JSON.parse(data).selected === true) {
-        this.preferedLanguage = JSON.parse(data)
-      }
-    } else {
-      if (this.router.url.includes('hi')) {
-        this.preferedLanguage = { id: 'hi', lang: 'हिंदी' }
-      }
+
+    // Set preferred language from LanguageService
+    this.preferedLanguage = {
+      id: this.languageSvc.getCurrentLanguage(),
+      lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English'
     }
 
     if (this.configSvc.userProfile) {
@@ -259,6 +256,17 @@ export class MobileDashboardComponent implements OnInit {
     })
 
     this.coursesForUP = myCourse
+
+    if (this.coursesForUP.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   private fetchCourseRecommendations() {
     if (this.configSvc.unMappedUser?.profileDetails?.profileReq?.professionalDetails) {
@@ -303,8 +311,19 @@ export class MobileDashboardComponent implements OnInit {
       myCourse.push(myCourseObject)
 
     })
-
+    console.log("myCourse", myCourse)
     this.coursesForYou = myCourse
+
+    if (this.coursesForYou.length > 0) {
+      this.topCertifiedCourseDisplayConfig = {
+        displayType: 'card-badges',
+        badges: {
+          certification: true,
+          rating: true,
+          sourceName: true
+        },
+      }
+    }
   }
   setCompetencyConfig(data: any) {
     if (data) {
@@ -519,41 +538,14 @@ export class MobileDashboardComponent implements OnInit {
         }
         this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
           (res: any) => {
-
             if (res) {
-              if (this.router.url.includes('hi')) {
-                const lan = this.router.url.split('hi/').join('')
-                if (lang === 'hi') {
-                  window.location.assign(`${location.origin}/${lang}${lan}`)
-                } else {
-                  window.location.assign(`${location.origin}${lan}`)
-                }
-              } else {
-                if (lang === 'hi') {
-                  window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-                } else {
-                  window.location.assign(`${location.origin}${this.router.url}`)
-                }
-              }
+              // Use LanguageService to switch language instead of URL-based routing
+              this.languageSvc.setLanguage(lang)
+              this.lang = lang
             }
           },
-          () => {
-          })
+          () => { })
       })
-      // if (this.router.url.includes('hi')) {
-      //   const lan = this.router.url.split('hi/').join('')
-      //   if (lang === 'hi') {
-      //     window.location.assign(`${location.origin}/${lang}${lan}`)
-      //   } else {
-      //     window.location.assign(`${location.origin}${lang}${lan}`)
-      //   }
-      // } else {
-      //   if (lang === 'hi') {
-      //     window.location.assign(`${location.origin}/${lang}${this.router.url}`)
-      //   } else {
-      //     window.location.assign(`${location.origin}${lang}${this.router.url}`)
-      //   }
-      // }
     })
   }
 }

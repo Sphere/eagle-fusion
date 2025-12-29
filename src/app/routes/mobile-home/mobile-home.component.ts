@@ -45,7 +45,7 @@ export class MobileHomeComponent implements OnInit {
       this.configSvc.unMappedUser.profileDetails.preferences.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {
-      this.lang = location.href.includes('/hi/') ? 'hi' : 'en'
+      this.lang = localStorage.getItem('language') === 'hi' ? 'hi' : 'en'
     }
     // this.lang = this.configSvc!.unMappedUser
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')

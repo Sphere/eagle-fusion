@@ -49,7 +49,7 @@ export class TncComponent implements OnInit, OnDestroy {
     private tncProtectedSvc: TncAppResolverService,
     private tncPublicSvc: TncPublicResolverService,
     private globals: Globals,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
@@ -80,7 +80,7 @@ export class TncComponent implements OnInit, OnDestroy {
   getTnc(locale: string) {
     if (this.tncData) {
       if (this.isPublic) {
-        this.tncPublicSvc.getPublicTnc(locale).subscribe(data => {
+        this.tncPublicSvc.getPublicTnc().subscribe(data => {
           this.assignTncData(data)
         })
       } else {
@@ -108,7 +108,7 @@ export class TncComponent implements OnInit, OnDestroy {
         return
       }
       if (this.isPublic) {
-        this.tncPublicSvc.getPublicTnc(locale).subscribe(data => {
+        this.tncPublicSvc.getPublicTnc().subscribe(data => {
           this.assignDp(tncData, data)
         })
       } else {

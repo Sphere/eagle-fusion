@@ -78,7 +78,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   ngOnInit() {
     console.log(this.assesmentdata)
     this.telemetrySvc.getTelemetryConfig()
-    this.telemetrySvc.impression('assessment-page-loaded', 'popup-details', 'assessment-modal', { id: this.assesmentdata.generalData.identifier, type: 'assessment' })
+    this.telemetrySvc.impression('assessment-page-loaded', 'popup-details', 'assessment-modal', { id: this.assesmentdata.generalData.identifier, type: 'application/json', version: "", rollup: { l1: this.assesmentdata.generalData.collectionId } })
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)
@@ -93,14 +93,14 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   ngAfterViewInit() {
     let object = {
       "id": this.assesmentdata.generalData.identifier,
-      "type": "assessment",
+      "type": "application/json",
       "version": "",
       "rollup": {
         "l1": this.assesmentdata.generalData.collectionId,
         "l2": this.assesmentdata.generalData.identifier
       }
     }
-    this.telemetrySvc.start('assessment', 'assessment-start', 'player', object)
+    this.telemetrySvc.start('application/json', 'assessment-start', 'player', object)
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
@@ -116,18 +116,25 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.dialogRef.close({ event: 'CLOSE' })
     }
     const data: any = {
-      courseID: this.assesmentdata.generalData.collectionId,
-      contentId: this.assesmentdata.generalData.identifier,
-      name: this.assesmentdata.generalData.name,
-      moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+      id: this.assesmentdata.generalData.identifier,
+      type: "application/json",
+      version: "",
       "rollup": {
         "l1": this.assesmentdata.generalData.collectionId,
         "l2": this.assesmentdata.generalData.identifier
       }
     }
+    const extras: any = {
+      values: [{
+        courseID: this.assesmentdata.generalData.collectionId,
+        contentId: this.assesmentdata.generalData.identifier,
+        name: this.assesmentdata.generalData.name,
+        moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
 
-    this.telemetrySvc.start('assessment', 'assessment-close-start', 'player', data)
-    this.telemetrySvc.end('assessment', 'assessment-close-end', 'player', data)
+      }]
+    }
+    this.telemetrySvc.interact('application/json', 'assessment-close-start', 'player', data, extras)
+    this.telemetrySvc.interact('application/json', 'assessment-close-end', 'player', data, extras)
   }
 
   closeDone() {
@@ -171,16 +178,23 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           this.timeLeft -= 0.1
           if (this.timeLeft < 0) {
             const data: any = {
-              courseID: this.assesmentdata.generalData.collectionId,
-              contentId: this.assesmentdata.generalData.identifier,
-              name: this.assesmentdata.generalData.name,
-              moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+              id: this.assesmentdata.generalData.identifier,
+              type: "application/json",
+              version: "",
               "rollup": {
                 "l1": this.assesmentdata.generalData.collectionId,
                 "l2": this.assesmentdata.generalData.identifier
               }
             }
-            this.telemetrySvc.end('assessment', 'assessment-auto-submit', 'player', data)
+            const extras: any = {
+              values: [{
+                courseID: this.assesmentdata.generalData.collectionId,
+                contentId: this.assesmentdata.generalData.identifier,
+                name: this.assesmentdata.generalData.name,
+                moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+              }]
+            }
+            this.telemetrySvc.end('application/json', 'assessment-auto-submit', 'player', data, extras)
             this.isIdeal = true
             this.timeLeft = 0
             if (this.timerSubscription) {
@@ -221,18 +235,26 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     qindex?: number
   ) {
     const value = new Map()
-    value["courseID"] = this.assesmentdata?.generalData?.collectionId
-    value["questionType"] = question ? question.questionType : ""
-    value["identifier"] = this.assesmentdata?.generalData?.identifier
-    value["questionId"] = question ? question.questionId : ""
-    value["qindex"] = question ? qindex : ""
+    value["id"] = this.assesmentdata?.generalData?.identifier
+    value["type"] = "application/json"
+    value["version"] = ""
+    value["rollup"] = { l1: this.assesmentdata?.generalData?.collectionId, l2: this.assesmentdata?.generalData?.identifier }
+    const extras: any = {
+      values: [{
+        courseID: this.assesmentdata?.generalData?.collectionId,
+        questionType: question ? question.questionType : "",
+        identifier: this.assesmentdata?.generalData?.identifier,
+        questionId: question ? question.questionId : "",
+        qindex: question ? qindex : ""
+      }]
+    }
     this.events.raiseInteractTelemetry(status ? 'TOUCH' : 'select-option', status
       ? status === "next"
         ? 'next-question-clicked'
         : 'previous-question-clicked'
       : 'answer-clicked',
       'player',
-      value
+      value, extras
     )
   }
 
@@ -281,16 +303,23 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.quizService.submitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
         const data: any = {
-          courseID: this.assesmentdata.generalData.collectionId,
-          contentId: this.assesmentdata.generalData.identifier,
-          name: this.assesmentdata.generalData.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          id: this.assesmentdata.generalData.identifier,
+          type: "application/json",
+          version: "",
           "rollup": {
             "l1": this.assesmentdata.generalData.collectionId,
             "l2": this.assesmentdata.generalData.identifier
           }
         }
-        this.telemetrySvc.end('assessment', 'assessment-submit', 'player', data)
+        const extras: any = {
+          values: [{
+            courseID: this.assesmentdata.generalData.collectionId,
+            contentId: this.assesmentdata.generalData.identifier,
+            name: this.assesmentdata.generalData.name,
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          }]
+        }
+        this.telemetrySvc.end('application/json', 'assessment-submit', 'player', data, extras)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true
@@ -323,16 +352,23 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.quizService.competencySubmitQuizV2(sanitizedRequestData).subscribe(
       (res: NSQuiz.IQuizSubmitResponse) => {
         const data1: any = {
-          courseID: this.assesmentdata.generalData.collectionId,
-          contentId: this.assesmentdata.generalData.identifier,
-          name: this.assesmentdata.generalData.name,
-          moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          id: this.assesmentdata.generalData.identifier,
+          type: "competency",
+          version: "",
           "rollup": {
             "l1": this.assesmentdata.generalData.collectionId,
             "l2": this.assesmentdata.generalData.identifier
           }
         }
-        this.telemetrySvc.end('competency', 'competency-submit', 'player', data1)
+        const extras: any = {
+          values: [{
+            courseID: this.assesmentdata.generalData.collectionId,
+            contentId: this.assesmentdata.generalData.identifier,
+            name: this.assesmentdata.generalData.name,
+            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+          }]
+        }
+        this.telemetrySvc.end('competency', 'competency-submit', 'player', data1, extras)
         window.scrollTo(0, 0)
         if (this.assesmentdata.questions.isAssessment) {
           this.isIdeal = true
@@ -562,11 +598,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       if (!isNull(data.nextResource)) {
         this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
           const result = data.result
-          result['type'] = 'assessment'
+          result['type'] = 'application/json'
           const res = data["result"]["contentList"].find(
             (obj: any) => obj.contentId === data.nextContentId
           )
-          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'assessment' })
+          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/json' })
           this.contentSvc.changeMessage(result)
         })
 
