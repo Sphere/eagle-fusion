@@ -92,7 +92,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
       // } catch (error) { }
 
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.app,
+        this.configSvc.instanceConfig.logos.appTransparent || this.configSvc.instanceConfig.logos.app || this.configSvc.instanceConfig.logos.company,
       )
       this.appName = this.configSvc.instanceConfig.details.appName
       this.navBar = this.configSvc.pageNavBar

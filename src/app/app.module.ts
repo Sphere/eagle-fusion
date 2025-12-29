@@ -42,7 +42,7 @@ import {
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   ImageCropModule,
-  LoggerService, PipeSafeSanitizerModule,
+  LoggerService, PipeSafeSanitizerModule, LogoutModule,
 } from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
 import 'hammerjs'
@@ -378,6 +378,7 @@ export const configFactory = {
     PublicFaqModule,
     // MobileAppModule,
     PipeSafeSanitizerModule,
+    LogoutModule,
     // TourModule,
     SlidersModule,
     MdePopoverModule,

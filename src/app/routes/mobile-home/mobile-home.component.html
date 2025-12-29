@@ -2,19 +2,27 @@
 <div class="banner-container">
   <div class="carousel">
     <div class="banner-heading-container px-4">
-      <div>{{ 'Access free Healthcare courses' | translate }}</div>
-      <div>{{ '
-        High quality content from experts
-        ' | translate }}</div>
-      <!-- <div class="create-account">
+      <div class="banner-heading">{{ 'Access free Healthcare courses' | translate }}</div>
+      <div class="banner-mini-heading">
+        {{ 'High quality content from experts' | translate }}
+      </div>
+      <div class="create-account">
         <a role="button" matRipple class="flex flex-col mt-8 px-2 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
           <ng-container>
-            <button [innerHTML]="'
-              Create Account' | translate"></button>
+            <button mat-raised-button [ngStyle]="{
+                                          'width':'160px',
+                                          'height':'auto',
+                                              'background-color': '#2E6491',
+                                              'border': '1px solid #2E6491',
+                                              'border-radius': '20px',
+                                              'color': 'white',
+                                              'font-size': '16px',
+                                              'font-weight': '400'}">
+              {{ 'Create Account' | translate }}</button>
           </ng-container>
         </a>
-      </div> -->
+      </div>
     </div>
     <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
       <ng-container *ngFor="let data of dataCarousel; let i = index">
@@ -56,38 +64,46 @@
       <img src="/fusion-assets/images/globe.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}</div>
     </div>
-    <p>{{ 'Learners onboarded' | translate }}</p>
+    <p class="info-text">{{ 'Learners onboarded' | translate }}</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}</div>
     </div>
-    <p>{{ 'Number of courses' | translate }}</p>
+    <p class="info-text">{{ 'Number of courses' | translate }}</p>
   </div>
   <div class="info-container info-disaplay-bg2">
     <div class="flex info-box">
       <img src="/fusion-assets/icons/carbon_course.svg" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_points}}</div>
     </div>
-    <p>{{ 'CNE Hours' | translate }}</p>
+    <p class="info-text">{{ 'CNE Hours' | translate }}</p>
   </div>
   <div class="info-container info-disaplay-bg1">
     <div class="flex info-box">
       <img src="/fusion-assets/images/cert.png" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}</div>
     </div>
-    <p>{{ 'Total certificate issued' | translate }}</p>
+    <p class="info-text">{{ 'Total certificate issued' | translate }}</p>
   </div>
 </div>
 <div class="create-account">
-  <h3>{{ 'New User?' | translate }}</h3>
+  <h3 class="text-center" style="font-weight: 550;margin-top: 5px;margin-bottom: 5px;">{{ 'New User?' | translate }}
+  </h3>
   <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
     class="flex items-center flex-col mt px-2 box-sizing-box" (click)="createAcct()" active
     [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
     <ng-container>
-      <button>{{ '
-        Create Account' | translate }}</button>
+      <button mat-raised-button [ngStyle]="{
+            'background-color': '#2E6491',
+            'width': '100%',
+            'border': '1px solid #2E6491',
+            'border-radius': '20px',
+            'color': 'white',
+            'font-size': '16px',
+            'font-weight': '400'}">
+        {{ 'Create Account' | translate }}</button>
     </ng-container>
   </a>
 </div>
