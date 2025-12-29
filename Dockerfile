@@ -36,13 +36,13 @@ WORKDIR /app
 # Copy the server script
 COPY server.js ./
 
-# Install express and compression for the server
-RUN npm install express compression
+# Note: express and compression should already be in node_modules from yarn install above
+# If they're not in package.json, uncomment the line below:
+# RUN npm install express compression
 
-# Build output is at dist/www/fusion
+# Build output is at dist/www
 # Note: assets/iGOT/client-assets/dist will only be copied if it exists
-# Update the copy path if your assets are in a different location
-# COPY assets/iGOT/client-assets/dist dist/www/fusion/assets || true
+# COPY assets/iGOT/client-assets/dist dist/www/assets || true
 
 # Expose port for the app
 EXPOSE 3002

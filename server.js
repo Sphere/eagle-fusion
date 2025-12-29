@@ -6,7 +6,7 @@ const fs = require('fs')
 const compression = require('compression')
 
 const app = express()
-const distPath = path.join(__dirname, 'dist', 'www', 'fusion')
+const distPath = path.join(__dirname, 'dist', 'www')
 
 console.log('Starting server...')
 console.log('Serving from:', distPath)
@@ -30,7 +30,7 @@ app.use((req, res, next) => {
 })
 
 // SPA fallback: redirect all non-file requests to index.html
-app.get('/*', (req, res) => {
+app.get('*', (req, res) => {
   const filePath = path.join(distPath, req.path)
   const indexPath = path.join(distPath, 'index.html')
 
