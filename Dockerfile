@@ -30,17 +30,22 @@ RUN yarn run compress:brotli
 # Uncomment if you need gzip compression
 # RUN yarn run compress:gzip
 
-# Change working directory to the dist folder where the build output resides
-WORKDIR /app/dist
+# Change working directory to the app root
+WORKDIR /app
 
-# Copy client assets into the build output directory
-COPY assets/iGOT/client-assets/dist www/assets
+# Copy the server script
+COPY server.js ./
 
-# Install production dependencies in the dist folder (for server-side execution)
-RUN yarn install --production
+# Install express and compression for the server
+RUN npm install express compression
+
+# Build output is at dist/www/fusion
+# Note: assets/iGOT/client-assets/dist will only be copied if it exists
+# Update the copy path if your assets are in a different location
+# COPY assets/iGOT/client-assets/dist dist/www/fusion/assets || true
+
 # Expose port for the app
 EXPOSE 3002
 
-# Run the application on port 3002 to match Kubernetes service configuration
-# Use --spa flag for proper Angular SPA routing fallback to index.html
-CMD ["http-server", "www", "-p", "3002", "-c-1", "--spa"]
+# Run the Node.js server that properly handles SPA routing
+CMD ["node", "server.js"]
