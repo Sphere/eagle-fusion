@@ -34,10 +34,10 @@ export class WebCourseCardComponent implements OnInit {
   displayStyle = 'none'
   isLoggedIn = false
 
-  // Helper to get language prefix - use user preference ONLY, not URL
+  // Helper to get language prefix - DEPRECATED: ngx-translate should be used instead
+  // Do NOT use URL-based language prefixes with ngx-translate
   private getLanguagePrefix(): string {
-    const local = this.configSvc.unMappedUser?.profileDetails?.preferences?.language ?? 'en'
-    return local === 'hi' ? '/hi' : ''
+    return '' // Always empty - language is now managed by ngx-translate
   }
 
   constructor(private router: Router,

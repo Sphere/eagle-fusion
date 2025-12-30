@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core'
 import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
-import { Observable, of } from 'rxjs'
-import { HttpClient } from '@angular/common/http'
-import { map, catchError } from 'rxjs/operators'
+import { Observable, of, throwError, timer } from 'rxjs'
+import { HttpClient, HttpErrorResponse } from '@angular/common/http'
+import { map, catchError, retryWhen, timeout, mergeMap } from 'rxjs/operators'
 import { IResolveResponse } from '@ws-widget/utils'
 import { UtilityService } from '../services/utility.service'
 import { ConfigurationsService } from '../services/configurations.service'
@@ -10,8 +10,7 @@ import { ConfigurationsService } from '../services/configurations.service'
 @Injectable({
   providedIn: 'root',
 })
-export class ExploreDetailResolve
-   {
+export class ExploreDetailResolve {
   private baseUrl = this.configSvc.sitePath
   isIntranetAllowedSettings = false
   constructor(
@@ -34,8 +33,57 @@ export class ExploreDetailResolve
       url = `${this.baseUrl}/page/${route.data.pageKey}.json`
     }
     return this.http.get(url).pipe(
+      // Add timeout of 15 seconds to prevent hanging requests
+      timeout(15000),
+      // Retry up to 2 times on transient errors (network glitches)
+      retryWhen(errors =>
+        errors.pipe(
+          mergeMap((error, retryCount) => {
+            // Only retry on network errors or 5xx errors, not 404s or 403s
+            if (error instanceof HttpErrorResponse) {
+              if (error.status === 0 || (error.status >= 500 && error.status < 600)) {
+                const delay = Math.min(1000 * Math.pow(2, retryCount), 5000)
+                console.warn(`[RETRY ${retryCount + 1}] HTTP ${error.status || 'Network Error'}, retrying in ${delay}ms...`)
+                if (retryCount < 2) {
+                  return timer(delay)
+                }
+              }
+            }
+            // Don't retry on client errors (4xx) or after max retries
+            return throwError(() => error)
+          })
+        )
+      ),
       map(pageData => ({ data: this.transformPageData(pageData, tag), error: null })),
-      catchError(err => of({ data: null, error: err })),
+      catchError(err => {
+        // Distinguish between different error types
+        let errorType = 'NetworkError'
+
+        if (err instanceof HttpErrorResponse) {
+          if (err.status === 404) {
+            errorType = 'NotFound'
+          } else if (err.status === 403) {
+            errorType = 'Forbidden'
+          } else if (err.status >= 500) {
+            errorType = 'ServerError'
+          } else if (err.status === 0) {
+            // Status 0 indicates network error or CORS issue
+            errorType = 'NetworkError'
+          } else if (err.status >= 400) {
+            errorType = 'ClientError'
+          }
+        }
+
+        return of({
+          data: null,
+          error: {
+            type: errorType,
+            status: err instanceof HttpErrorResponse ? err.status : 0,
+            message: err instanceof HttpErrorResponse ? err.message : 'Unknown error',
+            original: err
+          }
+        })
+      }),
     )
   }
 

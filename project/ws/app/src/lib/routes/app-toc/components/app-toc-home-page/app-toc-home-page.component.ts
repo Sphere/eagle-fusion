@@ -57,7 +57,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   isCohortsRestricted = false
   isInIframe = false
   forPreview = window.location.href.includes('/author/')
-  analytics = this.route.snapshot.data.pageData.data.analytics
+  analytics: any = null
   currentFragment = 'overview'
   batchId!: string
   sticky = false
@@ -162,10 +162,14 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           }
         }
 
-        this.banners = data.pageData.data.banners
-        this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
-        this.tocSvc.showDescription = data.pageData.data.showDescription || false
-        this.tocConfig = data.pageData.data
+        // Safely initialize analytics from pageData
+        if (data.pageData && data.pageData.data) {
+          this.analytics = data.pageData.data.analytics || null
+          this.banners = data.pageData.data.banners
+          this.tocSvc.subtitleOnBanners = data.pageData.data.subtitleOnBanners || false
+          this.tocSvc.showDescription = data.pageData.data.showDescription || false
+          this.tocConfig = data.pageData.data
+        }
 
         try {
 

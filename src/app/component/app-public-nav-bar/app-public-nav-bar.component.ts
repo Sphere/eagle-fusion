@@ -126,7 +126,7 @@ export class AppPublicNavBarComponent implements OnInit, OnChanges, OnDestroy {
     // added from app nav
     if (this.configSvc.instanceConfig) {
       this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.app,
+        this.configSvc.instanceConfig.logos.appTransparent || this.configSvc.instanceConfig.logos.app || this.configSvc.instanceConfig.logos.company,
       )
       this.instanceVal = this.configSvc.rootOrg || ''
       if (this.configSvc.instanceConfig.logos.appBottomNav) {

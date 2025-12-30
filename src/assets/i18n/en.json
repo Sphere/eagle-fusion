@@ -1,4 +1,13 @@
 {
+  "COMPETENCY_DASHBOARD": "Competency Dashboard",
+  "JOB_DESCRIPTION": "Job Description",
+  "PASSBOOK": "Passbook",
+  "REQUIRED": "Required",
+  "SELF_ASSESSMENTS": "Self Assessments",
+  "FRMELEMNTS_LBL_OBSERVATION": "Observation",
+  "ROLES": "Roles",
+  "SELF": "Self",
+  "CRS_TRK_FRMELEMNTS_LBL_TRAINING": "Training",
   "2023": "2023",
   "2024": "2024",
   "Previous": "Previous",
@@ -835,5 +844,9 @@
   "10 Minutes": "10 Minutes",
   "Get Help on\r\n                    WhatsApp?": "Get Help on\r\n                    WhatsApp?",
   "Welcome,": "Welcome,",
-  "Continue\r\n          Learning": "Continue\r\n          Learning"
+  "Continue\r\n          Learning": "Continue\r\n          Learning",
+  "Edit name": "Edit name",
+  "Confirm name": "Confirm name",
+  "Try again": "Try again",
+  "User doesn't exist.": "User doesn't exist."
 }

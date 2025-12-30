@@ -32,17 +32,36 @@
   </ng-container> -->
 <!-- </mat-toolbar> -->
 <!-- pageData==>{{pageData | json}} -->
-<ng-container *ngIf="!error && authenticated && !isXSmall" [wsResolverWidget]="pageData?.pageLayout"></ng-container>
-<ng-container *ngIf="!error && !authenticated && !isXSmall" [wsLoginResolverWidget]="pageData?.pageLayout">
+<ng-container *ngIf="!error && authenticated" [wsResolverWidget]="pageData?.pageLayout"></ng-container>
+<ng-container *ngIf="!error && !authenticated" [wsLoginResolverWidget]="pageData?.pageLayout">
 </ng-container>
-<h2 *ngIf="error" class="mat-error margin-top-m text-center">
-  <ng-container *ngIf="error === 'NoContent'" i18n>
-    Page not found. Check the url.
-  </ng-container>
-  <ng-container *ngIf="error !== 'NoContent'" i18n>
-    Check your network connection and reload the page.
-  </ng-container>
-</h2>
+<div *ngIf="error" class="error-container margin-top-m text-center">
+  <h2 class="mat-error">
+    <ng-container *ngIf="error === 'NoContent'" i18n>
+      Page not found. Check the url.
+    </ng-container>
+    <ng-container *ngIf="error !== 'NoContent' && isNetworkError" i18n>
+      Check your network connection and reload the page.
+    </ng-container>
+    <ng-container *ngIf="error !== 'NoContent' && isServerError" i18n>
+      Server error. Please try again later.
+    </ng-container>
+    <ng-container *ngIf="error !== 'NoContent' && isForbiddenError" i18n>
+      You don't have permission to access this page.
+    </ng-container>
+    <ng-container
+      *ngIf="error !== 'NoContent' && isClientError && !isForbiddenError && !isNetworkError && !isServerError" i18n>
+      An error occurred. Please try reloading the page.
+    </ng-container>
+  </h2>
+  <p *ngIf="isNetworkError" class="error-details">
+    <ng-container i18n>You are experiencing connectivity issues. Please check your internet connection and click the
+      reload button below.</ng-container>
+  </p>
+  <button mat-raised-button color="primary" (click)="reloadPage()" class="mt-2" *ngIf="isNetworkError" i18n>
+    Reload Page
+  </button>
+</div>
 
 <mat-menu #quickLinksMenu="matMenu">
   <ng-container *ngFor="let link of links; let i = index" [wsResolverWidget]="link"></ng-container>
