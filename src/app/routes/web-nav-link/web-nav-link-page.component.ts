@@ -164,19 +164,9 @@ export class WebNavLinkPageComponent implements OnInit {
   }
 
   async redirect(text: string) {
-    let userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
+    // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
     const rootOrgId = this.configSvc.userProfile?.rootOrgId
     const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-    let local: string
-
-    if (userProfile && userProfile.language !== undefined) {
-      local = userProfile.language
-    } else {
-      local = location.href.includes('/hi/') ? 'hi' : 'en'
-    }
-
-    let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1, text)
 
     if (text === 'home') {
       this.showProfile = false
@@ -193,19 +183,15 @@ export class WebNavLinkPageComponent implements OnInit {
         return
       }
 
-      if (url1 === 'hi') {
-        url = '/' + url
-      }
       this.router.navigate([url]) // Secure navigation
     }
     else if (text === 'mycourses') {
-      let url = url1 === 'hi' ? '/app/user/my_courses' : 'app/user/my_courses'
       let result = await this.signupService.getUserData()
       this.configSvc.unMappedUser = result
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        this.router.navigate([url])
+        this.router.navigate(['/app/user/my_courses'])
       } else {
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: '/page/home' } })
       }
     }
     else if (text === 'competency') {
@@ -213,10 +199,9 @@ export class WebNavLinkPageComponent implements OnInit {
       let result = await this.signupService.getUserData()
 
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-        let url = url1 === 'hi' ? '/app/user/competency' : 'app/user/competency'
-        this.router.navigate([url])
+        this.router.navigate(['/app/user/competency'])
       } else {
-        this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
+        this.router.navigate(['/app/about-you'], { queryParams: { redirect: '/page/home' } })
       }
     }
     else if (text === 'notification') {
@@ -240,8 +225,7 @@ export class WebNavLinkPageComponent implements OnInit {
       let result = await this.signupService.getUserData()
       if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
         this.showProfile = true
-        let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-        this.router.navigate([url])
+        this.router.navigate(['/app/profile-view'])
       } else {
         this.showProfile = false
         if (localStorage.getItem('url_before_login')) {
@@ -252,7 +236,7 @@ export class WebNavLinkPageComponent implements OnInit {
           this.showProfile = true
           this.showHome = false
           this.showCompetency = false
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}/page/home` } })
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: '/page/home' } })
         }
       }
     }

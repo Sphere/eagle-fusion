@@ -1,14 +1,16 @@
 import { Injectable } from '@angular/core'
-import { ActivatedRouteSnapshot, Router, 
-// RouterStateSnapshot,
-UrlTree } from '@angular/router'
+import {
+  ActivatedRouteSnapshot, Router,
+  // RouterStateSnapshot,
+  UrlTree
+} from '@angular/router'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class GeneralGuard  {
+export class GeneralGuard {
   dobFlag = false
   isXSmall = false
   locale = ''
@@ -154,28 +156,9 @@ export class GeneralGuard  {
               }
             } else {
               if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
+                // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
                 // console.log('true')
-                if (localStorage.getItem('preferedLanguage') && (sessionStorage.getItem('fromOTPpage'))) {
-                  let data: any
-                  let lang: any
-                  data = localStorage.getItem('preferedLanguage')
-                  lang = JSON.parse(data)
-                  if (lang.id) {
-                    lang = lang.id !== 'en' ? lang.id : ''
-                    let url4 = `${document.baseURI}`
-                    if (url4.includes('hi')) {
-                      lang = ''
-                    }
-                    const url = lang === '' ? `${lang}app/new-tnc` : `${lang}/app/new-tnc`
-                    console.log(url)
-                    location.href = `${url}`
-                    //this.router.navigate([url, 'new-tnc'])
-                  }
-                  //this.router.navigate(['app', 'new-tnc'])
-                } else {
-                  // console.log('alerr')
-                  this.router.navigate(['app', 'new-tnc'])
-                }
+                this.router.navigate(['app', 'new-tnc'])
               }
             }
           } else {

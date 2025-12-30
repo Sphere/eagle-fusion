@@ -234,32 +234,19 @@ export class MyCoursesComponent implements OnInit {
 
   async navigateToToc(contentIdentifier: any) {
     sessionStorage.setItem('cURL', location.href)
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
-    let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
-    }
-    let url = url1 === 'hi' ? `/app/toc/` + `${contentIdentifier}` + `/overview` : `app/toc/` + `${contentIdentifier}` + `/overview`
-    //this.commonUtilService.addLoader()
+    // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+    const baseUrl = document.baseURI.replace(/\/hi\//g, '').replace(/\/$/, '')
+    const tocUrl = `/app/toc/${contentIdentifier}/overview`
     const result = await this.signupService.getUserData()
-    // this.commonUtilService.removeLoader()
     if (this.configSvc.unMappedUser) {
-      //this.commonUtilService.addLoader()
       if (result && result.profileDetails!.profileReq && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        location.href = `${url3}${url1}${url}`
+        location.href = `${baseUrl}${tocUrl}`
       } else {
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
-          // window.location.assign(`${location.origin}/${this.lang}/${url}/${courseUrl}`)
         } else {
-          let url = '/page/home'
-          let url4 = `${document.baseURI}`
-          if (url4.includes('hi')) {
-            url1 = ''
-          }
-          this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: tocUrl } })
         }
       }
     }

@@ -2,6 +2,7 @@ import { Component, OnInit, HostListener, ElementRef } from '@angular/core'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ScrollService } from '../../services/scroll.service'
+import { LanguageService } from '../../services/language.service'
 import { HttpClient } from '@angular/common/http'
 
 @Component({
@@ -33,8 +34,7 @@ export class WebHomeComponent implements OnInit {
     }
   ]
   constructor(private http: HttpClient, private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
-
-    private scrollService: ScrollService, private elementRef: ElementRef
+    private scrollService: ScrollService, private elementRef: ElementRef, private languageSvc: LanguageService
   ) { }
 
   ngOnInit() {
@@ -48,7 +48,8 @@ export class WebHomeComponent implements OnInit {
       this.configSvc.unMappedUser.profileDetails.preferences.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {
-      this.lang = location.href.includes('/hi/') ? 'hi' : 'en'
+      // ✅ Use LanguageService instead of checking location.href
+      this.lang = this.languageSvc?.getCurrentLanguage() || 'en'
     }
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       console.log("yes here scroll", targetDivId)

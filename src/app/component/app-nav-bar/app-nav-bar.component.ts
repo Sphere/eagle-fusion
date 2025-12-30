@@ -177,20 +177,12 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
   navigate() {
     // Use LanguageService instead of checking location.href
-    const userLang = this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage()
-    let local = userLang
-    let url1 = local === 'hi' ? 'hi' : ""
-    // let url3 = `${document.baseURI}`
-    // if (url3.includes('hi')) {
-    //   url3 = url3.replace(/hi\//g, '')
-    // }
+    // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
 
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails.profileReq!.personalDetails!.dob) {
-      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-      this.router.navigateByUrl(`${url}`)
+      this.router.navigate(['/app/profile-view'])
     } else {
-      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: '/page/home' } })
     }
 
   }

@@ -460,15 +460,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isNavBarRequired = true
           // this.showNavigation = true
           this.isLoggedIn = true
-          let lang = `${document.baseURI}`
-          lang = lang.includes('hi') ? 'hi/' : ''
-          if (lang === 'hi') {
-            localStorage.setItem(`url_before_login`, `hi/app/toc/` + `${split(event.url, '/')[3]
-              }` + `/overview`)
-          } else {
-            localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
-              }` + `/overview`)
-          }
+          // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+          localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
+            }` + `/overview`)
           sessionStorage.setItem('login-btn', 'clicked')
           if (!localStorage.getItem('userUUID')) {
             location.href = '/public/login'
