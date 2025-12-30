@@ -89,6 +89,7 @@ export class PlaylistService {
 
   getPlaylistData() {
     // API call to fetch playlist data can be added here
+    console.log('Fetching playlist data from API...', this.playlistData)
     let body = {
       "request": {
         "type": "web_layout",
@@ -98,9 +99,10 @@ export class PlaylistService {
         "rootOrgId": "0132317968766894088"
       }
     }
-    this.http.post('https://sphere.aastrika.org/apis/v1/form/read?v=%24{new%20Date().getTime()', body, { headers: {} }).subscribe((response: any) => {
-      console.log(response)
+    this.http.post(`https://sphere.aastrika.org/apis/v1/form/read?v=${new Date().getTime()}`, body, { headers: {} }).subscribe((response: any) => {
+      console.log("response", response)
     })
+    console.log('Fetching playlist data from API...', this.playlistData)
     this.playlistData = data
     return data
   }
