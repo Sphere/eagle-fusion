@@ -33,6 +33,8 @@ import { AssesmentQuestionResultComponent } from './components/assesment-questio
 import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component'
 import { ViewQuizQuestionComponent } from './components/view-quiz-question/view-quiz-question.component'
 import { CloseQuizModalComponent } from './components/close-quiz-modal/close-quiz-modal.component'
+import { ViewAnswerComponent } from './components/view-answer/view-answer.component'
+import { CongratulationsPopupComponent } from './components/congratulations-popup/congratulations-popup.component'
 // import { ConfirmmodalComponent } from './confirm-modal-component'
 
 @NgModule({
@@ -48,13 +50,15 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
     AssesmentCloseModalComponent,
     AssesmentQuestionResultComponent,
     QuizModalComponent,
+    ViewAnswerComponent,
     ViewQuizQuestionComponent,
     CloseQuizModalComponent,
+    CongratulationsPopupComponent,
     // ConfirmmodalComponent,
   ],
   // tslint:disable-next-line:max-line-length
   entryComponents: [SubmitQuizDialogComponent, AssesmentModalComponent, AssesmentOverviewComponent, AssesmentCloseModalComponent,
-    QuizModalComponent, CloseQuizModalComponent,
+    QuizModalComponent, CloseQuizModalComponent, ViewAnswerComponent, CongratulationsPopupComponent
     // ConfirmmodalComponent
   ],
   imports: [
@@ -76,6 +80,6 @@ import { CloseQuizModalComponent } from './components/close-quiz-modal/close-qui
     MatTabsModule,
     MatProgressBarModule,
   ],
-  exports: [QuizComponent],
+  exports: [QuizComponent, CongratulationsPopupComponent],
 })
 export class QuizModule { }

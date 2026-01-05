@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
@@ -23,6 +23,7 @@ import {
 // import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
+import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 // declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
@@ -51,7 +52,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   fetchingResultsStatus: FetchStatus = 'none'
   questionAnswerHash: any = {}
   timerSubscription: Subscription | null = null
-  dialog: any
   tabActive = false
   disableNext = false
   diablePrevious = true
@@ -75,10 +75,12 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private viewerSvc: ViewerUtilService,
     public playerStateService: PlayerStateService,
     private contentSvc: WidgetContentService,
-    private events: EventService
+    private events: EventService,
+    private dialog: MatDialog,
   ) { }
 
   ngOnInit() {
+    console.log("this.viewerDataSvc.resource", this.viewerDataSvc.resource)
     console.log(this.assesmentdata)
     this.telemetrySvc.getTelemetryConfig()
     this.telemetrySvc.impression('assessment-page-loaded', 'popup-details', 'assessment-modal', { id: this.assesmentdata.generalData.identifier, type: 'application/json', version: "", rollup: { l1: this.assesmentdata.generalData.collectionId } })
@@ -144,8 +146,19 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.dialogRef.close({ event: 'DONE' })
   }
 
-  retakeQuiz() {
-    this.dialogRef.close({ event: 'RETAKE_QUIZ' })
+  async retakeQuiz() {
+    if (this.result === 100 || this.result < this.passPercentage) {
+      this.dialogRef.close({ event: 'RETAKE_QUIZ' })
+    } else {
+      this.dialog.open(ViewAnswerComponent, {
+        width: '100%',
+        panelClass: 'view-answer-dialog',
+        data: {
+          questions: this.assesmentdata.questions.questions,
+          userInput: this.questionAnswerHash
+        }
+      })
+    }
   }
   CompetencyDashboard() {
     this.dialogRef.close({

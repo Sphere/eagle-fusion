@@ -15,6 +15,8 @@ export class PlayerNavigationWidgetComponent implements OnInit {
   nextResourceUrl: string | null = null
   currentCompletionPercentage: number | null = null
   firstResourceUrl: string | null = null
+  isPlayBackBtnClicked: boolean = false
+  isPlayNextBtnClicked: boolean = false
 
   constructor(
     private viewerDataSvc: PlayerStateService,
@@ -35,14 +37,19 @@ export class PlayerNavigationWidgetComponent implements OnInit {
 
   navigateToPreResource() {
     if (this.prevResourceUrl) {
+      this.isPlayBackBtnClicked = true
       this.generateInteractTelemetry('previous', this.prevResourceUrl.split('/').pop())
       this.router.navigate([this.prevResourceUrl], { queryParamsHandling: 'preserve' })
     }
   }
 
   navigateToNextResource() {
-    this.generateInteractTelemetry('next', this.nextResourceUrl?.split('/').pop())
-    this.router.navigate([this.nextResourceUrl ? this.nextResourceUrl : ''], { queryParamsHandling: 'preserve' })
+    if (this.isProgressCheck) {
+      this.isPlayNextBtnClicked = true
+      const navUrl = this.nextResourceUrl ? this.nextResourceUrl : this.firstResourceUrl
+      this.generateInteractTelemetry('next', navUrl?.split('/').pop())
+      this.router.navigate([navUrl], { queryParamsHandling: 'preserve' })
+    }
   }
 
   get isProgressCheck(): boolean {

@@ -1,0 +1,94 @@
+.popup-container {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none !important;
+  overflow: hidden;
+}
+.gif-wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: cover;
+}
+
+.gif-top {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
+}
+
+.gif-bottom {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 50%;
+  object-fit: cover;
+  z-index: 2;
+}
+
+.popup-content {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  background: rgba(220, 239, 236, 1);
+  border-radius: 16px;
+  padding: 2rem 1.2rem;
+  text-align: center;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.15);
+  background-image: url('/fusion-assets/icons/bg-congrats.svg');
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+.title {
+  font-size: 32px;
+  font-weight: 600;
+  margin-bottom: 1.6rem;
+}
+
+.subtitle {
+  font-size: 24px;
+  margin: 4%;
+  font-weight: 400;
+}
+
+.trophy-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-top: 1.5rem;
+}
+
+.trophy {
+  width: 29vw;
+  height: auto;
+}
+
+.completed-bg{
+ width: 77;
+height: 77;
+opacity: 1;
+top: 8px;
+left: 8px;
+
+  margin-top: 1.5rem;
+}
+
+.badge-btn {
+  margin-top: 10px;
+  background: rgba(70, 151, 136, 1);
+  color: white;
+  padding: 12px;
+  width: 100%;
+  border-radius: 25px;
+  font-size: 18px;
+  border: none;
+}
+

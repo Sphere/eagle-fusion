@@ -43,6 +43,7 @@ interface IViewerTocCard {
 import { HttpClient } from '@angular/common/http'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
 import { QuizService } from '../../plugins/quiz/quiz.service'
+import { CongratulationsPopupComponent } from '../../plugins/quiz/components/congratulations-popup/congratulations-popup.component'
 export type TCollectionCardType = 'content' | 'playlist' | 'goals'
 
 interface ICollectionCard {
@@ -840,27 +841,35 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     this.updatePassbookEntryPassbook(data, competency)
                   })
                 }
-                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                  width: '300px',
-                  height: '405px',
-                  panelClass: 'overview-modal',
-                  disableClose: true,
-                  data: { request: data, message: 'Congratulations!, you have completed the course' },
-                })
-              }
 
-              if (confirmdialog) {
-                confirmdialog.afterClosed().subscribe((res: any) => {
-                  if (res && res.event === 'CONFIRMED') {
-                    this.dialog.closeAll()
-                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                      queryParams: {
-                        primaryCategory: 'Course',
-                        batchId: this.batchId,
-                      },
-                    })
-                  }
-                })
+                let delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                setTimeout(() => {
+                  this.openCongratulationPopup().then((isCompleted) => {
+                    if (isCompleted) {
+                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                        width: '300px',
+                        height: '405px',
+                        panelClass: 'overview-modal',
+                        disableClose: true,
+                        data: { request: data, message: 'Congratulations!, you have completed the course' },
+                      })
+
+                      if (confirmdialog) {
+                        confirmdialog.afterClosed().subscribe((res: any) => {
+                          if (res && res.event === 'CONFIRMED') {
+                            this.dialog.closeAll()
+                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                              queryParams: {
+                                primaryCategory: 'Course',
+                                batchId: this.batchId,
+                              },
+                            })
+                          }
+                        })
+                      }
+                    }
+                  })
+                }, delay)
               }
             } else {
               let finalCompetencies = []
@@ -891,27 +900,35 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     this.updatePassbookEntryPassbook(data, competency)
                   })
                 }
-                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                  width: '300px',
-                  height: '405px',
-                  panelClass: 'overview-modal',
-                  disableClose: true,
-                  data: { request: data, message: 'Congratulations!, you have completed the course' },
-                })
-              }
 
-              if (confirmdialog) {
-                confirmdialog.afterClosed().subscribe((res: any) => {
-                  if (res && res.event === 'CONFIRMED') {
-                    this.dialog.closeAll()
-                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                      queryParams: {
-                        primaryCategory: 'Course',
-                        batchId: this.batchId,
-                      },
-                    })
-                  }
-                })
+                let delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                setTimeout(() => {
+                  this.openCongratulationPopup().then((isCompleted) => {
+                    if (isCompleted) {
+                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                        width: '300px',
+                        height: '405px',
+                        panelClass: 'overview-modal',
+                        disableClose: true,
+                        data: { request: data, message: 'Congratulations!, you have completed the course' },
+                      })
+
+                      if (confirmdialog) {
+                        confirmdialog.afterClosed().subscribe((res: any) => {
+                          if (res && res.event === 'CONFIRMED') {
+                            this.dialog.closeAll()
+                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                              queryParams: {
+                                primaryCategory: 'Course',
+                                batchId: this.batchId,
+                              },
+                            })
+                          }
+                        })
+                      }
+                    }
+                  })
+                }, delay)
               }
               if (optmisticPercentage === 100 && Object.keys(rating).length > 0) {
                 this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -965,13 +982,35 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     this.updatePassbookEntryPassbook(data, competency)
                   })
                 }
-                confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                  width: '300px',
-                  height: '405px',
-                  panelClass: 'overview-modal',
-                  disableClose: true,
-                  data: { request: data, message: 'Congratulations!, you have completed the course' },
-                })
+
+                let delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                setTimeout(() => {
+                  this.openCongratulationPopup().then((isCompleted) => {
+                    if (isCompleted) {
+                      confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                        width: '300px',
+                        height: '405px',
+                        panelClass: 'overview-modal',
+                        disableClose: true,
+                        data: { request: data, message: 'Congratulations!, you have completed the course' },
+                      })
+
+                      if (confirmdialog) {
+                        confirmdialog.afterClosed().subscribe((res: any) => {
+                          if (res && res.event === 'CONFIRMED') {
+                            this.dialog.closeAll()
+                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                              queryParams: {
+                                primaryCategory: 'Course',
+                                batchId: this.batchId,
+                              },
+                            })
+                          }
+                        })
+                      }
+                    }
+                  })
+                }, delay)
               } else {
                 if (optmisticPercentage === 100) {
                   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
@@ -981,20 +1020,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     },
                   })
                 }
-              }
-
-              if (confirmdialog) {
-                confirmdialog.afterClosed().subscribe((res: any) => {
-                  if (res && res.event === 'CONFIRMED') {
-                    this.dialog.closeAll()
-                    this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                      queryParams: {
-                        primaryCategory: 'Course',
-                        batchId: this.batchId,
-                      },
-                    })
-                  }
-                })
               }
             } else {
               console.log('lll', dat)
@@ -1213,6 +1238,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
       }
     }
+  }
+  async openCongratulationPopup(): Promise<boolean> {
+    const dialogRef = this.dialog.open(CongratulationsPopupComponent, {
+      panelClass: 'congratulations-dialog',
+      data: {
+        collectionId: this.collectionId
+      }
+    })
+
+    const result = await dialogRef.afterClosed().toPromise()
+    return !!result?.completed
   }
   async updateResourceChange() {
     const currentIndex = await this.queue.findIndex(c => c.identifier === this.resourceId)
