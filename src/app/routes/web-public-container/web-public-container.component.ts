@@ -1,15 +1,11 @@
-import { HttpClient } from '@angular/common/http'
 import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { filter, includes, uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
-import { of } from 'rxjs'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WidgetContentService } from '@ws-widget/collection'
-// import { environment } from 'src/environments/environment'
-import { catchError, switchMap } from 'rxjs/operators'
 import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
@@ -47,7 +43,7 @@ export class WebPublicComponent implements OnInit {
   configData: any
   constructor(
     private router: Router,
-    private http: HttpClient,
+    // private http: HttpClient,
     public dialog: MatDialog,
     private orgService: OrgServiceService,
     public scrollService: ScrollService,
@@ -59,10 +55,29 @@ export class WebPublicComponent implements OnInit {
   }
 
   async ngOnInit() {
+    let plyLsData: any = await this.playlistSvc.getPlaylistConfig(this.configSvc?.userProfile?.rootOrgId)
+    console.log("plyLsData", plyLsData)
+    let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails[0]?.designation || ''
+    console.log("designation", designation)
+    // element.role.map(role => role.toLowerCase()).includes(designation.toLowerCase())
+    plyLsData.forEach(async (element: any) => {
+      if (element.orgId == this.configSvc.userProfile.rootOrgId) {
+        if (element.playlistId === "TOP_COURSE_PLAYLIST") {
+          this.topCertifiedCourseIdentifier = element.dataSource.payload
+        }
+        if (element.playlistId === "CNE_COURSE_PLAYLIST") {
+          this.cneCoursesIdentifier = element.dataSource.payload
+        }
+      }
+    })
+    this.fetchEnvironmentConfigurations()
+    console.log("this.configData", this.configData, this.cneCourse, this.topCertifiedCourse)
     let res = this.playlistSvc.getHomeConfig()
+    if (res === "") {
+      return
+    }
     this.configData = res.slice(1, -1)
-    // Set up user enrolled display configurations
-    this.setUserEnrolledDisplayConfig()
+
     if (this.isEkshamata) {
       this.showTopCourses()
     }
@@ -71,9 +86,6 @@ export class WebPublicComponent implements OnInit {
 
     // Handle scroll events
     this.handleScrollEvents()
-
-    // Fetch configuration data based on the environment
-    this.fetchEnvironmentConfigurations()
   }
   showTopCourses() {
     this.topCertifiedCourse = []
@@ -121,27 +133,6 @@ export class WebPublicComponent implements OnInit {
       }
     }
   }
-  private setUserEnrolledDisplayConfig() {
-    if (this.userEnrollCourse && this.userEnrollCourse.length > 0) {
-      this.userEnrolledDisplayConfig = {
-        displayType: 'card-mini',
-        badges: {
-          certification: true,
-          rating: true,
-          completionPercentage: true
-        }
-      }
-    } else {
-      this.userEnrolledDisplayConfig = {
-        displayType: 'card-mini',
-        badges: {
-          certification: true,
-          rating: true,
-          completionPercentage: true
-        }
-      }
-    }
-  }
 
   private fetchCourseRecommendations() {
     console.log("Fetching course recommendations...")
@@ -154,12 +145,7 @@ export class WebPublicComponent implements OnInit {
       }
     })
 
-    if (
-      this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.profileReq &&
-      this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails
-    ) {
+    if (this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails) {
       const professionalDetails = this.configSvc.unMappedUser.profileDetails.profileReq.professionalDetails[0]
       if (professionalDetails) {
         const designation =
@@ -202,33 +188,41 @@ export class WebPublicComponent implements OnInit {
   }
 
   private fetchEnvironmentConfigurations() {
+    const identifiers = [
+      ...this.topCertifiedCourseIdentifier,
+      ...this.cneCoursesIdentifier,
+    ]
 
-
-    // const url = environment.production ? 'mobile-home.json' : 'mobile-home-stage.json'
-    const url = 'mobile-home.json'
-
-    this.http.get(`assets/configurations/${url}`).pipe(
-      switchMap((configData: any) => {
-        const identifiers = [
-          ...configData.topCertifiedCourseIdentifier,
-          ...configData.cneCoursesIdentifier,
-          ...configData.featuredCourseIdentifier
-        ]
-        this.topCertifiedCourseIdentifier = configData.topCertifiedCourseIdentifier
-        this.cneCoursesIdentifier = configData.cneCoursesIdentifier
-        this.featuredCourseIdentifier = configData.featuredCourseIdentifier
-        return this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id)
-      }),
-      catchError((error) => {
-        // Handle error if needed
-        return of(error) // Returning a default observable in case of error
+    return this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id)
+      .subscribe((results: any) => {
+        const content = results?.result?.content || []
+        if (!content.length) {
+          return
+        }
+        const cneSet = new Set(this.cneCoursesIdentifier)
+        const topCertifiedSet = new Set(this.topCertifiedCourseIdentifier)
+        this.cneCourse = uniqBy(
+          content.filter(item => cneSet.has(item.identifier)),
+          'identifier'
+        )
+        this.topCertifiedCourse = uniqBy(
+          content.filter(item => topCertifiedSet.has(item.identifier)),
+          'identifier'
+        )
+        // Set up user enrolled display configurations
+        this.configData.forEach((element: any) => {
+          console.log("element.playlistConfigId", element.playlistConfigId)
+          if (element.playlistConfigId === "CONTINUE_LEARNING") {
+            element.data = this.userEnrollCourse
+          } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
+            element.data = this.coursesForUP
+          } else if (element.playlistConfigId === 'CNE_COURSE_PLAYLIST') {
+            element.data = this.cneCourse
+          } else if (element.playlistConfigId === 'TOP_COURSE_PLAYLIST') {
+            element.data = this.topCertifiedCourse
+          }
+        })
       })
-    ).subscribe((results: any) => {
-      if (results.result.content.length > 0) {
-        this.formatTopCertifiedCourseResponse(results)
-        this.formatcneCourseResponse(results)
-      }
-    })
   }
 
   formatForYouCourses(res: any) {
@@ -261,47 +255,11 @@ export class WebPublicComponent implements OnInit {
       }
     }
   }
-  formatcneCourseResponse(res: any) {
-
-    const cneCourse = filter(res.result.content, ckey => {
-      return includes(this.cneCoursesIdentifier, ckey.identifier)
-    })
-    this.cneCourse = uniqBy(cneCourse, 'identifier')
-    if (this.cneCourse.length > 0) {
-      this.CNECourseDisplayConfig = {
-        displayType: 'card-badges',
-        badges: {
-          cneName: true,
-          rating: true,
-          sourceName: true
-        },
-      }
-    }
-  }
   formatFeaturedCourseResponse(res: any) {
     const featuredCourse = filter(res.result.content, ckey => {
       return includes(this.featuredCourseIdentifier, ckey.identifier)
     })
     this.featuredCourse = uniqBy(featuredCourse, 'identifier')
-  }
-
-  formatTopCertifiedCourseResponse(res: any) {
-
-    const topCertifiedCourse = filter(res.result.content, ckey => {
-      return includes(this.topCertifiedCourseIdentifier, ckey.identifier)
-    })
-
-    this.topCertifiedCourse = uniqBy(topCertifiedCourse, 'identifier')
-    if (this.topCertifiedCourse.length > 0) {
-      this.forYouCourseDisplayConfig = {
-        displayType: 'card-badges',
-        badges: {
-          certification: true,
-          rating: true,
-          sourceName: true
-        },
-      }
-    }
   }
 
   // For opening Course Page

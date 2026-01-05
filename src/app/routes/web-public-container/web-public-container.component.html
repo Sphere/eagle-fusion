@@ -2,13 +2,13 @@
   <section class="mt-4 view-all-course-container" *ngIf="content.data && content.data.length>0">
     <div class="line-label orange flex scroller-container">
       <div>
-        <span class="header1">{{ content.title | translate }}</span>
+        <span [class]="content.headerClass">{{ content.title | translate }}</span>
       </div>
       <button (click)="viewAllCourse(content?.button.courseType)" class="view-all-course">
         {{ content?.button?.label | translate }} <img class="right-arrow" [src]="content?.button?.img" alt="" />
       </button>
-
     </div>
+    {{content?.title}} {{content?.displayConfig | json}}
     <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
       <div *ngFor="let course of content.data">
         <ng-container *ngIf="content.data && content.data.length>0">
@@ -18,26 +18,6 @@
     </ws-utils-horizontal-scroller>
   </section>
 </div>
-<!-- <div class="top-course-container content">
-  <section class="mt-4 view-all-course-container" *ngIf="userEnrollCourse && userEnrollCourse.length>0">
-    <div class=" line-label bg-green flex scroller-container">
-      <div>
-        <span class="header1 header0">{{ 'CONTINUE LEARNING' | translate }}</span>
-      </div>
-      <button (click)="viewAllCourse('continueLearning')" class="view-all-course">
-        {{ 'View all' | translate }} <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
-      </button>
-    </div>
-
-    <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of userEnrollCourse">
-        <ng-container *ngIf="userEnrollCourse && userEnrollCourse.length>0">
-          <ws-web-course-card [displayConfig]="userEnrolledDisplayConfig" [courseData]="course"></ws-web-course-card>
-        </ng-container>
-      </div>
-    </ws-utils-horizontal-scroller>
-  </section>
-</div> -->
 <!-- this section is to show courses for State Institute of Health and Family Welfare, Department of Health & Family Welfare, UP org -->
 <div class="top-course-container content" *ngIf="isUpLogin">
   <section class="mt-4 view-all-course-container" *ngIf="coursesForUP && coursesForUP.length>0">
@@ -79,7 +59,7 @@
   </section>
 </div>
 <!-- Top Course -->
-<div class="top-course-container content" *ngIf="!isEkshamata">
+<!-- <div class="top-course-container content" *ngIf="!isEkshamata">
   <section class="mt-4 view-all-course-container" *ngIf="topCertifiedCourse && topCertifiedCourse.length>0">
     <div class="line-label orange flex scroller-container">
       <div>
@@ -98,9 +78,9 @@
       </div>
     </ws-utils-horizontal-scroller>
   </section>
-</div>
+</div> -->
 <!-- Top CNE courses -->
-<section #scrollToCneCourses class="scrollToCneCourses mt-4 view-all-course-container"
+<!-- <section #scrollToCneCourses class="scrollToCneCourses mt-4 view-all-course-container"
   *ngIf="cneCourse && cneCourse.length>0&&!isEkshamata">
   <div class="line-label orange flex scroller-container">
     <span class="header1">{{ 'CNE COURSES' | translate }}</span>
@@ -111,13 +91,11 @@
   </div>
   <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
     <div *ngFor="let course of cneCourse">
-      <ng-container *ngIf="cneCourse && cneCourse.length>0">
-        <ws-web-course-card [cnePoints]="'yes'" [displayConfig]="CNECourseDisplayConfig"
-          [courseData]="course"></ws-web-course-card>
-      </ng-container>
+      <ws-web-course-card [cnePoints]="'yes'" [displayConfig]="CNECourseDisplayConfig"
+        [courseData]="course"></ws-web-course-card>
     </div>
   </ws-utils-horizontal-scroller>
-</section>
+</section> -->
 <div class="overlay" *ngIf="isLoading">
   <div class="loader-container">
     <div class="loader-ripple">

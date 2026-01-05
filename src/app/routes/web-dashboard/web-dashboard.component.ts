@@ -57,7 +57,14 @@ export class WebDashboardComponent implements OnInit {
     // this.lang = this.configSvc!.unMappedUser
     //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
     //   : location.href.includes('/hi/') ? 'hi' : 'en'
-    this.configData = this.playlistSvc.getHomeConfig()[0]
+    let res = this.playlistSvc.getHomeConfig()
+    if (res === "") {
+      this.playlistSvc.getPlaylistData().then(() => {
+        this.configData = this.playlistSvc.getHomeConfig()[0]
+      })
+    } else {
+      this.configData = res[0]
+    }
     this.dataCarousel = this.configData.data
     if (this.isEkshamata) {
       this.domain = window.location.hostname

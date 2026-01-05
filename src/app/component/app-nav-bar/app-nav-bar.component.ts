@@ -98,14 +98,17 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.cancelTour()
       }
     })
-
-    this.orgData = this.playlistSvc.getOrgDetails()
-    let config = this.playlistSvc.getHeaderConfig()
-    this.menuItems = config.menuItems
-    // Header view
   }
 
-  ngOnInit() {
+  async ngOnInit() {
+    this.orgData = this.playlistSvc.getOrgDetails()
+    if (this.orgData === "") {
+      await this.playlistSvc.getPlaylistData().then(() => {
+        this.orgData = this.playlistSvc.getOrgDetails()
+      })
+    }
+    let config = this.playlistSvc.getHeaderConfig()
+    this.menuItems = config.menuItems
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false
     }
@@ -142,11 +145,11 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.instanceConfig) {
       if (localStorage.getItem('orgValue') === 'nhsrc') {
         this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.orgData.foundationLogo,
+          this.orgData?.foundationLogo,
         )
       } else {
         this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.orgData.foundationLogo,
+          this.orgData?.foundationLogo,
         )
       }
       this.instanceVal = this.configSvc.rootOrg || ''

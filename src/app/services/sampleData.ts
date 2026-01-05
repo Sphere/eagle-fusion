@@ -14,8 +14,20 @@ export const data = {
       "icon": "",
       "placeholder": "What do you want to learn today?"
     },
-    "webMenuItems": ["homeTab", "courseTab", "competencyTab", "accountTab", "notifTab"],
-    "mobileMenuItems": ["homeTab", "courseTab", "competencyTab", "searchMob", "notifTab"],
+    "webMenuItems": [
+      "homeTab",
+      "courseTab",
+      "competencyTab",
+      "accountTab",
+      "notifTab"
+    ],
+    "mobileMenuItems": [
+      "homeTab",
+      "courseTab",
+      "competencyTab",
+      "searchMob",
+      "notifTab"
+    ],
     "menuItems": [
       {
         "id": "homeTab",
@@ -26,7 +38,7 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": true,
-          "src": "/fusion-assets/icons/Home.svg",
+          "src": "/fusion-assets/icons/Home.svg"
         }
       },
       {
@@ -38,7 +50,7 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": true,
-          "src": "/fusion-assets/icons/material-symbols.svg",
+          "src": "/fusion-assets/icons/material-symbols.svg"
         }
       },
       {
@@ -50,7 +62,7 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": true,
-          "src": "/fusion-assets/icons/Competency_home.svg",
+          "src": "/fusion-assets/icons/Competency_home.svg"
         }
       },
       {
@@ -62,7 +74,7 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": true,
-          "src": "/fusion-assets/icons/Search.svg",
+          "src": "/fusion-assets/icons/Search.svg"
         }
       },
       {
@@ -74,7 +86,7 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": false,
-          "src": "/fusion-assets/icons/account.svg",
+          "src": "/fusion-assets/icons/account.svg"
         }
       },
       {
@@ -85,16 +97,16 @@ export const data = {
         "show": false,
         "type": "button-icon",
         "image": {
-          "src": "/fusion-assets/icons/notifications.svg",
+          "src": "/fusion-assets/icons/notifications.svg"
         }
-      },
+      }
     ],
     "rightMenuItem": {
       "id": "menu",
       "title": "",
       "image": {
         "isMobile": true,
-        "src": "/fusion-assets/icon/menu-item.svg",
+        "src": "/fusion-assets/icon/menu-item.svg"
       }
     }
   },
@@ -126,13 +138,14 @@ export const data = {
           ]
         },
         {
-          "title": "Continue Learning",
+          "title": "CONTINUE LEARNING",
+          "headerClass": "header1 header0",
           "playlistConfigId": "CONTINUE_LEARNING",
           "subTitle": "",
           "show": true,
           "data": {},
           "displayConfig": {
-            "displayType": 'card-mini',
+            "displayType": "card-mini",
             "badges": {
               "certification": true,
               "rating": true,
@@ -147,18 +160,19 @@ export const data = {
           }
         },
         {
-          "title": "For You",
+          "title": "FOR YOU",
+          "headerClass": "header1",
           "playlistConfigId": "YOUR_PLANS_PLAYLIST",
           "subTitle": "",
           "show": "isUpLogin",
           "data": {},
           "displayConfig": {
-            "displayType": 'card-badges',
+            "displayType": "card-badges",
             "badges": {
               "certification": true,
               "rating": true,
               "sourceName": true
-            },
+            }
           },
           "button": {
             "label": "View All",
@@ -168,17 +182,18 @@ export const data = {
           }
         },
         {
-          "title": "Top Courses",
+          "title": "TOP COURSES",
+          "headerClass": "header1",
           "playlistConfigId": "TOP_COURSE_PLAYLIST",
           "subTitle": "",
-          "data": {
-            "topCertifiedCourseIdentifier": [
-              "do_1134170689871134721450",
-              "do_11357408383009587211503",
-              "do_11342648503935795211688",
-              "do_1134170690099118081470",
-              "do_1134170690078638081468"
-            ]
+          "data": {},
+          "displayConfig": {
+            "displayType": "card-badges",
+            "badges": {
+              "certification": true,
+              "rating": true,
+              "sourceName": true
+            }
           },
           "button": {
             "label": "View All",
@@ -188,26 +203,18 @@ export const data = {
           }
         },
         {
-          "title": "CNE Courses",
+          "title": "CNE COURSES",
+          "headerClass": "header1",
           "playlistConfigId": "CNE_COURSE_PLAYLIST",
           "subTitle": "",
-          "data": {
-            "cneCoursesIdentifier": [
-              "do_11357413932438323211506",
-              "do_1136137511548764161792",
-              "do_1136208573316628481954",
-              "do_11376124906447667219",
-              "do_1137594994236129281162",
-              "do_11378822335428198411",
-              "do_1137937360086220801140",
-              "do_1137937626018693121165",
-              "do_1137533766819430401136",
-              "do_113759108993581056167",
-              "do_1134170689871134721450",
-              "do_1135953715273646081267",
-              "do_11342648503935795211688",
-              "do_113789659935694848169"
-            ]
+          "data": {},
+          "displayConfig": {
+            "displayType": "card-badges",
+            "badges": {
+              "cneName": true,
+              "rating": true,
+              "sourceName": true
+            }
           },
           "button": {
             "label": "View All",
@@ -224,18 +231,18 @@ export const data = {
             {
               "url": "https://www.youtube.com/embed/1fqlys8mkHg",
               "title": "Register for a course",
-              "description": "Explore various courses and pick the ones you like",
+              "description": "Explore various courses and pick the ones you like"
             },
             {
               "url": "https://www.youtube.com/embed/Kl28R7m2k50",
               "title": "Take the course",
-              "description": "Access the course anytime, at your convinience",
+              "description": "Access the course anytime, at your convinience"
             },
             {
               "url": "https://www.youtube.com/embed/JTGzCkEXlmU",
               "title": "Get certified",
-              "description": "Receive downloadable and shareable certificates",
-            },
+              "description": "Receive downloadable and shareable certificates"
+            }
           ]
         }
       ],
@@ -247,7 +254,7 @@ export const data = {
     }
   },
   "LAYOUT_FOOTER": {
-    "footerLabel": `2024 AastarUrmika Health Systems ("Aastrika Foundation")`,
+    "footerLabel": "2024 AastarUrmika Health Systems ('Aastrika Foundation')",
     "menuItems": [
       {
         "heading": "Quick Links",
@@ -257,12 +264,12 @@ export const data = {
           {
             "label": "Privacy policy",
             "type": "dp",
-            "routerLink": "/public/tnc",
+            "routerLink": "/public/tnc"
           },
           {
             "label": "Terms of Use",
             "type": "tnc",
-            "routerLink": "/public/tnc",
+            "routerLink": "/public/tnc"
           }
         ]
       },

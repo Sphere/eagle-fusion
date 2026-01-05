@@ -17,8 +17,8 @@
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
         <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
           [ref]="'home'"></ws-app-search-input-home>
-        <img (click)="navigate()" style="position: absolute;right: 18px;" class="burger-menu" *ngIf="isXSmall"
-          alt="icon" src="/fusion-assets/icons/Hamburger_menu-svg.svg">
+        <img (click)="navigate()" style="position: absolute;right: 18px; top: 10px;" class="burger-menu"
+          *ngIf="isXSmall" alt="icon" src="/fusion-assets/icons/Hamburger_menu-svg.svg">
 
         <div ngClass="search-small-logo" *ngIf="showSearchIcon">
           <ng-container [wsResolverWidget]="{

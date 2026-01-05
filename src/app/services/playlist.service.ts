@@ -18,15 +18,15 @@ export class PlaylistService {
   ) { }
 
   getOrgDetails() {
-    return this.playlistData.orgData
+    return this.playlistData?.orgData || ""
   }
 
   getHeaderConfig() {
-    return this.playlistData.LAYOUT_HEADER
+    return this.playlistData?.LAYOUT_HEADER || ""
   }
 
   getFooterConfig() {
-    return this.playlistData.LAYOUT_FOOTER
+    return this.playlistData?.LAYOUT_FOOTER || ""
   }
 
   setSelectedTab(tabId: string) {
@@ -64,30 +64,30 @@ export class PlaylistService {
   }
 
   getHomeConfig() {
-    return this.homeConfig || this.playlistData.LAYOUT_BODY.sections.homeTab
+    return this.homeConfig || this.playlistData?.LAYOUT_BODY.sections.homeTab || ""
   }
 
   getCourseConfig() {
-    return this.courseConfig || this.playlistData.LAYOUT_BODY.sections.courseTab
+    return this.courseConfig || this.playlistData?.LAYOUT_BODY.sections.courseTab || ""
   }
 
   getCompetencyConfig() {
-    return this.competencyConfig || this.playlistData.LAYOUT_BODY.sections.competencyTab
+    return this.competencyConfig || this.playlistData?.LAYOUT_BODY.sections.competencyTab || ""
   }
 
   getAccountConfig() {
-    return this.accountConfig || this.playlistData.LAYOUT_BODY.sections.accountTab
+    return this.accountConfig || this.playlistData?.LAYOUT_BODY.sections.accountTab || ""
   }
 
   getNotifConfig() {
-    return this.notifConfig || this.playlistData.LAYOUT_BODY.sections.homeTab
+    return this.notifConfig || this.playlistData?.LAYOUT_BODY.sections.notifTab || ""
   }
 
   getSearchMobConfig() {
-    return this.searchMobConfig || this.playlistData.LAYOUT_BODY.sections.searchMob
+    return this.searchMobConfig || this.playlistData?.LAYOUT_BODY.sections.searchMob || ""
   }
 
-  getPlaylistData() {
+  async getPlaylistData(): Promise<any> {
     // API call to fetch playlist data can be added here
     console.log('Fetching playlist data from API...', this.playlistData)
     let body = {
@@ -99,11 +99,34 @@ export class PlaylistService {
         "rootOrgId": "0132317968766894088"
       }
     }
-    this.http.post(`https://sphere.aastrika.org/apis/v1/form/read?v=${new Date().getTime()}`, body, { headers: {} }).subscribe((response: any) => {
-      console.log("response", response)
+    let url = `/apis/v1/form/read?v=${new Date().getTime()}`
+    return new Promise((resolve) => {
+      this.http.post(url, body, {}).subscribe((response: any) => {
+        console.log("response", response)
+        console.log('Fetching playlist data from API...', this.playlistData)
+        this.playlistData = response.result.form.data
+        resolve(data)
+      })
     })
+  }
+
+  async getPlaylistConfig(rootOrgId: string): Promise<any> {
     console.log('Fetching playlist data from API...', this.playlistData)
-    this.playlistData = data
-    return data
+    let body = {
+      "request": {
+        "filters": {
+          "orgId": rootOrgId
+        }
+      }
+    }
+    let url = `/apis/protected/v8/playlist/search?v=${new Date().getTime()}`
+    return new Promise((resolve) => {
+      this.http.post(url, body, {}).subscribe((response: any) => {
+        console.log("response", response)
+        console.log('Fetching playlist data from API...', response.result.playlist)
+        let data = response.result.playlist
+        resolve(data)
+      })
+    })
   }
 }

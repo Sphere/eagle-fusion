@@ -334,7 +334,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
-  ngOnInit() {
+  async ngOnInit() {
     if (this.configSvc.userProfile) {
       // this.getConnectToSocket()
       this.userId = this.configSvc.userProfile.userId || ''
@@ -656,6 +656,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.hideHeaderFooter = show
     })
+    await this.playlistSvc.getPlaylistData().then()
 
     // if (localStorage.getItem('url_before_login')) {
     //   const url = localStorage.getItem(`url_before_login`) || ''
@@ -675,7 +676,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isLoggedIn = false
     }
-    this.playlistSvc.getPlaylistData()
     let res = this.playlistSvc.getHomeConfig()
     this.configData = res[5]
     this.videoData = this.configData

@@ -33,9 +33,18 @@ export class WebNavLinkPageComponent implements OnInit {
 
   ) {
     let config = this.playlistSvc.getHeaderConfig()
-    this.menuItems = config.menuItems.filter(item =>
-      config.webMenuItems.includes(item.id)
-    )
+    if (config === "") {
+      this.playlistSvc.getPlaylistData().then(() => {
+        config = this.playlistSvc.getHeaderConfig()
+        this.menuItems = config.menuItems.filter(item =>
+          config.webMenuItems.includes(item.id)
+        )
+      })
+    } else {
+      this.menuItems = config.menuItems.filter(item =>
+        config.webMenuItems.includes(item.id)
+      )
+    }
     this.navOption.currentOption.subscribe((option: any) => {
       console.log(option, 'open')
       if (option === 'search') {
