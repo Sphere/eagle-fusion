@@ -9,7 +9,7 @@ import {
   ViewChild, ViewChildren,
 } from '@angular/core'
 import { Location } from '@angular/common'
-import { MatDialog, MatDialogRef } from '@angular/material/dialog'
+import { MatDialog } from '@angular/material/dialog'
 import { MatSidenav } from '@angular/material/sidenav'
 import { interval, Subject, Subscription } from 'rxjs'
 import { map, takeUntil, first } from 'rxjs/operators'
@@ -30,6 +30,7 @@ import { QuizModalComponent } from './components/quiz-modal/quiz-modal.component
 import { ViewerDataService } from '../../viewer-data.service'
 import { PlayerStateService } from '../../player-state.service'
 import { ConfirmmodalComponent } from './confirm-modal-component'
+import { CongratulationsPopupComponent } from './components/congratulations-popup/congratulations-popup.component'
 import {
   NsContent,
   WidgetContentService,
@@ -286,6 +287,16 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     this.timeLeft = 0
   }
 
+  openCongratulationPopup(): Promise<boolean> {
+    const dialogRef = this.dialog.open(CongratulationsPopupComponent, {
+      panelClass: 'congratulations-dialog',
+      data: { collectionId: this.collectionId }
+    })
+    return dialogRef.afterClosed().toPromise().then((result: any) => {
+      return !!result?.completed
+    })
+  }
+
   openAssesmentDialog() {
     this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
       panelClass: 'assesment-modal',
@@ -451,27 +462,26 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         // tslint:disable-next-line
         if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
           && this.contentSvc.showConformation) {
-          const data = {
-            courseId: this.collectionId,
-          }
           const isDialogOpen = this.dialog.openDialogs.length > 0
-          let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-
-          // If the dialog is not already open, open it
           if (!isDialogOpen) {
-            confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-              width: '300px',
-              height: '405px',
-              panelClass: 'overview-modal',
-              disableClose: true,
-              data: { request: data, message: 'Congratulations!, you have completed the course' },
-            })
-          }
+            const data = {
+              courseId: this.collectionId,
+            }
+            this.openCongratulationPopup().then((isCompleted) => {
+              if (isCompleted) {
+                const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                  width: '300px',
+                  height: '405px',
+                  panelClass: 'overview-modal',
+                  disableClose: true,
+                  data: { request: data, message: 'Congratulations!, you have completed the course' },
+                })
 
-          if (confirmdialog) {
-            confirmdialog.afterClosed().subscribe((res: any) => {
-              if (res.event === 'CONFIRMED') {
-                this.router.navigate([`/app/user/competency`])
+                confirmdialog.afterClosed().subscribe((res: any) => {
+                  if (res.event === 'CONFIRMED') {
+                    this.router.navigate([`/app/user/competency`])
+                  }
+                })
               }
             })
           }
@@ -631,27 +641,26 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
                       && this.contentSvc.showConformation) {
                       const isDialogOpen = this.dialog.openDialogs.length > 0
-                      let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-
-                      // If the dialog is not already open, open it
                       if (!isDialogOpen) {
-                        confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-                          width: '300px',
-                          height: '405px',
-                          panelClass: 'overview-modal',
-                          disableClose: true,
-                          data: { request: data, message: 'Congratulations!, you have completed the course' },
-                        })
-                      }
+                        this.openCongratulationPopup().then((isCompleted) => {
+                          if (isCompleted) {
+                            const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
+                              width: '300px',
+                              height: '405px',
+                              panelClass: 'overview-modal',
+                              disableClose: true,
+                              data: { request: data, message: 'Congratulations!, you have completed the course' },
+                            })
 
-                      if (confirmdialog) {
-                        confirmdialog.afterClosed().subscribe((res: any) => {
-                          if (res.event === 'CONFIRMED') {
-                            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-                              queryParams: {
-                                primaryCategory: 'Course',
-                                batchId: this.route.snapshot.queryParams.batchId,
-                              },
+                            confirmdialog.afterClosed().subscribe((res: any) => {
+                              if (res.event === 'CONFIRMED') {
+                                this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+                                  queryParams: {
+                                    primaryCategory: 'Course',
+                                    batchId: this.route.snapshot.queryParams.batchId,
+                                  },
+                                })
+                              }
                             })
                           }
                         })

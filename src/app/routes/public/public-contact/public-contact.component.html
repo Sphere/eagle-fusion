@@ -1,64 +1,92 @@
-<!-- <mat-toolbar [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
-  <ws-widget-btn-page-back [widgetData]="{ url: 'home',titles:[{title:'Contact Us',url:'none'}] }">
-  </ws-widget-btn-page-back>
- <span class="margin-left-xs text-truncate">
-      <div class="public-page-container">
-    <span class="margin-left-xs">{{ 'Contact Us' | translate }}</span>
-  </div>
-  </span> -->
-<!--</mat-toolbar> -->
-
-<div class="contact-info ws-mat-primary-lite-background" *ngIf="contactPage.title || contactPage.description">
-  <h2 class="flex flex-middle flex-center mat-h2" *ngIf="contactPage.title">
-    <mat-icon>contact_support</mat-icon>
-    <span>
-      {{contactPage.title}}
-    </span>
-  </h2>
-
-  <p class="text-justify py-4" *ngIf="contactPage.description">
-    {{contactPage.description}}
-  </p>
+<!-- Content loaded from S3 JSON -->
+<div *ngIf="!contactPage" class="text-center py-8">
+  <p class="mat-body-1" i18n="loading text">Loading contact information...</p>
 </div>
 
-<div class="faq-img-section flex flex-wrap flex-between items-stretch" *ngIf="contactPage.help">
-  <!-- <div class="info-section" [ngClass]="{ 'width-1-1': !contactPage.contact}">
-    <h3 class="flex flex-middle mat-h3">
-      <mat-icon>help</mat-icon>
-      <span class="padding-left-xs ws-mat-primary-text font-bold">{{contactPage.help.title}}
-      </span>
-    </h3>
-
-    <mat-accordion>
-      <mat-expansion-panel (opened)="panelOpenState = true" (closed)="panelOpenState = false"
-        *ngFor="let helpContent of contactPage.help.contents">
-        <mat-expansion-panel-header>
-          <mat-panel-description>
-            <p>{{helpContent.heading}}</p>
-          </mat-panel-description>
-        </mat-expansion-panel-header>
-        <p [innerHTML]="helpContent.value | pipeSafeSanitizer: 'html'">
-
+<div *ngIf="contactPage" style="max-width: 1200px; margin: 0 auto; padding: 0;">
+  <!-- Header Section -->
+  <div class="contact-header" style="margin-bottom: 56px; padding-bottom: 32px; border-bottom: 1px solid #f0f0f0;">
+    <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 20px;">
+      <mat-icon
+        style="font-size: 40px; width: 40px; height: 40px; color: #1976d2; flex-shrink: 0; margin-top: 4px;">contact_support</mat-icon>
+      <div>
+        <h1 class="mat-h1" *ngIf="contactPage?.title" style="margin: 0 0 12px 0; color: #1a1a1a; font-weight: 500;">
+          {{contactPage.title}}
+        </h1>
+        <p class="mat-body-1" *ngIf="contactPage?.description"
+          style="margin: 0; font-size: 15px; line-height: 1.8; color: #555; max-width: 800px;">
+          {{contactPage.description}}
         </p>
-      </mat-expansion-panel>
-    </mat-accordion>
-  </div> -->
+      </div>
+    </div>
+  </div>
 
-  <div class="contact-section flex- flex-wrap" *ngIf="contactPage.contact"
-    [ngClass]="{ 'width-1-1': !contactPage.help}">
-    <h3 class="flex flex-middle mat-h3">
-      <mat-icon>contact_mail</mat-icon>
-      <span class="padding-left-xs ws-mat-primary-text font-bold">{{contactPage.contact.title}}</span>
-    </h3>
+  <!-- Account Deletion Section -->
+  <section id="account-deletion" class="account-deletion-section" *ngIf="contactPage?.accountDeletion"
+    style="margin-bottom: 56px; padding: 32px; border-left: 5px solid #ff9800; border-radius: 2px; background: #fafafa;">
 
-    <mat-card class="mb-4" *ngFor="let helpContent of contactPage.contact.contents">
-      <mat-card-title>
-        <span>{{helpContent.heading}}</span>
-      </mat-card-title>
-      <mat-card-content>
-        <span [innerHTML]="helpContent.value | pipeSafeSanitizer: 'html'"></span>
-      </mat-card-content>
-    </mat-card>
+    <div style="display: flex; align-items: flex-start; gap: 16px; margin-bottom: 24px;">
+      <mat-icon
+        style="color: #ff9800; font-size: 32px; width: 32px; height: 32px; flex-shrink: 0; margin-top: 2px;">delete_outline</mat-icon>
+      <h2 class="mat-h2" style="margin: 0; color: #1a1a1a; font-weight: 500;">
+        {{contactPage.accountDeletion.title}}
+      </h2>
+    </div>
 
+    <p class="mat-body-1" style="margin: 0 0 16px 0; line-height: 1.8; color: #555; margin-left: 48px;">
+      {{contactPage.accountDeletion.description}}
+    </p>
+
+    <p class="mat-body-1" style="margin: 0 0 24px 0; line-height: 1.8; color: #555; margin-left: 48px;"
+      [innerHTML]="contactPage.accountDeletion.instruction | pipeSafeSanitizer: 'html'"></p>
+
+    <div *ngIf="contactPage.accountDeletion.dataDeleted" style="margin-left: 48px; margin-bottom: 24px;">
+      <h3 class="mat-h3" style="margin: 0 0 16px 0; color: #1a1a1a; font-weight: 500;">
+        {{contactPage.accountDeletion.dataDeleted.title}}
+      </h3>
+      <ul style="padding-left: 28px; margin: 0; list-style-type: disc;">
+        <li class="mat-body-1" *ngFor="let item of contactPage.accountDeletion.dataDeleted.items"
+          style="margin-bottom: 10px; line-height: 1.7; color: #555;">{{item}}</li>
+      </ul>
+    </div>
+
+    <div *ngIf="contactPage.accountDeletion.timeline" style="margin-left: 48px;">
+      <h3 class="mat-h3" style="margin: 0 0 12px 0; color: #1a1a1a; font-weight: 500;">
+        {{contactPage.accountDeletion.timeline.title}}
+      </h3>
+      <p class="mat-body-1" style="margin: 0; line-height: 1.8; color: #555;"
+        [innerHTML]="contactPage.accountDeletion.timeline.description | pipeSafeSanitizer: 'html'"></p>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <div class="contact-cards-section">
+    <div
+      style="display: flex; align-items: center; gap: 12px; margin-bottom: 32px; padding-bottom: 24px; border-bottom: 1px solid #f0f0f0;">
+      <mat-icon
+        style="font-size: 32px; width: 32px; height: 32px; color: #1976d2; flex-shrink: 0;">contact_mail</mat-icon>
+      <h2 class="mat-h2" style="margin: 0; color: #1a1a1a; font-weight: 500;">
+        {{contactPage.contact.title}}
+      </h2>
+    </div>
+
+    <div class="contact-cards-grid"
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 28px;">
+      <div class="contact-card" *ngFor="let contactContent of contactPage.contact.contents"
+        style="padding: 28px; border: 1px solid #e8e8e8; border-radius: 6px; transition: all 0.2s ease; background: #fafafa;">
+
+        <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 16px;">
+          <mat-icon
+            style="font-size: 24px; width: 24px; height: 24px; color: #1976d2; flex-shrink: 0;">mail_outline</mat-icon>
+          <h3 class="mat-h3" style="margin: 0; color: #1a1a1a; font-weight: 500;">
+            {{contactContent.heading}}
+          </h3>
+        </div>
+
+        <div class="mat-body-1" style="color: #555; line-height: 1.8;">
+          <span [innerHTML]="contactContent.value | pipeSafeSanitizer: 'html'"></span>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

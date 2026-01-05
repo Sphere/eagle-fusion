@@ -1,0 +1,329 @@
+.header-info{
+    font-size: 20px;
+    margin: 2px 14px;
+    font-weight: 500;
+}
+
+.view-answer-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.header-title {
+  font-size: 20px;
+  font-weight: 500;
+  margin: 0;
+  padding: 0;
+}
+
+.header-subtitle {
+  font-size: 13px;
+  color: #666;
+  margin: 0;
+  padding: 0;
+}
+
+/* Global rule for cdk-overlay-pane */
+::ng-deep .cdk-overlay-pane.view-answer-dialog {
+  max-width: 800px !important;
+}
+
+@media (max-width: 600px) {
+  .header-title {
+    font-size: 18px;
+  }
+
+  .header-subtitle {
+    font-size: 12px;
+  }
+}
+
+/* Global rule for cdk-overlay-pane */
+::ng-deep .cdk-overlay-pane.view-answer-dialog {
+  max-width: 800px !important;
+}
+
+/* Mobile override */
+@media (max-width: 600px) {
+  ::ng-deep .cdk-overlay-pane.view-answer-dialog {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    overflow: hidden !important;
+  }
+
+  ::ng-deep .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-container {
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    width: 100vw !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    border-radius: 0 !important;
+    overflow: hidden !important;
+  }
+
+  ::ng-deep .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-surface {
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important;
+    width: 100vw !important;
+    display: flex !important;
+    flex-direction: column !important;
+    padding: 0 !important;
+    overflow: hidden !important;
+  }
+}
+
+/* Web: Centered popup dialog */
+@media (min-width: 601px) {
+  .cdk-overlay-pane.view-answer-dialog {
+    max-width: 800px !important;
+    width: 90vw !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
+  }
+
+  .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-container,
+  .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-surface {
+    max-height: 90vh !important;
+  }
+}
+.question-text {
+  font-weight: 600;
+  margin-bottom: 12px;
+  margin-top: 20px;
+  font-size: 16px;
+  display: flex;
+  line-height: 1.5;
+}
+
+@media (max-width: 600px) {
+  .question-text {
+    font-size: 14px;
+    margin-top: 16px;
+    margin-bottom: 10px;
+  }
+}
+::ng-deep .question-text p {
+  margin: 0 !important;
+  padding-left: 6px;
+  line-height: 20px;
+}
+
+.option-row {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  margin-bottom: 10px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  gap: 12px;
+}
+
+@media (max-width: 600px) {
+  .option-row {
+    padding: 10px 12px;
+    margin-bottom: 8px;
+    gap: 10px;
+  }
+}
+
+.option-row.correct {
+  background: rgba(232, 244, 242, 1);
+  color: rgba(70, 151, 136, 1)
+ // border-color: #5cb85c;
+}
+
+.option-row.wrong {
+  background: rgba(249, 243, 232, 1);
+  color: rgba(176, 130, 43, 1);
+ // border-color: #d9534f;
+}
+
+.bullet {
+  margin-right: 10px;
+  font-size: 14px;
+}
+
+.option-text {
+  flex: 1;
+  font-size: 15px;
+  line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+  .option-text {
+    font-size: 13px;
+  }
+}
+
+.tick {
+  color: green;
+  font-size: 20px;
+}
+
+.bullet {
+  position: relative;
+  font-size: 20px;
+  color: #999;
+}
+
+/* Inner dot for correct/wrong */
+.bullet.correct::after,
+.bullet.wrong::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;   /* size of inner dot */
+  height: 8px;
+  border-radius: 50%;
+}
+
+.bullet.correct {
+  color: rgba(70, 151, 136, 1);
+}
+
+.bullet.wrong {
+  color: rgba(176, 130, 43, 1);
+}
+
+/* Color the inner dot */
+.bullet.correct::after {
+  background-color: rgba(70, 151, 136, 1);
+}
+
+.bullet.wrong::after {
+  background-color: rgba(176, 130, 43, 1);
+}
+
+.question-line {
+  margin: 0;          /* removes top/bottom spacing */
+  padding: 0;
+  display: inline;    /* keeps items on same line */
+}
+
+.tick-inside {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  font-size: 18px;
+  color: rgba(70, 151, 136, 1);
+}
+
+/* Base square icon */
+.checkmark {
+  position: relative;
+  font-size: 20px;
+  margin-right: 10px;
+  color: #999; /* default border */
+}
+
+/* Correct: green filled box */
+.checkmark.correct {
+  color: rgba(70, 151, 136, 1); /* green border */
+  background-color: rgba(70, 151, 136, 1);
+  border-radius: 3px;
+}
+
+/* White tick inside square */
+.checkmark.correct::after,
+.checkmark.wrong::after {
+  content: '✓';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff; /* white tick */
+}
+
+/* Wrong: orange border only */
+.checkmark.wrong {
+  color: rgba(176, 130, 43, 1);
+  background-color: rgba(176, 130, 43, 1);
+}
+
+.header-container {
+  position: sticky;
+    top: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #fff;
+    z-index: 1000;
+    border-bottom: 1px solid #e0e0e0;
+    min-height: 60px;
+}
+
+.ion-content {
+  overflow-y: auto;
+  padding: 20px 16px;
+}
+
+.question-block {
+  padding: 0;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+@media (max-width: 600px) {
+  .header-container {
+    padding: 10px 12px;
+    min-height: 50px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #e0e0e0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .ion-content {
+    padding: 16px 12px;
+    padding-bottom: 50px;
+    flex: 1;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    -webkit-overflow-scrolling: touch;
+    min-height: 0 !important;
+  }
+
+  .question-block {
+    padding: 0;
+    width: 100%;
+    box-sizing: border-box;
+  }
+}
+
+@media (min-width: 601px) {
+  .header-container {
+    position: relative;
+  }
+
+  .ion-content {
+    max-height: calc(90vh - 80px);
+    overflow-y: auto;
+  }
+}

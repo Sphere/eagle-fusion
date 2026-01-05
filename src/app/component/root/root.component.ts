@@ -732,7 +732,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     let myCourseObject = {}
 
     res.forEach((key: any) => {
-      console.log("formatmyCourseResponse", key)
+      // console.log("formatmyCourseResponse", key)
       if (key?.content?.identifier) {
         if (key.completionPercentage !== 100) {
           myCourseObject = {

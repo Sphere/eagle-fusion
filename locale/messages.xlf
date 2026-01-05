@@ -21,7 +21,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">library/ws-widget/collection/src/lib/player-navigation-widget/player-navigation-widget.component.html</context>
-          <context context-type="linenumber">14</context>
+          <context context-type="linenumber">9</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/login-otp/login-otp.component.html</context>
@@ -41,11 +41,11 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">75</context>
+          <context context-type="linenumber">96</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">99</context>
+          <context context-type="linenumber">120</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
@@ -1944,6 +1944,14 @@
           <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="437b998436a079f6850091a2f26ec7f62e06af35" datatype="html">
+        <source>Loading contact information...</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/public/public-contact/public-contact.component.html</context>
+          <context context-type="linenumber">3</context>
+        </context-group>
+        <note priority="1" from="description">loading text</note>
+      </trans-unit>
       <trans-unit id="452883d09914ea2d4ee0325829f31631221df54b" datatype="html">
         <source>reply toggle</source>
         <context-group purpose="location">
@@ -2400,7 +2408,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0b958b8d6887cf950089fd33c0d7640394820a16" datatype="html">
@@ -3012,8 +3020,12 @@
           <context context-type="linenumber">383</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">497</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">124</context>
+          <context context-type="linenumber">173</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/confirm-modal-component.html</context>
@@ -3267,7 +3279,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">226</context>
+          <context context-type="linenumber">233</context>
         </context-group>
       </trans-unit>
       <trans-unit id="3a8e04b34236be1cb450987973bcb7b33d483e35" datatype="html">
@@ -3417,7 +3429,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">211</context>
+          <context context-type="linenumber">218</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/new-tnc/new-tnc.component.html</context>
@@ -3798,28 +3810,28 @@
           <context context-type="linenumber">171</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="f7295124c443e791cce0cf94a21f2df169942c7c" datatype="html">
+      <trans-unit id="8f3d0cdd322cff49b492357205ad27655c37f9aa" datatype="html">
         <source>
-                    By OTP
-                  </source>
+                      By OTP
+                    </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">175</context>
+          <context context-type="linenumber">176</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="d3afaa2117dd52cb1f26a60f6f50e6b609de0c17" datatype="html">
+      <trans-unit id="353033cfb432bb9ed99c09dd8cf48cd8c1c107a3" datatype="html">
         <source>
-                    By password
-                  </source>
+                      By password
+                    </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">179</context>
+          <context context-type="linenumber">180</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="474d382268fe22b2dbbafd2e0155f9b0fb8bc95a" datatype="html">
+      <trans-unit id="d11498bd08c0a9ee2828c0b2d045295955483305" datatype="html">
         <source>
-                  Next
-                </source>
+                      Next
+                    </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
           <context context-type="linenumber">187</context>
@@ -3829,7 +3841,7 @@
         <source>Set your password</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">218</context>
+          <context context-type="linenumber">225</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dac37016505c99ed81a02c85a4d77ffb8815d1dc" datatype="html">
@@ -3839,7 +3851,7 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">236</context>
+          <context context-type="linenumber">243</context>
         </context-group>
       </trans-unit>
       <trans-unit id="b2c46a87e970798c6f8ef6bd9f62cc107bcf0e76" datatype="html">
@@ -3849,7 +3861,7 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">241</context>
+          <context context-type="linenumber">248</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0de974e40a4cb69d1ac5dff08b922baf2ee3c035" datatype="html">
@@ -3859,14 +3871,14 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">247</context>
+          <context context-type="linenumber">254</context>
         </context-group>
       </trans-unit>
       <trans-unit id="c1b7e6d75ff4285c7636c67e5ef259629b81725b" datatype="html">
         <source>Confirm Password</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">255</context>
+          <context context-type="linenumber">262</context>
         </context-group>
       </trans-unit>
       <trans-unit id="95d3ff5cb513c66070e4e4c39e6fcc8a0af6eecb" datatype="html">
@@ -3876,7 +3888,7 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">265</context>
+          <context context-type="linenumber">272</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5025bc553ecf3f47a9e621cb8d5776b76a58512f" datatype="html">
@@ -3886,42 +3898,42 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">270</context>
+          <context context-type="linenumber">277</context>
         </context-group>
       </trans-unit>
       <trans-unit id="41f3b637fb49d7eb6a0ab5bb316f743b1d521554" datatype="html">
         <source>Password Requirements:</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">278</context>
+          <context context-type="linenumber">285</context>
         </context-group>
       </trans-unit>
       <trans-unit id="5bd4658c1ba4987c522465ac6e00ee9b23ec847b" datatype="html">
         <source>Minimum 8 characters</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">283</context>
+          <context context-type="linenumber">290</context>
         </context-group>
       </trans-unit>
       <trans-unit id="1f98ce57e75e0c63f71fb37b785167f9fc257125" datatype="html">
         <source>One capital letter</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">289</context>
+          <context context-type="linenumber">296</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ca7ffb7f094339a2159a3196187f858740cdf306" datatype="html">
         <source>One number</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">295</context>
+          <context context-type="linenumber">302</context>
         </context-group>
       </trans-unit>
       <trans-unit id="156fdfa04531d492b2ad8ccaf1b1780746333778" datatype="html">
         <source>One special character</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">301</context>
+          <context context-type="linenumber">308</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fbe8ed04887bb2f2687d8e3153aef4711474660f" datatype="html">
@@ -3930,35 +3942,35 @@
             </source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">307</context>
+          <context context-type="linenumber">314</context>
         </context-group>
       </trans-unit>
       <trans-unit id="6c180c80bbc34931e1fef58561b3654e7c02b547" datatype="html">
         <source>Thanks for Signing up</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">332</context>
+          <context context-type="linenumber">334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="91f09ae4014bbe91e6841761d45d4e7c6ee56cab" datatype="html">
         <source>Signup successful</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">332</context>
+          <context context-type="linenumber">334</context>
         </context-group>
       </trans-unit>
       <trans-unit id="9d5aefcfd4cf8fbf0d4efcab399e8d7077245a09" datatype="html">
         <source>Error Signing up!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">335</context>
+          <context context-type="linenumber">337</context>
         </context-group>
       </trans-unit>
       <trans-unit id="16dff0311b1703193ba37ccc99fedba5d1207714" datatype="html">
         <source>unable to signup</source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/create-account/create-account.component.html</context>
-          <context context-type="linenumber">335</context>
+          <context context-type="linenumber">337</context>
         </context-group>
       </trans-unit>
       <trans-unit id="370baa3e2374873e05277fd601dc2af10cc49203" datatype="html">
@@ -4006,7 +4018,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">31</context>
+          <context context-type="linenumber">32</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8bd4ab7e3e7802b96f0703e202571144d3db9e06" datatype="html">
@@ -4025,7 +4037,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">45</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
       <trans-unit id="0a790b3dee2c9efc3ac1b90ab496cc540284657e" datatype="html">
@@ -4043,8 +4055,12 @@
           <context context-type="linenumber">236</context>
         </context-group>
         <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">437</context>
+        </context-group>
+        <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">59</context>
+          <context context-type="linenumber">60</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f5a044273feaf5616d7df7fc1ef2d7ecc4575b36" datatype="html">
@@ -4067,7 +4083,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">78</context>
+          <context context-type="linenumber">79</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f4b73761d75e38e805dbd99127e3b8122345b6be" datatype="html">
@@ -4388,6 +4404,10 @@
           <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
           <context context-type="linenumber">60</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">464</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="f6852768c0a0d323fbd662b53527f386d8755c66" datatype="html">
         <source>Nursing Registration Number / नर्सिंग पंजीकरण संख्या <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
@@ -4425,7 +4445,7 @@
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">88</context>
+          <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
       <trans-unit id="17fb1e6657cf0ba7c775b7505aa3be5f5ee6b83c" datatype="html">
@@ -4537,6 +4557,55 @@
           <context context-type="linenumber">373</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="3bb40e82d29bc3a859c42787460077eed041580b" datatype="html">
+        <source>E-kshamata Registration for Medical Officer-UP</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">390</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="38846003493d6a3df3ccffff40372fc5dea2f034" datatype="html">
+        <source>eHRMS Code / eHRMS कोड <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">396</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6029a0e36d08eb247d024ad817486031c5e78b03" datatype="html">
+        <source>First Name / प्रथम नाम <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">406</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="fdd02353c7a564c37cd96420bd242b75169a75a3" datatype="html">
+        <source>Last Name / अंतिम नाम <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">422</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="605bd8ff41095811c065729554b2e428c2f49d5f" datatype="html">
+        <source>District of Posting / पोस्टिंग का जिला <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">452</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e5669cbf1e1bac8183c72478059740e62e3caa49" datatype="html">
+        <source>Date of Joining / पदभार ग्रहण की तारीख <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">475</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="5a9c4bc4dc59b71d9c74320bd4bbfb7438b12c5e" datatype="html">
+        <source>Seniority Number / सीनियरिटी नंबर</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/upsmf-component/upsmf-register.component.html</context>
+          <context context-type="linenumber">488</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="1b99a17776bf6659e200762480cbf17fa0b5cc71" datatype="html">
         <source>E-kshamata Registration for Madhya Pradesh</source>
         <context-group purpose="location">
@@ -4544,18 +4613,25 @@
           <context context-type="linenumber">11</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="1e2f247208399556b83143cb5843b1588749f604" datatype="html">
+        <source>Add Block Name / ब्लॉक का नाम जोड़ें <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
+          <context context-type="linenumber">101</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="560c8fc88907a8198f67a99983220721ad696848" datatype="html">
         <source>Facility Type / स्वास्थ्य संस्था का प्रकार <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">98</context>
+          <context context-type="linenumber">113</context>
         </context-group>
       </trans-unit>
       <trans-unit id="4cc01ea4574af6dcc452d5545750fa5eb6b1ddcb" datatype="html">
         <source>Posting Facility / पोस्टिंग स्वास्थ्य संस्था <x id="START_TAG_SPAN" ctype="x-span" equiv-text="&lt;span&gt;"/>*<x id="CLOSE_TAG_SPAN" ctype="x-span" equiv-text="&lt;/span&gt;"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">src/app/routes/mp-component/mp-register.component.html</context>
-          <context context-type="linenumber">110</context>
+          <context context-type="linenumber">128</context>
         </context-group>
       </trans-unit>
       <trans-unit id="37bd0b93bdae47b3a7f75a270b760d0d8a1fa12d" datatype="html">
@@ -6766,146 +6842,6 @@
           <context context-type="linenumber">392</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="d1294fe727e5293836ae367db2cfcecbda78ae61" datatype="html">
-        <source>
-      Unsupported Collection Type
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
-          <context context-type="linenumber">97</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="ff44dbdbfa85ffa692f019e9b8bd9e940d5e037e" datatype="html">
-        <source>Download Resource</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
-          <context context-type="linenumber">183</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
-          <context context-type="linenumber">189</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
-          <context context-type="linenumber">198</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="9b475bb63675494482effde989c7f1f18c232620" datatype="html">
-        <source>Contacts</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/route-view-container/audio/audio.component.html</context>
-          <context context-type="linenumber">90</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="3b53f47846ba4b4f78e7e1d03043238544555168" datatype="html">
-        <source>
-        This content can only be viewed in Intranet.
-      </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">11</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="a1f7c0ba2672bd9b5701956a682ed6e159d531ee" datatype="html">
-        <source>
-        Content may be required to be opened in a new window. If you are unable to view it, Please
-        click on the Open in New Window Button else Dismiss
-      </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">14</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="b9bf38bb98465fef14bc4b0748beaa8a5dd8791c" datatype="html">
-        <source>This content can only be viewed in Intranet
-      </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">30</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="6fee45ccaa13c03992094cce2409c57fb0a10112" datatype="html">
-        <source>Content will open in a new window. If you are unable to view it, click on the button below.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">33</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="06649806f85fbd109997a7769efdf655d3859765" datatype="html">
-        <source>
-      This content can only be viewed in Intranet.
-    </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">43</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="f95f4709de2cc1e6f7800a4619701e795fb4bc29" datatype="html">
-        <source>
-        Open in New Window
-      </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">55</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="40de9b8392fd79d487c28855f98eb350074a4287" datatype="html">
-        <source>
-        Dismiss
-      </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">62</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="c26225d954af0c0f3436a6fc2c8938a54d66623f" datatype="html">
-        <source>
-  Please wait! Content requested is loading
-</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">70</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="cf99091d9876865d2411d6f28913ab337a5b10ee" datatype="html">
-        <source>
-    Error loading page. Please try refreshing page.
-  </source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">75</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="014660bfd6297fb31f17a618ccda5c4b7f43401b" datatype="html">
-        <source>There is nothing to play</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">79</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="9b3cedfa83c6d7acb3210953289d1be4aab115c7" datatype="html">
-        <source>Click here</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">80</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="05f41b8ceba5e15a040c615772f0cdc653aaed2f" datatype="html">
-        <source>to go to details page.</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
-          <context context-type="linenumber">81</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="0a2a995ed72cdea656ab4305c5e0b82ecabda439" datatype="html">
-        <source>
-  Error fetching page JSON
-</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/routes/channel/channel.component.html</context>
-          <context context-type="linenumber">2</context>
-        </context-group>
-      </trans-unit>
       <trans-unit id="ea0e4997cc7bbf13ee503bfea6e615c00a5b17eb" datatype="html">
         <source>Q</source>
         <context-group purpose="location">
@@ -7074,25 +7010,43 @@
           <context context-type="linenumber">35</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="2f442b00f383ebef17aa2238bc19dec8d165d80c" datatype="html">
+        <source>Answer Review</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-answer/view-answer.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="e55e4bb188d76566b4e556076c78fe30690e4287" datatype="html">
+        <source>Review areas where you can improve further.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-answer/view-answer.component.html</context>
+          <context context-type="linenumber">8</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="ca081c361fa3c7e7ddce574fb10dc4a80215eee3" datatype="html">
         <source>Assessment</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
           <context context-type="linenumber">23</context>
         </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
+          <context context-type="linenumber">40</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="4cd05aa6e9733a8cbcb761b103ee4a4102e1245d" datatype="html">
         <source>Result : </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">36</context>
+          <context context-type="linenumber">44</context>
         </context-group>
       </trans-unit>
       <trans-unit id="8272de798dd803f04d5e5fcbe1013bc6267aa010" datatype="html">
         <source>Pass</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">37</context>
+          <context context-type="linenumber">45</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
@@ -7103,29 +7057,26 @@
           <context context-type="linenumber">76</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="71a470fee4c26bd34cbdfb847fc37d0be79f6cfe" datatype="html">
-        <source> Did not pass</source>
+      <trans-unit id="16d8abea01167ca805f5b516a45d2392a7a28633" datatype="html">
+        <source>Did not pass</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">38</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
-          <context context-type="linenumber">49</context>
+          <context context-type="linenumber">46</context>
         </context-group>
       </trans-unit>
-      <trans-unit id="beea60cc9dec18ba496d9509c8850990cbac8db2" datatype="html">
-        <source>Your score is :</source>
+      <trans-unit id="8ccfeca6f756ba1f398cddbed0908f691579a471" datatype="html">
+        <source><x id="INTERPOLATION" equiv-text="{{ (passPercentage === 0) ? &apos;Your attempt summary&apos; :
+            &apos;Your score is :&apos;}}"/></source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">40</context>
+          <context context-type="linenumber">50</context>
         </context-group>
       </trans-unit>
       <trans-unit id="83d44aee3d87a7a87a1511283288564da14d6573" datatype="html">
         <source>Not Attempted</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">46</context>
+          <context context-type="linenumber">67</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
@@ -7136,7 +7087,7 @@
         <source>Correct</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">50</context>
+          <context context-type="linenumber">71</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
@@ -7147,7 +7098,7 @@
         <source>Incorrect</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">54</context>
+          <context context-type="linenumber">75</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
@@ -7158,7 +7109,7 @@
         <source>Congratulations!</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">62</context>
+          <context context-type="linenumber">83</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-question-result/assesment-question-result.component.html</context>
@@ -7170,21 +7121,21 @@
               </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">64</context>
+          <context context-type="linenumber">85</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e6cb530ba0c713eee48c5a1126c50e027f737712" datatype="html">
         <source>You didn&apos;t pass the assessment</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">68</context>
+          <context context-type="linenumber">89</context>
         </context-group>
       </trans-unit>
       <trans-unit id="fb84c5b3b11d85e152e7bd6248adce48f092242d" datatype="html">
         <source>Your Level </source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="25e5fe258c8b9056eefbb4e3dbd190d766b479b9" datatype="html">
@@ -7192,21 +7143,21 @@
                 cleared</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">69</context>
+          <context context-type="linenumber">90</context>
         </context-group>
       </trans-unit>
       <trans-unit id="26e8e2d3936f3fda7b678c720d89b69a0943382c" datatype="html">
         <source>Go to Competency Dashboard</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">77</context>
+          <context context-type="linenumber">98</context>
         </context-group>
       </trans-unit>
       <trans-unit id="dc72450d5d1ef454bf72ea36fb4fcf1b87f4bb94" datatype="html">
         <source>View Relevant Courses</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">79</context>
+          <context context-type="linenumber">100</context>
         </context-group>
       </trans-unit>
       <trans-unit id="80ed5b776a26a78099e230e0e89d96c33ba44e24" datatype="html">
@@ -7220,25 +7171,14 @@
         <source>Back</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">97</context>
-        </context-group>
-      </trans-unit>
-      <trans-unit id="fa12bcbc32d48189bd54f67e32eabc052a8c139f" datatype="html">
-        <source>Retake Assessment</source>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">108</context>
-        </context-group>
-        <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
-          <context context-type="linenumber">112</context>
+          <context context-type="linenumber">118</context>
         </context-group>
       </trans-unit>
       <trans-unit id="ac10a3d9b59575640797c1a8e6aea642cf5d5e77" datatype="html">
         <source>Continue</source>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/assesment-modal/assesment-modal.component.html</context>
-          <context context-type="linenumber">110</context>
+          <context context-type="linenumber">134</context>
         </context-group>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
@@ -7310,6 +7250,13 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
           <context context-type="linenumber">47</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="71a470fee4c26bd34cbdfb847fc37d0be79f6cfe" datatype="html">
+        <source> Did not pass</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/quiz-modal/quiz-modal.component.html</context>
+          <context context-type="linenumber">49</context>
         </context-group>
       </trans-unit>
       <trans-unit id="47a28e7d7887dc7bb0e15d38c45ecfb56f738924" datatype="html">
@@ -7416,6 +7363,13 @@
           <context context-type="linenumber">108</context>
         </context-group>
       </trans-unit>
+      <trans-unit id="fa12bcbc32d48189bd54f67e32eabc052a8c139f" datatype="html">
+        <source>Retake Assessment</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
+          <context context-type="linenumber">112</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="425ff0c8b460391d1d47b96754e84ab6f2df54de" datatype="html">
         <source>
             Submit
@@ -7432,6 +7386,146 @@
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/quiz.component.html</context>
           <context context-type="linenumber">121</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="d1294fe727e5293836ae367db2cfcecbda78ae61" datatype="html">
+        <source>
+      Unsupported Collection Type
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
+          <context context-type="linenumber">97</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="ff44dbdbfa85ffa692f019e9b8bd9e940d5e037e" datatype="html">
+        <source>Download Resource</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
+          <context context-type="linenumber">183</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
+          <context context-type="linenumber">189</context>
+        </context-group>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/components/viewer-toc/viewer-toc.component.html</context>
+          <context context-type="linenumber">198</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9b475bb63675494482effde989c7f1f18c232620" datatype="html">
+        <source>Contacts</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/route-view-container/audio/audio.component.html</context>
+          <context context-type="linenumber">90</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="3b53f47846ba4b4f78e7e1d03043238544555168" datatype="html">
+        <source>
+        This content can only be viewed in Intranet.
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">11</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="a1f7c0ba2672bd9b5701956a682ed6e159d531ee" datatype="html">
+        <source>
+        Content may be required to be opened in a new window. If you are unable to view it, Please
+        click on the Open in New Window Button else Dismiss
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">14</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="b9bf38bb98465fef14bc4b0748beaa8a5dd8791c" datatype="html">
+        <source>This content can only be viewed in Intranet
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">30</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="6fee45ccaa13c03992094cce2409c57fb0a10112" datatype="html">
+        <source>Content will open in a new window. If you are unable to view it, click on the button below.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">33</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="06649806f85fbd109997a7769efdf655d3859765" datatype="html">
+        <source>
+      This content can only be viewed in Intranet.
+    </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">43</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="f95f4709de2cc1e6f7800a4619701e795fb4bc29" datatype="html">
+        <source>
+        Open in New Window
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">55</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="40de9b8392fd79d487c28855f98eb350074a4287" datatype="html">
+        <source>
+        Dismiss
+      </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">62</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="c26225d954af0c0f3436a6fc2c8938a54d66623f" datatype="html">
+        <source>
+  Please wait! Content requested is loading
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">70</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="cf99091d9876865d2411d6f28913ab337a5b10ee" datatype="html">
+        <source>
+    Error loading page. Please try refreshing page.
+  </source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">75</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="014660bfd6297fb31f17a618ccda5c4b7f43401b" datatype="html">
+        <source>There is nothing to play</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">79</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="9b3cedfa83c6d7acb3210953289d1be4aab115c7" datatype="html">
+        <source>Click here</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">80</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="05f41b8ceba5e15a040c615772f0cdc653aaed2f" datatype="html">
+        <source>to go to details page.</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/html/html.component.html</context>
+          <context context-type="linenumber">81</context>
+        </context-group>
+      </trans-unit>
+      <trans-unit id="0a2a995ed72cdea656ab4305c5e0b82ecabda439" datatype="html">
+        <source>
+  Error fetching page JSON
+</source>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/routes/channel/channel.component.html</context>
+          <context context-type="linenumber">2</context>
         </context-group>
       </trans-unit>
       <trans-unit id="f479caf313215b534cdba5ce0b2ba2fbe59309dd" datatype="html">
