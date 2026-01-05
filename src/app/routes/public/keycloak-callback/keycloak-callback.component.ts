@@ -48,6 +48,7 @@ export class KeycloakCallbackComponent implements OnInit {
                 if (res && res.status === 200
                   //&& res.roles.length > 0
                 ) {
+                  // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
                   if (res.language) {
                     let lang = res.language
                     let obj = {
@@ -56,37 +57,22 @@ export class KeycloakCallbackComponent implements OnInit {
                       line: 56
                     }
                     sessionStorage.setItem('lang1', JSON.stringify(obj))
-                    console.log(`${lang}`)
-                    lang = lang !== 'en' ? lang : ''
-                    let url = localStorage.getItem('url_before_login') || ''
-                    if (localStorage.getItem('url_before_login')) {
-                      location.href = `${lang}/${url}`
-                    } else {
-                      url = '/page/home'
-                      window.location.href = `${lang}${url}`
-                    }
+                    let url = localStorage.getItem('url_before_login') || '/page/home'
+                    location.href = url
                   } else {
                     if (localStorage.getItem('preferedLanguage')) {
-
                       let data: any
                       let lang: any
                       data = localStorage.getItem('preferedLanguage')
                       lang = JSON.parse(data)
-                      lang = lang.id !== 'en' ? lang.id : ''
                       let obj = {
-                        lang: lang,
+                        lang: lang.id,
                         line: 79
                       }
                       sessionStorage.setItem('lang2', JSON.stringify(obj))
 
-                      sessionStorage.setItem(lang, lang)
-                      let url = localStorage.getItem('url_before_login') || ''
-                      if (localStorage.getItem('url_before_login')) {
-                        location.href = `${lang}/${url}`
-                      } else {
-                        url = '/page/home'
-                        window.location.href = `${lang}${url}`
-                      }
+                      let url = localStorage.getItem('url_before_login') || '/page/home'
+                      location.href = url
                     } else {
                       if (localStorage.getItem('url_before_login')) {
                         // window.location.href = localStorage.getItem('url_before_login') || ''

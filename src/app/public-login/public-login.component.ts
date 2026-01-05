@@ -286,14 +286,12 @@ export class PublicLoginComponent implements OnInit {
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
-            let lang = (result && result.language !== undefined) ? result.language : 'en'
-            lang = lang === 'en' ? '' : 'hi'
             console.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
 
+            // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
             if (localStorage.getItem('url_before_login')) {
               let url = localStorage.getItem('url_before_login') || ''
-              url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
               location.href = url
             } else {
               const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
@@ -306,9 +304,7 @@ export class PublicLoginComponent implements OnInit {
                 )
                 window.location.href = redirectUrl
               } else {
-                let url = '/page/home'
-                url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
-                window.location.href = url
+                window.location.href = '/page/home'
               }
             }
           })
@@ -417,8 +413,7 @@ export class PublicLoginComponent implements OnInit {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             console.log(res, 'res')
-            let lang = (result && result.language !== undefined) ? result.language : 'en'
-            lang = lang === 'en' ? '' : 'hi'
+            // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
             localStorage.setItem('res123', JSON.stringify(res))
             if (res && res.status) {
               if (res.language) {
@@ -434,7 +429,6 @@ export class PublicLoginComponent implements OnInit {
               localStorage.setItem('res', JSON.stringify(res))
               if (localStorage.getItem('url_before_login')) {
                 let url = localStorage.getItem('url_before_login') || ''
-                url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
                 location.href = url
               } else {
                 const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
@@ -447,9 +441,7 @@ export class PublicLoginComponent implements OnInit {
                   )
                   window.location.href = redirectUrl
                 } else {
-                  let url = '/page/home'
-                  url = lang === 'hi' ? `${lang}/${url}` : `${lang}${url}`
-                  window.location.href = url
+                  window.location.href = '/page/home'
                 }
 
               }

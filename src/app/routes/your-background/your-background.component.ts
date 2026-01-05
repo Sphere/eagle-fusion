@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { LanguageService } from '../../services/language.service'
 import { FormGroup } from '@angular/forms'
 
 @Component({
@@ -33,6 +34,7 @@ export class YourBackgroundComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private UserAgentResolverService: UserAgentResolverService,
+    private languageSvc: LanguageService,
   ) { }
 
   ngOnInit() {
@@ -67,7 +69,8 @@ export class YourBackgroundComponent implements OnInit {
       this.middleName = this.configSvc.userProfile.middleName || ''
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // ✅ Use LanguageService instead of checking location.href
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
     this.selectedAddress = this.aboutYou.value.country
     if (this.aboutYou.value.state) {
       this.selectedAddress += ', ' + `${this.aboutYou.value.state}`

@@ -188,52 +188,28 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
   navigate() {
     // Use LanguageService instead of checking location.href
-    const userLang = this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage()
-    let local = userLang
-    let url1 = local === 'hi' ? 'hi' : ""
-    // let url3 = `${document.baseURI}`
-    // if (url3.includes('hi')) {
-    //   url3 = url3.replace(/hi\//g, '')
-    // }
+    // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
 
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails.profileReq!.personalDetails!.dob) {
-      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-      this.router.navigateByUrl(`${url}`)
+      this.router.navigate(['/app/profile-view'])
     } else {
-      let url = url1 === 'hi' ? '/app/profile-view' : 'app/profile-view'
-      this.router.navigate(['/app/about-you'], { queryParams: { redirect: `${url1}${url}` } })
+      this.router.navigate(['/app/about-you'], { queryParams: { redirect: '/page/home' } })
     }
 
   }
 
   goHomePage() {
-    // localStorage.setItem('url_before_login', '/page/home')
-    //if (this.showNavLinkPage) {
-    // Use LanguageService instead of checking location.href
-    const userLang = this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage()
-    let local = userLang
-    let url1 = local === 'hi' ? 'hi' : ""
-    console.log(url1)
-    let url2 = `${document.baseURI}`
-    if (url2.includes('hi')) {
-      url2 = url2.replace(/hi\//g, '')
-    }
-
     // ✅ Check if orgSelectiveConfig matches and redirect accordingly
     const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
     const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
 
-    let url = ''
+    let url = 'page/home'
     if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-      url = orgSelectiveConfig.redirectUrl || (url1 === 'hi' ? '/page/home' : 'page/home')
+      url = orgSelectiveConfig.redirectUrl || 'page/home'
       console.log('🏫 Redirecting to selective org page:', url)
-    } else {
-      url = url1 === 'hi' ? '/page/home' : 'page/home'
     }
 
-    location.href = `${url2}${url1}${url}`
-    //location.href = '/page/home'
-    //}
+    this.router.navigateByUrl(url)
   }
 
 

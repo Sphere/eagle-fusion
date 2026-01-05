@@ -10,7 +10,7 @@ import { constructReq } from '../request-util'
 import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../project/ws/app/src/public-api'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
-import { locale } from 'moment'
+import { LanguageService } from '../../../services/language.service'
 @Component({
   selector: 'ws-work-info-edit',
   templateUrl: './work-info-edit.component.html',
@@ -42,6 +42,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
+    private languageSvc: LanguageService,
   ) {
     this.workInfoForm = new UntypedFormGroup({
       //doj: new FormControl('', [Validators.required]),
@@ -115,7 +116,8 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     if (form.doj) {
       form.doj = changeformat(new Date(`${form.doj}`))
     }
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // ✅ Use LanguageService instead of checking location.href
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage() || 'en'
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
@@ -143,7 +145,6 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res) {
           this.workInfoForm.reset()
-          console.log(locale)
           if (local === 'en') {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
           } else {

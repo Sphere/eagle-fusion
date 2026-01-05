@@ -124,9 +124,8 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     }
   }
   async redirect(text: any) {
-    // Use user preference ONLY, don't detect from URL to avoid double /hi
-    const local = this.configSvc.unMappedUser?.profileDetails?.preferences?.language ?? 'en'
-    const langPrefix = local === 'hi' ? '/hi' : ''
+    // Note: Language is now managed by ngx-translate (TranslateService)
+    // Do NOT use URL-based language prefixes (/hi) with ngx-translate
     const baseUrl = document.baseURI.endsWith('/') ? document.baseURI.slice(0, -1) : document.baseURI
 
     // ✅ Selective org config
@@ -145,7 +144,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
         console.log('🏫 Redirecting to selective org homepage for:', org)
       }
 
-      location.href = `${baseUrl}${langPrefix}${url}`
+      location.href = `${baseUrl}${url}`
     }
 
     else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
@@ -153,44 +152,44 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       let url = '/app/user/my_courses'
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
-        location.href = `${baseUrl}${langPrefix}${url}`
+        location.href = `${baseUrl}${url}`
       } else {
-        let redirectUrl = `${langPrefix}/page/home`
+        let redirectUrl = '/page/home'
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
       }
     } else if (text.name === 'अधिसूचना' || text.name === 'Notification') {
       this.currentText = text.name
       let url = '/notification'
-      location.href = `${baseUrl}${langPrefix}${url}`
+      location.href = `${baseUrl}${url}`
     } else if (text.name === 'Competency' || text.name === 'योग्यता') {
       this.currentText = text.name
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
         let url = '/app/user/competency'
-        location.href = `${baseUrl}${langPrefix}${url}`
+        location.href = `${baseUrl}${url}`
       } else {
-        let redirectUrl = `${langPrefix}/page/home`
+        let redirectUrl = '/page/home'
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
       }
     } else if (text.name === 'खोज' || text.name === 'Search') {
       this.navOption.changeNavBarActive('search')
       this.currentText = text.name
       let url = '/app/search/home'
-      location.href = `${baseUrl}${langPrefix}${url}`
+      location.href = `${baseUrl}${url}`
     } else {
       let result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.currentText = text.name
         let url = '/app/profile-view'
-        location.href = `${baseUrl}${langPrefix}${url}`
+        location.href = `${baseUrl}${url}`
       } else {
         if (localStorage.getItem('url_before_login')) {
           const courseUrl = localStorage.getItem('url_before_login')
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
         } else {
           this.currentText = 'Home'
-          let redirectUrl = `${langPrefix}/page/home`
+          let redirectUrl = '/page/home'
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
         }
       }

@@ -12,6 +12,7 @@ import { get } from 'lodash'
 import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models/NsUserProfile'
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
+import { LanguageService } from '../../../services/language.service'
 @Component({
   selector: 'ws-work-info-list',
   templateUrl: './work-info-list.component.html',
@@ -63,6 +64,7 @@ export class WorkInfoListComponent implements OnInit {
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
+    private languageSvc: LanguageService,
   ) {
     this.personalDetailForm = new UntypedFormGroup({
       profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
@@ -414,7 +416,8 @@ export class WorkInfoListComponent implements OnInit {
       this.userID = this.configSvc.userProfile.userId || ''
     }
 
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // ✅ Use LanguageService instead of checking location.href
+    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
 
     let profileRequest = this.constructReq(form)
     if (form.value.locationselect) {
