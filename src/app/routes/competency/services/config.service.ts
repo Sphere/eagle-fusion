@@ -18,6 +18,7 @@ export class ConfigService {
       language: (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en',
       id: this.configSvc.unMappedUser.id,
       hostPath: this.configSvc.hostPath,
+      isMobileApp: false
     }
 
     if (localStorage.getItem('competency')) {
