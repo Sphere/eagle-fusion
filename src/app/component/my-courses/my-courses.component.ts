@@ -1,16 +1,19 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import lodash from 'lodash'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-my-courses',
   templateUrl: './my-courses.component.html',
   styleUrls: ['./my-courses.component.scss'],
 })
-export class MyCoursesComponent implements OnInit {
+export class MyCoursesComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>()
   startedCourse: any[] = []
   completedCourse: any[] = []
   coursesForYou: any[] = []
@@ -49,117 +52,124 @@ export class MyCoursesComponent implements OnInit {
     if (this.configSvc.userProfile) {
       userId = this.configSvc.userProfile.userId || ''
     }
-    this.route.queryParams.subscribe(params => {
-      if (params['courseType'] === 'formatForYouCourses') {
-        this.isForYouActive = true
-        this.selectedIndex = 1 // Set the index for "For You" tab
-      }
-    })
+    this.route.queryParams
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(params => {
+        if (params['courseType'] === 'formatForYouCourses') {
+          this.isForYouActive = true
+          this.selectedIndex = 1 // Set the index for "For You" tab
+        }
+      })
 
     this.isLoading = true
-    this.contentSvc.fetchUserBatchList(userId).subscribe(
-      (courses: NsContent.ICourse[]) => {
-        console.log("courses", courses)
+    this.contentSvc.fetchUserBatchList(userId)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (courses: NsContent.ICourse[]) => {
+          courses.forEach((key) => {
+            // Check if competency exists, if not, assume it's okay to process (e.g., no competency required)
+            const competencyExists = lodash.has(key, 'content.competency')
+            const competency = competencyExists ? lodash.get(key, 'content.competency', false) : false  // Default to false if competency is absent
 
-        courses.forEach((key) => {
-          // Check if competency exists, if not, assume it's okay to process (e.g., no competency required)
-          const competencyExists = lodash.has(key, 'content.competency')
-          const competency = competencyExists ? lodash.get(key, 'content.competency', false) : false  // Default to false if competency is absent
+            // Only process courses with competency === false
+            // Only process courses where competency is either false or not present
+            if (key?.content?.identifier) {
 
-          // Only process courses with competency === false
-          // Only process courses where competency is either false or not present
-          if (key?.content?.identifier) {
+              if (competency === false) {
+                if (key.completionPercentage !== 100) {
+                  const myCourseObject = {
+                    identifier: key.content.identifier,
+                    appIcon: key.content.appIcon,
+                    thumbnail: key.content.thumbnail,
+                    name: key.content.name,
+                    dateTime: key.dateTime,
+                    completionPercentage: key.completionPercentage,
+                    sourceName: key.content.sourceName,
+                    issueCertification: key.content.issueCertification,
+                    posterImage: key.content.posterImage,
+                  }
 
-            if (competency === false) {
-              if (key.completionPercentage !== 100) {
-                const myCourseObject = {
-                  identifier: key.content.identifier,
-                  appIcon: key.content.appIcon,
-                  thumbnail: key.content.thumbnail,
-                  name: key.content.name,
-                  dateTime: key.dateTime,
-                  completionPercentage: key.completionPercentage,
-                  sourceName: key.content.sourceName,
-                  issueCertification: key.content.issueCertification,
-                  posterImage: key.content.posterImage,
+                  this.startedCourse.push(myCourseObject)
+                  this.isLoading = false
+                } else {
+                  const completedCourseObject = {
+                    identifier: key.content.identifier,
+                    appIcon: key.content.appIcon,
+                    thumbnail: key.content.thumbnail,
+                    name: key.content.name,
+                    dateTime: key.dateTime,
+                    completionPercentage: key.completionPercentage,
+                    sourceName: key.content.sourceName,
+                    issueCertification: key.content.issueCertification,
+                    posterImage: key.content.posterImage,
+                  }
+
+                  this.completedCourse.push(completedCourseObject)
                 }
-
-                this.startedCourse.push(myCourseObject)
-                this.isLoading = false
-              } else {
-                const completedCourseObject = {
-                  identifier: key.content.identifier,
-                  appIcon: key.content.appIcon,
-                  thumbnail: key.content.thumbnail,
-                  name: key.content.name,
-                  dateTime: key.dateTime,
-                  completionPercentage: key.completionPercentage,
-                  sourceName: key.content.sourceName,
-                  issueCertification: key.content.issueCertification,
-                  posterImage: key.content.posterImage,
-                }
-
-                this.completedCourse.push(completedCourseObject)
               }
             }
-          }
-        })
+          })
 
-        // Sort courses based on dateTime in descending order
-        this.startedCourse.sort((a, b) => {
-          const dateTimeA = new Date(a.dateTime).getTime()
-          const dateTimeB = new Date(b.dateTime).getTime()
-          return dateTimeB - dateTimeA
-        })
+          // Sort courses based on dateTime in descending order
+          this.startedCourse.sort((a, b) => {
+            const dateTimeA = new Date(a.dateTime).getTime()
+            const dateTimeB = new Date(b.dateTime).getTime()
+            return dateTimeB - dateTimeA
+          })
 
-        this.completedCourse.sort((a, b) => {
-          const dateTimeA = new Date(a.dateTime).getTime()
-          const dateTimeB = new Date(b.dateTime).getTime()
-          return dateTimeB - dateTimeA
-        })
-        if (this.startedCourse.length > 0) {
-          this.myCourseDisplayConfig = {
-            displayType: 'card-mini',
-            badges: {
-              certification: true,
-              rating: true,
-              completionPercentage: true,
-              mobilesourceName: true
-            },
+          this.completedCourse.sort((a, b) => {
+            const dateTimeA = new Date(a.dateTime).getTime()
+            const dateTimeB = new Date(b.dateTime).getTime()
+            return dateTimeB - dateTimeA
+          })
+
+          if (this.startedCourse.length > 0) {
+            this.myCourseDisplayConfig = {
+              displayType: 'card-mini',
+              badges: {
+                certification: true,
+                rating: true,
+                completionPercentage: true,
+                mobilesourceName: true
+              },
+            }
+            this.myCourseWebDisplayConfig = {
+              displayType: 'card-mini',
+              badges: {
+                certification: true,
+                rating: true,
+                completionPercentage: true,
+                resume: true,
+              },
+            }
           }
-          this.myCourseWebDisplayConfig = {
-            displayType: 'card-mini',
-            badges: {
-              certification: true,
-              rating: true,
-              completionPercentage: true,
-              resume: true,
-            },
+
+          if (this.completedCourse.length > 0) {
+            this.completedCourseDisplayConfig = {
+              displayType: 'card-mini',
+              badges: {
+                rating: true,
+                mobilesourceName: true,
+                sourceLine: true,
+              },
+            }
+            this.completedWebCourseDisplayConfig = {
+              displayType: 'card-mini',
+              badges: {
+                rating: true,
+                viewAll: true,
+                mobilesourceName: true,
+                sourceLine: true,
+              },
+            }
           }
+          this.isLoading = false
+        },
+        (err) => {
+          console.error('Error fetching user batch list:', err)
+          this.isLoading = false
         }
-        if (this.completedCourse.length > 0) {
-          this.completedCourseDisplayConfig = {
-            displayType: 'card-mini',
-            badges: {
-              rating: true,
-              mobilesourceName: true,
-              sourceLine: true,
-            },
-          }
-          this.completedWebCourseDisplayConfig = {
-            displayType: 'card-mini',
-            badges: {
-              rating: true,
-              viewAll: true,
-              mobilesourceName: true,
-              sourceLine: true,
-            },
-          }
-        }
-        // console.log(this.startedCourse, 'c', this.startedCourse.length)
-        // console.log(this.completedCourse, 'aa', this.completedCourse.length)
-
-      })
+      )
     if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails.profileReq && this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails) {
       const professionalDetails = this.configSvc.unMappedUser!.profileDetails!.profileReq!.professionalDetails[0]
       if (professionalDetails) {
@@ -175,7 +185,9 @@ export class MyCoursesComponent implements OnInit {
           language: lang
         }
         this.contentSvc
-          .COURSE_RECOMMENDATION_V2(forYouRequestData).pipe().subscribe((res) => {
+          .COURSE_RECOMMENDATION_V2(forYouRequestData)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe((res) => {
             console.log(forYouRequestData, res, designation, this.configSvc?.userProfile?.rootOrgId, lang, 'COURSE_RECOMMENDATION_V2')
             this.coursesForYou = res
             this.isLoading = false
@@ -250,5 +262,10 @@ export class MyCoursesComponent implements OnInit {
         }
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

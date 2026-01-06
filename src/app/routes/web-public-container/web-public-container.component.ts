@@ -1,43 +1,37 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core'
+import { Component, OnInit, OnDestroy, ElementRef, ViewChild, Input } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { filter, includes, uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
-import { of } from 'rxjs'
+import { Subject, of } from 'rxjs'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { WidgetContentService } from '@ws-widget/collection'
 // import { environment } from 'src/environments/environment'
-import { catchError, switchMap } from 'rxjs/operators'
+import { catchError, switchMap, takeUntil } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-web-public-container',
   templateUrl: './web-public-container.component.html',
   styleUrls: ['./web-public-container.component.scss'],
 })
-export class WebPublicComponent implements OnInit {
-  myCourse: any
+export class WebPublicComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>()
+  private courseRecommendationTimeout: any
+
   topCertifiedCourse: any = []
   featuredCourse: any = []
   cneCourse: any = []
-  videoData: any
-  homeFeatureData: any
-  homeFeature: any
-  userId: any
-  firstName: any
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
   cneCoursesIdentifier: any = []
   @Input() userEnrollCourse: any
-  // languageIcon = '../../../fusion-assets/images/lang-icon.png'
-  langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
-  displayConfig: any
   coursesForYou: any[] = []
   coursesForUP: any[] = []
   isLoading = false
-  @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
+  @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses?: ElementRef
   userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   CNECourseDisplayConfig: any
@@ -50,42 +44,37 @@ export class WebPublicComponent implements OnInit {
     private orgService: OrgServiceService,
     public scrollService: ScrollService,
     private configSvc: ConfigurationsService,
-    private contentSvc: WidgetContentService,
-    // private elementRef: ElementRef
+    private contentSvc: WidgetContentService
   ) {
   }
 
-  async ngOnInit() {
-    // Set up user enrolled display configurations
+  ngOnInit() {
     this.setUserEnrolledDisplayConfig()
     if (this.isEkshamata) {
       this.showTopCourses()
     }
-    // Fetch course recommendations if professional details are available
     this.fetchCourseRecommendations()
-
-    // Handle scroll events
     this.handleScrollEvents()
-
-    // Fetch configuration data based on the environment
     this.fetchEnvironmentConfigurations()
   }
   showTopCourses() {
     this.topCertifiedCourse = []
-    console.log("this.configSvc.hostedInfo", this.configSvc.hostedInfo)
     if (this.configSvc.hostedInfo?.featuredCourseIdentifier) {
       this.isUpLogin = true
-      this.orgService.getTopLiveSearchResults(this.configSvc.hostedInfo.featuredCourseIdentifier, this.preferedLanguage.id).subscribe((results: any) => {
-        console.log("yes here hostedInfo", results.result.content)
-        if (results.result.content.length > 0) {
-          this.formatForYouUPCourses(results.result.content)
-          console.log("yes here hostedInfo", results.result.content)
-        }
-      })
-
+      this.orgService.getTopLiveSearchResults(this.configSvc.hostedInfo.featuredCourseIdentifier, this.preferedLanguage.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (results: any) => {
+            if (results?.result?.content?.length > 0) {
+              this.formatForYouUPCourses(results.result.content)
+            }
+          },
+          (err) => {
+            console.error('Error fetching top courses:', err)
+          }
+        )
     }
   }
-  // this.configSvc.hostedInfo
   formatForYouUPCourses(res: any) {
     const myCourse: any = []
     let myCourseObject = {}
@@ -117,37 +106,26 @@ export class WebPublicComponent implements OnInit {
     }
   }
   private setUserEnrolledDisplayConfig() {
-    if (this.userEnrollCourse && this.userEnrollCourse.length > 0) {
-      this.userEnrolledDisplayConfig = {
-        displayType: 'card-mini',
-        badges: {
-          certification: true,
-          rating: true,
-          completionPercentage: true
-        }
-      }
-    } else {
-      this.userEnrolledDisplayConfig = {
-        displayType: 'card-mini',
-        badges: {
-          certification: true,
-          rating: true,
-          completionPercentage: true
-        }
+    this.userEnrolledDisplayConfig = {
+      displayType: 'card-mini',
+      badges: {
+        certification: true,
+        rating: true,
+        completionPercentage: true
       }
     }
   }
 
   private fetchCourseRecommendations() {
-    console.log("Fetching course recommendations...")
     this.isLoading = true
+    const RECOMMENDATION_TIMEOUT = 30000
 
-    const timeout = setTimeout(() => {
+    this.courseRecommendationTimeout = setTimeout(() => {
       if (this.isLoading) {
         this.isLoading = false
-        console.error("API call timed out.")
+        console.warn('Course recommendation API call timed out')
       }
-    })
+    }, RECOMMENDATION_TIMEOUT)
 
     if (
       this.configSvc.unMappedUser &&
@@ -168,38 +146,45 @@ export class WebPublicComponent implements OnInit {
           language: lang
         }
 
-        this.contentSvc.COURSE_RECOMMENDATION_V2(forYouRequestData).subscribe(
-          (res) => {
-            clearTimeout(timeout) // Clear timeout on success
-            this.formatForYouCourses(res)
-            this.isLoading = false
-          },
-          (err) => {
-            clearTimeout(timeout) // Clear timeout on error
-            console.error("Error fetching course recommendations:", err)
-            this.coursesForYou = []
-            this.isLoading = false
-          }
-        )
+        this.contentSvc.COURSE_RECOMMENDATION_V2(forYouRequestData)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(
+            (res) => {
+              if (this.courseRecommendationTimeout) {
+                clearTimeout(this.courseRecommendationTimeout)
+              }
+              this.formatForYouCourses(res)
+              this.isLoading = false
+            },
+            (err) => {
+              if (this.courseRecommendationTimeout) {
+                clearTimeout(this.courseRecommendationTimeout)
+              }
+              console.error('Error fetching course recommendations:', err)
+              this.coursesForYou = []
+              this.isLoading = false
+            }
+          )
       }
     } else {
-      clearTimeout(timeout)
+      if (this.courseRecommendationTimeout) {
+        clearTimeout(this.courseRecommendationTimeout)
+      }
       this.isLoading = false
     }
   }
 
   private handleScrollEvents() {
-    this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
-      if (targetDivId === 'scrollToCneCourses') {
-        this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
-      }
-    })
+    this.scrollService.scrollToDivEvent
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((targetDivId: string) => {
+        if (targetDivId === 'scrollToCneCourses' && this.scrollToCneCourses) {
+          this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
+        }
+      })
   }
 
   private fetchEnvironmentConfigurations() {
-
-
-    // const url = environment.production ? 'mobile-home.json' : 'mobile-home-stage.json'
     const url = 'mobile-home.json'
 
     this.http.get(`assets/configurations/${url}`).pipe(
@@ -215,11 +200,12 @@ export class WebPublicComponent implements OnInit {
         return this.orgService.getTopLiveSearchResults(identifiers, this.preferedLanguage.id)
       }),
       catchError((error) => {
-        // Handle error if needed
-        return of(error) // Returning a default observable in case of error
-      })
+        console.error('Error fetching environment configurations:', error)
+        return of({ result: { content: [] } })
+      }),
+      takeUntil(this.destroy$)
     ).subscribe((results: any) => {
-      if (results.result.content.length > 0) {
+      if (results?.result?.content && results.result.content.length > 0) {
         this.formatTopCertifiedCourseResponse(results)
         this.formatcneCourseResponse(results)
       }
@@ -321,6 +307,14 @@ export class WebPublicComponent implements OnInit {
       },
     }
     this.router.navigate(['/app/video-player'], navigationExtras)
+  }
+
+  ngOnDestroy() {
+    if (this.courseRecommendationTimeout) {
+      clearTimeout(this.courseRecommendationTimeout)
+    }
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 
 }
