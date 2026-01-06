@@ -404,7 +404,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
       console.log('Language saved successfully:', result)
-      // No page reload needed! LanguageService handles the UI update
+      window.location.assign(`${location.origin}/app/profile-view`)
     },
       (error) => {
         console.error('Error saving language:', error)

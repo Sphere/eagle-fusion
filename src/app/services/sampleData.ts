@@ -164,7 +164,7 @@ export const data = {
           "headerClass": "header1",
           "playlistConfigId": "YOUR_PLANS_PLAYLIST",
           "subTitle": "",
-          "show": "isUpLogin",
+          "show": true,
           "data": {},
           "displayConfig": {
             "displayType": "card-badges",
@@ -186,6 +186,7 @@ export const data = {
           "headerClass": "header1",
           "playlistConfigId": "TOP_COURSE_PLAYLIST",
           "subTitle": "",
+          "show": true,
           "data": {},
           "displayConfig": {
             "displayType": "card-badges",
@@ -207,6 +208,7 @@ export const data = {
           "headerClass": "header1",
           "playlistConfigId": "CNE_COURSE_PLAYLIST",
           "subTitle": "",
+          "show": true,
           "data": {},
           "displayConfig": {
             "displayType": "card-badges",
@@ -246,7 +248,103 @@ export const data = {
           ]
         }
       ],
-      "courseTab": [],
+      "courseTab": [
+        {
+          "title": "My Courses",
+          "tabMenu": [
+            {
+              "id": 0,
+              "label": "Started",
+              "data": [],
+              "className": "resource-container",
+              "displayConfigWeb": {
+                "displayType": "card-mini",
+                "badges": {
+                  "certification": true,
+                  "rating": true,
+                  "completionPercentage": true,
+                  "resume": true
+                }
+              },
+              "displayConfig": {
+                "displayType": "card-mini",
+                "badges": {
+                  "certification": true,
+                  "rating": true,
+                  "completionPercentage": true,
+                  "mobilesourceName": true
+                }
+              },
+              "fallbackState": {
+                "label": "You have not started any courses.",
+                "button": {
+                  "show": true,
+                  "label": "Check out courses for you"
+                }
+              }
+            },
+            {
+              "id": 1,
+              "label": "For You",
+              "data": [],
+              "className": "responsiveDiv",
+              "displayConfigWeb": {
+                "displayType": "card-badges",
+                "badges": {
+                  "certification": true,
+                  "sourceName": true,
+                  "rating": true
+                }
+              },
+              "displayConfig": {
+                "displayType": "card-badges",
+                "badges": {
+                  "certification": true,
+                  "sourceName": true,
+                  "rating": true
+                }
+              },
+              "fallbackState": {
+                "label": "You have no courses.",
+                "button": {
+                  "show": false,
+                  "label": ""
+                }
+              }
+            },
+            {
+              "id": 2,
+              "label": "Completed",
+              "data": [],
+              "className": "resource-container",
+              "displayConfigWeb": {
+                "displayType": "card-mini",
+                "badges": {
+                  "rating": true,
+                  "viewAll": true,
+                  "mobilesourceName": true,
+                  "sourceLine": true
+                }
+              },
+              "displayConfig": {
+                "displayType": "card-mini",
+                "badges": {
+                  "rating": true,
+                  "mobilesourceName": true,
+                  "sourceLine": true
+                }
+              },
+              "fallbackState": {
+                "label": "You have not completed any courses.",
+                "button": {
+                  "show": false,
+                  "label": ""
+                }
+              }
+            }
+          ]
+        }
+      ],
       "competencyTab": [],
       "searchMob": [],
       "accountTab": [],

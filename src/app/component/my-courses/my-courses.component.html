@@ -1,55 +1,20 @@
 <div class="paddingView">
-  <h1 id="heading">{{ 'My Courses' | translate }}</h1>
+  <h1 id="heading">{{ config?.title | translate }}</h1>
   <mat-tab-group [selectedIndex]="selectedIndex">
-    <mat-tab [label]="('Started' | translate) + ' (' + startedCourse.length + ')'">
-      <!--Started -->
-      <div class="resource-container" *ngFor="let data of startedCourse; let last = last"
-        [ngClass]="{'last-child1': last}">
-        <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="myCourseDisplayConfig"
-          [courseData]="data"></ws-mobile-course-view>
-        <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="myCourseWebDisplayConfig"
-          [courseData]="data"></ws-web-course-card>
-
-      </div>
-      <div class="flex justify-center flex-col no-content" *ngIf="this.startedCourse.length === 0">
-        <h3 class="mt15">{{ 'You have not started any courses.' | translate }}</h3>
-        <div class="text-center">
-          <button class="outline-btn cursor-pointer" (click)="tabClick()">{{ 'Check out courses for you' | translate }}
-          </button>
+    <mat-tab *ngFor="let tab of config?.tabMenu" [label]="(tab?.label | translate) + ' (' + tab?.data.length + ')'">
+      <div class="flex justify-center flex-col no-content" *ngIf="tab?.data?.length === 0">
+        <h3 class="mt15">{{ tab?.fallbackState?.label | translate }}</h3>
+        <div class="text-center" *ngIf="tab?.fallbackState?.button?.show">
+          <button class="outline-btn cursor-pointer" (click)="tabClick()">
+            {{ tab?.fallbackState?.button.label | translate }}</button>
         </div>
       </div>
-    </mat-tab>
-    <mat-tab [label]="('For You' | translate) + ' (' + coursesForYou.length + ')'">
-      <!-- For You -->
-      <div class="flex justify-center flex-col no-content" *ngIf="this.coursesForYou.length === 0">
-        <h3 class="mt15">{{ 'You have no courses.' | translate }}</h3>
-      </div>
-      <ng-container *ngIf="this.coursesForYou && this.coursesForYou.length>0">
-        <div *ngFor="let courseData of coursesForYou; let last = last" class="responsiveDiv"
-          [ngClass]="{'last-child2': last}">
-          <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="coursesForYouDisplayConfig"
-            [courseData]="courseData"></ws-mobile-course-view>
-          <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="coursesForYouDisplayConfig"
-            [courseData]="courseData"></ws-web-course-card>
-        </div>
-      </ng-container>
-
-    </mat-tab>
-    <mat-tab [label]="('Completed' | translate) + ' (' + completedCourse.length + ')'">
-      <!-- Completed -->
-      <div class="flex justify-center flex-col no-content" *ngIf="this.completedCourse.length === 0">
-        <h3 class="mt15">{{ 'You have not completed any courses.' | translate }}</h3>
-      </div>
-
-      <div class="resource-container" *ngFor="let data of completedCourse; let last = last"
-        [ngClass]="{'last-child1': last}">
-        <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="completedCourseDisplayConfig"
+      <div [class]="tab.className" *ngFor="let data of tab?.data; let last = last" [ngClass]="{'last-child1': last}">
+        <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="tab?.displayConfig"
           [courseData]="data"></ws-mobile-course-view>
-        <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="completedWebCourseDisplayConfig"
+        <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="tab?.displayConfigWeb"
           [courseData]="data"></ws-web-course-card>
-
       </div>
-
     </mat-tab>
   </mat-tab-group>
 </div>

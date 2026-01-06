@@ -89,13 +89,15 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
       //   this.getSearchAutoCompleteResults(this.queryControl.value)
       // }
     })
-    this.languageSearch = this.route.snapshot.data.searchPageData && this.route.snapshot.data.searchPageData.data.search.languageSearch.map(
+    this.languageSearch = this.route?.snapshot?.data?.searchPageData?.data?.search?.languageSearch?.map(
       (u: string) => u.toLowerCase(),
     )
-    this.languageSearch = this.languageSearch.sort()
-    this.swapRemove(this.languageSearch, this.languageSearch.indexOf('all'), 0)
-    if (this.preferredLanguages && this.preferredLanguages.split(',').length > 1) {
-      this.languageSearch.splice(1, 0, this.preferredLanguages)
+    if (this.languageSearch?.length > 0) {
+      this.languageSearch = this.languageSearch?.sort()
+      this.swapRemove(this.languageSearch, this.languageSearch?.indexOf('all'), 0)
+      if (this.preferredLanguages && this.preferredLanguages.split(',').length > 1) {
+        this.languageSearch?.splice(1, 0, this.preferredLanguages)
+      }
     }
   }
 

@@ -82,8 +82,8 @@
         <span *ngIf="!isEkshamata" style="font-size: 15px;">{{ 'To request account deletion please send an email to' |
           translate }}
         </span>
-        <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email" style="font-size: 15px;">{{ 'To request account deletion
-          please send an email to' | translate }}
+        <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email" style="font-size: 15px;">
+          {{ 'To request account deletion please send an email to' | translate }}
         </span>
         <span *ngIf="!isEkshamata" style="text-decoration: underline;">support@aastrika.org</span>
         <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email"
@@ -167,18 +167,18 @@
           'Organization Details' | translate }}</span>
       </a>
       <a [class.active]="selectedIndex === 'academic'" (click)="selectedIndex = 'academic'; changeFunction('academic')">
-        <img alt="Academic details" src="/fusion-assets/images/school.svg" width="35" height="23" /><span>{{ 'Academic
-          Details' | translate }}</span>
+        <img alt="Academic details" src="/fusion-assets/images/school.svg" width="35" height="23" /><span>
+          {{ 'Academic Details' | translate }}</span>
       </a>
       <a *ngIf="!showbackButton" [class.active]="selectedIndex === 'language'"
         (click)="selectedIndex = 'language'; changeFunction('language')">
-        <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" /><span>{{ 'Language
-          Preference' | translate }}</span>
+        <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" /><span>
+          {{ 'Language Preference' | translate }}</span>
       </a>
       <a [class.active]="selectedIndex === 'certificates'"
         (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
-        <img alt="My Certificates" src="/fusion-assets/images/Group.svg" width="35" height="23" /><span>{{ 'My
-          Certificates' | translate }}</span>
+        <img alt="My Certificates" src="/fusion-assets/images/Group.svg" width="35" height="23" /><span>
+          {{ 'My Certificates' | translate }}</span>
       </a>
       <button *ngIf="!isEkshamata" class="web-help-btn mt-2 mb-2 cursor-pointer" (click)="showSocialChats()">
         {{ 'Help and Support' | translate }}

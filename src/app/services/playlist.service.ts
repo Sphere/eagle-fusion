@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import { data } from '../services/sampleData'
 import { HttpClient } from '@angular/common/http'
+import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,8 @@ export class PlaylistService {
   searchMobConfig: any
   playlistData: any
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private configSvc: ConfigurationsService
   ) { }
 
   getOrgDetails() {
@@ -96,7 +98,7 @@ export class PlaylistService {
         "subtype": "v1",
         "action": "get",
         "component": "web",
-        "rootOrgId": "0132317968766894088"
+        "rootOrgId": this.configSvc?.userProfile?.rootOrgId
       }
     }
     let url = `/apis/v1/form/read?v=${new Date().getTime()}`
@@ -110,12 +112,12 @@ export class PlaylistService {
     })
   }
 
-  async getPlaylistConfig(rootOrgId: string): Promise<any> {
+  async getPlaylistConfig(): Promise<any> {
     console.log('Fetching playlist data from API...', this.playlistData)
     let body = {
       "request": {
         "filters": {
-          "orgId": rootOrgId
+          "orgId": this.configSvc.userProfile?.rootOrgId
         }
       }
     }
