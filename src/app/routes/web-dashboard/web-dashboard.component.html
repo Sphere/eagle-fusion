@@ -1,25 +1,28 @@
-<!--page banner-->
-<div [ngClass]="{'isEkshamata':isEkshamata}" class="banner-container">
-  <!--upskill now section-->
+<!-- ================= Page Banner ================= -->
+<div class="banner-container" [ngClass]="{ 'isEkshamata': isEkshamata }">
   <div class="carousel">
+    <!-- ================= Banner Text ================= -->
     <div class="banner-heading-container">
-      <div class="banner-mini-heading">{{ configData.title | translate }}</div>
-      <div class="banner-heading"><span>{{ firstName ? (firstName | translate) : ('' | translate) }}</span></div>
-      <div class="banner-sub-heading"><span>{{ configData.subTitle | translate }}</span></div>
+      <div class="heading">
+        <div class="banner-mini-heading">{{ configData.title | translate }}</div>
+        <div class="banner-heading"><span>{{ firstName || '' | translate }}</span></div>
+      </div>
+      <div class="banner-sub-heading">{{ configData.subTitle | translate }}</div>
     </div>
-    <!-- for ekshamata banner scroll images -->
+    <!-- ================= Ekshamata Banner ================= -->
     <div *ngIf="isEkshamata" class="ekshamta-banner-container">
       <div class="ekshamata-banner">
-        <img class="banner-first-image" [src]="bannerFirstImage" alt="Carousel" loading="lazy">
-        <img class="banner-second-image" [src]="bannerSecondImage" alt="Carousel" loading="lazy">
+        <img class="banner-first-image" [src]="bannerFirstImage" alt="Banner image 1" loading="lazy" />
+        <img class="banner-second-image" [src]="bannerSecondImage" alt="Banner image 2" loading="lazy" />
       </div>
     </div>
-    <!-- for sphere banner scroll images -->
+    <!-- ================= Sphere Banner (Web + Mobile) ================= -->
     <div *ngIf="!isEkshamata" class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-        <div (click)="scrollToHowSphereWorks(data.scrollEmit)"
-          class="slide-content {{ i === currentSlideIndex ? 'active' : '' }}">
-          <img class="banner-image" [src]="data.img" alt="Carousel" loading="lazy">
+        <div class="slide-content" [class.active]="i === currentSlideIndex"
+          (click)="scrollToHowSphereWorks(data.scrollEmit)">
+
+          <img class="banner-image" [src]="data.img" alt="Carousel image" loading="lazy" />
         </div>
       </div>
     </div>
@@ -27,21 +30,12 @@
   </div>
 </div>
 
-<!-- for sphere banner scroll dots -->
-<ng-container *ngIf="!isEkshamata">
-  <div *ngFor="let data of dataCarousel; let i = index">
-    <div class="slide-content" [class.active]="i === currentSlideIndex">
-      <div [className]="data.scrollEmit">
-        <div>
-          <button *ngFor="let _ of dataCarousel; let i = index" [ngClass]="{ 'active': i === currentSlideIndex }"
-            (click)="goToSlide(i)" class="round-buttons">
-            <img class="dot-icon" *ngIf="i === currentSlideIndex" src="/fusion-assets/icons/active_dot.svg"
-              alt="Active Dot">
-            <img class="dot-icon" *ngIf="i !== currentSlideIndex" src="/fusion-assets/icons/gray_dot.svg"
-              alt="Inactive Dot">
-          </button>
-        </div>
-      </div>
-    </div>
-  </div>
-</ng-container>
+<!-- ================= Carousel Dots (Sphere Only) ================= -->
+<div *ngIf="!isEkshamata" class="carousel-dots">
+  <button *ngFor="let _ of dataCarousel; let i = index" class="round-buttons" [class.active]="i === currentSlideIndex"
+    (click)="goToSlide(i)">
+    <img class="dot-icon" [src]="i === currentSlideIndex
+        ? '/fusion-assets/icons/active_dot.svg'
+        : '/fusion-assets/icons/gray_dot.svg'" alt="carousel dot" />
+  </button>
+</div>

@@ -54,9 +54,6 @@ export class WebDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    // this.lang = this.configSvc!.unMappedUser
-    //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
-    //   : location.href.includes('/hi/') ? 'hi' : 'en'
     let res = this.playlistSvc.getHomeConfig()
     if (res === "") {
       this.playlistSvc.getPlaylistData().then(() => {

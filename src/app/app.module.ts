@@ -143,7 +143,6 @@ import { VideoPopupComponent } from './routes/how-does-it-works-popup/how-does-i
 import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
 import { MyCoursesComponent } from './component/my-courses/my-courses.component'
 import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
-import { CarouselComponentComponent } from '../app/routes/carousel-banner/carousel-component.component'
 import { PublicLoginComponent } from './public-login/public-login.component'
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
@@ -334,7 +333,6 @@ export const configFactory = {
     TnnmcCallbackComponent,
     MyCoursesComponent,
     ScrollDetectorDirective,
-    CarouselComponentComponent,
     PublicLoginComponent,
     TnaiCallbackComponent,
     // SettingsComponent
