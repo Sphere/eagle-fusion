@@ -16,7 +16,7 @@ import { EventService } from '@ws-widget/utils'
 import {
   videoJsInitializer,
   telemetryEventDispatcherFunction,
-  saveContinueLearningFunction,
+  // saveContinueLearningFunction,
   fireRealTimeProgressFunction,
 } from '../_services/videojs-util'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
@@ -89,44 +89,44 @@ export class PlayerAudioComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    const saveCLearning: saveContinueLearningFunction = data => {
-      if (this.widgetData.identifier) {
-        if (this.activatedRoute.snapshot.queryParams.collectionType &&
-          this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-          const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-            resourceId: data.resourceId,
-            contextType: 'playlist',
-            dateAccessed: Date.now(),
-            data: JSON.stringify({
-              progress: data.progress,
-              timestamp: Date.now(),
-              contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-            }),
-          }
-          this.contentSvc
-            .saveContinueLearning(continueLearningData)
-            .toPromise()
-            .catch()
-        } else {
-          const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-              this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-            resourceId: data.resourceId,
-            dateAccessed: Date.now(),
-            data: JSON.stringify({
-              progress: data.progress,
-              timestamp: Date.now(),
-            }),
-          }
-          this.contentSvc
-            .saveContinueLearning(continueLearningData)
-            .toPromise()
-            .catch()
-        }
-      }
-    }
+    // const saveCLearning: saveContinueLearningFunction = data => {
+    //   if (this.widgetData.identifier) {
+    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
+    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
+    //       const continueLearningData = {
+    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
+    //           this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+    //         resourceId: data.resourceId,
+    //         contextType: 'playlist',
+    //         dateAccessed: Date.now(),
+    //         data: JSON.stringify({
+    //           progress: data.progress,
+    //           timestamp: Date.now(),
+    //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
+    //         }),
+    //       }
+    //       this.contentSvc
+    //         .saveContinueLearning(continueLearningData)
+    //         .toPromise()
+    //         .catch()
+    //     } else {
+    //       const continueLearningData = {
+    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
+    //           this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+    //         resourceId: data.resourceId,
+    //         dateAccessed: Date.now(),
+    //         data: JSON.stringify({
+    //           progress: data.progress,
+    //           timestamp: Date.now(),
+    //         }),
+    //       }
+    //       this.contentSvc
+    //         .saveContinueLearning(continueLearningData)
+    //         .toPromise()
+    //         .catch()
+    //     }
+    //   }
+    // }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
         this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier
@@ -145,7 +145,7 @@ export class PlayerAudioComponent extends WidgetBaseComponent
       this.audioTag.nativeElement,
       { ...videoJsOptions, poster: this.widgetData.posterImage },
       dispatcher,
-      saveCLearning,
+      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.audio,
@@ -178,7 +178,7 @@ export class PlayerAudioComponent extends WidgetBaseComponent
   }
   async fetchContent() {
     const content = await this.contentSvc.fetchContent(this.widgetData.identifier || '', 'minimal', [],
-                                                       this.widgetData.primaryCategory).toPromise()
+      this.widgetData.primaryCategory).toPromise()
     if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
       this.widgetData.url = content.artifactUrl
       this.widgetData.posterImage = content.appIcon

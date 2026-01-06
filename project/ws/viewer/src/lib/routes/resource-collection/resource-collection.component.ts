@@ -30,7 +30,7 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private eventSvc: EventService,
     private viewSvc: ViewerUtilService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.dataSubscription = this.activatedRoute.data.subscribe(
@@ -65,21 +65,21 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
           this.isErrorOccured = true
         }
       },
-      () => {},
+      () => { },
     )
   }
 
   async ngOnDestroy() {
-    if (this.activatedRoute.snapshot.queryParams.collectionId &&
-      this.activatedRoute.snapshot.queryParams.collectionType
-      && this.resourceCollectionData) {
-      await this.contentSvc.continueLearning(this.resourceCollectionData.identifier,
-                                             this.activatedRoute.snapshot.queryParams.collectionId,
-                                             this.activatedRoute.snapshot.queryParams.collectionType,
-      )
-    } else if (this.resourceCollectionData) {
-      await this.contentSvc.continueLearning(this.resourceCollectionData.identifier)
-    }
+    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
+    //   this.activatedRoute.snapshot.queryParams.collectionType
+    //   && this.resourceCollectionData) {
+    //   await this.contentSvc.continueLearning(this.resourceCollectionData.identifier,
+    //                                          this.activatedRoute.snapshot.queryParams.collectionId,
+    //                                          this.activatedRoute.snapshot.queryParams.collectionType,
+    //   )
+    // } else if (this.resourceCollectionData) {
+    //   await this.contentSvc.continueLearning(this.resourceCollectionData.identifier)
+    // }
     if (this.resourceCollectionData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.resourceCollectionData)
     }
@@ -97,7 +97,7 @@ export class ResourceCollectionComponent implements OnInit, OnDestroy {
       manifestFile = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()
-        .catch((_err: any) => {})
+        .catch((_err: any) => { })
     }
     return manifestFile
   }

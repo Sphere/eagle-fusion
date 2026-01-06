@@ -363,3 +363,16 @@ mat-progress-bar {
   --mdc-linear-progress-active-indicator-height: 20px !important;
   --mdc-linear-progress-track-height: 20px !important;
 }
+.width-auto{
+  width: auto !important;
+}
+.text-green-600 {
+  --text-opacity: 1;
+  color: #38a169;
+  color: rgba(56, 161, 105, var(--text-opacity));
+}
+.progress-summary{
+    background: rgba(241, 248, 247, 1);
+    padding: 1.2rem;
+    border-radius: 10px;
+}

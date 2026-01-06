@@ -152,12 +152,12 @@ export class HtmlComponent implements OnInit, OnDestroy {
                         this.subApp = true
                       }
                       break
-                    case 'CONTINUE_LEARNING':
-                      await this.respondSvc.continueLearningRespond(
-                        this.htmlData.identifier,
-                        event.data.data.continueLearning,
-                      )
-                      break
+                    // case 'CONTINUE_LEARNING':
+                    //   await this.respondSvc.continueLearningRespond(
+                    //     this.htmlData.identifier,
+                    //     event.data.data.continueLearning,
+                    //   )
+                    //   break
                     case 'TELEMETRY':
                       await this.respondSvc.telemetryEvents(event.data)
                       break

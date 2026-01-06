@@ -1,0 +1,42 @@
+<div class="view-answer-wrapper">
+  <div class="header-container">
+    <div (click)="closePopup()">
+      <mat-icon class="cursor-pointer">keyboard_arrow_left</mat-icon>
+    </div>
+    <div class="header-content">
+      <div class="header-title">{{ 'VIEW_ANSWER.ANSWER_REVIEW' | translate }}</div>
+      <div class="header-subtitle">{{ 'VIEW_ANSWER.REVIEW_AREAS_IMPROVE' | translate }}</div>
+    </div>
+  </div>
+
+  <div class="ion-content">
+    <div *ngIf="questions.length" class="question-block">
+      <div *ngFor="let q of questions; let i = index">
+        <div *ngIf="!isUserAnswerCorrect(q)">
+          <div class="question-text">
+            <span *ngIf="!q.question.startsWith(i + 1 + '. ')">{{ i + 1 }}. </span>
+            <span [innerHTML]="q.question"></span>
+          </div>
+          <div *ngFor="let opt of q.options" class="option-row" [ngClass]="{
+             'correct': opt.isCorrect,
+             'wrong': userSelectedWrong(q.questionId, opt)
+           }">
+            <mat-icon [ngClass]="{
+              'correct': opt.isCorrect,
+              'wrong': userSelectedWrong(q.questionId, opt)
+            }">{{ q.multiSelection ? (opt.isCorrect ? 'check_box' : 'check_box_outline_blank') : (opt.isCorrect ?
+              'radio_button_checked' : 'radio_button_unchecked') }}</mat-icon>
+            <div class="option-text">
+              {{ opt.text }}
+            </div>
+
+            <img *ngIf="opt.isCorrect" src="/fusion-assets/icons/Vector_1.png" alt="tick" />
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>

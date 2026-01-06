@@ -848,5 +848,47 @@
   "Edit name": "नाम संपादित करें",
   "Confirm name": "नाम की पुष्टि करें",
   "Try again": "फिर से कोशिश करें",
-  "User doesn't exist.": "उपयोगकर्ता मौजूद नहीं है।"
+  "User doesn't exist.": "उपयोगकर्ता मौजूद नहीं है।",
+  "PLAYER_NAVIGATION": {
+    "PREVIOUS": "पिछला",
+    "NEXT": "अगला"
+  },
+  "ASSESSMENT": {
+    "TAB_ASSESSMENT": "मूल्यांकन",
+    "TAB_RESULTS": "परिणाम",
+    "ASSESSMENT": "मूल्यांकन",
+    "COMPLETED": "पूर्ण",
+    "RESULT": "परिणाम",
+    "PASS": "पास",
+    "DID_NOT_PASS": "पास नहीं हुआ",
+    "YOUR_ATTEMPT_SUMMARY": "आपका प्रयास सारांश",
+    "YOUR_SCORE_IS": "आपका स्कोर है:",
+    "NOT_ATTEMPTED": "प्रयास नहीं किया गया",
+    "CORRECT": "सही",
+    "INCORRECT": "गलत",
+    "CONGRATULATIONS": "बधाई हो!",
+    "PROFICIENCY_LEVEL": "दक्षता स्तर",
+    "UNLOCKED": "अनलॉक किया गया",
+    "LEVEL": "स्तर",
+    "IS_ACHIEVED": "प्राप्त किया गया है",
+    "YOU_DIDNT_PASS": "आप मूल्यांकन में पास नहीं हुए",
+    "YOUR_LEVEL": "आपका स्तर",
+    "IS_NOT_CLEARED": "स्पष्ट नहीं हुआ",
+    "NEXT": "अगला",
+    "GO_TO_COMPETENCY_DASHBOARD": "दक्षता डैशबोर्ड पर जाएं",
+    "VIEW_RELEVANT_COURSES": "प्रासंगिक पाठ्यक्रम देखें",
+    "BACK": "वापस",
+    "RETAKE_ASSESSMENT": "मूल्यांकन फिर से लें",
+    "VIEW_ANSWERS": "उत्तर देखें",
+    "CONTINUE": "जारी रखें"
+  },
+  "VIEW_ANSWER": {
+    "ANSWER_REVIEW": "उत्तर समीक्षा",
+    "REVIEW_AREAS_IMPROVE": "उन क्षेत्रों की समीक्षा करें जहां आप और सुधार कर सकते हैं।"
+  },
+  "CONGRATULATIONS": {
+    "CONGRATULATIONS": "बधाई हो!",
+    "COURSE_COMPLETED": "पाठ्यक्रम पूर्ण!",
+    "YOU_EARNED_NEW_BADGE": "आपने एक नया बैज अर्जित किया"
+  }
 }

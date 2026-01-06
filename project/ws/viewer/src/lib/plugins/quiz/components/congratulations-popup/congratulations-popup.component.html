@@ -1,0 +1,20 @@
+<div class="popup-container">
+  <div class="gif-wrapper">
+    <img src="/fusion-assets/icons/celebration-top.gif" class="gif-top" />
+    <img src="/fusion-assets/icons/celebration-bottom.gif" class="gif-bottom" />
+  </div>
+
+  <div class="popup-content">
+    <div class="title">{{ 'CONGRATULATIONS.CONGRATULATIONS' | translate }}</div>
+    <div class="subtitle">{{ 'CONGRATULATIONS.COURSE_COMPLETED' | translate }}</div>
+
+    <div class="trophy-wrapper">
+      <img [ngClass]="earnedBadge ? 'trophy' : 'completed-bg'"
+        [src]="earnedBadge ? '/fusion-assets/icons/trophy.png' : '/fusion-assets/icons/completed.png'" />
+    </div>
+
+    <!-- <button *ngIf="earnedBadge" ion-button class="badge-btn" (click)="close()">
+      {{ 'CONGRATULATIONS.YOU_EARNED_NEW_BADGE' | translate }}
+    </button> -->
+  </div>
+</div>

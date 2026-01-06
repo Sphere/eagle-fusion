@@ -43,6 +43,7 @@ export class ConfirmmodalComponent implements OnInit {
       review: ['', Validators.required],
     })
     if (
+      this.data.request &&
       this.data.request.courseRating &&
       this.data.request.courseRating.content &&
       this.data.request.courseRating.content.length > 0
@@ -63,7 +64,7 @@ export class ConfirmmodalComponent implements OnInit {
         console.error("Missing rating or review in content:", firstContent)
       }
     } else {
-      console.error("No course rating content available:", this.data.request.courseRating)
+      console.log("No course rating content available - this is normal for new ratings")
     }
 
   }

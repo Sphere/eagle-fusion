@@ -252,41 +252,41 @@ export class WidgetContentService {
       `${API_END_POINTS.CONTENT_HISTORYV2}/${req.request.courseId}`, req
     )
   }
-  async continueLearning(id: string, collectionId?: string, collectionType?: string): Promise<any> {
-    return new Promise(async resolve => {
-      if (collectionType &&
-        collectionType.toLowerCase() === 'playlist') {
-        const reqBody = {
-          contextPathId: collectionId ? collectionId : id,
-          resourceId: id,
-          data: JSON.stringify({
-            timestamp: Date.now(),
-            contextFullPath: [collectionId, id],
-          }),
-          dateAccessed: Date.now(),
-          contextType: 'playlist',
-        }
-        await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-          resolve(true)
-        }
-        )
-      } else {
-        const reqBody = {
-          contextPathId: collectionId ? collectionId : id,
-          resourceId: id,
-          data: JSON.stringify({ timestamp: Date.now() }),
-          dateAccessed: Date.now(),
-        }
-        await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
-          resolve(true)
-        })
-      }
-    })
-  }
-  saveContinueLearning(content: NsContent.IViewerContinueLearningRequest): Observable<any> {
-    const url = API_END_POINTS.USER_CONTINUE_LEARNING
-    return this.http.post<any>(url, content)
-  }
+  // async continueLearning(id: string, collectionId?: string, collectionType?: string): Promise<any> {
+  //   return new Promise(async resolve => {
+  //     if (collectionType &&
+  //       collectionType.toLowerCase() === 'playlist') {
+  //       const reqBody = {
+  //         contextPathId: collectionId ? collectionId : id,
+  //         resourceId: id,
+  //         data: JSON.stringify({
+  //           timestamp: Date.now(),
+  //           contextFullPath: [collectionId, id],
+  //         }),
+  //         dateAccessed: Date.now(),
+  //         contextType: 'playlist',
+  //       }
+  //       await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
+  //         resolve(true)
+  //       }
+  //       )
+  //     } else {
+  //       const reqBody = {
+  //         contextPathId: collectionId ? collectionId : id,
+  //         resourceId: id,
+  //         data: JSON.stringify({ timestamp: Date.now() }),
+  //         dateAccessed: Date.now(),
+  //       }
+  //       await this.saveContinueLearning(reqBody).toPromise().catch().finally(() => {
+  //         resolve(true)
+  //       })
+  //     }
+  //   })
+  // }
+  // saveContinueLearning(content: NsContent.IViewerContinueLearningRequest): Observable<any> {
+  //   const url = API_END_POINTS.USER_CONTINUE_LEARNING
+  //   return this.http.post<any>(url, content)
+  // }
 
   setS3Cookie(
     contentId: string,

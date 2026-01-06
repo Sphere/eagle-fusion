@@ -1,17 +1,14 @@
 <div class="parent">
-  <a mat-button class="child mr-1" (click)="navigateToPreResource()" [class.disableButton]="!prevResourceUrl"
-    [disabled]="!prevResourceUrl">
-    <div class="flex align-center">
-      <img src="fusion-assets/icons/go-back.svg" alt="previous">
-      <span class="label" i18n>{{'Previous' | translate}}</span>
-    </div>
+  <a mat-button class="child prev-btn" (click)="navigateToPreResource()" [class.disableButton]="!prevResourceUrl">
+    <img class="mr-2"
+      [src]="isPlayBackBtnClicked || !prevResourceUrl ? 'fusion-assets/icons/play-back-clicked.svg' : 'fusion-assets/icons/play-back.svg'"
+      alt="previous">
+    <span>{{ 'PLAYER_NAVIGATION.PREVIOUS' | translate }}</span>
   </a>
-  <a mat-button class="child" [class.disableButton]="!isProgressCheck"
-    [routerLink]="isProgressCheck && nextResourceUrl ? nextResourceUrl : firstResourceUrl"
-    queryParamsHandling="preserve" [disabled]="!isProgressCheck">
-    <div class="flex align-center">
-      <img src="fusion-assets/icons/go-next.svg" alt="next">
-      <span class="label" i18n>{{'Next' | translate}}</span>
-    </div>
+  <a mat-button class="child next-btn" (click)="navigateToNextResource()" [class.disableButton]="!isProgressCheck">
+    <span>{{ 'PLAYER_NAVIGATION.NEXT' | translate }}</span>
+    <img class="ml-2"
+      [src]="isProgressCheck ? 'fusion-assets/icons/play-next-clicked.svg' : 'fusion-assets/icons/play-next.svg'"
+      alt="next">
   </a>
 </div>
