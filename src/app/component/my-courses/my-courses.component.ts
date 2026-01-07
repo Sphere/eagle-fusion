@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, OnDestroy } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
@@ -7,13 +7,16 @@ import lodash from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-my-courses',
   templateUrl: './my-courses.component.html',
   styleUrls: ['./my-courses.component.scss'],
 })
-export class MyCoursesComponent implements OnInit {
+export class MyCoursesComponent implements OnInit, OnDestroy {
+  private destroy$ = new Subject<void>()
   startedCourse: any[] = []
   completedCourse: any[] = []
   coursesForYou: any[] = []
@@ -55,7 +58,7 @@ export class MyCoursesComponent implements OnInit {
     const userId = this.configSvc?.userProfile?.userId || ''
 
     // Handle route params
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (params['courseType'] === 'formatForYouCourses') {
         this.isForYouActive = true
         this.selectedIndex = 1
@@ -63,7 +66,7 @@ export class MyCoursesComponent implements OnInit {
     })
 
     // Fetch user courses
-    this.contentSvc.fetchUserBatchList(userId).subscribe((courses) => {
+    this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe((courses) => {
       this.processUserCourses(courses)
       this.updateTabData()
     })
@@ -201,5 +204,10 @@ export class MyCoursesComponent implements OnInit {
         }
       }
     }
+  }
+
+  ngOnDestroy() {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

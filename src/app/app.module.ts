@@ -260,8 +260,9 @@ const dbConfig: DBConfig = {
   ]
 }
 
-export const configFactory = {
-  config: JSON.parse(localStorage.getItem('competency') || '{}')
+export const COMPETENCY_REGISTRATION_CONFIG = {
+  config: JSON.parse(localStorage.getItem('competency') || '{}'),
+  isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || ''
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -389,9 +390,9 @@ export const configFactory = {
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
-    EntryModule.forRoot(configFactory),
+    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
-    CompetencyModule.forRoot(configFactory),
+    CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,

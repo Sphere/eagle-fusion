@@ -3,10 +3,10 @@
     <img class="mr-2"
       [src]="isPlayBackBtnClicked || !prevResourceUrl ? 'fusion-assets/icons/play-back-clicked.svg' : 'fusion-assets/icons/play-back.svg'"
       alt="previous">
-    <span i18n>Previous</span>
+    <span>{{ 'PLAYER_NAVIGATION.PREVIOUS' | translate }}</span>
   </a>
   <a mat-button class="child next-btn" (click)="navigateToNextResource()" [class.disableButton]="!isProgressCheck">
-    <span i18n>Next</span>
+    <span>{{ 'PLAYER_NAVIGATION.NEXT' | translate }}</span>
     <img class="ml-2"
       [src]="isProgressCheck ? 'fusion-assets/icons/play-next-clicked.svg' : 'fusion-assets/icons/play-next.svg'"
       alt="next">

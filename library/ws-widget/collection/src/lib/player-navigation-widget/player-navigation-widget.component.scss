@@ -89,6 +89,10 @@
 
 .disableButton {
     pointer-events: none;
+}
+
+.label {
+    font-weight: 400;
     opacity: 0.5;
     cursor: not-allowed;
 }

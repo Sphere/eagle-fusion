@@ -118,18 +118,18 @@ export class SubapplicationRespondService {
       }
     }
   }
-  continueLearningRespond(id: string, continueLearning: any) {
-    this.contentSvc.saveContinueLearning(
-      {
-        contextPathId: id,
-        resourceId: id,
-        data: JSON.stringify({ timestamp: Date.now(), data: continueLearning }),
-        dateAccessed: Date.now(),
-      },
-    )
-      .toPromise()
-      .catch()
-  }
+  // continueLearningRespond(id: string, continueLearning: any) {
+  //   this.contentSvc.saveContinueLearning(
+  //     {
+  //       contextPathId: id,
+  //       resourceId: id,
+  //       data: JSON.stringify({ timestamp: Date.now(), data: continueLearning }),
+  //       dateAccessed: Date.now(),
+  //     },
+  //   )
+  //     .toPromise()
+  //     .catch()
+  // }
   telemetryEvents(tData: any) {
     if (tData) {
       switch (tData.eventId) {

@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core'
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, OnDestroy, Output, ViewChild } from '@angular/core'
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -11,8 +11,8 @@ import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { constructReq } from '../request-util'
 import { Router } from '@angular/router'
-import { Observable } from 'rxjs'
-import { debounceTime, distinctUntilChanged, map, startWith } from 'rxjs/operators'
+import { Observable, Subject, forkJoin } from 'rxjs'
+import { debounceTime, distinctUntilChanged, map, startWith, takeUntil } from 'rxjs/operators'
 import { ENTER, COMMA } from '@angular/cdk/keycodes'
 import { LanguageDialogComponent } from '../../language-dialog/language-dialog.component'
 import { upperFirst } from 'lodash'
@@ -28,7 +28,8 @@ import { HttpClient } from '@angular/common/http'
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked {
+export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
+  private destroy$ = new Subject<void>()
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   invalidDob = false
@@ -119,45 +120,51 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
 
   ngOnInit() {
     this.fetchMeta()
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall) {
-        this.showbackButton = true
+    this.valueSvc.isXSmall$
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(isXSmall => {
+        this.showbackButton = isXSmall
         this.showLogOutIcon = false
-      } else {
-        this.showbackButton = false
-        this.showLogOutIcon = false
-      }
-    })
+      })
     if (this.isEkshamata) {
       this.personalDetailForm.disable()
     }
   }
 
   fetchMeta() {
-    this.userProfileSvc.getMasterLanguages().subscribe(
-      data => {
-        this.masterLanguagesEntries = data.languages
-        this.onChangesLanuage()
-        this.onChangesKnownLanuage()
-      },
-      (_err: any) => {
-      })
-    this.http.get(this.countryUrl).subscribe((data: any) => {
-      this.countries = data.nationalities
-    })
-
-    this.http.get(this.stateUrl).subscribe((data: any) => {
-      this.states = data.states
-    })
+    forkJoin([
+      this.userProfileSvc.getMasterLanguages(),
+      this.http.get(this.countryUrl),
+      this.http.get(this.stateUrl)
+    ])
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        ([languages, countries, states]: any[]) => {
+          this.masterLanguagesEntries = languages.languages
+          this.countries = countries.nationalities
+          this.states = states.states
+          this.onChangesLanuage()
+          this.onChangesKnownLanuage()
+        },
+        (err) => {
+          console.error('Error fetching metadata:', err)
+        }
+      )
   }
   stateSelect(option: any) {
-    this.http.get(this.districtUrl).subscribe((statesdata: any) => {
-      statesdata.states.map((item: any) => {
-        if (item.state === option) {
-          this.disticts = item.districts
+    this.http.get(this.districtUrl)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (statesdata: any) => {
+          const stateData = statesdata.states.find((item: any) => item.state === option)
+          if (stateData) {
+            this.disticts = stateData.districts
+          }
+        },
+        (err) => {
+          console.error('Error fetching districts:', err)
         }
-      })
-    })
+      )
   }
   onChangesLanuage(): void {
 
@@ -233,32 +240,33 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
   getUserDetails() {
     if (this.configSvc.userProfile) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
-          if (data) {
-            this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
-            if (this.isEditableForSphere) {
-              this.personalDetailForm.enable()
-            } else {
-              this.personalDetailForm.disable()
-            }
-            this.userProfileData = data.profileDetails.profileReq
-            this.userlang = data
-            console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
-            this.updateForm()
-            if (data.profileDetails && data.profileDetails.preferences && data.profileDetails.preferences!.language === 'hi') {
-              this.personalDetailForm.patchValue({
-                knownLanguage: 'हिंदी',
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (data: any) => {
+            if (data) {
+              this.UserAgentResolverService.isEditableForSphere(data).then((editable) => {
+                this.isEditableForSphere = editable
+                if (editable) {
+                  this.personalDetailForm.enable()
+                } else {
+                  this.personalDetailForm.disable()
+                }
               })
-            } else {
+              this.userProfileData = data.profileDetails.profileReq
+              this.userlang = data
+              this.updateForm()
+              const lang = data.profileDetails?.preferences?.language === 'hi' ? 'हिंदी' : 'English'
               this.personalDetailForm.patchValue({
-                knownLanguage: 'English',
+                knownLanguage: lang,
               })
+              this.populateChips(this.userProfileData)
             }
-
-            this.populateChips(this.userProfileData)
+          },
+          (err) => {
+            console.error('Error fetching user details:', err)
           }
-        })
+        )
     }
   }
 
@@ -513,24 +521,30 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const reqUpdate = {
       request: {
         userId: this.userID,
+        firstName: form.value.firstname,
+        lastName: form.value.surname,
         profileDetails: {
           ...profileRequest, profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
         },
       },
     }
     console.log(reqUpdate)
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (res: any) => {
-      let result = await res
-      if (result) {
-        if (local === 'en') {
-          this.openSnackbar(this.toastSuccess.nativeElement.value)
-        } else {
-          this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
+    this.userProfileSvc.updateProfileDetails(reqUpdate)
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (result: any) => {
+          if (result) {
+            const message = local === 'en' ? this.toastSuccess.nativeElement.value : 'उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!'
+            this.openSnackbar(message)
+            this.userName.emit(userName)
+            this.router.navigate(['/app/profile-view'])
+          }
+        },
+        (err) => {
+          console.error('Error updating profile:', err)
+          this.openSnackbar('Error updating profile. Please try again.')
         }
-        this.userName.emit(userName)
-        this.router.navigate(['/app/profile-view'])
-      }
-    })
+      )
   }
 
   private openSnackbar(message: string) {
@@ -545,55 +559,57 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       },
     })
 
-    this.langDialog.afterClosed().subscribe((result: any) => {
-      if (result) {
-        this.preferedLanguage = result
-        this.personalDetailForm.controls.
-          knownLanguage.setValue(upperFirst(result.lang))
+    this.langDialog.afterClosed()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((result: any) => {
+        if (result) {
+          this.preferedLanguage = result
+          this.personalDetailForm.controls.knownLanguage.setValue(upperFirst(result.lang))
 
-        if (this.configSvc.userProfileV2) {
-          let user: any
-          const userid = this.configSvc.userProfileV2.userId
-          const userAgent = this.UserAgentResolverService.getUserAgent()
-          const userCookie = this.UserAgentResolverService.generateCookie()
-          this.userProfileSvc.getUserdetailsFromRegistry(userid).subscribe((data: any) => {
-            user = data
-            const obj = {
-              preferences: {
-                language: result.id,
-              },
-              // personalDetails: user.profileDetails.personalDetails,
-              userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
-              profileLocation: 'sphere-web/personal-detail-edit-change-language',
-              osName: userAgent.OS,
-              browserName: userAgent.browserName,
-              userCookie,
-            }
-            const userdata = Object.assign(user['profileDetails'], obj)
-            // this.chosenLanguage = path.value
-            const reqUpdate = {
-              request: {
-                userId: userid,
-                profileDetails: userdata,
-              },
-            }
-            this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
-              () => {
-                if (result.id === 'en') {
-                  // this.chosenLanguage = ''
-                  window.location.assign(`${location.origin}/page/home`)
-                  // window.location.reload(true)
-                } else {
-                  // window.location.reload(true)
-                  window.location.assign(`${location.origin}/${result.id}/page/home`)
+          if (this.configSvc.userProfileV2) {
+            const userid = this.configSvc.userProfileV2.userId
+            const userAgent = this.UserAgentResolverService.getUserAgent()
+            const userCookie = this.UserAgentResolverService.generateCookie()
+            this.userProfileSvc.getUserdetailsFromRegistry(userid)
+              .pipe(takeUntil(this.destroy$))
+              .subscribe(
+                (data: any) => {
+                  const obj = {
+                    preferences: {
+                      language: result.id,
+                    },
+                    userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
+                    profileLocation: 'sphere-web/personal-detail-edit-change-language',
+                    osName: userAgent.OS,
+                    browserName: userAgent.browserName,
+                    userCookie,
+                  }
+                  const userdata = Object.assign(data['profileDetails'], obj)
+                  const reqUpdate = {
+                    request: {
+                      userId: userid,
+                      profileDetails: userdata,
+                    },
+                  }
+                  this.userProfileSvc.updateProfileDetails(reqUpdate)
+                    .pipe(takeUntil(this.destroy$))
+                    .subscribe(
+                      () => {
+                        const redirectUrl = result.id === 'en' ? `${location.origin}/page/home` : `${location.origin}/${result.id}/page/home`
+                        window.location.assign(redirectUrl)
+                      },
+                      (err) => {
+                        console.error('Error updating language preference:', err)
+                      }
+                    )
+                },
+                (err) => {
+                  console.error('Error fetching user details:', err)
                 }
-              },
-              () => {
-              })
-          })
+              )
+          }
         }
-      }
-    })
+      })
   }
 
   dobData(event: any) {
@@ -605,8 +621,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   ngAfterViewInit(): void {
     this.getUserDetails()
   }
+
   ngAfterViewChecked(): void {
     this.changeDetectorRef.markForCheck()
-    this.changeDetectorRef.detectChanges()
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 }

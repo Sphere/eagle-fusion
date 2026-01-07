@@ -31,7 +31,7 @@ export class DndQuizComponent implements OnInit, OnDestroy {
     private valueSvc: ValueService,
     private eventSvc: EventService,
     private viewSvc: ViewerUtilService,
-  ) {}
+  ) { }
 
   ngOnInit() {
     this.isSmallSubscription = this.isLtMedium$.subscribe(isSmall => {
@@ -59,21 +59,21 @@ export class DndQuizComponent implements OnInit, OnDestroy {
           this.isErrorOccured = true
         }
       },
-      () => {},
+      () => { },
     )
   }
 
   async ngOnDestroy() {
-    if (this.activatedRoute.snapshot.queryParams.collectionId &&
-      this.activatedRoute.snapshot.queryParams.collectionType
-      && this.dndQuizData) {
-      await this.contentSvc.continueLearning(this.dndQuizData.identifier,
-                                             this.activatedRoute.snapshot.queryParams.collectionId,
-                                             this.activatedRoute.snapshot.queryParams.collectionType,
-      )
-    } else if (this.dndQuizData) {
-      await this.contentSvc.continueLearning(this.dndQuizData.identifier)
-    }
+    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
+    //   this.activatedRoute.snapshot.queryParams.collectionType
+    //   && this.dndQuizData) {
+    //   await this.contentSvc.continueLearning(this.dndQuizData.identifier,
+    //                                          this.activatedRoute.snapshot.queryParams.collectionId,
+    //                                          this.activatedRoute.snapshot.queryParams.collectionType,
+    //   )
+    // } else if (this.dndQuizData) {
+    //   await this.contentSvc.continueLearning(this.dndQuizData.identifier)
+    // }
     if (this.routeDataSubscription) {
       this.routeDataSubscription.unsubscribe()
     }
@@ -94,7 +94,7 @@ export class DndQuizComponent implements OnInit, OnDestroy {
       manifestFile = await this.http
         .get<any>(artifactUrl)
         .toPromise()
-        .catch((_err: any) => {})
+        .catch((_err: any) => { })
     }
     return manifestFile
   }

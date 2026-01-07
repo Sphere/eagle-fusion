@@ -102,16 +102,16 @@ export class IapComponent implements OnInit, OnDestroy {
   }
 
   async ngOnDestroy() {
-    if (this.activatedRoute.snapshot.queryParams.collectionId &&
-      this.activatedRoute.snapshot.queryParams.collectionType
-      && this.iapData) {
-      await this.contentSvc.continueLearning(this.iapData.identifier,
-                                             this.activatedRoute.snapshot.queryParams.collectionId,
-                                             this.activatedRoute.snapshot.queryParams.collectionType,
-      )
-    } else if (this.iapData) {
-      await this.contentSvc.continueLearning(this.iapData.identifier)
-    }
+    // if (this.activatedRoute.snapshot.queryParams.collectionId &&
+    //   this.activatedRoute.snapshot.queryParams.collectionType
+    //   && this.iapData) {
+    //   await this.contentSvc.continueLearning(this.iapData.identifier,
+    //                                          this.activatedRoute.snapshot.queryParams.collectionId,
+    //                                          this.activatedRoute.snapshot.queryParams.collectionType,
+    //   )
+    // } else if (this.iapData) {
+    //   await this.contentSvc.continueLearning(this.iapData.identifier)
+    // }
     if (this.iapData) {
       this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.iapData)
     }

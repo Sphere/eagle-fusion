@@ -32,7 +32,7 @@ function eventDispatchHelper(
   playerState: string,
   mimeT: string,
 ) {
-  if (state === WsEvents.EnumTelemetrySubType.Loaded || WsEvents.EnumTelemetrySubType.Unloaded) {
+  if (state === WsEvents.EnumTelemetrySubType.Loaded || state === WsEvents.EnumTelemetrySubType.Unloaded) {
     const event = {
       eventType: WsEvents.WsEventType.Telemetry,
       eventLogLevel: WsEvents.WsEventLogLevel.Info,
@@ -102,21 +102,21 @@ function generateEventDispatcherHelper(
     )
   }
 }
-function saveContinueLearning(
-  widgetData: IWidgetsPlayerMediaData,
-  saveCLearning: saveContinueLearningFunction,
-  currentTime: any,
-) {
-  const data = {
-    resourceId: widgetData.identifier,
-    dateAccessed: Date.now(),
-    data: JSON.stringify({
-      progress: currentTime,
-      timestamp: Date.now(),
-    }),
-  }
-  saveCLearning(data)
-}
+// function saveContinueLearning(
+//   widgetData: IWidgetsPlayerMediaData,
+//   // saveCLearning: saveContinueLearningFunction,
+//   currentTime: any,
+// ) {
+//   const data = {
+//     resourceId: widgetData.identifier,
+//     dateAccessed: Date.now(),
+//     data: JSON.stringify({
+//       progress: currentTime,
+//       timestamp: Date.now(),
+//     }),
+//   }
+//   // saveCLearning(data)
+// }
 function fireRealTimeProgress(
   mimeT: string,
   widgetData: IWidgetsPlayerMediaData,
@@ -140,7 +140,7 @@ export function videoJsInitializer(
   elem: HTMLVideoElement | HTMLAudioElement,
   config: videoJs.PlayerOptions,
   dispatcher: telemetryEventDispatcherFunction,
-  saveCLearning: saveContinueLearningFunction,
+  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -212,7 +212,7 @@ export function videoJsInitializer(
     })
   }
   const dispose = () => {
-    saveContinueLearning(widgetData, saveCLearning, currTime)
+    // saveContinueLearning(widgetData, currTime)
     if (heartBeatSubscription) {
       heartBeatSubscription.unsubscribe()
     }
@@ -231,7 +231,7 @@ export function videoJsInitializer(
 export function videoInitializer(
   elem: HTMLVideoElement,
   dispatcher: telemetryEventDispatcherFunction,
-  saveCLearning: saveContinueLearningFunction,
+  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -296,7 +296,7 @@ export function videoInitializer(
     })
   }
   const dispose = () => {
-    saveContinueLearning(widgetData, saveCLearning, currTime)
+    // saveContinueLearning(widgetData, saveCLearning, currTime)
     if (heartBeatSubscription) {
       heartBeatSubscription.unsubscribe()
     }
@@ -326,7 +326,7 @@ export function youtubeInitializer(
   elem: HTMLElement,
   youtubeId: string,
   dispatcher: telemetryEventDispatcherFunction,
-  saveCLearning: saveContinueLearningFunction,
+  // saveCLearning: saveContinueLearningFunction,
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
@@ -401,7 +401,7 @@ export function youtubeInitializer(
     }
   }
   const dispose = () => {
-    saveContinueLearning(widgetData, saveCLearning, currTime)
+    // saveContinueLearning(widgetData, saveCLearning, currTime)
     if (heartBeatSubscription) {
       heartBeatSubscription.unsubscribe()
     }

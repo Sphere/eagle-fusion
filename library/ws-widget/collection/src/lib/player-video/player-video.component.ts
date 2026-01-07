@@ -8,7 +8,7 @@ import { ROOT_WIDGET_CONFIG } from '../collection.config'
 import { IWidgetsPlayerMediaData } from '../_models/player-media.model'
 import {
   fireRealTimeProgressFunction,
-  saveContinueLearningFunction,
+  // saveContinueLearningFunction,
   telemetryEventDispatcherFunction,
   videoInitializer,
   videoJsInitializer,
@@ -264,44 +264,44 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    const saveCLearning: saveContinueLearningFunction = data => {
-      if (this.widgetData.identifier) {
-        if (this.activatedRoute.snapshot.queryParams.collectionType &&
-          this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-          const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-            resourceId: data.resourceId,
-            contextType: 'playlist',
-            dateAccessed: Date.now(),
-            data: JSON.stringify({
-              progress: data.progress,
-              timestamp: Date.now(),
-              contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-            }),
-          }
-          this.contentSvc
-            .saveContinueLearning(continueLearningData)
-            .toPromise()
-            .catch()
-        } else {
-          const continueLearningData = {
-            contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-            ...data,
-            // resourceId: data.resourceId,
-            // dateAccessed: Date.now(),
-            // data: data.data,
-          }
-          // JSON.stringify({
-          //   progress: data.progress,
-          //   timestamp: Date.now(),
-          // }),
-          this.contentSvc
-            .saveContinueLearning(continueLearningData)
-            .toPromise()
-            .catch()
-        }
-      }
-    }
+    // const saveCLearning: saveContinueLearningFunction = data => {
+    //   if (this.widgetData.identifier) {
+    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
+    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
+    //       const continueLearningData = {
+    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+    //         resourceId: data.resourceId,
+    //         contextType: 'playlist',
+    //         dateAccessed: Date.now(),
+    //         data: JSON.stringify({
+    //           progress: data.progress,
+    //           timestamp: Date.now(),
+    //           contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
+    //         }),
+    //       }
+    //       this.contentSvc
+    //         .saveContinueLearning(continueLearningData)
+    //         .toPromise()
+    //         .catch()
+    //     } else {
+    //       const continueLearningData = {
+    //         contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+    //         ...data,
+    //         // resourceId: data.resourceId,
+    //         // dateAccessed: Date.now(),
+    //         // data: data.data,
+    //       }
+    //       // JSON.stringify({
+    //       //   progress: data.progress,
+    //       //   timestamp: Date.now(),
+    //       // }),
+    //       this.contentSvc
+    //         .saveContinueLearning(continueLearningData)
+    //         .toPromise()
+    //         .catch()
+    //     }
+    //   }
+    // }
     const fireRProgress: fireRealTimeProgressFunction = (identifier, data) => {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
@@ -322,7 +322,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     this.dispose = videoInitializer(
       this.realvideoTag.nativeElement,
       dispatcher,
-      saveCLearning,
+      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,
@@ -342,46 +342,46 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.eventSvc.dispatchEvent(event)
       }
     }
-    const saveCLearning: saveContinueLearningFunction = data => {
-      if (this.widgetData.identifier && data) {
-        if (this.activatedRoute.snapshot.queryParams.collectionType &&
-          this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
-          // const continueLearningData = {
-          //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
-          //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
-          //   resourceId: data.resourceId,
-          //   contextType: 'playlist',
-          //   dateAccessed: Date.now(),
-          //   data: JSON.stringify({
-          //     progress: data.progress,
-          //     timestamp: Date.now(),
-          //     contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
-          //   }),
-          // }
-          // this.contentSvc
-          //   .saveContinueLearning(continueLearningData)
-          //   .toPromise()
-          //   .catch()
-        } else {
-          // const continueLearningData = {
-          //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
-          //     ? this.activatedRoute.snapshot.queryParams.collectionId
-          //     : this.widgetData.identifier,
-          //   ...data,
-          //   // resourceId: data.resourceId,
-          //   // dateAccessed: Date.now(),
-          //   // data: JSON.stringify({
-          //   //   progress: data.progress,
-          //   //   timestamp: Date.now(),
-          //   // }),
-          // }
-          // this.contentSvc
-          //   .saveContinueLearning(continueLearningData)
-          //   .toPromise()
-          //   .catch()
-        }
-      }
-    }
+    // const saveCLearning: saveContinueLearningFunction = data => {
+    //   if (this.widgetData.identifier && data) {
+    //     if (this.activatedRoute.snapshot.queryParams.collectionType &&
+    //       this.activatedRoute.snapshot.queryParams.collectionType.toLowerCase() === 'playlist') {
+    //       // const continueLearningData = {
+    //       //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId ?
+    //       //     this.activatedRoute.snapshot.queryParams.collectionId : this.widgetData.identifier,
+    //       //   resourceId: data.resourceId,
+    //       //   contextType: 'playlist',
+    //       //   dateAccessed: Date.now(),
+    //       //   data: JSON.stringify({
+    //       //     progress: data.progress,
+    //       //     timestamp: Date.now(),
+    //       //     contextFullPath: [this.activatedRoute.snapshot.queryParams.collectionId, data.resourceId],
+    //       //   }),
+    //       // }
+    //       // this.contentSvc
+    //       //   .saveContinueLearning(continueLearningData)
+    //       //   .toPromise()
+    //       //   .catch()
+    //     } else {
+    //       // const continueLearningData = {
+    //       //   contextPathId: this.activatedRoute.snapshot.queryParams.collectionId
+    //       //     ? this.activatedRoute.snapshot.queryParams.collectionId
+    //       //     : this.widgetData.identifier,
+    //       //   ...data,
+    //       //   // resourceId: data.resourceId,
+    //       //   // dateAccessed: Date.now(),
+    //       //   // data: JSON.stringify({
+    //       //   //   progress: data.progress,
+    //       //   //   timestamp: Date.now(),
+    //       //   // }),
+    //       // }
+    //       // this.contentSvc
+    //       //   .saveContinueLearning(continueLearningData)
+    //       //   .toPromise()
+    //       //   .catch()
+    //     }
+    //   }
+    // }
     const fireRProgress: fireRealTimeProgressFunction = async (identifier, data) => {
 
       let userId
@@ -467,7 +467,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         autoplay: this.widgetData.autoplay ?? false,
       },
       dispatcher,
-      saveCLearning,
+      // saveCLearning,
       fireRProgress,
       this.widgetData.passThroughData,
       ROOT_WIDGET_CONFIG.player.video,

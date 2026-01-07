@@ -844,5 +844,47 @@
   "Edit name": "Edit name",
   "Confirm name": "Confirm name",
   "Try again": "Try again",
-  "User doesn't exist.": "User doesn't exist."
+  "User doesn't exist.": "User doesn't exist.",
+  "PLAYER_NAVIGATION": {
+    "PREVIOUS": "Previous",
+    "NEXT": "Next"
+  },
+  "ASSESSMENT": {
+    "TAB_ASSESSMENT": "Assessment",
+    "TAB_RESULTS": "Results",
+    "ASSESSMENT": "Assessment",
+    "COMPLETED": "Completed",
+    "RESULT": "Result",
+    "PASS": "Pass",
+    "DID_NOT_PASS": "Did not pass",
+    "YOUR_ATTEMPT_SUMMARY": "Your attempt summary",
+    "YOUR_SCORE_IS": "Your score is:",
+    "NOT_ATTEMPTED": "Not Attempted",
+    "CORRECT": "Correct",
+    "INCORRECT": "Incorrect",
+    "CONGRATULATIONS": "Congratulations!",
+    "PROFICIENCY_LEVEL": "Proficiency Level",
+    "UNLOCKED": "unlocked",
+    "LEVEL": "Level",
+    "IS_ACHIEVED": "is achieved",
+    "YOU_DIDNT_PASS": "You didn't pass the assessment",
+    "YOUR_LEVEL": "Your Level",
+    "IS_NOT_CLEARED": "is not cleared",
+    "NEXT": "Next",
+    "GO_TO_COMPETENCY_DASHBOARD": "Go to Competency Dashboard",
+    "VIEW_RELEVANT_COURSES": "View Relevant Courses",
+    "BACK": "Back",
+    "RETAKE_ASSESSMENT": "Retake Assessment",
+    "VIEW_ANSWERS": "View Answers",
+    "CONTINUE": "Continue"
+  },
+  "VIEW_ANSWER": {
+    "ANSWER_REVIEW": "Answer Review",
+    "REVIEW_AREAS_IMPROVE": "Review areas where you can improve further."
+  },
+  "CONGRATULATIONS": {
+    "CONGRATULATIONS": "Congratulations!",
+    "COURSE_COMPLETED": "Course completed!",
+    "YOU_EARNED_NEW_BADGE": "YOU EARNED A NEW BADGE"
+  }
 }

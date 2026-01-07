@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild, Input, OnDestroy } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
@@ -8,14 +8,20 @@ import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { forkJoin } from 'rxjs'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
+import { Subject } from 'rxjs'
+import { takeUntil } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-web-public-container',
   templateUrl: './web-public-container.component.html',
   styleUrls: ['./web-public-container.component.scss'],
 })
-export class WebPublicComponent implements OnInit {
+export class WebPublicComponent implements OnInit, OnDestroy {
   myCourse: any
+
+  private destroy$ = new Subject<void>()
+  private courseRecommendationTimeout: any
+
   topCertifiedCourse: any = []
   cneCourse: any = []
   coursesForYou: any[] = []
@@ -35,7 +41,7 @@ export class WebPublicComponent implements OnInit {
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
   isLoading = false
-  @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses!: ElementRef
+  @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses?: ElementRef
   userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   CNECourseDisplayConfig: any
@@ -91,11 +97,13 @@ export class WebPublicComponent implements OnInit {
   }
 
   private handleScrollEvents() {
-    this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
-      if (targetDivId === 'scrollToCneCourses') {
-        this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
-      }
-    })
+    this.scrollService.scrollToDivEvent
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((targetDivId: string) => {
+        if (targetDivId === 'scrollToCneCourses' && this.scrollToCneCourses) {
+          this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
+        }
+      })
   }
 
   private fetchEnvironmentConfigurations() {
@@ -182,6 +190,14 @@ export class WebPublicComponent implements OnInit {
       },
     }
     this.router.navigate(['/app/video-player'], navigationExtras)
+  }
+
+  ngOnDestroy() {
+    if (this.courseRecommendationTimeout) {
+      clearTimeout(this.courseRecommendationTimeout)
+    }
+    this.destroy$.next()
+    this.destroy$.complete()
   }
 
 }
