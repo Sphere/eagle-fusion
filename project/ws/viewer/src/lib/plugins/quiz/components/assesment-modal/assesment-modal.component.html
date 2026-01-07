@@ -133,11 +133,11 @@
         <div class="text-center pt-5 flex justify-content-center">
           <button class="btn width-auto" mat-raised-button (click)="retakeQuiz()"
             *ngIf="(result === 100 || result < passPercentage) || (result >= passPercentage && isCorrectAnswerPopUp !== false)">{{((result
-            passPercentage) ? ('ASSESSMENT.RETAKE_ASSESSMENT' | translate) : ('ASSESSMENT.VIEW_ANSWERS' | translate)
-            )}}</button>
-          <!-- <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">{{ 'ASSESSMENT.RETAKE_ASSESSMENT' | translate }}</button> -->
-          <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()" mat-raised-button>{{
-            'ASSESSMENT.CONTINUE' | translate }}</button>
+            < passPercentage) ? ('ASSESSMENT.RETAKE_ASSESSMENT' | translate) : ('ASSESSMENT.VIEW_ANSWERS' | translate)
+              )}}</button>
+              <!-- <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()">{{ 'ASSESSMENT.RETAKE_ASSESSMENT' | translate }}</button> -->
+              <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()" mat-raised-button>{{
+                'ASSESSMENT.CONTINUE' | translate }}</button>
         </div>
 
 
