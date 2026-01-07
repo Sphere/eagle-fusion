@@ -56,9 +56,7 @@ video::-webkit-media-controls-play-button {
 .scrollHowSphereWorks-block{
   display: flex;
   flex-wrap: wrap;
-    padding: 0px 85px;
-    gap: 85px !important ;
-
+  gap: 85px !important;
 }
 .m-10{
   margin: 10px;
@@ -90,7 +88,7 @@ border-radius: 20px 0px 0px 0px;
 // opacity: 0px;
 
 }
-@media only screen and (min-width: 600px) and (max-width: 959px){
+@media only screen and (min-width: 768px) and (max-width: 959px){
 .scrollHowSphereWorks{
   padding: 0px 50px;
 }
@@ -113,6 +111,46 @@ border-radius: 20px 0px 0px 0px;
 }
 }
 
+@media (max-width: 767px) {
+  .scrollHowSphereWorks {
+    padding: 0px 24px;
+  }
+
+  .scrollHowSphereWorks-block{
+    gap: 0px !important;
+  }
+
+  .header2 {
+    font-size: 24px;
+    line-height: 29px;
+    font-weight: 400;
+    color: #424242 !important
+  }
+
+  .label1 {
+    font-size: 14px;
+    line-height: 17px;
+    color: #808080 !important
+  }
+
+  .block-container {
+    width: 100%;
+    height: auto;
+  }
+
+  .how-work-content {
+    border-radius: 5px;
+    flex-direction: row;
+  }
+
+  .how-work-iframe {
+    border-radius: 10px;
+    display: flex;
+    width: 125px;
+    height: 100px;
+    pointer-events: none;
+  }
+}
 .howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
 }

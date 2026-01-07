@@ -1,10 +1,7 @@
-<div id="scrollToHowSphereWorks" class="scrollHowSphereWorks">
+<section id="scrollToHowSphereWorks" class="scrollHowSphereWorks">
   <p class="header2 mb-0">{{ config?.title | translate }}</p>
-  <p class="label1">{{ config?.subTitle | translate }}
-  </p>
-</div>
-<section id="scrollToHowSphereWorks" class="scrollHowSphereWorks-block">
-  <ng-container *ngIf="videoData?.length>0">
+  <p class="label1">{{ (isXSmall$ | async) === false ? config?.subTitle : config?.subTitleMobile | translate }}</p>
+  <div *ngIf="videoData?.length>0" class="scrollHowSphereWorks-block">
     <div class="block-container " *ngFor="let video of videoData">
       <div class="how-work-content" (click)="openVideoPopup(video?.url)">
         <iframe class="how-work-iframe" [src]="video.url" allowfullscreen webkitallowfullscreen mozAllowFullScreen
@@ -14,8 +11,7 @@
           <p class="videoTitle">{{ video?.title | translate }}</p>
           <p class="leading-snug videoDes">{{ video?.description | translate }}</p>
         </div>
-
       </div>
     </div>
-  </ng-container>
+  </div>
 </section>
