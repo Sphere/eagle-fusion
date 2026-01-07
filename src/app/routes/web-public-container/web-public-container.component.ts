@@ -4,7 +4,7 @@ import { uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { forkJoin } from 'rxjs'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
@@ -42,6 +42,7 @@ export class WebPublicComponent implements OnInit {
   isUpLogin: boolean = false
   configData: any
   lang: string = ''
+  isXSmall$ = this.valueSvc.isXSmall$
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -49,7 +50,8 @@ export class WebPublicComponent implements OnInit {
     public scrollService: ScrollService,
     private configSvc: ConfigurationsService,
     private playlistSvc: PlaylistService,
-    private langSvc: LanguageService
+    private langSvc: LanguageService,
+    private valueSvc: ValueService
   ) {
     this.lang = this.langSvc.getCurrentLanguage()
   }

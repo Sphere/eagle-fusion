@@ -144,12 +144,21 @@ export const data = {
           "subTitle": "",
           "show": true,
           "data": {},
-          "displayConfig": {
+          "displayConfigWeb": {
             "displayType": "card-mini",
             "badges": {
               "certification": true,
               "rating": true,
               "completionPercentage": true
+            }
+          },
+          "displayConfig": {
+            "displayType": "card-mini",
+            "badges": {
+              "certification": true,
+              "rating": true,
+              "completionPercentage": true,
+              "mobilesourceName": true
             }
           },
           "button": {
@@ -166,6 +175,14 @@ export const data = {
           "subTitle": "",
           "show": true,
           "data": {},
+          "displayConfigWeb": {
+            "displayType": "card-badges",
+            "badges": {
+              "certification": true,
+              "rating": true,
+              "sourceName": true
+            }
+          },
           "displayConfig": {
             "displayType": "card-badges",
             "badges": {
@@ -188,6 +205,14 @@ export const data = {
           "subTitle": "",
           "show": true,
           "data": {},
+          "displayConfigWeb": {
+            "displayType": "card-badges",
+            "badges": {
+              "certification": true,
+              "rating": true,
+              "sourceName": true
+            }
+          },
           "displayConfig": {
             "displayType": "card-badges",
             "badges": {
@@ -210,6 +235,14 @@ export const data = {
           "subTitle": "",
           "show": true,
           "data": {},
+          "displayConfigWeb": {
+            "displayType": "card-badges",
+            "badges": {
+              "cneName": true,
+              "rating": true,
+              "sourceName": true
+            }
+          },
           "displayConfig": {
             "displayType": "card-badges",
             "badges": {

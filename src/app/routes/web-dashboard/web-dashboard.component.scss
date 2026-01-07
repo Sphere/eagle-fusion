@@ -157,7 +157,7 @@
   height: 51px;
 }
 
-@media only screen and (min-width: 600px) and (max-width: 959px){
+@media only screen and (min-width: 768px) and (max-width: 1023px) {
   .banner-image{
     max-width: 350px;
   }
@@ -179,7 +179,7 @@
 }
 
 /* ===== Mobile Styles ===== */
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .banner-image,
   .banner-first-image,
   .banner-second-image {

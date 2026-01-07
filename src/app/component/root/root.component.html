@@ -2,23 +2,23 @@
 <div class="NotEkshamata" *ngIf="!isEkshamata" [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''">
   <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
   </mat-progress-bar>
+  <!-- before login -->
   <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn"
     (menuClick)="getMenuClickValue($event)">
   </ws-app-public-nav-bar>
+  <!-- Logged-In header -->
   <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
 
-  <!-- </ws-widget-sticky-header> -->
+  <!-- dashboard and body for mobile and web-->
   <div class="height-adjust" [ngClass]="{
     'height-on-bottom custom-scroll':(isXSmall$ | async) === true && showNavbar,
       'height-adjust-setup': isSetupPage,
       'height-on-top':(isXSmall$ | async) === false && showNavbar && isNavBarRequired
     }">
-    <ws-web-dashboard class="mb-6" *ngIf="isLoggedIn&&isHomePage"></ws-web-dashboard>
-    <!-- Desktop Featured Course -->
+    <ws-dashboard class="mb-6" *ngIf="isLoggedIn&&isHomePage"></ws-dashboard>
     <!-- Featured Section-->
-    <section *ngIf="(isXSmall$ | async) === false && isHomePage && userEnrollCourse && userEnrollCourse.length==0">
-      <ws-web-public-container [userEnrollCourse]="userEnrollCourse" *ngIf="(isXSmall$ | async) === false">
-      </ws-web-public-container>
+    <section *ngIf="isHomePage && userEnrollCourse">
+      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
     </section>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
@@ -31,33 +31,20 @@
     class="hide-in-desktop app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
   </ws-mobile-footer>
 
-  <!-- Desktop Featured Course fpr non logged in -->
   <!-- Featured Section-->
   <section *ngIf="(isXSmall$ | async) === false && isHomePage && !isLoggedIn">
-    <ng-container>
-      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
-        *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
-    </ng-container>
-  </section>
-
-  <!-- Desktop Featured Course -->
-  <!-- Featured Section-->
-  <section *ngIf="(isXSmall$ | async) === false && isHomePage && userEnrollCourse && userEnrollCourse.length>0">
-    <ng-container>
-      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
-        *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
-    </ng-container>
-
+    <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+      *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
   </section>
 
   <!-- Desktop How does it Works -->
-  <ng-container *ngIf="(isXSmall$ | async) === false && isHomePage">
+  <ng-container *ngIf="isHomePage">
     <ws-web-trusted-by-page *ngIf="!isLoggedIn"></ws-web-trusted-by-page>
 
     <div class="mt-8">
-      <ws-web-how-does-work class="hide-in-mobile bg-color app-footer mt-8"
+      <ws-how-does-work class="hide-in-mobile bg-color app-footer mt-8"
         [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}" *ngIf="showNavbar && !hideHeaderFooter"
-        [config]="configData"></ws-web-how-does-work>
+        [config]="configData"></ws-how-does-work>
     </div>
   </ng-container>
 
@@ -67,12 +54,9 @@
     *ngIf="showNavbar && !hideHeaderFooter && showmobileFooter">
   </ws-app-footer>
 
-  <ng-container>
-    <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
-      [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated"></ws-app-nav-bar>
-  </ng-container>
-
-  <ng-container #previewContainer></ng-container>
+  <!-- bottom nav bar for mobile -->
+  <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
+    [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated"></ws-app-nav-bar>
 
   <input #appUpdateTitle type="hidden" i18n-value value="App Update" />
   <input #appUpdateBody type="hidden" i18n-value value="App has been updated. Do you want to load new version?" />
@@ -87,20 +71,17 @@
   <router-outlet *ngIf="appOnline"></router-outlet>
   <div class="height-adjust" [ngClass]="{'height-on-bottom custom-scroll':(isXSmall$ | async) === true && showNavbar,'height-adjust-setup' : isSetupPage,
         'height-on-top':(isXSmall$ | async) === false &&showNavbar && isNavBarRequired}">
-    <ws-web-dashboard [isEkshamata]="isEkshamata" class="mb-6"
-      *ngIf="(isXSmall$ | async) === false && isLoggedIn&&isHomePage"></ws-web-dashboard>
-    <ws-mobile-dashboard [isEkshamata]="isEkshamata"
-      *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline&&isHomePage"></ws-mobile-dashboard>
+    <ws-dashboard [isEkshamata]="isEkshamata" class="mb-6" *ngIf="isLoggedIn&&isHomePage"></ws-dashboard>
+    <!-- <ws-mobile-dashboard [isEkshamata]="isEkshamata"
+      *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline&&isHomePage"></ws-mobile-dashboard> -->
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>
     </div>
     <!-- Featured Section-->
     <section *ngIf="(isXSmall$ | async) === false&&isHomePage">
-      <ng-container>
-        <ws-web-public-container [isEkshamata]="isEkshamata" [userEnrollCourse]="userEnrollCourse"
-          *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
-      </ng-container>
+      <ws-web-public-container [isEkshamata]="isEkshamata" [userEnrollCourse]="userEnrollCourse"
+        *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
     </section>
     <!-- Desktop Footer -->
     <ws-app-footer [isEkshamata]="isEkshamata" class="hide-in-mobile app-footer "

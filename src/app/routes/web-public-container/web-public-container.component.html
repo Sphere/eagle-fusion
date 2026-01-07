@@ -1,20 +1,26 @@
 <div class="top-course-container content" *ngFor="let content of configData">
-  <section class="mt-4 view-all-course-container" *ngIf="content.show && content.data && content.data.length>0">
+  <section class="mt-4 view-all-course-container" *ngIf="content?.show && content?.data && content?.data?.length>0">
     <div class="line-label orange flex scroller-container">
       <div>
         <span [class]="content.headerClass">{{ content.title | translate }}</span>
       </div>
-      <button (click)="viewAllCourse(content?.button.courseType)" class="view-all-course">
+      <button *ngIf="(isXSmall$ | async) === false" (click)="viewAllCourse(content?.button.courseType)"
+        class="view-all-course">
         {{ content?.button?.label | translate }} <img class="right-arrow" [src]="content?.button?.img" alt="" />
       </button>
     </div>
-    <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of content.data">
+    <ws-utils-horizontal-scroller *ngIf="(isXSmall$ | async) === false" class="flex " [loadStatus]="'done'">
+      <div *ngFor="let course of content?.data">
         <ng-container *ngIf="content.data && content.data.length>0">
-          <ws-web-course-card [displayConfig]="content?.displayConfig" [courseData]="course"></ws-web-course-card>
+          <ws-web-course-card [displayConfig]="content?.displayConfigWeb" [courseData]="course"></ws-web-course-card>
         </ng-container>
       </div>
     </ws-utils-horizontal-scroller>
+    <ng-container *ngFor="let course of content?.data">
+      <div *ngIf="(isXSmall$ | async) === true && content?.data?.length>0">
+        <ws-mobile-course-view [displayConfig]="content?.displayConfig" [courseData]="course"></ws-mobile-course-view>
+      </div>
+    </ng-container>
   </section>
 </div>
 <!-- this section is to show courses for State Institute of Health and Family Welfare, Department of Health & Family Welfare, UP org -->

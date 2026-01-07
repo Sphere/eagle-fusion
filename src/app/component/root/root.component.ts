@@ -5,7 +5,6 @@ import {
   ElementRef,
   OnInit,
   ViewChild,
-  ViewContainerRef,
   OnDestroy,
   Injector
 } from '@angular/core'
@@ -18,13 +17,9 @@ import {
   ActivatedRoute,
   Event
 } from '@angular/router'
-// import { Location } from '@angular/common'
-
-// import { interval, concat, timer } from 'rxjs'
 import { BtnPageBackService } from '@ws-widget/collection'
 import {
   AuthKeycloakService,
-  // AuthKeycloakService,
   ConfigurationsService,
   TelemetryService,
   ValueService,
@@ -39,17 +34,11 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { split } from 'lodash'
 import { App } from '@capacitor/app'
 import dayjs from 'dayjs'
-//import { v4 as uuid } from 'uuid'
-// NOSONAR - This commented code is intentional
-//import { SignupService } from 'src/app/routes/signup/signup.service'
-// import { SwUpdate } from '@angular/service-worker'
 import { environment } from '../../../environments/environment'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
-// import { DOCUMENT } from '@angular/common'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
-// import { DomSanitizer } from '@angular/platform-browser'
 import { forkJoin, Subscription } from 'rxjs'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '../../../../library/ws-widget/collection/src/public-api'
@@ -69,8 +58,6 @@ import { PlaylistService } from '../../services/playlist.service'
   styleUrls: ['./root.component.scss'],
 })
 export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
-  @ViewChild('previewContainer', { read: ViewContainerRef, static: true })
-  previewContainerViewRef: ViewContainerRef | null = null
   @ViewChild('appUpdateTitle', { static: true })
   appUpdateTitleRef: ElementRef | null = null
   @ViewChild('appUpdateBody', { static: true })
@@ -124,11 +111,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private loginServ: LoginResolverService,
     private exploreService: ExploreResolverService,
     private orgService: OrgServiceService,
-    //private signupService: SignupService,
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
-    // private readonly _renderer2: Renderer,
-    // private sanitizer: DomSanitizer,
     private userProfileSvc: UserProfileService,
     private contentSvc: WidgetContentService,
     private CompetencyConfiService: CompetencyConfiService,
@@ -139,7 +123,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private readonly events: Events,
     private injector: Injector,
     private playlistSvc: PlaylistService,
-    // @Inject(DOCUMENT) private _document: Document
   ) {
     const t = this.injector.get(TranslateService, null as any)
     console.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
@@ -336,7 +319,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     if (this.configSvc.userProfile) {
-      // this.getConnectToSocket()
       this.userId = this.configSvc.userProfile.userId || ''
       console.log("this.configSvc.userProfile: ", this.configSvc.userProfile)
       forkJoin([this.userSvc.fetchUserBatchList(this.userId)]).pipe().subscribe((res: any) => {
@@ -440,10 +422,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.showmobileFooter = false
           this.disableChatForBnrc = true
         }
-
-        // if (window.location.href.indexOf('scrom-player') > 0) {
-        //   this.showmobileFooter = false
-        // }
         // tslint:disable-next-line: max-line-length
         if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')) {
           this.isNavBarRequired = false
@@ -470,41 +448,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           if (!localStorage.getItem('userUUID')) {
             location.href = '/public/login'
           }
-          // setTimeout(() => {
-          // this.signupService.fetchStartUpDetails().then(result => {
-          //     if (result && result.status !== 200) {
-          //       this.authSvc.logout()
-          //       //this.router.navigate(['/public/login'])
-          //       // let url = `${document.baseURI}`
-          //       // let redirectUrl = `${document.baseURI}openid/keycloak`
-          //       // const state = uuid()
-          //       // const nonce = uuid()
-          //       // if (url.includes('hi')) {
-          //       //   url = url.replace('hi/', '')
-          //       //   redirectUrl = `${url}openid/keycloak`
-          //       //   sessionStorage.setItem('lang', 'hi')
-          //       // } else {
-          //       //   redirectUrl = `${url}openid/keycloak`
-          //       // }
-          //       // // tslint:disable-next-line:max-line-length
-          //       // const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-          //       // window.location.href = keycloakurl
-          //     }
-          //   })
-
-          // }, 100)
-          // if (this.configSvc.userProfile === null) {
-          //   localStorage.setItem(`url_before_login`, `app/toc/` + `${_.split(event.url, '/')[3]
-          //     }` + `/overview`)
-          //   sessionStorage.setItem('login-btn', 'clicked')
-          //   const redirectUrl = document.baseURI + 'openid/keycloak'
-          //   const state = uuid()
-          //   const nonce = uuid()
-          // tslint:disable-next-line:max-line-length
-          //   window.location.assign(`${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`)
-          //   // this.router.navigateByUrl('app/login')
-          // }
-
         }
         else if (event.url.includes('login')) {
           if (localStorage.getItem('userUUID')) {
@@ -515,37 +458,11 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
               window.location.href = '/page/home'
             }
           }
-
-          // setTimeout(() => {
-          //   this.signupService.fetchStartUpDetails().then(result => {
-          //     if (result && result.status !== 200) {
-          //       //this.router.navigate(['/public/login'])
-          //       this.authSvc.logout()
-          //       // const redirectUrl = `${document.baseURI}openid/keycloak`
-          //       // const state = uuid()
-          //       // const nonce = uuid()
-          //       // // tslint:disable-next-line:max-line-length
-          //       // const keycloakurl = `${document.baseURI}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`
-          //       // window.location.href = keycloakurl
-          //     } else {
-          //       this.router.navigateByUrl('/page/home')
-          //     }
-          //   }, (err: any) => {
-          //     console.log(err)
-          //     if (err.status === 419) {
-          //       this.router.navigate(['/public/login'])
-          //     }
-          //   })
-
-          // }, 10)
         }
         else if (event.url.includes('page/home')) {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           this.mobileView = true
-          // if (this.configSvc.userProfile === null) {
-          //   this.isNavBarRequired = false
-          // }
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/public/home')) {
           this.showNavigation = true
@@ -574,21 +491,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isNavBarRequired = true
           this.mobileView = false
         }
-        // this.valueSvc.isXSmall$.subscribe(isXSmall => {
-        //   if (event.url.includes('/app/profile/dashboard')) {
-        //     if (isXSmall) {
-        //       this.router.navigate(['/app/profile-view'])
-        //     }
-        //   } else if (event.url.includes('/app/profile-view') || event.url.includes('/workinfo-list') ||
-        //     event.url.includes('/workinfo-edit') || event.url.includes('/education-list')) {
-        //     if (!isXSmall) {
-        //       this.router.navigate(['/app/profile/dashboard'])
-        //     }
-        //   } else if (!isXSmall && event.url.includes('/app/video-player') &&
-        //     this.configSvc.userProfile === null) {
-        //     this.router.navigate(['/public/home'])
-        //   }
-        // })
         this.routeChangeInProgress = true
         this.changeDetector.detectChanges()
       } else if (
@@ -603,18 +505,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (this.router.url === 'profile-view') {
         this.isProfile = true
       }
-      // if (localStorage.getItem('loginbtn') || (localStorage.getItem('url_before_login'))) {
-      //   this.isNavBarRequired = true
-      //   this.showNavigation = false
-      // } else {
-      //   this.isNavBarRequired = false
-      //   this.showNavigation = true
-      // }
-
-      // if (this.configSvc.unMappedUser) {
-      //   this.isNavBarRequired = true
-      //   //this.showNavbar = true
-      // }
       if (event instanceof NavigationEnd) {
         // this.telemetrySvc.impression()
         const paramMap = this.activatedRoute.snapshot.queryParamMap
@@ -628,7 +518,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.paramsJSON = JSON.stringify(params)
         const userAgent = this.UserAgentResolverService.getUserAgent()
 
-        // this.telemetrySvc.paramTriggerImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         if (this.appStartRaised) {
           this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
           this.appStartRaised = false
@@ -651,13 +540,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.hideHeaderFooter = show
     })
     await this.playlistSvc.getPlaylistData().then()
-
-    // if (localStorage.getItem('url_before_login')) {
-    //   const url = localStorage.getItem(`url_before_login`) || ''
-    //   // this.router.navigate([`app/toc/`+`${data.identifier}`+`/overview`])
-    //   // this.location.replaceState(url)
-    //   this.router.navigateByUrl(url)
-    // }
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       if (localStorage.getItem('url_before_login')) {
@@ -696,11 +578,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async getConnectToSocket(data?: any) {
     const url = `wss://${environment.sitePath}`
-    // const baseUrl = "wss://aastrika-stage.tarento.com"
-    // const url = baseUrl
 
     const token = data?.accessToken ?? await this.getAccessToken()
-    // console.log('Token is', token)
 
     const socket = io(url, {
       auth: { token },
@@ -726,7 +605,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     let myCourseObject = {}
 
     res.forEach((key: any) => {
-      // console.log("formatmyCourseResponse", key)
       if (key?.content?.identifier) {
         if (key.completionPercentage !== 100) {
           myCourseObject = {
@@ -765,12 +643,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   ngAfterViewInit() {
-    // this.initAppUpdateCheck()
     try {
       if (window.fcWidget) {
         window.fcWidget.hide()
         window.fcWidget.on('widget:closed', () => {
-          // this.backToChatIcon()
         })
       }
     } catch (error) {
@@ -785,7 +661,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       if (window.fcWidget) {
         window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
-        // window.fcWidget.setConfig({ headerProperty: { direction: 'ltr' } })
         window.fcWidget.init()
         if (this.configSvc.userProfile) {
           window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)

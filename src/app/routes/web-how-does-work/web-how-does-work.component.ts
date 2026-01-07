@@ -5,7 +5,7 @@ import { VideoPopupComponent } from '../how-does-it-works-popup/how-does-it-work
 import { MatDialog } from '@angular/material/dialog'
 
 @Component({
-  selector: 'ws-web-how-does-work',
+  selector: 'ws-how-does-work',
   templateUrl: './web-how-does-work.component.html',
   styleUrls: ['./web-how-does-work.component.scss'],
 })

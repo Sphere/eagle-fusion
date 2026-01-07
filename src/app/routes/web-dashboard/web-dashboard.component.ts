@@ -8,7 +8,7 @@ import { LanguageService } from 'src/app/services/language.service'
 import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 @Component({
-  selector: 'ws-web-dashboard',
+  selector: 'ws-dashboard',
   templateUrl: './web-dashboard.component.html',
   styleUrls: ['./web-dashboard.component.scss'],
 })

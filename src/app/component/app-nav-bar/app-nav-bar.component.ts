@@ -25,9 +25,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   allowAuthor = false
   @Input() mode: 'top' | 'bottom' = 'top'
   @Input() authorised = false
-  // @Input()
-  // @HostBinding('id')
-  // public id!: string
   basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
     widgetType: 'actionButton',
     widgetSubType: 'actionButtonApps',
@@ -65,12 +62,10 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   constructor(
     private domSanitizer: DomSanitizer,
     public configSvc: ConfigurationsService,
-    // private tourService: CustomTourService,
     private router: Router,
     private accessService: AccessControlService,
     private valueSvc: ValueService,
     public dialog: MatDialog,
-    //location: Location,
     public navOption: appNavBarService,
     private playlistSvc: PlaylistService,
     private languageSvc: LanguageService
@@ -81,7 +76,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       this.showNavLinkPage = false
     }
     console.log(location.href)
-    // Use LanguageService instead of checking location.href for /hi/
     this.langPresent = this.languageSvc.isHindi()
     if (location.href.includes('/app/new-tnc')) {
       this.showNavLinkPage = false
@@ -252,26 +246,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
   }
 
-  // startTour() {
-  //   this.tourService.startTour()
-  //   this.tourService.isTourComplete.subscribe((result: boolean) => {
-  //     if ((result)) {
-  //       this.tourService.startPopupTour()
-  //       this.configSvc.completedTour = true
-  //       this.configSvc.prefChangeNotifier.next({ completedTour: this.configSvc.completedTour })
-  //       // this.tour = tour
-  //       setTimeout(
-  //         () => {
-  //           this.tourService.cancelPopupTour()
-  //         },
-  //         3000,
-  //       )
-  //     }
-  //   })
-  // }
   cancelTour() {
     if (this.popupTour) {
-      // this.tourService.cancelPopupTour()
       this.isTourGuideClosed = false
     }
 

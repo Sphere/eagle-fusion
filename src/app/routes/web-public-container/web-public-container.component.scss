@@ -149,6 +149,23 @@ height: 42px;
   }
 }
 
+@media (max-width: 600px) {
+  .view-all-course-container {
+    padding: 0px 24px;
+  }
+
+  .featuredCourse-section {
+    padding: 0px 24px;
+  }
+
+  .top-course-container {
+    margin-bottom: 30px !important;
+  }
+
+  .line-label {
+    justify-content: center;
+  }
+}
 .overlay {
   position: fixed;
   top: 0;
