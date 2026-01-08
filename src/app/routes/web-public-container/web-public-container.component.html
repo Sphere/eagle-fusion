@@ -1,12 +1,11 @@
-<div class="top-course-container content" *ngFor="let content of configData">
+<div class="top-course-container content" *ngFor="let content of configData let i = index;">
   <section class="mt-4 view-all-course-container" *ngIf="content?.show && content?.data && content?.data?.length>0">
-    <div class="line-label orange flex scroller-container">
-      <div>
-        <span [class]="content.headerClass">{{ content.title | translate }}</span>
-      </div>
-      <button *ngIf="(isXSmall$ | async) === false" (click)="viewAllCourse(content?.button.courseType)"
-        class="view-all-course">
-        {{ content?.button?.label | translate }} <img class="right-arrow" [src]="content?.button?.img" alt="" />
+    <div [ngClass]="i === 0 || ((isXSmall$ | async) == true && i === 1) ? 'bg-green' : 'orange'"
+      class="line-label flex scroller-container">
+      <span [ngClass]="{'header0': i == 0 || (isXSmall$ | async) == true && i == 1}" [class]="content.headerClass">
+        {{ content.title | translate }}</span>
+      <button *ngIf="(isXSmall$ | async) === false" (click)="viewAllCourse(content)" class="view-all-course">
+        {{ content?.button?.label1 | translate }} <img class="right-arrow" [src]="content?.button?.img" alt="" />
       </button>
     </div>
     <ws-utils-horizontal-scroller *ngIf="(isXSmall$ | async) === false" class="flex " [loadStatus]="'done'">
@@ -16,10 +15,15 @@
         </ng-container>
       </div>
     </ws-utils-horizontal-scroller>
-    <ng-container *ngFor="let course of content?.data">
-      <div *ngIf="(isXSmall$ | async) === true && content?.data?.length>0">
+    <ng-container *ngIf="(isXSmall$ | async) === true">
+      <div *ngFor="let course of content?.displayData">
         <ws-mobile-course-view [displayConfig]="content?.displayConfig" [courseData]="course"></ws-mobile-course-view>
       </div>
+      <button *ngIf="content?.data?.length > content.limit" (click)="viewAllCourse(content)" class="view-all-course">
+        {{ content?.data?.length == content?.displayData.length ? (content?.button?.label2 | translate) :
+        (content?.button?.label1 | translate) }}
+        <img class="bottom-arrow" [src]="content?.button?.img" alt="" />
+      </button>
     </ng-container>
   </section>
 </div>
