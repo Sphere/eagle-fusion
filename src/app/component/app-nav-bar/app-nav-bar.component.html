@@ -17,8 +17,6 @@
       <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
         <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
           [ref]="'home'"></ws-app-search-input-home>
-        <img (click)="navigate()" style="position: absolute;right: 18px; top: 10px;" class="burger-menu"
-          *ngIf="isXSmall" alt="icon" src="/fusion-assets/icons/Hamburger_menu-svg.svg">
 
         <div ngClass="search-small-logo" *ngIf="showSearchIcon">
           <ng-container [wsResolverWidget]="{
@@ -33,6 +31,9 @@
         }
       }"></ng-container>
         </div>
+
+        <img (click)="navigate()" class="burger-menu" *ngIf="isXSmall" alt="icon"
+          src="/fusion-assets/icons/Hamburger_menu-svg.svg" />
 
         <button mat-raised-button *ngIf="allowAuthor"
           class="header-btn text-white ws-mat-primary-background mat-button-base hide-md"
@@ -88,18 +89,6 @@
           </ng-container>
         </a>
       </div>
-      <!-- <a role="button" matRipple class="flex items-center flex-col px-2 box-sizing-box" routerLink="/page/home" active
-        routerLinkActive="ws-mat-accent-text" *ngIf="!showCreateBtn">
-        <ng-container *ngIf="!appBottomIcon">
-          <mat-icon>home</mat-icon>
-
-          <span [ngClass]="instanceVal === 'Ford' ? 'title font-sans' : 'mat-caption'" i18n-matTooltip
-            matTooltip="Home">Home</span>
-        </ng-container>
-        <ng-container *ngIf="appBottomIcon">
-          <img width="40px" height="40px" [src]="appBottomIcon" alt="Home" />
-        </ng-container>
-      </a> -->
       <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
         <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
           *ngFor="let item of primaryNavbarConfig?.smallScreen?.right">
@@ -108,7 +97,6 @@
       <ng-container *ngIf="!showCreateBtn" [wsResolverWidget]="btnAppsConfig"></ng-container>
     </div>
   </div>
-  <!-- <img *ngIf="isXSmall" class="burger-menu" src="src/fusion-assets/icons/burger_menu.svg" alt="" /> -->
 </mat-toolbar>
 <ng-template #navbarSide let-item="item">
   <ng-container *ngIf="showNavLinkPage">

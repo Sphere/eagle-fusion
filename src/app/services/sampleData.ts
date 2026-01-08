@@ -144,6 +144,7 @@ export const data = {
           "subTitle": "",
           "show": true,
           "data": {},
+          "limit": 5,
           "displayConfigWeb": {
             "displayType": "card-mini",
             "badges": {
@@ -162,7 +163,8 @@ export const data = {
             }
           },
           "button": {
-            "label": "View All",
+            "label1": "View All",
+            "label2": "Hide",
             "img": "/fusion-assets/icons/Arrowpng.png",
             "courseType": "continueLearning",
             "routingUrl": "app/user/my_courses"
@@ -175,6 +177,7 @@ export const data = {
           "subTitle": "",
           "show": true,
           "data": {},
+          "limit": 5,
           "displayConfigWeb": {
             "displayType": "card-badges",
             "badges": {
@@ -192,7 +195,8 @@ export const data = {
             }
           },
           "button": {
-            "label": "View All",
+            "label1": "View All",
+            "label2": "Hide",
             "img": "/fusion-assets/icons/Arrowpng.png",
             "courseType": "formatForYouCourses",
             "routingUrl": "app/user/my_courses"
@@ -205,6 +209,7 @@ export const data = {
           "subTitle": "",
           "show": true,
           "data": {},
+          "limit": 5,
           "displayConfigWeb": {
             "displayType": "card-badges",
             "badges": {
@@ -222,7 +227,8 @@ export const data = {
             }
           },
           "button": {
-            "label": "View All",
+            "label1": "View All",
+            "label2": "Hide",
             "img": "/fusion-assets/icons/Arrowpng.png",
             "courseType": "topCourse",
             "routingUrl": "app/search/topCourse"
@@ -235,6 +241,7 @@ export const data = {
           "subTitle": "",
           "show": true,
           "data": {},
+          "limit": 5,
           "displayConfigWeb": {
             "displayType": "card-badges",
             "badges": {
@@ -252,9 +259,10 @@ export const data = {
             }
           },
           "button": {
-            "label": "View All",
+            "label1": "View All",
+            "label2": "Hide",
             "img": "/fusion-assets/icons/Arrowpng.png",
-            "courseType": "",
+            "courseType": "cneCourses",
             "routingUrl": "app/search/topCourse"
           }
         },

@@ -40,8 +40,9 @@
   <!-- How does it Works -->
   <ng-container *ngIf="isHomePage">
     <ws-web-trusted-by-page *ngIf="!isLoggedIn"></ws-web-trusted-by-page>
-    <div class="mt-8" [ngClass]="{'mb-20': (isXSmall$ | async) === true}">
-      <ws-how-does-work class="bg-color app-footer mt-8" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+    <div [ngClass]="{'mb-20': (isXSmall$ | async) === true, 'mt-8': (isXSmall$ | async) === false}">
+      <ws-how-does-work class="bg-color app-footer"
+        [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage, 'margin-top: 0.5rem': (isXSmall$ | async) === false}"
         *ngIf="showNavbar && !hideHeaderFooter" [config]="configData"></ws-how-does-work>
     </div>
   </ng-container>
