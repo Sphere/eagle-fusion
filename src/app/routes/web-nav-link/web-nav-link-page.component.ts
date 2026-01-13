@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
@@ -21,6 +21,7 @@ export class WebNavLinkPageComponent implements OnInit {
   notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null;
   @Input() menuItems: any[] = []
   @Input() mode: ''
+  currentTab!: string
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
@@ -77,13 +78,23 @@ export class WebNavLinkPageComponent implements OnInit {
     }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['menuItems'] && this.menuItems?.length) {
+      this.currentTab = this.playlistSvc.getSelectedTab()
+      this.updatedMenuItems('')
+    }
+  }
   updatedMenuItems(label: string) {
     this.menuItems.forEach((menuItem: any) => {
       menuItem.show = false
       menuItem.active = false
-      if (menuItem.title == label) {
+      if (label && menuItem.title == label) {
         menuItem.show = true
         menuItem.active = true
+        this.playlistSvc.setSelectedTab(menuItem.id)
+      } else if (menuItem.id == this.currentTab) {
+        menuItem.active = true
+        menuItem.show = true
         this.playlistSvc.setSelectedTab(menuItem.id)
       }
     })
