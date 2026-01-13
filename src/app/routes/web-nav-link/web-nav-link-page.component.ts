@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
@@ -19,7 +19,8 @@ export class WebNavLinkPageComponent implements OnInit {
   data: any
   numberOfNotification: any
   notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null;
-  menuItems: any[] = []
+  @Input() menuItems: any[] = []
+  @Input() mode: ''
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
@@ -32,19 +33,6 @@ export class WebNavLinkPageComponent implements OnInit {
     private playlistSvc: PlaylistService
 
   ) {
-    let config = this.playlistSvc.getHeaderConfig()
-    if (config === "") {
-      this.playlistSvc.getPlaylistData().then(() => {
-        config = this.playlistSvc.getHeaderConfig()
-        this.menuItems = config.menuItems.filter(item =>
-          config.webMenuItems.includes(item.id)
-        )
-      })
-    } else {
-      this.menuItems = config.menuItems.filter(item =>
-        config.webMenuItems.includes(item.id)
-      )
-    }
     this.navOption.currentOption.subscribe((option: any) => {
       console.log(option, 'open')
       if (option === 'search') {
@@ -92,8 +80,10 @@ export class WebNavLinkPageComponent implements OnInit {
   updatedMenuItems(label: string) {
     this.menuItems.forEach((menuItem: any) => {
       menuItem.show = false
+      menuItem.active = false
       if (menuItem.title == label) {
         menuItem.show = true
+        menuItem.active = true
         this.playlistSvc.setSelectedTab(menuItem.id)
       }
     })
@@ -115,6 +105,7 @@ export class WebNavLinkPageComponent implements OnInit {
   async redirect(item: any) {
     this.menuItems.forEach((menuItem: any) => {
       menuItem.show = false
+      menuItem.active = menuItem.id === item.id
     })
     let userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
     const rootOrgId = this.configSvc.userProfile?.rootOrgId
@@ -136,6 +127,7 @@ export class WebNavLinkPageComponent implements OnInit {
     switch (text) {
       case 'home':
         item.show = true
+        this.navOption.changeNavBarActive('home')
         if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
           const redirectUrl = orgSelectiveConfig.redirectUrl || item.redirect
           reUrl = redirectUrl.startsWith('/') ? redirectUrl.substring(1) : redirectUrl
@@ -147,6 +139,7 @@ export class WebNavLinkPageComponent implements OnInit {
         break
       case 'mycourses':
         item.show = true
+        this.navOption.changeNavBarActive('mycourses')
         this.configSvc.unMappedUser = result
         if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
           this.router.navigate([reUrl])
@@ -156,6 +149,7 @@ export class WebNavLinkPageComponent implements OnInit {
         break
       case 'competency':
         item.show = true
+        this.navOption.changeNavBarActive('competency')
         localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
         if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
           this.router.navigate([reUrl])
@@ -165,6 +159,7 @@ export class WebNavLinkPageComponent implements OnInit {
         break
       case 'account':
         item.show = true
+        this.navOption.changeNavBarActive('account')
         if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
           this.router.navigate([reUrl])
         } else {
@@ -178,6 +173,7 @@ export class WebNavLinkPageComponent implements OnInit {
         break
       case 'notification':
         item.show = true
+        this.navOption.changeNavBarActive('notifaction')
         const dialogRef = this.dialog.open(NotificationsComponent, {
           width: '400px',
           maxHeight: '80vh',
@@ -189,6 +185,11 @@ export class WebNavLinkPageComponent implements OnInit {
           console.log('Notification modal closed')
         })
         break
+      case 'search':
+        item.show = true
+        this.navOption.changeNavBarActive('search')
+        let url = '/app/search/home'
+        this.router.navigate([url])
     }
   }
 

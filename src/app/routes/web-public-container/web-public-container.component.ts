@@ -153,7 +153,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         content.filter(item => featureSet.has(item.identifier)),
         'identifier'
       )
-      this.configData.forEach((element: any) => {
+      this.configData?.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
           element.data = this.userEnrollCourse
           element.displayData = element.data.slice(0, element.limit)

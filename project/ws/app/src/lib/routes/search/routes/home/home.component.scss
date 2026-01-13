@@ -14,6 +14,10 @@ ws-app-home .filter-button {
   text-align: center;
 }
 
+.search {
+  background: white !important;
+}
+
 ws-app-home .search .mat-form-field-wrapper {
   padding-bottom: 0px !important;
   .mat-form-field-infix {
@@ -53,4 +57,8 @@ ws-app-home .border-right {
     margin-top: 2rem !important;
     font-size: 1.3rem !important;
   }
+}
+
+.form-control {
+  height: 2.4rem;
 }

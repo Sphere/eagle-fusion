@@ -44,7 +44,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   isTourGuideClosed = false
   showAppNavBar = false
   popupTour: any
-  courseNameHeader: any
   showCreateBtn = false
   isXSmall$: Observable<boolean>
   isXSmall!: boolean
@@ -58,7 +57,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   domain!: string
   orgData: any
   menuItems: any[] = []
-
+  config: any
   constructor(
     private domSanitizer: DomSanitizer,
     public configSvc: ConfigurationsService,
@@ -95,14 +94,27 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isXSmall = isXSmall
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = true
+      } else {
+        this.showCreateBtn = false
+      }
+    })
     this.orgData = this.playlistSvc.getOrgDetails()
     if (this.orgData === "") {
       await this.playlistSvc.getPlaylistData().then(() => {
         this.orgData = this.playlistSvc.getOrgDetails()
       })
     }
-    let config = this.playlistSvc.getHeaderConfig()
-    this.menuItems = config.menuItems
+    this.config = this.playlistSvc.getHeaderConfig()
+    if (this.config) {
+      let menuItem = this.config.menuItems
+      this.menuItems = this.isXSmall
+        ? menuItem.filter(item => this.config.mobileMenuItems.includes(item.id))
+        : menuItem.filter(item => this.config.webMenuItems.includes(item.id))
+    }
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false
     }
@@ -124,15 +136,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
             this.showSearchIcon = true
           }
         }
-      }
-    })
-
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
       }
     })
 

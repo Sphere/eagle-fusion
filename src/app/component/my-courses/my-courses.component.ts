@@ -46,11 +46,12 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     // Load playlist configs
     this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-    const res = this.playlistSvc.getCourseConfig()
-
-    if (res !== '') {
-      const result = await this.playlistSvc.getPlaylistData()
-      this.config = result?.LAYOUT_BODY?.sections?.courseTab[0]
+    let res = this.playlistSvc.getCourseConfig()
+    if (res == '') {
+      res = await this.playlistSvc.getPlaylistData()
+      this.config = res?.LAYOUT_BODY?.sections?.courseTab
+    } else {
+      this.config = res
     }
 
     sessionStorage.removeItem('cURL')
@@ -165,17 +166,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         tab.data = this.completedCourse
       }
     })
-    // this.config.tabMenu.forEach((tab: any) => {
-    //   if (tab.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
-    //     tab.data = this.coursesForYou
-    //   }
-    //   if (tab.label === 'Started') {
-    //     tab.data = this.startedCourse
-    //   }
-    //   if (tab.label === 'Completed') {
-    //     tab.data = this.completedCourse
-    //   }
-    // })
+    this.isLoading = false
   }
 
   tabClick() {

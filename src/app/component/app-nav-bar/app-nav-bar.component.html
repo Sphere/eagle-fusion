@@ -1,140 +1,35 @@
-<mat-toolbar *ngIf="this.configSvc.userProfile !== null&&!hideSearch" [color]="primaryNavbarBackground?.color"
+<mat-toolbar *ngIf="configSvc.userProfile && !hideSearch" [color]="primaryNavbarBackground?.color"
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar">
-  <div *ngIf="mode === 'top' && !courseNameHeader" class="logo-container flex items-center">
+  <div *ngIf="mode === 'top'" class="logo-container flex items-center">
     <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
-      <img [src]="appIcon" loading="lazy" alt="Application Logo" id="app-logo" class="app-logo"
-        style="position: relative;" />
+      <img [src]="appIcon" loading="lazy" alt="Application Logo" id="app-logo" class="app-logo" />
       <img *ngIf="orgLogo&&!isXSmall" [src]="orgLogo" loading="lazy" alt="Application Logo" id="app-logo"
-        class="app-logo ml-4" style="position: relative;" />
-
+        class="app-logo ml-4" />
     </a>
 
+    <section class="top-right-profile">
+      <!-- web search field and Menu items-->
+      <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
+        [ref]="'home'"></ws-app-search-input-home>
+      <ws-web-nav-link-page [menuItems]="menuItems" [mode]="isXSmall" *ngIf="showNavLinkPage"></ws-web-nav-link-page>
+    </section>
+
+    <!-- mobile view top left icon-->
+    <img (click)="navigate()" class="burger-menu" *ngIf="isXSmall" alt="icon"
+      [src]="config?.rightMenuItem?.image?.src" />
   </div>
 
-  <div class="fix-ww">
-    <ng-container *ngIf="mode === 'top' && !courseNameHeader">
-
-      <ng-container *ngIf="primaryNavbarConfig?.mediumScreen">
-        <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
-          [ref]="'home'"></ws-app-search-input-home>
-
-        <div ngClass="search-small-logo" *ngIf="showSearchIcon">
-          <ng-container [wsResolverWidget]="{
-        'widgetType': 'actionButton',
-        'widgetSubType': 'buttonFeature',
-        'widgetData': {
-          'toolTop': 'Search',
-          'actionBtnId': 'feature_search',
-          'config': {
-            'type': 'mat-icon-button'
-          }
-        }
-      }"></ng-container>
-        </div>
-
-        <img (click)="navigate()" class="burger-menu" *ngIf="isXSmall" alt="icon"
-          src="/fusion-assets/icons/Hamburger_menu-svg.svg" />
-
-        <button mat-raised-button *ngIf="allowAuthor"
-          class="header-btn text-white ws-mat-primary-background mat-button-base hide-md"
-          [routerLink]="'/author/create'">
-          Add Course </button>
-        <section class="top-right-profile">
-          <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
-            *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
-          </ng-container>
-        </section>
-
-      </ng-container>
-
+  <div *ngIf="mode === 'bottom'" class="flex navbar-gap justify-between items-center"
+    [ngStyle]="{'gap': langPresent ? '0px 8px' : '0px 3px'}">
+    <ng-container *ngIf="!showCreateBtn">
+      <ws-web-nav-link-page [menuItems]="menuItems" [mode]="isXSmall"></ws-web-nav-link-page>
     </ng-container>
-
-    <ng-container *ngIf="mode === 'top' && courseNameHeader">
-      <a routerLink="/page/home" i18n-matTooltip matTooltip="Home" class="logo-dim">
-        <img loading="lazy" [src]="appIcon" alt="Application Logo" class="app-logo" />
+    <div class="w-full" *ngIf="hideCreateButton">
+      <a *ngIf="showCreateBtn && (this.configSvc.userProfile === null)" role="button" matRipple
+        class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
+        [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+        <button mat-raised-button class="createAcc"> {{'Create Account' | translate }}</button>
       </a>
-      <h3 class="mt-name">{{courseNameHeader}}</h3>
-
-      <span class="spacer"></span>
-      <button mat-raised-button class="header-btn text-white ws-mat-primary-background mat-button-base"
-        (click)="headerService.saveCourseContent()">
-        {{ 'Save' | translate }}</button>
-
-      <ng-container [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
-        *ngFor="let item of primaryNavbarConfig?.mediumScreen?.right">
-      </ng-container>
-    </ng-container>
-
-    <div class="flex navbar-gap justify-between items-center" [ngStyle]="{'gap': langPresent ? '0px 8px' : '0px 3px'}"
-      *ngIf="mode === 'bottom'">
-      <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
-        <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
-          *ngFor="let item of primaryNavbarConfig?.smallScreen?.left">
-        </div>
-      </ng-container>
-      <div class="w-full" *ngIf="hideCreateButton">
-        <a *ngIf="showCreateBtn === true && (this.configSvc.userProfile === null)" role="button" matRipple
-          class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
-          [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
-          <ng-container>
-            <button mat-raised-button [ngStyle]="{
-            'background-color': '#2E6491',
-            'width': '100%',
-            'border': '1px solid #2E6491',
-            'border-radius': '20px',
-            'color': 'white',
-            'font-size': '16px',
-            'font-weight': '400'}">
-              {{'Create Account' | translate }}</button>
-          </ng-container>
-        </a>
-      </div>
-      <ng-container *ngIf="primaryNavbarConfig?.smallScreen && !showCreateBtn">
-        <div [ngTemplateOutlet]="navbarSide" [ngTemplateOutletContext]="{ item: item }"
-          *ngFor="let item of primaryNavbarConfig?.smallScreen?.right">
-        </div>
-      </ng-container>
-      <ng-container *ngIf="!showCreateBtn" [wsResolverWidget]="btnAppsConfig"></ng-container>
     </div>
   </div>
 </mat-toolbar>
-<ng-template #navbarSide let-item="item">
-  <ng-container *ngIf="showNavLinkPage">
-    <ws-web-nav-link-page *ngIf="!isXSmall"></ws-web-nav-link-page>
-  </ng-container>
-  <ng-container *ngIf="item.type === 'widgetButton'&&isXSmall" [wsResolverWidget]="item.config"></ng-container>
-  <ws-widget-btn-feature *ngIf="item.type === 'featureButton'" [id]="item.config.actionBtnId" [widgetData]="item.config"
-    [showFixedLength]="true"></ws-widget-btn-feature>
-</ng-template>
-
-<mat-menu #helpMenu="matMenu">
-  <ws-widget-btn-feature [widgetData]="{
-      actionBtnId: 'feature_aboutUs',
-      config: {
-        type: 'mat-menu-item'
-      }
-    }"></ws-widget-btn-feature>
-  <ws-widget-btn-feature [widgetData]="{
-      actionBtnId: 'channel_how_to',
-      config: {
-        type: 'mat-menu-item'
-      }
-    }"></ws-widget-btn-feature>
-  <ws-widget-btn-feature [widgetData]="{
-      actionBtnId: 'feature_FAQs',
-      config: {
-        type: 'mat-menu-item'
-      }
-    }"></ws-widget-btn-feature>
-  <ws-widget-btn-feature [widgetData]="{
-      actionBtnId: 'feature_quickTour',
-      config: {
-        type: 'mat-menu-item'
-      }
-    }"></ws-widget-btn-feature>
-  <div mat-menu-item *ngIf="isTourGuideAvailable" (click)="startTour()">
-    <mat-icon matTooltip="Help">help</mat-icon>
-    <span class="ml-2" matTooltip="Tour Guide">Tour Guide</span>
-  </div>
-
-</mat-menu>

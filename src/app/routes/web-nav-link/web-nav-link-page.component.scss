@@ -62,3 +62,62 @@
   line-height: 19px;
   cursor: pointer;
 }
+
+/* Mobile only */
+@media (min-width: 768px) {
+  .mobile-bottom-nav {
+    display: none;
+  }
+}
+
+.mobile-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 64px;
+  background: #ffffff;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1px solid #e0e0e0;
+  z-index: 1000;
+}
+
+/* Each tab */
+.nav-item {
+  background: none;
+  border: none;
+  outline: none;
+  display: flex;
+  flex-direction: column; /* icon above label */
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  color: #666;
+  cursor: pointer;
+  min-width: 64px;
+}
+
+/* Icon */
+.nav-icon {
+  width: 24px;
+  height: 24px;
+  filter: grayscale(100%) opacity(0.7);
+}
+
+/* Label */
+.nav-label {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+}
+
+/* Active state */
+.nav-item.active {
+  color: #1e88e5; /* blue like screenshot */
+}
+
+.nav-item.active .nav-icon {
+  filter: invert(.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);;
+}

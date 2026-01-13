@@ -45,7 +45,7 @@ export const data = {
         "id": "courseTab",
         "title": "My Courses",
         "redirect": "app/user/my_courses",
-        "active": true,
+        "active": false,
         "show": false,
         "type": "text",
         "image": {
@@ -57,7 +57,7 @@ export const data = {
         "id": "competencyTab",
         "title": "Competency",
         "redirect": "app/user/competency",
-        "active": true,
+        "active": false,
         "show": false,
         "type": "text",
         "image": {
@@ -69,7 +69,7 @@ export const data = {
         "id": "searchMob",
         "title": "Search",
         "redirect": "app/user/search",
-        "active": true,
+        "active": false,
         "show": false,
         "type": "text",
         "image": {
@@ -81,7 +81,7 @@ export const data = {
         "id": "accountTab",
         "title": "Account",
         "redirect": "app/profile-view",
-        "active": true,
+        "active": false,
         "show": false,
         "type": "text",
         "image": {
@@ -106,7 +106,7 @@ export const data = {
       "title": "",
       "image": {
         "isMobile": true,
-        "src": "/fusion-assets/icon/menu-item.svg"
+        "src": "/fusion-assets/icons/Hamburger_menu-svg.svg"
       }
     }
   },
@@ -388,7 +388,360 @@ export const data = {
       ],
       "competencyTab": [],
       "searchMob": [],
-      "accountTab": [],
+      "accountTab":
+        [{
+          "isRequired": true,
+          "text": "HELP_AND_SUPPORT",
+          "img": "assets/imgs/support-agent.svg",
+          "phone": "tel:+918429036003",
+          "icon": "",
+          "data": {}
+        },
+        {
+          "isRequired": true,
+          "name": "language",
+          "text": "LANGUAGE_PREFERENCE",
+          "img": "assets/icons/language-icon.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {
+            "title": "SELECT_LANGUAGE",
+            "sub_header": "APP_LANGUAGE",
+            "img": {
+              "show": false,
+              "icon": ""
+            },
+            "optionsList": [
+              {
+                "code": "en",
+                "name": "English",
+                "checked": false
+              },
+              {
+                "code": "hi",
+                "name": "हिंदी",
+                "checked": false
+              },
+              {
+                "code": "kn",
+                "name": "ಕನ್ನಡ",
+                "checked": false
+              }
+            ],
+            "button": {
+              "label": "FRMELEMNTS_BTN_SAVE"
+            }
+          }
+        },
+        {
+          "isRequired": true,
+          "name": "observation",
+          "text": "OBSERVATION_SINGULAR",
+          "img": "assets/imgs/observation.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {
+            "title": "",
+            "sub_header": "",
+            "img": {
+              "show": false,
+              "icon": ""
+            },
+            "optionsList": [
+              {
+                "title": "SCHEDULED",
+                "name": "scheduled",
+                "routerLink": "/app/learnere-observation/scheduled"
+              },
+              {
+                "title": "COMPLETED",
+                "name": "completed",
+                "routerLink": "/app/learnere-observation/completed"
+              }
+            ]
+          }
+        },
+        {
+          "isRequired": true,
+          "name": "downloads",
+          "text": "DOWNLOADS_PLURAL",
+          "img": "assets/imgs/material-symbols_logout.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {}
+        },
+        {
+          "isRequired": true,
+          "name": "myCertificates",
+          "text": "MY_CERTIFICATES",
+          "img": "assets/icons/certificate-icon.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {}
+        },
+        {
+          "isRequired": true,
+          "name": "myPassbook",
+          "text": "MY_PASSBOOK",
+          "img": "assets/icons/ph_book-light.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {}
+        },
+        {
+          "isRequired": false,
+          "name": "userStatistics",
+          "text": "USER_STATISTICS",
+          "img": "assets/icons/user-info.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {}
+        },
+        {
+          "isRequired": true,
+          "name": "profileDetails",
+          "text": "PROFILE_DETAILS",
+          "img": "assets/icons/personal-details.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {
+            "title": "PRESONAL_DETAIL",
+            "sub_header": "",
+            "img": {
+              "show": false,
+              "icon": ""
+            },
+            "optionsList": [
+              {
+                "title": "FIRST_NAME",
+                "name": "firstname",
+                "required": true
+              },
+              {
+                "title": "LAST_NAME",
+                "name": "surname",
+                "required": true
+              },
+              {
+                "title": "DOB",
+                "name": "dob",
+                "required": false
+              },
+              {
+                "title": "POSITION",
+                "name": "profession",
+                "required": true
+              },
+              {
+                "title": "ORG_NAME",
+                "name": "name",
+                "required": true
+              },
+              {
+                "title": "NATIONALITY",
+                "name": "nationality",
+                "required": true
+              },
+              {
+                "title": "MOTHER_TONGUE",
+                "name": "domicileMedium",
+                "required": true
+              },
+              {
+                "title": "GENDER",
+                "name": "gender",
+                "required": true
+              },
+              {
+                "title": "MARITAL_STATUS",
+                "name": "maritalStatus",
+                "required": true
+              },
+              {
+                "title": "PHONE_NUMBER",
+                "name": "mobile",
+                "required": true
+              },
+              {
+                "title": "COUNTRY",
+                "name": "country",
+                "required": true
+              },
+              {
+                "title": "STATE",
+                "name": "state",
+                "required": true
+              },
+              {
+                "title": "CITY_DISTRICT",
+                "name": "distict",
+                "required": true
+              },
+              {
+                "title": "PINCODE",
+                "name": "pincode",
+                "required": true
+              },
+              {
+                "title": "FRMELEMNTS_LBL_BLOCK",
+                "name": "block",
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "isRequired": true,
+          "name": "orgDetails",
+          "text": "ORGANIZATION_DETAILS",
+          "img": "assets/icons/org-profile.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {
+            "title": "ORGANIZATION_DETAILS",
+            "sub_header": "",
+            "img": {
+              "show": false,
+              "icon": "assets/icons/edit-icon-outline.svg"
+            },
+            "optionsList": [
+              {
+                "title": "BACKGROUND",
+                "name": "background",
+                "required": false
+              },
+              {
+                "title": "POSITION",
+                "name": "designation",
+                "required": true
+              },
+              {
+                "title": "DEPARTMENT_NAME",
+                "name": "channel",
+                "required": true
+              },
+              {
+                "title": "FACILITY_NAME",
+                "name": "facilityName",
+                "required": true
+              },
+              {
+                "title": "FACILITY_CODE",
+                "name": "facilityCode",
+                "required": true
+              },
+              {
+                "title": "FACILITY_TYPE",
+                "name": "facilityType",
+                "required": true
+              },
+              {
+                "title": "PROFESSIONS",
+                "name": "profession",
+                "required": false
+              },
+              {
+                "title": "ORGANIZATIONAL_TYPE",
+                "name": "orgType",
+                "required": true
+              },
+              {
+                "title": "ORGANIZATIONAL_NAME",
+                "name": "name",
+                "required": true
+              },
+              {
+                "title": "RN_NUM",
+                "name": "rnNumber",
+                "required": true
+              },
+              {
+                "title": "QUALIFICATION",
+                "name": "qualification",
+                "required": true
+              },
+              {
+                "title": "INSTITUE_NAME",
+                "name": "instituteName",
+                "required": true
+              },
+              {
+                "title": "CITY_DISTRICT",
+                "name": "locationselect",
+                "required": true
+              },
+              {
+                "title": "FRMELEMNTS_LBL_BLOCK",
+                "name": "block",
+                "required": false
+              },
+              {
+                "title": "SUB_CENTRE",
+                "name": "subcentre",
+                "required": true
+              }
+            ]
+          }
+        },
+        {
+          "isRequired": true,
+          "name": "academicDetails",
+          "text": "ACADEMIC_DETAILS",
+          "img": "assets/icons/academic-icon.svg",
+          "icon": "assets/icons/arrow-right.svg",
+          "data": {
+            "title": "ACADEMIC_DETAILS",
+            "sub_header": "",
+            "img": {
+              "show": false,
+              "icon": "assets/icons/edit-icon-outline.svg"
+            },
+            "optionsList": [
+              {
+                "title": "BACKGROUND",
+                "name": "background",
+                "required": false
+              },
+              {
+                "title": "PROFESSIONS",
+                "name": "profession",
+                "required": false
+              },
+              {
+                "title": "ORGANIZATIONAL_TYPE",
+                "name": "orgType",
+                "required": false
+              },
+              {
+                "title": "ORGANIZATIONAL_NAME",
+                "name": "name",
+                "required": false
+              },
+              {
+                "title": "RN_NUM",
+                "name": "rnNumber",
+                "required": true
+              },
+              {
+                "title": "QUALIFICATION",
+                "name": "qualification",
+                "required": false
+              },
+              {
+                "title": "INSTITUE_NAME",
+                "name": "instituteName",
+                "required": true
+              },
+              {
+                "title": "CITY_DISTRICT",
+                "name": "locationselect",
+                "required": false
+              },
+              {
+                "title": "FRMELEMNTS_LBL_BLOCK",
+                "name": "block",
+                "required": false
+              },
+              {
+                "title": "SUB_CENTRE",
+                "name": "subcentre",
+                "required": false
+              }
+            ]
+          }
+        }],
       "notifTab": []
     }
   },
