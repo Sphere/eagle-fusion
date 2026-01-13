@@ -4,6 +4,7 @@
     "resolveJsonModule": true,
     "types": ["node", "jest"],
     "target": "ES2022",
+    "useDefineForClassFields": false,
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": "./",
@@ -13,11 +14,10 @@
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "skipLibCheck": true,
-    "lib": ["ES2020", "dom"],
-    "module": "ES2020",
+    "lib": ["ES2022", "dom"],
+    "module": "ES2022",
     "moduleResolution": "node",
     "noFallthroughCasesInSwitch": true,
-    "noImplicitAny": false,
     "noImplicitReturns": true,
     "noImplicitThis": true,
     "noUnusedLocals": true,
@@ -64,8 +64,7 @@
         "ignoreDefinitionFiles": true,
         "configFile": "./tslint.json"
       }
-    ],
-    "useDefineForClassFields": false
+    ]
   },
   "angularCompilerOptions": {
     "strictTemplates": false,

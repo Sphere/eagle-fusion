@@ -18,6 +18,10 @@
  * BROWSER POLYFILLS
  */
 
+// Performance optimizations for Angular 16
+(window as any).__Zone_disable_requestAnimationFrame = true; // Improve performance by disabling RAF patching
+(window as any).__zone_symbol__UNPATCHED_EVENTS = ['scroll', 'mousemove', 'resize'] // Exclude high-frequency events
+
 /**
  * By default, zone.js will patch all possible macroTask and DomEvents
  * user can disable parts of macroTask/DomEvents patch by setting following flags

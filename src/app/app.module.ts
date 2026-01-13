@@ -3,7 +3,7 @@ import {
   APP_BASE_HREF, PlatformLocation, CommonModule,
 } from '@angular/common'
 import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http'
-import { TranslateModule, TranslateLoader, TranslateService } from '@ngx-translate/core'
+import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
@@ -98,7 +98,6 @@ import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashb
 import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
-import { OrgSelectiveCourseComponent } from 'project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.component'
 // import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
 // import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
 import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
@@ -147,7 +146,6 @@ import { PublicLoginComponent } from './public-login/public-login.component'
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
-import { PlayerVideoPopupComponent } from '../../library/ws-widget/collection/src/lib/player-video-popup/player-video-popup-component'
 // import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 import { NotificationsComponent } from './routes/notification/notification.component'
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
@@ -260,9 +258,28 @@ const dbConfig: DBConfig = {
   ]
 }
 
-export const COMPETENCY_REGISTRATION_CONFIG = {
-  config: JSON.parse(localStorage.getItem('competency') || '{}'),
-  isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || ''
+// Initialize with empty config for AOT compilation - will be replaced at runtime
+export let COMPETENCY_REGISTRATION_CONFIG = {
+  config: {},
+  isOnlyPassbook: ''
+}
+
+// Function to update config from localStorage
+export function initializeCompetencyConfig(): () => void {
+  return () => {
+    try {
+      COMPETENCY_REGISTRATION_CONFIG = {
+        config: JSON.parse(localStorage.getItem('competency') || '{}'),
+        isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || ''
+      }
+    } catch (error) {
+      console.error('Error initializing competency config:', error)
+      COMPETENCY_REGISTRATION_CONFIG = {
+        config: {},
+        isOnlyPassbook: ''
+      }
+    }
+  }
 }
 
 // tslint:disable-next-line: max-classes-per-file
@@ -290,7 +307,6 @@ export const COMPETENCY_REGISTRATION_CONFIG = {
     BnrcRegisterComponent,
     UpsmfRegisterComponent,
     MpRegisterComponent,
-    OrgSelectiveCourseComponent,
     NotificationsComponent,
     YourLocationComponent,
     NewTncComponent,
@@ -338,13 +354,12 @@ export const COMPETENCY_REGISTRATION_CONFIG = {
     TnaiCallbackComponent,
     // SettingsComponent
     BnrcmodalComponent,
-    PlayerVideoPopupComponent
+    // PlayerVideoPopupComponent
   ],
   imports: [
     BrowserModule,
     CommonModule,
     BrowserAnimationsModule,
-    HttpClientModule,
     HttpClientJsonpModule,
     FormsModule,
     ReactiveFormsModule,
@@ -385,11 +400,11 @@ export const COMPETENCY_REGISTRATION_CONFIG = {
     MatDatepickerModule,
     MatNativeDateModule,
     MatSelectModule,
-    MatExpansionModule,
     DiscussionUiModule.forRoot(ConfigService),
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
+    // OrgSelectiveCourseModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
     CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
@@ -416,6 +431,11 @@ export const COMPETENCY_REGISTRATION_CONFIG = {
   ],
   bootstrap: [RootComponent],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeCompetencyConfig,
+      multi: true
+    },
     {
       deps: [InitService, LoggerService],
       multi: true,

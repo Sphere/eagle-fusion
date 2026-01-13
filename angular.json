@@ -64,6 +64,11 @@
               ]
             },
             "styles": [
+              "node_modules/tailwindcss/dist/utilities.min.css",
+              "node_modules/video.js/dist/video-js.min.css",
+              "node_modules/vis-network/dist/vis-network.min.css",
+              "node_modules/tailwindcss/dist/components.min.css",
+              "node_modules/videojs-markers/dist/videojs.markers.min.css",
               "src/styles/libraries.scss",
               "node_modules/material-icons/iconfont/material-icons.scss",
               "src/styles/mat-typography.scss",
@@ -85,19 +90,32 @@
               "node_modules/shepherd.js/dist/js/shepherd.min.js",
               "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ],
-            "aot": false,
+            "aot": true,
             "vendorChunk": true,
             "extractLicenses": false,
             "buildOptimizer": false,
             "sourceMap": {
-              "scripts": true,
-              "styles": true,
-              "vendor": true
+              "scripts": false,
+              "styles": false,
+              "vendor": false
             },
             "optimization": false,
             "namedChunks": true
           },
           "configurations": {
+            "development": {
+              "optimization": false,
+              "sourceMap": {
+                "scripts": true,
+                "styles": true,
+                "vendor": true
+              },
+              "namedChunks": true,
+              "aot": false,
+              "buildOptimizer": false,
+              "vendorChunk": true,
+              "extractLicenses": false
+            },
             "production": {
               "fileReplacements": [
                 {
@@ -105,33 +123,70 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "optimization": true,
-              "sourceMap": true,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": true
+              },
+              "sourceMap": false,
               "namedChunks": false,
-              "aot": false,
+              "aot": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
+              "buildOptimizer": true,
+              "preserveSymlinks": true,
+              "allowedCommonJsDependencies": [
+                "videojs-markers",
+                "events",
+                "qrcode",
+                "dayjs",
+                "file-saver",
+                "moment",
+                "lodash",
+                "@project-sunbird/client-services",
+                "@aastrika_npmjs/discussions-ui-v8"
+              ],
               "budgets": [
                 {
+                  "type": "initial",
+                  "maximumWarning": "4mb",
+                  "maximumError": "5mb"
+                },
+                {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "6kb"
+                  "maximumWarning": "200kb",
+                  "maximumError": "400kb"
+                },
+                {
+                  "type": "anyComponentStyle",
+                  "name": "org-home.component",
+                  "maximumWarning": "250kb"
                 }
               ],
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
             },
             "hi": {
-              "aot": false,
+              "aot": true,
               "outputPath": "dist/www/hi",
               "localize": [
                 "hi"
               ],
-              "optimization": true,
+              "optimization": {
+                "scripts": true,
+                "styles": {
+                  "minify": true,
+                  "inlineCritical": true
+                },
+                "fonts": true
+              },
               "sourceMap": false,
               "namedChunks": false,
               "extractLicenses": true,
               "vendorChunk": false,
-              "buildOptimizer": false,
+              "buildOptimizer": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/environment.ts",
@@ -152,10 +207,14 @@
             "production": {
               "browserTarget": "fusion:build:production"
             },
+            "development": {
+              "browserTarget": "fusion:build:development"
+            },
             "hi": {
               "browserTarget": "fusion:build:hi"
             }
-          }
+          },
+          "defaultConfiguration": "development"
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
