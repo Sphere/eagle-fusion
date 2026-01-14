@@ -388,8 +388,8 @@ export const data = {
       ],
       "competencyTab": [],
       "searchMob": [],
-      "accountTab":
-        [{
+      "accountTab": [
+        {
           "isRequired": true,
           "text": "HELP_AND_SUPPORT",
           "img": "assets/imgs/support-agent.svg",

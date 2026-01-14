@@ -3,7 +3,7 @@ import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ScrollService } from '../../services/scroll.service'
 import { LanguageService } from '../../services/language.service'
-import { HttpClient } from '@angular/common/http'
+import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
   selector: 'ws-web-home',
@@ -17,38 +17,29 @@ export class WebHomeComponent implements OnInit {
   currentIndex = 0;
   private intervalId: any
   lang: any = 'en'
-  dataCarousel: any = [
-    {
-      "title": "Check out courses with CNE Hours",
-      "titleHi": "सीएनई आवर्स के साथ पाठ्यक्रम देखें",
-      "img": "/fusion-assets/images/banner_1_cne.png",
-      "scrollEmit": "scrollToCneCourses",
-      "bg-color": "#D7AC5C;"
-    },
-    {
-      "title": "Watch tutorials on how sphere works",
-      "titleHi": "जानिए स्फीयर कैसे काम करता है",
-      "img": "/fusion-assets/images/banner_2.png",
-      "scrollEmit": "scrollToHowSphereWorks",
-      "bg-color": "#469788;;"
-    }
-  ]
-  constructor(private http: HttpClient, private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
-    private scrollService: ScrollService, private elementRef: ElementRef, private languageSvc: LanguageService
+  dataCarousel: any
+  config: any
+  constructor(
+    private router: Router,
+    private valueSvc: ValueService,
+    public configSvc: ConfigurationsService,
+    private scrollService: ScrollService,
+    private elementRef: ElementRef,
+    private languageSvc: LanguageService,
+    private playlsSvc: PlaylistService
   ) { }
 
-  ngOnInit() {
-    // this.lang = this.configSvc!.unMappedUser
-    //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
-    //   : location.href.includes('/hi/') ? 'hi' : 'en'
-    if (this.configSvc &&
-      this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.preferences &&
-      this.configSvc.unMappedUser.profileDetails.preferences.language) {
+  async ngOnInit() {
+    let res = this.playlsSvc.getBodyConfig()
+    if (res == '') {
+      let res = await this.playlsSvc.getPlaylistData()
+      this.config = res?.LAYOUT_BODY
+    } else {
+      this.config = res[0]
+    }
+    if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {
-      // ✅ Use LanguageService instead of checking location.href
       this.lang = this.languageSvc?.getCurrentLanguage() || 'en'
     }
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
@@ -58,11 +49,8 @@ export class WebHomeComponent implements OnInit {
       }
     })
     this.startCarousel()
-
-    this.http.get('https://aastar-app-assets.s3.ap-south-1.amazonaws.com/sphere-home-content.json').subscribe(async (results: any) => {
-      this.bannerStatus = results.public.bannerStats
-    })
-
+    this.dataCarousel = this.config?.data
+    this.bannerStatus = this.config?.bannerStats
     // this.bannerStatus = this.configSvc.bannerStats
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall && (this.configSvc.userProfile === null)) {
@@ -103,11 +91,11 @@ export class WebHomeComponent implements OnInit {
 
 
   nextSlide(): void {
-    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel.length
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel?.length
   }
 
   prevSlide(): void {
-    this.currentSlideIndex = (this.currentSlideIndex - 1 + this.dataCarousel.length) % this.dataCarousel.length
+    this.currentSlideIndex = (this.currentSlideIndex - 1 + this.dataCarousel.length) % this.dataCarousel?.length
   }
 
   goToSlide(index: number): void {

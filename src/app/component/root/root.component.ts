@@ -35,7 +35,6 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { split } from 'lodash'
 import { App } from '@capacitor/app'
 import dayjs from 'dayjs'
-import { environment } from '../../../environments/environment'
 import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
 import { mapTo } from 'rxjs/operators'
@@ -47,9 +46,6 @@ import { ConfigService as CompetencyConfiService } from '../../routes/competency
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetUserService } from '../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
-import { LocalStorageService } from '../../services/local-storage.service'
-import { Events } from '../../routes/notification/events'
-import { io } from "socket.io-client"
 import { TranslateService } from '@ngx-translate/core'
 import { PlaylistService } from '../../services/playlist.service'
 
@@ -96,7 +92,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   paramsJSON!: string
   videoData: any = []
   configData: any
-
+  orgDetails: any
   private routerEventsSubscription: Subscription
   isEkshamata: boolean = false
   domain: string
@@ -121,8 +117,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private UserAgentResolverService: UserAgentResolverService,
     private userSvc: WidgetUserService,
     private viewerSvc: ViewerUtilService,
-    private readonly storage: LocalStorageService,
-    private readonly events: Events,
     private injector: Injector,
     private playlistSvc: PlaylistService,
   ) {
@@ -568,9 +562,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isLoggedIn = false
     }
-    let res = this.playlistSvc.getHomeConfig()
-    this.configData = res[5]
-    this.videoData = this.configData
+    this.orgDetails = { ...this.playlistSvc.getOrgDetails(), ...this.playlistSvc.getHeaderConfig() }
+    this.configData = this.isLoggedIn ? this.playlistSvc.getHomeConfig() : this.playlistSvc.getBodyConfig()
+    this.videoData = this.configData[5]
 
     if (this.configSvc.userProfile) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
@@ -597,30 +591,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
     return ''
   }
-
-  async getConnectToSocket(data?: any) {
-    const url = `wss://${environment.sitePath}`
-
-    const token = data?.accessToken ?? await this.getAccessToken()
-
-    const socket = io(url, {
-      auth: { token },
-      path: '/apis/socket.io/'
-    })
-
-    socket.on('connect', () => {
-      console.log(`Connected to the server with ID: ${socket.id}`)
-    })
-
-    socket.emit('getNotifications', { userId: data?.userId ?? this.userId })
-
-    socket.on('notificationsData', (data) => {
-      this.storage.setNumberOfNotifications(data?.notificationData?.length ?? 0)
-      console.log("data?.notificationData?.length", data?.notificationData?.length)
-      this.events.publish("notificationCountUpdated", data?.notificationData?.length ?? 0)
-    })
-  }
-
 
   formatmyCourseResponse(res: any) {
     const myCourse: any = []

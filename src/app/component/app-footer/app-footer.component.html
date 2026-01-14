@@ -1,31 +1,20 @@
-<div style="background-image:url('/fusion-assets/images/Group-people.png')" *ngIf="!isXSmall && !isLoggedIn"
-  class="flex transform-footer-container">
-  <div class="transform-header">
-    {{"Transform your Healthcare career through Sphere!" | translate}}
+<div *ngIf="!isXSmall && !isLoggedIn">
+  <div style="background-image:url('/fusion-assets/images/Group-people.png')" class="flex transform-footer-container">
+    <div class="transform-header">{{configData?.header | translate}}</div>
+    <button (click)="createAcct()" class="start-today-button">{{configData?.button?.label | translate}}</button>
   </div>
-  <button (click)="createAcct()" class="start-today-button">{{"Start Today" | translate}}</button>
-</div>
-<div *ngIf="!isXSmall && !isLoggedIn" class="flex-container">
-  <div class="part-a-partner center-partner">
-    <div class="text-partners">
-      {{"An initiative of" | translate}}
-    </div>
-    <div class="flex-prop">
-      <img class="part-a-img" src="/fusion-assets/icons/nike.png" alt="Card cap">
-    </div>
-  </div>
-  <div class="part-b-partner center-partner">
-    <div class="text-partners">
-      {{"A collaboration with" | translate}}
-    </div>
-    <div class="flex-prop">
-      <img class="part-b-img" src="/fusion-assets/icons/sci.png" alt="Card cap">
+  <div class="flex-container">
+    <div class="part-a-partner center-partner" *ngFor="let data of configData?.partnerData"
+      [ngStyle]="{'background': data?.bgColor}">
+      <div class="text-partners">{{data.label | translate}}</div>
+      <div class="flex-prop">
+        <img class="part-a-img" [src]="data.image" alt="Card cap">
+      </div>
     </div>
   </div>
 </div>
 
 <div class="mat-toolbar mat-ws-mat-primary-text footer-container pb-0 sm:px-48 md:px-10ss">
-
   <div class="mat-body footer-flex mb-4" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}" class="footer-first-col">
       <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">

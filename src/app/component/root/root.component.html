@@ -3,9 +3,8 @@
   <mat-progress-bar mode="indeterminate" color="warn" class="route-change" *ngIf="routeChangeInProgress">
   </mat-progress-bar>
   <!-- before login -->
-  <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn"
-    (menuClick)="getMenuClickValue($event)">
-  </ws-app-public-nav-bar>
+  <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn && orgDetails"
+    (menuClick)="getMenuClickValue($event)" [orgConfig]="orgDetails"></ws-app-public-nav-bar>
   <!-- Logged-In header -->
   <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
 
@@ -32,18 +31,17 @@
   </ws-mobile-footer>
 
   <!-- Featured Section-->
-  <section *ngIf="(isXSmall$ | async) === false && isHomePage && !isLoggedIn">
-    <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
-      *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+  <section *ngIf="isHomePage && !isLoggedIn">
+    <ws-web-public-container [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
   </section>
 
   <!-- How does it Works -->
-  <ng-container *ngIf="isHomePage">
-    <ws-web-trusted-by-page *ngIf="!isLoggedIn"></ws-web-trusted-by-page>
+  <ng-container *ngIf="isHomePage && configData">
+    <ws-web-trusted-by-page *ngIf="!isLoggedIn" [config]="configData[4]"></ws-web-trusted-by-page>
     <div [ngClass]="{'mb-20': (isXSmall$ | async) === true, 'mt-8': (isXSmall$ | async) === false}">
       <ws-how-does-work class="bg-color app-footer"
         [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage, 'margin-top: 0.5rem': (isXSmall$ | async) === false}"
-        *ngIf="showNavbar && !hideHeaderFooter" [config]="configData"></ws-how-does-work>
+        *ngIf="showNavbar && !hideHeaderFooter" [config]="videoData"></ws-how-does-work>
     </div>
   </ng-container>
 

@@ -2,20 +2,15 @@
   <!--upskill now section-->
   <div class="carousel">
     <div class="banner-heading-container">
-      <div class="banner-heading">{{ 'Access free' | translate }}</div>
-      <div class="banner-heading">{{ 'Healthcare courses' | translate }}</div>
-      <div class="banner-mini-heading">
-        {{ 'Learn at your own pace & Get Certified' | translate }}
-      </div>
+      <div class="banner-heading" style="width: 90%;">{{ config?.title | translate }}</div>
+      <div class="banner-mini-heading">{{ config?.subTitle | translate }} </div>
       <div class="create-account">
         <a role="button" matRipple class="flex mt-8 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit', 'z-index': 10}" routerLinkActive="ws-mat-accent-text">
-          <ng-container>
-            <span class="new-user-txt">New user?</span>
-            <button name="login_client_button" color="primary" class="login-btn header-btn mat-button-base">
-              Create Account
-            </button>
-          </ng-container>
+          <span class="new-user-txt">{{config?.label}}</span>
+          <button name="login_client_button" color="primary" class="login-btn header-btn mat-button-base">
+            {{config?.button?.label}}
+          </button>
         </a>
       </div>
     </div>
@@ -49,32 +44,11 @@
   </div>
 </div>
 <div class="flex info-block">
-  <div class="info-container info-disaplay-bg1">
+  <div class="info-container" *ngFor="let bnstats of bannerStatus" [ngClass]="bnstats?.className">
     <div class="flex info-box">
-      <img src="/fusion-assets/images/iconoir.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.learner_onboard}}</div>
+      <img [src]="bnstats?.image" class="count-sphere-icons" alt="Sphere Icons" />
+      <div class="info-number" *ngIf="bannerStatus">{{bnstats?.count}}</div>
     </div>
-    <p class="info-text">{{ 'Learners onboarded' | translate }}</p>
-  </div>
-  <div class="info-container info-disaplay-bg2">
-    <div class="flex info-box">
-      <img src="/fusion-assets/images/Frame 92@2x.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.course}}</div>
-    </div>
-    <p class="info-text">{{ 'Number of courses' | translate }}</p>
-  </div>
-  <div class="info-container info-disaplay-bg1">
-    <div class="flex info-box">
-      <img src="/fusion-assets/images/carbon_course@2x.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.cne_points}}</div>
-    </div>
-    <p class="info-text">{{ 'CNE Hours' | translate }}</p>
-  </div>
-  <div class="info-container info-disaplay-bg2">
-    <div class="flex info-box">
-      <img src="/fusion-assets/images/Frame 152@2x.svg" class="count-sphere-icons" alt="Sphere Icons" />
-      <div class="info-number" *ngIf="bannerStatus">{{bannerStatus.certificates_issues}}</div>
-    </div>
-    <p class="info-text">{{ 'Total certificate issued' | translate }}</p>
+    <p class="info-text">{{ bnstats?.label | translate }}</p>
   </div>
 </div>

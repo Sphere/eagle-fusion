@@ -112,8 +112,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.config) {
       let menuItem = this.config.menuItems
       this.menuItems = this.isXSmall
-        ? menuItem.filter(item => this.config.mobileMenuItems.includes(item.id))
-        : menuItem.filter(item => this.config.webMenuItems.includes(item.id))
+        ? menuItem?.filter(item => this.config.mobileMenuItems.includes(item.id))
+        : menuItem?.filter(item => this.config.webMenuItems.includes(item.id))
     }
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false

@@ -1,9 +1,10 @@
 <mat-toolbar *ngIf="configSvc.userProfile && !hideSearch" [color]="primaryNavbarBackground?.color"
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar">
+  <!-- TOP MODE -->
   <div *ngIf="mode === 'top'" class="logo-container flex items-center">
-    <a (click)="goHomePage()" i18n-matTooltip matTooltip="Home" class="logo-dim">
+    <a (click)="goHomePage()" matTooltip="Home" class="logo-dim">
       <img [src]="appIcon" loading="lazy" alt="Application Logo" id="app-logo" class="app-logo" />
-      <img *ngIf="orgLogo&&!isXSmall" [src]="orgLogo" loading="lazy" alt="Application Logo" id="app-logo"
+      <img *ngIf="orgLogo && !isXSmall" [src]="orgLogo" loading="lazy" alt="Application Logo" id="app-logo"
         class="app-logo ml-4" />
     </a>
 
@@ -11,24 +12,26 @@
       <!-- web search field and Menu items-->
       <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
         [ref]="'home'"></ws-app-search-input-home>
-      <ws-web-nav-link-page [menuItems]="menuItems" [mode]="isXSmall" *ngIf="showNavLinkPage"></ws-web-nav-link-page>
+
+      <ws-web-nav-link-page *ngIf="showNavLinkPage" [menuItems]="menuItems" [mode]="isXSmall"></ws-web-nav-link-page>
     </section>
 
-    <!-- mobile view top left icon-->
-    <img (click)="navigate()" class="burger-menu" *ngIf="isXSmall" alt="icon"
-      [src]="config?.rightMenuItem?.image?.src" />
+    <img *ngIf="isXSmall" (click)="navigate()" class="burger-menu" [src]="config?.rightMenuItem?.image?.src"
+      alt="menu" />
   </div>
 
+  <!-- BOTTOM MODE -->
   <div *ngIf="mode === 'bottom'" class="flex navbar-gap justify-between items-center"
-    [ngStyle]="{'gap': langPresent ? '0px 8px' : '0px 3px'}">
+    [ngStyle]="{ gap: langPresent ? '0px 8px' : '0px 3px' }">
     <ng-container *ngIf="!showCreateBtn">
       <ws-web-nav-link-page [menuItems]="menuItems" [mode]="isXSmall"></ws-web-nav-link-page>
     </ng-container>
     <div class="w-full" *ngIf="hideCreateButton">
-      <a *ngIf="showCreateBtn && (this.configSvc.userProfile === null)" role="button" matRipple
-        class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()" active
-        [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
-        <button mat-raised-button class="createAcc"> {{'Create Account' | translate }}</button>
+      <a *ngIf="showCreateBtn && !configSvc.userProfile" matRipple
+        class="flex items-center flex-col px-2 box-sizing-box" (click)="createAcct()">
+        <button mat-raised-button class="createAcc">
+          {{ 'Create Account' | translate }}
+        </button>
       </a>
     </div>
   </div>
