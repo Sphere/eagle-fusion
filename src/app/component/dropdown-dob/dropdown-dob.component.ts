@@ -10,6 +10,7 @@ export class DropdownDobComponent implements OnInit {
   @Output() dobValue = new EventEmitter<string>();
   @Input() dob?: string
   @Input() isEkshamata: boolean = false
+  @Input() dateType: 'dob' | 'joining' = 'dob' // 'dob' for date of birth, 'joining' for date of joining
 
   dobForm: FormGroup
   dateValue: number[] = [];
@@ -24,7 +25,6 @@ export class DropdownDobComponent implements OnInit {
   yearsValue: number[] = [];
 
   constructor(public cdr: ChangeDetectorRef) {
-    this.initYear()
     this.dobForm = new FormGroup({
       dateField: new FormControl('', Validators.required),
       monthField: new FormControl('', Validators.required),
@@ -40,6 +40,7 @@ export class DropdownDobComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.initYear()
     setTimeout(() => {
       this.updateForm()
     }, 500)
@@ -80,8 +81,17 @@ export class DropdownDobComponent implements OnInit {
 
   initYear() {
     const currentYear = new Date().getFullYear()
-    for (let i = currentYear - 18; i > currentYear - 100; i--) {
-      this.yearsValue.push(i)
+    console.log("this.dataType", this.dateType)
+    if (this.dateType === 'joining') {
+      // For date of joining: allow from 1950 to today
+      for (let i = currentYear; i >= 1950; i--) {
+        this.yearsValue.push(i)
+      }
+    } else {
+      // For date of birth (dob): 18 years ago to 100 years ago
+      for (let i = currentYear - 18; i > currentYear - 100; i--) {
+        this.yearsValue.push(i)
+      }
     }
   }
 }

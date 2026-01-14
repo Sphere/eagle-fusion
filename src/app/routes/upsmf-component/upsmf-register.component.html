@@ -475,7 +475,7 @@
         <label i18n for="dateOfJoining" style="display: block;">Date of Joining / पदभार ग्रहण की तारीख <span
             class="red-icon">*</span></label>
         <div class="form-group">
-          <ws-dropdown-dob (dobValue)="onDateOfJoiningChange($event)"
+          <ws-dropdown-dob dateType="joining" (dobValue)="onDateOfJoiningChange($event)"
             [dob]="medicalOfficerForm.get('dateOfJoining')?.value">
           </ws-dropdown-dob>
         </div>
