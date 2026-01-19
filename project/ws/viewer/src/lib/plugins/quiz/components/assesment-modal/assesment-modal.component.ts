@@ -94,6 +94,26 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.proficiencyLevel = this.assesmentdata.generalData.name
       .replace('Proficency', 'Proficiency').split('Proficiency')[1]
     this.isCompetency = this.route.snapshot.queryParams.competency
+    this.updateProgress()
+  }
+  updateProgress() {
+    const realTimeProgressRequest = {
+      content_type: 'Resource',
+      current: ['0'],
+      max_size: 0,
+      mime_type: NsContent.EMimeTypes.APPLICATION_JSON,
+      user_id_type: 'uuid',
+    }
+
+    this.viewerSvc.realTimeProgressUpdate(
+      this.assesmentdata.generalData?.identifier,
+      realTimeProgressRequest,
+      this.assesmentdata.generalData.collectionId,
+      this.route.snapshot.queryParams.batchId
+    )
+      .subscribe((res) => {
+        console.log('res', res)
+      })
   }
   ngAfterViewInit() {
     let object = {

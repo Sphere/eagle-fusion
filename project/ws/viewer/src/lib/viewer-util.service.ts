@@ -208,7 +208,9 @@ export class ViewerUtilService {
         percentage = 100
       }
       let mimeType = request.mime_type
-      this.generateInteractTelemetry('progress-update-attempt', { contentId, checkCollectionId, percentage, mimeType })
+      const status = this.getStatus(request.current, request.max_size, request.mime_type)
+
+      this.generateInteractTelemetry('progress-update-attempt', { contentId, checkCollectionId, percentage, mimeType, batchId, status })
       req = {
         request: {
           userId: this.configservice.userProfile.userId || '',
@@ -350,7 +352,9 @@ export class ViewerUtilService {
     extras['values'] = [
       {
         "identifier": contentData?.contentId || '',
-        "progress": contentData?.completionPercentage || contentData?.percentage || 0
+        "progress": contentData?.completionPercentage || contentData?.percentage || 0,
+        "batchId": contentData?.batchId || '',
+        "status": contentData?.status || 1
       }
     ]
     this.events.raiseInteractTelemetry(
