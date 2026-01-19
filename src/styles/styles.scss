@@ -1121,3 +1121,64 @@ button.submit-btn[disabled] {
     border-radius: 30px !important;
   }
 }
+ws-app-home {
+  .mat-mdc-form-field {
+    --mdc-filled-text-field-container-color: white !important;
+    --mdc-filled-text-field-active-indicator-color: white !important;
+    --mdc-filled-text-field-hover-active-indicator-color: white !important;
+    --mdc-filled-text-field-focus-active-indicator-color: white !important;
+
+    --mat-mdc-form-field-container-vertical-padding: 0px;
+    --mdc-filled-text-field-hover-state-layer-color: white !important;
+    --mdc-filled-text-field-focus-state-layer-color: white !important;
+  }
+  .mat-mdc-form-field .mdc-text-field::before,
+  .mat-mdc-form-field .mdc-text-field::after {
+    opacity: 0 !important;
+    background-color: white !important;
+  }
+
+  /* Prevent any background on focus */
+  .mat-mdc-form-field .mdc-text-field--focused {
+    background-color: white !important;
+  }
+  /* Remove extra height from infix */
+  .mat-mdc-form-field .mat-mdc-form-field-infix {
+    min-height: auto !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+
+  .mat-mdc-form-field:hover {
+    background-color: white !important;
+  }
+
+    /* Kill ALL MDC filled input backgrounds (hover + focus + typing) */
+  .mat-mdc-form-field .mdc-text-field--filled {
+    background-color: white !important;
+  }
+
+  /* THIS is the real culprit */
+  .mat-mdc-form-field .mdc-text-field__ripple {
+    display: none !important;
+  }
+
+  /* Extra safety */
+  .mat-mdc-form-field .mdc-text-field--filled::before,
+  .mat-mdc-form-field .mdc-text-field--filled::after {
+    display: none !important;
+  }
+
+  /* Prevent focus class styling */
+  .mat-mdc-form-field .mdc-text-field--focused {
+    background-color: white !important;
+  }
+  .mat-mdc-form-field-focus-overlay {
+    background-color: transparent !important;
+    opacity: 0 !important;
+  }
+  .mat-mdc-form-field:hover .mat-mdc-form-field-focus-overlay {
+    background-color: transparent !important;
+  }
+
+}

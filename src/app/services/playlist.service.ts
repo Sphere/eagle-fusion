@@ -1,5 +1,4 @@
 import { Injectable } from '@angular/core'
-import { data } from '../services/sampleData'
 import { HttpClient } from '@angular/common/http'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 
@@ -7,13 +6,13 @@ import { ConfigurationsService } from '../../../library/ws-widget/utils/src/publ
   providedIn: 'root'
 })
 export class PlaylistService {
-  homeConfig: any
-  courseConfig: any
-  competencyConfig: any
-  accountConfig: any
-  notifConfig: any
-  searchMobConfig: any
-  playlistData: any
+  homeConfig: any = ''
+  courseConfig: any = ''
+  competencyConfig: any = ''
+  accountConfig: any = ''
+  notifConfig: any = ''
+  searchMobConfig: any = ''
+  playlistData: any = ''
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
@@ -27,12 +26,16 @@ export class PlaylistService {
     return this.playlistData?.LAYOUT_HEADER || ""
   }
 
+  getBodyConfig() {
+    return this.playlistData?.LAYOUT_BODY || ""
+  }
+
   getFooterConfig() {
     return this.playlistData?.LAYOUT_FOOTER || ""
   }
 
   setSelectedTab(tabId: string) {
-    let data = this.playlistData.LAYOUT_BODY.sections
+    let data = this.playlistData.LAYOUT_BODY?.sections
     localStorage.setItem('selectedTab', tabId)
     window.location.href.split('/page/')
     switch (tabId) {
@@ -66,27 +69,27 @@ export class PlaylistService {
   }
 
   getHomeConfig() {
-    return this.homeConfig || this.playlistData?.LAYOUT_BODY.sections.homeTab || ""
+    return this.homeConfig || this.playlistData?.LAYOUT_BODY?.sections?.homeTab || ""
   }
 
   getCourseConfig() {
-    return this.courseConfig || this.playlistData?.LAYOUT_BODY.sections.courseTab || ""
+    return this.courseConfig || this.playlistData?.LAYOUT_BODY?.sections?.courseTab || ""
   }
 
   getCompetencyConfig() {
-    return this.competencyConfig || this.playlistData?.LAYOUT_BODY.sections.competencyTab || ""
+    return this.competencyConfig || this.playlistData?.LAYOUT_BODY?.sections?.competencyTab || ""
   }
 
   getAccountConfig() {
-    return this.accountConfig || this.playlistData?.LAYOUT_BODY.sections.accountTab || ""
+    return this.accountConfig || this.playlistData?.LAYOUT_BODY?.sections?.accountTab || ""
   }
 
   getNotifConfig() {
-    return this.notifConfig || this.playlistData?.LAYOUT_BODY.sections.notifTab || ""
+    return this.notifConfig || this.playlistData?.LAYOUT_BODY?.sections?.notifTab || ""
   }
 
   getSearchMobConfig() {
-    return this.searchMobConfig || this.playlistData?.LAYOUT_BODY.sections.searchMob || ""
+    return this.searchMobConfig || this.playlistData?.LAYOUT_BODY?.sections?.searchMob || ""
   }
 
   async getPlaylistData(): Promise<any> {
@@ -98,7 +101,7 @@ export class PlaylistService {
         "subtype": "v1",
         "action": "get",
         "component": "web",
-        "rootOrgId": this.configSvc?.userProfile?.rootOrgId
+        "rootOrgId": this.configSvc?.userProfile?.rootOrgId || "*"
       }
     }
     let url = `/apis/v1/form/read?v=${new Date().getTime()}`
@@ -106,18 +109,20 @@ export class PlaylistService {
       this.http.post(url, body, {}).subscribe((response: any) => {
         console.log("response", response)
         console.log('Fetching playlist data from API...', this.playlistData)
+        this.playlistData = ''
         this.playlistData = response.result.form.data
-        resolve(data)
+        resolve(this.playlistData)
       })
     })
   }
 
   async getPlaylistConfig(): Promise<any> {
     console.log('Fetching playlist data from API...', this.playlistData)
+    let org = this.configSvc?.userProfile?.rootOrgId || "default"
     let body = {
       "request": {
         "filters": {
-          "orgId": this.configSvc.userProfile?.rootOrgId
+          "orgId": org
         }
       }
     }

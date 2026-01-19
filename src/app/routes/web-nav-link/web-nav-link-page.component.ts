@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
@@ -15,11 +15,13 @@ import { PlaylistService } from '../../services/playlist.service'
   templateUrl: './web-nav-link-page.component.html',
   styleUrls: ['./web-nav-link-page.component.scss'],
 })
-export class WebNavLinkPageComponent implements OnInit {
+export class WebNavLinkPageComponent implements OnInit, OnChanges {
   data: any
-  numberOfNotification: any
-  notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null;
-  menuItems: any[] = []
+  numberOfNotification: string = ''
+  currentTab = ''
+  notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null
+  @Input() menuItems: any[] = []
+  @Input() mode = ''
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
@@ -29,189 +31,142 @@ export class WebNavLinkPageComponent implements OnInit {
     public navOption: appNavBarService,
     public storage: LocalStorageService,
     private readonly event: Events,
-    private playlistSvc: PlaylistService
-
+    private playlistSvc: PlaylistService,
+    private cd: ChangeDetectorRef
   ) {
-    let config = this.playlistSvc.getHeaderConfig()
-    if (config === "") {
-      this.playlistSvc.getPlaylistData().then(() => {
-        config = this.playlistSvc.getHeaderConfig()
-        this.menuItems = config.menuItems.filter(item =>
-          config.webMenuItems.includes(item.id)
-        )
-      })
-    } else {
-      this.menuItems = config.menuItems.filter(item =>
-        config.webMenuItems.includes(item.id)
-      )
+    this.subscribeNavbarChanges()
+  }
+
+  ngOnInit(): void {
+    this.data = this.configSvc.unMappedUser
+    this.updateNotificationCount(this.storage.getNumberOfNotifications())
+
+    this.event.subscribe('notificationCountUpdated', (count) => {
+      this.updateNotificationCount(count)
+    })
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['menuItems'] && this.menuItems?.length) {
+      this.currentTab = this.playlistSvc.getSelectedTab()
+      this.syncMenuWithUrl()
+      this.cd.detectChanges()
     }
-    this.navOption.currentOption.subscribe((option: any) => {
-      console.log(option, 'open')
+  }
+
+
+  private updateNotificationCount(count: number): void {
+    this.numberOfNotification = count > 1 ? '1+' : count > 0 ? '1' : ''
+  }
+
+  private subscribeNavbarChanges(): void {
+    this.navOption.currentOption.subscribe(option => {
       if (option === 'search') {
-        console.log("option: ", option)
-        console.log(location.path(), 'location.path()')
-        if (location.path().includes('/app/search/learning')) {
-          this.updatedMenuItems('')
-        }
-        if (location.path().includes('/app/profile-view')) {
-          this.updatedMenuItems('Account')
-        }
-        if (location.path().includes('/overview') || location.path().includes('/page/home') || location.path().includes('/app/toc')) {
-          this.updatedMenuItems('Home')
-        }
-        if (location.path().includes('/app/user/my_courses')) {
-          this.updatedMenuItems('My Courses')
-        }
-        if (location.path().includes('/notification')) {
-          this.updatedMenuItems('Notification')
-        } else if (location.path().includes('competency')) {
-          this.updatedMenuItems('Competency')
-        }
-
+        this.syncMenuWithUrl()
       }
     })
-    console.log('urlchanges', location.path(), 'path')
-    if (location.path().includes('/app/profile-view') || location.path().includes('/app/about-you')) {
-      console.log("yes here 1")
+  }
+
+  private syncMenuWithUrl(): void {
+    const path = this.location.path()
+
+    if (path.includes('/app/profile-view') || path.includes('/app/about-you')) {
       this.updatedMenuItems('Account')
-    } else if (location.path().includes('/page/home')) {
+    } else if (path.includes('/page/home') || path.includes('/overview') || path.includes('/app/toc')) {
       this.updatedMenuItems('Home')
-    } else if (location.path().includes('competency')) {
-      this.updatedMenuItems('Competency')
-    } else if (location.path().includes('user/my_courses')) {
+    } else if (path.includes('/app/user/my_courses')) {
       this.updatedMenuItems('My Courses')
-    } else if (location.path().includes('notification')) {
+    } else if (path.includes('competency')) {
+      this.updatedMenuItems('Competency')
+    } else if (path.includes('notification')) {
       this.updatedMenuItems('Notification')
-    }
-    else {
-      console.log("yes here 2")
+    } else {
       this.updatedMenuItems('Home')
     }
   }
 
-  updatedMenuItems(label: string) {
-    this.menuItems.forEach((menuItem: any) => {
-      menuItem.show = false
-      if (menuItem.title == label) {
-        menuItem.show = true
-        this.playlistSvc.setSelectedTab(menuItem.id)
-      }
+  updatedMenuItems(label: string): void {
+    this.menuItems.forEach(item => {
+      item.show = false
+      item.active = false
     })
-  }
 
-  ngOnInit() {
-    console.log(this.router.url)
-    this.data = this.configSvc.unMappedUser!
-    const count = this.storage.getNumberOfNotifications()
-    let notificationText = count > 0 ? '1' : ''
+    const selected =
+      this.menuItems.find(i => label && i.title === label) ||
+      this.menuItems.find(i => i.id === this.currentTab) ||
+      this.menuItems[0]
 
-    this.numberOfNotification = (count > 1) ? '1+' : notificationText
-    this.event.subscribe('notificationCountUpdated', (data) => {
-      let notificationText = data > 0 ? '1' : ''
-      this.numberOfNotification = (data > 1) ? '1+' : notificationText
-    })
-  }
-
-  async redirect(item: any) {
-    this.menuItems.forEach((menuItem: any) => {
-      menuItem.show = false
-    })
-    let userProfile = this.configSvc.unMappedUser?.profileDetails?.preferences
-    const rootOrgId = this.configSvc.userProfile?.rootOrgId
-    const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-    let local: string
-
-    if (userProfile && userProfile.language !== undefined) {
-      local = userProfile.language
-    } else {
-      local = location.href.includes('/hi/') ? 'hi' : 'en'
+    if (selected) {
+      selected.show = true
+      selected.active = true
+      this.currentTab = selected.id
+      this.playlistSvc.setSelectedTab(selected.id)
     }
-    let defUrl = '/app/about-you'
-    let result = await this.signupService.getUserData()
-    const url = item.redirect
-    let url1 = local === 'hi' ? 'hi' : ""
-    let reUrl = url1 === 'hi' ? '/' + url : url
-    console.log(url1, item)
-    let text = item.title.toLowerCase().split(' ').join('')
-    switch (text) {
+  }
+
+  async redirect(item: any): Promise<void> {
+    this.menuItems.forEach(menu => {
+      menu.show = false
+      menu.active = menu.id === item.id
+    })
+    const rootOrgId = this.configSvc.userProfile?.rootOrgId
+    const orgConfig = this.configSvc.orgSelectiveCourseConfig
+
+    const result = await this.signupService.getUserData()
+    const route = item.redirect
+    const titleKey = item.title.toLowerCase().replace(/\s+/g, '')
+
+    switch (titleKey) {
       case 'home':
-        item.show = true
-        if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-          const redirectUrl = orgSelectiveConfig.redirectUrl || item.redirect
-          reUrl = redirectUrl.startsWith('/') ? redirectUrl.substring(1) : redirectUrl
-          console.log('🏫 Selective org redirect →', reUrl)
-          window.location.href = reUrl
+        this.navOption.changeNavBarActive('home')
+        if (orgConfig && orgConfig.orgId === rootOrgId) {
+          const redirectUrl = orgConfig.redirectUrl || item.redirect
+          window.location.href = redirectUrl.startsWith('/')
+            ? redirectUrl.substring(1)
+            : redirectUrl
           return
         }
-        this.router.navigate([reUrl])
+        this.router.navigate([route])
         break
       case 'mycourses':
-        item.show = true
-        this.configSvc.unMappedUser = result
-        if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-          this.router.navigate([reUrl])
-        } else {
-          this.router.navigate([defUrl], { queryParams: { redirect: `${url1 + this.menuItems[0].redirect}` } })
-        }
-        break
       case 'competency':
-        item.show = true
-        localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-        if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-          this.router.navigate([reUrl])
-        } else {
-          this.router.navigate([defUrl], { queryParams: { redirect: `${url1 + this.menuItems[0].redirect}` } })
-        }
-        break
       case 'account':
-        item.show = true
+        this.navOption.changeNavBarActive(titleKey)
         if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
-          this.router.navigate([reUrl])
+          this.router.navigate([route])
         } else {
-          if (localStorage.getItem('url_before_login')) {
-            const courseUrl = localStorage.getItem('url_before_login')
-            this.router.navigate([defUrl], { queryParams: { redirect: courseUrl } })
-          } else {
-            this.router.navigate([defUrl], { queryParams: { redirect: `${url1 + this.menuItems[0].redirect}` } })
-          }
+          const fallback = localStorage.getItem('url_before_login') || this.menuItems[0].redirect
+          this.router.navigate(['/app/about-you'], { queryParams: { redirect: fallback } })
         }
         break
       case 'notification':
-        item.show = true
-        const dialogRef = this.dialog.open(NotificationsComponent, {
-          width: '400px',
-          maxHeight: '80vh',
-          panelClass: 'custom-notification-modal',
-          position: { top: '60px', right: '10px' }
-        })
-
-        dialogRef.afterClosed().subscribe(() => {
-          console.log('Notification modal closed')
-        })
+        this.navOption.changeNavBarActive('notification')
+        this.openNotificationDialog()
+        break
+      case 'search':
+        this.navOption.changeNavBarActive('search')
+        this.router.navigate(['/app/search/home'])
         break
     }
   }
 
-  openNotificationDialog() {
-    if (!this.notificationDialogRef) {
-      this.notificationDialogRef = this.dialog.open(NotificationsComponent, {
-        width: '400px', // Adjust as needed
-        maxHeight: '80vh', // Prevent overflow
-        panelClass: 'custom-notification-modal',
-        position: { top: '60px', right: '10px' }, // Adjust as per your navbar height
-      })
-    }
-  }
-  closeNotificationDialog() {
-    if (this.notificationDialogRef) {
-      this.notificationDialogRef.close()
+  openNotificationDialog(): void {
+    if (this.notificationDialogRef) return
+
+    this.notificationDialogRef = this.dialog.open(NotificationsComponent, {
+      width: '400px', // Adjust as needed
+      maxHeight: '80vh', // Prevent overflow
+      panelClass: 'custom-notification-modal',
+      position: { top: '60px', right: '10px' } // Adjust as per your navbar height
+    })
+    this.notificationDialogRef.afterClosed().subscribe(() => {
       this.notificationDialogRef = null
-    }
+    })
   }
   handleKeyDown(event: KeyboardEvent) {
     if (event.key === 'Enter' || event.key === ' ') {
-      this.redirect('notification')
-      event.preventDefault() // Prevents scrolling on space key press
+      this.redirect({ title: 'Notification' })
+      event.preventDefault()
     }
   }
   logout() {

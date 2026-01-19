@@ -1,5 +1,4 @@
 <div>
-  <!--banner and up skill section-->
   <ws-mobile-home></ws-mobile-home>
 </div>
 
@@ -19,24 +18,6 @@
     <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>
 </section>
-
-
-<!-- <section *ngIf="featuredCourse" class="py-1 px-4 p-4">
-  <div class="line-label orange" i18n>
-    <span class="header1 " i18n>Featured</span>
-  </div>
-  <div *ngFor="let course of getDisplayedItems(featuredCourse)">
-    <ng-container *ngIf="featuredCourse && featuredCourse.length>0">
-      <ws-mobile-course-view [displayConfig]="topCertifiedCourseDisplayConfig"
-        [courseData]="course"></ws-mobile-course-view>
-    </ng-container>
-  </div>
-  <button *ngIf="featuredCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
-    {{ showAllItems ? 'Hide' : 'View all' }}
-    <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
-  </button>
-</section> -->
-
 
 <section #scrollToCneCourses id="scrollToCneCourses" class="scrollToCneCourses" class="py-1 px-4"
   *ngIf="cneCourse && cneCourse.length>0">
@@ -64,32 +45,10 @@
     <ws-mobile-organization></ws-mobile-organization>
   </section>
 
-
-
-
-  <!--leaderboard section-->
-  <!-- <div *ngIf="leaderBoard">
-    <ws-mobile-leaderboard></ws-mobile-leaderboard>
-  </div> -->
-
 </div>
 <div class="content bg-green">
   <!-- How does it work section -->
   <section class="mt-4">
-    <!-- <ng-container> -->
-    <!-- <p class="header2 mb-0">How Sphere works</p>
-    <p class="lable1 grey-color">3 simple steps</p> -->
-    <ws-mobile-how-does-work [data]="videoData"></ws-mobile-how-does-work>
-    <!-- </ng-container> -->
+    <ws-how-does-work [config]="videoData"></ws-how-does-work>
   </section>
 </div>
-<!--FAQ section-->
-<!-- <section class="mt-4 mb-10">
-  <ws-mobile-page-faq></ws-mobile-page-faq>
-</section> -->
-<!-- <section class="mt-4 mb-10">
-  <ws-mobile-latest-comment></ws-mobile-latest-comment>
-</section> -->
-<!-- <section class="mt-4 mb-10">
-  <ws-mobile-testimonials></ws-mobile-testimonials>
-</section> -->

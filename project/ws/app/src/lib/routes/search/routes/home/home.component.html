@@ -1,9 +1,3 @@
-<!-- <mat-toolbar role="navigation" [color]="pageNavbar.color" [ngStyle]="pageNavbar?.styles">
-  <ws-widget-btn-page-back [widgetData]="{ url: 'back',titles:[{title:'Search',url:'none'}] }">
-  </ws-widget-btn-page-back> -->
-<!-- <span ="page title: search" class="margin-left-xs hidden-inline-s">Search</span> -->
-<!-- <span class="spacer"></span>
-</mat-toolbar> -->
 <div role="main" class="flex search justify-center px-3 mt-12">
   <div class="w-full md:w-10/12 lg:w-6/12">
     <h1 class="text-center mat-title">{{'What do you want to learn?' | translate}}</h1>
@@ -16,17 +10,10 @@
           <option value="en">English</option>
           <option value="hi">हिंदी</option>
         </select>
-        <!-- <button class="lang-btn margin-right-s" *ngIf="languageSearch?.length" mat-button
-          [matMenuTriggerFor]="sortLang">
-          <span class="uppercase">
-            {{ searchQuery.l.split(',').length === 1 ? searchQuery.l : 'pref' || 'en' }}
-          </span>
-          <mat-icon>arrow_drop_down</mat-icon>
-        </button> -->
       </div>
       <div class="w-full search">
         <form (submit)="search(query.value, lang)" class="w-full search-form flex">
-          <mat-form-field class="w-full" appearance="none">
+          <mat-form-field subscriptSizing="dynamic" class="w-full" appearance="none" style="height: 32px;">
             <input name="searchQuery" [matAutocomplete]="auto" [formControl]="query" type="text" matInput
               cdkFocusInitial placeholder="Search" i18-aria-label aria-label="Query" i18n-placeholder="search content">
           </mat-form-field>

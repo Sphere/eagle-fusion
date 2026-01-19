@@ -1,5 +1,8 @@
 @import 'ws-mixins';
-
+.logo-container {
+  width: 100%;
+  justify-content: space-between;
+}
 .tourGuideBtn {
   padding: 10px 16px;
   display: flex;
@@ -28,6 +31,11 @@
   display: flex;
   justify-content: left;
   background: #fff !important;
+}
+
+.top-right-profile {
+  display: flex;
+  margin-inline: 2rem;
 }
 
 @media (min-width:320px) and (max-width: 374px) {
@@ -353,4 +361,14 @@
       }
     }
   }
+}
+
+.createAcc {
+  background-color: #2E6491;
+  width: 100%;
+  border: 1px solid #2E6491;
+  border-radius: 20px;
+  color: white;
+  font-size: 16px;
+  font-weight: 400
 }

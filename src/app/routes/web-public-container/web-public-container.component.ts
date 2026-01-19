@@ -63,35 +63,49 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    let plyLsData: any = await this.playlistSvc.getPlaylistConfig()
-    console.log("plyLsData", plyLsData)
     let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails[0]?.designation || ''
-    plyLsData.forEach(async (element: any) => {
-      if (element.orgId == this.configSvc.userProfile.rootOrgId) {
-        if (element.role.map(role => role.toLowerCase()).includes(designation.toLowerCase()) && element.playlistId === "YOUR_PLANS_PLAYLIST" && element.language == this.lang) {
-          this.yourPlansCourseIdentifier = element.dataSource.payload
-        }
-        if (element.playlistId === "TOP_COURSE_PLAYLIST") {
-          this.topCertifiedCourseIdentifier = element.dataSource.payload
-        }
-        if (element.playlistId === "CNE_COURSE_PLAYLIST") {
-          this.cneCoursesIdentifier = element.dataSource.payload
-        }
-        if (this.isEkshamata) {
-          if (element.playlistId === "FEATURED_COURSE_PLAYLIST") {
-            this.featuredCourseIdentifier = element.dataSource.payload
+    if (designation) {
+      console.log("this.configData", this.configData, this.cneCourse, this.topCertifiedCourse)
+      let res = this.playlistSvc.getHomeConfig()
+      this.configData = res.slice(1, -1)
+      let plyLsData: any = await this.playlistSvc.getPlaylistConfig()
+      console.log("plyLsData", plyLsData)
+      plyLsData.forEach(async (element: any) => {
+        if (element.orgId == this.configSvc.userProfile.rootOrgId) {
+          if (element.role.map(role => role.toLowerCase()).includes(designation.toLowerCase()) && element.playlistId === "YOUR_PLANS_PLAYLIST" && element.language == this.lang) {
+            this.yourPlansCourseIdentifier = element.dataSource.payload
+          }
+          if (element.playlistId === "TOP_COURSE_PLAYLIST") {
+            this.topCertifiedCourseIdentifier = element.dataSource.payload
+          }
+          if (element.playlistId === "CNE_COURSE_PLAYLIST") {
+            this.cneCoursesIdentifier = element.dataSource.payload
+          }
+          if (this.isEkshamata) {
+            if (element.playlistId === "FEATURED_COURSE_PLAYLIST") {
+              this.featuredCourseIdentifier = element.dataSource.payload
+            }
           }
         }
-      }
-    })
-    this.fetchEnvironmentConfigurations()
-    console.log("this.configData", this.configData, this.cneCourse, this.topCertifiedCourse)
-    let res = this.playlistSvc.getHomeConfig()
-    if (res === "") {
-      return
+      })
     }
-    this.configData = res.slice(1, -1)
-
+    if (designation == '') {
+      let res = this.playlistSvc.getBodyConfig()
+      if (res == '') {
+        res = await this.playlistSvc.getPlaylistData()
+        this.configData = res?.LAYOUT_BODY?.slice(1, -1)
+      } else {
+        this.configData = res.slice(1, -1)
+      }
+      this.configData?.forEach(data => {
+        if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
+          this.topCertifiedCourseIdentifier = data.payload
+        } else if (data?.playlistConfigId == 'CNE_COURSE_PLAYLIST') {
+          this.cneCoursesIdentifier = data.payload
+        }
+      })
+    }
+    this.fetchEnvironmentConfigurations()
     // Handle scroll events
     this.handleScrollEvents()
   }
@@ -117,14 +131,14 @@ export class WebPublicComponent implements OnInit, OnDestroy {
       ...this.featuredCourseIdentifier,
     ]
 
-    const requests = this.lang === 'en'
+    const requests = !this.configSvc?.unMappedUser ? [this.orgService.getTopLiveSearchResults(defaultIds, 'en')] : (this.lang === 'en'
       ? [
         this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers], 'en'),
       ]
       : [
         this.orgService.getTopLiveSearchResults(defaultIds, 'en'),
         this.orgService.getTopLiveSearchResults(identifiers, 'hi'),
-      ]
+      ])
 
     return forkJoin(requests).subscribe((responses: any[]) => {
       const content = responses
@@ -153,19 +167,19 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         content.filter(item => featureSet.has(item.identifier)),
         'identifier'
       )
-      this.configData.forEach((element: any) => {
+      this.configData?.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
           element.data = this.userEnrollCourse
-          element.displayData = element.data.slice(0, element.limit)
+          element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
           element.data = this.coursesForYou
-          element.displayData = element.data.slice(0, element.limit)
+          element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'CNE_COURSE_PLAYLIST') {
           element.data = this.cneCourse
-          element.displayData = element.data.slice(0, element.limit)
+          element.displayData = element?.data?.slice(0, element.limit)
         } else if (element.playlistConfigId === 'TOP_COURSE_PLAYLIST') {
           element.data = !this.isEkshamata ? this.topCertifiedCourse : this.coursesForEK
-          element.displayData = element.data.slice(0, element.limit)
+          element.displayData = element?.data?.slice(0, element.limit)
         }
       })
     })
