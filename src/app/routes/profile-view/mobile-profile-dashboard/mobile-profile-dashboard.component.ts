@@ -1,7 +1,12 @@
 import { Component, OnInit, Inject } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
-import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService } from '../../../../../library/ws-widget/utils/src/public-api'
+import {
+  ConfigurationsService,
+  ValueService,
+  LogoutComponent,
+  TelemetryService,
+} from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -16,6 +21,7 @@ import * as _ from './lodash'
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { DOCUMENT } from '@angular/common'
 import { LanguageService } from '../../../../../src/app/services/language.service'
+import { LeadershipDashboardComponent } from '../leadership-dashboard/leadership-dashboard.component'
 
 @Component({
   selector: 'ws-mobile-profile-dashboard',
@@ -52,7 +58,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   isCommonChatEnabled = true
   isEkshamata = false
   domain!: string
-
+  rank = 0
+  totalUsers = 0
+  points = 0
+  displayLeadership = false
+  leaderBoardConfig: any
+  leaderboardData: any[] = []
+  currentUser: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -65,8 +77,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     private languageService: LanguageService,
     // private readonly _renderer2: Renderer,
     @Inject(DOCUMENT) private _document: Document,
-    private telemetrySvc: TelemetryService
-
+    private telemetrySvc: TelemetryService,
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data)
@@ -109,22 +120,36 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.getUserDetails()
       }
     })
-    this.contentSvc.fetchGeneralAndRcCertificates().pipe().subscribe((res: any) => {
-      this.processCertiFicate(res)
-    })
+    this.contentSvc
+      .fetchGeneralAndRcCertificates()
+      .pipe()
+      .subscribe((res: any) => {
+        this.processCertiFicate(res)
+      })
 
-    forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
-    this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
-
-      console.log(res)
-      this.loader = false
-      this.profileData = _.get(res[0], 'profileDetails.profileReq')
-      this.userInfo = res[0]
-      const lang = (res[0] && res[0].profileDetails && res[0].profileDetails!.preferences && res[0].profileDetails!.preferences!.language !== undefined) ? res[0].profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
-      this.language = lang
-      this.setAcademicDetail(res[0])
-      // this.processCertiFicate(res[1])
-    })
+    forkJoin([
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
+      this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id),
+    ])
+      .pipe()
+      .subscribe((res: any) => {
+        console.log(res)
+        this.loader = false
+        this.profileData = _.get(res[0], 'profileDetails.profileReq')
+        this.userInfo = res[0]
+        const lang =
+          res[0] &&
+          res[0].profileDetails &&
+          res[0].profileDetails!.preferences &&
+          res[0].profileDetails!.preferences!.language !== undefined
+            ? res[0].profileDetails.preferences.language
+            : location.href.includes('/hi/')
+              ? 'hi'
+              : 'en'
+        this.language = lang
+        this.setAcademicDetail(res[0])
+        // this.processCertiFicate(res[1])
+      })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.showMobileView = isXSmall
@@ -133,15 +158,37 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.showbackButton = true
         this.showLogOutIcon = true
         this.showLogOutBtn = false
-
       } else {
         this.showbackButton = false
         this.showLogOutIcon = false
         this.showLogOutBtn = true
       }
     })
-
+    console.log('this.configSvc.unMappedUser', this.configSvc.unMappedUser)
+    if (this.hasRequiredLeaderboardDetails()) {
+      this.getLeaderBoardList()
+    }
     // this.CompetencyConfiService.setConfig(this.profileData)
+  }
+
+  hasRequiredLeaderboardDetails(): boolean {
+    const unMappedUser = this.configSvc.unMappedUser
+    const userProfile = this.configSvc.userProfile
+
+    // Check if all required fields are present
+    const hasUserId = userProfile && userProfile.userId
+    const hasProfessionalDetails =
+      unMappedUser?.profileDetails?.profileReq?.professionalDetails &&
+      unMappedUser.profileDetails.profileReq.professionalDetails.length > 0
+    const hasDesignation =
+      hasProfessionalDetails &&
+      unMappedUser.profileDetails.profileReq.professionalDetails[0].designation
+    const hasRootOrgId = unMappedUser && unMappedUser.rootOrgId
+    const hasInstituteName =
+      hasProfessionalDetails &&
+      unMappedUser.profileDetails.profileReq.professionalDetails[0].instituteName
+
+    return hasUserId && hasProfessionalDetails && hasDesignation && hasRootOrgId && hasInstituteName
   }
   changeFunction(text: string) {
     if (text === 'organization') {
@@ -189,7 +236,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     const el = this._document.getElementById('widget')
     if (el) {
       el.style.display = 'block'
-      console.log("this.userData", this.profileData)
+      console.log('this.userData', this.profileData)
       el.setAttribute('userId', this.profileData.userId)
       el.setAttribute('firstName', this.profileData.personalDetails.firstname)
       el.setAttribute('lastName', this.profileData.personalDetails.surname)
@@ -213,7 +260,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     try {
       setTimeout(() => {
         this.isCommonChatEnabled = false
-
       }, 300)
     } catch (error) {
       console.error('Error showing social chats:', error)
@@ -233,54 +279,69 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   logout() {
     this.telemetrySvc.getTelemetryConfig()
-    this.telemetrySvc.interact('clicked', 'logout-clicked', 'profile', {}, { id: this.userInfo.profileDetails.profileReq.id, type: 'user', version: "", rollup: {} })
+    this.telemetrySvc.interact(
+      'clicked',
+      'logout-clicked',
+      'profile',
+      {},
+      { id: this.userInfo.profileDetails.profileReq.id, type: 'user', version: '', rollup: {} },
+    )
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   processCertiFicate(data: any) {
-
-    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
-      return certificate.length > 0
-    })), 'identifier')
+    const certificateIdArray = _.map(
+      _.flatten(
+        _.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
+          return certificate.length > 0
+        }),
+      ),
+      'identifier',
+    )
     this.formatAllRequest(data)
-    from(certificateIdArray).pipe(
-      map(certId => {
-        this.certificateThumbnail.push({ identifier: certId })
-        return certId
-      }),
-      mergeMap(certId =>
-        this.contentSvc.getCertificateAPI(certId)
+    from(certificateIdArray)
+      .pipe(
+        map(certId => {
+          this.certificateThumbnail.push({ identifier: certId })
+          return certId
+        }),
+        mergeMap(certId => this.contentSvc.getCertificateAPI(certId)),
       )
-    ).subscribe(() => {
-      setTimeout(() => {
-        this.contentSvc.updateValue$.subscribe((res: any) => {
-          if (res) {
-            _.forEach(this.certificates, cvalue => {
-              if (res[cvalue.identifier]) {
-                cvalue['image'] = this.domSanitizer.bypassSecurityTrustUrl(res[cvalue.identifier])
-                cvalue['printUri'] = res[cvalue.identifier]
-              }
-            })
-          }
-        })
-      }, 500)
-    })
-
+      .subscribe(() => {
+        setTimeout(() => {
+          this.contentSvc.updateValue$.subscribe((res: any) => {
+            if (res) {
+              _.forEach(this.certificates, cvalue => {
+                if (res[cvalue.identifier]) {
+                  cvalue['image'] = this.domSanitizer.bypassSecurityTrustUrl(res[cvalue.identifier])
+                  cvalue['printUri'] = res[cvalue.identifier]
+                }
+              })
+            }
+          })
+        }, 500)
+      })
   }
   formatAllRequest(data: any) {
     this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))
   }
 
   formateRequest(data: any) {
-    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
-      return certificate.length > 0
-    })), (result: any, value) => {
-      result.push({
-        identifier: value.identifier,
-        name: value.name,
-        rcCertiface: false
-      })
-      return result
-    }, [])
+    const issuedCertificates = _.reduce(
+      _.flatten(
+        _.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
+          return certificate.length > 0
+        }),
+      ),
+      (result: any, value) => {
+        result.push({
+          identifier: value.identifier,
+          name: value.name,
+          rcCertiface: false,
+        })
+        return result
+      },
+      [],
+    )
     return issuedCertificates
   }
   rcCertiface(data: any) {
@@ -292,11 +353,11 @@ export class MobileProfileDashboardComponent implements OnInit {
             name: certificate.certificateName,
             downloadUrl: certificate.certificateDownloadUrl,
             image: certificate.thumbnail,
-            rcCerticate: true
+            rcCerticate: true,
           })
           return result
         },
-        []
+        [],
       )
     } else {
       return []
@@ -307,7 +368,9 @@ export class MobileProfileDashboardComponent implements OnInit {
       const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
         width: '312px',
         height: '369px',
-        data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
+        data: this.userProfileData.personalDetails.about
+          ? this.userProfileData.personalDetails.about
+          : '',
       })
 
       dialogRef.afterClosed().subscribe(result => {
@@ -322,17 +385,17 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.currentProfession = data
   }
   assignUserName(data: any) {
-    if (data.firstname)
-      this.userProfileData.personalDetails.firstname = data.firstname
-    if (data.surname)
-      this.userProfileData.personalDetails.surname = data.surname
+    if (data.firstname) this.userProfileData.personalDetails.firstname = data.firstname
+    if (data.surname) this.userProfileData.personalDetails.surname = data.surname
   }
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
-      if (this.userProfileData
-        && this.userProfileData.professionalDetails
-        && this.userProfileData.professionalDetails.length > 0) {
+      if (
+        this.userProfileData &&
+        this.userProfileData.professionalDetails &&
+        this.userProfileData.professionalDetails.length > 0
+      ) {
         this.currentProfession = this.userProfileData.professionalDetails[0].profession
       } else {
         this.currentProfession = 'Not specified'
@@ -363,24 +426,28 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     const userdata = Object.assign(this.userInfo.profileDetails, obj)
-    userdata.profileReq.personalDetails["profileLocation"] = 'sphere-web/mobile-profile-dashboard-store-language'
+    userdata.profileReq.personalDetails['profileLocation'] =
+      'sphere-web/mobile-profile-dashboard-store-language'
 
     const reqUpdate = {
       request: {
         userId: userdata.profileReq.id,
         profileDetails: {
-          ...userdata, profileLocation: 'sphere-web/mobile-profile-dashboard-store-language'
+          ...userdata,
+          profileLocation: 'sphere-web/mobile-profile-dashboard-store-language',
         },
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
-      console.log('Language updated in profile:', result)
-      // No page reload needed anymore!
-    },
-      (error) => {
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+      result => {
+        console.log('Language updated in profile:', result)
+        // No page reload needed anymore!
+      },
+      error => {
         console.error('Error updating language:', error)
-      })
+      },
+    )
   }
   saveLanguage(form: any) {
     console.log('Saving language preference:', form.value)
@@ -399,34 +466,50 @@ export class MobileProfileDashboardComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userData.identifier,
-        profileDetails: { ...userdata, profileLocation: 'sphere-web/mobile-profile-dashboard-save-language' },
+        profileDetails: {
+          ...userdata,
+          profileLocation: 'sphere-web/mobile-profile-dashboard-save-language',
+        },
       },
     }
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(result => {
-      console.log('Language saved successfully:', result)
-      window.location.assign(`${location.origin}/app/profile-view`)
-    },
-      (error) => {
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
+      result => {
+        console.log('Language saved successfully:', result)
+        window.location.assign(`${location.origin}/app/profile-view`)
+      },
+      error => {
         console.error('Error saving language:', error)
-      })
+      },
+    )
   }
   getUserDetails() {
     if (this.configSvc.userProfile) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
-        async (data: any) => {
+      this.userProfileSvc
+        .getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
+        .subscribe(async (data: any) => {
           if (data) {
             this.loader = false
             this.userProfileData = await data.profileDetails.profileReq
             this.userData = await data
             //this.currentProfession = this.userProfileData.professionalDetails[0].profession
-            if (this.userProfileData
-              && this.userProfileData.professionalDetails
-              && this.userProfileData.professionalDetails.length > 0) {
+            if (
+              this.userProfileData &&
+              this.userProfileData.professionalDetails &&
+              this.userProfileData.professionalDetails.length > 0
+            ) {
               this.currentProfession = this.userProfileData.professionalDetails[0].profession
             } else {
               this.currentProfession = 'Not specified'
             }
-            const lang = (data && data.profileDetails && data.profileDetails!.preferences && data.profileDetails!.preferences!.language !== undefined) ? data.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
+            const lang =
+              data &&
+              data.profileDetails &&
+              data.profileDetails!.preferences &&
+              data.profileDetails!.preferences!.language !== undefined
+                ? data.profileDetails.preferences.language
+                : location.href.includes('/hi/')
+                  ? 'hi'
+                  : 'en'
             this.language = lang
             console.log(lang, 'oo')
             this.userForm.patchValue({ language: lang })
@@ -440,7 +523,6 @@ export class MobileProfileDashboardComponent implements OnInit {
               this.firstName = this.userProfileData.personalDetails.firstname
               this.lastName = this.userProfileData.personalDetails.surname
             }
-
           }
         })
     }
@@ -485,9 +567,49 @@ export class MobileProfileDashboardComponent implements OnInit {
       this.gotData.unsubscribe()
     }
   }
+  getLeaderBoardList() {
+    console.log('this.configsvc', this.configSvc.unMappedUser)
+    const request = {
+      userId: this.configSvc.userProfile.userId,
+      filters: {
+        profession:
+          this.configSvc.unMappedUser?.profileDetails?.profileReq?.professionalDetails[0]
+            .designation,
+        rootOrgId: this.configSvc.unMappedUser.rootOrgId,
+        professional_institute_name:
+          this.configSvc.unMappedUser?.profileDetails?.profileReq?.professionalDetails[0]?.instituteName
+            ?.split(',')
+            .join(''),
+        background: 'Student',
+      },
+      limit: 10,
+      offset: 0,
+    }
+
+    this.userProfileSvc.getLeaderBoardData(request).subscribe((res: any) => {
+      this.totalUsers = res?.result?.count || 0
+      this.leaderboardData = res?.result?.content?.leaderboardList || []
+      this.currentUser = res?.result?.content?.activeUserDetails
+    })
+  }
 
   openCompetencyDashboard(event: any) {
     console.log(event)
     this.router.navigate([`app/user/competency`])
+  }
+  async openLeaderboard() {
+    const isMobileView = window.innerWidth < 768
+
+    this.dialog.open(LeadershipDashboardComponent, {
+      width: isMobileView ? '100%' : '35%',
+      maxHeight: isMobileView ? '100vh' : '85vh',
+      maxWidth: isMobileView ? '100vw' : '800px',
+      height: isMobileView ? '100%' : 'auto',
+      panelClass: 'leadership-dashboard-dialog',
+      data: {
+        leaderboardData: this.leaderboardData,
+        currentUser: this.currentUser,
+      },
+    })
   }
 }

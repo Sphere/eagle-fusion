@@ -10,11 +10,10 @@ export class PerformanceService {
   // Preload critical resources
   preloadCriticalResources(): void {
     // Preload critical fonts
-    this.preloadFont('/assets/fonts/poppins/poppins-regular.woff2')
-    this.preloadFont('/assets/fonts/roboto/roboto-regular.woff2')
+    this.preloadFont('/fusion-assets/fonts/poppins/Poppins-Regular.woff2')
 
     // Preload critical images
-    this.preloadImage('/fusion-assets/images/logo.png')
+    this.preloadImage('/fusion-assets/images/aastrika-foundation-logo.svg')
   }
 
   private preloadFont(href: string): void {

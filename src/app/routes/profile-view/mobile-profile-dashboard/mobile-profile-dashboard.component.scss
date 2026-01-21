@@ -320,20 +320,16 @@
   color: #000000;
   background-color: #ADD1F0;
   height: 35px;
-  width: 246px;
-  padding: 10px;
-  text-align: center;
-
-padding: 8px 32px 8px 32px;
-gap: 8px;
-border-radius: 50px ;
-border:none;
-display: flex;
-justify-content: center;
-align-content: center;
-align-items: center;
-border: none;
+  padding: 8px 32px 8px 32px;
+  gap: 8px;
+  border-radius: 50px;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
 }
+
 .options{
 font-family: Roboto, sans-serif;
 font-size: 16px;
@@ -437,11 +433,14 @@ color: #000000;
 }
 .logout-bg{
   background-color: #DFEDF9;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 80px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: auto;
+  gap: 12px;
+  padding: 16px;
+  flex-wrap: wrap;
 }
   .btn-logout {
     background-color: #1C5D95 !important;
@@ -477,3 +476,158 @@ font-weight: 500;
   bottom: 14.5rem;
 }
   }
+
+.leaderboard-card {
+  background: #ffffff;
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  cursor: pointer;
+  width: 91%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  margin: 1rem auto 1.5rem;
+  border: 1px solid rgba(233, 233, 233, 1);
+
+  @include breakpoint-gt-m {
+    width: 70%;
+    margin: 10px 0px;
+    padding: 8px 10px;
+  }
+}
+
+.leaderboard-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 6px;
+
+  .icon {
+    margin-right: 0px;
+    color: #1a73e8;
+    flex-shrink: 0;
+
+    img {
+      width: 20px;
+      height: 20px;
+
+      @include breakpoint-gt-m {
+        width: 16px;
+        height: 16px;
+      }
+    }
+  }
+
+  .title {
+    flex: 1;
+    font-size: 17px;
+    font-weight: 500;
+    white-space: nowrap;
+
+    @include breakpoint-gt-m {
+      font-size: 13px;
+      font-weight: 600;
+    }
+  }
+
+  .arrow {
+    color: #000;
+    font-size: 1rem;
+    flex-shrink: 0;
+    opacity: 0.6;
+
+    img {
+      width: 16px;
+      height: 16px;
+
+      @include breakpoint-gt-m {
+        width: auto;
+        height: auto;
+      }
+    }
+  }
+}
+
+.leaderboard-body {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-top: 0px;
+  gap: 8px;
+
+  @include breakpoint-gt-m {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    gap: 4px;
+    margin-top: 0px;
+  }
+}
+
+.rank {
+  display: flex;
+  align-items: baseline;
+  gap: 1px;
+  flex-shrink: 0;
+
+  .rank-value {
+    font-size: 36px;
+    font-weight: 600;
+    color: rgba(28, 93, 149, 1);
+    line-height: 1;
+
+    @include breakpoint-gt-m {
+      font-size: 22px;
+      font-weight: 600;
+    }
+  }
+
+  .rank-total {
+    font-size: 14px;
+    color: rgba(128, 128, 128, 1);
+    line-height: 1;
+
+    @include breakpoint-gt-m {
+      font-size: 10px;
+    }
+  }
+}
+
+.points {
+  text-align: right;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  line-height: 1.2;
+
+  @include breakpoint-gt-m {
+    text-align: right;
+    flex: 1;
+  }
+
+  .points-label {
+    font-size: 12px;
+    color: rgba(156, 156, 156, 1);
+    order: 1;
+
+    @include breakpoint-gt-m {
+      font-size: 9px;
+      line-height: 1;
+    }
+  }
+
+  .points-value {
+    font-size: 16px;
+    font-weight: 600;
+    color: rgba(0, 0, 0, 1);
+    order: 2;
+
+    @include breakpoint-gt-m {
+      font-size: 11px;
+      font-weight: 600;
+      line-height: 1;
+    }
+  }
+}

@@ -18,6 +18,31 @@
         {{ 'Position' | translate }} : {{ currentProfession }}
       </span>
     </div>
+    <div class="leaderboard-card" (click)="openLeaderboard()" *ngIf="totalUsers > 0">
+      <div class="leaderboard-header">
+        <div class="icon">
+          <img src="fusion-assets/icons/leaderboard_icon.png" alt="star" />
+        </div>
+
+        <div class="title">{{'Leaderboard' | translate}}</div>
+
+        <div class="arrow">
+          <img src="fusion-assets/icons/arrow-right.png" alt="arrow-right" />
+        </div>
+      </div>
+
+      <div class="leaderboard-body">
+        <div class="rank">
+          <span class="rank-value">{{ currentUser?.rank }}</span>
+          <span class="rank-total">/ {{ totalUsers }}</span>
+        </div>
+
+        <div class="points">
+          <div class="points-label">{{'Your points' | translate}}</div>
+          <div class="points-value">{{ currentUser?.points }} {{'POINTS' | translate}}</div>
+        </div>
+      </div>
+    </div>
     <div class="flex justify-center">
       <button *ngIf="!isEkshamata" class="help-btn mt-4 cursor-pointer mb-4" (click)="showSocialChats()">
         {{ 'Help and Support' | translate }}
@@ -121,7 +146,31 @@
       <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;"><span>{{ 'Position' |
           translate }}</span> :
         {{currentProfession }}</p>
+      <div class="leaderboard-card" (click)="openLeaderboard()" *ngIf="totalUsers > 0">
+        <div class="leaderboard-header">
+          <div class="icon">
+            <img src="fusion-assets/icons/leaderboard_icon.png" alt="star" />
+          </div>
 
+          <div class="title">{{'Leaderboard' | translate}}</div>
+
+          <div class="arrow">
+            <img src="fusion-assets/icons/arrow-right.png" alt="arrow-right" />
+          </div>
+        </div>
+
+        <div class="leaderboard-body">
+          <div class="rank">
+            <span class="rank-value">{{ currentUser?.rank }}</span>
+            <span class="rank-total">/ {{ totalUsers }}</span>
+          </div>
+
+          <div class="points">
+            <div class="points-label">{{'Your points' | translate}}</div>
+            <div class="points-value">{{ currentUser?.points }} {{'POINTS' | translate}}</div>
+          </div>
+        </div>
+      </div>
       <p *ngIf="showbackButton" style="font-size:14px;line-height:18.75px;margin-bottom: 10px;">
         <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" style="    border: 1px solid #000;    margin-right: 5px;
     border-radius: 16px;" /><span>{{ 'Language Preference' | translate }}</span>

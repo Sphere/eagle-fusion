@@ -1,11 +1,21 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
+import { APP_BASE_HREF, PlatformLocation, CommonModule } from '@angular/common'
 import {
-  APP_BASE_HREF, PlatformLocation, CommonModule,
-} from '@angular/common'
-import { HttpClientJsonpModule, HttpClientModule, HTTP_INTERCEPTORS, HttpClient } from '@angular/common/http'
+  HttpClientJsonpModule,
+  HttpClientModule,
+  HTTP_INTERCEPTORS,
+  HttpClient,
+} from '@angular/common/http'
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
-import { APP_INITIALIZER, Injectable, NgModule, ErrorHandler, CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA } from '@angular/core'
+import {
+  APP_INITIALIZER,
+  Injectable,
+  NgModule,
+  ErrorHandler,
+  CUSTOM_ELEMENTS_SCHEMA,
+  NO_ERRORS_SCHEMA,
+} from '@angular/core'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
 // import { GestureConfig } from '@angular/material/core/gestures/gesture-config'
 // import * as Hammer from 'hammerjs'
@@ -31,18 +41,28 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete'
 import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatSelectModule } from '@angular/material/select'
 
-import { BrowserModule, HAMMER_GESTURE_CONFIG, Title, HammerGestureConfig } from '@angular/platform-browser'
+import {
+  BrowserModule,
+  HAMMER_GESTURE_CONFIG,
+  Title,
+  HammerGestureConfig,
+} from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
-  BtnFeatureModule, ErrorResolverModule,
+  BtnFeatureModule,
+  ErrorResolverModule,
   // TourModule,
-  WIDGET_REGISTERED_MODULES, WIDGET_REGISTRATION_CONFIG, PipeContentRoutePipe,
+  WIDGET_REGISTERED_MODULES,
+  WIDGET_REGISTRATION_CONFIG,
+  PipeContentRoutePipe,
 } from '@ws-widget/collection'
 // import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   ImageCropModule,
-  LoggerService, PipeSafeSanitizerModule, LogoutModule,
+  LoggerService,
+  PipeSafeSanitizerModule,
+  LogoutModule,
 } from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
 import 'hammerjs'
@@ -135,7 +155,12 @@ import { WebPublicComponent } from './routes/web-public-container/web-public-con
 import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
 import { WebCourseCardComponent } from './routes/web-course-card/web-course-card.component'
 // import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
-import { PipeCountTransformModule, PipeDurationTransformModule, PipeHtmlTagRemovalModule, PipePartialContentModule } from '@ws-widget/utils'
+import {
+  PipeCountTransformModule,
+  PipeDurationTransformModule,
+  PipeHtmlTagRemovalModule,
+  PipePartialContentModule,
+} from '@ws-widget/utils'
 import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
 import { VideoPopupComponent } from './routes/how-does-it-works-popup/how-does-it-works-popup.component'
@@ -151,15 +176,14 @@ import { NotificationsComponent } from './routes/notification/notification.compo
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
 import { TnnmcConfirmComponent } from './component/tnnmc-dialog-confirm/tnnmc-confirm.component'
 import { TextFieldModule } from '@angular/cdk/text-field'
+import { LeadershipDashboardComponent } from './routes/profile-view/leadership-dashboard/leadership-dashboard.component'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
   buildHammer(element: HTMLElement) {
     const options: HammerOptions = {
       touchAction: 'pan-y',
-      recognizers: [
-        [Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }],
-      ],
+      recognizers: [[Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }]],
     }
     const mc = new Hammer.Manager(element, options)
     return mc
@@ -220,8 +244,7 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
       if (url.indexOf('do_') > 0) {
         // window.location.href = `${url}`
         console.log('app.module', url)
-        localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]
-          }` + `/overview`)
+        localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]}` + `/overview`)
         // window.location.href = `${document.baseURI}organisations/home`
       } else {
         console.log('line number 182 else in app module.ts', url)
@@ -243,7 +266,7 @@ const dbConfig: DBConfig = {
         { name: 'contentId', keypath: 'contentId', options: { unique: false } },
         { name: 'userId', keypath: 'userId', options: { unique: false } },
         // Add more properties as needed
-      ]
+      ],
     },
     {
       store: 'userEnrollCourse',
@@ -253,15 +276,15 @@ const dbConfig: DBConfig = {
         { name: 'contentId', keypath: 'contentId', options: { unique: false } },
         { name: 'userId', keypath: 'userId', options: { unique: false } },
         // Add more properties as needed
-      ]
-    }
-  ]
+      ],
+    },
+  ],
 }
 
 // Initialize with empty config for AOT compilation - will be replaced at runtime
 export let COMPETENCY_REGISTRATION_CONFIG = {
   config: {},
-  isOnlyPassbook: ''
+  isOnlyPassbook: '',
 }
 
 // Function to update config from localStorage
@@ -270,13 +293,13 @@ export function initializeCompetencyConfig(): () => void {
     try {
       COMPETENCY_REGISTRATION_CONFIG = {
         config: JSON.parse(localStorage.getItem('competency') || '{}'),
-        isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || ''
+        isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || '',
       }
     } catch (error) {
       console.error('Error initializing competency config:', error)
       COMPETENCY_REGISTRATION_CONFIG = {
         config: {},
-        isOnlyPassbook: ''
+        isOnlyPassbook: '',
       }
     }
   }
@@ -319,6 +342,7 @@ export function initializeCompetencyConfig(): () => void {
     // MobileCategoryComponent,
     // MobileVideoPlayerComponent,
     MobileFooterComponent,
+    LeadershipDashboardComponent,
     MobileProfileDashboardComponent,
     MobileAboutPopupComponent,
     ProfileSelectComponent,
@@ -420,12 +444,15 @@ export function initializeCompetencyConfig(): () => void {
       loader: {
         provide: TranslateLoader,
         useFactory: HttpLoaderFactory,
-        deps: [HttpClient]
-      }
-    })
+        deps: [HttpClient],
+      },
+    }),
   ],
   exports: [
-    TncComponent, AppPublicNavBarComponent, RegisterComponent, ForgotPasswordComponent,
+    TncComponent,
+    AppPublicNavBarComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
     MobileDashboardComponent,
     CertificateReceivedComponent,
   ],
@@ -434,7 +461,7 @@ export function initializeCompetencyConfig(): () => void {
     {
       provide: APP_INITIALIZER,
       useFactory: initializeCompetencyConfig,
-      multi: true
+      multi: true,
     },
     {
       deps: [InitService, LoggerService],
@@ -477,10 +504,10 @@ export function initializeCompetencyConfig(): () => void {
         return languageService.initializeLanguage()
       },
       deps: [LanguageService],
-      multi: true
-    }
+      multi: true,
+    },
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {
   constructor(private translate: TranslateService) {

@@ -34,7 +34,7 @@ const API_ENDPOINTS = {
   mpSendOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/sendOtp',
   mpReSendOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/resendOtp',
   mpValidateOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/validateOtp',
-
+  getLeaderBoardData: '/apis/proxies/v8/user/v1/leaderboard',
   // getProfilePageMeta: '/apis/protected/v8/user/profileDetails/getProfilePageMeta',
 }
 
@@ -43,10 +43,7 @@ export class UserProfileService {
   public _updateuser = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
   updateuser$ = this._updateuser.asObservable()
-  constructor(
-    private http: HttpClient,
-  ) {
-  }
+  constructor(private http: HttpClient) { }
   updateProfileDetails(data: any) {
     return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data)
   }
@@ -109,9 +106,12 @@ export class UserProfileService {
   //   return this.http.get<[IUserProfileDetailsFromRegistry]>(API_ENDPOINTS.getUserdetailsFromRegistry)
   // }
   getUserdetailsFromRegistry(wid: string): Observable<[IUserProfileDetailsFromRegistry]> {
-    return this.http.get<[IUserProfileDetailsFromRegistry]>(`${API_ENDPOINTS.getUserdetailsFromRegistry}/${wid}`)
-      .pipe(retry(1),
-        map((res: any) => res.result.response))
+    return this.http
+      .get<[IUserProfileDetailsFromRegistry]>(`${API_ENDPOINTS.getUserdetailsFromRegistry}/${wid}`)
+      .pipe(
+        retry(1),
+        map((res: any) => res.result.response),
+      )
   }
   getAllDepartments() {
     return this.http.get<INationalityApiData>(API_ENDPOINTS.getAllDepartments)
@@ -125,15 +125,26 @@ export class UserProfileService {
       applicationStatus: 'SEND_FOR_APPROVAL',
     })
   }
-
+  getLeaderBoardData(request): Observable<any> {
+    const options = {
+      url: API_ENDPOINTS.getLeaderBoardData,
+      payload: request,
+    }
+    return this.http.post(options.url, options.payload)
+  }
   isBackgroundDetailsFilled(profileReq: any): boolean {
     let isFilled = true
-    if (profileReq && profileReq.personalDetails && profileReq.professionalDetails && profileReq.professionalDetails[0]) {
+    if (
+      profileReq &&
+      profileReq.personalDetails &&
+      profileReq.professionalDetails &&
+      profileReq.professionalDetails[0]
+    ) {
       const personalDetails = profileReq.personalDetails
       const professionalDetails = profileReq.professionalDetails[0]
-      if (!(personalDetails.dob
-        && personalDetails.postalAddress
-        && professionalDetails.profession)) {
+      if (
+        !(personalDetails.dob && personalDetails.postalAddress && professionalDetails.profession)
+      ) {
         isFilled = false
       }
       switch (professionalDetails.profession) {
