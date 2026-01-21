@@ -45,7 +45,7 @@ export class MobilePageComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    let res = this.playlistSvc.getHomeConfig()
+    let res = this.playlistSvc.selectedTabConfig()
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
       if (targetDivId === 'scrollToCneCourses') {
         console.log("test")

@@ -316,8 +316,6 @@ export function initializeCompetencyConfig(): () => void {
     HeaderComponent,
     GoogleCallbackComponent,
     MobileDashboardComponent,
-    // MobileCategoryComponent,
-    // MobileVideoPlayerComponent,
     MobileFooterComponent,
     MobileProfileDashboardComponent,
     MobileAboutPopupComponent,
@@ -342,7 +340,6 @@ export function initializeCompetencyConfig(): () => void {
     WebNavLinkPageComponent,
     WebDashboardComponent,
     WebPublicComponent,
-    // WebEkshamataPublicComponent,
     WebCourseViewComponent,
     WebCourseCardComponent,
     ScromPlayerComponent,
@@ -352,9 +349,7 @@ export function initializeCompetencyConfig(): () => void {
     ScrollDetectorDirective,
     PublicLoginComponent,
     TnaiCallbackComponent,
-    // SettingsComponent
-    BnrcmodalComponent,
-    // PlayerVideoPopupComponent
+    BnrcmodalComponent
   ],
   imports: [
     BrowserModule,
@@ -390,10 +385,8 @@ export function initializeCompetencyConfig(): () => void {
     PublicHomeModule,
     PublicContactModule,
     PublicFaqModule,
-    // MobileAppModule,
     PipeSafeSanitizerModule,
     LogoutModule,
-    // TourModule,
     SlidersModule,
     MdePopoverModule,
     MatAutocompleteModule,
@@ -404,7 +397,6 @@ export function initializeCompetencyConfig(): () => void {
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
-    // OrgSelectiveCourseModule,
     EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
     CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),

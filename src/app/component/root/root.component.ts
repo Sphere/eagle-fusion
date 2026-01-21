@@ -549,7 +549,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       .subscribe(show => {
         this.hideHeaderFooter = show
       })
-    await this.playlistSvc.getPlaylistData().then()
+    await this.playlistSvc.loadPlaylistData().then()
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       if (localStorage.getItem('url_before_login')) {
@@ -562,8 +562,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isLoggedIn = false
     }
-    this.orgDetails = { ...this.playlistSvc.getOrgDetails(), ...this.playlistSvc.getHeaderConfig() }
-    this.configData = this.isLoggedIn ? this.playlistSvc.getHomeConfig() : this.playlistSvc.getBodyConfig()
+    this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
+    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.bodyConfig()
     this.videoData = this.configData[5]
 
     if (this.configSvc.userProfile) {

@@ -1,139 +1,83 @@
-import { Injectable } from '@angular/core'
+import { Injectable, signal, computed } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable({ providedIn: 'root' })
 export class PlaylistService {
-  homeConfig: any = ''
-  courseConfig: any = ''
-  competencyConfig: any = ''
-  accountConfig: any = ''
-  notifConfig: any = ''
-  searchMobConfig: any = ''
-  playlistData: any = ''
+  private playlistData = signal<any | null>(null)
+  private selectedTab = signal<string>(
+    localStorage.getItem('selectedTab') || 'homeTab'
+  )
+  orgDetails = computed(() => this.playlistData()?.orgData ?? '')
+
+  headerConfig = computed(() => this.playlistData()?.LAYOUT_HEADER ?? '')
+  bodyConfig = computed(() => this.playlistData()?.LAYOUT_BODY ?? '')
+  footerConfig = computed(() => this.playlistData()?.LAYOUT_FOOTER ?? '')
+
+  sections = computed(
+    () => this.playlistData()?.LAYOUT_BODY?.sections ?? {}
+  )
+
+  selectedTabConfig = computed(() => {
+    const sections = this.sections()
+    return sections?.[this.selectedTab()] ?? sections?.homeTab ?? ''
+  })
+
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
   ) { }
-
-  getOrgDetails() {
-    return this.playlistData?.orgData || ""
-  }
-
-  getHeaderConfig() {
-    return this.playlistData?.LAYOUT_HEADER || ""
-  }
-
-  getBodyConfig() {
-    return this.playlistData?.LAYOUT_BODY || ""
-  }
-
-  getFooterConfig() {
-    return this.playlistData?.LAYOUT_FOOTER || ""
-  }
-
   setSelectedTab(tabId: string) {
-    let data = this.playlistData.LAYOUT_BODY?.sections
+    this.selectedTab.set(tabId)
     localStorage.setItem('selectedTab', tabId)
-    window.location.href.split('/page/')
-    switch (tabId) {
-      case 'homeTab':
-        this.homeConfig = data.homeTab
-        break
-      case 'courseTab':
-        this.courseConfig = data.courseTab
-        break
-      case 'competencyTab':
-        this.competencyConfig = data.competencyTab
-        break
-      case 'accountTab':
-        this.accountConfig = data.accountTab
-        break
-      case 'notifTab':
-        this.notifConfig = data.notifTab
-        break
-      case 'searchMob':
-        this.searchMobConfig = data.searchMob
-        break
-      default:
-        this.homeConfig = data.homeTab
-        break
-    }
   }
 
   getSelectedTab(): string {
-    const tabId = localStorage.getItem('selectedTab')
-    return tabId ? tabId : 'homeTab'
+    return this.selectedTab()
   }
 
-  getHomeConfig() {
-    return this.homeConfig || this.playlistData?.LAYOUT_BODY?.sections?.homeTab || ""
-  }
+  async loadPlaylistData(force = false): Promise<any> {
+    if (this.playlistData() && !force) {
+      return this.playlistData()
+    }
 
-  getCourseConfig() {
-    return this.courseConfig || this.playlistData?.LAYOUT_BODY?.sections?.courseTab || ""
-  }
-
-  getCompetencyConfig() {
-    return this.competencyConfig || this.playlistData?.LAYOUT_BODY?.sections?.competencyTab || ""
-  }
-
-  getAccountConfig() {
-    return this.accountConfig || this.playlistData?.LAYOUT_BODY?.sections?.accountTab || ""
-  }
-
-  getNotifConfig() {
-    return this.notifConfig || this.playlistData?.LAYOUT_BODY?.sections?.notifTab || ""
-  }
-
-  getSearchMobConfig() {
-    return this.searchMobConfig || this.playlistData?.LAYOUT_BODY?.sections?.searchMob || ""
-  }
-
-  async getPlaylistData(): Promise<any> {
-    // API call to fetch playlist data can be added here
-    console.log('Fetching playlist data from API...', this.playlistData)
-    let body = {
-      "request": {
-        "type": "web_layout",
-        "subtype": "v1",
-        "action": "get",
-        "component": "web",
-        "rootOrgId": this.configSvc?.userProfile?.rootOrgId || "*"
+    const body = {
+      request: {
+        type: 'web_layout',
+        subtype: 'v1',
+        action: 'get',
+        component: 'web',
+        rootOrgId: this.configSvc?.userProfile?.rootOrgId || '*'
       }
     }
-    let url = `/apis/v1/form/read?v=${new Date().getTime()}`
-    return new Promise((resolve) => {
-      this.http.post(url, body, {}).subscribe((response: any) => {
-        console.log("response", response)
-        console.log('Fetching playlist data from API...', this.playlistData)
-        this.playlistData = ''
-        this.playlistData = response.result.form.data
-        resolve(this.playlistData)
-      })
-    })
+
+    const response: any = await this.http
+      .post('/apis/v1/form/read', body)
+      .toPromise()
+
+    const data = response?.result?.form?.data ?? null
+    this.playlistData.set(data)
+
+    return data
   }
 
   async getPlaylistConfig(): Promise<any> {
-    console.log('Fetching playlist data from API...', this.playlistData)
-    let org = this.configSvc?.userProfile?.rootOrgId || "default"
-    let body = {
-      "request": {
-        "filters": {
-          "orgId": org
-        }
+    const org = this.configSvc?.userProfile?.rootOrgId || 'default'
+
+    const body = {
+      request: {
+        filters: { orgId: org }
       }
     }
-    let url = `/apis/protected/v8/playlist/search?v=${new Date().getTime()}`
-    return new Promise((resolve) => {
-      this.http.post(url, body, {}).subscribe((response: any) => {
-        console.log("response", response)
-        console.log('Fetching playlist data from API...', response.result.playlist)
-        let data = response.result.playlist
-        resolve(data)
-      })
-    })
+
+    const url = `/apis/protected/v8/playlist/search`
+
+    const response: any = await this.http.post(url, body).toPromise()
+
+    return response?.result?.playlist ?? []
+  }
+
+  clearCache() {
+    this.playlistData.set(null)
   }
 }

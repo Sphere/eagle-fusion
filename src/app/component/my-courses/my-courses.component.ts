@@ -46,9 +46,9 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     // Load playlist configs
     this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-    let res = this.playlistSvc.getCourseConfig()
+    let res = this.playlistSvc.selectedTabConfig()
     if (res == '') {
-      res = await this.playlistSvc.getPlaylistData()
+      res = await this.playlistSvc.loadPlaylistData()
       this.config = res?.LAYOUT_BODY?.sections?.courseTab
     } else {
       this.config = res

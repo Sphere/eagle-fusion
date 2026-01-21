@@ -30,9 +30,9 @@ export class WebHomeComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    let res = this.playlsSvc.getBodyConfig()
+    let res = this.playlsSvc.bodyConfig()
     if (res == '') {
-      let res = await this.playlsSvc.getPlaylistData()
+      let res = await this.playlsSvc.loadPlaylistData()
       this.config = res?.LAYOUT_BODY
     } else {
       this.config = res[0]

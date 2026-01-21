@@ -66,7 +66,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails[0]?.designation || ''
     if (designation) {
       console.log("this.configData", this.configData, this.cneCourse, this.topCertifiedCourse)
-      let res = this.playlistSvc.getHomeConfig()
+      let res = this.playlistSvc.selectedTabConfig()
       this.configData = res.slice(1, -1)
       let plyLsData: any = await this.playlistSvc.getPlaylistConfig()
       console.log("plyLsData", plyLsData)
@@ -90,9 +90,9 @@ export class WebPublicComponent implements OnInit, OnDestroy {
       })
     }
     if (designation == '') {
-      let res = this.playlistSvc.getBodyConfig()
+      let res = this.playlistSvc.bodyConfig()
       if (res == '') {
-        res = await this.playlistSvc.getPlaylistData()
+        res = await this.playlistSvc.loadPlaylistData()
         this.configData = res?.LAYOUT_BODY?.slice(1, -1)
       } else {
         this.configData = res.slice(1, -1)
