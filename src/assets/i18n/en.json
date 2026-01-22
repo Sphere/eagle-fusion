@@ -886,5 +886,13 @@
     "CONGRATULATIONS": "Congratulations!",
     "COURSE_COMPLETED": "Course completed!",
     "YOU_EARNED_NEW_BADGE": "YOU EARNED A NEW BADGE"
-  }
+  },
+  "LEADERBOARD_INFO_TEXT1": "You earn 1 point for each competency level achieved.",
+  "LEADERBOARD_INFO_TEXT2": "Your points shown are updated up to yesterday.",
+  "LEADERBOARD_INFO_TEXT3": "If two users have the same points, the one who earned them earlier will get a higher rank.",
+  "COLLEGE": "College: ",
+  "LEADERBOARD": "Leaderboard",
+  "PTS": "pts",
+  "POINTS": "points",
+  "YOUR_POINTS": "Your points"
 }

@@ -6,7 +6,7 @@ import {
   OnInit,
   ViewChild,
   OnDestroy,
-  Injector
+  Injector,
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -15,7 +15,7 @@ import {
   NavigationStart,
   Router,
   ActivatedRoute,
-  Event
+  Event,
 } from '@angular/router'
 import { BtnPageBackService } from '@ws-widget/collection'
 import {
@@ -127,15 +127,17 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isEkshamata = true
     }
     this.routerEventsSubscription = this.router.events.subscribe((event: Event) => {
-      if (event instanceof NavigationEnd && !event.url.toLowerCase().includes('/app/user/competency')) {
+      if (
+        event instanceof NavigationEnd &&
+        !event.url.toLowerCase().includes('/app/user/competency')
+      ) {
         this.navigationInterceptor(event)
       }
-
     })
     this.online$ = merge(
       of(navigator.onLine),
       fromEvent(window, 'online').pipe(mapTo(true)),
-      fromEvent(window, 'offline').pipe(mapTo(false))
+      fromEvent(window, 'offline').pipe(mapTo(false)),
     )
     this.networkStatus()
 
@@ -193,11 +195,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   public networkStatus() {
-    this.online$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(value => {
-        this.appOnline = value
-      })
+    this.online$.pipe(takeUntil(this.destroy$)).subscribe(value => {
+      this.appOnline = value
+    })
   }
   openFreshChat() {
     window.fcWidget.open()
@@ -258,16 +258,27 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           },
         }
         // console.log(req)
-        this.contentSvc.fetchContentHistoryV2(req)
-          .pipe(takeUntil(this.destroy$)).subscribe(
+        this.contentSvc
+          .fetchContentHistoryV2(req)
+          .pipe(takeUntil(this.destroy$))
+          .subscribe(
             (data: any) => {
               let contentData: any
-              contentData = data['result']['contentList']?.find((obj: any) => obj.contentId === doId)
-              if (contentData && ((event.url.includes('/chapters') || event.url.includes('/app/toc')) && event.url.includes(collectionId))) {
+              contentData = data['result']['contentList']?.find(
+                (obj: any) => obj.contentId === doId,
+              )
+              if (
+                contentData &&
+                (event.url.includes('/chapters') || event.url.includes('/app/toc')) &&
+                event.url.includes(collectionId)
+              ) {
                 storedData = localStorage.getItem(doId)
                 if (storedData) {
                   let dat = JSON.parse(storedData)
-                  let mergedProgressDetails: any = this.mergeProgressDetails(contentData.progressdetails, dat)
+                  let mergedProgressDetails: any = this.mergeProgressDetails(
+                    contentData.progressdetails,
+                    dat,
+                  )
                   delete mergedProgressDetails['errors']
                   if (this.configSvc.userProfile && Object.keys(dat).length > 0) {
                     const updateReq = {
@@ -281,21 +292,22 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
                             status: contentData.status,
                             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                             progressdetails: mergedProgressDetails,
-                            completionPercentage: contentData.completionPercentage
-                          }
+                            completionPercentage: contentData.completionPercentage,
+                          },
                         ],
-                        url: contentURL
+                        url: contentURL,
                       },
                     }
-                    this.viewerSvc.initUpdate(updateReq)
+                    this.viewerSvc
+                      .initUpdate(updateReq)
                       .pipe(takeUntil(this.destroy$))
                       .subscribe(
                         () => {
                           localStorage.removeItem('contentId')
                         },
-                        (err) => {
+                        err => {
                           console.error('Error updating progress:', err)
-                        }
+                        },
                       )
                   }
                 }
@@ -303,9 +315,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
                 console.warn('No data found for ID:', doId)
               }
             },
-            (err) => {
+            err => {
               console.error('Error fetching content history:', err)
-            })
+            },
+          )
       }
     }
 
@@ -321,14 +334,16 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   async ngOnInit() {
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
-      this.userSvc.fetchUserBatchList(this.userId)
-        .pipe(takeUntil(this.destroy$)).subscribe(
+      this.userSvc
+        .fetchUserBatchList(this.userId)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
           (res: any) => {
             this.formatmyCourseResponse(res)
           },
-          (err) => {
+          err => {
             console.error('Error fetching user batch list:', err)
-          }
+          },
         )
       localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
       if (sessionStorage.getItem('cURL')) {
@@ -348,7 +363,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       this.isInIframe = window.self !== window.top
     } catch (_ex) {
-      console.warn("Error determining if in iframe:", _ex)
+      console.warn('Error determining if in iframe:', _ex)
       this.isInIframe = false
     }
 
@@ -358,197 +373,203 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.telemetrySvc.impression('page-loaded', 'init', 'static-home')
     if (this.configSvc.isAuthenticated) {
       this.appStartRaised = true
-
     } else {
-      if ((window.location.href).indexOf('register') > 0 ||
-        (window.location.href).indexOf('forgot-password') > 0 || window.location.href.indexOf('scrom-player') > 0) {
+      if (
+        window.location.href.indexOf('register') > 0 ||
+        window.location.href.indexOf('forgot-password') > 0 ||
+        window.location.href.indexOf('scrom-player') > 0
+      ) {
         this.showNavigation = false
-      } else if ((window.location.href).indexOf('login') > 0) {
+      } else if (window.location.href.indexOf('login') > 0) {
         this.showNavigation = true
       }
     }
     App.addListener('backButton', () => {
-
       window.history.go(-1)
-
     })
 
-    this.router.events
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((event: any) => {
-        if (event instanceof NavigationEnd) {
-          if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
-            window.location.href = "public/home"
-          }
-          if (this.router.url === 'profile-view') {
-            this.isProfile = true
-          }
-          if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
-            window.location.href = "page/home"
-          }
-          if (event.url.includes('/setup/')) {
-            this.isSetupPage = true
-          }
-          if (event.url.includes('/app/create-account')) {
-            this.showNavigation = false
-            this.createAcc = true
-          }
-
-          if (event.url.includes('/public/login')) {
-            this.showNavigation = false
-          }
-          if (
-            this.router.url.includes('/page/home') ||
-            this.router.url.includes('/public/home') ||
-            this.router.url === '/'
-          ) {
-            this.isHomePage = true
-          } else {
-            this.isHomePage = false
-          }
-        }
-
-        if (this.configSvc.userProfile === null) {
-          this.isNavBarRequired = false
-        }
-        if (event instanceof NavigationStart) {
-          if (this.router.url === 'profile-view') {
-            this.isProfile = true
-          }
-          if (event.url.includes('/public/scrom-player')) {
-            this.showmobileFooter = false
-          }
-          if (event.url.includes('/app/create-account')) {
-            this.showmobileFooter = false
-          }
-          if (event.url.includes('/public/login') || event.url.includes('app/new-tnc')) {
-            this.showmobileFooter = false
-          }
-          if (event.url.includes('/bnrc/register') || event.url.includes('/uttarpradesh/register') || event.url.includes('/madhyapradesh/register')) {
-            this.showmobileFooter = false
-            this.disableChatForBnrc = true
-          }
-          // tslint:disable-next-line: max-line-length
-          if (event.url.includes('preview') || event.url.includes('embed') || event.url.includes('/public/register')) {
-            this.isNavBarRequired = false
-            this.hideHeaderFooter = true
-          } else if (event.url.includes('author/') && this.isInIframe) {
-            this.isNavBarRequired = false
-            // tslint:disable-next-line: max-line-length
-          } else if (event.url.includes('/app/org-selective-course')) {
-            this.isNavBarRequired = false
-            this.showmobileFooter = false
-
-          } else if (event.url.includes('app/toc')) {
-            if (this.configSvc.userProfile !== null) {
-              this.mobileView = false
-            }
-            this.hideHeaderFooter = false
-            this.isNavBarRequired = true
-            // this.showNavigation = true
-            this.isLoggedIn = true
-            // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
-            localStorage.setItem(`url_before_login`, `app/toc/` + `${split(event.url, '/')[3]
-              }` + `/overview`)
-            sessionStorage.setItem('login-btn', 'clicked')
-            if (!localStorage.getItem('userUUID')) {
-              location.href = '/public/login'
-            }
-          }
-          else if (event.url.includes('login')) {
-            if (localStorage.getItem('userUUID')) {
-              if (localStorage.getItem('url_before_login')) {
-                const url = localStorage.getItem('url_before_login') || ''
-                location.href = url
-              } else if (this.configSvc.unMappedUser) {
-                window.location.href = '/page/home'
-              }
-            }
-          }
-          else if (event.url.includes('page/home')) {
-            this.hideHeaderFooter = false
-            this.isNavBarRequired = true
-            this.mobileView = true
-            // tslint:disable-next-line: max-line-length
-          } else if (event.url.includes('/public/home')) {
-            this.showNavigation = true
-          } else if (event.url.includes('/app/login') || event.url.includes('/app/mobile-otp') ||
-            event.url.includes('/app/email-otp') || event.url.includes('/public/forgot-password') ||
-            event.url.includes('/app/create-account')) {
-            this.hideHeaderFooter = true
-            this.isNavBarRequired = false
-            this.showMobileDashboard = false
-            this.mobileView = false
-          } else if (event.url.includes('public/tnc')) {
-            this.isNavBarRequired = false
-            this.hideHeaderFooter = true
-          }
-
-          else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
-            this.isNavBarRequired = true
-            this.hideHeaderFooter = true
-            this.mobileView = false
-          } else if (event.url.includes('/app/search/learning') || event.url.includes('/app/video-player') ||
-            event.url.includes('/app/profile/dashboard')) {
-            this.mobileView = false
-            this.isNavBarRequired = true
-            this.showNavbar = true
-          } else {
-            this.isNavBarRequired = true
-            this.mobileView = false
-          }
-          this.routeChangeInProgress = true
-          this.changeDetector.detectChanges()
-        } else if (
-          event instanceof NavigationEnd ||
-          event instanceof NavigationCancel ||
-          event instanceof NavigationError
-        ) {
-          this.routeChangeInProgress = false
-          this.currentUrl = event.url
-          this.changeDetector.detectChanges()
+    this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: any) => {
+      if (event instanceof NavigationEnd) {
+        if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
+          window.location.href = 'public/home'
         }
         if (this.router.url === 'profile-view') {
           this.isProfile = true
         }
-        if (event instanceof NavigationEnd) {
-          // this.telemetrySvc.impression()
-          const paramMap = this.activatedRoute.snapshot.queryParamMap
-          const params: any = {}
-
-          paramMap.keys.forEach((key: any) => {
-            const paramValue = paramMap.get(key)
-            params[key] = paramValue
-          })
-
-          this.paramsJSON = JSON.stringify(params)
-          const userAgent = this.UserAgentResolverService.getUserAgent()
-
-          if (this.appStartRaised) {
-            this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
-            this.appStartRaised = false
-          }
-          if (!this.configSvc.userProfile) {
-            if (this.paramsJSON && this.paramsJSON !== '{}') {
-              this.UserAgentResolverService.setSource(params)
-            }
-            console.log("this.paramsJSON", this.paramsJSON)
-            this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
-          }
+        if (this.router.url === '/public/home' && this.configSvc.unMappedUser) {
+          window.location.href = 'page/home'
+        }
+        if (event.url.includes('/setup/')) {
+          this.isSetupPage = true
+        }
+        if (event.url.includes('/app/create-account')) {
+          this.showNavigation = false
+          this.createAcc = true
         }
 
-      })
+        if (event.url.includes('/public/login')) {
+          this.showNavigation = false
+        }
+        if (
+          this.router.url.includes('/page/home') ||
+          this.router.url.includes('/public/home') ||
+          this.router.url === '/'
+        ) {
+          this.isHomePage = true
+        } else {
+          this.isHomePage = false
+        }
+      }
+
+      if (this.configSvc.userProfile === null) {
+        this.isNavBarRequired = false
+      }
+      if (event instanceof NavigationStart) {
+        if (this.router.url === 'profile-view') {
+          this.isProfile = true
+        }
+        if (event.url.includes('/public/scrom-player')) {
+          this.showmobileFooter = false
+        }
+        if (event.url.includes('/app/create-account')) {
+          this.showmobileFooter = false
+        }
+        if (event.url.includes('/public/login') || event.url.includes('app/new-tnc')) {
+          this.showmobileFooter = false
+        }
+        if (
+          event.url.includes('/bnrc/register') ||
+          event.url.includes('/uttarpradesh/register') ||
+          event.url.includes('/madhyapradesh/register')
+        ) {
+          this.showmobileFooter = false
+          this.disableChatForBnrc = true
+        }
+        // tslint:disable-next-line: max-line-length
+        if (
+          event.url.includes('preview') ||
+          event.url.includes('embed') ||
+          event.url.includes('/public/register')
+        ) {
+          this.isNavBarRequired = false
+          this.hideHeaderFooter = true
+        } else if (event.url.includes('author/') && this.isInIframe) {
+          this.isNavBarRequired = false
+          // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('/app/org-selective-course')) {
+          this.isNavBarRequired = false
+          this.showmobileFooter = false
+        } else if (event.url.includes('app/toc')) {
+          if (this.configSvc.userProfile !== null) {
+            this.mobileView = false
+          }
+          this.hideHeaderFooter = false
+          this.isNavBarRequired = true
+          // this.showNavigation = true
+          this.isLoggedIn = true
+          localStorage.setItem(
+            `url_before_login`,
+            `app/toc/` + `${split(event.url, '/')[3]}` + `/overview`,
+          )
+          sessionStorage.setItem('login-btn', 'clicked')
+          if (!localStorage.getItem('userUUID')) {
+            location.href = '/public/login'
+          }
+        } else if (event.url.includes('login')) {
+          if (localStorage.getItem('userUUID')) {
+            if (localStorage.getItem('url_before_login')) {
+              const url = localStorage.getItem('url_before_login') || ''
+              location.href = url
+            } else if (this.configSvc.unMappedUser) {
+              window.location.href = '/page/home'
+            }
+          }
+        } else if (event.url.includes('page/home')) {
+          this.hideHeaderFooter = false
+          this.isNavBarRequired = true
+          this.mobileView = true
+          // tslint:disable-next-line: max-line-length
+        } else if (event.url.includes('/public/home')) {
+          this.showNavigation = true
+        } else if (
+          event.url.includes('/app/login') ||
+          event.url.includes('/app/mobile-otp') ||
+          event.url.includes('/app/email-otp') ||
+          event.url.includes('/public/forgot-password') ||
+          event.url.includes('/app/create-account')
+        ) {
+          this.hideHeaderFooter = true
+          this.isNavBarRequired = false
+          this.showMobileDashboard = false
+          this.mobileView = false
+        } else if (event.url.includes('public/tnc')) {
+          this.isNavBarRequired = false
+          this.hideHeaderFooter = true
+        } else if (event.url.includes('/app/about-you') || event.url.includes('/app/new-tnc')) {
+          this.isNavBarRequired = true
+          this.hideHeaderFooter = true
+          this.mobileView = false
+        } else if (
+          event.url.includes('/app/search/learning') ||
+          event.url.includes('/app/video-player') ||
+          event.url.includes('/app/profile/dashboard')
+        ) {
+          this.mobileView = false
+          this.isNavBarRequired = true
+          this.showNavbar = true
+        } else {
+          this.isNavBarRequired = true
+          this.mobileView = false
+        }
+        this.routeChangeInProgress = true
+        this.changeDetector.detectChanges()
+      } else if (
+        event instanceof NavigationEnd ||
+        event instanceof NavigationCancel ||
+        event instanceof NavigationError
+      ) {
+        this.routeChangeInProgress = false
+        this.currentUrl = event.url
+        this.changeDetector.detectChanges()
+      }
+      if (this.router.url === 'profile-view') {
+        this.isProfile = true
+      }
+      if (event instanceof NavigationEnd) {
+        // this.telemetrySvc.impression()
+        const paramMap = this.activatedRoute.snapshot.queryParamMap
+        const params: any = {}
+
+        paramMap.keys.forEach((key: any) => {
+          const paramValue = paramMap.get(key)
+          params[key] = paramValue
+        })
+
+        this.paramsJSON = JSON.stringify(params)
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+
+        if (this.appStartRaised) {
+          this.telemetrySvc.audit(WsEvents.WsAuditTypes.Created, 'Login', {})
+          this.appStartRaised = false
+        }
+        if (!this.configSvc.userProfile) {
+          if (this.paramsJSON && this.paramsJSON !== '{}') {
+            this.UserAgentResolverService.setSource(params)
+          }
+          console.log('this.paramsJSON', this.paramsJSON)
+          this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
+        }
+      }
+    })
 
     this.rootSvc.showNavbarDisplay$
       .pipe(delay(500), takeUntil(this.destroy$))
       .subscribe(display => {
         this.showNavbar = display
       })
-    this.orgService.hideHeaderFooter
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(show => {
-        this.hideHeaderFooter = show
-      })
+    this.orgService.hideHeaderFooter.pipe(takeUntil(this.destroy$)).subscribe(show => {
+      this.hideHeaderFooter = show
+    })
     await this.playlistSvc.loadPlaylistData().then()
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -567,15 +588,16 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.videoData = this.configData[5]
 
     if (this.configSvc.userProfile) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
+      this.userProfileSvc
+        .getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
         .pipe(takeUntil(this.destroy$))
         .subscribe(
           (res: any) => {
             this.setCompetencyConfig(res)
           },
-          (err) => {
+          err => {
             console.error('Error fetching user details:', err)
-          }
+          },
         )
     }
   }
@@ -609,10 +631,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             sourceName: key.content.sourceName,
             issueCertification: key.content.issueCertification,
             averageRating: key.content.averageRating,
-            posterImage: key.content.posterImage
-
+            posterImage: key.content.posterImage,
           }
-
         } else {
           myCourseObject = {
             identifier: key.content.identifier,
@@ -624,9 +644,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             sourceName: key.content.sourceName,
             issueCertification: key.content.issueCertification,
             averageRating: key.content.averageRating,
-            posterImage: key.content.posterImage
+            posterImage: key.content.posterImage,
           }
-
         }
         myCourse.push(myCourseObject)
       }
@@ -638,14 +657,12 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       if (window.fcWidget) {
         window.fcWidget.hide()
-        window.fcWidget.on('widget:closed', () => {
-        })
+        window.fcWidget.on('widget:closed', () => { })
       }
     } catch (error) {
       // tslint:disable-next-line:no-console
       console.log(error)
     }
-
   }
 
   // freshChat functionality
@@ -658,7 +675,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           window.fcWidget.user.setFirstName(this.configSvc.userProfile.firstName)
           window.fcWidget.user.setLastName(this.configSvc.userProfile.lastName)
           window.fcWidget.user.setPhone(this.configSvc.userProfile.phone)
-          window.fcWidget.user.setMeta({ userId: this.configSvc.userProfile.userId, username: this.configSvc.userProfile.userName })
+          window.fcWidget.user.setMeta({
+            userId: this.configSvc.userProfile.userId,
+            username: this.configSvc.userProfile.userName,
+          })
         }
       }
     } catch (error) {
@@ -666,7 +686,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       console.log(error)
     }
   }
-
 
   setCompetencyConfig(data: any) {
     if (data.profileDetails) {
@@ -690,21 +709,23 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   // set page title
   setPageTitle() {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd),
-      map(() => {
-        const appTitle = this.titleService.getTitle()
-        const child = this.activatedRoute.firstChild
-        if ((child !== null)) {
-          if (child.snapshot.data['title']) {
-            return child.snapshot.data['title']
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        map(() => {
+          const appTitle = this.titleService.getTitle()
+          const child = this.activatedRoute.firstChild
+          if (child !== null) {
+            if (child.snapshot.data['title']) {
+              return child.snapshot.data['title']
+            }
+            return appTitle
           }
           return appTitle
-        }
-        return appTitle
+        }),
+      )
+      .subscribe((title: string) => {
+        this.titleService.setTitle(title)
       })
-    ).subscribe((title: string) => {
-      this.titleService.setTitle(title)
-    })
   }
 }

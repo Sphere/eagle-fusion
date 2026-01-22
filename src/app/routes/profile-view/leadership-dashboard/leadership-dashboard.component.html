@@ -1,0 +1,83 @@
+<div class="custom-header">
+  <img src="fusion-assets/icons/back-arrow.png" class="icon" (click)="closeLeaderboard()" alt="Back" />
+  <div class="title">{{'LEADERBOARD' | translate}}</div>
+  <mat-icon class="info-icon" (click)="openInfoPopup()">info</mat-icon>
+</div>
+
+<div class="leaderboard-content">
+  <div class="leaderboard-header">
+    <div class="college-name">
+      <span class="college-title">{{'COLLEGE' | translate}}</span><span *ngIf="collegeName">{{collegeName}}</span>
+    </div>
+    <div class="top-ranks">
+      <ng-container *ngIf="loading; else rankCards">
+        <div class="rank-card skeleton-card" *ngFor="let card of skeletonRankCards" [style.height.px]="card.height">
+          <ngx-skeleton-loader animated class="skeleton-header"></ngx-skeleton-loader>
+          <ngx-skeleton-loader animated class="skeleton-title"></ngx-skeleton-loader>
+          <ngx-skeleton-loader animated class="skeleton-subtitle"></ngx-skeleton-loader>
+        </div>
+      </ng-container>
+
+      <!-- Actual Rank Cards -->
+      <ng-template #rankCards>
+        <div class="rank-card" *ngFor="let user of getTopThreeForDisplay()" [class.rank-1]="user.rank === 1"
+          [class.rank-2]="user.rank === 2" [class.rank-3]="user.rank === 3" [style.height]="user.height">
+
+          <div class="rank-badge" *ngIf="user.rank === 1">
+            <img src="fusion-assets/icons/king.png" alt="Rank 1" />
+            <span class="rank-badge-number">1</span>
+          </div>
+
+          <div class="rank-number" *ngIf="user.rank !== 1">{{ user.rank }}</div>
+          <div class="name mt-3">{{ user.firstname }} {{ user.lastname }}</div>
+          <div class="points">{{ user.points }} {{ 'PTS' | translate }}</div>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+
+  <div class="leaderboard-list" (scroll)="onScroll($event)">
+    <!-- Skeleton List -->
+    <ng-container *ngIf="loading">
+      <div *ngFor="let i of [].constructor(8)" class="list-item">
+        <div class="list-row">
+          <ngx-skeleton-loader animated class="skeleton-list-rank"></ngx-skeleton-loader>
+          <ngx-skeleton-loader animated class="skeleton-list-name"></ngx-skeleton-loader>
+          <ngx-skeleton-loader animated class="skeleton-list-points"></ngx-skeleton-loader>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Actual List -->
+    <ng-container *ngIf="!loading">
+      <div #userRow *ngFor="let user of restUsers" class="list-item"
+        [class.highlight-user]="user.userId === currentUserId"
+        [class.invisible]="user.userId === currentUserId && isPinnedVisible">
+
+        <div class="list-row">
+          <span class="rank">{{ user.rank }}</span>
+          <span class="name">{{ user.firstname }} {{ user.lastname }}</span>
+          <span class="points">
+            {{ user.points }} {{ 'POINTS' | translate }}
+          </span>
+        </div>
+
+      </div>
+    </ng-container>
+
+    <div class="infinite-scroll-loader" *ngIf="!infiniteDisabled && !loading" #scrollTrigger>
+      <mat-spinner diameter="30"></mat-spinner>
+      <span>Loading more users...</span>
+    </div>
+  </div>
+</div>
+
+<div class="pinned-user" *ngIf="isPinnedVisible && !loading">
+  <div class="list-row highlight-user p-3">
+    <span class="rank">{{ currentUser.rank }}</span>
+    <span class="name font-style">{{ currentUser.firstname }} {{ currentUser.lastname }}</span>
+    <span class="points">
+      {{ currentUser.points }} {{ 'POINTS' | translate }}
+    </span>
+  </div>
+</div>
