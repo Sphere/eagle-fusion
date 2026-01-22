@@ -289,8 +289,7 @@ export const data = {
           ]
         }
       ],
-      "courseTab":
-      {
+      "courseTab": {
         "title": "My Courses",
         "tabMenu": [
           {
@@ -388,14 +387,33 @@ export const data = {
       "competencyTab": [],
       "searchMob": [],
       "accountTab": {
-        "webOrderList": ["profileImg", "personalDetails", "orgDetails", "academicDetails", "langPreference", "certificate", "help&Support", "logout"],
-        "mobOrderList": ["profileImg", "help&Support", "langPreference", "certificate", "personalDetails", "orgDetails", "academicDetails", "logout"],
+        "webOrderList": [
+          "profileImg",
+          "personalDetails",
+          "orgDetails",
+          "academicDetails",
+          "langPreference",
+          "certificate",
+          "help&Support",
+          "logout"
+        ],
+        "mobOrderList": [
+          "profileImg",
+          "help&Support",
+          "langPreference",
+          "certificate",
+          "personalDetails",
+          "orgDetails",
+          "academicDetails",
+          "logout"
+        ],
         "menuItems": [
           {
             "id": "profileImg",
             "text": "Position",
             "img": "/fusion-assets/icons/prof1.png",
-            "icon": {
+            "type": "heading",
+            "editIcon": {
               "label": "edit",
               "className": "pencil"
             }
@@ -404,6 +422,7 @@ export const data = {
             "id": "help&Support",
             "isRequired": true,
             "text": "Help and Support",
+            "type": "button",
             "img": "/fusion-assets/icons/support-agent.svg",
             "phone": "tel:+918429036003",
             "icon": "",
@@ -413,15 +432,20 @@ export const data = {
             "id": "logout",
             "isRequired": true,
             "text": "Logout",
+            "type": "button",
             "img": "",
             "icon": "",
-            "data": {}
+            "data": {
+              "mobInfoText": "To request account deletion please send an email to",
+              "supportLink": "support@aastrika.org"
+            }
           },
           {
             "id": "langPreference",
             "isRequired": true,
             "name": "language",
             "text": "Language Preference",
+            "type": "text",
             "img": "/fusion-assets/images/uil.svg",
             "icon": "/fusion-assets/icons/arrow-right.svg",
             "selected": false,
@@ -454,6 +478,7 @@ export const data = {
             "isRequired": true,
             "name": "certificates",
             "text": "My Certificates",
+            "type": "text",
             "img": "/fusion-assets/images/Group.svg",
             "icon": "/fusion-assets/icons/arrow-right.svg",
             "data": {},
@@ -464,11 +489,12 @@ export const data = {
             "isRequired": true,
             "name": "personal",
             "text": "Personal Details",
+            "type": "text",
             "img": "/fusion-assets/images/manage_accounts.svg",
             "icon": "/fusion-assets/icons/arrow-right.svg",
             "selected": false,
             "data": {
-              "title": "PRESONAL_DETAIL",
+              "title": "Personal Details",
               "sub_header": "",
               "img": {
                 "show": false,
@@ -476,12 +502,12 @@ export const data = {
               },
               "optionsList": [
                 {
-                  "title": "FIRST_NAME",
+                  "title": "First name",
                   "name": "firstname",
                   "required": true
                 },
                 {
-                  "title": "LAST_NAME",
+                  "title": "Last name",
                   "name": "surname",
                   "required": true
                 },
@@ -550,7 +576,83 @@ export const data = {
                   "name": "block",
                   "required": true
                 }
-              ]
+              ],
+              "formData": [
+                {
+                  "key": "firstname",
+                  "type": "text",
+                  "label": "First name",
+                  "required": true
+                },
+                {
+                  "key": "surname",
+                  "type": "text",
+                  "label": "Last name",
+                  "required": true
+                },
+                {
+                  "key": "mobile",
+                  "type": "text",
+                  "label": "Phone Number",
+                  "required": false,
+                  "pattern": "^[0-9]*$"
+                },
+                {
+                  "key": "email",
+                  "type": "text",
+                  "label": "Email ID",
+                  "required": false,
+                  "pattern": "^[0-9]*$"
+                },
+                {
+                  "key": "dob",
+                  "type": "dob",
+                  "label": "Date Of Birth",
+                  "required": true,
+                  "errMsg": "You must be at least 18 years old"
+                },
+                {
+                  "key": "country",
+                  "type": "select",
+                  "label": "Country",
+                  "options": "countries",
+                  "required": false
+                },
+                {
+                  "key": "state",
+                  "type": "select",
+                  "label": "State",
+                  "options": "states",
+                  "required": false
+                },
+                {
+                  "key": "distict",
+                  "type": "select",
+                  "label": "District",
+                  "options": "disticts",
+                  "required": false
+                },
+                {
+                  "key": "block",
+                  "type": "text",
+                  "label": "Block",
+                  "required": false
+                },
+                {
+                  "key": "pincode",
+                  "type": "text",
+                  "label": "Pincode",
+                  "required": false,
+                  "pattern": "^[0-9]*$"
+                },
+                {
+                  "key": "personal-btn",
+                  "type": "button",
+                  "label": "Save",
+                  "required": false
+                }
+              ],
+              "sucessMsg": "User profile details updated successfully!"
             }
           },
           {
@@ -558,6 +660,7 @@ export const data = {
             "isRequired": true,
             "name": "organization",
             "text": "Organization Details",
+            "type": "text",
             "img": "/fusion-assets/images/corporate.svg",
             "icon": "/fusion-assets/icons/arrow-right.svg",
             "selected": false,
@@ -652,6 +755,7 @@ export const data = {
             "isRequired": true,
             "name": "academic",
             "text": "Academic Details",
+            "type": "text",
             "img": "/fusion-assets/images/school.svg",
             "icon": "/fusion-assets/icons/arrow-right.svg",
             "selected": false,

@@ -1,5 +1,5 @@
 import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, OnDestroy, Output, ViewChild } from '@angular/core'
-import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { ILanguages, IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
@@ -33,10 +33,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   maxDate = new Date()
   minDate = new Date(1900, 1, 1)
   invalidDob = false
-  personalDetailForm: UntypedFormGroup
+  personalDetailForm: FormGroup
   userProfileData!: IUserProfileDetailsFromRegistry
   academicsArray: any[] = []
-  // profileUserName: any
   userID = ''
   savebtnDisable = true
   orgTypeField = false
@@ -73,6 +72,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   countryName: boolean = false
   isEditableForSphere: boolean = false
   @Input() isEkshamata: boolean = false
+  @Input() data: any
+  formConfig: any
+  address: string = ''
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -82,53 +84,60 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private valueSvc: ValueService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private UserAgentResolverService: UserAgentResolverService,
-    private http: HttpClient
+    private http: HttpClient,
+    private fb: FormBuilder
   ) {
-    this.personalDetailForm = new UntypedFormGroup({
-      firstname: new UntypedFormControl('', [Validators.required]),
-      surname: new UntypedFormControl('', [Validators.required]),
-      // userName: new FormControl('', [Validators.required]),
-      dob: new UntypedFormControl('', [Validators.required]),
-      profession: new UntypedFormControl(),
-      designation: new UntypedFormControl(),
-      professionOtherSpecify: new UntypedFormControl(),
-      regNurseRegMidwifeNumber: new UntypedFormControl(),
-      orgType: new UntypedFormControl(),
-      orgOtherSpecify: new UntypedFormControl(),
-      organizationName: new UntypedFormControl(),
-      nationality: new UntypedFormControl(),
-      domicileMedium: new UntypedFormControl(),
-      gender: new UntypedFormControl(),
-      maritalStatus: new UntypedFormControl(),
-      knownLanguages: new UntypedFormControl([], []),
-      knownLanguage: new UntypedFormControl(this.preferedLanguage),
-      mobile: new UntypedFormControl({ value: '', disabled: true }),
-      email: new UntypedFormControl({ value: '', disabled: true }),
-      postalAddress: new UntypedFormControl(),
-      pincode: new UntypedFormControl(),
-      languages: new UntypedFormControl(),
-      block: new UntypedFormControl(),
-      subcentre: new UntypedFormControl(),
-      country: new UntypedFormControl(),
-      state: new UntypedFormControl(),
-      distict: new UntypedFormControl(),
-      countryCode: new UntypedFormControl(),
+    this.initializeForm()
+  }
+  initializeForm() {
+    this.personalDetailForm = new FormGroup({
+      firstname: new FormControl('', [Validators.required]),
+      surname: new FormControl('', [Validators.required]),
+      dob: new FormControl('', [Validators.required]),
+      profession: new FormControl(),
+      designation: new FormControl(),
+      professionOtherSpecify: new FormControl(),
+      regNurseRegMidwifeNumber: new FormControl(),
+      orgType: new FormControl(),
+      orgOtherSpecify: new FormControl(),
+      organizationName: new FormControl(),
+      nationality: new FormControl(),
+      domicileMedium: new FormControl(),
+      gender: new FormControl(),
+      maritalStatus: new FormControl(),
+      knownLanguages: new FormControl([], []),
+      knownLanguage: new FormControl(this.preferedLanguage),
+      mobile: new FormControl({ value: '', disabled: true }),
+      email: new FormControl({ value: '', disabled: true }),
+      postalAddress: new FormControl(),
+      pincode: new FormControl(),
+      languages: new FormControl(),
+      block: new FormControl(),
+      subcentre: new FormControl(),
+      country: new FormControl(),
+      state: new FormControl(),
+      distict: new FormControl(),
+      countryCode: new FormControl(),
     })
-
-    // this.personalDetailForm.patchValue({ knownLanguages: this.preferedLanguage })
   }
 
   ngOnInit() {
+    this.formConfig = this.data.formData
     this.fetchMeta()
-    this.valueSvc.isXSmall$
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(isXSmall => {
-        this.showbackButton = isXSmall
-        this.showLogOutIcon = false
-      })
+    this.valueSvc.isXSmall$.pipe(takeUntil(this.destroy$)).subscribe(isXSmall => {
+      this.showbackButton = isXSmall
+      this.showLogOutIcon = false
+    })
     if (this.isEkshamata) {
       this.personalDetailForm.disable()
     }
+
+    this.formConfig.forEach(field => {
+      const validators = []
+      if (field.required) validators.push(Validators.required)
+      if (field.pattern) validators.push(Validators.pattern(field.pattern))
+      this.personalDetailForm.addControl(field.key, this.fb.control('', validators))
+    })
   }
 
   fetchMeta() {
@@ -158,7 +167,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         (statesdata: any) => {
           const stateData = statesdata.states.find((item: any) => item.state === option)
           if (stateData) {
-            this.disticts = stateData.districts
+            this.disticts = (stateData.districts || []).map((d: string) => ({ name: d }))
           }
         },
         (err) => {
@@ -350,8 +359,20 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     }
   }
 
-  fieldChange() {
+  fieldChange(key?: string) {
     this.savebtnDisable = false
+    switch (key) {
+      case 'country':
+        this.countrySelect(this.personalDetailForm.get('country').value)
+        break
+      case 'state':
+        this.stateSelect(this.personalDetailForm.get('state').value)
+        break
+      case 'distict':
+        break
+      default:
+        break
+    }
   }
 
   onDateChange(event: any) {
@@ -370,19 +391,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   updateForm() {
     if (this.userProfileData && this.userProfileData.personalDetails) {
       const data = this.userProfileData
-      // console.log(data.professionalDetails[0], 'o')
-      // this.profileUserName = `${data.personalDetails.firstname} `
-      // if (data.personalDetails.middlename) {
-      //   this.profileUserName += `${data.personalDetails.middlename} `
-      // }
-      // if (data.personalDetails.surname) {
-      //   this.profileUserName += `${data.personalDetails.surname}`
-      // }
-
-      // if (data.personalDetails.dob) {
-
-      //   this.getDateFromText(data.personalDetails.dob)
-      // }
 
       if (data.personalDetails && data) {
         console.log(data)
@@ -629,5 +637,10 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   ngOnDestroy(): void {
     this.destroy$.next()
     this.destroy$.complete()
+  }
+
+  getOptions(field) {
+    console.log("field options", field, field.options, this[field.options])
+    return this[field.options] || []
   }
 }

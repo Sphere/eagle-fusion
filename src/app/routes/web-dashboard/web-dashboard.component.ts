@@ -54,7 +54,12 @@ export class WebDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    let res = this.playlistSvc.selectedTabConfig()
+    let res: any
+    if (this.playlistSvc.getSelectedTab() == 'homeTab') {
+      res = this.playlistSvc.selectedTabConfig()
+    } else {
+      res = this.playlistSvc.bodyConfig()?.homeTab
+    }
     if (res === "") {
       this.playlistSvc.loadPlaylistData().then(() => {
         this.configData = this.playlistSvc.selectedTabConfig()[0]
@@ -62,7 +67,7 @@ export class WebDashboardComponent implements OnInit {
     } else {
       this.configData = res[0]
     }
-    this.dataCarousel = this.configData.data
+    this.dataCarousel = this.configData?.data
     if (this.isEkshamata) {
       this.domain = window.location.hostname
 
