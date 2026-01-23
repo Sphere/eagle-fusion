@@ -6,16 +6,13 @@
     [showbackButton]="showbackButton" [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
   <!-- mobile page -->
   <div *ngIf="showbackButton" [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''"
-    [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData">
-
+    [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData" style="margin-bottom: 5rem;">
 
     <div class="user-basic-details">
-      <span class="profile-user-name">
-        {{ userProfileData?.personalDetails.firstname }}
-        {{userProfileData?.personalDetails.middlename }}
-        {{userProfileData?.personalDetails.surname}}</span>
+      <span class="profile-user-name">{{ personalInfo?.firstname }} {{personalInfo?.middlename }}
+        {{personalInfo?.surname}}</span>
       <span *ngIf="currentProfession" class="profile-user-position">
-        {{ 'Position' | translate }} : {{ currentProfession }}
+        {{ menuItems[0].text | translate }} : {{ currentProfession }}
       </span>
     </div>
     <div class="leaderboard-card" (click)="openLeaderboard()" *ngIf="totalUsers > 0">
@@ -44,108 +41,65 @@
       </div>
     </div>
     <div class="flex justify-center">
-      <button *ngIf="!isEkshamata" class="help-btn mt-4 cursor-pointer mb-4" (click)="showSocialChats()">
-        {{ 'Help and Support' | translate }}
-        <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
-      </button>
-      <a *ngIf="isEkshamata&&configSvc.hostedInfo?.phone"
-        [href]="'tel:' + configSvc.hostedInfo?.phone.replace('tel:', '')" class="help-btn cursor-pointer mt-4 mb-4">
-        Help and Support
-        <img width="20" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
-      </a>
+      <ng-container *ngIf="uiConfig?.length">
+        <a class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2" [href]="isEkshamata && configSvc.hostedInfo?.phone
+            ? 'tel:' + configSvc.hostedInfo.phone.replace('tel:', '')
+            : null" (click)="!isEkshamata ? showSocialChats() : null">
+          {{ uiConfig[0].text | translate }}
+          <img [width]="isEkshamata ? 20 : 35" height="18" [src]="uiConfig[0].img" alt="" />
+        </a>
+      </ng-container>
     </div>
 
     <div class="div mobile-div">
-      <a class="border-btm mt-2" [class.active]="selectedIndex === 'language'"
-        (click)="selectedIndex = 'language'; changeFunction('language')">
-        <div>
-          <img alt="Language Preference" src="/fusion-assets/icons/language-icon.svg" width="35" height="23" />
-          <span class="options">{{ 'Language Preference' | translate }}</span>
-        </div>
+      <ng-container *ngFor="let ls of uiConfig">
+        <a *ngIf="ls.icon" class="border-btm mt-2" [class.active]="selectedIndex === ls.name"
+          (click)="selectedIndex = ls.name; changeFunction(ls)">
+          <div class="flex">
+            <img [alt]="ls.text" [src]="ls.img" width="35" height="23" />
+            <span class="options">{{ ls.text | translate }}</span>
+          </div>
 
-        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
-      </a>
-      <a class="border-btm" [class.active]="selectedIndex === 'certificates'"
-        (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
-        <div>
-          <img alt="My Certificates" src="/fusion-assets/icons/certificate-icon1.svg" width="35" height="23" />
-          <span class="options">{{ 'My Certificates' | translate }}</span>
-        </div>
-
-        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
-      </a>
-      <a class="border-btm" [class.active]="selectedIndex === 'personal'"
-        (click)="selectedIndex = 'personal'; changeFunction('personal')">
-        <div>
-          <img alt="personal details" src="/fusion-assets/icons/personal-details.svg" width="35" height="18" />
-          <span class="options">{{ 'Profile Details' | translate }}</span>
-        </div>
-
-        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
-      </a>
-      <a class="border-btm" [class.active]="selectedIndex === 'organization'"
-        (click)="selectedIndex = 'organization'; changeFunction('organization')">
-        <div>
-          <img alt="Organization details" src="/fusion-assets/icons/org-profile.svg" width="35" height="22" />
-          <span class="options">{{ 'Organization Details' | translate }}</span>
-        </div>
-
-        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
-      </a>
-      <a class="last-option" [class.active]="selectedIndex === 'academic'"
-        (click)="selectedIndex = 'academic'; changeFunction('academic')">
-        <div>
-          <img alt="Academic details" src="/fusion-assets/icons/academic-icon.svg" width="35" height="23" />
-          <span class="options">{{ 'Academic Details' | translate }}</span>
-
-        </div>
-        <img class="right-icon" alt="icon" src="/fusion-assets/icons/arrow-right.svg" />
-      </a>
-      <div class="margin-top-xs">
-        <span *ngIf="!isEkshamata" style="font-size: 15px;">{{ 'To request account deletion please send an email to' |
-          translate }}
+          <img class="right-icon" alt="icon" [src]="ls.icon" />
+        </a>
+      </ng-container>
+      <div class="margin-top-xs" *ngIf="!isEkshamata || configSvc.hostedInfo?.email">
+        <span style="font-size: 15px;">
+          {{ menuItems[menuItems.length-1]?.data?.mobInfoText | translate }}
         </span>
-        <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email" style="font-size: 15px;">
-          {{ 'To request account deletion please send an email to' | translate }}
+        <span style="text-decoration: underline;">
+          {{ isEkshamata ? configSvc.hostedInfo?.email : menuItems[menuItems.length-1]?.data?.supportLink }}
         </span>
-        <span *ngIf="!isEkshamata" style="text-decoration: underline;">support@aastrika.org</span>
-        <span *ngIf="isEkshamata&&configSvc.hostedInfo?.email"
-          style="text-decoration: underline;">{{configSvc.hostedInfo.email}}</span>
       </div>
-      <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit">{{ 'Logout' | translate
-        }}</button>
+      <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit">
+        {{ menuItems[menuItems.length-1]?.text | translate}}</button>
     </div>
     <div *ngIf="showbackButton" class="logout-bg">
-      <button class="btn-logout" type="submit" (click)="logout()">
-        {{ 'Logout' | translate }}
-      </button>
+      <button class="btn-logout" type="submit" (click)="logout()">{{ menuItems[menuItems.length-1]?.text |
+        translate}}</button>
     </div>
   </div>
-
 
   <!-- web screen left section -->
   <div *ngIf="!showbackButton" [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData">
     <div>
-      <img [src]="photoUrl ? photoUrl:image" alt="profile image" width="150px" height="150px" class="profile-border">
+      <img [src]="photoUrl ? photoUrl : menuItems[0]?.img" alt="profile image" width="150px" height="150px"
+        class="profile-border">
     </div>
 
     <button *ngIf="!isEkshamata" mat-fab class="edit-icon" (click)="openProfileDialog()">
-      <mat-icon class="pencil">edit</mat-icon>
+      <mat-icon [class]="menuItems[0]?.editIcon.className">{{menuItems[0]?.editIcon.label}}</mat-icon>
     </button>
 
     <div [ngStyle]="{'margin-top': isEkshamata ? '0' : '-35px'}">
-      <p class="" style="font-weight:400;font-size:24px">
-        {{ userProfileData?.personalDetails.firstname }}
-        <span *ngIf="userProfileData?.personalDetails.middlename">
-          {{ userProfileData?.personalDetails.middlename }}
-        </span>
-        {{ userProfileData?.personalDetails.surname }}
+      <p class="" style="font-weight:400;font-size:24px">{{ personalInfo?.firstname }}
+        <span *ngIf="personalInfo?.middlename">{{ personalInfo?.middlename }}</span>{{ personalInfo?.surname }}
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;"><span>{{ 'Position' |
-          translate }}</span> :
-        {{currentProfession }}</p>
+      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;">
+        <span> {{ menuItems[0]?.text | translate }}</span> : {{currentProfession }}
+      </p>
       <div class="leaderboard-card" (click)="openLeaderboard()" *ngIf="totalUsers > 0">
         <div class="leaderboard-header">
           <div class="icon">
@@ -175,106 +129,75 @@
         <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" style="    border: 1px solid #000;    margin-right: 5px;
     border-radius: 16px;" /><span>{{ 'Language Preference' | translate }}</span>
       </p>
-      <div class="form-group" *ngIf="showbackButton" style="margin-top: 5px;">
-        <button [ngClass]="{'btnActive': language === 'en', 'nonActive' : language != 'en'}"
-          (click)="storeLanguage('en')">{{ 'English' | translate }}</button>
-        <button [ngClass]="{'btnActive': language === 'hi', 'nonActive' : language != 'hi'}"
-          (click)="storeLanguage('hi')">{{ 'हिंदी' | translate }}</button>
-      </div>
     </div>
     <div class="div">
-      <a [class.active]="selectedIndex === 'personal'" (click)="selectedIndex = 'personal'; changeFunction('personal')">
-        <img alt="personal details" src="/fusion-assets/images/manage_accounts.svg" width="35" height="18" /><span>{{
-          'Personal Details' | translate }}</span>
-      </a>
-      <a [class.active]="selectedIndex === 'organization'"
-        (click)="selectedIndex = 'organization'; changeFunction('organization')">
-        <img alt="Organization details" src="/fusion-assets/images/corporate.svg" width="35" height="22" /><span>{{
-          'Organization Details' | translate }}</span>
-      </a>
-      <a [class.active]="selectedIndex === 'academic'" (click)="selectedIndex = 'academic'; changeFunction('academic')">
-        <img alt="Academic details" src="/fusion-assets/images/school.svg" width="35" height="23" /><span>
-          {{ 'Academic Details' | translate }}</span>
-      </a>
-      <a *ngIf="!showbackButton" [class.active]="selectedIndex === 'language'"
-        (click)="selectedIndex = 'language'; changeFunction('language')">
-        <img alt="Language Preference" src="/fusion-assets/images/uil.svg" width="35" height="23" /><span>
-          {{ 'Language Preference' | translate }}</span>
-      </a>
-      <a [class.active]="selectedIndex === 'certificates'"
-        (click)="selectedIndex = 'certificates'; changeFunction('certificates')">
-        <img alt="My Certificates" src="/fusion-assets/images/Group.svg" width="35" height="23" /><span>
-          {{ 'My Certificates' | translate }}</span>
-      </a>
-      <button *ngIf="!isEkshamata" class="web-help-btn mt-2 mb-2 cursor-pointer" (click)="showSocialChats()">
-        {{ 'Help and Support' | translate }}
-        <img width="35" height="18" src="/fusion-assets/icons/support-agent.svg" alt="" />
-      </button>
-      <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit">{{ 'Logout' | translate
-        }}</button>
+      <ng-container *ngFor="let ls of uiConfig">
+        <a *ngIf="ls.type == 'text'" [class.active]="selectedIndex === ls.name"
+          (click)="selectedIndex = ls.name; changeFunction(ls)">
+          <img alt=ls.text [src]="ls.img" width="35" height="18" />
+          <span>{{ ls.text | translate }}</span>
+        </a>
+        <button *ngIf="!isEkshamata && ls.type == 'button'" class="web-help-btn mt-2 mb-2 cursor-pointer"
+          (click)="showSocialChats()">{{ ls.text | translate }}
+          <img width="35" height="18" [src]="ls.img" alt="" />
+        </button>
+      </ng-container>
+      <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit">
+        {{ menuItems[menuItems.length-1]?.text | translate}}</button>
     </div>
-
   </div>
   <div class="main-block" [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
-    <div style="margin-bottom: 70px;" *ngIf="selectedIndex === 'personal'"
-      [ngStyle]="showbackButton ? {'width': '100%' } : {}">
-      <ws-personal-detail-edit [isEkshamata]="isEkshamata"
+    <div *ngIf="selectedIndex === 'personal' && selectedIndexData" style="margin-bottom: 70px;" class="full-width"
+      [class.full-width]="showbackButton">
+      <ws-personal-detail-edit [isEkshamata]="isEkshamata" [data]="selectedIndexData"
         (userName)="assignUserName($event)"></ws-personal-detail-edit>
     </div>
-    <div *ngIf="selectedIndex === 'organization'" style="width:100%"
-      [ngStyle]="showbackButton ? {'width': '100%' } : {}">
-      <div *ngIf="showView === ''">
-        <ws-work-info-list [isEkshamata]="isEkshamata" (passProfession)="assignProfession($event)"></ws-work-info-list>
-      </div>
-      <div *ngIf="showView">
-        <ws-work-info-edit></ws-work-info-edit>
-      </div>
-    </div>
-    <div *ngIf="selectedIndex === 'academic'" style="width:100%" [ngStyle]="showbackButton ? {'width': '100%' } : {}">
-      <div *ngIf="showView === ''">
-        <ws-education-list [isEkshamata]="isEkshamata"></ws-education-list>
-      </div>
-      <div *ngIf="showView">
-        <ws-education-edit></ws-education-edit>
-      </div>
-    </div>
-    <div *ngIf="selectedIndex === 'language'" style="width:100%; margin-top:25px;height:480px"
-      [ngStyle]="showbackButton ? {'width': '100%' } : {}">
-      <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
-        [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
-      <h4 style="    font-size: 1.5rem;">{{ 'Language Preference' | translate }}</h4>
-      <form [formGroup]="userForm">
-        <div class="form-group">
-          <p>
-            <label class="radio cursor-pointer">
-              <input type="radio" name="language" value='en' formControlName="language"><span style="margin-left:5px">{{
-                'English' | translate }}</span>
-            </label>
-          </p>
-          <label class="radio-inline cursor-pointer">
-            <input type="radio" name="language" value='hi' formControlName="language"><span style=" margin-left:5px">{{
-              'हिंदी' | translate }}</span>
-          </label>
-        </div>
-        <button type="submit" class="save-btn" (click)="saveLanguage(userForm)">{{ 'Save' | translate }}</button>
-      </form>
-    </div>
-    <div *ngIf="selectedIndex === 'certificates'" style="width:100%"
-      [ngStyle]="showbackButton ? {'width': '100%' } : {}">
-      <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
-        [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
-      <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">{{ 'My Certificates' |
-        translate }}</p>
-      <div *ngFor="let certificate of certificates">
-        <ng-container *ngIf="certificates && certificates.length > 0">
-          <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
+    <ng-container *ngIf="selectedIndex === 'organization' || selectedIndex === 'academic'">
+      <div class="full-width" [class.full-width]="showbackButton">
+        <ng-container *ngIf="showView === ''">
+          <ws-work-info-list *ngIf="selectedIndex === 'organization'" [isEkshamata]="isEkshamata"
+            [data]="selectedIndexData" (passProfession)="assignProfession($event)">
+          </ws-work-info-list>
+          <ws-education-list *ngIf="selectedIndex === 'academic'" [isEkshamata]="isEkshamata"
+            [data]="selectedIndexData">
+          </ws-education-list>
+        </ng-container>
+        <ng-container *ngIf="showView">
+          <ws-work-info-edit *ngIf="selectedIndex === 'organization'" [data]="selectedIndexData"></ws-work-info-edit>
+          <ws-education-edit *ngIf="selectedIndex === 'academic'" [data]="selectedIndexData"></ws-education-edit>
         </ng-container>
       </div>
-      <div *ngIf="certificates.length === 0" style="margin-top: 15px;text-align: center;">
-        <h2>{{ 'No Certificates' | translate }}</h2>
-      </div>
+    </ng-container>
+    <div *ngIf="selectedIndex === 'language' || selectedIndex === 'certificates'" style="margin-top:25px;height:480px"
+      class="full-width" [class.full-width]="showbackButton">
+      <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
+        [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
+      <ng-container *ngIf="selectedIndex === 'language'">
+        <h4 style="font-size: 1.5rem; font-weight: 400;">{{ selectedIndexData?.title | translate }}</h4>
+        <form [formGroup]="userForm">
+          <div class="form-group" *ngFor="let lang of selectedIndexData.optionsList; let i = index;">
+            <label class="radio cursor-pointer">
+              <input type="radio" name="language" [value]='lang.code' formControlName="language"><span
+                style="margin-left:5px">{{ lang.name | translate }}</span>
+            </label>
+          </div>
+          <button type="submit" class="save-btn" (click)="saveLanguage(userForm)">
+            {{ selectedIndexData?.button?.label | translate }}</button>
+        </form>
+      </ng-container>
+      <ng-container *ngIf="selectedIndex === 'certificates'">
+        <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">{{ 'My Certificates' |
+          translate }}</p>
+        <div *ngFor="let certificate of certificates">
+          <ng-container *ngIf="certificates && certificates.length > 0">
+            <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
+          </ng-container>
+        </div>
+        <div *ngIf="certificates.length === 0" style="margin-top: 15px;text-align: center;">
+          <h2>{{ 'No Certificates' | translate }}</h2>
+        </div>
+      </ng-container>
     </div>
-
   </div>
   <div *ngIf="!isCommonChatEnabled">
     <img src="/fusion-assets/images/cross.svg" class="cross-icon" alt="cross image" (click)="backToChatIcon()" />
@@ -291,3 +214,4 @@
       </div>
     </a>
   </div>
+</div>

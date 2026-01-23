@@ -11,7 +11,7 @@ export class PlaylistService {
   orgDetails = computed(() => this.playlistData()?.orgData ?? '')
 
   headerConfig = computed(() => this.playlistData()?.LAYOUT_HEADER ?? '')
-  bodyConfig = computed(() => this.playlistData()?.LAYOUT_BODY ?? '')
+  bodyConfig = computed(() => this.playlistData()?.LAYOUT_BODY?.sections ?? '')
   footerConfig = computed(() => this.playlistData()?.LAYOUT_FOOTER ?? '')
 
   sections = computed(
@@ -20,7 +20,10 @@ export class PlaylistService {
 
   selectedTabConfig = computed(() => {
     const sections = this.sections()
-    return sections?.[this.selectedTab()] ?? sections?.homeTab ?? ''
+    if (!sections) return ''
+
+    const tab = this.selectedTab()
+    return sections[tab] || sections.homeTab || ''
   })
 
   constructor(
@@ -28,6 +31,7 @@ export class PlaylistService {
     private configSvc: ConfigurationsService
   ) { }
   setSelectedTab(tabId: string) {
+    if (!tabId) return
     this.selectedTab.set(tabId)
     localStorage.setItem('selectedTab', tabId)
   }

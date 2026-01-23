@@ -107,10 +107,10 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
       this.menuItems[0]
 
     if (selected) {
+      this.playlistSvc.setSelectedTab(selected.id)
       selected.show = true
       selected.active = true
       this.currentTab = selected.id
-      this.playlistSvc.setSelectedTab(selected.id)
     }
   }
 

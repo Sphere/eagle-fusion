@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core'
+import { Component, OnInit, Inject, HostListener } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import {
@@ -13,7 +13,6 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
 import { forkJoin, from } from 'rxjs'
-// import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
@@ -21,6 +20,7 @@ import * as _ from './lodash'
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
 import { DOCUMENT } from '@angular/common'
 import { LanguageService } from '../../../../../src/app/services/language.service'
+import { PlaylistService } from '../../../services/playlist.service'
 import { LeadershipDashboardComponent } from '../leadership-dashboard/leadership-dashboard.component'
 
 @Component({
@@ -39,13 +39,12 @@ export class MobileProfileDashboardComponent implements OnInit {
   imgURI: any = []
   certificateThumbnail: any = []
   photoUrl: any
-  image = '/fusion-assets/icons/prof1.png'
   loader = true
   showbackButton = false
   showLogOutIcon = false
   profileData: any
   navigateTohome = true
-  selectedIndex = 'personal'
+  selectedIndex = ''
   showView: any = ''
   gotData: any
   userForm: UntypedFormGroup
@@ -58,6 +57,12 @@ export class MobileProfileDashboardComponent implements OnInit {
   isCommonChatEnabled = true
   isEkshamata = false
   domain!: string
+  config: any
+  uiConfig: any
+  personalInfo: any
+  menuItems: any
+  isMobileView = false
+  selectedIndexData: any
   rank = 0
   totalUsers = 0
   points = 0
@@ -75,9 +80,9 @@ export class MobileProfileDashboardComponent implements OnInit {
     private valueSvc: ValueService,
     private CompetencyConfiService: CompetencyConfiService,
     private languageService: LanguageService,
-    // private readonly _renderer2: Renderer,
     @Inject(DOCUMENT) private _document: Document,
     private telemetrySvc: TelemetryService,
+    private plylsSvc: PlaylistService
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
       console.log(data)
@@ -98,8 +103,6 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.selectedIndex = 'personal'
         this.selectedIndex = ''
       }
-      // sessionStorage.removeItem('academic')
-      // sessionStorage.removeItem('currentWindow')
     })
     this.userForm = new UntypedFormGroup({
       language: new UntypedFormControl(),
@@ -107,6 +110,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.detectScreen()
+    this.setupMenuItems()
     this.domain = window.location.hostname
     if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       this.isEkshamata = true
@@ -120,12 +125,6 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.getUserDetails()
       }
     })
-    this.contentSvc
-      .fetchGeneralAndRcCertificates()
-      .pipe()
-      .subscribe((res: any) => {
-        this.processCertiFicate(res)
-      })
 
     forkJoin([
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
@@ -164,11 +163,61 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.showLogOutBtn = true
       }
     })
+
     console.log('this.configSvc.unMappedUser', this.configSvc.unMappedUser)
     if (this.hasRequiredLeaderboardDetails()) {
       this.getLeaderBoardList()
     }
-    // this.CompetencyConfiService.setConfig(this.profileData)
+  }
+
+
+  @HostListener('window:resize')
+  onResize() {
+    this.detectScreen()
+  }
+
+  private detectScreen(): void {
+    const prev = this.isMobileView
+    this.isMobileView = window.innerWidth <= 768
+
+    if (prev !== this.isMobileView) {
+      console.log('📱 Screen mode changed →', this.isMobileView ? 'Mobile' : 'Desktop')
+
+      // Your UI reactions on screen change
+      if (this.isMobileView) {
+        this.showbackButton = true
+        this.hideData = false
+      } else {
+        this.showbackButton = false
+        this.hideData = false
+      }
+
+      this.setupMenuItems()   // reapply config ordering
+    }
+  }
+
+  async setupMenuItems() {
+    let res
+    if (this.plylsSvc.getSelectedTab() == 'accountTab') {
+      res = this.plylsSvc.selectedTabConfig()
+    } else {
+      res = this.plylsSvc.bodyConfig()?.accountTab
+    }
+
+    if (res == '') {
+      res = await this.plylsSvc.loadPlaylistData()
+      this.config = res?.LAYOUT_BODY?.sections?.accountTab
+    } else {
+      this.config = res
+    }
+    const orderList = this.showMobileView ? this.config?.mobOrderList : this.config?.webOrderList
+    this.menuItems = orderList?.map(id => this.config?.menuItems?.find(item => item.id === id)).filter(Boolean) || []
+
+    // remove first and last item
+    this.uiConfig = this.menuItems.length > 2 ? this.menuItems.slice(1, -1) : []
+    console.log("res ", res, this.config, this.uiConfig)
+    this.selectedIndex = this.uiConfig[0]?.name
+    this.selectedIndexData = this.uiConfig[0]?.data
   }
 
   hasRequiredLeaderboardDetails(): boolean {
@@ -190,45 +239,54 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     return hasUserId && hasProfessionalDetails && hasDesignation && hasRootOrgId && hasInstituteName
   }
-  changeFunction(text: string) {
-    if (text === 'organization') {
-      sessionStorage.setItem('currentWindow', 'organization')
-      this.showView = ''
-      sessionStorage.removeItem('work')
+  changeFunction(item: any): void {
+    if (!item?.name) return
+
+    const removeOnListPage = () => {
       if (sessionStorage.getItem('onListPage')) {
         sessionStorage.removeItem('onListPage')
       }
-    }
-    if (text == 'language') {
-      window.scroll(0, 0)
-      sessionStorage.setItem('currentWindow', 'language')
-      this.showLogOutIcon = false
-      this.getUserDetails()
-      if (sessionStorage.getItem('onListPage')) {
-        sessionStorage.removeItem('onListPage')
-      }
-    }
-    if (text === 'personal') {
-      sessionStorage.setItem('currentWindow', 'personal')
-      if (sessionStorage.getItem('onListPage')) {
-        sessionStorage.removeItem('onListPage')
-      }
-    }
-    if (text && this.showMobileView) {
-      console.log(text, 'mobileview', this.showMobileView)
-      this.hideData = true
-    }
-    if (text === 'academic') {
-      sessionStorage.setItem('currentWindow', 'education')
     }
 
-    if (text === 'certificates') {
-      // this.hideData = true
-      window.scroll(0, 0)
-      sessionStorage.setItem('currentWindow', 'certificates')
-      if (sessionStorage.getItem('onListPage')) {
-        sessionStorage.removeItem('onListPage')
-      }
+    const setWindow = (key: string) => {
+      sessionStorage.setItem('currentWindow', key)
+      removeOnListPage()
+    }
+    this.selectedIndexData = item?.data
+    switch (item?.name) {
+      case 'organization':
+        setWindow('organization')
+        this.showView = ''
+        sessionStorage.removeItem('work')
+        break
+
+      case 'language':
+        window.scroll(0, 0)
+        setWindow('language')
+        this.showLogOutIcon = false
+        this.getUserDetails()
+        break
+
+      case 'personal':
+        setWindow('personal')
+        break
+
+      case 'academic':
+        setWindow('education')
+        break
+
+      case 'certificates':
+        window.scroll(0, 0)
+        this.contentSvc.fetchGeneralAndRcCertificates().pipe().subscribe((res: any) => {
+          this.processCertiFicate(res)
+        })
+        setWindow('certificates')
+        break
+    }
+
+    if (this.showMobileView) {
+      console.log(item?.text, 'mobileview', this.showMobileView)
+      this.hideData = true
     }
   }
 
@@ -368,9 +426,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
         width: '312px',
         height: '369px',
-        data: this.userProfileData.personalDetails.about
-          ? this.userProfileData.personalDetails.about
-          : '',
+        data: this.personalInfo.about ? this.personalInfo.about : '',
       })
 
       dialogRef.afterClosed().subscribe(result => {
@@ -385,24 +441,23 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.currentProfession = data
   }
   assignUserName(data: any) {
-    if (data.firstname) this.userProfileData.personalDetails.firstname = data.firstname
-    if (data.surname) this.userProfileData.personalDetails.surname = data.surname
+    if (data.firstname)
+      this.personalInfo.firstname = data.firstname
+    if (data.surname)
+      this.personalInfo.surname = data.surname
   }
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
-      if (
-        this.userProfileData &&
-        this.userProfileData.professionalDetails &&
-        this.userProfileData.professionalDetails.length > 0
-      ) {
+      this.personalInfo = this.userProfileData?.personalDetails
+      if (this.userProfileData?.professionalDetails?.length > 0) {
         this.currentProfession = this.userProfileData.professionalDetails[0].profession
       } else {
         this.currentProfession = 'Not specified'
       }
       //this.currentProfession = this.userProfileData.professionalDetails[0].profession
       if (_.get(this.userProfileData, 'personalDetails')) {
-        this.photoUrl = this.userProfileData.personalDetails.photo
+        this.photoUrl = this.personalInfo.photo
       } else {
         this.photoUrl = this.userProfileData.photo
       }
@@ -491,12 +546,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             this.loader = false
             this.userProfileData = await data.profileDetails.profileReq
             this.userData = await data
-            //this.currentProfession = this.userProfileData.professionalDetails[0].profession
-            if (
-              this.userProfileData &&
-              this.userProfileData.professionalDetails &&
-              this.userProfileData.professionalDetails.length > 0
-            ) {
+            if (this.userProfileData?.professionalDetails?.length > 0) {
               this.currentProfession = this.userProfileData.professionalDetails[0].profession
             } else {
               this.currentProfession = 'Not specified'
@@ -516,12 +566,12 @@ export class MobileProfileDashboardComponent implements OnInit {
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
             }
-            if (this.userProfileData.personalDetails.photo) {
-              this.photoUrl = this.userProfileData.personalDetails.photo
+            if (this.personalInfo.photo) {
+              this.photoUrl = this.personalInfo.photo
             }
-            if (this.userProfileData.personalDetails.firstname) {
-              this.firstName = this.userProfileData.personalDetails.firstname
-              this.lastName = this.userProfileData.personalDetails.surname
+            if (this.personalInfo.firstname) {
+              this.firstName = this.personalInfo.firstname
+              this.lastName = this.personalInfo.surname
             }
           }
         })
