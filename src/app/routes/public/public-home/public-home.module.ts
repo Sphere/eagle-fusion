@@ -17,6 +17,7 @@ import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
 import { MobileHomeComponent } from '../../../routes/mobile-home/mobile-home.component'
 import { MobileTrustedByPageComponent } from '../../../routes/mobile-trusted-by-page/mobile-trusted-by-page.component'
+import { WebHowDoesWorkComponent } from '../../../routes/web-how-does-work/web-how-does-work.component'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 
 import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
@@ -41,6 +42,7 @@ import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-containe
     MobilePageComponent,
     MobileHomeComponent,
     MobileTrustedByPageComponent,
+    WebHowDoesWorkComponent,
     MobilePageFaqComponent,
     MobileLatestCommentComponent,
     MobileTestimonialsComponent,

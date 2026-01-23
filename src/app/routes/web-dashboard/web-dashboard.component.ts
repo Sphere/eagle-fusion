@@ -54,10 +54,10 @@ export class WebDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    let res = this.playlistSvc.getHomeConfig()
+    let res = this.playlistSvc.selectedTabConfig()
     if (res === "") {
-      this.playlistSvc.getPlaylistData().then(() => {
-        this.configData = this.playlistSvc.getHomeConfig()[0]
+      this.playlistSvc.loadPlaylistData().then(() => {
+        this.configData = this.playlistSvc.selectedTabConfig()[0]
       })
     } else {
       this.configData = res[0]

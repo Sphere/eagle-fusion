@@ -139,9 +139,9 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.userInfo = res[0]
         const lang =
           res[0] &&
-          res[0].profileDetails &&
-          res[0].profileDetails!.preferences &&
-          res[0].profileDetails!.preferences!.language !== undefined
+            res[0].profileDetails &&
+            res[0].profileDetails!.preferences &&
+            res[0].profileDetails!.preferences!.language !== undefined
             ? res[0].profileDetails.preferences.language
             : location.href.includes('/hi/')
               ? 'hi'
@@ -503,9 +503,9 @@ export class MobileProfileDashboardComponent implements OnInit {
             }
             const lang =
               data &&
-              data.profileDetails &&
-              data.profileDetails!.preferences &&
-              data.profileDetails!.preferences!.language !== undefined
+                data.profileDetails &&
+                data.profileDetails!.preferences &&
+                data.profileDetails!.preferences!.language !== undefined
                 ? data.profileDetails.preferences.language
                 : location.href.includes('/hi/')
                   ? 'hi'
@@ -560,6 +560,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   openCompetency(event: any) {
     console.log(event)
+    localStorage.setItem('isOnlyPassbook', 'false')
     this.router.navigate([`app/user/self-assessment`])
   }
   ngOnDestroy() {
@@ -595,6 +596,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   openCompetencyDashboard(event: any) {
     console.log(event)
+    localStorage.setItem('isOnlyPassbook', 'false')
     this.router.navigate([`app/user/competency`])
   }
   async openLeaderboard() {

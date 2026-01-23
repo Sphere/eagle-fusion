@@ -102,13 +102,13 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.showCreateBtn = false
       }
     })
-    this.orgData = this.playlistSvc.getOrgDetails()
+    this.orgData = this.playlistSvc.orgDetails()
     if (this.orgData === "") {
-      await this.playlistSvc.getPlaylistData().then(() => {
-        this.orgData = this.playlistSvc.getOrgDetails()
+      await this.playlistSvc.loadPlaylistData().then(() => {
+        this.orgData = this.playlistSvc.orgDetails()
       })
     }
-    this.config = this.playlistSvc.getHeaderConfig()
+    this.config = this.playlistSvc.headerConfig()
     if (this.config) {
       let menuItem = this.config.menuItems
       this.menuItems = this.isXSmall

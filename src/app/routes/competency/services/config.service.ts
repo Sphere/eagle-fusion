@@ -5,20 +5,26 @@ import { ConfigurationsService } from '@ws-widget/utils'
 })
 export class ConfigService {
   userProfileData: any
-  constructor(
-    public configSvc: ConfigurationsService,
-  ) {
-  }
+  constructor(public configSvc: ConfigurationsService) { }
 
   setConfig(profileData: any, profileDetails: any) {
     console.log(profileDetails)
     const config = {
-      userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
-      profileData: (profileData.professionalDetails),
-      language: (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en',
+      userName:
+        (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
+      profileData: profileData.professionalDetails,
+      language:
+        this.configSvc.unMappedUser &&
+          this.configSvc.unMappedUser!.profileDetails &&
+          this.configSvc.unMappedUser!.profileDetails!.preferences &&
+          this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined
+          ? this.configSvc.unMappedUser.profileDetails.preferences.language
+          : location.href.includes('/hi/')
+            ? 'hi'
+            : 'en',
       id: this.configSvc.unMappedUser.id,
       hostPath: this.configSvc.hostPath,
-      isMobileApp: false
+      isMobileApp: false,
     }
 
     if (localStorage.getItem('competency')) {
@@ -26,5 +32,4 @@ export class ConfigService {
     }
     localStorage.setItem('competency', JSON.stringify(config))
   }
-
 }

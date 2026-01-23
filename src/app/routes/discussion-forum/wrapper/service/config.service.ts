@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core'
 import { AbstractConfigService } from '@aastrika_npmjs/discussions-ui-v8'
-// import { AbstractPageService } from '../../../projects/components/src/lib/services/abstract-page.service'
 
 @Injectable({
   providedIn: 'root',

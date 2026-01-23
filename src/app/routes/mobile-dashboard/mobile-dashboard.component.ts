@@ -84,10 +84,7 @@ export class MobileDashboardComponent implements OnInit {
     this.scrollService.scrollToDivEvent.emit('scrollToHowSphereWorks')
   }
   ngOnInit() {
-    // this.lang = this.configSvc!.unMappedUser
-    //   ? (this.configSvc!.unMappedUser.profileDetails!.preferences!.language || 'en')
-    //   : location.href.includes('/hi/') ? 'hi' : 'en'
-    let data: any = this.playlistSvc.getHomeConfig()
+    let data: any = this.playlistSvc.selectedTabConfig()
     this.dataCarousel = data[0]?.data
     this.configData = data[5]
     if (this.isEkshamata) {

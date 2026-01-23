@@ -36,7 +36,7 @@
     </div>
   </div>
 
-  <div class="leaderboard-list" (scroll)="onScroll($event)">
+  <div class="leaderboard-list" (scroll)="onScroll()">
     <!-- Skeleton List -->
     <ng-container *ngIf="loading">
       <div *ngFor="let i of [].constructor(8)" class="list-item">
