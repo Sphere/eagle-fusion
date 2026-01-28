@@ -613,16 +613,32 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           }
         } else {
           if (this.htmlContent && this.htmlContent.artifactUrl) {
-            // const streamingUrl = this.htmlContent.streamingUrl.substring(51)
             let streamingUrl = this.htmlContent.streamingUrl
-            streamingUrl = streamingUrl.includes(
-              'https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com'
-            )
-              ? streamingUrl.substring(56)
-              : streamingUrl.substring(50)
+
+            // Log the original URL for debugging
+            console.log('[SCORM] Original streamingUrl:', streamingUrl)
+
+            // Extract the path part after the domain for all URLs and use proxy
+            if (streamingUrl.includes('https://static.sphere.aastrika.org')) {
+              // CDN domain: extract path after 'https://static.sphere.aastrika.org' (35 chars)
+              streamingUrl = streamingUrl.substring(35)
+            } else if (streamingUrl.includes('https://sunbirdcontent-stage.s3-ap-south-1.amazonaws.com')) {
+              // S3 stage domain: extract path after domain (56 chars)
+              streamingUrl = streamingUrl.substring(56)
+            } else {
+              // Fallback for other S3 or cloud domains
+              streamingUrl = streamingUrl.substring(50)
+            }
+
+            // Ensure path starts with /
+            if (!streamingUrl.startsWith('/')) {
+              streamingUrl = '/' + streamingUrl
+            }
+
             const entryPoint = this.htmlContent.entryPoint || ''
             const newUrl = `/apis/proxies/v8/getContents${streamingUrl}${entryPoint}`
-            this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${newUrl}`)
+            console.log('[SCORM] Using proxy URL:', newUrl, { streamingUrl, entryPoint })
+            this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(newUrl)
             // let artifactUrl = this.htmlContent.streamingUrl.substring(51)
             // this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
             //   .then((res: string) => {
