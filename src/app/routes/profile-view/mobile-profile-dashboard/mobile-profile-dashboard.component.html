@@ -154,18 +154,11 @@
     </div>
     <ng-container *ngIf="selectedIndex === 'organization' || selectedIndex === 'academic'">
       <div class="full-width" [class.full-width]="showbackButton">
-        <ng-container *ngIf="showView === ''">
-          <ws-work-info-list *ngIf="selectedIndex === 'organization'" [isEkshamata]="isEkshamata"
-            [data]="selectedIndexData" (passProfession)="assignProfession($event)">
-          </ws-work-info-list>
-          <ws-education-list *ngIf="selectedIndex === 'academic'" [isEkshamata]="isEkshamata"
-            [data]="selectedIndexData">
-          </ws-education-list>
-        </ng-container>
-        <ng-container *ngIf="showView">
-          <ws-work-info-edit *ngIf="selectedIndex === 'organization'" [data]="selectedIndexData"></ws-work-info-edit>
-          <ws-education-edit *ngIf="selectedIndex === 'academic'" [data]="selectedIndexData"></ws-education-edit>
-        </ng-container>
+        <ws-education-list *ngIf="selectedIndex === 'academic'" [isEkshamata]="isEkshamata" [data]="selectedIndexData"
+          [data]="selectedIndexData"></ws-education-list>
+        <ws-work-info-list *ngIf="selectedIndex === 'organization'" [isEkshamata]="isEkshamata"
+          [data]="selectedIndexData" (passProfession)="showView ? '' : assignProfession($event)">
+        </ws-work-info-list>
       </div>
     </ng-container>
     <div *ngIf="selectedIndex === 'language' || selectedIndex === 'certificates'" style="margin-top:25px;height:480px"
@@ -186,15 +179,15 @@
         </form>
       </ng-container>
       <ng-container *ngIf="selectedIndex === 'certificates'">
-        <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">{{ 'My Certificates' |
-          translate }}</p>
+        <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">
+          {{ selectedIndexData?.title | translate }}</p>
         <div *ngFor="let certificate of certificates">
           <ng-container *ngIf="certificates && certificates.length > 0">
             <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
           </ng-container>
         </div>
         <div *ngIf="certificates.length === 0" style="margin-top: 15px;text-align: center;">
-          <h2>{{ 'No Certificates' | translate }}</h2>
+          <h2>{{ selectedIndexData?.noData | translate }}</h2>
         </div>
       </ng-container>
     </div>

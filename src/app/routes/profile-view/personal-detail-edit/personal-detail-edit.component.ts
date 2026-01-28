@@ -640,7 +640,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   getOptions(field) {
-    console.log("field options", field, field.options, this[field.options])
     return this[field.options] || []
   }
 }

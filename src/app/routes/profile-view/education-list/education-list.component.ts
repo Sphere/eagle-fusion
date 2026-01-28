@@ -17,6 +17,7 @@ export class EducationListComponent implements OnInit {
   showLogOutIcon = false
   trigerrNavigation = true
   @Input() isEkshamata: boolean = false
+  @Input() data: any
   isEditableForSphere: boolean = false
   constructor(
     private configSvc: ConfigurationsService,

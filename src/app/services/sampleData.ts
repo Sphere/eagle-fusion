@@ -665,7 +665,7 @@ export const data = {
             "icon": "/fusion-assets/icons/arrow-right.svg",
             "selected": false,
             "data": {
-              "title": "ORGANIZATION_DETAILS",
+              "title": "Organizational Details",
               "sub_header": "",
               "img": {
                 "show": false,
@@ -747,7 +747,290 @@ export const data = {
                   "name": "subcentre",
                   "required": true
                 }
-              ]
+              ],
+              "formData": [
+                {
+                  "key": "profession",
+                  "type": "mat-select",
+                  "label": "Background",
+                  "placeholder": "Profession",
+                  "required": false,
+                  "disabled": false,
+                  "options": "professions"
+                },
+                {
+                  "key": "designation",
+                  "type": "select",
+                  "label": "",
+                  "placeholder": "Designation *",
+                  "required": true,
+                  "disabled": true,
+                  "options": "professionalOptions",
+                  "showIf": {
+                    "profession": [
+                      "Healthcare Worker",
+                      "Healthcare Volunteer",
+                      "Student",
+                      "Faculty"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": "errorMsg"
+                },
+                {
+                  "key": "professionOtherSpecify",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Please Specify *",
+                  "required": true,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Healthcare Worker",
+                      "Healthcare Volunteer"
+                    ],
+                    "designation": [
+                      "Others"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": "errorMsg"
+                },
+                {
+                  "key": "regNurseRegMidwifeNumber",
+                  "type": "text",
+                  "label": "RN/RM Number",
+                  "placeholder": "RN/RM Number",
+                  "required": false,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Healthcare Worker"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": ""
+                },
+                {
+                  "key": "selectBackground",
+                  "type": "select",
+                  "label": "",
+                  "placeholder": "Select Background",
+                  "required": false,
+                  "disabled": true,
+                  "options": "professionalOptions",
+                  "showIf": {
+                    "profession": [
+                      "Others"
+                    ]
+                  }
+                },
+                {
+                  "key": "designation",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Designation",
+                  "required": false,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Others"
+                    ],
+                    "selectBackground": [
+                      "Other"
+                    ]
+                  },
+                  "pattern": ""
+                },
+                {
+                  "key": "nameOther",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Please Specify Profession *",
+                  "required": true,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Others"
+                    ],
+                    "selectBackground": [
+                      "Other"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": "errorMsg"
+                },
+                {
+                  "key": "orgType",
+                  "type": "select",
+                  "label": "",
+                  "placeholder": "Organization Type *",
+                  "required": true,
+                  "disabled": true,
+                  "options": "orgTypes",
+                  "showIf": {
+                    "profession": [
+                      "Healthcare Worker",
+                      "Healthcare Volunteer",
+                      "Others"
+                    ],
+                    "selectBackground": [
+                      "Other"
+                    ]
+                  }
+                },
+                {
+                  "key": "orgOtherSpecify",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Please Specify *",
+                  "required": true,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Healthcare Worker",
+                      "Healthcare Volunteer",
+                      "Others"
+                    ],
+                    "selectBackground": [
+                      "Other"
+                    ],
+                    "orgType": [
+                      "Others"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": "errorMsg"
+                },
+                {
+                  "key": "orgName",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Organization Name",
+                  "required": false,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Healthcare Worker",
+                      "Healthcare Volunteer",
+                      "Others"
+                    ],
+                    "selectBackground": [
+                      "Other"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": "errorMsg"
+                },
+                {
+                  "key": "courseName",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Qualification",
+                  "required": false,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Student"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": "errorMsg"
+                },
+                {
+                  "key": "instituteName",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Institution Name *",
+                  "required": true,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Student"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": "errorMsg"
+                },
+                {
+                  "key": "orgName",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Institution Name *",
+                  "required": true,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "Faculty"
+                    ]
+                  },
+                  "pattern": "^[a-zA-Z][^\\s].*$",
+                  "errorMsg": "errorMsg"
+                },
+                {
+                  "key": "locationselect",
+                  "type": "select",
+                  "label": "",
+                  "placeholder": "City/District",
+                  "required": true,
+                  "disabled": true,
+                  "options": "disticts",
+                  "showIf": {
+                    "profession": [
+                      "ASHA",
+                      "Others"
+                    ],
+                    "selectBackground": [
+                      "Asha Facilitator",
+                      "Asha Trainer"
+                    ]
+                  }
+                },
+                {
+                  "key": "block",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Block",
+                  "required": false,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "ASHA",
+                      "Others"
+                    ],
+                    "selectBackground": [
+                      "Asha Facilitator",
+                      "Asha Trainer"
+                    ]
+                  }
+                },
+                {
+                  "key": "subcentre",
+                  "type": "text",
+                  "label": "",
+                  "placeholder": "Sub Centre",
+                  "required": false,
+                  "disabled": false,
+                  "showIf": {
+                    "profession": [
+                      "ASHA",
+                      "Others"
+                    ],
+                    "selectBackground": [
+                      "Asha Facilitator",
+                      "Asha Trainer"
+                    ]
+                  }
+                },
+                {
+                  "key": "organization-btn",
+                  "type": "submit",
+                  "label": "Save",
+                  "required": false,
+                  "condition": "isEditableForSphere"
+                }
+              ],
+              "sucessMsg": "User profile details updated successfully!"
             }
           },
           {
@@ -760,64 +1043,65 @@ export const data = {
             "icon": "/fusion-assets/icons/arrow-right.svg",
             "selected": false,
             "data": {
-              "title": "ACADEMIC_DETAILS",
-              "sub_header": "",
-              "img": {
-                "show": false,
-                "icon": "assets/icons/edit-icon-outline.svg"
+              "title": "Education",
+              "sub_header": "+ Add Education",
+              "button": {
+                "show": true,
+                "label": "edit",
+                "icon": "pencil"
               },
-              "optionsList": [
-                {
-                  "title": "BACKGROUND",
-                  "name": "background",
-                  "required": false
-                },
-                {
-                  "title": "PROFESSIONS",
-                  "name": "profession",
-                  "required": false
-                },
-                {
-                  "title": "ORGANIZATIONAL_TYPE",
-                  "name": "orgType",
-                  "required": false
-                },
-                {
-                  "title": "ORGANIZATIONAL_NAME",
-                  "name": "name",
-                  "required": false
-                },
-                {
-                  "title": "RN_NUM",
-                  "name": "rnNumber",
-                  "required": true
-                },
-                {
-                  "title": "QUALIFICATION",
-                  "name": "qualification",
-                  "required": false
-                },
-                {
-                  "title": "INSTITUE_NAME",
-                  "name": "instituteName",
-                  "required": true
-                },
-                {
-                  "title": "CITY_DISTRICT",
-                  "name": "locationselect",
-                  "required": false
-                },
-                {
-                  "title": "FRMELEMNTS_LBL_BLOCK",
-                  "name": "block",
-                  "required": false
-                },
-                {
-                  "title": "SUB_CENTRE",
-                  "name": "subcentre",
-                  "required": false
-                }
-              ]
+              // "optionsList": [
+              //   {
+              //     "title": "BACKGROUND",
+              //     "name": "background",
+              //     "required": false
+              //   },
+              //   {
+              //     "title": "PROFESSIONS",
+              //     "name": "profession",
+              //     "required": false
+              //   },
+              //   {
+              //     "title": "ORGANIZATIONAL_TYPE",
+              //     "name": "orgType",
+              //     "required": false
+              //   },
+              //   {
+              //     "title": "ORGANIZATIONAL_NAME",
+              //     "name": "name",
+              //     "required": false
+              //   },
+              //   {
+              //     "title": "RN_NUM",
+              //     "name": "rnNumber",
+              //     "required": true
+              //   },
+              //   {
+              //     "title": "QUALIFICATION",
+              //     "name": "qualification",
+              //     "required": false
+              //   },
+              //   {
+              //     "title": "INSTITUE_NAME",
+              //     "name": "instituteName",
+              //     "required": true
+              //   },
+              //   {
+              //     "title": "CITY_DISTRICT",
+              //     "name": "locationselect",
+              //     "required": false
+              //   },
+              //   {
+              //     "title": "FRMELEMNTS_LBL_BLOCK",
+              //     "name": "block",
+              //     "required": false
+              //   },
+              //   {
+              //     "title": "SUB_CENTRE",
+              //     "name": "subcentre",
+              //     "required": false
+              //   }
+              // ]
             }
           }
         ]
