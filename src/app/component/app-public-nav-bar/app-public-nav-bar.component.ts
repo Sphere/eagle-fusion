@@ -1,6 +1,6 @@
 import { IBtnAppsConfig } from './../../../../library/ws-widget/collection/src/lib/btn-apps/btn-apps.model'
 
-import { Component, OnInit, OnDestroy, Input, HostListener } from '@angular/core'
+import { Component, OnInit, OnDestroy, Input, HostListener, effect } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import { ConfigurationsService, NsPage, NsInstanceConfig, ValueService } from '@ws-widget/utils'
 import { Observable, Subscription } from 'rxjs'
@@ -48,13 +48,21 @@ export class AppPublicNavBarComponent implements OnInit, OnDestroy {
     private authSvc: AuthKeycloakService) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
+
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showCreateBtn = this.configSvc.userProfile === null
+      } else {
+        this.showCreateBtn = false
+      }
+    })
   }
 
   public get showPublicNavbar(): boolean {
     return true
   }
 
-  @HostListener('window:popstate', ['$event'])
+  @HostListener('window:popstate', [])
   onPopState() {
     console.log('Back button pressed')
     location.href = '/public/home'
@@ -112,17 +120,6 @@ export class AppPublicNavBarComponent implements OnInit, OnDestroy {
       localStorage.removeItem('preferedLanguage')
     }
     this.router.navigateByUrl('app/create-account')
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = false
-      } else {
-        this.showCreateBtn = true
-      }
-    })
   }
 
   login(key: 'E' | 'N' | 'S') {

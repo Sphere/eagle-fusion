@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener } from '@angular/core'
+import { Component, OnInit, effect } from '@angular/core'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ScrollService } from '../../services/scroll.service'
@@ -35,7 +35,15 @@ export class MobileHomeComponent implements OnInit {
   constructor(private http: HttpClient, private router: Router, private valueSvc: ValueService, public configSvc: ConfigurationsService,
 
     private scrollService: ScrollService,
-  ) { }
+  ) {
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showCreateBtn = this.configSvc.userProfile === null
+      } else {
+        this.showCreateBtn = false
+      }
+    })
+  }
 
   ngOnInit() {
     if (this.configSvc &&
@@ -100,16 +108,6 @@ export class MobileHomeComponent implements OnInit {
     this.scrollService.scrollToDivEvent.emit(value)
   }
 
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
-  }
   createAcct() {
     this.router.navigateByUrl('app/create-account')
   }

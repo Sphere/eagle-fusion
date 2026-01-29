@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges, HostListener } from '@angular/core'
+import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import {
   IBtnAppsConfig,
@@ -91,17 +91,21 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         this.cancelTour()
       }
     })
-  }
 
-  async ngOnInit() {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.isXSmall = true
+        this.showCreateBtn = this.configSvc.userProfile === null
       } else {
+        this.isXSmall = false
         this.showCreateBtn = false
       }
+      // trigger async safely
+      queueMicrotask(() => this.setUIData())
     })
+  }
+
+  async setUIData() {
     this.orgData = this.playlistSvc.orgDetails()
     if (this.orgData === "") {
       await this.playlistSvc.loadPlaylistData().then(() => {
@@ -115,6 +119,18 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         ? menuItem?.filter(item => this.config.mobileMenuItems.includes(item.id))
         : menuItem?.filter(item => this.config.webMenuItems.includes(item.id))
     }
+  }
+
+  async ngOnInit() {
+    this.valueSvc.isXSmall$.subscribe(isXSmall => {
+      this.isXSmall = isXSmall
+      if (isXSmall && (this.configSvc.userProfile === null)) {
+        this.showCreateBtn = true
+      } else {
+        this.showCreateBtn = false
+      }
+    })
+    await this.setUIData()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false
     }
@@ -186,8 +202,10 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   navigate() {
     // Use LanguageService instead of checking location.href
     // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
-
-    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails.profileReq!.personalDetails!.dob) {
+    this.menuItems?.forEach(item => {
+      item.active = false
+    })
+    if (this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails?.dob) {
       this.router.navigate(['/app/profile-view'])
     } else {
       this.router.navigate(['/app/about-you'], { queryParams: { redirect: '/page/home' } })
@@ -208,9 +226,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
     this.router.navigateByUrl(url)
   }
-
-
-
 
   ngOnChanges(changes: SimpleChanges) {
     for (const property in changes) {
@@ -236,17 +251,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   onPopState(event: any) {
     console.log('Back button pressed', event)
     location.href = '/page/home'
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
   }
 
   cancelTour() {

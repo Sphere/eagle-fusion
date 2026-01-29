@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, HostListener } from '@angular/core'
+import { Component, OnInit, Inject, effect } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import {
@@ -107,10 +107,27 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.userForm = new UntypedFormGroup({
       language: new UntypedFormControl(),
     })
+
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showMobileView = true
+        this.showbackButton = true
+        this.hideData = false
+        this.selectedIndex = ''
+        this.showLogOutIcon = true
+        this.showLogOutBtn = false
+      } else {
+        this.showMobileView = false
+        this.showbackButton = false
+        this.hideData = false
+        this.showLogOutIcon = false
+        this.showLogOutBtn = true
+      }
+      this.setupMenuItems()
+    })
   }
 
   ngOnInit() {
-    this.detectScreen()
     this.setupMenuItems()
     this.domain = window.location.hostname
     if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
@@ -150,49 +167,9 @@ export class MobileProfileDashboardComponent implements OnInit {
         // this.processCertiFicate(res[1])
       })
 
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.showMobileView = isXSmall
-      if (isXSmall) {
-        this.selectedIndex = ''
-        this.showbackButton = true
-        this.showLogOutIcon = true
-        this.showLogOutBtn = false
-      } else {
-        this.showbackButton = false
-        this.showLogOutIcon = false
-        this.showLogOutBtn = true
-      }
-    })
-
     console.log('this.configSvc.unMappedUser', this.configSvc.unMappedUser)
     if (this.hasRequiredLeaderboardDetails()) {
       this.getLeaderBoardList()
-    }
-  }
-
-
-  @HostListener('window:resize')
-  onResize() {
-    this.detectScreen()
-  }
-
-  private detectScreen(): void {
-    const prev = this.isMobileView
-    this.isMobileView = window.innerWidth <= 768
-
-    if (prev !== this.isMobileView) {
-      console.log('📱 Screen mode changed →', this.isMobileView ? 'Mobile' : 'Desktop')
-
-      // Your UI reactions on screen change
-      if (this.isMobileView) {
-        this.showbackButton = true
-        this.hideData = false
-      } else {
-        this.showbackButton = false
-        this.hideData = false
-      }
-
-      this.setupMenuItems()   // reapply config ordering
     }
   }
 
@@ -204,7 +181,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       res = this.plylsSvc.bodyConfig()?.accountTab
     }
 
-    if (res == '') {
+    if (res == '' || res == undefined) {
       res = await this.plylsSvc.loadPlaylistData()
       this.config = res?.LAYOUT_BODY?.sections?.accountTab
     } else {

@@ -185,6 +185,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         },
       },
     })
+    window.addEventListener('resize', () => {
+      this.valueSvc.updateWidth(window.innerWidth)
+    })
   }
   ngOnDestroy() {
     if (this.routerEventsSubscription) {

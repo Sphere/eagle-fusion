@@ -214,7 +214,7 @@ export class QuestionComponent implements OnInit, AfterViewInit {
   }
 
   @HostListener('window:resize')
-  onResize(_event: any) {
+  onResize() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.repaintEverything()
     }

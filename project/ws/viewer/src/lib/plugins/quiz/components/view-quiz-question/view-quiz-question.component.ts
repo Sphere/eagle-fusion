@@ -273,7 +273,7 @@ export class ViewQuizQuestionComponent implements OnInit, AfterViewInit, OnDestr
   }
 
   @HostListener('window:resize')
-  onResize(_event: any) {
+  onResize() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.repaintEverything()
     }

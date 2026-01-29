@@ -20,7 +20,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   numberOfNotification: string = ''
   currentTab = ''
   notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null
-  @Input() menuItems: any[] = []
+  @Input() menuItems: any[]
   @Input() mode = ''
   constructor(
     private dialog: MatDialog,
@@ -38,7 +38,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
-    this.data = this.configSvc.unMappedUser
+    this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())
 
     this.event.subscribe('notificationCountUpdated', (count) => {
@@ -50,7 +50,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     if (changes['menuItems'] && this.menuItems?.length) {
       this.currentTab = this.playlistSvc.getSelectedTab()
       this.syncMenuWithUrl()
-      this.cd.detectChanges()
+      this.cd?.detectChanges()
     }
   }
 
@@ -86,15 +86,15 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   }
 
   updatedMenuItems(label: string): void {
-    this.menuItems.forEach(item => {
+    this.menuItems?.forEach(item => {
       item.show = false
       item.active = false
     })
 
     const selected =
-      this.menuItems.find(i => label && i.title === label) ||
-      this.menuItems.find(i => i.id === this.currentTab) ||
-      this.menuItems[0]
+      this.menuItems?.find(i => label && i.title === label) ||
+      this.menuItems?.find(i => i.id === this.currentTab) ||
+      this.menuItems?.[0]
 
     if (selected) {
       this.playlistSvc.setSelectedTab(selected.id)
@@ -105,7 +105,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   }
 
   async redirect(item: any): Promise<void> {
-    this.menuItems.forEach(menu => {
+    this.menuItems?.forEach(menu => {
       menu.show = false
       menu.active = menu.id === item.id
     })

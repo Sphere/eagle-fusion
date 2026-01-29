@@ -276,7 +276,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
   }
 
   @HostListener('window:resize')
-  onResize(_event: any) {
+  onResize() {
     if (this.question.questionType === 'mtf') {
       this.jsPlumbInstance.repaintEverything()
     }

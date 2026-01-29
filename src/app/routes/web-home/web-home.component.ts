@@ -1,4 +1,4 @@
-import { Component, OnInit, HostListener, ElementRef } from '@angular/core'
+import { Component, OnInit, ElementRef, effect } from '@angular/core'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { ScrollService } from '../../services/scroll.service'
@@ -27,7 +27,15 @@ export class WebHomeComponent implements OnInit {
     private elementRef: ElementRef,
     private languageSvc: LanguageService,
     private playlsSvc: PlaylistService
-  ) { }
+  ) {
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showCreateBtn = this.configSvc.userProfile === null
+      } else {
+        this.showCreateBtn = false
+      }
+    })
+  }
 
   async ngOnInit() {
     let res = this.playlsSvc.bodyConfig()
@@ -52,17 +60,6 @@ export class WebHomeComponent implements OnInit {
     this.dataCarousel = this.config?.data
     this.bannerStatus = this.config?.bannerStats
     // this.bannerStatus = this.configSvc.bannerStats
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
-  }
-
-  @HostListener('window:resize', ['$event'])
-  onResize() {
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall && (this.configSvc.userProfile === null)) {
         this.showCreateBtn = true

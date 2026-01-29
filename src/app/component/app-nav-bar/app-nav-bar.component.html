@@ -1,4 +1,4 @@
-<mat-toolbar *ngIf="configSvc.userProfile && !hideSearch" [color]="primaryNavbarBackground?.color"
+<mat-toolbar *ngIf="configSvc?.userProfile && !hideSearch" [color]="primaryNavbarBackground?.color"
   [ngStyle]="primaryNavbarBackground?.styles" class="mat-elevation-z3 custom mat-tool-navbar">
   <!-- TOP MODE -->
   <div *ngIf="mode === 'top'" class="logo-container flex items-center">
@@ -23,7 +23,7 @@
   <!-- BOTTOM MODE -->
   <div *ngIf="mode === 'bottom'" class="flex navbar-gap justify-between items-center"
     [ngStyle]="{ gap: langPresent ? '0px 8px' : '0px 3px' }">
-    <ng-container *ngIf="!showCreateBtn">
+    <ng-container *ngIf="!showCreateBtn && isXSmall && menuItems?.length">
       <ws-web-nav-link-page [menuItems]="menuItems" [mode]="isXSmall"></ws-web-nav-link-page>
     </ng-container>
     <div class="w-full" *ngIf="hideCreateButton">
