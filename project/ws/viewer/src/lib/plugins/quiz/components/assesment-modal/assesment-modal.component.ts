@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { HttpClient } from '@angular/common/http'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
@@ -59,6 +60,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   proficiencyLevel = ''
   competencyId = ''
   public unsubscribe = new Subject<void>()
+
+  // Organizations where View Answers should not be shown if isCorrectAnswerPopUp is not present
+  // Fetched from S3 configuration
+  private restrictedOrgIds: string[] = []
+
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -74,6 +80,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private contentSvc: WidgetContentService,
     private events: EventService,
     private dialog: MatDialog,
+    private http: HttpClient,
   ) { }
 
   ngOnInit() {
@@ -91,6 +98,27 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.proficiencyLevel = this.assesmentdata.generalData.name
       .replace('Proficency', 'Proficiency').split('Proficiency')[1]
     this.isCompetency = this.route.snapshot.queryParams.competency
+    this.fetchRestrictedOrgIds()
+    this.updateProgress()
+  }
+  updateProgress() {
+    const realTimeProgressRequest = {
+      content_type: 'Resource',
+      current: ['0'],
+      max_size: 0,
+      mime_type: NsContent.EMimeTypes.APPLICATION_JSON,
+      user_id_type: 'uuid',
+    }
+
+    this.viewerSvc.realTimeProgressUpdate(
+      this.assesmentdata.generalData?.identifier,
+      realTimeProgressRequest,
+      this.assesmentdata.generalData.collectionId,
+      this.route.snapshot.queryParams.batchId
+    )
+      .subscribe((res) => {
+        console.log('res', res)
+      })
   }
   ngAfterViewInit() {
     let object = {
@@ -107,6 +135,50 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.updateQuestionType(true)
     }
   }
+
+  /**
+   * Fetch restricted organization IDs from S3 configuration file
+   */
+  private fetchRestrictedOrgIds(): void {
+    const s3ConfigUrl = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/quiz-config.json?cb=${Date.now()}`
+
+    this.http.get<any>(s3ConfigUrl).subscribe(
+      (config: any) => {
+        if (config && Array.isArray(config.restrictedOrgIds)) {
+          this.restrictedOrgIds = config.restrictedOrgIds
+          console.log('Restricted org IDs loaded from S3:', this.restrictedOrgIds)
+        }
+      },
+      (error: any) => {
+        console.warn('Failed to load restricted org IDs from S3, using empty list:', error)
+        // If S3 fetch fails, restrictedOrgIds remains empty (no orgs are restricted)
+      }
+    )
+  }
+
+  /**
+   * Check if View Answers button should be shown based on user's organization and isCorrectAnswerPopUp resource property
+   * Hide View Answers for restricted organizations if isCorrectAnswerPopUp is not present/true
+   * Show View Answers for all other organizations
+   */
+  canShowViewAnswers(): boolean {
+    // Get the organization ID from user profile
+    const userOrgId = this.configSvc.userProfile?.rootOrgId
+
+    // Check if isCorrectAnswerPopUp is present in resource
+    const resource = this.viewerDataSvc.resource
+    const isCorrectAnswerPopUp = resource?.isCorrectAnswerPopUp
+
+    // If user's organization is in restricted list
+    if (userOrgId && this.restrictedOrgIds.includes(userOrgId)) {
+      // Only show View Answers if isCorrectAnswerPopUp is explicitly true
+      return isCorrectAnswerPopUp === true
+    }
+
+    // For all other organizations, show View Answers based on original logic
+    return true
+  }
+
   closePopup() {
     if (this.isCompetency) {
       this.dialogRef.close({
