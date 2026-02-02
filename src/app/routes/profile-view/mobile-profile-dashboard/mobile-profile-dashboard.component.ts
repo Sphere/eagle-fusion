@@ -587,6 +587,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   openCompetency(event: any) {
     console.log(event)
+    localStorage.setItem('isOnlyPassbook', 'false')
     this.router.navigate([`app/user/self-assessment`])
   }
   ngOnDestroy() {
@@ -622,6 +623,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
   openCompetencyDashboard(event: any) {
     console.log(event)
+    localStorage.setItem('isOnlyPassbook', 'false')
     this.router.navigate([`app/user/competency`])
   }
   async openLeaderboard() {

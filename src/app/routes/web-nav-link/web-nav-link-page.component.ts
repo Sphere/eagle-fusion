@@ -1,4 +1,11 @@
-import { Component, Input, OnInit, OnChanges, SimpleChanges, ChangeDetectorRef } from '@angular/core'
+import {
+  Component,
+  Input,
+  OnInit,
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectorRef,
+} from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
@@ -32,7 +39,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     public storage: LocalStorageService,
     private readonly event: Events,
     private playlistSvc: PlaylistService,
-    private cd: ChangeDetectorRef
+    private cd: ChangeDetectorRef,
   ) {
     this.subscribeNavbarChanges()
   }
@@ -41,7 +48,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())
 
-    this.event.subscribe('notificationCountUpdated', (count) => {
+    this.event.subscribe('notificationCountUpdated', count => {
       this.updateNotificationCount(count)
     })
   }
@@ -53,7 +60,6 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
       this.cd?.detectChanges()
     }
   }
-
 
   private updateNotificationCount(count: number): void {
     this.numberOfNotification = count > 1 ? '1+' : count > 0 ? '1' : ''
@@ -72,7 +78,11 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
 
     if (path.includes('/app/profile-view') || path.includes('/app/about-you')) {
       this.updatedMenuItems('Account')
-    } else if (path.includes('/page/home') || path.includes('/overview') || path.includes('/app/toc')) {
+    } else if (
+      path.includes('/page/home') ||
+      path.includes('/overview') ||
+      path.includes('/app/toc')
+    ) {
       this.updatedMenuItems('Home')
     } else if (path.includes('/app/user/my_courses')) {
       this.updatedMenuItems('My Courses')
@@ -133,6 +143,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
       case 'account':
         this.navOption.changeNavBarActive(titleKey)
         if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
+          localStorage.setItem('isOnlyPassbook', 'false')
           this.router.navigate([route])
         } else {
           const fallback = localStorage.getItem('url_before_login') || this.menuItems[0].redirect
@@ -157,7 +168,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
       width: '400px', // Adjust as needed
       maxHeight: '80vh', // Prevent overflow
       panelClass: 'custom-notification-modal',
-      position: { top: '60px', right: '10px' } // Adjust as per your navbar height
+      position: { top: '60px', right: '10px' }, // Adjust as per your navbar height
     })
     this.notificationDialogRef.afterClosed().subscribe(() => {
       this.notificationDialogRef = null
@@ -171,7 +182,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   }
   logout() {
     this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
-      panelClass: 'logout-dialog-container'
+      panelClass: 'logout-dialog-container',
     })
   }
 }
