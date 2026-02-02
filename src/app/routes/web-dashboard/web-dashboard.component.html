@@ -4,10 +4,10 @@
     <!-- ================= Banner Text ================= -->
     <div class="banner-heading-container">
       <div class="heading">
-        <div class="banner-mini-heading">{{ configData.title | translate }}</div>
+        <div class="banner-mini-heading">{{ configData?.title | translate }}</div>
         <div class="banner-heading"><span>{{ firstName || '' | translate }}</span></div>
       </div>
-      <div class="banner-sub-heading">{{ configData.subTitle | translate }}</div>
+      <div class="banner-sub-heading">{{ configData?.subTitle | translate }}</div>
     </div>
     <!-- ================= Ekshamata Banner ================= -->
     <div *ngIf="isEkshamata" class="ekshamta-banner-container">
@@ -20,9 +20,9 @@
     <div *ngIf="!isEkshamata" class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
       <div class="slide" *ngFor="let data of dataCarousel; let i = index">
         <div class="slide-content" [class.active]="i === currentSlideIndex"
-          (click)="scrollToHowSphereWorks(data.scrollEmit)">
+          (click)="scrollToHowSphereWorks(data?.scrollEmit)">
 
-          <img class="banner-image" [src]="data.img" alt="Carousel image" loading="lazy" />
+          <img class="banner-image" [src]="data?.img" alt="Carousel image" loading="lazy" />
         </div>
       </div>
     </div>

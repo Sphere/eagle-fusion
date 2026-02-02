@@ -97,13 +97,14 @@ export class WebPublicComponent implements OnInit, OnDestroy {
       } else {
         this.configData = res.slice(1, -1)
       }
-      this.configData?.forEach(data => {
-        if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
-          this.topCertifiedCourseIdentifier = data.payload
-        } else if (data?.playlistConfigId == 'CNE_COURSE_PLAYLIST') {
-          this.cneCoursesIdentifier = data.payload
-        }
-      })
+      if (this.configData)
+        this.configData?.forEach(data => {
+          if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
+            this.topCertifiedCourseIdentifier = data.payload
+          } else if (data?.playlistConfigId == 'CNE_COURSE_PLAYLIST') {
+            this.cneCoursesIdentifier = data.payload
+          }
+        })
     }
     this.fetchEnvironmentConfigurations()
     // Handle scroll events
@@ -167,21 +168,22 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         content.filter(item => featureSet.has(item.identifier)),
         'identifier'
       )
-      this.configData?.forEach((element: any) => {
-        if (element.playlistConfigId === 'CONTINUE_LEARNING') {
-          element.data = this.userEnrollCourse
-          element.displayData = element?.data?.slice(0, element.limit)
-        } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
-          element.data = this.coursesForYou
-          element.displayData = element?.data?.slice(0, element.limit)
-        } else if (element.playlistConfigId === 'CNE_COURSE_PLAYLIST') {
-          element.data = this.cneCourse
-          element.displayData = element?.data?.slice(0, element.limit)
-        } else if (element.playlistConfigId === 'TOP_COURSE_PLAYLIST') {
-          element.data = !this.isEkshamata ? this.topCertifiedCourse : this.coursesForEK
-          element.displayData = element?.data?.slice(0, element.limit)
-        }
-      })
+      if (this.configData)
+        this.configData?.forEach((element: any) => {
+          if (element.playlistConfigId === 'CONTINUE_LEARNING') {
+            element.data = this.userEnrollCourse
+            element.displayData = element?.data?.slice(0, element.limit)
+          } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
+            element.data = this.coursesForYou
+            element.displayData = element?.data?.slice(0, element.limit)
+          } else if (element.playlistConfigId === 'CNE_COURSE_PLAYLIST') {
+            element.data = this.cneCourse
+            element.displayData = element?.data?.slice(0, element.limit)
+          } else if (element.playlistConfigId === 'TOP_COURSE_PLAYLIST') {
+            element.data = !this.isEkshamata ? this.topCertifiedCourse : this.coursesForEK
+            element.displayData = element?.data?.slice(0, element.limit)
+          }
+        })
     })
   }
 
