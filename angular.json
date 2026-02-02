@@ -91,30 +91,30 @@
               "node_modules/jspdf-autotable/dist/jspdf.plugin.autotable.js"
             ],
             "aot": true,
-            "vendorChunk": true,
-            "extractLicenses": false,
+            "vendorChunk": false,
+            "extractLicenses": true,
             "buildOptimizer": false,
             "sourceMap": {
-              "scripts": false,
-              "styles": false,
-              "vendor": false
+              "scripts": true,
+              "styles": true,
+              "vendor": true
             },
-            "optimization": false,
-            "namedChunks": true
+            "optimization": true,
+            "namedChunks": false
           },
           "configurations": {
             "development": {
-              "optimization": false,
+              "optimization": true,
               "sourceMap": {
                 "scripts": true,
                 "styles": true,
                 "vendor": true
               },
-              "namedChunks": true,
+              "namedChunks": false,
               "aot": false,
               "buildOptimizer": false,
-              "vendorChunk": true,
-              "extractLicenses": false
+              "vendorChunk": false,
+              "extractLicenses": true
             },
             "production": {
               "fileReplacements": [
@@ -131,7 +131,7 @@
                 },
                 "fonts": true
               },
-              "sourceMap": false,
+              "sourceMap": true,
               "namedChunks": false,
               "aot": true,
               "vendorChunk": false,
@@ -151,8 +151,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "4mb",
-                  "maximumError": "5mb"
+                  "maximumWarning": "18mb",
+                  "maximumError": "18mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -167,32 +167,6 @@
               ],
               "serviceWorker": false,
               "ngswConfigPath": "ngsw-config.json"
-            },
-            "hi": {
-              "aot": true,
-              "outputPath": "dist/www/hi",
-              "localize": [
-                "hi"
-              ],
-              "optimization": {
-                "scripts": true,
-                "styles": {
-                  "minify": true,
-                  "inlineCritical": true
-                },
-                "fonts": true
-              },
-              "sourceMap": false,
-              "namedChunks": false,
-              "extractLicenses": true,
-              "vendorChunk": false,
-              "buildOptimizer": true,
-              "fileReplacements": [
-                {
-                  "replace": "src/environments/environment.ts",
-                  "with": "src/environments/environment.prod.ts"
-                }
-              ]
             }
           },
           "defaultConfiguration": "production"
@@ -209,9 +183,6 @@
             },
             "development": {
               "browserTarget": "fusion:build:development"
-            },
-            "hi": {
-              "browserTarget": "fusion:build:hi"
             }
           },
           "defaultConfiguration": "development"
