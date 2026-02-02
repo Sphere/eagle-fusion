@@ -4,7 +4,7 @@ import {
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
-import { MdePopoverTrigger } from '@material-extended/mde'
+import { MdePopoverTrigger } from '@jaguards/material-extended-mde'
 import { HttpClient } from '@angular/common/http'
 import { forkJoin } from 'rxjs'
 import { WidgetUserService } from '@ws-widget/collection'

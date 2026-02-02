@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from './../org-home-service.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
 import { Router } from '@angular/router'
 import { delay, mergeMap } from 'rxjs/operators'
 import { of } from 'rxjs'

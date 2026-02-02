@@ -54,7 +54,7 @@
     "@capacitor/cli": "6.2.1",
     "@capacitor/core": "6.2.1",
     "@fortawesome/fontawesome-free": "^7.0.0",
-    "@material-extended/mde": "3.0.3",
+    "@jaguards/material-extended-mde": "16.2.11",
     "@ngx-translate/core": "16.0.1",
     "@ngx-translate/http-loader": "16.0.1",
     "@project-sunbird/client-services": "3.9.5",
@@ -150,12 +150,6 @@
     "stylus": "0.55.0"
   },
   "overrides": {
-    "@material-extended/mde": {
-      "@angular/core": "16.2.12",
-      "@angular/common": "16.2.12",
-      "@angular/forms": "16.2.12",
-      "@angular/platform-browser": "16.2.12"
-    },
     "ngx-chips": {
       "@angular/core": "16.2.12",
       "@angular/common": "16.2.12",
