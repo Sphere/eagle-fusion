@@ -22,6 +22,7 @@ import { WorkInfoListComponent } from './work-info-list/work-info-list.component
 import { WorkInfoEditComponent } from './work-info-edit/work-info-edit.component'
 import { CertificateReceivedComponent } from './certificate-received/certificate-received.component'
 import { PersonalDetailEditComponent } from './personal-detail-edit/personal-detail-edit.component'
+import { LeadershipDashboardComponent } from './leadership-dashboard/leadership-dashboard.component'
 
 @NgModule({
   declarations: [
@@ -35,6 +36,7 @@ import { PersonalDetailEditComponent } from './personal-detail-edit/personal-det
     WorkInfoEditComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
+    LeadershipDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -62,6 +64,7 @@ import { PersonalDetailEditComponent } from './personal-detail-edit/personal-det
     WorkInfoEditComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
+    LeadershipDashboardComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

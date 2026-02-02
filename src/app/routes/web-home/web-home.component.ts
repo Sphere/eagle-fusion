@@ -41,7 +41,7 @@ export class WebHomeComponent implements OnInit {
     let res = this.playlsSvc.bodyConfig()
     if (res == '') {
       let res = await this.playlsSvc.loadPlaylistData()
-      this.config = res?.LAYOUT_BODY
+      this.config = res?.LAYOUT_BODY[0]
     } else {
       this.config = res[0]
     }

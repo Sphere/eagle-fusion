@@ -61,6 +61,7 @@ import { SearchRoutingModule } from './search-routing.module'
 // import { PeopleComponent } from './routes/people/people.component'
 import { SearchInputHomeComponent } from './components/search-input-home/search-input-home.component'
 import { PublicHomeModule } from '../../../../../../../src/app/routes/public/public-home/public-home.module'
+import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
   declarations: [
     SearchRootComponent,
@@ -123,6 +124,7 @@ import { PublicHomeModule } from '../../../../../../../src/app/routes/public/pub
     MatDividerModule,
     UserAutocompleteModule,
     PublicHomeModule,
+    TranslateModule
   ],
   exports: [
     // ItemTileComponent,

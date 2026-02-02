@@ -48,7 +48,7 @@ export class LeadershipDashboardComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<LeadershipDashboardComponent>,
     public dialog: MatDialog,
     public userProfileService: UserProfileService,
-    private configSvc: ConfigurationsService,
+    private configSvc: ConfigurationsService
   ) { }
 
   ngOnInit() {

@@ -419,6 +419,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.router.url === '/'
         ) {
           this.isHomePage = true
+          this.isNavBarRequired = this.router.url.includes('/page/home') ?? true
         } else {
           this.isHomePage = false
         }
@@ -564,6 +565,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     })
+    await this.playlistSvc.loadPlaylistData()
 
     this.rootSvc.showNavbarDisplay$
       .pipe(delay(500), takeUntil(this.destroy$))
@@ -573,7 +575,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.orgService.hideHeaderFooter.pipe(takeUntil(this.destroy$)).subscribe(show => {
       this.hideHeaderFooter = show
     })
-    await this.playlistSvc.loadPlaylistData().then()
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       if (localStorage.getItem('url_before_login')) {
@@ -587,7 +588,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isLoggedIn = false
     }
     this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
-    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.bodyConfig()
+    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
     this.videoData = this.configData[5]
 
     if (this.configSvc.userProfile) {

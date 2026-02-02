@@ -13,6 +13,7 @@ export class PlaylistService {
   headerConfig = computed(() => this.playlistData()?.LAYOUT_HEADER ?? '')
   bodyConfig = computed(() => this.playlistData()?.LAYOUT_BODY?.sections ?? '')
   footerConfig = computed(() => this.playlistData()?.LAYOUT_FOOTER ?? '')
+  config = computed(() => this.playlistData()?.LAYOUT_BODY ?? '')
 
   sections = computed(
     () => this.playlistData()?.LAYOUT_BODY?.sections ?? {}

@@ -194,7 +194,6 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   viewAllCourse(content: any) {
     if (content?.button?.courseType === 'continueLearning') {
       console.log(" this.isXSmall$ ", this.isXSmall$)
-      alert(this.isXSmall$ + "this.isXSmall$")
       if ((this.isXSmall$.subscribe())) {
         content.displayData = this.userEnrollCourse
       } else {

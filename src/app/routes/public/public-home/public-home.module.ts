@@ -1,5 +1,5 @@
 
-import { NgModule } from '@angular/core'
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { RouterModule } from '@angular/router'
 import { TranslateModule } from '@ngx-translate/core'
@@ -74,19 +74,6 @@ import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-containe
     UserImageModule,
     RetainScrollModule,
   ],
-
-  exports: [PublicHomeComponent,
-    MobilePageComponent,
-    MobileHomeComponent,
-    MobileTrustedByPageComponent,
-    MobilePageFaqComponent,
-    MobileLatestCommentComponent,
-    MobileTestimonialsComponent,
-    MobileCourseViewComponent,
-    PublicTocComponent,
-    PublicTocBannerComponent,
-    PublicTocOverviewComponent,
-    KeycloakCallbackComponent,
-    TranslateModule],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PublicHomeModule { }
