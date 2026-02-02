@@ -73,25 +73,22 @@ import { GlobalErrorHandlingService } from './services/global-error-handling.ser
 import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
 
 import { RootComponent } from './component/root/root.component'
-// import { LoginComponent } from './component/login/login.component'
-// import { AppFooterComponent } from './component/app-footer/app-footer.component'
-// import { AppNavBarComponent } from './component/app-nav-bar/app-nav-bar.component'
-// import { AppPublicNavBarComponent } from './component/app-public-nav-bar/app-public-nav-bar.component'
-// import { ServiceWorkerModule } from '@angular/service-worker'
-// import { environment } from '../environments/environment'
-// import { DialogConfirmComponent } from './component/dialog-confirm/dialog-confirm.component'
+import { LoginComponent } from './component/login/login.component'
+import { AppFooterComponent } from './component/app-footer/app-footer.component'
+import { AppNavBarComponent } from './component/app-nav-bar/app-nav-bar.component'
+import { AppPublicNavBarComponent } from './component/app-public-nav-bar/app-public-nav-bar.component'
+import { DialogConfirmComponent } from './component/dialog-confirm/dialog-confirm.component'
 import { InvalidUserComponent } from './component/invalid-user/invalid-user.component'
 import { LoginRootComponent } from './component/login-root/login-root.component'
 import { LoginRootDirective } from './component/login-root/login-root.directive'
-// import { TncRendererComponent } from './component/tnc-renderer/tnc-renderer.component'
-// import { MobileAppModule } from './routes/public/mobile-app/mobile-app.module'
+import { TncRendererComponent } from './component/tnc-renderer/tnc-renderer.component'
 import { PublicAboutModule } from './routes/public/public-about/public-about.module'
 import { PublicHomeModule } from './routes/public/public-home/public-home.module'
 import { PublicContactModule } from './routes/public/public-contact/public-contact.module'
 import { PublicFaqModule } from './routes/public/public-faq/public-faq.module'
 import { TncComponent } from './routes/tnc/tnc.component'
-// import { RegisterComponent } from './routes/register/register.component'
-// import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
+import { RegisterComponent } from './routes/register/register.component'
+import { ForgotPasswordComponent } from './routes/forgot-password/forgot-password.component'
 
 import { AppInterceptorService } from './services/app-interceptor.service'
 import { AppRetryInterceptorService } from './services/app-retry-interceptor.service'
@@ -102,59 +99,46 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
 import { MdePopoverModule } from '@jaguards/material-extended-mde'
-// import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
-// import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
-// import { BnrcLoginOtpComponent } from './routes/bnrc-login-otp/bnrc-login-otp.component'
-// import { CreateAccountComponent } from './routes/create-account/create-account.component'
-// import { YourLocationComponent } from './routes/your-location/your-location.component'
-// import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
-// import { YourBackgroundComponent } from './routes/your-background/your-background.component'
-// import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
-// import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
+import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
+import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
+import { BnrcLoginOtpComponent } from './routes/bnrc-login-otp/bnrc-login-otp.component'
+import { CreateAccountComponent } from './routes/create-account/create-account.component'
+import { YourLocationComponent } from './routes/your-location/your-location.component'
+import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
+import { YourBackgroundComponent } from './routes/your-background/your-background.component'
+import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
+import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
 import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 
-// import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
-// import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
-// import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
-// import { MobileCategoryComponent } from './routes/mobile-category/mobile-category.component'
-// import { MobileVideoPlayerComponent } from './routes/mobile-video-player/mobile-video-player.component'
-// import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
+import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
+import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
+import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
+import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
-// import { MobileProfileDashboardComponent } from './routes/profile-view/mobile-profile-dashboard/mobile-profile-dashboard.component'
-// import { MobileAboutPopupComponent } from './routes/mobile-about-popup/mobile-about-popup.component'
-// import { ProfileSelectComponent } from './routes/profile-view/profile-select/profile-select.component'
-// import { EducationListComponent } from './routes/profile-view/education-list/education-list.component'
-// import { EducationEditComponent } from './routes/profile-view/education-edit/education-edit.component'
-// import { MobileProfileNavComponent } from './routes/profile-view/mobile-profile-nav/mobile-profile-nav.component'
-// import { WorkInfoListComponent } from './routes/profile-view/work-info-list/work-info-list.component'
-// import { WorkInfoEditComponent } from './routes/profile-view/work-info-edit/work-info-edit.component'
-// import { CertificateReceivedComponent } from './routes/profile-view/certificate-received/certificate-received.component'
-// import { PersonalDetailEditComponent } from './routes/profile-view/personal-detail-edit/personal-detail-edit.component'
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
-// import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
+import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
-// import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
+import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
 import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
 import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
 import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
-// import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
-// import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
-// import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trusted-by-page.component'
-// import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
-// import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.component'
+import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
+import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
+import { WebTrustedByPageComponent } from './routes/web-trusted-by-page/web-trusted-by-page.component'
+import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
+import { WebDashboardComponent } from './routes/web-dashboard/web-dashboard.component'
 import { UserAgentResolverService } from './services/user-agent.service'
-// import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
-// import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
-// import { WebCourseCardComponent } from './routes/web-course-card/web-course-card.component'
-// import { WebEkshamataPublicComponent } from './routes/web-ekshamata-public-container/web-ekshamata-public-container.component'
+import { WebPublicComponent } from './routes/web-public-container/web-public-container.component'
+import { WebCourseViewComponent } from './routes/web-course-view/web-course-view.component'
+import { WebCourseCardComponent } from './routes/web-course-card/web-course-card.component'
 import {
   PipeCountTransformModule,
   PipeDurationTransformModule,
@@ -163,25 +147,19 @@ import {
 } from '@ws-widget/utils'
 import { HorizontalScrollerModule } from '@ws-widget/utils/src/public-api'
 import { ScromPlayerComponent } from './routes/public/scrom-player/scrom-player.component'
-// import { VideoPopupComponent } from './routes/how-does-it-works-popup/how-does-it-works-popup.component'
+import { VideoPopupComponent } from './routes/how-does-it-works-popup/how-does-it-works-popup.component'
 import { MaternityCallbackComponent } from './maternity-callback/maternity-callback.component'
-// import { MyCoursesComponent } from './component/my-courses/my-courses.component'
-// import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
+import { MyCoursesComponent } from './component/my-courses/my-courses.component'
+import { ScrollDetectorDirective } from 'src/app/routes/new-tnc/new-tnc.directive'
 import { PublicLoginComponent } from './public-login/public-login.component'
 import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
-// import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
-// import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
-// import { NotificationsComponent } from './routes/notification/notification.component'
+import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
+import { NotificationsComponent } from './routes/notification/notification.component'
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
-// import { TnnmcConfirmComponent } from './component/tnnmc-dialog-confirm/tnnmc-confirm.component'
+import { TnnmcConfirmComponent } from './component/tnnmc-dialog-confirm/tnnmc-confirm.component'
 import { TextFieldModule } from '@angular/cdk/text-field'
-// import { LeadershipDashboardComponent } from './routes/profile-view/leadership-dashboard/leadership-dashboard.component'
-import { LoginModule } from './routes/login/login.module'
-import { CoreModule } from './core/core.module'
 import { ProfileViewModule } from './routes/profile-view/profile-view.module'
-import { WebPagesModule } from './routes/web-pages/web-pages.module'
-import { CompetencyModule as CompetencyUIModule } from './routes/competency/competency.module'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -331,56 +309,43 @@ export function initializeCompetencyConfig(): () => void {
     TnnmcCallbackComponent,
     PublicLoginComponent,
     TnaiCallbackComponent,
-
-
-    // LoginComponent, - loginmodule
-    // RegisterComponent, - loginmodule
-    // BnrcRegisterComponent, - loginmodule
-    // UpsmfRegisterComponent, - loginmodule
-    // MpRegisterComponent, - loginmodule
-    // ForgotPasswordComponent, - login
-    // MobileLoginComponent, - login
-    // LoginOtpComponent, - login
-    // BnrcLoginOtpComponent, - login
-    // CreateAccountComponent, - login
-    // YourLocationComponent, - login
-    // NewTncComponent, - login
-    // YourBackgroundComponent, - login
-    // AlmostDoneComponent, - login
-    // CompleteProfileComponent, - login
-    // ScrollDetectorDirective, - login
-    // AppNavBarComponent, - core
-    // AppPublicNavBarComponent, core
-    // TncRendererComponent, - core
-    // AppFooterComponent, - core
-    // DialogConfirmComponent, - core
-    // TnnmcConfirmComponent, - core
-    // NotificationsComponent, - core
-    // MobileFooterComponent, - core
-    // DropdownDobComponent, - core
-    // VideoPopupComponent, - core
-    // MyCoursesComponent, - core
-    // BnrcmodalComponent - core
-    // LeadershipDashboardComponent, - profile-view.module
-    // MobileProfileDashboardComponent, - profile-view.module
-    // MobileAboutPopupComponent, - profile-view.module
-    // ProfileSelectComponent, - profile-view.module
-    // EducationListComponent, - profile-view.module
-    // EducationEditComponent, - profile-view.module
-    // WorkInfoListComponent, - profile-view.module
-    // WorkInfoEditComponent, - profile-view.module
-    // MobileProfileNavComponent, - profile-view.module
-    // CertificateReceivedComponent, - profile-view.module
-    // PersonalDetailEditComponent, - profile-view.module
-    // SelfAssessmentComponent, - competency
-    // WebHowDoesWorkComponent, - webpages
-    // WebFeaturedCourseComponent, - webpages
-    // WebTrustedByPageComponent, - webpages
-    // WebNavLinkPageComponent, - webpages
-    // WebDashboardComponent, - webpages
-    // WebPublicComponent, - webpages
-    // WebCourseViewComponent, - webpages
-    // WebCourseCardComponent, - webpages
+    LoginComponent,
+    RegisterComponent,
+    BnrcRegisterComponent,
+    UpsmfRegisterComponent,
+    MpRegisterComponent,
+    ForgotPasswordComponent,
+    MobileLoginComponent,
+    LoginOtpComponent,
+    BnrcLoginOtpComponent,
+    CreateAccountComponent,
+    YourLocationComponent,
+    NewTncComponent,
+    YourBackgroundComponent,
+    AlmostDoneComponent,
+    CompleteProfileComponent,
+    ScrollDetectorDirective,
+    AppNavBarComponent,
+    AppPublicNavBarComponent,
+    TncRendererComponent,
+    AppFooterComponent,
+    DialogConfirmComponent,
+    TnnmcConfirmComponent,
+    NotificationsComponent,
+    MobileFooterComponent,
+    DropdownDobComponent,
+    VideoPopupComponent,
+    MyCoursesComponent,
+    BnrcmodalComponent,
+    SelfAssessmentComponent,
+    WebHowDoesWorkComponent,
+    WebFeaturedCourseComponent,
+    WebTrustedByPageComponent,
+    WebNavLinkPageComponent,
+    WebDashboardComponent,
+    WebPublicComponent,
+    WebCourseViewComponent,
+    WebCourseCardComponent,
   ],
   imports: [
     BrowserModule,
@@ -446,19 +411,14 @@ export function initializeCompetencyConfig(): () => void {
         deps: [HttpClient],
       },
     }),
-    LoginModule,
-    CoreModule,
-    ProfileViewModule,
-    WebPagesModule,
-    CompetencyUIModule
+    ProfileViewModule
   ],
   exports: [
     TncComponent,
-    // AppPublicNavBarComponent,
-    // RegisterComponent,
-    // ForgotPasswordComponent,
+    AppPublicNavBarComponent,
+    RegisterComponent,
+    ForgotPasswordComponent,
     MobileDashboardComponent,
-    // CertificateReceivedComponent,
   ],
   bootstrap: [RootComponent],
   providers: [

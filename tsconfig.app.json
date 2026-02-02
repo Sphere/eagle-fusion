@@ -5,6 +5,14 @@
     "types": ["node", "@types/zip.js"]
   },
   "files": ["global.d.ts"],
-  "include": ["src/**/*.ts"],
-  "exclude": ["src/test.ts", "src/**/*.spec.ts", "setup-jest.ts"]
+  "include": ["src/main.ts", "src/polyfills.ts"],
+  "exclude": [
+    "src/test.ts",
+    "src/**/*.spec.ts",
+    "src/app/services/sampleData.ts",
+    "src/app/workers/performance.worker.ts",
+    "src/test-import.ts"
+  ]
+  // "include": ["src/**/*.ts"],
+  // "exclude": ["src/test.ts", "src/**/*.spec.ts", "setup-jest.ts"]
 }

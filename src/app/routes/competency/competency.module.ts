@@ -8,11 +8,11 @@ import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
 import { CompetencyModule as AastrikaCompetencyModule } from '@aastrika_npmjs/comptency/competency'
 
 // Components
-import { SelfAssessmentComponent } from '../self-assessment/self-assessment.component'
+// import { SelfAssessmentComponent } from '../self-assessment/self-assessment.component'
 
 @NgModule({
   declarations: [
-    SelfAssessmentComponent,
+    // SelfAssessmentComponent,
   ],
   imports: [
     CommonModule,

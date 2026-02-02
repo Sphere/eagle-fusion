@@ -117,11 +117,11 @@ export class WebDashboardComponent implements OnInit {
 
 
   nextSlide(): void {
-    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel.length
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel?.length
   }
 
   prevSlide(): void {
-    this.currentSlideIndex = (this.currentSlideIndex - 1 + this.dataCarousel.length) % this.dataCarousel.length
+    this.currentSlideIndex = (this.currentSlideIndex - 1 + this.dataCarousel?.length) % this.dataCarousel?.length
   }
 
   goToSlide(index: number): void {

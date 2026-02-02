@@ -45,6 +45,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   }
 
   ngOnInit(): void {
+    console.log(" menuItems ", this.menuItems)
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())
 
