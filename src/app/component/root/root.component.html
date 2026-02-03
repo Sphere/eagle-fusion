@@ -4,7 +4,7 @@
   </mat-progress-bar>
   <!-- before login -->
   <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn && orgDetails"
-    (menuClick)="getMenuClickValue($event)" [orgConfig]="orgDetails"></ws-app-public-nav-bar>
+    [orgConfig]="orgDetails"></ws-app-public-nav-bar>
   <!-- Logged-In header -->
   <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
 

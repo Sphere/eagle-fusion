@@ -63,11 +63,12 @@ export class WebDashboardComponent implements OnInit {
     if (res === "") {
       this.playlistSvc.loadPlaylistData().then(() => {
         this.configData = this.playlistSvc.selectedTabConfig()[0]
+        this.dataCarousel = this.configData?.data
       })
     } else {
       this.configData = res[0]
+      this.dataCarousel = this.configData?.data
     }
-    this.dataCarousel = this.configData?.data
     if (this.isEkshamata) {
       this.domain = window.location.hostname
 

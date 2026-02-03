@@ -335,6 +335,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.handleRouterSubscription()
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
       this.userSvc
@@ -352,7 +353,27 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (sessionStorage.getItem('cURL')) {
         sessionStorage.removeItem('cURL')
       }
+      this.isLoggedIn = true
+    } else {
+      this.isLoggedIn = false
     }
+    if (this.configSvc.isAuthenticated) {
+      this.appStartRaised = true
+    } else {
+      if (
+        window.location.href.indexOf('register') > 0 ||
+        window.location.href.indexOf('forgot-password') > 0 ||
+        window.location.href.indexOf('scrom-player') > 0
+      ) {
+        this.showNavigation = false
+      } else if (window.location.href.indexOf('login') > 0) {
+        this.showNavigation = true
+      }
+    }
+    await this.playlistSvc.loadPlaylistData()
+    this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
+    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
+    this.videoData = this.configData[5]
 
     this.setPageTitle()
     this.fcSettingsFunc()
@@ -369,28 +390,45 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       console.warn('Error determining if in iframe:', _ex)
       this.isInIframe = false
     }
-
     this.btnBackSvc.initialize()
     // Application start telemetry
     this.telemetrySvc.getTelemetryConfig()
     this.telemetrySvc.impression('page-loaded', 'init', 'static-home')
-    if (this.configSvc.isAuthenticated) {
-      this.appStartRaised = true
-    } else {
-      if (
-        window.location.href.indexOf('register') > 0 ||
-        window.location.href.indexOf('forgot-password') > 0 ||
-        window.location.href.indexOf('scrom-player') > 0
-      ) {
-        this.showNavigation = false
-      } else if (window.location.href.indexOf('login') > 0) {
-        this.showNavigation = true
-      }
-    }
     App.addListener('backButton', () => {
       window.history.go(-1)
     })
+    this.rootSvc.showNavbarDisplay$
+      .pipe(delay(500), takeUntil(this.destroy$))
+      .subscribe(display => {
+        this.showNavbar = display
+      })
+    this.orgService.hideHeaderFooter.pipe(takeUntil(this.destroy$)).subscribe(show => {
+      this.hideHeaderFooter = show
+    })
 
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      if (localStorage.getItem('url_before_login')) {
+        const url = localStorage.getItem(`url_before_login`) || ''
+        this.router.navigateByUrl(url)
+      }
+    }
+
+    if (this.configSvc.userProfile) {
+      this.userProfileSvc
+        .getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
+        .pipe(takeUntil(this.destroy$))
+        .subscribe(
+          (res: any) => {
+            this.setCompetencyConfig(res)
+          },
+          err => {
+            console.error('Error fetching user details:', err)
+          },
+        )
+    }
+  }
+
+  handleRouterSubscription() {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
         if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
@@ -565,45 +603,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     })
-    await this.playlistSvc.loadPlaylistData()
-
-    this.rootSvc.showNavbarDisplay$
-      .pipe(delay(500), takeUntil(this.destroy$))
-      .subscribe(display => {
-        this.showNavbar = display
-      })
-    this.orgService.hideHeaderFooter.pipe(takeUntil(this.destroy$)).subscribe(show => {
-      this.hideHeaderFooter = show
-    })
-
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      if (localStorage.getItem('url_before_login')) {
-        const url = localStorage.getItem(`url_before_login`) || ''
-        this.router.navigateByUrl(url)
-      }
-    }
-    if (this.configSvc.userProfile) {
-      this.isLoggedIn = true
-    } else {
-      this.isLoggedIn = false
-    }
-    this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
-    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
-    this.videoData = this.configData[5]
-
-    if (this.configSvc.userProfile) {
-      this.userProfileSvc
-        .getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          (res: any) => {
-            this.setCompetencyConfig(res)
-          },
-          err => {
-            console.error('Error fetching user details:', err)
-          },
-        )
-    }
   }
 
   async getAccessToken() {

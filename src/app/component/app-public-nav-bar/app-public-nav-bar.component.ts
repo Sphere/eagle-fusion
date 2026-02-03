@@ -1,12 +1,7 @@
-import { IBtnAppsConfig } from './../../../../library/ws-widget/collection/src/lib/btn-apps/btn-apps.model'
-
 import { Component, OnInit, OnDestroy, Input, HostListener, effect } from '@angular/core'
-import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import { ConfigurationsService, NsPage, NsInstanceConfig, ValueService } from '@ws-widget/utils'
-import { Observable, Subscription } from 'rxjs'
+import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
-import { IWSPublicLoginConfig } from '../login/login.model'
-import { NsWidgetResolver } from '../../../../library/ws-widget/resolver/src/public-api'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
   selector: 'ws-app-public-nav-bar',
@@ -15,51 +10,19 @@ import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/l
 })
 export class AppPublicNavBarComponent implements OnInit, OnDestroy {
   @Input() orgConfig: any
-  appIcon: SafeUrl | null = null
-  logo = ''
-  appName = ''
-  navBar: Partial<NsPage.INavBackground> | null = null
-  isClientLogin = false
   private subscriptionLogin: Subscription | null = null
-  loginConfig: IWSPublicLoginConfig | null = null
   redirectUrl = ''
-  primaryNavbarConfig: NsInstanceConfig.IPrimaryNavbarConfig | null = null
-  pageNavbar: Partial<NsPage.INavBackground> | null = null
-  featureApps: string[] = []
-  appBottomIcon?: SafeUrl
-  showCreateBtn = false
-  hideCreateButton = true
-
-  basicBtnAppsConfig: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig> = {
-    widgetType: 'actionButton',
-    widgetSubType: 'actionButtonApps',
-    widgetData: { allListingUrl: '/app/features' },
-  }
-  instanceVal = ''
-  btnAppsConfig!: NsWidgetResolver.IRenderConfigWithTypedData<IBtnAppsConfig>
-  isXSmall$: Observable<boolean>
+  isXSmall$: boolean
 
   constructor(
-    private domSanitizer: DomSanitizer,
-    private configSvc: ConfigurationsService,
+    public configSvc: ConfigurationsService,
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService,
     private authSvc: AuthKeycloakService) {
-    this.isXSmall$ = this.valueSvc.isXSmall$
-    this.btnAppsConfig = { ...this.basicBtnAppsConfig }
-
     effect(() => {
-      if (this.valueSvc.isMobile()) {
-        this.showCreateBtn = this.configSvc.userProfile === null
-      } else {
-        this.showCreateBtn = false
-      }
+      this.isXSmall$ = this.valueSvc.isMobile() ? true : false
     })
-  }
-
-  public get showPublicNavbar(): boolean {
-    return true
   }
 
   @HostListener('window:popstate', [])
@@ -67,26 +30,8 @@ export class AppPublicNavBarComponent implements OnInit, OnDestroy {
     console.log('Back button pressed')
     location.href = '/public/home'
   }
-  async ngOnInit() {
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.hideCreateButton = false
-    }
-    if (this.configSvc.instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.appTransparent || this.configSvc.instanceConfig.logos.app || this.configSvc.instanceConfig.logos.company,
-      )
-      this.appName = this.configSvc.instanceConfig.details.appName
-      this.navBar = this.configSvc.pageNavBar
-      // this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
-    }
 
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = false
-      } else {
-        this.showCreateBtn = true
-      }
-    })
+  async ngOnInit() {
     const paramsMap = this.activateRoute.snapshot.queryParamMap
     const href = window.location.href
     if (paramsMap.has('ref')) {
@@ -96,30 +41,6 @@ export class AppPublicNavBarComponent implements OnInit, OnDestroy {
     } else {
       this.redirectUrl = `${document.baseURI}openid/keycloak`
     }
-
-    // added from app nav
-    if (this.configSvc.instanceConfig) {
-      this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-        this.configSvc.instanceConfig.logos.appTransparent || this.configSvc.instanceConfig.logos.app || this.configSvc.instanceConfig.logos.company,
-      )
-      this.instanceVal = this.configSvc.rootOrg || ''
-      if (this.configSvc.instanceConfig.logos.appBottomNav) {
-        this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.configSvc.instanceConfig.logos.appBottomNav,
-        )
-      }
-      this.pageNavbar = this.configSvc.pageNavBar
-      // this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
-    }
-    if (this.configSvc.appsConfig) {
-      this.featureApps = Object.keys(this.configSvc.appsConfig.features)
-    }
-  }
-  createAcct() {
-    if (localStorage.getItem('preferedLanguage')) {
-      localStorage.removeItem('preferedLanguage')
-    }
-    this.router.navigateByUrl('app/create-account')
   }
 
   login(key: 'E' | 'N' | 'S') {

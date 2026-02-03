@@ -1,7 +1,7 @@
 <div class="banner-container">
   <!--upskill now section-->
   <div class="carousel">
-    <div class="banner-heading-container">
+    <div class="banner-heading-container" *ngIf="config">
       <div class="banner-heading" style="width: 90%;">{{ config?.title | translate }}</div>
       <div class="banner-mini-heading">{{ config?.subTitle | translate }} </div>
       <div class="create-account">
