@@ -111,8 +111,8 @@
                 "vendor": true
               },
               "namedChunks": false,
-              "aot": false,
-              "buildOptimizer": false,
+              "aot": true,
+              "buildOptimizer": true,
               "vendorChunk": false,
               "extractLicenses": true
             },
