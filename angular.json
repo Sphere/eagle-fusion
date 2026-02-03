@@ -114,7 +114,10 @@
               "aot": true,
               "buildOptimizer": true,
               "vendorChunk": false,
-              "extractLicenses": true
+              "extractLicenses": true,
+              "allowedCommonJsDependencies": [
+                "@angular/compiler"
+              ]
             },
             "production": {
               "fileReplacements": [
@@ -138,6 +141,7 @@
               "buildOptimizer": true,
               "preserveSymlinks": true,
               "allowedCommonJsDependencies": [
+                "@angular/compiler",
                 "videojs-markers",
                 "events",
                 "qrcode",

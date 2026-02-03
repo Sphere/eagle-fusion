@@ -1,6 +1,6 @@
 {
   "/apis/*": {
-    "target": "https://sphere.aastrika.org",
+    "target": "https://sphere.aastrika.org/",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true,
@@ -8,7 +8,7 @@
       "/apis": "/apis"
     },
     "headers": {
-      "Cookie": "connect.sid=s%3ABlUVr1sM7tKgAtxcS3cBVxVRPBkzuw0n.77W4La6sQSNieIQ2l3CNy06mDrgjAPtY%2BocudfcIerc"
+      "Cookie": "connect.sid=s%3A6HSBiglR7pqb4S1-uiQYGFojaKdz_IJD.NKueFg2FqCVEgAy8STr8SDoCkkNiR43T5DaQ39vU2iU"
     }
   },
   "/content-api/*": {
