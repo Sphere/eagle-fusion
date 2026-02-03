@@ -103,9 +103,35 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   }
 
   reDirect(content: any) {
+    // Check if resource is accessible based on gating rules
+    if (!this.canAccessResource(content)) {
+      console.warn('Access denied: Resource is locked due to course gating', content.identifier)
+      // Silently prevent navigation - lock icon indicates user shouldn't click
+      return
+    }
+
     // tslint:disable-next-line:max-line-length
     const url = `${content.url}?primaryCategory=${content.queryParams.primaryCategory}&collectionId=${content.queryParams.collectionId}&collectionType=${content.queryParams.collectionType}&batchId=${content.queryParams.batchId}`
     this.router.navigateByUrl(`${url}`)
+  }
+
+  /**
+   * Validates if a resource can be accessed based on gating rules
+   * When gating is enabled, hideLocIcon indicates if resource is locked
+   */
+  canAccessResource(content: any): boolean {
+    // If gating is not enabled, allow access
+    if (!this.disabledNode) {
+      return true
+    }
+
+    // If hideLocIcon is true, the resource is unlocked and accessible
+    if (content.hideLocIcon === true) {
+      return true
+    }
+
+    // In gating mode, if hideLocIcon is not true, the resource is locked
+    return false
   }
   get isCollection(): boolean {
     if (this.content) {
