@@ -1,9 +1,6 @@
 <div>
-  <ws-web-home *ngIf="(isXSmall$ | async) === false&&!isEkshamata"></ws-web-home>
-  <!-- <ng-container *ngIf="!error  && pageLayout && (isXSmall$ | async) !== true" [wsResolverWidget]="pageLayout">
-  </ng-container> -->
+  <ws-web-home *ngIf="!isXSmall && !isEkshamata"></ws-web-home>
   <web-ekshamata-public-container *ngIf="isEkshamata"></web-ekshamata-public-container>
 </div>
 
-
-<ws-mobile-page *ngIf="(isXSmall$ | async) === true&&!isEkshamata"></ws-mobile-page>
+<ws-mobile-page *ngIf="isXSmall && !isEkshamata"></ws-mobile-page>
