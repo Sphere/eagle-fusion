@@ -2,7 +2,7 @@
   <div class="link-block" *ngFor="let item of menuItems">
     <a role="button" *ngIf="item.type=='text'" matRipple [ngClass]="{'ws-mat-accent-text': item.show }"
       (click)="redirect(item)" active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
-      <span class="link-text" i18n>{{item.title | translate}}</span>
+      <span class="link-text">{{item.title | translate}}</span>
     </a>
     <button *ngIf="item.type=='button-icon'" (keydown)="handleKeyDown($event)" (click)="redirect(item)" matRipple
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer bg-transparent border-0">

@@ -20,7 +20,7 @@
         <div class="input-content-wrapper">
           <form [formGroup]="loginForm">
 
-            <!--<div class="text-info" i18n>Due to security reasons all users have to reset their password after 5th of Feb
+            <!--<div class="text-info">Due to security reasons all users have to reset their password after 5th of Feb
               2022. Old password will
               no longer work.</div> -->
             <div style="margin-bottom: 10px; margin-top: 10px;">
@@ -38,8 +38,8 @@
             </div> -->
 
             <div class="form-group" style="margin-bottom: 0;">
-              <input type="text" class="form-control" i18n-placeholder placeholder="Phone Number/Email ID"
-                id="userid-field" formControlName="username">
+              <input type="text" class="form-control" placeholder="Phone Number/Email ID" id="userid-field"
+                formControlName="username">
             </div>
             <div style="margin-top: 4px;">
               <mat-error class="text-danger" *ngIf="loginForm.controls['username'].hasError('required') &&
@@ -49,7 +49,7 @@
                 {{'Invalid email or number' | translate}}</mat-error>
             </div>
             <div class="form-group input-group pwd" style="margin-top: 1rem;">
-              <input [type]="hide ? 'password' : 'text'" i18n-placeholder placeholder="Password" id="password-field"
+              <input [type]="hide ? 'password' : 'text'" placeholder="Password" id="password-field"
                 formControlName="password" class="form-control">
               <div class="input-group-addon iconPosition">
                 <a href="javascript:void(0)" (click)="toggle()" class="f-black">

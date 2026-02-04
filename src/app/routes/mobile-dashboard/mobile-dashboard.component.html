@@ -106,8 +106,8 @@
 
 <!-- Featured Section-->
 <!-- <section *ngIf="featuredCourse" class="mt-4 py-1 px-4 p-4">
-  <div class="line-label orange" i18n>
-    <span class="header1 " i18n>Featured</span>
+  <div class="line-label orange">
+    <span class="header1 ">Featured</span>
   </div>
   <div *ngFor="let course of getDisplayedItems(featuredCourse)">
     <ng-container *ngIf="featuredCourse && featuredCourse.length>0">
@@ -115,7 +115,7 @@
         [courseData]="course"></ws-mobile-course-view>
     </ng-container>
   </div>
-  <button *ngIf="featuredCourse.length > 5" i18n (click)="viewAllItems()" class="view-all-course">
+  <button *ngIf="featuredCourse.length > 5" (click)="viewAllItems()" class="view-all-course">
     {{ showAllItems ? 'Hide' : 'View all' }}
     <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
   </button>

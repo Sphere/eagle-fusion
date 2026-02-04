@@ -21,7 +21,6 @@
     "analyze": "webpack-bundle-analyzer ./dist/www/fusion/stats.json",
     "lint": "ng lint",
     "lint:fix": "ng lint --fix",
-    "e2e": "ng e2e",
     "tailwind": "npx tailwind -i src/tailwind-build.scss -o src/styles.scss --watch",
     "tailwind:build": "npx tailwind -i src/tailwind-build.scss -o src/styles.scss",
     "tailwind:prod": "npx tailwind -i src/tailwind-build.scss -o src/styles.scss --minify",
@@ -135,7 +134,6 @@
     "jest-environment-node": "^26.0.0",
     "jest-preset-angular": "^8.3.2",
     "ng-packagr": "^16.2.3",
-    "protractor": "~7.0.0",
     "source-map-explorer": "^2.5.3",
     "ts-jest": "^26.5.0",
     "ts-node": "9.1.1",
@@ -187,5 +185,6 @@
       "@angular/core": "16.2.12",
       "@angular/common": "16.2.12"
     }
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }

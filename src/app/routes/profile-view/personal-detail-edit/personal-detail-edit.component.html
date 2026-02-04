@@ -12,7 +12,7 @@
         <div *ngIf="field.type === 'text'" class="form-group">
           <label>{{ field.label | translate }}</label>
           <input [type]="field.tye" [formControlName]="field.key" class="form-control" (change)="fieldChange()"
-            [placeholder]="field.label" autocomplete="off" i18n-placeholder [pattern]="field.pattern">
+            [placeholder]="field.label" autocomplete="off" [pattern]="field.pattern">
         </div>
         <!-- Select Input -->
         <div *ngIf="field.type === 'select'" class="form-group input-box ">
@@ -41,7 +41,7 @@
           {{errorMsg}}
         </mat-error>
         <button *ngIf="field.type=='button'" type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
-          [disabled]="personalDetailForm?.invalid || savebtnDisable" i18n>{{field.label | translate}}</button>
+          [disabled]="personalDetailForm?.invalid || savebtnDisable">{{field.label | translate}}</button>
       </ng-container>
     </div>
   </form>

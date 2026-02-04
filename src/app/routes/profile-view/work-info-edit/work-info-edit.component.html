@@ -6,23 +6,21 @@
     <div>
       <div class="form-group">
         <input type="text" formControlName="organizationName" class="form-control" placeholder="Organization Name"
-          i18n-placeholder autocomplete="off">
+          autocomplete="off">
       </div>
 
       <div class="form-group">
         <input type="text" formControlName="designation" class="form-control" placeholder="Designation"
-          autocomplete="off" i18n-placeholder>
+          autocomplete="off">
       </div>
 
       <div class="form-group">
-        <input type="text" formControlName="location" class="form-control" placeholder="Location" autocomplete="off"
-          i18n-placeholder>
+        <input type="text" formControlName="location" class="form-control" placeholder="Location" autocomplete="off">
       </div>
 
       <div class="form-group mt-4 relative">
         <input [matDatepicker]="picker" [min]="" [max]="maxDate" formControlName="doj" autocomplete="off"
-          placeholder="Date of Joining" name="doj" id="doj-inputfield" class="form-control" (click)="picker.open()"
-          i18n-placeholder>
+          placeholder="Date of Joining" name="doj" id="doj-inputfield" class="form-control" (click)="picker.open()">
         <mat-datepicker-toggle [for]="picker" id="datepicker-icon" class="date-picker"></mat-datepicker-toggle>
         <mat-datepicker #picker></mat-datepicker>
       </div>

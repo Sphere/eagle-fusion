@@ -73,12 +73,12 @@
       <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
         {{ courseData.name }}
       </div>
-      <div class="description-text ws-mat-text-block-fade-gradient mb-2" i18n-title title="Sub title">
+      <div class="description-text ws-mat-text-block-fade-gradient mb-2" title="Sub title">
         {{ courseData.subTitle }}
       </div>
             <div class="mb-2" *ngIf="courseData?.lastPublishedOn"><span class="fw-500">{{ 'Published On' | translate }}</span>:
         {{courseData?.lastPublishedOn | date }}</div>
-      <div *ngIf="courseData.duration" class="duration mb-2" i18n-title title="Duration">
+      <div *ngIf="courseData.duration" class="duration mb-2" title="Duration">
         <span class="mr-1 orange-text">{{ 'Duration' | translate }}</span>:
         <mat-icon>access_time</mat-icon>
         <span class="time-text fs-13">{{ courseData.duration| pipeDurationTransform: 'hms' }}</span>
@@ -161,7 +161,7 @@
             <div class="progress-block" [ngClass]="{'with-progress': displayConfig?.badges?.viewAll === true}">
               <mat-progress-bar *ngIf="displayConfig?.badges?.completionPercentage === true" [mode]="'determinate'"
                 [value]="courseData?.completionPercentage" class="progress-bar"
-                [attr.aria-labelledby]="'m-c-' + courseData?.identifier" i18n-aria-label>
+                [attr.aria-labelledby]="'m-c-' + courseData?.identifier">
                 {{courseData?.completionPercentage}}%
               </mat-progress-bar>
               <ng-container *ngIf="displayConfig?.badges?.mobilesourceName&&courseData.sourceName">
