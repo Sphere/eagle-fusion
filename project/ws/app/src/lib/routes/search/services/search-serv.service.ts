@@ -43,7 +43,11 @@ export class SearchServService {
     if (!this.searchConfig) {
       this.searchConfig = {}
       const baseUrl = this.configSrv.sitePath
-      this.searchConfig = await this.http.get<any>(`${baseUrl}/feature/search.json`).toPromise()
+      try {
+        this.searchConfig = await this.http.get<any>(`${baseUrl}/feature/search.json`).toPromise()
+      } catch (err) {
+        console.log(err)
+      }
 
     }
     return of(this.searchConfig).toPromise()

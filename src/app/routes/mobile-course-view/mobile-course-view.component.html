@@ -6,12 +6,12 @@
 
 <ng-template #cardLarge>
   <section class="course-container" [ngClass]="{ 'bg-cont-white': enableConfig }">
-    <a (click)="redirectPage(courseData)">
+    <a href="javascript:void(0)" (click)="redirectPage(courseData)" role="button" tabindex="0">
       <div class="box">
         <div class="text-over">
           <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
           <ng-container>
-            <div *ngIf="displayConfig?.badges?.cneName === true&&courseData.cneName" class="topStyle">
+            <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
               CNE: {{courseData.cneName}}
             </div>
           </ng-container>
@@ -21,9 +21,9 @@
             </div>
           </ng-container>
           <ng-container>
-            <div *ngIf="displayConfig?.badges?.rating === true &&courseData.averageRating" class="rightStyle">
-              {{ courseData.averageRating.toFixed(1) }} <img class="star-icon" src="/fusion-assets/icons/card_star.svg"
-                alt="star" />
+            <div *ngIf="displayConfig?.badges?.rating === true && courseData.averageRating" class="rightStyle">
+              {{ courseData.averageRating.toFixed(1) }}
+              <img class="star-icon" src="/fusion-assets/icons/card_star.svg" alt="star" />
             </div>
           </ng-container>
           <ng-container *ngIf="displayConfig?.badges?.sourceName&&courseData.sourceName">
@@ -41,7 +41,7 @@
         </div>
         <ng-container *ngIf="courseData.competencies_v1 && cometencyData.length > 0">
           <div class="competency-card flex m-3">
-            <img class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
+            <img alt="" class="competency-icon" src="/fusion-assets/icons/ph_medal.svg">
             <div>
               <span>{{cometencyData[0]?.name}}, </span>
               <ng-container *ngFor="let competency of cometencyData; let last = last;">
@@ -69,7 +69,7 @@
       <div class="card-long">
         <div class="img-block">
           <img alt="" class="appIcon fitsizeMini"
-            src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+            src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}">
           <ng-container>
             <div *ngIf="displayConfig?.badges?.certification === true && courseData.issueCertification"
               class="certificate-name">
@@ -98,16 +98,12 @@
             </ng-container>
           </div>
           <div class="progress-block-mini"
-            *ngIf="displayConfig?.badges?.completionPercentage === true||displayConfig?.badges?.mobilesourceName">
+            *ngIf="displayConfig?.badges?.completionPercentage === true || displayConfig?.badges?.mobilesourceName">
             <mat-progress-bar *ngIf="displayConfig?.badges?.completionPercentage === true" [mode]="'determinate'"
               [value]="courseData?.completionPercentage" class="progress-bar"
               [attr.aria-labelledby]="'m-c-' + courseData?.identifier">
               {{courseData?.completionPercentage}}%
             </mat-progress-bar>
-            <!-- <div class="">
-              <span class="completionPercentage">{{ courseData?.completionPercentage ?
-                courseData?.completionPercentage : '0'}}% <span i18n style="margin-left: 3px;">Complete</span></span>
-            </div> -->
             <ng-container *ngIf="displayConfig?.badges?.mobilesourceName&&courseData.sourceName">
               <div [ngClass]="{'top-border': displayConfig?.badges?.sourceLine}" class="mobile-source-name">
                 {{courseData.sourceName}}

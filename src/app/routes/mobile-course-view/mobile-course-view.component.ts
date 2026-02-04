@@ -7,6 +7,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import { forEach, get } from 'lodash'
 import { Title } from '@angular/platform-browser'
+import { TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-mobile-course-view',
@@ -19,26 +20,25 @@ export class MobileCourseViewComponent implements OnInit {
   @Input() cnePoints: any = false
 
   @Input() enableConfig = false
-  isLoggedIn = false
-  displayStyle = 'none'
-  @Input()
-  displayConfig = {
+  @Input() displayConfig = {
     displayType: 'card-badges',
     badges: {
       orgIcon: true,
       certification: true,
     },
   }
-  constructor(public router: Router,
-    public configSvc: ConfigurationsService,
-    public userProfileSvc: UserProfileService,
-    public signUpSvc: SignupService,
-    public titleService: Title
+  displayStyle = 'none'
+  isLoggedIn = false
+
+  constructor(private router: Router,
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private signUpSvc: SignupService,
+    private titleService: Title,
+    private telemetrySvc: TelemetryService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
-    // console.log("this.courseData", this.courseData, this.displayConfig)
-
     if (this.configSvc.userProfile) {
       if (sessionStorage.getItem('cURL')) {
         sessionStorage.removeItem('cURL')
@@ -47,7 +47,7 @@ export class MobileCourseViewComponent implements OnInit {
     } else {
       this.isLoggedIn = false
     }
-    if (this.courseData.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
+    if (this.courseData?.competencies_v1 && Object.keys(this.courseData.competencies_v1).length > 0) {
 
       forEach(JSON.parse(this.courseData.competencies_v1), (value: any) => {
         if (value.level) {
@@ -74,7 +74,7 @@ export class MobileCourseViewComponent implements OnInit {
       },
     })
     localStorage.setItem('tocData', JSON.stringify(data))
-    localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
+    localStorage.setItem(`url_before_login`, `app/toc/${courseId}/overview`)
   }
   showPopup() {
     this.displayStyle = 'block'
@@ -120,12 +120,14 @@ export class MobileCourseViewComponent implements OnInit {
       .replace(/^-+|-+$/g, '')       // Remove starting/ending hyphens
   }
   redirectPage(course: any) {
+    this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course', version: "", rollup: { l1: course.identifier } })
     if (this.isLoggedIn) {
       this.navigateToToc(course.identifier)
     } else {
       const currentRoute = this.router.url
       localStorage.setItem('tocData', JSON.stringify(course))
-      localStorage.setItem(`url_before_login`, `app/toc/` + `${course.identifier}` + `/overview`)
+      const url = `/app/toc/${course.identifier}/overview`
+      localStorage.setItem(`url_before_login`, url)
       if (currentRoute.includes('org-selective-course')) {
         this.showPopup()
       } else {
@@ -136,21 +138,20 @@ export class MobileCourseViewComponent implements OnInit {
 
   // For opening Course Page
   navigateToToc(contentIdentifier: any) {
-    // this.router.navigateByUrl(`/app/toc/${contentIdentifier}/overview`)
-    const url = `app/toc/` + `${contentIdentifier}` + `/overview`
+    const url = `/app/toc/${contentIdentifier}/overview`
     if (this.configSvc.userProfile === null) {
       this.signUpSvc.keyClockLogin()
-      // localStorage.setItem(`url_before_login`, url)
-      // this.router.navigateByUrl('app/login')
+      localStorage.setItem(`url_before_login`, url)
+      this.router.navigateByUrl('app/login')
     } else {
       if (this.configSvc.unMappedUser) {
         sessionStorage.setItem('cURL', location.href)
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(500), mergeMap((data: any) => {
           return of(data)
         })).subscribe((userDetails: any) => {
-          if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
+          const profileReq = get(userDetails, 'profileDetails.profileReq')
 
-            // location.href = url
+          if (this.userProfileSvc.isBackgroundDetailsFilled(profileReq)) {
             this.router.navigateByUrl(url)
           } else {
             const courseUrl = `/app/toc/${contentIdentifier}/overview`

@@ -23,7 +23,7 @@ import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-p
 import { MobileLatestCommentComponent } from '../../../routes/mobile-latest-comment/mobile-latest-comment.component'
 import { MobileTestimonialsComponent } from '../../../routes/mobile-testimonials/mobile-testimonials.component'
 
-import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
+// import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
 import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
 // import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 import { PublicTocComponent } from '../public-toc/public-toc.component'
@@ -44,7 +44,7 @@ import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-containe
     MobilePageFaqComponent,
     MobileLatestCommentComponent,
     MobileTestimonialsComponent,
-    MobileCourseViewComponent,
+    // MobileCourseViewComponent,
     MobileOrganizationComponent,
     PublicTocComponent,
     PublicTocBannerComponent,

@@ -160,6 +160,7 @@ import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.componen
 import { TnnmcConfirmComponent } from './component/tnnmc-dialog-confirm/tnnmc-confirm.component'
 import { TextFieldModule } from '@angular/cdk/text-field'
 import { ProfileViewModule } from './routes/profile-view/profile-view.module'
+import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -346,6 +347,7 @@ export function initializeCompetencyConfig(): () => void {
     WebPublicComponent,
     WebCourseViewComponent,
     WebCourseCardComponent,
+    MobileCourseViewComponent
   ],
   imports: [
     BrowserModule,
