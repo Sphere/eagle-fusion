@@ -13,25 +13,13 @@ import { PlaylistService } from '../../services/playlist.service'
   styleUrls: ['./web-dashboard.component.scss'],
 })
 export class WebDashboardComponent implements OnInit {
-  myCourse: any
-  topCertifiedCourse: any = []
-  featuredCourse: any = []
-  userEnrollCourse: any
-  videoData: any
-  homeFeatureData: any
-  homeFeature: any
   firstName: any
-  topCertifiedCourseIdentifier: any = []
-  featuredCourseIdentifier: any = []
-  // languageIcon = '../../../fusion-assets/images/lang-icon.png'
-  langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   userData: any
   @Input() isEkshamata: any
   dataCarousel: any = []
   bannerFirstImage: any
   bannerSecondImage: any
-  userId: any
   currentSlideIndex = 0;
   currentIndex = 0;
   public intervalId: any

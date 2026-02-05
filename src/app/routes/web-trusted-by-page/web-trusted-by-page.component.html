@@ -1,5 +1,5 @@
 <!--trusted by banner-->
-<div class="trusted-by-container mt-10">
+<div class="trusted-by-container mt-10" [ngClass]="{'containerMob': isXsmall}">
   <div class="trusted-by-heading">
     {{ config?.title | translate }}
   </div>

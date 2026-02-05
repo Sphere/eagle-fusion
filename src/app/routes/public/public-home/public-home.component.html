@@ -1,6 +1,2 @@
-<div>
-  <ws-web-home *ngIf="!isXSmall && !isEkshamata"></ws-web-home>
-  <web-ekshamata-public-container *ngIf="isEkshamata"></web-ekshamata-public-container>
-</div>
-
-<ws-mobile-page *ngIf="isXSmall && !isEkshamata"></ws-mobile-page>
+<ws-web-home *ngIf="!isEkshamata"></ws-web-home>
+<web-ekshamata-public-container *ngIf="isEkshamata"></web-ekshamata-public-container>

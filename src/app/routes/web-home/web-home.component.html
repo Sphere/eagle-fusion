@@ -1,10 +1,10 @@
-<div class="banner-container">
+<div class="banner-container" [ngClass]="{'mobileCarousel': isXsmall }">
   <!--upskill now section-->
   <div class="carousel">
     <div class="banner-heading-container" *ngIf="config">
       <div class="banner-heading" style="width: 90%;">{{ config?.title | translate }}</div>
-      <div class="banner-mini-heading">{{ config?.subTitle | translate }} </div>
-      <div class="create-account">
+      <div class="banner-mini-heading">{{ isXsmall ? config?.subTitleMob : config?.subTitle | translate }}</div>
+      <div class="create-account" *ngIf="!isXsmall">
         <a role="button" matRipple class="flex mt-8 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit', 'z-index': 10}" routerLinkActive="ws-mat-accent-text">
           <span class="new-user-txt">{{config?.label}}</span>
@@ -25,8 +25,6 @@
   </div>
 </div>
 
-
-
 <div *ngFor="let data of dataCarousel; let i = index">
   <div (click)="scrollToHowSphereWorks(data.scrollEmit)" class="slide-content" [class.active]="i === currentSlideIndex">
     <div [className]="data.scrollEmit">
@@ -43,12 +41,25 @@
     </div>
   </div>
 </div>
-<div class="flex info-block">
-  <div class="info-container" *ngFor="let bnstats of bannerStatus" [ngClass]="bnstats?.className">
+<div class="flex info-block" [ngClass]="{'mobileInfo-block': isXsmall }">
+  <div class="info-container" *ngFor="let bnstats of bannerStatus"
+    [ngClass]="isXsmall ? bnstats?.classNameMob : bnstats?.className">
     <div class="flex info-box">
       <img [src]="bnstats?.image" class="count-sphere-icons" alt="Sphere Icons" />
       <div class="info-number" *ngIf="bannerStatus">{{bnstats?.count}}</div>
     </div>
     <p class="info-text">{{ bnstats?.label | translate }}</p>
   </div>
+</div>
+<div class="create-account-mob" *ngIf="isXsmall">
+  <h3 class="text-center" style="font-weight: 550;margin-top: 5px;margin-bottom: 5px;">{{ config?.label | translate }}
+  </h3>
+  <a *ngIf="(configSvc.userProfile === null)" role="button" matRipple
+    class="flex items-center flex-col mt px-2 box-sizing-box" (click)="createAcct()" active
+    [ngStyle]="{'width':'inherit'}" routerLinkActive="ws-mat-accent-text">
+    <ng-container>
+      <button mat-raised-button class="create-btn">
+        {{ config?.button?.label | translate }}</button>
+    </ng-container>
+  </a>
 </div>

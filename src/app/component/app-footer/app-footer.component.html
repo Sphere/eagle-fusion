@@ -1,20 +1,23 @@
-<div *ngIf="!isXSmall && !isLoggedIn">
+<div *ngIf="!isLoggedIn" [ngClass]="{'mobileFooter': isXSmall}">
   <div style="background-image:url('/fusion-assets/images/Group-people.png')" class="flex transform-footer-container">
-    <div class="transform-header">{{configData?.header | translate}}</div>
-    <button (click)="createAcct()" class="start-today-button">{{configData?.button?.label | translate}}</button>
+    <div class="mobileFlex">
+      <div class=" transform-header">{{configData?.header | translate}}</div>
+      <button (click)="createAcct()" class="start-today-button">{{configData?.button?.label | translate}}</button>
+    </div>
   </div>
   <div class="flex-container">
-    <div class="part-a-partner center-partner" *ngFor="let data of configData?.partnerData"
+    <div class="part-a-partner center-partner" *ngFor="let data of configData?.partnerData; let i = index"
       [ngStyle]="{'background': data?.bgColor}">
       <div class="text-partners">{{data.label | translate}}</div>
       <div class="flex-prop">
-        <img class="part-a-img" [src]="data.image" alt="Card cap">
+        <img [ngClass]="{'part-a-img': i == 0, 'part-b-img': i==1}" [src]="data.image" alt="Card cap">
       </div>
     </div>
   </div>
 </div>
 
-<div class="mat-toolbar mat-ws-mat-primary-text footer-container pb-0 sm:px-48 md:px-10ss">
+<div [ngClass]="{'mobileFooterContainer': isXSmall}"
+  class="mat-toolbar mat-ws-mat-primary-text footer-container pb-0 sm:px-48 md:px-10ss">
   <div class="mat-body footer-flex mb-4" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}" class="footer-first-col">
       <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
@@ -92,7 +95,7 @@
           </mat-list-item>
         </mat-list>
 
-        <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall, 'mt-20': isXSmall}">
           <mat-list-item>
             <a [href]="configData?.menuItems?.[1]?.href" target="_blank" id="footer-help-contact" class="link-header">
               {{ configData?.menuItems?.[1]?.heading | translate }}</a>
@@ -109,12 +112,12 @@
           </mat-list-item>
         </mat-list>
 
-        <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list class="list mt-10" [ngClass]="{'ml-12': !isXSmall, 'mt-20': isXSmall}">
           <mat-list-item>
             <span class="link-header">{{ configData?.menuItems?.[3]?.heading | translate }}</span>
           </mat-list-item>
           <mat-list-item class="foundation-container" style="margin-top: 10px;">
-            <span style="color: #7B6961; font-weight: 400 !important; font-size: 15px !important;">{{
+            <span class="foundation">{{
               configData?.menuItems?.[3]?.label | translate }}</span>:
             <a target="_blank" class="list-item-link" [href]="configData?.menuItems?.[3]?.href">{{
               configData?.menuItems?.[3]?.href }}</a>
@@ -131,7 +134,7 @@
   </div>
 </div>
 
-<footer class="docs-footer px-4 pt-0 sm:px-8 md:px-10ss">
+<footer class="docs-footer px-4 pt-0 sm:px-8 md:px-10ss" [ngClass]="{'docs-footer-mob': isXSmall}">
   <div [ngClass]="{'docs-footer-list': !isXSmall}">
     <div class="docs-footer-copyright flex-1">
       <div>

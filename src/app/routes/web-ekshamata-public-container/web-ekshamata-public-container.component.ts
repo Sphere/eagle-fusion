@@ -17,7 +17,7 @@ export class WebEkshamataPublicComponent implements OnInit {
     this.isXSmall$ = this.valueSvc.isXSmall$
   }
   ngOnInit(): void {
-    throw new Error('Method not implemented.')
+    console.log("public ekshamata home component")
   }
 
   login() {

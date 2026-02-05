@@ -11,17 +11,8 @@ import { Title } from '@angular/platform-browser'
 })
 export class WebFeaturedCourseComponent implements OnInit {
   @Input() courseData: any
-  myCourse: any
-  topCertifiedCourse: any = []
-  featuredCourse: any
-  userEnrollCourse: any
   videoData: any
-  homeFeatureData: any
-  homeFeature: any
-  userId: any
   firstName: any
-  topCertifiedCourseIdentifier: any = []
-  featuredCourseIdentifier: any = []
   isLoggedIn = false
   // languageIcon = '../../../fusion-assets/images/lang-icon.png'
   langDialog: any

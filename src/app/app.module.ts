@@ -110,12 +110,10 @@ import { AlmostDoneComponent } from './routes/almost-done/almost-done.component'
 import { CompleteProfileComponent } from './routes/complete-profile/complete-profile.component'
 import { HeaderComponent } from './routes/header/header.component'
 import { GoogleCallbackComponent } from './routes/google-callback/google-callback.component'
-import { MobileDashboardComponent } from './routes/mobile-dashboard/mobile-dashboard.component'
 
 import { BnrcRegisterComponent } from './routes/bnrc-component/bnrc-register.component'
 import { UpsmfRegisterComponent } from './routes/upsmf-component/upsmf-register.component'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
-import { MobileFooterComponent } from './routes/mobile-footer/mobile-footer.component'
 import { DiscussionUiModule } from '@aastrika_npmjs/discussions-ui-v8'
 import { ConfigService } from './routes/discussion-forum/wrapper/service/config.service'
 import { LoaderService } from '../../project/ws/author/src/public-api'
@@ -300,7 +298,6 @@ export function initializeCompetencyConfig(): () => void {
     OrgComponent,
     HeaderComponent,
     GoogleCallbackComponent,
-    MobileDashboardComponent,
     LanguageDialogComponent,
     CreateAccountDialogComponent,
     SashaktCallbackComponent,
@@ -333,7 +330,6 @@ export function initializeCompetencyConfig(): () => void {
     DialogConfirmComponent,
     TnnmcConfirmComponent,
     NotificationsComponent,
-    MobileFooterComponent,
     DropdownDobComponent,
     VideoPopupComponent,
     MyCoursesComponent,
@@ -419,8 +415,7 @@ export function initializeCompetencyConfig(): () => void {
     TncComponent,
     AppPublicNavBarComponent,
     RegisterComponent,
-    ForgotPasswordComponent,
-    MobileDashboardComponent,
+    ForgotPasswordComponent
   ],
   bootstrap: [RootComponent],
   providers: [

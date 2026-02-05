@@ -1,6 +1,6 @@
 <mat-toolbar class="navbar-container">
   <a name="application-logo" class="padding-remove-small application-logo" routerLink="." matTooltip="Home">
-    <img loading="lazy" [src]="orgConfig?.appIcon" id="app-logo" alt="Application Logo" class="app-logo"
+    <img loading="lazy" [src]="orgConfig?.appLogo" id="app-logo" alt="Application Logo" class="app-logo"
       *ngIf="!isXSmall$ && orgConfig?.appIcon" />
     <img loading="lazy" [src]="orgConfig?.foundationLogo" width="110px" height="65px"
       *ngIf=" isXSmall$ && orgConfig?.foundationLogo" />

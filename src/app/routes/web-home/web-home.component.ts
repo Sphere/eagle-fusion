@@ -19,6 +19,7 @@ export class WebHomeComponent implements OnInit {
   lang: any = 'en'
   dataCarousel: any
   config: any
+  isXsmall: boolean = false
   constructor(
     private router: Router,
     private valueSvc: ValueService,
@@ -30,8 +31,10 @@ export class WebHomeComponent implements OnInit {
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
-        this.showCreateBtn = this.configSvc.userProfile === null
+        this.isXsmall = true
+        this.showCreateBtn = this.configSvc.userProfile === null ? true : false
       } else {
+        this.isXsmall = false
         this.showCreateBtn = false
       }
     })
@@ -59,14 +62,6 @@ export class WebHomeComponent implements OnInit {
     this.startCarousel()
     this.dataCarousel = this.config?.data
     this.bannerStatus = this.config?.bannerStats
-    // this.bannerStatus = this.configSvc.bannerStats
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
   }
   createAcct() {
     this.router.navigateByUrl('app/create-account')

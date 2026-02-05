@@ -14,18 +14,13 @@ import { BtnPageBackModule, UserImageModule } from '@ws-widget/collection'
 import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransformModule, RetainScrollModule } from '@ws-widget/utils'
 import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
-import { MobilePageComponent } from '../../../routes/mobile-page/mobile-page.component'
-import { MobileHomeComponent } from '../../../routes/mobile-home/mobile-home.component'
 import { MobileTrustedByPageComponent } from '../../../routes/mobile-trusted-by-page/mobile-trusted-by-page.component'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
 
 import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
 import { MobileLatestCommentComponent } from '../../../routes/mobile-latest-comment/mobile-latest-comment.component'
 import { MobileTestimonialsComponent } from '../../../routes/mobile-testimonials/mobile-testimonials.component'
-
-// import { MobileCourseViewComponent } from '../../mobile-course-view/mobile-course-view.component'
 import { MobileOrganizationComponent } from '../../mobile-organization/mobile-organization.component'
-// import { MobileLeaderboardComponent } from '../../mobile-leaderboard/mobile-leaderboard.component'
 import { PublicTocComponent } from '../public-toc/public-toc.component'
 import { PublicTocBannerComponent } from '../public-toc-banner/public-toc-banner.component'
 import { PublicTocOverviewComponent } from '../public-toc-overview/public-toc-overview.component'
@@ -38,21 +33,17 @@ import { WebEkshamataPublicComponent } from '../../web-ekshamata-public-containe
   declarations: [
     PublicHomeComponent,
     WebEkshamataPublicComponent,
-    MobilePageComponent,
-    MobileHomeComponent,
     MobileTrustedByPageComponent,
     MobilePageFaqComponent,
     MobileLatestCommentComponent,
     MobileTestimonialsComponent,
-    // MobileCourseViewComponent,
     MobileOrganizationComponent,
     PublicTocComponent,
     PublicTocBannerComponent,
     PublicTocOverviewComponent,
     PublicLicenseComponent,
     KeycloakCallbackComponent,
-    WebHomeComponent,
-
+    WebHomeComponent
   ],
   imports: [
     MatProgressBarModule,

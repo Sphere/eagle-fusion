@@ -14,8 +14,41 @@
     @include breakpoint-m {
         padding-left: 30px;
     }
+}
 
+.containerMob {
+    margin: 1.5rem;
+    padding: 0;
+    .trusted-by-heading {
+        font-size: 24px !important;
+        line-height: 29px !important;
+    }
+    .trusted-by-ord-heading {
+        font-size: 16px !important;
+        line-height: 24px !important;
+    }
+    .trusted-by-img-container {
+        flex-direction: column;
+        gap: 2px;
 
+        .trusted-by-img2, .trusted-by-img3, .trusted-by-img4{
+            width: 28%;
+            margin-right: 25px;
+        }
+    }
+
+    .rmc-block {
+        flex-direction: column;
+        margin-top: 12px;
+
+        .trusted-by-img8{
+            width: 16%;
+        }
+
+        .button-wrai-rmc {
+            margin-top: 10px;
+        }
+    }
 }
 
 .trusted-by-heading {

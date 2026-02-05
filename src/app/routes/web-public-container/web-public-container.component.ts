@@ -132,14 +132,15 @@ export class WebPublicComponent implements OnInit, OnDestroy {
       ...this.featuredCourseIdentifier,
     ]
 
-    const requests = !this.configSvc?.unMappedUser ? [this.orgService.getTopLiveSearchResults(defaultIds, 'en')] : (this.lang === 'en'
-      ? [
-        this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers], 'en'),
-      ]
-      : [
-        this.orgService.getTopLiveSearchResults(defaultIds, 'en'),
-        this.orgService.getTopLiveSearchResults(identifiers, 'hi'),
-      ])
+    const requests = !this.configSvc?.unMappedUser ? [this.orgService.getTopLiveSearchResults(defaultIds, 'en')] :
+      // (this.lang === 'en'
+      //   ? [
+      this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers], this.lang)
+    // ]
+    // : [
+    //   this.orgService.getTopLiveSearchResults(defaultIds, 'en'),
+    //   this.orgService.getTopLiveSearchResults(identifiers, 'hi'),
+    // ])
 
     return forkJoin(requests).subscribe((responses: any[]) => {
       const content = responses

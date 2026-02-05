@@ -114,6 +114,26 @@ text-align: left;
     margin-top: -19px;
 }
 
+.mobileInfo-block {
+    margin-top: -12px;
+    .info-container {
+        flex: 1 0 50%;
+    }
+    .count-sphere-icons {
+        width: 25px;
+        height: 25px;
+    }
+    .info-number {
+        font-size: 24px;
+        line-height: 43px;
+    }
+    .info-text {
+        margin-top: 5px !important;
+        font-style: italic;
+        font-size: 14px;
+        line-height: 18px;
+    }
+}
 .info-container {
     padding: 10px;
     display: flex;
@@ -215,6 +235,34 @@ text-align: center;
     align-items: center;
      position: relative;
     z-index: 1;
+}
+// mobile view
+.mobileCarousel {
+    padding-top: 0px !important;
+    .carousel {
+        flex-direction: column;
+
+        .banner-heading-container {
+            padding-inline: 1.5rem;
+            .banner-heading {
+                width: 100%;
+                font-size: 32px;
+                line-height: 34px;
+            }
+            .banner-mini-heading {
+                font-size: 16px;
+                line-height: 24px;
+                margin-bottom: 15px;
+            }
+        }
+
+        .slides {
+            padding-left: 1rem;
+        }
+        .create-account {
+            display: none;
+        }
+    }
 }
 
 .slides {
@@ -332,4 +380,23 @@ text-align: center;
     letter-spacing: -0.02em;
     color: #FFFFFF !important;
     margin: 0px !important;
+}
+
+.create-account-mob {
+  background-color: #DFEDF9;
+  z-index: 111119;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  padding-bottom: 15px;
+}
+
+.create-btn {
+    background-color: #2E6491;
+    width: 100%;
+    border: 1px solid #2E6491;
+    border-radius: 20px;
+    color: white;
+    font-size: 16px;
+    font-weight: 400
 }

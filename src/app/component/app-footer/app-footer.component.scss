@@ -601,6 +601,88 @@ color: #7B6961;
 .flex-column{
   flex-direction: column;
 }
+
+.mobileFooter {
+  .transform-footer-container{
+    height: 260px !important;
+    .transform-header {
+      margin-top: 20px;
+      width: 311px;
+    }
+    .start-today-button {
+      margin-bottom: 0px !important;
+    }
+  }
+}
+::ng-deep .mobileFooterContainer {
+  padding: 0rem !important;
+  .footer-aastar-logo {
+    width: 134px !important;
+  }
+  .mdc-list {
+    padding: 0 !important;
+  }
+  .mat-mdc-list-base .mat-mdc-list-item, .mdc-list-item.mdc-list-item--with-one-line {
+    --mdc-list-list-item-one-line-container-height: 25px !important;
+    margin-top: -10px !important;
+  }
+  .mat-mdc-list-base .mat-mdc-list-item .mdc-list-item__content {
+    text-align: start;
+    .link-header {
+      font-size: 14px !important;
+      line-height: 17px !important;
+      font-weight: 500 !important;
+      margin-left: 2rem !important;
+    }
+    .list-item, .link-text {
+      font-size: 14px !important;
+      line-height: 17px !important;
+      font-weight: 400 !important;
+      margin-left: 2rem !important;
+    }
+
+    .whatsapp-logo-container {
+      margin-left: 2rem;
+      margin-top: 0.6rem
+    }
+
+  }
+
+  .mt-20 {
+     margin-top: 20px !important;
+  }
+  .foundation-container {
+    span {
+      font-size: 14px !important;
+      line-height: 17px !important;
+      font-weight: 400 !important;
+      margin-left: 0.6rem;
+    }
+    .list-item-link {
+      font-size: 14px !important;
+      line-height: 17px !important;
+      font-weight: 400 !important;
+    }
+  }
+  .social-logo-container {
+    margin-left: 1.2rem
+  }
+}
+.docs-footer-mob {
+  padding-bottom: 0.8rem !important;
+  .footer-alignment {
+    font-size: 10px !important;
+  }
+}
+
+.mobileFlex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // justify-content: center;
+  justify-content: space-around;
+  height: 100%;
+}
 .transform-footer-container{
   // margin-top: 10px;
   display: flex;
@@ -624,6 +706,12 @@ color: #7B6961;
   text-align: center;
   letter-spacing: -0.02em;
   color: #14446C;
+}
+
+.foundation {
+  color: #7B6961;
+  font-weight: 400 !important;
+  font-size: 15px !important;
 }
 
 .start-today-button{

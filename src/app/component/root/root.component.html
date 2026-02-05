@@ -25,11 +25,6 @@
     </div>
   </div>
 
-  <!-- Mobile Footer -->
-  <ws-mobile-footer [createAcc]="createAcc" *ngIf="(isXSmall$ | async) === true && !isLoggedIn && showmobileFooter"
-    class="hide-in-desktop app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}">
-  </ws-mobile-footer>
-
   <!-- Featured Section-->
   <section *ngIf="isHomePage && !isLoggedIn">
     <ws-web-public-container [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
@@ -38,17 +33,16 @@
   <!-- How does it Works -->
   <ng-container *ngIf="isHomePage && configData">
     <ws-web-trusted-by-page *ngIf="!isLoggedIn" [config]="configData[4]"></ws-web-trusted-by-page>
-    <div [ngClass]="{'mb-20': (isXSmall$ | async) === true, 'mt-8': (isXSmall$ | async) === false}">
+    <div [ngClass]="{'mt-8': (isXSmall$ | async) === false}">
       <ws-how-does-work class="bg-color app-footer"
         [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage, 'margin-top: 0.5rem': (isXSmall$ | async) === false}"
         *ngIf="showNavbar && !hideHeaderFooter" [config]="videoData"></ws-how-does-work>
     </div>
   </ng-container>
 
-
   <!-- Desktop Footer -->
-  <ws-app-footer class="hide-in-mobile app-footer " [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
-    *ngIf="showNavbar && !hideHeaderFooter && showmobileFooter">
+  <ws-app-footer class="app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+    *ngIf="showNavbar && !hideHeaderFooter && showNavigation">
   </ws-app-footer>
 
   <!-- bottom nav bar for mobile -->
@@ -69,21 +63,18 @@
   <div class="height-adjust" [ngClass]="{'height-on-bottom custom-scroll':(isXSmall$ | async) === true && showNavbar,'height-adjust-setup' : isSetupPage,
         'height-on-top':(isXSmall$ | async) === false &&showNavbar && isNavBarRequired}">
     <ws-dashboard [isEkshamata]="isEkshamata" class="mb-6" *ngIf="isLoggedIn&&isHomePage"></ws-dashboard>
-    <!-- <ws-mobile-dashboard [isEkshamata]="isEkshamata"
-      *ngIf="(isXSmall$ | async) === true && mobileView && isLoggedIn && appOnline&&isHomePage"></ws-mobile-dashboard> -->
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>
     </div>
     <!-- Featured Section-->
     <section *ngIf="(isXSmall$ | async) === false&&isHomePage">
-      <ws-web-public-container [isEkshamata]="isEkshamata" [userEnrollCourse]="userEnrollCourse"
-        *ngIf="(isXSmall$ | async) === false"></ws-web-public-container>
+      <ws-web-public-container [isEkshamata]="isEkshamata"
+        [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
     </section>
     <!-- Desktop Footer -->
     <ws-app-footer [isEkshamata]="isEkshamata" class="hide-in-mobile app-footer "
-      [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
-      *ngIf="showNavbar&&isLoggedIn && !hideHeaderFooter && showmobileFooter">
+      [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}" *ngIf="showNavbar&&isLoggedIn && !hideHeaderFooter">
     </ws-app-footer>
     <ng-container>
       <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
