@@ -57,7 +57,7 @@ export class PlaylistService {
     }
 
     const response: any = await this.http
-      .post('/apis/v1/form/read', body)
+      .post(`/apis/v1/form/read?v=${new Date().getTime()}`, body)
       .toPromise()
 
     const data = response?.result?.form?.data ?? null
@@ -75,7 +75,7 @@ export class PlaylistService {
       }
     }
 
-    const url = `/apis/protected/v8/playlist/search`
+    const url = `/apis/protected/v8/playlist/search?v=${new Date().getTime()}`
 
     const response: any = await this.http.post(url, body).toPromise()
 

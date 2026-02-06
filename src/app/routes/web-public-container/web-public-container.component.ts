@@ -63,7 +63,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
-    let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails[0]?.designation || ''
+    let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
     if (designation) {
       console.log("this.configData", this.configData, this.cneCourse, this.topCertifiedCourse)
       let res = this.playlistSvc.selectedTabConfig()
