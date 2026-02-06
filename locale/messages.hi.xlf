@@ -1892,6 +1892,14 @@
           <context context-type="linenumber">1</context>
         </context-group>
       </trans-unit>
+       <trans-unit id="faeadcd443ecd0c3e7996cc290e21172851fcbf3" datatype="html">
+        <source>(More than one answer possible)</source>
+        <target state="final">(एक से अधिक उत्तर चुने जा सकते हैं)</target>
+        <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-assesment-questions/view-assesment-questions.component.html</context>
+          <context context-type="linenumber">7</context>
+        </context-group>
+      </trans-unit>
       <trans-unit id="124a61343d29377893576b70bba338658bb3addf" datatype="html">
         <source> Competency Dashboard</source>
         <target state="final">योग्यता डैशबोर्ड</target>
@@ -6338,6 +6346,10 @@
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-quiz-question/view-quiz-question.component.html</context>
           <context context-type="linenumber">22</context>
         </context-group>
+         <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-assesment-questions/view-assesment-questions.component.html</context>
+          <context context-type="linenumber">23</context>
+        </context-group>
       </trans-unit>
       <trans-unit id="d1554bc342b9b4c0d3083ec1734be9d7a01fb063" datatype="html">
         <source>
@@ -6893,7 +6905,7 @@
         <target state="final">व्याख्या</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-quiz-question/view-quiz-question.component.html</context>
-          <context context-type="linenumber">60</context>
+          <context context-type="linenumber">59</context>
         </context-group>
       </trans-unit>
       <trans-unit id="d5342dc25c3a87cd8996b503b4c6fb2edf18fc3d" datatype="html">
@@ -6902,16 +6914,20 @@
         <target state="final">व्याख्या</target>
         <context-group purpose="location">
           <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-quiz-question/view-quiz-question.component.html</context>
-          <context context-type="linenumber">70</context>
+          <context context-type="linenumber">69</context>
         </context-group>
       </trans-unit>
       <trans-unit id="e947526f33edd2f39da3dcff38ba32a7469fe84f" datatype="html">
         <source>
               Explanation</source>
         <target state="final">रिक्त के लिए स्पष्टीकरण</target>
+       <context-group purpose="location">
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-assesment-questions/view-assesment-questions.component.html</context>
+          <context context-type="linenumber">103</context>
+        </context-group>
         <context-group purpose="location">
-          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-quiz-question/view-quiz-question.component.html</context>
-          <context context-type="linenumber">114</context>
+          <context context-type="sourcefile">project/ws/viewer/src/lib/plugins/quiz/components/view-assesment-questions/view-assesment-questions.component.html</context>
+          <context context-type="linenumber">113</context>
         </context-group>
       </trans-unit>
       <trans-unit id="46fb96ee309456c9e15c159b2e11a4656c700b46" datatype="html">

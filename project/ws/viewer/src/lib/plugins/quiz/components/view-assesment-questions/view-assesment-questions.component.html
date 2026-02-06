@@ -1,7 +1,10 @@
 <div>
-  <h3 *ngIf="question.questionType !== 'fitb'" class="m-0" [innerHTML]="question?.question" class="quiz-question">
+  <h3 *ngIf="question.questionType !== 'fitb'" class="m-0 quiz-question" [innerHTML]="question?.question">
   </h3>
-  <h3 *ngIf="question.questionType === 'fitb'" class="m-0" [innerHTML]="safeQuestion" class="quiz-question"></h3>
+  <h3 *ngIf="question.questionType === 'fitb'" class="m-0 quiz-question" [innerHTML]="safeQuestion"></h3>
+
+  <!-- Show text when multiple answers are possible -->
+  <p *ngIf="question?.multiSelection" class="mat-body-2 multi-selection-hint" i18n>(More than one answer possible)</p>
 
   <ng-container *ngIf="question.questionType === 'fitb'">
 
