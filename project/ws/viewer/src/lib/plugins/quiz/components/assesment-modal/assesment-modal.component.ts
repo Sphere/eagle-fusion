@@ -140,7 +140,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   }
 
   /**
-   * Fetch restricted organization IDs from S3 configuration file
+   * Fetch restricted organization names from S3 configuration file
    */
   private fetchRestrictedOrgIds(): void {
     const s3ConfigUrl = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/quiz-config.json?cb=${Date.now()}`
@@ -149,36 +149,49 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       (config: any) => {
         if (config && Array.isArray(config.restrictedOrgIds)) {
           this.restrictedOrgIds = config.restrictedOrgIds
-          console.log('Restricted org IDs loaded from S3:', this.restrictedOrgIds)
+          console.log('Restricted org names loaded from S3:', this.restrictedOrgIds)
         }
       },
       (error: any) => {
-        console.warn('Failed to load restricted org IDs from S3, using empty list:', error)
-        // If S3 fetch fails, restrictedOrgIds remains empty (no orgs are restricted)
+        console.warn('Failed to load restricted org names from S3:', error)
       }
     )
   }
 
   /**
-   * Check if View Answers button should be shown based on user's organization and isCorrectAnswerPopUp resource property
-   * Hide View Answers for restricted organizations if isCorrectAnswerPopUp is not present/true
-   * Show View Answers for all other organizations
+   * Check if View Answers button should be shown based on resource property and organization
+   *
+   * Logic:
+   * - If isCorrectAnswerPopUp resource key is present and true: Show View Answers for all organizations
+   * - If isCorrectAnswerPopUp resource key is NOT present/falsy:
+   *   - Don't show for restricted orgs (from S3 config)
+   *   - Show for all other organizations
    */
   canShowViewAnswers(): boolean {
-    // Get the organization ID from user profile
-    const userOrgId = this.configSvc.userProfile?.rootOrgId
-
     // Check if isCorrectAnswerPopUp is present in resource
     const resource = this.viewerDataSvc.resource
     const isCorrectAnswerPopUp = resource?.isCorrectAnswerPopUp
 
-    // If user's organization is in restricted list
-    if (userOrgId && this.restrictedOrgIds.includes(userOrgId)) {
-      // Only show View Answers if isCorrectAnswerPopUp is explicitly true
-      return isCorrectAnswerPopUp === true
+    // If isCorrectAnswerPopUp is explicitly false, don't show for ANY organization
+    if (isCorrectAnswerPopUp === false) {
+      return false
     }
 
-    // For all other organizations, show View Answers based on original logic
+    // If isCorrectAnswerPopUp is explicitly true, show View Answers for all orgs
+    if (isCorrectAnswerPopUp === true) {
+      return true
+    }
+
+    // If isCorrectAnswerPopUp is NOT present, check organization
+    // Get the organization name from user profile
+    const userOrgName = this.configSvc.userProfile?.rootOrgName
+
+    // If user's organization is in restricted list (from S3), don't show View Answers
+    if (userOrgName && this.restrictedOrgIds.includes(userOrgName)) {
+      return false
+    }
+
+    // For all other organizations, show View Answers
     return true
   }
 
