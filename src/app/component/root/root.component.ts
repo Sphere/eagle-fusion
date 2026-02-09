@@ -373,7 +373,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     await this.playlistSvc.loadPlaylistData()
     this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
     this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
-    this.videoData = this.configData[5]
+    if (this.playlistSvc.getSelectedTab() === 'homeTab') {
+      this.videoData = this.configData?.[5]
+      localStorage.setItem('videoData', JSON.stringify(this.videoData))
+    }
 
     this.setPageTitle()
     this.fcSettingsFunc()

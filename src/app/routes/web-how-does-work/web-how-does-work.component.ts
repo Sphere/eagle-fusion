@@ -25,6 +25,9 @@ export class WebHowDoesWorkComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+    if (!this.config.data) {
+      this.config = JSON.parse(localStorage.getItem('videoData'))
+    }
     this.config?.data.forEach((element: any) => {
       if (element.url) {
         element.url = typeof (element.url) == 'string' ? this.sanitizeUrl(element.url) : element.url

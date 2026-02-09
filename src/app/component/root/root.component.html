@@ -36,7 +36,7 @@
     <div [ngClass]="{'mt-8': (isXSmall$ | async) === false}">
       <ws-how-does-work class="bg-color app-footer"
         [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage, 'margin-top: 0.5rem': (isXSmall$ | async) === false}"
-        *ngIf="showNavbar && !hideHeaderFooter" [config]="videoData"></ws-how-does-work>
+        *ngIf="showNavbar && !hideHeaderFooter && videoData" [config]="videoData"></ws-how-does-work>
     </div>
   </ng-container>
 
