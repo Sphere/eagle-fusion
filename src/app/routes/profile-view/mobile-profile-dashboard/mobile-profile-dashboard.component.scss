@@ -493,7 +493,7 @@ font-weight: 500;
   padding: 16px;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
   cursor: pointer;
-  width: 91%;
+  width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
@@ -501,7 +501,7 @@ font-weight: 500;
   border: 1px solid rgba(233, 233, 233, 1);
 
   @include breakpoint-gt-m {
-    width: 70%;
+    width: 100%;
     margin: 10px 0px;
     padding: 8px 10px;
   }

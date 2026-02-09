@@ -27,25 +27,14 @@ export class AppFooterComponent implements OnInit {
   ) {
     this.isLoggedIn = !!this.configSvc.userProfile
     this.termsOfUser = !this.configSvc.restrictedFeatures?.has('termsOfUser')
-    // if (this.configSvc.instanceConfig) {
-    //   this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-    //     this.configSvc.instanceConfig.logos.app
-    //   )
-    // }
     this.orgData = this.playlistSvc.orgDetails()
     let res = this.playlistSvc.footerConfig()
     console.log('********* playlist data in nav bar ', res)
     this.configData = res
-    this.appIcon = this.orgData?.foundationLogo
+    this.appIcon = this.orgData?.appLogo
   }
 
   ngOnInit() {
-    if (this.isEkshamata) {
-      this.appIcon = '/fusion-assets/images/aastrika-foundation-logo.svg'
-      // } else {
-      //   this.appIcon = '/fusion-assets/images/sphere-new-logo.svg'
-    }
-
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       this.isXSmall = isXSmall
     })

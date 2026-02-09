@@ -15,53 +15,49 @@
         {{ menuItems[0].text | translate }} : {{ currentProfession }}
       </span>
     </div>
-    <div class="leaderboard-card" (click)="openLeaderboard()" *ngIf="totalUsers > 0">
-      <div class="leaderboard-header">
-        <div class="icon">
-          <img src="fusion-assets/icons/leaderboard_icon.png" alt="star" />
-        </div>
-
-        <div class="title">{{'Leaderboard' | translate}}</div>
-
-        <div class="arrow">
-          <img src="fusion-assets/icons/arrow-right.png" alt="arrow-right" />
-        </div>
-      </div>
-
-      <div class="leaderboard-body">
-        <div class="rank">
-          <span class="rank-value">{{ currentUser?.rank }}</span>
-          <span class="rank-total">/ {{ totalUsers }}</span>
-        </div>
-
-        <div class="points">
-          <div class="points-label">{{'Your points' | translate}}</div>
-          <div class="points-value">{{ currentUser?.points }} {{'POINTS' | translate}}</div>
-        </div>
-      </div>
-    </div>
-    <div class="flex justify-center">
-      <ng-container *ngIf="uiConfig?.length">
-        <a class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2" [href]="isEkshamata && configSvc.hostedInfo?.phone
-            ? 'tel:' + configSvc.hostedInfo.phone.replace('tel:', '')
-            : null" (click)="!isEkshamata ? showSocialChats() : null">
-          {{ uiConfig[0].text | translate }}
-          <img [width]="isEkshamata ? 20 : 18" height="18" [src]="uiConfig[0].img" alt="" />
-        </a>
-      </ng-container>
-    </div>
 
     <div class="div mobile-div">
       <ng-container *ngFor="let ls of uiConfig">
-        <a *ngIf="ls.icon" class="border-btm mt-2" [class.active]="selectedIndex === ls.name"
-          (click)="selectedIndex = ls.name; changeFunction(ls)">
-          <div class="flex">
-            <img [alt]="ls.text" [src]="ls.img" width="35" height="23" />
-            <span class="options">{{ ls.text | translate }}</span>
+        <div *ngIf="ls.id == 'leaderBoard' && totalUsers > 0" class="leaderboard-card" (click)="openLeaderboard()">
+          <div class="leaderboard-header">
+            <div class="icon">
+              <img [src]="ls.img" alt="star" />
+            </div>
+            <div class="title">{{ls.text | translate}}</div>
+            <div class="arrow"><img [src]="ls.icon" alt="arrow-right" /></div>
           </div>
+          <div class="leaderboard-body">
+            <div class="rank">
+              <span class="rank-value">{{ currentUser?.rank }}</span>
+              <span class="rank-total">/ {{ totalUsers }}</span>
+            </div>
+            <div class="points">
+              <div class="points-label">{{ls.data.title | translate}}</div>
+              <div class="points-value">{{ currentUser?.points }} {{ls.data.label | translate}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="flex justify-center" *ngIf="ls.id == 'help&Support'">
+          <ng-container *ngIf="uiConfig?.length">
+            <a class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2" [href]="isEkshamata && configSvc.hostedInfo?.phone
+                    ? 'tel:' + configSvc.hostedInfo.phone.replace('tel:', '')
+                    : null" (click)="!isEkshamata ? showSocialChats() : null">
+              {{ ls.text | translate }}
+              <img [width]="isEkshamata ? 20 : 18" height="18" [src]="ls.img" alt="" />
+            </a>
+          </ng-container>
+        </div>
+        <div *ngIf="ls.id !== 'leaderBoard' && ls.id !== 'help&Support'">
+          <a *ngIf="ls.icon" class="border-btm mt-2" [class.active]="selectedIndex === ls.name"
+            (click)="selectedIndex = ls.name; changeFunction(ls)">
+            <div class="flex">
+              <img [alt]="ls.text" [src]="ls.img" width="35" height="23" />
+              <span class="options">{{ ls.text | translate }}</span>
+            </div>
 
-          <img class="right-icon" alt="icon" [src]="ls.icon" />
-        </a>
+            <img class="right-icon" alt="icon" [src]="ls.icon" />
+          </a>
+        </div>
       </ng-container>
       <div class="margin-top-xs" *ngIf="!isEkshamata || configSvc.hostedInfo?.email">
         <span style="font-size: 15px;">
@@ -100,43 +96,38 @@
       <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;">
         <span> {{ menuItems[0]?.text | translate }}</span> : {{currentProfession }}
       </p>
-      <div class="leaderboard-card" (click)="openLeaderboard()" *ngIf="totalUsers > 0">
-        <div class="leaderboard-header">
-          <div class="icon">
-            <img src="fusion-assets/icons/leaderboard_icon.png" alt="star" />
-          </div>
-
-          <div class="title">{{'Leaderboard' | translate}}</div>
-
-          <div class="arrow">
-            <img src="fusion-assets/icons/arrow-right.png" alt="arrow-right" />
-          </div>
-        </div>
-
-        <div class="leaderboard-body">
-          <div class="rank">
-            <span class="rank-value">{{ currentUser?.rank }}</span>
-            <span class="rank-total">/ {{ totalUsers }}</span>
-          </div>
-
-          <div class="points">
-            <div class="points-label">{{'Your points' | translate}}</div>
-            <div class="points-value">{{ currentUser?.points }} {{'POINTS' | translate}}</div>
-          </div>
-        </div>
-      </div>
     </div>
     <div class="div">
       <ng-container *ngFor="let ls of uiConfig">
-        <a *ngIf="ls.type == 'text'" [class.active]="selectedIndex === ls.name"
-          (click)="selectedIndex = ls.name; changeFunction(ls)">
-          <img alt=ls.text [src]="ls.img" width="35" height="18" />
-          <span>{{ ls.text | translate }}</span>
-        </a>
-        <button *ngIf="!isEkshamata && ls.type == 'button'" class="web-help-btn mt-2 mb-2 cursor-pointer"
-          (click)="showSocialChats()">{{ ls.text | translate }}
-          <img width="35" height="18" [src]="ls.img" alt="" />
-        </button>
+        <div *ngIf="ls.id =='leaderBoard' && totalUsers > 0" class="leaderboard-card" (click)="openLeaderboard()">
+          <div class="leaderboard-header">
+            <div class="icon"><img [src]="ls.img" alt="star" /></div>
+            <div class="title">{{ls.text | translate}}</div>
+            <div class="arrow" *ngIf="ls.icon">
+              <img [src]="ls.icon" alt="arrow-right" />
+            </div>
+          </div>
+          <div class="leaderboard-body">
+            <div class="rank">
+              <span class="rank-value">{{ currentUser?.rank }}</span><span class="rank-total">/ {{ totalUsers }}</span>
+            </div>
+            <div class="points">
+              <div class="points-label">{{ls?.data?.title | translate}}</div>
+              <div class="points-value">{{ currentUser?.points }} {{ls?.data?.label | translate}}</div>
+            </div>
+          </div>
+        </div>
+        <div *ngIf="ls.id !== 'leaderBoard'">
+          <a *ngIf=" ls.type=='text'" [class.active]=" selectedIndex===ls.name"
+            (click)="selectedIndex = ls.name; changeFunction(ls)">
+            <img alt=ls.text [src]="ls.img" width="35" height="18" />
+            <span>{{ ls.text | translate }}</span>
+          </a>
+          <button *ngIf="!isEkshamata && ls.type == 'button'" class="web-help-btn mt-2 mb-2 cursor-pointer"
+            (click)="showSocialChats()">{{ ls.text | translate }}
+            <img width="35" height="18" [src]="ls.img" alt="" />
+          </button>
+        </div>
       </ng-container>
       <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit">
         {{ menuItems[menuItems.length-1]?.text | translate}}</button>
