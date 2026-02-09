@@ -170,6 +170,26 @@ export class ViewerResolve
       node.children.forEach((child: any) => {
         this.updateHierarchyWithProgress(child, progressMap)
       })
+
+      // Calculate parent completion from children if not in progress map
+      if (!progressMap.hasOwnProperty(node.identifier) && node.children.length > 0) {
+        const completedChildren = node.children.filter(
+          (child: any) => {
+            const completion = Number(child.completionPercentage) || 0
+            return completion >= 100
+          }
+        ).length
+        const calculatedCompletion = (completedChildren / node.children.length) * 100
+        if (calculatedCompletion > 0) {
+          node.completionPercentage = Math.round(calculatedCompletion)
+          console.log('Calculated parent completion:', {
+            id: node.identifier,
+            completed: completedChildren,
+            total: node.children.length,
+            percentage: node.completionPercentage
+          })
+        }
+      }
     }
   }
 
@@ -231,13 +251,31 @@ export class ViewerResolve
       if (currentIndex > 0) {
         for (let j = 0; j < currentIndex; j++) {
           const sibling = parent.children[j]
+          const completionPercentage = Number(sibling.completionPercentage) || 0
+
           console.log('Checking sibling:', {
             id: sibling.identifier,
             name: sibling.name,
             completionPercentage: sibling.completionPercentage,
-            isComplete: sibling.completionPercentage === 100
+            normalizedCompletion: completionPercentage,
+            isComplete: completionPercentage >= 100
           })
-          if (sibling.completionPercentage !== 100) {
+
+          // Allow access if sibling is 100% complete or has all children completed
+          if (completionPercentage < 100) {
+            // Check if sibling has children and all are completed (fallback validation)
+            if (sibling.children && sibling.children.length > 0) {
+              const allChildrenComplete = sibling.children.every(
+                (child: any) => {
+                  const childCompletion = Number(child.completionPercentage) || 0
+                  return childCompletion >= 100
+                }
+              )
+              if (allChildrenComplete) {
+                console.log('Sibling children all complete, allowing access:', sibling.identifier)
+                continue
+              }
+            }
             console.error('Blocking access: Sibling not complete:', sibling.identifier)
             return false
           }
