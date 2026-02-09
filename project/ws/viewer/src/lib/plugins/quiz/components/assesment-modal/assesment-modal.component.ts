@@ -4,7 +4,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
 import { interval, Subject, Subscription } from 'rxjs'
-import { first, map, takeUntil, take } from 'rxjs/operators'
+import { first, map, takeUntil } from 'rxjs/operators'
 import { FetchStatus } from '../../quiz.component'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
@@ -133,9 +133,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       },
     }
 
-    this.contentSvc.fetchContentHistoryV2(req).pipe(
-      take(1)
-    ).subscribe(
+    this.contentSvc.fetchContentHistoryV2(req).subscribe(
       (data: any) => {
         // Check if this assessment already has progress recorded
         const currentProgress = data?.result?.contentList?.find((item: any) =>

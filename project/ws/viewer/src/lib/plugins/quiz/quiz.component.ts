@@ -12,7 +12,7 @@ import { Location } from '@angular/common'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSidenav } from '@angular/material/sidenav'
 import { interval, Subject, Subscription } from 'rxjs'
-import { map, takeUntil, first, take } from 'rxjs/operators'
+import { map, takeUntil, first } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
@@ -318,9 +318,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     }
 
-    this.contentSvc.fetchContentHistoryV2(req).pipe(
-      take(1)
-    ).subscribe(
+    this.contentSvc.fetchContentHistoryV2(req).subscribe(
       (data: any) => {
         const currentProgress = data?.result?.contentList?.find((item: any) =>
           item.contentId === this.identifier
@@ -551,9 +549,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       },
     }
 
-    this.contentSvc.fetchContentHistoryV2(req).pipe(
-      take(1)
-    ).subscribe(
+    this.contentSvc.fetchContentHistoryV2(req).subscribe(
       (data: any) => {
         const currentProgress = data?.result?.contentList?.find((item: any) =>
           item.contentId === this.identifier
