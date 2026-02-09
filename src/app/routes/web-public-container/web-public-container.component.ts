@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, OnDestroy } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild, Input, OnDestroy, effect } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
@@ -48,7 +48,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   isUpLogin: boolean = false
   configData: any
   lang: string = ''
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall: boolean = false
   constructor(
     private router: Router,
     public dialog: MatDialog,
@@ -60,19 +60,28 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     private valueSvc: ValueService
   ) {
     this.lang = this.langSvc.getCurrentLanguage()
+    effect(() => {
+      this.isXSmall = this.valueSvc.isMobile()
+    })
   }
 
   async ngOnInit() {
     let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
     if (designation) {
       console.log("this.configData", this.configData, this.cneCourse, this.topCertifiedCourse)
-      let res = this.playlistSvc.selectedTabConfig()
-      this.configData = res.slice(1, -1)
+      let res: any
+      if (this.playlistSvc.getSelectedTab() == 'homeTab') {
+        res = this.playlistSvc.selectedTabConfig()
+      } else {
+        res = this.playlistSvc.bodyConfig()?.homeTab
+      }
+      if (res.length > 0)
+        this.configData = res?.slice(1, -1)
       let plyLsData: any = await this.playlistSvc.getPlaylistConfig()
       console.log("plyLsData", plyLsData)
       plyLsData.forEach(async (element: any) => {
-        if (element.orgId == this.configSvc.userProfile.rootOrgId) {
-          if (element.role.map(role => role.toLowerCase()).includes(designation.toLowerCase()) && element.playlistId === "YOUR_PLANS_PLAYLIST" && element.language == this.lang) {
+        if (element.orgId == this.configSvc.userProfile.rootOrgId && element.language == this.lang) {
+          if (element.role.map(role => role.toLowerCase()).includes(designation.toLowerCase()) && element.playlistId === "YOUR_PLANS_PLAYLIST") {
             this.yourPlansCourseIdentifier = element.dataSource.payload
           }
           if (element.playlistId === "TOP_COURSE_PLAYLIST") {
@@ -196,26 +205,26 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   // To view all course
   viewAllCourse(content: any) {
     if (content?.button?.courseType === 'continueLearning') {
-      console.log(" this.isXSmall$ ", this.isXSmall$)
-      if ((this.isXSmall$.subscribe())) {
+      console.log(" this.isXSmall$ ", this.isXSmall)
+      if ((this.isXSmall)) {
         content.displayData = this.userEnrollCourse
       } else {
         this.router.navigate(['app/user/my_courses'])
       }
     } else if (content?.button?.courseType === 'formatForYouCourses') {
-      if ((this.isXSmall$.subscribe())) {
+      if ((this.isXSmall)) {
         content.displayData = this.coursesForYou
       } else {
         this.router.navigate(['app/user/my_courses'], { queryParams: { courseType: content?.button?.courseType } })
       }
     } else if (content?.button?.courseType === 'topCourse') {
-      if ((this.isXSmall$.subscribe())) {
+      if ((this.isXSmall)) {
         content.displayData = this.topCertifiedCourse
       } else {
         this.router.navigate(['app/search/topCourse'], { queryParams: { courseType: content?.button?.courseType } })
       }
     } else if (content?.button?.courseType === 'cneCourses') {
-      if ((this.isXSmall$.subscribe())) {
+      if ((this.isXSmall)) {
         content.displayData = this.cneCourse
       }
     }

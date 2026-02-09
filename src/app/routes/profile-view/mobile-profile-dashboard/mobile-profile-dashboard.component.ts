@@ -131,7 +131,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   ngOnInit() {
     this.setupMenuItems()
     this.domain = window.location.hostname
-    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata') || this.domain.includes('localhost')) {
+    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       this.isEkshamata = true
     }
     if (sessionStorage.getItem('currentWindow')) {
@@ -194,8 +194,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     // remove first and last item
     this.uiConfig = this.menuItems.length > 2 ? this.menuItems.slice(1, -1) : []
     console.log("res ", res, this.config, this.uiConfig)
-    this.selectedIndex = this.uiConfig[1]?.name
-    this.selectedIndexData = this.uiConfig[1]?.data
+    this.selectedIndex = this.isEkshamata ? this.uiConfig[1]?.name : this.uiConfig[0]?.name
+    this.selectedIndexData = this.isEkshamata ? this.uiConfig[1]?.data : this.uiConfig[0]?.data
   }
 
   hasRequiredLeaderboardDetails(): boolean {
@@ -215,7 +215,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       hasProfessionalDetails &&
       unMappedUser.profileDetails.profileReq.professionalDetails[0].instituteName
 
-    return hasUserId && hasProfessionalDetails && hasDesignation && hasRootOrgId && hasInstituteName
+    return hasUserId && hasProfessionalDetails && hasDesignation && hasRootOrgId && hasInstituteName && this.isEkshamata
   }
   changeFunction(item: any): void {
     if (!item?.name) return

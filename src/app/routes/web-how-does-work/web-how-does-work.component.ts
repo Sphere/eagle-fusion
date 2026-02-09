@@ -27,7 +27,7 @@ export class WebHowDoesWorkComponent implements OnInit {
   ngOnInit() {
     this.config?.data.forEach((element: any) => {
       if (element.url) {
-        element.url = this.sanitizeUrl(element.url)
+        element.url = typeof (element.url) == 'string' ? this.sanitizeUrl(element.url) : element.url
       }
       this.videoData.push(element)
     })
