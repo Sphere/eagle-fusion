@@ -12,7 +12,7 @@ import { Location } from '@angular/common'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSidenav } from '@angular/material/sidenav'
 import { interval, Subject, Subscription } from 'rxjs'
-import { map, takeUntil, first } from 'rxjs/operators'
+import { map, takeUntil, first, take } from 'rxjs/operators'
 import { NSQuiz } from './quiz.model'
 import { QuestionComponent } from './components/question/question.component'
 import { SubmitQuizDialogComponent } from './components/submit-quiz-dialog/submit-quiz-dialog.component'
@@ -301,21 +301,73 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   openAssesmentDialog() {
-    this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
-      panelClass: 'assesment-modal',
-      disableClose: true,
-      data: {
-        questions: this.quizJson,
-        generalData: {
-          identifier: this.identifier,
-          artifactUrl: this.artifactUrl,
-          name: this.name,
-          collectionId: this.collectionId,
-          gating: this.viewerDataSvc.gatingEnabled
-        },
+    // **CRITICAL**: Fetch current progress before opening modal
+    let userId = ''
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    const batchId = this.route.snapshot.queryParams.batchId
 
+    const req: any = {
+      request: {
+        userId,
+        batchId: batchId || undefined,
+        courseId: this.collectionId,
+        contentIds: [this.identifier],
+        fields: ['progressdetails'],
       },
-    })
+    }
+
+    this.contentSvc.fetchContentHistoryV2(req).pipe(
+      take(1)
+    ).subscribe(
+      (data: any) => {
+        const currentProgress = data?.result?.contentList?.find((item: any) =>
+          item.contentId === this.identifier
+        )
+
+        this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
+          panelClass: 'assesment-modal',
+          disableClose: true,
+          data: {
+            questions: this.quizJson,
+            generalData: {
+              identifier: this.identifier,
+              artifactUrl: this.artifactUrl,
+              name: this.name,
+              collectionId: this.collectionId,
+              gating: this.viewerDataSvc.gatingEnabled
+            },
+            // **CRITICAL**: Pass existing progress data to modal so it doesn't reset completed assessments
+            currentProgress: currentProgress || null
+          },
+        })
+        this.handleAssesmentDialogClose()
+      },
+      (error) => {
+        console.warn('Failed to fetch progress before opening assessment:', error)
+        // On error, still open modal without progress data
+        this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
+          panelClass: 'assesment-modal',
+          disableClose: true,
+          data: {
+            questions: this.quizJson,
+            generalData: {
+              identifier: this.identifier,
+              artifactUrl: this.artifactUrl,
+              name: this.name,
+              collectionId: this.collectionId,
+              gating: this.viewerDataSvc.gatingEnabled
+            },
+            currentProgress: null
+          },
+        })
+        this.handleAssesmentDialogClose()
+      }
+    )
+  }
+
+  private handleAssesmentDialogClose() {
     this.dialogAssesment.afterClosed().subscribe((result: any) => {
       console.log(result.event)
       if (result) {
@@ -341,12 +393,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
         } else if (result.event === 'DONE') {
-          // let userId
-          // if (this.configSvc.userProfile) {
-          //   // tslint:disable-next-line
-          //   userId = this.configSvc.userProfile.userId || ''
-          // }
-
           let Id = this.identifier
           let collectionId = this.collectionId
           const batchId = this.route.snapshot.queryParams.batchId
@@ -354,105 +400,33 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           const data2 = {
             current: 10,
             max_size: 10,
-            mime_type: "application/json"
+            mime_type: "application/json",
+            completionPercentage: 100,
+            status: 2
           }
-          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
-            console.log(data)
-            if (data.params.status === "success") {
-              const result = data.result
-              result['type'] = 'assessment'
-              const res = data["result"]["contentList"].find(
-                (obj: any) => obj.contentId === this.htmlContent?.identifier
-              )
-              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'assessment' })
-              this.contentSvc.changeMessage(result)
-
-            }
-          })
-          // this.contentSvc.fetchUserBatchList(userId).subscribe(
-          //   async (courses: NsContent.ICourse[]) => {
-          //     if (this.collectionId) {
-          //       if (courses && courses.length) {
-          //         this.enrolledCourse = await courses.find(course => {
-          //           const identifier = this.collectionId || ''
-          //           if (course.courseId !== identifier) {
-          //             return undefined
-          //           }
-          //           return course
-          //         })
-          //       }
-          //       // tslint:disable-next-line:no-console
-          //       console.log(this.enrolledCourse)
-          //       // if (this.enrolledCourse != null) {
-          //       const customerDate = moment(this.enrolledCourse.completedOn)
-          //       const dateNow = moment(new Date())
-          //       const duration = moment.duration(dateNow.diff(customerDate))
-          //       // tslint:disable-next-line
-          //       //if (this.enrolledCourse && this.enrolledCourse.completionPercentage! < 100) {
-          //       if (this.enrolledCourse && duration.asMinutes() <= 0.5) {
-          //         this.showCompletionMsg = true
-          //       } else {
-          //         this.showCompletionMsg = false
-          //       }
-          //       // }
-          //       this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-          //         console.log(data, this.contentSvc.showConformation)
-          //         if (isNull(data.nextResource)) {
-          //           // tslint:disable-next-line
-          //           if (this.enrolledCourse && this.enrolledCourse!.completionPercentage === 100
-          //             && this.contentSvc.showConformation) {
-          //             const data = {
-          //               courseId: this.collectionId,
-          //             }
-          //             const isDialogOpen = this.dialog.openDialogs.length > 0
-          //             let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-
-          //             // If the dialog is not already open, open it
-          //             if (!isDialogOpen) {
-          //               confirmdialog = this.dialog.open(ConfirmmodalComponent, {
-          //                 width: '300px',
-          //                 height: '405px',
-          //                 panelClass: 'overview-modal',
-          //                 disableClose: true,
-          //                 data: { request: data, message: 'Congratulations!, you have completed the course' },
-          //               })
-          //             }
-
-          //             if (confirmdialog) {
-          //               confirmdialog.afterClosed().subscribe((res: any) => {
-          //                 if (res.event === 'CONFIRMED') {
-          //                   this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          //                     queryParams: {
-          //                       primaryCategory: 'Course',
-          //                       batchId: this.route.snapshot.queryParams.batchId,
-          //                     },
-          //                   })
-          //                 }
-          //               })
-          //             }
-
-          //           } else {
-          //             this.dialog.closeAll()
-          //             this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-          //               queryParams: {
-          //                 primaryCategory: 'Course',
-          //                 batchId: this.route.snapshot.queryParams.batchId,
-          //               },
-          //             })
-          //           }
-
-          //           // this.router.navigate([data.prevResource], { queryParamsHandling: 'preserve' })
-          //         } else {
-          //           this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-          //         }
-          //         return
-          //       })
-          //     }
-          //   },
-          //   (error: any) => {
-          //     this.loggerSvc.error('CONTENT HISTORY FETCH ERROR >', error)
-          //   },
-          // )
+          // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
+          // Send telemetry and changeMessage with pre-calculated data
+          this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
+            () => {
+              const messageData = {
+                contentList: [{
+                  contentId: Id,
+                  completionPercentage: 100,
+                  status: 2,
+                }],
+                type: 'assessment'
+              }
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', {
+                contentId: Id,
+                completionPercentage: 100,
+                status: 2,
+                mimeType: 'assessment',
+                batchId: batchId || ''
+              })
+              this.contentSvc.changeMessage(messageData)
+            },
+            (error) => { console.warn('Progress update failed:', error) }
+          )
         }
       }
     })
@@ -560,21 +534,73 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
   /*open quiz dialog*/
   openQuizDialog() {
-    this.dialogQuiz = this.dialog.open(QuizModalComponent, {
-      panelClass: 'quiz-modal',
-      disableClose: true,
-      data: {
-        questions: this.quizJson,
-        generalData: {
-          identifier: this.identifier,
-          artifactUrl: this.artifactUrl,
-          name: this.name,
-          collectionId: this.collectionId,
-          gating: this.viewerDataSvc.gatingEnabled
-        },
+    // **CRITICAL**: Fetch current progress before opening modal
+    let userId = ''
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+    const batchId = this.route.snapshot.queryParams.batchId
 
+    const req: any = {
+      request: {
+        userId,
+        batchId: batchId || undefined,
+        courseId: this.collectionId,
+        contentIds: [this.identifier],
+        fields: ['progressdetails'],
       },
-    })
+    }
+
+    this.contentSvc.fetchContentHistoryV2(req).pipe(
+      take(1)
+    ).subscribe(
+      (data: any) => {
+        const currentProgress = data?.result?.contentList?.find((item: any) =>
+          item.contentId === this.identifier
+        )
+
+        this.dialogQuiz = this.dialog.open(QuizModalComponent, {
+          panelClass: 'quiz-modal',
+          disableClose: true,
+          data: {
+            questions: this.quizJson,
+            generalData: {
+              identifier: this.identifier,
+              artifactUrl: this.artifactUrl,
+              name: this.name,
+              collectionId: this.collectionId,
+              gating: this.viewerDataSvc.gatingEnabled
+            },
+            // **CRITICAL**: Pass existing progress data to modal so it doesn't reset ongoing quizzes
+            currentProgress: currentProgress || null
+          },
+        })
+        this.handleQuizDialogClose()
+      },
+      (error) => {
+        console.warn('Failed to fetch progress before opening quiz:', error)
+        // On error, still open modal without progress data
+        this.dialogQuiz = this.dialog.open(QuizModalComponent, {
+          panelClass: 'quiz-modal',
+          disableClose: true,
+          data: {
+            questions: this.quizJson,
+            generalData: {
+              identifier: this.identifier,
+              artifactUrl: this.artifactUrl,
+              name: this.name,
+              collectionId: this.collectionId,
+              gating: this.viewerDataSvc.gatingEnabled
+            },
+            currentProgress: null
+          },
+        })
+        this.handleQuizDialogClose()
+      }
+    )
+  }
+
+  private handleQuizDialogClose() {
     this.dialogQuiz.afterClosed().subscribe((result: any) => {
       console.log(result, 'res')
       if (result) {
@@ -594,20 +620,33 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           const data2 = {
             current: 10,
             max_size: 10,
-            mime_type: "application/json"
+            mime_type: "application/json",
+            completionPercentage: 100,
+            status: 2
           }
-          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
-            console.log(data)
-            if (data.params.status === "success") {
-              const result = data.result
-              result['type'] = 'quiz'
-              const res = data["result"]["contentList"].find(
-                (obj: any) => obj.contentId === this.htmlContent?.identifier
-              )
-              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'quiz' })
-              this.contentSvc.changeMessage(result)
-            }
-          })
+          // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
+          // Send telemetry and changeMessage with pre-calculated data
+          this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
+            () => {
+              const messageData = {
+                contentList: [{
+                  contentId: Id,
+                  completionPercentage: 100,
+                  status: 2,
+                }],
+                type: 'quiz'
+              }
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', {
+                contentId: Id,
+                completionPercentage: 100,
+                status: 2,
+                mimeType: 'quiz',
+                batchId: batchId || ''
+              })
+              this.contentSvc.changeMessage(messageData)
+            },
+            (error) => { console.warn('Progress update failed:', error) }
+          )
 
           let userId
           if (this.configSvc.userProfile) {
@@ -907,21 +946,33 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           const data2 = {
             current: 10,
             max_size: 10,
-            mime_type: "application/json"
+            mime_type: "application/json",
+            completionPercentage: 100,
+            status: 2
           }
-          this.viewerSvc.realTimeProgressUpdate(Id, data2, collectionId, batchId).subscribe((data: any) => {
-            console.log(data)
-            if (data.params.status === "success") {
-              const result = data.result
-              result['type'] = 'quiz'
-              const res = data["result"]["contentList"].find(
-                (obj: any) => obj.contentId === this.htmlContent?.identifier
-              )
-              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'quiz' })
-              this.contentSvc.changeMessage(result)
-
-            }
-          })
+          // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
+          // Send telemetry and changeMessage with pre-calculated data
+          this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
+            () => {
+              const messageData = {
+                contentList: [{
+                  contentId: Id,
+                  completionPercentage: 100,
+                  status: 2,
+                }],
+                type: 'quiz'
+              }
+              this.viewerSvc.generateInteractTelemetry('progress-update-success', {
+                contentId: Id,
+                completionPercentage: 100,
+                status: 2,
+                mimeType: 'quiz',
+                batchId: batchId || ''
+              })
+              this.contentSvc.changeMessage(messageData)
+            },
+            (error) => { console.warn('Progress update failed:', error) }
+          )
         }
 
         // const result = {

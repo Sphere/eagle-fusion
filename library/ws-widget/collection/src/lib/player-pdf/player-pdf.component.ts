@@ -56,6 +56,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   private activityStartedAt: Date | null = null
   private renderSubject = new Subject()
   private lastRenderTask: any | null = null
+  private lastSentProgressPercentage = -1  // Track last sent progress to avoid duplicates
+  private initialApiCallMade = false  // Track if we've made the initial API call on first page
+  private contentDataFetched = false  // Track if we've already fetched contentData
+  private contentHistoryResponse: any = null  // Store full progress response for messaging
   // Subscriptions
   private contextMenuSubs: Subscription | null = null
   private renderSubscriptions: Subscription | null = null
@@ -239,121 +243,27 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   // }
 
   fireRealTimeProgress(id: string) {
-    if (this.totalPages > 0 && this.current.length > 0) {
-      const realTimeProgressRequest = {
-        ...this.realTimeProgressRequest,
-        max_size: this.totalPages,
-        current: this.current,
-      }
-      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
-      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-
-      const temp = [...realTimeProgressRequest.current]
-      // const latest = parseFloat(temp.slice(-1) || '0')
-      const latest = parseFloat(temp[temp.length - 1] || '0')
-      const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
-      const percent = parseFloat(percentMilis.toFixed(2))
-      if (this.contentData && percent >= this.contentData.completionPercentage) {
-        const data1: any = {
-          "id": this.widgetData.identifier,
-          "type": "application/pdf",
-          "version": "",
-          "rollup": {
-            "l1": collectionId,
-            "l2": id
-          }
-        }
-        const extras: any = {
-          values: [{
-            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-            contentId: this.widgetData.identifier,
-            name: this.viewerDataSvc.resource!.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-          }]
-        }
-        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
-
-        this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-          const result = data.result
-          const res = data["result"]["contentList"].find(
-            (obj: any) => obj.contentId === id
-          )
-          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
-          result['type'] = 'PDF'
-          this.contentSvc.changeMessage(result)
-        })
-      }
-      if (this.contentData === undefined && percent > 0) {
-        const data1: any = {
-          "id": this.widgetData.identifier,
-          "type": "application/pdf",
-          "version": "",
-          "rollup": {
-            "l1": collectionId,
-            "l2": id
-          }
-        }
-        const extras: any = {
-          values: [{
-            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-            contentId: this.widgetData.identifier,
-            name: this.viewerDataSvc.resource!.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-          }]
-        }
-        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
-
-        this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-          const result = data.result
-          const res = data["result"]["contentList"].find(
-            (obj: any) => obj.contentId === id
-          )
-          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
-          result['type'] = 'PDF'
-          this.contentSvc.changeMessage(result)
-        })
-      }
-      if (this.contentData && percent > 95) {
-        const data1: any = {
-          "id": this.widgetData.identifier,
-          "type": "application/pdf",
-          "version": "",
-          "rollup": {
-            "l1": collectionId,
-            "l2": id
-          }
-        }
-        const extras: any = {
-          values: [{
-            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-            contentId: this.widgetData.identifier,
-            name: this.viewerDataSvc.resource!.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-          }]
-        }
-        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
-      }
-      if (this.contentData && this.contentData?.completionPercentage == 100) {
-        const data1: any = {
-          "id": this.widgetData.identifier,
-          "type": "application/pdf",
-          "version": "",
-          "rollup": {
-            "l1": collectionId,
-            "l2": id
-          }
-        }
-        const extras: any = {
-          values: [{
-            courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-            contentId: this.widgetData.identifier,
-            name: this.viewerDataSvc.resource!.name,
-            moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-          }]
-        }
-        this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
+    // Finalize telemetry only - API calls already made on start and last page
+    const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+    const data1: any = {
+      "id": this.widgetData.identifier,
+      "type": "application/pdf",
+      "version": "",
+      "rollup": {
+        "l1": collectionId,
+        "l2": id
       }
     }
+    const extras: any = {
+      values: [{
+        courseID: this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
+        contentId: this.widgetData.identifier,
+        name: this.viewerDataSvc.resource?.name || '',  // Add null check
+        moduleId: this.viewerDataSvc.resource?.parent ? this.viewerDataSvc.resource.parent : undefined,
+      }]
+    }
+    // End telemetry session
+    this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
     return
   }
 
@@ -383,66 +293,171 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       // this.lastRenderTask.setPdfPage(page)
       this.lastRenderTask.draw()
     }
-    let userId
-    if (this.configSvc.userProfile) {
-      userId = this.configSvc.userProfile.userId || ''
+
+    // Only fetch contentData once, not on every render
+    if (!this.contentDataFetched) {
+      this.contentDataFetched = true
+      let userId
+      if (this.configSvc.userProfile) {
+        userId = this.configSvc.userProfile.userId || ''
+      }
+      const req: NsContent.IContinueLearningDataReq = {
+        request: {
+          userId,
+          batchId: this.activatedRoute.snapshot.queryParams.batchId,
+          courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
+          contentIds: [this.identifier || ''],  // Include current resource ID
+          fields: ['progressdetails'],
+        },
+      }
+      this.contentSvc.fetchContentHistoryV2(req).subscribe(
+        data => {
+          // Store full response for later messaging to TOC
+          this.contentHistoryResponse = data['result']
+          // Cache single item contentData
+          this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
+          // Now trigger the progress check logic
+          this.checkAndUpdateProgress()
+        })
+    } else {
+      // Use cached contentData - check progress without fetching API
+      this.checkAndUpdateProgress()
     }
-    const req: NsContent.IContinueLearningDataReq = {
-      request: {
-        userId,
-        batchId: this.activatedRoute.snapshot.queryParams.batchId,
-        courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-        contentIds: [],
-        fields: ['progressdetails'],
-      },
-    }
-    this.contentSvc.fetchContentHistoryV2(req).subscribe(
-      data => {
-        this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
 
-        if (this.identifier) {
-          const realTimeProgressRequest = {
-            ...this.realTimeProgressRequest,
-            max_size: this.totalPages,
-            current: [(this.currentPage.value).toString()],
-          }
-
-          const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
-          const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-
-          const temp = [...realTimeProgressRequest.current]
-          // const latest = parseFloat(temp.slice(-1) || '0')
-          const latest = parseFloat(temp[temp.length - 1] || '0')
-          const percentMilis = (latest / realTimeProgressRequest.max_size) * 100
-          const percent = parseFloat(percentMilis.toFixed(2))
-          if (this.contentData && percent >= this.contentData.completionPercentage) {
-            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-
-              const result = data.result
-              result['type'] = 'PDF'
-              const res = data["result"]["contentList"].find(
-                (obj: any) => obj.contentId === this.identifier
-              )
-              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
-              this.contentSvc.changeMessage(result)
-            })
-          }
-          if (this.contentData === undefined && percent > 0) {
-            this.viewerSvc.realTimeProgressUpdate(this.identifier, realTimeProgressRequest, collectionId, batchId).subscribe((data: any) => {
-
-              const result = data.result
-              result['type'] = 'PDF'
-              const res = data["result"]["contentList"].find(
-                (obj: any) => obj.contentId === this.identifier
-              )
-              this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/pdf' })
-              this.contentSvc.changeMessage(result)
-            })
-          }
-
-        }
-      })
     return true
+  }
+
+  private checkAndUpdateProgress() {
+    if (this.identifier) {
+      const realTimeProgressRequest = {
+        ...this.realTimeProgressRequest,
+        max_size: this.totalPages,
+        current: this.current,  // Use accumulated pages, not just current page
+      }
+
+      const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
+      const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
+
+      // Calculate percentage from accumulated pages
+      const temp = [...realTimeProgressRequest.current]
+      const latest = parseFloat(temp[temp.length - 1] || '0')
+      let percentMilis = (latest / realTimeProgressRequest.max_size) * 100
+
+      // If on last page, set to 100% completion
+      if (this.currentPage.value === this.totalPages) {
+        percentMilis = 100
+      }
+
+      const percent = parseFloat(percentMilis.toFixed(2))
+
+      // Only update if new percentage is greater than or equal to stored percentage
+      const storedPercentage = this.contentData?.completionPercentage || 0
+      if (percent < storedPercentage) {
+        // Don't degrade progress - skip API call
+        return
+      }
+
+      // Call API on first page load
+      if (!this.initialApiCallMade && this.currentPage.value === 1) {
+        this.initialApiCallMade = true
+        this.makeProgressUpdate(realTimeProgressRequest, percent, collectionId, batchId)
+      }
+
+      // Call API when last page is reached - only if percentage increased
+      if (this.currentPage.value === this.totalPages && percent > this.lastSentProgressPercentage) {
+        this.makeProgressUpdate(realTimeProgressRequest, percent, collectionId, batchId)
+      }
+    }
+  }
+
+  private makeProgressUpdate(realTimeProgressRequest: any, percent: number, collectionId: string, batchId: string) {
+    // Send only the current page, not all visited pages
+    const currentPageStr = this.currentPage.value.toString()
+    const updateRequest = {
+      ...realTimeProgressRequest,
+      current: [currentPageStr]  // Only current page being viewed
+    }
+
+    const currentValue = parseFloat(currentPageStr)
+    const status = this.viewerSvc.getStatus(currentValue, updateRequest.max_size, updateRequest.mime_type)
+
+    this.viewerSvc.realTimeProgressUpdateV3(this.identifier || '', updateRequest, collectionId, batchId).subscribe(
+      () => {
+        // Ensure we have contentHistoryResponse before sending message to TOC
+        if (!this.contentHistoryResponse || !this.contentHistoryResponse.contentList || this.contentHistoryResponse.contentList.length === 0) {
+          // Fetch full progress data if not already cached or empty
+          let userId
+          if (this.configSvc.userProfile) {
+            userId = this.configSvc.userProfile.userId || ''
+          }
+          const req: NsContent.IContinueLearningDataReq = {
+            request: {
+              userId,
+              batchId,
+              courseId: collectionId,
+              contentIds: [this.identifier || ''],  // Include current resource ID to get its progress
+              fields: ['progressdetails'],
+            },
+          }
+          this.contentSvc.fetchContentHistoryV2(req).subscribe(
+            data => {
+              // Now we have the full response
+              this.contentHistoryResponse = data['result']
+              this.sendProgressMessageToTOC(percent, status)
+            }
+          )
+        } else {
+          // We already have contentHistoryResponse, send message immediately
+          this.sendProgressMessageToTOC(percent, status)
+        }
+      },
+      (error) => {
+        console.error('Error updating progress:', error)
+      }
+    )
+  }
+
+  private sendProgressMessageToTOC(percent: number, status: number) {
+    // Always create message for TOC - even if contentList is empty or missing,
+    // TOC needs to know about the completion to update the tree
+    if (this.contentHistoryResponse) {
+      let contentList = this.contentHistoryResponse.contentList || []
+
+      // If contentList is empty, create an entry for at least this resource
+      if (contentList.length === 0) {
+        console.warn('contentHistoryResponse has empty contentList, creating minimal entry for TOC', {
+          identifier: this.identifier,
+          percent,
+          status
+        })
+        contentList = [{
+          contentId: this.identifier,
+          completionPercentage: percent,
+          status: status
+        }]
+      } else {
+        // Update existing content list with new completion percentage
+        contentList = contentList.map((item: any) =>
+          item.contentId === this.identifier
+            ? { ...item, completionPercentage: percent, status }
+            : item
+        )
+      }
+
+      // Send message to TOC with the content list
+      const messageData = { ...this.contentHistoryResponse, contentList: contentList, type: 'PDF' }
+      console.log('Sending progress message to TOC:', {
+        contentListLen: contentList.length,
+        identifier: this.identifier,
+        completionPercentage: percent,
+        status
+      })
+      this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: this.identifier, completionPercentage: percent, status, mimeType: 'application/pdf' })
+      this.contentSvc.changeMessage(messageData)
+    } else {
+      console.error('contentHistoryResponse is null/undefined', { identifier: this.identifier, percent, status })
+    }
+    this.lastSentProgressPercentage = percent
   }
 
   // refresh() {

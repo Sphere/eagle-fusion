@@ -1,6 +1,6 @@
 import { NestedTreeControl } from '@angular/cdk/tree'
 import {
-  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges,
+  Component, EventEmitter, OnDestroy, OnInit, Output, Input, ViewChild, ElementRef, AfterViewInit, OnChanges, ChangeDetectorRef,
 } from '@angular/core'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
@@ -93,7 +93,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     public router: Router,
     public dialog: MatDialog,
     private onlineIndexedDbService: IndexedDBService,
-    public quizService: QuizService
+    public quizService: QuizService,
+    private cdr: ChangeDetectorRef,  // **CRITICAL**: For triggering UI updates when tree data changes
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -126,6 +127,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   message!: string
   subscription: Subscription | null = null
   isLoading = true
+  private cachedRating: any = null  // Cache rating to avoid repeated API calls
   // tslint:disable-next-line
   hasNestedChild = (_: number, nodeData: IViewerTocCard) =>
     nodeData && nodeData.children && nodeData.children.length
@@ -292,7 +294,42 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           localStorage.removeItem('contentId')
         }
         this.processCollectionForTree(data)
+
+        // **CRITICAL**: Update tree nodes with new progress data from message
+        // Without this, the UI tree doesn't show the updated completionPercentage
+        if (data && data.contentList && this.collection && this.collection.children) {
+          this.updateTreeNodesWithProgress(this.collection.children, data.contentList)
+        }
+
+        // **CRITICAL**: Trigger Angular change detection after updating tree
+        // This ensures the UI updates immediately when progress changes (ticket display)
+        this.cdr.detectChanges()
         // this.ngOnInit()
+      }
+    })
+  }
+
+  /**
+   * Update tree node completionPercentage values from progress message data
+   * **CRITICAL**: Without this, the UI doesn't show the green tick even though storage is updated
+   */
+  private updateTreeNodesWithProgress(nodes: IViewerTocCard[], contentListData: any[]): void {
+    if (!nodes || !contentListData) return
+
+    nodes.forEach((node: IViewerTocCard) => {
+      // Find matching content in the new progress data
+      const matchingContent = contentListData.find((item: any) => item.contentId === node.identifier)
+      if (matchingContent && matchingContent.completionPercentage !== undefined) {
+        // **CRITICAL**: Update the tree node's completionPercentage immediately
+        // This triggers Angular change detection and shows the progress circle/tick in the UI
+        node.completionPercentage = matchingContent.completionPercentage
+        node.completionStatus = matchingContent.status ?? node.completionStatus ?? 0
+        console.log(`Updated tree node: ${node.identifier} completionPercentage: ${node.completionPercentage}, status: ${node.completionStatus}`)
+      }
+
+      // Recursively update child nodes
+      if (node.children && node.children.length > 0) {
+        this.updateTreeNodesWithProgress(node.children, contentListData)
       }
     })
   }
@@ -681,8 +718,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       const obj1 = arr1.find((o: any) => o.contentId === obj2.contentId)
 
       if (obj1) {
-        // Update the existing object in arr1 if the keyToUpdate value is different
-        if (obj1[keyToUpdate] !== obj2[keyToUpdate]) {
+        // Update the existing object in arr1 if the keyToUpdate value is different AND obj2 has the value
+        // **CRITICAL**: Only update if obj2[keyToUpdate] is defined - this prevents undefined from wiping out existing values
+        if (obj2[keyToUpdate] !== undefined && obj1[keyToUpdate] !== obj2[keyToUpdate]) {
+          console.log(`Updating ${obj2.contentId} ${keyToUpdate}: ${obj1[keyToUpdate]} → ${obj2[keyToUpdate]}`)
           obj1[keyToUpdate] = obj2[keyToUpdate]
         }
       } else {
@@ -750,11 +789,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         },
       }
 
-      let rating = await this.contentSvc.readCourseRating(req).then((res: any) => {
-        if (res && res.params.status === 'success') {
-          return res.result
-        }
-      })
+      // Use cached rating to avoid repeated API calls during progress updates
+      let rating = this.cachedRating
+      if (!this.cachedRating) {
+        rating = await this.contentSvc.readCourseRating(req).then((res: any) => {
+          if (res && res.params.status === 'success') {
+            // Cache the rating result
+            this.cachedRating = res.result
+            return res.result
+          }
+        })
+      }
       this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(async (record) => {
         console.log('Record:', record)
         rowData = await record

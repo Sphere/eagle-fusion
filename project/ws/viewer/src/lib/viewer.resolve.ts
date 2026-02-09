@@ -71,6 +71,9 @@ export class ViewerResolve
       // Fetch user progress and merge with hierarchy
       if (batchId) {
         await this.mergeProgressIntoHierarchy(courseData, collectionId, batchId)
+        console.log('✅ Progress data merged into hierarchy before gating check')
+      } else {
+        console.warn('⚠️ No batchId provided, skipping progress merge')
       }
 
       // Find the current resource in the course hierarchy
@@ -122,12 +125,26 @@ export class ViewerResolve
     batchId: string
   ): Promise<void> {
     try {
+      // First, collect all content IDs from the hierarchy
+      const contentIds = this.collectContentIdsFromHierarchy(courseData)
+
+      console.log('Collecting content IDs for progress fetch:', {
+        totalContentIds: contentIds.length,
+        contentIds: contentIds.slice(0, 5) // Log first 5 for debugging
+      })
+
+      // Only fetch if we have content IDs
+      if (contentIds.length === 0) {
+        console.warn('No content IDs found in hierarchy, skipping progress fetch')
+        return
+      }
+
       const progressReq: any = {
         request: {
           batchId,
           userId: this.configSvc.userProfile?.userId,
           courseId: collectionId,
-          contentIds: [],
+          contentIds: contentIds,
           fields: ['progressdetails']
         }
       }
@@ -143,7 +160,11 @@ export class ViewerResolve
 
       console.log('Progress Data Merged:', {
         totalContents: contentList.length,
-        progressMapSize: Object.keys(progressMap).length
+        progressMapSize: Object.keys(progressMap).length,
+        sampleData: contentList.slice(0, 3).map((c: any) => ({
+          id: c.contentId,
+          percentage: c.completionPercentage
+        }))
       })
 
       // Update completion percentages in the hierarchy
@@ -155,6 +176,27 @@ export class ViewerResolve
   }
 
   /**
+   * Recursively collect all content IDs from the course hierarchy
+   */
+  private collectContentIdsFromHierarchy(node: any, ids: string[] = []): string[] {
+    if (!node) return ids
+
+    // Add current node's identifier
+    if (node.identifier) {
+      ids.push(node.identifier)
+    }
+
+    // Recursively add children's identifiers
+    if (node.children && Array.isArray(node.children)) {
+      node.children.forEach((child: any) => {
+        this.collectContentIdsFromHierarchy(child, ids)
+      })
+    }
+
+    return ids
+  }
+
+  /**
    * Recursively update hierarchy nodes with actual user progress
    */
   private updateHierarchyWithProgress(node: any, progressMap: { [key: string]: number }): void {
@@ -162,7 +204,20 @@ export class ViewerResolve
 
     // Update current node if it exists in progress map
     if (progressMap.hasOwnProperty(node.identifier)) {
-      node.completionPercentage = progressMap[node.identifier]
+      const newPercentage = progressMap[node.identifier]
+      console.log('Updating node completion percentage:', {
+        identifier: node.identifier,
+        name: node.name,
+        oldPercentage: node.completionPercentage,
+        newPercentage: newPercentage
+      })
+      node.completionPercentage = newPercentage
+    } else {
+      console.log('No progress data found for node:', {
+        identifier: node.identifier,
+        name: node.name,
+        currentPercentage: node.completionPercentage
+      })
     }
 
     // Recursively update children
@@ -205,7 +260,68 @@ export class ViewerResolve
   }
 
   /**
+   * Check if a node is a Collection (folder/module container)
+   */
+  private isCollection(node: any): boolean {
+    return node.contentType === 'Collection'
+  }
+
+  /**
+   * Check if a node is a leaf (terminal) node with no children
+   */
+  private isLeafNode(node: any): boolean {
+    return !node.children || node.children.length === 0
+  }
+
+  /**
+   * Check if a resource/section is completely done
+   * Collections (folders) are auto-complete if all their descendants are complete
+   * Leaf resources must have completionPercentage === 100
+   */
+  private isSectionComplete(node: any): boolean {
+    if (!node) return false
+
+    // Collections (folders/modules) don't track progress themselves
+    // Check if ALL actual resource descendants are complete
+    if (this.isCollection(node)) {
+      console.log('Checking collection descendants:', {
+        id: node.identifier,
+        name: node.name,
+        childrenCount: node.children?.length || 0
+      })
+
+      if (!node.children || node.children.length === 0) {
+        // Empty collection is considered complete
+        return true
+      }
+
+      // Collection is complete if ALL descendants are complete
+      return node.children.every((child: any) => this.isSectionComplete(child))
+    }
+
+    // For non-collection nodes:
+    // If it's a leaf node, check its completion percentage
+    if (this.isLeafNode(node)) {
+      const completion = node.completionPercentage
+      const isComplete = completion === 100
+      if (!isComplete) {
+        console.error('Resource not complete:', {
+          id: node.identifier,
+          name: node.name,
+          contentType: node.contentType,
+          completionPercentage: completion
+        })
+      }
+      return isComplete
+    }
+
+    // If it's a non-collection section (has children), all children must be complete
+    return node.children.every((child: any) => this.isSectionComplete(child))
+  }
+
+  /**
    * Check if all previous resources in sequence are completed
+   * Skips Collections (folders) and only validates actual resources
    */
   private checkPreviousResourcesCompleted(resourcePosition: any): boolean {
     const { hierarchy } = resourcePosition
@@ -231,16 +347,43 @@ export class ViewerResolve
       if (currentIndex > 0) {
         for (let j = 0; j < currentIndex; j++) {
           const sibling = parent.children[j]
-          console.log('Checking sibling:', {
+
+          console.log('Checking sibling for completion:', {
             id: sibling.identifier,
             name: sibling.name,
-            completionPercentage: sibling.completionPercentage,
-            isComplete: sibling.completionPercentage === 100
+            contentType: sibling.contentType,
+            isCollection: this.isCollection(sibling),
+            isLeaf: this.isLeafNode(sibling),
+            completionPercentage: sibling.completionPercentage
           })
-          if (sibling.completionPercentage !== 100) {
-            console.error('Blocking access: Sibling not complete:', sibling.identifier)
+
+          // Skip Collections (folders/modules) - they don't need gating validation
+          if (this.isCollection(sibling)) {
+            console.log('⏭️ Skipping Collection node:', {
+              id: sibling.identifier,
+              name: sibling.name
+            })
+            continue
+          }
+
+          // Check if sibling and all its actual resource descendants are complete
+          const isComplete = this.isSectionComplete(sibling)
+
+          if (!isComplete) {
+            console.error('Blocking access: Resource not complete:', {
+              siblingId: sibling.identifier,
+              siblingName: sibling.name,
+              contentType: sibling.contentType,
+              isLeaf: this.isLeafNode(sibling)
+            })
             return false
           }
+
+          console.log('✅ Resource complete:', {
+            id: sibling.identifier,
+            name: sibling.name,
+            contentType: sibling.contentType
+          })
         }
       }
     }
