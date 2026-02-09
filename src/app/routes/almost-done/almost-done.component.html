@@ -64,13 +64,16 @@
 
           <div *ngIf="backgroundSelect === 'ASHA'">
             <div class="form-group input-box">
-              <select id="profession" formControlName="professSelected" class="form-control select-box" required>
-                <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
-                <option *ngFor="let profession of ashaList" [value]="profession">{{ profession }}</option>
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
+                <option [value]="null" disabled>{{'Designation*' | translate }}</option>
+                <option *ngFor="let profession of ashaList" [value]="profession">{{ profession }}
+                </option>
               </select>
             </div>
             <div class="form-group input-box">
-              <select id="district" formControlName="district" class="form-control select-box" required>
+              <select id="locationselect" formControlName="locationselect" class="form-control select-box" required
+                (change)="assignFields('locationselect', $event.target.value, $event)">
                 <option [value]=null disabled>{{ 'City/Distict' | translate }}</option>
                 <option *ngFor="let distict of disticts" [value]="distict">{{ distict }}</option>
               </select>
@@ -89,9 +92,10 @@
           <!-- Background: Healthcare Volunteer -->
           <div *ngIf="backgroundSelect ==='Healthcare Volunteer'">
             <div class="form-group input-box">
-              <select id="profession" formControlName="professSelected" class="form-control select-box" required>
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
                 <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
-                <option *ngFor="let profession of healthcareVolunteerProfessions" [value]="profession">{{ profession }}
+                <option *ngFor="let profession of healthVolunteerProfessions" [value]="profession">{{ profession }}
                 </option>
               </select>
             </div>
@@ -132,9 +136,11 @@
           <!-- Background: Student -->
           <div *ngIf="backgroundSelect ==='Student'">
             <div class="form-group input-box">
-              <select id="designation" formControlName="designation" class="form-control select-box" required>
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
                 <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
-                <option *ngFor="let designation of studentDesignations" [value]="designation">{{ designation }}</option>
+                <option *ngFor="let profession of studentList" [value]="profession">{{ profession }}
+                </option>
               </select>
             </div>
             <div class="form-group mt-4 input-box">
@@ -158,9 +164,11 @@
           <!-- Background: Faculty -->
           <div *ngIf="backgroundSelect ==='Faculty'">
             <div class="form-group input-box">
-              <select id="designation" formControlName="designation" class="form-control select-box" required>
+              <select id="profession" formControlName="professSelected" class="form-control select-box" required
+                (change)="professionSelect($event.target.value); assignFields('profession', $event.target.value, $event)">
                 <option [value]="null" disabled>{{ 'Designation*' | translate }}</option>
-                <option *ngFor="let designation of facultyDesignations" [value]="designation">{{ designation }}</option>
+                <option *ngFor="let profession of facultyList" [value]="profession">{{ profession }}
+                </option>
               </select>
             </div>
 
@@ -180,8 +188,8 @@
           <!-- Background: Others -->
           <div *ngIf="backgroundSelect ==='Others'">
             <div class="form-group input-box">
-              <select id="selectedBg" formControlName="selectedBg" class="form-control select-box" required
-                (change)="selectedBg = $event.target.value">
+              <select id="selectBackground" formControlName="selectBackground" class="form-control select-box"
+                (change)="chooseBackground($event.target.value)" required>
                 <option [value]="null" disabled>{{ 'Select Background' | translate }}</option>
                 <option value="Mother/Family Members">Mother/Family Members</option>
                 <option value="Asha Facilitator" *ngIf='!hideAsha'>Asha Facilitator</option>

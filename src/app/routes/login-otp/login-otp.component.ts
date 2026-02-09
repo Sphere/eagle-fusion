@@ -216,13 +216,6 @@ export class LoginOtpComponent implements OnInit {
         //const state = uuid()
         //const nonce = uuid()
         sessionStorage.setItem('login-btn', 'clicked')
-        // if (url.includes('hi')) {
-        //   url = url.replace('hi/', '')
-        //   this.redirectUrl = `${url}openid/keycloak`
-        //   sessionStorage.setItem('lang', 'hi')
-        // } else {
-        //   this.redirectUrl = `${url}openid/keycloak`
-        // }
         if (localStorage.getItem('preferedLanguage')) {
           let data: any
           let lang: any
@@ -230,10 +223,7 @@ export class LoginOtpComponent implements OnInit {
           lang = JSON.parse(data)
           if (lang.id) {
             lang = lang.id !== 'en' ? lang.id : ''
-            if (url.includes('hi')) {
-              url = url.replace('hi/', '')
-            }
-            url = `${url}${lang}/app/new-tnc`
+            url = `${url}/app/new-tnc`
             console.log(this.preferedLanguage, data)
             if (lang) {
 

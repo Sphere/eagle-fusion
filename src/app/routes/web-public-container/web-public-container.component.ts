@@ -67,21 +67,21 @@ export class WebPublicComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
-    if (designation) {
-      console.log("this.configData", this.configData, this.cneCourse, this.topCertifiedCourse)
-      let res: any
-      if (this.playlistSvc.getSelectedTab() == 'homeTab') {
-        res = this.playlistSvc.selectedTabConfig()
-      } else {
-        res = this.playlistSvc.bodyConfig()?.homeTab
-      }
-      if (res.length > 0)
-        this.configData = res?.slice(1, -1)
+    let res: any
+    if (this.configSvc.userProfile) {
       let plyLsData: any = await this.playlistSvc.getPlaylistConfig()
       console.log("plyLsData", plyLsData)
+      res = this.playlistSvc.getSelectedTab() == 'homeTab' ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.bodyConfig()?.homeTab
+      if (res == '') {
+        res = await this.playlistSvc.loadPlaylistData()
+        this.configData = res?.LAYOUT_BODY?.slice(1, -1)
+      } else {
+        if (res?.length > 0)
+          this.configData = res?.slice(1, -1)
+      }
       plyLsData.forEach(async (element: any) => {
         if (element.orgId == this.configSvc.userProfile.rootOrgId && element.language == this.lang) {
-          if (element.role.map(role => role.toLowerCase()).includes(designation.toLowerCase()) && element.playlistId === "YOUR_PLANS_PLAYLIST") {
+          if (designation && element.role.map(role => role.toLowerCase()).includes(designation.toLowerCase()) && element.playlistId === "YOUR_PLANS_PLAYLIST") {
             this.yourPlansCourseIdentifier = element.dataSource.payload
           }
           if (element.playlistId === "TOP_COURSE_PLAYLIST") {
@@ -97,9 +97,8 @@ export class WebPublicComponent implements OnInit, OnDestroy {
           }
         }
       })
-    }
-    if (designation == '') {
-      let res = this.playlistSvc.bodyConfig()
+    } else {
+      let res = this.playlistSvc.config()
       if (res == '') {
         res = await this.playlistSvc.loadPlaylistData()
         this.configData = res?.LAYOUT_BODY?.slice(1, -1)

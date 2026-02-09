@@ -397,13 +397,19 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     App.addListener('backButton', () => {
       window.history.go(-1)
     })
-    this.rootSvc.showNavbarDisplay$
-      .pipe(delay(500), takeUntil(this.destroy$))
-      .subscribe(display => {
-        this.showNavbar = display
+    this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
+      this.showNavbar = display
+    })
+    this.orgService.hideHeaderFooter.subscribe(show => {
+      this.router.events.subscribe((e: Event) => {
+        if (e instanceof NavigationStart) {
+          console.log(e)
+        } else if (e instanceof NavigationEnd) {
+          console.log(e)
+        }
       })
-    this.orgService.hideHeaderFooter.pipe(takeUntil(this.destroy$)).subscribe(show => {
-      this.hideHeaderFooter = show
+      if (window.location.pathname !== '/app/new-tnc')
+        this.hideHeaderFooter = show
     })
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -477,6 +483,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.showmobileFooter = false
         }
         if (event.url.includes('/public/login') || event.url.includes('app/new-tnc')) {
+          this.hideHeaderFooter = true
           this.showmobileFooter = false
         }
         if (
@@ -551,6 +558,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isNavBarRequired = true
           this.hideHeaderFooter = true
           this.mobileView = false
+          this.showNavigation = false
         } else if (
           event.url.includes('/app/search/learning') ||
           event.url.includes('/app/video-player') ||
