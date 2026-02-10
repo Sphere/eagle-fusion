@@ -23,6 +23,7 @@ import { WorkInfoEditComponent } from './work-info-edit/work-info-edit.component
 import { CertificateReceivedComponent } from './certificate-received/certificate-received.component'
 import { PersonalDetailEditComponent } from './personal-detail-edit/personal-detail-edit.component'
 import { LeadershipDashboardComponent } from './leadership-dashboard/leadership-dashboard.component'
+import { DropdownDobComponent } from '../../component/dropdown-dob/dropdown-dob.component'
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { LeadershipDashboardComponent } from './leadership-dashboard/leadership-
     WorkInfoEditComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
-    LeadershipDashboardComponent
+    LeadershipDashboardComponent,
+    DropdownDobComponent
   ],
   imports: [
     CommonModule,

@@ -2,6 +2,13 @@
 # yarn lockfile v1
 
 
+"@aastrika_npmjs/competency-web@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@aastrika_npmjs/competency-web/-/competency-web-1.0.1.tgz#694f338c5f95f7099ba2fef5d19168ff13ffee88"
+  integrity sha512-k9wCfJ/qK8gVIEVELaSfzzXLm/q6mJX/mdqpLbU1Cz5mRQUHUP5iJDOZqhXQxN9N1kWKywd9BgyuP77qraeb2Q==
+  dependencies:
+    tslib "^2.3.0"
+
 "@aastrika_npmjs/comptency@^1.0.0":
   version "1.0.0"
   resolved "https://registry.npmjs.org/@aastrika_npmjs/comptency/-/comptency-1.0.0.tgz#5bb5d1ff6425e41e080ed15882f9e7f59c121908"

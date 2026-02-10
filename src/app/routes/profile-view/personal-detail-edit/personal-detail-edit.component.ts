@@ -454,13 +454,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         })
       }
     }
-
     this.loadDob = this.userProfileData.personalDetails.dob ? true : false
   }
 
   private getDateFromText(dateString: string): any {
     if (dateString) {
-      const splitValues: string[] = dateString.split('-')
+      const splitValues: string[] = dateString.includes('-') ? dateString.split('-') : dateString.split('/')
       const [dd, mm, yyyy] = splitValues
       const dateToBeConverted = `${dd}/${mm}/${yyyy}`
       return dateToBeConverted
@@ -641,5 +640,11 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
 
   getOptions(field) {
     return this[field.options] || []
+  }
+  showSelectField(field: any): boolean {
+    if (field.key == 'state' || field.key == 'distict') {
+      return this.selectDisable
+    }
+    return true
   }
 }

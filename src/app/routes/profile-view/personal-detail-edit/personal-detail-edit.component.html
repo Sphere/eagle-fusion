@@ -15,7 +15,7 @@
             [placeholder]="field.label" autocomplete="off" [pattern]="field.pattern">
         </div>
         <!-- Select Input -->
-        <div *ngIf="field.type === 'select'" class="form-group input-box ">
+        <div *ngIf="field.type === 'select' && showSelectField(field)" class="form-group input-box ">
           <label>{{ field.label | translate }}</label>
           <select [id]="field.key" [formControlName]="field.key" class="form-control select-box"
             name="country-input-field" (change)="fieldChange(field.key)"
@@ -28,8 +28,15 @@
         <div *ngIf="field.type === 'dob'" class="form-group mt-4 relative"
           [ngStyle]="showbackButton ? {'font-size': '14px' } : {}">
           <label>{{ field.label | translate }}</label>
-          <ws-dropdown-dob (dobValue)="dobData($event)" [dob]="loadDob ? personalDetailForm.get('dob').value : ''">
-          </ws-dropdown-dob>
+          <ng-container *ngIf="loadDob; else withoutDob">
+            <ws-dropdown-dob [isEkshamata]="isEkshamata||!isEditableForSphere" (dobValue)="dobData($event)"
+              [dob]="personalDetailForm.get('dob').value ">
+            </ws-dropdown-dob>
+          </ng-container>
+          <ng-template #withoutDob>
+            <ws-dropdown-dob [isEkshamata]="isEkshamata||!isEditableForSphere" (dobValue)="dobData($event)">
+            </ws-dropdown-dob>
+          </ng-template>
           <div>
             <pre *ngIf="invalidDob" class="text-danger">{{field.errMsg}}</pre>
           </div>

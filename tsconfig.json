@@ -30,11 +30,11 @@
       "@ws-widget/collection/*": ["library/ws-widget/collection/*"],
       "@ws-widget/utils": ["library/ws-widget/utils"],
       "@ws-widget/utils/*": ["library/ws-widget/utils/*"],
-      "@aastrika_npmjs/comptency/competency/services/configuration-context": [
-        "node_modules/@aastrika_npmjs/comptency/competency/services/configuration-context"
+      "@aastrika_npmjs/competency-web/competency/services/configuration-context": [
+        "node_modules/@aastrika_npmjs/competency-web/competency/services/configuration-context"
       ],
-      "@aastrika_npmjs/comptency/entry-module/services/configuration-context": [
-        "node_modules/@aastrika_npmjs/comptency/entry-module/services/configuration-context"
+      "@aastrika_npmjs/competency-web/entry-module/services/configuration-context": [
+        "node_modules/@aastrika_npmjs/competency-web/entry-module/services/configuration-context"
       ],
       "@ws/app": ["project/ws/app/src/public-api"],
       "@ws/app/*": ["project/ws/app/*"],

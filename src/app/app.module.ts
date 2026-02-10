@@ -119,14 +119,14 @@ import { ConfigService } from './routes/discussion-forum/wrapper/service/config.
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
-import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
+// import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
 import { SelfAssessmentComponent } from './routes/self-assessment/self-assessment.component'
-import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
-import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
-import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
+import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/competency-web/competency'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { WebHowDoesWorkComponent } from './routes/web-how-does-work/web-how-does-work.component'
 import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
@@ -330,7 +330,7 @@ export function initializeCompetencyConfig(): () => void {
     DialogConfirmComponent,
     TnnmcConfirmComponent,
     NotificationsComponent,
-    DropdownDobComponent,
+    // DropdownDobComponent,
     VideoPopupComponent,
     MyCoursesComponent,
     BnrcmodalComponent,

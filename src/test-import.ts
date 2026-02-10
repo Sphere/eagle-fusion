@@ -1,2 +1,2 @@
-import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
+import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
 console.log(EntryModule)
