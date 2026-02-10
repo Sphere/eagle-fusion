@@ -166,18 +166,18 @@ export class AuthKeycloakService {
       localStorage.removeItem('loginDetailsWithToken')
       localStorage.clear()
       let url = `${document.baseURI}`
-      let redirectUrl = ''
+      let redirectUrl = `${url}public/home`
       // this.domain= 'ekshamata'
-      if (url.includes('hi')) {
-        url = url.replace('hi/', '')
-        redirectUrl = `${url}public/home`
-        sessionStorage.setItem('lang', 'hi')
-      } else {
-        redirectUrl = `${url}public/home`
-      }
+      // if (url.includes('hi')) {
+      //   url = url.replace('hi/', '')
+      //   redirectUrl = `${url}public/home`
+      //   sessionStorage.setItem('lang', 'hi')
+      // } else {
+      // redirectUrl = `${url}public/home`
+      // }
 
-      const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectUrl)}`
-      window.location.href = keycloakurl
+      // const keycloakurl = `${url}auth/realms/sunbird/protocol/openid-connect/logout?redirect_uri=${encodeURIComponent(redirectUrl)}`
+      window.location.href = redirectUrl
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
     } catch (error) { }
     // window.location.href = `${this.defaultRedirectUrl}public/home`

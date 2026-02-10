@@ -138,3 +138,11 @@ ws-app-search-input-home .feature-group {
   height: 34px !important; /* or your required height */
   caret-color: #000 !important; /* Ensure caret visible */
 }
+
+.query {
+  background-color: #f5d58d !important;
+  color: black !important;
+  .mdc-list-item__primary-text {
+    color: black !important;
+  }
+}

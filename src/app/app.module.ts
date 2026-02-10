@@ -119,7 +119,6 @@ import { ConfigService } from './routes/discussion-forum/wrapper/service/config.
 import { LoaderService } from '../../project/ws/author/src/public-api'
 import { LanguageDialogComponent } from './routes/language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from './routes/create-account-modal/create-account-dialog.component'
-// import { DropdownDobComponent } from 'src/app/component/dropdown-dob/dropdown-dob.component'
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
@@ -330,7 +329,6 @@ export function initializeCompetencyConfig(): () => void {
     DialogConfirmComponent,
     TnnmcConfirmComponent,
     NotificationsComponent,
-    // DropdownDobComponent,
     VideoPopupComponent,
     MyCoursesComponent,
     BnrcmodalComponent,
@@ -391,9 +389,9 @@ export function initializeCompetencyConfig(): () => void {
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
-    EntryModule,
+    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     SelfAssessmentModule,
-    CompetencyModule,
+    CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,

@@ -66,7 +66,8 @@ import { DropdownDobComponent } from '../../component/dropdown-dob/dropdown-dob.
     WorkInfoEditComponent,
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
-    LeadershipDashboardComponent
+    LeadershipDashboardComponent,
+    DropdownDobComponent
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

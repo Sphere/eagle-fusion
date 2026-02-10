@@ -36,7 +36,7 @@
           <h3 class="mb-1 label" for="dob">{{ 'Date of Birth' | translate }}</h3>
           <div class="form-group ">
             <!-- <lable>Date of Birth</lable> -->
-            <ws-dropdown-dob (dobValue)="dobData($event)"></ws-dropdown-dob>
+            <ws-dropdown-dob (dobValue)="dobData($event)" [dob]="" [dateType]="dob"></ws-dropdown-dob>
           </div>
           <div>
             <pre *ngIf="invalidDob" class="text-danger">{{ 'You must be at least 18 years old' | translate }}</pre>

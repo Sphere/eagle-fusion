@@ -8,12 +8,12 @@
           accesskey="F" />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
           (optionSelected)="updateQuery($event.option.value)">
-          <mat-option *ngIf="queryControl.value" [value]="queryControl.value">{{ queryControl.value }}
+          <mat-option class="query" *ngIf="queryControl.value" [value]="queryControl.value">{{ queryControl.value }}
           </mat-option>
-          <mat-option *ngFor="let result of autoCompleteResults" [value]="result._source.searchTerm">
+          <mat-option class="auto" *ngFor="let result of autoCompleteResults" [value]="result._source.searchTerm">
             {{result._source.searchTerm}}
           </mat-option>
-          <mat-option *ngFor="let option of filteredOptions$ | async" [value]="option">
+          <mat-option class="filtered" *ngFor="let option of filteredOptions$ | async" [value]="option">
             {{ option }}
           </mat-option>
         </mat-autocomplete>

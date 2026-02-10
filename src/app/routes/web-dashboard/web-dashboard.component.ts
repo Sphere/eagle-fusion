@@ -54,7 +54,7 @@ export class WebDashboardComponent implements OnInit {
         this.dataCarousel = this.configData?.data
       })
     } else {
-      this.configData = res[0]
+      this.configData = res?.[0]
       this.dataCarousel = this.configData?.data
     }
     if (this.isEkshamata) {

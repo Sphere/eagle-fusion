@@ -120,3 +120,7 @@ select option:first-child {
 h1 {
   font-weight: 400 !important;
 }
+
+select, input {
+  background: transparent !important;
+}
