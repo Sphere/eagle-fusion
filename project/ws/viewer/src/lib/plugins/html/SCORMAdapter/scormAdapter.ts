@@ -297,7 +297,7 @@ export class SCORMAdapterService {
         userId,
         batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
         courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-        contentIds: [],
+        contentIds: [this.contentId],
         fields: ['progressdetails'],
       },
     }
@@ -416,7 +416,7 @@ export class SCORMAdapterService {
         userId,
         batchId: this.activatedRoute.snapshot.queryParamMap.get('batchId') || '',
         courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-        contentIds: [],
+        contentIds: [this.contentId],
         fields: ['progressdetails'],
       },
     }

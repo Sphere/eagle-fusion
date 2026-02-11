@@ -9,7 +9,6 @@ import { MobileAppsService } from '../../../../../../../src/app/services/mobile-
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
 import { take } from 'rxjs/operators'
 import { ViewerUtilService } from '../../../../../../../project/ws/viewer/src/lib/viewer-util.service'
-import dayjs from 'dayjs'
 import { Subscription } from 'rxjs'
 @Component({
   selector: 'viewer-plugin-html',
@@ -263,7 +262,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             userId,
             batchId: this.activatedRoute.snapshot.queryParams.batchId,
             courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-            contentIds: [],
+            contentIds: this.htmlContent ? [this.htmlContent.identifier] : [],
             fields: ['progressdetails'],
           },
         }

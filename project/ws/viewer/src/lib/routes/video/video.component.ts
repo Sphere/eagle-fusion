@@ -92,7 +92,7 @@ export class VideoComponent implements OnInit, OnDestroy {
                 userId,
                 batchId: this.batchId,
                 courseId: this.activatedRoute.snapshot.queryParams.collectionId || '',
-                contentIds: [],
+                contentIds: this.videoData ? [this.videoData.identifier] : [],
                 fields: ['progressdetails'],
               },
             }
@@ -317,7 +317,7 @@ export class VideoComponent implements OnInit, OnDestroy {
           userId,
           batchId: this.batchId,
           courseId: collectionId || '',
-          contentIds: [],
+          contentIds: [videoId],
           fields: ['progressdetails'],
         },
       }

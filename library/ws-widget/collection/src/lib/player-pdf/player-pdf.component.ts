@@ -56,8 +56,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   private activityStartedAt: Date | null = null
   private renderSubject = new Subject()
   private lastRenderTask: any | null = null
-  private lastSentProgressPercentage = -1  // Track last sent progress to avoid duplicates
-  private initialApiCallMade = false  // Track if we've made the initial API call on first page
+  private lastSentPage = -1  // Track last page we sent progress for
   private contentDataFetched = false  // Track if we've already fetched contentData
   private contentHistoryResponse: any = null  // Store full progress response for messaging
   // Subscriptions
@@ -202,6 +201,10 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     if (this.identifier) {
       this.fireRealTimeProgress(this.identifier)
     }
+    // Reset tracking variables
+    this.lastSentPage = -1
+    this.contentDataFetched = false
+
     if (this.contextMenuSubs) {
       this.contextMenuSubs.unsubscribe()
     }
@@ -357,14 +360,9 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         return
       }
 
-      // Call API on first page load
-      if (!this.initialApiCallMade && this.currentPage.value === 1) {
-        this.initialApiCallMade = true
-        this.makeProgressUpdate(realTimeProgressRequest, percent, collectionId, batchId)
-      }
-
-      // Call API when last page is reached - only if percentage increased
-      if (this.currentPage.value === this.totalPages && percent > this.lastSentProgressPercentage) {
+      // Send progress update for every new page viewed (not just first and last)
+      if (this.currentPage.value !== this.lastSentPage) {
+        this.lastSentPage = this.currentPage.value
         this.makeProgressUpdate(realTimeProgressRequest, percent, collectionId, batchId)
       }
     }
@@ -457,7 +455,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     } else {
       console.error('contentHistoryResponse is null/undefined', { identifier: this.identifier, percent, status })
     }
-    this.lastSentProgressPercentage = percent
   }
 
   // refresh() {

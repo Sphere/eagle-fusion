@@ -27,14 +27,6 @@ export class ViewerResolve
     private platform: Platform,
   ) { }
 
-  /**
-   * Validates if user can access a resource based on course gating rules
-   * When gating is enabled, user can only access resources in sequential order
-   * @param resourceId - Current resource identifier
-   * @param collectionId - Parent course/collection identifier
-   * @param batchId - Batch ID for fetching progress
-   * @returns Promise<{isAccessible, redirectUrl}> - Validation result
-   */
   private async validateGatedResourceAccess(
     resourceId: string,
     collectionId: string | null,
@@ -44,9 +36,10 @@ export class ViewerResolve
       // collectionId is now required for validation
       if (!collectionId) {
         // Return false if no collection ID - user must access through proper course navigation
+        console.warn('No collectionId provided - cannot validate gating')
         return {
           isAccessible: false,
-          redirectUrl: '/app/home' // Redirect to home if trying to access directly without context
+          redirectUrl: '/app/home'
         }
       }
 
@@ -54,26 +47,39 @@ export class ViewerResolve
       const courseContent = await this.contentSvc.fetchHierarchyContent(collectionId).toPromise()
       const courseData = courseContent?.result?.content
 
-      console.log('Gating Validation Debug:', {
-        collectionId,
+      console.log('═══════════════════════════════════════════════════════════')
+      console.log('GATING VALIDATION START')
+      console.log('═══════════════════════════════════════════════════════════')
+      console.log('Input Parameters:', {
         resourceId,
+        collectionId,
+        batchId
+      })
+      console.log('Course Data:', {
+        courseId: courseData?.identifier,
+        courseName: courseData?.name,
         gatingEnabled: courseData?.gatingEnabled,
-        courseHasChildren: !!courseData?.children?.length,
-        childrenCount: courseData?.children?.length || 0
+        hasChildren: !!courseData?.children?.length,
+        totalChildren: courseData?.children?.length || 0
       })
 
-      // If course doesn't have gating, allow access
-      if (!courseData?.gatingEnabled) {
-        console.warn('Gating not enabled on course')
+      // IMPORTANT: Only enforce gating if it's EXPLICITLY enabled on the course
+      // If gatingEnabled is undefined, null, or false - allow full access
+      if (courseData?.gatingEnabled !== true) {
+        console.log('Gating Status: NOT ENABLED (gatingEnabled !== true)')
+        console.log('Result: ALLOW FULL ACCESS - No prerequisite checks needed')
+        console.log('═══════════════════════════════════════════════════════════')
         return { isAccessible: true }
       }
+
+      console.log('Gating Status: ENABLED - Running prerequisite validation...')
 
       // Fetch user progress and merge with hierarchy
       if (batchId) {
         await this.mergeProgressIntoHierarchy(courseData, collectionId, batchId)
-        console.log('✅ Progress data merged into hierarchy before gating check')
+        console.log('Progress data merged into hierarchy')
       } else {
-        console.warn('⚠️ No batchId provided, skipping progress merge')
+        console.warn('No batchId provided - using hierarchy data without progress')
       }
 
       // Find the current resource in the course hierarchy
@@ -84,34 +90,35 @@ export class ViewerResolve
 
       if (!resourcePosition) {
         // Resource not found in course hierarchy
-        console.warn('Resource not found in course hierarchy. Users cannot access unregistered resources.')
+        console.error('Resource not found in course hierarchy')
+        console.log('═══════════════════════════════════════════════════════════')
         return { isAccessible: false, redirectUrl: `/app/toc/${collectionId}/overview` }
       }
 
-      console.log('Resource found in hierarchy:', { resourceId, hierarchyDepth: resourcePosition.hierarchy?.length })
+      console.log('Resource found in hierarchy')
 
       // Check if all previous resources are completed
       const canAccess = this.checkPreviousResourcesCompleted(
         resourcePosition
       )
 
-      console.log('Previous resource check:', { canAccess, resourceId })
-
-      if (!canAccess) {
-        // User cannot access this resource, redirect to course TOC
-        console.error('User blocked: Previous resources not completed', { resourceId, collectionId })
-        const redirectUrl = `/app/toc/${collectionId}/overview`
+      console.log('═══════════════════════════════════════════════════════════')
+      if (canAccess) {
+        console.log('RESULT: USER CAN ACCESS THIS RESOURCE')
+        console.log('═══════════════════════════════════════════════════════════')
+        return { isAccessible: true }
+      } else {
+        console.log('RESULT: USER BLOCKED - Prerequisites not met')
+        console.log('═══════════════════════════════════════════════════════════')
         return {
           isAccessible: false,
-          redirectUrl
+          redirectUrl: `/app/toc/${collectionId}/overview`
         }
       }
-
-      console.log('User can access resource:', { resourceId })
-      return { isAccessible: true }
     } catch (error) {
       // If validation fails, allow access (fail open for user experience)
-      console.error('Error validating gated resource access:', error)
+      console.error('Error in gating validation - allowing access for user experience', error)
+      console.log('═══════════════════════════════════════════════════════════')
       return { isAccessible: true }
     }
   }
@@ -205,19 +212,19 @@ export class ViewerResolve
     // Update current node if it exists in progress map
     if (progressMap.hasOwnProperty(node.identifier)) {
       const newPercentage = progressMap[node.identifier]
-      console.log('Updating node completion percentage:', {
-        identifier: node.identifier,
-        name: node.name,
-        oldPercentage: node.completionPercentage,
-        newPercentage: newPercentage
-      })
+      // console.log('Updating node completion percentage:', {
+      //   identifier: node.identifier,
+      //   name: node.name,
+      //   oldPercentage: node.completionPercentage,
+      //   newPercentage: newPercentage
+      // })
       node.completionPercentage = newPercentage
     } else {
-      console.log('No progress data found for node:', {
-        identifier: node.identifier,
-        name: node.name,
-        currentPercentage: node.completionPercentage
-      })
+      // console.log('No progress data found for node:', {
+      //   identifier: node.identifier,
+      //   name: node.name,
+      //   currentPercentage: node.completionPercentage
+      // })
     }
 
     // Recursively update children
@@ -225,6 +232,26 @@ export class ViewerResolve
       node.children.forEach((child: any) => {
         this.updateHierarchyWithProgress(child, progressMap)
       })
+
+      // Calculate parent completion from children if not in progress map
+      if (!progressMap.hasOwnProperty(node.identifier) && node.children.length > 0) {
+        const completedChildren = node.children.filter(
+          (child: any) => {
+            const completion = Number(child.completionPercentage) || 0
+            return completion >= 100
+          }
+        ).length
+        const calculatedCompletion = (completedChildren / node.children.length) * 100
+        if (calculatedCompletion > 0) {
+          node.completionPercentage = Math.round(calculatedCompletion)
+          console.log('Calculated parent completion:', {
+            id: node.identifier,
+            completed: completedChildren,
+            total: node.children.length,
+            percentage: node.completionPercentage
+          })
+        }
+      }
     }
   }
 
@@ -275,8 +302,9 @@ export class ViewerResolve
 
   /**
    * Check if a resource/section is completely done
-   * Collections (folders) are auto-complete if all their descendants are complete
-   * Leaf resources must have completionPercentage === 100
+   * For gating purposes: a resource is "complete" if:
+   * - Leaf resources: completion === 100% (fully completed)
+   * - Collections: all children must be complete
    */
   private isSectionComplete(node: any): boolean {
     if (!node) return false
@@ -284,7 +312,7 @@ export class ViewerResolve
     // Collections (folders/modules) don't track progress themselves
     // Check if ALL actual resource descendants are complete
     if (this.isCollection(node)) {
-      console.log('Checking collection descendants:', {
+      console.log('Checking collection completeness:', {
         id: node.identifier,
         name: node.name,
         childrenCount: node.children?.length || 0
@@ -292,50 +320,62 @@ export class ViewerResolve
 
       if (!node.children || node.children.length === 0) {
         // Empty collection is considered complete
+        console.log('Empty collection = complete')
         return true
       }
 
-      // Collection is complete if ALL descendants are complete
-      return node.children.every((child: any) => this.isSectionComplete(child))
+      // Collection is complete only if ALL descendants are complete
+      const allComplete = node.children.every((child: any) => this.isSectionComplete(child))
+      console.log(`  ${allComplete ? '✓' : '✗'} Collection completion: ${allComplete ? 'ALL children complete' : 'SOME children incomplete'}`)
+      return allComplete
     }
 
-    // For non-collection nodes:
-    // If it's a leaf node, check its completion percentage
+    // For non-collection (leaf) nodes:
+    // A resource must be 100% complete for gating purposes
     if (this.isLeafNode(node)) {
-      const completion = node.completionPercentage
+      const completion = Number(node.completionPercentage) || 0
       const isComplete = completion === 100
+
       if (!isComplete) {
-        console.error('Resource not complete:', {
-          id: node.identifier,
-          name: node.name,
-          contentType: node.contentType,
-          completionPercentage: completion
-        })
+        console.log(`  ✗ ${node.name}: ${completion}% < 100% (incomplete)`)
+      } else {
+        console.log(`  ✓ ${node.name}: ${completion}% (complete)`)
       }
       return isComplete
     }
 
     // If it's a non-collection section (has children), all children must be complete
-    return node.children.every((child: any) => this.isSectionComplete(child))
+    const allChildrenComplete = node.children.every((child: any) => this.isSectionComplete(child))
+    console.log(`  ${allChildrenComplete ? '✓' : '✗'} Section completion: ${allChildrenComplete ? 'ALL children complete' : 'SOME children incomplete'}`)
+    return allChildrenComplete
   }
 
   /**
    * Check if all previous resources in sequence are completed
-   * Skips Collections (folders) and only validates actual resources
+   * Validates both siblings within same parent AND preceding sections
    */
   private checkPreviousResourcesCompleted(resourcePosition: any): boolean {
-    const { hierarchy } = resourcePosition
+    const { hierarchy, content: currentResource } = resourcePosition
 
     if (!hierarchy || hierarchy.length === 0) {
+      console.log('No hierarchy - allowing access')
       return true
     }
 
-    // Check resources in reverse order (from current up to root)
+    console.log('Checking prerequisites for:', {
+      resourceId: currentResource?.identifier,
+      resourceName: currentResource?.name,
+      hierarchyDepth: hierarchy.length,
+      hierarchyPath: hierarchy.map((h: any) => h.name).join(' > ')
+    })
+
+    // Validate all preceding siblings at each level
     for (let i = hierarchy.length - 1; i > 0; i--) {
       const parent = hierarchy[i - 1]
       const currentNode = hierarchy[i]
 
-      if (!parent.children) {
+      if (!parent.children || !Array.isArray(parent.children)) {
+        console.log(`Level ${i}: No children in parent`)
         continue
       }
 
@@ -343,52 +383,79 @@ export class ViewerResolve
         (c: any) => c.identifier === currentNode.identifier
       )
 
-      // Check all siblings before current resource
+      if (currentIndex < 0) {
+        console.warn(`Level ${i}: Could not find current node in parent children`)
+        continue
+      }
+
+      console.log(`Level ${i}: Validating prerequisites`, {
+        parentName: parent.name,
+        currentNodeName: currentNode.name,
+        currentIndexInParent: currentIndex,
+        totalSiblingsAtThisLevel: parent.children.length,
+        precedingSiblingsToCheck: currentIndex
+      })
+
+      // Check ALL preceding siblings at this level
       if (currentIndex > 0) {
         for (let j = 0; j < currentIndex; j++) {
           const sibling = parent.children[j]
 
-          console.log('Checking sibling for completion:', {
+          console.log(`Prerequisite ${j}:`, {
             id: sibling.identifier,
             name: sibling.name,
             contentType: sibling.contentType,
             isCollection: this.isCollection(sibling),
-            isLeaf: this.isLeafNode(sibling),
-            completionPercentage: sibling.completionPercentage
+            completionPercentage: sibling.completionPercentage,
+            hasChildren: !!sibling.children && sibling.children.length > 0
           })
 
-          // Skip Collections (folders/modules) - they don't need gating validation
-          if (this.isCollection(sibling)) {
-            console.log('⏭️ Skipping Collection node:', {
-              id: sibling.identifier,
-              name: sibling.name
-            })
-            continue
-          }
+          // Check if this prerequisite sibling is complete
+          const isPrerequisiteComplete = this.isSectionComplete(sibling)
 
-          // Check if sibling and all its actual resource descendants are complete
-          const isComplete = this.isSectionComplete(sibling)
-
-          if (!isComplete) {
-            console.error('Blocking access: Resource not complete:', {
+          if (!isPrerequisiteComplete) {
+            console.error(`BLOCKED: Prerequisite not complete`, {
               siblingId: sibling.identifier,
               siblingName: sibling.name,
               contentType: sibling.contentType,
-              isLeaf: this.isLeafNode(sibling)
+              isCollection: this.isCollection(sibling),
+              completionPercentage: sibling.completionPercentage,
+              reason: this.getIncompleteReason(sibling)
             })
             return false
           }
 
-          console.log('✅ Resource complete:', {
+          console.log(`Prerequisite complete:`, {
             id: sibling.identifier,
-            name: sibling.name,
-            contentType: sibling.contentType
+            name: sibling.name
           })
         }
+      } else {
+        console.log(`Level ${i}: No preceding siblings - all prerequisites at this level are met`)
       }
     }
 
+    console.log('ALL prerequisites met - user CAN access this resource')
     return true
+  }
+
+  /**
+   * Get human-readable reason why a section is incomplete
+   */
+  private getIncompleteReason(node: any): string {
+    if (this.isCollection(node)) {
+      const incompleteChildren = node.children?.filter((c: any) => {
+        const completion = Number(c.completionPercentage) || 0
+        return completion < 100
+      }) || []
+      return `Collection has ${incompleteChildren.length}/${node.children?.length || 0} incomplete children`
+    } else {
+      const completion = Number(node.completionPercentage) || 0
+      if (completion === 0) {
+        return `Resource not started (0% completion)`
+      }
+      return `Resource incomplete (${completion}% < 100%)`
+    }
   }
 
   // resolve(route: ActivatedRouteSnapshot): Observable<IResolveResponse<NsContent.IContent>> | null {

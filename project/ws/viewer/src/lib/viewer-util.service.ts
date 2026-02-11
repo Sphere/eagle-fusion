@@ -415,7 +415,7 @@ export class ViewerUtilService {
 
         })
     })
-    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
+    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE_V3}`, req)
   }
 
   realTimeProgressUpdateQuiz(contentId: string, collectionId?: string, batchId?: string, status?: number) {

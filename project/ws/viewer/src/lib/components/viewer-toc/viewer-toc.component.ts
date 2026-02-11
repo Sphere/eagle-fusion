@@ -1148,7 +1148,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             userId,
             batchId: this.batchId,
             courseId: this.collection.identifier || '',
-            contentIds: [],
+            contentIds: this.queue && this.queue.length > 0 ? this.queue.map((item: any) => item.identifier) : [],
             fields: ['progressdetails'],
           },
         }

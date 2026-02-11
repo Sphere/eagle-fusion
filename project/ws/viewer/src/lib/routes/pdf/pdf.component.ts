@@ -194,7 +194,7 @@ export class PdfComponent implements OnInit, OnDestroy {
           userId,
           batchId: this.batchId,
           courseId: collectionId || '',
-          contentIds: [],
+          contentIds: [pdfId],
           fields: ['progressdetails'],
         },
       }
