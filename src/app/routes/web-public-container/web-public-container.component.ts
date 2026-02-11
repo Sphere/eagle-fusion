@@ -177,10 +177,13 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         content.filter(item => featureSet.has(item.identifier)),
         'identifier'
       )
-      if (this.configData)
+      let data = this.userEnrollCourse
+      if (this.configData) {
+        const completed = data.filter(item => item.completionPercentage === 100)
+        const incomplete = data.filter(item => item.completionPercentage !== 100)
         this.configData?.forEach((element: any) => {
           if (element.playlistConfigId === 'CONTINUE_LEARNING') {
-            element.data = this.userEnrollCourse
+            element.data = incomplete
             element.displayData = element?.data?.slice(0, element.limit)
           } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
             element.data = this.coursesForYou
@@ -191,8 +194,12 @@ export class WebPublicComponent implements OnInit, OnDestroy {
           } else if (element.playlistConfigId === 'TOP_COURSE_PLAYLIST') {
             element.data = !this.isEkshamata ? this.topCertifiedCourse : this.coursesForEK
             element.displayData = element?.data?.slice(0, element.limit)
+          } else if (element.playlistConfigId === 'COMPLETED') {
+            element.data = completed
+            element.displayData = element?.data?.slice(0, element.limit)
           }
         })
+      }
     })
   }
 
@@ -203,29 +210,15 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   }
   // To view all course
   viewAllCourse(content: any) {
-    if (content?.button?.courseType === 'continueLearning') {
-      console.log(" this.isXSmall$ ", this.isXSmall)
-      if ((this.isXSmall)) {
-        content.displayData = this.userEnrollCourse
-      } else {
-        this.router.navigate(['app/user/my_courses'])
-      }
-    } else if (content?.button?.courseType === 'formatForYouCourses') {
-      if ((this.isXSmall)) {
-        content.displayData = this.coursesForYou
-      } else {
-        this.router.navigate(['app/user/my_courses'], { queryParams: { courseType: content?.button?.courseType } })
-      }
-    } else if (content?.button?.courseType === 'topCourse') {
-      if ((this.isXSmall)) {
-        content.displayData = this.topCertifiedCourse
-      } else {
-        this.router.navigate(['app/search/topCourse'], { queryParams: { courseType: content?.button?.courseType } })
-      }
-    } else if (content?.button?.courseType === 'cneCourses') {
-      if ((this.isXSmall)) {
-        content.displayData = this.cneCourse
-      }
+    let courseType = content?.button?.courseType
+    if (courseType == 'continueLearning' || courseType == 'completed' || courseType == 'formatForYouCourses') {
+      content.displayData = this.isXSmall ?
+        (courseType == 'formatForYouCourses' ? this.coursesForYou : this.userEnrollCourse)
+        : this.router.navigate(['app/user/my_courses'], { queryParams: { courseType: courseType } })
+    } else if (courseType == 'topCourse' || courseType == 'cneCourses') {
+      content.displayData = this.isXSmall ?
+        (courseType == 'topCourse' ? this.topCertifiedCourse : this.cneCourse)
+        : this.router.navigate(['app/search/topCourse'], { queryParams: { courseType: courseType } })
     }
   }
 

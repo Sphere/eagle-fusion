@@ -4,7 +4,6 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 import { get } from 'lodash'
 //import { Router } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
-import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-education-list',
@@ -18,14 +17,11 @@ export class EducationListComponent implements OnInit {
   trigerrNavigation = true
   @Input() isEkshamata: boolean = false
   @Input() data: any
-  isEditableForSphere: boolean = false
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    //private router: Router,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
-    private UserAgentResolverService: UserAgentResolverService,
   ) {
   }
 
@@ -37,7 +33,6 @@ export class EducationListComponent implements OnInit {
       }
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         async (data: any) => {
-          this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
           if (data && get(data, 'profileDetails.profileReq.academics')) {
             this.academicsArray = get(data, 'profileDetails.profileReq.academics')
           }

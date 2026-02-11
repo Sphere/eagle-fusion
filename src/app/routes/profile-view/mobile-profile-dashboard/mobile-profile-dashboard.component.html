@@ -141,14 +141,23 @@
     </div>
     <ng-container *ngIf="selectedIndex === 'organization'">
       <div class="full-width" [class.full-width]="showbackButton">
-        <ws-work-info-list [isEkshamata]="isEkshamata" [data]="selectedIndexData"
-          (passProfession)="showView ? '' : assignProfession($event)">
-        </ws-work-info-list>
+        <div *ngIf="showView === ''">
+          <ws-work-info-list [isEkshamata]="isEkshamata" [data]="selectedIndexData"
+            (passProfession)="assignProfession($event)"></ws-work-info-list>
+        </div>
+        <div *ngIf="showView">
+          <ws-work-info-edit></ws-work-info-edit>
+        </div>
       </div>
     </ng-container>
     <ng-container *ngIf="selectedIndex === 'academic'">
       <div class="full-width" [class.full-width]="showbackButton">
-        <ws-education-list [isEkshamata]="isEkshamata" [data]="selectedIndexData"></ws-education-list>
+        <div *ngIf="showView === ''">
+          <ws-education-list [isEkshamata]="isEkshamata" [data]="selectedIndexData"></ws-education-list>
+        </div>
+        <div *ngIf="showView">
+          <ws-education-edit></ws-education-edit>
+        </div>
       </div>
     </ng-container>
     <div *ngIf="selectedIndex === 'language' || selectedIndex === 'certificates'" style="margin-top:25px;height:480px"

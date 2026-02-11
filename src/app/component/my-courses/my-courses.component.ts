@@ -22,7 +22,6 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   coursesForYou: any[] = []
   isLoading = false
   isXSmall$ = this.valueSvc.isXSmall$
-  isForYouActive = false; // Flag to track if "For you" should be active
   selectedIndex = 0; // Index for the active tab
   yourPlansCourseIdentifier: any[] = []
   config: any
@@ -61,8 +60,9 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     // Handle route params
     this.route.queryParams.pipe(takeUntil(this.destroy$)).subscribe(params => {
       if (params['courseType'] === 'formatForYouCourses') {
-        this.isForYouActive = true
         this.selectedIndex = 1
+      } else if (params['courseType'] === 'completed') {
+        this.selectedIndex = 2
       }
     })
 

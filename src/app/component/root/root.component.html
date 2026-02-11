@@ -10,9 +10,9 @@
 
   <!-- dashboard and body for mobile and web-->
   <div class="height-adjust" [ngClass]="{
-    'height-on-bottom custom-scroll':(isXSmall$ | async) === true && showNavbar,
+    'height-on-bottom custom-scroll': isXSmall$ && showNavbar,
       'height-adjust-setup': isSetupPage,
-      'height-on-top':(isXSmall$ | async) === false && showNavbar && isNavBarRequired
+      'height-on-top': !isXSmall$ && showNavbar && isNavBarRequired
     }">
     <ws-dashboard class="mb-6" *ngIf="isLoggedIn&&isHomePage"></ws-dashboard>
     <!-- Featured Section-->
@@ -33,9 +33,9 @@
   <!-- How does it Works -->
   <ng-container *ngIf="isHomePage && configData">
     <ws-web-trusted-by-page *ngIf="!isLoggedIn" [config]="configData[4]"></ws-web-trusted-by-page>
-    <div [ngClass]="{'mt-8': (isXSmall$ | async) === false}">
+    <div [ngClass]="{'mt-8': !isXSmall$}">
       <ws-how-does-work class="bg-color app-footer"
-        [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage, 'margin-top: 0.5rem': (isXSmall$ | async) === false}"
+        [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage, 'margin-top: 0.5rem': !isXSmall$}"
         *ngIf="showNavbar && !hideHeaderFooter && videoData" [config]="videoData"></ws-how-does-work>
     </div>
   </ng-container>
@@ -46,8 +46,8 @@
   </ws-app-footer>
 
   <!-- bottom nav bar for mobile -->
-  <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
-    [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated"></ws-app-nav-bar>
+  <ws-app-nav-bar class="bottom-nav-bar" *ngIf="isXSmall$ && !hideHeaderFooter" [mode]="'bottom'" [hidden]="!showNavbar"
+    [authorised]="configSvc.isAuthenticated"></ws-app-nav-bar>
 
   <input #appUpdateTitle type="hidden" value="App Update" />
   <input #appUpdateBody type="hidden" value="App has been updated. Do you want to load new version?" />
@@ -60,24 +60,24 @@
   <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired&&isLoggedIn" [hidden]="!showNavbar"
     [mode]="'top'"></ws-app-nav-bar>
   <router-outlet *ngIf="appOnline"></router-outlet>
-  <div class="height-adjust" [ngClass]="{'height-on-bottom custom-scroll':(isXSmall$ | async) === true && showNavbar,'height-adjust-setup' : isSetupPage,
-        'height-on-top':(isXSmall$ | async) === false &&showNavbar && isNavBarRequired}">
+  <div class="height-adjust" [ngClass]="{'height-on-bottom custom-scroll':isXSmall$ && showNavbar,'height-adjust-setup' : isSetupPage,
+        'height-on-top':!isXSmall$ &&showNavbar && isNavBarRequired}">
     <ws-dashboard [isEkshamata]="isEkshamata" class="mb-6" *ngIf="isLoggedIn&&isHomePage"></ws-dashboard>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>
     </div>
     <!-- Featured Section-->
-    <section *ngIf="(isXSmall$ | async) === false&&isHomePage">
+    <section *ngIf="!isXSmall$&&isHomePage">
       <ws-web-public-container [isEkshamata]="isEkshamata"
         [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
     </section>
     <!-- Desktop Footer -->
-    <ws-app-footer [isEkshamata]="isEkshamata" class="hide-in-mobile app-footer "
-      [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}" *ngIf="showNavbar&&isLoggedIn && !hideHeaderFooter">
+    <ws-app-footer [isEkshamata]="isEkshamata" class="app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+      *ngIf="showNavbar && isLoggedIn && !hideHeaderFooter">
     </ws-app-footer>
     <ng-container>
-      <ws-app-nav-bar class="bottom-nav-bar" *ngIf="(isXSmall$ | async) === true && !hideHeaderFooter" [mode]="'bottom'"
+      <ws-app-nav-bar class="bottom-nav-bar" *ngIf="isXSmall$ && !hideHeaderFooter" [mode]="'bottom'"
         [hidden]="!showNavbar" [authorised]="configSvc.isAuthenticated">
       </ws-app-nav-bar>
     </ng-container>

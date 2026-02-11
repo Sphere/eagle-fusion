@@ -57,7 +57,6 @@
     "@jaguards/material-extended-mde": "16.2.11",
     "@ngx-translate/core": "16.0.1",
     "@ngx-translate/http-loader": "16.0.1",
-    "@project-sunbird/client-services": "3.9.5",
     "@project-sunbird/sb-styles": "0.0.7",
     "@project-sunbird/sunbird-quml-player": "0.0.6",
     "@project-sunbird/telemetry-sdk": "0.0.26",

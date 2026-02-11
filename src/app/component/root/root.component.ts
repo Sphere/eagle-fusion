@@ -7,6 +7,7 @@ import {
   ViewChild,
   OnDestroy,
   Injector,
+  effect,
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -35,7 +36,6 @@ import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org
 import { split } from 'lodash'
 import { App } from '@capacitor/app'
 import dayjs from 'dayjs'
-import { CsModule } from '@project-sunbird/client-services'
 import { Title } from '@angular/platform-browser'
 import { mapTo } from 'rxjs/operators'
 import { Observable, fromEvent, merge, of } from 'rxjs'
@@ -69,7 +69,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   topCertifiedCourse: any = []
   userEnrollCourse: any
   isProfile: any = false
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall$: boolean = false
   routeChangeInProgress = false
   showNavbar = false
   currentUrl!: string
@@ -140,53 +140,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       fromEvent(window, 'offline').pipe(mapTo(false)),
     )
     this.networkStatus()
-
     this.mobileAppsSvc.init()
-    const locationOrigin = location.origin
-    CsModule.instance.init({
-      core: {
-        httpAdapter: 'HttpClientBrowserAdapter',
-        global: {
-          channelId: '', // required
-          producerId: '', // required
-          deviceId: '', // required
-          sessionId: '',
-        },
-        api: {
-          host: `${locationOrigin}/apis/proxies/v8`, // default host
-          // host: 'http://localhost:3004/proxies/v8', // default host
-          // host: 'http://localhost:3002', // default host
-          authentication: {
-            // bearerToken: "", // optional
-            // userToken: "5574b3c5-16ca-49d8-8059-705304f2c7fb"
-            // bearerToken: this.loginToken,
-            // optional
-          },
-        },
-      },
-      services: {
-        groupServiceConfig: {
-          apiPath: '/learner/group/v1',
-          dataApiPath: '/learner/data/v1/group',
-          updateGroupGuidelinesApiPath: '/learner/group/membership/v1',
-        },
-        userServiceConfig: {
-          apiPath: '/learner/user/v2',
-        },
-        formServiceConfig: {
-          apiPath: '/learner/data/v1/form',
-        },
-        courseServiceConfig: {
-          apiPath: '/learner/course/v1',
-          certRegistrationApiPath: '/learner/certreg/v2/certs',
-        },
-        discussionServiceConfig: {
-          apiPath: '/discussion',
-        },
-      },
-    })
     window.addEventListener('resize', () => {
       this.valueSvc.updateWidth(window.innerWidth)
+    })
+
+    effect(() => {
+      this.isXSmall$ = this.valueSvc.isMobile()
     })
   }
   ngOnDestroy() {
@@ -374,7 +334,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
     this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
     if (this.playlistSvc.getSelectedTab() === 'homeTab') {
-      this.videoData = this.configData?.[5]
+      this.videoData = this.configData?.[this.configData?.length - 1]
       localStorage.setItem('videoData', JSON.stringify(this.videoData))
     }
 
