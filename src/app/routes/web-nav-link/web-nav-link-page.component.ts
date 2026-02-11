@@ -29,6 +29,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null
   @Input() menuItems: any[]
   @Input() mode = ''
+  userData: any
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
@@ -44,7 +45,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     this.subscribeNavbarChanges()
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     console.log(" menuItems ", this.menuItems)
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())
@@ -52,6 +53,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     this.event.subscribe('notificationCountUpdated', count => {
       this.updateNotificationCount(count)
     })
+    this.userData = await this.signupService.getUserData()
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -122,15 +124,13 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     })
     const rootOrgId = this.configSvc.userProfile?.rootOrgId
     const orgConfig = this.configSvc.orgSelectiveCourseConfig
-
-    const result = await this.signupService.getUserData()
     const route = item.redirect
     const titleKey = item.title.toLowerCase().replace(/\s+/g, '')
+    // this.navOption.changeNavBarActive(titleKey)
 
     switch (titleKey) {
       case 'home':
-        this.navOption.changeNavBarActive('home')
-        if (orgConfig && orgConfig.orgId === rootOrgId) {
+        if (orgConfig?.orgId === rootOrgId) {
           const redirectUrl = orgConfig.redirectUrl || item.redirect
           window.location.href = redirectUrl.startsWith('/')
             ? redirectUrl.substring(1)
@@ -142,8 +142,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
       case 'mycourses':
       case 'competency':
       case 'account':
-        this.navOption.changeNavBarActive(titleKey)
-        if (result?.profileDetails?.profileReq?.personalDetails?.dob) {
+        if (this.userData?.profileDetails?.profileReq?.personalDetails?.dob) {
           localStorage.setItem('isOnlyPassbook', 'false')
           this.router.navigate([route])
         } else {
@@ -152,11 +151,9 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
         }
         break
       case 'notification':
-        this.navOption.changeNavBarActive('notification')
         this.openNotificationDialog()
         break
       case 'search':
-        this.navOption.changeNavBarActive('search')
         this.router.navigate(['/app/search/home'])
         break
     }

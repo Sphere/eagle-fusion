@@ -84,13 +84,13 @@ export class MobileProfileDashboardComponent implements OnInit {
     private telemetrySvc: TelemetryService,
     private plylsSvc: PlaylistService
   ) {
-    this.gotData = this.contentSvc.workMessage.subscribe(async (data: any) => {
+    this.gotData = this.contentSvc.workMessage.subscribe((data: any) => {
       console.log(data)
       if (data.type === 'work' || data.type === 'academic') {
         if (data.back === true || data.edit === 'save') {
           this.showView = ''
         } else {
-          this.showView = await data
+          this.showView = data
         }
       }
       if (data.type === 'onListPage') {
@@ -458,7 +458,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
 
-    const userdata = Object.assign(this.userInfo.profileDetails, obj)
+    const userdata = Object.assign(this.userInfo?.profileDetails, obj)
     userdata.profileReq.personalDetails['profileLocation'] =
       'sphere-web/mobile-profile-dashboard-store-language'
 
@@ -494,7 +494,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       },
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
-    const userdata = Object.assign(this.userData['profileDetails'], obj)
+    const userdata = this.userData['profileDetails'] ?? Object.assign(this.userData['profileDetails'], obj)
 
     const reqUpdate = {
       request: {
@@ -519,11 +519,11 @@ export class MobileProfileDashboardComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userProfileSvc
         .getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
-        .subscribe(async (data: any) => {
+        .subscribe((data: any) => {
           if (data) {
             this.loader = false
-            this.userProfileData = await data.profileDetails.profileReq
-            this.userData = await data
+            this.userProfileData = data.profileDetails.profileReq
+            this.userData = data
             if (this.userProfileData?.professionalDetails?.length > 0) {
               this.currentProfession = this.userProfileData.professionalDetails[0].profession
             } else {
@@ -535,9 +535,7 @@ export class MobileProfileDashboardComponent implements OnInit {
                 data.profileDetails!.preferences &&
                 data.profileDetails!.preferences!.language !== undefined
                 ? data.profileDetails.preferences.language
-                : location.href.includes('/hi/')
-                  ? 'hi'
-                  : 'en'
+                : this.languageService.getCurrentLanguage()
             this.language = lang
             console.log(lang, 'oo')
             this.userForm.patchValue({ language: lang })

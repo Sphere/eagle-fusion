@@ -895,5 +895,6 @@
   "PTS": "pts",
   "POINTS": "points",
   "YOUR_POINTS": "Your points",
-  "(More than one answer possible)": "(More than one answer possible)"
+  "(More than one answer possible)": "(More than one answer possible)",
+  "COMPLETED": "COMPLETED"
 }
