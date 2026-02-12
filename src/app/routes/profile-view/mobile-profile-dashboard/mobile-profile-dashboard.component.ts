@@ -7,10 +7,10 @@ import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/s
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
-import { forkJoin, from } from 'rxjs'
+import { from } from 'rxjs'
 // import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
-import { map, mergeMap } from 'rxjs/operators'
+import { map, mergeMap, finalize } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
 import { FormControl, FormGroup } from '@angular/forms'
@@ -107,21 +107,16 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.getUserDetails()
       }
     })
-    this.contentSvc.fetchGeneralAndRcCertificates().pipe().subscribe((res: any) => {
-      this.processCertiFicate(res)
-    })
 
-    forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
-    this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
 
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((res: any) => {
       console.log(res)
       this.loader = false
-      this.profileData = _.get(res[0], 'profileDetails.profileReq')
-      this.userInfo = res[0]
-      const lang = (res[0] && res[0].profileDetails && res[0].profileDetails!.preferences && res[0].profileDetails!.preferences!.language !== undefined) ? res[0].profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
+      this.profileData = _.get(res, 'profileDetails.profileReq')
+      this.userInfo = res
+      const lang = (res && res.profileDetails && res.profileDetails!.preferences && res.profileDetails!.preferences!.language !== undefined) ? res.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
       this.language = lang
-      this.setAcademicDetail(res[0])
-      // this.processCertiFicate(res[1])
+      this.setAcademicDetail(res)
     })
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
@@ -142,6 +137,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     // this.CompetencyConfiService.setConfig(this.profileData)
   }
   changeFunction(text: string) {
+
     if (text === 'organization') {
       sessionStorage.setItem('currentWindow', 'organization')
       this.showView = ''
@@ -174,7 +170,19 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     if (text === 'certificates') {
-      // this.hideData = true
+      this.loader = true
+      this.contentSvc.fetchGeneralAndRcCertificates().pipe(
+        mergeMap((res: any) => this.processCertiFicate(res))
+      ).subscribe({
+        next: () => {
+          console.log('[MobileProfileDashboard] Certificate processing completed')
+          this.loader = false
+        },
+        error: (err) => {
+          console.error('[MobileProfileDashboard] Error processing certificates:', err)
+          this.loader = false
+        }
+      })
       window.scroll(0, 0)
       sessionStorage.setItem('currentWindow', 'certificates')
       if (sessionStorage.getItem('onListPage')) {
@@ -235,34 +243,40 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   processCertiFicate(data: any) {
-
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
       return certificate.length > 0
     })), 'identifier')
     this.formatAllRequest(data)
-    from(certificateIdArray).pipe(
+
+    if (certificateIdArray.length === 0) {
+      // Return a completed observable if no certificates
+      return from([true])
+    }
+
+    return from(certificateIdArray).pipe(
       map(certId => {
         this.certificateThumbnail.push({ identifier: certId })
         return certId
       }),
       mergeMap(certId =>
         this.contentSvc.getCertificateAPI(certId)
-      )
-    ).subscribe(() => {
-      setTimeout(() => {
-        this.contentSvc.updateValue$.subscribe((res: any) => {
-          if (res) {
-            _.forEach(this.certificates, cvalue => {
-              if (res[cvalue.identifier]) {
-                cvalue['image'] = this.domSanitizer.bypassSecurityTrustUrl(res[cvalue.identifier])
-                cvalue['printUri'] = res[cvalue.identifier]
-              }
-            })
-          }
-        })
-      }, 500)
-    })
-
+      ),
+      finalize(() => {
+        // This runs after all certificates are processed
+        setTimeout(() => {
+          this.contentSvc.updateValue$.subscribe((res: any) => {
+            if (res) {
+              _.forEach(this.certificates, cvalue => {
+                if (res[cvalue.identifier]) {
+                  cvalue['image'] = this.domSanitizer.bypassSecurityTrustUrl(res[cvalue.identifier])
+                  cvalue['printUri'] = res[cvalue.identifier]
+                }
+              })
+            }
+          })
+        }, 500)
+      })
+    )
   }
   formatAllRequest(data: any) {
     this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))

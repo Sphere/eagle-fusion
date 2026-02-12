@@ -134,14 +134,14 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   fetchMeta() {
-    this.userProfileSvc.getMasterLanguages().subscribe(
-      data => {
-        this.masterLanguagesEntries = data.languages
-        this.onChangesLanuage()
-        this.onChangesKnownLanuage()
-      },
-      (_err: any) => {
-      })
+    // this.userProfileSvc.getMasterLanguages().subscribe(
+    //   data => {
+    //     this.masterLanguagesEntries = data.languages
+    //     this.onChangesLanuage()
+    //     this.onChangesKnownLanuage()
+    //   },
+    //   (_err: any) => {
+    //   })
     this.http.get(this.countryUrl).subscribe((data: any) => {
       this.countries = data.nationalities
     })

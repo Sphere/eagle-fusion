@@ -32,10 +32,11 @@ import { environment } from '../../environments/environment'
 import isUndefined from "lodash/isUndefined"
 import get from "lodash/get"
 
-import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
 // import { retry } from 'rxjs/operators'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { UserDataCacheService } from './user-data-cache.service'
+import { ConfigCacheService } from './config-cache.service'
 
 // interface IDetailsResponse {
 //   tncStatus: boolean
@@ -47,12 +48,12 @@ import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/au
 interface IFeaturePermissionConfigs {
   [id: string]: Omit<NsWidgetResolver.IPermissions, 'feature'>
 }
-const PROXY_CREATE_V8 = '/apis/proxies/v8'
-const endpoint = {
-  profilePid: '/apis/proxies/v8/api/user/v2/read',
-  // details: `/apis/protected/v8/user/details?ts=${Date.now()}`,
-  CREATE_USER_API: `${PROXY_CREATE_V8}/discussion/user/v1/create`,
-}
+// const PROXY_CREATE_V8 = '/apis/proxies/v8'
+// Note: The profilePid endpoint constant is no longer needed here as it's now handled by UserDataCacheService
+// const endpoint = {
+//   profilePid: '/apis/proxies/v8/api/user/v2/read',
+//   CREATE_USER_API: `${PROXY_CREATE_V8}/discussion/user/v1/create`,
+// }
 
 @Injectable({
   providedIn: 'root',
@@ -77,6 +78,8 @@ export class InitService {
     //private router: Router,
     domSanitizer: DomSanitizer,
     iconRegistry: MatIconRegistry,
+    private userDataCacheSvc: UserDataCacheService,
+    private configCacheSvc: ConfigCacheService,
   ) {
     this.configSvc.isProduction = environment.production
 
@@ -359,45 +362,16 @@ export class InitService {
   }
 
   private async fetchDefaultConfig(): Promise<NsInstanceConfig.IConfig> {
-
-    if ((this.configSvc.userProfile && this.configSvc.userProfile.language === undefined) || (this.configSvc.userProfile && this.configSvc.userProfile.language === 'en')) {
-      const publicConfig: NsInstanceConfig.IConfig = await this.http
-        .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
-        .toPromise()
-      this.configSvc.instanceConfig = publicConfig
-      this.configSvc.rootOrg = publicConfig.rootOrg
-      this.configSvc.org = publicConfig.org
-      // TODO: set one org as default org :: use user preference
-      this.configSvc.activeOrg = publicConfig.org[0]
-      this.configSvc.appSetup = publicConfig.appSetup
-      return publicConfig
-    } else {
-      if (this.configSvc.userProfile === null) {
-        const publicConfig: NsInstanceConfig.IConfig = await this.http
-          .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
-          .toPromise()
-        this.configSvc.instanceConfig = publicConfig
-        this.configSvc.rootOrg = publicConfig.rootOrg
-        this.configSvc.org = publicConfig.org
-        // TODO: set one org as default org :: use user preference
-        this.configSvc.activeOrg = publicConfig.org[0]
-        this.configSvc.appSetup = publicConfig.appSetup
-        return publicConfig
-      } else {
-        const publicConfig: NsInstanceConfig.IConfig = await this.http
-          .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.hi.json`)
-          .toPromise()
-        this.configSvc.instanceConfig = publicConfig
-        this.configSvc.rootOrg = publicConfig.rootOrg
-        this.configSvc.org = publicConfig.org
-        // TODO: set one org as default org :: use user preference
-        this.configSvc.activeOrg = publicConfig.org[0]
-        this.configSvc.appSetup = publicConfig.appSetup
-        return publicConfig
-      }
-
-    }
-
+    // Load language-specific host config: host.config.json for en, host.config.hi.json for hi
+    const locale = this.locale || 'en'
+    const publicConfig: NsInstanceConfig.IConfig = await this.configCacheSvc.getHostConfig(locale).toPromise()
+    this.configSvc.instanceConfig = publicConfig
+    this.configSvc.rootOrg = publicConfig.rootOrg
+    this.configSvc.org = publicConfig.org
+    // TODO: set one org as default org :: use user preference
+    this.configSvc.activeOrg = publicConfig.org[0]
+    this.configSvc.appSetup = publicConfig.appSetup
+    return publicConfig
   }
 
   get locale(): string {
@@ -436,10 +410,8 @@ export class InitService {
     if (this.configSvc.instanceConfig && !Boolean(this.configSvc.instanceConfig.disablePidCheck)) {
       let userPidProfile: any | null = null
       try {
-        userPidProfile = await this.http
-          .get<any>(endpoint.profilePid)
-          .pipe(map((res: any) => res.result.response))
-          .toPromise()
+        // Use cached user data service to prevent repeated API calls
+        userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
 
         if (userPidProfile && userPidProfile.roles && userPidProfile.roles.length > 0 &&
           this.hasRole(userPidProfile.roles)) {

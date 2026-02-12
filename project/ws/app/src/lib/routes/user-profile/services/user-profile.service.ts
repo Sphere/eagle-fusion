@@ -1,13 +1,13 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable, BehaviorSubject } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
+import { map, retry, tap } from 'rxjs/operators'
 import {
   IUserProfileDetails,
   ILanguagesApiData,
   INationalityApiData,
   IUserProfileDetailsFromRegistry,
 } from '../models/user-profile.model'
-import { map, retry } from 'rxjs/operators'
 
 const API_ENDPOINTS = {
   // updateProfileDetails: '/apis/protected/v8/user/profileRegistry/updateUserRegistry',
@@ -43,12 +43,25 @@ export class UserProfileService {
   public _updateuser = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
   updateuser$ = this._updateuser.asObservable()
+
+  // Cache to store user details by user ID to prevent repeated API calls
+  private userDetailsCache = new Map<string, any>()
+
   constructor(
     private http: HttpClient,
   ) {
   }
+
   updateProfileDetails(data: any) {
-    return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data)
+    return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data).pipe(
+      tap((response: any) => {
+        console.log('[UserProfileService] Profile updated, clearing per-user details cache', response)
+        // Clear the per-user cache since profile was updated
+        this.userDetailsCache.clear()
+        // Emit update event - components listening to this can refresh global caches
+        this._updateuser.next(response)
+      })
+    )
   }
   getUserdetails(email: string | undefined): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.getUserdetails, { email })
@@ -109,9 +122,45 @@ export class UserProfileService {
   //   return this.http.get<[IUserProfileDetailsFromRegistry]>(API_ENDPOINTS.getUserdetailsFromRegistry)
   // }
   getUserdetailsFromRegistry(wid: string): Observable<[IUserProfileDetailsFromRegistry]> {
+    // Check if data is already cached for this user (in-memory)
+    if (this.userDetailsCache.has(wid)) {
+      const cachedData = this.userDetailsCache.get(wid)
+      console.log(`[UserProfileService] Returning cached user details for ${wid}`)
+      return of(cachedData)
+    }
+
+    // Try to restore from session storage if not in memory
+    const sessionKey = `userDetails_${wid}`
+    try {
+      const sessionCached = sessionStorage.getItem(sessionKey)
+      if (sessionCached) {
+        const data = JSON.parse(sessionCached)
+        if (data && data.userId) {
+          console.log(`[UserProfileService] Restored user details for ${wid} from session storage`)
+          this.userDetailsCache.set(wid, data)
+          return of(data)
+        }
+      }
+    } catch (e) {
+      console.warn(`[UserProfileService] Could not restore user details for ${wid} from session storage:`, e)
+    }
+
+    // If not cached, fetch from API and cache the result
     return this.http.get<[IUserProfileDetailsFromRegistry]>(`${API_ENDPOINTS.getUserdetailsFromRegistry}/${wid}`)
-      .pipe(retry(1),
-        map((res: any) => res.result.response))
+      .pipe(
+        retry(1),
+        map((res: any) => res.result.response),
+        tap((data: any) => {
+          // Cache the result for future requests (in-memory and session storage)
+          this.userDetailsCache.set(wid, data)
+          try {
+            sessionStorage.setItem(sessionKey, JSON.stringify(data))
+            console.log(`[UserProfileService] Cached user details for ${wid}`)
+          } catch (e) {
+            console.warn(`[UserProfileService] Could not cache user details for ${wid} to session storage:`, e)
+          }
+        }),
+      )
   }
   getAllDepartments() {
     return this.http.get<INationalityApiData>(API_ENDPOINTS.getAllDepartments)
@@ -163,5 +212,37 @@ export class UserProfileService {
       isFilled = false
     }
     return isFilled
+  }
+
+  /**
+   * Clear the cached user details (call this on logout or when user data needs to be refreshed)
+   */
+  clearUserDetailsCache(): void {
+    this.userDetailsCache.clear()
+    // Also clear all per-user caches from session storage
+    try {
+      const keys = Object.keys(sessionStorage)
+      keys.forEach(key => {
+        if (key.startsWith('userDetails_')) {
+          sessionStorage.removeItem(key)
+        }
+      })
+    } catch (e) {
+      console.warn('[UserProfileService] Could not clear user details from session storage:', e)
+    }
+    console.log('[UserProfileService] User details cache cleared')
+  }
+
+  /**
+   * Force refresh of global user data cache
+   * This should be called after updating profile to ensure cached data is refreshed
+   */
+  refreshGlobalUserDataCache(userDataCacheSvc: any): void {
+    if (userDataCacheSvc) {
+      console.log('[UserProfileService] Refreshing global user data cache')
+      userDataCacheSvc.clearUserData()
+      // Clear per-user cache as well
+      this.userDetailsCache.clear()
+    }
   }
 }

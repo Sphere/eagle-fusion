@@ -8,7 +8,8 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
-import { HttpClient } from '@angular/common/http'
+// import { HttpClient } from '@angular/common/http'
+import { ConfigCacheService } from '../../services/config-cache.service'
 import { v4 as uuid } from 'uuid'
 
 declare const gapi: any
@@ -29,7 +30,8 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
     loc: PlatformLocation,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    private http: HttpClient,
+    // private http: HttpClient,
+    private configCacheSvc: ConfigCacheService,
     private activeRoute: ActivatedRoute
   ) {
     this.route = location.path()
@@ -76,7 +78,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   public auth2: any
 
   checkGoogleAuth() {
-    this.http.get(`${this.baseUrl}/host.config.json`).subscribe((data: any) => {
+    this.configCacheSvc.getHostConfig().subscribe((data: any) => {
       this.googleAuth = data.googleAuth
     })
   }

@@ -161,11 +161,9 @@ export class MobileDashboardComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.fetchCourseRecommendations()
       // this.firstName = this.configSvc.userProfile
-      forkJoin([this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
-      this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id)]).pipe().subscribe((res: any) => {
-        this.setCompetencyConfig(res[0])
-        this.firstName = res[0].profileDetails!.profileReq!.personalDetails!.firstname
-
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((res: any) => {
+        this.setCompetencyConfig(res)
+        this.firstName = res.profileDetails!.profileReq!.personalDetails!.firstname
       })
       let url: string
       if (environment.production) {

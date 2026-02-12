@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { map, share } from 'rxjs/operators'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
+import { UserDataCacheService } from '../../services/user-data-cache.service'
 import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
 
@@ -33,7 +34,8 @@ export class SignupService {
   someDataObservable!: Observable<any>
 
   constructor(private http: HttpClient,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private userDataCacheSvc: UserDataCacheService
   ) { }
 
   ssoValidateOTP(data: any): Observable<any> {
@@ -163,10 +165,8 @@ export class SignupService {
   async getUserData(): Promise<any> {
     let userPidProfile: any | null = null
     try {
-      userPidProfile = await this.http
-        .get<any>(API_END_POINTS.profilePid)
-        .pipe(map((res: any) => res.result.response))
-        .toPromise()
+      // Use cached user data service to prevent repeated API calls
+      userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
       console.log(this.configSvc.unMappedUser)
       console.log(userPidProfile)
       if (this.configSvc.unMappedUser === undefined) {
@@ -185,10 +185,8 @@ export class SignupService {
     if (this.configSvc.instanceConfig) {
       let userPidProfile: any | null = null
       try {
-        userPidProfile = await this.http
-          .get<any>(API_END_POINTS.profilePid)
-          .pipe(map((res: any) => res.result.response))
-          .toPromise()
+        // Use cached user data service to prevent repeated API calls
+        userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
         if (userPidProfile && userPidProfile.roles && userPidProfile.roles.length > 0 &&
           this.hasRole(userPidProfile.roles)) {
           if (localStorage.getItem('telemetrySessionId')) {
@@ -234,6 +232,8 @@ export class SignupService {
             email: 'null',
           }
         }
+        // Cache the user data for future use
+        this.userDataCacheSvc.setUserData(userPidProfile)
         try {
           await this.fetchOrgSelectiveConfig()
         } catch (err) {
