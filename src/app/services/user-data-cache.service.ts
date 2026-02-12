@@ -13,17 +13,23 @@ const API_ENDPOINTS = {
 export class UserDataCacheService {
   private userDataSubject = new BehaviorSubject<any>(null)
   public userData$ = this.userDataSubject.asObservable()
-
   private apiCall$: Observable<any> | null = null
 
   constructor(private http: HttpClient) {
     // Try to restore from session storage on service initialization
     this.restoreFromCache();
 
-    // expose debug method to window for testing
+    // Debug: expose debug method to window for testing
     (window as any).clearUserCache = () => {
       this.clearUserData()
       console.log('[UserDataCache] Cache cleared! Reload page to see new API call.')
+    }
+
+    // Debug: expose method to get current cached data
+    (window as any).getUserCached = () => {
+      const data = this.userDataSubject.value
+      console.log('[UserDataCache] Current cached user data:', data)
+      return data
     }
   }
 
@@ -32,7 +38,7 @@ export class UserDataCacheService {
    * Prevents multiple simultaneous API calls
    */
   getUserData(): Observable<any> {
-    // If data is already cached, return it (using take(1) to ensure observable completes)
+    // If data is already cached, return it
     const cachedData = this.userDataSubject.value
     if (cachedData) {
       console.log('[UserDataCache] Returning existing cached data for userId:', cachedData.userId)
@@ -50,26 +56,23 @@ export class UserDataCacheService {
     this.apiCall$ = this.http
       .get<any>(API_ENDPOINTS.getUserProfile)
       .pipe(
-        retry(1), // Retry once on failure
+        retry(1),
         map((res: any) => {
           console.log('[UserDataCache] API call successful, extracting response')
           return res.result.response
         }),
         tap((data: any) => {
-          // Update subject on successful response
           console.log('[UserDataCache] Caching data with userId:', data?.userId)
           this.userDataSubject.next(data)
           this.cacheToSession(data)
-          // Clear the apiCall$ reference after successful load
           this.apiCall$ = null
         }),
         catchError((error: any) => {
           console.error('[UserDataCache] Error fetching user data after retries:', error)
-          // Clear the cached observable on error so it can be retried
           this.apiCall$ = null
           return throwError(error)
         }),
-        shareReplay(1), // Cache the result and share among subscribers
+        shareReplay(1),
       )
 
     return this.apiCall$
@@ -113,9 +116,9 @@ export class UserDataCacheService {
     if (data && data.userId) {
       try {
         sessionStorage.setItem('userDataCache', JSON.stringify(data))
-        console.log('User data cached to session storage')
+        console.log('[UserDataCache] User data cached to session storage')
       } catch (e) {
-        console.warn('Could not cache user data to session storage:', e)
+        console.warn('[UserDataCache] Could not cache user data to session storage:', e)
       }
     }
   }
@@ -129,7 +132,6 @@ export class UserDataCacheService {
       if (cached) {
         console.log('[UserDataCache] Found cached data in session storage, attempting to parse...')
         const data = JSON.parse(cached)
-        // Validate that the data has essential fields
         if (data && data.userId) {
           console.log('[UserDataCache] Restoring data from session storage for userId:', data.userId)
           this.userDataSubject.next(data)
@@ -142,7 +144,6 @@ export class UserDataCacheService {
       }
     } catch (e) {
       console.warn('[UserDataCache] Could not restore user data from cache:', e)
-      // Clear invalid cache
       try {
         sessionStorage.removeItem('userDataCache')
       } catch (err) {

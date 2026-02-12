@@ -137,7 +137,11 @@ export class InitService {
     // }
     // Invalid User
     try {
-      // await this.fetchStartUpDetails()
+      // Always attempt to load user data from cache or API, regardless of route
+      // This ensures user data is available for all routes (public and private)
+      await this.loadUserDataIfAvailable()
+
+      // Only call fetchStartUpDetails for non-public routes to avoid redundant API calls
       if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
         await this.fetchStartUpDetails() // detail: depends only on userID
         this.domain = window.location.hostname
@@ -358,6 +362,78 @@ export class InitService {
           location.assign(`${location.origin}${languageToLoad}${pathName}`)
         }
       }
+    }
+  }
+
+  /**
+   * Load user data from cache or API if available
+   * This runs early in initialization to restore user session across page reloads
+   */
+  private async loadUserDataIfAvailable(): Promise<void> {
+    try {
+      // First, check if data is already cached in memory from UserDataCacheService
+      const cachedData = this.userDataCacheSvc.getCachedUserData()
+      if (cachedData && cachedData.userId) {
+        console.log('[InitService] User data already loaded in cache for userId:', cachedData.userId)
+        this.configSvc.unMappedUser = cachedData
+        this.updateConfigWithUserData(cachedData)
+        return
+      }
+
+      // If no in-memory cache, try to fetch from API (UserDataCacheService will restore from sessionStorage first)
+      const userData = await this.userDataCacheSvc.getUserData().toPromise()
+      if (userData && userData.userId) {
+        console.log('[InitService] Successfully loaded user data from cache/API for userId:', userData.userId)
+        this.configSvc.unMappedUser = userData
+        this.updateConfigWithUserData(userData)
+      } else {
+        console.log('[InitService] No user data available in cache or API')
+      }
+    } catch (error) {
+      console.warn('[InitService] Unable to load user data:', error)
+      // This is not fatal - user can still access public routes
+    }
+  }
+
+  /**
+   * Update ConfigService with user data
+   */
+  private updateConfigWithUserData(userPidProfile: any): void {
+    if (!userPidProfile || !userPidProfile.userId) {
+      return
+    }
+
+    try {
+      const profileV2 = get(userPidProfile, 'profileDetails.profileReq')
+      this.configSvc.userProfile = {
+        country: get(profileV2, 'personalDetails.countryCode') || null,
+        email: get(profileV2, 'profileDetails.officialEmail') || userPidProfile.email,
+        givenName: userPidProfile.firstName,
+        userId: userPidProfile.userId,
+        firstName: userPidProfile.firstName,
+        lastName: userPidProfile.lastName,
+        rootOrgId: userPidProfile.rootOrgId,
+        rootOrgName: userPidProfile.channel,
+        userName: userPidProfile.userName,
+        profileImage: userPidProfile.thumbnail,
+        departmentName: userPidProfile.channel,
+        dealerCode: null,
+        isManager: false,
+        phone: get(userPidProfile, 'phone'),
+        language: (userPidProfile.profileDetails && userPidProfile.profileDetails.preferences && userPidProfile.profileDetails.preferences.language !== undefined) ? userPidProfile.profileDetails.preferences.language : 'en',
+      }
+
+      // Update roles and groups
+      if (userPidProfile.roles && Array.isArray(userPidProfile.roles)) {
+        this.configSvc.userRoles = new Set((userPidProfile.roles || []).map((v: string) => v.toLowerCase()))
+      }
+      if (userPidProfile.group && Array.isArray(userPidProfile.group)) {
+        this.configSvc.userGroups = new Set(userPidProfile.group)
+      }
+
+      console.log('[InitService] User data updated in ConfigService')
+    } catch (error) {
+      console.warn('[InitService] Error updating config with user data:', error)
     }
   }
 

@@ -239,6 +239,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
             this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
             if (this.isEditableForSphere) {
               this.personalDetailForm.enable()
+              // Keep mobile and email disabled even when form is enabled
+              this.personalDetailForm.get('mobile')?.disable()
+              this.personalDetailForm.get('email')?.disable()
             } else {
               this.personalDetailForm.disable()
             }
@@ -513,6 +516,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const reqUpdate = {
       request: {
         userId: this.userID,
+        firstname: form.value.firstname,
+        surname: form.value.surname,
         profileDetails: {
           ...profileRequest, profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
         },
