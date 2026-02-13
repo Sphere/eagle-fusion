@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, OnDestroy } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable, throwError } from 'rxjs'
 import { map, shareReplay, tap, catchError, retry, take } from 'rxjs/operators'
@@ -10,10 +10,13 @@ const API_ENDPOINTS = {
 @Injectable({
   providedIn: 'root',
 })
-export class UserDataCacheService {
+export class UserDataCacheService implements OnDestroy {
   private userDataSubject = new BehaviorSubject<any>(null)
   public userData$ = this.userDataSubject.asObservable()
   private apiCall$: Observable<any> | null = null
+  private cacheExpirationTimeout: any = null
+  private cacheTimestamp: number | null = null
+  private readonly CACHE_EXPIRATION_TIME = 6 * 60 * 60 * 1000 // 6 hours in milliseconds
 
   constructor(private http: HttpClient) {
     // Try to restore from session storage on service initialization
@@ -31,6 +34,50 @@ export class UserDataCacheService {
       console.log('[UserDataCache] Current cached user data:', data)
       return data
     }
+
+    // Debug: expose method to check cache expiration time
+    (window as any).getCacheExpirationTime = () => {
+      if (this.cacheTimestamp) {
+        const expirationTime = new Date(this.cacheTimestamp + this.CACHE_EXPIRATION_TIME)
+        console.log('[UserDataCache] Cache will expire at:', expirationTime.toLocaleString())
+        return expirationTime
+      }
+      console.log('[UserDataCache] Cache is not set')
+      return null
+    }
+  }
+
+  /**
+   * Check if cache has expired
+   */
+  private isCacheExpired(): boolean {
+    if (!this.cacheTimestamp) {
+      return true
+    }
+    const now = Date.now()
+    const isExpired = now - this.cacheTimestamp > this.CACHE_EXPIRATION_TIME
+    if (isExpired) {
+      console.log('[UserDataCache] Cache has expired after 6 hours')
+    }
+    return isExpired
+  }
+
+  /**
+   * Set up automatic cache expiration after 6 hours
+   */
+  private setupCacheExpiration(): void {
+    // Clear any existing timeout
+    if (this.cacheExpirationTimeout) {
+      clearTimeout(this.cacheExpirationTimeout)
+    }
+
+    // Set new timeout to clear cache after 6 hours
+    this.cacheExpirationTimeout = setTimeout(() => {
+      console.log('[UserDataCache] 6-hour cache expiration timer triggered')
+      this.clearUserData()
+    }, this.CACHE_EXPIRATION_TIME)
+
+    console.log('[UserDataCache] Cache expiration timer set for 6 hours')
   }
 
   /**
@@ -38,6 +85,13 @@ export class UserDataCacheService {
    * Prevents multiple simultaneous API calls
    */
   getUserData(): Observable<any> {
+    // Check if cache has expired
+    if (this.isCacheExpired()) {
+      console.log('[UserDataCache] Cache expired, clearing and fetching fresh data')
+      this.userDataSubject.next(null)
+      this.apiCall$ = null
+    }
+
     // If data is already cached, return it
     const cachedData = this.userDataSubject.value
     if (cachedData) {
@@ -65,6 +119,8 @@ export class UserDataCacheService {
           console.log('[UserDataCache] Caching data with userId:', data?.userId)
           this.userDataSubject.next(data)
           this.cacheToSession(data)
+          this.cacheTimestamp = Date.now()
+          this.setupCacheExpiration()
           this.apiCall$ = null
         }),
         catchError((error: any) => {
@@ -91,6 +147,8 @@ export class UserDataCacheService {
   setUserData(data: any): void {
     this.userDataSubject.next(data)
     this.cacheToSession(data)
+    this.cacheTimestamp = Date.now()
+    this.setupCacheExpiration()
   }
 
   /**
@@ -99,6 +157,11 @@ export class UserDataCacheService {
   clearUserData(): void {
     this.userDataSubject.next(null)
     this.apiCall$ = null
+    this.cacheTimestamp = null
+    if (this.cacheExpirationTimeout) {
+      clearTimeout(this.cacheExpirationTimeout)
+      this.cacheExpirationTimeout = null
+    }
     sessionStorage.removeItem('userDataCache')
   }
 
@@ -135,6 +198,8 @@ export class UserDataCacheService {
         if (data && data.userId) {
           console.log('[UserDataCache] Restoring data from session storage for userId:', data.userId)
           this.userDataSubject.next(data)
+          this.cacheTimestamp = Date.now()
+          this.setupCacheExpiration()
         } else {
           console.warn('[UserDataCache] Cached user data is invalid (no userId), clearing cache')
           sessionStorage.removeItem('userDataCache')
@@ -149,6 +214,16 @@ export class UserDataCacheService {
       } catch (err) {
         console.warn('[UserDataCache] Could not clear invalid cache:', err)
       }
+    }
+  }
+
+  /**
+   * Clean up resources when service is destroyed
+   */
+  ngOnDestroy(): void {
+    if (this.cacheExpirationTimeout) {
+      clearTimeout(this.cacheExpirationTimeout)
+      this.cacheExpirationTimeout = null
     }
   }
 }

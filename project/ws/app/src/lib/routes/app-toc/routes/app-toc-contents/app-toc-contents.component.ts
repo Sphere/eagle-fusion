@@ -109,7 +109,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
         this.contextId = this.content.identifier
         this.contextPath = this.content.contentType
       }
-      this.fetchContentParents(this.content.identifier)
+      // this.fetchContentParents(this.content.identifier)
       this.populateContentPlayWidget(this.content)
     }
     if (this.content && this.content.gatingEnabled && this.content.children) {
@@ -161,11 +161,11 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
     this.contentSvc.showConformation = percentage
   }
 
-  private fetchContentParents(contentId: string) {
-    this.tocSvc.fetchContentParents(contentId).subscribe(contents => {
-      this.contentParents = contents || []
-    })
-  }
+  // private fetchContentParents(contentId: string) {
+  //   this.tocSvc.fetchContentParents(contentId).subscribe(contents => {
+  //     this.contentParents = contents || []
+  //   })
+  // }
   private populateContentPlayWidget(content: NsContent.IContent) {
     if (
       content.contentType === NsContent.EContentTypes.RESOURCE ||

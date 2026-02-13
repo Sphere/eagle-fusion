@@ -516,8 +516,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const reqUpdate = {
       request: {
         userId: this.userID,
-        firstname: form.value.firstname,
-        surname: form.value.surname,
+        firstName: form.value.firstname,
+        lastName: form.value.surname,
         profileDetails: {
           ...profileRequest, profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
         },

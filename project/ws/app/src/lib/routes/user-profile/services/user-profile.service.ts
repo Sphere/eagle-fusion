@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, BehaviorSubject, of } from 'rxjs'
 import { map, retry, tap } from 'rxjs/operators'
+import { UserDataCacheService } from 'src/app/services/user-data-cache.service'
 import {
   IUserProfileDetails,
   ILanguagesApiData,
@@ -49,15 +50,17 @@ export class UserProfileService {
 
   constructor(
     private http: HttpClient,
+    private userDataCacheSvc: UserDataCacheService,
   ) {
   }
 
   updateProfileDetails(data: any) {
     return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data).pipe(
       tap((response: any) => {
-        console.log('[UserProfileService] Profile updated, clearing per-user details cache', response)
-        // Clear the per-user cache since profile was updated
+        console.log('[UserProfileService] Profile updated, clearing all user caches', response)
+        // Clear all user caches since profile was updated
         this.userDetailsCache.clear()
+        this.userDataCacheSvc.clearUserData()
         // Emit update event - components listening to this can refresh global caches
         this._updateuser.next(response)
       })
@@ -129,20 +132,12 @@ export class UserProfileService {
       return of(cachedData)
     }
 
-    // Try to restore from session storage if not in memory
-    const sessionKey = `userDetails_${wid}`
-    try {
-      const sessionCached = sessionStorage.getItem(sessionKey)
-      if (sessionCached) {
-        const data = JSON.parse(sessionCached)
-        if (data && data.userId) {
-          console.log(`[UserProfileService] Restored user details for ${wid} from session storage`)
-          this.userDetailsCache.set(wid, data)
-          return of(data)
-        }
-      }
-    } catch (e) {
-      console.warn(`[UserProfileService] Could not restore user details for ${wid} from session storage:`, e)
+    // Check global user data cache from UserDataCacheService
+    const globalCachedData = this.userDataCacheSvc.getCachedUserData()
+    if (globalCachedData && globalCachedData.userId) {
+      console.log(`[UserProfileService] Using user details from global UserDataCache`)
+      this.userDetailsCache.set(wid, globalCachedData)
+      return of(globalCachedData)
     }
 
     // If not cached, fetch from API and cache the result
@@ -151,14 +146,11 @@ export class UserProfileService {
         retry(1),
         map((res: any) => res.result.response),
         tap((data: any) => {
-          // Cache the result for future requests (in-memory and session storage)
+          // Cache the result in-memory for fast access
           this.userDetailsCache.set(wid, data)
-          try {
-            sessionStorage.setItem(sessionKey, JSON.stringify(data))
-            console.log(`[UserProfileService] Cached user details for ${wid}`)
-          } catch (e) {
-            console.warn(`[UserProfileService] Could not cache user details for ${wid} to session storage:`, e)
-          }
+          // Also cache globally using UserDataCacheService (which handles session storage and 6-hour expiration)
+          this.userDataCacheSvc.setUserData(data)
+          console.log(`[UserProfileService] Cached user details for ${wid} in global cache`)
         }),
       )
   }
@@ -219,17 +211,8 @@ export class UserProfileService {
    */
   clearUserDetailsCache(): void {
     this.userDetailsCache.clear()
-    // Also clear all per-user caches from session storage
-    try {
-      const keys = Object.keys(sessionStorage)
-      keys.forEach(key => {
-        if (key.startsWith('userDetails_')) {
-          sessionStorage.removeItem(key)
-        }
-      })
-    } catch (e) {
-      console.warn('[UserProfileService] Could not clear user details from session storage:', e)
-    }
+    // Clear global user data cache
+    this.userDataCacheSvc.clearUserData()
     console.log('[UserProfileService] User details cache cleared')
   }
 
