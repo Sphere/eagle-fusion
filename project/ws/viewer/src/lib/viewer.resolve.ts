@@ -31,7 +31,7 @@ export class ViewerResolve
     resourceId: string,
     collectionId: string | null,
     batchId: string | null
-  ): Promise<{ isAccessible: boolean; redirectUrl?: string }> {
+  ): Promise<{ isAccessible: boolean; redirectUrl?: string; redirectParams?: { [key: string]: any } }> {
     try {
       // collectionId is now required for validation
       if (!collectionId) {
@@ -108,11 +108,40 @@ export class ViewerResolve
         console.log('═══════════════════════════════════════════════════════════')
         return { isAccessible: true }
       } else {
-        console.log('RESULT: USER BLOCKED - Prerequisites not met')
-        console.log('═══════════════════════════════════════════════════════════')
-        return {
-          isAccessible: false,
-          redirectUrl: `/app/toc/${collectionId}/overview`
+        // Prerequisites not met - find the first incomplete prerequisite resource to navigate to
+        const incompleteResource = this.findFirstIncompletePrerequisite(resourcePosition)
+
+        if (incompleteResource) {
+          console.log('RESULT: USER BLOCKED - Redirecting to incomplete prerequisite')
+          console.log('Incomplete resource to resume:', {
+            id: incompleteResource.identifier,
+            name: incompleteResource.name,
+            completion: incompleteResource.completionPercentage
+          })
+          console.log('═══════════════════════════════════════════════════════════')
+
+          // Generate viewer URL for the incomplete resource
+          const viewerRoute = VIEWER_ROUTE_FROM_MIME(incompleteResource.mimeType)
+          const redirectUrl = `/viewer/${viewerRoute}/${incompleteResource.identifier}`
+
+          return {
+            isAccessible: false,
+            redirectUrl,
+            redirectParams: {
+              primaryCategory: courseData?.primaryCategory || 'Learning Resource',
+              collectionId,
+              collectionType: 'Course',
+              batchId,
+              viewMode: 'RESUME'
+            }
+          }
+        } else {
+          console.log('RESULT: USER BLOCKED - Prerequisites not met (no specific resource found)')
+          console.log('═══════════════════════════════════════════════════════════')
+          return {
+            isAccessible: false,
+            redirectUrl: `/app/toc/${collectionId}/overview`
+          }
         }
       }
     } catch (error) {
@@ -352,6 +381,99 @@ export class ViewerResolve
 
   /**
    * Check if all previous resources in sequence are completed
+   * If not, returns the first incomplete prerequisite resource instead of redirecting to TOC
+   */
+  private findFirstIncompletePrerequisite(resourcePosition: any): any {
+    const { hierarchy, content: currentResource } = resourcePosition
+
+    if (!hierarchy || hierarchy.length === 0) {
+      console.log('No hierarchy - no prerequisites to check')
+      return null
+    }
+
+    console.log('Finding first incomplete prerequisite for:', {
+      resourceId: currentResource?.identifier,
+      resourceName: currentResource?.name,
+      hierarchyDepth: hierarchy.length,
+      hierarchyPath: hierarchy.map((h: any) => h.name).join(' > ')
+    })
+
+    // Check all preceding siblings at each level
+    for (let i = hierarchy.length - 1; i > 0; i--) {
+      const parent = hierarchy[i - 1]
+      const currentNode = hierarchy[i]
+
+      if (!parent.children || !Array.isArray(parent.children)) {
+        console.log(`Level ${i}: No children in parent`)
+        continue
+      }
+
+      const currentIndex = parent.children.findIndex(
+        (c: any) => c.identifier === currentNode.identifier
+      )
+
+      if (currentIndex < 0) {
+        console.warn(`Level ${i}: Could not find current node in parent children`)
+        continue
+      }
+
+      // Check ALL preceding siblings at this level
+      if (currentIndex > 0) {
+        for (let j = 0; j < currentIndex; j++) {
+          const sibling = parent.children[j]
+
+          // Check if this prerequisite sibling is complete
+          const isPrerequisiteComplete = this.isSectionComplete(sibling)
+
+          if (!isPrerequisiteComplete) {
+            // Found an incomplete prerequisite - return the first incomplete child resource
+            const incompleteResource = this.getFirstIncompleteLeafResource(sibling)
+            console.log('Found first incomplete prerequisite:', {
+              parentId: sibling.identifier,
+              parentName: sibling.name,
+              incompleteResourceId: incompleteResource?.identifier,
+              incompleteResourceName: incompleteResource?.name,
+              contentType: incompleteResource?.contentType
+            })
+            return incompleteResource
+          }
+        }
+      }
+    }
+
+    console.log('ALL prerequisites met - no incomplete prerequisites found')
+    return null
+  }
+
+  /**
+   * Find the first incomplete leaf resource in a node tree
+   * Returns the actual resource (leaf) that needs to be completed
+   */
+  private getFirstIncompleteLeafResource(node: any): any {
+    // If it's a leaf resource and incomplete, return it
+    if (this.isLeafNode(node)) {
+      const completion = Number(node.completionPercentage) || 0
+      if (completion < 100) {
+        return node
+      }
+      return null
+    }
+
+    // If it's a collection, search for the first incomplete child
+    if (node.children && Array.isArray(node.children)) {
+      for (const child of node.children) {
+        const incompleteResource = this.getFirstIncompleteLeafResource(child)
+        if (incompleteResource) {
+          return incompleteResource
+        }
+      }
+    }
+
+    return null
+  }
+
+  /**
+   * Check if all previous resources in sequence are completed
    * Validates both siblings within same parent AND preceding sections
    */
   private checkPreviousResourcesCompleted(resourcePosition: any): boolean {
@@ -570,8 +692,14 @@ export class ViewerResolve
             .pipe(
               switchMap(validation => {
                 if (!validation.isAccessible && validation.redirectUrl) {
-                  // Redirect to course TOC or home if not accessible
-                  this.router.navigate([validation.redirectUrl])
+                  // Redirect to incomplete prerequisite resource or TOC if not accessible
+                  if (validation.redirectParams) {
+                    this.router.navigate([validation.redirectUrl], {
+                      queryParams: validation.redirectParams
+                    })
+                  } else {
+                    this.router.navigate([validation.redirectUrl])
+                  }
                   return throwError(() => new Error('Resource not accessible due to gating or missing course context'))
                 }
                 return of(response)
