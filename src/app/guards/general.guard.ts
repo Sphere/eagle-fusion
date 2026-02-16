@@ -6,6 +6,7 @@ import {
 } from '@angular/router'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { UserDataCacheService } from '../services/user-data-cache.service'
 
 @Injectable({
   providedIn: 'root',
@@ -14,8 +15,12 @@ export class GeneralGuard {
   dobFlag = false
   isXSmall = false
   locale = ''
-  constructor(private router: Router, private configSvc: ConfigurationsService,
-    private userProfileSvc: UserProfileService) { }
+  constructor(
+    private router: Router,
+    private configSvc: ConfigurationsService,
+    private userProfileSvc: UserProfileService,
+    private userDataCacheSvc: UserDataCacheService,
+  ) { }
 
   async canActivate(
     next: ActivatedRouteSnapshot,
@@ -32,6 +37,38 @@ export class GeneralGuard {
     requiredFeatures: string[],
     requiredRoles: string[],
   ): Promise<T | UrlTree | boolean> {
+    // Try to restore user data from cache if it's not already set
+    // This handles the case where user data exists in sessionStorage but hasn't been loaded yet
+    if (this.configSvc.userProfile === null) {
+      const cachedUserData = this.userDataCacheSvc.getCachedUserData()
+      if (cachedUserData && cachedUserData.userId) {
+        console.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserData.userId)
+        this.configSvc.unMappedUser = cachedUserData
+        // Basic user profile setup from cache
+        this.configSvc.userProfile = {
+          userId: cachedUserData.userId,
+          email: cachedUserData.email || cachedUserData.officialEmail,
+          givenName: cachedUserData.firstName,
+          firstName: cachedUserData.firstName,
+          lastName: cachedUserData.lastName,
+          userName: cachedUserData.userName,
+          rootOrgId: cachedUserData.rootOrgId,
+          rootOrgName: cachedUserData.channel,
+          profileImage: cachedUserData.thumbnail,
+          departmentName: cachedUserData.channel,
+          dealerCode: null,
+          isManager: false,
+          phone: cachedUserData.phone,
+          country: null,
+          language: cachedUserData.profileDetails?.preferences?.language || 'en',
+        }
+        // Restore roles
+        if (cachedUserData.roles && Array.isArray(cachedUserData.roles)) {
+          this.configSvc.userRoles = new Set((cachedUserData.roles || []).map((v: string) => v.toLowerCase()))
+        }
+      }
+    }
+
     // console.log("came here 1")
     // tslint:disable-next-line: no-non-null-assertion
     if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {

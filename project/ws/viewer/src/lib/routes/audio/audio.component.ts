@@ -167,7 +167,7 @@ export class AudioComponent implements OnInit, OnDestroy {
         mime_type: "audio/mpeg",
       }
       // @ts-ignore: Object is possibly 'null'.
-      this.viewerSvc.realTimeProgressUpdate(audioId, data2, collectionId, batchId).subscribe((data: any) => {
+      this.viewerSvc.realTimeProgressUpdateV3(audioId, data2, collectionId, batchId).subscribe((data: any) => {
         console.log(data.result.contentList)
         const result = data.result
         result['type'] = 'audio'

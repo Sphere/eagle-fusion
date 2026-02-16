@@ -99,26 +99,77 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       .replace('Proficency', 'Proficiency').split('Proficiency')[1]
     this.isCompetency = this.route.snapshot.queryParams.competency
     this.fetchRestrictedOrgIds()
+    // **CRITICAL**: Check current progress before sending update to avoid resetting completed assessments
     this.updateProgress()
   }
   updateProgress() {
-    const realTimeProgressRequest = {
-      content_type: 'Resource',
-      current: ['0'],
-      max_size: 0,
-      mime_type: NsContent.EMimeTypes.APPLICATION_JSON,
-      user_id_type: 'uuid',
+    // **CRITICAL**: Check if currentProgress was already provided by parent component
+    const parentProgress = this.assesmentdata?.currentProgress
+    if (parentProgress && parentProgress.completionPercentage > 0) {
+      // Parent already has progress data - assessment is in progress, don't reset it
+      console.log('Assessment already in progress with', parentProgress.completionPercentage, '% completion - skipping init progress update')
+      return
     }
 
-    this.viewerSvc.realTimeProgressUpdate(
-      this.assesmentdata.generalData?.identifier,
-      realTimeProgressRequest,
-      this.assesmentdata.generalData.collectionId,
-      this.route.snapshot.queryParams.batchId
+    // If no parent progress, fetch current progress first - only send 0% if assessment hasn't been started yet
+    const collectionId = this.assesmentdata.generalData.collectionId
+    const batchId = this.route.snapshot.queryParams.batchId
+    let userId = ''
+    if (this.configSvc.userProfile) {
+      userId = this.configSvc.userProfile.userId || ''
+    }
+
+    // Fetch current progress to check if assessment is already started/completed
+    const req: any = {
+      request: {
+        userId,
+        batchId: batchId || undefined,
+        courseId: collectionId,
+        contentIds: [this.assesmentdata.generalData?.identifier],
+        fields: ['progressdetails'],
+      },
+    }
+
+    this.contentSvc.fetchContentHistoryV2(req).subscribe(
+      (data: any) => {
+        // Check if this assessment already has progress recorded
+        const currentProgress = data?.result?.contentList?.find((item: any) =>
+          item.contentId === this.assesmentdata.generalData?.identifier
+        )
+
+        // **CRITICAL**: Only send 0% progress if assessment hasn't been started yet
+        // If already in progress (completionPercentage > 0), don't reset it
+        if (!currentProgress || currentProgress.completionPercentage === 0 || currentProgress.completionPercentage === undefined) {
+          // Assessment is new or not started - safe to send 0%
+          const realTimeProgressRequest = {
+            content_type: 'Resource',
+            current: ['0'],
+            max_size: 0,
+            mime_type: NsContent.EMimeTypes.APPLICATION_JSON,
+            user_id_type: 'uuid',
+            completionPercentage: 0,
+            status: 1
+          }
+
+          this.viewerSvc.realTimeProgressUpdateV3(
+            this.assesmentdata.generalData?.identifier,
+            realTimeProgressRequest,
+            collectionId,
+            batchId
+          ).subscribe(
+            () => { /* success - fire and forget */ },
+            (error) => { console.warn('Progress init failed:', error) }
+          )
+        } else {
+          // Assessment already has progress - don't reset it
+          console.log('Assessment already in progress with', currentProgress.completionPercentage, '% completion - skipping init progress update')
+        }
+      },
+      (error) => {
+        console.warn('Failed to fetch current progress:', error)
+        // On error, don't send any progress update to avoid overwriting existing data
+      }
     )
-      .subscribe((res) => {
-        console.log('res', res)
-      })
   }
   ngAfterViewInit() {
     let object = {
@@ -694,16 +745,30 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     }
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
       if (!isNull(data.nextResource)) {
-        this.viewerSvc.realTimeProgressUpdate(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe((data: any) => {
-          const result = data.result
-          result['type'] = 'application/json'
-          const res = data["result"]["contentList"].find(
-            (obj: any) => obj.contentId === data.nextContentId
-          )
-          this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'application/json' })
-          this.contentSvc.changeMessage(result)
-        })
-
+        // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
+        // Send telemetry and changeMessage with pre-calculated data like video player does
+        this.viewerSvc.realTimeProgressUpdateV3(data.nextContentId, realTimeProgressRequest, this.assesmentdata.generalData.collectionId, this.route.snapshot.queryParams.batchId).subscribe(
+          () => {
+            // Success - send telemetry and message with pre-calculated data (don't parse response)
+            const messageData = {
+              contentList: [{
+                contentId: data.nextContentId,
+                completionPercentage: 0,
+                status: 0,
+              }],
+              type: 'application/json'
+            }
+            this.viewerSvc.generateInteractTelemetry('progress-update-success', {
+              contentId: data.nextContentId,
+              completionPercentage: 0,
+              status: 0,
+              mimeType: 'application/json',
+              batchId: this.route.snapshot.queryParams.batchId || ''
+            })
+            this.contentSvc.changeMessage(messageData)
+          },
+          (error) => { console.warn('Next resource progress update failed:', error) }
+        )
       }
     })
   }

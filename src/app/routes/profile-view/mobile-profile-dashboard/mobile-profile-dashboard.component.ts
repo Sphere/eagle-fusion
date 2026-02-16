@@ -12,9 +12,10 @@ import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/s
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
-import { forkJoin, from } from 'rxjs'
+import { from } from 'rxjs'
+// import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
-import { map, mergeMap } from 'rxjs/operators'
+import { map, mergeMap, finalize } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
 import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
@@ -128,52 +129,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     })
   }
 
-  ngOnInit() {
-    this.setupMenuItems()
-    this.domain = window.location.hostname
-    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-      this.isEkshamata = true
-    }
-    if (sessionStorage.getItem('currentWindow')) {
-      sessionStorage.removeItem('currentWindow')
-    }
-    this.userProfileSvc.updateuser$.pipe().subscribe(item => {
-      if (item) {
-        // this.selectedIndex = 'academic'
-        this.getUserDetails()
-      }
-    })
-
-    forkJoin([
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id),
-      this.contentSvc.fetchUserBatchList(this.configSvc.unMappedUser.id),
-    ])
-      .pipe()
-      .subscribe((res: any) => {
-        console.log(res)
-        this.loader = false
-        this.profileData = _.get(res[0], 'profileDetails.profileReq')
-        this.userInfo = res[0]
-        const lang =
-          res[0] &&
-            res[0].profileDetails &&
-            res[0].profileDetails!.preferences &&
-            res[0].profileDetails!.preferences!.language !== undefined
-            ? res[0].profileDetails.preferences.language
-            : location.href.includes('/hi/')
-              ? 'hi'
-              : 'en'
-        this.language = lang
-        this.setAcademicDetail(res[0])
-        // this.processCertiFicate(res[1])
-      })
-
-    console.log('this.configSvc.unMappedUser', this.configSvc.unMappedUser)
-    if (this.hasRequiredLeaderboardDetails()) {
-      this.getLeaderBoardList()
-    }
-  }
-
   async setupMenuItems() {
     let res
     if (this.plylsSvc.getSelectedTab() == 'accountTab') {
@@ -198,6 +153,38 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.selectedIndexData = this.isEkshamata ? this.uiConfig[1]?.data : this.uiConfig[0]?.data
   }
 
+  ngOnInit() {
+    this.setupMenuItems()
+    this.domain = window.location.hostname
+    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+      this.isEkshamata = true
+    }
+    if (sessionStorage.getItem('currentWindow')) {
+      sessionStorage.removeItem('currentWindow')
+    }
+    this.userProfileSvc.updateuser$.pipe().subscribe(item => {
+      if (item) {
+        // this.selectedIndex = 'academic'
+        this.getUserDetails()
+      }
+    })
+
+    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((res: any) => {
+      console.log(res)
+      this.loader = false
+      this.profileData = _.get(res, 'profileDetails.profileReq')
+      this.userInfo = res
+      const lang = (res && res.profileDetails && res.profileDetails!.preferences && res.profileDetails!.preferences!.language !== undefined) ? res.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
+      this.language = lang
+      this.setAcademicDetail(res)
+    })
+
+    console.log('this.configSvc.unMappedUser', this.configSvc.unMappedUser)
+    if (this.hasRequiredLeaderboardDetails()) {
+      this.getLeaderBoardList()
+    }
+  }
+
   hasRequiredLeaderboardDetails(): boolean {
     const unMappedUser = this.configSvc.unMappedUser
     const userProfile = this.configSvc.userProfile
@@ -217,6 +204,8 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     return hasUserId && hasProfessionalDetails && hasDesignation && hasRootOrgId && hasInstituteName && this.isEkshamata
   }
+
+  // changeFunction(text: string) {
   changeFunction(item: any): void {
     if (!item?.name) return
 
@@ -230,6 +219,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       sessionStorage.setItem('currentWindow', key)
       removeOnListPage()
     }
+
     this.selectedIndexData = item?.data
     switch (item?.name) {
       case 'organization':
@@ -255,8 +245,17 @@ export class MobileProfileDashboardComponent implements OnInit {
 
       case 'certificates':
         window.scroll(0, 0)
-        this.contentSvc.fetchGeneralAndRcCertificates().pipe().subscribe((res: any) => {
-          this.processCertiFicate(res)
+        this.contentSvc.fetchGeneralAndRcCertificates().pipe(
+          mergeMap((res: any) => this.processCertiFicate(res))
+        ).subscribe({
+          next: () => {
+            console.log('[MobileProfileDashboard] Certificate processing completed')
+            this.loader = false
+          },
+          error: (err) => {
+            console.error('[MobileProfileDashboard] Error processing certificates:', err)
+            this.loader = false
+          }
         })
         setWindow('certificates')
         break
@@ -325,24 +324,26 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   processCertiFicate(data: any) {
-    const certificateIdArray = _.map(
-      _.flatten(
-        _.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
-          return certificate.length > 0
-        }),
-      ),
-      'identifier',
-    )
+    const certificateIdArray = _.map(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
+      return certificate.length > 0
+    })), 'identifier')
     this.formatAllRequest(data)
-    from(certificateIdArray)
-      .pipe(
-        map(certId => {
-          this.certificateThumbnail.push({ identifier: certId })
-          return certId
-        }),
-        mergeMap(certId => this.contentSvc.getCertificateAPI(certId)),
-      )
-      .subscribe(() => {
+
+    if (certificateIdArray.length === 0) {
+      // Return a completed observable if no certificates
+      return from([true])
+    }
+
+    return from(certificateIdArray).pipe(
+      map(certId => {
+        this.certificateThumbnail.push({ identifier: certId })
+        return certId
+      }),
+      mergeMap(certId =>
+        this.contentSvc.getCertificateAPI(certId)
+      ),
+      finalize(() => {
+        // This runs after all certificates are processed
         setTimeout(() => {
           this.contentSvc.updateValue$.subscribe((res: any) => {
             if (res) {
@@ -356,6 +357,7 @@ export class MobileProfileDashboardComponent implements OnInit {
           })
         }, 500)
       })
+    )
   }
   formatAllRequest(data: any) {
     this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))

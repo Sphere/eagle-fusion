@@ -141,24 +141,21 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   fetchMeta() {
-    forkJoin([
-      this.userProfileSvc.getMasterLanguages(),
-      this.http.get(this.countryUrl),
-      this.http.get(this.stateUrl)
-    ])
-      .pipe(takeUntil(this.destroy$))
-      .subscribe(
-        ([languages, countries, states]: any[]) => {
-          this.masterLanguagesEntries = languages.languages
-          this.countries = countries.nationalities
-          this.states = states.states
-          this.onChangesLanuage()
-          this.onChangesKnownLanuage()
-        },
-        (err) => {
-          console.error('Error fetching metadata:', err)
-        }
-      )
+    // this.userProfileSvc.getMasterLanguages().subscribe(
+    //   data => {
+    //     this.masterLanguagesEntries = data.languages
+    //     this.onChangesLanuage()
+    //     this.onChangesKnownLanuage()
+    //   },
+    //   (_err: any) => {
+    //   })
+    this.http.get(this.countryUrl).subscribe((data: any) => {
+      this.countries = data.nationalities
+    })
+
+    this.http.get(this.stateUrl).subscribe((data: any) => {
+      this.states = data.states
+    })
   }
   stateSelect(option: any) {
     this.http.get(this.districtUrl)
@@ -249,18 +246,25 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
   getUserDetails() {
     if (this.configSvc.userProfile) {
-      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          (data: any) => {
-            if (data) {
-              this.UserAgentResolverService.isEditableForSphere(data).then((editable) => {
-                this.isEditableForSphere = editable
-                if (editable) {
-                  this.personalDetailForm.enable()
-                } else {
-                  this.personalDetailForm.disable()
-                }
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        async (data: any) => {
+          if (data) {
+            this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
+            if (this.isEditableForSphere) {
+              this.personalDetailForm.enable()
+              // Keep mobile and email disabled even when form is enabled
+              this.personalDetailForm.get('mobile')?.disable()
+              this.personalDetailForm.get('email')?.disable()
+            } else {
+              this.personalDetailForm.disable()
+            }
+            this.userProfileData = data.profileDetails.profileReq
+            this.userlang = data
+            console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
+            this.updateForm()
+            if (data?.profileDetails?.preferences?.language === 'hi') {
+              this.personalDetailForm.patchValue({
+                knownLanguage: 'हिंदी',
               })
               this.userProfileData = data.profileDetails.profileReq
               this.userlang = data
@@ -271,11 +275,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
               })
               this.populateChips(this.userProfileData)
             }
-          },
-          (err) => {
-            console.error('Error fetching user details:', err)
           }
-        )
+        },
+        (err) => {
+          console.error('Error fetching user details:', err)
+        }
+      )
     }
   }
 

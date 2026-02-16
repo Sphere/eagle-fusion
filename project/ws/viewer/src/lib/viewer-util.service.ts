@@ -18,6 +18,7 @@ export class ViewerUtilService {
     // PROGRESS_UPDATE: `/apis/protected/v8/user/realTimeProgress/update`,
     PROGRESS_UPDATE: `/apis/proxies/v8/content-progres`,
     NEW_PROGRESS_UPDATE: `/apis/protected/v8/updateProgressv2/update`,
+    NEW_PROGRESS_UPDATE_V3: `/apis/protected/v8/updateProgressv3/update`,
     SCORM_UPDATE: `/apis/proxies/v8/getContents/`,
   }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
@@ -79,9 +80,13 @@ export class ViewerUtilService {
           return 100
 
         } if (mimeType === NsContent.EMimeTypes.PDF) {
-
-          const latest = parseFloat(temp.slice(-1) || '0')
-          // const latest = parseFloat(temp[temp.length - 1] || '0')
+          // Handle both array and number inputs
+          let latest
+          if (Array.isArray(temp)) {
+            latest = parseFloat(temp.slice(-1)[0] || '0')  // Get last element of array
+          } else {
+            latest = parseFloat(temp || '0')
+          }
           const percentMilis = (latest / max) * 100
           const percent = parseFloat(percentMilis.toFixed(2))
           return percent
@@ -110,11 +115,11 @@ export class ViewerUtilService {
         if (Math.ceil(percentage) <= 1) {
           return 0
         }
-        // if percentage is less than 6% then make status started
-        if (Math.ceil(percentage) >= 5 && Math.ceil(percentage) <= 6) {
+        // if percentage is greater than or equal to 5% then make status in progress
+        if (Math.ceil(percentage) >= 5 && Math.ceil(percentage) < 95) {
           return 1
         }
-        // if percentage is greater than 95% then make status complete
+        // if percentage is greater than or equal to 95% then make status complete
         if (Math.ceil(percentage) >= 95) {
           return 2
         }
@@ -150,6 +155,14 @@ export class ViewerUtilService {
     }
   }
   initUpdate(req: any) {
+    // Ensure completionPercentage matches status
+    if (req.request.contents && req.request.contents.length > 0) {
+      const content = req.request.contents[0]
+      if (content.status === 2 && content.completionPercentage !== 100) {
+        content.completionPercentage = 100
+        console.log('Fixed completionPercentage mismatch: status=2 requires completionPercentage=100')
+      }
+    }
     console.log(req.request.contents[0])
     let cUrl = req.request.url ? req.request.url : window.location.href
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, req.request.contents[0].courseId).subscribe((record) => {
@@ -195,6 +208,13 @@ export class ViewerUtilService {
       }
     }
 
+    // **CRITICAL**: Get batchId from query params if not provided as parameter
+    if (!batchId) {
+      const query = window.location.search
+      const params = new URLSearchParams(query)
+      batchId = params.get('batchId') || undefined
+    }
+
     if (this.configservice.userProfile) {
       let checkCollectionId = ''
       if (contentId === collectionId) {
@@ -203,22 +223,34 @@ export class ViewerUtilService {
           checkCollectionId = storedCollectionId
         }
       }
-      let percentage = this.calculatePercent(request.current, request.max_size, request.mime_type)
+      // **CRITICAL**: Use completionPercentage if provided by player-video, otherwise calculate it
+      // This ensures we respect the percentage that was explicitly sent, not recalculate it
+      let percentage = request.completionPercentage !== undefined
+        ? request.completionPercentage
+        : this.calculatePercent(request.current[0], request.max_size, request.mime_type)
       if (percentage > 95) {
         percentage = 100
       }
       let mimeType = request.mime_type
-      const status = this.getStatus(request.current, request.max_size, request.mime_type)
+      // **CRITICAL**: Extract numeric value from current (could be array or number)
+      // request.current comes as array ["69.613552"] from API responses
+      const currentNumeric = Array.isArray(request.current)
+        ? parseFloat(request.current[0] || '0')
+        : request.current
+      // **CRITICAL**: Status code for API (2 = completed when 100%)
+      const statusCode = percentage === 100 ? 2 : this.getStatus(currentNumeric, request.max_size, request.mime_type)
 
-      this.generateInteractTelemetry('progress-update-attempt', { contentId, checkCollectionId, percentage, mimeType, batchId, status })
+      // **CRITICAL**: For telemetry, pass statusCode (0=not started, 1=in progress, 2=completed)
+      // batchId is passed along to ensure it's included in telemetry extras
+      this.generateInteractTelemetry('progress-update-attempt', { contentId, checkCollectionId, percentage, mimeType, batchId, status: statusCode })
       req = {
         request: {
           userId: this.configservice.userProfile.userId || '',
           contents: [
             {
               contentId,
-              batchId,
-              status: this.getStatus(request.current, request.max_size, request.mime_type),
+              batchId: batchId || '',  // **CRITICAL**: Ensure batchId is never undefined in API request
+              status: statusCode,  // **CRITICAL**: Use statusCode (2 when 100%)
               courseId: checkCollectionId ? checkCollectionId : collectionId,
               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
               progressdetails: {
@@ -234,7 +266,7 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    console.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '215')
+    console.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE_V3}`, '215')
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe((record) => {
       console.log(record, '217')
 
@@ -276,6 +308,116 @@ export class ViewerUtilService {
     return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
   }
 
+  realTimeProgressUpdateV3(contentId: string, request: any, collectionId?: string, batchId?: string) {
+    let req: any
+
+    if (!collectionId) {
+      const storedCollectionId = localStorage.getItem('collectionId')
+      if (storedCollectionId) {
+        collectionId = storedCollectionId
+      }
+    }
+
+    // **CRITICAL**: Get batchId from query params if not provided as parameter
+    if (!batchId) {
+      const query = window.location.search
+      const params = new URLSearchParams(query)
+      batchId = params.get('batchId') || undefined
+    }
+
+    if (this.configservice.userProfile) {
+      let checkCollectionId = ''
+      if (contentId === collectionId) {
+        const storedCollectionId = localStorage.getItem('collectionId')
+        if (storedCollectionId) {
+          checkCollectionId = storedCollectionId
+        }
+      }
+      // **CRITICAL**: Use completionPercentage if provided by player-video, otherwise calculate it
+      // This ensures we respect the percentage that was explicitly sent, not recalculate it
+      let percentage = request.completionPercentage !== undefined
+        ? request.completionPercentage
+        : this.calculatePercent(request.current[0], request.max_size, request.mime_type)
+      if (percentage > 95) {
+        percentage = 100
+      }
+      let mimeType = request.mime_type
+      // **CRITICAL**: Extract numeric value from current (could be array or number)
+      // request.current comes as array ["69.613552"] from API responses
+      const currentNumeric = Array.isArray(request.current)
+        ? parseFloat(request.current[0] || '0')
+        : request.current
+      // **CRITICAL**: Status code for API (2 = completed when 100%)
+      const statusCode = percentage === 100 ? 2 : this.getStatus(currentNumeric, request.max_size, request.mime_type)
+
+      // **CRITICAL**: For telemetry, pass statusCode (0=not started, 1=in progress, 2=completed)
+      // batchId is passed along to ensure it's included in telemetry extras
+      this.generateInteractTelemetry('progress-update-attempt', { contentId, checkCollectionId, percentage, mimeType, batchId, status: statusCode })
+      req = {
+        request: {
+          userId: this.configservice.userProfile.userId || '',
+          contents: [
+            {
+              contentId,
+              batchId: batchId || '',  // **CRITICAL**: Ensure batchId is never undefined in API request
+              status: statusCode,  // **CRITICAL**: Use statusCode (2 when 100%)
+              courseId: checkCollectionId ? checkCollectionId : collectionId,
+              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+              progressdetails: {
+                max_size: request.max_size,
+                current: request.current,
+                mimeType: request.mime_type,
+              },
+              completionPercentage: percentage,
+            },
+          ],
+        },
+      }
+    } else {
+      req = {}
+    }
+    console.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE_V3}`, '215')
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe((record) => {
+      console.log(record, '217')
+
+      let cUrl = window.location.href
+      console.log(cUrl.split('/'))
+      let id = cUrl.split('/')[5]
+      console.log(id)
+      this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
+        (message: any) => { // 'next' callback
+          console.log('Record deleted successfully', message)
+
+          this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+            async (dat: any) => {
+              console.log('Data inserted successfully2', dat)
+              let msg = await dat
+              if (msg) {
+
+              }
+            },
+            (error: any) => { // 'error' callback for insertProgressData
+              console.error('Error inserting progress data:', error)
+            }
+          )
+        },
+        (error: any) => { // 'error' callback for deleteRecordByKey
+          console.error('Error deleting record:', error)
+        }
+      )
+
+
+    }, (error) => {
+      console.log(error, '247')
+      this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
+        (dat: any) => {
+          console.log('Data inserted successfully1', dat)
+
+        })
+    })
+    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE_V3}`, req)
+  }
+
   realTimeProgressUpdateQuiz(contentId: string, collectionId?: string, batchId?: string, status?: number) {
     let req: any
     if (this.configservice.userProfile) {
@@ -285,7 +427,7 @@ export class ViewerUtilService {
           contents: [
             {
               contentId,
-              batchId,
+              batchId: batchId || '',  // **CRITICAL**: Ensure batchId is never undefined
               status: status || 2,
               courseId: collectionId,
               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
@@ -349,12 +491,15 @@ export class ViewerUtilService {
     value["version"] = ""
     value['rollup'] = objRollup
     const extras: any = {}
+    // **CRITICAL**: Send progress percentage (for tracking) and status code (0/1/2) separately
+    // batchId from contentData parameter should be included in telemetry
+    const batchIdValue = contentData?.batchId || ''
     extras['values'] = [
       {
         "identifier": contentData?.contentId || '',
         "progress": contentData?.completionPercentage || contentData?.percentage || 0,
-        "batchId": contentData?.batchId || '',
-        "status": contentData?.status || 1
+        "batchId": batchIdValue,  // **CRITICAL**: batchId from contentData should be forwarded to extras
+        "status": contentData?.status || 1  // **CRITICAL**: Use actual status code (0/1/2), not progress percentage
       }
     ]
     this.events.raiseInteractTelemetry(

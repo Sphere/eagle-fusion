@@ -114,7 +114,7 @@
             <span>
               {{ content.title | pipeLimitTo: 20 }}
             </span>
-            <mat-icon *ngIf="content.disabledNode">lock</mat-icon>
+            <mat-icon *ngIf="content.disabledNode && content?.completionPercentage !== 100">lock</mat-icon>
             <mat-icon *ngIf="
                 content?.completionPercentage === 100
               " i18n-matTooltip matTooltip="Completed" class="completed-icon margin-left-xs align-self-start">

@@ -103,7 +103,7 @@ export class YoutubeComponent implements OnInit, OnDestroy {
           userId,
           batchId: this.batchId,
           courseId: collectionId || '',
-          contentIds: [],
+          contentIds: [videoId],
           fields: ['progressdetails'],
         },
       }

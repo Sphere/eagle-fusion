@@ -150,7 +150,7 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
           current: this.current,
           max_size: this.slides.length,
         }
-        this.viewerSvc.realTimeProgressUpdate(id, realTimeProgressRequest)
+        this.viewerSvc.realTimeProgressUpdateV3(id, realTimeProgressRequest)
       }
     }
   }

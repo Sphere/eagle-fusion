@@ -10,6 +10,7 @@ import { LoggerService } from './logger.service'
 // import { environment } from 'src/environments/environment'
 import { HttpClient } from '@angular/common/http'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { ConfigCacheService } from 'src/app/services/config-cache.service'
 
 declare var $t: any
 
@@ -17,7 +18,7 @@ declare var $t: any
   providedIn: 'root',
 })
 export class TelemetryService {
-  private baseUrl = 'assets/configurations'
+  // private baseUrl = 'assets/configurations'
 
   previousUrl: string | null = null
   telemetryConfig: NsInstanceConfig.ITelemetryConfig | null = null
@@ -31,6 +32,7 @@ export class TelemetryService {
     // private orgService: OrgServiceService,
     private http: HttpClient,
     private configSvc: ConfigurationsService,
+    private configCacheSvc: ConfigCacheService,
     private eventsSvc: EventService,
     // private authSvc: AuthKeycloakService,
     // private envSvc : environment,
@@ -264,9 +266,7 @@ export class TelemetryService {
     }
   }
   async getTelemetryConfig() {
-    const publicConfig: NsInstanceConfig.IConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.baseUrl}/host.config.json`)
-      .toPromise()
+    const publicConfig: NsInstanceConfig.IConfig = await this.configCacheSvc.getHostConfig().toPromise()
     const instanceConfig = publicConfig
     this.telemetryConfig = instanceConfig.telemetryConfig
     this.telemetryConfig = {

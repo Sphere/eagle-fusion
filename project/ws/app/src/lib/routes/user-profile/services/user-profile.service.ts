@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable, BehaviorSubject } from 'rxjs'
+import { Observable, BehaviorSubject, of } from 'rxjs'
+import { map, retry, tap } from 'rxjs/operators'
+import { UserDataCacheService } from 'src/app/services/user-data-cache.service'
 import {
   IUserProfileDetails,
   ILanguagesApiData,
   INationalityApiData,
   IUserProfileDetailsFromRegistry,
 } from '../models/user-profile.model'
-import { map, retry } from 'rxjs/operators'
 
 const API_ENDPOINTS = {
   // updateProfileDetails: '/apis/protected/v8/user/profileRegistry/updateUserRegistry',
@@ -43,9 +44,27 @@ export class UserProfileService {
   public _updateuser = new BehaviorSubject<any>(undefined)
   // Observable navItem stream
   updateuser$ = this._updateuser.asObservable()
-  constructor(private http: HttpClient) { }
+
+  // Cache to store user details by user ID to prevent repeated API calls
+  private userDetailsCache = new Map<string, any>()
+
+  constructor(
+    private http: HttpClient,
+    private userDataCacheSvc: UserDataCacheService,
+  ) {
+  }
+
   updateProfileDetails(data: any) {
-    return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data)
+    return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data).pipe(
+      tap((response: any) => {
+        console.log('[UserProfileService] Profile updated, clearing all user caches', response)
+        // Clear all user caches since profile was updated
+        this.userDetailsCache.clear()
+        this.userDataCacheSvc.clearUserData()
+        // Emit update event - components listening to this can refresh global caches
+        this._updateuser.next(response)
+      })
+    )
   }
   getUserdetails(email: string | undefined): Observable<[IUserProfileDetails]> {
     return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.getUserdetails, { email })
@@ -106,11 +125,33 @@ export class UserProfileService {
   //   return this.http.get<[IUserProfileDetailsFromRegistry]>(API_ENDPOINTS.getUserdetailsFromRegistry)
   // }
   getUserdetailsFromRegistry(wid: string): Observable<[IUserProfileDetailsFromRegistry]> {
-    return this.http
-      .get<[IUserProfileDetailsFromRegistry]>(`${API_ENDPOINTS.getUserdetailsFromRegistry}/${wid}`)
+    // Check if data is already cached for this user (in-memory)
+    if (this.userDetailsCache.has(wid)) {
+      const cachedData = this.userDetailsCache.get(wid)
+      console.log(`[UserProfileService] Returning cached user details for ${wid}`)
+      return of(cachedData)
+    }
+
+    // Check global user data cache from UserDataCacheService
+    const globalCachedData = this.userDataCacheSvc.getCachedUserData()
+    if (globalCachedData && globalCachedData.userId) {
+      console.log(`[UserProfileService] Using user details from global UserDataCache`)
+      this.userDetailsCache.set(wid, globalCachedData)
+      return of(globalCachedData)
+    }
+
+    // If not cached, fetch from API and cache the result
+    return this.http.get<[IUserProfileDetailsFromRegistry]>(`${API_ENDPOINTS.getUserdetailsFromRegistry}/${wid}`)
       .pipe(
         retry(1),
         map((res: any) => res.result.response),
+        tap((data: any) => {
+          // Cache the result in-memory for fast access
+          this.userDetailsCache.set(wid, data)
+          // Also cache globally using UserDataCacheService (which handles session storage and 6-hour expiration)
+          this.userDataCacheSvc.setUserData(data)
+          console.log(`[UserProfileService] Cached user details for ${wid} in global cache`)
+        }),
       )
   }
   getAllDepartments() {
@@ -174,5 +215,28 @@ export class UserProfileService {
       isFilled = false
     }
     return isFilled
+  }
+
+  /**
+   * Clear the cached user details (call this on logout or when user data needs to be refreshed)
+   */
+  clearUserDetailsCache(): void {
+    this.userDetailsCache.clear()
+    // Clear global user data cache
+    this.userDataCacheSvc.clearUserData()
+    console.log('[UserProfileService] User details cache cleared')
+  }
+
+  /**
+   * Force refresh of global user data cache
+   * This should be called after updating profile to ensure cached data is refreshed
+   */
+  refreshGlobalUserDataCache(userDataCacheSvc: any): void {
+    if (userDataCacheSvc) {
+      console.log('[UserProfileService] Refreshing global user data cache')
+      userDataCacheSvc.clearUserData()
+      // Clear per-user cache as well
+      this.userDetailsCache.clear()
+    }
   }
 }

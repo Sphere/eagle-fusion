@@ -90,10 +90,16 @@ export class WebCourseCardComponent implements OnInit {
   raiseTelemetry(data: any) {
     const prefix = this.getLanguagePrefix()
     if (this.configSvc.unMappedUser) {
+      console.log('[WebCourseCard] Fetching user details for:', this.configSvc.unMappedUser.id)
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(50), mergeMap((data: any) => {
         return of(data)
       })).subscribe((userDetails: any) => {
-        if (this.userProfileSvc.isBackgroundDetailsFilled(get(userDetails, 'profileDetails.profileReq'))) {
+        console.log('[WebCourseCard] User details received:', userDetails)
+        const profileReq = get(userDetails, 'profileDetails.profileReq')
+        console.log('[WebCourseCard] Profile request data:', profileReq)
+        const isFilled = this.userProfileSvc.isBackgroundDetailsFilled(profileReq)
+        console.log('[WebCourseCard] Is background details filled:', isFilled)
+        if (isFilled) {
           // Navigate to course with language prefix
           this.router.navigateByUrl(`${prefix}/app/toc/${data.identifier}/overview?primaryCategory=Course`)
         } else {

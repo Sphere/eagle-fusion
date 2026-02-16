@@ -29,6 +29,7 @@ import {
 import { delay, filter, map, takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 import { MobileAppsService } from '../../services/mobile-apps.service'
+import { UserDataCacheService } from '../../services/user-data-cache.service'
 import { RootService } from './root.service'
 import { LoginResolverService } from '../../../../library/ws-widget/resolver/src/public-api'
 import { ExploreResolverService } from './../../../../library/ws-widget/resolver/src/lib/explore-resolver.service'
@@ -113,6 +114,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private titleService: Title,
     private activatedRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
+    private userDataCacheSvc: UserDataCacheService,
     private contentSvc: WidgetContentService,
     private CompetencyConfiService: CompetencyConfiService,
     private UserAgentResolverService: UserAgentResolverService,
@@ -135,6 +137,26 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.navigationInterceptor(event)
       }
     })
+
+    // Subscribe to profile updates and clear cache when profile is modified
+    this.userProfileSvc.updateuser$.subscribe((updatedProfile: any) => {
+      if (updatedProfile) {
+        console.log('[RootComponent] Profile updated, refreshing user data cache', updatedProfile)
+        this.userDataCacheSvc.clearUserData()
+        this.userProfileSvc.clearUserDetailsCache()
+        // Set the updated profile data to session storage and subject
+        if (updatedProfile.request && updatedProfile.request.profileDetails) {
+          // Extract the full profile with the updated details
+          const userData = this.configSvc.unMappedUser || {}
+          if (updatedProfile.request.profileDetails.profileReq) {
+            userData.profileDetails = updatedProfile.request.profileDetails
+          }
+          console.log('[RootComponent] Setting updated user data to cache')
+          this.userDataCacheSvc.setUserData(userData)
+        }
+      }
+    })
+
     this.online$ = merge(
       of(navigator.onLine),
       fromEvent(window, 'online').pipe(mapTo(true)),
