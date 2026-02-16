@@ -143,13 +143,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       learningObjective: this.learningObjective,
       complexityLevel: this.complexityLevel,
       duration: this.duration,
-      timeLimit: this.quizJson.timeLimit,
-      noOfQuestions: this.quizJson.questions.length,
+      timeLimit: this.quizJson?.timeLimit,
+      noOfQuestions: this.quizJson?.questions.length,
       progressStatus: this.progressStatus,
       isNqocnContent: this.isNqocnContent,
       isAssessment: get(this.quizJson, 'isAssessment'),
       subtitle: this.name,
-      passPercentage: (this.quizJson && this.quizJson.hasOwnProperty('passPercentage')) ? this.quizJson.passPercentage : 60,
+      passPercentage: (this.quizJson && this.quizJson.hasOwnProperty('passPercentage')) ? this.quizJson?.passPercentage : 60,
     }
     if (!this.dialogOverview) {
       this.dialog.closeAll()
