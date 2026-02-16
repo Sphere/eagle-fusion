@@ -353,15 +353,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.showNavigation = true
       }
     }
-    await this.playlistSvc.loadPlaylistData()
-    this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
-    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
-    this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
-    if (this.playlistSvc.getSelectedTab() === 'homeTab') {
-      this.showNavbar = true
-      this.videoData = this.configData?.[this.configData?.length - 1]
-      localStorage.setItem('videoData', JSON.stringify(this.videoData))
-    }
+    this.setUpFormData()
 
     this.setPageTitle()
     this.fcSettingsFunc()
@@ -394,6 +386,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log(e)
         } else if (e instanceof NavigationEnd) {
           console.log(e)
+          if (e.url == '/page/home') this.isHomePage = true
         }
       })
       if (window.location.pathname !== '/app/new-tnc')
@@ -419,6 +412,20 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             console.error('Error fetching user details:', err)
           },
         )
+    }
+  }
+
+  async setUpFormData() {
+    if (!this.orgDetails) {
+      await this.playlistSvc.loadPlaylistData()
+    }
+    this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
+    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
+    this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
+    if (this.playlistSvc.getSelectedTab() === 'homeTab') {
+      this.showNavbar = true
+      this.videoData = this.configData?.[this.configData?.length - 1]
+      localStorage.setItem('videoData', JSON.stringify(this.videoData))
     }
   }
 

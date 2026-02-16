@@ -42,7 +42,7 @@ export class WebDashboardComponent implements OnInit {
 
   ngOnInit() {
     console.log(this.configData, 'configData ****** ')
-    this.uiConfig = this.configData[0]
+    this.uiConfig = this.configData?.[0]
     this.dataCarousel = this.uiConfig?.data
     if (this.isEkshamata) {
       this.domain = window.location.hostname
