@@ -560,9 +560,14 @@ export class InitService {
     return this.configSvc.restrictedFeatures
   }
   private async fetchWidgetStatus(): Promise<NsWidgetResolver.IRegistrationsPermissionConfig[]> {
-    const widgetConfigs = await this.http
-      .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`${this.baseUrl}/widgets.config.json`)
-      .toPromise()
+    let widgetConfigs: any
+    try {
+      widgetConfigs = await this.http
+        .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`${this.baseUrl}/widgets.config.json`)
+        .toPromise()
+    } catch (err) {
+      console.log(err)
+    }
     return widgetConfigs
   }
 

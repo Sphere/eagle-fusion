@@ -5,7 +5,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatInputModule } from '@angular/material/input'
 import { ActivatedRoute, Router, RouterModule } from '@angular/router'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import { RouterTestingModule } from '@angular/router/testing'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -47,7 +46,7 @@ describe('PublicLoginComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       declarations: [AlmostDoneComponent],
-      imports: [RouterModule, MatInputModule, MatSnackBarModule, BrowserAnimationsModule, ReactiveFormsModule, RouterTestingModule],
+      imports: [RouterModule, MatInputModule, MatSnackBarModule, ReactiveFormsModule, RouterTestingModule],
       providers: [
         FormBuilder,
         { provide: ConfigurationsService, useValue: mockConfigService },

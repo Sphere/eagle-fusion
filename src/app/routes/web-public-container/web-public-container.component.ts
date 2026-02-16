@@ -37,6 +37,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   featuredCourseIdentifier: any = []
   @Input() userEnrollCourse: any
   @Input() isEkshamata: any
+  @Input() configData: any
   langDialog: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
@@ -46,7 +47,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   CNECourseDisplayConfig: any
   isUpLogin: boolean = false
-  configData: any
+  uiConfig: any
   lang: string = ''
   isXSmall: boolean = false
   constructor(
@@ -67,18 +68,12 @@ export class WebPublicComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
-    let res: any
     if (this.configSvc.userProfile) {
       let plyLsData: any = await this.playlistSvc.getPlaylistConfig()
       console.log("plyLsData", plyLsData)
-      res = this.playlistSvc.getSelectedTab() == 'homeTab' ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.bodyConfig()?.homeTab
-      if (res == '') {
-        res = await this.playlistSvc.loadPlaylistData()
-        this.configData = res?.LAYOUT_BODY?.slice(1, -1)
-      } else {
-        if (res?.length > 0)
-          this.configData = res?.slice(1, -1)
-      }
+      let res = this.configData
+      if (res?.length > 0)
+        this.uiConfig = res?.slice(1, -1)
       plyLsData.forEach(async (element: any) => {
         if (element.orgId == this.configSvc.userProfile.rootOrgId && element.language == this.lang) {
           if (designation && element.role.map(role => role.toLowerCase()).includes(designation.toLowerCase()) && element.playlistId === "YOUR_PLANS_PLAYLIST") {
@@ -98,15 +93,12 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         }
       })
     } else {
-      let res = this.playlistSvc.config()
-      if (res == '') {
-        res = await this.playlistSvc.loadPlaylistData()
-        this.configData = res?.LAYOUT_BODY?.slice(1, -1)
-      } else {
-        this.configData = res.slice(1, -1)
+      let res = this.configData
+      if (res) {
+        this.uiConfig = res.slice(1, -1)
       }
-      if (this.configData)
-        this.configData?.forEach(data => {
+      if (this.uiConfig)
+        this.uiConfig?.forEach(data => {
           if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
             this.topCertifiedCourseIdentifier = data.payload
           } else if (data?.playlistConfigId == 'CNE_COURSE_PLAYLIST') {

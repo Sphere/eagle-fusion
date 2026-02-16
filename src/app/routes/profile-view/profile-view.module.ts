@@ -24,6 +24,7 @@ import { CertificateReceivedComponent } from './certificate-received/certificate
 import { PersonalDetailEditComponent } from './personal-detail-edit/personal-detail-edit.component'
 import { LeadershipDashboardComponent } from './leadership-dashboard/leadership-dashboard.component'
 import { DropdownDobComponent } from '../../component/dropdown-dob/dropdown-dob.component'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @NgModule({
   declarations: [
@@ -54,6 +55,7 @@ import { DropdownDobComponent } from '../../component/dropdown-dob/dropdown-dob.
     MatDatepickerModule,
     MatNativeDateModule,
     MatDividerModule,
+    MatProgressSpinnerModule
   ],
   exports: [
     MobileProfileDashboardComponent,

@@ -6,7 +6,6 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LanguageService } from 'src/app/services/language.service'
 import * as _ from 'lodash'
-import { PlaylistService } from '../../services/playlist.service'
 @Component({
   selector: 'ws-dashboard',
   templateUrl: './web-dashboard.component.html',
@@ -25,14 +24,14 @@ export class WebDashboardComponent implements OnInit {
   public intervalId: any
   lang: any = 'en'
   domain!: any
-  configData: any
+  @Input() configData: any
+  uiConfig: any
   constructor(
     public router: Router,
     public dialog: MatDialog,
     public scrollService: ScrollService,
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
-    private playlistSvc: PlaylistService,
     private languageSvc: LanguageService,
   ) {
 
@@ -42,24 +41,11 @@ export class WebDashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    let res: any
-    if (this.playlistSvc.getSelectedTab() == 'homeTab') {
-      res = this.playlistSvc.selectedTabConfig()
-    } else {
-      res = this.playlistSvc.bodyConfig()?.homeTab
-    }
-    if (res === "") {
-      this.playlistSvc.loadPlaylistData().then(() => {
-        this.configData = this.playlistSvc.selectedTabConfig()[0]
-        this.dataCarousel = this.configData?.data
-      })
-    } else {
-      this.configData = res?.[0]
-      this.dataCarousel = this.configData?.data
-    }
+    console.log(this.configData, 'configData ****** ')
+    this.uiConfig = this.configData[0]
+    this.dataCarousel = this.uiConfig?.data
     if (this.isEkshamata) {
       this.domain = window.location.hostname
-
       console.log("yes here", this.isEkshamata)
       if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
         console.log("yes here2 ", this.configSvc.hostedInfo)
@@ -68,11 +54,7 @@ export class WebDashboardComponent implements OnInit {
         console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
       }
     }
-    if (this.configSvc &&
-      this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.preferences &&
-      this.configSvc.unMappedUser.profileDetails.preferences.language) {
+    if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
       this.lang = this.configSvc.unMappedUser.profileDetails.preferences.language
     } else {
       this.lang = this.languageSvc.getCurrentLanguage()

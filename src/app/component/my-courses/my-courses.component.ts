@@ -42,15 +42,16 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.lang = this.langSvc.getCurrentLanguage()
     this.isLoading = true
-
     // Load playlist configs
     this.plyLsData = await this.playlistSvc.getPlaylistConfig()
     let res = this.playlistSvc.selectedTabConfig()
     if (res == '') {
       res = await this.playlistSvc.loadPlaylistData()
       this.config = res?.LAYOUT_BODY?.sections?.courseTab
+      this.isLoading = false
     } else {
       this.config = res
+      this.isLoading = false
     }
 
     sessionStorage.removeItem('cURL')

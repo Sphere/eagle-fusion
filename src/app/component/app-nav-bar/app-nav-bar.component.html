@@ -4,9 +4,8 @@
   <div *ngIf="mode === 'top'" class="logo-container flex items-center">
     <a (click)="goHomePage()" matTooltip="Home" class="logo-dim">
       <div class="flex">
-        <img [src]="appIcon" loading="lazy" alt="Application Logo" id="app-logo" class="app-logo" />
-        <img *ngIf="orgLogo" [src]="orgLogo" loading="lazy" alt="Application Logo" id="app-logo"
-          class="app-logo ml-4" />
+        <img *ngIf="appIcon" [src]="appIcon" loading="lazy" alt="Application Logo" id="app-logo" class="app-logo" />
+        <img *ngIf="orgLogo" [src]="orgLogo" loading="lazy" alt="Org Logo" id="app-logo" class="app-logo ml-4" />
       </div>
     </a>
 

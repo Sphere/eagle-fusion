@@ -119,6 +119,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
         ? menuItem?.filter(item => this.config.mobileMenuItems.includes(item.id))
         : menuItem?.filter(item => this.config.webMenuItems.includes(item.id))
     }
+    this.appIcon = this.orgData?.appLogo
+    this.orgLogo = this.orgData?.foundationLogo
   }
 
   async ngOnInit() {
@@ -156,15 +158,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
 
     if (this.configSvc.instanceConfig) {
-      if (localStorage.getItem('orgValue') === 'nhsrc') {
-        this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.orgData?.foundationLogo,
-        )
-      } else {
-        this.appIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
-          this.orgData?.foundationLogo,
-        )
-      }
       this.instanceVal = this.configSvc.rootOrg || ''
       if (this.configSvc.instanceConfig.logos.appBottomNav) {
         this.appBottomIcon = this.domSanitizer.bypassSecurityTrustResourceUrl(
@@ -188,12 +181,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       }
     })
     this.domain = window.location.hostname
-
-    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
-      console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
-      this.appIcon = this.orgData.appLogo
-      this.orgLogo = this.orgData.foundationLogo
-    }
   }
 
   createAcct() {

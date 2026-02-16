@@ -19,12 +19,13 @@
       </div>
     </mat-tab>
   </mat-tab-group>
-</div>
-<div class="overlay" *ngIf="isLoading">
-  <div class="loader-container">
-    <div class="loader-ripple">
-      <div></div>
-      <div></div>
+  <div class="overlay" *ngIf="isLoading" aria-live="polite">
+    <div class="loader-container">
+      <div class="loader-ripple">
+        <div></div>
+        <div></div>
+      </div>
     </div>
   </div>
+
 </div>

@@ -6,7 +6,7 @@
   <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn && orgDetails"
     [orgConfig]="orgDetails"></ws-app-public-nav-bar>
   <!-- Logged-In header -->
-  <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired" [hidden]="!showNavbar" [mode]="'top'"></ws-app-nav-bar>
+  <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired && showNavbar" [mode]="'top'"></ws-app-nav-bar>
 
   <!-- dashboard and body for mobile and web-->
   <div class="height-adjust" [ngClass]="{
@@ -14,10 +14,11 @@
       'height-adjust-setup': isSetupPage,
       'height-on-top': !isXSmall$ && showNavbar && isNavBarRequired
     }">
-    <ws-dashboard class="mb-6" *ngIf="isLoggedIn&&isHomePage"></ws-dashboard>
+    <ws-dashboard class="mb-6" *ngIf="isLoggedIn && isHomePage && bodyConfig" [configData]="bodyConfig"></ws-dashboard>
     <!-- Featured Section-->
-    <section *ngIf="isHomePage && userEnrollCourse">
-      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
+    <section *ngIf="isHomePage && bodyConfig">
+      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+        [configData]="bodyConfig"></ws-web-public-container>
     </section>
     <router-outlet *ngIf="appOnline"></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
@@ -26,8 +27,8 @@
   </div>
 
   <!-- Featured Section-->
-  <section *ngIf="isHomePage && !isLoggedIn">
-    <ws-web-public-container [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
+  <section *ngIf="isHomePage && !isLoggedIn && bodyConfig">
+    <ws-web-public-container [userEnrollCourse]="userEnrollCourse" [configData]="bodyConfig"></ws-web-public-container>
   </section>
 
   <!-- How does it Works -->
@@ -69,7 +70,7 @@
     </div>
     <!-- Featured Section-->
     <section *ngIf="!isXSmall$&&isHomePage">
-      <ws-web-public-container [isEkshamata]="isEkshamata"
+      <ws-web-public-container [isEkshamata]="isEkshamata" [configData]="bodyConfig"
         [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
     </section>
     <!-- Desktop Footer -->

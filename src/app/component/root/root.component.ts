@@ -96,6 +96,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   private routerEventsSubscription: Subscription
   isEkshamata: boolean = false
   domain: string
+  bodyConfig: any
   constructor(
     private router: Router,
     public authSvc: AuthKeycloakService,
@@ -333,7 +334,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     await this.playlistSvc.loadPlaylistData()
     this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
     this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
+    this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
     if (this.playlistSvc.getSelectedTab() === 'homeTab') {
+      this.showNavbar = true
       this.videoData = this.configData?.[this.configData?.length - 1]
       localStorage.setItem('videoData', JSON.stringify(this.videoData))
     }

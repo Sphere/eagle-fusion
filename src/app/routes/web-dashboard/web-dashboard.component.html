@@ -4,10 +4,10 @@
     <!-- ================= Banner Text ================= -->
     <div class="banner-heading-container">
       <div class="heading">
-        <div class="banner-mini-heading">{{ configData?.title | translate }}</div>
+        <div class="banner-mini-heading">{{ uiConfig?.title | translate }}</div>
         <div class="banner-heading"><span>{{ firstName || '' | translate }}</span></div>
       </div>
-      <div class="banner-sub-heading">{{ configData?.subTitle | translate }}</div>
+      <div class="banner-sub-heading">{{ uiConfig?.subTitle | translate }}</div>
     </div>
     <!-- ================= Ekshamata Banner ================= -->
     <div *ngIf="isEkshamata" class="ekshamta-banner-container">

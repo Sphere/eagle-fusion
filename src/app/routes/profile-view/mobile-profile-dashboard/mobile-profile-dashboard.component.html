@@ -1,5 +1,5 @@
-<div *ngIf="loader" class="mt-20 flex flex-center ">
-  <mat-spinner></mat-spinner>
+<div *ngIf="loader" class="mt-20 flex flex-center">
+  <mat-spinner diameter="48" style="--mdc-circular-progress-active-indicator-color: #000"></mat-spinner>
 </div>
 <div class="content" *ngIf="!loader" [ngStyle]="!showbackButton ? {'display': 'flex' } : {}">
   <ws-mobile-profile-nav *ngIf="!showbackButton" [hidden]="hideData" [navigateTohome]="navigateTohome"

@@ -42,8 +42,10 @@ export class PlaylistService {
   }
 
   async loadPlaylistData(force = false): Promise<any> {
-    if (this.playlistData() && !force) {
-      return this.playlistData()
+    // Return cached data if available and force is false
+    const cachedData = this.playlistData()
+    if (cachedData && !force) {
+      return cachedData
     }
 
     const body = {
@@ -52,18 +54,23 @@ export class PlaylistService {
         subtype: 'v1',
         action: 'get',
         component: 'web',
-        rootOrgId: this.configSvc?.userProfile?.rootOrgId || '*'
-      }
+        rootOrgId: this.configSvc?.userProfile?.rootOrgId || '*',
+      },
     }
 
-    const response: any = await this.http
-      .post(`/apis/v1/form/read?v=${new Date().getTime()}`, body)
-      .toPromise()
+    try {
+      const response: any = await this.http
+        .post(`/apis/v1/form/read?v=${Date.now()}`, body)
+        .toPromise()
 
-    const data = response?.result?.form?.data ?? null
-    this.playlistData.set(data)
+      const data = response?.result?.form?.data ?? null
+      this.playlistData.set(data)
 
-    return data
+      return data
+    } catch (error) {
+      console.error('Failed to load playlist data', error)
+      return null
+    }
   }
 
   async getPlaylistConfig(): Promise<any> {

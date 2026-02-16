@@ -13,6 +13,15 @@ export class AppInterceptorService implements HttpInterceptor {
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
+    // Skip interceptor for external CORS URLs (CloudFront, S3, etc)
+    // These URLs should not have custom headers to avoid CORS preflight failures
+    const isExternalUrl = req.url.startsWith('https://static.') ||
+      req.url.startsWith('https://sunbirdcontent.s3') ||
+      req.url.startsWith('https://') && !req.url.includes(window.location.hostname)
+
+    if (isExternalUrl) {
+      return next.handle(req)
+    }
     if (req.url.endsWith('/api/course/v1/content/state/read') || req.url.endsWith("/apis/public/v8/mobileApp/v2/updateProgress")) {
       return next.handle(req)
     }
