@@ -792,3 +792,7 @@ color: #7B6961;
     justify-content: center;
 }
 
+.list-items {
+  flex-direction: column;
+  display: flex;
+}
