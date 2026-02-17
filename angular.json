@@ -148,6 +148,7 @@
                 "file-saver",
                 "moment",
                 "lodash",
+                "@project-sunbird/client-services",
                 "@aastrika_npmjs/discussions-ui-v8"
               ],
               "budgets": [

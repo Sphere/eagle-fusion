@@ -3340,6 +3340,17 @@
   resolved "https://registry.npmjs.org/@popperjs/core/-/core-2.11.8.tgz#6b79032e760a0899cd4204710beede972a3a185f"
   integrity sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==
 
+"@project-sunbird/client-services@3.9.5":
+  version "3.9.5"
+  resolved "https://registry.yarnpkg.com/@project-sunbird/client-services/-/client-services-3.9.5.tgz#c9e56d2ec1ca636184f275446e4b820f2739afb8"
+  integrity sha512-v9L3pfVSs5TDv+psO/jlzvO++SpWhLxHRMUoOnPAH7DIBaOO0pWOLUvMQ7aTfg2IDnzpixFyR+8BiupnoW6wSQ==
+  dependencies:
+    "@project-sunbird/telemetry-sdk" "0.0.26"
+    inversify "^5.0.1"
+    qs "^6.9.4"
+    reflect-metadata "^0.1.13"
+    whatwg-fetch "^3.1.0"
+
 "@project-sunbird/client-services@^3.4.9":
   version "3.9.7"
   resolved "https://registry.npmjs.org/@project-sunbird/client-services/-/client-services-3.9.7.tgz#362d88cd53dfb98652754e2cfa8cacc99a8970fe"

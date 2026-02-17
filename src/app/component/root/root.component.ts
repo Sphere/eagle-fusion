@@ -49,6 +49,7 @@ import { WidgetUserService } from '../../../../library/ws-widget/collection/src/
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
 import { TranslateService } from '@ngx-translate/core'
 import { PlaylistService } from '../../services/playlist.service'
+import { CsModule } from '@project-sunbird/client-services'
 
 @Component({
   selector: 'ws-root',
@@ -88,8 +89,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   disableChatForBnrc = false
   showMobileDashboard = true
   isCommonChatEnabled = true
-  online$: Observable<boolean>
-  appOnline: boolean = true  // Initialize to true so router-outlet renders immediately
+  online$: Observable<boolean> = of(true)
+  appOnline: boolean = true
   paramsJSON!: string
   videoData: any = []
   configData: any
@@ -170,6 +171,49 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     effect(() => {
       this.isXSmall$ = this.valueSvc.isMobile()
+    })
+    const locationOrigin = location.origin
+    CsModule.instance.init({
+      core: {
+        httpAdapter: 'HttpClientBrowserAdapter',
+        global: {
+          channelId: '', // required
+          producerId: '', // required
+          deviceId: '', // required
+          sessionId: '',
+        },
+        api: {
+          host: `${locationOrigin}/apis/proxies/v8`, // default host
+          // host: 'http://localhost:3004/proxies/v8', // default host
+          // host: 'http://localhost:3002', // default host
+          authentication: {
+            // bearerToken: "", // optional
+            // userToken: "5574b3c5-16ca-49d8-8059-705304f2c7fb"
+            // bearerToken: this.loginToken,
+            // optional
+          },
+        },
+      },
+      services: {
+        groupServiceConfig: {
+          apiPath: '/learner/group/v1',
+          dataApiPath: '/learner/data/v1/group',
+          updateGroupGuidelinesApiPath: '/learner/group/membership/v1',
+        },
+        userServiceConfig: {
+          apiPath: '/learner/user/v2',
+        },
+        formServiceConfig: {
+          apiPath: '/learner/data/v1/form',
+        },
+        courseServiceConfig: {
+          apiPath: '/learner/course/v1',
+          certRegistrationApiPath: '/learner/certreg/v2/certs',
+        },
+        discussionServiceConfig: {
+          apiPath: '/discussion',
+        },
+      },
     })
   }
   ngOnDestroy() {

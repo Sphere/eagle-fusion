@@ -136,8 +136,10 @@ export class InitService {
     // }
     // Invalid User
     try {
-      // Skip user data fetch for public routes - no session/cookie available
-      // Only load user data for authenticated (non-public) routes
+      // Always attempt to load user data from cache or API, regardless of route
+      // This ensures user data is available for all routes (public and private)
+
+      // Only call fetchStartUpDetails for non-public routes to avoid redundant API calls
       if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
         await this.loadUserDataIfAvailable()
         await this.fetchStartUpDetails() // detail: depends only on userID
