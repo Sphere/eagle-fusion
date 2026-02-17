@@ -89,7 +89,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   showMobileDashboard = true
   isCommonChatEnabled = true
   online$: Observable<boolean>
-  appOnline: boolean | undefined
+  appOnline: boolean = true  // Initialize to true so router-outlet renders immediately
   paramsJSON!: string
   videoData: any = []
   configData: any
