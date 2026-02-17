@@ -11,6 +11,7 @@ import { PlaylistService } from '../../services/playlist.service'
 })
 export class AppFooterComponent implements OnInit {
   @Input() isEkshamata = false
+  @Input() config: any
   isXSmall = false
   termsOfUser = true
   appIcon: SafeUrl | null = null
@@ -27,11 +28,16 @@ export class AppFooterComponent implements OnInit {
   ) {
     this.isLoggedIn = !!this.configSvc.userProfile
     this.termsOfUser = !this.configSvc.restrictedFeatures?.has('termsOfUser')
-    this.orgData = this.playlistSvc.orgDetails()
-    let res = this.playlistSvc.footerConfig()
-    console.log('********* playlist data in nav bar ', res)
-    this.configData = res
-    this.appIcon = this.orgData?.appLogo
+    if (this.config) {
+      this.appIcon = this.config?.appLogo
+      this.configData = this.config
+    } else {
+      this.orgData = this.playlistSvc.orgDetails()
+      let res = this.playlistSvc.footerConfig()
+      console.log('********* playlist data in nav bar ', res)
+      this.configData = res
+      this.appIcon = this.orgData?.appLogo
+    }
   }
 
   ngOnInit() {
