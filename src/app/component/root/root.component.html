@@ -16,7 +16,7 @@
     }">
     <ws-dashboard class="mb-6" *ngIf="isLoggedIn && isHomePage && bodyConfig" [configData]="bodyConfig"></ws-dashboard>
     <!-- Featured Section-->
-    <section *ngIf="isHomePage && bodyConfig">
+    <section *ngIf="isHomePage && isLoggedIn && bodyConfig">
       <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
         [configData]="bodyConfig"></ws-web-public-container>
     </section>

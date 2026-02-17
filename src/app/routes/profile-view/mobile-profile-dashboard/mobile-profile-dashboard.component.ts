@@ -559,6 +559,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   openProfileDialog(): void {
     const dialogRef = this.dialog.open(ProfileSelectComponent, {
       width: '600px',
+      panelClass: 'edit-profile-popup'
     })
     dialogRef.afterClosed().subscribe(result => {
       // tslint:disable-next-line: no-console
