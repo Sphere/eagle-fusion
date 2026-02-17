@@ -301,3 +301,7 @@ color: #000000;
 ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
 }
+
+mat-progress-bar {
+  --mdc-linear-progress-track-color: #ededed !important;
+}

@@ -641,3 +641,12 @@ font-weight: 500;
     }
   }
 }
+
+::ng-deep .edit-profile-popup {
+  mat-dialog-container {
+    .mat-mdc-dialog-surface.mdc-dialog__surface {
+      padding: 5%;
+      border-radius: 15px !important;
+    }
+  }
+}

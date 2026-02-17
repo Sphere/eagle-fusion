@@ -1182,3 +1182,17 @@ ws-app-home {
   }
 
 }
+
+ws-public-toc {
+  .mat-mdc-tab-group .mat-mdc-tab-labels {
+    justify-content: flex-start !important;
+  }
+
+  .mat-mdc-tab {
+    flex-grow: 0 !important;
+  }
+
+  .mat-mdc-tab-header {
+    border-bottom: 1px solid #dfdfdf !important;
+  }
+}

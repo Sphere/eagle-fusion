@@ -13,7 +13,7 @@
         [ngClass]="{'ws-mat-primary-text link-active': routelinK === 'chapters'}" id="content-link" wsAppRetainScroll>Chapters</a>
     </nav> -->
 
-    <mat-tab-group mat-align-tabs="start">
+    <mat-tab-group mat-align-tabs="start" [mat-stretch-tabs]="false">
       <mat-tab label="Overview">
         <ws-public-toc-overview [tocData]="tocData"></ws-public-toc-overview>
       </mat-tab>

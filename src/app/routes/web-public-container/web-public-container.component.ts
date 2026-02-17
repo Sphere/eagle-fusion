@@ -169,7 +169,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         content.filter(item => featureSet.has(item.identifier)),
         'identifier'
       )
-      let data = this.userEnrollCourse.filter(item => this.yourPlansCourseIdentifier?.includes(item.identifier))
+      let data = this.userEnrollCourse?.filter(item => this.yourPlansCourseIdentifier?.includes(item.identifier))
       if (this.configData) {
         const completed = data?.filter(item => item.completionPercentage === 100)
         const incomplete = data?.filter(item => item.completionPercentage !== 100)
