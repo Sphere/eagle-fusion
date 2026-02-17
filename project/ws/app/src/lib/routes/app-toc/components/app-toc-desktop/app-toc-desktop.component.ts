@@ -132,7 +132,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private telemetrySvc: TelemetryService
   ) {
   }
-  @HostListener('window:popstate', ['$event'])
+  @HostListener('window:popstate', [])
   onPopState() {
     let url = sessionStorage.getItem('cURL') || '/page/home'
     if (url) {

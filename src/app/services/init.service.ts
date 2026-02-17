@@ -138,10 +138,10 @@ export class InitService {
     try {
       // Always attempt to load user data from cache or API, regardless of route
       // This ensures user data is available for all routes (public and private)
-      await this.loadUserDataIfAvailable()
 
       // Only call fetchStartUpDetails for non-public routes to avoid redundant API calls
       if ((location.pathname.indexOf('/public') < 0) && (location.pathname.indexOf('/app/create-account') < 0)) {
+        await this.loadUserDataIfAvailable()
         await this.fetchStartUpDetails() // detail: depends only on userID
         this.domain = window.location.hostname
         if (this.domain.includes('ekshamata')) {
