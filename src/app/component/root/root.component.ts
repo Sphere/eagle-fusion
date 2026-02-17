@@ -386,7 +386,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           console.log(e)
         } else if (e instanceof NavigationEnd) {
           console.log(e)
-          this.isHomePage = (e.url == '/page/home') ? true : false
+          this.isHomePage = (e.url == '/page/home' || e.url == '/public/home') ? true : false
         }
       })
       if (window.location.pathname !== '/app/new-tnc')
