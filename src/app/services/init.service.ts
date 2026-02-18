@@ -469,8 +469,9 @@ export class InitService {
       const url = local === 'hi' ? `/feature/apps.${'hi'}.json` : `/feature/apps.json`
       console.log(local, 'local', url)
       const appsConfig = await this.http
-        .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}${url}`)
+        .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}${url}`, { responseType: 'json' })
         .toPromise()
+        .catch(() => ({ features: {}, groups: [], tourGuide: {} } as NsAppsConfig.IAppsConfig))
       return appsConfig
     } catch (err) {
       this.logger.error('Error fetching apps config:', err)
@@ -589,13 +590,16 @@ export class InitService {
     // TODO: use the rootOrg and org to fetch the instance
     try {
       const publicConfig = await this.http
-        .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
+        .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`, { responseType: 'json' })
         .toPromise()
-      this.configSvc.instanceConfig = publicConfig
-      this.configSvc.rootOrg = publicConfig.rootOrg
-      this.configSvc.org = publicConfig.org
-      this.configSvc.activeOrg = publicConfig.org[0]
-      this.updateAppIndexMeta()
+        .catch(() => ({} as NsInstanceConfig.IConfig))
+      if (publicConfig && publicConfig.rootOrg) {
+        this.configSvc.instanceConfig = publicConfig
+        this.configSvc.rootOrg = publicConfig.rootOrg
+        this.configSvc.org = publicConfig.org
+        this.configSvc.activeOrg = publicConfig.org[0]
+        this.updateAppIndexMeta()
+      }
       return publicConfig
     } catch (err) {
       this.logger.error('Error fetching instance config:', err)
@@ -607,10 +611,11 @@ export class InitService {
     // TODO: use the rootOrg and org to fetch the features
     try {
       const featureConfigs = await this.http
-        .get<IFeaturePermissionConfigs>(`${this.baseUrl}/features.config.json`)
+        .get<IFeaturePermissionConfigs>(`${this.baseUrl}/features.config.json`, { responseType: 'json' })
         .toPromise()
+        .catch(() => ({} as IFeaturePermissionConfigs))
       this.configSvc.restrictedFeatures = new Set(
-        Object.entries(featureConfigs)
+        Object.entries(featureConfigs || {})
           .filter(
             ([_k, v]) => !hasPermissions(v, this.configSvc.userRoles, this.configSvc.userGroups),
           )
@@ -627,8 +632,9 @@ export class InitService {
     let widgetConfigs: any = []
     try {
       widgetConfigs = await this.http
-        .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`${this.baseUrl}/widgets.config.json`)
+        .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`${this.baseUrl}/widgets.config.json`, { responseType: 'json' })
         .toPromise()
+        .catch(() => [] as NsWidgetResolver.IRegistrationsPermissionConfig[])
     } catch (err) {
       this.logger.error('Error fetching widget status:', err)
       widgetConfigs = []
