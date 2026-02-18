@@ -195,7 +195,7 @@ export class InitService {
        */
       const appsConfig = appsConfigPromise
       this.configSvc.appsConfig = this.processAppsConfig(appsConfig)
-      if (this.configSvc.instanceConfig) {
+      if (this.configSvc.instanceConfig && appsConfig && appsConfig.features) {
         this.configSvc.instanceConfig.featuredApps = this.configSvc.instanceConfig.featuredApps.filter(
           id => appsConfig.features[id],
         )
@@ -456,21 +456,26 @@ export class InitService {
   }
 
   private async fetchAppsConfig(): Promise<NsAppsConfig.IAppsConfig> {
-    let local: any
-    // Language is managed via LanguageService and ngx-translate
-    // Get language from user preferences or localStorage
-    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) {
-      local = this.configSvc.unMappedUser.profileDetails.preferences.language === 'hi' ? 'hi' : ''
-    } else {
-      local = localStorage.getItem('language') === 'hi' ? 'hi' : ''
-    }
+    try {
+      let local: any
+      // Language is managed via LanguageService and ngx-translate
+      // Get language from user preferences or localStorage
+      if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) {
+        local = this.configSvc.unMappedUser.profileDetails.preferences.language === 'hi' ? 'hi' : ''
+      } else {
+        local = localStorage.getItem('language') === 'hi' ? 'hi' : ''
+      }
 
-    const url = local === 'hi' ? `/feature/apps.${'hi'}.json` : `/feature/apps.json`
-    console.log(local, 'local', url)
-    const appsConfig = await this.http
-      .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}${url}`)
-      .toPromise()
-    return appsConfig
+      const url = local === 'hi' ? `/feature/apps.${'hi'}.json` : `/feature/apps.json`
+      console.log(local, 'local', url)
+      const appsConfig = await this.http
+        .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}${url}`)
+        .toPromise()
+      return appsConfig
+    } catch (err) {
+      this.logger.error('Error fetching apps config:', err)
+      return { features: {}, groups: [], tourGuide: {} } as NsAppsConfig.IAppsConfig
+    }
   }
 
   private async fetchStartUpDetails(): Promise<any> {
@@ -582,60 +587,84 @@ export class InitService {
 
   private async fetchInstanceConfig(): Promise<NsInstanceConfig.IConfig> {
     // TODO: use the rootOrg and org to fetch the instance
-    const publicConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
-      .toPromise()
-    this.configSvc.instanceConfig = publicConfig
-    this.configSvc.rootOrg = publicConfig.rootOrg
-    this.configSvc.org = publicConfig.org
-    this.configSvc.activeOrg = publicConfig.org[0]
-    this.updateAppIndexMeta()
-    return publicConfig
+    try {
+      const publicConfig = await this.http
+        .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
+        .toPromise()
+      this.configSvc.instanceConfig = publicConfig
+      this.configSvc.rootOrg = publicConfig.rootOrg
+      this.configSvc.org = publicConfig.org
+      this.configSvc.activeOrg = publicConfig.org[0]
+      this.updateAppIndexMeta()
+      return publicConfig
+    } catch (err) {
+      this.logger.error('Error fetching instance config:', err)
+      return {} as NsInstanceConfig.IConfig
+    }
   }
 
   private async fetchFeaturesStatus(): Promise<Set<string>> {
     // TODO: use the rootOrg and org to fetch the features
-    const featureConfigs = await this.http
-      .get<IFeaturePermissionConfigs>(`${this.baseUrl}/features.config.json`)
-      .toPromise()
-    this.configSvc.restrictedFeatures = new Set(
-      Object.entries(featureConfigs)
-        .filter(
-          ([_k, v]) => !hasPermissions(v, this.configSvc.userRoles, this.configSvc.userGroups),
-        )
-        .map(([k]) => k),
-    )
-    return this.configSvc.restrictedFeatures
+    try {
+      const featureConfigs = await this.http
+        .get<IFeaturePermissionConfigs>(`${this.baseUrl}/features.config.json`)
+        .toPromise()
+      this.configSvc.restrictedFeatures = new Set(
+        Object.entries(featureConfigs)
+          .filter(
+            ([_k, v]) => !hasPermissions(v, this.configSvc.userRoles, this.configSvc.userGroups),
+          )
+          .map(([k]) => k),
+      )
+      return this.configSvc.restrictedFeatures
+    } catch (err) {
+      this.logger.error('Error fetching features status:', err)
+      this.configSvc.restrictedFeatures = new Set()
+      return this.configSvc.restrictedFeatures
+    }
   }
   private async fetchWidgetStatus(): Promise<NsWidgetResolver.IRegistrationsPermissionConfig[]> {
-    let widgetConfigs: any
+    let widgetConfigs: any = []
     try {
       widgetConfigs = await this.http
         .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`${this.baseUrl}/widgets.config.json`)
         .toPromise()
     } catch (err) {
-      console.log(err)
+      this.logger.error('Error fetching widget status:', err)
+      widgetConfigs = []
     }
     return widgetConfigs
   }
 
   private processWidgetStatus(widgetConfigs: NsWidgetResolver.IRegistrationsPermissionConfig[]) {
-    this.configSvc.restrictedWidgets = new Set(
-      widgetConfigs
-        .filter(u =>
-          hasPermissions(
-            u.widgetPermission,
-            this.configSvc.userRoles,
-            this.configSvc.userGroups,
-            this.configSvc.restrictedFeatures,
-          ),
-        )
-        .map(u => WidgetResolverService.getWidgetKey(u)),
-    )
+    try {
+      if (!widgetConfigs || !Array.isArray(widgetConfigs)) {
+        this.configSvc.restrictedWidgets = new Set()
+        return this.configSvc.restrictedWidgets
+      }
+      this.configSvc.restrictedWidgets = new Set(
+        widgetConfigs
+          .filter(u =>
+            hasPermissions(
+              u.widgetPermission,
+              this.configSvc.userRoles,
+              this.configSvc.userGroups,
+              this.configSvc.restrictedFeatures,
+            ),
+          )
+          .map(u => WidgetResolverService.getWidgetKey(u)),
+      )
+    } catch (err) {
+      this.logger.error('Error processing widget status:', err)
+      this.configSvc.restrictedWidgets = new Set()
+    }
     return this.configSvc.restrictedWidgets
   }
 
   private processAppsConfig(appsConfig: NsAppsConfig.IAppsConfig): NsAppsConfig.IAppsConfig {
+    if (!appsConfig || !appsConfig.features || !appsConfig.groups) {
+      return { features: {}, groups: [], tourGuide: {} } as NsAppsConfig.IAppsConfig
+    }
     const tourGuide = appsConfig.tourGuide
     const features: { [id: string]: NsAppsConfig.IFeature } = Object.values(
       appsConfig.features,
