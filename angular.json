@@ -103,19 +103,16 @@
           },
           "configurations": {
             "development": {
-              "optimization": true,
-              "sourceMap": {
-                "scripts": true,
-                "styles": true,
-                "vendor": true
-              },
-              "namedChunks": false,
-              "aot": true,
-              "buildOptimizer": true,
-              "vendorChunk": false,
-              "extractLicenses": true,
+              "optimization": false,
+              "sourceMap": true,
+              "namedChunks": true,
+              "aot": false,
+              "buildOptimizer": false,
+              "vendorChunk": true,
+              "extractLicenses": false,
               "allowedCommonJsDependencies": [
-                "@angular/compiler"
+                "@angular/compiler",
+                "moment"
               ]
             },
             "production": {
@@ -129,15 +126,15 @@
                 "scripts": true,
                 "styles": {
                   "minify": true,
-                  "inlineCritical": true
+                  "inlineCritical": false
                 },
                 "fonts": true
               },
-              "sourceMap": true,
+              "sourceMap": false,
               "namedChunks": false,
               "aot": true,
               "vendorChunk": false,
-              "buildOptimizer": true,
+              "buildOptimizer": false,
               "preserveSymlinks": true,
               "allowedCommonJsDependencies": [
                 "@angular/compiler",
@@ -149,7 +146,8 @@
                 "moment",
                 "lodash",
                 "@project-sunbird/client-services",
-                "@aastrika_npmjs/discussions-ui-v8"
+                "@aastrika_npmjs/discussions-ui-v8",
+                "rxjs"
               ],
               "budgets": [
                 {
