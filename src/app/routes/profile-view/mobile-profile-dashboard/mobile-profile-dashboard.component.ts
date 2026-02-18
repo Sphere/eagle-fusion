@@ -71,6 +71,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   leaderBoardConfig: any
   leaderboardData: any[] = []
   currentUser: any
+  selectedIndextitle: string
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -151,6 +152,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     console.log("res ", res, this.config, this.uiConfig)
     this.selectedIndex = this.isEkshamata ? this.uiConfig[1]?.name : this.uiConfig[0]?.name
     this.selectedIndexData = this.isEkshamata ? this.uiConfig[1]?.data : this.uiConfig[0]?.data
+    this.selectedIndextitle = this.isEkshamata ? this.uiConfig[1]?.text : this.uiConfig[0]?.text
   }
 
   ngOnInit() {
@@ -221,6 +223,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     this.selectedIndexData = item?.data
+    this.selectedIndextitle = item?.text
     switch (item?.name) {
       case 'organization':
         setWindow('organization')

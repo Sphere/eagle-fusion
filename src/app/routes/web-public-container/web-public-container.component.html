@@ -1,5 +1,7 @@
 <div class="top-course-container content" *ngFor="let content of uiConfig let i = index;">
-  <section class="mt-4 view-all-course-container" *ngIf="content?.show && content?.data && content?.data?.length>0">
+  <section *ngIf="content?.show && content?.data && content?.data?.length>0"
+    class="mt-4 view-all-course-container {{content?.scrollEmit}}" #scrollToCneCourses
+    [attr.data-scroll]="content?.scrollEmit">
     <div [ngClass]="i === 0 || (isXSmall && i === 1) ? 'bg-green' : 'orange'"
       class="line-label flex scroller-container">
       <span [ngClass]="{'header0': i == 0 || isXSmall && i == 1}" [class]="content.headerClass">
