@@ -79,7 +79,7 @@
   <!-- web screen left section -->
   <div *ngIf="!showbackButton" [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData">
     <div>
-      <img [src]="photoUrl ? photoUrl : menuItems[0]?.img" alt="profile image" width="150px" height="150px"
+      <img [src]="photoUrl ? photoUrl : menuItems?.[0]?.img" alt="profile image" width="150px" height="150px"
         class="profile-border">
     </div>
 
@@ -160,8 +160,8 @@
         </div>
       </div>
     </ng-container>
-    <div *ngIf="selectedIndex === 'language' || selectedIndex === 'certificates'" style="margin-top:25px;height:480px"
-      class="full-width" [class.full-width]="showbackButton">
+    <div *ngIf="selectedIndex === 'language' || selectedIndex === 'certificates'"
+      style="margin-bottom: 70px; margin-top: 25px;" class="full-width" [class.full-width]="showbackButton">
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
       <ng-container *ngIf="selectedIndex === 'language'">
@@ -179,7 +179,7 @@
       </ng-container>
       <ng-container *ngIf="selectedIndex === 'certificates'">
         <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">
-          {{ selectedIndexData?.title | translate }}</p>
+          {{ selectedIndextitle | translate }}</p>
         <div *ngFor="let certificate of certificates">
           <ng-container *ngIf="certificates && certificates.length > 0">
             <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>

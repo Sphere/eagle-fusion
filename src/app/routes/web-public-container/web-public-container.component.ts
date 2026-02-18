@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Input, OnDestroy, effect } from '@angular/core'
+import { Component, OnInit, ElementRef, Input, OnDestroy, effect, QueryList, ViewChildren } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
@@ -9,7 +9,6 @@ import { forkJoin } from 'rxjs'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 import { Subject } from 'rxjs'
-import { takeUntil } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-web-public-container',
@@ -42,7 +41,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   preferedLanguage: any = { id: 'en', lang: 'English' }
   displayConfig: any
   isLoading = false
-  @ViewChild('scrollToCneCourses', { static: false }) scrollToCneCourses?: ElementRef
+  @ViewChildren('scrollToCneCourses') sections!: QueryList<ElementRef<HTMLElement>>
   userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   CNECourseDisplayConfig: any
@@ -67,6 +66,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.handleScrollEvents()
     let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
     if (this.configSvc.userProfile) {
       let plyLsData: any = await this.playlistSvc.getPlaylistConfig()
@@ -107,18 +107,17 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         })
     }
     this.fetchEnvironmentConfigurations()
-    // Handle scroll events
-    this.handleScrollEvents()
   }
 
   private handleScrollEvents() {
-    this.scrollService.scrollToDivEvent
-      .pipe(takeUntil(this.destroy$))
-      .subscribe((targetDivId: string) => {
-        if (targetDivId === 'scrollToCneCourses' && this.scrollToCneCourses) {
-          this.scrollService.scrollToElement(this.scrollToCneCourses.nativeElement)
-        }
-      })
+    this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
+      const section = this.sections.find(
+        s => s.nativeElement.getAttribute('data-scroll') === targetDivId
+      )
+      if (section?.nativeElement) {
+        this.scrollService.scrollToElement(section?.nativeElement)
+      }
+    })
   }
 
   private fetchEnvironmentConfigurations() {
