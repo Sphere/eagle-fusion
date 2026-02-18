@@ -90,7 +90,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   showMobileDashboard = true
   isCommonChatEnabled = true
   online$: Observable<boolean> = of(true)
-  appOnline: boolean | undefined
+  appOnline: boolean = true
   paramsJSON!: string
   videoData: any = []
   configData: any
