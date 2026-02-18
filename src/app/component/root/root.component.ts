@@ -159,8 +159,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     })
 
+    // Start with online=true for immediate rendering, then track actual online/offline events
     this.online$ = merge(
-      of(navigator.onLine),
+      of(true), // Start with true to ensure immediate render
       fromEvent(window, 'online').pipe(mapTo(true)),
       fromEvent(window, 'offline').pipe(mapTo(false)),
     )
