@@ -20,7 +20,8 @@
       <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
         [configData]="bodyConfig"></ws-web-public-container>
     </section>
-    <router-outlet *ngIf="appOnline"></router-outlet>
+    <!-- Always render router-outlet for better content loading -->
+    <router-outlet></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
       <h3 class="mt-15">{{ "You're offline. Check your internet connection" | translate }}</h3>
     </div>
@@ -60,11 +61,11 @@
   </mat-progress-bar>
   <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired&&isLoggedIn" [hidden]="!showNavbar"
     [mode]="'top'"></ws-app-nav-bar>
-  <router-outlet *ngIf="appOnline"></router-outlet>
+  <router-outlet></router-outlet>
   <div class="height-adjust" [ngClass]="{'height-on-bottom custom-scroll':isXSmall$ && showNavbar,'height-adjust-setup' : isSetupPage,
         'height-on-top':!isXSmall$ &&showNavbar && isNavBarRequired}">
     <ws-dashboard [isEkshamata]="isEkshamata" class="mb-6" *ngIf="isLoggedIn&&isHomePage"></ws-dashboard>
-    <router-outlet *ngIf="appOnline"></router-outlet>
+    <router-outlet></router-outlet>
     <div *ngIf="!appOnline" style="text-align: center;">
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>
     </div>
