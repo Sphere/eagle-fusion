@@ -278,6 +278,10 @@ a.disabled {
 
 // Congratulations Dialog Styles
 ::ng-deep .congratulations-dialog {
+  .mat-mdc-dialog-container .mdc-dialog__surface {
+    box-shadow: none !important;
+    background: none !important;
+  }
   .mat-dialog-container {
     box-shadow: none !important;
     background: none !important;
