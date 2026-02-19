@@ -25,6 +25,19 @@ export class AppInterceptorService implements HttpInterceptor {
     if (req.url.endsWith('/api/course/v1/content/state/read') || req.url.endsWith("/apis/public/v8/mobileApp/v2/updateProgress")) {
       return next.handle(req)
     }
+
+    // Add browser-like headers for JSON configuration requests to bypass Cloudflare/WAF blocks
+    if (req.url.endsWith('.json')) {
+      req = req.clone({
+        setHeaders: {
+          'Accept': 'application/json, text/plain, */*',
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Sec-Fetch-Dest': 'empty',
+          'Sec-Fetch-Mode': 'cors',
+        },
+      })
+    }
+
     const lang = [this.locale.replace('en-US', 'en')]
     if (this.configSvc.userPreference) {
       (this.configSvc.userPreference.selectedLangGroup || '')
