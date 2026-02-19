@@ -386,6 +386,20 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isLoggedIn = false
     }
+
+    // Load form data in background without blocking UI rendering
+    // Use a timeout to prevent hanging on slow/failed requests
+    Promise.race([
+      this.setUpFormData(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
+    ]).catch(err => {
+      console.warn('Form data load timeout/failed, using defaults:', err)
+      this.orgDetails = {}
+      this.bodyConfig = {}
+      this.footerConfig = {}
+      this.changeDetector.markForCheck()
+    })
+
     if (this.configSvc.isAuthenticated) {
       this.appStartRaised = true
     } else {
@@ -399,7 +413,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.showNavigation = true
       }
     }
-    this.setUpFormData()
 
     this.setPageTitle()
     this.fcSettingsFunc()
@@ -462,17 +475,34 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async setUpFormData() {
-    if (!this.orgDetails) {
-      await this.playlistSvc.loadPlaylistData()
-    }
-    this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
-    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
-    this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
-    this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
-    if (this.playlistSvc.getSelectedTab() === 'homeTab') {
-      this.showNavbar = true
-      this.videoData = this.configData?.[this.configData?.length - 1]
-      localStorage.setItem('videoData', JSON.stringify(this.videoData))
+    try {
+      if (!this.orgDetails) {
+        const playlistData = await this.playlistSvc.loadPlaylistData()
+        if (!playlistData) {
+          console.warn('No playlist data loaded')
+          return
+        }
+      }
+
+      this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
+      this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
+      this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
+      this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
+
+      if (this.playlistSvc.getSelectedTab() === 'homeTab') {
+        this.showNavbar = true
+        this.videoData = this.configData?.[this.configData?.length - 1]
+        localStorage.setItem('videoData', JSON.stringify(this.videoData))
+      }
+
+      // Trigger change detection to ensure template updates with new data
+      this.changeDetector.markForCheck()
+    } catch (error) {
+      console.error('Error setting up form data:', error)
+      // Set safe defaults - page can still render with router-outlet
+      this.orgDetails = {}
+      this.bodyConfig = {}
+      this.footerConfig = {}
     }
   }
 
