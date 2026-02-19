@@ -387,8 +387,18 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.isLoggedIn = false
     }
 
-    // Load form data synchronously and ensure it completes before other initialization
-    await this.setUpFormData()
+    // Load form data in background without blocking UI rendering
+    // Use a timeout to prevent hanging on slow/failed requests
+    Promise.race([
+      this.setUpFormData(),
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
+    ]).catch(err => {
+      console.warn('Form data load timeout/failed, using defaults:', err)
+      this.orgDetails = {}
+      this.bodyConfig = {}
+      this.footerConfig = {}
+      this.changeDetector.markForCheck()
+    })
 
     if (this.configSvc.isAuthenticated) {
       this.appStartRaised = true
@@ -467,8 +477,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   async setUpFormData() {
     try {
       if (!this.orgDetails) {
-        await this.playlistSvc.loadPlaylistData()
+        const playlistData = await this.playlistSvc.loadPlaylistData()
+        if (!playlistData) {
+          console.warn('No playlist data loaded')
+          return
+        }
       }
+
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
       this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
       this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
@@ -484,11 +499,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.changeDetector.markForCheck()
     } catch (error) {
       console.error('Error setting up form data:', error)
-      // Set safe defaults to prevent blank page
+      // Set safe defaults - page can still render with router-outlet
       this.orgDetails = {}
       this.bodyConfig = {}
       this.footerConfig = {}
-      this.changeDetector.markForCheck()
     }
   }
 

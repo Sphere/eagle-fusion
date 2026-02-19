@@ -1,6 +1,6 @@
 import { Injectable, LOCALE_ID, Inject } from '@angular/core'
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http'
-import { Observable, throwError } from 'rxjs'
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpResponse } from '@angular/common/http'
+import { Observable, throwError, of } from 'rxjs'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { catchError } from 'rxjs/operators'
 
@@ -22,6 +22,22 @@ export class AppInterceptorService implements HttpInterceptor {
     if (isExternalUrl) {
       return next.handle(req)
     }
+
+    // Skip auth headers for public/unauthenticated routes
+    const isPublicPath = location.pathname.includes('/public') || location.pathname.includes('/app/create-account')
+    if (isPublicPath || !this.configSvc.userProfile) {
+      return next.handle(req).pipe(
+        catchError((error: HttpErrorResponse) => {
+          // For public pages, return empty response instead of throwing on auth errors
+          if (isPublicPath && error.status === 419) {
+            console.warn('Public page received 419, returning empty response to allow page to load')
+            return of(new HttpResponse({ status: 200, body: {} }))
+          }
+          return throwError(() => error)
+        })
+      )
+    }
+
     if (req.url.endsWith('/api/course/v1/content/state/read') || req.url.endsWith("/apis/public/v8/mobileApp/v2/updateProgress")) {
       return next.handle(req)
     }
@@ -64,34 +80,16 @@ export class AppInterceptorService implements HttpInterceptor {
 
       // return next.handle(modifiedReq)
       return next.handle(modifiedReq).pipe(
-        catchError((error: { status: any; error: { redirectUrl: string } }) => {
+        catchError((error: HttpErrorResponse) => {
           if (error instanceof HttpErrorResponse) {
             console.log(error.status, '/')
-            switch (error.status) {
-              case 419: // login
-                // const localUrl = location.origin
-                // tslint:disable-next-line: prefer-template
-                // Now we commenting this one, Later now we will remove it
-                // localStorage.setItem('login_url', error.error.redirectUrl)
-                if (location.pathname.indexOf('/public') >= 0) {
-                  // this.http.get('/apis/reset')
-                  break
-                }
-              //location.href = '/public/home'
-              // const localUrl = location.origin
-              // const pageName = '/public/home'
-              // if (localUrl.includes('localhost')) {
-              //   // tslint:disable-next-line: prefer-template
-              //   window.location.href = error.error.redirectUrl + `?q=${localUrl}${pageName}`
-              // } else {
-              //   // tslint:disable-next-line: prefer-template
-              //   window.location.href = error.error.redirectUrl + `?q=${pageName}`
-              // }
-              // break
+            if (error.status === 419) {
+              // Session expired - don't redirect, let app handle gracefully
+              console.warn('Session expired (419), allowing error to propagate')
+              return throwError(() => error)
             }
           }
-          // return throwError('error')
-          return throwError(error)
+          return throwError(() => error)
         })
       )
     }
