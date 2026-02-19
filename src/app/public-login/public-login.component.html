@@ -97,7 +97,13 @@
               </div>
               <div class="field flex justify-content-center">
                 <button id="login-username-password" class="ui fluid button blueButton"
-                  (click)="submitDetails(loginPwdForm)" [disabled]="!loginPwdForm?.valid" i18n>Login</button>
+                  (click)="submitDetails(loginPwdForm)" [disabled]="!loginPwdForm?.valid || isLoginLoading" i18n>
+                  <span *ngIf="!isLoginLoading">Login</span>
+                  <span *ngIf="isLoginLoading">
+                    <mat-spinner diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
+                    <span i18n>Logging in...</span>
+                  </span>
+                </button>
               </div>
               <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
                 <div class="or-holder" id="or-holder" style="text-align: center;">
@@ -202,8 +208,14 @@
                 </div>
 
                 <div class="field flex justify-content-center mt-4">
-                  <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid" class="ui fluid submit button blueButton"
-                    name="submit-OTP" id="submit-OTP" type="submit" i18n>Submit</button>
+                  <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid || isLoginLoading"
+                    class="ui fluid submit button blueButton" name="submit-OTP" id="submit-OTP" type="submit" i18n>
+                    <span *ngIf="!isLoginLoading">Submit</span>
+                    <span *ngIf="isLoginLoading">
+                      <mat-spinner diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
+                      <span i18n>Verifying...</span>
+                    </span>
+                  </button>
                 </div>
                 <div class="field flex justify-content-center">
                   <button (click)="resendOTP()" class="ui fluid submit btn button whiteButton" name="resend-OTP"
@@ -323,7 +335,13 @@
         </div>
         <div class="field flex justify-content-center">
           <button id="login-username-password" class="ui fluid button blueButton" (click)="submitDetails(loginPwdForm)"
-            [disabled]="!loginPwdForm?.valid" i18n>Login</button>
+            [disabled]="!loginPwdForm?.valid || isLoginLoading" i18n>
+            <span *ngIf="!isLoginLoading">Login</span>
+            <span *ngIf="isLoginLoading">
+              <mat-spinner diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
+              <span i18n>Logging in...</span>
+            </span>
+          </button>
         </div>
         <div *ngIf="!isEkshamtaLogin&&!isOrgSelectiveCourse" class="field or-container">
           <div class="or-holder" id="or-holder" style=" text-align: center;">
@@ -430,8 +448,14 @@
 
                 </div>
                 <div class="field">
-                  <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid" class="ui fluid submit button blueButton"
-                    name="submit-OTP" id="submit-OTP" type="submit" i18n>Submit</button>
+                  <button (click)="otpSubmit()" [disabled]="!OTPForm?.valid || isLoginLoading"
+                    class="ui fluid submit button blueButton" name="submit-OTP" id="submit-OTP" type="submit" i18n>
+                    <span *ngIf="!isLoginLoading">Submit</span>
+                    <span *ngIf="isLoginLoading">
+                      <mat-spinner diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
+                      <span i18n>Verifying...</span>
+                    </span>
+                  </button>
                 </div>
                 <div class="field">
                   <button (click)="resendOTP()" style="width: 100%;" class="ui fluid submit btn button whiteButton"

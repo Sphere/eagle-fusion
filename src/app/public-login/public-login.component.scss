@@ -35,6 +35,7 @@
     justify-content: center;
     width: 100%;
     left: 0%;
+    pointer-events: none;
 }
 .background-ekshamta{
   display: flex;
@@ -362,10 +363,12 @@ text-align: left !important;
     justify-content: center;
     align-items: center;
     width: 100%;
+    pointer-events: none;
 }
 .btm-bg{
   width: 216px;
   height: 66px;
+  pointer-events: none;
 }
 .enter-code-text {
   font-family: Roboto, sans-serif;
@@ -380,6 +383,7 @@ color: #808080;
 
 .img-box {
   text-align: center;
+  pointer-events: none;
 }
 
 .input-content {

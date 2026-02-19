@@ -15,6 +15,7 @@ import { MatExpansionModule } from '@angular/material/expansion'
 import { MatIconModule } from '@angular/material/icon'
 import { MatMenuModule } from '@angular/material/menu'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { MatGridListModule } from '@angular/material/grid-list'
 import { MatRippleModule, MatNativeDateModule } from '@angular/material/core'
 import { MatSliderModule } from '@angular/material/slider'
@@ -357,6 +358,7 @@ const dbConfig: DBConfig = {
     MatGridListModule,
     MatDividerModule,
     MatProgressBarModule,
+    MatProgressSpinnerModule,
     MatExpansionModule,
     MatRippleModule,
     MatDialogModule,

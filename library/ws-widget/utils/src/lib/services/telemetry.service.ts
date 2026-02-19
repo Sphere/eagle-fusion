@@ -120,6 +120,78 @@ export class TelemetryService {
     }
   }
 
+  // New method for login telemetry - sends to postPublicTelemetry instead of $t.interact
+  interactForLogin(type: string, mode: string, id: string, actor?: any, extras?: any) {
+    try {
+      if (this.telemetryConfig) {
+        const page = this.getPageDetails()
+        const userAgent = this.UserAgentResolverService.getUserAgent()
+        const cookie = this.UserAgentResolverService.generateCookie()
+        const edata = {
+          type,
+          mode,
+          subtype: extras?.subtype || '',
+          pageid: id,
+          uri: page.pageUrl,
+          browserName: userAgent.browserName,
+          OS: userAgent.OS,
+          timestamp: Date.now(),
+          userAgent,
+          cookie,
+          ...extras // Spread extras to include type, subtype, id, pageid, values
+        }
+
+        const finalObject = {
+          id: 'ekstep.telemetry',
+          ver: '3.0',
+          ets: Date.now(),
+          events: [
+            {
+              eid: 'INTERACT',
+              ets: Date.now(),
+              ver: '3.0',
+              mid: '',
+              actor: {
+                ...actor && actor,
+              },
+              context: {
+                channel: this.telemetryConfig.channel,
+                pdata: {
+                  id: 'web-ui',
+                  ver: '1.0.0',
+                  pid: 'sphere.aastrika.org',
+                },
+                env: this.telemetryConfig.env,
+                sid: this.getTelemetrySessionId,
+                did: '',
+                cdata: [
+                  {
+                    id: actor?.id || '',
+                    type: actor?.type || ''
+                  }
+                ],
+                rollup: {},
+              },
+              object: {
+                ver: '1.0.0',
+                id: '',
+              },
+              tags: [],
+              edata,
+            },
+          ],
+        }
+
+        this.postPublicTelemetry(finalObject)
+      } else {
+        this.logger.error('Error Initializing Telemetry. Config missing.')
+      }
+    } catch (e) {
+      // tslint:disable-next-line: no-console
+      console.log('Error in telemetry interactForLogin', e)
+    }
+  }
+
   impression(type: string, mode: string, id: string, data?: any) {
     this.getTelemetryConfig()
     try {
