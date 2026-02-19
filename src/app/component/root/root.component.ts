@@ -386,6 +386,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     } else {
       this.isLoggedIn = false
     }
+
+    // Load form data synchronously and ensure it completes before other initialization
+    await this.setUpFormData()
+
     if (this.configSvc.isAuthenticated) {
       this.appStartRaised = true
     } else {
@@ -399,7 +403,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.showNavigation = true
       }
     }
-    this.setUpFormData()
 
     this.setPageTitle()
     this.fcSettingsFunc()
@@ -462,17 +465,30 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
 
   async setUpFormData() {
-    if (!this.orgDetails) {
-      await this.playlistSvc.loadPlaylistData()
-    }
-    this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
-    this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
-    this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
-    this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
-    if (this.playlistSvc.getSelectedTab() === 'homeTab') {
-      this.showNavbar = true
-      this.videoData = this.configData?.[this.configData?.length - 1]
-      localStorage.setItem('videoData', JSON.stringify(this.videoData))
+    try {
+      if (!this.orgDetails) {
+        await this.playlistSvc.loadPlaylistData()
+      }
+      this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
+      this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
+      this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
+      this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
+
+      if (this.playlistSvc.getSelectedTab() === 'homeTab') {
+        this.showNavbar = true
+        this.videoData = this.configData?.[this.configData?.length - 1]
+        localStorage.setItem('videoData', JSON.stringify(this.videoData))
+      }
+
+      // Trigger change detection to ensure template updates with new data
+      this.changeDetector.markForCheck()
+    } catch (error) {
+      console.error('Error setting up form data:', error)
+      // Set safe defaults to prevent blank page
+      this.orgDetails = {}
+      this.bodyConfig = {}
+      this.footerConfig = {}
+      this.changeDetector.markForCheck()
     }
   }
 

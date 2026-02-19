@@ -27,13 +27,12 @@ export class AppInterceptorService implements HttpInterceptor {
     }
 
     // Add browser-like headers for JSON configuration requests to bypass Cloudflare/WAF blocks
+    // Note: Sec-Fetch-* headers are forbidden and will be set by the browser automatically
     if (req.url.endsWith('.json')) {
       req = req.clone({
         setHeaders: {
           'Accept': 'application/json, text/plain, */*',
           'Accept-Language': 'en-US,en;q=0.9',
-          'Sec-Fetch-Dest': 'empty',
-          'Sec-Fetch-Mode': 'cors',
         },
       })
     }
