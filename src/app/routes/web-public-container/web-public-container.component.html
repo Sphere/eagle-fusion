@@ -28,6 +28,15 @@
       </button>
     </ng-container>
   </section>
+
+  <div *ngIf="(content.data.length == 0 && content?.fallbackState?.label !=='')" class="mt-4 view-all-course-container">
+    <div [ngClass]="i === 0 || (isXSmall && i === 1) ? 'bg-green' : 'orange'"
+      class="line-label flex scroller-container">
+      <span [ngClass]="{'header0': i == 0 || isXSmall && i == 1}" [class]="content.headerClass">
+        {{ content.title | translate }}</span>
+    </div>
+    <h3 class=" mt15">{{ content?.fallbackState?.label | translate }}</h3>
+  </div>
 </div>
 <!-- this section is to show courses for State Institute of Health and Family Welfare, Department of Health & Family Welfare, UP org -->
 <!-- <div class="top-course-container content" *ngIf="isUpLogin">

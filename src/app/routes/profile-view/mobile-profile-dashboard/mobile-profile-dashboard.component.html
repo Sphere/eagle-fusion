@@ -15,6 +15,15 @@
         {{ menuItems[0].text | translate }} : {{ currentProfession }}
       </span>
     </div>
+    <div class="badge-container" *ngIf="earnedBadges$ | async as count">
+      <img src="fusion-assets/icons/badges.png" />
+      <span class="label">
+        {{ count > 1
+        ? ('BADGES_EARNED' | translate:{ count: count })
+        : ('BADGE_EARNED' | translate)
+        }}
+      </span>
+    </div>
 
     <div class="div mobile-div">
       <ng-container *ngFor="let ls of uiConfig">
@@ -96,6 +105,15 @@
       <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;">
         <span> {{ menuItems[0]?.text | translate }}</span> : {{currentProfession }}
       </p>
+    </div>
+    <div class="badge-container" *ngIf="earnedBadges$ | async as count">
+      <img src="fusion-assets/icons/badges.png" />
+      <span class="label">
+        {{ count > 1
+        ? ('BADGES_EARNED' | translate:{ count: count })
+        : ('BADGE_EARNED' | translate)
+        }}
+      </span>
     </div>
     <div class="div">
       <ng-container *ngFor="let ls of uiConfig">

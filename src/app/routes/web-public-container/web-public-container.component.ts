@@ -177,7 +177,9 @@ export class WebPublicComponent implements OnInit, OnDestroy {
             element.data = incomplete
             element.displayData = element?.data?.slice(0, element.limit)
           } else if (element.playlistConfigId === 'YOUR_PLANS_PLAYLIST') {
-            element.data = this.coursesForYou
+            element.data = this.coursesForYou.filter(item =>
+              !this.userEnrollCourse.some(bItem => bItem.identifier === item.identifier)
+            )
             element.displayData = element?.data?.slice(0, element.limit)
           } else if (element.playlistConfigId === 'CNE_COURSE_PLAYLIST') {
             element.data = this.cneCourse

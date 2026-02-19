@@ -7,6 +7,11 @@
         <div class="banner-mini-heading">{{ uiConfig?.title | translate }}</div>
         <div class="banner-heading"><span>{{ firstName || '' | translate }}</span></div>
       </div>
+      <div *ngIf="shouldShowBadges" class="badge-container">
+        <img src="fusion-assets/icons/trophy.png" />
+        <span class="label">{{noOfBadges > 1 ? ('BADGES_EARNED' | translate : {count: noOfBadges}) :
+          ('BADGE_EARNED' | translate)}}</span>
+      </div>
       <div class="banner-sub-heading">{{ uiConfig?.subTitle | translate }}</div>
     </div>
     <!-- ================= Ekshamata Banner ================= -->

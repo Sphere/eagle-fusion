@@ -27,6 +27,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   config: any
   lang: any
   plyLsData: any
+  userEnrolledCourse: any = []
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
@@ -69,6 +70,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     // Fetch user courses
     this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe((courses) => {
+      this.userEnrolledCourse = courses
       this.processUserCourses(courses)
       this.updateTabData()
     })
@@ -158,7 +160,8 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     this.config.tabMenu.forEach((tab: any) => {
       if (tab.label === 'For You') {
-        tab.data = this.coursesForYou
+        tab.data = this.coursesForYou.filter(item =>
+          !this.userEnrolledCourse.some(bItem => bItem.contentId === item.identifier))
       }
       if (tab.label === 'Started') {
         tab.data = this.startedCourse

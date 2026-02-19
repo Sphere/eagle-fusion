@@ -274,3 +274,24 @@
     background-color: rgba(0, 0, 0, 0.978);
   }
 }
+
+.badge-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 58%;
+  white-space: nowrap;
+  color: rgba(70, 151, 136, 1);
+  background: white;
+  border-radius: 20px;
+}
+
+.badge-container img {
+  width: 2rem;
+  height: auto;
+}
+
+.label {
+  font-size: 18px;
+  margin-left: 10px;
+}

@@ -72,6 +72,8 @@ export class MobileProfileDashboardComponent implements OnInit {
   leaderboardData: any[] = []
   currentUser: any
   selectedIndextitle: string
+  earnedBadges$: any
+  count = 3
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -128,6 +130,8 @@ export class MobileProfileDashboardComponent implements OnInit {
       }
       this.setupMenuItems()
     })
+
+    this.earnedBadges$ = this.plylsSvc.earnedBadges$
   }
 
   async setupMenuItems() {

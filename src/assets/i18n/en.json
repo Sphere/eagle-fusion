@@ -333,7 +333,7 @@
   "Month": "Month",
   "My Courses": "My Courses",
   "You have not started any courses.": "You have not started any courses.",
-  "You have no courses.": "You have no courses.",
+  "You have started all the recommended courses - stay tuned for what's next!": "You have started all the recommended courses - stay tuned for what's next!",
   "You have not completed any courses.": "You have not completed any courses.",
   "Check out courses for\r\n            you\r\n          ": "Check out courses for\r\n            you\r\n          ",
   "\r\n      Data privacy has been upgraded.\r\n    ": "\r\n      Data privacy has been upgraded.\r\n    ",
@@ -896,5 +896,7 @@
   "POINTS": "points",
   "YOUR_POINTS": "Your points",
   "(More than one answer possible)": "(More than one answer possible)",
-  "COMPLETED": "COMPLETED"
+  "COMPLETED": "COMPLETED",
+  "BADGES_EARNED": "{{count}} Badges Earned",
+  "BADGE_EARNED": "1 Badge Earned"
 }

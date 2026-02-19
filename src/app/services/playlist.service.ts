@@ -1,6 +1,7 @@
 import { Injectable, signal, computed } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
+import { BehaviorSubject } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
 export class PlaylistService {
@@ -27,6 +28,8 @@ export class PlaylistService {
     return sections[tab] || sections.homeTab || ''
   })
 
+  private earnedBadgesSubject = new BehaviorSubject<number>(0);
+  earnedBadges$ = this.earnedBadgesSubject.asObservable();
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService
@@ -91,5 +94,16 @@ export class PlaylistService {
 
   clearCache() {
     this.playlistData.set(null)
+  }
+
+  setEarnedBadges(count: number, isIncrement: boolean = false) {
+    const currentCount = this.earnedBadgesSubject.getValue()
+    if (isIncrement) {
+      count = currentCount + count
+    }
+    if (count !== 0 && !isIncrement) {
+      count = currentCount > count ? currentCount : count
+    }
+    this.earnedBadgesSubject.next(count)
   }
 }

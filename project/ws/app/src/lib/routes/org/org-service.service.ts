@@ -123,6 +123,7 @@ export class OrgServiceService {
   }
   getTopLiveSearchResults(identifiers: any, lang?: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
+    console.log('lang ', lang)
     const req = {
       request: {
         filters: {
@@ -131,7 +132,6 @@ export class OrgServiceService {
           identifier: identifiers,
 
           status: ['Live'],
-          lang,
         },
       }, query: '', sort: [{ lastUpdatedOn: 'desc' }],
     }

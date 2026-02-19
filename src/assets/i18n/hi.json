@@ -335,7 +335,7 @@
   "Month": "महीना",
   "My Courses": "मेरे पाठ्यक्रम",
   "You have not started any courses.": "आपने कोई पाठ्यक्रम शुरू नहीं किया है।",
-  "You have no courses.": "आपके पास कोई पाठ्यक्रम नहीं है।",
+  "You have started all the recommended courses - stay tuned for what's next!": "आपने सभी अनुशंसित पाठ्यक्रम शुरू कर दिए हैं – जल्द ही नए कोर्स उपलब्ध होंगे!",
   "You have not completed any courses.": "आपने कोई पाठ्यक्रम पूरा नहीं किया है।",
   "Check out courses for\r\n            you\r\n          ": "आपके लिए पाठ्यक्रम देखें\r\n          ",
   "\r\n      Data privacy has been upgraded.\r\n    ": "\r\n      डेटा गोपनीयता को अपग्रेड किया गया है।\r\n    ",
@@ -900,5 +900,7 @@
   "POINTS": "पॉइंट्स",
   "YOUR_POINTS": "आपके पॉइंट्स",
   "(More than one answer possible)": "(एक से अधिक उत्तर चुने जा सकते हैं)",
-  "COMPLETED": "पूर्ण"
+  "COMPLETED": "पूर्ण",
+  "BADGES_EARNED": "{{count}} बैज हासिल",
+  "BADGE_EARNED": "1 बैज हासिल"
 }

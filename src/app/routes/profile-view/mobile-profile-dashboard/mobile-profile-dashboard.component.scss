@@ -650,3 +650,25 @@ font-weight: 500;
     }
   }
 }
+
+.badge-container {
+  margin-bottom: 10px;
+  display: flex;
+  border: 1px solid;
+  width: fit-content;
+  max-width: 60%;
+  background: white;
+  padding: 8px 14px;
+  text-align: center;
+  border-radius: 4rem;
+  color: rgba(70, 151, 136, 1);
+}
+
+.badge-container img {
+  width: 1.4rem;
+  height: auto;
+}
+
+.label {
+  font-size: 16px;
+}

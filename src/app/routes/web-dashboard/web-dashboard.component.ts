@@ -6,6 +6,7 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LanguageService } from 'src/app/services/language.service'
 import * as _ from 'lodash'
+import { PlaylistService } from '../../services/playlist.service'
 @Component({
   selector: 'ws-dashboard',
   templateUrl: './web-dashboard.component.html',
@@ -25,7 +26,10 @@ export class WebDashboardComponent implements OnInit {
   lang: any = 'en'
   domain!: any
   @Input() configData: any
+  @Input() userEnrolledCourse: any = []
   uiConfig: any
+  playListIds: any[] = [];
+  noOfBadges: number = 0;
   constructor(
     public router: Router,
     public dialog: MatDialog,
@@ -33,6 +37,7 @@ export class WebDashboardComponent implements OnInit {
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
     private languageSvc: LanguageService,
+    private plylsSvc: PlaylistService
   ) {
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -40,14 +45,19 @@ export class WebDashboardComponent implements OnInit {
     }
   }
 
-  ngOnInit() {
+  get shouldShowBadges(): boolean {
+    // Only show if showCompletedCourses is true and we have badges
+    return this.uiConfig?.badges?.showCompletedCourses === true && this.noOfBadges > 0
+  }
+
+  async ngOnInit() {
     console.log(this.configData, 'configData ****** ')
     this.uiConfig = this.configData?.[0]
     this.dataCarousel = this.uiConfig?.data
     if (this.isEkshamata) {
       this.domain = window.location.hostname
       console.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata') || this.domain.includes('localhost')) {
         console.log("yes here2 ", this.configSvc.hostedInfo)
         this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
         this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
@@ -70,7 +80,9 @@ export class WebDashboardComponent implements OnInit {
       id: this.languageSvc.getCurrentLanguage(),
       lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English'
     }
+    await this.calculateBadges()
   }
+
   ngOnDestroy(): void {
     this.clearInterval()
   }
@@ -107,4 +119,29 @@ export class WebDashboardComponent implements OnInit {
     this.scrollService.scrollToDivEvent.emit(value)
   }
 
+  private async calculateBadges(): Promise<void> {
+    try {
+      if (!this.uiConfig?.badges?.showCompletedCourses) {
+        this.noOfBadges = 0
+        this.plylsSvc.setEarnedBadges(0)
+        console.log('Badge calculation skipped - disabled in config')
+        return
+      }
+
+      const currentLanguage = this.configSvc?.userProfile?.language || 'en'
+      const res = await this.plylsSvc.getPlaylistConfig()
+      this.playListIds = res.find((item: any) => item.language === currentLanguage)?.dataSource?.payload || []
+      let data = this.userEnrolledCourse?.filter(item => this.playListIds?.includes(item.identifier))
+      const completedCourses = data?.filter(item => item.completionPercentage === 100)
+
+      this.noOfBadges = completedCourses.length
+      this.plylsSvc.setEarnedBadges(this.noOfBadges)
+
+      console.log('Badge count calculated:', this.noOfBadges)
+    } catch (error) {
+      console.error('Error calculating badges:', error)
+      this.noOfBadges = 0
+      this.plylsSvc.setEarnedBadges(0)
+    }
+  }
 }
