@@ -142,6 +142,7 @@ import { TextFieldModule } from '@angular/cdk/text-field'
 import { ProfileViewModule } from './routes/profile-view/profile-view.module'
 import { MatTabsModule } from '@angular/material/tabs'
 import { UserProfileService } from '../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -350,6 +351,7 @@ export function initializeCompetencyConfig(): () => void {
     MatSelectModule,
     MatTabsModule,
     DiscussionUiModule.forRoot(ConfigService),
+    NgxExtendedPdfViewerModule,
     ImageCropModule,
     SharedModule,
     OrganisationsModule,

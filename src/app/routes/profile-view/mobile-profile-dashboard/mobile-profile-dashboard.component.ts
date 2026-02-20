@@ -503,7 +503,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       },
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
     }
-    const userdata = this.userData['profileDetails'] ?? Object.assign(this.userData['profileDetails'], obj)
+    const userdata = Object.assign(this.userData['profileDetails'], obj)
 
     const reqUpdate = {
       request: {
@@ -517,7 +517,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       result => {
         console.log('Language saved successfully:', result)
-        window.location.assign(`${location.origin}/app/profile-view`)
+        // window.location.assign(`${location.origin}/app/profile-view`)
       },
       error => {
         console.error('Error saving language:', error)

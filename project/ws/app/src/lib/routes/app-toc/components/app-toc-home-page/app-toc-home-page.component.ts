@@ -379,7 +379,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
             // const collectionId = this.isResource ? '' : this.content.identifier
             this.content.completionPercentage = this.enrolledCourse.completionPercentage || 0
             this.content.completionStatus = this.enrolledCourse.status || 0
-            this.getContinueLearningData(this.content.identifier, this.enrolledCourse.batchId)
+            this.getContinueLearningData(this.content.identifier, this.enrolledCourse?.batchId)
             this.batchData = {
               content: [this.enrolledCourse.batch],
               enrolled: true,

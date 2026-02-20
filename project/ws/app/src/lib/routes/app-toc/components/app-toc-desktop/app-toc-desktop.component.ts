@@ -35,6 +35,7 @@ import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugi
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 
 import { WindowService } from 'src/app/services/navigation-history.service'
+import { BtnContentShareDialogComponent } from '../../../../../../../../../library/ws-widget/collection/src/lib/btn-content-share/btn-content-share-dialog/btn-content-share-dialog.component'
 @Component({
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
@@ -1447,5 +1448,16 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       width: '600px',
       data: { competency: content.competencies_v1, type: 'COMPETENCY' },
     })
+  }
+
+  shareContent(data: any) {
+    if (!this.forPreview) {
+      this.dialog.open<BtnContentShareDialogComponent, { content: NsContent.IContent }>(
+        BtnContentShareDialogComponent,
+        {
+          data: { content: data },
+        },
+      )
+    }
   }
 }
