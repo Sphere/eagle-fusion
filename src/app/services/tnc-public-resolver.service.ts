@@ -34,12 +34,10 @@ export class TncPublicResolverService {
     let lang: string = localStorage.getItem('language') || 'en'
 
     // Check user preferences as fallback
-    if (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language) {
-      lang = this.configSvc.unMappedUser.profileDetails.preferences.language
-    }
+    lang = this.configSvc.unMappedUser?.profileDetails?.preferences?.language || lang
 
-    const url1 = lang === 'hi' ? `${this.configSvc.sitePath}/tnc.config.${'hi'}.json` : `${this.configSvc.sitePath}/tnc.config.json`
-    return this.http.get<NsTnc.ITnc>(url1)
+    const configUrl = lang === 'hi' ? '/fusion-assets/files/tnc.config.hi.json' : '/fusion-assets/files/tnc.config.json'
+    return this.http.get<NsTnc.ITnc>(configUrl)
   }
 
   assignAdminToDepartment(data: any): Observable<any> {
