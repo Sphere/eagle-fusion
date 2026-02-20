@@ -57,6 +57,7 @@ import {
   // WIDGET_REGISTERED_MODULES, // Removed - causes static analysis issues
   WIDGET_REGISTRATION_CONFIG,
   PipeContentRoutePipe,
+  WIDGET_REGISTERED_MODULES,
 } from '@ws-widget/collection'
 // import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
@@ -144,6 +145,7 @@ import { ProfileViewModule } from './routes/profile-view/profile-view.module'
 import { MatTabsModule } from '@angular/material/tabs'
 import { UserProfileService } from '../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
+import { SearchRootComponent } from '../../project/ws/app/src/lib/routes/search/routes/search-root/search-root.component'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -308,7 +310,8 @@ export function initializeCompetencyConfig(): () => void {
     WebFeaturedCourseComponent,
     WebNavLinkPageComponent,
     WebPublicComponent,
-    WebCourseViewComponent
+    WebCourseViewComponent,
+    SearchRootComponent
   ],
   imports: [
     BrowserModule,
@@ -319,6 +322,7 @@ export function initializeCompetencyConfig(): () => void {
     ReactiveFormsModule,
     AppRoutingModule,
     KeycloakAngularModule,
+    ...WIDGET_REGISTERED_MODULES,
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
     ErrorResolverModule,
     MatSliderModule,
