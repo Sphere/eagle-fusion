@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core'
-import { UntypedFormBuilder, UntypedFormGroup, UntypedFormControl, Validators } from '@angular/forms'
+import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
+import { v4 as uuid } from 'uuid'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatDialog } from '@angular/material/dialog'
 import { CreateAccountDialogComponent } from '../routes/create-account-modal/create-account-dialog.component'
-import { ConfigurationsService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, TelemetryService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
 
 import { Observable } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -16,9 +17,9 @@ import { Meta, Title } from '@angular/platform-browser'
   styleUrls: ['./public-login.component.scss']
 })
 export class PublicLoginComponent implements OnInit {
-  loginForm: UntypedFormGroup
-  loginPwdForm: UntypedFormGroup
-  OTPForm: UntypedFormGroup
+  loginForm: FormGroup
+  loginPwdForm: FormGroup
+  OTPForm: FormGroup
   selectedField = 'otp'
   otpPage = false
   userID = ''
@@ -34,8 +35,10 @@ export class PublicLoginComponent implements OnInit {
   isEkshamtaLogin = false
   routerLink = 'public/home'
   isOrgSelectiveCourse: boolean = false
+  isLoginLoading: boolean = false
+  telemetrySessionId: string = ''
   constructor(
-    private spherFormBuilder: UntypedFormBuilder,
+    private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
     public snackBar: MatSnackBar,
     private readonly valueSvc: ValueService,
@@ -43,26 +46,27 @@ export class PublicLoginComponent implements OnInit {
     public configSvc: ConfigurationsService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private meta: Meta, private title: Title
+    private meta: Meta, private title: Title,
+    private telemetrySvc: TelemetryService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
       // firstName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
       // tslint:disable-next-line:max-line-length
-      emailOrMobile: new UntypedFormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
       // password: new FormControl('', [Validators.required,
       // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
     })
     this.loginPwdForm = this.spherFormBuilder.group({
-      emailOrMobile: new UntypedFormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
-      password: new UntypedFormControl('', [Validators.required,
+      emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
+      password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
       // confirmPassword: new FormControl('', [Validators.required]),
     })
     this.OTPForm = this.spherFormBuilder.group({
-      OTPcode: new UntypedFormControl('', [Validators.required])
+      OTPcode: new FormControl('', [Validators.required])
     })
     this.route.queryParams.subscribe(params => {
       if (params['ekshamtaLogin']) {
@@ -82,6 +86,9 @@ export class PublicLoginComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Initialize telemetry session ID if not present
+    this.telemetrySessionId = this.getOrCreateSessionId()
+
     this.title.setTitle('Aastrika Sphere | Free Certified Courses for Healthcare Professionals')
 
     this.meta.updateTag({
@@ -127,11 +134,11 @@ export class PublicLoginComponent implements OnInit {
   initializeForm(): void {
     if (this.emailPhoneType === 'phone') {
       this.OTPForm = this.spherFormBuilder.group({
-        otp1: new UntypedFormControl('', [Validators.required]),
-        otp2: new UntypedFormControl('', [Validators.required]),
-        otp3: new UntypedFormControl('', [Validators.required]),
-        otp4: new UntypedFormControl('', [Validators.required]),
-        OTPcode: new UntypedFormControl('', [Validators.required])
+        otp1: new FormControl('', [Validators.required]),
+        otp2: new FormControl('', [Validators.required]),
+        otp3: new FormControl('', [Validators.required]),
+        otp4: new FormControl('', [Validators.required]),
+        OTPcode: new FormControl('', [Validators.required])
       })
     } else {
       console.log("email type")
@@ -278,18 +285,32 @@ export class PublicLoginComponent implements OnInit {
           "userPassword": this.loginPwdForm.controls.password.value
         }
       }
+
+      // Prepare masked sensitive data for telemetry
+      const userInput = this.loginPwdForm.controls.emailOrMobile.value
+      const maskedPhone = type === 'phone' ? this.maskPhone(userInput) : ''
+      const maskedEmail = type === 'email' ? this.maskEmail(userInput) : ''
+
+      // Send telemetry for login submit
+      this.sendLoginSubmitTelemetry(type, maskedPhone, maskedEmail, 'password')
+
       console.log(type, 'check')
+      this.isLoginLoading = true
       this.signupService.loginAPI(req).subscribe(res => {
+        this.isLoginLoading = false
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res.status)
         this.openSnackbar(res.msg ?? res.message)
+
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
             console.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
 
-            // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+            // Send login success telemetry after userProfile is populated
+            this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'password', res?.msg || res?.message)
+
             if (localStorage.getItem('url_before_login')) {
               let url = localStorage.getItem('url_before_login') || ''
               location.href = url
@@ -311,7 +332,12 @@ export class PublicLoginComponent implements OnInit {
         }, 500)
 
       }, err => {
+        this.isLoginLoading = false
         console.log(err)
+
+        // Send login failure telemetry
+        this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'password', err?.error?.msg || err?.error?.message || 'Login failed')
+
         if (err.error.message === "User doesn't exists please signup and try again" || err.error.msg === "User doesn't exists please signup and try again") {
           this.userDoesnotExist()
         }
@@ -404,11 +430,23 @@ export class PublicLoginComponent implements OnInit {
           "otp": this.OTPForm.controls.OTPcode.value.trim()
         }
       }
+
+      // Prepare masked sensitive data for telemetry
+      const userInput = this.loginForm.controls.emailOrMobile.value
+      const maskedPhone = type === 'phone' ? this.maskPhone(userInput) : ''
+      const maskedEmail = type === 'email' ? this.maskEmail(userInput) : ''
+
+      // Send telemetry for login submit
+      this.sendLoginSubmitTelemetry(type, maskedPhone, maskedEmail, 'otp')
+
       console.log(req, type)
+      this.isLoginLoading = true
       this.signupService.loginAPI(req).subscribe(res => {
+        this.isLoginLoading = false
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         console.log(res)
         this.openSnackbar(res.msg ?? res.message)
+
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
@@ -425,6 +463,9 @@ export class PublicLoginComponent implements OnInit {
                 }
                 localStorage.setItem('lang123', JSON.stringify(obj))
               }
+
+              // Send login success telemetry after userProfile is populated
+              this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'otp', result?.msg || result?.message)
 
               localStorage.setItem('res', JSON.stringify(res))
               if (localStorage.getItem('url_before_login')) {
@@ -443,13 +484,17 @@ export class PublicLoginComponent implements OnInit {
                 } else {
                   window.location.href = '/page/home'
                 }
-
               }
             }
           })
         }, 500)
       }, err => {
+        this.isLoginLoading = false
         console.log(err.error)
+
+        // Send login failure telemetry
+        this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'otp', err?.error?.msg || err?.error?.message || 'Login failed')
+
         this.openSnackbar(err.error.msg || err.error.message)
       })
     }
@@ -544,6 +589,24 @@ export class PublicLoginComponent implements OnInit {
     console.log("fasdfasdf", text)
     this.selectedField = text
   }
+
+  // Utility functions for masking sensitive data
+  private maskEmail(email: string): string {
+    if (!email || !email.includes('@')) return email
+    const [name, domain] = email.split('@')
+    const maskedName = name.length > 2
+      ? name[0] + '*'.repeat(name.length - 2) + name[name.length - 1]
+      : name
+    return `${maskedName}@${domain}`
+  }
+
+  private maskPhone(phone: string): string {
+    if (!phone || phone.length < 4) return phone
+    const lastFour = phone.slice(-4)
+    const masked = '*'.repeat(phone.length - 4) + lastFour
+    return masked
+  }
+
   checkMobileEmail() {
     this.loginForm.controls.emailOrMobile.setValidators([Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)])
   }
@@ -553,6 +616,97 @@ export class PublicLoginComponent implements OnInit {
   checkPassword() {
 
     this.loginPwdForm.controls.password.setValidators([Validators.required, Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)])
+  }
+
+  // Generate or retrieve telemetry session ID
+  private getOrCreateSessionId(): string {
+    let sessionId = localStorage.getItem('telemetrySessionId')
+    if (!sessionId) {
+      sessionId = uuid()
+      localStorage.setItem('telemetrySessionId', sessionId)
+    }
+    return sessionId
+  }
+
+  // Send login submit telemetry event
+  private sendLoginSubmitTelemetry(type: string, maskedPhone: string, maskedEmail: string, method: string): void {
+    const telemetryExtras: any = {
+      type: 'CLICKED',
+      subtype: 'Login-submitted',
+      id: 'login',
+      pageid: 'Login',
+      extra: {
+        pos: [],
+        values: {
+          phone: maskedPhone,
+          email: maskedEmail,
+          typeOfLogin: type === 'email' ? 'email' : 'phone',
+          method: method
+        }
+      }
+    }
+
+    const actor = {
+      id: this.telemetrySessionId,
+      type: 'Guest user'
+    }
+
+    this.telemetrySvc.interactForLogin('CLICKED', 'Login-submitted', 'login', actor, telemetryExtras)
+  }
+
+  // Send login success telemetry event (after fetchStartUpDetails)
+  sendLoginSuccessTelemetry(type: string, maskedPhone: string, maskedEmail: string, method: string, message: string): void {
+    const loginSuccessExtras: any = {
+      type: 'CLICKED',
+      subtype: 'Login-success',
+      id: 'login',
+      pageid: 'Login',
+      extra: {
+        pos: [],
+        values: {
+          phone: maskedPhone,
+          email: maskedEmail,
+          typeOfLogin: type === 'email' ? 'email' : 'phone',
+          method: method,
+          loginStatus: 'success',
+          message: message
+        }
+      }
+    }
+
+    const loginSuccessActor = {
+      id: this.configSvc.userProfile?.userId || '',
+      type: 'User'
+    }
+    this.telemetrySvc.interact('CLICKED', 'Login-success', 'login', undefined, loginSuccessActor, loginSuccessExtras)
+  }
+
+  // Send login failure telemetry event
+  private sendLoginFailureTelemetry(type: string, maskedPhone: string, maskedEmail: string, method: string, message: string): void {
+    const loginFailureExtras: any = {
+      type: 'CLICKED',
+      subtype: 'Login-failed',
+      id: 'login',
+      pageid: 'Login',
+      extra: {
+        pos: [],
+        values: {
+          phone: maskedPhone,
+          email: maskedEmail,
+          typeOfLogin: type === 'email' ? 'email' : 'phone',
+          method: method,
+          loginStatus: 'failed',
+          message: message
+        }
+      }
+    }
+
+    const loginFailureActor = {
+      id: this.telemetrySessionId,
+      type: 'Guest user'
+    }
+
+    this.telemetrySvc.interactForLogin('CLICKED', 'Login-failed', 'login', loginFailureActor, loginFailureExtras)
   }
 
 }
