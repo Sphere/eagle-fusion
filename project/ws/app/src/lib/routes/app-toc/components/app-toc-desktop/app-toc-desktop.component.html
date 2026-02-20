@@ -129,12 +129,8 @@
 
         </div>
         <div class="flex flex-col gap-1 justify-content-center align-items-center">
-          <!-- <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
-          </ws-widget-btn-content-share> -->
-          <button name="content-share-button" mat-icon-button aria-label="Share Content" matTooltip="Share Content"
-            (click)="shareContent(content)" class="action-button-share" id="share-icon">
-            <img loading="lazy" src="/fusion-assets/icons/share.svg" class="action-icons" />
-          </button>
+          <ws-widget-btn-content-share [isTocBanner]="isTocBanner" [forPreview]="forPreview" [widgetData]="content">
+          </ws-widget-btn-content-share>
           <span class="btn-tittle">{{ 'Share' | translate }}</span>
         </div>
       </div>

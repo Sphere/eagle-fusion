@@ -7,11 +7,11 @@ import { DomSanitizer } from '@angular/platform-browser'
 // import { BtnSettingsService, WidgetContentService } from '@ws-widget/collection'
 import { BtnSettingsService } from '@ws-widget/collection'
 import {
-  // hasPermissions,
+  hasPermissions,
   hasUnitPermission,
   // LoginResolverService,
   // LoginResolverService,
-  // NsWidgetResolver,
+  NsWidgetResolver,
   WidgetResolverService,
   // LoginResolverService,
 } from '@ws-widget/resolver'
@@ -31,6 +31,7 @@ import { environment } from '../../environments/environment'
 // import _ from 'lodash'
 import { isUndefined, get } from "lodash"
 
+// import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
 // import { retry } from 'rxjs/operators'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
@@ -44,13 +45,13 @@ import { ConfigCacheService } from './config-cache.service'
 //   profileDetailsStatus: boolean
 // }
 
-// interface IFeaturePermissionConfigs {
-//   [id: string]: Omit<NsWidgetResolver.IPermissions, 'feature'>
-// }
+interface IFeaturePermissionConfigs {
+  [id: string]: Omit<NsWidgetResolver.IPermissions, 'feature'>
+}
 // const PROXY_CREATE_V8 = '/apis/proxies/v8'
-// Note: The profilePid endpoint constant is no longer needed here as it's now handled by UserDataCacheService
 // const endpoint = {
 //   profilePid: '/apis/proxies/v8/api/user/v2/read',
+//   // details: `/apis/protected/v8/user/details?ts=${Date.now()}`,
 //   CREATE_USER_API: `${PROXY_CREATE_V8}/discussion/user/v1/create`,
 // }
 
@@ -173,13 +174,13 @@ export class InitService {
       // await this.fetchUserProfileV2()
       const appsConfigPromise = await this.fetchAppsConfig()
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
-      // const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
-      // await this.fetchFeaturesStatus() // feature: depends only on details
+      const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
+      await this.fetchFeaturesStatus() // feature: depends only on details
       /**
        * Wait for the widgets and get the list of restricted widgets
        */
-      // const widgetConfig = await widgetStatusPromise
-      // this.processWidgetStatus(widgetConfig)
+      const widgetConfig = await widgetStatusPromise
+      this.processWidgetStatus(widgetConfig)
       this.widgetResolverService.initialize(
         this.configSvc.restrictedWidgets,
         this.configSvc.userRoles,
@@ -599,65 +600,42 @@ export class InitService {
     return publicConfig
   }
 
-  // private async fetchFeaturesStatus(): Promise<Set<string>> {
-  //   // TODO: use the rootOrg and org to fetch the features
-  //   try {
-  //     const featureConfigs = await this.http
-  //       .get<IFeaturePermissionConfigs>(`${this.baseUrl}/features.config.json`, { responseType: 'json' })
-  //       .toPromise()
-  //       .catch(() => ({} as IFeaturePermissionConfigs))
-  //     this.configSvc.restrictedFeatures = new Set(
-  //       Object.entries(featureConfigs || {})
-  //         .filter(
-  //           ([_k, v]) => !hasPermissions(v, this.configSvc.userRoles, this.configSvc.userGroups),
-  //         )
-  //         .map(([k]) => k),
-  //     )
-  //     return this.configSvc.restrictedFeatures
-  //   } catch (err) {
-  //     this.logger.error('Error fetching features status:', err)
-  //     this.configSvc.restrictedFeatures = new Set()
-  //     return this.configSvc.restrictedFeatures
-  //   }
-  // }
-  // private async fetchWidgetStatus(): Promise<NsWidgetResolver.IRegistrationsPermissionConfig[]> {
-  //   let widgetConfigs: any = []
-  //   try {
-  //     widgetConfigs = await this.http
-  //       .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`${this.baseUrl}/widgets.config.json`, { responseType: 'json' })
-  //       .toPromise()
-  //       .catch(() => [] as NsWidgetResolver.IRegistrationsPermissionConfig[])
-  //   } catch (err) {
-  //     this.logger.error('Error fetching widget status:', err)
-  //     widgetConfigs = []
-  //   }
-  //   return widgetConfigs
-  // }
+  private async fetchFeaturesStatus(): Promise<Set<string>> {
+    // TODO: use the rootOrg and org to fetch the features
+    const featureConfigs = await this.http
+      .get<IFeaturePermissionConfigs>(`${this.baseUrl}/features.config.json`)
+      .toPromise()
+    this.configSvc.restrictedFeatures = new Set(
+      Object.entries(featureConfigs)
+        .filter(
+          ([_k, v]) => !hasPermissions(v, this.configSvc.userRoles, this.configSvc.userGroups),
+        )
+        .map(([k]) => k),
+    )
+    return this.configSvc.restrictedFeatures
+  }
+  private async fetchWidgetStatus(): Promise<NsWidgetResolver.IRegistrationsPermissionConfig[]> {
+    const widgetConfigs = await this.http
+      .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`${this.baseUrl}/widgets.config.json`)
+      .toPromise()
+    return widgetConfigs
+  }
 
-  // private processWidgetStatus(widgetConfigs: NsWidgetResolver.IRegistrationsPermissionConfig[]) {
-  //   try {
-  //     if (!widgetConfigs || !Array.isArray(widgetConfigs)) {
-  //       this.configSvc.restrictedWidgets = new Set()
-  //       return this.configSvc.restrictedWidgets
-  //     }
-  //     this.configSvc.restrictedWidgets = new Set(
-  //       widgetConfigs
-  //         .filter(u =>
-  //           hasPermissions(
-  //             u.widgetPermission,
-  //             this.configSvc.userRoles,
-  //             this.configSvc.userGroups,
-  //             this.configSvc.restrictedFeatures,
-  //           ),
-  //         )
-  //         .map(u => WidgetResolverService.getWidgetKey(u)),
-  //     )
-  //   } catch (err) {
-  //     this.logger.error('Error processing widget status:', err)
-  //     this.configSvc.restrictedWidgets = new Set()
-  //   }
-  //   return this.configSvc.restrictedWidgets
-  // }
+  private processWidgetStatus(widgetConfigs: NsWidgetResolver.IRegistrationsPermissionConfig[]) {
+    this.configSvc.restrictedWidgets = new Set(
+      widgetConfigs
+        .filter(u =>
+          hasPermissions(
+            u.widgetPermission,
+            this.configSvc.userRoles,
+            this.configSvc.userGroups,
+            this.configSvc.restrictedFeatures,
+          ),
+        )
+        .map(u => WidgetResolverService.getWidgetKey(u)),
+    )
+    return this.configSvc.restrictedWidgets
+  }
 
   private processAppsConfig(appsConfig: NsAppsConfig.IAppsConfig): NsAppsConfig.IAppsConfig {
     if (!appsConfig || !appsConfig.features || !appsConfig.groups) {
