@@ -29,7 +29,7 @@
     </ng-container>
   </section>
 
-  <div *ngIf="(content.data.length == 0 && content?.fallbackState?.label)" class="mt-4 view-all-course-container">
+  <div *ngIf="(content?.data?.length == 0 && content?.fallbackState?.label)" class="mt-4 view-all-course-container">
     <div [ngClass]="i === 0 || (isXSmall && i === 1) ? 'bg-green' : 'orange'"
       class="line-label flex scroller-container">
       <span [ngClass]="{'header0': i == 0 || isXSmall && i == 1}" [class]="content.headerClass">

@@ -1,5 +1,6 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
-import { APP_BASE_HREF, PlatformLocation, CommonModule } from '@angular/common'
+import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
+import { CommonModule } from '@angular/common'
 import {
   HttpClientJsonpModule,
   HttpClientModule,
@@ -52,7 +53,7 @@ import {
   BtnFeatureModule,
   ErrorResolverModule,
   // TourModule,
-  WIDGET_REGISTERED_MODULES,
+  // WIDGET_REGISTERED_MODULES, // Removed - causes static analysis issues
   WIDGET_REGISTRATION_CONFIG,
   PipeContentRoutePipe,
 } from '@ws-widget/collection'
@@ -98,7 +99,7 @@ import { LanguageService } from './services/language.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
-import { MdePopoverModule } from '@jaguards/material-extended-mde'
+// import { MdePopoverModule } from '@jaguards/material-extended-mde' // Removed - not compatible with Angular Ivy
 import { MobileLoginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 import { BnrcLoginOtpComponent } from './routes/bnrc-login-otp/bnrc-login-otp.component'
@@ -157,8 +158,9 @@ import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.componen
 import { TnnmcConfirmComponent } from './component/tnnmc-dialog-confirm/tnnmc-confirm.component'
 import { TextFieldModule } from '@angular/cdk/text-field'
 import { ProfileViewModule } from './routes/profile-view/profile-view.module'
-import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
 import { MatTabsModule } from '@angular/material/tabs'
+import { MobileCourseViewComponent } from './routes/mobile-course-view/mobile-course-view.component'
+import { UserProfileService } from '../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -353,7 +355,6 @@ export function initializeCompetencyConfig(): () => void {
     ReactiveFormsModule,
     AppRoutingModule,
     KeycloakAngularModule,
-    ...WIDGET_REGISTERED_MODULES,
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
     ErrorResolverModule,
     MatSliderModule,
@@ -381,7 +382,6 @@ export function initializeCompetencyConfig(): () => void {
     PipeSafeSanitizerModule,
     LogoutModule,
     SlidersModule,
-    MdePopoverModule,
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
@@ -391,9 +391,9 @@ export function initializeCompetencyConfig(): () => void {
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
-    EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    EntryModule,
     SelfAssessmentModule,
-    CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG),
+    CompetencyModule,
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,
@@ -467,6 +467,7 @@ export function initializeCompetencyConfig(): () => void {
       deps: [LanguageService],
       multi: true,
     },
+    UserProfileService
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
