@@ -17,10 +17,10 @@ export class SearchRootComponent implements OnInit {
   }
   route = 'learning'
   searchRequest: {
-    query: string;
-    filters: { [type: string]: string[] };
-    social?: string;
-    sort?: string;
+    query: string
+    filters: { [type: string]: string[] }
+    social?: string
+    sort?: string
   } = {
       query: '',
       filters: {},
@@ -36,7 +36,7 @@ export class SearchRootComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    if (this.activated.snapshot.data.searchPageData.data.search) {
+    if (this.activated?.snapshot?.data?.searchPageData?.data?.search) {
       this.searchTabs = this.activated.snapshot.data.searchPageData.data.search
     }
     this.activated.queryParamMap.subscribe(queryParam => {
