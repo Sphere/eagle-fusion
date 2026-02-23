@@ -117,30 +117,30 @@ export class PageComponent extends WidgetBaseComponent
             data.widgetData.actionBtnId !== 'channel_how_to')
         }
       } else {
-        // this.pageData = null
-        // this.error = routeData.pageData.error
+        this.pageData = null
+        this.error = routeData.pageData.error
 
-        // // Determine error type for better user messaging
-        // if (routeData.pageData.error && typeof routeData.pageData.error === 'object') {
-        //   const err = routeData.pageData.error
-        //   this.isNetworkError = err.type === 'NetworkError' || err.status === 0
-        //   this.isServerError = err.type === 'ServerError' || (err.status >= 500 && err.status < 600)
-        //   this.isForbiddenError = err.type === 'Forbidden' || err.status === 403
-        //   this.isClientError = err.type === 'ClientError' || (err.status >= 400 && err.status < 500)
+        // Determine error type for better user messaging
+        if (routeData.pageData.error && typeof routeData.pageData.error === 'object') {
+          const err = routeData.pageData.error
+          this.isNetworkError = err.type === 'NetworkError' || err.status === 0
+          this.isServerError = err.type === 'ServerError' || (err.status >= 500 && err.status < 600)
+          this.isForbiddenError = err.type === 'Forbidden' || err.status === 403
+          this.isClientError = err.type === 'ClientError' || (err.status >= 400 && err.status < 500)
 
-        //   // Log error details for debugging
-        //   this.logger.error('Page resolver error:', {
-        //     type: err.type,
-        //     status: err.status,
-        //     message: err.message,
-        //     url: window.location.href
-        //   })
-        // } else {
-        //   // Legacy error handling (string or simple error)
-        //   this.isNetworkError = routeData.pageData.error !== 'NoContent'
-        // }
+          // Log error details for debugging
+          this.logger.error('Page resolver error:', {
+            type: err.type,
+            status: err.status,
+            message: err.message,
+            url: window.location.href
+          })
+        } else {
+          // Legacy error handling (string or simple error)
+          this.isNetworkError = routeData.pageData.error !== 'NoContent'
+        }
 
-        // this.logger.warn('No page data available')
+        this.logger.warn('No page data available')
       }
       if (this.pageData) {
         this.oldData = this.pageData

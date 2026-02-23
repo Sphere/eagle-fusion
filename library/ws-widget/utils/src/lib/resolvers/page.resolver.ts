@@ -14,6 +14,7 @@ import { NsContent } from '../../../../collection/src/lib/_services/widget-conte
 })
 export class PageResolve {
   private baseUrl = this.configSvc.sitePath
+  private localBaseUrl = this.configSvc.localSitePath
   constructor(
     private configSvc: ConfigurationsService,
     private http: HttpClient,
@@ -25,8 +26,12 @@ export class PageResolve {
     if (route.data.pageUrl) {
       return this.getData(route.data.pageUrl)
     }
-    if (route.data.pageType === 'feature' && route.data.pageKey) {
-      return this.getData(`${this.baseUrl}/feature/${route.data.pageKey}`)
+    if (route.data.pageType === 'feature') {
+      if (route.data.pageKey == 'search' || route.data.pageKey == 'toc') {
+        return this.getData(`${this.localBaseUrl}/${route.data.pageKey}`)
+      } else if (route.data.pageKey) {
+        return this.getData(`${this.baseUrl}/${route.data.pageKey}`)
+      }
     }
     if (
       route.data.pageType === 'page' &&

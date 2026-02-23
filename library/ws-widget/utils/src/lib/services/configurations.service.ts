@@ -22,6 +22,7 @@ export class ConfigurationsService {
   userUrl = ''
   baseUrl = 'assets/configurations'
   sitePath = 'assets/configurations'
+  localSitePath = 'fusion-assets/files'
   // baseUrl = `assets/configurations/${(locationHost || window.location.host).replace(':', '_')}`
   // sitePath = `assets/configurations/${(instanceConfigPath || window.location.host).replace(
   //   ':',
