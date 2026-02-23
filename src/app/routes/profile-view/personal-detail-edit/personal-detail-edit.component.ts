@@ -607,7 +607,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
                     .pipe(takeUntil(this.destroy$))
                     .subscribe(
                       () => {
-                        const redirectUrl = result.id === 'en' ? `${location.origin}/page/home` : `${location.origin}/${result.id}/page/home`
+                        const redirectUrl = `${location.origin}/page/home`
                         window.location.assign(redirectUrl)
                       },
                       (err) => {

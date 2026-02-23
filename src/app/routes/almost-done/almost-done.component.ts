@@ -520,33 +520,19 @@ export class AlmostDoneComponent implements OnInit {
         }
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
-          let lang = this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined ? this.configSvc.unMappedUser.profileDetails.preferences.language !== 'en' ? this.configSvc.unMappedUser.profileDetails.preferences.language : '' : ''
           console.log(params.redirect, 'redirect')
           let url1 = params.redirect
-          if (url1.includes('hi')) {
-            url1 = url1.replace('hi', '')
-          }
-          const url2 = `${lang}${url1}`
           let url3 = `${document.baseURI}`
-          if (url3.includes('hi')) {
-            url3 = url3.replace('hi/', '')
-          }
           if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
             localStorage.removeItem('url_before_login')
-            url3 = `${url3}${url2}`
+            url3 = `${url3}${url1}`
             console.log(url3)
             location.href = url3
-            //this.router.navigate([url2])
           } else {
             let url = `${document.baseURI}`
-            if (url.includes('hi')) {
-              url = url.replace('hi/', '')
-            }
-            let urlnew = lang === 'hi' ? '/page/home' : 'page/home'
-            url = `${url}${lang}${urlnew}`
+            url = `${url}/page/home`
             console.log(url)
             location.href = url
-            // this.router.navigate(['page', 'home'])
           }
         })
       }
