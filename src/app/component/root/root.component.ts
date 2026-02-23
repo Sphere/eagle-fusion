@@ -634,7 +634,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         } else if (
           event.url.includes('/app/search/learning') ||
           event.url.includes('/app/video-player') ||
-          event.url.includes('/app/profile/dashboard')
+          event.url.includes('/app/profile/dashboard') ||
+          event.url.includes('app/profile-view')
         ) {
           this.mobileView = false
           this.isNavBarRequired = true

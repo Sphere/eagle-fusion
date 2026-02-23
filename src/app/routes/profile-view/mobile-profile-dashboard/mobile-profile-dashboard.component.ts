@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, effect } from '@angular/core'
+import { Component, OnInit, Inject, effect, ChangeDetectorRef } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import {
@@ -88,7 +88,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     @Inject(DOCUMENT) private _document: Document,
     private telemetrySvc: TelemetryService,
     private plylsSvc: PlaylistService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cdr: ChangeDetectorRef
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe((data: any) => {
       console.log(data)
@@ -159,6 +160,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.selectedIndex = this.isEkshamata ? this.uiConfig[1]?.name : this.uiConfig[0]?.name
     this.selectedIndexData = this.isEkshamata ? this.uiConfig[1]?.data : this.uiConfig[0]?.data
     this.selectedIndextitle = this.isEkshamata ? this.uiConfig[1]?.text : this.uiConfig[0]?.text
+    this.cdr.detectChanges()
   }
 
   ngOnInit() {

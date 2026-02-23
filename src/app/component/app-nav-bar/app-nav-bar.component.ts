@@ -1,4 +1,4 @@
-import { Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core'
+import { ChangeDetectorRef, Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import {
   IBtnAppsConfig,
@@ -67,7 +67,8 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     public dialog: MatDialog,
     public navOption: appNavBarService,
     private playlistSvc: PlaylistService,
-    private languageSvc: LanguageService
+    private languageSvc: LanguageService,
+    private cdr: ChangeDetectorRef
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
@@ -121,6 +122,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     }
     this.appIcon = this.orgData?.appLogo
     this.orgLogo = this.orgData?.foundationLogo
+    this.cdr.detectChanges()
   }
 
   async ngOnInit() {
