@@ -37,7 +37,7 @@ export class SearchInputComponent implements OnInit, OnDestroy {
   }
 
   getSearchConfig() {
-    const url = `${this.configSvc.sitePath}/feature/search.json`
+    const url = `fusion-assets/files/search.json`
     this.widgetContentSvc.fetchConfig(url).subscribe(
       config => {
         this.availableLanguages = config.search.languageSearch.map((locale: string) => locale.toLowerCase())

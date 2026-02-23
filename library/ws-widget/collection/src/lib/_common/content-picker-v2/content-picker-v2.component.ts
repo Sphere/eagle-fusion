@@ -152,7 +152,7 @@ export class ContentPickerV2Component implements OnInit, OnDestroy {
     if (!this.searchConfig) {
       this.searchConfig = {}
       try {
-        this.searchConfig = await this.contentPickerSvc.getData(`${this.configSvc.sitePath}/feature/search.json`).toPromise()
+        this.searchConfig = await this.contentPickerSvc.getData(`fusion-assets/files/search.json`).toPromise()
       } catch (_err) { }
     }
     // const isStandAlone = this.searchConfig.search.tabs[0].isStandAlone

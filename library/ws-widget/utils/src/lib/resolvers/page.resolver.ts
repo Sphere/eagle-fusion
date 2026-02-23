@@ -33,7 +33,12 @@ export class PageResolve {
       route.data.pageKey &&
       route.paramMap.has(route.data.pageKey)
     ) {
-      return this.getData(`${this.baseUrl}/page/${route.paramMap.get(route.data.pageKey)}`)
+      const pageKey = route.paramMap.get(route.data.pageKey)
+      // Use local fusion-assets for home page
+      if (pageKey === 'home') {
+        return this.getData(`fusion-assets/files/home`)
+      }
+      return this.getData(`${this.baseUrl}/page/${pageKey}`)
     }
     if (
       route.data.pageType === 'public' &&

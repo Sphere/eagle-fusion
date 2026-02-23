@@ -603,7 +603,7 @@ export class InitService {
   private async fetchFeaturesStatus(): Promise<Set<string>> {
     // TODO: use the rootOrg and org to fetch the features
     const featureConfigs = await this.http
-      .get<IFeaturePermissionConfigs>(`${this.baseUrl}/features.config.json`)
+      .get<IFeaturePermissionConfigs>(`fusion-assets/files/features.config.json`)
       .toPromise()
     this.configSvc.restrictedFeatures = new Set(
       Object.entries(featureConfigs)
@@ -616,7 +616,7 @@ export class InitService {
   }
   private async fetchWidgetStatus(): Promise<NsWidgetResolver.IRegistrationsPermissionConfig[]> {
     const widgetConfigs = await this.http
-      .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`${this.baseUrl}/widgets.config.json`)
+      .get<NsWidgetResolver.IRegistrationsPermissionConfig[]>(`fusion-assets/files/widgets.config.json`)
       .toPromise()
     return widgetConfigs
   }

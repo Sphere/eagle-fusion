@@ -42,9 +42,8 @@ export class SearchServService {
   async getSearchConfig(): Promise<any> {
     if (!this.searchConfig) {
       this.searchConfig = {}
-      const baseUrl = this.configSrv.sitePath
       try {
-        this.searchConfig = await this.http.get<any>(`${baseUrl}/feature/search.json`).toPromise()
+        this.searchConfig = await this.http.get<any>(`fusion-assets/files/search.json`).toPromise()
       } catch (err) {
         console.log(err)
       }
