@@ -98,6 +98,10 @@ color: #7B6961 !important;
     padding-right: 85px !important;
     padding-top: 0px !important;
 
+    @media(max-width: 767px) {
+      padding-left: 5%;
+    }
+
     @include breakpoint-l {
       padding-right: 30px !important;
       line-height: 23px;
@@ -656,7 +660,7 @@ color: #7B6961;
       font-size: 14px !important;
       line-height: 17px !important;
       font-weight: 400 !important;
-      margin-left: 0.6rem;
+      // margin-left: 0.6rem;
     }
     .list-item-link {
       font-size: 14px !important;
@@ -664,9 +668,9 @@ color: #7B6961;
       font-weight: 400 !important;
     }
   }
-  .social-logo-container {
-    margin-left: 1.2rem
-  }
+  // .social-logo-container {
+  //   margin-left: 1.2rem
+  // }
 }
 .docs-footer-mob {
   padding-bottom: 0.8rem !important;

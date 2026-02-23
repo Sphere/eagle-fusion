@@ -73,9 +73,9 @@
 
       <!-- NON-EKSHAMATA SECTION -->
       <ng-container *ngIf="!isEkshamata">
-        <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
+        <mat-list class="list list-items" [ngClass]="{'ml-12': !isXSmall}">
           <mat-list-item>
-            <span class="link-header">{{ configData?.menuItems?.[0]?.heading | translate }}</span>
+            <div class="link-header">{{ configData?.menuItems?.[0]?.heading | translate }}</div>
           </mat-list-item>
           <mat-list-item *ngFor="let link of configData?.menuItems?.[0]?.links" style="list-style: none;">
             <a [routerLink]="link.routerLink" [queryParams]="{ panel: link.type }">
@@ -103,7 +103,7 @@
 
         <mat-list class="list mt-10 list-items" [ngClass]="{'ml-12': !isXSmall, 'mt-20': isXSmall}">
           <mat-list-item>
-            <span class="link-header">{{ configData?.menuItems?.[3]?.heading | translate }}</span>
+            <div class="link-header">{{ configData?.menuItems?.[3]?.heading | translate }}</div>
           </mat-list-item>
           <mat-list-item class="foundation-container" style="margin-top: 10px;">
             <span class="foundation">{{
