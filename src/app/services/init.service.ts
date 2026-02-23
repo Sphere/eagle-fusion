@@ -59,7 +59,7 @@ interface IFeaturePermissionConfigs {
   providedIn: 'root',
 })
 export class InitService {
-  private baseUrl = 'assets/configurations'
+  // private baseUrl = 'assets/configurations'
   private orgSelectiveConfig: any | null = null
 
   domain: string = ''
@@ -467,10 +467,10 @@ export class InitService {
         local = localStorage.getItem('language') === 'hi' ? 'hi' : ''
       }
 
-      const url = local === 'hi' ? `/feature/apps.${'hi'}.json` : `/feature/apps.json`
+      const url = local === 'hi' ? `fusion-assets/files/apps.hi.json` : `fusion-assets/files/apps.json`
       console.log(local, 'local', url)
       const appsConfig = await this.http
-        .get<NsAppsConfig.IAppsConfig>(`${this.baseUrl}${url}`, { responseType: 'json' })
+        .get<NsAppsConfig.IAppsConfig>(`${url}`, { responseType: 'json' })
         .toPromise()
         .catch(() => ({ features: {}, groups: [], tourGuide: {} } as NsAppsConfig.IAppsConfig))
       return appsConfig
@@ -590,7 +590,7 @@ export class InitService {
   private async fetchInstanceConfig(): Promise<NsInstanceConfig.IConfig> {
     // TODO: use the rootOrg and org to fetch the instance
     const publicConfig = await this.http
-      .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
+      .get<NsInstanceConfig.IConfig>(`fusion-assets/files/site.config.json`)
       .toPromise()
     this.configSvc.instanceConfig = publicConfig
     this.configSvc.rootOrg = publicConfig.rootOrg

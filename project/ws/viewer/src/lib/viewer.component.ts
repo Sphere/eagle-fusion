@@ -182,7 +182,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
     // this.getDiscussionConfig()
   }
   getLicenseConfig() {
-    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    const licenseurl = '/fusion-assets/files/license.meta.json'
     this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
       const licenseData = data
       if (licenseData) {
@@ -214,7 +214,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   }
 
   getTocConfig() {
-    const url = `${this.configSvc.sitePath}/feature/toc.json`
+    const url = `fusion-assets/files/toc.json`
     this.widgetContentSvc.fetchConfig(url).subscribe(data => {
       this.tocConfig = data
     })

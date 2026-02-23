@@ -7,7 +7,7 @@ import { Subject } from 'rxjs'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+// import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 // import { HttpErrorResponse } from '@angular/common/http'
 
@@ -31,7 +31,7 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private route: ActivatedRoute,
     private widgetContentSvc: WidgetContentService,
-    private configSvc: ConfigurationsService) { }
+  ) { }
 
   ngOnInit() {
     if (this.tocData) {
@@ -49,20 +49,20 @@ export class PublicTocOverviewComponent implements OnInit, OnDestroy {
     })
   }
   fetchTocConfig() {
-    this.http.get('assets/configurations/feature/toc.json').pipe().subscribe((res: any) => {
+    this.http.get('fusion-assets/files/toc.json').pipe().subscribe((res: any) => {
       this.tocConfig = res
     })
   }
 
   getLicenseConfig() {
-    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    const licenseurl = '/fusion-assets/files/license.meta.json'
     this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
       const licenseData = data
       if (licenseData) {
         this.currentLicenseData = licenseData.licenses.filter((license: any) => license.licenseName === this.licenseName)
       }
     },
-                                                            (err: HttpErrorResponse) => {
+      (err: HttpErrorResponse) => {
         if (err.status === 404) {
           this.getLicenseConfig()
         }

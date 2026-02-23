@@ -45,7 +45,7 @@ describe('PublicTocBannerComponent', () => {
   it('should fetch TOC config on init', fakeAsync(() => {
     component.ngOnInit()
     tick()
-    expect(httpClient.get).toHaveBeenCalledWith('assets/configurations/feature/toc.json')
+    expect(httpClient.get).toHaveBeenCalledWith('fusion-assets/files/toc.json')
     expect(component.tocConfig).toEqual({})
   }))
 

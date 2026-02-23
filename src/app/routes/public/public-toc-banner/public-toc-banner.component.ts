@@ -39,7 +39,7 @@ export class PublicTocBannerComponent implements OnInit {
     this.router.navigateByUrl('app/create-account')
   }
   fetchTocConfig() {
-    this.http.get('assets/configurations/feature/toc.json').pipe().subscribe((res: any) => {
+    this.http.get('fusion-assets/files/toc.json').pipe().subscribe((res: any) => {
       this.tocConfig = res
     })
   }

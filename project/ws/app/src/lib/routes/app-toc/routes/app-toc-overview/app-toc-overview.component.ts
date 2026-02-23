@@ -9,7 +9,7 @@ import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 import { get } from 'lodash'
 import { takeUntil } from 'rxjs/operators'
-import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
+// import { ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 import { HttpErrorResponse } from '@angular/common/http'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 // import { HttpErrorResponse } from '@angular/common/http'
@@ -53,7 +53,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
     private router: Router,
-    private configSvc: ConfigurationsService,
+    // private configSvc: ConfigurationsService,
     private widgetContentSvc: WidgetContentService
   ) {
     // this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
@@ -97,7 +97,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
   }
 
   getLicenseConfig() {
-    const licenseurl = `${this.configSvc.sitePath}/license.meta.json`
+    const licenseurl = '/fusion-assets/files/license.meta.json'
     this.widgetContentSvc.fetchConfig(licenseurl).subscribe(data => {
       const licenseData = data
       if (licenseData) {

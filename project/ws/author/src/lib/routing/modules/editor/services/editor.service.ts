@@ -172,7 +172,7 @@ export class EditorService {
   }
 
   fetchConfig() {
-    return this.apiService.get<any>(`${this.configSvc.sitePath}/license.meta.json`)
+    return this.apiService.get<any>('/fusion-assets/files/license.meta.json')
   }
 
   fetchOrgMeta() {

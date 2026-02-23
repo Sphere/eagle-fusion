@@ -50,7 +50,7 @@ export class PageResolve {
       route.data.pageKey &&
       route.data.pageKey === 'toc'
     ) {
-      return this.getData(`${this.baseUrl}/page/${route.data.pageKey}`)
+      return this.getData('fusion-assets/files/toc')
     }
     return {
       data: null,
