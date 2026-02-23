@@ -1,81 +1,49 @@
 import { APP_BASE_HREF } from '@angular/common'
-// import { retry } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
 import { Inject, Injectable } from '@angular/core'
 import { MatIconRegistry } from '@angular/material/icon'
 import { DomSanitizer } from '@angular/platform-browser'
-// import { BtnSettingsService, WidgetContentService } from '@ws-widget/collection'
 import { BtnSettingsService } from '@ws-widget/collection'
 import {
   hasPermissions,
   hasUnitPermission,
-  // LoginResolverService,
-  // LoginResolverService,
   NsWidgetResolver,
   WidgetResolverService,
-  // LoginResolverService,
 } from '@ws-widget/resolver'
 import {
-  // AuthKeycloakService,
-  // AuthKeycloakService,
-  // AuthKeycloakService,
   ConfigurationsService,
   LoggerService,
   NsAppsConfig,
   NsInstanceConfig,
-  // NsUser,
   UserPreferenceService,
 } from '@ws-widget/utils'
 import { environment } from '../../environments/environment'
-/* tslint:disable */
-// import _ from 'lodash'
 import { isUndefined, get } from "lodash"
-
-// import { map } from 'rxjs/operators'
 import { v4 as uuid } from 'uuid'
-// import { retry } from 'rxjs/operators'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { UserDataCacheService } from './user-data-cache.service'
 import { ConfigCacheService } from './config-cache.service'
 
-// interface IDetailsResponse {
-//   tncStatus: boolean
-//   roles: string[]
-//   group: string[]
-//   profileDetailsStatus: boolean
-// }
-
 interface IFeaturePermissionConfigs {
   [id: string]: Omit<NsWidgetResolver.IPermissions, 'feature'>
 }
-// const PROXY_CREATE_V8 = '/apis/proxies/v8'
-// const endpoint = {
-//   profilePid: '/apis/proxies/v8/api/user/v2/read',
-//   // details: `/apis/protected/v8/user/details?ts=${Date.now()}`,
-//   CREATE_USER_API: `${PROXY_CREATE_V8}/discussion/user/v1/create`,
-// }
 
 @Injectable({
   providedIn: 'root',
 })
 export class InitService {
-  // private baseUrl = 'assets/configurations'
   private orgSelectiveConfig: any | null = null
 
   domain: string = ''
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
-    //private authSvc: AuthKeycloakService,
     private widgetResolverService: WidgetResolverService,
     private settingsSvc: BtnSettingsService,
     private userPreference: UserPreferenceService,
     private http: HttpClient,
-    // private widgetContentSvc: WidgetContentService,
-    //private loginResolverService: LoginResolverService,
     private readonly authSvc: AuthKeycloakService,
     @Inject(APP_BASE_HREF) private baseHref: string,
-    //private router: Router,
     domSanitizer: DomSanitizer,
     iconRegistry: MatIconRegistry,
     private userDataCacheSvc: UserDataCacheService,
@@ -104,7 +72,6 @@ export class InitService {
   }
 
   async init() {
-    // this.logger.removeConsoleAccess()
     const authenticated = await this.authSvc.initAuth()
     const loginData = localStorage.getItem('loginDetailsWithToken')
     if (authenticated) {
@@ -118,24 +85,7 @@ export class InitService {
       }
     }
 
-
-
     await this.fetchDefaultConfig()
-    // const authenticated = await this.authSvc.initAuth()
-
-    // if (!authenticated) {
-    //   this.settingsSvc.initializePrefChanges(environment.production)
-    //   // TODO: use the rootOrg and org to fetch the instance
-    //   const publicConfig = await this.http
-    //     .get<NsInstanceConfig.IConfig>(`${this.configSvc.sitePath}/site.config.json`)
-    //     .toPromise()
-    //   this.configSvc.instanceConfig = publicConfig
-    //   this.updateNavConfig()
-    //   this.logger.info('Not Authenticated')
-    //   this.loginResolverService.initialize()
-    //   return false
-    // }
-    // Invalid User
     try {
       // Always attempt to load user data from cache or API, regardless of route
       // This ensures user data is available for all routes (public and private)
@@ -159,19 +109,7 @@ export class InitService {
 
     }
     try {
-      // this.logger.info('User Authenticated', authenticated)
-      // const userPrefPromise = await this.userPreference.fetchUserPreference() // pref: depends on rootOrg
-      // this.configSvc.userPreference = userPrefPromise
-      // this.configSvc.userPreference.selectedTheme = 'theme-igot'
       this.reloadAccordingToLocale()
-      // if (this.configSvc.userPreference.pinnedApps) {
-      //   const pinnedApps = this.configSvc.userPreference.pinnedApps.split(',')
-      //   this.configSvc.pinnedApps.next(new Set(pinnedApps))
-      // }
-      // if (this.configSvc.userPreference.profileSettings) {
-      //   this.configSvc.profileSettings = this.configSvc.userPreference.profileSettings
-      // }
-      // await this.fetchUserProfileV2()
       const appsConfigPromise = await this.fetchAppsConfig()
       const instanceConfigPromise = this.fetchInstanceConfig() // config: depends only on details
       const widgetStatusPromise = this.fetchWidgetStatus() // widget: depends only on details & feature
@@ -216,12 +154,6 @@ export class InitService {
 
 
     this.updateNavConfig()
-    // await this.widgetContentSvc
-    //   .setS3ImageCookie()
-    //   .toPromise()
-    //   .catch(() => {
-    //     // throw new DataResponseError('COOKIE_SET_FAILURE')
-    //   })
     return true
   }
   /** Fetches config once and caches it */
@@ -490,10 +422,6 @@ export class InitService {
 
         if (userPidProfile && userPidProfile.roles && userPidProfile.roles.length > 0 &&
           this.hasRole(userPidProfile.roles)) {
-          // if (userPidProfile.result.response.organisations.length > 0) {
-          //   const organisationData = userPidProfile.result.response.organisations
-          //   userRoles = (organisationData[0].roles.length > 0) ? organisationData[0].roles : []
-          // }
           if (localStorage.getItem('telemetrySessionId')) {
             localStorage.removeItem('telemetrySessionId')
           }
@@ -509,8 +437,7 @@ export class InitService {
             lastName: userPidProfile.lastName,
             rootOrgId: userPidProfile.rootOrgId,
             rootOrgName: userPidProfile.channel,
-            // tslint:disable-next-line: max-line-length
-            // userName: `${userPidProfile.firstName ? userPidProfile.firstName : ' '}${userPidProfile.lastName ? userPidProfile.lastName : ' '}`,
+
             userName: userPidProfile.userName,
             profileImage: userPidProfile.thumbnail,
             departmentName: userPidProfile.channel,
@@ -558,10 +485,6 @@ export class InitService {
         }
         this.configSvc.hasAcceptedTnc = details.tncStatus
         this.configSvc.profileDetailsStatus = details.profileDetailsStatus
-        // this.configSvc.userRoles = new Set((userRoles || []).map(v => v.toLowerCase()))
-        // const detailsV: IDetailsResponse = await this.http
-        // .get<IDetailsResponse>(endpoint.details).pipe(retry(3))
-        // .toPromise()
         this.configSvc.userGroups = new Set(details.group)
         this.configSvc.userRoles = new Set((details.roles || []).map((v: string) => v.toLowerCase()))
         this.configSvc.isActive = details.isActive
@@ -577,13 +500,6 @@ export class InitService {
       }
     } else {
       return { group: [], profileDetailsStatus: true, roles: new Set(['Public']), tncStatus: true, isActive: true }
-      // const details: IDetailsResponse = await this.http
-      //   .get<IDetailsResponse>(endpoint.details).pipe(retry(3))
-      //   .toPromise()
-      // this.configSvc.userGroups = new Set(details.group)
-      // this.configSvc.userRoles = new Set((details.roles || []).map(v => v.toLowerCase()))
-      // if (this.configSvc.userProfile && this.configSvc.userProfile.isManager) {
-      //   this.configSvc.userRoles.add('is_manager')
     }
   }
 
@@ -680,7 +596,6 @@ export class InitService {
 
   private updateAppIndexMeta() {
     if (this.configSvc.instanceConfig) {
-      //document.title = this.configSvc.instanceConfig.details.appName
       try {
         if (this.configSvc.instanceConfig.indexHtmlMeta.description) {
           const manifestElem = document.getElementById('id-app-description')
@@ -692,16 +607,6 @@ export class InitService {
             )
           }
         }
-        // if (this.configSvc.instanceConfig.indexHtmlMeta.webmanifest) {
-        //   const manifestElem = document.getElementById('id-app-webmanifest')
-        //   if (manifestElem) {
-        //     // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-        //     ; (manifestElem as HTMLLinkElement).setAttribute(
-        //       'href',
-        //       this.configSvc.instanceConfig.indexHtmlMeta.webmanifest,
-        //     )
-        //   }
-        // }
         if (this.configSvc.instanceConfig.logos.app) {
           const shareIcon = document.getElementById('id-app-share-icon')
           if (shareIcon) {
@@ -733,7 +638,6 @@ export class InitService {
   }
   hasRole(role: string[]): boolean {
     let returnValue = false
-    // const rolesForCBP = environment.portalRoles
     const rolesForCBP: any = ['PUBLIC']
     role.forEach(v => {
       if ((rolesForCBP).includes(v)) {

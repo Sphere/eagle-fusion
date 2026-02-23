@@ -173,15 +173,15 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.appsConfig) {
       this.featureApps = Object.keys(this.configSvc.appsConfig.features)
     }
-    this.configSvc.tourGuideNotifier.subscribe(canShow => {
-      if (
-        this.configSvc.restrictedFeatures &&
-        !this.configSvc.restrictedFeatures.has('tourGuide')
-      ) {
-        this.isTourGuideAvailable = canShow
-        // this.popupTour = this.tourService.createPopupTour()
-      }
-    })
+    // this.configSvc.tourGuideNotifier.subscribe(canShow => {
+    //   if (
+    //     this.configSvc.restrictedFeatures &&
+    //     !this.configSvc.restrictedFeatures.has('tourGuide')
+    //   ) {
+    //     this.isTourGuideAvailable = canShow
+    //     // this.popupTour = this.tourService.createPopupTour()
+    //   }
+    // })
     this.domain = window.location.hostname
   }
 
