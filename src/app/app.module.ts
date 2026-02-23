@@ -145,7 +145,7 @@ import { ProfileViewModule } from './routes/profile-view/profile-view.module'
 import { MatTabsModule } from '@angular/material/tabs'
 import { UserProfileService } from '../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
-import { SearchRootComponent } from '../../project/ws/app/src/lib/routes/search/routes/search-root/search-root.component'
+// import { SearchRootComponent } from '../../project/ws/app/src/lib/routes/search/routes/search-root/search-root.component'
 
 @Injectable()
 export class HammerConfig extends HammerGestureConfig {
@@ -311,7 +311,7 @@ export function initializeCompetencyConfig(): () => void {
     WebNavLinkPageComponent,
     WebPublicComponent,
     WebCourseViewComponent,
-    SearchRootComponent
+    // SearchRootComponent
   ],
   imports: [
     BrowserModule,
