@@ -244,8 +244,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     // this.configSvc.userProfile = null
     // this.router.navigate(['/app/login'])
     try {
-      const baseURI = document.baseURI.replace('/hi/', '/')
-      const url = `${baseURI}public/home`
+      const url = `${document.baseURI}public/home`
       window.location.href = url
       await this.http.get('/apis/proxies/v8/logout/user').toPromise()
       //sessionStorage.clear()
@@ -502,20 +501,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
       console.log(`Redirecting to home [${scenario}]`)
     }
 
-    // Handle language prefix
-    let fullPath = homePath
-    const prefix = this.lang === 'hi' ? '/hi' : ''
-
-    if (prefix === '/hi' && !homePath.startsWith('/hi')) {
-      fullPath = `/hi${homePath}`
-    } else if (prefix === '' && homePath.startsWith('/hi')) {
-      fullPath = homePath.replace('/hi/', '/')
-    }
-
-    const cleanPath = fullPath.startsWith('/') ? fullPath.slice(1) : fullPath
+    const cleanPath = homePath.startsWith('/') ? homePath.slice(1) : homePath
     const pathSegments = cleanPath.split('/').filter(Boolean)
 
-    const finalPath = `/${pathSegments.join('/')}`
+    const finalPath = pathSegments.length ? `/${pathSegments.join('/')}` : homePath
     const queryString = Object.keys(queryParams).length
       ? '?' +
       Object.entries(queryParams)

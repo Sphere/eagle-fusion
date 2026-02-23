@@ -20,7 +20,7 @@ export class WidgetContentShareService {
   constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
 
   fetchConfigFile(): Observable<ICommon> {
-    return this.http.get<ICommon>(`${this.baseUrl}/feature/common.json`).pipe()
+    return this.http.get<ICommon>(`fusion-assets/files/common.json`).pipe()
   }
 
   private shareContentApi(req: NsShare.IEmailRequest): Observable<NsShare.IEmailResponse> {
