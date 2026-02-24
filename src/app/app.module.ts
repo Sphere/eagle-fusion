@@ -90,6 +90,7 @@ import { ForgotPasswordComponent } from './routes/forgot-password/forgot-passwor
 
 import { AppInterceptorService } from './services/app-interceptor.service'
 import { AppRetryInterceptorService } from './services/app-retry-interceptor.service'
+import { AssetCacheInterceptorService } from './services/asset-cache-interceptor.service'
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
 import { LanguageService } from './services/language.service'
@@ -410,6 +411,7 @@ export function initializeCompetencyConfig(): () => void {
         strokeWidth: 4,
       },
     },
+    { provide: HTTP_INTERCEPTORS, useClass: AssetCacheInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AppInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AppRetryInterceptorService, multi: true },
     TncAppResolverService,
