@@ -97,6 +97,7 @@ import { LanguageService } from './services/language.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
+import { OrgSelectiveCourseComponent } from '../../project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.component'
 import { MdePopoverModule } from '@jaguards/material-extended-mde'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { YourLocationComponent } from './routes/your-location/your-location.component'
@@ -284,6 +285,7 @@ export function initializeCompetencyConfig(): () => void {
     LoginRootComponent,
     LoginRootDirective,
     OrgComponent,
+    OrgSelectiveCourseComponent,
     HeaderComponent,
     GoogleCallbackComponent,
     LanguageDialogComponent,
