@@ -1358,8 +1358,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       const req = {
         request: {
           userId,
-          courseId: batchData[0].courseId,
-          batchId: batchData[0].batchId,
+          courseId: batchData[0]?.courseId,
+          batchId: batchData[0]?.batchId,
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {

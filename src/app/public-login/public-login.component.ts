@@ -338,10 +338,10 @@ export class PublicLoginComponent implements OnInit {
         // Send login failure telemetry
         this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'password', err?.error?.msg || err?.error?.message || 'Login failed')
 
-        if (err.error.message === "User doesn't exists please signup and try again" || err.error.msg === "User doesn't exists please signup and try again") {
+        if (err?.error?.message === "User doesn't exists please signup and try again" || err?.error?.msg === "User doesn't exists please signup and try again") {
           this.userDoesnotExist()
         }
-        this.openSnackbar(err.error.msg ?? err.error.error)
+        this.openSnackbar(err?.error?.msg || err?.error?.error || "Login Failed")
       })
     } else {
       console.log('alert')

@@ -1,24 +1,18 @@
 import { Component, OnInit, Inject, effect, ChangeDetectorRef } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
-import {
-  ConfigurationsService,
-  ValueService,
-  LogoutComponent,
-  TelemetryService,
-} from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { MobileAboutPopupComponent } from '../../mobile-about-popup/mobile-about-popup.component'
 import { ProfileSelectComponent } from '../profile-select/profile-select.component'
 import { from } from 'rxjs'
-// import * as  _ from 'lodash'
 import { DomSanitizer } from '@angular/platform-browser'
 import { map, mergeMap, finalize } from 'rxjs/operators'
 import { ConfigService as CompetencyConfiService } from '../../competency/services/config.service'
 import * as _ from './lodash'
-import { UntypedFormControl, UntypedFormGroup } from '@angular/forms'
+import { FormControl, FormGroup } from '@angular/forms'
 import { DOCUMENT } from '@angular/common'
 import { LanguageService } from '../../../../../src/app/services/language.service'
 import { PlaylistService } from '../../../services/playlist.service'
@@ -46,10 +40,10 @@ export class MobileProfileDashboardComponent implements OnInit {
   showLogOutIcon = false
   profileData: any
   navigateTohome = true
-  selectedIndex = ''
+  selectedIndex = 'personal'
   showView: any = ''
   gotData: any
-  userForm: UntypedFormGroup
+  userForm: FormGroup
   userData: any
   hideData = false
   currentProfession: any
@@ -111,8 +105,8 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.selectedIndex = ''
       }
     })
-    this.userForm = new UntypedFormGroup({
-      language: new UntypedFormControl(),
+    this.userForm = new FormGroup({
+      language: new FormControl(),
     })
 
     effect(() => {
@@ -174,20 +168,11 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
     this.userProfileSvc.updateuser$.pipe().subscribe(item => {
       if (item) {
-        // this.selectedIndex = 'academic'
         this.getUserDetails()
       }
     })
 
-    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe((res: any) => {
-      console.log(res)
-      this.loader = false
-      this.profileData = _.get(res, 'profileDetails.profileReq')
-      this.userInfo = res
-      const lang = (res && res.profileDetails && res.profileDetails!.preferences && res.profileDetails!.preferences!.language !== undefined) ? res.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en'
-      this.language = lang
-      this.setAcademicDetail(res)
-    })
+    this.getUserDetails()
 
     console.log('this.configSvc.unMappedUser', this.configSvc.unMappedUser)
     if (this.hasRequiredLeaderboardDetails()) {
@@ -215,7 +200,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     return hasUserId && hasProfessionalDetails && hasDesignation && hasRootOrgId && hasInstituteName && this.isEkshamata
   }
 
-  // changeFunction(text: string) {
   changeFunction(item: any): void {
     if (!item?.name) return
 
@@ -282,7 +266,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     const el = this._document.getElementById('widget')
     if (el) {
       el.style.display = 'block'
-      console.log('this.userData', this.profileData)
+      console.log("this.userData", this.profileData)
       el.setAttribute('userId', this.profileData.userId)
       el.setAttribute('firstName', this.profileData.personalDetails.firstname)
       el.setAttribute('lastName', this.profileData.personalDetails.surname)
@@ -325,13 +309,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   logout() {
     this.telemetrySvc.getTelemetryConfig()
-    this.telemetrySvc.interact(
-      'clicked',
-      'logout-clicked',
-      'profile',
-      {},
-      { id: this.userInfo.profileDetails.profileReq.id, type: 'user', version: '', rollup: {} },
-    )
+    this.telemetrySvc.interact('clicked', 'logout-clicked', 'profile', {}, { id: this.userInfo.profileDetails.profileReq.id, type: 'user', version: "", rollup: {} })
     this.dialog.open<LogoutComponent>(LogoutComponent)
   }
   processCertiFicate(data: any) {
@@ -375,22 +353,16 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   formateRequest(data: any) {
-    const issuedCertificates = _.reduce(
-      _.flatten(
-        _.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
-          return certificate.length > 0
-        }),
-      ),
-      (result: any, value) => {
-        result.push({
-          identifier: value.identifier,
-          name: value.name,
-          rcCertiface: false,
-        })
-        return result
-      },
-      [],
-    )
+    const issuedCertificates = _.reduce(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
+      return certificate.length > 0
+    })), (result: any, value) => {
+      result.push({
+        identifier: value.identifier,
+        name: value.name,
+        rcCertiface: false
+      })
+      return result
+    }, [])
     return issuedCertificates
   }
   rcCertiface(data: any) {
@@ -402,11 +374,11 @@ export class MobileProfileDashboardComponent implements OnInit {
             name: certificate.certificateName,
             downloadUrl: certificate.certificateDownloadUrl,
             image: certificate.thumbnail,
-            rcCerticate: true,
+            rcCerticate: true
           })
           return result
         },
-        [],
+        []
       )
     } else {
       return []
@@ -417,7 +389,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       const dialogRef = this.dialog.open(MobileAboutPopupComponent, {
         width: '312px',
         height: '369px',
-        data: this.personalInfo.about ? this.personalInfo.about : '',
+        data: this.userProfileData.personalDetails.about ? this.userProfileData.personalDetails.about : '',
       })
 
       dialogRef.afterClosed().subscribe(result => {
@@ -433,14 +405,13 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   assignUserName(data: any) {
     if (data.firstname)
-      this.personalInfo.firstname = data.firstname
+      this.userProfileData.personalDetails.firstname = data.firstname
     if (data.surname)
-      this.personalInfo.surname = data.surname
+      this.userProfileData.personalDetails.surname = data.surname
   }
   setAcademicDetail(data: any) {
     if (data) {
       this.userProfileData = data.profileDetails.profileReq
-      this.personalInfo = this.userProfileData?.personalDetails
       if (this.userProfileData?.professionalDetails?.length > 0) {
         this.currentProfession = this.userProfileData.professionalDetails[0].profession
       } else {
@@ -448,7 +419,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       }
       //this.currentProfession = this.userProfileData.professionalDetails[0].profession
       if (_.get(this.userProfileData, 'personalDetails')) {
-        this.photoUrl = this.personalInfo.photo
+        this.photoUrl = this.userProfileData?.personalDetails?.photo
       } else {
         this.photoUrl = this.userProfileData.photo
       }
@@ -472,15 +443,14 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     const userdata = Object.assign(this.userInfo?.profileDetails, obj)
-    userdata.profileReq.personalDetails['profileLocation'] =
-      'sphere-web/mobile-profile-dashboard-store-language'
+    userdata.profileReq.personalDetails["profileLocation"] = 'sphere-web/mobile-profile-dashboard-store-language'
 
     const reqUpdate = {
       request: {
         userId: userdata.profileReq.id,
         profileDetails: {
           ...userdata,
-          profileLocation: 'sphere-web/mobile-profile-dashboard-store-language',
+          profileLocation: 'sphere-web/mobile-profile-dashboard-store-language'
         },
       },
     }
@@ -530,38 +500,34 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
   getUserDetails() {
     if (this.configSvc.userProfile) {
-      this.userProfileSvc
-        .getUserdetailsFromRegistry(this.configSvc.unMappedUser.id)
-        .subscribe((data: any) => {
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
+        (data: any) => {
           if (data) {
             this.loader = false
             this.userProfileData = data.profileDetails.profileReq
             this.userData = data
+            this.profileData = _.get(data, 'profileDetails.profileReq')
+            this.userInfo = data
             if (this.userProfileData?.professionalDetails?.length > 0) {
               this.currentProfession = this.userProfileData.professionalDetails[0].profession
             } else {
               this.currentProfession = 'Not specified'
             }
-            const lang =
-              data &&
-                data.profileDetails &&
-                data.profileDetails!.preferences &&
-                data.profileDetails!.preferences!.language !== undefined
-                ? data.profileDetails.preferences.language
-                : this.languageService.getCurrentLanguage()
+            const lang = (data?.profileDetails?.preferences?.language !== undefined) ? data.profileDetails.preferences.language : this.languageService.getCurrentLanguage()
             this.language = lang
             console.log(lang, 'oo')
             this.userForm.patchValue({ language: lang })
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
             }
-            if (this.personalInfo.photo) {
-              this.photoUrl = this.personalInfo.photo
+            if (this.userProfileData?.personalDetails?.photo) {
+              this.photoUrl = this.userProfileData.personalDetails.photo
             }
-            if (this.personalInfo.firstname) {
-              this.firstName = this.personalInfo.firstname
-              this.lastName = this.personalInfo.surname
+            if (this.userProfileData?.personalDetails?.firstname) {
+              this.firstName = this.userProfileData.personalDetails.firstname
+              this.lastName = this.userProfileData.personalDetails.surname
             }
+            this.setAcademicDetail(data)
           }
         })
     }
@@ -575,6 +541,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       // tslint:disable-next-line: no-console
       console.log('The dialog was closed', result)
+      this.getUserDetails()
     })
   }
 

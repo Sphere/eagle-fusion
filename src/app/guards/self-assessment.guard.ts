@@ -92,8 +92,8 @@ export class SelfAssessmentGuard {
     const req = {
       request: {
         userId,
-        courseId: batchData[0].courseId,
-        batchId: batchData[0].batchId,
+        courseId: batchData[0]?.courseId,
+        batchId: batchData[0]?.batchId,
       },
     }
     return this.contentSvc.enrollUserToBatch(req)

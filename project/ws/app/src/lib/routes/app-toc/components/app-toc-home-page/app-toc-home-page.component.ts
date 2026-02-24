@@ -97,7 +97,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   finishedPercentage: any | undefined
   selectedIndex = 0;
   visibleTabs: string[] = ['overview'];
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll', [])
   handleScroll() {
     const windowScroll = window.pageYOffset
     if (windowScroll >= this.elementPosition - 100) {
@@ -668,8 +668,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       const req = {
         request: {
           userId,
-          courseId: batchData.content[0].courseId,
-          batchId: batchData.content[0].batchId,
+          courseId: batchData.content[0]?.courseId,
+          batchId: batchData.content[0]?.batchId,
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {

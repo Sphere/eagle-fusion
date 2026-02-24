@@ -93,7 +93,7 @@
     </div>
 
     <button *ngIf="!isEkshamata" mat-fab class="edit-icon" (click)="openProfileDialog()">
-      <mat-icon [class]="menuItems[0]?.editIcon.className">{{menuItems[0]?.editIcon.label}}</mat-icon>
+      <mat-icon [class]="menuItems?.[0]?.editIcon.className">{{menuItems?.[0]?.editIcon.label}}</mat-icon>
     </button>
 
     <div [ngStyle]="{'margin-top': isEkshamata ? '0' : '-35px'}">
@@ -103,7 +103,7 @@
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
       <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;">
-        <span> {{ menuItems[0]?.text | translate }}</span> : {{currentProfession }}
+        <span> {{ menuItems?.[0]?.text | translate }}</span> : {{currentProfession }}
       </p>
     </div>
     <div class="badge-container" *ngIf="earnedBadges$ | async as count">
@@ -148,7 +148,7 @@
         </div>
       </ng-container>
       <button *ngIf="showLogOutBtn" (click)="logout()" class="logout-btn" type="submit">
-        {{ menuItems[menuItems.length-1]?.text | translate}}</button>
+        {{ menuItems?.[menuItems.length-1]?.text | translate}}</button>
     </div>
   </div>
   <div class="main-block" [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
