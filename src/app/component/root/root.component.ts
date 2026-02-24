@@ -447,7 +447,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.logger.log(e)
         } else if (e instanceof NavigationEnd) {
           this.logger.log(e)
-          this.isHomePage = (e.url == '/page/home' || e.url == '/public/home') ? true : false
+          this.isHomePage = (e.url == '/page/home' || e.url == '/public/home' || e.url == '/') ? true : false
         }
       })
       if (window.location.pathname !== '/app/new-tnc')
