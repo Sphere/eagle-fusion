@@ -12,12 +12,12 @@
     </div>
 
     <div class="login-card">
-      <div class="check-email-text"><span>{{ 'Check your' | translate }} </span> <span *ngIf="emailPhoneType === 'email'"
-          >{{ 'Email' | translate }}</span>
+      <div class="check-email-text"><span>{{ 'Check your' | translate }} </span> <span
+          *ngIf="emailPhoneType === 'email'">{{ 'Email' | translate }}</span>
         <span *ngIf="emailPhoneType === 'phone'">{{ 'SMS' | translate }}</span>!
       </div>
-      <div class="enter-code-text mt-2 mb-4"><span>{{ 'We have sent an OTP to' | translate }} </span><span class="text-dark"
-          >{{signUpdata.value.emailOrMobile}}</span>
+      <div class="enter-code-text mt-2 mb-4"><span>{{ 'We have sent an OTP to' | translate }} </span><span
+          class="text-dark">{{signUpdata.value.emailOrMobile}}</span>
       </div>
       <div class="img-box">
         <img class="otp-image" alt="" src="../../../fusion-assets/images/Frame150.svg">
@@ -44,19 +44,20 @@
               </div>
               <div *ngIf="emailPhoneType === 'email'" [formGroup]="loginOtpForm" class="otp-input-container">
                 <input tabindex="1" id="code" class="form-control input-box" formControlName="code" type="text"
-                  autocomplete="off" [placeholder]="emailPhoneType === 'email' ? ('Code' | translate) : ('OTP' | translate)">
+                  autocomplete="off"
+                  [placeholder]="emailPhoneType === 'email' ? ('Code' | translate) : ('OTP' | translate)">
               </div>
             </div>
             <div class="form-group mt-4 mb-4 activeLink">
               <span>{{ 'Did not receive a' | translate }} </span><span>{{ 'OTP?' | translate }}</span>
-              <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)">{{ 'Click Here' | translate }} </span><span
-                >{{ 'to resend' | translate }}</span>
+              <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)">
+                {{ 'Click Here' | translate }} </span><span>{{ 'to resend' | translate }}</span>
             </div>
-            <span *ngIf="!loginVerification">
+            <span *ngIf="!loginVerification" class="button-span">
               <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
                 type="submit" (click)="verifyOtp()">{{ 'Next' | translate }}</button>
             </span>
-            <span *ngIf="loginVerification">
+            <span *ngIf="loginVerification" class="button-span">
               <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
                 type="submit" (click)="loginVerifyOtp()">{{ 'Next' | translate }}</button>
             </span>

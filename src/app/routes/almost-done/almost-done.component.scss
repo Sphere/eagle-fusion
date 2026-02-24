@@ -91,12 +91,17 @@ input {
 .select-box:focus{
   outline: none!important;
 }
-@media screen and (max-width:600px) {
+@media screen and (max-width:7670px) {
   .input-content {
     width: 100%;
   }
   .login-card {
     margin-top: 100px;
+  }
+
+  .login-page-content {
+    min-height: 100vh;
+    min-width: 100vw;
   }
 }
 

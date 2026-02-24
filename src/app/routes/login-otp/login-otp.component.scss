@@ -99,7 +99,10 @@ color: #808080;
   .login-button {
     width: 100%;
   }
-
+  .login-page-content {
+    min-height: 100vh;
+    min-width: 100vw;
+  }
   // .img-box {
   //   width: 90%;
   // }
@@ -109,6 +112,10 @@ color: #808080;
 }
 @media screen and (max-height: 700px) {
   /* Adjust the height for mobile screens */
+  .login-page-content {
+    min-height: 100vh;
+    min-width: 100vw;
+  }
 .otp-image{
   width:165px !important;
    height:165px !important;
@@ -117,9 +124,13 @@ color: #808080;
     margin-bottom: 0.5rem !important;
 }
 }
-@media screen and (max-width:600px) {
+@media screen and (max-width:767px) {
   .login-timer-text{
     color: #808080 !important;
+  }
+  .login-page-content {
+    min-height: 100vh;
+    min-width: 100vw;
   }
       .top-blue-color{
     background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
@@ -175,6 +186,12 @@ color: #808080;
   .login-button {
     right: 12px;
     z-index: 9999;
+  }
+
+  .button-span {
+    display: flex;
+    justify-content: flex-end;
+    margin-left: 80%;
   }
 }
 

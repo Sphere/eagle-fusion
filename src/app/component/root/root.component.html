@@ -44,6 +44,7 @@
 
   <!-- Desktop Footer -->
   <ws-app-footer class="app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+    [ngClass]="{'hide-in-mobile': isLoggedIn && isXSmall$}"
     *ngIf="showNavbar && !hideHeaderFooter && showNavigation && footerConfig" [config]="footerConfig">
   </ws-app-footer>
 
