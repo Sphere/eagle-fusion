@@ -5,6 +5,7 @@ import { ISocialSearchRequest, ISocialSearchResult, ISearchAutoComplete } from '
 import { KeycloakService } from 'keycloak-angular'
 import { NSSearch } from '@ws-widget/collection'
 import { map } from 'rxjs/operators'
+import { LoggerService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
 const API_END_POINTS = {
   SOCIAL_VIEW_SEARCH_RESULT: `${PROTECTED_SLAG_V8}/social/post/search`,
@@ -87,7 +88,7 @@ const API_END_POINTS = {
   providedIn: 'root',
 })
 export class SearchApiService {
-  constructor(private http: HttpClient, private keycloakSvc: KeycloakService) { }
+  constructor(private http: HttpClient, private keycloakSvc: KeycloakService, private logger: LoggerService) { }
 
   get userId(): string | undefined {
     const kc = this.keycloakSvc.getKeycloakInstance()
@@ -135,7 +136,7 @@ export class SearchApiService {
   getSearchV6Results(body: NSSearch.ISearchV6RequestV2, searchconfig: any): Observable<NSSearch.ISearchV6ApiResultV2> {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
-        console.log("res getSearchV6Results", res)
+        this.logger.log("res getSearchV6Results", res)
         const tempArray = Array()
         if (res.result.facets.length > 0) {
           searchconfig.forEach((ele: any) => {
@@ -178,10 +179,10 @@ export class SearchApiService {
       .pipe(map((res: any) => {
 
         if (res.result.content.length > 0) {
-          console.log("v6", res)
+          this.logger.log("v6", res)
           return res
         } else {
-          console.log("v7", res)
+          this.logger.log("v7", res)
           return res
         }
 

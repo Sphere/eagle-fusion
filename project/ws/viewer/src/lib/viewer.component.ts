@@ -116,7 +116,7 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
         this.contentData = data.result.content
       })
     } catch (e) {
-      // console.log(e)
+      // this.logger.log(e)
     }
   }
   checkJson(str: any) {

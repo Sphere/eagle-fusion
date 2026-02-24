@@ -2,7 +2,7 @@ import { map, catchError } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, of, BehaviorSubject } from 'rxjs'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 // import { environment } from './../../../../../../../src/environments/environment'
 
 // let instanceConfigPath: string | null = window.location.host
@@ -28,7 +28,7 @@ export class OrgServiceService {
   hideHeaderFooter = new BehaviorSubject<boolean>(false)
   sitePath = `assets/configurations/`
 
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private http: HttpClient, private configSvc: ConfigurationsService, private logger: LoggerService) { }
 
   resolve(): Observable<any> {
     return this.getOrgMetadata().pipe(
@@ -123,7 +123,7 @@ export class OrgServiceService {
   }
   getTopLiveSearchResults(identifiers: any, lang?: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
-    console.log('lang ', lang)
+    this.logger.log('lang ', lang)
     const req = {
       request: {
         filters: {
@@ -141,15 +141,15 @@ export class OrgServiceService {
     return this.http.get<any>(`${API_END_POINTS.Sashakt_Auth}?token=${token}&moduleId=${id}`)
   }
   setMaternyId(data: any): Observable<any> {
-    console.log(data)
+    this.logger.log(data)
     return this.http.post<any>(`${API_END_POINTS.Maternity_Auth}`, data)
   }
   setTnaiToken(data: any): Observable<any> {
-    console.log(data)
+    this.logger.log(data)
     return this.http.post<any>(`${API_END_POINTS.Tnai_Auth}`, data)
   }
   setTnnmcToken(data: any): Observable<any> {
-    console.log(data)
+    this.logger.log(data)
     return this.http.post<any>(`${API_END_POINTS.Tnnmc_Auth}`, data)
   }
   setConnectSid(authCode: any): Observable<any> {

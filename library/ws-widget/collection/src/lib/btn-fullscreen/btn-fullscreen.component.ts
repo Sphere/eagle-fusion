@@ -8,6 +8,7 @@ import {
   // hasFullScreenSupport,
 } from './fullscreen.util'
 import { Router } from '@angular/router'
+import { LoggerService } from '../../../../utils/src/public-api'
 
 @Component({
   selector: 'ws-widget-btn-fullscreen',
@@ -19,11 +20,11 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   @Input() widgetData!: { fsContainer: HTMLElement | null }
   @Output() fsState: EventEmitter<boolean> = new EventEmitter()
   containsQuizAssessment = false;
-  constructor(private router: Router) {
+  constructor(private router: Router, private logger: LoggerService) {
     super()
-    console.log(this.router.url.includes('quiz'))
+    this.logger.log(this.router.url.includes('quiz'))
     this.containsQuizAssessment = this.router.url.includes('quiz')
-    console.log(this.containsQuizAssessment)
+    this.logger.log(this.containsQuizAssessment)
   }
   // isFullScreenSupported = true
   isInFs = false

@@ -11,6 +11,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { HttpClient } from '@angular/common/http'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-almost-done',
   templateUrl: './almost-done.component.html',
@@ -63,6 +64,7 @@ export class AlmostDoneComponent implements OnInit {
     private http: HttpClient,
     public UserAgentResolverService: UserAgentResolverService,
     private signupService: SignupService,
+    private logger: LoggerService
   ) {
   }
 
@@ -70,7 +72,7 @@ export class AlmostDoneComponent implements OnInit {
     this.almostDoneForm = this.almostDoneFormFields()
     this.createUserForm = this.createUserFormFields()
     this.result = await this.signupService.fetchStartUpDetails()
-    console.log(this.result)
+    this.logger.log(this.result)
     if (this.yourBackground.value.country !== 'India') {
       this.hideAsha = true
     } else {
@@ -314,7 +316,7 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'ASHA') {
       // tslint:disable-next-line
       this.almostDoneForm.valueChanges.subscribe(value => {
-        console.log(value)
+        this.logger.log(value)
         if (value.block && value.subcentre) {
           this.enableSubmit = false
         } else {
@@ -362,12 +364,12 @@ export class AlmostDoneComponent implements OnInit {
     if (Object.keys(event).length && this.almostDoneForm.dirty) {
       this.enableSubmit = false
     }
-    console.log(this.backgroundSelect, this.selectedBg)
+    this.logger.log(this.backgroundSelect, this.selectedBg)
   }
 
   public getOrganisationsHistory() {
     const organisations: any = []
-    console.log(this.almostDoneForm.value.orgOtherSpecify)
+    this.logger.log(this.almostDoneForm.value.orgOtherSpecify)
     const org: any = {
       orgType: this.almostDoneForm.value.orgType,
       name: this.almostDoneForm.value.orgName!.trim(),
@@ -482,7 +484,7 @@ export class AlmostDoneComponent implements OnInit {
       this.userId = this.configSvc.unMappedUser.id || this.result.userId
     }
 
-    console.log(this.userId, this.result.userId)
+    this.logger.log(this.userId, this.result.userId)
     //const reqObj = localStorage.getItem(`preferedLanguage`) || ''
     //const obj1 = reqObj === '' ? reqObj : JSON.parse(reqObj)
     const obj = {
@@ -510,7 +512,7 @@ export class AlmostDoneComponent implements OnInit {
     }
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (data) => {
-      console.log(data, 'data')
+      this.logger.log(data, 'data')
       let status = await data.params.status
       if (data && status === 'SUCCESS') {
         if (this.configSvc.unMappedUser.profileDetails.preferences.language === 'en') {
@@ -520,18 +522,18 @@ export class AlmostDoneComponent implements OnInit {
         }
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
-          console.log(params.redirect, 'redirect')
+          this.logger.log(params.redirect, 'redirect')
           let url1 = params.redirect
           let url3 = `${document.baseURI}`
           if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
             localStorage.removeItem('url_before_login')
             url3 = `${url3}${url1}`
-            console.log(url3)
+            this.logger.log(url3)
             location.href = url3
           } else {
             let url = `${document.baseURI}`
             url = `${url}/page/home`
-            console.log(url)
+            this.logger.log(url)
             location.href = url
           }
         })

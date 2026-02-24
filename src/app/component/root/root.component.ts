@@ -22,6 +22,7 @@ import { BtnPageBackService } from '@ws-widget/collection'
 import {
   AuthKeycloakService,
   ConfigurationsService,
+  LoggerService,
   TelemetryService,
   ValueService,
   WsEvents,
@@ -124,9 +125,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewerSvc: ViewerUtilService,
     private injector: Injector,
     private playlistSvc: PlaylistService,
+    private logger: LoggerService
   ) {
     const t = this.injector.get(TranslateService, null as any)
-    console.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
+    this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
     this.domain = window.location.hostname
     if (this.domain.includes('ekshamata')) {
       this.isEkshamata = true
@@ -143,7 +145,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     // Subscribe to profile updates and clear cache when profile is modified
     this.userProfileSvc.updateuser$.subscribe((updatedProfile: any) => {
       if (updatedProfile) {
-        console.log('[RootComponent] Profile updated, refreshing user data cache', updatedProfile)
+        this.logger.log('[RootComponent] Profile updated, refreshing user data cache', updatedProfile)
         this.userDataCacheSvc.clearUserData()
         this.userProfileSvc.clearUserDetailsCache()
         // Set the updated profile data to session storage and subject
@@ -153,7 +155,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           if (updatedProfile.request.profileDetails.profileReq) {
             userData.profileDetails = updatedProfile.request.profileDetails
           }
-          console.log('[RootComponent] Setting updated user data to cache')
+          this.logger.log('[RootComponent] Setting updated user data to cache')
           this.userDataCacheSvc.setUserData(userData)
         }
       }
@@ -257,13 +259,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   private navigationInterceptor(event: Event): void {
     if (event instanceof NavigationStart) {
-      console.log('Navigation started to URL:', event.url)
+      this.logger.log('Navigation started to URL:', event.url)
     }
 
     if (event instanceof NavigationEnd) {
-      console.log('Navigation ended to URL:', event.url)
+      this.logger.log('Navigation ended to URL:', event.url)
       let contentURL = localStorage.getItem('contentId')
-      console.log(contentURL)
+      this.logger.log(contentURL)
       if (contentURL) {
         const url: any = contentURL
         const path = url.split('?')[0] // Get the part before the query string
@@ -289,7 +291,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             fields: ['progressdetails'],
           },
         }
-        // console.log(req)
+        // this.logger.log(req)
         this.contentSvc
           .fetchContentHistoryV2(req)
           .pipe(takeUntil(this.destroy$))
@@ -338,28 +340,28 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
                           localStorage.removeItem('contentId')
                         },
                         err => {
-                          console.error('Error updating progress:', err)
+                          this.logger.error('Error updating progress:', err)
                         },
                       )
                   }
                 }
               } else {
-                console.warn('No data found for ID:', doId)
+                this.logger.warn('No data found for ID:', doId)
               }
             },
             err => {
-              console.error('Error fetching content history:', err)
+              this.logger.error('Error fetching content history:', err)
             },
           )
       }
     }
 
     if (event instanceof NavigationCancel) {
-      console.log('Navigation canceled to URL:', event.url)
+      this.logger.log('Navigation canceled to URL:', event.url)
     }
 
     if (event instanceof NavigationError) {
-      console.log('Navigation error to URL:', event.url)
+      this.logger.log('Navigation error to URL:', event.url)
     }
   }
 
@@ -375,7 +377,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             this.formatmyCourseResponse(res)
           },
           err => {
-            console.error('Error fetching user batch list:', err)
+            this.logger.error('Error fetching user batch list:', err)
           },
         )
       localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
@@ -393,7 +395,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.setUpFormData(),
       new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
     ]).catch(err => {
-      console.warn('Form data load timeout/failed, using defaults:', err)
+      this.logger.warn('Form data load timeout/failed, using defaults:', err)
       this.orgDetails = {}
       this.bodyConfig = {}
       this.footerConfig = {}
@@ -426,7 +428,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     try {
       this.isInIframe = window.self !== window.top
     } catch (_ex) {
-      console.warn('Error determining if in iframe:', _ex)
+      this.logger.warn('Error determining if in iframe:', _ex)
       this.isInIframe = false
     }
     this.btnBackSvc.initialize()
@@ -442,9 +444,9 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.router.events.subscribe((e: Event) => {
         if (e instanceof NavigationStart) {
-          console.log(e)
+          this.logger.log(e)
         } else if (e instanceof NavigationEnd) {
-          console.log(e)
+          this.logger.log(e)
           this.isHomePage = (e.url == '/page/home' || e.url == '/public/home') ? true : false
         }
       })
@@ -468,7 +470,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             this.setCompetencyConfig(res)
           },
           err => {
-            console.error('Error fetching user details:', err)
+            this.logger.error('Error fetching user details:', err)
           },
         )
     }
@@ -479,7 +481,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.orgDetails) {
         const playlistData = await this.playlistSvc.loadPlaylistData()
         if (!playlistData) {
-          console.warn('No playlist data loaded')
+          this.logger.warn('No playlist data loaded')
           return
         }
       }
@@ -498,7 +500,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       // Trigger change detection to ensure template updates with new data
       this.changeDetector.markForCheck()
     } catch (error) {
-      console.error('Error setting up form data:', error)
+      this.logger.error('Error setting up form data:', error)
       // Set safe defaults - page can still render with router-outlet
       this.orgDetails = {}
       this.bodyConfig = {}
@@ -679,7 +681,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           if (this.paramsJSON && this.paramsJSON !== '{}') {
             this.UserAgentResolverService.setSource(params)
           }
-          console.log('this.paramsJSON', this.paramsJSON)
+          this.logger.log('this.paramsJSON', this.paramsJSON)
           this.telemetrySvc.publicImpression(this.paramsJSON, userAgent.browserName, userAgent.OS)
         }
       }
@@ -691,7 +693,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     if (loginData) {
       const parsedData = JSON.parse(loginData)
       let token = parsedData.token?.access_token
-      // console.log("token", token)
+      // this.logger.log("token", token)
       return token
       // return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiJmYzE1ZDg1Mi02NmUxLTRjYTUtYWM1YS1mYjA1Y2Q5NmQ0OTQiLCJleHAiOjE3NDMxNDY1NDksIm5iZiI6MCwiaWF0IjoxNzQwNTU0NTQ5LCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiY2E4NjU0MzktMjgwZS00MzkxLTgyZGItYTUwMGE0MDBhM2ZjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.fL1p9vJetVOK4DRGPo8wJtrzJcJf5MVmatcUGdVMSEu0IZ2zfr5X-kVk4RSqqmLG00ApY5_fcYb6EWrUVScU9BwWBJdfPl0Xbhk4eQwRnfoM13_ab64v02rAcUL-U3yuwyaMnBn9Cfbij1kb0M2wnWjW0EAyV9lSuQ65yzShIVXjaRmfGhqVkuq_TyoKrnr2xKlzCUPfeQcDIApD-pqxa6DSuhS1Gu1qgIKoAvZx6MPtQoLiauMa-s_I51_2c2Gmo960G0HCy3EluE62ulUXqUVpfyLFvzSIgWD545bXBd6fycVzNenbIeNDTAdI_hwKM9ixKQB6PCy-NZdV2gfdRQ'
     }
@@ -745,7 +747,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } catch (error) {
       // tslint:disable-next-line:no-console
-      console.log(error)
+      this.logger.log(error)
     }
   }
 
@@ -767,7 +769,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
     } catch (error) {
       // tslint:disable-next-line:no-console
-      console.log(error)
+      this.logger.log(error)
     }
   }
 
@@ -783,7 +785,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       window.fcWidget.init()
     } catch (error) {
       // tslint:disable-next-line:no-console
-      console.log(error)
+      this.logger.log(error)
     }
   }
   handleKeyDown(event: KeyboardEvent): void {

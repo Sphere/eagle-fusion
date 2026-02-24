@@ -2,7 +2,7 @@ import { HttpClient } from '@angular/common/http'
 import { Component, OnInit } from '@angular/core'
 import { forkJoin, of } from 'rxjs'
 import { uniqBy } from 'lodash'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { WidgetUserService } from '@ws-widget/collection'
 import { Router } from '@angular/router'
@@ -73,7 +73,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
     private valueSvc: ValueService,
     private readonly userSvc: WidgetUserService,
     private router: Router,
-
+    private logger: LoggerService
   ) { }
   sanitizeId(name: string): string {
     return name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
@@ -97,8 +97,8 @@ export class OrgSelectiveCourseComponent implements OnInit {
 
     this.orgId = this.configSvc?.userProfile?.rootOrgId || ''
     this.userId = this.configSvc?.userProfile?.userId || ''
-    console.log('Root Org ID:', this.orgId)
-    console.log('User ID:', this.userId, this.myCourseDisplayConfig)
+    this.logger.log('Root Org ID:', this.orgId)
+    this.logger.log('User ID:', this.userId, this.myCourseDisplayConfig)
     this.loadOrgSelectiveCourses()
   }
 
@@ -129,14 +129,14 @@ export class OrgSelectiveCourseComponent implements OnInit {
         (orgNameFromUrl &&
           cachedOrgConfig.orgName?.toLowerCase() === orgNameFromUrl.toLowerCase()))
     ) {
-      console.log('Using cached org config for:', cachedOrgConfig.orgName || orgId)
+      this.logger.log('Using cached org config for:', cachedOrgConfig.orgName || orgId)
       // Still fetch user courses for cached config
       userCoursesRequest.subscribe({
         next: (userCourses) => {
           this.handleOrgData(cachedOrgConfig, userCourses)
         },
         error: (err) => {
-          console.error('Error fetching user courses:', err)
+          this.logger.error('Error fetching user courses:', err)
           this.handleOrgData(cachedOrgConfig, [])
         },
       })
@@ -152,9 +152,9 @@ export class OrgSelectiveCourseComponent implements OnInit {
       userCourses: userCoursesRequest,
     }).subscribe({
       next: ({ s3Data, userCourses }) => {
-        console.log("userCourses", userCourses)
+        this.logger.log("userCourses", userCourses)
         if (!s3Data?.states || !Array.isArray(s3Data.states)) {
-          console.warn('Invalid org-selective-course.json format')
+          this.logger.warn('Invalid org-selective-course.json format')
           this.isLoading = false
           return
         }
@@ -190,7 +190,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
 
         //3. No match found
         if (!matchedOrg) {
-          console.warn('No org found for:', orgId || orgNameFromUrl)
+          this.logger.warn('No org found for:', orgId || orgNameFromUrl)
           this.isLoading = false
           return
         }
@@ -202,7 +202,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
         this.handleOrgData(matchedOrg, userCourses)
       },
       error: (err) => {
-        console.error('Error fetching S3 org JSON or user courses:', err)
+        this.logger.error('Error fetching S3 org JSON or user courses:', err)
         this.isLoading = false
       },
     })
@@ -224,7 +224,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
    * Populate org banner, logo, and courses
    */
   private handleOrgData(org: any, userCourses: any[] = []) {
-    console.log('Loaded org config:', org)
+    this.logger.log('Loaded org config:', org)
     localStorage.setItem('isOrgSelectiveCourse', 'true')
 
     this.orgLogo = org.orgHeaderLogo || ''
@@ -235,7 +235,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
 
     const allCourseIds = org.semesters?.flatMap((sem: any) => sem.courses) || []
     if (!allCourseIds.length) {
-      console.warn('No courses found for org', org.orgName)
+      this.logger.warn('No courses found for org', org.orgName)
       this.isLoading = false
       return
     }
@@ -244,27 +244,27 @@ export class OrgSelectiveCourseComponent implements OnInit {
     this.orgService.getSearchResultsV7ById(allCourseIds).subscribe({
       next: (response: any) => {
         const allCourses = response?.result?.content || []
-        console.log('All fetched courses:', allCourses)
-        console.log('User courses with progress:', userCourses)
+        this.logger.log('All fetched courses:', allCourses)
+        this.logger.log('User courses with progress:', userCourses)
 
         const enrichedCourses = allCourses.map((course: any) => {
           const userProgress = userCourses.find(
             (u: any) => u.courseId === course.identifier
           )
           const completion = userProgress?.completionPercentage ?? 0
-          console.log(`Course: ${course.identifier}, Progress:`, userProgress, 'Completion:', completion)
+          this.logger.log(`Course: ${course.identifier}, Progress:`, userProgress, 'Completion:', completion)
 
           // Always include completionPercentage (even if 0)
           return { ...course, completionPercentage: completion }
         })
 
-        console.log('Enriched courses:', enrichedCourses)
+        this.logger.log('Enriched courses:', enrichedCourses)
         this.courseData = uniqBy(enrichedCourses, 'identifier')
         this.buildSemesterWiseData(org.semesters)
         this.isLoading = false
       },
       error: (err) => {
-        console.error('Error fetching course data:', err)
+        this.logger.error('Error fetching course data:', err)
         this.isLoading = false
       },
     })
@@ -280,8 +280,8 @@ export class OrgSelectiveCourseComponent implements OnInit {
         .map((id: string) => this.courseData.find((c) => c.identifier === id))
         .filter(Boolean),
     }))
-    console.log('Final Semester Data:', this.semesterData)
-    console.log('Sample course with completionPercentage:', this.semesterData[0]?.courses[0])
+    this.logger.log('Final Semester Data:', this.semesterData)
+    this.logger.log('Sample course with completionPercentage:', this.semesterData[0]?.courses[0])
   }
   login() {
     this.router.navigateByUrl('/public/login')
@@ -293,7 +293,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
 
     // If no org data available, stay safe
     if (!cachedOrgConfig && !orgNameFromUrl) {
-      console.warn('No organization data found for signup')
+      this.logger.warn('No organization data found for signup')
       this.router.navigateByUrl('/app/create-account')
       return
     }
@@ -308,7 +308,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
     // Construct dynamic URL
     const path = `/app/create-account/${encodeURIComponent(stateCode)}/${encodeURIComponent(orgName)}/${encodeURIComponent(role)}`
 
-    console.log('Navigating to:', path)
+    this.logger.log('Navigating to:', path)
     this.router.navigateByUrl(path)
   }
 

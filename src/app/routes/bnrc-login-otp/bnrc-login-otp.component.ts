@@ -34,7 +34,7 @@ export class BnrcLoginOtpComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log("this.loginData", this.loginData)
+    this.logger.log("this.loginData", this.loginData)
     if (this.loginData) {
       this.loginVerification = true
     }
@@ -50,7 +50,7 @@ export class BnrcLoginOtpComponent implements OnInit {
       otp: this.loginOtpForm.value.code,
     }
     const currentUrl = this.router.url
-    console.log("url", currentUrl.includes('uttarpradesh/register'))
+    this.logger.log("url", currentUrl.includes('uttarpradesh/register'))
 
     const validateOtpMethod = currentUrl.includes('uttarpradesh/register')
       ? this.userProfileSvc.upsmfValidateOtp.bind(this.userProfileSvc)
@@ -88,7 +88,7 @@ export class BnrcLoginOtpComponent implements OnInit {
       phone: this.loginData.value.phone,
     }
     const currentUrl = this.router.url
-    console.log("url", currentUrl.includes('uttarpradesh/register'))
+    this.logger.log("url", currentUrl.includes('uttarpradesh/register'))
 
     const resendOtpMethod = currentUrl.includes('uttarpradesh/register')
       ? this.userProfileSvc.upsmfResendOtp.bind(this.userProfileSvc)

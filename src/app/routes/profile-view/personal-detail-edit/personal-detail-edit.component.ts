@@ -19,6 +19,7 @@ import { upperFirst } from 'lodash'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { HttpClient } from '@angular/common/http'
 import { LanguageService } from '../../../services/language.service'
+import { LoggerService } from '@ws-widget/utils'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -87,7 +88,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private UserAgentResolverService: UserAgentResolverService,
     private http: HttpClient,
     private fb: FormBuilder,
-    private langSvc: LanguageService
+    private langSvc: LanguageService,
+    private logger: LoggerService
   ) {
     this.initializeForm()
   }
@@ -170,7 +172,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           }
         },
         (err) => {
-          console.error('Error fetching districts:', err)
+          this.logger.error('Error fetching districts:', err)
         }
       )
   }
@@ -262,7 +264,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
             }
             this.userProfileData = data.profileDetails.profileReq
             this.userlang = data
-            console.log(data.profileDetails.profileReq.personalDetails.dob, ';')
+            this.logger.log(data.profileDetails.profileReq.personalDetails.dob, ';')
             this.updateForm()
             if (data?.profileDetails?.preferences?.language === 'hi') {
               this.personalDetailForm.patchValue({
@@ -279,8 +281,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
             }
           }
         },
-        (err) => {
-          console.error('Error fetching user details:', err)
+        (err: any) => {
+          this.logger.error('Error fetching user details:', err)
         }
       )
     }
@@ -332,7 +334,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   professionalChange(value: any) {
-    console.log(value)
+    this.logger.log(value)
     this.savebtnDisable = false
     if (value === 'Healthcare Worker') {
       this.rnShow = true
@@ -400,8 +402,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       const data = this.userProfileData
 
       if (data.personalDetails && data) {
-        console.log(data)
-        console.log(this.userlang)
+        this.logger.log(data)
+        this.logger.log(this.userlang)
         this.personalDetailForm.patchValue({
           // userName: this.profileUserName,
           firstname: data.personalDetails.firstname,
@@ -422,7 +424,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           this.countryName = data.personalDetails!.postalAddress!.includes('India')
         }
 
-        console.log(this.countryName)
+        this.logger.log(this.countryName)
         if (data.personalDetails!.postalAddress) {
           if (this.countryName) {
             let cName = data.personalDetails.postalAddress
@@ -531,7 +533,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       // userCookie: userCookie,
     }
     profileRequest = Object.assign(profileRequest, obj)
-    console.log("test request", profileRequest)
+    this.logger.log("test request", profileRequest)
     const reqUpdate = {
       request: {
         userId: this.userID,
@@ -542,7 +544,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         },
       },
     }
-    console.log(reqUpdate)
+    this.logger.log(reqUpdate)
     this.userProfileSvc.updateProfileDetails(reqUpdate)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
@@ -555,7 +557,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           }
         },
         (err) => {
-          console.error('Error updating profile:', err)
+          this.logger.error('Error updating profile:', err)
           this.openSnackbar('Error updating profile. Please try again.')
         }
       )
@@ -613,12 +615,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
                         window.location.assign(redirectUrl)
                       },
                       (err) => {
-                        console.error('Error updating language preference:', err)
+                        this.logger.error('Error updating language preference:', err)
                       }
                     )
                 },
                 (err) => {
-                  console.error('Error fetching user details:', err)
+                  this.logger.error('Error fetching user details:', err)
                 }
               )
           }

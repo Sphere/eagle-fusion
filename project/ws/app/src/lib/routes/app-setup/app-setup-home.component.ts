@@ -59,7 +59,7 @@ export class AppSetupHomeComponent implements OnInit, AfterViewInit {
     this.appLanguage = (this.configSvc.activeLocale && this.configSvc.activeLocale.path) || ''
     if (this.configSvc.instanceConfig) {
       this.introVideos = this.configSvc.instanceConfig.introVideo
-      // //console.log('TYPE: ', this.introVideos)
+      // //this.logger.log('TYPE: ', this.introVideos)
     }
     this.widgetResolverData = {
       ...this.widgetResolverData,
@@ -125,6 +125,6 @@ export class AppSetupHomeComponent implements OnInit, AfterViewInit {
       },
     }
     // this.widgetResolverData.widgetData.url = this.introVideos[value]
-    // //console.log('TYPE: ', this.widgetResolverData)
+    // //this.logger.log('TYPE: ', this.widgetResolverData)
   }
 }

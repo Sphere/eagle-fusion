@@ -30,7 +30,7 @@ export class EditorContentService {
   }
 
   getUpdatedMeta(id: string): NSContent.IContentMeta {
-    // console.log('getUpdatedMeta');
+    // this.logger.log('getUpdatedMeta');
     if (this.originalContent[id] || this.upDatedContent[id]) {
       return JSON.parse(
         JSON.stringify({
@@ -291,7 +291,7 @@ export class EditorContentService {
       }
     } catch (ex) {
       // tslint:disable-next-line: no-console
-      // console.log(ex);
+      // this.logger.log(ex);
       returnValue = false
     }
     return returnValue
@@ -366,7 +366,7 @@ export class EditorContentService {
       })
     } catch (ex) {
       // tslint:disable-next-line: no-console
-      // console.log(ex)
+      // this.logger.log(ex)
       return false
     }
   }

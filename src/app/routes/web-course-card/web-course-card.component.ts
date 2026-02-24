@@ -7,7 +7,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import { get, forEach } from 'lodash'
 import { Title } from '@angular/platform-browser'
-import { TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-web-course-card',
@@ -45,11 +45,12 @@ export class WebCourseCardComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     private signUpSvc: SignupService,
     private titleService: Title,
-    private telemetrySvc: TelemetryService
+    private telemetrySvc: TelemetryService,
+    private logger: LoggerService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
-    // console.log("this.courseData", this.courseData, this.displayConfig)
+    // this.logger.log("this.courseData", this.courseData, this.displayConfig)
     if (localStorage.getItem('loginbtn') || localStorage.getItem('url_before_login')) {
       this.isUserLoggedIn = true
     } else {
@@ -90,15 +91,15 @@ export class WebCourseCardComponent implements OnInit {
   raiseTelemetry(data: any) {
     const prefix = this.getLanguagePrefix()
     if (this.configSvc.unMappedUser) {
-      console.log('[WebCourseCard] Fetching user details for:', this.configSvc.unMappedUser.id)
+      this.logger.log('[WebCourseCard] Fetching user details for:', this.configSvc.unMappedUser.id)
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(delay(50), mergeMap((data: any) => {
         return of(data)
       })).subscribe((userDetails: any) => {
-        console.log('[WebCourseCard] User details received:', userDetails)
+        this.logger.log('[WebCourseCard] User details received:', userDetails)
         const profileReq = get(userDetails, 'profileDetails.profileReq')
-        console.log('[WebCourseCard] Profile request data:', profileReq)
+        this.logger.log('[WebCourseCard] Profile request data:', profileReq)
         const isFilled = this.userProfileSvc.isBackgroundDetailsFilled(profileReq)
-        console.log('[WebCourseCard] Is background details filled:', isFilled)
+        this.logger.log('[WebCourseCard] Is background details filled:', isFilled)
         if (isFilled) {
           // Navigate to course with language prefix
           this.router.navigateByUrl(`${prefix}/app/toc/${data.identifier}/overview?primaryCategory=Course`)
@@ -141,10 +142,10 @@ export class WebCourseCardComponent implements OnInit {
     this.telemetrySvc.interact('clicked', 'course-clicked', 'web-course-card', { id: course.identifier, type: 'course', version: "", rollup: { l1: course.identifier } })
     const prefix = this.getLanguagePrefix()
     if (this.isLoggedIn) {
-      console.log('yes here')
+      this.logger.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log('else')
+      this.logger.log('else')
       const currentRoute = this.router.url
 
       if (currentRoute.includes('org-selective-course')) {
@@ -173,7 +174,7 @@ export class WebCourseCardComponent implements OnInit {
 
     // If no org data available, stay safe
     if (!cachedOrgConfig && !orgNameFromUrl) {
-      console.warn('No organization data found for signup')
+      this.logger.warn('No organization data found for signup')
       this.router.navigateByUrl('/app/create-account')
       return
     }
@@ -188,7 +189,7 @@ export class WebCourseCardComponent implements OnInit {
     // Construct dynamic URL
     const path = `/app/create-account/${encodeURIComponent(stateCode)}/${encodeURIComponent(orgName)}/${encodeURIComponent(role)}`
 
-    console.log('Navigating to:', path)
+    this.logger.log('Navigating to:', path)
     this.router.navigateByUrl(path)
 
   }
@@ -206,13 +207,13 @@ export class WebCourseCardComponent implements OnInit {
           .pipe(delay(500))
           .subscribe((userDetails: any) => {
             const profileReq = get(userDetails, 'profileDetails.profileReq')
-            console.log('USER DETAILS FROM REGISTRY:', userDetails) // ← Add this
-            console.log('Profile Req:', profileReq) // ← Add this
+            this.logger.log('USER DETAILS FROM REGISTRY:', userDetails) // ← Add this
+            this.logger.log('Profile Req:', profileReq) // ← Add this
 
             if (this.userProfileSvc.isBackgroundDetailsFilled(profileReq)) {
               this.router.navigateByUrl(url)
             } else {
-              console.log('Background details not filled, redirecting to about-you')
+              this.logger.log('Background details not filled, redirecting to about-you')
               const courseUrl = `${prefix}/app/toc/${contentIdentifier}/overview`
               this.router.navigate([`${prefix}/app/about-you`], { queryParams: { redirect: courseUrl } })
             }

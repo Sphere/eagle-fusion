@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpClient } from '@angular/common/http'
 import { ActivatedRoute } from '@angular/router'
 
-import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
 import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
@@ -67,7 +67,8 @@ export class UpsmfRegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private loader: LoaderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private logger: LoggerService
   ) {
     this.anmRegistrationForm = this.createInServiceFormGroup()
     this.preServiceForm = this.createPreServiceFormGroup()
@@ -177,9 +178,9 @@ export class UpsmfRegisterComponent implements OnInit {
   }
 
   private loadDistrictData(): void {
-    console.log("called")
+    this.logger.log("called")
     this.http.get(this.biharDistrictUrl).subscribe((districtData: any) => {
-      console.log("districtData", districtData.length > 0)
+      this.logger.log("districtData", districtData.length > 0)
       if (Array.isArray(districtData) && districtData.length > 0) {
         this.biharDistrictData = districtData[0]
         this.districts = Object.keys(this.biharDistrictData)
@@ -337,14 +338,14 @@ export class UpsmfRegisterComponent implements OnInit {
   }
 
   // onFacilityNameChange(selectedFacility: any): void {
-  //   console.log('Selected facility:', selectedFacility)
+  //   this.logger.log('Selected facility:', selectedFacility)
 
   //   // Set facility code based on selected facility
   //   if (selectedFacility && selectedFacility.code) {
   //     this.anmRegistrationForm.get('facilityCode')?.setValue(selectedFacility.code)
   //   }
 
-  //   console.log('Facility code set to:', this.anmRegistrationForm.get('facilityCode')?.value)
+  //   this.logger.log('Facility code set to:', this.anmRegistrationForm.get('facilityCode')?.value)
   // }
 
   private resetFormValidation(): void {
@@ -531,7 +532,7 @@ export class UpsmfRegisterComponent implements OnInit {
   }
 
   createUser(event: any): void {
-    console.log("event", event)
+    this.logger.log("event", event)
     if (this.isGovernmentEmployee) {
       const code = this.anmRegistrationForm.value.facilityName.code
       this.anmRegistrationForm.get('facilityName')?.setValue(this.anmRegistrationForm.value.facilityName.name)
@@ -617,7 +618,7 @@ export class UpsmfRegisterComponent implements OnInit {
 
   // Utility method for field assignment (if needed for pre-service form)
   assignFields(fieldName: string, value: any, event: any): void {
-    console.log('Field assignment:', fieldName, value, event)
+    this.logger.log('Field assignment:', fieldName, value, event)
     // Additional field processing logic can be added here if needed
   }
 }

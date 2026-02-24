@@ -4,7 +4,7 @@ import { NSQuiz } from './quiz.model'
 import { BehaviorSubject, Observable } from 'rxjs'
 import { get, filter, toLower } from 'lodash'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 
 const API_END_POINTS = {
   // ASSESSMENT_SUBMIT_V2: `/apis/protected/v8/user/evaluate/assessment/submit/v2`,
@@ -24,44 +24,45 @@ export class QuizService {
   constructor(
     private http: HttpClient,
     private configservice: ConfigurationsService,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
+    private logger: LoggerService
   ) {
 
   }
   submitQuizV2(req: any): Observable<NSQuiz.IQuizSubmitResponse> {
-    console.log(req, 'req')
+    this.logger.log(req, 'req')
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', req.userId, req.courseId).subscribe((record) => {
-      console.log(record, '36')
+      this.logger.log(record, '36')
 
       let cUrl = window.location.href
-      console.log(cUrl.split('/'))
+      this.logger.log(cUrl.split('/'))
       let id = cUrl.split('/')[5]
-      console.log(id)
+      this.logger.log(id)
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.courseId).subscribe(
         (message: any) => { // 'next' callback
-          console.log('Record deleted successfully', message)
+          this.logger.log('Record deleted successfully', message)
 
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
             async (dat: any) => {
-              console.log('Data inserted successfully2', dat)
+              this.logger.log('Data inserted successfully2', dat)
               let msg = await dat
               if (msg) {
               }
             },
             (error: any) => { // 'error' callback for insertProgressData
-              console.error('Error inserting progress data:', error)
+              this.logger.error('Error inserting progress data:', error)
             }
           )
         },
         (error: any) => { // 'error' callback for deleteRecordByKey
-          console.error('Error deleting record:', error)
+          this.logger.error('Error deleting record:', error)
         }
       )
     }, (error) => {
-      console.log(error, '63')
+      this.logger.log(error, '63')
       this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.courseId, req.contentId, 'userEnrollCourse', window.location.href, req).subscribe(
         (dat: any) => {
-          console.log('Data inserted successfully1', dat)
+          this.logger.log('Data inserted successfully1', dat)
 
         })
     })
@@ -75,7 +76,7 @@ export class QuizService {
     } else {
       url = `${API_END_POINTS.COMPETENCY_ASSESSMENT_SUBMIT_V2}`
     }
-    // console.log(url)
+    // this.logger.log(url)
     return this.http.post<NSQuiz.IQuizSubmitResponse>(url, req)
   }
 

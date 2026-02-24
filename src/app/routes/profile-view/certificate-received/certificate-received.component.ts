@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core'
 import * as FileSaver from 'file-saver'
+import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-certificate-received',
   templateUrl: './certificate-received.component.html',
@@ -7,7 +8,7 @@ import * as FileSaver from 'file-saver'
 })
 export class CertificateReceivedComponent implements OnInit {
   @Input() certificateData?: any
-  constructor() { }
+  constructor(private logger: LoggerService) { }
 
   ngOnInit() {
   }
@@ -30,7 +31,7 @@ export class CertificateReceivedComponent implements OnInit {
           URL.revokeObjectURL(blobUrl)
         })
         .catch(error => {
-          console.error('Image download failed:', error)
+          this.logger.error('Image download failed:', error)
         })
     } else {
       const img = new Image()

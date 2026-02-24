@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { WidgetContentService } from '@ws-widget/collection'
 import * as FileSaver from 'file-saver'
 import { DomSanitizer } from '@angular/platform-browser'
+import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 // import moment from 'moment'
 
 @Component({
@@ -17,11 +18,12 @@ export class AppTocCertificateModalComponent implements OnInit {
     public dialogRef: MatDialogRef<AppTocCertificateModalComponent>,
     @Inject(MAT_DIALOG_DATA) public content: any,
     private contentSvc: WidgetContentService,
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
-    console.log(this.content)
+    this.logger.log(this.content)
     // tslint:disable-next-line:no-this-assignment
     // const self = this
     this.contentSvc.downloadCertificateAPI(this.content.content).toPromise().then(async (response: any) => {
@@ -70,15 +72,16 @@ export class AppTocCertificateModalComponent implements OnInit {
         const img = new Image()
         const name = this.content.tocConfig
         const url = await response.result.printUri
-        console.log("response", response.result)
+        this.logger.log("response", response.result)
         // this.img = this.sanitizer.bypassSecurityTrustUrl(url)
         this.isLoading = false
+        let that = this
         img.onload = function () {
           const defaultWidth = 1350
           const defaultHeight = 880
           const canvas: any = document.getElementById('certCanvas') || {}
           const ctx = canvas.getContext('2d')
-          console.log("img.width", img.width)
+          that.logger.log("img.width", img.width)
           const imgWidth = img.width
           const imgHeight = img.height
 
@@ -93,7 +96,7 @@ export class AppTocCertificateModalComponent implements OnInit {
           }
           let imgURI = canvas
             .toDataURL('image/jpeg')
-          console.log("imgWidth", canvas.width, "imgHeight", canvas.height)
+          that.logger.log("imgWidth", canvas.width, "imgHeight", canvas.height)
 
           imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
           const arr = imgURI.split(',')

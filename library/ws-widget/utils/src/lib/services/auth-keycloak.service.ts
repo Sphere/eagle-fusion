@@ -4,6 +4,7 @@ import { KeycloakEvent, KeycloakEventType, KeycloakService } from 'keycloak-angu
 import { ReplaySubject } from 'rxjs'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
+import { LoggerService } from './logger.service'
 
 interface IParsedToken {
   email?: string
@@ -25,7 +26,8 @@ export class AuthKeycloakService {
     private http: HttpClient,
     private configSvc: ConfigurationsService,
     private keycloakSvc: KeycloakService,
-    private msAuthSvc: AuthMicrosoftService
+    private msAuthSvc: AuthMicrosoftService,
+    private logger: LoggerService
   ) {
     this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
       this.configSvc.isAuthenticated = isLoggedIn
@@ -124,7 +126,7 @@ export class AuthKeycloakService {
     redirectUrl: string
   ) {
     // tslint:disable-next-line: no-console
-    console.log(idpHint, redirectUrl)
+    this.logger.log(idpHint, redirectUrl)
   }
 
   register(

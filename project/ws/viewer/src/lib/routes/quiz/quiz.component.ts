@@ -108,7 +108,7 @@ export class QuizComponent implements OnInit, OnDestroy {
       if (window.location.origin.indexOf('http://localhost:') === -1) {
         artifactUrl = `${window['env']['azureHost']}/${artifactUrl}`
       }
-      // console.log(artifactUrl)
+      // this.logger.log(artifactUrl)
       let quizJSON: NSQuiz.IQuiz = await this.http
         .get<any>(artifactUrl || '')
         .toPromise()

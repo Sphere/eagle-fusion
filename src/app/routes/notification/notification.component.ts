@@ -9,7 +9,7 @@ import { environment } from '../../../environments/environment'
 import { Events } from "./events"
 import { LocalStorageService } from "../../services/local-storage.service"
 import {
-  ConfigurationsService, ValueService
+  ConfigurationsService, LoggerService, ValueService
 } from '@ws-widget/utils'
 import { Observable } from "rxjs"
 import { MatDialogRef } from '@angular/material/dialog'
@@ -99,14 +99,15 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     public configSvc: ConfigurationsService,
     private readonly valueSvc: ValueService,
     private readonly dialogRef: MatDialogRef<NotificationsComponent>,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private logger: LoggerService
   ) {
-    console.log('NotificationsComponent constructor called')
+    this.logger.log('NotificationsComponent constructor called')
     this.isXSmall$ = this.valueSvc.isXSmall$
   }
 
   ngOnInit(): void {
-    console.log('ngOnInit called')
+    this.logger.log('ngOnInit called')
 
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (!isXSmall) {
@@ -170,7 +171,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
     if (loginData) {
       const parsedData = JSON.parse(loginData)
       let token = parsedData.token?.access_token
-      console.log("token", token)
+      this.logger.log("token", token)
       return token
       // return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiJmYzE1ZDg1Mi02NmUxLTRjYTUtYWM1YS1mYjA1Y2Q5NmQ0OTQiLCJleHAiOjE3NDMxNDY1NDksIm5iZiI6MCwiaWF0IjoxNzQwNTU0NTQ5LCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiY2E4NjU0MzktMjgwZS00MzkxLTgyZGItYTUwMGE0MDBhM2ZjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.fL1p9vJetVOK4DRGPo8wJtrzJcJf5MVmatcUGdVMSEu0IZ2zfr5X-kVk4RSqqmLG00ApY5_fcYb6EWrUVScU9BwWBJdfPl0Xbhk4eQwRnfoM13_ab64v02rAcUL-U3yuwyaMnBn9Cfbij1kb0M2wnWjW0EAyV9lSuQ65yzShIVXjaRmfGhqVkuq_TyoKrnr2xKlzCUPfeQcDIApD-pqxa6DSuhS1Gu1qgIKoAvZx6MPtQoLiauMa-s_I51_2c2Gmo960G0HCy3EluE62ulUXqUVpfyLFvzSIgWD545bXBd6fycVzNenbIeNDTAdI_hwKM9ixKQB6PCy-NZdV2gfdRQ'
     }
@@ -178,11 +179,11 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   async getNotification() {
-    console.log('getNotification called')
+    this.logger.log('getNotification called')
     this.socket.emit('getNotifications', { userId: this.user_id })
     this.socket.on('notificationsData', async (data) => {
       try {
-        console.log('data', data)
+        this.logger.log('data', data)
         this.storage.setNumberOfNotifications(data?.notificationData?.length)
         this.events.publish('notificationCountUpdated', data?.notificationData?.length)
         const notifications: [] = data.notificationData.map((e: any) => {
@@ -245,7 +246,7 @@ export class NotificationsComponent implements OnInit, OnDestroy {
       path: '/apis/socket.io/'
     })
     this.socket.on('connect', () => {
-      console.log(`Connected to the server with ID: ${this.socket.id}`)
+      this.logger.log(`Connected to the server with ID: ${this.socket.id}`)
       this.setAllNotificationList()
     })
 
@@ -299,12 +300,12 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   ngOnDestroy() {
     if (this.socket) {
       this.socket.disconnect()
-      console.log('Socket disconnected')
+      this.logger.log('Socket disconnected')
     }
   }
 
   async deleteNotification(item: any) {
-    console.log("item", item)
+    this.logger.log("item", item)
     if (item?.status === 'read') {
       this.readNotificationList = this.readNotificationList.filter((ele) => ele.id !== item.id)
       this.storage.setLocalStorage('readNotificationLists', { userId: this.user_id, notifications: this.readNotificationList })
@@ -318,10 +319,10 @@ export class NotificationsComponent implements OnInit, OnDestroy {
   }
 
   setAllNotificationList() {
-    console.log('setAllNotificationList called', this.readNotificationList, this.unReadNotificationList)
+    this.logger.log('setAllNotificationList called', this.readNotificationList, this.unReadNotificationList)
     if (this.readNotificationList.length || this.unReadNotificationList.length) {
       this.allnotificationList = [...this.readNotificationList, ...this.unReadNotificationList]
-      console.log('allnotificationList', this.allnotificationList)
+      this.logger.log('allnotificationList', this.allnotificationList)
       this.allnotificationList.sort((a, b) => new Date(b.createdon).getTime() - new Date(a.createdon).getTime())
       return
     }

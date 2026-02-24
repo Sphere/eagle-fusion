@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { DOCUMENT } from '@angular/common'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-create-account-dialog',
@@ -17,6 +18,7 @@ export class CreateAccountDialogComponent implements OnInit {
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,
     @Inject(DOCUMENT) private readonly _document: Document,
+    private logger: LoggerService
   ) {
   }
 
@@ -48,10 +50,10 @@ export class CreateAccountDialogComponent implements OnInit {
           if (ariaLabel === 'Open chat') {
             btn.click()
             this.dialogRef.close()
-            console.log('Chat opened')
+            this.logger.log('Chat opened')
           }
         } else {
-          console.warn('Button not found inside widget yet')
+          this.logger.warn('Button not found inside widget yet')
         }
       }, 300)
     }
@@ -67,13 +69,13 @@ export class CreateAccountDialogComponent implements OnInit {
       }
     } catch (error) {
       // tslint:disable-next-line:no-console
-      console.log(error)
+      this.logger.log(error)
     }
   }
 
   confirm(data: any) {
     // tslint:disable-next-line:no-console
-    console.log(data)
+    this.logger.log(data)
     this.dialogRef.close(data)
   }
 

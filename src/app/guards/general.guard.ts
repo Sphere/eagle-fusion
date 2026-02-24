@@ -4,7 +4,7 @@ import {
   // RouterStateSnapshot,
   UrlTree
 } from '@angular/router'
-import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserDataCacheService } from '../services/user-data-cache.service'
 
@@ -20,6 +20,7 @@ export class GeneralGuard {
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private userDataCacheSvc: UserDataCacheService,
+    private logger: LoggerService,
   ) { }
 
   async canActivate(
@@ -42,7 +43,7 @@ export class GeneralGuard {
     if (this.configSvc.userProfile === null) {
       const cachedUserData = this.userDataCacheSvc.getCachedUserData()
       if (cachedUserData && cachedUserData.userId) {
-        console.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserData.userId)
+        this.logger.log('[GeneralGuard] Restoring user data from cache for userId:', cachedUserData.userId)
         this.configSvc.unMappedUser = cachedUserData
         // Basic user profile setup from cache
         this.configSvc.userProfile = {
@@ -69,7 +70,7 @@ export class GeneralGuard {
       }
     }
 
-    // console.log("came here 1")
+    // this.logger.log("came here 1")
     // tslint:disable-next-line: no-non-null-assertion
     if (localStorage.getItem('lang') && this.configSvc.userProfile!.language) {
       // tslint:disable-next-line: no-non-null-assertion
@@ -104,8 +105,8 @@ export class GeneralGuard {
       }
     }
     // tslint:disable-next-line:no-console
-    console.log(this.locale)
-    // console.log("came here 2")
+    this.logger.log(this.locale)
+    // this.logger.log("came here 2")
 
     // setTimeout(() => {
 
@@ -119,8 +120,8 @@ export class GeneralGuard {
     //   if (state.url) {
     //     refAppend = `?ref=${encodeURIComponent(state.url)}`
     //   }
-    //   console.log(!this.configSvc.isAuthenticated)
-    //   console.log(refAppend)
+    //   this.logger.log(!this.configSvc.isAuthenticated)
+    //   this.logger.log(refAppend)
 
     //   return this.router.parseUrl(`/login${refAppend}`)
     // }
@@ -132,7 +133,7 @@ export class GeneralGuard {
     ) {
       return this.router.parseUrl(`/public/home`)
     }
-    // console.log("came here 3")
+    // this.logger.log("came here 3")
 
     /**
      * Test IF User Tnc Is Accepted
@@ -162,12 +163,12 @@ export class GeneralGuard {
     // return this.router.parseUrl('/app/user-profile/chatbot')
     // }
     if (this.configSvc.unMappedUser) {
-      // console.log("came here 4")
+      // this.logger.log("came here 4")
 
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
-          // console.log("came here 5")
-          console.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
+          // this.logger.log("came here 5")
+          this.logger.log(data.profileDetails, data.profileDetails!.profileReq!.personalDetails!.dob === undefined)
           // if (data) {
           //   const userData = data.profileDetails.personalDetails
           //   if (userData.dob) {
@@ -183,23 +184,23 @@ export class GeneralGuard {
           // if (data.profileDetails) {
           //   return this.router.parseUrl(`/page/home`)
           // }
-          console.log(data.profileDetails!.profileReq!.personalDetails)
-          // console.log("came here 6")
+          this.logger.log(data.profileDetails!.profileReq!.personalDetails)
+          // this.logger.log("came here 6")
 
           if (data.profileDetails && data.profileDetails!.profileReq && data.profileDetails!.profileReq!.personalDetails) {
             if (data.profileDetails!.profileReq!.personalDetails.tncAccepted === "true") {
               if (data.profileDetails!.profileReq!.personalDetails!.dob !== undefined) {
-                console.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
+                this.logger.log(data.profileDetails!.profileReq!.personalDetails!.tncAccepted)
               }
             } else {
               if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
                 // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
-                // console.log('true')
+                // this.logger.log('true')
                 this.router.navigate(['app', 'new-tnc'])
               }
             }
           } else {
-            // console.log("afdssssssssssssss")
+            // this.logger.log("afdssssssssssssss")
             localStorage.setItem('datanow', JSON.stringify(data))
             this.router.navigate(['app', 'new-tnc'])
           }
@@ -219,7 +220,7 @@ export class GeneralGuard {
         return this.router.parseUrl(`/page/home`)
       }
     }
-    // console.log("came here 7")
+    // this.logger.log("came here 7")
 
     // check if feature is restricted
     if (requiredFeatures && requiredFeatures.length && this.configSvc.restrictedFeatures) {
@@ -231,7 +232,7 @@ export class GeneralGuard {
         return this.router.parseUrl(`/page/home`)
       }
     }
-    // console.log("came here 8")
+    // this.logger.log("came here 8")
 
     return true
   }

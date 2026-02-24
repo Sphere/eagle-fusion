@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input, HostListener, effect } from '@angular/core'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
@@ -19,7 +19,8 @@ export class AppPublicNavBarComponent implements OnInit, OnDestroy {
     private router: Router,
     private activateRoute: ActivatedRoute,
     private valueSvc: ValueService,
-    private authSvc: AuthKeycloakService) {
+    private authSvc: AuthKeycloakService,
+    private logger: LoggerService) {
     effect(() => {
       this.isXSmall$ = this.valueSvc.isMobile() ? true : false
     })
@@ -27,7 +28,7 @@ export class AppPublicNavBarComponent implements OnInit, OnDestroy {
 
   @HostListener('window:popstate', [])
   onPopState() {
-    console.log('Back button pressed')
+    this.logger.log('Back button pressed')
     location.href = '/public/home'
   }
 

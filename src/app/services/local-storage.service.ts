@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core'
 import {
   ConfigurationsService,
+  LoggerService,
 } from '@ws-widget/utils'
 
 @Injectable({
@@ -9,7 +10,7 @@ import {
 export class LocalStorageService {
   numberOfNotificatios = 0;
 
-  constructor(public configSvc: ConfigurationsService) { }
+  constructor(public configSvc: ConfigurationsService, private logger: LoggerService) { }
 
   async setLocalStorage(key: string, value: any): Promise<void> {
     try {
@@ -18,9 +19,9 @@ export class LocalStorageService {
         key = userId + key
       }
       localStorage.setItem(key, JSON.stringify(value))
-      console.log("yes set", key, value)
+      this.logger.log("yes set", key, value)
     } catch (error) {
-      console.error('Error setting storage', error)
+      this.logger.error('Error setting storage', error)
       throw error
     }
   }
@@ -36,7 +37,7 @@ export class LocalStorageService {
       // const { value } = await Storage.get({ key })
       return item ? JSON.parse(item) : null
     } catch (error) {
-      console.error('Error getting storage', error)
+      this.logger.error('Error getting storage', error)
       throw error
     }
   }
@@ -46,7 +47,7 @@ export class LocalStorageService {
       localStorage.clear()
       // await Storage.clear()
     } catch (error) {
-      console.error('Error clearing storage', error)
+      this.logger.error('Error clearing storage', error)
       throw error
     }
   }
@@ -60,7 +61,7 @@ export class LocalStorageService {
       localStorage.removeItem(key)
       // await Storage.remove({ key })
     } catch (error) {
-      console.error('Error deleting storage item', error)
+      this.logger.error('Error deleting storage item', error)
       throw error
     }
   }
@@ -76,7 +77,7 @@ export class LocalStorageService {
       // const { keys } = await Storage.keys()
       return keys.includes(key)
     } catch (error) {
-      console.error('Error checking key', error)
+      this.logger.error('Error checking key', error)
       throw error
     }
   }

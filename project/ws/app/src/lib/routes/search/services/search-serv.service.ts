@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { NSSearch } from '@ws-widget/collection'
-import { ConfigurationsService, EventService, WsEvents } from '@ws-widget/utils'
+import { ConfigurationsService, EventService, LoggerService, WsEvents } from '@ws-widget/utils'
 import { Observable, of } from 'rxjs'
 // import { KnowledgeHubApiService } from '../../infy/routes/knowledge-hub/apis/knowledge-hub-api.service'
 // import { IKhubAutoMation, IKhubFilterObj, IKhubItemTile, IKhubKshop, IKhubProject, IKhubViewResultDocs, IKhubViewResultProject, ISearchObjForSearch } from '../../infy/routes/knowledge-hub/models/knowledgeHub.model'
@@ -33,6 +33,7 @@ export class SearchServService {
     private searchApi: SearchApiService,
     private configSrv: ConfigurationsService,
     private http: HttpClient,
+    private logger: LoggerService
   ) { }
 
   get defaultFiltersTranslated() {
@@ -45,7 +46,7 @@ export class SearchServService {
       try {
         this.searchConfig = await this.http.get<any>(`fusion-assets/files/search.json`).toPromise()
       } catch (err) {
-        console.log(err)
+        this.logger.log(err)
       }
 
     }
@@ -62,7 +63,7 @@ export class SearchServService {
   }
 
   searchAutoComplete(params: ISearchQuery): Promise<ISearchAutoComplete[]> {
-    console.log(params)
+    this.logger.log(params)
     params.q = params.q.toLowerCase()
     if (params.l.split(',').length === 1 && params.l.toLowerCase() !== 'all') {
       return this.searchApi.getSearchAutoCompleteResults(params).toPromise()
@@ -92,7 +93,7 @@ export class SearchServService {
     //     displayName: 'Mime Type',
     //   },
     // }
-    console.log(request.request)
+    this.logger.log(request.request)
     request.request.filters['status'] = ['Live']
     const v6Request: any = {
       request: {
@@ -211,7 +212,7 @@ export class SearchServService {
   //   //   }
   //   // }
   //   // }
-  //   // console.log('v6Request', v6Request)
+  //   // this.logger.log('v6Request', v6Request)
   //   return this.searchApi.getSearchV6Results(v6Request)
   // }
 

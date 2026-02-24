@@ -17,7 +17,7 @@ export class LangSelectComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private router: Router,
     private userPrefSvc: UserPreferenceService,
-  ) {}
+  ) { }
   userName = ''
   selectedLang = ''
   lang = ''
@@ -56,8 +56,8 @@ export class LangSelectComponent implements OnInit {
   //     }
   //     if (langCode.split('-')[0] === this.lang.split('-')[0]) {
   //       if (this.configSvc.userPreference && this.configSvc.userPreference.selectedLocale !== this.lang) {
-  //         console.log('seleced: ', this.configSvc.userPreference.selectedLocale)
-  //         console.log('Geo: ', this.lang)
+  //         this.logger.log('seleced: ', this.configSvc.userPreference.selectedLocale)
+  //         this.logger.log('Geo: ', this.lang)
   //         await this.userPrefSvc.saveUserPreference({
   //           selectedLocale: this.lang,
   //         })

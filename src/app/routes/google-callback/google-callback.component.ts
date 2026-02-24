@@ -23,11 +23,11 @@ export class GoogleCallbackComponent implements OnInit {
     const req = {
       idToken: tokenurl[1].replace('id_token=', ''),
     }
-    // console.log(req.idToken)
+    // this.logger.log(req.idToken)
     // const storageItem1 = localStorage.getItem(`google_token`)
     const url = this.router.url
     // let resStr = req.idToken.localeCompare(storageItem1)
-    // console.log(resStr)
+    // this.logger.log(resStr)
     // const storageItem2 = localStorage.getItem(`google_isSignedIn`)
     if (url.includes('/google/callback')) {
       // this.signinURL = `https://oauth2.googleapis.com/tokeninfo?id_token=${storageItem1}`

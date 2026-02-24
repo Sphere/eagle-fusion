@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
 // import * as _ from 'lodash'
@@ -39,7 +39,8 @@ export class EducationEditComponent implements OnInit {
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
-    private langSvc: LanguageService
+    private langSvc: LanguageService,
+    private logger: LoggerService
   ) {
     this.educationForm = new UntypedFormGroup({
       courseDegree: new UntypedFormControl('', [Validators.required]),
@@ -67,7 +68,7 @@ export class EducationEditComponent implements OnInit {
     }
     )
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data, 'here')
+      this.logger.log(data, 'here')
       this.workLog = await data
       if (this.workLog) {
         this.getUserDetails()
@@ -138,7 +139,7 @@ export class EducationEditComponent implements OnInit {
 
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
     let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
-    console.log(local)
+    this.logger.log(local)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/education-edit'
 
     const obj = {

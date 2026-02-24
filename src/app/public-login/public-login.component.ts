@@ -5,7 +5,7 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { MatDialog } from '@angular/material/dialog'
 import { CreateAccountDialogComponent } from '../routes/create-account-modal/create-account-dialog.component'
-import { ConfigurationsService, TelemetryService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, TelemetryService, ValueService } from '../../../library/ws-widget/utils/src/public-api'
 
 import { Observable } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -47,7 +47,8 @@ export class PublicLoginComponent implements OnInit {
     private readonly router: Router,
     private readonly route: ActivatedRoute,
     private meta: Meta, private title: Title,
-    private telemetrySvc: TelemetryService
+    private telemetrySvc: TelemetryService,
+    private logger: LoggerService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
@@ -141,7 +142,7 @@ export class PublicLoginComponent implements OnInit {
         OTPcode: new FormControl('', [Validators.required])
       })
     } else {
-      console.log("email type")
+      this.logger.log("email type")
       this.OTPForm = this.spherFormBuilder.group({
         OTPcode: ['', Validators.required]
       })
@@ -154,7 +155,7 @@ export class PublicLoginComponent implements OnInit {
     const otp3Control = this.OTPForm.get('otp3')
     const otp4Control = this.OTPForm.get('otp4')
     const code = this.OTPForm.get('OTPcode')
-    console.log("yes here", otp4Control)
+    this.logger.log("yes here", otp4Control)
     if (otp1Control && otp2Control && otp3Control && otp4Control) {
       const otp1 = otp1Control.value
       const otp2 = otp2Control.value
@@ -164,18 +165,18 @@ export class PublicLoginComponent implements OnInit {
       if (this.OTPForm?.get('OTPcode')) {
         this.OTPForm.get('OTPcode')!.setValue(code)
       }
-      console.error('1 One or more OTP controls are missing')
+      this.logger.error('1 One or more OTP controls are missing')
 
     } else {
       this.OTPForm.controls['OTPcode'].setValue(code)
-      console.error('One or more OTP controls are missing')
+      this.logger.error('One or more OTP controls are missing')
     }
   }
   help() {
     let width = '345px'
     let height = '335px'
     this.isXSmall$.subscribe((data: any) => {
-      console.log("data", data)
+      this.logger.log("data", data)
       if (data) {
         width = '345px'
         height = '335px'
@@ -202,7 +203,7 @@ export class PublicLoginComponent implements OnInit {
     })
 
     this.langDialog.afterClosed().subscribe((data: any) => {
-      console.log("data: ", data)
+      this.logger.log("data: ", data)
 
       if (data === 'createAccount') {
         if (localStorage.getItem('login_url')) {
@@ -222,7 +223,7 @@ export class PublicLoginComponent implements OnInit {
       : '/public/home'
   }
   redirect(val: string) {
-    console.log("val")
+    this.logger.log("val")
     if (val === 'createAccount') {
       window.location.href = '/public/home'
     } else {
@@ -253,7 +254,7 @@ export class PublicLoginComponent implements OnInit {
         (window as any).fbq('track', 'SubmitApplication')
       }
       catch (e) {
-        console.error("fb pixel error")
+        this.logger.error("fb pixel error")
       }
       let phone = this.loginPwdForm.controls.emailOrMobile.value
       let type = ''
@@ -268,7 +269,7 @@ export class PublicLoginComponent implements OnInit {
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
-        console.log(check)
+        this.logger.log(check)
       }
       let req = {}
       if (type === 'email') {
@@ -294,18 +295,18 @@ export class PublicLoginComponent implements OnInit {
       // Send telemetry for login submit
       this.sendLoginSubmitTelemetry(type, maskedPhone, maskedEmail, 'password')
 
-      console.log(type, 'check')
+      this.logger.log(type, 'check')
       this.isLoginLoading = true
       this.signupService.loginAPI(req).subscribe(res => {
         this.isLoginLoading = false
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
-        console.log(res.status)
+        this.logger.log(res.status)
         this.openSnackbar(res.msg ?? res.message)
 
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
-            console.log(res, 'res')
+            this.logger.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
 
             // Send login success telemetry after userProfile is populated
@@ -320,7 +321,7 @@ export class PublicLoginComponent implements OnInit {
               if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
                 const redirectUrl =
                   orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
-                console.log(
+                this.logger.log(
                   `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
                 )
                 window.location.href = redirectUrl
@@ -333,7 +334,7 @@ export class PublicLoginComponent implements OnInit {
 
       }, err => {
         this.isLoginLoading = false
-        console.log(err)
+        this.logger.log(err)
 
         // Send login failure telemetry
         this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'password', err?.error?.msg || err?.error?.message || 'Login failed')
@@ -344,12 +345,12 @@ export class PublicLoginComponent implements OnInit {
         this.openSnackbar(err?.error?.msg || err?.error?.error || "Login Failed")
       })
     } else {
-      console.log('alert')
+      this.logger.log('alert')
     }
   }
   resendOTP(form?: any) {
 
-    console.log(form)
+    this.logger.log(form)
     if ((this.loginForm.status === 'VALID')) {
       let phone = this.loginForm.controls.emailOrMobile.value
       let type = ''
@@ -361,7 +362,7 @@ export class PublicLoginComponent implements OnInit {
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
-        console.log(check, 'check')
+        this.logger.log(check, 'check')
       }
       let req = {}
       if (type === 'email') {
@@ -384,9 +385,9 @@ export class PublicLoginComponent implements OnInit {
         otp4: '',
         code: ''
       })
-      console.log(req, type)
+      this.logger.log(req, type)
       this.signupService.resendOTP(req).subscribe(res => {
-        console.log(res)
+        this.logger.log(res)
         this.openSnackbar(res.msg ?? res.message)
         // if (localStorage.getItem('url_before_login')) {
         //   const url = localStorage.getItem('url_before_login') || ''
@@ -395,7 +396,7 @@ export class PublicLoginComponent implements OnInit {
         //   window.location.href = '/page/home'
         // }
       }, err => {
-        console.log(err)
+        this.logger.log(err)
         this.openSnackbar(err.error.msg ?? err.error.message)
       })
     }
@@ -413,7 +414,7 @@ export class PublicLoginComponent implements OnInit {
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
-        console.log(check, 'check')
+        this.logger.log(check, 'check')
       }
       let req = {}
       if (type === 'email') {
@@ -439,18 +440,18 @@ export class PublicLoginComponent implements OnInit {
       // Send telemetry for login submit
       this.sendLoginSubmitTelemetry(type, maskedPhone, maskedEmail, 'otp')
 
-      console.log(req, type)
+      this.logger.log(req, type)
       this.isLoginLoading = true
       this.signupService.loginAPI(req).subscribe(res => {
         this.isLoginLoading = false
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
-        console.log(res)
+        this.logger.log(res)
         this.openSnackbar(res.msg ?? res.message)
 
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
-            console.log(res, 'res')
+            this.logger.log(res, 'res')
             // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
             localStorage.setItem('res123', JSON.stringify(res))
             if (res && res.status) {
@@ -477,7 +478,7 @@ export class PublicLoginComponent implements OnInit {
                 if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
                   const redirectUrl =
                     orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
-                  console.log(
+                  this.logger.log(
                     `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
                   )
                   window.location.href = redirectUrl
@@ -490,7 +491,7 @@ export class PublicLoginComponent implements OnInit {
         }, 500)
       }, err => {
         this.isLoginLoading = false
-        console.log(err.error)
+        this.logger.log(err.error)
 
         // Send login failure telemetry
         this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'otp', err?.error?.msg || err?.error?.message || 'Login failed')
@@ -516,7 +517,7 @@ export class PublicLoginComponent implements OnInit {
         )
         type = 'email'
         this.emailPhoneType = 'email'
-        console.log(check, 'check')
+        this.logger.log(check, 'check')
       }
       let req = {}
       if (type === 'email') {
@@ -536,14 +537,14 @@ export class PublicLoginComponent implements OnInit {
       }
       this.initializeForm()
 
-      console.log(req, 'res', type)
+      this.logger.log(req, 'res', type)
       this.signupService.sendOTP(req).subscribe(res => {
-        console.log(res)
+        this.logger.log(res)
         this.userID = res.userId
         this.openSnackbar(res.msg ?? res.message)
         this.startTimer()
         this.otpPage = true
-        console.log(this.otpPage)
+        this.logger.log(this.otpPage)
         // if (localStorage.getItem('url_before_login')) {
         //   const url = localStorage.getItem('url_before_login') || ''
         //   location.href = url
@@ -551,7 +552,7 @@ export class PublicLoginComponent implements OnInit {
         //   window.location.href = '/page/home'
         // }
       }, err => {
-        console.log(err.error.msg, err.error.message)
+        this.logger.log(err.error.msg, err.error.message)
         if (err.error.message === "User doesn't exists please signup and try again" || err.error.msg === "User doesn't exists please signup and try again") {
           this.userDoesnotExist()
         }
@@ -586,7 +587,7 @@ export class PublicLoginComponent implements OnInit {
     })
   }
   passwordOrOtp(text: any) {
-    console.log("fasdfasdf", text)
+    this.logger.log("fasdfasdf", text)
     this.selectedField = text
   }
 

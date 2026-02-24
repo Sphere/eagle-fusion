@@ -2,6 +2,7 @@ import { Injectable, OnDestroy } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable, throwError } from 'rxjs'
 import { map, shareReplay, tap, catchError, retry, take } from 'rxjs/operators'
+import { LoggerService } from '@ws-widget/utils'
 
 const API_ENDPOINTS = {
   getUserProfile: '/apis/proxies/v8/api/user/v2/read',
@@ -18,20 +19,20 @@ export class UserDataCacheService implements OnDestroy {
   private cacheTimestamp: number | null = null
   private readonly CACHE_EXPIRATION_TIME = 6 * 60 * 60 * 1000 // 6 hours in milliseconds
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private logger: LoggerService) {
     // Try to restore from session storage on service initialization
     this.restoreFromCache();
 
     // Debug: expose debug method to window for testing
     (window as any).clearUserCache = () => {
       this.clearUserData()
-      console.log('[UserDataCache] Cache cleared! Reload page to see new API call.')
+      this.logger.log('[UserDataCache] Cache cleared! Reload page to see new API call.')
     }
 
     // Debug: expose method to get current cached data
     (window as any).getUserCached = () => {
       const data = this.userDataSubject.value
-      console.log('[UserDataCache] Current cached user data:', data)
+      this.logger.log('[UserDataCache] Current cached user data:', data)
       return data
     }
 
@@ -39,10 +40,10 @@ export class UserDataCacheService implements OnDestroy {
     (window as any).getCacheExpirationTime = () => {
       if (this.cacheTimestamp) {
         const expirationTime = new Date(this.cacheTimestamp + this.CACHE_EXPIRATION_TIME)
-        console.log('[UserDataCache] Cache will expire at:', expirationTime.toLocaleString())
+        this.logger.log('[UserDataCache] Cache will expire at:', expirationTime.toLocaleString())
         return expirationTime
       }
-      console.log('[UserDataCache] Cache is not set')
+      this.logger.log('[UserDataCache] Cache is not set')
       return null
     }
   }
@@ -57,7 +58,7 @@ export class UserDataCacheService implements OnDestroy {
     const now = Date.now()
     const isExpired = now - this.cacheTimestamp > this.CACHE_EXPIRATION_TIME
     if (isExpired) {
-      console.log('[UserDataCache] Cache has expired after 6 hours')
+      this.logger.log('[UserDataCache] Cache has expired after 6 hours')
     }
     return isExpired
   }
@@ -73,11 +74,11 @@ export class UserDataCacheService implements OnDestroy {
 
     // Set new timeout to clear cache after 6 hours
     this.cacheExpirationTimeout = setTimeout(() => {
-      console.log('[UserDataCache] 6-hour cache expiration timer triggered')
+      this.logger.log('[UserDataCache] 6-hour cache expiration timer triggered')
       this.clearUserData()
     }, this.CACHE_EXPIRATION_TIME)
 
-    console.log('[UserDataCache] Cache expiration timer set for 6 hours')
+    this.logger.log('[UserDataCache] Cache expiration timer set for 6 hours')
   }
 
   /**
@@ -87,7 +88,7 @@ export class UserDataCacheService implements OnDestroy {
   getUserData(): Observable<any> {
     // Check if cache has expired
     if (this.isCacheExpired()) {
-      console.log('[UserDataCache] Cache expired, clearing and fetching fresh data')
+      this.logger.log('[UserDataCache] Cache expired, clearing and fetching fresh data')
       this.userDataSubject.next(null)
       this.apiCall$ = null
     }
@@ -95,28 +96,28 @@ export class UserDataCacheService implements OnDestroy {
     // If data is already cached, return it
     const cachedData = this.userDataSubject.value
     if (cachedData) {
-      console.log('[UserDataCache] Returning existing cached data for userId:', cachedData.userId)
+      this.logger.log('[UserDataCache] Returning existing cached data for userId:', cachedData.userId)
       return this.userData$.pipe(take(1))
     }
 
     // If an API call is already in progress, return the same observable
     if (this.apiCall$) {
-      console.log('[UserDataCache] API call already in progress, returning existing observable')
+      this.logger.log('[UserDataCache] API call already in progress, returning existing observable')
       return this.apiCall$
     }
 
     // If not cached and no call in progress, make the API call with retry
-    console.log('[UserDataCache] No cache found, making API call to', API_ENDPOINTS.getUserProfile)
+    this.logger.log('[UserDataCache] No cache found, making API call to', API_ENDPOINTS.getUserProfile)
     this.apiCall$ = this.http
       .get<any>(API_ENDPOINTS.getUserProfile)
       .pipe(
         retry(1),
         map((res: any) => {
-          console.log('[UserDataCache] API call successful, extracting response')
+          this.logger.log('[UserDataCache] API call successful, extracting response')
           return res.result.response
         }),
         tap((data: any) => {
-          console.log('[UserDataCache] Caching data with userId:', data?.userId)
+          this.logger.log('[UserDataCache] Caching data with userId:', data?.userId)
           this.userDataSubject.next(data)
           this.cacheToSession(data)
           this.cacheTimestamp = Date.now()
@@ -124,7 +125,7 @@ export class UserDataCacheService implements OnDestroy {
           this.apiCall$ = null
         }),
         catchError((error: any) => {
-          console.error('[UserDataCache] Error fetching user data after retries:', error)
+          this.logger.error('[UserDataCache] Error fetching user data after retries:', error)
           this.apiCall$ = null
           return throwError(error)
         }),
@@ -179,9 +180,9 @@ export class UserDataCacheService implements OnDestroy {
     if (data && data.userId) {
       try {
         sessionStorage.setItem('userDataCache', JSON.stringify(data))
-        console.log('[UserDataCache] User data cached to session storage')
+        this.logger.log('[UserDataCache] User data cached to session storage')
       } catch (e) {
-        console.warn('[UserDataCache] Could not cache user data to session storage:', e)
+        this.logger.warn('[UserDataCache] Could not cache user data to session storage:', e)
       }
     }
   }
@@ -193,26 +194,26 @@ export class UserDataCacheService implements OnDestroy {
     try {
       const cached = sessionStorage.getItem('userDataCache')
       if (cached) {
-        console.log('[UserDataCache] Found cached data in session storage, attempting to parse...')
+        this.logger.log('[UserDataCache] Found cached data in session storage, attempting to parse...')
         const data = JSON.parse(cached)
         if (data && data.userId) {
-          console.log('[UserDataCache] Restoring data from session storage for userId:', data.userId)
+          this.logger.log('[UserDataCache] Restoring data from session storage for userId:', data.userId)
           this.userDataSubject.next(data)
           this.cacheTimestamp = Date.now()
           this.setupCacheExpiration()
         } else {
-          console.warn('[UserDataCache] Cached user data is invalid (no userId), clearing cache')
+          this.logger.warn('[UserDataCache] Cached user data is invalid (no userId), clearing cache')
           sessionStorage.removeItem('userDataCache')
         }
       } else {
-        console.log('[UserDataCache] No cached data found in session storage')
+        this.logger.log('[UserDataCache] No cached data found in session storage')
       }
     } catch (e) {
-      console.warn('[UserDataCache] Could not restore user data from cache:', e)
+      this.logger.warn('[UserDataCache] Could not restore user data from cache:', e)
       try {
         sessionStorage.removeItem('userDataCache')
       } catch (err) {
-        console.warn('[UserDataCache] Could not clear invalid cache:', err)
+        this.logger.warn('[UserDataCache] Could not clear invalid cache:', err)
       }
     }
   }

@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core'
 import { Router, ActivatedRoute, Params } from '@angular/router'
 import { NsContent, WidgetContentService, viewerRouteGenerator } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 @Component({
@@ -55,7 +55,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     private route: ActivatedRoute,
     private router: Router,
     private tocSvc: AppTocService,
-    private contentSvc: WidgetContentService
+    private contentSvc: WidgetContentService,
+    private logger: LoggerService
   ) {
   }
 
@@ -105,7 +106,7 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
   reDirect(content: any) {
     // Check if resource is accessible based on gating rules
     if (!this.canAccessResource(content)) {
-      console.warn('Access denied: Resource is locked due to course gating', content.identifier)
+      this.logger.warn('Access denied: Resource is locked due to course gating', content.identifier)
       // Silently prevent navigation - lock icon indicates user shouldn't click
       return
     }

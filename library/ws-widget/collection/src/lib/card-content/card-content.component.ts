@@ -96,7 +96,7 @@ export class CardContentComponent extends WidgetBaseComponent
       //   contentType: this.widgetData.content.contentType,
       // }
       // this.cometencyData = JSON.parse(get(this.widgetData, 'content.competencies_v1', ''))
-      // console.log("this.widgetData", this.widgetData, get(this.widgetData, 'content.competencies_v1'))
+      // this.logger.log("this.widgetData", this.widgetData, get(this.widgetData, 'content.competencies_v1'))
 
       if (this.widgetData.content.competencies_v1 && Object.keys(this.widgetData.content.competencies_v1).length > 0) {
         forEach(JSON.parse(get(this.widgetData, 'content.competencies_v1')), (value: any) => {
@@ -134,7 +134,7 @@ export class CardContentComponent extends WidgetBaseComponent
         this.target!.targetOffsetX = event.clientX + 1
       }
     } else {
-      // console.log('this.showEndPopup', this.showEndPopup)
+      // this.logger.log('this.showEndPopup', this.showEndPopup)
     }
   }
   clickToRedirect(data: any) {
@@ -212,7 +212,7 @@ export class CardContentComponent extends WidgetBaseComponent
     })
     localStorage.setItem('tocData', JSON.stringify(data))
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-    // // console.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
+    // // this.logger.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
 
     // // if (localStorage.getItem('login_url')) {
     // //   const url: any = localStorage.getItem('login_url')

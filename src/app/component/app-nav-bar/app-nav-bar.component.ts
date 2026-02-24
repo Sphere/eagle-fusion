@@ -5,7 +5,7 @@ import {
   // CustomTourService
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
@@ -68,14 +68,15 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     public navOption: appNavBarService,
     private playlistSvc: PlaylistService,
     private languageSvc: LanguageService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private logger: LoggerService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
       this.showNavLinkPage = false
     }
-    console.log(location.href)
+    this.logger.log(location.href)
     this.langPresent = this.languageSvc.isHindi()
     if (location.href.includes('/app/new-tnc')) {
       this.showNavLinkPage = false
@@ -210,7 +211,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     let url = 'page/home'
     if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
       url = orgSelectiveConfig.redirectUrl || 'page/home'
-      console.log('Redirecting to selective org page:', url)
+      this.logger.log('Redirecting to selective org page:', url)
     }
 
     this.router.navigateByUrl(url)
@@ -238,7 +239,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: any) {
-    console.log('Back button pressed', event)
+    this.logger.log('Back button pressed', event)
     location.href = '/page/home'
   }
 
@@ -260,7 +261,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
       // tslint:disable-next-line:no-console
-      console.log(this.preferedLanguage)
+      this.logger.log(this.preferedLanguage)
     })
   }
 }

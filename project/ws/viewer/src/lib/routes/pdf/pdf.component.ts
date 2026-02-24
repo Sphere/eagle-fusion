@@ -46,7 +46,7 @@ export class PdfComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // TODO console.log('pdf wala')
+    // TODO this.logger.log('pdf wala')
     if (
       this.activatedRoute.snapshot.queryParamMap.get('preview') &&
       !this.accessControlSvc.authoringConfig.newDesign
@@ -111,7 +111,7 @@ export class PdfComponent implements OnInit, OnDestroy {
         () => { },
       )
     }
-    // TODO  console.log('PDF Content',this.pdfData)
+    // TODO  this.logger.log('PDF Content',this.pdfData)
   }
 
   formDiscussionForumWidget(content: NsContent.IContent) {
@@ -219,7 +219,7 @@ export class PdfComponent implements OnInit, OnDestroy {
       .setS3Cookie(contentId)
       .toPromise()
       .catch(() => {
-        // TODO   console.log('Cookie error for s3')
+        // TODO   this.logger.log('Cookie error for s3')
       })
     return
   }

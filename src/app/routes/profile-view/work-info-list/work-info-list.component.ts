@@ -1,5 +1,5 @@
 import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter, Input, DestroyRef, inject } from '@angular/core'
-import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '@ws-widget/collection'
@@ -65,7 +65,8 @@ export class WorkInfoListComponent implements OnInit {
     public UserAgentResolverService: UserAgentResolverService,
     public snackBar: MatSnackBar,
     public http: HttpClient,
-    private languageSvc: LanguageService
+    private languageSvc: LanguageService,
+    private logger: LoggerService
   ) {
     this.personalDetailForm = new UntypedFormGroup({
       profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
@@ -88,7 +89,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   ngOnInit() {
-    console.log(this.data)
+    this.logger.log(this.data)
     this.getUserDetails()
     this.valueSvc.isXSmall$
       .pipe(takeUntilDestroyed(this.destroyRef))
@@ -172,7 +173,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   professionalChange(value: any) {
-    console.log('degree', value, this.userProfileData, this.personalDetailForm)
+    this.logger.log('degree', value, this.userProfileData, this.personalDetailForm)
     const form = this.personalDetailForm
     const controls = form.controls
     const profile = this.userProfileData
@@ -202,7 +203,7 @@ export class WorkInfoListComponent implements OnInit {
         controls.subcentre.setValue(null)
 
         const cName = profile.personalDetails.postalAddress
-        console.log(cName)
+        this.logger.log(cName)
 
         const { state, dist } = this.extractStateDistrictFromPostalAddress(cName)
         const location = profDetails.locationselect !== undefined ? profDetails.locationselect : dist
@@ -339,7 +340,7 @@ export class WorkInfoListComponent implements OnInit {
 
   chooseBackground(data: any) {
     const controls = this.personalDetailForm?.controls
-    console.log(data)
+    this.logger.log(data)
     this.selectedBg = data
     switch (data) {
 
@@ -353,7 +354,7 @@ export class WorkInfoListComponent implements OnInit {
         controls.subcentre.setValue(null)
 
         const cName = this.userProfileData.personalDetails.postalAddress
-        console.log(cName)
+        this.logger.log(cName)
         const { state, dist } = this.extractStateDistrictFromPostalAddress(cName)
         const location = this.userProfileData.professionalDetails[0].locationselect !== undefined
           ? this.userProfileData.professionalDetails[0].locationselect
@@ -392,7 +393,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   onSubmit(form: any) {
-    // console.log("degree", value, this.userProfileData)
+    // this.logger.log("degree", value, this.userProfileData)
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
@@ -407,7 +408,7 @@ export class WorkInfoListComponent implements OnInit {
         cName = this.userProfileData.personalDetails!.postalAddress!.includes('India')
       }
 
-      console.log(cName)
+      this.logger.log(cName)
       if (cName) {
         let cName1 = this.userProfileData.personalDetails.postalAddress
         let csplit = cName1.split(',')
@@ -431,12 +432,12 @@ export class WorkInfoListComponent implements OnInit {
         profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-list', },
       },
     }
-    console.log('request update', reqUpdate, get(form.value, 'profession'))
+    this.logger.log('request update', reqUpdate, get(form.value, 'profession'))
     this.passProfession.emit(get(form.value, 'profession'))
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       (res: any) => {
         if (res) {
-          console.log(res, 'res')
+          this.logger.log(res, 'res')
           if (local === 'en') {
             this.openSnackbar(this.toastSuccess.nativeElement.value)
           } else {
@@ -523,7 +524,7 @@ export class WorkInfoListComponent implements OnInit {
   }
 
   private getOrganisationsHistory(form: any) {
-    console.log(form.value, form.value.nameOther)
+    this.logger.log(form.value, form.value.nameOther)
     const organisations: any = []
     const org = {
       name: form.value.orgName,

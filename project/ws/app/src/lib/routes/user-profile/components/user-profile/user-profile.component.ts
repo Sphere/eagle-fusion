@@ -211,7 +211,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
 
   ngOnInit() {
     // this.unseenCtrlSub = this.createUserForm.valueChanges.subscribe(value => {
-    //   console.log('ngOnInit - value', value);
+    //   this.logger.log('ngOnInit - value', value);
     // })
     // const approvalData = lodash.compact(lodash.map(this.approvalConfig, (v, k) => {
     //   return v.approvalRequired ? { [k]: v } : null

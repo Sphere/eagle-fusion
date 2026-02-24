@@ -2,6 +2,7 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { forEach } from 'lodash'
 import { Router } from '@angular/router'
+import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-app-app-toc-desktop-modal',
   templateUrl: './app-toc-desktop-modal.component.html',
@@ -13,6 +14,7 @@ export class AppTocDesktopModalComponent implements OnInit {
     public dialogRef: MatDialogRef<AppTocDesktopModalComponent>,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public content: any,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -35,7 +37,7 @@ export class AppTocDesktopModalComponent implements OnInit {
         }
       )
     })
-    console.log('inside', this.cometencyData, 'name')
+    this.logger.log('inside', this.cometencyData, 'name')
     return this.cometencyData
   }
 

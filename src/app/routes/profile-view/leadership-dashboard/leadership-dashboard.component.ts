@@ -11,7 +11,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { LeadershipDashboardInfoComponent } from '../leadership-dashboard-info/leadership-dashboard-info.component'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-import { ConfigurationsService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'app-leadership-dashboard',
@@ -48,7 +48,8 @@ export class LeadershipDashboardComponent implements OnInit, OnDestroy {
     public dialogRef: MatDialogRef<LeadershipDashboardComponent>,
     public dialog: MatDialog,
     public userProfileService: UserProfileService,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -99,7 +100,7 @@ export class LeadershipDashboardComponent implements OnInit, OnDestroy {
         this.loading = false
       },
       err => {
-        console.log('Error loading leaderboard data', err)
+        this.logger.log('Error loading leaderboard data', err)
         this.loading = false
         this.infiniteDisabled = true
       },

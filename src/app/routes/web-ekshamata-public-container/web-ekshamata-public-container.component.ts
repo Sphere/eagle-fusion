@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
-import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { Observable } from 'rxjs'
 
 @Component({
@@ -13,11 +13,12 @@ export class WebEkshamataPublicComponent implements OnInit {
   isXSmall$: Observable<boolean>
 
   constructor(private readonly router: Router, private readonly valueSvc: ValueService,
+    private logger: LoggerService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
   }
   ngOnInit(): void {
-    console.log("public ekshamata home component")
+    this.logger.log("public ekshamata home component")
   }
 
   login() {

@@ -11,6 +11,7 @@ import * as _ from 'lodash'
 import { TelemetryService } from '../../../library/ws-widget/utils/src/lib/services/telemetry.service'
 import { ActivatedRoute } from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
+import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 
 const API_END_POINTS = {
   CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
@@ -42,8 +43,8 @@ export class MobileScromAdapterService {
     private store: Storage,
     private telemetrySvc: TelemetryService,
     public route: ActivatedRoute,
-    private UserAgentResolverService: UserAgentResolverService
-
+    private UserAgentResolverService: UserAgentResolverService,
+    private logger: LoggerService
   ) { }
   set contentId(id: string) {
     this.store.key = id
@@ -104,19 +105,19 @@ export class MobileScromAdapterService {
     const message = { action: 'close', percentage: data }
 
     if (!window.webkit || !window.webkit.messageHandlers || !window.webkit.messageHandlers.cordova_iab) {
-      console.warn('Cordova IAB postMessage API not found!')
+      this.logger.warn('Cordova IAB postMessage API not found!')
       throw new Error('Cordova IAB postMessage API not found!')
     } else {
-      console.log('Message sent!', message);
+      this.logger.log('Message sent!', message);
       (window.webkit.messageHandlers.cordova_iab as any).postMessage(JSON.stringify(message))
     }
   }
 
 
   LMSCommit() {
-    console.log("lms commit")
+    this.logger.log("lms commit")
     const data = this.store.getAll()
-    console.log(data)
+    this.logger.log(data)
     if (!data) {
       return false
     }
@@ -159,7 +160,7 @@ export class MobileScromAdapterService {
     if (data["cmi.core.lesson_status"] === 'completed' || data["cmi.core.lesson_status"] === 'passed') {
       this.scromSubscription = this.updateScromProgress(data).subscribe(
         async (response: any) => {
-          console.log(response)
+          this.logger.log(response)
           const paramMap = this.route.snapshot.queryParamMap
           const params: any = {}
           paramMap.keys.forEach((key: string) => {
@@ -208,14 +209,14 @@ export class MobileScromAdapterService {
         (error) => {
           if (error) {
             this._setError(101)
-            // console.log(error)
+            // this.logger.log(error)
           }
         }
       )
       return false
     } else {
       this.updateScromProgress(data).subscribe((res) => {
-        console.log(res)
+        this.logger.log(res)
       })
     }
     return false
@@ -252,10 +253,10 @@ export class MobileScromAdapterService {
     this.store.setItem('errors', errors)
   }
   downladFile() {
-    console.log('downladFile')
+    this.logger.log('downladFile')
   }
   loadDataV2(req: any, data: any) {
-    console.log('loadDataV2', req)
+    this.logger.log('loadDataV2', req)
     req.request.fields = ['progressdetails']
 
     const headers = new HttpHeaders({
@@ -268,12 +269,12 @@ export class MobileScromAdapterService {
 
     this.http.post(url, req, { headers }).pipe(
       catchError((error: any) => {
-        console.error('Error occurred:', error)
+        this.logger.error('Error occurred:', error)
         return of(null)
       })
     ).subscribe((responseData: any) => {
       // tslint:disable-next-line: no-console
-      console.log(responseData)
+      this.logger.log(responseData)
       if (responseData && responseData.result && responseData.result.contentList.length) {
         for (const content of responseData.result.contentList) {
           if (content.contentId === this.contentId && content.progressdetails) {
@@ -286,7 +287,7 @@ export class MobileScromAdapterService {
               "Initialized": data["Initialized"],
             }
             // tslint:disable-next-line: no-console
-            console.log('loaded data', loadDatas)
+            this.logger.log('loaded data', loadDatas)
             this.store.setAll(loadDatas)
           } else {
             this.initzeroProgress()
@@ -297,7 +298,7 @@ export class MobileScromAdapterService {
   }
 
   getStatus(postData: any): number {
-    console.log(postData["cmi.core.lesson_status"], 'getStatus', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
+    this.logger.log(postData["cmi.core.lesson_status"], 'getStatus', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 2
@@ -306,12 +307,12 @@ export class MobileScromAdapterService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in getting completion status', e)
+      this.logger.log('Error in getting completion status', e)
       return 1
     }
   }
   getPercentage(postData: any): number {
-    console.log(postData["cmi.core.lesson_status"], 'getpercentage', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
+    this.logger.log(postData["cmi.core.lesson_status"], 'getpercentage', (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed'))
     try {
       if (postData["cmi.core.lesson_status"] === 'completed' || postData["cmi.core.lesson_status"] === 'passed') {
         return 100
@@ -320,7 +321,7 @@ export class MobileScromAdapterService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in getting completion status', e)
+      this.logger.log('Error in getting completion status', e)
       return 0
     }
   }

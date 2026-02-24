@@ -442,8 +442,6 @@ export function initializeCompetencyConfig(): () => void {
 })
 export class AppModule {
   constructor(private translate: TranslateService) {
-    let lang = this.translate.currentLang
-    console.log('******** lang. ', lang)
     this.translate.setDefaultLang('en')
     this.translate.use('en')
     // EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG)

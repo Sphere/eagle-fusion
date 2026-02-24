@@ -9,6 +9,7 @@ import {
   INationalityApiData,
   IUserProfileDetailsFromRegistry,
 } from '../models/user-profile.model'
+import { LoggerService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 
 const API_ENDPOINTS = {
   // updateProfileDetails: '/apis/protected/v8/user/profileRegistry/updateUserRegistry',
@@ -51,13 +52,14 @@ export class UserProfileService {
   constructor(
     private http: HttpClient,
     private userDataCacheSvc: UserDataCacheService,
+    private logger: LoggerService
   ) {
   }
 
   updateProfileDetails(data: any) {
     return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data).pipe(
       tap((response: any) => {
-        console.log('[UserProfileService] Profile updated, clearing all user caches', response)
+        this.logger.log('[UserProfileService] Profile updated, clearing all user caches', response)
         // Clear all user caches since profile was updated
         this.userDetailsCache.clear()
         this.userDataCacheSvc.clearUserData()
@@ -128,14 +130,14 @@ export class UserProfileService {
     // Check if data is already cached for this user (in-memory)
     if (this.userDetailsCache.has(wid)) {
       const cachedData = this.userDetailsCache.get(wid)
-      console.log(`[UserProfileService] Returning cached user details for ${wid}`)
+      this.logger.log(`[UserProfileService] Returning cached user details for ${wid}`)
       return of(cachedData)
     }
 
     // Check global user data cache from UserDataCacheService
     const globalCachedData = this.userDataCacheSvc.getCachedUserData()
     if (globalCachedData && globalCachedData.userId) {
-      console.log(`[UserProfileService] Using user details from global UserDataCache`)
+      this.logger.log(`[UserProfileService] Using user details from global UserDataCache`)
       this.userDetailsCache.set(wid, globalCachedData)
       return of(globalCachedData)
     }
@@ -150,7 +152,7 @@ export class UserProfileService {
           this.userDetailsCache.set(wid, data)
           // Also cache globally using UserDataCacheService (which handles session storage and 6-hour expiration)
           this.userDataCacheSvc.setUserData(data)
-          console.log(`[UserProfileService] Cached user details for ${wid} in global cache`)
+          this.logger.log(`[UserProfileService] Cached user details for ${wid} in global cache`)
         }),
       )
   }
@@ -224,7 +226,7 @@ export class UserProfileService {
     this.userDetailsCache.clear()
     // Clear global user data cache
     this.userDataCacheSvc.clearUserData()
-    console.log('[UserProfileService] User details cache cleared')
+    this.logger.log('[UserProfileService] User details cache cleared')
   }
 
   /**
@@ -233,7 +235,7 @@ export class UserProfileService {
    */
   refreshGlobalUserDataCache(userDataCacheSvc: any): void {
     if (userDataCacheSvc) {
-      console.log('[UserProfileService] Refreshing global user data cache')
+      this.logger.log('[UserProfileService] Refreshing global user data cache')
       userDataCacheSvc.clearUserData()
       // Clear per-user cache as well
       this.userDetailsCache.clear()

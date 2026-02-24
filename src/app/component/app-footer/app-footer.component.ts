@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { SafeUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { PlaylistService } from '../../services/playlist.service'
@@ -24,7 +24,8 @@ export class AppFooterComponent implements OnInit {
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private readonly router: Router,
-    private playlistSvc: PlaylistService
+    private playlistSvc: PlaylistService,
+    private logger: LoggerService
   ) {
     this.isLoggedIn = !!this.configSvc.userProfile
     this.termsOfUser = !this.configSvc.restrictedFeatures?.has('termsOfUser')
@@ -34,7 +35,7 @@ export class AppFooterComponent implements OnInit {
     } else {
       this.orgData = this.playlistSvc.orgDetails()
       let res = this.playlistSvc.footerConfig()
-      console.log('********* playlist data in nav bar ', res)
+      this.logger.log('********* playlist data in nav bar ', res)
       this.configData = res
       this.appIcon = this.orgData?.appLogo
     }

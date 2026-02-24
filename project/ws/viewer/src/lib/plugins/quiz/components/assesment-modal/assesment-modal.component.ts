@@ -16,6 +16,7 @@ import {
   ConfigurationsService,
   TelemetryService,
   EventService,
+  LoggerService,
 } from '@ws-widget/utils'
 // import moment from 'moment'
 // import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
@@ -81,11 +82,12 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private events: EventService,
     private dialog: MatDialog,
     private http: HttpClient,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
-    console.log("this.viewerDataSvc.resource", this.viewerDataSvc.resource)
-    console.log(this.assesmentdata)
+    this.logger.log("this.viewerDataSvc.resource", this.viewerDataSvc.resource)
+    this.logger.log(this.assesmentdata)
     this.telemetrySvc.getTelemetryConfig()
     this.telemetrySvc.impression('assessment-page-loaded', 'popup-details', 'assessment-modal', { id: this.assesmentdata.generalData.identifier, type: 'application/json', version: "", rollup: { l1: this.assesmentdata.generalData.collectionId } })
     this.timeLeft = this.assesmentdata.questions.timeLimit
@@ -107,7 +109,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     const parentProgress = this.assesmentdata?.currentProgress
     if (parentProgress && parentProgress.completionPercentage > 0) {
       // Parent already has progress data - assessment is in progress, don't reset it
-      console.log('Assessment already in progress with', parentProgress.completionPercentage, '% completion - skipping init progress update')
+      this.logger.log('Assessment already in progress with', parentProgress.completionPercentage, '% completion - skipping init progress update')
       return
     }
 
@@ -158,15 +160,15 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             batchId
           ).subscribe(
             () => { /* success - fire and forget */ },
-            (error) => { console.warn('Progress init failed:', error) }
+            (error) => { this.logger.warn('Progress init failed:', error) }
           )
         } else {
           // Assessment already has progress - don't reset it
-          console.log('Assessment already in progress with', currentProgress.completionPercentage, '% completion - skipping init progress update')
+          this.logger.log('Assessment already in progress with', currentProgress.completionPercentage, '% completion - skipping init progress update')
         }
       },
       (error) => {
-        console.warn('Failed to fetch current progress:', error)
+        this.logger.warn('Failed to fetch current progress:', error)
         // On error, don't send any progress update to avoid overwriting existing data
       }
     )
@@ -197,11 +199,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       (config: any) => {
         if (config && Array.isArray(config.restrictedOrgIds)) {
           this.restrictedOrgIds = config.restrictedOrgIds
-          console.log('Restricted org names loaded from S3:', this.restrictedOrgIds)
+          this.logger.log('Restricted org names loaded from S3:', this.restrictedOrgIds)
         }
       },
       (error: any) => {
-        console.warn('Failed to load restricted org names from S3:', error)
+        this.logger.warn('Failed to load restricted org names from S3:', error)
       }
     )
   }
@@ -483,7 +485,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
-        console.log(this.result, this.passPercentage)
+        this.logger.log(this.result, this.passPercentage)
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
         }
@@ -767,7 +769,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             })
             this.contentSvc.changeMessage(messageData)
           },
-          (error) => { console.warn('Next resource progress update failed:', error) }
+          (error) => { this.logger.warn('Next resource progress update failed:', error) }
         )
       }
     })

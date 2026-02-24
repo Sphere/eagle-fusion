@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output, Input, ChangeDetectorRef } from '@angular/core'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-dropdown-dob',
@@ -24,7 +25,7 @@ export class DropdownDobComponent implements OnInit {
   ];
   yearsValue: number[] = [];
 
-  constructor(public cdr: ChangeDetectorRef) {
+  constructor(public cdr: ChangeDetectorRef, private logger: LoggerService) {
     this.dobForm = new FormGroup({
       dateField: new FormControl('', Validators.required),
       monthField: new FormControl('', Validators.required),
@@ -81,7 +82,7 @@ export class DropdownDobComponent implements OnInit {
 
   initYear() {
     const currentYear = new Date().getFullYear()
-    console.log("this.dataType", this.dateType)
+    this.logger.log("this.dataType", this.dateType)
     if (this.dateType === 'joining') {
       // For date of joining: allow from 1950 to today
       for (let i = currentYear; i >= 1950; i--) {

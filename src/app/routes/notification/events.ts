@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 export type EventHandler = (...args: any[]) => any
 
@@ -8,7 +9,7 @@ export type EventHandler = (...args: any[]) => any
 export class Events {
     private readonly c = new Map<string, EventHandler[]>();
 
-    constructor() { }
+    constructor(private logger: LoggerService) { }
 
     subscribe(topic: string, ...handlers: EventHandler[]) {
         let topics = this.c.get(topic)
@@ -50,7 +51,7 @@ export class Events {
             try {
                 return handler(...args)
             } catch (e) {
-                console.error(e)
+                this.logger.error(e)
                 return null
             }
         })

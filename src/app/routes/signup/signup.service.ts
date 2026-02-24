@@ -8,6 +8,7 @@ import get from 'lodash/get'
 import isUndefined from 'lodash/isUndefined'
 
 import { v4 as uuid } from 'uuid'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 const API_END_POINTS = {
   USER_SIGNUP: `/apis/public/v8/emailMobile/signup`,
@@ -35,7 +36,8 @@ export class SignupService {
 
   constructor(private http: HttpClient,
     private configSvc: ConfigurationsService,
-    private userDataCacheSvc: UserDataCacheService
+    private userDataCacheSvc: UserDataCacheService,
+    private logger: LoggerService
   ) { }
 
   ssoValidateOTP(data: any): Observable<any> {
@@ -167,8 +169,8 @@ export class SignupService {
     try {
       // Use cached user data service to prevent repeated API calls
       userPidProfile = await this.userDataCacheSvc.getUserData().toPromise()
-      console.log(this.configSvc.unMappedUser)
-      console.log(userPidProfile)
+      this.logger.log(this.configSvc.unMappedUser)
+      this.logger.log(userPidProfile)
       if (this.configSvc.unMappedUser === undefined) {
         localStorage.setItem('telemetrySessionId', uuid())
         this.configSvc.unMappedUser = userPidProfile
@@ -237,7 +239,7 @@ export class SignupService {
         try {
           await this.fetchOrgSelectiveConfig()
         } catch (err) {
-          console.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
+          this.logger.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
         }
         const details = {
           group: [],
@@ -286,7 +288,7 @@ export class SignupService {
     // } else {
     //   redirectUrl = `${url}openid/keycloak`
     // }
-    // // console.log(url, redirectUrl)
+    // // this.logger.log(url, redirectUrl)
     // const state = uuid()
     // const nonce = uuid()
     // sessionStorage.setItem('login-btn', 'clicked')
@@ -305,7 +307,7 @@ export class SignupService {
         // 1. Try matching for logged-in user (rootOrgId)
         if (this.configSvc.userProfile?.rootOrgId) {
           const rootOrgId = this.configSvc.userProfile.rootOrgId
-          console.log('Root Org ID:', rootOrgId)
+          this.logger.log('Root Org ID:', rootOrgId)
 
           for (const state of orgSelectiveData.states) {
             const found = state.organisations?.find(
@@ -331,7 +333,7 @@ export class SignupService {
               .toLowerCase()
               .replace(/&/g, 'and')
 
-            console.log('Normalized Org from URL:', orgNameFromUrl)
+            this.logger.log('Normalized Org from URL:', orgNameFromUrl)
 
             // Iterate over all orgs to find match
             for (const state of orgSelectiveData.states) {
@@ -353,10 +355,10 @@ export class SignupService {
         // 🔹 3. Save matched config
         if (matchedOrg) {
           this.configSvc.orgSelectiveCourseConfig = matchedOrg
-          console.log('Org Selective Config Found:', matchedOrg.orgName)
+          this.logger.log('Org Selective Config Found:', matchedOrg.orgName)
         } else {
-          console.warn('No matching org found in org-selective-course.json')
-          console.warn(
+          this.logger.warn('No matching org found in org-selective-course.json')
+          this.logger.warn(
             'Available org names:',
             orgSelectiveData.states.flatMap((s: any) =>
               s.organisations.map((o: any) => o.orgName)
@@ -364,10 +366,10 @@ export class SignupService {
           )
         }
       } else {
-        console.warn('org-selective-course.json missing or invalid format')
+        this.logger.warn('org-selective-course.json missing or invalid format')
       }
     } catch (error) {
-      console.error('Failed to fetch org-selective-course.json:', error)
+      this.logger.error('Failed to fetch org-selective-course.json:', error)
     }
   }
 

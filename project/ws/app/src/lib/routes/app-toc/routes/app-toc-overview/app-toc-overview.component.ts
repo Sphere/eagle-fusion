@@ -73,7 +73,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
       if (item && !get(item, 'showComponent')) {
         this.loadOverview = item.showComponent
         // this.loadLicense = item.showComponent
-        // console.log(item.showComponent)
+        // this.logger.log(item.showComponent)
       } else {
         this.loadOverview = true
         // this.loadLicense = true

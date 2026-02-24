@@ -4,7 +4,7 @@ import { catchError, map, tap, switchMap } from 'rxjs/operators'
 import { Observable, of, from, throwError } from 'rxjs'
 import { AccessControlService } from '@ws/author'
 import { WidgetContentService, NsContent, VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection'
-import { IResolveResponse, AuthMicrosoftService, ConfigurationsService } from '@ws-widget/utils'
+import { IResolveResponse, AuthMicrosoftService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { ViewerDataService } from './viewer-data.service'
 import { MobileAppsService } from '../../../../../src/app/services/mobile-apps.service'
 import { Platform } from '@angular/cdk/platform'
@@ -21,6 +21,7 @@ export class ViewerResolve {
     private msAuthSvc: AuthMicrosoftService,
     private configSvc: ConfigurationsService,
     private platform: Platform,
+    private logger: LoggerService
   ) { }
 
   private async validateGatedResourceAccess(
@@ -32,7 +33,7 @@ export class ViewerResolve {
       // collectionId is now required for validation
       if (!collectionId) {
         // Return false if no collection ID - user must access through proper course navigation
-        console.warn('No collectionId provided - cannot validate gating')
+        this.logger.warn('No collectionId provided - cannot validate gating')
         return {
           isAccessible: false,
           redirectUrl: '/app/home'
@@ -43,15 +44,15 @@ export class ViewerResolve {
       const courseContent = await this.contentSvc.fetchHierarchyContent(collectionId).toPromise()
       const courseData = courseContent?.result?.content
 
-      console.log('═══════════════════════════════════════════════════════════')
-      console.log('GATING VALIDATION START')
-      console.log('═══════════════════════════════════════════════════════════')
-      console.log('Input Parameters:', {
+      this.logger.log('═══════════════════════════════════════════════════════════')
+      this.logger.log('GATING VALIDATION START')
+      this.logger.log('═══════════════════════════════════════════════════════════')
+      this.logger.log('Input Parameters:', {
         resourceId,
         collectionId,
         batchId
       })
-      console.log('Course Data:', {
+      this.logger.log('Course Data:', {
         courseId: courseData?.identifier,
         courseName: courseData?.name,
         gatingEnabled: courseData?.gatingEnabled,
@@ -62,20 +63,20 @@ export class ViewerResolve {
       // IMPORTANT: Only enforce gating if it's EXPLICITLY enabled on the course
       // If gatingEnabled is undefined, null, or false - allow full access
       if (courseData?.gatingEnabled !== true) {
-        console.log('Gating Status: NOT ENABLED (gatingEnabled !== true)')
-        console.log('Result: ALLOW FULL ACCESS - No prerequisite checks needed')
-        console.log('═══════════════════════════════════════════════════════════')
+        this.logger.log('Gating Status: NOT ENABLED (gatingEnabled !== true)')
+        this.logger.log('Result: ALLOW FULL ACCESS - No prerequisite checks needed')
+        this.logger.log('═══════════════════════════════════════════════════════════')
         return { isAccessible: true }
       }
 
-      console.log('Gating Status: ENABLED - Running prerequisite validation...')
+      this.logger.log('Gating Status: ENABLED - Running prerequisite validation...')
 
       // Fetch user progress and merge with hierarchy
       if (batchId) {
         await this.mergeProgressIntoHierarchy(courseData, collectionId, batchId)
-        console.log('Progress data merged into hierarchy')
+        this.logger.log('Progress data merged into hierarchy')
       } else {
-        console.warn('No batchId provided - using hierarchy data without progress')
+        this.logger.warn('No batchId provided - using hierarchy data without progress')
       }
 
       // Find the current resource in the course hierarchy
@@ -86,35 +87,35 @@ export class ViewerResolve {
 
       if (!resourcePosition) {
         // Resource not found in course hierarchy
-        console.error('Resource not found in course hierarchy')
-        console.log('═══════════════════════════════════════════════════════════')
+        this.logger.error('Resource not found in course hierarchy')
+        this.logger.log('═══════════════════════════════════════════════════════════')
         return { isAccessible: false, redirectUrl: `/app/toc/${collectionId}/overview` }
       }
 
-      console.log('Resource found in hierarchy')
+      this.logger.log('Resource found in hierarchy')
 
       // Check if all previous resources are completed
       const canAccess = this.checkPreviousResourcesCompleted(
         resourcePosition
       )
 
-      console.log('═══════════════════════════════════════════════════════════')
+      this.logger.log('═══════════════════════════════════════════════════════════')
       if (canAccess) {
-        console.log('RESULT: USER CAN ACCESS THIS RESOURCE')
-        console.log('═══════════════════════════════════════════════════════════')
+        this.logger.log('RESULT: USER CAN ACCESS THIS RESOURCE')
+        this.logger.log('═══════════════════════════════════════════════════════════')
         return { isAccessible: true }
       } else {
         // Prerequisites not met - find the first incomplete prerequisite resource to navigate to
         const incompleteResource = this.findFirstIncompletePrerequisite(resourcePosition)
 
         if (incompleteResource) {
-          console.log('RESULT: USER BLOCKED - Redirecting to incomplete prerequisite')
-          console.log('Incomplete resource to resume:', {
+          this.logger.log('RESULT: USER BLOCKED - Redirecting to incomplete prerequisite')
+          this.logger.log('Incomplete resource to resume:', {
             id: incompleteResource.identifier,
             name: incompleteResource.name,
             completion: incompleteResource.completionPercentage
           })
-          console.log('═══════════════════════════════════════════════════════════')
+          this.logger.log('═══════════════════════════════════════════════════════════')
 
           // Generate viewer URL for the incomplete resource
           const viewerRoute = VIEWER_ROUTE_FROM_MIME(incompleteResource.mimeType)
@@ -132,8 +133,8 @@ export class ViewerResolve {
             }
           }
         } else {
-          console.log('RESULT: USER BLOCKED - Prerequisites not met (no specific resource found)')
-          console.log('═══════════════════════════════════════════════════════════')
+          this.logger.log('RESULT: USER BLOCKED - Prerequisites not met (no specific resource found)')
+          this.logger.log('═══════════════════════════════════════════════════════════')
           return {
             isAccessible: false,
             redirectUrl: `/app/toc/${collectionId}/overview`
@@ -142,8 +143,8 @@ export class ViewerResolve {
       }
     } catch (error) {
       // If validation fails, allow access (fail open for user experience)
-      console.error('Error in gating validation - allowing access for user experience', error)
-      console.log('═══════════════════════════════════════════════════════════')
+      this.logger.error('Error in gating validation - allowing access for user experience', error)
+      this.logger.log('═══════════════════════════════════════════════════════════')
       return { isAccessible: true }
     }
   }
@@ -160,14 +161,14 @@ export class ViewerResolve {
       // First, collect all content IDs from the hierarchy
       const contentIds = this.collectContentIdsFromHierarchy(courseData)
 
-      console.log('Collecting content IDs for progress fetch:', {
+      this.logger.log('Collecting content IDs for progress fetch:', {
         totalContentIds: contentIds.length,
         contentIds: contentIds.slice(0, 5) // Log first 5 for debugging
       })
 
       // Only fetch if we have content IDs
       if (contentIds.length === 0) {
-        console.warn('No content IDs found in hierarchy, skipping progress fetch')
+        this.logger.warn('No content IDs found in hierarchy, skipping progress fetch')
         return
       }
 
@@ -190,7 +191,7 @@ export class ViewerResolve {
         progressMap[item.contentId] = item.completionPercentage || 0
       })
 
-      console.log('Progress Data Merged:', {
+      this.logger.log('Progress Data Merged:', {
         totalContents: contentList.length,
         progressMapSize: Object.keys(progressMap).length,
         sampleData: contentList.slice(0, 3).map((c: any) => ({
@@ -202,7 +203,7 @@ export class ViewerResolve {
       // Update completion percentages in the hierarchy
       this.updateHierarchyWithProgress(courseData, progressMap)
     } catch (error) {
-      console.warn('Could not fetch user progress, using hierarchy data:', error)
+      this.logger.warn('Could not fetch user progress, using hierarchy data:', error)
       // Continue with hierarchy data if progress fetch fails
     }
   }
@@ -237,7 +238,7 @@ export class ViewerResolve {
     // Update current node if it exists in progress map
     if (progressMap.hasOwnProperty(node.identifier)) {
       const newPercentage = progressMap[node.identifier]
-      // console.log('Updating node completion percentage:', {
+      // this.logger.log('Updating node completion percentage:', {
       //   identifier: node.identifier,
       //   name: node.name,
       //   oldPercentage: node.completionPercentage,
@@ -245,7 +246,7 @@ export class ViewerResolve {
       // })
       node.completionPercentage = newPercentage
     } else {
-      // console.log('No progress data found for node:', {
+      // this.logger.log('No progress data found for node:', {
       //   identifier: node.identifier,
       //   name: node.name,
       //   currentPercentage: node.completionPercentage
@@ -269,7 +270,7 @@ export class ViewerResolve {
         const calculatedCompletion = (completedChildren / node.children.length) * 100
         if (calculatedCompletion > 0) {
           node.completionPercentage = Math.round(calculatedCompletion)
-          console.log('Calculated parent completion:', {
+          this.logger.log('Calculated parent completion:', {
             id: node.identifier,
             completed: completedChildren,
             total: node.children.length,
@@ -337,7 +338,7 @@ export class ViewerResolve {
     // Collections (folders/modules) don't track progress themselves
     // Check if ALL actual resource descendants are complete
     if (this.isCollection(node)) {
-      console.log('Checking collection completeness:', {
+      this.logger.log('Checking collection completeness:', {
         id: node.identifier,
         name: node.name,
         childrenCount: node.children?.length || 0
@@ -345,13 +346,13 @@ export class ViewerResolve {
 
       if (!node.children || node.children.length === 0) {
         // Empty collection is considered complete
-        console.log('Empty collection = complete')
+        this.logger.log('Empty collection = complete')
         return true
       }
 
       // Collection is complete only if ALL descendants are complete
       const allComplete = node.children.every((child: any) => this.isSectionComplete(child))
-      console.log(`  ${allComplete ? '✓' : '✗'} Collection completion: ${allComplete ? 'ALL children complete' : 'SOME children incomplete'}`)
+      this.logger.log(`  ${allComplete ? '✓' : '✗'} Collection completion: ${allComplete ? 'ALL children complete' : 'SOME children incomplete'}`)
       return allComplete
     }
 
@@ -362,16 +363,16 @@ export class ViewerResolve {
       const isComplete = completion === 100
 
       if (!isComplete) {
-        console.log(`  ✗ ${node.name}: ${completion}% < 100% (incomplete)`)
+        this.logger.log(`  ✗ ${node.name}: ${completion}% < 100% (incomplete)`)
       } else {
-        console.log(`  ✓ ${node.name}: ${completion}% (complete)`)
+        this.logger.log(`  ✓ ${node.name}: ${completion}% (complete)`)
       }
       return isComplete
     }
 
     // If it's a non-collection section (has children), all children must be complete
     const allChildrenComplete = node.children.every((child: any) => this.isSectionComplete(child))
-    console.log(`  ${allChildrenComplete ? '✓' : '✗'} Section completion: ${allChildrenComplete ? 'ALL children complete' : 'SOME children incomplete'}`)
+    this.logger.log(`  ${allChildrenComplete ? '✓' : '✗'} Section completion: ${allChildrenComplete ? 'ALL children complete' : 'SOME children incomplete'}`)
     return allChildrenComplete
   }
 
@@ -383,11 +384,11 @@ export class ViewerResolve {
     const { hierarchy, content: currentResource } = resourcePosition
 
     if (!hierarchy || hierarchy.length === 0) {
-      console.log('No hierarchy - no prerequisites to check')
+      this.logger.log('No hierarchy - no prerequisites to check')
       return null
     }
 
-    console.log('Finding first incomplete prerequisite for:', {
+    this.logger.log('Finding first incomplete prerequisite for:', {
       resourceId: currentResource?.identifier,
       resourceName: currentResource?.name,
       hierarchyDepth: hierarchy.length,
@@ -400,7 +401,7 @@ export class ViewerResolve {
       const currentNode = hierarchy[i]
 
       if (!parent.children || !Array.isArray(parent.children)) {
-        console.log(`Level ${i}: No children in parent`)
+        this.logger.log(`Level ${i}: No children in parent`)
         continue
       }
 
@@ -409,7 +410,7 @@ export class ViewerResolve {
       )
 
       if (currentIndex < 0) {
-        console.warn(`Level ${i}: Could not find current node in parent children`)
+        this.logger.warn(`Level ${i}: Could not find current node in parent children`)
         continue
       }
 
@@ -424,7 +425,7 @@ export class ViewerResolve {
           if (!isPrerequisiteComplete) {
             // Found an incomplete prerequisite - return the first incomplete child resource
             const incompleteResource = this.getFirstIncompleteLeafResource(sibling)
-            console.log('Found first incomplete prerequisite:', {
+            this.logger.log('Found first incomplete prerequisite:', {
               parentId: sibling.identifier,
               parentName: sibling.name,
               incompleteResourceId: incompleteResource?.identifier,
@@ -437,7 +438,7 @@ export class ViewerResolve {
       }
     }
 
-    console.log('ALL prerequisites met - no incomplete prerequisites found')
+    this.logger.log('ALL prerequisites met - no incomplete prerequisites found')
     return null
   }
 
@@ -476,11 +477,11 @@ export class ViewerResolve {
     const { hierarchy, content: currentResource } = resourcePosition
 
     if (!hierarchy || hierarchy.length === 0) {
-      console.log('No hierarchy - allowing access')
+      this.logger.log('No hierarchy - allowing access')
       return true
     }
 
-    console.log('Checking prerequisites for:', {
+    this.logger.log('Checking prerequisites for:', {
       resourceId: currentResource?.identifier,
       resourceName: currentResource?.name,
       hierarchyDepth: hierarchy.length,
@@ -493,7 +494,7 @@ export class ViewerResolve {
       const currentNode = hierarchy[i]
 
       if (!parent.children || !Array.isArray(parent.children)) {
-        console.log(`Level ${i}: No children in parent`)
+        this.logger.log(`Level ${i}: No children in parent`)
         continue
       }
 
@@ -502,11 +503,11 @@ export class ViewerResolve {
       )
 
       if (currentIndex < 0) {
-        console.warn(`Level ${i}: Could not find current node in parent children`)
+        this.logger.warn(`Level ${i}: Could not find current node in parent children`)
         continue
       }
 
-      console.log(`Level ${i}: Validating prerequisites`, {
+      this.logger.log(`Level ${i}: Validating prerequisites`, {
         parentName: parent.name,
         currentNodeName: currentNode.name,
         currentIndexInParent: currentIndex,
@@ -519,7 +520,7 @@ export class ViewerResolve {
         for (let j = 0; j < currentIndex; j++) {
           const sibling = parent.children[j]
 
-          console.log(`Prerequisite ${j}:`, {
+          this.logger.log(`Prerequisite ${j}:`, {
             id: sibling.identifier,
             name: sibling.name,
             contentType: sibling.contentType,
@@ -532,7 +533,7 @@ export class ViewerResolve {
           const isPrerequisiteComplete = this.isSectionComplete(sibling)
 
           if (!isPrerequisiteComplete) {
-            console.error(`BLOCKED: Prerequisite not complete`, {
+            this.logger.error(`BLOCKED: Prerequisite not complete`, {
               siblingId: sibling.identifier,
               siblingName: sibling.name,
               contentType: sibling.contentType,
@@ -543,17 +544,17 @@ export class ViewerResolve {
             return false
           }
 
-          console.log(`Prerequisite complete:`, {
+          this.logger.log(`Prerequisite complete:`, {
             id: sibling.identifier,
             name: sibling.name
           })
         }
       } else {
-        console.log(`Level ${i}: No preceding siblings - all prerequisites at this level are met`)
+        this.logger.log(`Level ${i}: No preceding siblings - all prerequisites at this level are met`)
       }
     }
 
-    console.log('ALL prerequisites met - user CAN access this resource')
+    this.logger.log('ALL prerequisites met - user CAN access this resource')
     return true
   }
 
@@ -589,7 +590,7 @@ export class ViewerResolve {
   //   ) {
   //     return null
   //   }
-  //   console.log('99999999', this.viewerDataSvc.primaryCategory, 'llllll')
+  //   this.logger.log('99999999', this.viewerDataSvc.primaryCategory, 'llllll')
   //   const forPreview = window.location.href.includes('/author/')
   //   return (forPreview
   //     ? this.contentSvc.fetchAuthoringContent(this.viewerDataSvc.resourceId)
@@ -601,7 +602,7 @@ export class ViewerResolve {
   //     )
   //   ).pipe(
   //     tap(content => {
-  //       console.log('viewr resolver===')
+  //       this.logger.log('viewr resolver===')
   //       if (content.status === 'Deleted' || content.status === 'Expired') {
   //         this.router.navigate([
   //           // `${forPreview ? '/author' : '/app'}/toc/${content.identifier}/overview`,

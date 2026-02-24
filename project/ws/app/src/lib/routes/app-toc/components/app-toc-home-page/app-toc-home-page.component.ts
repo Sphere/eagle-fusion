@@ -176,7 +176,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName ? "CNE" : "Non CNE", value: data.content.data.cneName })
         }
         catch (e) {
-          console.log("fb pixel error")
+          this.logger.log("fb pixel error")
         }
         this.initData(data)
       })
@@ -192,7 +192,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       },
       () => {
         // tslint:disable-next-line: no-console
-        console.log('error on batchSubscription')
+        this.logger.log('error on batchSubscription')
       },
     )
     this.updateVisibleTabs()
@@ -251,30 +251,30 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   async show() {
     try {
       this.databaseAndTablesExist = await this.onlineIndexedDbService.checkDatabaseTablesExists()
-      console.log(this.databaseAndTablesExist)
+      this.logger.log(this.databaseAndTablesExist)
       if (!this.databaseAndTablesExist) {
-        console.log('Database or tables do not exist in IndexedDB, creating...')
+        this.logger.log('Database or tables do not exist in IndexedDB, creating...')
         await this.createDatabaseAndTables()
-        console.log('Database and tables created in IndexedDB')
+        this.logger.log('Database and tables created in IndexedDB')
       } else {
-        console.log('Database and tables already exist in IndexedDB')
+        this.logger.log('Database and tables already exist in IndexedDB')
         await this.checkData()
       }
     } catch (error) {
-      console.error('Error checking/creating database and tables in IndexedDB:', error)
+      this.logger.error('Error checking/creating database and tables in IndexedDB:', error)
     }
   }
   async refreshTable() {
     try {
       const tableName = 'onlineCourseProgress' // Specify the table name
       let tableData = await this.onlineIndexedDbService.getData(tableName)
-      console.log(tableData)
+      this.logger.log(tableData)
     } catch (error) {
-      console.error('Error fetching data from IndexedDB:', error)
+      this.logger.error('Error fetching data from IndexedDB:', error)
     }
   }
   checkData() {
-    console.log('ppp')
+    this.logger.log('ppp')
   }
 
   showContents() {
@@ -515,36 +515,36 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       data => {
 
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
-          console.log('datatta', data)
+          this.logger.log('datatta', data)
           this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
-            console.log('Record:', record)
+            this.logger.log('Record:', record)
             this.rowData = await record
             let dat = JSON.parse(this.rowData.data)
             if (dat && dat.length) {
               this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
               this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              console.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
+              this.logger.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
             }
           }, (error) => {
-            console.error('Error:', error, data.result.contentList)
+            this.logger.error('Error:', error, data.result.contentList)
             this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
               (dat: any) => {
-                console.log('Data inserted successfully1', dat)
+                this.logger.log('Data inserted successfully1', dat)
                 this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
-                  console.log('Record:', record)
+                  this.logger.log('Record:', record)
                   this.rowData = await record
                   let dat = JSON.parse(this.rowData.data)
                   if (dat && dat.length) {
                     this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
                     this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    console.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
+                    this.logger.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
                   }
                 }, (error) => {
-                  console.error('Error:', error)
+                  this.logger.error('Error:', error)
                 })
               },
               (error) => {
-                console.error('Error inserting data:', error)
+                this.logger.error('Error inserting data:', error)
               }
             )
           })
@@ -567,9 +567,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           this.resumeResource = this.resumeData.filter((item: any) => {
             return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
           })
-          console.log(this.enrolledCourse, 'enrolledCourse')
-          console.log(this.resumeResource[0], 'me')
-          console.log(this.resumeData)
+          this.logger.log(this.enrolledCourse, 'enrolledCourse')
+          this.logger.log(this.resumeResource[0], 'me')
+          this.logger.log(this.resumeData)
           const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
           if (progress.length < totalCount) {
             const diff = totalCount - progress.length
@@ -587,7 +587,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
-          console.log('no data')
+          this.logger.log('no data')
           this.resumeData = null
         }
       },
@@ -617,28 +617,28 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         arr1.push(obj2)
       }
     })
-    console.log(arr1, 'arr1')
+    this.logger.log(arr1, 'arr1')
     this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).subscribe(
       () => {
-        console.log('Data inserted successfully2')
+        this.logger.log('Data inserted successfully2')
       },
       (error) => {
-        console.error('Error inserting data:', error)
+        this.logger.error('Error inserting data:', error)
       }
     )
     const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
-    console.log('Aggregate value:', aggregateValue)
-    console.log(this.content, 'content')
+    this.logger.log('Aggregate value:', aggregateValue)
+    this.logger.log(this.content, 'content')
     let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
-    console.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
+    this.logger.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
     let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
+    this.logger.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
     let progress = Math.min(Math.max(percentage, 0), 100)
     return progress
   }
   calculateAggregate(arr: any, field: string): number {
     let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
-    console.log(val)
+    this.logger.log(val)
     return val
   }
 
@@ -696,7 +696,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         }
       })
         .catch((err: any) => {
-          console.log(err)
+          this.logger.log(err)
           this.openSnackbar(err.error.params.errmsg)
         })
     }

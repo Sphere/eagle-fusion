@@ -4,7 +4,7 @@ import { IConditionsV2 } from '../../../interface/conditions-v2'
 
 @Injectable()
 export class ConditionCheckService {
-  constructor() {}
+  constructor() { }
 
   /**
    * @description Function which evaluates the given conditions decides whether the content is eligible or not
@@ -59,7 +59,7 @@ export class ConditionCheckService {
       })
     } catch (ex) {
       // tslint:disable-next-line: no-console
-      // console.log(ex)
+      // this.logger.log(ex)
       return false
     }
   }

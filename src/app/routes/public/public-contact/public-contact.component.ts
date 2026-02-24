@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { ConfigurationsService, NsPage } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
 import { HttpClient } from '@angular/common/http'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
@@ -21,7 +21,8 @@ export class PublicContactComponent implements OnInit, OnDestroy {
   constructor(
     private configSvc: ConfigurationsService,
     private activateRoute: ActivatedRoute,
-    private http: HttpClient
+    private http: HttpClient,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -38,30 +39,30 @@ export class PublicContactComponent implements OnInit, OnDestroy {
     const cacheBuster = new Date().getTime()
     const s3UrlWithCache = `${this.contactPageS3Url}?v=${cacheBuster}`
 
-    console.log('Loading contact page from S3:', s3UrlWithCache)
+    this.logger.log('Loading contact page from S3:', s3UrlWithCache)
 
     this.http.get(s3UrlWithCache).subscribe(
       (data: any) => {
         this.contactPage = data
-        console.log('Contact page loaded from S3:', data)
-        console.log('Account Deletion Data:', this.contactPage?.accountDeletion)
-        console.log('Contact Data:', this.contactPage?.contact)
+        this.logger.log('Contact page loaded from S3:', data)
+        this.logger.log('Account Deletion Data:', this.contactPage?.accountDeletion)
+        this.logger.log('Contact Data:', this.contactPage?.contact)
       },
       (error: any) => {
-        console.error('Failed to load contact page from S3, trying local assets:', error)
+        this.logger.error('Failed to load contact page from S3, trying local assets:', error)
         // Fallback 1: Try local assets
         this.http.get('assets/contact-page-content.json').subscribe(
           (data: any) => {
             this.contactPage = data
-            console.log('Loaded contact page from local assets:', data)
+            this.logger.log('Loaded contact page from local assets:', data)
           },
           (assetsError: any) => {
-            console.error('Failed to load from local assets, trying resolver:', assetsError)
+            this.logger.error('Failed to load from local assets, trying resolver:', assetsError)
             // Fallback 2: try to load from resolver data
             this.subscriptionContact = this.activateRoute.data.subscribe(data => {
               if (data && data.pageData && data.pageData.data) {
                 this.contactPage = data.pageData.data
-                console.log('Using fallback data from resolver')
+                this.logger.log('Using fallback data from resolver')
               }
             })
           }

@@ -87,7 +87,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
   result: any
   matspinner = true
 
-  @HostListener('window:scroll', ['$event'])
+  @HostListener('window:scroll', [])
   handleScroll() {
     const windowScroll = window.pageYOffset
     if (windowScroll >= this.elementPosition - 100) {
@@ -107,7 +107,8 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
-    private discussiConfig: DiscussConfigResolve
+    private discussiConfig: DiscussConfigResolve,
+    private logger: LoggerService
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
@@ -168,7 +169,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
       () => {
         // tslint:disable-next-line: no-console
-        console.log('error on batchSubscription')
+        this.logger.log('error on batchSubscription')
       },
     )
   }

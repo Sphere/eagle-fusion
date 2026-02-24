@@ -73,7 +73,7 @@ export class UploadAudioComponent implements OnInit {
   //   content.onloadedmetadata = () => {
   //     window.URL.revokeObjectURL(content.src)
   //     this.duration = Math.round(content.duration)
-  //     // console.log(this.duration)
+  //     // this.logger.log(this.duration)
   //     //      this.enableUpload = true
   //   }
   //   content.src = URL.createObjectURL(this.file)

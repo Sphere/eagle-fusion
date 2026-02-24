@@ -3,6 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
+import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 //import { ConfigurationsService } from '@ws-widget/utils'
 @Component({
   selector: 'ws-keycloak-callback',
@@ -15,6 +16,7 @@ export class KeycloakCallbackComponent implements OnInit {
     private snackBarSvc: MatSnackBar,
     private signupService: SignupService,
     private authSvc: AuthKeycloakService,
+    private logger: LoggerService
     //private configSvc: ConfigurationsService,
   ) { }
 
@@ -26,7 +28,7 @@ export class KeycloakCallbackComponent implements OnInit {
       this.checkKeycloakCallback()
     } else {
       this.signupService.fetchStartUpDetails().then(result => {
-        console.log(result)
+        this.logger.log(result)
       })
     }
   }
@@ -37,13 +39,13 @@ export class KeycloakCallbackComponent implements OnInit {
       try {
         this.orgService.setConnectSid(code).subscribe(async (res: any) => {
           if (res) {
-            // console.log(res)
+            // this.logger.log(res)
             // sessionStorage.clear()
             sessionStorage.removeItem('code')
             setTimeout(() => {
               this.signupService.fetchStartUpDetails().then(async result => {
                 // tslint:disable-next-line:no-console
-                console.log(result)
+                this.logger.log(result)
                 let res = await result
                 if (res && res.status === 200
                   //&& res.roles.length > 0
@@ -90,8 +92,8 @@ export class KeycloakCallbackComponent implements OnInit {
                   //   const url = localStorage.getItem('url_before_login') || ''
                   //   // localStorage.removeItem('url_before_login')
                   //   let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
-                  //   console.log(this.configSvc.unMappedUser)
-                  //   console.log(`${lang}/${url}`)
+                  //   this.logger.log(this.configSvc.unMappedUser)
+                  //   this.logger.log(`${lang}/${url}`)
                   //   sessionStorage.setItem('r-url', `${lang}/${url}`)
                   //   // if (this.configSvc.unMappedUser.profileDetails.preferences!.language) {
                   //   //   let lang = this.configSvc.unMappedUser.profileDetails.preferences.language
@@ -121,9 +123,9 @@ export class KeycloakCallbackComponent implements OnInit {
             }, 1000)
           }
         }, (err: any) => {
-          // console.log(err)
+          // this.logger.log(err)
           // tslint:disable-next-line:no-console
-          console.log(err)
+          this.logger.log(err)
           if (err.status === 400) {
             // sessionStorage.clear()
             this.authSvc.logout()
@@ -133,23 +135,23 @@ export class KeycloakCallbackComponent implements OnInit {
         })
       } catch (err) {
         // tslint:disable-next-line:no-console
-        console.log(err)
+        this.logger.log(err)
         this.authSvc.logout()
         // alert('Error Occured while logging in')
         // location.href = "/public/home"
       }
     }
     // else {
-    //   console.log(this.configSvc.unMappedUser.profileDetails)
-    //   //console.log(this.configSvc.unMappedUser.profileDetails.preferences)
+    //   this.logger.log(this.configSvc.unMappedUser.profileDetails)
+    //   //this.logger.log(this.configSvc.unMappedUser.profileDetails.preferences)
     //   if (this.configSvc.unMappedUser.profileDetails && this.configSvc.unMappedUser.profileDetails.preferences) {
     //     let lang = this.configSvc.unMappedUser.profileDetails.preferences!.language
-    //     //console.log(this.configSvc.unMappedUser)
-    //     console.log(`${lang}`)
+    //     //this.logger.log(this.configSvc.unMappedUser)
+    //     this.logger.log(`${lang}`)
     //   }
     //   this.signupService.fetchStartUpDetails().then(result => {
     //     // tslint:disable-next-line:no-console
-    //     console.log(result)
+    //     this.logger.log(result)
     //   })
     // }
   }

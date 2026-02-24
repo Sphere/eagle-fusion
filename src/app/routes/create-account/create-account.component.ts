@@ -11,7 +11,7 @@ import { LanguageDialogComponent } from '../language-dialog/language-dialog.comp
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 import { mustMatch } from '../password-validator'
 import { LoaderService } from '@ws/author/src/public-api'
-import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { HttpClient } from '@angular/common/http'
 import { LanguageService } from '../../services/language.service'
 
@@ -139,7 +139,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     private valueSvc: ValueService,
     private route: ActivatedRoute,
     private http: HttpClient,
-    private languageService: LanguageService
+    private languageService: LanguageService,
+    private logger: LoggerService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeFromRoute()
@@ -222,7 +223,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
             this.state = stateObj.name
             localStorage.setItem('showDistricts', this.showDistricts ? 'true' : 'false')
 
-            console.log('State:', stateObj.name, 'Org:', matchedOrg.orgName, 'Role:', this.userRole, 'OrgId:', this.organisationId)
+            this.logger.log('State:', stateObj.name, 'Org:', matchedOrg.orgName, 'Role:', this.userRole, 'OrgId:', this.organisationId)
           })
       })
   }
@@ -264,7 +265,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
           this.preferedLanguage = lang
         }
       } catch (error) {
-        console.error('Error parsing stored language:', error)
+        this.logger.error('Error parsing stored language:', error)
       }
     }
   }
@@ -275,7 +276,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       try {
         this.preferedLanguage = JSON.parse(reqObj)
       } catch (error) {
-        console.error('Error parsing language:', error)
+        this.logger.error('Error parsing language:', error)
       }
     }
   }
@@ -615,7 +616,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     try {
       (window as any).fbq?.('track', 'CompleteRegistration', { content_category: type })
     } catch (error) {
-      console.error('Facebook pixel error:', error)
+      this.logger.error('Facebook pixel error:', error)
     }
   }
 
@@ -746,11 +747,11 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       ])
         .pipe(takeUntil(this.destroy$))
         .subscribe(
-          res => console.log('Event tracking success:', res),
-          err => console.error('Event tracking error:', err)
+          res => this.logger.log('Event tracking success:', res),
+          err => this.logger.error('Event tracking error:', err)
         )
     } catch (error) {
-      console.error('Error in event tracking:', error)
+      this.logger.error('Error in event tracking:', error)
     }
   }
 

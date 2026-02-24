@@ -5,6 +5,7 @@ import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import moment from 'moment'
 import { Observable } from 'rxjs'
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../project/ws/app/src/lib/routes/user-profile/services/format-datepicker'
+import { LoggerService } from '@ws-widget/utils'
 
 @Component({
   selector: 'ws-your-location',
@@ -35,7 +36,8 @@ export class YourLocationComponent implements OnInit {
   startDate = new Date(1999, 0, 1)
 
   constructor(
-    private http: HttpClient
+    private http: HttpClient,
+    private logger: LoggerService
   ) {
     this.aboutYouForm = new UntypedFormGroup({
       dob: new UntypedFormControl(),
@@ -60,7 +62,7 @@ export class YourLocationComponent implements OnInit {
     })
   }
   countrySelect(event: Event) {
-    console.log(this.aboutYouForm.controls)
+    this.logger.log(this.aboutYouForm.controls)
     let option = event.target as HTMLInputElement
     this.setCountryCode(option.value)
     if (option.value === 'India') {
@@ -87,7 +89,7 @@ export class YourLocationComponent implements OnInit {
     }
   }
   disableNextBtn() {
-    console.log(this.aboutYouForm.controls)
+    this.logger.log(this.aboutYouForm.controls)
     if (this.aboutYouForm.controls.dob.value && this.aboutYouForm.controls.country.value) {
       if (this.aboutYouForm.controls.country.value !== 'India') {
         this.nextBtnDisable = false
@@ -123,8 +125,8 @@ export class YourLocationComponent implements OnInit {
   }
 
   dobData(event: any) {
-    console.log(event)
-    console.log(this.aboutYouForm.controls)
+    this.logger.log(event)
+    this.logger.log(this.aboutYouForm.controls)
     this.aboutYouForm.patchValue({
       dob: event,
     })

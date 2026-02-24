@@ -13,6 +13,7 @@ import { appNavBarService } from 'src/app/component/app-nav-bar/app-nav-bar.serv
 import { LocalStorageService } from '../../../../../../src/app/services/local-storage.service'
 import { Events } from '../../../../../../src/app/routes/notification/events'
 import { LanguageService } from '../../../../../../src/app/services/language.service'
+import { LoggerService } from '@ws-widget/utils'
 // import { LocalStorageService } from "../../services/local-storage.service"
 
 export const typeMap = {
@@ -71,7 +72,8 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     public navOption: appNavBarService,
     public storage: LocalStorageService,
     private readonly event: Events,
-    private languageSvc: LanguageService
+    private languageSvc: LanguageService,
+    private logger: LoggerService
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -80,7 +82,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
     const isHindi = this.languageSvc.isHindi()
 
     this.navOption.currentOption.subscribe((option: any) => {
-      console.log('options', option, window.location.href)
+      this.logger.log('options', option, window.location.href)
       if (window.location.href.includes('/app/profile-view')) {
         this.currentText = isHindi ? 'अकाउंट' : 'Account'
       }
@@ -141,7 +143,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       // ✅ If org matches selective config, redirect to selective course page
       if (selectiveData && selectiveData.orgId === org) {
         url = '/app/org-selective-course'
-        console.log('Redirecting to selective org homepage for:', org)
+        this.logger.log('Redirecting to selective org homepage for:', org)
       }
 
       location.href = `${baseUrl}${url}`

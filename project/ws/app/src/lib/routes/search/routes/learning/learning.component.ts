@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router'
 import { NsContent, NsError, NSSearch, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, ValueService, UtilityService } from '@ws-widget/utils'
+import { ConfigurationsService, ValueService, UtilityService, LoggerService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 // import { IKhubFetchStatus } from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
 // import { TrainingService } from '../../../infy/routes/training/services/training.service'
@@ -128,7 +128,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     // private trainingSvc: TrainingService,
     private utilitySvc: UtilityService,
     private searchSvc: SearchApiService,
-
+    private logger: LoggerService
   ) { }
 
   getActiveLocale() {
@@ -237,7 +237,7 @@ export class LearningComponent implements OnInit, OnDestroy {
         }
       }
     })
-    console.log("view", this.withoutFilter)
+    this.logger.log("view", this.withoutFilter)
 
     let url = window.location.href
     // Extract the query parameters part of the URL
@@ -245,7 +245,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     let params = new URLSearchParams(paramsString)
     // Check if 'lang' parameter exists
     if (params.has('lang')) {
-      console.log(params.get('lang'))
+      this.logger.log(params.get('lang'))
       this.langPresent = true
     }
 
@@ -485,7 +485,7 @@ export class LearningComponent implements OnInit, OnDestroy {
         this.searchResults.filters = data.filters
         // this.searchResults.queryUsed = data.queryUsed
         // this.searchResults.type = data.type
-        console.log(orderBy(data.result.content, ['lastPublishedOn'], ['desc']))
+        this.logger.log(orderBy(data.result.content, ['lastPublishedOn'], ['desc']))
         this.searchResults.result.content = (data.result.content) ? data.result.content : []
 
         // this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
@@ -601,7 +601,7 @@ export class LearningComponent implements OnInit, OnDestroy {
 
   }
   getResults(withQuotes?: boolean, didYouMean = true) {
-    console.log('getResults', withQuotes)
+    this.logger.log('getResults', withQuotes)
     // this.searchRequestObject.didYouMean = didYouMean
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription.unsubscribe()
@@ -642,7 +642,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       .getLearning(this.searchRequestObject)
       .subscribe(
         data => {
-          console.log(data)
+          this.logger.log(data)
           this.searchResults.result.count = data.result.count
           this.searchServ.raiseSearchResponseEvent(
             this.searchRequestObject.request.query,
@@ -658,7 +658,7 @@ export class LearningComponent implements OnInit, OnDestroy {
           // this.searchResults.doYouMean = data.doYouMean
           // this.searchResults.queryUsed = data.queryUsed
           // this.handleFilters(this.searchResults.filters)
-          console.log("this.searchResults.result.content", this.searchResults.result.content)
+          this.logger.log("this.searchResults.result.content", this.searchResults.result.content)
           const filteR = this.searchServ.handleFilters(
             this.searchResults.filters,
             this.selectedFilterSet,
@@ -768,7 +768,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
   // new search API integration
   getSearchResults(withQuotes?: boolean, didYouMean = true) {
-    console.log('getResults', withQuotes)
+    this.logger.log('getResults', withQuotes)
     // this.searchRequestObject.didYouMean = didYouMean
     if (this.searchResultsSubscription) {
       this.searchResultsSubscription.unsubscribe()
@@ -812,7 +812,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     if (params.has('lang')) {
       lang = params.get('lang') || ''
     }
-    console.log(lang)
+    this.logger.log(lang)
     this.newSearchRequestObject.language = lang
     if (localStorage.getItem('orgValue') === 'nhsrc') {
     }
@@ -821,13 +821,13 @@ export class LearningComponent implements OnInit, OnDestroy {
       .subscribe(
         data => {
           if (data && data.result && data.result.count) {
-            console.log(data, 'data')
+            this.logger.log(data, 'data')
             this.searchResults.result.count = data.result.count
             this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
 
           } else {
             this.searchResults.result.count = data.result.count
-            console.log(data, 'data123')
+            this.logger.log(data, 'data123')
           }
 
           this.searchServ.raiseNewSearchResponseEvent(
@@ -971,7 +971,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   removeLanguage() {
     // this.contact = this.lang = ''
     // this.searchRequest.filters['lang'] = []
-    // console.log('filter', this.searchRequest)
+    // this.logger.log('filter', this.searchRequest)
     // this.router.navigate([], {
     //   queryParams: { f: JSON.stringify(this.searchRequest.filters), q: this.searchRequestObject.request.query, lang: null },
     //   // queryParamsHandling: 'merge',

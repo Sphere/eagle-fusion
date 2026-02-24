@@ -3,7 +3,7 @@ import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router'
 import { Observable, of, throwError, timer } from 'rxjs'
 import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { map, catchError, retryWhen, timeout, mergeMap } from 'rxjs/operators'
-import { IResolveResponse } from '@ws-widget/utils'
+import { IResolveResponse, LoggerService } from '@ws-widget/utils'
 import { UtilityService } from '../services/utility.service'
 import { ConfigurationsService } from '../services/configurations.service'
 
@@ -17,6 +17,7 @@ export class ExploreDetailResolve {
     private http: HttpClient,
     private configSvc: ConfigurationsService,
     private utilitySvc: UtilityService,
+    private logger: LoggerService
   ) { }
 
   resolve(
@@ -43,7 +44,7 @@ export class ExploreDetailResolve {
             if (error instanceof HttpErrorResponse) {
               if (error.status === 0 || (error.status >= 500 && error.status < 600)) {
                 const delay = Math.min(1000 * Math.pow(2, retryCount), 5000)
-                console.warn(`[RETRY ${retryCount + 1}] HTTP ${error.status || 'Network Error'}, retrying in ${delay}ms...`)
+                this.logger.warn(`[RETRY ${retryCount + 1}] HTTP ${error.status || 'Network Error'}, retrying in ${delay}ms...`)
                 if (retryCount < 2) {
                   return timer(delay)
                 }

@@ -52,7 +52,7 @@ export class AllDiscussionWidgetComponent extends BaseWrapperComponent {
 
   stateChange(event: any) {
     // debugger
-    // console.log(event)
+    // this.logger.log(event)
     this.previousState = this.state
     this.state = event.action
     if (event.action === this.detailsPage) {

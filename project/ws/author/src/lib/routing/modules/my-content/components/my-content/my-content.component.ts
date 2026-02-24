@@ -25,6 +25,7 @@ import { Subscription } from 'rxjs'
 import { MyContentService } from '../../services/my-content.service'
 import { map } from 'rxjs/operators'
 import { REVIEW_ROLE, PUBLISH_ROLE, CREATE_ROLE } from '@ws/author/src/lib/constants/content-role'
+import { LoggerService } from '../../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-auth-my-content',
@@ -95,6 +96,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private dialog: MatDialog,
     private authInitService: AuthInitService,
+    private logger: LoggerService
   ) {
     this.filterMenuTreeControl = new FlatTreeControl<IMenuFlatNode>(
       (node: { levels: any }) => node.levels,
@@ -630,7 +632,7 @@ export class MyContentComponent implements OnInit, OnDestroy {
   }
 
   actionOnExpiry(content: NSContent.IContentMeta) {
-    console.log('content: ' + content)
+    this.logger.log('content: ' + content)
   }
 
   setCurrentLanguage(lang: string) {

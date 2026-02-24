@@ -1,6 +1,6 @@
 import { Component, Inject, OnInit } from "@angular/core"
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog"
-import { ConfigurationsService, TelemetryService } from "../../../../../../../../../library/ws-widget/utils/src/public-api"
+import { ConfigurationsService, LoggerService, TelemetryService } from "../../../../../../../../../library/ws-widget/utils/src/public-api"
 import { LanguageService } from "../../../../../../../../../src/app/services/language.service"
 import { PlaylistService } from "../../../../../../../../../src/app/services/playlist.service"
 
@@ -19,7 +19,8 @@ export class CongratulationsPopupComponent implements OnInit {
     private languageSvc: LanguageService,
     private playlsSvc: PlaylistService,
     private dialogRef: MatDialogRef<CongratulationsPopupComponent>,
-    private telemetrySvc: TelemetryService
+    private telemetrySvc: TelemetryService,
+    private logger: LoggerService
   ) { }
 
   async ngOnInit() {
@@ -30,7 +31,7 @@ export class CongratulationsPopupComponent implements OnInit {
     this.fetchPlayLists(currentLang, this.designation)
       .then((playlists) => {
         this.earnedBadge = false
-        console.log("playlists", playlists, this.data.collectionId)
+        this.logger.log("playlists", playlists, this.data.collectionId)
         if (
           (this.designation.includes("MP") ||
             this.designation.toLowerCase().includes("mp")) &&

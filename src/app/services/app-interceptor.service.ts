@@ -1,7 +1,7 @@
 import { Injectable, LOCALE_ID, Inject } from '@angular/core'
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse, HttpResponse } from '@angular/common/http'
 import { Observable, throwError, of } from 'rxjs'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { catchError } from 'rxjs/operators'
 
 @Injectable({
@@ -10,6 +10,7 @@ import { catchError } from 'rxjs/operators'
 export class AppInterceptorService implements HttpInterceptor {
   constructor(
     private configSvc: ConfigurationsService, // private http: HttpClient,
+    private logger: LoggerService,
     @Inject(LOCALE_ID) private locale: string,
   ) { }
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
@@ -30,7 +31,7 @@ export class AppInterceptorService implements HttpInterceptor {
         catchError((error: HttpErrorResponse) => {
           // For public pages, return empty response instead of throwing on auth errors
           if (isPublicPath && error.status === 419) {
-            console.warn('Public page received 419, returning empty response to allow page to load')
+            this.logger.warn('Public page received 419, returning empty response to allow page to load')
             return of(new HttpResponse({ status: 200, body: {} }))
           }
           return throwError(() => error)
@@ -82,10 +83,10 @@ export class AppInterceptorService implements HttpInterceptor {
       return next.handle(modifiedReq).pipe(
         catchError((error: HttpErrorResponse) => {
           if (error instanceof HttpErrorResponse) {
-            console.log(error.status, '/')
+            this.logger.log(error.status, '/')
             if (error.status === 419) {
               // Session expired - don't redirect, let app handle gracefully
-              console.warn('Session expired (419), allowing error to propagate')
+              this.logger.warn('Session expired (419), allowing error to propagate')
               return throwError(() => error)
             }
           }

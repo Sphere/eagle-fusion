@@ -7,6 +7,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import { get, forEach } from 'lodash'
 import { Title } from '@angular/platform-browser'
+import { LoggerService } from '@ws-widget/utils'
 
 @Component({
   selector: 'ws-web-course-view',
@@ -32,7 +33,8 @@ export class WebCourseViewComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private signUpSvc: SignupService,
-    private titleService: Title
+    private titleService: Title,
+    private logger: LoggerService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
@@ -120,10 +122,10 @@ export class WebCourseViewComponent implements OnInit {
 
   redirectPage(course: any) {
     if (this.isLoggedIn) {
-      console.log('yes here')
+      this.logger.log('yes here')
       this.navigateToToc(course.identifier)
     } else {
-      console.log('else')
+      this.logger.log('else')
       this.login(course)
     }
   }

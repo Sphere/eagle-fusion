@@ -16,6 +16,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import {
   // LoggerService,
   ConfigurationsService,
+  LoggerService,
   UtilityService,
 } from '@ws-widget/utils'
 import { of, Subscription } from 'rxjs'
@@ -95,6 +96,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     private onlineIndexedDbService: IndexedDBService,
     public quizService: QuizService,
     private cdr: ChangeDetectorRef,  // **CRITICAL**: For triggering UI updates when tree data changes
+    private logger: LoggerService
   ) {
     this.nestedTreeControl = new NestedTreeControl<IViewerTocCard>(this._getChildren)
     this.nestedDataSource = new MatTreeNestedDataSource()
@@ -197,7 +199,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     })
 
     this.viewerDataServiceSubscription = this.viewerDataSvc.changedSubject.subscribe(_data => {
-      console.log(_data, '180')
+      this.logger.log(_data, '180')
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
         this.processCurrentResourceChange()
@@ -205,14 +207,14 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       }
     })
     this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
-      console.log(data, '188')
+      this.logger.log(data, '188')
       if (data) {
         //
-        // console.log(this.playerStateService.trigger$.getValue())
+        // this.logger.log(this.playerStateService.trigger$.getValue())
         if (this.playerStateService.trigger$.getValue() === undefined || this.playerStateService.trigger$.getValue() === 'not-triggered') {
           this.scromUpdateCheck(data)
 
-          // console.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
+          // this.logger.log("player state", this.playerStateService.isResourceCompleted(), this.playerStateService.getNextResource())
           setTimeout(() => {
             if (this.playerStateService.isResourceCompleted()) {
 
@@ -240,7 +242,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
   downloadResource(content: any) {
     const fileUrl = content.artifactUrl
-    console.log('fileUrl: ', content)
+    this.logger.log('fileUrl: ', content)
     // Make the HTTP GET request
     this.http.get(fileUrl, {
       responseType: 'blob', // Set the response type as blob
@@ -324,7 +326,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         // This triggers Angular change detection and shows the progress circle/tick in the UI
         node.completionPercentage = matchingContent.completionPercentage
         node.completionStatus = matchingContent.status ?? node.completionStatus ?? 0
-        console.log(`Updated tree node: ${node.identifier} completionPercentage: ${node.completionPercentage}, status: ${node.completionStatus}`)
+        this.logger.log(`Updated tree node: ${node.identifier} completionPercentage: ${node.completionPercentage}, status: ${node.completionStatus}`)
       }
 
       // Recursively update child nodes
@@ -595,7 +597,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     return url
   }
   async processData(data?: any) {
-    console.log(data, 'data')
+    this.logger.log(data, 'data')
     this.isLoading = true
     if (this.collection) {
       this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
@@ -603,7 +605,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     if (this.collection && this.collection.children) {
       const mergeData = (collection: any) => {
-        console.log(data, 'ssssssssssss')
+        this.logger.log(data, 'ssssssssssss')
         collection.map((child1: any, index: any, element: any) => {
           const foundContent = data.find((el1: any) => el1.contentId === child1.identifier)
 
@@ -721,7 +723,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         // Update the existing object in arr1 if the keyToUpdate value is different AND obj2 has the value
         // **CRITICAL**: Only update if obj2[keyToUpdate] is defined - this prevents undefined from wiping out existing values
         if (obj2[keyToUpdate] !== undefined && obj1[keyToUpdate] !== obj2[keyToUpdate]) {
-          console.log(`Updating ${obj2.contentId} ${keyToUpdate}: ${obj1[keyToUpdate]} → ${obj2[keyToUpdate]}`)
+          this.logger.log(`Updating ${obj2.contentId} ${keyToUpdate}: ${obj1[keyToUpdate]} → ${obj2[keyToUpdate]}`)
           obj1[keyToUpdate] = obj2[keyToUpdate]
         }
       } else {
@@ -729,29 +731,29 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         arr1.push(obj2)
       }
     })
-    console.log(arr1, 'arr1')
-    console.log(userID, courseId)
+    this.logger.log(arr1, 'arr1')
+    this.logger.log(userID, courseId)
     this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', arr1).subscribe(
       () => {
-        console.log('Data inserted successfully2')
+        this.logger.log('Data inserted successfully2')
       },
       (error) => {
-        console.error('Error inserting data:', error)
+        this.logger.error('Error inserting data:', error)
       }
     )
     const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
-    console.log('Aggregate value:', aggregateValue)
-    console.log(this.heirarchy, 'content')
+    this.logger.log('Aggregate value:', aggregateValue)
+    this.logger.log(this.heirarchy, 'content')
     let uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
-    console.log(uniqueIdsOfType.length, this.heirarchy!.childNodes.length) // Output: [1, 3]
+    this.logger.log(uniqueIdsOfType.length, this.heirarchy!.childNodes.length) // Output: [1, 3]
     let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    console.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
+    this.logger.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
     let progress = Math.min(Math.max(percentage, 0), 100)
     return progress
   }
   calculateAggregate(arr: any, field: string): number {
     let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
-    console.log(val)
+    this.logger.log(val)
     return val
   }
 
@@ -773,9 +775,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   }
   private async processCollectionForTree(content?: any) {
-    console.log(content, 'processCollectionForTree')
+    this.logger.log(content, 'processCollectionForTree')
     if (content && content.contentList) {
-      console.log(content)
+      this.logger.log(content)
       await this.processData(content.contentList)
 
       let req
@@ -801,53 +803,53 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         })
       }
       this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(async (record) => {
-        console.log('Record:', record)
+        this.logger.log('Record:', record)
         rowData = await record
         let dat = JSON.parse(rowData.data)
-        console.log(dat, 'dat')
+        this.logger.log(dat, 'dat')
         if (dat && dat.length) {
           optmisticPercentage = await this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
         }
 
-        console.log(rating, optmisticPercentage)
+        this.logger.log(rating, optmisticPercentage)
 
         if (content.type) {
           if (this.playerStateService.isResourceCompleted()) {
             const nextResource = this.playerStateService.getNextResource()
-            console.log(nextResource)
+            this.logger.log(nextResource)
             const regex = /do_\d+/ // Regular expression to match "do_" followed by one or more digits
             const match = nextResource.match(regex)
             let foundObject: any
             if (match) {
-              console.log(match[0]) // Output: "do_11357407388494233611489"
-              console.log(this.collection!.children)
+              this.logger.log(match[0]) // Output: "do_11357407388494233611489"
+              this.logger.log(this.collection!.children)
               foundObject = this.collection!.children!.find(obj => obj.identifier === match[0])
               if (foundObject) {
-                console.log(foundObject) // Output the object if a match is found
+                this.logger.log(foundObject) // Output the object if a match is found
               } else {
-                console.log('No matching object found')
+                this.logger.log('No matching object found')
               }
             } else {
-              console.log('No match found')
+              this.logger.log('No match found')
             }
             if (!(isEmpty(nextResource) || isNull(nextResource))) {
 
               if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
-                console.log(foundObject, 'foundObject')
+                this.logger.log(foundObject, 'foundObject')
                 if (!foundObject || (foundObject.type !== "Scrom" && foundObject.completionPercentage === 100)) {
                   this.router.navigate([nextResource], { queryParamsHandling: 'preserve' }).then(success => {
                     if (success) {
                       this.playerStateService.trigger$.complete()
                     }
                   }).catch(error => {
-                    console.error('Navigation error:', error)
+                    this.logger.error('Navigation error:', error)
                   })
                 } else {
                   // External navigation or fallback
                   this.isLoading = true
                   const modifiedString = nextResource.replace('/', '')
                   const url = `${document.baseURI}${modifiedString}?primaryCategory=Learning%20Resource&collectionId=${this.collection!.identifier}&collectionType=Course&batchId=${this.batchId}`
-                  console.log('Redirecting to URL:', url)
+                  this.logger.log('Redirecting to URL:', url)
 
                   setTimeout(() => {
                     window.location.href = url
@@ -870,12 +872,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     competencyId: competency.competencyId
                   }
                 })
-                console.log("finalCompetencies", finalCompetencies)
+                this.logger.log("finalCompetencies", finalCompetencies)
               }
               const data = {
                 courseId: this.collectionId,
               }
-              console.log("data", this.collectionId, data)
+              this.logger.log("data", this.collectionId, data)
               const isDialogOpen = this.dialog.openDialogs.length > 0
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
@@ -928,13 +930,13 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     competencyId: competency.competencyId
                   }
                 })
-                console.log("finalCompetencies", finalCompetencies)
+                this.logger.log("finalCompetencies", finalCompetencies)
               }
-              console.log(rating, optmisticPercentage)
+              this.logger.log(rating, optmisticPercentage)
               const data = {
                 courseId: this.collectionId,
               }
-              console.log("data", this.collectionId, data)
+              this.logger.log("data", this.collectionId, data)
               const isDialogOpen = this.dialog.openDialogs.length > 0
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
 
@@ -986,7 +988,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
             }
           } else {
-            console.log(rating, optmisticPercentage)
+            this.logger.log(rating, optmisticPercentage)
             if (optmisticPercentage === 100) {
               this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
                 queryParams: {
@@ -1011,16 +1013,16 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                     competencyId: competency.competencyId
                   }
                 })
-                console.log("finalCompetencies", finalCompetencies)
+                this.logger.log("finalCompetencies", finalCompetencies)
               }
               const data = {
                 courseId: this.collectionId,
               }
-              console.log("data", this.collectionId, data)
+              this.logger.log("data", this.collectionId, data)
               // Check if the dialog is already open
               const isDialogOpen = this.dialog.openDialogs.length > 0
               let confirmdialog: MatDialogRef<ConfirmmodalComponent> | undefined
-              console.log(optmisticPercentage, Object.keys(rating).length)
+              this.logger.log(optmisticPercentage, Object.keys(rating).length)
               if (!isDialogOpen && optmisticPercentage === 100 && Object.keys(rating).length === 0) {
                 if (finalCompetencies.length > 0) {
                   finalCompetencies.forEach((competency: any) => {
@@ -1067,19 +1069,19 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 }
               }
             } else {
-              console.log('lll', dat)
+              this.logger.log('lll', dat)
               const nextResource = this.playerStateService.getNextResource()
               const regex: RegExp = /do_\d+/
               const match: any = nextResource.match(regex)
-              console.log(match[0])
+              this.logger.log(match[0])
               let courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
               let courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
-              console.log(courseData2)
+              this.logger.log(courseData2)
               const foundContent1 = dat.find((el1: any) => el1.contentId === this.resourceId)
 
               const foundContent2 = dat.find((el2: any) => el2.contentId === match[0])
-              console.log(foundContent1, foundContent2)
-              console.log(nextResource, this.resourceId)
+              this.logger.log(foundContent1, foundContent2)
+              this.logger.log(nextResource, this.resourceId)
               if (
                 foundContent1.completionPercentage === 100 &&
                 (courseData1.mimeType === 'application/json')
@@ -1092,19 +1094,19 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           }
         }
       }, (error) => {
-        console.error('Error:', error)
+        this.logger.error('Error:', error)
         let userID = this.configSvc.userProfile!.userId
         this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', content.contentList).subscribe(
           (dat: any) => {
-            console.log('Data inserted successfully1', dat)
+            this.logger.log('Data inserted successfully1', dat)
             this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async (record) => {
-              console.log('Record:', record)
+              this.logger.log('Record:', record)
               rowData = await record
               let dat = JSON.parse(rowData.data)
-              console.log(dat)
+              this.logger.log(dat)
               if (dat && dat.length) {
                 optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
-                console.log(optmisticPercentage, 'foundContent', '942')
+                this.logger.log(optmisticPercentage, 'foundContent', '942')
                 if (content.type === "scorm" || content.type === "assessment" || content.type === "quiz") {
                   if (this.playerStateService.isResourceCompleted()) {
                     const nextResource = this.playerStateService.getNextResource()
@@ -1114,7 +1116,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                           this.playerStateService.trigger$.complete()
                         }
                       }).catch(error => {
-                        console.error('Navigation error:', error)
+                        this.logger.error('Navigation error:', error)
                       })
                     }
                   }
@@ -1122,11 +1124,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
               }
             }, (error) => {
-              console.error('Error:', error)
+              this.logger.error('Error:', error)
             })
           },
           (error) => {
-            console.error('Error inserting data:', error)
+            this.logger.error('Error inserting data:', error)
           }
         )
       })
@@ -1134,8 +1136,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       if (this.collection && this.collection.children) {
         this.isLoading = true
         let resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
-        console.log(resourceData, 'resourceData')
-        console.log(resourceData.result.content.mimeType)
+        this.logger.log(resourceData, 'resourceData')
+        this.logger.log(resourceData.result.content.mimeType)
         if (resourceData.result.content.mimeType !== 'application/vnd.ekstep.html-archive') {
           localStorage.removeItem('contentId')
         }
@@ -1154,7 +1156,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         }
         this.progresSub = this.contentSvc.fetchContentHistoryV2(req).subscribe(async data => {
           // tslint:disable-next-line: no-console
-          console.log(data['result']['contentList'])
+          this.logger.log(data['result']['contentList'])
           if (this.collection && this.collection.children) {
             const mergeData = (collection: any) => {
 
@@ -1202,7 +1204,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
                       // tslint:disable-next-line:max-line-length
                     } else if (this.viewerDataSvc.getNode() && this.viewerDataSvc.resourceId === child2.identifier) {
-                      console.log('entered')
+                      this.logger.log('entered')
                       child2.disabledNode = false
 
                     } else if (
@@ -1265,11 +1267,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         },
           (error: any) => {
             // tslint:disable-next-line:no-console
-            console.log('CONTENT HISTORY FETCH ERROR >', error)
+            this.logger.log('CONTENT HISTORY FETCH ERROR >', error)
           },
         )
         // tslint:disable-next-line: no-console
-        console.log(this.collection.children)
+        this.logger.log(this.collection.children)
         this.nestedDataSource.data = this.collection.children
         this.pathSet = new Set()
         // if (this.resourceId && this.tocMode === 'TREE') {
@@ -1304,7 +1306,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const nextTitle = currentIndex + 1 < this.queue.length ? this.queue[currentIndex + 1].title : null
     const prevTitle = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].title : null
     const currentPercentage = currentIndex < this.queue.length && this.queue[currentIndex] ? this.queue[currentIndex]!.completionPercentage! : null
-    console.log(this.queue[currentIndex]!.completionPercentage)
+    this.logger.log(this.queue[currentIndex]!.completionPercentage)
     const prevPercentage = currentIndex - 1 >= 0 ? this.queue[currentIndex - 1].completionPercentage! : null
     // tslint:disable-next-line:object-shorthand-properties-first
     this.playerStateService.setState({
@@ -1316,7 +1318,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   }
 
   updatePassbookEntryPassbook(data: any, competency: any) {
-    console.log("data", data, competency, this.heirarchy)
+    this.logger.log("data", data, competency, this.heirarchy)
     const formatedData = {
       request: {
         userId: this.configSvc.userProfile!.userId,
@@ -1346,12 +1348,12 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       .updatePassbook(formatedData)
       .pipe(
         catchError((error) => {
-          console.error('Update passbook failed:', error)
+          this.logger.error('Update passbook failed:', error)
           return of(null)
         })
       )
       .subscribe((res) => {
-        console.log('Passbook updated successfully', res)
+        this.logger.log('Passbook updated successfully', res)
       })
 
   }

@@ -193,7 +193,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
 
         // this.storeService.selectedNodeChange.subscribe(node => {
         //   if (node) {
-        //     console.log('selected node', node)
+        //     this.logger.log('selected node', node)
         //     const getNodeId = (this.storeService.lexIdMap.get(node.toString()) as number[])[0]
         //     this.storeService.currentSelectedNode = getNodeId
 
@@ -256,7 +256,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
   }
 
   addChapterName() {
-    // console.log('newchap', this.newChapterName)
+    // this.logger.log('newchap', this.newChapterName)
   }
 
   async setContentType(param: string) {
@@ -324,7 +324,7 @@ export class CourseCollectionComponent implements OnInit, OnDestroy {
       this.triggerQuizSave = true
     } else
       if (this.viewMode === 'upload') {
-        // TODO  console.log('viewmode', this.viewMode)
+        // TODO  this.logger.log('viewmode', this.viewMode)
         this.triggerUploadSave = true
       }
     if (

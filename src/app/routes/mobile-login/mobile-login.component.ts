@@ -99,19 +99,19 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         // @ts-ignore
         const profile = googleUser.getBasicProfile()
         // tslint:disable-next-line:no-console
-        // console.log(`Token || ` + googleUser.getAuthResponse().id_token)
+        // this.logger.log(`Token || ` + googleUser.getAuthResponse().id_token)
         // tslint:disable-next-line:no-console
-        // console.log(`ID: ` + profile.getId())
+        // this.logger.log(`ID: ` + profile.getId())
         // tslint:disable-next-line:no-console
-        // console.log(`Name: ` + profile.getName())
+        // this.logger.log(`Name: ` + profile.getName())
         // tslint:disable-next-line:no-console
-        // console.log(`Image URL: ` + profile.getImageUrl())
+        // this.logger.log(`Image URL: ` + profile.getImageUrl())
         // tslint:disable-next-line:no-console
-        // console.log(`Email: ` + profile.getEmail())
+        // this.logger.log(`Email: ` + profile.getEmail())
       },
       (error: any) => {
         // tslint:disable-next-line:no-console
-        console.log(JSON.stringify(error, undefined, 2))
+        this.logger.log(JSON.stringify(error, undefined, 2))
       })
   }
   ngOnInit() {
@@ -167,7 +167,7 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
         },
         (err: any) => {
           // tslint:disable-next-line:no-console
-          console.log(err)
+          this.logger.log(err)
           // this.errorMessage = err.error
           this.router.navigate(['/app/login'])
         }

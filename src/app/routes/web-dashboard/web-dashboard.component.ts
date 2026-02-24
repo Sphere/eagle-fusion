@@ -7,6 +7,7 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 import { LanguageService } from 'src/app/services/language.service'
 import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-dashboard',
   templateUrl: './web-dashboard.component.html',
@@ -37,7 +38,8 @@ export class WebDashboardComponent implements OnInit {
     public configSvc: ConfigurationsService,
     public userProfileSvc: UserProfileService,
     private languageSvc: LanguageService,
-    private plylsSvc: PlaylistService
+    private plylsSvc: PlaylistService,
+    private logger: LoggerService
   ) {
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -51,17 +53,17 @@ export class WebDashboardComponent implements OnInit {
   }
 
   async ngOnInit() {
-    console.log(this.configData, 'configData ****** ')
+    this.logger.log(this.configData, 'configData ****** ')
     this.uiConfig = this.configData?.[0]
     this.dataCarousel = this.uiConfig?.data
     if (this.isEkshamata) {
       this.domain = window.location.hostname
-      console.log("yes here", this.isEkshamata)
+      this.logger.log("yes here", this.isEkshamata)
       if (this.configSvc.hostedInfo || this.domain.includes('ekshamata') || this.domain.includes('localhost')) {
-        console.log("yes here2 ", this.configSvc.hostedInfo)
+        this.logger.log("yes here2 ", this.configSvc.hostedInfo)
         this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
         this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
-        console.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
+        this.logger.log("this.configSvc.hostedInfo: ", this.configSvc.hostedInfo)
       }
     }
     if (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language) {
@@ -113,7 +115,7 @@ export class WebDashboardComponent implements OnInit {
     setTimeout(() => {
       this.currentSlideIndex = index // Set the current slide index manually after a short delay
     }, 0)
-    console.log('Navigating to slide:', index)
+    this.logger.log('Navigating to slide:', index)
   }
   scrollToHowSphereWorks(value: string) {
     this.scrollService.scrollToDivEvent.emit(value)
@@ -124,7 +126,7 @@ export class WebDashboardComponent implements OnInit {
       if (!this.uiConfig?.badges?.showCompletedCourses) {
         this.noOfBadges = 0
         this.plylsSvc.setEarnedBadges(0)
-        console.log('Badge calculation skipped - disabled in config')
+        this.logger.log('Badge calculation skipped - disabled in config')
         return
       }
 
@@ -137,9 +139,9 @@ export class WebDashboardComponent implements OnInit {
       this.noOfBadges = completedCourses.length
       this.plylsSvc.setEarnedBadges(this.noOfBadges)
 
-      console.log('Badge count calculated:', this.noOfBadges)
+      this.logger.log('Badge count calculated:', this.noOfBadges)
     } catch (error) {
-      console.error('Error calculating badges:', error)
+      this.logger.error('Error calculating badges:', error)
       this.noOfBadges = 0
       this.plylsSvc.setEarnedBadges(0)
     }

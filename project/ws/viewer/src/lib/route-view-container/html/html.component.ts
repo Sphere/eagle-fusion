@@ -72,7 +72,7 @@ export class HtmlComponent implements OnInit, OnChanges {
       this.isLtMedium = isLtMd
     })
     // }).catch((ex) => {
-    //   console.warn("Please refresh Page", ex)
+    //   this.logger.warn("Please refresh Page", ex)
     // })
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId
     this.collectionIdentifier = collectionId

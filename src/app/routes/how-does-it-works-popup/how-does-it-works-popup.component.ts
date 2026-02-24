@@ -16,7 +16,7 @@ export class VideoPopupComponent {
   public isOpen = false;
 
   ngOnInit() {
-    console.log("videoUrl", this.data.url)
+    // this.logger.log("videoUrl", this.data.url)
   }
   close() {
     this.dialogRef.close()

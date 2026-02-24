@@ -1,6 +1,6 @@
 import { Component, OnInit, ElementRef, effect } from '@angular/core'
 import { Router } from '@angular/router'
-import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { ScrollService } from '../../services/scroll.service'
 import { LanguageService } from '../../services/language.service'
 import { PlaylistService } from '../../services/playlist.service'
@@ -27,7 +27,8 @@ export class WebHomeComponent implements OnInit {
     private scrollService: ScrollService,
     private elementRef: ElementRef,
     private languageSvc: LanguageService,
-    private playlsSvc: PlaylistService
+    private playlsSvc: PlaylistService,
+    private logger: LoggerService
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -54,7 +55,7 @@ export class WebHomeComponent implements OnInit {
       this.lang = this.languageSvc?.getCurrentLanguage() || 'en'
     }
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
-      console.log("yes here scroll", targetDivId)
+      this.logger.log("yes here scroll", targetDivId)
       if (['scrollToHowSphereWorks', 'scrollToCneCourses'].includes(targetDivId)) {
         this.elementRef.nativeElement.scrollIntoView({ behavior: 'smooth' })
       }
@@ -96,7 +97,7 @@ export class WebHomeComponent implements OnInit {
     setTimeout(() => {
       this.currentSlideIndex = index // Set the current slide index manually after a short delay
     }, 0)
-    console.log('Navigating to slide:', index)
+    this.logger.log('Navigating to slide:', index)
   }
   scrollToHowSphereWorks(value: string) {
     this.scrollService.scrollToDivEvent.emit(value)

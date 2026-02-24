@@ -5,7 +5,7 @@ import { errorCodes } from './errors'
 // import _ from 'lodash'
 import { HttpBackend, HttpClient } from '@angular/common/http'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService, TelemetryService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, TelemetryService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import dayjs from 'dayjs'
 //import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { Subscription } from 'rxjs'
@@ -43,6 +43,7 @@ export class SCORMAdapterService {
     private contentSvc: WidgetContentService,
     private telemetrySvc: TelemetryService,
     private onlineIndexedDbService: IndexedDBService,
+    private logger: LoggerService
   ) {
     this.http = new HttpClient(handler)
   }
@@ -115,7 +116,7 @@ export class SCORMAdapterService {
 
   initValue() {
     let data = this.store.getAll()
-    console.log('data', data)
+    this.logger.log('data', data)
     if (data) {
       return data
     }
@@ -148,7 +149,7 @@ export class SCORMAdapterService {
   LMSCommit() {
     let data = this.store.getAll()
     this.contentKey = this.store.returnKey()
-    console.log('data', data, this.contentKey)
+    this.logger.log('data', data, this.contentKey)
     let url
     url = this.router.url
     let splitUrl1 = url.split('?primary')
@@ -165,13 +166,13 @@ export class SCORMAdapterService {
       // data = Base64.encode(newData)
       let _return = false
       //if(Object.keys(data).length >= 0) {
-      console.log((splitUrl2[1] === this.contentId), splitUrl2[1], this.contentId, this.contentData)
-      console.log(data, 'data.recieved')
+      this.logger.log((splitUrl2[1] === this.contentId), splitUrl2[1], this.contentId, this.contentData)
+      this.logger.log(data, 'data.recieved')
       if (data["cmi.core.lesson_status"] === 'incomplete' || data['cmi.suspend_data']) {
-        console.log('hey')
+        this.logger.log('hey')
         this.addDataV2(data)
         // this.scromSubscription = this.addDataV2(data).subscribe(async (response: any) => {
-        //   console.log('intereim progress response', response)
+        //   this.logger.log('intereim progress response', response)
         //   if (data) {
         //     this.telemetrySvc.start('scorm', 'scorm-start', this.activatedRoute.snapshot.queryParams.collectionId ?
         //       this.activatedRoute.snapshot.queryParams.collectionId : this.contentId)
@@ -233,7 +234,7 @@ export class SCORMAdapterService {
         // }, (error) => {
         //   if (error) {
         //     this._setError(101)
-        //     // console.log(error)
+        //     // this.logger.log(error)
         //   }
         // })
 
@@ -310,7 +311,7 @@ export class SCORMAdapterService {
 
         if (data && data.result && data.result.contentList.length) {
           const listOfContent = data.result.contentList
-          console.log(listOfContent)
+          this.logger.log(listOfContent)
           const self = this
           const progressDetails = listOfContent.filter((item: any) => {
             if (item.contentId === self.contentId) {
@@ -318,17 +319,17 @@ export class SCORMAdapterService {
             }
           })
           //  let loadDatas: IScromData = {}
-          console.log('PD', progressDetails)
+          this.logger.log('PD', progressDetails)
           if (progressDetails.length > 0) {
             const data = progressDetails[0]
             if (data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data")) {
               const loadDatas: IScromData = {}
               loadDatas["cmi.suspend_data"] = data.progressdetails['cmi.suspend_data']
-              // console.log(loadDatas)
+              // this.logger.log(loadDatas)
               this.store.setAll(loadDatas)
             }
           } else {
-            console.log('No initial data found')
+            this.logger.log('No initial data found')
           }
 
           //   }
@@ -336,12 +337,12 @@ export class SCORMAdapterService {
 
           //   if (content.contentId === this.contentId && content.progressdetails) {
           //     const data = content.progressdetails
-          //     console.log(data)
+          //     this.logger.log(data)
           //     if (data.hasOwnProperty('cmi.suspend_data')) {
           //       loadDatas["cmi.suspend_data"] = data['cmi.suspend_data']
           //     }
 
-          //     console.log('progress data',loadDatas)
+          //     this.logger.log('progress data',loadDatas)
           //     this.store.setAll(loadDatas)
           //   }
           // }
@@ -364,7 +365,7 @@ export class SCORMAdapterService {
       this.store.setAll(loadDatas)
     }, (error) => {
       if (error) {
-        // console.log(error)
+        // this.logger.log(error)
         this._setError(101)
       }
     })
@@ -387,7 +388,7 @@ export class SCORMAdapterService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in getting completion status', e)
+      this.logger.log('Error in getting completion status', e)
       return 1
     }
   }
@@ -400,7 +401,7 @@ export class SCORMAdapterService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in getting completion status', e)
+      this.logger.log('Error in getting completion status', e)
       return 0
     }
   }
@@ -425,13 +426,13 @@ export class SCORMAdapterService {
     ).subscribe(
       async data1 => {
         // tslint:disable-next-line: no-console
-        console.log(data1)
+        this.logger.log(data1)
         if (data1 && data1.result && data1.result.contentList.length) {
           let data = await data1['result']['contentList']
-          console.log(data)
+          this.logger.log(data)
           this.contentData = data.find((obj: any) => obj.contentId === this.contentId)
 
-          console.log(this.contentData, 'sy')
+          this.logger.log(this.contentData, 'sy')
 
           if (this.configSvc.userProfile && postData) {
             if ((this.contentData && this.contentData.completionPercentage < 100) || (this.contentData === undefined)) {
@@ -484,50 +485,50 @@ export class SCORMAdapterService {
           //   this.viewerDataSvc.changedSubject.next(true)
           // }
           // tslint:disable-next-line: no-console
-          console.log(req)
+          this.logger.log(req)
 
           //if(Object.keys(postData).length > 3) {
           //return this.http.patch(`${API_END_POINTS.SCROM_UPDTE_PROGRESS}/${this.contentId}`, req)
           this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.activatedRoute.snapshot.queryParams.collectionId).subscribe((record) => {
-            console.log(record, '450')
+            this.logger.log(record, '450')
 
             let cUrl = window.location.href
-            console.log(cUrl.split('/'))
+            this.logger.log(cUrl.split('/'))
             let id = cUrl.split('/')[5]
-            console.log(id)
+            this.logger.log(id)
             this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
               (message: any) => { // 'next' callback
-                console.log('Record deleted successfully', message)
+                this.logger.log('Record deleted successfully', message)
 
                 this.onlineIndexedDbService.insertProgressData(this.configSvc.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
                   async (dat: any) => {
-                    console.log('Data inserted successfully2', dat)
+                    this.logger.log('Data inserted successfully2', dat)
                     let msg = await dat
                     if (msg) {
 
                     }
                   },
                   (error: any) => { // 'error' callback for insertProgressData
-                    console.error('Error inserting progress data:', error)
+                    this.logger.error('Error inserting progress data:', error)
                   }
                 )
               },
               (error: any) => { // 'error' callback for deleteRecordByKey
-                console.error('Error deleting record:', error)
+                this.logger.error('Error deleting record:', error)
               }
             )
 
 
           }, (error) => {
-            console.log(error, '480')
+            this.logger.log(error, '480')
             this.onlineIndexedDbService.insertProgressData(this.configSvc.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
               (dat: any) => {
-                console.log('Data inserted successfully1', dat)
+                this.logger.log('Data inserted successfully1', dat)
 
               })
           })
 
-          console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '488')
+          this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '488')
           this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
             if (this.scormData) {
               let object = {
@@ -566,7 +567,7 @@ export class SCORMAdapterService {
                 this.telemetrySvc.end('scorm', 'scorm-close', 'player', data2, extras)
               }
             }
-            console.log(this.scormData, 'scormdata', postData)
+            this.logger.log(this.scormData, 'scormdata', postData)
 
             if (this.getPercentage(this.scormData) === 100) {
               let result = await response.result
@@ -587,7 +588,7 @@ export class SCORMAdapterService {
           }, (error) => {
             if (error) {
               this._setError(101)
-              // console.log(error)
+              // this.logger.log(error)
             }
           })
         }

@@ -8,7 +8,7 @@ import {
   WidgetContentService,
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { Platform } from '@angular/cdk/platform'
@@ -41,7 +41,8 @@ export class VideoComponent implements OnInit, OnDestroy {
     private contentSvc: WidgetContentService,
     private platform: Platform,
     private accessControlSvc: AccessControlService,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -58,7 +59,7 @@ export class VideoComponent implements OnInit, OnDestroy {
       this.viewerDataSubscription = this.viewerSvc
         .getContent(this.activatedRoute.snapshot.paramMap.get('resourceId') || '')
         .subscribe(data => {
-          console.log(data, '')
+          this.logger.log(data, '')
           this.videoData = data
           if (this.videoData) {
             this.formDiscussionForumWidget(this.videoData)
@@ -100,9 +101,9 @@ export class VideoComponent implements OnInit, OnDestroy {
               async data => {
                 if (data && data.result && data.result.contentList.length) {
                   let contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
-                  console.log(contentData)
+                  this.logger.log(contentData)
                   if (contentData === undefined || contentData.completionPercentage === 0) {
-                    console.log('contentData')
+                    this.logger.log('contentData')
                     let req: any
                     if (this.configSvc.userProfile) {
                       req = {
@@ -121,10 +122,10 @@ export class VideoComponent implements OnInit, OnDestroy {
                           ],
                         },
                       }
-                      console.log(req)
-                      //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
+                      this.logger.log(req)
+                      //this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
                       this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                        console.log(data)
+                        this.logger.log(data)
                         const result = data.result
                         result['type'] = 'video'
                         this.contentSvc.changeMessage(result)
@@ -149,10 +150,10 @@ export class VideoComponent implements OnInit, OnDestroy {
                           ],
                         },
                       }
-                      console.log(req)
-                      //console.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
+                      this.logger.log(req)
+                      //this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '122')
                       this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                        console.log(data)
+                        this.logger.log(data)
                         const result = data.result
                         result['type'] = 'video'
                         this.contentSvc.changeMessage(result)
@@ -179,9 +180,9 @@ export class VideoComponent implements OnInit, OnDestroy {
                         ],
                       },
                     }
-                    console.log(req, '183')
+                    this.logger.log(req, '183')
                     this.viewerSvc.initUpdate(req).subscribe(async (data: any) => {
-                      console.log(data)
+                      this.logger.log(data)
                     })
                   }
                 }

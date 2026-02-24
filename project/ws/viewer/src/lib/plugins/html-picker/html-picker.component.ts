@@ -52,7 +52,7 @@ export class HtmlPickerComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit() {
-    // //console.log(this.newData)
+    // //this.logger.log(this.newData)
   }
   ngOnDestroy() {
     if (this.inputInterval) {

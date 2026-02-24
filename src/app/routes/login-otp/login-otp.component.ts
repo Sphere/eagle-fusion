@@ -53,10 +53,10 @@ export class LoginOtpComponent implements OnInit {
     // this.checkEmailPhoneType()
     this.startTimer()
     // let x = localStorage.getItem(`userUUID`) || ''
-    // console.log(x)
+    // this.logger.log(x)
     // setTimeout(() => {
     //   this.userProfileSvc.getUserdetailsFromRegistry(x).subscribe((result: any) => {
-    //     console.log(result)
+    //     this.logger.log(result)
     //   })
     // }, 2000)
     if (this.signUpdata || this.loginData) {
@@ -136,7 +136,7 @@ export class LoginOtpComponent implements OnInit {
       const code = otp1 + otp2 + otp3 + otp4
       this.loginOtpForm.controls['code'].setValue(code)
     } else {
-      console.error('One or more OTP controls are missing')
+      this.logger.error('One or more OTP controls are missing')
     }
   }
 
@@ -175,7 +175,7 @@ export class LoginOtpComponent implements OnInit {
   async verifyOtp() {
     let request: any = []
     let phone = this.signUpdata.value.emailOrMobile
-    console.log(this.signUpdata.value)
+    this.logger.log(this.signUpdata.value)
     phone = phone.replace(/[^0-9+#]/g, '')
     const organisationId = this.organisationId
     // at least 10 in number
@@ -208,7 +208,7 @@ export class LoginOtpComponent implements OnInit {
     otpService$.subscribe(
       async (res: any) => {
         let res1 = await res
-        console.log(res1)
+        this.logger.log(res1)
         let url = `${document.baseURI}`
         //   await this.signupService.fetchStartUpDetails()
         //this.openSnackbar(res.msg)
@@ -224,12 +224,12 @@ export class LoginOtpComponent implements OnInit {
           if (lang.id) {
             lang = lang.id !== 'en' ? lang.id : ''
             url = `${url}/app/new-tnc`
-            console.log(this.preferedLanguage, data)
+            this.logger.log(this.preferedLanguage, data)
             if (lang) {
 
-              console.log(lang)
+              this.logger.log(lang)
               if (lang === 'hi') {
-                console.log('enb')
+                this.logger.log('enb')
                 if (res1.msg === 'Success ! User is sucessfully authenticated.') {
                   const msg = 'सफलता! उपयोगकर्ता सफलतापूर्वक प्रमाणित हो गया है.'
                   this.openSnackbar(msg)
@@ -241,7 +241,7 @@ export class LoginOtpComponent implements OnInit {
               this.openSnackbar(res1.msg)
             }
             this.isLoading = false
-            console.log("afdadssssssssssssssssssssssss")
+            this.logger.log("afdadssssssssssssssssssssssss")
             window.location.href = url
 
             //this.router.navigate([url, 'new-tnc'])
@@ -253,13 +253,13 @@ export class LoginOtpComponent implements OnInit {
           this.isLoading = false
         }
         // this.signupService.fetchStartUpDetails().then(result => {
-        //   console.log(result)
+        //   this.logger.log(result)
         //   if (result.userId) {
-        //     console.log(result.userID)
+        //     this.logger.log(result.userID)
         //     setTimeout(() => {
         //       this.userProfileSvc.getUserdetailsFromRegistry(result.userId).subscribe(
         //         (data: any) => {
-        //           console.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
+        //           this.logger.log(data, data.profileDetails!.profileReq!.personalDetails!.dob)
         //           if (data.profileDetails!.profileReq!.personalDetails!.dob === undefined) {
         //             if (localStorage.getItem('preferedLanguage')) {
         //               let data: any
@@ -338,7 +338,7 @@ export class LoginOtpComponent implements OnInit {
     //this.signupService.validateOtp(request).subscribe(
     otpService$.subscribe(
       async (res: any) => {
-        console.log(res, '2')
+        this.logger.log(res, '2')
         this.openSnackbar(res.message)
         // localStorage.removeItem('preferedLanguage')
         //location.href = '/page/home'

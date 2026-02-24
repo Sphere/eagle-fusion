@@ -168,7 +168,7 @@ export class InitService {
         // 1. Try matching for logged-in user (rootOrgId)
         if (this.configSvc.userProfile?.rootOrgId) {
           const rootOrgId = this.configSvc.userProfile.rootOrgId
-          console.log('Root Org ID:', rootOrgId)
+          this.logger.log('Root Org ID:', rootOrgId)
 
           for (const state of orgSelectiveData.states) {
             const found = state.organisations?.find(
@@ -194,7 +194,7 @@ export class InitService {
               .toLowerCase()
               .replace(/&/g, 'and')
 
-            console.log('Normalized Org from URL:', orgNameFromUrl)
+            this.logger.log('Normalized Org from URL:', orgNameFromUrl)
 
             // Iterate over all orgs to find match
             for (const state of orgSelectiveData.states) {
@@ -216,10 +216,10 @@ export class InitService {
         // 🔹 3. Save matched config
         if (matchedOrg) {
           this.configSvc.orgSelectiveCourseConfig = matchedOrg
-          console.log('Org Selective Config Found:', matchedOrg.orgName)
+          this.logger.log('Org Selective Config Found:', matchedOrg.orgName)
         } else {
-          console.warn('No matching org found in org-selective-course.json')
-          console.warn(
+          this.logger.warn('No matching org found in org-selective-course.json')
+          this.logger.warn(
             'Available org names:',
             orgSelectiveData.states.flatMap((s: any) =>
               s.organisations.map((o: any) => o.orgName)
@@ -227,10 +227,10 @@ export class InitService {
           )
         }
       } else {
-        console.warn('org-selective-course.json missing or invalid format')
+        this.logger.warn('org-selective-course.json missing or invalid format')
       }
     } catch (error) {
-      console.error('Failed to fetch org-selective-course.json:', error)
+      this.logger.error('Failed to fetch org-selective-course.json:', error)
     }
   }
 
@@ -250,20 +250,20 @@ export class InitService {
     if (hostConfig) {
       if (this.configSvc.userProfile) {
         let rootOrgId = this.configSvc.userProfile.rootOrgId
-        console.log("rootOrgId: ", rootOrgId, hostConfig)
+        this.logger.log("rootOrgId: ", rootOrgId, hostConfig)
         const orgDetails = hostConfig.orgNames
         // Find the matching object
         const result = orgDetails.find(item => item.channelId === rootOrgId)
 
         if (result) {
           this.configSvc.hostedInfo = result
-          console.log('Channel found:', result)
+          this.logger.log('Channel found:', result)
         } else {
-          console.log('Channel not found')
+          this.logger.log('Channel not found')
         }
       }
     }
-    console.log("hostConfig", hostConfig)
+    this.logger.log("hostConfig", hostConfig)
   }
 
   private reloadAccordingToLocale() {
@@ -306,7 +306,7 @@ export class InitService {
       // First, check if data is already cached in memory from UserDataCacheService
       const cachedData = this.userDataCacheSvc.getCachedUserData()
       if (cachedData && cachedData.userId) {
-        console.log('[InitService] User data already loaded in cache for userId:', cachedData.userId)
+        this.logger.log('[InitService] User data already loaded in cache for userId:', cachedData.userId)
         this.configSvc.unMappedUser = cachedData
         this.updateConfigWithUserData(cachedData)
         return
@@ -315,14 +315,14 @@ export class InitService {
       // If no in-memory cache, try to fetch from API (UserDataCacheService will restore from sessionStorage first)
       const userData = await this.userDataCacheSvc.getUserData().toPromise()
       if (userData && userData.userId) {
-        console.log('[InitService] Successfully loaded user data from cache/API for userId:', userData.userId)
+        this.logger.log('[InitService] Successfully loaded user data from cache/API for userId:', userData.userId)
         this.configSvc.unMappedUser = userData
         this.updateConfigWithUserData(userData)
       } else {
-        console.log('[InitService] No user data available in cache or API')
+        this.logger.log('[InitService] No user data available in cache or API')
       }
     } catch (error) {
-      console.warn('[InitService] Unable to load user data:', error)
+      this.logger.warn('[InitService] Unable to load user data:', error)
       // This is not fatal - user can still access public routes
     }
   }
@@ -363,9 +363,9 @@ export class InitService {
         this.configSvc.userGroups = new Set(userPidProfile.group)
       }
 
-      console.log('[InitService] User data updated in ConfigService')
+      this.logger.log('[InitService] User data updated in ConfigService')
     } catch (error) {
-      console.warn('[InitService] Error updating config with user data:', error)
+      this.logger.warn('[InitService] Error updating config with user data:', error)
     }
   }
 
@@ -400,7 +400,7 @@ export class InitService {
       }
 
       const url = local === 'hi' ? `fusion-assets/files/apps.hi.json` : `fusion-assets/files/apps.json`
-      console.log(local, 'local', url)
+      this.logger.log(local, 'local', url)
       const appsConfig = await this.http
         .get<NsAppsConfig.IAppsConfig>(`${url}`, { responseType: 'json' })
         .toPromise()
@@ -474,7 +474,7 @@ export class InitService {
         try {
           await this.fetchOrgSelectiveConfig()
         } catch (err) {
-          console.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
+          this.logger.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
         }
         const details = {
           group: [],
@@ -491,7 +491,7 @@ export class InitService {
         return details
       } catch (e: any) {
         // tslint:disable-next-line:no-console
-        console.log(e)
+        this.logger.log(e)
         this.configSvc.userProfile = null
         if (e.status === 419) {
           //this.authSvc.logout()

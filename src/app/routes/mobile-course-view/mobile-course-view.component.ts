@@ -7,7 +7,7 @@ import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/us
 import { SignupService } from '../signup/signup.service'
 import { forEach, get } from 'lodash'
 import { Title } from '@angular/platform-browser'
-import { TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
+import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-mobile-course-view',
@@ -35,7 +35,8 @@ export class MobileCourseViewComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     private signUpSvc: SignupService,
     private titleService: Title,
-    private telemetrySvc: TelemetryService
+    private telemetrySvc: TelemetryService,
+    private logger: LoggerService
   ) { }
   cometencyData: { name: any; levels: string }[] = []
   ngOnInit() {
@@ -92,7 +93,7 @@ export class MobileCourseViewComponent implements OnInit {
 
     // If no org data available, stay safe
     if (!cachedOrgConfig && !orgNameFromUrl) {
-      console.warn('No organization data found for signup')
+      this.logger.warn('No organization data found for signup')
       this.router.navigateByUrl('/app/create-account')
       return
     }
@@ -107,7 +108,7 @@ export class MobileCourseViewComponent implements OnInit {
     // Construct dynamic URL
     const path = `/app/create-account/${encodeURIComponent(stateCode)}/${encodeURIComponent(orgName)}/${encodeURIComponent(role)}`
 
-    console.log('Navigating to:', path)
+    this.logger.log('Navigating to:', path)
     this.router.navigateByUrl(path)
 
   }

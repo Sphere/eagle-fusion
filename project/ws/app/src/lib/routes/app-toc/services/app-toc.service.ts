@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
 import { NsContentConstants } from '@ws-widget/collection/src/lib/_constants/widget-content.constants'
 import { NsAppToc, NsCohorts } from '../models/app-toc.model'
-import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
+import { TFetchStatus, ConfigurationsService, LoggerService } from '@ws-widget/utils'
 
 // TODO: move this in some common place
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
@@ -42,7 +42,7 @@ export class AppTocService {
   resumeData: Subject<NsContent.IContinueLearningData | null> = new Subject<NsContent.IContinueLearningData | null>()
   resumeDataSubscription: Subscription | null = null
   gatingEnabled = false
-  constructor(private http: HttpClient, private configSvc: ConfigurationsService) { }
+  constructor(private http: HttpClient, private configSvc: ConfigurationsService, private logger: LoggerService) { }
   private data: any
 
   getcontentForWidget() {
@@ -110,7 +110,7 @@ export class AppTocService {
           },
           () => {
             // tslint:disable-next-line: no-console
-            console.log('error on resumeDataSubscription')
+            this.logger.log('error on resumeDataSubscription')
           },
         )
       }

@@ -8,7 +8,8 @@ import { TncAppResolverService } from '../../services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../services/tnc-public-resolver.service'
 import { UntypedFormGroup } from '@angular/forms'
 import {
-  ConfigurationsService
+  ConfigurationsService,
+  LoggerService
 } from '@ws-widget/utils'
 import { SignupService } from '../signup/signup.service'
 @Component({
@@ -41,13 +42,14 @@ export class TncComponent implements OnInit, OnDestroy {
     private tncPublicSvc: TncPublicResolverService,
     public configSvc: ConfigurationsService,
     private signupService: SignupService,
+    private logger: LoggerService
   ) {
   }
 
   async ngOnInit() {
-    console.log(this.configSvc)
+    this.logger.log(this.configSvc)
     this.result = await this.signupService.fetchStartUpDetails()
-    console.log(this.result)
+    this.logger.log(this.result)
     this.routeSubscription = this.activatedRoute.data.subscribe((response: Data) => {
       if (response.tnc.data) {
         this.tncData = response.tnc.data
@@ -66,7 +68,7 @@ export class TncComponent implements OnInit, OnDestroy {
     // this.createUserForm = this.createTncFormFields()
   }
   homePage() {
-    console.log(this.configSvc)
+    this.logger.log(this.configSvc)
   }
   // createTncFormFields() {
   //   return new FormGroup({

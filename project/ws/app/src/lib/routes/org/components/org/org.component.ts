@@ -1,5 +1,5 @@
 import {
-  ConfigurationsService, ValueService
+  ConfigurationsService, LoggerService, ValueService
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
@@ -55,13 +55,14 @@ export class OrgComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private readonly userSvc: WidgetUserService,
     private valueSvc: ValueService,
+    private logger: LoggerService
   ) {
     this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
   }
 
   @HostListener('window:popstate', ['$event'])
   onPopState(event: any) {
-    console.log(event)
+    this.logger.log(event)
     let url = sessionStorage.getItem('currentURL')
     if (url) {
       location.href = url
@@ -92,10 +93,10 @@ export class OrgComponent implements OnInit, OnDestroy {
               this.currentOrgData = this.currentOrgData[0]
               this.formattedAbout = this.formatAbout(this.currentOrgData.about)
               if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
-                console.log("this.currentOrgData.closedCoursesList present", this.currentOrgData.closedCoursesList)
+                this.logger.log("this.currentOrgData.closedCoursesList present", this.currentOrgData.closedCoursesList)
                 if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)' && this.currentOrgData) {
                   forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((res: any) => {
-                    console.log("res: ", res)
+                    this.logger.log("res: ", res)
                     this.formatmyCourseResponse(res[0])
                   })
                 }
@@ -113,7 +114,7 @@ export class OrgComponent implements OnInit, OnDestroy {
 
                   this.courseCount = this.courseData
 
-                  console.log("this.courseData", this.courseData)
+                  this.logger.log("this.courseData", this.courseData)
 
                   if (this.courseData.length > 0) {
                     this.competencyData = this.groupCompetenciesById(this.courseData)
@@ -126,20 +127,20 @@ export class OrgComponent implements OnInit, OnDestroy {
                   )
 
                   this.courseCount = this.courseData
-                  console.log("this.courseData", this.courseData)
+                  this.logger.log("this.courseData", this.courseData)
                   if (this.courseData && this.courseData.length > 0) {
                     this.competencyData = this.groupCompetenciesById(this.courseData)
                   } else {
-                    console.log("this.courseData", this.courseData)
+                    this.logger.log("this.courseData", this.courseData)
 
                     this.orgService.getSearchResults(this.currentOrgData.taggedSourceName).subscribe((result: any) => {
                       this.courseData = result.result.content.filter(
                         (org: any) => org.sourceName === this.currentOrgData.taggedSourceName
                       )
                       this.courseCount = this.courseData
-                      console.log("this.courseData", this.courseData)
+                      this.logger.log("this.courseData", this.courseData)
                       if (this.courseData && this.courseData.length > 0) {
-                        console.log('l')
+                        this.logger.log('l')
                         this.competencyData = this.groupCompetenciesById(this.courseData)
                       }
                     })
@@ -148,11 +149,11 @@ export class OrgComponent implements OnInit, OnDestroy {
               }
             }
           } catch (e) {
-            console.error('Error parsing JSON', e)
+            this.logger.error('Error parsing JSON', e)
           }
         },
         (error) => {
-          console.error('HTTP error', error)
+          this.logger.error('HTTP error', error)
         }
       )
 
@@ -250,7 +251,7 @@ export class OrgComponent implements OnInit, OnDestroy {
     if (this.currentOrgData?.closedCoursesList && this.currentOrgData?.closedCoursesList.length > 0) {
       res = res.filter((item: any) => this.currentOrgData.closedCoursesList.includes(item.content.identifier))
     }
-    console.log("orgFltered", res)
+    this.logger.log("orgFltered", res)
 
     res.forEach((key: any) => {
       if (key?.content?.identifier) {
@@ -275,7 +276,7 @@ export class OrgComponent implements OnInit, OnDestroy {
         }
       }
     })
-    console.log("this.myCourse", this.completedCourse, this.userEnrollCourse)
+    this.logger.log("this.myCourse", this.completedCourse, this.userEnrollCourse)
     if (this.userEnrollCourse.length > 0 || this.completedCourse.length > 0) {
       this.myCourseDisplayConfig = {
         displayType: 'card-mini',
@@ -409,7 +410,7 @@ export class OrgComponent implements OnInit, OnDestroy {
       }
     })
     let value = Object.values(grouped)
-    console.log("grouped", value)
+    this.logger.log("grouped", value)
     return value
   }
 }

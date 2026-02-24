@@ -4,7 +4,7 @@ import { uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { ScrollService } from '../../services/scroll.service'
-import { ConfigurationsService, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { forkJoin } from 'rxjs'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
@@ -57,7 +57,8 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private playlistSvc: PlaylistService,
     private langSvc: LanguageService,
-    private valueSvc: ValueService
+    private valueSvc: ValueService,
+    private logger: LoggerService
   ) {
     this.lang = this.langSvc.getCurrentLanguage()
     effect(() => {
@@ -70,7 +71,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
     if (this.configSvc.userProfile) {
       let plyLsData: any = await this.playlistSvc.getPlaylistConfig()
-      console.log("plyLsData", plyLsData)
+      this.logger.log("plyLsData", plyLsData)
       let res = this.configData
       if (res?.length > 0)
         this.uiConfig = res?.slice(1, -1)

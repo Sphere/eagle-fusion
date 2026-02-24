@@ -9,7 +9,7 @@ import { QuizService } from '../../quiz.service'
 //import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
 //import { WidgetContentService } from '@ws-widget/collection'
 declare var $: any
-import { ValueService } from '@ws-widget/utils'
+import { LoggerService, ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
 @Component({
   selector: 'viewer-quiz-modal',
@@ -57,13 +57,14 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     public route: ActivatedRoute,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
+    private logger: LoggerService
     //private viewerSvc: ViewerUtilService,
     //private contentSvc: WidgetContentService,
   ) {
 
   }
   ngAfterViewInit() {
-    console.log(this.assesmentdata, 'qui')
+    this.logger.log(this.assesmentdata, 'qui')
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
     }
@@ -180,14 +181,14 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
-        console.log(this.result, this.passPercentage)
+        this.logger.log(this.result, this.passPercentage)
         // if (this.result >= this.passPercentage) {
         //   this.isCompleted = true
         // }
-        // console.log(this.assesmentdata)
+        // this.logger.log(this.assesmentdata)
         //if (this.result >= 0) {
         //if (this.result >= 0) {
-        console.log(this.result)
+        this.logger.log(this.result)
         //this.disableContinue = false
         if (this.result >= 0) {
           this.disableContinue = false

@@ -5,6 +5,7 @@ import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/s
 import { OrgServiceService } from '../../../../../project/ws/app/src/lib/routes/org/org-service.service'
 import { Meta, Title } from '@angular/platform-browser'
 import { combineLatest } from 'rxjs'
+import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'ws-public-toc',
@@ -21,7 +22,8 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private orgService: OrgServiceService,
     private activeRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
-    private meta: Meta, private title: Title
+    private meta: Meta, private title: Title,
+    private logger: LoggerService
   ) {
 
   }
@@ -38,7 +40,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
       const slug = params['slug'] || params['courseId'] || ''
 
       this.courseid = courseId
-      console.log('this.courseId', this.courseid)
+      this.logger.log('this.courseId', this.courseid)
 
       try {
         (window as any).fbq('track', 'ViewContent', {
@@ -46,7 +48,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
           content_category: 'Public TOC'
         })
       } catch (e) {
-        console.log("fb pixel error")
+        this.logger.log("fb pixel error")
       }
 
       // User UUID flow
@@ -75,7 +77,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
             this.isLoading = false
           },
           err => {
-            console.error(err)
+            this.logger.error(err)
             this.isLoading = false
           }
         )
@@ -125,7 +127,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
           , findRes => {
             if (findRes.identifier === id) {
               this.tocData = findRes
-              console.log('findRes', findRes)
+              this.logger.log('findRes', findRes)
               this.title.setTitle(`${this.tocData?.name} | Aastrika Sphere`)
 
               this.meta.updateTag({

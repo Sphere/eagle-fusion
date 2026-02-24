@@ -63,7 +63,7 @@ export class ContentProgressComponent implements OnInit, OnChanges, OnDestroy {
     // if (this.content !== null) {
     //   //this.progress = this.content
     //   debugger
-    //   console.log(this.progress)
+    //   this.logger.log(this.progress)
     // } else {
     //   if (this.tocSvc.getcontentForWidget() !== undefined) {
     //     this.homePageData = this.tocSvc.getcontentForWidget()

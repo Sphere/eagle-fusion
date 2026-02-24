@@ -2,7 +2,7 @@ import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter } from '
 // import { Router } from '@angular/router'
 import { ActivatedRoute } from '@angular/router'
 
-import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { WidgetContentService } from '@ws-widget/collection'
@@ -106,7 +106,8 @@ export class BnrcRegisterComponent implements OnInit {
     private formBuilder: UntypedFormBuilder,
     private dialog: MatDialog,
     private loader: LoaderService,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private logger: LoggerService
   ) {
     this.bnrcDetailForm = this.formBuilder.group({
       firstName: new UntypedFormControl('', [Validators.required]),
@@ -180,7 +181,7 @@ export class BnrcRegisterComponent implements OnInit {
   }
   ngOnInit() {
     this.http.get(this.biharDistrictUrl).subscribe((districtData: any) => {
-      console.log("districtData", districtData)
+      this.logger.log("districtData", districtData)
       if (Array.isArray(districtData) && districtData.length > 0) {
         this.biharDistrictData = districtData[0]
         this.districts = Object.keys(this.biharDistrictData)
@@ -234,7 +235,7 @@ export class BnrcRegisterComponent implements OnInit {
       }
     })
     this.bnrcDetailForm.get('facilityName')?.valueChanges.subscribe(selectedShc => {
-      console.log("selectedShc", selectedShc)
+      this.logger.log("selectedShc", selectedShc)
       if (selectedShc && selectedShc.nin) {
         this.bnrcDetailForm.get('nin')?.setValue(selectedShc.nin)
       } else {
@@ -314,7 +315,7 @@ export class BnrcRegisterComponent implements OnInit {
         this.bnrcDetailForm.controls.roleForInService.setValue('CHO')
       }
     })
-    console.log("districts", this.districts)
+    this.logger.log("districts", this.districts)
     this.valueSvc.isXSmall$.subscribe(isXSmall => {
       if (isXSmall) {
         this.showbackButton = true
@@ -339,10 +340,10 @@ export class BnrcRegisterComponent implements OnInit {
 
 
   assignFields(fieldName: string, value: string, event: any) {
-    console.log(fieldName, value, event)
+    this.logger.log(fieldName, value, event)
   }
   serviceTypeChange(value: string) {
-    console.log("regulating service type", value)
+    this.logger.log("regulating service type", value)
     const hrmsIdControl = this.bnrcDetailForm.get('hrmsId')
     const bnrcRegistrationNumberControl = this.bnrcDetailForm.get('bnrcRegistrationNumber')
 
@@ -521,13 +522,13 @@ export class BnrcRegisterComponent implements OnInit {
   checkInstitute() {
     if (this.bnrcDetailForm.controls.instituteName.value) {
       const instituteName = this.bnrcDetailForm.controls.instituteName.value.trim().toLowerCase()
-      console.log("instituteName", instituteName, this.institutes)
+      this.logger.log("instituteName", instituteName, this.institutes)
 
       const isPresent = this.institutes.some((institute: any) =>
         institute.name.trim().toLowerCase() === instituteName
       )
       if (isPresent) {
-        console.log("correct value selected")
+        this.logger.log("correct value selected")
       } else {
         this.bnrcDetailForm.get('instituteName')?.setValue(null)
         this.bnrcDetailForm.get('instituteName')?.setErrors({ invalidInstitute: true })
@@ -537,7 +538,7 @@ export class BnrcRegisterComponent implements OnInit {
   }
   onSubmit() {
     this.bnrcDetailForm.markAllAsTouched()
-    console.log("this.bnrcDetailForm", this.bnrcDetailForm)
+    this.logger.log("this.bnrcDetailForm", this.bnrcDetailForm)
     this.loader.changeLoad.next(true)
 
     this.checkInstitute()
@@ -580,7 +581,7 @@ export class BnrcRegisterComponent implements OnInit {
     }
   }
   createUser(event: any) {
-    console.log("event", event, this.bnrcDetailForm.value)
+    this.logger.log("event", event, this.bnrcDetailForm.value)
     if (this.isCHO) {
       const nin = this.bnrcDetailForm.value.facilityName.nin
       this.bnrcDetailForm.get('facilityName')?.setValue(this.bnrcDetailForm.value.facilityName.name)
@@ -595,7 +596,7 @@ export class BnrcRegisterComponent implements OnInit {
     this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
       (res: any) => {
         this.isSubmitting = false
-        console.log("test", res)
+        this.logger.log("test", res)
         if (res.status === 'SUCCESS') {
           this.loader.changeLoad.next(false)
           this.showMessage = true
@@ -610,7 +611,7 @@ export class BnrcRegisterComponent implements OnInit {
             },
           })
         } else {
-          console.log('Form is valid. Saving data...', res)
+          this.logger.log('Form is valid. Saving data...', res)
 
           this.loader.changeLoad.next(false)
           this.openSnackbar(res.message)
@@ -619,7 +620,7 @@ export class BnrcRegisterComponent implements OnInit {
       },
       (error) => {
         this.isSubmitting = false
-        console.error('HTTP Error:', error.error.message)
+        this.logger.error('HTTP Error:', error.error.message)
 
         this.loader.changeLoad.next(false)
         this.openSnackbar(error.error.message)

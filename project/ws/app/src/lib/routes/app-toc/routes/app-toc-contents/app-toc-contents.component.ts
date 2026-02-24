@@ -238,7 +238,7 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
 
   // ExpandViewChild(data: any) {
   //   this.viewChildren = !this.viewChildren
-  //   console.log(data, this.viewChildren)
+  //   this.logger.log(data, this.viewChildren)
   // }
 
 }

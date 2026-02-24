@@ -122,7 +122,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
             this.viewerSvc.castResource.subscribe(user => this.screenContent = user)
           })
       } catch (e) {
-        // TODO  console.log(e)
+        // TODO  this.logger.log(e)
       }
     }
 
@@ -158,7 +158,7 @@ export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   //   print(collection1:any){
-  //  //TODO   console.log(collection1)
+  //  //TODO   this.logger.log(collection1)
   //   }
   toggleSideBar() {
     this.toggle.emit()

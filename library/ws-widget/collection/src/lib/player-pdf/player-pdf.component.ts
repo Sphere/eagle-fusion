@@ -10,7 +10,7 @@ import {
 import { UntypedFormControl } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { EventService, WsEvents, TelemetryService, ConfigurationsService, UtilityService } from '@ws-widget/utils'
+import { EventService, WsEvents, TelemetryService, ConfigurationsService, UtilityService, LoggerService } from '@ws-widget/utils'
 import {
   interval, merge, Subject, Subscription
 } from 'rxjs'
@@ -82,8 +82,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private readonly utilitySvc: UtilityService,
     public viewerDataSvc: ViewerDataService,
-    private readonly telemetrySvc: TelemetryService
-
+    private readonly telemetrySvc: TelemetryService,
+    private logger: LoggerService
   ) {
     super()
     pdfDefaultOptions.assetsFolder = 'bleeding-edge'
@@ -444,7 +444,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         }
       },
       (error) => {
-        console.error('Error updating progress:', error)
+        this.logger.error('Error updating progress:', error)
       }
     )
   }
@@ -457,7 +457,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
       // If contentList is empty, create an entry for at least this resource
       if (contentList.length === 0) {
-        console.warn('contentHistoryResponse has empty contentList, creating minimal entry for TOC', {
+        this.logger.warn('contentHistoryResponse has empty contentList, creating minimal entry for TOC', {
           identifier: this.identifier,
           percent,
           status
@@ -478,7 +478,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
       // Send message to TOC with the content list
       const messageData = { ...this.contentHistoryResponse, contentList: contentList, type: 'PDF' }
-      console.log('Sending progress message to TOC:', {
+      this.logger.log('Sending progress message to TOC:', {
         contentListLen: contentList.length,
         identifier: this.identifier,
         completionPercentage: percent,
@@ -487,7 +487,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: this.identifier, completionPercentage: percent, status, mimeType: 'application/pdf' })
       this.contentSvc.changeMessage(messageData)
     } else {
-      console.error('contentHistoryResponse is null/undefined', { identifier: this.identifier, percent, status })
+      this.logger.error('contentHistoryResponse is null/undefined', { identifier: this.identifier, percent, status })
     }
   }
 

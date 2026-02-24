@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { EventService, ConfigurationsService, TelemetryService, ValueService } from '@ws-widget/utils'
+import { EventService, ConfigurationsService, TelemetryService, ValueService, LoggerService } from '@ws-widget/utils'
 import videoJs from 'video.js'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
@@ -98,10 +98,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     public viewerDataSvc: ViewerDataService,
     private readonly dialog: MatDialog,
     private readonly valueSvc: ValueService,
-
+    private logger: LoggerService
   ) {
     super()
-    // console.log(window.innerWidth)
+    // this.logger.log(window.innerWidth)
     // if (window.innerWidth < 768) {
     //   screen.orientation.lock('landscape');
     //   //this.isMobileResolution = true;
@@ -110,19 +110,19 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     // }
   }
 
-  ngOnInit() { console.log("videoDatas", this.widgetData, this.contentData) }
+  ngOnInit() { this.logger.log("videoDatas", this.widgetData, this.contentData) }
 
 
   ngAfterViewInit(): void {
     this.getCurrentTime().then(() => {
-      // console.log("Initial resume point:", this.widgetData.resumePoint)
+      // this.logger.log("Initial resume point:", this.widgetData.resumePoint)
 
       this.widgetData = {
         ...this.widgetData,
       }
 
       this.fetchContent().then(() => {
-        console.log("this.widgetData.videoQuestions", this.widgetData)
+        this.logger.log("this.widgetData.videoQuestions", this.widgetData)
 
         if (this.widgetData.url) {
           if (this.widgetData.isVideojs) {
@@ -169,7 +169,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           ? contentData.progressdetails.current[0]
           : contentData.progressdetails.current
         this.widgetData.resumePoint = parseFloat(currentVal) || 0
-        console.log("Updated resume point:", this.widgetData.resumePoint)
+        this.logger.log("Updated resume point:", this.widgetData.resumePoint)
       }
     }
   }
@@ -207,7 +207,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               !this.videoStates[videoId].popupTriggered.has(milestone.timestampInSeconds)
             ) {
               player.pause()
-              console.log("Popup triggered for milestone:", milestone.timestampInSeconds)
+              this.logger.log("Popup triggered for milestone:", milestone.timestampInSeconds)
               this.videoStates[videoId].popupTriggered.add(milestone.timestampInSeconds)
               this.videoStates[videoId].currentMilestone = milestone.timestampInSeconds
               this.openPopup(milestone.question, player, intervalId)
@@ -254,7 +254,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
     if (confirmdialog) {
       confirmdialog.afterClosed().subscribe(() => {
-        console.log("Popup closed")
+        this.logger.log("Popup closed")
         this.dialog.closeAll()
         videoElement.play()
         intervalId.unsubscribe() // Stop the current interval
@@ -273,7 +273,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     }
   }
   private initializeVPlayer() {
-    console.log("initializeVPlayer")
+    this.logger.log("initializeVPlayer")
     const dispatcher: telemetryEventDispatcherFunction = event => {
       if (this.widgetData.identifier) {
         this.eventSvc.dispatchEvent(event)
@@ -326,10 +326,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           .realTimeProgressUpdateV3(identifier, data, collectionId, batchId)
           .subscribe(
             () => {
-              console.log('VPlayer progress update sent successfully', { identifier })
+              this.logger.log('VPlayer progress update sent successfully', { identifier })
             },
             (error) => {
-              console.error('VPlayer progress update error:', { identifier, error })
+              this.logger.error('VPlayer progress update error:', { identifier, error })
             }
           )
       }
@@ -358,12 +358,12 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   private initializePlayer() {
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
     const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
-    console.log("initializePlayer")
+    this.logger.log("initializePlayer")
 
     // **CRITICAL**: Pre-fetch and cache content history before player ready
     // This ensures fireRProgress has complete data on first call to prevent minimal fallback
     this.fetchAndCacheContentHistory(this.widgetData.identifier, batchId, collectionId).catch(err => {
-      console.warn('Initial cache fetch failed, fireRProgress will fetch on demand:', err)
+      this.logger.warn('Initial cache fetch failed, fireRProgress will fetch on demand:', err)
     })
 
     const dispatcher: telemetryEventDispatcherFunction = event => {
@@ -425,7 +425,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           if (cachedItem && cachedItem.completionPercentage === 100) {
             // Already marked complete - set tracking to 100 to prevent sending lower percentages
             this.lastSentProgressPercentage = 100
-            console.log('Resource already 100% complete, skipping progress updates for replay', { identifier })
+            this.logger.log('Resource already 100% complete, skipping progress updates for replay', { identifier })
             return
           }
         }
@@ -445,13 +445,13 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
         // Prevent duplicate updates (only skip if exact same percentage sent)
         if (percent === this.lastSentProgressPercentage) {
-          console.log('Exact same progress, skipping duplicate', { percent })
+          this.logger.log('Exact same progress, skipping duplicate', { percent })
           return
         }
 
         // Prevent backwards progress
         if (percent < this.lastSentProgressPercentage) {
-          console.log('Progress decreased, skipping', { percent, lastSent: this.lastSentProgressPercentage })
+          this.logger.log('Progress decreased, skipping', { percent, lastSent: this.lastSentProgressPercentage })
           return
         }
 
@@ -465,11 +465,11 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         const isFirstProgress = this.lastSentProgressPercentage === -1 && percent > 0
 
         if (isNewMilestone || isCompletion || isFirstProgress) {
-          console.log('Sending progress update at milestone', { percent, milestone: currentMilestone, isNewMilestone, isCompletion, isFirstProgress })
+          this.logger.log('Sending progress update at milestone', { percent, milestone: currentMilestone, isNewMilestone, isCompletion, isFirstProgress })
           await this.updateVideoProgress(identifier, data, percent, collectionId, batchId)
         }
       } catch (error) {
-        console.error('Error in fireRProgress:', error)
+        this.logger.error('Error in fireRProgress:', error)
       }
     }
 
@@ -494,7 +494,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       this.widgetData,
       this.widgetData.mimeType,
     )
-    console.log("this.widgetData.resumePoint ", this.widgetData.resumePoint)
+    this.logger.log("this.widgetData.resumePoint ", this.widgetData.resumePoint)
     this.player = initObj.player
     this.dispose = initObj.dispose
     initObj.player.ready(() => {
@@ -538,7 +538,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
         // Prevent duplicate updates and backwards progress
         if (percentage <= this.lastSentProgressPercentage) {
-          console.log('Progress not increased, skipping update', { percentage, lastSent: this.lastSentProgressPercentage })
+          this.logger.log('Progress not increased, skipping update', { percentage, lastSent: this.lastSentProgressPercentage })
           return
         }
 
@@ -559,7 +559,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         }
       }
     } catch (error) {
-      console.error('Error in onTimeUpdate:', error)
+      this.logger.error('Error in onTimeUpdate:', error)
     }
   }
   async fetchContent() {
@@ -570,13 +570,13 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
       if (content?.result?.content?.videoQuestions) {
         const videoQuestions = content.result.content.videoQuestions
-        console.log("videoQuestions", videoQuestions)
+        this.logger.log("videoQuestions", videoQuestions)
 
         if (videoQuestions.length > 0) {
           try {
             this.widgetData.videoQuestions = JSON.parse(videoQuestions)
           } catch (error) {
-            console.error("Error parsing videoQuestions JSON:", error)
+            this.logger.error("Error parsing videoQuestions JSON:", error)
             this.widgetData.videoQuestions = []
           }
         } else {
@@ -584,7 +584,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         }
       }
 
-      console.log("this.widgetData.videoQuestions", this.widgetData.videoQuestions)
+      this.logger.log("this.widgetData.videoQuestions", this.widgetData.videoQuestions)
 
       if (content.artifactUrl && content.artifactUrl.indexOf('/content-store/') > -1) {
         this.widgetData.url = content.artifactUrl
@@ -592,7 +592,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         await this.contentSvc.setS3Cookie(this.widgetData.identifier || '').toPromise()
       }
     } catch (error) {
-      console.error("Error fetching content or parsing videoQuestions:", error)
+      this.logger.error("Error fetching content or parsing videoQuestions:", error)
       this.widgetData.videoQuestions = [] // Set to an empty array in case of error
     }
   }
@@ -613,7 +613,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   }
 
   onVideoPlay() {
-    console.log("Video play event")
+    this.logger.log("Video play event")
     this.telemetrySvc.start("video/mp4", 'start', 'player', {
       "id": this.widgetData.identifier,
       "type": "video/mp4",
@@ -626,7 +626,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   }
 
   onVideoPause(event: string) {
-    console.log("Video pause event")
+    this.logger.log("Video pause event")
     this.telemetrySvc.interact('video/mp4', event, 'player', {
       id: this.widgetData.identifier,
       type: 'video/mp4',
@@ -639,7 +639,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   }
 
   onVideoEnded() {
-    console.log("Video ended event")
+    this.logger.log("Video ended event")
     this.telemetrySvc.end('video/mp4', 'ended', 'player', {
       id: this.widgetData.identifier,
       type: 'video/mp4',
@@ -682,7 +682,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             // Cache single item contentData
             if (data['result']['contentList'] && data['result']['contentList'].length > 0) {
               this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === identifier)
-              console.log('✓ Cached complete content history:', {
+              this.logger.log('✓ Cached complete content history:', {
                 identifier,
                 hasContentList: !!this.contentHistoryResponse.contentList,
                 itemCount: this.contentHistoryResponse.contentList?.length
@@ -692,7 +692,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
           resolve()
         },
         error => {
-          console.error('Error fetching content history:', error)
+          this.logger.error('Error fetching content history:', error)
           resolve()
         }
       )
@@ -719,8 +719,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       this.viewerSvc.realTimeProgressUpdateV3(identifier, dataWithCompletion, collectionId, batchId).subscribe(
         async (response: any) => {
           try {
-            console.log('Video progress update successful:', { identifier, percent, status, calcPercent: (data.current / data.max_size * 100).toFixed(2) })
-            console.log("message passed", response)
+            this.logger.log('Video progress update successful:', { identifier, percent, status, calcPercent: (data.current / data.max_size * 100).toFixed(2) })
+            this.logger.log("message passed", response)
             // Priority 1: Use cached contentHistoryResponse if available (most reliable)
             if (this.contentHistoryResponse && this.contentHistoryResponse.contentList && this.contentHistoryResponse.contentList.length > 0) {
               // **CRITICAL**: Ensure ALL items have completionPercentage field (never undefined)
@@ -750,9 +750,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                 }
               })
               const messageData = { ...this.contentHistoryResponse, contentList: updatedContentList, type: 'Video' }
-              console.log('Sending cached data to TOC:', { percent, contentId: identifier, completionPercentage: percent, itemCount: updatedContentList.length, hasAllFields: updatedContentList.every((i: any) => i.completionPercentage !== undefined) })
+              this.logger.log('Sending cached data to TOC:', { percent, contentId: identifier, completionPercentage: percent, itemCount: updatedContentList.length, hasAllFields: updatedContentList.every((i: any) => i.completionPercentage !== undefined) })
               this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: identifier, completionPercentage: percent, status, mimeType: 'video/mp4', batchId: batchId || '' })
-              console.log("messageDData1111", messageData)
+              this.logger.log("messageDData1111", messageData)
               this.contentSvc.changeMessage(messageData)
               this.lastSentProgressPercentage = percent
               return
@@ -773,9 +773,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
                 return item
               })
               const messageData = { ...response.result, contentList: updatedContentList, type: 'Video' }
-              console.log('Sending API response data to TOC:', { percent, itemCount: updatedContentList.length })
+              this.logger.log('Sending API response data to TOC:', { percent, itemCount: updatedContentList.length })
               this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: identifier, completionPercentage: percent, status, mimeType: 'video/mp4', batchId: batchId || '' })
-              console.log("messageDData2222", messageData)
+              this.logger.log("messageDData2222", messageData)
               this.contentSvc.changeMessage(messageData)
               this.lastSentProgressPercentage = percent
               return
@@ -783,7 +783,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
             // Priority 3: Only create minimal structure if we truly have no cached data
             // **CRITICAL**: This should be rare - prefer cached/API response for complete data structure
-            console.warn('WARNING: Using minimal fallback structure - TOC may lose complete progress data', { identifier, percent })
+            this.logger.warn('WARNING: Using minimal fallback structure - TOC may lose complete progress data', { identifier, percent })
             const messageData = {
               contentList: [{
                 contentId: identifier,
@@ -793,17 +793,17 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               type: 'Video'
             }
             this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: identifier, completionPercentage: percent, status, mimeType: 'video/mp4', batchId: batchId || '' })
-            console.log("messageDData3333", messageData)
+            this.logger.log("messageDData3333", messageData)
             this.contentSvc.changeMessage(messageData)
             this.lastSentProgressPercentage = percent
           } catch (error) {
-            console.error('Error processing progress update response:', error)
+            this.logger.error('Error processing progress update response:', error)
             // Even on error, ensure lastSentProgressPercentage is updated to prevent loop
             this.lastSentProgressPercentage = percent
           }
         },
         error => {
-          console.error('Error updating video progress API call:', error)
+          this.logger.error('Error updating video progress API call:', error)
           // Still update tracking even on API error to prevent infinite retry
           this.lastSentProgressPercentage = percent
           // Send telemetry of error but don't block progress
@@ -811,7 +811,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         }
       )
     } catch (error) {
-      console.error('Error in updateVideoProgress:', error)
+      this.logger.error('Error in updateVideoProgress:', error)
     }
   }
 }

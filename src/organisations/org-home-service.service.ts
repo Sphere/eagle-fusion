@@ -81,7 +81,7 @@ export class OrgServiceService {
   }
 
   setConnectSid(authCode: any): Observable<any> {
-    // console.log(authCode)
+    // this.logger.log(authCode)
 
     return this.http.post<any>(`${API_END_POINTS.KEYCLOAK_COOKIE}/endpoint?keycloak=true&code=${authCode}`, {})
 

@@ -1,7 +1,7 @@
 import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core'
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
-import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 // import * as _ from 'lodash'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -43,6 +43,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
     private languageSvc: LanguageService,
+    private logger: LoggerService
   ) {
     this.workInfoForm = new UntypedFormGroup({
       //doj: new FormControl('', [Validators.required]),
@@ -51,14 +52,14 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       // location: new FormControl('', [Validators.required]),
     })
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data, 'here')
+      this.logger.log(data, 'here')
       this.workLog = await data
       let check = sessionStorage.getItem('work')
-      console.log(check)
+      this.logger.log(check)
       if (this.workLog) {
         this.getUserDetails()
       }
-      console.log(this.workLog.edit)
+      this.logger.log(this.workLog.edit)
     })
   }
 
@@ -92,11 +93,11 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (data: any) => {
           if (data) {
-            console.log(data.profileDetails.profileReq)
+            this.logger.log(data.profileDetails.profileReq)
             this.userProfileData = data.profileDetails.profileReq
             this.userlang = data
             if (this.workLog === 'true' || this.workLog.edit === true) {
-              console.log('true')
+              this.logger.log('true')
               this.updateForm()
             } else {
               this.workInfoForm.reset()
@@ -112,7 +113,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
   }
 
   onSubmit(form: any) {
-    console.log(form, form.value)
+    this.logger.log(form, form.value)
     if (form.doj) {
       form.doj = changeformat(new Date(`${form.doj}`))
     }

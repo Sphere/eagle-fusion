@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
+import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 
 @Injectable({
   providedIn: 'root',
 })
 export class UserAgentResolverService {
 
-  constructor(private http: HttpClient
+  constructor(private http: HttpClient,
+    private logger: LoggerService
   ) { }
 
   getUserAgent(): any {
@@ -107,7 +109,7 @@ export class UserAgentResolverService {
     return null
   }
   setSource(source: any) {
-    console.log("source set", source, typeof source)
+    this.logger.log("source set", source, typeof source)
     if (source && typeof source === 'object') {
       const lowerCasedSource: any = {}
 
@@ -125,7 +127,7 @@ export class UserAgentResolverService {
 
   getSource(): any {
     const utm_source = localStorage.getItem('utm_source')
-    console.log("utm_source", utm_source)
+    this.logger.log("utm_source", utm_source)
     if (utm_source !== '{}') {
       return utm_source && utm_source.trim() !== ''
         ? utm_source
@@ -140,10 +142,10 @@ export class UserAgentResolverService {
         .toPromise()
       const allowedOrgIds = orgData.map(item => item.id)
       const hasAccess = allowedOrgIds.includes(data?.rootOrgId)
-      console.log('Editable Access Check:', { rootOrgId: data?.rootOrgId, hasAccess })
+      this.logger.log('Editable Access Check:', { rootOrgId: data?.rootOrgId, hasAccess })
       return hasAccess
     } catch (error) {
-      console.error('Error fetching org config:', error)
+      this.logger.error('Error fetching org config:', error)
       return false
     }
   }

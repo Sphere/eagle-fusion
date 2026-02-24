@@ -3,6 +3,7 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
+import { LoggerService } from '@ws-widget/utils'
 
 @Component({
   selector: 'ws-mobile-profile-nav',
@@ -18,6 +19,7 @@ export class MobileProfileNavComponent implements OnInit {
     private dialog: MatDialog,
     public router: Router,
     private contentSvc: WidgetContentService,
+    private logger: LoggerService,
   ) {
     this.contentSvc.backMessage.subscribe((data: any) => {
       if (data) {
@@ -37,7 +39,7 @@ export class MobileProfileNavComponent implements OnInit {
   }
 
   backScreen() {
-    console.log('now')
+    this.logger.log('now')
     let backURL = sessionStorage.getItem('currentWindow')
     // let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
     // let url1 = local === 'hi' ? 'hi' : ""
@@ -45,7 +47,7 @@ export class MobileProfileNavComponent implements OnInit {
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
     }
-    console.log(backURL)
+    this.logger.log(backURL)
     if (backURL) {
       let ob = {
         "type": "back",
@@ -56,9 +58,9 @@ export class MobileProfileNavComponent implements OnInit {
       let orgcheck = sessionStorage.getItem('work')
       let academicCheck = sessionStorage.getItem('academic')
       let eduList = sessionStorage.getItem('onListPage')
-      console.log(eduList)
-      console.log(academicCheck)
-      console.log(orgcheck)
+      this.logger.log(eduList)
+      this.logger.log(academicCheck)
+      this.logger.log(orgcheck)
       if (orgcheck) {
         let ob = {
           "type": "work",
@@ -82,7 +84,7 @@ export class MobileProfileNavComponent implements OnInit {
       }
     }
     this.contentSvc.workMessage.subscribe(async (data: any) => {
-      console.log(data, 'back')
+      this.logger.log(data, 'back')
       if (data === undefined) {
 
       }
@@ -96,7 +98,7 @@ export class MobileProfileNavComponent implements OnInit {
         if (localStorage.getItem('orgValue') === 'nhsrc') {
           this.router.navigateByUrl('/organisations/home')
         } else {
-          console.log("fasdfasdwew")
+          this.logger.log("fasdfasdwew")
           // this.currentText = text.name
           let url = '/page/home'
           location.href = `${url3}${url}`
@@ -105,8 +107,8 @@ export class MobileProfileNavComponent implements OnInit {
       } else {
         let orgcheck = sessionStorage.getItem('work')
         let academicCheck = sessionStorage.getItem('academic')
-        console.log(academicCheck)
-        console.log(orgcheck)
+        this.logger.log(academicCheck)
+        this.logger.log(orgcheck)
         if (orgcheck) {
           let ob = {
             "type": "work",
@@ -121,10 +123,10 @@ export class MobileProfileNavComponent implements OnInit {
           this.contentSvc.changeWork(ob)
         } else {
           let backURL = sessionStorage.getItem('currentWindow')
-          console.log(backURL)
+          this.logger.log(backURL)
           const url = sessionStorage.getItem('clickedUrl') || ''
           sessionStorage.removeItem('clickedUrl')
-          console.log(url)
+          this.logger.log(url)
           //this.router.navigateByUrl(url)
         }
       }

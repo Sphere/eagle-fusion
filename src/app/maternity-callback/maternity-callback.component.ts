@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service.service'
+import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 //import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
   selector: 'ws-maternity-callback',
@@ -10,6 +11,7 @@ export class MaternityCallbackComponent implements OnInit {
   isLoading = false
   constructor(
     private orgService: OrgServiceService,
+    private logger: LoggerService
     //private authSvc: AuthKeycloakService,
   ) { }
 
@@ -24,7 +26,7 @@ export class MaternityCallbackComponent implements OnInit {
   }
   //checkMaternityCallback(token: any, id?: any) {
   checkMaternityCallback(token: any) {
-    console.log('su')
+    this.logger.log('su')
     let data = {
       "token": token,
       //"moduleId": id
@@ -33,17 +35,17 @@ export class MaternityCallbackComponent implements OnInit {
       //setTimeout(() => {
       this.orgService.setMaternyId(data).subscribe(async (res: any) => {
         let loc = await res
-        console.log(loc, 'oo')
+        this.logger.log(loc, 'oo')
         localStorage.setItem('loc', JSON.stringify(loc))
         if (loc.message === 'success') {
           location.href = '/app/org-details?orgId=Maternity%20Foundation'
           //window.location = loc.resRedirectUrl
         }
         // tslint:disable-next-line:no-console
-        console.log('maternity component.ts', res.resRedirectUrl)
+        this.logger.log('maternity component.ts', res.resRedirectUrl)
       }, (err: any) => {
         // tslint:disable-next-line:no-console
-        console.log(err)
+        this.logger.log(err)
         if (err.status === 400 || err.status === 419) {
           // sessionStorage.clear()
           //this.authSvc.logout()
@@ -53,7 +55,7 @@ export class MaternityCallbackComponent implements OnInit {
       //}, 500)
     } catch (err) {
       // tslint:disable-next-line:no-console
-      console.log(err)
+      this.logger.log(err)
       //this.authSvc.logout()
       location.href = "/public/home"
     }

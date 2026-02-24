@@ -3,7 +3,7 @@ import {
   // ElementRef, AfterViewInit
 } from '@angular/core'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
-import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig, ValueService } from '@ws-widget/utils'
+import { ConfigurationsService, LogoutComponent, NsPage, NsAppsConfig, ValueService, LoggerService } from '@ws-widget/utils'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Subscription } from 'rxjs'
 import { ROOT_WIDGET_CONFIG } from '../collection.config'
@@ -46,6 +46,7 @@ export class BtnProfileComponent extends WidgetBaseComponent
     // private contentSvc: WidgetContentService,
     location: Location,
     private userProfileSvc: UserProfileService,
+    private logger: LoggerService
   ) {
     super()
     this.route = location.path()
@@ -165,15 +166,15 @@ export class BtnProfileComponent extends WidgetBaseComponent
   //                                 (googleUser: any) => {
   // @ts-ignore
   // const profile = googleUser.getBasicProfile()
-  // console.log('Token || ' + googleUser.getAuthResponse().id_token)
-  // console.log(`'ID: ' + profile.getId()`)
-  // console.log('Name: ' + profile.getName())
-  // console.log('Image URL: ' + profile.getImageUrl())
-  // console.log('Email: ' + profile.getEmail())
+  // this.logger.log('Token || ' + googleUser.getAuthResponse().id_token)
+  // this.logger.log(`'ID: ' + profile.getId()`)
+  // this.logger.log('Name: ' + profile.getName())
+  // this.logger.log('Image URL: ' + profile.getImageUrl())
+  // this.logger.log('Email: ' + profile.getEmail())
   // },
   // (error: any) => {
   // tslint:disable-next-line:no-console
-  // console.log(JSON.stringify(error, undefined, 2))
+  // this.logger.log(JSON.stringify(error, undefined, 2))
   // })
   // }
 
@@ -197,11 +198,11 @@ export class BtnProfileComponent extends WidgetBaseComponent
     //   this.contentSvc.googleAuthenticate(req).subscribe(
     //     (results: any) => {
     //       // tslint:disable-next-line:no-console
-    //       console.log(results)
+    //       this.logger.log(results)
     //     },
     //     (err: any) => {
     //       // tslint:disable-next-line:no-console
-    //       console.log(err)
+    //       this.logger.log(err)
     //     }
     //   )
     //   this.router.navigate(['/page/home'])
@@ -226,8 +227,8 @@ export class BtnProfileComponent extends WidgetBaseComponent
   redirect() {
     if (this.configSvc.unMappedUser) {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
-        console.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
-        // console.log(this.userData.profileDetails!.profileReq!.personalDetails!.dob)
+        this.logger.log(data && data.profileDetails!.profileReq!.personalDetails!.dob, 'btn')
+        // this.logger.log(this.userData.profileDetails!.profileReq!.personalDetails!.dob)
         this.userData = await data
         if (data && data.profileDetails!.profileReq!.personalDetails!.dob) {
           this.router.navigate(['/app/profile-view'])

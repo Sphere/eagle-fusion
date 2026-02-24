@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { filter, includes, uniqBy } from 'lodash'
 import { OrgServiceService } from '../../../org/org-service.service'
-import { ValueService, ConfigurationsService } from '@ws-widget/utils'
+import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 import { LanguageService } from '../../../../../../../../../src/app/services/language.service'
@@ -28,13 +28,14 @@ export class ViewAllComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly configSvc: ConfigurationsService,
     private playlistSvc: PlaylistService,
-    private langSvc: LanguageService
+    private langSvc: LanguageService,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
     this.route.queryParams.subscribe(async params => {
       this.courseType = params['courseType'] || 'defaultCourseType' // Use a default if needed
-      console.log('Course Type:', this.courseType)
+      this.logger.log('Course Type:', this.courseType)
       this.plyLsData = await this.playlistSvc.getPlaylistConfig()
       this.fetchEnvironmentConfigurations()
     })
@@ -45,7 +46,7 @@ export class ViewAllComponent implements OnInit {
       return includes(this.topCertifiedCourseIdentifier, ckey.identifier)
     })
     this.searchResults = uniqBy(topCertifiedCourse, 'identifier')
-    console.log("searchResults:", this.searchResults)
+    this.logger.log("searchResults:", this.searchResults)
   }
 
   fetchEnvironmentConfigurations() {
@@ -84,7 +85,7 @@ export class ViewAllComponent implements OnInit {
     return item.identifier
   }
   formatcneCourseResponse(res: any) {
-    console.log("res", res, this.cneCoursesIdentifier)
+    this.logger.log("res", res, this.cneCoursesIdentifier)
     const cneCourse = filter(res.result.content, ckey => {
       return includes(this.cneCoursesIdentifier, ckey.identifier)
     })

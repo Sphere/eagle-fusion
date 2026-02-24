@@ -7,6 +7,7 @@ import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-
 import { NsContent } from './widget-content.model'
 import { NSSearch } from './widget-search.model'
 import { LanguageService } from '../../../../../../src/app/services/language.service'
+import { LoggerService } from '../../../../utils/src/public-api'
 
 // TODO: move this in some common place
 const PROTECTED_SLAG_V8 = '/apis/protected/v8'
@@ -71,7 +72,8 @@ export class WidgetContentService {
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService,
-    private languageSvc: LanguageService
+    private languageSvc: LanguageService,
+    private logger: LoggerService
   ) { }
 
   fetchMarkAsCompleteMeta(identifier: string): Promise<any> {
@@ -85,7 +87,7 @@ export class WidgetContentService {
     this.backSource.next(message)
   }
   changeWork(msg: any) {
-    console.log('came1')
+    this.logger.log('came1')
     this.workSource.next(msg)
   }
   // fetchContent(
@@ -93,7 +95,7 @@ export class WidgetContentService {
   //   hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
   //   additionalFields: string[] = [],
   // ): Observable<NsContent.IContent> {
-  //   console.log('Fetch content 666')
+  //   this.logger.log('Fetch content 666')
   //   const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
   //   return this.http
   //     .post<NsContent.IContent>(url, { additionalFields })

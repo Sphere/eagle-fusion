@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { HttpClient } from '@angular/common/http'
-import { ConfigurationsService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
 import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
@@ -48,6 +48,7 @@ export class MpRegisterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private dialog: MatDialog,
     private loader: LoaderService,
+    private logger: LoggerService
   ) {
     this.anmRegistrationForm = this.createFormGroup()
   }
@@ -94,7 +95,7 @@ export class MpRegisterComponent implements OnInit {
         this.biharDistrictData = {}
         this.districts = []
       }
-      console.log("distritc", this.districts)
+      this.logger.log("distritc", this.districts)
       this.resetDropdownsBelow('district')
     })
   }
@@ -347,7 +348,7 @@ export class MpRegisterComponent implements OnInit {
     Object.keys(formGroup.controls).forEach(controlName => {
       const control = formGroup.get(controlName)
       if (control?.errors?.['required']) {
-        console.warn(`${controlName} is required.`)
+        this.logger.warn(`${controlName} is required.`)
       }
     })
   }
@@ -422,6 +423,6 @@ export class MpRegisterComponent implements OnInit {
   }
 
   assignFields(fieldName: string, value: any, event: any): void {
-    console.log('Field assignment:', fieldName, value, event)
+    this.logger.log('Field assignment:', fieldName, value, event)
   }
 }

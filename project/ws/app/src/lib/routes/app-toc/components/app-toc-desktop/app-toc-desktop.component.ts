@@ -11,7 +11,7 @@ import {
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
-import { ConfigurationsService, TelemetryService, TFetchStatus } from '@ws-widget/utils'
+import { ConfigurationsService, TelemetryService, TFetchStatus, LoggerService } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
 // import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
@@ -131,7 +131,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document,
     private telemetrySvc: TelemetryService,
-    private langSvc: LanguageService
+    private langSvc: LanguageService,
+    private logger: LoggerService
   ) {
   }
   @HostListener('window:popstate', [])
@@ -151,7 +152,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.enrollApi()
 
     if (this.content) {
-      console.log(this.optmisticPercentage, '149', this.finishedPercentage)
+      this.logger.log(this.optmisticPercentage, '149', this.finishedPercentage)
 
       this.readCourseRatingSummary()
       // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
@@ -284,7 +285,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     return this.tocSvc.subtitleOnBanners
   }
   redirect() {
-    console.log(this.configSvc, 'key')
+    this.logger.log(this.configSvc, 'key')
     let local = (
       this.configSvc.unMappedUser &&
       this.configSvc.unMappedUser.profileDetails &&
@@ -294,7 +295,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       ? this.configSvc.unMappedUser.profileDetails.preferences.language
       : (location.href.includes('/hi/') ? 'hi' : '')
     local = local === 'en' ? '' : 'hi'
-    console.log(local)
+    this.logger.log(local)
     let url = ''
 
     // ✅ Check if orgSelectiveConfig matches and redirect accordingly
@@ -307,12 +308,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     } else if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
       // ✅ Redirect to selective org course page instead of home
       const redirectUrl = orgSelectiveConfig.redirectUrl || '/page/home'
-      console.log('Redirecting to selective org page:', redirectUrl)
+      this.logger.log('Redirecting to selective org page:', redirectUrl)
       location.href = `${document.baseURI.replace(/\/hi$/, '').replace(/\/$/, '')}${redirectUrl}`
     } else {
       this.navService.nativeWindow.history.back()
       // url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
-      // console.log(url)
+      // this.logger.log(url)
       // let url3 = `${document.baseURI}`
       // if (url3.includes('hi')) {
       //   url3 = url3.replace(/hi\//g, '')
@@ -324,11 +325,11 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   // resumeBtn() {
   //   if(localStorage.getItem(`resume_URL`)){
   //     this.resumeDataLink.url = localStorage.getItem(`resume_URL`)
-  //       console.log(resume_URL)
+  //       this.logger.log(resume_URL)
   //       //location.href = resume_URL
   //       //this.router.navigateByUrl(`${resume_URL}`)
   //   } else {
-  //     console.log(this.lastCourseID)
+  //     this.logger.log(this.lastCourseID)
   //     this.resumeDataLink = viewerRouteGenerator(
   //       this.lastCourseID.content.identifier,
   //       this.lastCourseID.content.mimeType,
@@ -338,10 +339,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   //       'Learning Resource',
   //       this.getBatchId(),
   //     )
-  //     console.log(this.resumeDataLink)
+  //     this.logger.log(this.resumeDataLink)
   //      const query = this.generateQuery('RESUME')
-  //      console.log(query)
-  //      console.log(this.resumeDataLink)
+  //      this.logger.log(query)
+  //      this.logger.log(this.resumeDataLink)
   // tslint:disable-next-line:max-line-length
   //     let url = this.resumeDataLink.url+'?primaryCategory='+query.primaryCategory+'&collectionId='+query.collectionId+'&collectionType='+query.collectionType+'&batchId='+query.batchId
 
@@ -375,7 +376,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         this.updatedContentStatus = true
       }
       collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
-      console.log(collectionArry, 'collectionArry')
+      this.logger.log(collectionArry, 'collectionArry')
       // this.content.status = 'Deleted'
       this.fetchExternalContentAccess()
       this.modifySensibleContentRating()
@@ -386,9 +387,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       const resumeDataV2 = this.getResumeDataFromList()
       let lastResource = ''
       let lastResourceMimeType: any
-      console.log(resumeDataV2, this.enrollCourse)
+      this.logger.log(resumeDataV2, this.enrollCourse)
       this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content.identifier).subscribe(async (record) => {
-        console.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
+        this.logger.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
         if (record.contentId) {
           this.updatedContentStatus = true
           //this.updatedContentFound = record
@@ -396,25 +397,25 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           this.updatedContentStatus = false
         }
         let rowData = await record
-        console.log(rowData)
+        this.logger.log(rowData)
         let data = JSON.parse(rowData.data)
-        console.log(data)
+        this.logger.log(data)
         let url1 = ''
         if (rowData.url.includes('/chapters') || rowData.url.includes('/overview?primaryCategory=Course')) {
-          console.log(rowData)
-          console.log(this.finishedPercentage, this.optmisticPercentage, '372')
+          this.logger.log(rowData)
+          this.logger.log(this.finishedPercentage, this.optmisticPercentage, '372')
           if (this.optmisticPercentage === 100 && data.contents[0].completionPercentage === 100) {
             const matchId = data.contents[0].contentId
             const lastItem = collectionArry[collectionArry.length - 1]
-            console.log(matchId, lastItem)
+            this.logger.log(matchId, lastItem)
             if (matchId === lastItem) {
               let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${data.contents[0].batchId}`
-              console.log(url1, 'url')
+              this.logger.log(url1, 'url')
               this.updatedContentFound = url1
             } else {
               if (data.contents[0].progressdetails.mimeType === "application/pdf") {
                 url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
-                console.log(url1, 'url')
+                this.logger.log(url1, 'url')
                 this.updatedContentFound = url1
               }
             }
@@ -422,58 +423,58 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           } else {
             if (data.contents[0].progressdetails.mimeType === "application/pdf") {
               url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
-              console.log(url1, 'url')
+              this.logger.log(url1, 'url')
               this.updatedContentFound = url1
             } else if (data.contents[0].progressdetails.mimeType === "video/mp4") {
               url1 = `/viewer/video/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
-              console.log(url1, 'url')
+              this.logger.log(url1, 'url')
               this.updatedContentFound = url1
             } else if (data.contents[0].progressdetails.mimeType === "application/json") {
               url1 = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-              console.log(url1)
+              this.logger.log(url1)
               this.updatedContentFound = url1
             } else if (data.contents[0].progressdetails.mimeType === "application/vnd.ekstep.html-archive" || data.contents[0].progressdetails.mimeType === "text/x-url") {
               url1 = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-              console.log(url1)
+              this.logger.log(url1)
               this.updatedContentFound = url1
             }
           }
         } else {
-          console.log('opp', this.optmisticPercentage, 'l', rowData.url)
+          this.logger.log('opp', this.optmisticPercentage, 'l', rowData.url)
           const url = rowData.url
           const regex = /do_\d+(?=\?primaryCategory)/
           const match = url.match(regex)
           if (match) {
-            console.log(match[0], collectionArry)
+            this.logger.log(match[0], collectionArry)
             let matchId = match[0]
             const lastItem = collectionArry[collectionArry.length - 1]
             if (matchId === lastItem && this.optmisticPercentage === 100) {
               let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-              console.log(url1, 'url')
+              this.logger.log(url1, 'url')
               this.updatedContentFound = url1
             } else {
               this.updatedContentFound = record.url
             }
           } else {
-            console.log('Identifier not found')
+            this.logger.log('Identifier not found')
           }
         }
       }, err => {
-        console.log(err)
+        this.logger.log(err)
         let collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
         const regex = /do_\d+(?=\?primaryCategory)/
         const match = this.updatedContentFound.match(regex)
         if (match) {
-          console.log(match[0], collectionArry)
+          this.logger.log(match[0], collectionArry)
           let matchId = match[0]
           const lastItem = collectionArry[collectionArry.length - 1]
           if (matchId === lastItem && this.optmisticPercentage === 100) {
             let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-            console.log(url1, 'url')
+            this.logger.log(url1, 'url')
             this.updatedContentFound = url1
           }
         } else {
-          console.log('Identifier not found')
+          this.logger.log('Identifier not found')
         }
       })
 
@@ -578,7 +579,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     this.telemetrySvc.interact('redirect-clicked', 'click', 'toc-page', { id: this.content!.identifier, type: 'course', version: "", rollup: {} })
     if (updatedContentFound === undefined) {
       let batchId = this.getBatchId()
-      console.log(batchId, 'batchId')
+      this.logger.log(batchId, 'batchId')
       if (!batchId) {
         let u1 = `${document.baseURI}`
         let u2 = u1.split("&")
@@ -586,12 +587,12 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         batchId = u3[1]
       }
       let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
-      console.log(url1, 'url13123')
+      this.logger.log(url1, 'url13123')
       this.updatedContentFound = url1
       this.router.navigateByUrl(url1)
     } else {
       let url2 = document.baseURI
-      console.log(url2, 'url2')
+      this.logger.log(url2, 'url2')
       if (url2.includes('hi')) {
         url2 = url2.replace(/hi\//g, '')
       }
@@ -619,7 +620,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   downloadCertificate(content: any) {
     let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
-    console.log(this.optmisticPercentage)
+    this.logger.log(this.optmisticPercentage)
 
     // is enrolled?
     if (this.batchData.enrolled) {
@@ -704,7 +705,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                       err => {
                         this.displayStyle = 'block'
                         /* tslint:disable-next-line */
-                        console.log(err.error.params.errmsg)
+                        this.logger.log(err.error.params.errmsg)
                         if (local === 'en') {
                           this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
                         } else {
@@ -779,10 +780,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse) {
               this.resumeData = this.enrolledCourse.lastReadContentId
             }
-            console.log(this.resumeData, this.content)
-            console.log(this.optmisticPercentage, 'optmisticPercentage', this.finishedPercentage, '705')
+            this.logger.log(this.resumeData, this.content)
+            this.logger.log(this.optmisticPercentage, 'optmisticPercentage', this.finishedPercentage, '705')
             this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
-              console.log('Record:', record)
+              this.logger.log('Record:', record)
               if (record.contentId) {
                 this.updatedContentStatus = true
                 this.updatedContentFound = record.url
@@ -791,49 +792,49 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               }
             }, async (error) => {
               this.updatedContentStatus = true
-              console.log(this.enrolledCourse, 'this.enrolledCourse!')
+              this.logger.log(this.enrolledCourse, 'this.enrolledCourse!')
               if (error && this.enrolledCourse && this.enrolledCourse!.batchId) {
-                console.log('ewrwer')
+                this.logger.log('ewrwer')
                 if (this.enrolledCourse.lastReadContentId) {
                   let url = ''
                   let data = await this.findObjectById(this.content!.children, this.enrolledCourse.lastReadContentId)
-                  console.log(data, 'datahoooooray')
+                  this.logger.log(data, 'datahoooooray')
                   if (data.mimeType === "video/mp4") {
                     url = `/viewer/video/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    console.log(url)
+                    this.logger.log(url)
                   } else if (data.mimeType === "application/pdf") {
                     url = `/viewer/pdf/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    console.log(url)
+                    this.logger.log(url)
                   } else if (data.mimeType === "application/json") {
                     url = `/viewer/quiz/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    console.log(url)
+                    this.logger.log(url)
                   } else if (data.mimeType === "application/vnd.ekstep.html-archive" || data.mimeType === "text/x-url") {
                     url = `/viewer/html/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                    console.log(url)
+                    this.logger.log(url)
                   }
                   this.updatedContentFound = url
                 } else {
                   this.updatedContentStatus = false
                   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
-                  console.log(url1, 'url')
+                  this.logger.log(url1, 'url')
                   this.updatedContentFound = url1
                 }
               }
               // else {
               //   let batchId = await this.getBatchId()
-              //   console.log(batchId, 'batchId')
+              //   this.logger.log(batchId, 'batchId')
               //   if (!batchId) {
               //     let u1 = `${document.baseURI}`
-              //     console.log(u1)
+              //     this.logger.log(u1)
               //     let u2 = u1.split("&")
-              //     console.log(u2)
+              //     this.logger.log(u2)
               //     let u3 = u2[0].split("Id=")
-              //     console.log(u3)
+              //     this.logger.log(u3)
               //     batchId = u3[1]
-              //     console.log(batchId, 'batchId')
+              //     this.logger.log(batchId, 'batchId')
               //   }
               //   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
-              //   console.log(url1, 'url13123')
+              //   this.logger.log(url1, 'url13123')
               //   this.updatedContentFound = url1
               // }
             }
@@ -844,7 +845,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   findObjectById(array: any, id: any): any {
-    console.log(array, id)
+    this.logger.log(array, id)
     for (const item of array) {
       if (item.identifier === id) {
         return item
@@ -1053,7 +1054,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       //   ]
       // }
       // ).subscribe(data => {
-      //   console.log("DATA: ", data)
+      //   this.logger.log("DATA: ", data)
       // })
       this.isPracticeVisible = Boolean(
         this.tocSvc.filterToc(this.content, NsContent.EFilterCategory.PRACTICE),
@@ -1259,13 +1260,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   //     })
 
   //     dialogRef.afterClosed().subscribe((data: { ratingsForm: FormGroup, rating: number }) => {
-  //       console.log("data: ", data)
+  //       this.logger.log("data: ", data)
   //     })
   //   }
 
   // }
   openRating(data: any) {
-    console.log("read rating", data)
+    this.logger.log("read rating", data)
     let userId = ''
     if (data) {
       if (this.configSvc.userProfile) {
@@ -1285,7 +1286,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
       this.contentSvc.readCourseRating(req).then((res: any) => {
         if (res && res.params.status === 'success') {
-          console.log("response", res)
+          this.logger.log("response", res)
 
           const courseData = {
             courseId: data,
@@ -1301,7 +1302,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           })
 
           dialogRef.afterClosed().subscribe((data: { event: any, ratingsForm: FormGroup, rating: number }) => {
-            console.log("data: ", data)
+            this.logger.log("data: ", data)
             if (data && data.event && data.event === "CONFIRMED")
               this.readCourseRatingSummary()
           })
@@ -1316,7 +1317,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       })
         .catch((err: any) => {
           this.loader.changeLoad.next(false)
-          console.log("err", err)
+          this.logger.log("err", err)
           this.openSnackbar('Something went wrong, please try again later!')
         })
     }
@@ -1327,7 +1328,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
       let req
       req = { activityId: this.content.identifier }
-      console.log("req", req)
+      this.logger.log("req", req)
       this.contentSvc.readCourseRatingSummary(req).then((data: any) => {
 
         if (data && data.result && data.result.message === 'Successful') {
@@ -1335,7 +1336,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             let res = data.result.response
             this.averageRating = (res.sum_of_total_ratings / res.total_number_of_ratings).toFixed(1)
             this.totalRatings = res.total_number_of_ratings
-            console.log("data: ", res, data.result.response, this.totalRatings)
+            this.logger.log("data: ", res, data.result.response, this.totalRatings)
           }
 
 
@@ -1344,14 +1345,14 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         }
       })
         .catch((err: any) => {
-          console.log("err", err)
+          this.logger.log("err", err)
         })
     }
 
   }
 
   enrollUser(batchData: any) {
-    console.log("enrollUser", batchData)
+    this.logger.log("enrollUser", batchData)
     let userId = ''
     if (batchData) {
       if (this.configSvc.userProfile) {

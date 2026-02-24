@@ -50,8 +50,8 @@ export class WidgetUserService {
   // }
   // tslint:disable-next-line:max-line-length
   fetchUserBatchList(userId: string | undefined, queryParams?: { orgdetails: any, licenseDetails: any, fields: any, batchDetails: any }): Observable<NsContent.ICourse[]> {
-    // console.log(queryParams)
-    // console.log(window["env"]["azureHost"])
+    // this.logger.log(queryParams)
+    // this.logger.log(window["env"]["azureHost"])
     let path = ''
     if (queryParams) {
 

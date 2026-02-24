@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     // this.unseenCtrlSub = this.signupForm.valueChanges.subscribe(value => {
-    //   console.log('ngOnInit - value', value);
+    //   this.logger.log('ngOnInit - value', value);
     // })
   }
 

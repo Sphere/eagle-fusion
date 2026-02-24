@@ -1,6 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
-import { ValueService, TelemetryService } from '@ws-widget/utils'
+import { ValueService, TelemetryService, LoggerService } from '@ws-widget/utils'
 import { ActivatedRoute } from '@angular/router'
 import { AccessControlService } from '@ws/author'
 import {
@@ -39,6 +39,7 @@ export class AudioComponent implements OnInit, OnDestroy {
     private viewerSvc: ViewerUtilService,
     private accessControlSvc: AccessControlService,
     private telemetrySvc: TelemetryService,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -168,7 +169,7 @@ export class AudioComponent implements OnInit, OnDestroy {
       }
       // @ts-ignore: Object is possibly 'null'.
       this.viewerSvc.realTimeProgressUpdateV3(audioId, data2, collectionId, batchId).subscribe((data: any) => {
-        console.log(data.result.contentList)
+        this.logger.log(data.result.contentList)
         const result = data.result
         result['type'] = 'audio'
         const res = data["result"]["contentList"].find(

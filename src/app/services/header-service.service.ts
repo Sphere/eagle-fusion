@@ -15,14 +15,14 @@ export class HeaderServiceService {
       this.isSavePressed = value
     })
     // this.showCourseHeader.subscribe(value => {
-    //   // console.log('value==>', value)
+    //   // this.logger.log('value==>', value)
     // })
   }
 
   saveCourseContent() {
     this.headerSaveData.next(this.isSavePressed)
     // tslint:disable-next-line:no-console
-    console.log('this.headerSaveData', this.headerSaveData)
+    this.logger.log('this.headerSaveData', this.headerSaveData)
   }
 
   showCreatorHeader(name: string) {

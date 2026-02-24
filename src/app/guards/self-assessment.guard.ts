@@ -63,7 +63,7 @@ export class SelfAssessmentGuard {
               competencyId: item.index,
             })
           })
-          // console.log(competency_meta_data.push(...children))
+          // this.logger.log(competency_meta_data.push(...children))
           competency_meta_data.push({
             competencyIds: [...children],
           })

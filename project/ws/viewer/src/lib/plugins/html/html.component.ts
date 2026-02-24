@@ -3,7 +3,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService, EventService, TelemetryService } from '@ws-widget/utils'
+import { ConfigurationsService, EventService, LoggerService, TelemetryService } from '@ws-widget/utils'
 import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 import { MobileAppsService } from '../../../../../../../src/app/services/mobile-apps.service'
 import { SCORMAdapterService } from './SCORMAdapter/scormAdapter'
@@ -39,7 +39,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   scormInitializedIds = new Set<string>()
   currentProcessingContentId: string | null = null
   contentHistorySubscription: Subscription | null = null
-  @HostListener('window:blur', ['$event'])
+  @HostListener('window:blur', [])
   onBlur(): void {
     if (this.urlContains.includes('youtube') && this.htmlContent !== null) {
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -61,7 +61,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdateV3(this.htmlContent.identifier, data2, collectionId, batchId).subscribe(
           () => { /* success - fire and forget */ },
-          (error) => { console.warn('Progress update failed:', error) }
+          (error) => { this.logger.warn('Progress update failed:', error) }
         )
         // Pre-calculate telemetry and send message without waiting for API response
         const telemetryData = {
@@ -114,7 +114,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     private viewerSvc: ViewerUtilService,
     private activatedRoute: ActivatedRoute,
     private telemetrySvc: TelemetryService,
-
+    private logger: LoggerService
   ) {
     (window as any).API = this.scormAdapterService
     // if (window.addEventListener) {
@@ -124,7 +124,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   ngOnInit() {
     // this.mobAppSvc.simulateMobile()
     // if (this.htmlContent && this.htmlContent.identifier) {
-    //   console.log(this.htmlContent.identifier)
+    //   this.logger.log(this.htmlContent.identifier)
     //   this.scormAdapterService.contentId = this.htmlContent.identifier
     //   // this.scormAdapterService.loadData()
     //   this.scormAdapterService.loadDataV2()
@@ -166,7 +166,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdateV3(this.htmlContent.identifier, data2, collectionId, batchId).subscribe(
           () => { /* success - fire and forget */ },
-          (error) => { console.warn('Progress update failed:', error) }
+          (error) => { this.logger.warn('Progress update failed:', error) }
         )
         // Pre-calculate telemetry and send message without waiting for API response
         const telemetryData = {
@@ -266,7 +266,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             fields: ['progressdetails'],
           },
         }
-        console.log(req, 'req')
+        this.logger.log(req, 'req')
         // Store subscription to allow cleanup if needed
         this.contentHistorySubscription = this.contentSvc.fetchContentHistoryV2(req).pipe(
           take(1)
@@ -274,9 +274,9 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           async data => {
             // Only process if we're still handling this content
             if (this.currentProcessingContentId === this.htmlContent!.identifier && this.htmlContent && data) {
-              console.log(this.htmlContent.identifier)
+              this.logger.log(this.htmlContent.identifier)
               this.contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.htmlContent!.identifier)
-              //console.log(this.contentData, this.contentData.completionPercentage, 'wee')
+              //this.logger.log(this.contentData, this.contentData.completionPercentage, 'wee')
               //this.ent = true
               if ((this.contentData && this.contentData.completionPercentage === 100 && this.htmlContent.mimeType !== 'application/vnd.ekstep.html-archive' && this.htmlContent.mimeType !== 'text/x-url')) {
                 const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -292,11 +292,11 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   completionPercentage: completionPercentage,
                   status: 2
                 }
-                console.log('here')
+                this.logger.log('here')
                 this.viewerSvc
                   .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
                     () => { /* success - fire and forget */ },
-                    (error) => { console.warn('Progress update failed:', error) }
+                    (error) => { this.logger.warn('Progress update failed:', error) }
                   )
                 // Pre-calculate telemetry and send message without waiting for API response
                 const telemetryData = {
@@ -352,7 +352,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
         // Initialize SCORM directly without fetching history - adapter handles its own communication
         let scorminit = this.scormAdapterService.LMSInitialize()
-        console.log(scorminit, 'scorminit')
+        this.logger.log(scorminit, 'scorminit')
         this.telemetrySvc.start('scorm', 'scorm-start', 'player')
 
         const courseID = this.activatedRoute.snapshot.queryParams.collectionId ?
@@ -436,7 +436,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 this.viewerSvc
                   .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
                     () => { /* success - fire and forget */ },
-                    (error) => { console.warn('Progress update failed:', error) }
+                    (error) => { this.logger.warn('Progress update failed:', error) }
                   )
                 // Pre-calculate telemetry and send message without waiting for API response
                 const telemetryData = {
@@ -518,7 +518,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               })
               .catch((err: any) => {
                 /* tslint:disable-next-line */
-                console.log(err)
+                this.logger.log(err)
               })
           }
         } else {
@@ -526,7 +526,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             let streamingUrl = this.htmlContent.streamingUrl
 
             // Log the original URL for debugging
-            console.log('[SCORM] Original streamingUrl:', streamingUrl)
+            this.logger.log('[SCORM] Original streamingUrl:', streamingUrl)
 
             // Extract the path part after the domain for all URLs and use proxy
             if (streamingUrl.includes('https://static.sphere.aastrika.org')) {
@@ -547,19 +547,19 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
             const entryPoint = this.htmlContent.entryPoint || ''
             const newUrl = `/apis/proxies/v8/getContents${streamingUrl}${entryPoint}`
-            console.log('[SCORM] Using proxy URL:', newUrl, { streamingUrl, entryPoint })
+            this.logger.log('[SCORM] Using proxy URL:', newUrl, { streamingUrl, entryPoint })
             this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(newUrl)
             // let artifactUrl = this.htmlContent.streamingUrl.substring(51)
             // this.viewerSvc.scormUpdate(this.htmlContent.artifactUrl).toPromise()
             //   .then((res: string) => {
             //     /* tslint:disable-next-line */
-            //     console.log(res)
-            //     console.log(res['result']['content']['streamingUrl'].substring(51))
+            //     this.logger.log(res)
+            //     this.logger.log(res['result']['content']['streamingUrl'].substring(51))
             //     this.iframeUrl = this.domSanitizer.bypassSecurityTrustResourceUrl(`${this.htmlContent.artifactUrl}`)
             //   })
             //   .catch((err: any) => {
             //     /* tslint:disable-next-line */
-            //     console.log(err)
+            //     this.logger.log(err)
             //   })
             // this.contentSvc
             //   .fetchHierarchyContent(this.htmlContent.identifier)
@@ -569,7 +569,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             //   })
             //   .catch((err: any) => {
             //     /* tslint:disable-next-line */
-            //     console.log(err)
+            //     this.logger.log(err)
             //   })
           }
         }
@@ -587,12 +587,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             max_size: 1,
             mime_type: this.mimeType,
           }
-          console.log('timeout', this.contentData, data1)
+          this.logger.log('timeout', this.contentData, data1)
           setTimeout(() => {
             if (this.htmlContent) {
               // this.viewerSvc
               //   .realTimeProgressUpdate(this.htmlContent.identifier, data1, collectionId, batchId).subscribe((data: any) => {
-              //     console.log(data.result.contentList)
+              //     this.logger.log(data.result.contentList)
               //     const result = data.result
               //     result['type'] = 'html'
               //     this.contentSvc.changeMessage(result)
@@ -656,7 +656,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   raiseTelemetry(data: any) {
     if (this.htmlContent) {
       /* tslint:disable-next-line */
-      console.log(this.htmlContent.identifier)
+      this.logger.log(this.htmlContent.identifier)
       this.events.raiseInteractTelemetry(data.event, 'scrom', 'scrom-content', {
         id: this.htmlContent.identifier,
         verison: "",
@@ -667,7 +667,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
   receiveMessage(msg: any) {
     // /* tslint:disable-next-line */
-    // console.log("msg=>", msg)
+    // this.logger.log("msg=>", msg)
     if (msg.data) {
       this.raiseTelemetry(msg.data)
     } else {
@@ -699,7 +699,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           this.viewerSvc
             .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
               () => { /* success - fire and forget */ },
-              (error) => { console.warn('Progress update failed:', error) }
+              (error) => { this.logger.warn('Progress update failed:', error) }
             )
           // Pre-calculate telemetry and send message without waiting for API response
           const telemetryData = {

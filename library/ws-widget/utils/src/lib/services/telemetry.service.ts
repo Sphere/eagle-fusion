@@ -116,7 +116,7 @@ export class TelemetryService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry interact', e)
+      this.logger.log('Error in telemetry interact', e)
     }
   }
 
@@ -188,7 +188,7 @@ export class TelemetryService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry interactForLogin', e)
+      this.logger.log('Error in telemetry interactForLogin', e)
     }
   }
 
@@ -230,7 +230,7 @@ export class TelemetryService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry impression', e)
+      this.logger.log('Error in telemetry impression', e)
     }
   }
 
@@ -266,7 +266,7 @@ export class TelemetryService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry start', e)
+      this.logger.log('Error in telemetry start', e)
     }
   }
 
@@ -294,7 +294,7 @@ export class TelemetryService {
       )
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry end', e)
+      this.logger.log('Error in telemetry end', e)
     }
   }
 
@@ -321,7 +321,7 @@ export class TelemetryService {
       )
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry audit', e)
+      this.logger.log('Error in telemetry audit', e)
     }
   }
 
@@ -334,7 +334,7 @@ export class TelemetryService {
       })
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry heartbeat', e)
+      this.logger.log('Error in telemetry heartbeat', e)
     }
   }
   async getTelemetryConfig() {
@@ -390,7 +390,7 @@ export class TelemetryService {
   //     this.previousUrl = page.pageUrl
   //   } catch (e) {
   //     // tslint:disable-next-line: no-console
-  //     console.log('Error in telemetry impression', e)
+  //     this.logger.log('Error in telemetry impression', e)
   //   }
   // }
   async publicImpression(param: any, browserName: any, OS: any) {
@@ -478,7 +478,7 @@ export class TelemetryService {
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry paramTrigger', e)
+      this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
   async paramTriggerEnd(param: any, browserName: any, OS: any, eparams: any, user: any, rollup: any) {
@@ -539,7 +539,7 @@ export class TelemetryService {
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry paramTrigger', e)
+      this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
   async paramTriggerStart(param: any, browserName: any, OS: any, eparams: any, user: any, rollup: any) {
@@ -600,11 +600,11 @@ export class TelemetryService {
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry paramTrigger', e)
+      this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
   postPublicTelemetry(data: any) {
-    // console.log("public telemetry")
+    // this.logger.log("public telemetry")
     const publicConfig = this.http
       .post<any>(this.PUBLIC_TELEMETRY, data)
       .toPromise()
@@ -659,7 +659,7 @@ export class TelemetryService {
       this.previousUrl = page.pageUrl
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry paramTrigger', e)
+      this.logger.log('Error in telemetry paramTrigger', e)
     }
   }
 
@@ -691,7 +691,7 @@ export class TelemetryService {
       }
     } catch (e) {
       // tslint:disable-next-line: no-console
-      console.log('Error in telemetry externalImpression', e)
+      this.logger.log('Error in telemetry externalImpression', e)
     }
   }
 
@@ -797,7 +797,7 @@ export class TelemetryService {
             $t.interact(event.data, externalConfig)
           } catch (e) {
             // tslint:disable-next-line: no-console
-            console.log('Error in telemetry interact', e)
+            this.logger.log('Error in telemetry interact', e)
           }
         } else {
           try {
@@ -824,7 +824,7 @@ export class TelemetryService {
               })
           } catch (e) {
             // tslint:disable-next-line: no-console
-            console.log('Error in telemetry interact', e)
+            this.logger.log('Error in telemetry interact', e)
           }
         }
       })
@@ -855,7 +855,7 @@ export class TelemetryService {
             $t.heartbeat(event.data, externalConfig)
           } catch (e) {
             // tslint:disable-next-line: no-console
-            console.log('Error in telemetry heartbeat', e)
+            this.logger.log('Error in telemetry heartbeat', e)
           }
         } else {
           try {
@@ -878,7 +878,7 @@ export class TelemetryService {
               })
           } catch (e) {
             // tslint:disable-next-line: no-console
-            console.log('Error in telemetry heartbeat', e)
+            this.logger.log('Error in telemetry heartbeat', e)
           }
         }
       })
@@ -915,7 +915,7 @@ export class TelemetryService {
           )
         } catch (e) {
           // tslint:disable-next-line: no-console
-          console.log('Error in telemetry search', e)
+          this.logger.log('Error in telemetry search', e)
         }
       })
   }

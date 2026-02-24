@@ -4,6 +4,7 @@ import { TnnmcConfirmComponent } from '../component/tnnmc-dialog-confirm/tnnmc-c
 //import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
+import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-tnnmc-callback',
   templateUrl: './tnnmc-callback.component.html',
@@ -15,7 +16,8 @@ export class TnnmcCallbackComponent implements OnInit {
     private orgService: OrgServiceService,
     //private authSvc: AuthKeycloakService,
     private dialog: MatDialog,
-    private router: Router
+    private router: Router,
+    private logger: LoggerService
   ) { }
 
   ngOnInit() {
@@ -29,7 +31,7 @@ export class TnnmcCallbackComponent implements OnInit {
   }
   //checkTnnmcCallback(token: any, id?: any) {
   checkTnnmcCallback(token: any) {
-    console.log('su')
+    this.logger.log('su')
     let data = {
       "token": token,
       //"moduleId": id
@@ -38,16 +40,16 @@ export class TnnmcCallbackComponent implements OnInit {
       //setTimeout(() => {
       this.orgService.setTnnmcToken(data).subscribe(async (res: any) => {
         let loc = await res
-        console.log(loc, 'oo')
+        this.logger.log(loc, 'oo')
         localStorage.setItem('loc', JSON.stringify(loc))
         if (loc.message === 'success') {
-          console.log("loc.message", loc.message)
+          this.logger.log("loc.message", loc.message)
           location.href = '/app/org-details?orgId=Tamil%20Nadu%20Nurses%20and%20Midwives%20Council%20(TNNMC)'
           //window.location = loc.resRedirectUrl
         }
       }, (err: any) => {
         // tslint:disable-next-line:no-console
-        console.log(err)
+        this.logger.log(err)
         if (err.status === 400 || err.status === 419) {
           if (err.error.status === 'FAILURE') {
             this.isLoading = false
@@ -71,7 +73,7 @@ export class TnnmcCallbackComponent implements OnInit {
       //}, 500)
     } catch (err: any) {
       // tslint:disable-next-line:no-console
-      console.log(err)
+      this.logger.log(err)
       //this.authSvc.logout()
       if (err.error.status === 'FAILURE') {
         this.isLoading = false

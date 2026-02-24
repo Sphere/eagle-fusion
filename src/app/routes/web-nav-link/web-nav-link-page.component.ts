@@ -7,7 +7,7 @@ import {
   ChangeDetectorRef,
 } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
-import { ConfigurationsService, LogoutComponent } from '@ws-widget/utils'
+import { ConfigurationsService, LoggerService, LogoutComponent } from '@ws-widget/utils'
 import { Router } from '@angular/router'
 import { SignupService } from '../signup/signup.service'
 import { Location } from '@angular/common'
@@ -41,12 +41,13 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     private readonly event: Events,
     private playlistSvc: PlaylistService,
     private cd: ChangeDetectorRef,
+    private logger: LoggerService
   ) {
     this.subscribeNavbarChanges()
   }
 
   async ngOnInit() {
-    console.log(" menuItems ", this.menuItems)
+    this.logger.log(" menuItems ", this.menuItems)
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())
 

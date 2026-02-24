@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, effect, ChangeDetectorRef } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
-import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService } from '../../../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -83,10 +83,11 @@ export class MobileProfileDashboardComponent implements OnInit {
     private telemetrySvc: TelemetryService,
     private plylsSvc: PlaylistService,
     private snackBar: MatSnackBar,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private logger: LoggerService
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe((data: any) => {
-      console.log(data)
+      this.logger.log(data)
       if (data.type === 'work' || data.type === 'academic') {
         if (data.back === true || data.edit === 'save') {
           this.showView = ''
@@ -150,7 +151,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     // remove first and last item
     this.uiConfig = this.menuItems.length > 2 ? this.menuItems.slice(1, -1) : []
-    console.log("res ", res, this.config, this.uiConfig)
+    this.logger.log("res ", res, this.config, this.uiConfig)
     this.selectedIndex = this.isEkshamata ? this.uiConfig[1]?.name : this.uiConfig[0]?.name
     this.selectedIndexData = this.isEkshamata ? this.uiConfig[1]?.data : this.uiConfig[0]?.data
     this.selectedIndextitle = this.isEkshamata ? this.uiConfig[1]?.text : this.uiConfig[0]?.text
@@ -174,7 +175,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     this.getUserDetails()
 
-    console.log('this.configSvc.unMappedUser', this.configSvc.unMappedUser)
+    this.logger.log('this.configSvc.unMappedUser', this.configSvc.unMappedUser)
     if (this.hasRequiredLeaderboardDetails()) {
       this.getLeaderBoardList()
     }
@@ -244,11 +245,11 @@ export class MobileProfileDashboardComponent implements OnInit {
           mergeMap((res: any) => this.processCertiFicate(res))
         ).subscribe({
           next: () => {
-            console.log('[MobileProfileDashboard] Certificate processing completed')
+            this.logger.log('[MobileProfileDashboard] Certificate processing completed')
             this.loader = false
           },
           error: (err) => {
-            console.error('[MobileProfileDashboard] Error processing certificates:', err)
+            this.logger.error('[MobileProfileDashboard] Error processing certificates:', err)
             this.loader = false
           }
         })
@@ -257,7 +258,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     if (this.showMobileView) {
-      console.log(item?.text, 'mobileview', this.showMobileView)
+      this.logger.log(item?.text, 'mobileview', this.showMobileView)
       this.hideData = true
     }
   }
@@ -266,7 +267,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     const el = this._document.getElementById('widget')
     if (el) {
       el.style.display = 'block'
-      console.log("this.userData", this.profileData)
+      this.logger.log("this.userData", this.profileData)
       el.setAttribute('userId', this.profileData.userId)
       el.setAttribute('firstName', this.profileData.personalDetails.firstname)
       el.setAttribute('lastName', this.profileData.personalDetails.surname)
@@ -277,10 +278,10 @@ export class MobileProfileDashboardComponent implements OnInit {
           const ariaLabel = btn.getAttribute('aria-label')
           if (ariaLabel === 'Open chat') {
             btn.click()
-            console.log('Chat opened')
+            this.logger.log('Chat opened')
           }
         } else {
-          console.warn('Button not found inside widget yet')
+          this.logger.warn('Button not found inside widget yet')
         }
       }, 300)
     }
@@ -292,7 +293,7 @@ export class MobileProfileDashboardComponent implements OnInit {
         this.isCommonChatEnabled = false
       }, 300)
     } catch (error) {
-      console.error('Error showing social chats:', error)
+      this.logger.error('Error showing social chats:', error)
     }
   }
   backToChatIcon() {
@@ -304,7 +305,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       }
     } catch (error) {
       // tslint:disable-next-line:no-console
-      console.log(error)
+      this.logger.log(error)
     }
   }
   logout() {
@@ -394,7 +395,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
       dialogRef.afterClosed().subscribe(result => {
         // tslint:disable-next-line: no-console
-        console.log('The dialog was closed', result)
+        this.logger.log('The dialog was closed', result)
       })
     } else {
       this.router.navigate(['/app/about-you'], { queryParams: { redirect: `/page/home` } })
@@ -457,16 +458,16 @@ export class MobileProfileDashboardComponent implements OnInit {
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       result => {
-        console.log('Language updated in profile:', result)
+        this.logger.log('Language updated in profile:', result)
         // No page reload needed anymore!
       },
       error => {
-        console.error('Error updating language:', error)
+        this.logger.error('Error updating language:', error)
       },
     )
   }
   saveLanguage(form: any) {
-    console.log('Saving language preference:', form.value)
+    this.logger.log('Saving language preference:', form.value)
 
     // Update language using LanguageService
     this.languageService.setLanguage(form.value.language)
@@ -490,11 +491,11 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       result => {
-        console.log('Language saved successfully:', result)
+        this.logger.log('Language saved successfully:', result)
         this.snackBar.open("Language Updated", undefined, { duration: 1000 })
       },
       error => {
-        console.error('Error saving language:', error)
+        this.logger.error('Error saving language:', error)
       },
     )
   }
@@ -515,7 +516,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             }
             const lang = (data?.profileDetails?.preferences?.language !== undefined) ? data.profileDetails.preferences.language : this.languageService.getCurrentLanguage()
             this.language = lang
-            console.log(lang, 'oo')
+            this.logger.log(lang, 'oo')
             this.userForm.patchValue({ language: lang })
             if (this.userProfileData.academics && Array.isArray(this.userProfileData.academics)) {
               this.academicsArray = this.userProfileData.academics
@@ -540,7 +541,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     })
     dialogRef.afterClosed().subscribe(result => {
       // tslint:disable-next-line: no-console
-      console.log('The dialog was closed', result)
+      this.logger.log('The dialog was closed', result)
       this.getUserDetails()
     })
   }
@@ -566,7 +567,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   openCompetency(event: any) {
-    console.log(event)
+    this.logger.log(event)
     localStorage.setItem('isOnlyPassbook', 'false')
     this.router.navigate([`app/user/self-assessment`])
   }
@@ -576,7 +577,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
   getLeaderBoardList() {
-    console.log('this.configsvc', this.configSvc.unMappedUser)
+    this.logger.log('this.configsvc', this.configSvc.unMappedUser)
     const request = {
       userId: this.configSvc.userProfile.userId,
       filters: {
@@ -602,7 +603,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   }
 
   openCompetencyDashboard(event: any) {
-    console.log(event)
+    this.logger.log(event)
     localStorage.setItem('isOnlyPassbook', 'false')
     this.router.navigate([`app/user/competency`])
   }

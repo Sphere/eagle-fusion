@@ -31,7 +31,7 @@ export class ExploreResolverService {
     NsWidgetResolver.IRegistrationConfig
   > | null = null
   static getWidgetKey(config: NsWidgetResolver.IBaseConfig) {
-    // console.log('config', config)
+    // this.logger.log('config', config)
     return `widget:${config.widgetType}::${config.widgetSubType}`
   }
 

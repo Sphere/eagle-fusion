@@ -173,7 +173,7 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
 
       // this.activateRoute.parent.parent.data.subscribe(v => {
       //   if (v.contents && v.contents.length) {
-      //     console.log(v)
+      //     this.logger.log(v)
       //     this.allContents.push(v.contents[0].content)
       //     if (v.contents[0].data) {
       //       const url = v.contents[0].content.artifactUrl.substring(0, v.contents[0].content.artifactUrl.lastIndexOf('/'))

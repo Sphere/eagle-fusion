@@ -96,7 +96,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
     //   identifier = identifier.substring(0, identifier.indexOf('.'))
     // }
     // url = url.concat(identifier).concat('#').concat(value)
-    // console.log(url)
+    // this.logger.log(url)
     const link = this.paths.at(index).get('link') as AbstractControl
     link.setValue(`./page/${this.identifier.replace('.img', '')}#${value}`)
   }
@@ -455,7 +455,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   //     context.globalAlpha = 0.5
   //     context.strokeStyle = 'white'
   //     context.fillRect(item.coords[2], item.coords[3], width, height)
-  //     //console.log("from drawALL: " + item.coords[2], item.coords[3], width, height);
+  //     //this.logger.log("from drawALL: " + item.coords[2], item.coords[3], width, height);
 
   //   })
   //   this.drawAllnew(context)
@@ -536,7 +536,7 @@ export class ImageMapComponent implements OnInit, AfterViewInit {
   //     pathName = inputURL.pathname
   //   else
   //     pathName = url
-  //   //console.log(pathName)
+  //   //this.logger.log(pathName)
   //   return pathName
 
   // }

@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core'
 //import { Location } from '@angular/common'
 import {
-  ConfigurationsService
+  ConfigurationsService,
+  LoggerService
 } from '@ws-widget/utils'
 //import { SignupService } from '../signup/signup.service'
 @Component({
@@ -15,12 +16,13 @@ export class HeaderComponent implements OnInit {
     //private location: Location,
     public configSvc: ConfigurationsService,
     //private signupService: SignupService,
+    private logger: LoggerService
   ) { }
 
   async ngOnInit() {
-    console.log(this.configSvc)
+    this.logger.log(this.configSvc)
     //this.result = await this.signupService.fetchStartUpDetails()
-    //console.log(this.result)
+    //this.logger.log(this.result)
   }
   homePage() {
     if (localStorage.getItem('isOrgSelectiveCourse') === 'false') {

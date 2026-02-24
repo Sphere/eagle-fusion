@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
   selector: 'bnrc-modal-component',
@@ -16,14 +17,14 @@ export class BnrcmodalComponent implements OnInit {
     public snackBar: MatSnackBar,
     public dialogRef: MatDialogRef<BnrcmodalComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-
+    private logger: LoggerService
   ) {
     dialogRef.disableClose = true
-    console.log("yes here", this.data.from)
+    this.logger.log("yes here", this.data.from)
   }
 
   ngOnInit() {
-    console.log("yes here", this.data.from)
+    this.logger.log("yes here", this.data.from)
   }
 
 

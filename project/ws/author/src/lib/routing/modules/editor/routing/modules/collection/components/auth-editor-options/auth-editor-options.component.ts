@@ -96,10 +96,10 @@ export class AuthEditorOptionsComponent implements OnInit {
       icon: content.icon,
     }
     // if (content.id === 'resource' && content.children) {
-    //   // console.log('children==>', content.children)
+    //   // this.logger.log('children==>', content.children)
     //   content.children.forEach(v => {
     //     const entity = this.authInitService.creationEntity.get(v)
-    //     // console.log('entity==>', entity)
+    //     // this.logger.log('entity==>', entity)
     //     if (
     //       entity &&
     //       allowedType.includes(entity.id) &&

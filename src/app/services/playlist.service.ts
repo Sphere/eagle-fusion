@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { ConfigurationsService } from '../../../library/ws-widget/utils/src/public-api'
+import { ConfigurationsService, LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 import { BehaviorSubject } from 'rxjs'
 
 @Injectable({ providedIn: 'root' })
@@ -32,7 +32,8 @@ export class PlaylistService {
   earnedBadges$ = this.earnedBadgesSubject.asObservable();
   constructor(
     private http: HttpClient,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private logger: LoggerService
   ) { }
   setSelectedTab(tabId: string) {
     if (!tabId) return
@@ -71,7 +72,7 @@ export class PlaylistService {
 
       return data
     } catch (error) {
-      console.error('Failed to load playlist data', error)
+      this.logger.error('Failed to load playlist data', error)
       return null
     }
   }

@@ -49,7 +49,7 @@ export class UserQnaComponent implements OnInit {
       }
       this.fetchQnaData(this.qnaTimelineRequest)
     }
-    // console.log(this.fetchQnaData)
+    // this.logger.log(this.fetchQnaData)
   }
 
   qnaSorting(result: NsDiscussionForum.ITimelineResult[]) {
