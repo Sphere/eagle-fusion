@@ -4,7 +4,7 @@ import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
 import { Observable } from 'rxjs'
-import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ValueService, LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
 //import { Router } from '@angular/router'
@@ -44,6 +44,7 @@ export class LoginOtpComponent implements OnInit {
     //private userProfileSvc: UserProfileService,
     private readonly valueSvc: ValueService,
     public dialog: MatDialog,
+    private logger: LoggerService,
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForm()
