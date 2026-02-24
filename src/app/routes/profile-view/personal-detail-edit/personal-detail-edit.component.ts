@@ -18,6 +18,7 @@ import { LanguageDialogComponent } from '../../language-dialog/language-dialog.c
 import { upperFirst } from 'lodash'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { HttpClient } from '@angular/common/http'
+import { LanguageService } from '../../../services/language.service'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -85,7 +86,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private readonly changeDetectorRef: ChangeDetectorRef,
     private UserAgentResolverService: UserAgentResolverService,
     private http: HttpClient,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private langSvc: LanguageService
   ) {
     this.initializeForm()
   }
@@ -494,7 +496,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     // if (form.value.dob) {
     //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
     // }
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
 
 
     if (form.value.dob.includes('undefined')) {

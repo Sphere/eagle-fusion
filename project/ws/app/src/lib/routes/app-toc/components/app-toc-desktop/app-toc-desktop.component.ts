@@ -35,6 +35,7 @@ import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugi
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 
 import { WindowService } from 'src/app/services/navigation-history.service'
+import { LanguageSelectorComponent } from '../../../../../../../../../library/ws-widget/collection/src/lib/_common/language-selector/language-selector.component'
 @Component({
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
@@ -129,7 +130,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private navService: WindowService,
     // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document,
-    private telemetrySvc: TelemetryService
+    private telemetrySvc: TelemetryService,
+    private langSvc: LanguageSelectorComponent
   ) {
   }
   @HostListener('window:popstate', [])
@@ -525,7 +527,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           },
         }
         this.contentSvc.enrollUserToBatch(req).then((data: any) => {
-          let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+          let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
 
           if (data && data.result && data.result.response === 'SUCCESS') {
             this.batchData = {
@@ -616,7 +618,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
     console.log(this.optmisticPercentage)
 
     // is enrolled?
@@ -1363,7 +1365,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
-        let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+        let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
 
         if (data && data.result && data.result.response === 'SUCCESS') {
           // this.batchData = {

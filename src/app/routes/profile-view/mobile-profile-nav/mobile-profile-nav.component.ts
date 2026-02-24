@@ -41,8 +41,8 @@ export class MobileProfileNavComponent implements OnInit {
   backScreen() {
     console.log('now')
     let backURL = sessionStorage.getItem('currentWindow')
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    let url1 = local === 'hi' ? 'hi' : ""
+    // let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    // let url1 = local === 'hi' ? 'hi' : ""
     let url3 = `${document.baseURI}`
     if (url3.includes('hi')) {
       url3 = url3.replace(/hi\//g, '')
@@ -101,7 +101,7 @@ export class MobileProfileNavComponent implements OnInit {
           console.log("fasdfasdwew")
           // this.currentText = text.name
           let url = '/page/home'
-          location.href = `${url3}${url1}${url}`
+          location.href = `${url3}${url}`
           // this.router.navigate(['/page/home'])
         }
       } else {

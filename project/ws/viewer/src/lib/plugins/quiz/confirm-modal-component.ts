@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
 import { ISearchContent } from '@ws/author/src/lib/interface/search'
+import { LanguageService } from '../../../../../../../src/app/services/language.service'
 
 @Component({
   selector: 'viewer-confirm-modal-component',
@@ -31,6 +32,7 @@ export class ConfirmmodalComponent implements OnInit {
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     public contentSvc: WidgetContentService,
+    private langSvc: LanguageService
   ) {
 
     dialogRef.disableClose = true
@@ -91,7 +93,7 @@ export class ConfirmmodalComponent implements OnInit {
   }
 
   submitRating(ratingsForm: any) {
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
 
     let userId = ''
     if (this.selectedRating) {
