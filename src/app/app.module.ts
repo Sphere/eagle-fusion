@@ -96,7 +96,7 @@ import { LanguageService } from './services/language.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
-// import { MdePopoverModule } from '@jaguards/material-extended-mde' // Removed - not compatible with Angular Ivy
+import { MdePopoverModule } from '@jaguards/material-extended-mde'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { YourLocationComponent } from './routes/your-location/your-location.component'
 import { NewTncComponent } from './routes/new-tnc/new-tnc.component'
@@ -379,7 +379,8 @@ export function initializeCompetencyConfig(): () => void {
         deps: [HttpClient],
       },
     }),
-    ProfileViewModule
+    ProfileViewModule,
+    MdePopoverModule
   ],
   exports: [
     TncComponent,
