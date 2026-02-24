@@ -4,6 +4,7 @@
 .assesment-container {
   display: flex;
   flex-direction: column;
+  margin: 2rem;
 
   .close-btn {
     place-self: end;
@@ -24,7 +25,7 @@
   font-family: 'Roboto' !important;
   font-style: normal !important;
   font-weight: 400 !important;
-  font-size: 24px;
+  font-size: 24px !important;
   line-height: 24px !important;
   letter-spacing: -0.02em !important;
   color: #000000 !important;
