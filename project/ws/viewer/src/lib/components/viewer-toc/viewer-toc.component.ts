@@ -339,7 +339,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
     setTimeout(() => {
       if (index > 3) {
-        if (this.highlightItem.nativeElement.classList.contains('li-active')) {
+        if (this.highlightItem?.nativeElement?.classList.contains('li-active')) {
 
           const highlightItemOffset = this.highlightItem.nativeElement.offsetTop
           const outerClientHeight = this.outer.nativeElement.clientHeight
