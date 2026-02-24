@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 import { HttpClient, HttpHeaders } from '@angular/common/http'
 import { Subscription, of } from 'rxjs'
-import { catchError } from 'rxjs/operators'
+import { catchError, tap } from 'rxjs/operators'
 import dayjs from 'dayjs'
 
 import { IScromData, Storage } from '../../../project/ws/viewer/src/lib/plugins/html/SCORMAdapter/storage'
@@ -327,37 +327,41 @@ export class MobileScromAdapterService {
   }
 
   updateScromProgress(postData: any) {
-    let req: any
-    if (postData && (postData["cmi.core.lesson_status"] === 'completed' ||
-      postData["cmi.core.lesson_status"] === 'passed' || postData["cmi.core.lesson_status"] === 'incomplete')) {
-      req = {
-        request: {
-          userId: this.getProperty('userId') || '',
-          contents: [
-            {
-              contentId: this.getProperty('contentId'),
-              batchId: this.getProperty('batchId') || '',
-              courseId: this.getProperty('courseId') || '',
-              status: this.getStatus(postData) || 2,
-              lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
-              progressdetails: postData,
-              completionPercentage: this.getPercentage(postData) || 0
-            },
-          ],
-        },
-      }
-
+    // Always create a properly formed request
+    const req = {
+      request: {
+        userId: this.getProperty('userId') || '',
+        contents: [
+          {
+            contentId: this.getProperty('contentId'),
+            batchId: this.getProperty('batchId') || '',
+            courseId: this.getProperty('courseId') || '',
+            status: this.getStatus(postData) || 2,
+            lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
+            progressdetails: postData || {},
+            completionPercentage: this.getPercentage(postData) || 0
+          },
+        ],
+      },
     }
+
     const headers = new HttpHeaders({
       'Authorization': `Bearer ${this.getProperty('authorization')}`,
       'X-authenticated-user-token': this.getProperty('userToken'),
       'Content-Type': 'application/json',
     })
-    const options = {
-      url: `${API_END_POINTS.PROGRESS_UPDATE}`,
-      payload: req,
-    }
-    return this.http.post(options.url, options.payload, { headers })
+
+    this.logger.log('Sending SCORM progress update:', req)
+
+    return this.http.post(`${API_END_POINTS.PROGRESS_UPDATE}`, req, { headers }).pipe(
+      tap((response: any) => {
+        this.logger.log('SCORM progress response:', response)
+      }),
+      catchError((error: any) => {
+        this.logger.error('SCORM progress update failed:', error)
+        throw error
+      })
+    )
   }
 
   initzeroProgress() {

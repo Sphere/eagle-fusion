@@ -47,7 +47,17 @@ export class AudioStripsComponent implements OnInit, OnDestroy {
   audioControl(id: string) {
     const audio = <HTMLAudioElement>document.getElementById(id)
     if (!this.isAudioPlaying) {
-      audio.play()
+      const playPromise = audio.play()
+      if (playPromise !== undefined) {
+        playPromise
+          .catch((error: any) => {
+            // Play was interrupted or failed - handle gracefully
+            if (error.name !== 'AbortError') {
+              console.error('Audio play error:', error)
+            }
+            this.isAudioPlaying = false
+          })
+      }
     } else {
       audio.pause()
       audio.currentTime = 0

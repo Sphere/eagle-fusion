@@ -53,7 +53,7 @@ export class Storage {
   }
 
   getAll(): IScromData | null {
-    console.log(this.contentKey)
+    // Content key is logged here for debugging SCORM storage integrity
     let item = window.localStorage.getItem(this.contentKey)
     if (!item) {
       return null
