@@ -68,8 +68,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private signupService: SignupService,
     private UserAgentResolverService: UserAgentResolverService,
     private readonly valueSvc: ValueService,
-    public dialog: MatDialog,
-    private logger: LoggerService
+    public dialog: MatDialog
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
   }
@@ -83,7 +82,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.router.navigate(['error-service-unavailable'])
       }
     })
-    this.logger.log("this.configSvc.unMappedUser", this.configSvc.unMappedUser)
+    this.loggerSvc.log("this.configSvc.unMappedUser", this.configSvc.unMappedUser)
 
     // Initialize form first
     this.signupService.fetchStartUpDetails().then(result => {
@@ -98,14 +97,14 @@ export class NewTncComponent implements OnInit, OnDestroy {
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         (userDetails: any) => {
           this.userData = userDetails
-          this.logger.log("this.userData", this.userData)
+          this.loggerSvc.log("this.userData", this.userData)
           // Check if tncAccepted is undefined (not accepted yet)
           const tncAccepted = userDetails.profileDetails?.profileReq?.personalDetails?.tncAccepted
           this.showAcceptbtn = tncAccepted === undefined || tncAccepted === null || tncAccepted === false
-          this.logger.log("TNC Accepted:", tncAccepted, "Show Button:", this.showAcceptbtn)
+          this.loggerSvc.log("TNC Accepted:", tncAccepted, "Show Button:", this.showAcceptbtn)
         },
         (error: any) => {
-          this.logger.error('Error fetching user details:', error)
+          this.loggerSvc.error('Error fetching user details:', error)
           this.showAcceptbtn = true // Show button if there's an error fetching details
         }
       )
@@ -135,9 +134,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.tncAcceptedBtn = !this.tncAcceptedBtn
   }
   handleScrollToBottom(isAtBottom: boolean): void {
-    this.logger.log(isAtBottom)
+    this.loggerSvc.log(isAtBottom)
     if (isAtBottom) {
-      this.logger.log('Scrolled to the bottom of the page!')
+      this.loggerSvc.log('Scrolled to the bottom of the page!')
       this.shouldScrollToBottom = true
     } else {
       this.shouldScrollToBottom = false
@@ -151,9 +150,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     this.showTnc = false
   }
   handleScroll(isScrolled: boolean): void {
-    this.logger.log('User is scrolling within the div!', isScrolled)
+    this.loggerSvc.log('User is scrolling within the div!', isScrolled)
     if (isScrolled) {
-      this.logger.log('Scrolled to the bottom of the page!')
+      this.loggerSvc.log('Scrolled to the bottom of the page!')
       this.shouldScrollToBottom = true
     } else {
       this.shouldScrollToBottom = false
@@ -292,7 +291,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   //     //   }
   //     // ]
 
-  //     this.logger.log("professionalDetails", professionalDetails)
+  //     this.loggerSvc.log("professionalDetails", professionalDetails)
   //     if (professionalDetails && professionalDetails.length > 0) {
   //       profileReq.profileReq['professionalDetails'] = professionalDetails
   //     }
@@ -342,7 +341,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
       this.createUserForm.controls.tncAccepted.setValue('true')
       const userAgent = this.UserAgentResolverService.getUserAgent()
       const userCookie = this.UserAgentResolverService.generateCookie()
-      this.logger.log('userCookie: ', userCookie)
+      this.loggerSvc.log('userCookie: ', userCookie)
       if (this.configSvc.userProfile) {
         this.userId = this.configSvc.userProfile.userId
         this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
@@ -394,7 +393,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
                 ...(userSource ? { userSource } : {})
                 // personalDetails: profileRequest.profileReq.personalDetails
               }
-              this.logger.log("this.userProfileData", this.userProfileData)
+              this.loggerSvc.log("this.userProfileData", this.userProfileData)
               let profileRequest = constructReq(this.createUserForm, this.userProfileData, userAgent, userCookie)
 
               profileRequest = Object.assign(profileRequest, obj)
@@ -416,8 +415,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
                   tncAcceptedOn: new Date().getTime()
                 },
               }
-              this.logger.log(reqUpdate, 'sss')
-              this.logger.log(this.termsAccepted)
+              this.loggerSvc.log(reqUpdate, 'sss')
+              this.loggerSvc.log(this.termsAccepted)
               this.updateUser(reqUpdate)
               //}
             }
@@ -432,7 +431,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
   updateUser(reqUpdate: any) {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
       const res = await data
-      this.logger.log(res.result.response)
+      this.loggerSvc.log(res.result.response)
       if (res.result.response === 'SUCCESS') {
         localStorage.removeItem('utm_source')
         this.configSvc.profileDetailsStatus = true
@@ -457,7 +456,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
                 // Background details are filled - redirect to url_before_login if available
                 const urlBeforeLogin = localStorage.getItem('url_before_login')
                 if (urlBeforeLogin) {
-                  this.logger.log('Redirecting to url_before_login:', urlBeforeLogin)
+                  this.loggerSvc.log('Redirecting to url_before_login:', urlBeforeLogin)
                   window.location.href = urlBeforeLogin
                 } else {
                   // No url_before_login, redirect to home
@@ -486,7 +485,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     // Check if user belongs to selective org config
     if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
       const redirectUrl = orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
-      this.logger.log(`Redirecting to selective org [${scenario}]:`, redirectUrl)
+      this.loggerSvc.log(`Redirecting to selective org [${scenario}]:`, redirectUrl)
 
       const urlParts = redirectUrl.split('?')
       homePath = urlParts[0]
@@ -498,7 +497,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         })
       }
     } else {
-      this.logger.log(`Redirecting to home [${scenario}]`)
+      this.loggerSvc.log(`Redirecting to home [${scenario}]`)
     }
 
     const cleanPath = homePath.startsWith('/') ? homePath.slice(1) : homePath
@@ -512,7 +511,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         .join('&')
       : ''
 
-    this.logger.log('Reloading page for:', finalPath)
+    this.loggerSvc.log('Reloading page for:', finalPath)
     window.location.assign(`${location.origin}${finalPath}${queryString}`)
   }
 

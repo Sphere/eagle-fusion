@@ -176,7 +176,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           (window as any).fbq('track', 'ViewContent', { "contentId": data.content.data.identifier, "content_category": data.content.data.cneName ? "CNE" : "Non CNE", value: data.content.data.cneName })
         }
         catch (e) {
-          this.logger.log("fb pixel error")
+          this.loggerSvc.log("fb pixel error")
         }
         this.initData(data)
       })
@@ -192,7 +192,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       },
       () => {
         // tslint:disable-next-line: no-console
-        this.logger.log('error on batchSubscription')
+        this.loggerSvc.log('error on batchSubscription')
       },
     )
     this.updateVisibleTabs()
@@ -251,30 +251,30 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   async show() {
     try {
       this.databaseAndTablesExist = await this.onlineIndexedDbService.checkDatabaseTablesExists()
-      this.logger.log(this.databaseAndTablesExist)
+      this.loggerSvc.log(this.databaseAndTablesExist)
       if (!this.databaseAndTablesExist) {
-        this.logger.log('Database or tables do not exist in IndexedDB, creating...')
+        this.loggerSvc.log('Database or tables do not exist in IndexedDB, creating...')
         await this.createDatabaseAndTables()
-        this.logger.log('Database and tables created in IndexedDB')
+        this.loggerSvc.log('Database and tables created in IndexedDB')
       } else {
-        this.logger.log('Database and tables already exist in IndexedDB')
+        this.loggerSvc.log('Database and tables already exist in IndexedDB')
         await this.checkData()
       }
     } catch (error) {
-      this.logger.error('Error checking/creating database and tables in IndexedDB:', error)
+      this.loggerSvc.error('Error checking/creating database and tables in IndexedDB:', error)
     }
   }
   async refreshTable() {
     try {
       const tableName = 'onlineCourseProgress' // Specify the table name
       let tableData = await this.onlineIndexedDbService.getData(tableName)
-      this.logger.log(tableData)
+      this.loggerSvc.log(tableData)
     } catch (error) {
-      this.logger.error('Error fetching data from IndexedDB:', error)
+      this.loggerSvc.error('Error fetching data from IndexedDB:', error)
     }
   }
   checkData() {
-    this.logger.log('ppp')
+    this.loggerSvc.log('ppp')
   }
 
   showContents() {
@@ -515,36 +515,36 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       data => {
 
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
-          this.logger.log('datatta', data)
+          this.loggerSvc.log('datatta', data)
           this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
-            this.logger.log('Record:', record)
+            this.loggerSvc.log('Record:', record)
             this.rowData = await record
             let dat = JSON.parse(this.rowData.data)
             if (dat && dat.length) {
               this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
               this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-              this.logger.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
+              this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
             }
           }, (error) => {
-            this.logger.error('Error:', error, data.result.contentList)
+            this.loggerSvc.error('Error:', error, data.result.contentList)
             this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
               (dat: any) => {
-                this.logger.log('Data inserted successfully1', dat)
+                this.loggerSvc.log('Data inserted successfully1', dat)
                 this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
-                  this.logger.log('Record:', record)
+                  this.loggerSvc.log('Record:', record)
                   this.rowData = await record
                   let dat = JSON.parse(this.rowData.data)
                   if (dat && dat.length) {
                     this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
                     this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
-                    this.logger.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
+                    this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
                   }
                 }, (error) => {
-                  this.logger.error('Error:', error)
+                  this.loggerSvc.error('Error:', error)
                 })
               },
               (error) => {
-                this.logger.error('Error inserting data:', error)
+                this.loggerSvc.error('Error inserting data:', error)
               }
             )
           })
@@ -567,9 +567,9 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           this.resumeResource = this.resumeData.filter((item: any) => {
             return (item.contentId == (this.enrolledCourse && this.enrolledCourse.lastReadContentId ? this.enrolledCourse.lastReadContentId : ''))
           })
-          this.logger.log(this.enrolledCourse, 'enrolledCourse')
-          this.logger.log(this.resumeResource[0], 'me')
-          this.logger.log(this.resumeData)
+          this.loggerSvc.log(this.enrolledCourse, 'enrolledCourse')
+          this.loggerSvc.log(this.resumeResource[0], 'me')
+          this.loggerSvc.log(this.resumeData)
           const totalCount = toInteger(get(this.content, 'leafNodesCount')) || 1
           if (progress.length < totalCount) {
             const diff = totalCount - progress.length
@@ -587,7 +587,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           // }
           this.tocSvc.updateResumaData(this.resumeData)
         } else {
-          this.logger.log('no data')
+          this.loggerSvc.log('no data')
           this.resumeData = null
         }
       },
@@ -617,28 +617,28 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         arr1.push(obj2)
       }
     })
-    this.logger.log(arr1, 'arr1')
+    this.loggerSvc.log(arr1, 'arr1')
     this.onlineIndexedDbService.insertData(userID, courseId, 'onlineCourseProgress', arr1).subscribe(
       () => {
-        this.logger.log('Data inserted successfully2')
+        this.loggerSvc.log('Data inserted successfully2')
       },
       (error) => {
-        this.logger.error('Error inserting data:', error)
+        this.loggerSvc.error('Error inserting data:', error)
       }
     )
     const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
-    this.logger.log('Aggregate value:', aggregateValue)
-    this.logger.log(this.content, 'content')
+    this.loggerSvc.log('Aggregate value:', aggregateValue)
+    this.loggerSvc.log(this.content, 'content')
     let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
-    this.logger.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
+    this.loggerSvc.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
     let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
-    this.logger.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
+    this.loggerSvc.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
     let progress = Math.min(Math.max(percentage, 0), 100)
     return progress
   }
   calculateAggregate(arr: any, field: string): number {
     let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
-    this.logger.log(val)
+    this.loggerSvc.log(val)
     return val
   }
 
@@ -696,7 +696,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
         }
       })
         .catch((err: any) => {
-          this.logger.log(err)
+          this.loggerSvc.log(err)
           this.openSnackbar(err.error.params.errmsg)
         })
     }

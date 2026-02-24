@@ -107,8 +107,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
-    private discussiConfig: DiscussConfigResolve,
-    private logger: LoggerService
+    private discussiConfig: DiscussConfigResolve
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
@@ -169,7 +168,7 @@ export class AppTocHomeComponent implements OnInit, OnDestroy {
       },
       () => {
         // tslint:disable-next-line: no-console
-        this.logger.log('error on batchSubscription')
+        this.loggerSvc.log('error on batchSubscription')
       },
     )
   }

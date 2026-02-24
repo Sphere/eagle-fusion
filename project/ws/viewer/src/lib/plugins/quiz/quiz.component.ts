@@ -340,7 +340,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.handleAssesmentDialogClose()
       },
       (error) => {
-        this.logger.warn('Failed to fetch progress before opening assessment:', error)
+        this.loggerSvc.warn('Failed to fetch progress before opening assessment:', error)
         // On error, still open modal without progress data
         this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
           panelClass: 'assesment-modal',
@@ -364,7 +364,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
   private handleAssesmentDialogClose() {
     this.dialogAssesment.afterClosed().subscribe((result: any) => {
-      this.logger.log(result.event)
+      this.loggerSvc.log(result.event)
       if (result) {
         if (result.event === 'NEXT_COMPETENCY' && result.competency) {
           this.nextCompetency()
@@ -420,7 +420,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               })
               this.contentSvc.changeMessage(messageData)
             },
-            (error) => { this.logger.warn('Progress update failed:', error) }
+            (error) => { this.loggerSvc.warn('Progress update failed:', error) }
           )
         }
       }
@@ -571,7 +571,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.handleQuizDialogClose()
       },
       (error) => {
-        this.logger.warn('Failed to fetch progress before opening quiz:', error)
+        this.loggerSvc.warn('Failed to fetch progress before opening quiz:', error)
         // On error, still open modal without progress data
         this.dialogQuiz = this.dialog.open(QuizModalComponent, {
           panelClass: 'quiz-modal',
@@ -595,7 +595,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 
   private handleQuizDialogClose() {
     this.dialogQuiz.afterClosed().subscribe((result: any) => {
-      this.logger.log(result, 'res')
+      this.loggerSvc.log(result, 'res')
       if (result) {
         if (result.event === 'CLOSE') {
           this.closeQuizBtnDialog(result.event)
@@ -638,7 +638,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               })
               this.contentSvc.changeMessage(messageData)
             },
-            (error) => { this.logger.warn('Progress update failed:', error) }
+            (error) => { this.loggerSvc.warn('Progress update failed:', error) }
           )
 
           let userId
@@ -658,7 +658,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   })
                 }
                 // tslint:disable-next-line:no-console
-                this.logger.log(this.enrolledCourse)
+                this.loggerSvc.log(this.enrolledCourse)
                 const customerDate = moment(this.enrolledCourse.completedOn)
                 const dateNow = moment(new Date())
                 const duration = moment.duration(dateNow.diff(customerDate))
@@ -964,7 +964,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               })
               this.contentSvc.changeMessage(messageData)
             },
-            (error) => { this.logger.warn('Progress update failed:', error) }
+            (error) => { this.loggerSvc.warn('Progress update failed:', error) }
           )
         }
 
