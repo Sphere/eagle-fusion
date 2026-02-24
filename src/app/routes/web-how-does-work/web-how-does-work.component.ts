@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ElementRef } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef, effect } from '@angular/core'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { ScrollService } from '../../services/scroll.service'
 import { VideoPopupComponent } from '../how-does-it-works-popup/how-does-it-works-popup.component'
@@ -15,14 +15,18 @@ export class WebHowDoesWorkComponent implements OnInit {
   /** to listen the eevnt **/
   @Output() openPlayer = new EventEmitter()
   videoData: any[] = []
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall$ = false
   constructor(
     private scrollService: ScrollService,
     private elementRef: ElementRef,
     public dialog: MatDialog,
     private sanitizer: DomSanitizer,
     private valueSvc: ValueService
-  ) { }
+  ) {
+    effect(() => {
+      this.isXSmall$ = this.valueSvc?.isMobile() ? true : false
+    })
+  }
 
   ngOnInit() {
     if (!this.config.data) {

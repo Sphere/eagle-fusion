@@ -11,6 +11,7 @@ import {
 } from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
+import { LanguageService } from '../../../services/language.service'
 @Component({
   selector: 'ws-education-edit',
   templateUrl: './education-edit.component.html',
@@ -38,6 +39,7 @@ export class EducationEditComponent implements OnInit {
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
+    private langSvc: LanguageService
   ) {
     this.educationForm = new UntypedFormGroup({
       courseDegree: new UntypedFormControl('', [Validators.required]),
@@ -135,7 +137,7 @@ export class EducationEditComponent implements OnInit {
     const userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
+    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
     console.log(local)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/education-edit'
 

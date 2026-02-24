@@ -1,6 +1,7 @@
 <section id="scrollToHowSphereWorks" class="scrollHowSphereWorks">
   <p class="header2 mb-0">{{ config?.title | translate }}</p>
-  <p class="label1">{{ (isXSmall$ | async) === false ? config?.subTitle : config?.subTitleMobile | translate }}</p>
+  <p class="label1" *ngIf="!isXSmall$">{{config?.subTitle | translate}}</p>
+  <p class="label1" *ngIf="isXSmall$">{{config?.subTitleMobile | translate }}</p>
   <div *ngIf="videoData?.length>0" class="scrollHowSphereWorks-block">
     <div class="block-container " *ngFor="let video of videoData">
       <div class="how-work-content" (click)="openVideoPopup(video?.url)">
