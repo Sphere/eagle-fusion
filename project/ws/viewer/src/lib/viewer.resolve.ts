@@ -697,7 +697,7 @@ export class ViewerResolve {
                   } else {
                     this.router.navigate([validation.redirectUrl])
                   }
-                  return throwError(() => new Error('Resource not accessible due to gating or missing course context'))
+                  return throwError(new Error('Resource not accessible due to gating or missing course context'))
                 }
                 return of(response)
               })

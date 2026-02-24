@@ -343,8 +343,10 @@ export class WorkInfoListComponent implements OnInit {
     this.logger.log(data)
     this.selectedBg = data
     switch (data) {
-
       case 'Mother/Family Members':
+        const control = this.personalDetailForm.get('locationselect')
+        control?.clearValidators()
+        control?.updateValueAndValidity()
         this.enableSubmit = false
         break
       case 'Asha Facilitator':
@@ -356,7 +358,7 @@ export class WorkInfoListComponent implements OnInit {
         const cName = this.userProfileData.personalDetails.postalAddress
         this.logger.log(cName)
         const { state, dist } = this.extractStateDistrictFromPostalAddress(cName)
-        const location = this.userProfileData.professionalDetails[0].locationselect !== undefined
+        const location = this.userProfileData.professionalDetails[0].locationselect
           ? this.userProfileData.professionalDetails[0].locationselect
           : dist
         controls.locationselect.setValue(location)

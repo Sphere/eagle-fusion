@@ -34,7 +34,7 @@ export class AppInterceptorService implements HttpInterceptor {
             this.logger.warn('Public page received 419, returning empty response to allow page to load')
             return of(new HttpResponse({ status: 200, body: {} }))
           }
-          return throwError(() => error)
+          return throwError(error)
         })
       )
     }
@@ -87,10 +87,10 @@ export class AppInterceptorService implements HttpInterceptor {
             if (error.status === 419) {
               // Session expired - don't redirect, let app handle gracefully
               this.logger.warn('Session expired (419), allowing error to propagate')
-              return throwError(() => error)
+              return throwError(error)
             }
           }
-          return throwError(() => error)
+          return throwError(error)
         })
       )
     }

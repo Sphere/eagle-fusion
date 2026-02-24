@@ -174,10 +174,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   }
 
   tabClick() {
-    const tabElement = document.getElementById('mat-tab-label-0-1')
-    if (tabElement) {
-      tabElement.click()
-    }
+    this.selectedIndex = 1
   }
 
 

@@ -160,7 +160,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     this.dialogRef?.close()
   }
 
-  @HostListener('window:popstate', ['$event'])
+  @HostListener('window:popstate', [])
   onPopState(): void {
     this.navigateToHome(true)
   }

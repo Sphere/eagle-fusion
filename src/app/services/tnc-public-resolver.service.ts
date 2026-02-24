@@ -5,6 +5,7 @@ import { map, catchError } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
 import { IResolveResponse, ConfigurationsService } from '@ws-widget/utils'
 import { NsTnc } from '../models/tnc.model'
+import { LanguageService } from './language.service'
 
 const API_END_POINTS = {
   USER_SIGNUP: `apis/public/v8/register/registerUserWithEmail`,
@@ -20,7 +21,8 @@ export class TncPublicResolverService {
 
   constructor(
     private http: HttpClient,
-    private configSvc: ConfigurationsService
+    private configSvc: ConfigurationsService,
+    private langSvc: LanguageService
   ) { }
 
   resolve(): Observable<IResolveResponse<NsTnc.ITnc>> {
@@ -31,7 +33,7 @@ export class TncPublicResolverService {
   }
   getPublicTnc(): Observable<NsTnc.ITnc> {
     // Language detection uses LanguageService and localStorage (set by LanguageService)
-    let lang: string = localStorage.getItem('language') || 'en'
+    let lang: string = this.langSvc.getCurrentLanguage() || 'en'
 
     // Check user preferences as fallback
     lang = this.configSvc.unMappedUser?.profileDetails?.preferences?.language || lang

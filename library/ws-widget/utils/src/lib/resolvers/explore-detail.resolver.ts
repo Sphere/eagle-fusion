@@ -50,7 +50,7 @@ export class ExploreDetailResolve {
               }
             }
             // Don't retry on client errors (4xx) or after max retries
-            return throwError(() => error)
+            return throwError(error)
           })
         )
       ),
