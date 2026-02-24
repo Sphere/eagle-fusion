@@ -47,10 +47,11 @@
       </div>
     </div>
   </mat-toolbar>
-  <ng-container *ngIf="widgetData?.pdfUrl">
-    <ngx-extended-pdf-viewer [src]="widgetData.pdfUrl" useBrowserLocale="true" [height]="getPDFHeight"
+  <ng-container *ngIf="widgetData?.pdfUrl && pdfViewerReady">
+    <ngx-extended-pdf-viewer [src]="widgetData.pdfUrl" [useBrowserLocale]="true" [height]="getPDFHeight"
       [zoom]="getPDFZoom" [page]="currentPage.value" [showToolbar]="false" enablePinchOnMobile="true"
-      (pageChange)="loadPageNum($event)" (pagesLoaded)="documentLoded($event)"
-      [(sidebarVisible)]="sidebarOpen"></ngx-extended-pdf-viewer>
+      (pageChange)="loadPageNum($event)" (pagesLoaded)="documentLoded($event)" [(sidebarVisible)]="sidebarOpen"
+      [showHandToolButton]="false" [showSecondaryToolbarButton]="false"
+      [showRotateButton]="false"></ngx-extended-pdf-viewer>
   </ng-container>
 </section>

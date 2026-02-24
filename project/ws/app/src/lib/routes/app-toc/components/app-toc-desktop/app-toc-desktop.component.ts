@@ -305,7 +305,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     } else if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
       // ✅ Redirect to selective org course page instead of home
       const redirectUrl = orgSelectiveConfig.redirectUrl || '/page/home'
-      console.log('🏫 Redirecting to selective org page:', redirectUrl)
+      console.log('Redirecting to selective org page:', redirectUrl)
       location.href = `${document.baseURI.replace(/\/hi$/, '').replace(/\/$/, '')}${redirectUrl}`
     } else {
       this.navService.nativeWindow.history.back()

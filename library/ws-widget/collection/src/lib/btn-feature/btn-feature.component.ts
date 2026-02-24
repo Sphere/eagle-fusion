@@ -141,7 +141,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       // ✅ If org matches selective config, redirect to selective course page
       if (selectiveData && selectiveData.orgId === org) {
         url = '/app/org-selective-course'
-        console.log('🏫 Redirecting to selective org homepage for:', org)
+        console.log('Redirecting to selective org homepage for:', org)
       }
 
       location.href = `${baseUrl}${url}`

@@ -57,6 +57,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   private renderSubject = new Subject()
   private lastRenderTask: any | null = null
   private lastSentPage = -1  // Track last page we sent progress for
+  private maxPageReached = 0  // Highest page ever viewed — progress never goes below this
   private contentDataFetched = false  // Track if we've already fetched contentData
   private contentHistoryResponse: any = null  // Store full progress response for messaging
   // Subscriptions
@@ -70,6 +71,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   pdfMobileHeight = '300px'
   pdfZoom = '28%'
   sidebarOpen = false
+  pdfViewerReady = false  // Start hidden; enabled after delay to let old PDFViewerApplication clean up
 
   constructor(
     private activatedRoute: ActivatedRoute,
@@ -118,6 +120,13 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   }
 
   ngOnInit() {
+    // Delay showing the PDF viewer to allow any previous PDFViewerApplication
+    // singleton to fully clean up its eventBus before we create a new instance.
+    // setTimeout with 0 defers to the next macrotask, which is enough for cleanup.
+    setTimeout(() => {
+      this.pdfViewerReady = true
+    }, 0)
+
     // this.zoom.disable()
     this.currentPage.disable()
     // this.valueSvc.isLtMedium$.subscribe(ltMedium => {
@@ -198,11 +207,19 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   }
 
   ngOnDestroy() {
+    this.pdfViewerReady = false
+
+    // Remove any stale locale link tags left by ngx-extended-pdf-viewer.
+    // If these remain, the next viewer instance detects them as "user-provided"
+    // translations and skips adding its own, breaking locale initialization.
+    document.querySelectorAll('link[type="application/l10n"]').forEach(el => el.remove())
+
     if (this.identifier) {
       this.fireRealTimeProgress(this.identifier)
     }
     // Reset tracking variables
     this.lastSentPage = -1
+    this.maxPageReached = 0
     this.contentDataFetched = false
 
     if (this.contextMenuSubs) {
@@ -319,6 +336,17 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           this.contentHistoryResponse = data['result']
           // Cache single item contentData
           this.contentData = data['result']['contentList'].find((obj: any) => obj.contentId === this.identifier)
+
+          // Initialize maxPageReached from server-stored progress so we never go below it
+          if (this.contentData?.progressdetails?.current) {
+            const serverPage = Array.isArray(this.contentData.progressdetails.current)
+              ? parseInt(this.contentData.progressdetails.current[0] || '0', 10)
+              : parseInt(this.contentData.progressdetails.current || '0', 10)
+            if (serverPage > this.maxPageReached) {
+              this.maxPageReached = serverPage
+            }
+          }
+
           // Now trigger the progress check logic
           this.checkAndUpdateProgress()
         })
@@ -332,55 +360,61 @@ export class PlayerPdfComponent extends WidgetBaseComponent
 
   private checkAndUpdateProgress() {
     if (this.identifier) {
-      const realTimeProgressRequest = {
-        ...this.realTimeProgressRequest,
-        max_size: this.totalPages,
-        current: this.current,  // Use accumulated pages, not just current page
+      // Update the high-water mark — progress is always based on the furthest page reached
+      if (this.currentPage.value > this.maxPageReached) {
+        this.maxPageReached = this.currentPage.value
       }
 
       const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
       const batchId = this.activatedRoute.snapshot.queryParams.batchId ?? this.widgetData.identifier
 
-      // Calculate percentage from accumulated pages
-      const temp = [...realTimeProgressRequest.current]
-      const latest = parseFloat(temp[temp.length - 1] || '0')
-      let percentMilis = (latest / realTimeProgressRequest.max_size) * 100
+      // Calculate percentage from the highest page ever reached, not the current page
+      let percentMilis = (this.maxPageReached / this.totalPages) * 100
 
-      // If on last page, set to 100% completion
-      if (this.currentPage.value === this.totalPages) {
+      // If highest page is the last page, set to 100% completion
+      if (this.maxPageReached >= this.totalPages) {
         percentMilis = 100
       }
 
       const percent = parseFloat(percentMilis.toFixed(2))
 
-      // Only update if new percentage is greater than or equal to stored percentage
+      // Only update if new percentage is strictly greater than stored percentage
       const storedPercentage = this.contentData?.completionPercentage || 0
-      if (percent < storedPercentage) {
-        // Don't degrade progress - skip API call
+      if (percent <= storedPercentage) {
+        // Don't degrade or re-send same progress — skip API call
         return
       }
 
-      // Send progress update for every new page viewed (not just first and last)
-      if (this.currentPage.value !== this.lastSentPage) {
-        this.lastSentPage = this.currentPage.value
+      const realTimeProgressRequest = {
+        ...this.realTimeProgressRequest,
+        max_size: this.totalPages,
+        current: [this.maxPageReached.toString()],  // Always send highest page reached
+      }
+
+      // Only send if we've reached a new high page
+      if (this.maxPageReached !== this.lastSentPage) {
+        this.lastSentPage = this.maxPageReached
         this.makeProgressUpdate(realTimeProgressRequest, percent, collectionId, batchId)
       }
     }
   }
 
   private makeProgressUpdate(realTimeProgressRequest: any, percent: number, collectionId: string, batchId: string) {
-    // Send only the current page, not all visited pages
-    const currentPageStr = this.currentPage.value.toString()
-    const updateRequest = {
-      ...realTimeProgressRequest,
-      current: [currentPageStr]  // Only current page being viewed
-    }
+    // realTimeProgressRequest.current already contains [maxPageReached] — use it directly
+    const updateRequest = { ...realTimeProgressRequest }
 
-    const currentValue = parseFloat(currentPageStr)
-    const status = this.viewerSvc.getStatus(currentValue, updateRequest.max_size, updateRequest.mime_type)
+    const highestPage = this.maxPageReached
+    const status = this.viewerSvc.getStatus(highestPage, updateRequest.max_size, updateRequest.mime_type)
 
     this.viewerSvc.realTimeProgressUpdateV3(this.identifier || '', updateRequest, collectionId, batchId).subscribe(
       () => {
+        // Keep local cache in sync so the guard in checkAndUpdateProgress stays effective
+        if (this.contentData) {
+          this.contentData.completionPercentage = percent
+        } else {
+          this.contentData = { completionPercentage: percent }
+        }
+
         // Ensure we have contentHistoryResponse before sending message to TOC
         if (!this.contentHistoryResponse || !this.contentHistoryResponse.contentList || this.contentHistoryResponse.contentList.length === 0) {
           // Fetch full progress data if not already cached or empty

@@ -162,18 +162,28 @@ export function videoJsInitializer(
   let loaded = false
   let readyToRaise = false
   let currTime = 0
-  if (enableTelemetry) {
-    player.on(videojsEventNames.loadeddata, () => {
-      try {
-        if (resumePoint) {
-          const start = Number(resumePoint)
-          // NOSONAR - This commented code is intentional
-          // if (start > 10 && player.duration() - start > 20) {
-          player.currentTime(start)
 
+  // Resume from saved position — must work regardless of telemetry setting
+  // Handle both cases: loadeddata not yet fired, or already fired (src in template)
+  const applyResume = () => {
+    try {
+      if (resumePoint) {
+        const start = Number(resumePoint)
+        if (!isNaN(start) && start > 0) {
+          player.currentTime(start)
         }
-      } catch (err) { }
-    })
+      }
+    } catch (err) { }
+  }
+
+  player.on(videojsEventNames.loadeddata, applyResume)
+
+  // If the video data is already loaded (src was set in the template), seek immediately
+  if (player.readyState() >= 2 && resumePoint) {
+    applyResume()
+  }
+
+  if (enableTelemetry) {
     player.on(videojsEventNames.ended, () => {
       if (loaded) {
         eventDispatcher(WsEvents.EnumTelemetrySubType.Unloaded, widgetData, WsEvents.EnumTelemetryMediaActivity.ENDED, mimeType)

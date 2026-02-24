@@ -38,30 +38,30 @@ export class PublicContactComponent implements OnInit, OnDestroy {
     const cacheBuster = new Date().getTime()
     const s3UrlWithCache = `${this.contactPageS3Url}?v=${cacheBuster}`
 
-    console.log('🔄 Loading contact page from S3:', s3UrlWithCache)
+    console.log('Loading contact page from S3:', s3UrlWithCache)
 
     this.http.get(s3UrlWithCache).subscribe(
       (data: any) => {
         this.contactPage = data
-        console.log('✅ Contact page loaded from S3:', data)
-        console.log('✅ Account Deletion Data:', this.contactPage?.accountDeletion)
-        console.log('✅ Contact Data:', this.contactPage?.contact)
+        console.log('Contact page loaded from S3:', data)
+        console.log('Account Deletion Data:', this.contactPage?.accountDeletion)
+        console.log('Contact Data:', this.contactPage?.contact)
       },
       (error: any) => {
-        console.error('❌ Failed to load contact page from S3, trying local assets:', error)
+        console.error('Failed to load contact page from S3, trying local assets:', error)
         // Fallback 1: Try local assets
         this.http.get('assets/contact-page-content.json').subscribe(
           (data: any) => {
             this.contactPage = data
-            console.log('✅ Loaded contact page from local assets:', data)
+            console.log('Loaded contact page from local assets:', data)
           },
           (assetsError: any) => {
-            console.error('❌ Failed to load from local assets, trying resolver:', assetsError)
+            console.error('Failed to load from local assets, trying resolver:', assetsError)
             // Fallback 2: try to load from resolver data
             this.subscriptionContact = this.activateRoute.data.subscribe(data => {
               if (data && data.pageData && data.pageData.data) {
                 this.contactPage = data.pageData.data
-                console.log('⚠️ Using fallback data from resolver')
+                console.log('Using fallback data from resolver')
               }
             })
           }

@@ -204,7 +204,10 @@ export class VideoComponent implements OnInit, OnDestroy {
               ? this.viewerSvc.getAuthoringUrl(this.videoData.artifactUrl)
               : this.videoData.artifactUrl
             : ''
-          this.widgetResolverVideoData.widgetData.resumePoint = this.getResumePoint(this.videoData)
+          // Only use getResumePoint as fallback if fetchContinueLearning didn't set a value
+          if (!this.widgetResolverVideoData.widgetData.resumePoint) {
+            this.widgetResolverVideoData.widgetData.resumePoint = this.getResumePoint(this.videoData)
+          }
           this.widgetResolverVideoData.widgetData.identifier = this.videoData
             ? this.videoData.identifier
             : ''
@@ -332,8 +335,9 @@ export class VideoComponent implements OnInit, OnDestroy {
                 this.widgetResolverVideoData
               ) {
                 this.widgetResolverVideoData.widgetData.resumePoint = Number(
-                  content.progressdetails.current
-                  // content.progressdetails.current.pop(),
+                  Array.isArray(content.progressdetails.current)
+                    ? content.progressdetails.current[0]
+                    : content.progressdetails.current
                 )
               }
             }

@@ -210,7 +210,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     let url = 'page/home'
     if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
       url = orgSelectiveConfig.redirectUrl || 'page/home'
-      console.log('🏫 Redirecting to selective org page:', url)
+      console.log('Redirecting to selective org page:', url)
     }
 
     this.router.navigateByUrl(url)

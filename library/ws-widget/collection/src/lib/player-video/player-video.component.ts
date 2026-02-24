@@ -124,16 +124,18 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       this.fetchContent().then(() => {
         console.log("this.widgetData.videoQuestions", this.widgetData)
 
-        if (this.videoTag) {
-          this.addTimeUpdateListener(this.videoTag.nativeElement)
-        }
-        if (this.realvideoTag) {
-          this.addTimeUpdateListener(this.realvideoTag.nativeElement)
-        }
         if (this.widgetData.url) {
           if (this.widgetData.isVideojs) {
             this.initializePlayer()
+            // Set up time-update listeners using the already-created player
+            if (this.player) {
+              this.setupVideoQuestionListeners(this.player)
+            }
           } else {
+            // For native video, set up listeners before init (no double-init issue)
+            if (this.realvideoTag) {
+              this.addTimeUpdateListener(this.realvideoTag.nativeElement)
+            }
             this.initializeVPlayer()
           }
         }
@@ -153,7 +155,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         userId,
         batchId,
         courseId: this.activatedRoute.snapshot.queryParams.collectionId ?? '',
-        contentIds: [],
+        contentIds: this.widgetData.identifier ? [this.widgetData.identifier] : [],
         fields: ['progressdetails'],
       },
     }
@@ -162,7 +164,11 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       const contentData = data.result.contentList.find((obj: any) => obj.contentId === this.widgetData.identifier)
       if (contentData?.progressdetails?.current) {
         this.progressData = contentData
-        this.widgetData.resumePoint = contentData.progressdetails.current
+        // Parse the resume point to a number — progressdetails.current is an array like ["69.613"]
+        const currentVal = Array.isArray(contentData.progressdetails.current)
+          ? contentData.progressdetails.current[0]
+          : contentData.progressdetails.current
+        this.widgetData.resumePoint = parseFloat(currentVal) || 0
         console.log("Updated resume point:", this.widgetData.resumePoint)
       }
     }
@@ -174,8 +180,15 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       poster: this.widgetData.posterImage,
       autoplay: this.widgetData.autoplay ?? false,
     })
+    this.setupVideoQuestionListeners(player)
+  }
 
-    const videoId = videoElement.id
+  /**
+   * Set up video question milestone listeners on an existing videojs player.
+   * Separated from addTimeUpdateListener to avoid double-initializing the player.
+   */
+  setupVideoQuestionListeners(player: any): void {
+    const videoId = player.id() || 'default'
     this.videoStates[videoId] = {
       popupTriggered: new Set<number>(), // Track triggered milestones
       currentMilestone: null,
@@ -245,7 +258,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
         this.dialog.closeAll()
         videoElement.play()
         intervalId.unsubscribe() // Stop the current interval
-        this.addTimeUpdateListener(videoElement) // Resume the listener if needed
+        this.setupVideoQuestionListeners(videoElement) // Resume the listener using existing player
         this.onTimeUpdate()
       })
     }
