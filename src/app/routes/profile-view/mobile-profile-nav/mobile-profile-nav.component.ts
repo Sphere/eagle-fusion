@@ -3,7 +3,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { LogoutComponent } from '../../../../../library/ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
-import { ConfigurationsService } from '@ws-widget/utils'
 
 @Component({
   selector: 'ws-mobile-profile-nav',
@@ -18,7 +17,6 @@ export class MobileProfileNavComponent implements OnInit {
   constructor(
     private dialog: MatDialog,
     public router: Router,
-    private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
   ) {
     this.contentSvc.backMessage.subscribe((data: any) => {
