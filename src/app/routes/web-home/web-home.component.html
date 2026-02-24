@@ -7,9 +7,9 @@
       <div class="create-account" *ngIf="!isXsmall">
         <a role="button" matRipple class="flex mt-8 box-sizing-box" (click)="createAcct()" active
           [ngStyle]="{'width':'inherit', 'z-index': 10}" routerLinkActive="ws-mat-accent-text">
-          <span class="new-user-txt">{{config?.label}}</span>
+          <span class="new-user-txt">{{config?.label | translate }}</span>
           <button name="login_client_button" color="primary" class="login-btn header-btn mat-button-base">
-            {{config?.button?.label}}
+            {{config?.button?.label | translate}}
           </button>
         </a>
       </div>
