@@ -286,11 +286,12 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
   }
 
-  showSocialChats() {
+  showSocialChats(event?: Event) {
     try {
-      setTimeout(() => {
-        this.isCommonChatEnabled = false
-      }, 300)
+      event?.preventDefault()
+      event?.stopPropagation()
+      this.logger.log('clicked', this.isCommonChatEnabled)
+      this.isCommonChatEnabled = false
     } catch (error) {
       this.logger.error('Error showing social chats:', error)
     }

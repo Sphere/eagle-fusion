@@ -22,6 +22,7 @@ export class ViewAllComponent implements OnInit {
   searchResults!: any
   searchRequestStatus = 'none'
   plyLsData: any
+  identifiers: any = []
   constructor(
     private readonly orgService: OrgServiceService,
     private readonly valueSvc: ValueService,
@@ -35,8 +36,11 @@ export class ViewAllComponent implements OnInit {
   ngOnInit() {
     this.route.queryParams.subscribe(async params => {
       this.courseType = params['courseType'] || 'defaultCourseType' // Use a default if needed
+      this.identifiers = params['data']
       this.logger.log('Course Type:', this.courseType)
-      this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+      if (this.configSvc?.userProfile?.rootOrgId)
+        this.plyLsData = await this.playlistSvc.getPlaylistConfig()
+      this.searchRequestStatus = 'fetching'
       this.fetchEnvironmentConfigurations()
     })
   }
@@ -51,7 +55,7 @@ export class ViewAllComponent implements OnInit {
 
   fetchEnvironmentConfigurations() {
     const identifiers = []
-    this.plyLsData.forEach(async (element: any) => {
+    this.plyLsData?.forEach(async (element: any) => {
       if (element.orgId == this.configSvc.userProfile.rootOrgId && element.language == this.langSvc.getCurrentLanguage()) {
         if (this.courseType === 'topCourse' && element.playlistId === "TOP_COURSE_PLAYLIST") {
           this.topCertifiedCourseIdentifier = []
@@ -79,7 +83,30 @@ export class ViewAllComponent implements OnInit {
           }
         })
     })
+    if (!this.configSvc?.userProfile?.rootOrgId) {
+      if (this.identifiers?.length > 0) {
+        this.orgService
+          .getTopLiveSearchResults(this.identifiers, this.langSvc.getCurrentLanguage())
+          .subscribe((results: any) => {
+            const content = results?.result?.content || []
+            if (content?.length > 0) {
+              if (this.courseType === 'topCourse') {
+                this.topCertifiedCourseIdentifier = []
+                this.topCertifiedCourseIdentifier = this.identifiers
+                this.searchRequestStatus = 'done'
+                this.formatTopCertifiedCourseResponse(results)
+              } else {
+                this.searchRequestStatus = 'done'
+                this.cneCoursesIdentifier = []
+                this.cneCoursesIdentifier = this.identifiers
+                this.formatcneCourseResponse(results)
+              }
+            }
+          })
+      }
+    }
   }
+
 
   contentTrackBy(item: any) {
     return item.identifier

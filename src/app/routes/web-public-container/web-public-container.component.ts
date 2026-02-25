@@ -212,7 +212,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     } else if (courseType == 'topCourse' || courseType == 'cneCourses') {
       content.displayData = this.isXSmall ?
         (courseType == 'topCourse' ? this.topCertifiedCourse : this.cneCourse)
-        : this.router.navigate(['app/search/topCourse'], { queryParams: { courseType: courseType } })
+        : this.router.navigate(['app/search/topCourse'], { queryParams: { courseType: courseType, data: courseType == 'topCourse' ? this.topCertifiedCourseIdentifier : this.cneCoursesIdentifier } })
     }
   }
 

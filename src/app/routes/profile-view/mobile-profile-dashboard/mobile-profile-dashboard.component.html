@@ -49,12 +49,14 @@
         </div>
         <div class="flex justify-center" *ngIf="ls.id == 'help&Support'">
           <ng-container *ngIf="uiConfig?.length">
-            <a class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2" [href]="isEkshamata && configSvc.hostedInfo?.phone
-                    ? 'tel:' + configSvc.hostedInfo.phone.replace('tel:', '')
-                    : null" (click)="!isEkshamata ? showSocialChats() : null">
-              {{ ls.text | translate }}
-              <img [width]="isEkshamata ? 20 : 18" height="18" [src]="ls.img" alt="" />
+            <a *ngIf="isEkshamata" class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2"
+              [href]="'tel:' + configSvc.hostedInfo?.phone?.replace('tel:', '')">{{ ls.text | translate }}
+              <img [width]="20" height="18" [src]="ls.img" alt="" />
             </a>
+            <button *ngIf="!isEkshamata" class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2"
+              (click)="showSocialChats($event)">{{ ls.text | translate }}
+              <img [width]="18" height="18" [src]="ls.img" alt="" />
+            </button>
           </ng-container>
         </div>
         <div *ngIf="ls.id !== 'leaderBoard' && ls.id !== 'help&Support'">
@@ -144,7 +146,7 @@
             <span>{{ ls.text | translate }}</span>
           </a>
           <button *ngIf="!isEkshamata && ls.type == 'button'" class="web-help-btn mt-2 mb-2 cursor-pointer"
-            (click)="showSocialChats()">{{ ls.text | translate }}
+            (click)="showSocialChats($event)">{{ ls.text | translate }}
             <img width="35" height="18" [src]="ls.img" alt="" />
           </button>
         </div>
