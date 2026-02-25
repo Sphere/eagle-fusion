@@ -1,4 +1,4 @@
-<div class="link-container" *ngIf="!mode && data?.tncAccepted || data?.dob">
+<div class="link-container" *ngIf="!mode && (data?.tncAccepted || data?.dob)">
   <div class="link-block" *ngFor="let item of menuItems">
     <a role="button" *ngIf="item.type=='text'" matRipple [ngClass]="{'ws-mat-accent-text': item.show }"
       (click)="redirect(item)" active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
@@ -16,7 +16,7 @@
   <nav class="mobile-bottom-nav" *ngIf="mode && menuItems?.length">
     <button class="nav-item" *ngFor="let tab of menuItems" [class.active]="tab?.active" (click)="redirect(tab)">
       <img [src]="tab?.image?.src" class="nav-icon feature-icon-img" [alt]="tab?.title" />
-      <span class="nav-label">{{ tab?.title }}</span>
+      <span class="nav-label">{{ tab?.title | translate}}</span>
     </button>
   </nav>
 </div>
