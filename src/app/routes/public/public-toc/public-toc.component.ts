@@ -57,23 +57,13 @@ export class PublicTocComponent implements OnInit, OnDestroy {
         const id = localStorage.getItem('userUUID') || ''
 
         this.userProfileSvc.getUserdetailsFromRegistry(id).subscribe(
-          async (data: any) => {
-            const lang = data?.unMappedUser?.profileDetails?.preferences?.language
-              ?? (location.href.includes('/hi/') ? 'hi' : 'en')
+          async (_data: any) => {
+            const redirectPath = `/public/toc/overview/${this.courseid}/${slug}`
 
-            let baseUrl = `${document.baseURI}`
-            if (baseUrl.includes('/hi/')) {
-              baseUrl = baseUrl.replace(/hi\//g, '')
+            // Only redirect if needed (compare against current router URL path)
+            if (this.router.url !== redirectPath) {
+              this.router.navigateByUrl(redirectPath)
             }
-
-            const langPrefix = lang === 'hi' ? 'hi/' : ''
-            const redirectUrl = `${baseUrl}${langPrefix}public/toc/overview/${this.courseid}/${slug}`
-
-            // Only redirect if needed
-            if (window.location.href !== redirectUrl) {
-              this.router.navigateByUrl(redirectUrl)
-            }
-            // location.href = redirectUrl
             this.isLoading = false
           },
           err => {
