@@ -9,8 +9,9 @@
     [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData" style="margin-bottom: 5rem;">
 
     <div class="user-basic-details">
-      <span class="profile-user-name">{{ personalInfo?.firstname }} {{personalInfo?.middlename }}
-        {{personalInfo?.surname}}</span>
+      <span class="profile-user-name">{{ userProfileData?.personalDetails?.firstname }}
+        {{userProfileData?.personalDetails?.middlename }}
+        {{userProfileData?.personalDetails?.surname}}</span>
       <span *ngIf="currentProfession" class="profile-user-position">
         {{ menuItems[0].text | translate }} : {{ currentProfession }}
       </span>
@@ -97,8 +98,9 @@
     </button>
 
     <div [ngStyle]="{'margin-top': isEkshamata ? '0' : '-35px'}">
-      <p class="" style="font-weight:400;font-size:24px">{{ personalInfo?.firstname }}
-        <span *ngIf="personalInfo?.middlename">{{ personalInfo?.middlename }}</span>{{ personalInfo?.surname }}
+      <p class="" style="font-weight:400;font-size:24px">{{ userProfileData?.personalDetails?.firstname }}
+        <span *ngIf="userProfileData?.personalDetails?.middlename">
+          {{ userProfileData?.personalDetails?.middlename}}</span>{{userProfileData?.personalDetails?.surname }}
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">

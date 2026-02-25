@@ -60,7 +60,7 @@ import { SearchRootComponent } from './routes/search-root/search-root.component'
 import { SearchRoutingModule } from './search-routing.module'
 // import { PeopleComponent } from './routes/people/people.component'
 import { SearchInputHomeComponent } from './components/search-input-home/search-input-home.component'
-// import { PublicHomeModule } from '../../../../../../../src/app/routes/public/public-home/public-home.module'
+import { PublicHomeModule } from '../../../../../../../src/app/routes/public/public-home/public-home.module'
 import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
   declarations: [
@@ -123,7 +123,7 @@ import { TranslateModule } from '@ngx-translate/core'
     // BtnChannelAnalyticsModule,
     MatDividerModule,
     UserAutocompleteModule,
-    // PublicHomeModule,
+    PublicHomeModule,
     TranslateModule
   ],
   exports: [

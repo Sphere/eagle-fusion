@@ -55,7 +55,6 @@ export class MobileProfileDashboardComponent implements OnInit {
   domain!: string
   config: any
   uiConfig: any
-  personalInfo: any
   menuItems: any
   isMobileView = false
   selectedIndexData: any
