@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router } from '@angular/router'
 //import { v4 as uuid } from 'uuid'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
+import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-bnrc-login-otp',
   templateUrl: './bnrc-login-otp.component.html',
@@ -26,7 +27,7 @@ export class BnrcLoginOtpComponent implements OnInit {
     private fb: UntypedFormBuilder,
     private snackBar: MatSnackBar,
     private userProfileSvc: UserProfileService,
-
+    private logger: LoggerService
   ) {
     this.loginOtpForm = this.fb.group({
       code: new UntypedFormControl('', [Validators.required]),
