@@ -49,9 +49,9 @@
               </div>
             </div>
             <div class="form-group mt-4 mb-4 activeLink">
-              <span>{{ 'Did not receive a' | translate }} </span><span>{{ 'OTP?' | translate }}</span>
+              <span>{{ 'Did not receive a OTP?' | translate }}</span>
               <span class="resend-text cursor-pointer" (click)="resendOTP(emailPhoneType)">
-                {{ 'Click Here' | translate }} </span><span>{{ 'to resend' | translate }}</span>
+                {{ 'Click Here to resend' | translate }}</span>
             </div>
             <span *ngIf="!loginVerification" class="button-span">
               <button [disabled]="!loginOtpForm?.valid" class="form-group login-button mt-4 cursor-pointer" name="login"
