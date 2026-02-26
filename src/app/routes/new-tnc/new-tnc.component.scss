@@ -163,7 +163,7 @@
     margin: 20px 20px 0px 0px;
         display: flex;
         gap: 12px;
-        width: 75px;
+        width: 22%;
         height: 36px;
         color: #2E6491;
         border-radius: 63px;
@@ -173,6 +173,8 @@
         line-height: 16.41px;
         border: 1px solid #2E6491;
         padding: 8px;
+        align-items: center;
+        justify-content: center;
   }
   .tnc-main {
       background: linear-gradient(180deg, #EFF6FC 100%, #DCEFEC 32.46%, #FFFCC8 65.57%, #F9F3E8 98.36%);
