@@ -59,7 +59,7 @@ export class WebDashboardComponent implements OnInit {
     if (this.isEkshamata) {
       this.domain = window.location.hostname
       this.logger.log("yes here", this.isEkshamata)
-      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata') || this.domain.includes('localhost')) {
+      if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
         this.logger.log("yes here2 ", this.configSvc.hostedInfo)
         this.bannerFirstImage = '/fusion-assets/images/ekshamata-logo.svg'
         this.bannerSecondImage = '/fusion-assets/images/ekshamata-group.svg'
