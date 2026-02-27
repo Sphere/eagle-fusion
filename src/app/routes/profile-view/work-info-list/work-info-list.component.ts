@@ -179,7 +179,7 @@ export class WorkInfoListComponent implements OnInit {
     const profile = this.userProfileData
     const profDetails = profile?.professionalDetails?.[0]
 
-      ;['designation', 'orgType', 'orgOtherSpecify'].forEach(key => {
+      ;['designation', 'orgType', 'orgOtherSpecify', 'selectBackground'].forEach(key => {
         controls[key]?.clearValidators()
         controls[key]?.updateValueAndValidity()
       })
@@ -190,10 +190,8 @@ export class WorkInfoListComponent implements OnInit {
 
     switch (value) {
       case 'Healthcare Worker':
-        controls.designation.setValidators([Validators.required])
-        controls.orgType.setValidators([Validators.required])
-        break
       case 'Healthcare Volunteer':
+        controls.orgType.setValidators([Validators.required])
         break
       case 'ASHA':
         controls.designation.clearValidators()
@@ -217,8 +215,9 @@ export class WorkInfoListComponent implements OnInit {
           })
         }
         break
-      case 'Faculty':
       case 'Student':
+      case 'Faculty':
+        controls.designation.setValidators([Validators.required])
         break
       case 'Others':
         if (!profDetails.selectBackground) {
@@ -292,7 +291,10 @@ export class WorkInfoListComponent implements OnInit {
         case 'Faculty':
           return this.facultyList
         case 'Others':
-          return this.OthersList
+          if (this.userProfileData.personalDetails!.postalAddress!.includes('India'))
+            return this.OthersList
+          else
+            return ['Mother/ Family Members', 'Other']
         default:
           return []
       }
