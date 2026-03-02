@@ -8,6 +8,7 @@ import { ETopBar } from './constants/topBar.constants'
 import { ExternalUrlResolverService } from './guards/external-url-resolver.service'
 import { GeneralGuard } from './guards/general.guard'
 import { LoginGuard } from './guards/login.guard'
+import { EmptyRouteGuard } from './guards/empty-route.guard'
 import { FeaturesComponent } from './routes/features/features.component'
 import { FeaturesModule } from './routes/features/features.module'
 import { PublicAboutComponent } from './routes/public/public-about/public-about.component'
@@ -96,7 +97,7 @@ const routes: Routes = [
     path: 'app',
     loadChildren: () =>
       import('./routes/route-disussion.module').then(u => u.RouteDiscussModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
     data: {
       pageType: 'feature',
       pageKey: 'discuss',
@@ -176,7 +177,7 @@ const routes: Routes = [
   {
     path: 'app/features',
     component: FeaturesComponent,
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'app/invalid-user',
@@ -230,7 +231,7 @@ const routes: Routes = [
     path: 'app/person-profile',
     loadChildren: () =>
       import('./routes/route-person-profile.module').then(u => u.RoutePersonProfileModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   // {
   //   path: 'app/profile/dashboard',
@@ -240,12 +241,12 @@ const routes: Routes = [
     path: 'app/profile',
     loadChildren: () =>
       import('./routes/route-profile-app.module').then(u => u.RouteProfileAppModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'app/profile-view',
     component: MobileProfileDashboardComponent,
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   // {
   //   path: 'app/profile/settings',
@@ -262,7 +263,7 @@ const routes: Routes = [
     resolve: {
       searchPageData: PageResolve,
     },
-    // canActivate: [EmptyRouteGuard],
+    canActivate: [EmptyRouteGuard],
   },
   {
     path: 'app/signup',
@@ -279,7 +280,7 @@ const routes: Routes = [
   {
     path: 'app/toc',
     loadChildren: () => import('./routes/route-app-toc.module').then(u => u.RouteAppTocModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'app/user-profile',
@@ -289,22 +290,22 @@ const routes: Routes = [
   {
     path: 'app/user/self-assessment',
     component: SelfAssessmentComponent,
-    canActivate: [SelfAssessmentGuard],
+    canActivate: [SelfAssessmentGuard, EmptyRouteGuard],
   },
   {
     path: 'app/user/competency',
     component: CompetencyDashboardComponent,
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'app/user/my_courses',
     component: MyCoursesComponent,
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'notification',
     component: NotificationsComponent,
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
     data: { animation: 'notification' },
   },
   // {
@@ -322,7 +323,7 @@ const routes: Routes = [
   {
     path: 'author/viewer',
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'certs',
@@ -334,7 +335,7 @@ const routes: Routes = [
       topBar: ETopBar.NONE,
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'error-access-forbidden',
@@ -397,7 +398,7 @@ const routes: Routes = [
   { path: 'home', redirectTo: 'page/home', pathMatch: 'full' },
   {
     path: 'login',
-    canActivate: [LoginGuard],
+    canActivate: [LoginGuard, EmptyRouteGuard],
     component: LoginRootComponent,
     data: {
       pageType: 'feature',
@@ -435,7 +436,7 @@ const routes: Routes = [
   {
     path: 'organisations',
     loadChildren: () => import('../organisations/organisations.module').then(u => u.OrganisationsModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'public/organisations/home',
@@ -458,7 +459,7 @@ const routes: Routes = [
     },
     runGuardsAndResolvers: 'paramsChange',
     component: PageComponent,
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'page/:id',
@@ -470,7 +471,7 @@ const routes: Routes = [
     resolve: {
       pageData: PageResolve,
     },
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
 
   // {
@@ -491,7 +492,7 @@ const routes: Routes = [
       import('./routes/page-leader-renderer/page-leader-renderer.module').then(
         u => u.PageLeaderRendererModule,
       ),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
   {
     path: 'public/about',
@@ -583,7 +584,7 @@ const routes: Routes = [
       topBar: ETopBar.NONE,
     },
     loadChildren: () => import('./routes/route-viewer.module').then(u => u.RouteViewerModule),
-    canActivate: [GeneralGuard],
+    canActivate: [GeneralGuard, EmptyRouteGuard],
   },
 
   {

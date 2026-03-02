@@ -1,0 +1,36 @@
+<div class="downtime-container"
+  *ngIf="content && currentDowntimeState?.isDowntime && currentDowntimeState?.type === 'full'"
+  [ngStyle]="getContainerStyles()">
+  <div class="downtime-content">
+    <!-- Icon Section -->
+    <div class="icon-wrapper">
+      <div class="icon-placeholder" [ngStyle]="getAccentStyles()">
+        <img [src]="getIconClass()" alt="Downtime Icon" />
+      </div>
+    </div>
+
+    <!-- Title Section -->
+    <h1 class="downtime-title">
+      {{ getLocalizedTitle() }}
+    </h1>
+
+    <!-- Message Section -->
+    <p class="downtime-message">
+      {{ getLocalizedMessage() }}
+    </p>
+
+    <!-- App Link: show if enabled -->
+    <div *ngIf="getAppLink()" class="app-link-wrapper">
+      <a class="app-download-link" [href]="getAppLink()?.url" target="_blank" rel="noopener noreferrer">
+        <svg class="app-link-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none"
+          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+          <polyline points="7 10 12 15 17 10"></polyline>
+          <line x1="12" y1="15" x2="12" y2="3"></line>
+        </svg>
+        <span>{{ getAppLink()?.label }}</span>
+      </a>
+      <p *ngIf="getAppLink()?.hint" class="app-link-hint">{{ getAppLink()?.hint }}</p>
+    </div>
+  </div>
+</div>

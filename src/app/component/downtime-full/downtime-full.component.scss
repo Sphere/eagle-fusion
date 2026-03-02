@@ -1,0 +1,255 @@
+// Downtime Full Screen Component Styles
+
+.downtime-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  overflow: hidden;
+  padding: 20px;
+
+  // Prevent scrolling
+  overflow: hidden;
+
+  // Fallback colors
+  background-color: #f5f5f5;
+  color: #222222;
+}
+
+.downtime-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  max-width: 600px;
+  z-index: 1;
+  position: relative;
+
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+// Icon section
+.icon-wrapper {
+  margin-bottom: 40px;
+
+  .icon-placeholder {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 60px;
+    background: rgba(31, 78, 121, 0.1);
+    color: #1f4e79;
+    transition: all 0.3s ease;
+
+    i {
+      font-style: italic;
+      font-size: 60px;
+    }
+  }
+}
+
+// Title section
+.downtime-title {
+  font-size: 32px;
+  font-weight: 600;
+  margin: 0 0 20px 0;
+  line-height: 1.3;
+  letter-spacing: -0.5px;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 20px;
+  }
+}
+
+// Message section
+.downtime-message {
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0 0 30px 0;
+  opacity: 0.8;
+  max-width: 500px;
+
+  @media (max-width: 768px) {
+    font-size: 14px;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+    margin-bottom: 20px;
+  }
+}
+
+// App link section
+.app-link-wrapper {
+  margin-top: 36px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.app-download-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 32px;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+  background: linear-gradient(135deg, #1F4E79 0%, #2a6ba6 100%);
+  border: none;
+  border-radius: 50px;
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+  box-shadow: 0 4px 15px rgba(31, 78, 121, 0.3);
+
+  &:hover,
+  &:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(31, 78, 121, 0.4);
+    background: linear-gradient(135deg, #163d5f 0%, #1F4E79 100%);
+    color: #ffffff;
+  }
+
+  &:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 8px rgba(31, 78, 121, 0.3);
+  }
+
+  @media (max-width: 480px) {
+    font-size: 14px;
+    padding: 12px 28px;
+  }
+}
+
+.app-link-icon {
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.app-link-hint {
+  font-size: 13px;
+  color: #888888;
+  margin: 0;
+  opacity: 0.8;
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+}
+
+// Action section
+.action-section {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.support-text {
+  font-size: 13px;
+  opacity: 0.7;
+  margin: 0;
+  font-style: italic;
+}
+
+// Decoration circles (optional background elements)
+.decoration-circle {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(31, 78, 121, 0.03);
+  z-index: 0;
+
+  &.circle-1 {
+    width: 300px;
+    height: 300px;
+    top: -50px;
+    right: -50px;
+    animation: float 6s ease-in-out infinite;
+  }
+
+  &.circle-2 {
+    width: 200px;
+    height: 200px;
+    bottom: -30px;
+    left: -30px;
+    animation: float 8s ease-in-out infinite reverse;
+  }
+}
+
+// Animations
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+}
+
+// Print styles
+@media print {
+  .downtime-container {
+    display: none;
+  }
+}
+
+// Dark theme support
+.downtime-container.dark-theme {
+  background-color: #1a1a1a;
+  color: #ffffff;
+
+  .icon-placeholder {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+
+  .decoration-circle {
+    background: rgba(255, 255, 255, 0.03);
+  }
+}
+
+// Large screens optimization
+@media (min-width: 1200px) {
+  .downtime-content {
+    max-width: 700px;
+  }
+
+  .downtime-title {
+    font-size: 40px;
+  }
+
+  .downtime-message {
+    font-size: 18px;
+  }
+}

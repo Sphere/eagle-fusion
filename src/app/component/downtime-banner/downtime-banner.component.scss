@@ -1,0 +1,210 @@
+.banner-app-link-wrapper {
+  margin-top: 6px;
+}
+.banner-app-link {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 13px;
+  color: #1F4E79;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+  &:hover,
+  &:focus {
+    color: #0d3050;
+    text-decoration: underline;
+  }
+}
+// Downtime Banner Component Styles - Centered Toast Card
+
+// Wrapper: full-width positioning layer
+.downtime-banner-wrapper {
+  position: fixed;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+  display: flex;
+  justify-content: center;
+  pointer-events: none;
+  animation: slideDown 0.3s ease-out;
+
+  // Default top position (below navbar)
+  top: 80px;
+}
+
+// Card: the actual toast notification
+.downtime-banner-card {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 20px;
+  background-color: #FFF8EE;
+  color: #333333;
+  border: 1px solid #E8DCC8;
+  border-left: 4px solid #CE9A39;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  max-width: 520px;
+  min-width: 420px;
+  width: auto;
+
+  @media (max-width: 600px) {
+    max-width: calc(100vw - 32px);
+    min-width: 0;
+    margin: 0 16px;
+    padding: 14px 16px;
+    gap: 10px;
+  }
+}
+
+// Icon - filled circle with ! matching Figma
+.banner-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  font-size: 24px;
+  color: #CE9A39;
+
+  @media (max-width: 480px) {
+    width: 20px;
+    height: 20px;
+    font-size: 20px;
+  }
+}
+
+// Icon from S3 URL
+.banner-icon-img {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  object-fit: contain;
+
+  @media (max-width: 480px) {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Text section
+.banner-text {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.banner-title {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.4;
+  color: #333333;
+  word-break: break-word;
+
+  @media (max-width: 480px) {
+    font-size: 13px;
+  }
+}
+
+.banner-message {
+  font-size: 12px;
+  line-height: 1.4;
+  color: #666666;
+  word-break: break-word;
+
+  @media (max-width: 480px) {
+    font-size: 11px;
+  }
+}
+
+// Close button
+.banner-close {
+  flex-shrink: 0 !important;
+  width: 28px !important;
+  height: 28px !important;
+  min-width: 28px !important;
+  padding: 0 !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  color: #666666;
+  transition: color 0.2s ease;
+
+  &:hover,
+  &:focus {
+    color: #333333;
+    background-color: rgba(0, 0, 0, 0.06);
+  }
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+  }
+}
+
+// Animations
+@keyframes slideDown {
+  from {
+    transform: translateY(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+// Accessibility
+@media (prefers-reduced-motion: reduce) {
+  .downtime-banner-wrapper {
+    animation: none;
+  }
+}
+
+// Responsive adjustments for very small screens
+@media (max-width: 360px) {
+  .downtime-banner-card {
+    gap: 8px;
+    padding: 10px 12px;
+  }
+
+  .banner-title {
+    font-size: 12px;
+  }
+
+  .banner-message {
+    font-size: 10px;
+  }
+}
+
+// App links styling
+.banner-app-link-wrapper {
+  margin-top: 8px;
+  display: block;
+}
+
+.banner-app-link {
+  display: inline-block;
+  font-size: 13px;
+  color: #1F4E79;
+  font-weight: 500;
+  text-decoration: underline;
+  cursor: pointer;
+  transition: color 0.2s;
+
+  &:hover,
+  &:focus {
+    color: #0d3050;
+    text-decoration: underline;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 12px;
+  }
+}

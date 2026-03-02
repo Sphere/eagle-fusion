@@ -51,6 +51,7 @@ import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service
 import { TranslateService } from '@ngx-translate/core'
 import { PlaylistService } from '../../services/playlist.service'
 import { CsModule } from '@project-sunbird/client-services'
+import { DowntimeConfigService } from '../../services/downtime-config.service'
 
 @Component({
   selector: 'ws-root',
@@ -125,7 +126,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private viewerSvc: ViewerUtilService,
     private injector: Injector,
     private playlistSvc: PlaylistService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private downtimeService: DowntimeConfigService,
   ) {
     const t = this.injector.get(TranslateService, null as any)
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
@@ -367,6 +369,19 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
   async ngOnInit() {
     this.handleRouterSubscription()
+
+    // Initialize downtime configuration
+    this.downtimeService.initializeDowntimeConfig()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe(
+        (state) => {
+          this.logger.log('[RootComponent] Downtime config initialized:', state)
+        },
+        (error) => {
+          this.logger.warn('[RootComponent] Error initializing downtime config, continuing normally:', error)
+        }
+      )
+
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
       this.userSvc
