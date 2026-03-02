@@ -177,6 +177,9 @@ export class DowntimeConfigService {
         backgroundColor: content?.css?.backgroundColor || DOWNTIME_DEFAULTS.BACKGROUND_COLOR,
         textColor: content?.css?.textColor || DOWNTIME_DEFAULTS.TEXT_COLOR,
         bannerColor: content?.css?.bannerColor || DOWNTIME_DEFAULTS.BANNER_COLOR,
+        borderColor: content?.css?.borderColor || DOWNTIME_DEFAULTS.BORDER_COLOR,
+        position: content?.css?.position || 'top',
+        borderPosition: content?.css?.borderPosition || 'left',
       },
     }
 

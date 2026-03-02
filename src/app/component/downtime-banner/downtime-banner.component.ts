@@ -169,10 +169,10 @@ export class DowntimeBannerComponent implements OnInit, OnDestroy {
       color: this.cssConfig.textColor || '#333333',
     }
 
-    // Handle left border from config
+    // Handle accent border from config
     const borderPosition = this.cssConfig.borderPosition || 'left'
+    const borderColor = this.cssConfig.borderColor || '#CE9A39'
     if (borderPosition !== 'none') {
-      const borderColor = this.cssConfig.borderColor || '#CE9A39'
       const prop = `border${borderPosition.charAt(0).toUpperCase() + borderPosition.slice(1)}`
       styles[prop] = `4px solid ${borderColor}`
     }

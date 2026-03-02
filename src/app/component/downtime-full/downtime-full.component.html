@@ -1,6 +1,6 @@
 <div class="downtime-container"
   *ngIf="content && currentDowntimeState?.isDowntime && currentDowntimeState?.type === 'full'"
-  [ngStyle]="getContainerStyles()">
+  [ngClass]="getThemeClass()" [ngStyle]="getContainerStyles()">
   <div class="downtime-content">
     <!-- Icon Section -->
     <div class="icon-wrapper">

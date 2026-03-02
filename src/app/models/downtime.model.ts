@@ -90,6 +90,7 @@ export const DOWNTIME_DEFAULTS = {
   BACKGROUND_COLOR: '#F5F5F5',
   TEXT_COLOR: '#222222',
   BANNER_COLOR: '#FFF3CD',
+  BORDER_COLOR: '#CE9A39',
   FALLBACK_MESSAGE: {
     title: {
       en: 'System under maintenance',

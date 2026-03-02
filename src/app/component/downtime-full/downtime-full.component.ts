@@ -125,6 +125,13 @@ export class DowntimeFullComponent implements OnInit, OnDestroy {
   }
 
   /**
+   * Get theme CSS class based on configuration
+   */
+  getThemeClass(): string {
+    return this.cssConfig?.theme === 'dark' ? 'dark-theme' : ''
+  }
+
+  /**
    * Get dynamic styles from configuration
    */
   getContainerStyles(): Record<string, any> {
@@ -132,9 +139,10 @@ export class DowntimeFullComponent implements OnInit, OnDestroy {
       return {}
     }
 
+    const isDark = this.cssConfig.theme === 'dark'
     return {
-      backgroundColor: this.cssConfig.backgroundColor,
-      color: this.cssConfig.textColor,
+      backgroundColor: this.cssConfig.backgroundColor || (isDark ? '#1a1a1a' : '#f5f5f5'),
+      color: this.cssConfig.textColor || (isDark ? '#ffffff' : '#222222'),
     }
   }
 
