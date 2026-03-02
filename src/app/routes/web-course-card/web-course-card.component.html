@@ -12,7 +12,8 @@
         <div class="text-over">
           <!-- <img alt="" class="appIcon fitsize" [src]="courseData?.thumbnail ? courseData.thumbnail : courseData.appIcon"> -->
 
-          <img alt="" class="appIcon fitsize" src="{{courseData.thumbnail? courseData.thumbnail : courseData.appIcon}}">
+          <img alt="" class="appIcon fitsize"
+            src="{{courseData.posterImage? courseData.posterImage : courseData.appIcon}}">
           <ng-container>
             <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
               CNE: {{courseData.cneName}}
