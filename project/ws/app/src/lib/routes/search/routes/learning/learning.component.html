@@ -8,10 +8,10 @@
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
     <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
       [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
-      <span class="mt-1" *ngIf="(isXSmall$ | async) !== true">{{'Showing' | translate}} </span>
-      <span class="mt-1" *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.result.content.length }} </span>
-      <p class="text-xl" *ngIf="(isXSmall$ | async) === true">{{'All Courses' | translate}}</p>
-      <span class="mt-1" *ngIf="searchResults.result.content.length > 1 && (isXSmall$ | async) !== true ">{{'results' |
+      <span class="mt-1" *ngIf="!isXSmall">{{'Showing' | translate}} </span>
+      <span class="mt-1" *ngIf="!isXSmall"> {{ searchResults.result.content.length }} </span>
+      <p class="text-xl" *ngIf="isXSmall">{{'All Courses' | translate}}</p>
+      <span class="mt-1" *ngIf="searchResults.result.content.length > 1 && !isXSmall ">{{'results' |
         translate}}
       </span>
       <span class="mt-1" *ngIf="searchResults.result.content.length <= 1">{{'result' | translate}} </span>
@@ -21,7 +21,7 @@
           *ngFor="let lang of searchRequest?.lang?.split(',')" (click)="searchLanguage(lang)">{{lang | uppercase}}
         </span>
       </span>
-      <div class="filter-lang" *ngIf="(isXSmall$ | async) !== true">
+      <div class="filter-lang" *ngIf="!isXSmall">
         <label class="pos-rel mt-1">{{'Filter based on Language :' | translate}}</label>
         <select class="form-control lang-select"
           [ngClass]="{'lang-icon': lang === '', 'lang-selected' : lang === 'step2' }" [(ngModel)]="contact"
@@ -62,7 +62,7 @@
                 {{translatedFilters[filter?.displayName]?.value[content?.displayName] || content?.displayName}}
                 <mat-icon matChipRemove
                   (click)="appFilterDisplay.removeFilter({ key : filter?.type, value :content?.type})"
-                  *ngIf="removable">cancel</mat-icon>
+                  *ngIf="removable">{{"cancel" | translate}}</mat-icon>
               </mat-chip>
             </span>
             <span *ngIf="content?.children?.length>0">
@@ -81,12 +81,12 @@
       </mat-chip-list>
     </div>
     <div *ngIf="searchResults?.result?.content?.length">
-      <ng-container *ngIf="(isXSmall$ | async) !== true">
+      <ng-container *ngIf="!isXSmall">
         <ws-app-learning-card class="search-card"
           *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy"
           [displayType]="resultsDisplayType" [content]="result"></ws-app-learning-card>
       </ng-container>
-      <ng-container *ngIf="(isXSmall$ | async) === true">
+      <ng-container *ngIf="isXSmall">
         <ws-mobile-course-view *ngFor="let result of searchResults.result.content; trackBy: contentTrackBy"
           [courseData]="result">
         </ws-mobile-course-view>
@@ -125,7 +125,7 @@
         </button>
       </h4>
 
-      <h4 *ngIf="(isXSmall$ | async) === true">
+      <h4 *ngIf="isXSmall">
         <ng-container>{{'Removing Language' | translate}}</ng-container>
         <button (click)="removeLanguage()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>

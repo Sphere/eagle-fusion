@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, OnDestroy, Output, ViewChild } from '@angular/core'
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, OnInit, OnDestroy, Output, ViewChild, effect } from '@angular/core'
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import moment from 'moment'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -123,15 +123,20 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       distict: new FormControl(),
       countryCode: new FormControl(),
     })
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showbackButton = true
+        this.showLogOutIcon = false
+      } else {
+        this.showbackButton = false
+        this.showLogOutIcon = false
+      }
+    })
   }
 
   ngOnInit() {
     this.formConfig = this.data.formData
     this.fetchMeta()
-    this.valueSvc.isXSmall$.pipe(takeUntil(this.destroy$)).subscribe(isXSmall => {
-      this.showbackButton = isXSmall
-      this.showLogOutIcon = false
-    })
     if (this.isEkshamata) {
       this.personalDetailForm.disable()
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, effect } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
@@ -21,7 +21,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   completedCourse: any[] = []
   coursesForYou: any[] = []
   isLoading = false
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall: boolean = false
   selectedIndex = 0; // Index for the active tab
   yourPlansCourseIdentifier: any[] = []
   config: any
@@ -38,7 +38,11 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     private playlistSvc: PlaylistService,
     private langSvc: LanguageService,
     private orgService: OrgServiceService
-  ) { }
+  ) {
+    effect(() => {
+      this.isXSmall = this.valueSvc.isMobile() ? true : false
+    })
+  }
 
   async ngOnInit() {
     this.lang = this.langSvc.getCurrentLanguage()

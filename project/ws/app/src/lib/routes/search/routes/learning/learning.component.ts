@@ -1,13 +1,10 @@
-import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { Component, effect, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router'
 import { NsContent, NsError, NSSearch, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, ValueService, UtilityService, LoggerService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
-// import { IKhubFetchStatus } from '../../../infy/routes/knowledge-hub/models/knowledgeHub.model'
-// import { TrainingService } from '../../../infy/routes/training/services/training.service'
 import { FilterDisplayComponent } from '../../components/filter-display/filter-display.component'
-// import { IFilterUnitResponse, ISearchRequest, ISearchRequestV2, ISearchTab } from '../../models/search.model'
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab, ISearchRequestV3 } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 import { isEmpty, orderBy } from 'lodash'
@@ -26,7 +23,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   defaultSideNavBarOpenedSubscription: Subscription | null = null
   expandToPrefLang = true
   isLtMedium$ = this.valueSvc.isLtMedium$
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall: boolean = false
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
   searchRequestStatus = 'none'
@@ -125,11 +122,14 @@ export class LearningComponent implements OnInit, OnDestroy {
     private valueSvc: ValueService,
     private searchServ: SearchServService,
     private configSvc: ConfigurationsService,
-    // private trainingSvc: TrainingService,
     private utilitySvc: UtilityService,
     private searchSvc: SearchApiService,
     private logger: LoggerService
-  ) { }
+  ) {
+    effect(() => {
+      this.isXSmall = this.valueSvc.isMobile() ? true : false
+    })
+  }
 
   getActiveLocale() {
     const locale = (this.configSvc.activeLocale && this.configSvc.activeLocale.locals[0]) || ''

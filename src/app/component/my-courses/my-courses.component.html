@@ -12,9 +12,9 @@
       </div>
       <div [class]="tab.className" *ngFor="let data of tab?.data; let last = last"
         [ngClass]="{'last-child1': last && i % 2 === 0,'last-child2': last && i % 2 !== 0}">
-        <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="tab?.displayConfig"
+        <ws-mobile-course-view *ngIf="isXSmall" [displayConfig]=" tab?.displayConfig"
           [courseData]="data"></ws-mobile-course-view>
-        <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="tab?.displayConfigWeb"
+        <ws-web-course-card *ngIf="!isXSmall" [displayConfig]="tab?.displayConfigWeb"
           [courseData]="data"></ws-web-course-card>
       </div>
     </mat-tab>

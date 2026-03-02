@@ -2,14 +2,13 @@ import { ChangeDetectorRef, Component, HostListener, Input, OnChanges, OnInit, S
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 import {
   IBtnAppsConfig,
-  // CustomTourService
+
 } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, LoggerService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
 import { CREATE_ROLE } from './../../../../project/ws/author/src/lib/constants/content-role'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
-import { Observable } from 'rxjs'
 import { LanguageDialogComponent } from '../../routes/language-dialog/language-dialog.component'
 import { MatDialog } from '@angular/material/dialog'
 import { appNavBarService } from './app-nav-bar.service'
@@ -45,7 +44,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   showAppNavBar = false
   popupTour: any
   showCreateBtn = false
-  isXSmall$: Observable<boolean>
   isXSmall!: boolean
   showSearchIcon = true
   langDialog: any
@@ -71,7 +69,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     private cdr: ChangeDetectorRef,
     private logger: LoggerService
   ) {
-    this.isXSmall$ = this.valueSvc.isXSmall$
     this.btnAppsConfig = { ...this.basicBtnAppsConfig }
     if (this.configSvc.unMappedUser && !this.configSvc.unMappedUser.profileDetails) {
       this.showNavLinkPage = false
@@ -127,14 +124,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.isXSmall = isXSmall
-      if (isXSmall && (this.configSvc.userProfile === null)) {
-        this.showCreateBtn = true
-      } else {
-        this.showCreateBtn = false
-      }
-    })
     await this.setUIData()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.hideCreateButton = false
