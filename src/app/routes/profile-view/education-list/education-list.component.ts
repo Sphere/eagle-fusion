@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, effect, Input, OnInit } from '@angular/core'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { get } from 'lodash'
@@ -23,6 +23,15 @@ export class EducationListComponent implements OnInit {
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
   ) {
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showbackButton = true
+        this.showLogOutIcon = false
+      } else {
+        this.showbackButton = false
+        this.showLogOutIcon = false
+      }
+    })
   }
 
   ngOnInit() {
@@ -38,16 +47,6 @@ export class EducationListComponent implements OnInit {
           }
         })
     }
-
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (isXSmall) {
-        this.showbackButton = true
-        this.showLogOutIcon = false
-      } else {
-        this.showbackButton = false
-        this.showLogOutIcon = false
-      }
-    })
   }
   redirectTo(isEdit?: any, academic?: any) {
     let ob = {

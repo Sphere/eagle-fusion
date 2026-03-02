@@ -36,19 +36,8 @@ export class SearchInputHomeComponent implements OnInit, OnChanges {
     private router: Router,
     private searchServSvc: SearchServService,
     private configSvc: ConfigurationsService,
-    private route: ActivatedRoute,
-
+    private route: ActivatedRoute
   ) {
-    // if (!this.activated.snapshot.data.searchPageData) {
-    //   // debugger;
-    //   this.searchServSvc.getSearchConfig().then(data => {
-    //     this.activated.snapshot.data.searchPageData = {
-    //       data
-    //     }
-    //   }).then(this.autoFilter.bind(this));
-    // } else {
-    // this.autoFilter();
-    // }
   }
   autoFilter() {
     if (this.route.snapshot.data.searchPageData) {

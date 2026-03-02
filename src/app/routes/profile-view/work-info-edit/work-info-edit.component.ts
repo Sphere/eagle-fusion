@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild, OnDestroy, effect } from '@angular/core'
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, LoggerService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -61,19 +61,20 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       }
       this.logger.log(this.workLog.edit)
     })
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showbackButton = true
+        this.showLogOutIcon = false
+      } else {
+        this.showbackButton = false
+        this.showLogOutIcon = false
+      }
+    })
   }
 
   ngOnInit() {
     this.workLog = sessionStorage.getItem('work') || null
     this.getUserDetails()
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.showbackButton = true
-      this.showLogOutIcon = false
-      if (isXSmall) {
-        this.showbackButton = true
-        this.showLogOutIcon = false
-      }
-    })
   }
 
   updateForm() {

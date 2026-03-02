@@ -8,6 +8,7 @@ import {
   OnDestroy,
   Injector,
   effect,
+  HostListener
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -367,6 +368,16 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     }
   }
 
+  @HostListener('window:resize', [])
+  onResize() {
+    if (this.router.url.includes('/app/search'))
+      if (window.innerWidth <= 767) {
+        this.router.navigate(['/app/search/home'])
+      } else {
+        this.router.navigate(['/app/search/learning'])
+      }
+    this.valueSvc.updateWidth(window.innerWidth)
+  }
   async ngOnInit() {
     this.handleRouterSubscription()
 

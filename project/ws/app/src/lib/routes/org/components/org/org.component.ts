@@ -2,7 +2,7 @@ import {
   ConfigurationsService, LoggerService, ValueService
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
-import { Component, OnInit, ViewChild, OnDestroy, HostListener } from '@angular/core'
+import { Component, OnInit, ViewChild, OnDestroy, HostListener, effect } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MdePopoverTrigger } from '@jaguards/material-extended-mde'
 import { HttpClient } from '@angular/common/http'
@@ -43,7 +43,6 @@ export class OrgComponent implements OnInit, OnDestroy {
   orgUserCourseEnrolled: any = 0
   myCourseDisplayConfig: any
   isMobile = false
-  isXSmall$ = this.valueSvc.isXSmall$
   showAllUserEnrollCourses: boolean = false
   showAllCompletedCourses: boolean = false
   selectedLanguage: string = 'all' // Default to 'all'
@@ -57,7 +56,9 @@ export class OrgComponent implements OnInit, OnDestroy {
     private valueSvc: ValueService,
     private logger: LoggerService
   ) {
-    this.valueSvc.isXSmall$.subscribe(isMobile => (this.isMobile = isMobile))
+    effect(() => {
+      this.isMobile = this.valueSvc.isMobile() ? true : false
+    })
   }
 
   @HostListener('window:popstate', ['$event'])

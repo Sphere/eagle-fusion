@@ -1,7 +1,6 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, effect } from '@angular/core'
 import { ActivatedRoute, Data, Router } from '@angular/router'
 import {
-  Observable,
   Subscription,
   of,
 } from 'rxjs'
@@ -52,7 +51,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     },
   }
   userData: any
-  isXSmall$: Observable<boolean>
+  isXSmall$: boolean = false
   langDialog: any
   userProfileData!: any
 
@@ -70,7 +69,9 @@ export class NewTncComponent implements OnInit, OnDestroy {
     private readonly valueSvc: ValueService,
     public dialog: MatDialog
   ) {
-    this.isXSmall$ = this.valueSvc.isXSmall$
+    effect(() => {
+      this.isXSmall$ = this.valueSvc.isMobile() ? true : false
+    })
   }
 
   ngOnInit(): void {

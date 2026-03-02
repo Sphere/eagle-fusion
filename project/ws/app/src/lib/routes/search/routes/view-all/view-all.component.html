@@ -1,17 +1,17 @@
 <div class="sidenav-content" *ngIf="searchRequestStatus === 'done'&&searchResults?.length > 0">
   <a tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
     [ngClass]="{'withFilter': withoutFilter, 'withoutFilter': !withoutFilter}">
-    <span class="mt-1" *ngIf="(isXSmall$ | async) !== true">{{"Showing" | translate}} </span>
-    <span class="mt-1" *ngIf="(isXSmall$ | async) !== true"> {{ searchResults.length }} </span>
-    <p class="text-xl" *ngIf="(isXSmall$ | async) === true">{{"All Courses" | translate}}</p>
-    <span class="mt-1" *ngIf="searchResults.length > 1 && (isXSmall$ | async) !== true">
+    <span class="mt-1" *ngIf="!isXSmall$">{{"Showing" | translate}} </span>
+    <span class="mt-1" *ngIf="!isXSmall$"> {{ searchResults.length }} </span>
+    <p class="text-xl" *ngIf="isXSmall$">{{"All Courses" | translate}}</p>
+    <span class="mt-1" *ngIf="searchResults.length > 1 && !isXSmall$">
       {{"results" | translate}}</span>
   </a>
-  <ng-container *ngIf="(isXSmall$ | async) !== true">
+  <ng-container *ngIf="!isXSmall$">
     <ws-app-learning-card class="search-card" *ngFor="let result of searchResults; trackBy: contentTrackBy"
       [displayType]="resultsDisplayType" [content]="result"></ws-app-learning-card>
   </ng-container>
-  <ng-container *ngIf="(isXSmall$ | async) === true">
+  <ng-container *ngIf="isXSmall$">
     <ws-mobile-course-view *ngFor="let result of searchResults; trackBy: contentTrackBy" [courseData]="result">
     </ws-mobile-course-view>
   </ng-container>

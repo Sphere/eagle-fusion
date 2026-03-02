@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core'
+import { Component, effect, ElementRef, OnInit, ViewChild } from '@angular/core'
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, ValueService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -74,6 +74,15 @@ export class EducationEditComponent implements OnInit {
         this.getUserDetails()
       }
     })
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showbackButton = true
+        this.showLogOutIcon = false
+      } else {
+        this.showbackButton = false
+        this.showLogOutIcon = false
+      }
+    })
   }
 
   ngOnInit() {
@@ -89,14 +98,6 @@ export class EducationEditComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params.nameOfInstitute) {
         this.updateForm(params)
-      }
-    })
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      this.showbackButton = true
-      this.showLogOutIcon = false
-      if (isXSmall) {
-        this.showbackButton = true
-        this.showLogOutIcon = false
       }
     })
   }

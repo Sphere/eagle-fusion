@@ -94,6 +94,8 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
       this.updatedMenuItems('Competency')
     } else if (path.includes('notification')) {
       this.updatedMenuItems('Notification')
+    } else if (path.includes('search')) {
+      this.updatedMenuItems("Search")
     } else {
       this.updatedMenuItems('Home')
     }

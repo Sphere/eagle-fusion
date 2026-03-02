@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter, Input, DestroyRef, inject } from '@angular/core'
+import { Component, OnInit, ElementRef, ViewChild, Output, EventEmitter, Input, effect } from '@angular/core'
 import { ConfigurationsService, LoggerService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { IUserProfileDetailsFromRegistry } from '../../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -11,7 +11,6 @@ import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import { LanguageService } from '../../../services/language.service'
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 
 @Component({
   selector: 'ws-work-info-list',
@@ -19,7 +18,6 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
   styleUrls: ['./work-info-list.component.scss'],
 })
 export class WorkInfoListComponent implements OnInit {
-  private readonly destroyRef = inject(DestroyRef)
 
   professions = ['Healthcare Worker', 'Healthcare Volunteer', 'ASHA', 'Student', 'Faculty', 'Others']
   orgTypes = ['Public/Government Sector', 'Private Sector', 'NGO', 'Academic Institue- Public ', 'Academic Institute- Private', 'Others']
@@ -86,23 +84,20 @@ export class WorkInfoListComponent implements OnInit {
       selectBackground: new UntypedFormControl(),
       nameOther: new UntypedFormControl(),
     })
+    effect(() => {
+      if (this.valueSvc.isMobile()) {
+        this.showbackButton = true
+        this.showLogOutIcon = false
+      } else {
+        this.showbackButton = false
+        this.showLogOutIcon = false
+      }
+    })
   }
 
   ngOnInit() {
     this.logger.log(this.data)
     this.getUserDetails()
-    this.valueSvc.isXSmall$
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(isXSmall => {
-        if (isXSmall) {
-          this.showbackButton = true
-          this.showLogOutIcon = false
-        } else {
-          this.showbackButton = false
-          this.showLogOutIcon = false
-        }
-      })
-
     if (this.isEkshamata) {
       this.personalDetailForm.disable()
     }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, effect, OnInit } from '@angular/core'
 import { filter, includes, uniqBy } from 'lodash'
 import { OrgServiceService } from '../../../org/org-service.service'
 import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
@@ -17,7 +17,7 @@ export class ViewAllComponent implements OnInit {
   cneCoursesIdentifier: any = []
   topCertifiedCourse: any = []
   cneCourse: any = []
-  isXSmall$ = this.valueSvc.isXSmall$
+  isXSmall$: boolean = false
   resultsDisplayType: 'basic' | 'advanced' = 'advanced'
   searchResults!: any
   searchRequestStatus = 'none'
@@ -31,7 +31,11 @@ export class ViewAllComponent implements OnInit {
     private playlistSvc: PlaylistService,
     private langSvc: LanguageService,
     private logger: LoggerService
-  ) { }
+  ) {
+    effect(() => {
+      this.isXSmall$ = this.valueSvc.isMobile() ? true : false
+    })
+  }
 
   ngOnInit() {
     this.route.queryParams.subscribe(async params => {

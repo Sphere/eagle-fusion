@@ -1,7 +1,6 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, effect, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
-import { Observable } from 'rxjs'
 
 @Component({
   selector: 'web-ekshamata-public-container',
@@ -10,12 +9,14 @@ import { Observable } from 'rxjs'
 })
 export class WebEkshamataPublicComponent implements OnInit {
 
-  isXSmall$: Observable<boolean>
+  isXSmall$: boolean = false
 
   constructor(private readonly router: Router, private readonly valueSvc: ValueService,
     private logger: LoggerService
   ) {
-    this.isXSmall$ = this.valueSvc.isXSmall$
+    effect(() => {
+      this.isXSmall$ = this.valueSvc.isMobile() ? true : false
+    })
   }
   ngOnInit(): void {
     this.logger.log("public ekshamata home component")
