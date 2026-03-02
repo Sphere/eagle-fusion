@@ -1,11 +1,16 @@
 @import 'ws-vars';
 @import 'ws-mixins';
 
-.app-class .mat-list-option {
+.app-class .mat-mdc-list-option {
   padding-top: $size-m;
   padding-bottom: $size-m;
   height: auto;
-
+    --mdc-checkbox-selected-checkmark-color: white !important;
+    --mdc-checkbox-selected-container-color: transparent !important;
+    --mdc-checkbox-selected-icon-color: black !important;
+    --mdc-checkbox-unselected-icon-color: black !important;
+    --mdc-checkbox-selected-hover-icon-color: black !important;
+    --mdc-checkbox-selected-focus-icon-color: black !important;
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
     // background-color: #f5d58d !important;
     background-color: #1c5d95 !important;
@@ -130,4 +135,8 @@ correct-option {
   color: #1c5d95;
   margin-top: -12px !important;
   margin-bottom: 0 !important;
+}
+
+mat-radio-button {
+  --mdc-radio-selected-icon-color: black !important
 }

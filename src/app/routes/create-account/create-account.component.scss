@@ -198,7 +198,7 @@ a {
   .help-btn{
         display: flex;
         gap: 12px;
-        width: 75px;
+        width: 22%;
         height: 36px;
         color: #2E6491;
         border-radius: 63px;
@@ -209,6 +209,8 @@ a {
         line-height: 16.41px;
         border: 1px solid #2E6491;
         padding: 8px;
+        align-items: center;
+        justify-content: center;
   }
 h4.info-text, .info-text{
   font-family: Roboto, sans-serif !important;
