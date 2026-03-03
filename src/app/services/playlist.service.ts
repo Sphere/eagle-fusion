@@ -57,7 +57,7 @@ export class PlaylistService {
         type: 'web_layout',
         subtype: 'v1',
         action: 'get',
-        component: 'web',
+        component: window.location.href.includes('ekshamata') ? 'ekshamata' : 'web',
         rootOrgId: this.configSvc?.userProfile?.rootOrgId || '*',
       },
     }
