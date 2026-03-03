@@ -135,7 +135,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     if (matchedElements.length === 0) {
       matchedElements = this.plyLsData?.filter(element =>
-        element.orgId === rootOrgId && roleCheck(element.role) && ((element.playlistId === 'COMPETENCY_PLAYLIST' && element.language === this.lang) || element.playlistId === 'SEARCH_PLAYLIST'))
+        element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
 
       const listOfEnrolledCourseId = (this.userEnrolledCourse || [])
         .filter(course => course?.content?.identifier && !course?.content?.competency)

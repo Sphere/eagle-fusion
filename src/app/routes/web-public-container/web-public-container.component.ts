@@ -128,7 +128,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
 
   private handleCompetencyFlow(rootOrgId: string, roleCheck: (roles: string[]) => boolean) {
     const matchedElements = this.plyLsData?.filter(element =>
-      element.orgId === rootOrgId && roleCheck(element.role) && ((element.playlistId === 'COMPETENCY_PLAYLIST' && element.language === this.lang) || element.playlistId === 'SEARCH_PLAYLIST'))
+      element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
 
     const listOfEnrolledCourseId = (this.userEnrollCourse || [])
       .filter(course => course?.content?.identifier && !course?.content?.competency)
