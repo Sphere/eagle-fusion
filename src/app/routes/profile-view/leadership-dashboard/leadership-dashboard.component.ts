@@ -61,7 +61,7 @@ export class LeadershipDashboardComponent implements OnInit, OnDestroy {
       this.setUserList()
     }
     this.collegeName =
-      this.configSvc?.unMappedUser?.profileData?.professionalDetails[0].instituteName
+      this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails[0].instituteName
     // this.loadLeaderboard(true);
   }
 
