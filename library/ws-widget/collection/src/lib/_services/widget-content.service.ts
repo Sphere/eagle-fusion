@@ -24,6 +24,7 @@ const API_END_POINTS = {
   MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
   CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
   PUBLIC_CONTENT_SEARCH: `${PUBLIC_SLAG}/ratingsSearch/getCourses`,
+  CONTENT_SEARCH: '/apis/public/v8/mobileApp/contentSearch',
   CONTENT_SEARCH_V6: `/apis/proxies/v8/sunbirdigot/read`,
   CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
   CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
@@ -470,5 +471,25 @@ export class WidgetContentService {
       this._showConformation = showConformation === 'false' ? false : true
     }
     return this._showConformation
+  }
+
+  getCouseByContentSearch(identifiers: string[], includeRating: boolean = false, requestBody?: any): Observable<any> {
+    const req = requestBody || {
+      request: {
+        filters: {
+          primaryCategory: ['Course'],
+          contentType: ['Course'],
+          status: ['Live'],
+          identifier: identifiers,
+        },
+        offset: '0',
+      },
+      query: '',
+      sort: [{ lastUpdatedOn: 'desc' }],
+    }
+    const url = includeRating
+      ? `${API_END_POINTS.CONTENT_SEARCH}?rating=true`
+      : API_END_POINTS.CONTENT_SEARCH
+    return this.http.post<any>(url, req).pipe(catchError(this.handleError))
   }
 }

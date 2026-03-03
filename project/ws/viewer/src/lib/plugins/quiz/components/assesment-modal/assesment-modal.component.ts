@@ -23,6 +23,7 @@ import {
 import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
 import { ViewAnswerComponent } from '../view-answer/view-answer.component'
+import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 // declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
@@ -82,7 +83,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private events: EventService,
     private dialog: MatDialog,
     private http: HttpClient,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private plylsSvc: PlaylistService
   ) { }
 
   ngOnInit() {
@@ -219,9 +221,10 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
    */
   canShowViewAnswers(): boolean {
     // Check if isCorrectAnswerPopUp is present in resource
+    let orgData = this.plylsSvc.orgDetails()
     const resource = this.viewerDataSvc.resource
     const isCorrectAnswerPopUp = resource?.isCorrectAnswerPopUp
-
+    const isDisplayAnswer = orgData?.assessmentConfig?.isCorrectAnswerPopUp ?? false
     // If isCorrectAnswerPopUp is explicitly false, don't show for ANY organization
     if (isCorrectAnswerPopUp === false) {
       return false
@@ -237,7 +240,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     const userOrgName = this.configSvc.userProfile?.rootOrgName
 
     // If user's organization is in restricted list (from S3), don't show View Answers
-    if (userOrgName && this.restrictedOrgIds.includes(userOrgName)) {
+    if (userOrgName && !isDisplayAnswer) {
       return false
     }
 

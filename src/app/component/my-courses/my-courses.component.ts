@@ -3,12 +3,11 @@ import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import lodash from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 import { OrgServiceService } from '../../../../project/ws/app/src/lib/routes/org/org-service.service'
-import { Subject } from 'rxjs'
-import { takeUntil } from 'rxjs/operators'
+import { Observable, of, Subject } from 'rxjs'
+import { catchError, map, takeUntil } from 'rxjs/operators'
 
 @Component({
   selector: 'ws-my-courses',
@@ -28,6 +27,9 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   lang: any
   plyLsData: any
   userEnrolledCourse: any = []
+  currentOffset: number = 1;
+  pageLimit = 500;
+  initialPageLimit = 10;
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
@@ -88,36 +90,33 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     this.completedCourse = []
 
     courses.forEach(course => {
-      const competency = lodash.get(course, 'content.competency', false)
-
-      if (!course?.content?.identifier || competency !== false) return
+      const content = course?.content
+      if (!content?.identifier || content?.competency) return
 
       const courseObj = {
-        identifier: course.content.identifier,
-        appIcon: course.content.appIcon,
-        thumbnail: course.content.thumbnail,
-        name: course.content.name,
+        identifier: content.identifier,
+        appIcon: content.appIcon,
+        thumbnail: content.thumbnail,
+        name: content.name,
         dateTime: course.dateTime,
         completionPercentage: course.completionPercentage,
-        sourceName: course.content.sourceName,
-        issueCertification: course.content.issueCertification,
-        posterImage: course.content.posterImage,
+        sourceName: content.sourceName,
+        issueCertification: content.issueCertification,
+        posterImage: content.posterImage,
       }
 
-      if (course.completionPercentage !== 100) {
-        this.startedCourse.push(courseObj)
-      } else {
-        this.completedCourse.push(courseObj)
-      }
+        ; (course.completionPercentage !== 100
+          ? this.startedCourse
+          : this.completedCourse
+        ).push(courseObj)
     })
-
-    this.startedCourse.sort((a, b) => +new Date(b.dateTime) - +new Date(a.dateTime))
-    this.completedCourse.sort((a, b) => +new Date(b.dateTime) - +new Date(a.dateTime))
+    const sortFn = (a, b) => +new Date(b.dateTime) - +new Date(a.dateTime)
+    this.startedCourse.sort(sortFn)
+    this.completedCourse.sort(sortFn)
   }
 
   private handleProfessionalCourses() {
-    const profDet =
-      this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails
+    const profDet = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails
 
     if (!profDet) {
       this.coursesForYou = []
@@ -126,37 +125,79 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     }
 
     const professionalDetails = profDet[0]
-    const designation =
-      professionalDetails.designation || professionalDetails.profession
+    const designation = professionalDetails.designation || professionalDetails.profession
+    const rootOrgId = this.configSvc.userProfile.rootOrgId
+    const roleCheck = (roles: string[]) =>
+      roles?.some(r => r.toLowerCase() === designation.toLowerCase())
 
-    this.plyLsData.forEach(element => {
-      if (
-        element.orgId === this.configSvc.userProfile.rootOrgId &&
-        element.role.map(r => r.toLowerCase()).includes(designation.toLowerCase()) &&
-        element.playlistId === 'YOUR_PLANS_PLAYLIST' &&
-        element.language === this.lang
-      ) {
-        this.yourPlansCourseIdentifier = element.dataSource.payload
+    let matchedElements = this.plyLsData?.filter(element =>
+      element.orgId === rootOrgId && roleCheck(element.role) && element.playlistId === 'YOUR_PLANS_PLAYLIST' && element.language === this.lang)
 
-        this.orgService
-          .getTopLiveSearchResults(this.yourPlansCourseIdentifier, this.lang)
-          .subscribe((results: any) => {
-            const content = results?.result?.content || []
-            const idSet = new Set(this.yourPlansCourseIdentifier)
+    if (matchedElements.length === 0) {
+      matchedElements = this.plyLsData?.filter(element =>
+        element.orgId === rootOrgId && roleCheck(element.role) && (element.playlistId === 'COMPETENCY_PLAYLIST' || element.playlistId === 'SEARCH_PLAYLIST'))
 
-            this.coursesForYou = Array.from(
-              new Map(
-                content
-                  .filter(item => idSet.has(item.identifier))
-                  .map(item => [item.identifier, item])
-              ).values()
-            )
+      const listOfEnrolledCourseId = (this.userEnrolledCourse || [])
+        .filter(course => course?.content?.identifier && !course?.content?.competency)
+        .map(course => course.content.identifier)
 
-            this.updateTabData()
-            this.isLoading = false
-          })
+      let competencySearchArray: string[] = []
+      let baseQuery: any = {}
+      let sourceName: string[] = []
+
+      matchedElements?.forEach(element => {
+        if (element.playlistId === 'COMPETENCY_PLAYLIST') {
+          competencySearchArray.push(
+            ...this.buildCompetencySearchArray(element?.dataSource?.payload)
+          )
+        }
+
+        if (element.playlistId === 'SEARCH_PLAYLIST') {
+          baseQuery = element?.dataSource?.payload || {}
+          baseQuery.request ??= {}
+          baseQuery.request.filters ??= {}
+
+          baseQuery.request.offset = this.currentOffset
+          baseQuery.request.limit = this.pageLimit
+          sourceName = baseQuery.request.filters.sourceName || []
+        }
+      })
+
+      this.currentOffset += this.initialPageLimit
+      this.pageLimit += this.initialPageLimit
+
+      if (competencySearchArray.length > 0) {
+        this.searchContentByCompetencies$(baseQuery, competencySearchArray, sourceName, listOfEnrolledCourseId).subscribe((res: any) => {
+          this.coursesForYou = res || []
+          this.updateTabData()
+          this.isLoading = false
+        })
+      } else {
+        this.updateTabData()
+        this.isLoading = false
       }
-    })
+    } else {
+      const element = matchedElements[0]
+      this.yourPlansCourseIdentifier = element.dataSource.payload
+
+      this.orgService
+        .getTopLiveSearchResults(this.yourPlansCourseIdentifier, this.lang)
+        .subscribe((results: any) => {
+          const content = results?.result?.content || []
+          const idSet = new Set(this.yourPlansCourseIdentifier)
+
+          this.coursesForYou = Array.from(
+            new Map(
+              content
+                .filter(item => idSet.has(item.identifier))
+                .map(item => [item.identifier, item])
+            ).values()
+          )
+
+          this.updateTabData()
+          this.isLoading = false
+        })
+    }
   }
 
   private updateTabData() {
@@ -206,4 +247,85 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     this.destroy$.next()
     this.destroy$.complete()
   }
+
+  buildCompetencySearchArray = (competencyPayload: any[]): string[] => {
+    if (!Array.isArray(competencyPayload) || competencyPayload?.length === 0) {
+      return []
+    }
+    const competencySearchArray: string[] = []
+    competencyPayload.forEach((competencyObj) => {
+      Object.keys(competencyObj).forEach((key) => {
+        const competency = competencyObj[key]
+        const competencyId = competency?.id
+        if (!competencyId) return
+
+        const levelDescriptions = competency?.additionalProperties?.competencyLevelDescription || []
+
+        levelDescriptions.forEach((levelDesc: any) => {
+          const level = levelDesc?.level
+          if (level) {
+            competencySearchArray.push(`${competencyId}-${level}`)
+          }
+        })
+      })
+    })
+    return competencySearchArray
+  };
+
+  searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
+    if (!Array.isArray(competencySearchArray) || competencySearchArray.length === 0) {
+      return of([])
+    }
+
+    const requestBody = typeof structuredClone === 'function'
+      ? structuredClone(baseQuery)
+      : JSON.parse(JSON.stringify(baseQuery))
+
+    requestBody.request = requestBody.request || {}
+    requestBody.request.filters = requestBody.request.filters || {}
+    requestBody.request.filters.competencySearch = competencySearchArray
+
+    return this.contentSvc.getCouseByContentSearch(competencySearchArray, true, requestBody).pipe(
+      map((res: any) => {
+        const content = res?.result?.content ?? []
+
+        const processedCourses = this.processRecommendedCourses(content, requiredSourceName, listOfEnrolledCourseId)
+        return processedCourses
+      }),
+      catchError((err) => {
+        console.error("Error fetching recommendation", err)
+        return of([])
+      })
+    )
+  }
+
+  recommendedCourse = (data: any[]) =>
+    (data || [])
+      .filter(item => item && item.identifier)
+      .map((item) => ({
+        identifier: item.identifier,
+        appIcon: item.appIcon,
+        thumbnail: item.posterImage || item.thumbnail,
+        name: item.name,
+        sourceName: item.sourceName,
+        issueCertification: item.issueCertification,
+        averageRating: item.averageRating,
+        competency: item.competency,
+      }))
+
+
+  processRecommendedCourses = (courseList: any[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): any[] => {
+    const seen = new Set()
+    const enrolledSet = new Set(listOfEnrolledCourseId || [])
+    const sourceSet = new Set(requiredSourceName || [])
+
+    return this.recommendedCourse(courseList)
+      .filter(item => {
+        if (!item?.identifier || seen.has(item.identifier)) return false
+        seen.add(item.identifier)
+        return true
+      })
+      .filter(item => sourceSet.has(item.sourceName))
+      .filter(item => !enrolledSet.has(item.identifier))
+  };
 }

@@ -51,14 +51,14 @@ export class PlaylistService {
     if (cachedData && !force) {
       return cachedData
     }
-
+    let orgId = this.configSvc?.userProfile?.rootOrgId
     const body = {
       request: {
         type: 'web_layout',
         subtype: 'v1',
         action: 'get',
-        component: 'web',
-        rootOrgId: this.configSvc?.userProfile?.rootOrgId || '*',
+        component: window.location.href.includes('ekshamata') || orgId !== '0132317968766894088' ? 'ekshamata' : 'web',
+        rootOrgId: orgId || '*',
       },
     }
 
