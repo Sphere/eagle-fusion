@@ -335,6 +335,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         }
       })
     }
+    this.isLoading = false
   }
 
   // For opening Course Page
