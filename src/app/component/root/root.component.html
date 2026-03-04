@@ -72,12 +72,13 @@
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>
     </div>
     <!-- Featured Section-->
-    <section *ngIf="!isXSmall$ && isHomePage && bodyConfig">
+    <section *ngIf="isHomePage && bodyConfig" [ngStyle]="{'margin-bottom': isXSmall$ ? '4rem' : ''}">
       <ws-web-public-container [isEkshamata]="isEkshamata" [configData]="bodyConfig"
         [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
     </section>
     <!-- Desktop Footer -->
-    <ws-app-footer [isEkshamata]="isEkshamata" class="app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
+    <ws-app-footer [isEkshamata]="isEkshamata" class="app-footer hide-in-mobile"
+      [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
       *ngIf="showNavbar && isLoggedIn && !hideHeaderFooter && footerConfig" [config]="footerConfig">
     </ws-app-footer>
     <ng-container>
