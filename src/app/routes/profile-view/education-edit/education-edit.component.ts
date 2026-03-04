@@ -139,7 +139,7 @@ export class EducationEditComponent implements OnInit {
     const userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
-    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
+    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
     this.logger.log(local)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/education-edit'
 

@@ -503,7 +503,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     // if (form.value.dob) {
     //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
     // }
-    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
+    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
 
 
     if (form.value.dob.includes('undefined')) {
