@@ -8,15 +8,15 @@
   <div *ngIf="showbackButton" [ngClass]="!isCommonChatEnabled ? 'blur-screen' : ''"
     [ngStyle]="!showbackButton ? {'width': '25%' } : {}" [hidden]="hideData" style="margin-bottom: 5rem;">
 
-    <div class="user-basic-details">
-      <span class="profile-user-name">{{ userProfileData?.personalDetails?.firstname }}
+    <div class="user-basic-details" [ngClass]="(earnedBadges$ | async) ? 'badge-basic-details' : ''">
+      <span class=" profile-user-name">{{ userProfileData?.personalDetails?.firstname }}
         {{userProfileData?.personalDetails?.middlename }}
         {{userProfileData?.personalDetails?.surname}}</span>
       <span *ngIf="currentProfession" class="profile-user-position">
         {{ menuItems[0].text | translate }} : {{ currentProfession }}
       </span>
     </div>
-    <div class="badge-container" *ngIf="earnedBadges$ | async as count">
+    <div class="badge-container mob-view" *ngIf="earnedBadges$ | async as count">
       <img src="fusion-assets/icons/badges.png" />
       <span class="label">
         {{ count > 1

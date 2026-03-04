@@ -265,6 +265,18 @@ h2 {
   flex-direction: column;
   width: 100%;
 }
+
+.badge-basic-details {
+  min-height: 140px;
+  justify-content: flex-start;
+}
+
+.badge-container.mob-view {
+  position: absolute;
+  top: 18%;
+  left: 5%;
+}
+
 .profile-user-name{
   //styleName: Header 2;
   font-family: Roboto, sans-serif;
@@ -656,7 +668,7 @@ font-weight: 500;
   display: flex;
   border: 1px solid;
   width: fit-content;
-  max-width: 60%;
+  max-width: 100%;
   background: white;
   padding: 8px 14px;
   text-align: center;

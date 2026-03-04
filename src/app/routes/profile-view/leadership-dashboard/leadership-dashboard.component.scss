@@ -116,6 +116,13 @@
   line-height: 1.4;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
   transition: transform 0.2s;
+  .name {
+    overflow: auto;
+    margin-top: 0.6rem;
+  }
+  .points {
+    margin-top: 0.6rem;
+  }
 }
 
 .rank-card:active {
