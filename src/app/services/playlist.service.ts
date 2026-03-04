@@ -57,7 +57,7 @@ export class PlaylistService {
         type: 'web_layout',
         subtype: 'v1',
         action: 'get',
-        component: window.location.href.includes('ekshamata') || orgId !== '0132317968766894088' ? 'ekshamata' : 'web',
+        component: (orgId && window.location.href.includes('ekshamata')) ? 'ekshamata' : 'web',
         rootOrgId: orgId || '*',
       },
     }

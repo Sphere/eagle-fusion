@@ -273,13 +273,41 @@
   .round-button.active {
     background-color: rgba(0, 0, 0, 0.978);
   }
+
+  .isEkshamata{
+    margin-top: 54px;
+    .carousel {
+      flex-direction: row;
+    }
+
+    .banner-heading-container {
+      flex: 50%;
+    }
+
+    .ekshamta-banner-container {
+      flex: 5%;
+    }
+    .heading {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+
+    .badge-container {
+      img {
+        width: 1.5rem;
+      }
+      .label {
+        font-size: 16px;
+      }
+    }
+  }
 }
 
 .badge-container {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 100%;
+  width: 60%;
   white-space: nowrap;
   color: rgba(70, 151, 136, 1);
   background: white;
