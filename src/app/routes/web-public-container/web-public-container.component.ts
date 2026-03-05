@@ -118,7 +118,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     }
     this.isLoading = true
     // Main flow
-    if (this.yourPlansCourseIdentifier.length > 0) {
+    if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0) {
       this.fetchEnvironmentConfigurations()
       return
     } else {
