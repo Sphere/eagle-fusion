@@ -156,7 +156,7 @@
   <div class="main-block" [ngStyle]="!showbackButton ? {'width': '75%' } : {}">
     <div *ngIf="selectedIndex === 'personal' && selectedIndexData" style="margin-bottom: 70px;" class="full-width"
       [class.full-width]="showbackButton">
-      <ws-personal-detail-edit [isEkshamata]="isEkshamata" [data]="selectedIndexData"
+      <ws-personal-detail-edit [isEkshamata]="isEkshamata" [data]="selectedIndexData" [userData]="profileData"
         (userName)="assignUserName($event)"></ws-personal-detail-edit>
     </div>
     <ng-container *ngIf="selectedIndex === 'organization'">

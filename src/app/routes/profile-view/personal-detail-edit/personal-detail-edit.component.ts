@@ -75,6 +75,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   isEditableForSphere: boolean = false
   @Input() isEkshamata: boolean = false
   @Input() data: any
+  @Input() userData: any
   formConfig: any
   address: string = ''
   constructor(
@@ -503,6 +504,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     // if (form.value.dob) {
     //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
     // }
+    this.userProfileData = this.userData
     let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
 
 
