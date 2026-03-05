@@ -281,6 +281,9 @@ export class DowntimeConfigService {
     if (hostname.includes('sphere')) {
       return 'sphere'
     }
+    if (hostname.includes('aastrika')) {
+      return 'aastrika-stage'
+    }
     return 'default'
   }
 
