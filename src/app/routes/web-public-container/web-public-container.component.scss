@@ -190,7 +190,7 @@ height: 42px;
 
 .overlay {
   position: absolute;
-  top: 32%;
+  top: 50%;
   left: 0;
   bottom: 56%;
   right: 0;
@@ -198,7 +198,7 @@ height: 42px;
   align-items: center;
   justify-content: center;
   z-index: 2000 !important;
-  background: rgba(255, 255, 255, 0.85);
+  // background: rgba(255, 255, 255, 0.85);
   backdrop-filter: blur(2px);
 }
 
