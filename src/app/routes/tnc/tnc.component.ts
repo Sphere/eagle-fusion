@@ -146,85 +146,8 @@ export class TncComponent implements OnInit, OnDestroy {
     }
   }
 
-  // private constructReq(form: any) {
-  //   if (this.configSvc.userProfile) {
-  //     this.userId = this.configSvc.userProfile.userId || ''
-  //   }
-  //   const profileReq = {
-  //     id: this.userId,
-  //     userId: this.userId,
-  //     personalDetails: {
-  //       tncAccepted: form.value.tncAccepted,
-  //       firstname: form.value.firstname,
-  //       middlename: form.value.middlename,
-  //       surname: form.value.surname,
-  //       dob: form.value.dob,
-  //       mobile: form.value.mobile,
-  //       telephone: form.value.telephone,
-  //       primaryEmail: form.value.primaryEmail,
-  //     },
-  //   }
-  //   return profileReq
-  // }
-
-  // acceptTnc() {
-  //   if (this.tncData) {
-  //     const generalTnc = this.tncData.termsAndConditions.filter(
-  //       tncUnit => tncUnit.name === 'Generic T&C',
-  //     )[0]
-  //     const dataPrivacy = this.tncData.termsAndConditions.filter(
-  //       tncUnit => tncUnit.name === 'Data Privacy',
-  //     )[0]
-  //     const termsAccepted: NsTnc.ITermAccepted[] = []
-  //     if (generalTnc) {
-  //       termsAccepted.push({
-  //         acceptedLanguage: generalTnc.language,
-  //         docName: generalTnc.name,
-  //         version: generalTnc.version,
-  //       })
-  //     }
-  //     if (dataPrivacy) {
-  //       termsAccepted.push({
-  //         acceptedLanguage: dataPrivacy.language,
-  //         docName: dataPrivacy.name,
-  //         version: dataPrivacy.version,
-  //       })
-  //     }
-  //     this.isAcceptInProgress = true
-  //     this.createUserForm.controls.tncAccepted.setValue('true')
-  //     if (this.configSvc.userProfile) {
-  //       this.userId = this.configSvc.userProfile.userId || ''
-  //       this.createUserForm.controls.primaryEmail.setValue(this.configSvc.userProfile.email || '')
-  //       this.createUserForm.controls.firstname.setValue(this.configSvc.userProfile.firstName || '')
-  //       this.createUserForm.controls.surname.setValue(this.configSvc.userProfile.lastName || '')
-  //     }
-  //     const profileRequest = this.constructReq(this.createUserForm)
-  //     const reqUpdate = {
-  //       request: {
-  //         userId: this.userId,
-  //         profileDetails: profileRequest,
-  //       },
-  //     }
-
-  //     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
-  //       if (data) {
-  //         this.configSvc.profileDetailsStatus = true
-  //         this.configSvc.hasAcceptedTnc = true
-  //         this.router.navigate(['app/user-profile/chatbot'])
-  //       }
-  //     },
-  //       (err: any) => {
-  //         this.loggerSvc.error('ERROR ACCEPTING TNC:', err)
-  //         // TO DO: Telemetry event for failure
-  //         this.errorInAccepting = true
-  //         this.isAcceptInProgress = false
-  //       },
-  //     )
-  //   } else {
-  //     this.errorInAccepting = false
-  //   }
-  // }
-  // postProcess() {
-  //   this.http.patch('/apis/protected/v8/user/tnc/postprocessing', {}).subscribe()
-  // }
+  backEvent() {
+    this.tncData = null
+    this.router.navigateByUrl('/page/home')
+  }
 }

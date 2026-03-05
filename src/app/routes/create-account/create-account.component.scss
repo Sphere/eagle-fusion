@@ -396,7 +396,7 @@ span.mat-button-wrapper {
 }
 
 :host ::ng-deep .input-content {
-  width: 100%;
+  // width: 100%;
   .mat-mdc-text-field-wrapper {
     box-shadow: 0 0 4px 0 #00000026;
     .mat-mdc-form-field-focus-overlay{

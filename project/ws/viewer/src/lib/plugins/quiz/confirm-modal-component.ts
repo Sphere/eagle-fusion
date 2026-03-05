@@ -94,7 +94,7 @@ export class ConfirmmodalComponent implements OnInit {
   }
 
   submitRating(ratingsForm: any) {
-    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage
+    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
 
     let userId = ''
     if (this.selectedRating) {
