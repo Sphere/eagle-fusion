@@ -1,24 +1,35 @@
 import { Injectable } from '@angular/core'
-import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree, Router } from '@angular/router'
+import { ActivatedRouteSnapshot, RouterStateSnapshot, UrlTree } from '@angular/router'
 import { Observable } from 'rxjs'
-import { ConfigurationsService } from '@ws-widget/utils'
+import { map, take } from 'rxjs/operators'
+import { DowntimeConfigService } from '../services/downtime-config.service'
 
 @Injectable({
   providedIn: 'root',
 })
-export class EmptyRouteGuard  {
-  // constructor(private router: Router, private configSvc: ConfigurationsService) {}
-  constructor(private router: Router, private configSvc: ConfigurationsService) { }
+export class EmptyRouteGuard {
+  constructor(
+    private downtimeService: DowntimeConfigService,
+  ) { }
+
   canActivate(
     _next: ActivatedRouteSnapshot,
     _state: RouterStateSnapshot,
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if (this.configSvc.userProfile !== null) {
-      // logger.log('Redirecting to application home page')
-      return this.router.navigate(['/page/home'])
-    }
-    // logger.log('redirecting to login page as the user is not loggedIn');
-    this.router.navigate(['/public/home'])
-    return true
+    // Check downtime status with take(1) to complete after first emission
+    // This allows guard to evaluate current state and complete the navigation check
+    // On next navigation attempt, guard will re-evaluate the (potentially updated) state
+    return this.downtimeService.getDowntimeState().pipe(
+      take(1),
+      map(downtimeState => {
+        // Block navigation during full downtime
+        if (downtimeState.isDowntime && downtimeState.type === 'full') {
+          return false
+        }
+        // Allow navigation if no downtime
+        return true
+      })
+    )
   }
 }
+

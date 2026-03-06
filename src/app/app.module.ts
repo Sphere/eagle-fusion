@@ -276,6 +276,10 @@ export function initializeCompetencyConfig(): () => void {
   }
 }
 
+// Downtime components imports
+import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
+import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
+
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
   declarations: [
@@ -383,7 +387,9 @@ export function initializeCompetencyConfig(): () => void {
       },
     }),
     ProfileViewModule,
-    MdePopoverModule
+    MdePopoverModule,
+    DowntimeFullComponent,
+    DowntimeBannerComponent,
   ],
   exports: [
     TncComponent,
