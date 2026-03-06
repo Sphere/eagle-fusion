@@ -10,7 +10,8 @@
   <ws-app-public-nav-bar *ngIf="showNavigation && !hideHeaderFooter && !isLoggedIn && orgDetails"
     [orgConfig]="orgDetails"></ws-app-public-nav-bar>
   <!-- Logged-In header -->
-  <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired && showNavbar" [mode]="'top'"></ws-app-nav-bar>
+  <ws-app-nav-bar class="top-nav-bar" *ngIf="isNavBarRequired && showNavbar && !hideHeaderFooter"
+    [mode]="'top'"></ws-app-nav-bar>
 
   <!-- dashboard and body for mobile and web-->
   <div class="height-adjust" [ngClass]="{
@@ -76,7 +77,7 @@
       <h3 class="mt-15">{{"You're offline. Check your internet connection" | translate }}</h3>
     </div>
     <!-- Featured Section-->
-    <section *ngIf="isHomePage && bodyConfig" [ngStyle]="{'margin-bottom': isXSmall$ ? '4rem' : ''}">
+    <section *ngIf="isHomePage && isLoggedIn  && bodyConfig" [ngStyle]="{'margin-bottom': isXSmall$ ? '4rem' : ''}">
       <ws-web-public-container [isEkshamata]="isEkshamata" [configData]="bodyConfig"
         [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
     </section>
