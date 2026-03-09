@@ -443,7 +443,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               if (isCompleted) {
                 const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
-                  height: '405px',
+                  height: '420px',
                   panelClass: 'overview-modal',
                   disableClose: true,
                   data: { request: data, message: 'Congratulations!, you have completed the course' },
@@ -681,7 +681,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                           if (isCompleted) {
                             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                               width: '300px',
-                              height: '405px',
+                              height: '420px',
                               panelClass: 'overview-modal',
                               disableClose: true,
                               data: { request: data, message: 'Congratulations!, you have completed the course' },
