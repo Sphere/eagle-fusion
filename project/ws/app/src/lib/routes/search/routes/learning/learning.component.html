@@ -118,7 +118,7 @@
             <a [routerLink]="'/catalog'"  class="catalog-link">Catalog</a>
           </h4> -->
       <h4>{{'Different keywords' | translate}}</h4>
-      <h4 *ngIf="(isXSmall$ | async) === false">
+      <h4 *ngIf="!isXSmall$">
         <ng-container>{{'Clear search results' | translate}}</ng-container>
         <button (click)="removeSearch()" type="button" mat-icon-button>
           <mat-icon>restore</mat-icon>
