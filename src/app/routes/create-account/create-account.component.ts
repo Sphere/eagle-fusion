@@ -5,7 +5,6 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { Router, ActivatedRoute } from '@angular/router'
 import { Observable, Subject, forkJoin } from 'rxjs'
 import { takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators'
-
 import { SignupService } from '../signup/signup.service'
 import { LanguageDialogComponent } from '../language-dialog/language-dialog.component'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
@@ -14,6 +13,7 @@ import { LoaderService } from '@ws/author/src/public-api'
 import { ConfigurationsService, LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 import { HttpClient } from '@angular/common/http'
 import { LanguageService } from '../../services/language.service'
+import { TranslateService } from '@ngx-translate/core'
 
 // Constants
 const ASSET_PATHS = {
@@ -140,7 +140,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private http: HttpClient,
     private languageService: LanguageService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeFromRoute()
@@ -490,7 +491,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       this.submitWithEmail(passwordForm, accountForm)
     } else {
       this.loader.changeLoad.next(false)
-      this.openSnackbar('Please enter a valid email or phone number')
+      this.openSnackbar(this.translate.instant('ENTER_VALID_MAIL_PHONE'))
     }
   }
   get selectedDistrict(): string {
@@ -585,7 +586,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   private handleSignupSuccess(res: any, type: 'email' | 'mobile'): void {
     if (res.message === 'User successfully created') {
       this.trackFacebookPixel(type)
-      this.showSuccessMessage(res.message)
+      this.openSnackbar(this.translate.instant(res.message))
       this.navigateToOtpPage()
       localStorage.setItem(STORAGE_KEYS.userUUID, res.userId)
     } else if (res.status === 'error') {
@@ -601,8 +602,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     this.loader.changeLoad.next(false)
     this.uploadSaveData = false
 
-    const errorMessage = this.getLocalizedErrorMessage(err)
-    this.openSnackbar(errorMessage)
+    const errorMsg = err.error?.msg || err.error?.message || 'An error occurred'
+    this.openSnackbar(this.translate.instant(errorMsg))
     this.userExist()
   }
 
@@ -618,25 +619,6 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     } catch (error) {
       this.logger.error('Facebook pixel error:', error)
     }
-  }
-
-  private showSuccessMessage(message: string): void {
-    const localizedMessage =
-      this.preferedLanguage.id === 'hi' && message === 'User successfully created'
-        ? 'उपयोगकर्ता सफलतापूर्वक बनाया गया'
-        : message
-
-    this.openSnackbar(localizedMessage)
-  }
-
-  private getLocalizedErrorMessage(err: any): string {
-    const errorMsg = err.error?.msg || err.error?.message || 'An error occurred'
-
-    if (this.preferedLanguage.id === 'hi' && errorMsg === 'User already exists') {
-      return 'उपयोगकर्ता पहले से मौजूद है।'
-    }
-
-    return errorMsg
   }
 
   private openSnackbar(message: string, duration = 3000): void {

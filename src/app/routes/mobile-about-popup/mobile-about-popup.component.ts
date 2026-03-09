@@ -2,7 +2,6 @@ import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core'
 import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
-// import * as _ from 'lodash-es'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../profile-view/request-util'
@@ -65,12 +64,6 @@ export class MobileAboutPopupComponent implements OnInit {
       personalDetails: profileRequest.profileReq.personalDetails
     }
     profileRequest = Object.assign(profileRequest, obj)
-    // const obj = {
-    //   preferences: {
-    //     language: this.langdata.profileDetails!.preferences!.language === 'en' ? 'en' : 'hi',
-    //   }
-    // }
-    // profileRequest = Object.assign(profileRequest, obj)
 
     const reqUpdate = {
       request: {

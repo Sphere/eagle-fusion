@@ -3,7 +3,6 @@ import { UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, LoggerService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
-// import * as _ from 'lodash'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DateAdapter, MAT_DATE_FORMATS } from '@angular/material/core'
 import { constructReq } from '../request-util'
@@ -11,6 +10,7 @@ import { AppDateAdapter, APP_DATE_FORMATS, changeformat } from '../../../../../p
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { LanguageService } from '../../../services/language.service'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'ws-work-info-edit',
   templateUrl: './work-info-edit.component.html',
@@ -43,13 +43,12 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
     private languageSvc: LanguageService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
     this.workInfoForm = new UntypedFormGroup({
-      //doj: new FormControl('', [Validators.required]),
       organizationName: new UntypedFormControl('', [Validators.required]),
       designation: new UntypedFormControl('', [Validators.required]),
-      // location: new FormControl('', [Validators.required]),
     })
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
       this.logger.log(data, 'here')
@@ -81,10 +80,8 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     if (this.userProfileData && this.userProfileData.professionalDetails && this.userProfileData.professionalDetails.length > 0) {
       const organisation = this.userProfileData.professionalDetails[0]
       this.workInfoForm.patchValue({
-        //doj: this.getDateFromText(organisation.doj),
         organizationName: organisation.name,
         designation: organisation.designation,
-        //location: organisation.location,
       })
     }
   }
@@ -147,12 +144,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       (res: any) => {
         if (res) {
           this.workInfoForm.reset()
-          if (local === 'en') {
-            this.openSnackbar(this.toastSuccess.nativeElement.value)
-          } else {
-            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-          }
-          //this.openSnackbar(this.toastSuccess.nativeElement.value)
+          this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           this.router.navigate(['/app/workinfo-list'])
         }
       })
@@ -169,13 +161,4 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     }
   }
 
-  // private getDateFromText(dateString: string): any {
-  //   if (dateString) {
-  //     const splitValues: string[] = dateString.split('-')
-  //     const [dd, mm, yyyy] = splitValues
-  //     const dateToBeConverted = `${yyyy}-${mm}-${dd}`
-  //     return new Date(dateToBeConverted)
-  //   }
-  //   return ''
-  // }
 }

@@ -2,16 +2,14 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { UntypedFormArray, UntypedFormBuilder, UntypedFormControl, UntypedFormGroup, Validators } from '@angular/forms'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
-import {
-  //Router,
-  ActivatedRoute
-} from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { IGovtOrgMeta, IProfileAcademics } from '../../../../project/ws/app/src/lib/routes/user-profile/models/user-profile.model'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { HttpClient } from '@angular/common/http'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'ws-almost-done',
   templateUrl: './almost-done.component.html',
@@ -57,14 +55,14 @@ export class AlmostDoneComponent implements OnInit {
   constructor(
     public configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
-    //private router: Router,
     public snackBar: MatSnackBar,
     private fb: UntypedFormBuilder,
     private activateRoute: ActivatedRoute,
     private http: HttpClient,
     public UserAgentResolverService: UserAgentResolverService,
     private signupService: SignupService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
   }
 
@@ -515,11 +513,7 @@ export class AlmostDoneComponent implements OnInit {
       this.logger.log(data, 'data')
       let status = await data.params.status
       if (data && status === 'SUCCESS') {
-        if (this.configSvc.unMappedUser.profileDetails.preferences.language === 'en') {
-          this.openSnackbar('User profile details updated successfully!')
-        } else {
-          this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-        }
+        this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
           this.logger.log(params.redirect, 'redirect')

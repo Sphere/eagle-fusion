@@ -37,9 +37,6 @@ export class BtnContentShareDialogComponent implements OnInit {
     let cUrl = window.location.href
     let id = cUrl.split('/')[5]
     let newUrl = `${document.baseURI}`
-    if (newUrl.includes('hi')) {
-      newUrl = newUrl.replace(/hi\//g, '')
-    }
     let url = `public/toc/overview?courseId=${id}`
 
     this.qrdata = `${newUrl}${url}`

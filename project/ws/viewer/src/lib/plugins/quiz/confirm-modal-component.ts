@@ -5,7 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils/src/public-api'
 import { WidgetContentService } from '@ws-widget/collection'
 import { ISearchContent } from '@ws/author/src/lib/interface/search'
-import { LanguageService } from '../../../../../../../src/app/services/language.service'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'viewer-confirm-modal-component',
@@ -32,8 +32,8 @@ export class ConfirmmodalComponent implements OnInit {
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     public contentSvc: WidgetContentService,
-    private langSvc: LanguageService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
 
     dialogRef.disableClose = true
@@ -94,8 +94,6 @@ export class ConfirmmodalComponent implements OnInit {
   }
 
   submitRating(ratingsForm: any) {
-    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
-
     let userId = ''
     if (this.selectedRating) {
       if (this.configSvc.userProfile) {
@@ -116,38 +114,18 @@ export class ConfirmmodalComponent implements OnInit {
       this.contentSvc.submitCourseRating(req)
         .then((data: any) => {
           if (data && data.params && data.params.status === 'Successful') {
-            let message
-            if (local === 'en') {
-              message = `Thank You for your feedback!`
-            } else {
-              message = `आपकी प्रतिक्रिया के लिए आपका धन्यवाद!`
-            }
-            this.openSnackbar(message)
+            this.openSnackbar(this.translate.instant("FEEDBACK_SUCCESS"))
             this.dialogRef.close({ event: 'CONFIRMED' })
           } else {
-            let message
-            if (local === 'en') {
-              message = `Something went wrong, please try again later!`
-            } else {
-              message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
-            }
             this.dialogRef.close({ event: 'CONFIRMED' })
-            this.openSnackbar(message)
+            this.openSnackbar(this.translate.instant("ERROR_MSG"))
           }
         })
         .catch((err: any) => {
-
-          let message
-          if (local === 'en') {
-            message = `An error occurred, please try again later!`
-          } else {
-            message = `एक त्रुटि घटित हुई है, कृपया बाद में पुन: प्रयास करें!`
-          }
           if (err && err.error && err.error.message) {
             this.openSnackbar(err.error.message)
           } else {
-            this.openSnackbar(message)
-
+            this.openSnackbar(this.translate.instant("ERROR_MSG1"))
           }
         })
     }

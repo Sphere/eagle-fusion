@@ -20,6 +20,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { HttpClient } from '@angular/common/http'
 import { LanguageService } from '../../../services/language.service'
 import { LoggerService } from '@ws-widget/utils'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'ws-personal-detail-edit',
   templateUrl: './personal-detail-edit.component.html',
@@ -90,7 +91,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     private http: HttpClient,
     private fb: FormBuilder,
     private langSvc: LanguageService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
     this.initializeForm()
   }
@@ -151,14 +153,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   }
 
   fetchMeta() {
-    // this.userProfileSvc.getMasterLanguages().subscribe(
-    //   data => {
-    //     this.masterLanguagesEntries = data.languages
-    //     this.onChangesLanuage()
-    //     this.onChangesKnownLanuage()
-    //   },
-    //   (_err: any) => {
-    //   })
     this.http.get(this.countryUrl).subscribe((data: any) => {
       this.countries = data.nationalities
     })
@@ -561,11 +555,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       preferences: {
         language: local === 'en' ? 'en' : 'hi',
       },
-      // personalDetails: profileRequest.profileReq.personalDetails,
       userSource: this.configSvc.unMappedUser?.profileDetails?.userSource || null,
-      // osName: userAgent.OS,
-      // browserName: userAgent.browserName,
-      // userCookie: userCookie,
     }
     profileRequest = Object.assign(profileRequest, obj)
     this.logger.log("test request", profileRequest)
@@ -585,15 +575,14 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       .subscribe(
         (result: any) => {
           if (result) {
-            const message = local === 'en' ? this.toastSuccess.nativeElement.value : 'उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!'
-            this.openSnackbar(message)
+            this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
             this.userName.emit(userName)
             this.router.navigate(['/app/profile-view'])
           }
         },
         (err) => {
           this.logger.error('Error updating profile:', err)
-          this.openSnackbar('Error updating profile. Please try again.')
+          this.openSnackbar(this.translate.instant("PROFILE_UPDATE_ERR"))
         }
       )
   }

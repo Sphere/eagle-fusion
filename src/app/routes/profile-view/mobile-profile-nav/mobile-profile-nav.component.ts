@@ -41,12 +41,7 @@ export class MobileProfileNavComponent implements OnInit {
   backScreen() {
     this.logger.log('now')
     let backURL = sessionStorage.getItem('currentWindow')
-    // let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-    // let url1 = local === 'hi' ? 'hi' : ""
     let url3 = `${document.baseURI}`
-    if (url3.includes('hi')) {
-      url3 = url3.replace(/hi\//g, '')
-    }
     this.logger.log(backURL)
     if (backURL) {
       let ob = {

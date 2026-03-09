@@ -18,13 +18,11 @@ import {
   EventService,
   LoggerService,
 } from '@ws-widget/utils'
-// import moment from 'moment'
-// import { NsContent } from '../../../../../../../../../library/ws-widget/collection/src/public-api'
 import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
 import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
-// declare var Telemetry: any
+import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -84,7 +82,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private dialog: MatDialog,
     private http: HttpClient,
     private logger: LoggerService,
-    private plylsSvc: PlaylistService
+    private plylsSvc: PlaylistService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -497,7 +496,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
       },
       (_error: any) => {
-        this.openSnackbar('Something went wrong! Unable to submit.')
+        this.openSnackbar(this.translate.instant("SUBMIT_ERR"))
         this.fetchingResultsStatus = 'error'
       },
     )
@@ -588,28 +587,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                 },
               ],
             },
-            // request: {
-            //   competencyDetails: [
-            //     {
-            //       acquiredDetails: {
-            //         additionalParams: {
-            //           courseName: this.assesmentdata.generalData.name,
-            //           courseId: this.assesmentdata.generalData.collectionId
-            //         },
-            //         competencyLevelId: competencyId,
-            //         // effectiveDate: moment().format("YYYY-MM-DD h:mm:ss"),
-            //         acquiredChannel: 'selfAssessment'
-            //       },
-            //       additionalParams: {
-            //         competencyName: competency_meta_data.competencyName,
-            //       },
-            //       competencyId: competency_meta_data.competencyId
-            //     }
-            //   ],
-            //   typeName: "competency",
-            //   userId: userId
-
-            // }
           }
           this.quizService.updatePassbook(formatedData).subscribe(() => {
           })
@@ -617,7 +594,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         }
       },
       (_error: any) => {
-        this.openSnackbar('Something went wrong! Unable to submit.')
+        this.openSnackbar(this.translate.instant("SUBMIT_ERR"))
         this.fetchingResultsStatus = 'error'
       },
     )

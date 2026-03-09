@@ -1,9 +1,6 @@
 import { ChangeDetectorRef, Component, HostListener, Input, OnChanges, OnInit, SimpleChanges, effect } from '@angular/core'
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
-import {
-  IBtnAppsConfig,
-
-} from '@ws-widget/collection'
+import { IBtnAppsConfig } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ConfigurationsService, LoggerService, NsInstanceConfig, NsPage, ValueService } from '@ws-widget/utils'
 import { Router, NavigationStart, NavigationEnd, Event } from '@angular/router'
@@ -163,15 +160,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     if (this.configSvc.appsConfig) {
       this.featureApps = Object.keys(this.configSvc.appsConfig.features)
     }
-    // this.configSvc.tourGuideNotifier.subscribe(canShow => {
-    //   if (
-    //     this.configSvc.restrictedFeatures &&
-    //     !this.configSvc.restrictedFeatures.has('tourGuide')
-    //   ) {
-    //     this.isTourGuideAvailable = canShow
-    //     // this.popupTour = this.tourService.createPopupTour()
-    //   }
-    // })
     this.domain = window.location.hostname
   }
 
@@ -249,7 +237,6 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     })
     this.langDialog.afterClosed().subscribe((result: any) => {
       this.preferedLanguage = result
-      // tslint:disable-next-line:no-console
       this.logger.log(this.preferedLanguage)
     })
   }

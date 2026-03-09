@@ -8,7 +8,6 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { Location, PlatformLocation } from '@angular/common'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
-// import { HttpClient } from '@angular/common/http'
 import { ConfigCacheService } from '../../services/config-cache.service'
 
 declare const gapi: any
@@ -22,14 +21,12 @@ export class MobileLoginComponent implements OnInit, AfterViewInit {
   [x: string]: any
   constructor(
     private fb: UntypedFormBuilder,
-    // private element: ElementRef,
     private router: Router,
     private contentSvc: WidgetContentService,
     location: Location,
     loc: PlatformLocation,
     private snackBar: MatSnackBar,
     private signupService: SignupService,
-    // private http: HttpClient,
     private configCacheSvc: ConfigCacheService,
     private activeRoute: ActivatedRoute
   ) {

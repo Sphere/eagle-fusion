@@ -5,25 +5,8 @@
     <h3 *ngIf="!generalTnc?.isAccepted && generalTnc?.acceptedVersion.length" class="ws-mat-primary-text">
       {{ 'Terms and Conditions have been updated.' | translate }}
     </h3>
-    <!-- <div class="flex items-center justify-between">
-      <div style="display: flex;flex-direction: column;" *ngIf="generalTnc?.version">
-        <ng-container><span style="margin-left: -12px !important">Terms of use</span></ng-container>
-        <ng-container><span style="margin-left: -12px !important;margin-top: 10px;">T&C Version :{{
-            generalTnc?.version }}
-          </span></ng-container>
-      </div>
-    </div> -->
   </div>
   <article *ngIf="showTerms==='terms'" [innerHTML]="generalTnc?.content" class="text-justify"></article>
-  <!-- <mat-action-row *ngIf="dpTnc === 'Data Privacy'">
-    <button mat-button *ngIf="termsOfUser" (click)="currentPanel = 'dp'">
-      View Privacy Policy
-    </button>
-    <button mat-button *ngIf="!termsOfUser" (click)="currentPanel = 'dp'">
-      Data Privacy
-    </button>
-  </mat-action-row> -->
-
   <div *ngIf="showTerms==='privacy'" class="mat-app-background padding-s margin-bottom-s">
     <h3 *ngIf=" dpTnc?.acceptedVersion.length" class="ws-mat-primary-text">
       {{ 'Data privacy has been upgraded.' | translate }}

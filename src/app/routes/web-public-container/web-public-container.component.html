@@ -38,28 +38,6 @@
     <h3 class=" mt15">{{ content?.fallbackState?.label | translate }}</h3>
   </div>
 </div>
-<!-- this section is to show courses for State Institute of Health and Family Welfare, Department of Health & Family Welfare, UP org -->
-<!-- TODO: above playlist implementation works fine with for you on specfic orgs -->
-<!-- <div class="top-course-container content" *ngIf="isUpLogin">
-  <section class="mt-4 view-all-course-container" *ngIf="coursesForUP && coursesForUP.length>0">
-    <div class="line-label orange flex scroller-container">
-      <div>
-        <span class="header1">{{ 'TOP COURSES' | translate }}</span>
-      </div>
-      <button (click)="viewAllCourse('topCourse')" class="view-all-course">
-        {{ 'View all' | translate }} <img class="right-arrow" src="/fusion-assets/icons/Arrowpng.png" alt="" />
-      </button>
-
-    </div>
-    <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-      <div *ngFor="let course of coursesForUP">
-        <ng-container *ngIf="coursesForUP && coursesForUP.length>0">
-          <ws-web-course-card [displayConfig]="forYouCourseDisplayConfig" [courseData]="course"></ws-web-course-card>
-        </ng-container>
-      </div>
-    </ws-utils-horizontal-scroller>
-  </section>
-</div> -->
 <div class="overlay" *ngIf="isLoading">
   <div class="loader-container">
     <div class="loader-ripple">

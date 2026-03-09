@@ -23,9 +23,6 @@ export class CreateAccountDialogComponent implements OnInit {
   }
 
   ngOnInit() {
-    // if (this.selectedData.selected === 'help') {
-    //   this.showSocialChats()
-    // }
     this.name = this.selectedData.selected
     this.userNotExistEkshamta = this.selectedData.userNotExistEkshamta
     if (this.selectedData.selected === 'name') {

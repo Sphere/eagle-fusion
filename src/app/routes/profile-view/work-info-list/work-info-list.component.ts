@@ -11,6 +11,7 @@ import { NsUserProfileDetails } from '@ws/app/src/lib/routes/user-profile/models
 import * as _ from 'lodash'
 import { HttpClient } from '@angular/common/http'
 import { LanguageService } from '../../../services/language.service'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'ws-work-info-list',
@@ -64,7 +65,8 @@ export class WorkInfoListComponent implements OnInit {
     public snackBar: MatSnackBar,
     public http: HttpClient,
     private languageSvc: LanguageService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
     this.personalDetailForm = new UntypedFormGroup({
       profession: new UntypedFormControl('', [Validators.pattern(/^[a-zA-Z][^\s]/)]),
@@ -316,12 +318,6 @@ export class WorkInfoListComponent implements OnInit {
       controls.professionOtherSpecify.clearValidators()
       controls.professionOtherSpecify.setValue(null)
     }
-    // if (option === 'Midwives' || option === 'ANM' || option === 'GNM' || option === 'BSC Nurse' || option === 'ANM/MPW') {
-    //   this.rnFieldDisabled = false
-    // } else {
-    //   controls.regNurseRegMidwifeNumber.setValue(null)
-    //   this.rnFieldDisabled = true
-    // }
   }
 
   orgTypeSelect(option: any) {
@@ -437,11 +433,7 @@ export class WorkInfoListComponent implements OnInit {
       (res: any) => {
         if (res) {
           this.logger.log(res, 'res')
-          if (local === 'en') {
-            this.openSnackbar(this.toastSuccess.nativeElement.value)
-          } else {
-            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-          }
+          this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           const ob = {
             type: 'work',
             edit: 'save',

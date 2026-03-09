@@ -212,14 +212,6 @@ export class CardContentComponent extends WidgetBaseComponent
     })
     localStorage.setItem('tocData', JSON.stringify(data))
     localStorage.setItem(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview`)
-    // // this.logger.log(`url_before_login`, `app/toc/` + `${data.identifier}` + `/overview?primaryCategory=Course`)
-
-    // // if (localStorage.getItem('login_url')) {
-    // //   const url: any = localStorage.getItem('login_url')
-    // //   window.location.href = url
-    // // }
-    // // this.authSvc.login(key, document.baseURI)
-    // this.router.navigateByUrl('app/login')
   }
   slugify(text: string): string {
     return text

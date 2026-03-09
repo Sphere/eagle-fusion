@@ -10,6 +10,7 @@ import { ConfigurationsService, LoggerService, TelemetryService, ValueService } 
 import { Observable } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { Meta, Title } from '@angular/platform-browser'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'ws-public-login',
@@ -46,25 +47,20 @@ export class PublicLoginComponent implements OnInit {
     public configSvc: ConfigurationsService,
     private readonly router: Router,
     private readonly route: ActivatedRoute,
-    private meta: Meta, private title: Title,
+    private meta: Meta,
+    private title: Title,
     private telemetrySvc: TelemetryService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
-      // firstName: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
-      // lastname: new FormControl('', [Validators.required, Validators.pattern(/^[a-zA-Z '.-]*$/)]),
-      // tslint:disable-next-line:max-line-length
       emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
-      // password: new FormControl('', [Validators.required,
-      // Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
     })
     this.loginPwdForm = this.spherFormBuilder.group({
       emailOrMobile: new FormControl('', [Validators.required, Validators.pattern(/^((([6-9][0-9]{9}))|([a-zA-Z0-9._%-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}))$/)]),
       password: new FormControl('', [Validators.required,
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
-      // confirmPassword: new FormControl('', [Validators.required]),
     })
     this.OTPForm = this.spherFormBuilder.group({
       OTPcode: new FormControl('', [Validators.required])
@@ -72,9 +68,6 @@ export class PublicLoginComponent implements OnInit {
     this.route.queryParams.subscribe(params => {
       if (params['ekshamtaLogin']) {
         this.isEkshamtaLogin = true
-        //   this.routerLink = '/public/ekshamataHome'
-        // } else {
-        //   this.isEkshamtaLogin = false
         this.routerLink = '/public/home'
       } else {
         this.routerLink = '/public/home'
@@ -258,13 +251,10 @@ export class PublicLoginComponent implements OnInit {
       }
       let phone = this.loginPwdForm.controls.emailOrMobile.value
       let type = ''
-      // const validphone = /^[6-9]\d{9}$/.test(phone)
       phone = phone.replace(/[^0-9+#]/g, '')
       if (phone.length >= 10) {
-        // this.otpPage = true
         type = 'phone'
       } else {
-        // this.otpPage = true
         let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
@@ -301,7 +291,7 @@ export class PublicLoginComponent implements OnInit {
         this.isLoginLoading = false
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         this.logger.log(res.status)
-        this.openSnackbar(res.msg ?? res.message)
+        this.openSnackbar(this.translate.instant("USER_AUTH_SUCCESS"))
 
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
@@ -342,7 +332,7 @@ export class PublicLoginComponent implements OnInit {
         if (err?.error?.message === "User doesn't exists please signup and try again" || err?.error?.msg === "User doesn't exists please signup and try again") {
           this.userDoesnotExist()
         }
-        this.openSnackbar(err?.error?.msg || err?.error?.error || "Login Failed")
+        this.openSnackbar(this.translate.instant(err?.error?.msg || err?.error?.error || "Login Failed"))
       })
     } else {
       this.logger.log('alert')
@@ -388,16 +378,18 @@ export class PublicLoginComponent implements OnInit {
       this.logger.log(req, type)
       this.signupService.resendOTP(req).subscribe(res => {
         this.logger.log(res)
-        this.openSnackbar(res.msg ?? res.message)
-        // if (localStorage.getItem('url_before_login')) {
-        //   const url = localStorage.getItem('url_before_login') || ''
-        //   location.href = url
-        // } else {
-        //   window.location.href = '/page/home'
-        // }
+        const str = res.msg ?? res.message
+        const parts = str.split(" ")
+        const lastValue = parts[parts.length - 1]
+        const message = parts.slice(0, -1).join(" ")
+        this.openSnackbar(this.translate.instant(message, { value: lastValue }))
       }, err => {
         this.logger.log(err)
-        this.openSnackbar(err.error.msg ?? err.error.message)
+        const str = err.error.msg ?? err.error.message
+        const parts = str.split(" ")
+        const lastValue = parts[parts.length - 1]
+        const message = parts.slice(0, -1).join(" ")
+        this.openSnackbar(this.translate.instant(message, { value: lastValue }))
       })
     }
   }
@@ -446,8 +438,7 @@ export class PublicLoginComponent implements OnInit {
         this.isLoginLoading = false
         localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
         this.logger.log(res)
-        this.openSnackbar(res.msg ?? res.message)
-
+        this.openSnackbar(this.translate.instant(res.msg ?? res.message))
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
             let res = await result
@@ -496,7 +487,7 @@ export class PublicLoginComponent implements OnInit {
         // Send login failure telemetry
         this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'otp', err?.error?.msg || err?.error?.message || 'Login failed')
 
-        this.openSnackbar(err.error.msg || err.error.message)
+        this.openSnackbar(this.translate.instant(err.error.msg || err.error.message))
       })
     }
   }
@@ -541,22 +532,26 @@ export class PublicLoginComponent implements OnInit {
       this.signupService.sendOTP(req).subscribe(res => {
         this.logger.log(res)
         this.userID = res.userId
-        this.openSnackbar(res.msg ?? res.message)
+        const str = res.msg ?? res.message
+        const parts = str.split(" ")
+        const lastValue = parts[parts.length - 1]
+        const message = parts.slice(0, -1).join(" ")
+        this.openSnackbar(this.translate.instant(message, { value: lastValue }))
         this.startTimer()
         this.otpPage = true
         this.logger.log(this.otpPage)
-        // if (localStorage.getItem('url_before_login')) {
-        //   const url = localStorage.getItem('url_before_login') || ''
-        //   location.href = url
-        // } else {
-        //   window.location.href = '/page/home'
-        // }
       }, err => {
         this.logger.log(err.error.msg, err.error.message)
         if (err.error.message === "User doesn't exists please signup and try again" || err.error.msg === "User doesn't exists please signup and try again") {
           this.userDoesnotExist()
+          this.openSnackbar(this.translate.instant(err.error.msg ?? err.error.message))
+        } else {
+          const str = err.error.msg ?? err.error.message
+          const parts = str.split(" ")
+          const lastValue = parts[parts.length - 1]
+          const message = parts.slice(0, -1).join(" ")
+          this.openSnackbar(this.translate.instant(message, { value: lastValue }))
         }
-        this.openSnackbar(err.error.msg ?? err.error.message)
       })
     }
   }

@@ -2,10 +2,8 @@ import { SignupService } from '../signup/signup.service'
 import { Component, OnInit, AfterViewChecked, ViewChild, ElementRef } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { UntypedFormBuilder, UntypedFormControl, Validators, UntypedFormGroup } from '@angular/forms'
-// import { mustMatch } from '../password-validator'
 import { MatSnackBar } from '@angular/material/snack-bar'
-// import { AuthKeycloakService } from '../../../../library/ws-widget/utils/src/public-api'
-// import { EmailMobileValidators } from '../emailMobile.validator'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'ws-forgot-password',
@@ -31,8 +29,8 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
 
   constructor(private router: Router, private signupService: SignupService,
     private fb: UntypedFormBuilder, private snackBar: MatSnackBar,
-    private readonly route: ActivatedRoute
-    // private authSvc: AuthKeycloakService
+    private readonly route: ActivatedRoute,
+    private translate: TranslateService
   ) {
     this.forgotPasswordForm = this.fb.group({
       otp: new UntypedFormControl('', [Validators.required, Validators.minLength(3)]),
@@ -60,7 +58,7 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
       this.resendOtpCounter = this.resendOtpCounter + 1
       if (this.resendOtpCounter >= this.maxResendTry) {
         this.disableResendButton = false
-        this.openSnackbar('Maximum retry limit exceeded please try again.')
+        this.openSnackbar(this.translate.instant("MAX_RETRY_LIMIT_EXCEEDED"))
         return
       }
     }
@@ -79,13 +77,13 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
           if (res.message) {
-            this.openSnackbar(res.message)
+            this.openSnackbar(this.translate.instant(res.message))
             this.resendOtpEnablePostTimer()
             this.showOtpPwd = true
           }
         },
         (error: any) => {
-          this.openSnackbar(error.error)
+          this.openSnackbar(this.translate.instant(error.error))
         })
       // tslint:disable-next-line: max-line-length
     } else if (/^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(this.emailOrMobile)) {
@@ -97,14 +95,14 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
       this.signupService.forgotPassword(requestBody).subscribe(
         (res: any) => {
           if (res.message) {
-            this.openSnackbar(res.message)
+            this.openSnackbar(this.translate.instant(res.message))
             this.showOtpPwd = true
             this.resendOtpEnablePostTimer()
             this.showCheckEmailText = true
           }
         },
         (error: any) => {
-          this.openSnackbar(error.error.message)
+          this.openSnackbar(this.translate.instant(error.error.message))
         })
     }
   }
@@ -122,16 +120,14 @@ export class ForgotPasswordComponent implements OnInit, AfterViewChecked {
     this.signupService.setPasswordWithOtp(requestBody).subscribe(
       (res: any) => {
         if (res.response) {
-          this.openSnackbar(res.response)
+          this.openSnackbar(this.translate.instant(res.response))
           setTimeout(() => {
-            // this.router.navigate(['/app/login'])
             window.open(res.link, '_self')
-            // this.authSvc.login('S', document.baseURI)
           }, 2000)
         }
       },
       (error: any) => {
-        this.openSnackbar(error.error.message || 'Something went wrong')
+        this.openSnackbar(this.translate.instant(error.error.message || 'Oops! Something went wrong'))
       }
     )
   }

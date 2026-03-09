@@ -5,6 +5,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ImageCroppedEvent, ImageTransform } from 'ngx-image-cropper'
 import { ConfigurationsService } from '../../services/configurations.service'
 import { ValueService } from '../../services/value.service'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'ws-utils-image-crop',
@@ -40,6 +41,7 @@ export class ImageCropComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private snackBar: MatSnackBar,
     private valueSvc: ValueService,
+    private translate: TranslateService,
     @Inject(MAT_DIALOG_DATA) data: {
       isRoundCrop: boolean,
       imageFile: File,
@@ -116,7 +118,7 @@ export class ImageCropComponent implements OnInit {
         this.height = img.height
         if (!this.isRoundCrop) {
           if ((this.height === this.opHeight) && (this.width === this.opWidth)) {
-            this.openSnackBar('Image is of the required dimensions of the thumbnail, croping is not available!')
+            this.openSnackBar(this.translate.instant("IMG_ERR_MSG"))
             return
           }
           if ((this.height < this.opHeight) || (this.width < this.opWidth)) {

@@ -5,8 +5,8 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
-import { LanguageService } from '../../services/language.service'
 import { FormGroup } from '@angular/forms'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'ws-your-background',
@@ -34,7 +34,7 @@ export class YourBackgroundComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private UserAgentResolverService: UserAgentResolverService,
-    private languageSvc: LanguageService,
+    private translate: TranslateService
   ) { }
 
   ngOnInit() {
@@ -70,7 +70,6 @@ export class YourBackgroundComponent implements OnInit {
       this.lastName = this.configSvc.userProfile.lastName || ''
     }
     // ✅ Use LanguageService instead of checking location.href
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
     this.selectedAddress = this.aboutYou.value.country
     if (this.aboutYou.value.state) {
       this.selectedAddress += ', ' + `${this.aboutYou.value.state}`
@@ -117,12 +116,7 @@ export class YourBackgroundComponent implements OnInit {
 
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(data => {
       if (data) {
-        if (local === 'en') {
-          this.openSnackbar('User profile details updated successfully!')
-        } else {
-          this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-        }
-
+        this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
       }
     })
   }

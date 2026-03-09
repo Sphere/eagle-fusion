@@ -191,14 +191,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         },
         api: {
           host: `${locationOrigin}/apis/proxies/v8`, // default host
-          // host: 'http://localhost:3004/proxies/v8', // default host
-          // host: 'http://localhost:3002', // default host
-          authentication: {
-            // bearerToken: "", // optional
-            // userToken: "5574b3c5-16ca-49d8-8059-705304f2c7fb"
-            // bearerToken: this.loginToken,
-            // optional
-          },
+          authentication: {},
         },
       },
       services: {
@@ -223,6 +216,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       },
     })
   }
+
   ngOnDestroy() {
     if (this.routerEventsSubscription) {
       this.routerEventsSubscription.unsubscribe()
@@ -256,7 +250,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     }
-
     return mergedObj
   }
 
@@ -294,7 +287,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             fields: ['progressdetails'],
           },
         }
-        // this.logger.log(req)
         this.contentSvc
           .fetchContentHistoryV2(req)
           .pipe(takeUntil(this.destroy$))
@@ -594,7 +586,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.showmobileFooter = false
           this.disableChatForBnrc = true
         }
-        // tslint:disable-next-line: max-line-length
         if (
           event.url.includes('preview') ||
           event.url.includes('embed') ||
@@ -604,7 +595,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.hideHeaderFooter = true
         } else if (event.url.includes('author/') && this.isInIframe) {
           this.isNavBarRequired = false
-          // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/org-selective-course')) {
           this.isNavBarRequired = false
           this.showmobileFooter = false
@@ -614,7 +604,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           }
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
-          // this.showNavigation = true
           this.isLoggedIn = true
           localStorage.setItem(
             `url_before_login`,
@@ -637,7 +626,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.hideHeaderFooter = false
           this.isNavBarRequired = true
           this.mobileView = true
-          // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/public/home')) {
           this.showNavigation = true
         } else if (
@@ -687,7 +675,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         this.isProfile = true
       }
       if (event instanceof NavigationEnd) {
-        // this.telemetrySvc.impression()
         const paramMap = this.activatedRoute.snapshot.queryParamMap
         const params: any = {}
 
@@ -714,17 +701,15 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     })
   }
 
-  async getAccessToken() {
-    const loginData = localStorage.getItem('loginDetailsWithToken')
-    if (loginData) {
-      const parsedData = JSON.parse(loginData)
-      let token = parsedData.token?.access_token
-      // this.logger.log("token", token)
-      return token
-      // return 'eyJhbGciOiJSUzI1NiIsInR5cCIgOiAiSldUIiwia2lkIiA6ICJkelFFNjdiRmxRN0V2eUF3Tktndmk1X2ZQR0dsVUVKOGEyMnFlZ1R0TFU0In0.eyJqdGkiOiJmYzE1ZDg1Mi02NmUxLTRjYTUtYWM1YS1mYjA1Y2Q5NmQ0OTQiLCJleHAiOjE3NDMxNDY1NDksIm5iZiI6MCwiaWF0IjoxNzQwNTU0NTQ5LCJpc3MiOiJodHRwczovL2Fhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tL2F1dGgvcmVhbG1zL3N1bmJpcmQiLCJhdWQiOiJhY2NvdW50Iiwic3ViIjoiZjo5MDdiNWM2NC0xZDc5LTQ0ZGItYjNiNS1lYzEyOWQ1N2Y0MjE6OGVhYjM5NWQtNDZmNC00N2ZmLTkwYWYtOWQ1MWQ1MTI2ZmMzIiwidHlwIjoiQmVhcmVyIiwiYXpwIjoicG9ydGFsIiwiYXV0aF90aW1lIjowLCJzZXNzaW9uX3N0YXRlIjoiY2E4NjU0MzktMjgwZS00MzkxLTgyZGItYTUwMGE0MDBhM2ZjIiwiYWNyIjoiMSIsImFsbG93ZWQtb3JpZ2lucyI6WyJodHRwczovL2FkbWluLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovLzEyNy4wLjAuMTozMDAwIiwiaHR0cHM6Ly9hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbS8qIiwiaHR0cHM6L2NicC1hYXN0cmlrYS1zdGFnZS50YXJlbnRvLmNvbSIsImh0dHBzOi8vb3JnLWFhc3RyaWthLXN0YWdlLnRhcmVudG8uY29tIiwiaHR0cDovL2xvY2FsaG9zdDozMDAwIl0sInJlYWxtX2FjY2VzcyI6eyJyb2xlcyI6WyJvZmZsaW5lX2FjY2VzcyIsInVtYV9hdXRob3JpemF0aW9uIl19LCJyZXNvdXJjZV9hY2Nlc3MiOnsiYWNjb3VudCI6eyJyb2xlcyI6WyJtYW5hZ2UtYWNjb3VudCIsIm1hbmFnZS1hY2NvdW50LWxpbmtzIiwidmlldy1wcm9maWxlIl19fSwic2NvcGUiOiIiLCJuYW1lIjoiUHVibGlzaGVyIFVzZXIiLCJwcmVmZXJyZWRfdXNlcm5hbWUiOiJwdWJsaXNoZXJ1c2VyX201cXMiLCJnaXZlbl9uYW1lIjoiUHVibGlzaGVyIiwiZmFtaWx5X25hbWUiOiJVc2VyIiwiZW1haWwiOiJwdSoqKioqKioqKipAeW9wbWFpbC5jb20ifQ.fL1p9vJetVOK4DRGPo8wJtrzJcJf5MVmatcUGdVMSEu0IZ2zfr5X-kVk4RSqqmLG00ApY5_fcYb6EWrUVScU9BwWBJdfPl0Xbhk4eQwRnfoM13_ab64v02rAcUL-U3yuwyaMnBn9Cfbij1kb0M2wnWjW0EAyV9lSuQ65yzShIVXjaRmfGhqVkuq_TyoKrnr2xKlzCUPfeQcDIApD-pqxa6DSuhS1Gu1qgIKoAvZx6MPtQoLiauMa-s_I51_2c2Gmo960G0HCy3EluE62ulUXqUVpfyLFvzSIgWD545bXBd6fycVzNenbIeNDTAdI_hwKM9ixKQB6PCy-NZdV2gfdRQ'
-    }
-    return ''
-  }
+  // async getAccessToken() {
+  //   const loginData = localStorage.getItem('loginDetailsWithToken')
+  //   if (loginData) {
+  //     const parsedData = JSON.parse(loginData)
+  //     let token = parsedData.token?.access_token
+  //     return token
+  //   }
+  //   return ''
+  // }
 
   formatmyCourseResponse(res: any) {
     const myCourse: any = []
@@ -772,7 +757,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         window.fcWidget.on('widget:closed', () => { })
       }
     } catch (error) {
-      // tslint:disable-next-line:no-console
       this.logger.log(error)
     }
   }
@@ -794,7 +778,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         }
       }
     } catch (error) {
-      // tslint:disable-next-line:no-console
       this.logger.log(error)
     }
   }
@@ -810,7 +793,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       window.fcWidget.setConfig({ headerProperty: { hideChatButton: true } })
       window.fcWidget.init()
     } catch (error) {
-      // tslint:disable-next-line:no-console
       this.logger.log(error)
     }
   }

@@ -4,14 +4,11 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, ValueService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { constructReq } from '../request-util'
-// import * as _ from 'lodash'
-import {
-  ActivatedRoute,
-  //Router
-} from '@angular/router'
+import { ActivatedRoute } from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { WidgetContentService } from '../../../../../library/ws-widget/collection/src/public-api'
 import { LanguageService } from '../../../services/language.service'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'ws-education-edit',
   templateUrl: './education-edit.component.html',
@@ -34,13 +31,13 @@ export class EducationEditComponent implements OnInit {
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
     private snackBar: MatSnackBar,
-    //private router: Router,
     private route: ActivatedRoute,
     private valueSvc: ValueService,
     private UserAgentResolverService: UserAgentResolverService,
     private contentSvc: WidgetContentService,
     private langSvc: LanguageService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
     this.educationForm = new UntypedFormGroup({
       courseDegree: new UntypedFormControl('', [Validators.required]),
@@ -163,12 +160,7 @@ export class EducationEditComponent implements OnInit {
       (res: any) => {
         if (res) {
           form.reset()
-          if (local === 'en') {
-            this.openSnackbar(this.toastSuccess.nativeElement.value)
-          } else {
-            this.openSnackbar('उपयोगकर्ता प्रोफ़ाइल विवरण सफलतापूर्वक अपडेट किया गया!')
-          }
-          //this.openSnackbar(this.toastSuccess.nativeElement.value)
+          this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           this.userProfileSvc._updateuser.next('true')
           let ob = {
             "type": "academic",
@@ -176,7 +168,6 @@ export class EducationEditComponent implements OnInit {
 
           }
           this.contentSvc.changeWork(ob)
-          //this.router.navigate(['/app/education-list'])
         }
       })
   }

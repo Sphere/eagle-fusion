@@ -131,7 +131,8 @@ export class NewTncComponent implements OnInit, OnDestroy {
         selected: "help",
       },
     })
-  } tncChecked() {
+  }
+  tncChecked() {
     this.tncAcceptedBtn = !this.tncAcceptedBtn
   }
   handleScrollToBottom(isAtBottom: boolean): void {
@@ -240,9 +241,6 @@ export class NewTncComponent implements OnInit, OnDestroy {
   }
 
   async gotoLogin() {
-    // this.http.get('/apis/proxies/v8/logout/user').toPromise()
-    // this.configSvc.userProfile = null
-    // this.router.navigate(['/app/login'])
     try {
       const url = `${document.baseURI}public/home`
       window.location.href = url

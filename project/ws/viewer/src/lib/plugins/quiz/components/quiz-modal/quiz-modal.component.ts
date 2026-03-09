@@ -11,6 +11,7 @@ import { QuizService } from '../../quiz.service'
 declare var $: any
 import { LoggerService, ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'viewer-quiz-modal',
   templateUrl: './quiz-modal.component.html',
@@ -57,9 +58,8 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     public route: ActivatedRoute,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
-    private logger: LoggerService
-    //private viewerSvc: ViewerUtilService,
-    //private contentSvc: WidgetContentService,
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
 
   }
@@ -182,23 +182,13 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.tabIndex = 1
         this.tabActive = true
         this.logger.log(this.result, this.passPercentage)
-        // if (this.result >= this.passPercentage) {
-        //   this.isCompleted = true
-        // }
-        // this.logger.log(this.assesmentdata)
-        //if (this.result >= 0) {
-        //if (this.result >= 0) {
         this.logger.log(this.result)
-        //this.disableContinue = false
         if (this.result >= 0) {
           this.disableContinue = false
         }
-        // else {
-        //   this.disableContinue = false
-        // }
       },
       (_error: any) => {
-        this.openSnackbar('Something went wrong! Unable to submit.')
+        this.openSnackbar(this.translate.instant("SUBMIT_ERR"))
         this.fetchingResultsStatus = 'error'
       },
     )

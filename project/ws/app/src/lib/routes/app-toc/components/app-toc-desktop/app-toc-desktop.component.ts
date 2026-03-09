@@ -4,51 +4,37 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
-  // ContentProgressService,
   NsContent,
-  // NsGoal,
-  // NsPlaylist,
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
 import { ConfigurationsService, TelemetryService, TFetchStatus, LoggerService } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
-// import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
-// import { NsAnalytics } from '../../models/app-toc-analytics.model'
 import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-// import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-// import dayjs from 'dayjs'
-// import * as  lodash from 'lodash'
-// import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
-// import * as FileSaver from 'file-saver'
 import moment from 'moment'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
-// import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 
 import { WindowService } from 'src/app/services/navigation-history.service'
-import { LanguageService } from '../../../../../../../../../src/app/services/language.service'
+import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
   styleUrls: ['./app-toc-desktop.component.scss'],
-  providers: [
-    // AccessControlService
-  ],
+  providers: [],
 })
 export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() banners: NsAppToc.ITocBanner | null = null
   @Input() content: NsContent.IContent | null = null
   @Input() resumeData: NsContent.IContinueLearningData | null = null
-  // @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
   @Input() batchData!: any
   @Input() enrollCourse!: any
@@ -61,12 +47,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   issueCertificate = false
   updatedContentFound: any
   updatedContentStatus = false
-  // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
-  validPaths = new Set(['overview', 'contents',
-    // 'analytics'
-  ])
+  validPaths = new Set(['overview', 'contents'])
   averageRating: any = ''
   totalRatings: any = ''
   routerParamSubscription: Subscription | null = null
@@ -77,9 +60,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   isPracticeVisible = false
   editButton = false
   reviewButton = false
-  // analyticsDataClient: any = null
-  // btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
-  // btnGoalsConfig: NsGoal.IBtnGoal | null = null
   isRegistrationSupported = false
   checkRegistrationSources: Set<string> = new Set([
     'SkillSoft Digitalization',
@@ -101,7 +81,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   } = {}
   identifier: any
   cohortTypesEnum = NsCohorts.ECohortTypes
-  // learnersCount:Number
   defaultSLogo = ''
   disableEnrollBtn = false
   batchId!: string
@@ -118,31 +97,26 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private dialog: MatDialog,
     private tocSvc: AppTocService,
     private configSvc: ConfigurationsService,
-    // private progressSvc: ContentProgressService,
     private contentSvc: WidgetContentService,
     private utilitySvc: UtilityService,
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
     private loader: LoaderService,
-
     private onlineIndexedDbService: IndexedDBService,
     private navService: WindowService,
-    // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document,
     private telemetrySvc: TelemetryService,
-    private langSvc: LanguageService,
-    private logger: LoggerService
-  ) {
-  }
+    private logger: LoggerService,
+    private translate: TranslateService
+  ) { }
+
   @HostListener('window:popstate', [])
   onPopState() {
     let url = sessionStorage.getItem('cURL') || '/page/home'
     if (url) {
       location.href = url
     }
-
-
   }
 
   ngOnInit() {
@@ -150,12 +124,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       sessionStorage.removeItem('currentURL')
     }
     this.enrollApi()
-
     if (this.content) {
       this.logger.log(this.optmisticPercentage, '149', this.finishedPercentage)
-
       this.readCourseRatingSummary()
-      // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
     this.route.data.subscribe(data => {
@@ -195,17 +166,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         'showIntranetMessageDesktop',
       )
     }
-
-    // if (this.authAccessService.hasAccess(this.content as any) && !this.isInIFrame) {
-    //   const status: string = (this.content as any).status
-    //   if (!this.forPreview) {
-    //     this.editButton = true
-    //   } else if (['Draft', 'Live'].includes(status)) {
-    //     this.editButton = true
-    //   } else if (['InReview', 'Reviewed', 'QualityReview'].includes(status)) {
-    //     this.reviewButton = true
-    //   }
-    // }
     this.checkRegistrationStatus()
     this.routerParamSubscription = this.router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationEnd) {
@@ -215,20 +175,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.configSvc.restrictedFeatures) {
       this.isGoalsEnabled = !this.configSvc.restrictedFeatures.has('goals')
-    }
-
-    if (this.content) {
-      // this.btnPlaylistConfig = {
-      //   contentId: this.content.identifier,
-      //   contentName: this.content.name,
-      //   contentType: this.content.contentType,
-      //   mode: 'dialog',
-      // }
-      // this.btnGoalsConfig = {
-      //   contentId: this.content.identifier,
-      //   contentName: this.content.name,
-      //   contentType: this.content.contentType,
-      // }
     }
   }
   getStarImage(index: number): string {
@@ -246,8 +192,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       return emptyStarUrl // Empty star
     }
   }
-
-
 
   setConfirmDialogStatus(percentage: any) {
     this.contentSvc.showConformation = percentage
@@ -286,16 +230,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   redirect() {
     this.logger.log(this.configSvc, 'key')
-    let local = (
-      this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.preferences &&
-      this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined
-    )
-      ? this.configSvc.unMappedUser.profileDetails.preferences.language
-      : (location.href.includes('/hi/') ? 'hi' : '')
-    local = local === 'en' ? '' : 'hi'
-    this.logger.log(local)
     let url = ''
 
     // ✅ Check if orgSelectiveConfig matches and redirect accordingly
@@ -312,42 +246,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       location.href = `${document.baseURI.replace(/\/hi$/, '').replace(/\/$/, '')}${redirectUrl}`
     } else {
       this.navService.nativeWindow.history.back()
-      // url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
-      // this.logger.log(url)
-      // let url3 = `${document.baseURI}`
-      // if (url3.includes('hi')) {
-      //   url3 = url3.replace(/hi\//g, '')
-      // }
-      // location.href = `${url3}${url}`
     }
   }
-
-  // resumeBtn() {
-  //   if(localStorage.getItem(`resume_URL`)){
-  //     this.resumeDataLink.url = localStorage.getItem(`resume_URL`)
-  //       this.logger.log(resume_URL)
-  //       //location.href = resume_URL
-  //       //this.router.navigateByUrl(`${resume_URL}`)
-  //   } else {
-  //     this.logger.log(this.lastCourseID)
-  //     this.resumeDataLink = viewerRouteGenerator(
-  //       this.lastCourseID.content.identifier,
-  //       this.lastCourseID.content.mimeType,
-  //       this.isResource ? undefined : this.lastCourseID.content.identifier,
-  //       this.isResource ? undefined : this.lastCourseID.content.contentType,
-  //       this.forPreview,
-  //       'Learning Resource',
-  //       this.getBatchId(),
-  //     )
-  //     this.logger.log(this.resumeDataLink)
-  //      const query = this.generateQuery('RESUME')
-  //      this.logger.log(query)
-  //      this.logger.log(this.resumeDataLink)
-  // tslint:disable-next-line:max-line-length
-  //     let url = this.resumeDataLink.url+'?primaryCategory='+query.primaryCategory+'&collectionId='+query.collectionId+'&collectionType='+query.collectionType+'&batchId='+query.batchId
-
-  //   }
-  // }
 
   uniqueIdsByContentType(obj: any, contentType: any, uniqueIds = new Set()) {
     // Check if the current object is an array
@@ -377,7 +277,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       }
       collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
       this.logger.log(collectionArry, 'collectionArry')
-      // this.content.status = 'Deleted'
       this.fetchExternalContentAccess()
       this.modifySensibleContentRating()
       this.assignPathAndUpdateBanner(this.router.url)
@@ -392,7 +291,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         this.logger.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
         if (record.contentId) {
           this.updatedContentStatus = true
-          //this.updatedContentFound = record
         } else {
           this.updatedContentStatus = false
         }
@@ -419,7 +317,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 this.updatedContentFound = url1
               }
             }
-
           } else {
             if (data.contents[0].progressdetails.mimeType === "application/pdf") {
               url1 = `/viewer/pdf/${data.contents[0].contentId}?primaryCategory=Learning%20Resource&collectionId=${data.contents[0].courseId}&collectionType=Course&batchId=${data.contents[0].batchId}`
@@ -496,7 +393,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           this.isResource ? undefined : this.content.identifier,
           this.isResource ? undefined : this.content.contentType,
           this.forPreview,
-          // this.content.primaryCategory
           'Learning Resource',
           this.getBatchId()
         )
@@ -507,7 +403,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           this.isResource ? undefined : this.content.identifier,
           this.isResource ? undefined : this.content.contentType,
           this.forPreview,
-          // this.content.primaryCategory
           'Learning Resource',
           this.getBatchId()
         )
@@ -528,8 +423,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           },
         }
         this.contentSvc.enrollUserToBatch(req).then((data: any) => {
-          let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
-
           if (data && data.result && data.result.response === 'SUCCESS') {
             this.batchData = {
               content: [batch],
@@ -542,22 +435,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 queryParams: { batchId: batch.batchId },
                 queryParamsHandling: 'merge',
               })
-            let message
-            if (local === 'en') {
-              message = `Enrolled Successfully!`
-            } else {
-              message = `सफलतापूर्वक नामांकित!`
-            }
-            this.openSnackbar(message)
+            this.openSnackbar(this.translate.instant("ENROLL_SUCCESS"))
             this.disableEnrollBtn = false
           } else {
-            let message
-            if (local === 'en') {
-              message = `Something went wrong, please try again later!`
-            } else {
-              message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
-            }
-            this.openSnackbar(message)
+            this.openSnackbar(this.translate.instant("ERROR_MSG"))
             this.disableEnrollBtn = false
           }
         })
@@ -593,19 +474,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     } else {
       let url2 = document.baseURI
       this.logger.log(url2, 'url2')
-      if (url2.includes('hi')) {
-        url2 = url2.replace(/hi\//g, '')
-      }
       let url1 = updatedContentFound.includes(url2)
       if (url1) {
         let u1 = updatedContentFound.split(url2).pop()
-        if (u1.includes('hi') && document.baseURI.includes('hi')) {
-          u1 = u1.replace(/hi\//g, '')
-        } else {
-          if (u1.includes('hi')) {
-            u1 = u1.replace(/(\/hi\/)+/g, '/hi/')
-          }
-        }
         this.router.navigateByUrl(u1)
       } else {
         this.router.navigateByUrl(updatedContentFound)
@@ -619,7 +490,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   downloadCertificate(content: any) {
-    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
     this.logger.log(this.optmisticPercentage)
 
     // is enrolled?
@@ -662,56 +532,30 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   return course
                 })
                 if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
-                  // this.displayStyle = 'block'
-                  // tslint:disable-next-line: max-line-length
-                  // this.certificateMsg = 'Our certificate download will begin shortly. If it does not start after 3 minutes, please allow popups in the browser and try again or write to support@aastrika.org'
                   this.sendApi()
-                  // trigger this.downloadCertificate
-
                 } else {
                   // trigger request
                   // check for exisitng request
-
                   if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`) && duration <= 30) {
                     this.displayStyle = 'block'
-                    // tslint:disable-next-line: max-line-length
-                    if (local === 'en') {
-                      this.certificateMsg = `You have already requested a certificate. Please check after ${30 - duration} minutes!`
-                    } else {
-                      this.certificateMsg = `आप पहले ही प्रमाणपत्र का अनुरोध कर चुके हैं. कृपया बाद में जांचें ${30 - duration} मिनट!`
-                    }
+                    let dur = (30 - duration)
+                    this.certificateMsg = this.translate.instant("REQUEST_CERTIFICATE", { duration: dur })
                   } else {
                     this.contentSvc.processCertificate(req).subscribe((response: any) => {
                       if (response.responseCode === 'OK') {
                         this.sendApi()
-                        // tslint:disable-next-line: max-line-length
                         localStorage.setItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`, moment(new Date()).toString())
                         this.displayStyle = 'block'
-                        // tslint:disable-next-line: max-line-length
-                        if (local === 'en') {
-                          this.certificateMsg = `Your request for certificate has been successfully processed. Please download it after 30 minutes.`
-                        } else {
-                          this.certificateMsg = `प्रमाणपत्र के लिए आपका अनुरोध सफलतापूर्वक संसाधित कर दिया गया है। कृपया 30 मिनट बाद इसे डाउनलोड करें।`
-                        }
+                        this.certificateMsg = this.translate.instant("CERTIFICATE_REQ_SUCESSFULL")
                       } else {
                         this.displayStyle = 'block'
-                        if (local === 'en') {
-                          this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
-                        } else {
-                          this.certificateMsg = 'इस समय प्रमाणपत्र का अनुरोध करने में असमर्थ. बाद में कोशिश करें!'
-                        }
+                        this.certificateMsg = this.translate.instant("REQUEST_CERTIFICATE_FAILED")
                       }
                     },
                       err => {
                         this.displayStyle = 'block'
-                        /* tslint:disable-next-line */
                         this.logger.log(err.error.params.errmsg)
-                        if (local === 'en') {
-                          this.certificateMsg = 'Unable to request certificate at this moment. Please try later!'
-                        } else {
-                          this.certificateMsg = 'इस समय प्रमाणपत्र का अनुरोध करने में असमर्थ। बाद में कोशिश करें!'
-                        }
-                        // this.openSnackbar(err.error.params.errmsg)
+                        this.certificateMsg = this.translate.instant("REQUEST_CERTIFICATE_FAILED")
                       })
                   }
                 }
@@ -724,28 +568,14 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         this.displayStyle = 'block'
         // tslint:disable-next-line:max-line-length
         if (this.optmisticPercentage != 100) {
-          if (local === 'en') {
-            this.certificateMsg = 'You have not finished all modules of the course. It is mandatory to complete all modules before you can request a certificate'
-          } else {
-            this.certificateMsg = 'आपने पाठ्यक्रम के सभी मॉड्यूल समाप्त नहीं किए हैं. प्रमाणपत्र का अनुरोध करने से पहले सभी मॉड्यूल को पूरा करना अनिवार्य है'
-          }
+          this.certificateMsg = this.translate.instant("ALERT_CERTIFICATE_MSG")
         } else {
-          if (local === 'en') {
-            this.certificateMsg = 'Your request for certificate has been successfully processed. Please download it after 30 minutes.'
-          } else {
-            this.certificateMsg = 'प्रमाणपत्र के लिए आपका अनुरोध सफलतापूर्वक संसाधित कर दिया गया है। कृपया 30 मिनट बाद इसे डाउनलोड करें।'
-          }
+          this.certificateMsg = this.translate.instant('CERTIFICATE_REQ_SUCESSFULL')
         }
       }
     } else {
       this.displayStyle = 'block'
-      if (local === 'en') {
-        // tslint:disable-next-line: max-line-length
-        this.certificateMsg = 'Please enroll by clicking the Start button, finish all modules and then request for the certificate'
-      } else {
-        this.certificateMsg = 'कृपया स्टार्ट बटन पर क्लिक करके नामांकन करें, सभी मॉड्यूल समाप्त करें और फिर प्रमाणपत्र के लिए अनुरोध करें'
-      }
-
+      this.certificateMsg = this.translate.instant("ENROLL_ALERT")
     }
 
   }
@@ -787,13 +617,11 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               if (record.contentId) {
                 this.updatedContentStatus = true
                 this.updatedContentFound = record.url
-              } else {
-                // this.updatedContentStatus = false
               }
             }, async (error) => {
               this.updatedContentStatus = true
               this.logger.log(this.enrolledCourse, 'this.enrolledCourse!')
-              if (error && this.enrolledCourse && this.enrolledCourse!.batchId) {
+              if (error && this.enrolledCourse?.batchId) {
                 this.logger.log('ewrwer')
                 if (this.enrolledCourse.lastReadContentId) {
                   let url = ''
@@ -820,23 +648,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   this.updatedContentFound = url1
                 }
               }
-              // else {
-              //   let batchId = await this.getBatchId()
-              //   this.logger.log(batchId, 'batchId')
-              //   if (!batchId) {
-              //     let u1 = `${document.baseURI}`
-              //     this.logger.log(u1)
-              //     let u2 = u1.split("&")
-              //     this.logger.log(u2)
-              //     let u3 = u2[0].split("Id=")
-              //     this.logger.log(u3)
-              //     batchId = u3[1]
-              //     this.logger.log(batchId, 'batchId')
-              //   }
-              //   let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
-              //   this.logger.log(url1, 'url13123')
-              //   this.updatedContentFound = url1
-              // }
             }
             )
           }
@@ -879,48 +690,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               }
               return course
             })
-            if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
+            if (this.enrolledCourse?.issuedCertificates?.length > 0) {
               const certID = this.enrolledCourse.issuedCertificates[0].identifier || ''
               const name = this.enrolledCourse.courseName
               this.openPopup(certID, name)
-              // this.contentSvc.downloadCertificateAPI(certID).toPromise().then((response: any) => {
-              //   if (response.responseCode) {
-              //     const img = new Image()
-              //     const url = response.result.printUri
-              //     img.onload = function () {
-
-              //       const canvas: any = document.getElementById('certCanvas') || {}
-              //       const ctx = canvas.getContext('2d')
-              //       const imgWidth = img.width
-              //       const imgHeight = img.height
-              //       canvas.width = imgWidth
-              //       canvas.height = imgHeight
-              //       ctx.drawImage(img, 0, 0, imgWidth, imgHeight)
-              //       let imgURI = canvas
-              //         .toDataURL('image/jpeg')
-
-              //       imgURI = decodeURIComponent(imgURI.replace('data:image/jpeg,', ''))
-              //       const arr = imgURI.split(',')
-              //       const mime = arr[0].match(/:(.*?);/)[1]
-              //       const bstr = atob(arr[1])
-              //       let n = bstr.length
-              //       const u8arr = new Uint8Array(n)
-              //       while (n) {
-              //         n = n - 1
-              //         u8arr[n] = bstr.charCodeAt(n)
-              //       }
-              //       const blob = new Blob([u8arr], { type: mime })
-              //       FileSaver.saveAs(blob, `${name}`)
-              //       if (localStorage.getItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)) {
-              //         localStorage.removeItem(`certificate_downloaded_${self.content ? self.content.identifier : ''}`)
-              //       }
-              //     }
-              //     //  DOMURL.revokeObjectURL(url)
-              //     img.src = url
-              //   }
-              // })
-            } else {
-              // this.displayStyle = 'block'
             }
           }
         }
@@ -965,10 +738,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   get isHeaderHidden() {
     return this.isResource && this.content && !this.content.artifactUrl.length
   }
-
-  // get showStart() {
-  //   return this.content && this.content.resourceType !== 'Certification'
-  // }
 
   get showActionButtons() {
     return (
@@ -1042,20 +811,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   private getLearningUrls() {
     if (this.content) {
-      // if (!this.forPreview) {
-      //   this.progressSvc.getProgressFor(this.content.identifier).subscribe(data => {
-      //     this.contentProgress = data
-      //   })
-      // }
-      // this.progressSvc.fetchProgressHashContentsId({
-      //   "contentIds": [
-      //     "lex_29959473947367270000",
-      //     "lex_5501638797018560000"
-      //   ]
-      // }
-      // ).subscribe(data => {
-      //   this.logger.log("DATA: ", data)
-      // })
       this.isPracticeVisible = Boolean(
         this.tocSvc.filterToc(this.content, NsContent.EFilterCategory.PRACTICE),
       )
@@ -1088,15 +843,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       )
     }
   }
-  // playIntroVideo() {
-  //   if (this.content) {
-  //     this.dialog.open(AppTocDialogIntroVideoComponent, {
-  //       data: this.content.introductoryVideo,
-  //       height: '350px',
-  //       width: '620px',
-  //     })
-  //   }
-  // }
+
   get sanitizedIntroductoryVideoIcon() {
     if (this.content && this.content.introductoryVideoIcon) {
       return this.sanitizer.bypassSecurityTrustStyle(`url(${this.content.introductoryVideoIcon})`)
@@ -1247,24 +994,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       }
     }
   }
-  // giveRating(batchData: any) {
-  //   if (batchData) {
-  //     const data = {
-  //       courseId: batchData[0].courseId,
-  //     }
-  //     const dialogRef = this.dialog.open(ConfirmmodalComponent, {
-  //       width: '300px',
-  //       height: '400px',
-  //       data: { request: data, message: 'Congratulations!, you have completed the course' },
-  //       disableClose: false,
-  //     })
 
-  //     dialogRef.afterClosed().subscribe((data: { ratingsForm: FormGroup, rating: number }) => {
-  //       this.logger.log("data: ", data)
-  //     })
-  //   }
-
-  // }
   openRating(data: any) {
     this.logger.log("read rating", data)
     let userId = ''
@@ -1297,7 +1027,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           const dialogRef = this.dialog.open(ConfirmmodalComponent, {
             width: '300px',
             height: '410px',
-            data: { request: courseData, message: 'Congratulations!, you have completed the course' },
+            data: { request: courseData, message: this.translate.instant('COURSE_COMPLETION_MSG') },
             disableClose: false,
           })
 
@@ -1311,18 +1041,18 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         } else {
           this.loader.changeLoad.next(false)
 
-          this.openSnackbar('Something went wrong, please try again later!')
+          this.openSnackbar(this.translate.instant('ERROR_MSG'))
           this.disableEnrollBtn = false
         }
       })
         .catch((err: any) => {
           this.loader.changeLoad.next(false)
           this.logger.log("err", err)
-          this.openSnackbar('Something went wrong, please try again later!')
+          this.openSnackbar(this.translate.instant('ERROR_MSG'))
         })
     }
-
   }
+
   readCourseRatingSummary() {
     if (this.content) {
 
@@ -1338,8 +1068,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             this.totalRatings = res.total_number_of_ratings
             this.logger.log("data: ", res, data.result.response, this.totalRatings)
           }
-
-
         } else {
           this.disableEnrollBtn = false
         }
@@ -1366,13 +1094,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         },
       }
       this.contentSvc.enrollUserToBatch(req).then((data: any) => {
-        let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
-
         if (data && data.result && data.result.response === 'SUCCESS') {
-          // this.batchData = {
-          //   content: [data],
-          //   enrolled: true,
-          // }
           this.router.navigate(
             [],
             {
@@ -1380,13 +1102,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
               queryParams: { batchId: batchData[0].batchId },
               queryParamsHandling: 'merge',
             })
-          let message
-          if (local === 'en') {
-            message = `Enrolled Successfully!`
-          } else {
-            message = `सफलतापूर्वक नामांकित!`
-          }
-          this.openSnackbar(message)
+          this.openSnackbar(this.translate.instant('ENROLL_SUCCESS'))
           this.disableEnrollBtn = false
           setTimeout(() => {
             if (this.resumeData && this.resumeDataLink) {
@@ -1399,13 +1115,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           }, 500)
 
         } else {
-          let message
-          if (local === 'en') {
-            message = `Something went wrong, please try again later!`
-          } else {
-            message = `कुछ गलत हो गया है। कृपया बाद में दोबारा प्रयास करें!`
-          }
-          this.openSnackbar(message)
+          this.openSnackbar(this.translate.instant('ERROR_MSG'))
           this.disableEnrollBtn = false
         }
       })
@@ -1416,20 +1126,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
 
   }
-  // openDialog(content: any): void {
-  // const dialogRef = this.createBatchDialog.open(CreateBatchDialogComponent, {
-  // this.createBatchDialog.open(CreateBatchDialogComponent, {
-  //   // height: '400px',
-  //   width: '600px',
-  //   data: { content },
-  // })
-  // dialogRef.componentInstance.xyz = this.configSvc
-  // dialogRef.afterClosed().subscribe((_result: any) => {
-  //   if (!this.batchId) {
-  //     this.tocSvc.updateBatchData()
-  //   }
-  // })
-  // }
+
   openPopup(content: any, tocConfig: any) {
     this.dialog.open(AppTocCertificateModalComponent, {
       width: '100vw',

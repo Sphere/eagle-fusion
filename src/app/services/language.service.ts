@@ -95,15 +95,4 @@ export class LanguageService {
   isLanguage(langCode: string): boolean {
     return this.getCurrentLanguage() === langCode
   }
-
-  /**
-   * Get the language prefix for URLs (legacy support)
-   * Returns empty string for default language, or '/hi' for Hindi
-   * Only use for legacy URL patterns - prefer query params
-   * @returns Language prefix like '/hi' or empty string
-   */
-  getLanguageUrlPrefix(): string {
-    const lang = this.getCurrentLanguage()
-    return lang === 'hi' ? '/hi' : ''
-  }
 }

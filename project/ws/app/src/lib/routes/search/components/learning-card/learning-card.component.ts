@@ -83,9 +83,6 @@ export class LearningCardComponent extends WidgetBaseComponent
     }
     if (localStorage.getItem('telemetrySessionId') === null) {
       localStorage.setItem(`url_before_login`, url)
-      // this.router.navigateByUrl('app/login')
-      // const state = uuid()
-      // const nonce = uuid()
       sessionStorage.setItem('login-btn', 'clicked')
       // tslint:disable-next-line:max-line-length
       // const keycloakurl = `${wholeUrl}auth/realms/sunbird/protocol/openid-connect/auth?client_id=portal&redirect_uri=${encodeURIComponent(this.redirectUrl)}&state=${state}&response_mode=fragment&response_type=code&scope=openid&nonce=${nonce}`

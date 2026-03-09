@@ -226,7 +226,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   async navigateToToc(contentIdentifier: any) {
     sessionStorage.setItem('cURL', location.href)
     // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
-    const baseUrl = document.baseURI.replace(/\/hi\//g, '').replace(/\/$/, '')
+    const baseUrl = document.baseURI
     const tocUrl = `/app/toc/${contentIdentifier}/overview`
     const result = await this.signupService.getUserData()
     if (this.configSvc.unMappedUser) {

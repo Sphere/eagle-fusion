@@ -20,8 +20,8 @@
                 <mat-icon>chevron_left</mat-icon>
               </button>
             </div>
-            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="handleKeyDowns($event)" class="help-btn">{{ 'Help'
-              | translate }}
+            <div *ngIf="!isEkshamtaLogin" (click)="help()" (keydown)="handleKeyDowns($event)" class="help-btn">
+              {{ 'Help' | translate }}
               <img class="help-icon" alt="help-icon" src="../../../fusion-assets/icons/support_agent_blue.png" />
             </div>
           </div>
@@ -90,14 +90,13 @@
               </div>
               <div class="flex justify-end">
                 <a id="fgtKeycloakFlow" class="ui right floated forgetPasswordLink" tabindex="1"
-                  href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">{{
-                  'Forgot Password?' | translate }}</a>
+                  href="/public/forgot-password?value=true&amp;version=null{{ isEkshamtaLogin ? '&isEkshamataLogin=true' : '' }}">
+                  {{'Forgot Password?' | translate }}</a>
               </div>
               <div class="field flex justify-content-center">
                 <button id="login-username-password" class="ui fluid button blueButton"
                   (click)="submitDetails(loginPwdForm)" [disabled]="!loginPwdForm?.valid || isLoginLoading">
-                  <span *ngIf="!isLoginLoading">{{ 'Login' | translate
-                    }}</span>
+                  <span *ngIf="!isLoginLoading">{{ 'Login' | translate }}</span>
                   <span *ngIf="isLoginLoading">
                     <mat-spinner diameter="20" style="display: inline-block; margin-right: 8px;"></mat-spinner>
                     <span>{{'Logging in...' | translate}}</span>
