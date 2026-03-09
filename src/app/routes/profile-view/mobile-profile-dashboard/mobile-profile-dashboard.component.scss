@@ -36,6 +36,7 @@ h2 {
   @include breakpoint-xs {
     max-width: 100%;
     margin-top: 56px;
+    margin-bottom: 150px;
   }
 }
 :host ::ng-deep .form-control:disabled, .form-control[readonly] {
