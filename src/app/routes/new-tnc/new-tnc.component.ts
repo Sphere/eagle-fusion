@@ -351,32 +351,13 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.browserName.setValue(userAgent.browserName || '')
         this.createUserForm.controls.userCookie.setValue(userCookie || '')
       }
-      //let Obj: any
-      if (localStorage.getItem('preferedLanguage')) {
-        let data: any
-        data = localStorage.getItem('preferedLanguage')
+      let data = localStorage.getItem('preferedLanguage')
+      if (data) {
         this.lang = JSON.parse(data)
         this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
-        // Obj = {
-        //   preferences: {
-        //     language: this.lang,
-        //   },
-        // }
       } else {
         this.lang = 'en'
       }
-      /* this changes for ebhyass*/
-      //if (this.userData!.tcStatus === 'false') {
-      // const reqUpdate = {
-      //   request: {
-      //     userId: this.userId,
-      //     profileDetails: Object.assign(this.userData.profileDetails, Obj),
-      //     tcStatus: 'true',
-      //   },
-      // }
-      // this.updateUser(reqUpdate)
-
-      //} else {
       if (this.configSvc.unMappedUser) {
         this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
           async (data: any) => {

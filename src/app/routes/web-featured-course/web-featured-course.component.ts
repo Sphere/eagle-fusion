@@ -36,9 +36,9 @@ export class WebFeaturedCourseComponent implements OnInit {
     } else {
       this.isLoggedIn = false
     }
-    if (localStorage.getItem('preferedLanguage')) {
-      let data: any
-      data = localStorage.getItem('preferedLanguage')
+    let data: any
+    data = localStorage.getItem('preferedLanguage')
+    if (data) {
       if (JSON.parse(data).selected === true) {
         this.preferedLanguage = JSON.parse(data)
       }
