@@ -1296,7 +1296,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
           const dialogRef = this.dialog.open(ConfirmmodalComponent, {
             width: '300px',
-            height: '410px',
+            height: '420px',
             data: { request: courseData, message: 'Congratulations!, you have completed the course' },
             disableClose: false,
           })
