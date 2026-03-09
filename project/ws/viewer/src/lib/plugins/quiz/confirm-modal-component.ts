@@ -123,7 +123,7 @@ export class ConfirmmodalComponent implements OnInit {
         })
         .catch((err: any) => {
           if (err && err.error && err.error.message) {
-            this.openSnackbar(err.error.message)
+            this.openSnackbar(this.translate.instant(err.error.message))
           } else {
             this.openSnackbar(this.translate.instant("ERROR_MSG1"))
           }

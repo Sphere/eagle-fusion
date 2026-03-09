@@ -590,7 +590,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       this.navigateToOtpPage()
       localStorage.setItem(STORAGE_KEYS.userUUID, res.userId)
     } else if (res.status === 'error') {
-      this.openSnackbar(res.message)
+      this.openSnackbar(this.translate.instant(res.message))
     }
 
     this.loader.changeLoad.next(false)

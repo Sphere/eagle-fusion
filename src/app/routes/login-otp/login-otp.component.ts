@@ -187,35 +187,17 @@ export class LoginOtpComponent implements OnInit {
 
     //this.signupService.validateOtp(request).subscribe(
     otpService$.subscribe(
-      async (res: any) => {
-        let res1 = await res
-        this.logger.log(res1)
+      (res: any) => {
         let url = `${document.baseURI}`
         sessionStorage.setItem('login-btn', 'clicked')
-        if (localStorage.getItem('preferedLanguage')) {
-          let data: any
-          let lang: any
-          data = localStorage.getItem('preferedLanguage')
-          lang = JSON.parse(data)
-          if (lang.id) {
-            lang = lang.id !== 'en' ? lang.id : ''
-            url = `${url}app/new-tnc`
-            this.logger.log(this.preferedLanguage, data)
-            this.logger.log(lang)
-            this.openSnackbar(this.translate.instant("USER_AUTH_SUCCESS"))
-            this.isLoading = false
-            this.logger.log("afdadssssssssssssssssssssssss")
-            window.location.href = url
-          }
-        } else {
-          this.openSnackbar(res1.msg)
-          window.location.href = `${url}app/new-tnc`
-          this.isLoading = false
-        }
+        this.openSnackbar(this.translate.instant(res.msg))
+        window.location.href = `${url}app/new-tnc`
+        this.isLoading = false
       },
       (err: any) => {
         this.isLoading = false
-        this.openSnackbar(this.translate.instant('VERIFY_OTP') || err.error.error || err.error.message)
+        let errMsg = err.error.error || err.error.message || 'VERIFY_OTP'
+        this.openSnackbar(this.translate.instant(errMsg))
       })
   }
 
@@ -250,13 +232,13 @@ export class LoginOtpComponent implements OnInit {
     otpService$.subscribe(
       async (res: any) => {
         this.logger.log(res, '2')
-        this.openSnackbar(res.message)
+        this.openSnackbar(this.translate.instant(res.message))
         // localStorage.removeItem('preferedLanguage')
         //location.href = '/page/home'
         return res
       },
       (err: any) => {
-        this.openSnackbar(err.error.error || err.error.message)
+        this.openSnackbar(this.translate.instant(err.error.error || err.error.message))
       })
 
   }
@@ -285,42 +267,15 @@ export class LoginOtpComponent implements OnInit {
       async (res: any) => {
         this.loginOtpForm.patchValue({ code: '' })
         this.isLoading = false
-        let res1 = res
-        //this.openSnackbar(res.message)
-        if (this.preferedLanguage || localStorage.getItem('preferedLanguage')) {
-          const reqObj = this.preferedLanguage || localStorage.getItem('preferedLanguage')
-          const lang = JSON.parse(reqObj) || ''
-          if (lang.id === 'hi') {
-            if (res1.message === 'Success ! Please verify the OTP .') {
-              const msg = 'सफलता ! कृपया ओटीपी सत्यापित करें।'
-              this.openSnackbar(msg)
-            }
-          } else {
-            this.openSnackbar(res1.message)
-          }
-        } else {
-          this.openSnackbar(res1.message)
-        }
-        // localStorage.removeItem('preferedLanguage')
+        const str = res.msg ?? res.message
+        const parts = str.split(" ")
+        const lastValue = parts[parts.length - 1]
+        const message = parts.slice(0, -1).join(" ")
+        this.openSnackbar(this.translate.instant(message, { value: lastValue }))
       },
       (err: any) => {
         this.isLoading = false
-        if (localStorage.getItem(`preferedLanguage`)) {
-          const reqObj = localStorage.getItem(`preferedLanguage`) || ''
-          const lang = JSON.parse(reqObj) || ''
-          if (lang.id === 'hi') {
-            if (err.error.message === 'Please provide correct otp and try again.') {
-              const err = 'कृपया सही ओटीपी प्रदान करें और पुनः प्रयास करें।'
-              this.openSnackbar(err)
-            }
-          } else {
-            this.openSnackbar(err.error.error || err.error.message)
-          }
-        } else {
-          this.openSnackbar(err.error.error || err.error.message)
-        }
-
-        // this.openSnackbar(`OTP Error`, + err.error.message)
+        this.openSnackbar(this.translate.instant(err.error.error || err.error.message))
       }
     )
   }

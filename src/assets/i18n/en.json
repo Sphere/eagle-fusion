@@ -916,6 +916,7 @@
   "An error occurred": "An error occurred",
   "PROFILE_UPDATE_ERR": "Error updating profile. Please try again.",
   "USER_AUTH_SUCCESS": "Success ! User is sucessfully authenticated.",
+  "Success ! User is sucessfully authenticated.": "Success ! User is sucessfully authenticated.",
   "VERIFY_OTP": "Please provide correct otp and try again.",
   "Logging in...": "Logging in...",
   "Verifying...": "Verifying...",

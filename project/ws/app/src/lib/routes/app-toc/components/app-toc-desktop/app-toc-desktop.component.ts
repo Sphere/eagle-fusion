@@ -1121,7 +1121,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       })
         .catch((err: any) => {
 
-          this.openSnackbar(err.error.params.errmsg)
+          this.openSnackbar(this.translate.instant(err.error.params.errmsg))
         })
     }
 
