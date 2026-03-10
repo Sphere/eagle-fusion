@@ -205,13 +205,18 @@ export class QuizService {
     return userSelectedAnswer
   }
   sanitizeAssessmentSubmitRequest(requestData: NSQuiz.IQuizSubmitRequest): NSQuiz.IQuizSubmitRequest {
-    requestData.questions.map(question => {
-      question.question = ''
-      question.options.map(option => {
-        option.hint = ''
-        option.text = question.questionType === 'fitb' || question.questionType === 'mtf' ? option.text : ''
+    requestData.questions = requestData.questions
+      ?.filter(question => question.options !== undefined) // remove questions without options
+      .map(question => {
+        question.question = ''
+        question.options?.forEach(option => {
+          option.hint = ''
+          option.text = (question.questionType === 'fitb' || question.questionType === 'mtf')
+            ? option.text
+            : ''
+        })
+        return question
       })
-    })
     return requestData
   }
 
