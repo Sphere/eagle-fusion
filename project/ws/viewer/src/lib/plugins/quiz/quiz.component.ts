@@ -109,6 +109,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   enrolledCourse: any
   subscription: any
   castResourceSubscribe: any
+  // **CRITICAL**: Store assessment progress to avoid redundant fetches
+  private assessmentCurrentProgress: any = null
   /*
 * to unsubscribe the observable
 */
@@ -320,6 +322,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         const currentProgress = data?.result?.contentList?.find((item: any) =>
           item.contentId === this.identifier
         )
+        // **CRITICAL**: Store the progress for use in close handler to avoid redundant fetch
+        this.assessmentCurrentProgress = currentProgress || null
 
         this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
           panelClass: 'assesment-modal',
@@ -334,7 +338,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               gating: this.viewerDataSvc.gatingEnabled
             },
             // **CRITICAL**: Pass existing progress data to modal so it doesn't reset completed assessments
-            currentProgress: currentProgress || null
+            currentProgress: this.assessmentCurrentProgress
           },
         })
         this.handleAssesmentDialogClose()
@@ -360,6 +364,42 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.handleAssesmentDialogClose()
       }
     )
+  }
+
+  /**
+   * Navigate after assessment completion based on gating and resources
+   */
+  private navigateAfterAssessment(): void {
+    this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
+      if (isNull(data.nextResource)) {
+        // No next resource - go to course overview
+        this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+          queryParams: {
+            primaryCategory: 'Course',
+            batchId: this.route.snapshot.queryParams.batchId,
+          },
+        })
+      } else {
+        // Has next resource
+        if (this.viewerDataSvc.gatingEnabled) {
+          // If gating is enabled, only navigate if passed (completion 100%)
+          if (data.currentCompletionPercentage === 100) {
+            this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+          } else {
+            // Gating enabled but not completed - go to TOC overview
+            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+              queryParams: {
+                primaryCategory: 'Course',
+                batchId: this.route.snapshot.queryParams.batchId,
+              },
+            })
+          }
+        } else {
+          // No gating - always allow navigation to next resource
+          this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+        }
+      }
+    })
   }
 
   private handleAssesmentDialogClose() {
@@ -392,40 +432,92 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           let collectionId = this.collectionId
           const batchId = this.route.snapshot.queryParams.batchId
 
-          const data2 = {
-            current: 10,
-            max_size: 10,
-            mime_type: "application/json",
-            completionPercentage: 100,
-            status: 2
-          }
-          // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
-          // Send telemetry and changeMessage with pre-calculated data
-          this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
-            () => {
-              const messageData = {
-                contentList: [{
+          // **CRITICAL**: Check if user failed and only update if new result is better than previous
+          const userResult = result.result || 0
+          const passPercentage = result.passPercentage || 0
+          const userFailed = userResult < passPercentage
+
+          if (userFailed) {
+            // User failed - use stored progress from modal open to avoid redundant fetch
+            const previousCompletion = this.assessmentCurrentProgress?.completionPercentage || 0
+
+            // Update if: first attempt (previousCompletion === 0) OR new result is better than previous
+            if (previousCompletion === 0 || userResult > previousCompletion) {
+              const data2 = {
+                current: userResult,
+                max_size: 100,
+                mime_type: "application/json",
+                completionPercentage: userResult,
+                status: userResult >= 100 ? 2 : 1  // status 2 only if 100%, otherwise 1
+              }
+              this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
+                () => {
+                  const messageData = {
+                    contentList: [{
+                      contentId: Id,
+                      completionPercentage: userResult,
+                      status: userResult >= 100 ? 2 : 1,  // Consistent with API call
+                    }],
+                    type: 'assessment'
+                  }
+                  this.viewerSvc.generateInteractTelemetry('progress-update-success', {
+                    contentId: Id,
+                    completionPercentage: userResult,
+                    status: userResult >= 100 ? 2 : 1,  // Consistent with API call
+                    mimeType: 'assessment',
+                    batchId: batchId || ''
+                  })
+                  this.contentSvc.changeMessage(messageData)
+                  // **CRITICAL**: Navigate after failed attempt
+                  this.navigateAfterAssessment()
+                },
+                (error) => { this.loggerSvc.warn('Progress update failed:', error) }
+              )
+            } else {
+              this.loggerSvc.log('Skipping progress update: New result not better than previous', { newResult: userResult, previousCompletion })
+              // Still navigate even if we skip the update
+              this.navigateAfterAssessment()
+            }
+          } else {
+            // User passed - update to 100%
+            const data2 = {
+              current: 10,
+              max_size: 10,
+              mime_type: "application/json",
+              completionPercentage: 100,
+              status: 2
+            }
+            // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
+            // Send telemetry and changeMessage with pre-calculated data
+            this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
+              () => {
+                const messageData = {
+                  contentList: [{
+                    contentId: Id,
+                    completionPercentage: 100,
+                    status: 2,
+                  }],
+                  type: 'assessment'
+                }
+                this.viewerSvc.generateInteractTelemetry('progress-update-success', {
                   contentId: Id,
                   completionPercentage: 100,
                   status: 2,
-                }],
-                type: 'assessment'
-              }
-              this.viewerSvc.generateInteractTelemetry('progress-update-success', {
-                contentId: Id,
-                completionPercentage: 100,
-                status: 2,
-                mimeType: 'assessment',
-                batchId: batchId || ''
-              })
-              this.contentSvc.changeMessage(messageData)
-            },
-            (error) => { this.loggerSvc.warn('Progress update failed:', error) }
-          )
+                  mimeType: 'assessment',
+                  batchId: batchId || ''
+                })
+                this.contentSvc.changeMessage(messageData)
+                // **CRITICAL**: Navigate after passing
+                this.navigateAfterAssessment()
+              },
+              (error) => { this.loggerSvc.warn('Progress update failed:', error) }
+            )
+          }
         }
       }
     })
   }
+
 
   nextCompetency() {
     this.viewState = 'answer'
