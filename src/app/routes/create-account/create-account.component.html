@@ -137,26 +137,26 @@
 
               <div *ngIf="showDistricts">
                 <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                  <mat-label>District</mat-label>
+                  <mat-label>{{"District" | translate }}</mat-label>
                   <mat-select formControlName="district" (selectionChange)="onDistrictChange($event.value)">
                     <mat-option *ngFor="let district of districts" [value]="district">
                       {{ district }}
                     </mat-option>
                   </mat-select>
                   <mat-error *ngIf="createAccountForm.get('district')?.hasError('required')">
-                    This field is required
+                    {{"This field is required" | translate}}
                   </mat-error>
                 </mat-form-field>
                 <div>
                   <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
-                    <mat-label>Institute Name</mat-label>
+                    <mat-label>{{"Institute Name" | translate}}</mat-label>
                     <mat-select formControlName="instituteName">
                       <mat-option *ngFor="let inst of institutes" [value]="inst">
                         {{ inst }}
                       </mat-option>
                     </mat-select>
                     <mat-error *ngIf="createAccountForm.get('instituteName')?.hasError('required')">
-                      This field is required
+                      {{"This field is required" | translate}}
                     </mat-error>
                   </mat-form-field>
                 </div>
