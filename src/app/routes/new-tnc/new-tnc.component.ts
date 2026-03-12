@@ -20,6 +20,7 @@ import { get } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
 import { CreateAccountDialogComponent } from '../create-account-modal/create-account-dialog.component'
 import { constructReq } from '../profile-view/request-util'
+import { API_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
   selector: 'ws-new-tnc',
@@ -244,7 +245,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     try {
       const url = `${document.baseURI}public/home`
       window.location.href = url
-      await this.http.get('/apis/proxies/v8/logout/user').toPromise()
+      await this.http.get(API_END_POINTS.LOGOUT_USER).toPromise()
       //sessionStorage.clear()
       sessionStorage.removeItem('login-btn')
       //localStorage.removeItem('preferedLanguage')

@@ -13,6 +13,7 @@ import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { Platform } from '@angular/cdk/platform'
 import dayjs from 'dayjs'
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 @Component({
   selector: 'viewer-video',
   templateUrl: './video.component.html',
@@ -67,9 +68,9 @@ export class VideoComponent implements OnInit, OnDestroy {
           this.widgetResolverVideoData = this.initWidgetResolverVideoData(this.videoData)
           let url = ''
           if (this.videoData.artifactUrl.indexOf('/content-store/') > -1) {
-            url = `/apis/authContent/${new URL(this.videoData.artifactUrl).pathname}`
+            url = API_END_POINTS.AUTH_CONTENT(new URL(this.videoData.artifactUrl).pathname)
           } else {
-            url = `/apis/authContent/${encodeURIComponent(this.videoData.artifactUrl)}`
+            url = API_END_POINTS.AUTH_CONTENT(encodeURIComponent(this.videoData.artifactUrl))
           }
           this.widgetResolverVideoData.widgetData.url = this.videoData ? url : ''
           this.widgetResolverVideoData.widgetData.disableTelemetry = true

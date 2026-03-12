@@ -6,6 +6,7 @@ import { WsEvents, EventService, ConfigurationsService } from '@ws-widget/utils'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Component({
   selector: 'viewer-pdf',
@@ -63,7 +64,7 @@ export class PdfComponent implements OnInit, OnDestroy {
             }
           }
           this.widgetResolverPdfData.widgetData.pdfUrl = this.pdfData
-            ? `/apis/authContent/${encodeURIComponent(this.pdfData.artifactUrl)}`
+            ? API_END_POINTS.AUTH_CONTENT(encodeURIComponent(this.pdfData.artifactUrl))
             : ''
           this.widgetResolverPdfData.widgetData.disableTelemetry = true
           this.isFetchingDataComplete = true

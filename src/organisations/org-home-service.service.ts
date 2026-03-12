@@ -4,26 +4,7 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Observable, of, BehaviorSubject, throwError } from 'rxjs'
 import { ConfigurationsService } from '@ws-widget/utils'
 import { NsContent } from '../../library/ws-widget/collection/src/public-api'
-// import { environment } from './../../../../../../../src/environments/environment'
-
-// let instanceConfigPath: string | null = window.location.host
-
-// if (!environment.production && Boolean(environment.sitePath)) {
-//   instanceConfigPath = environment.sitePath
-// }
-
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-
-const API_END_POINTS = {
-  FETCH_USER_GROUPS: (userId: string) =>
-    `${PROTECTED_SLAG_V8}/user/group/fetchUserGroup?userId=${userId}`,
-  FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
-    // tslint:disable-next-line: max-line-length
-    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=contentType,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,identifier,medium,pkgVersion,thumbnail,board,subject,trackable,posterImage,duration,creatorLogo,license&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  // SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
-  SEARCH_V6PUBLIC: '/apis/public/v8/ratingsSearch/getCourses',
-  KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
-}
+import { API_END_POINTS } from '../app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',

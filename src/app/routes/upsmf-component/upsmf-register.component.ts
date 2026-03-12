@@ -9,6 +9,7 @@ import { ConfigurationsService, LoggerService, ValueService } from '../../../../
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
 import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
+import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
   selector: 'ws-upsmf-register',
@@ -53,7 +54,6 @@ export class UpsmfRegisterComponent implements OnInit {
   facultyTypes = ['Professor', 'Associate Professor', 'Assistant Professor', 'Lecturer', 'Clinical Instructor', 'Principal', 'Vice Principal']
 
   // Data URLs
-  biharDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/up_District.json?cb=${Date.now()}`
   biharDistrictData: any = {}
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
@@ -179,7 +179,7 @@ export class UpsmfRegisterComponent implements OnInit {
 
   private loadDistrictData(): void {
     this.logger.log("called")
-    this.http.get(this.biharDistrictUrl).subscribe((districtData: any) => {
+    this.http.get(S3_END_POINTS.UP_DISTRICT_CONFIG).subscribe((districtData: any) => {
       this.logger.log("districtData", districtData.length > 0)
       if (Array.isArray(districtData) && districtData.length > 0) {
         this.biharDistrictData = districtData[0]

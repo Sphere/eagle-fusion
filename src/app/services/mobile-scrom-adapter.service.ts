@@ -12,11 +12,7 @@ import { TelemetryService } from '../../../library/ws-widget/utils/src/lib/servi
 import { ActivatedRoute } from '@angular/router'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
-
-const API_END_POINTS = {
-  CONTENT_STATE_READ: `/api/course/v1/content/state/read`,
-  PROGRESS_UPDATE: '/apis/public/v8/mobileApp/v2/updateProgress',
-}
+import { API_END_POINTS } from '../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',

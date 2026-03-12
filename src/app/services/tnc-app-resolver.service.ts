@@ -5,9 +5,10 @@ import { map, catchError } from 'rxjs/operators'
 import { HttpClient } from '@angular/common/http'
 import { IResolveResponse, ConfigurationsService } from '@ws-widget/utils'
 import { NsTnc } from '../models/tnc.model'
+import { API_END_POINTS } from '../constants/apiConstants'
 
 @Injectable()
-export class TncAppResolverService   {
+export class TncAppResolverService {
 
   constructor(
     private http: HttpClient,
@@ -26,7 +27,7 @@ export class TncAppResolverService   {
   }
 
   getTnc(locale?: string) {
-    let url = '/apis/protected/v8/user/tnc'
+    let url = API_END_POINTS.USER_TNC
     if (locale) {
       url += `?locale=${locale}`
     }

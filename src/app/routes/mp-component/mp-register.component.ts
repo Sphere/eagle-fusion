@@ -7,6 +7,7 @@ import { ConfigurationsService, LoggerService, ValueService } from '../../../../
 import { UserProfileService } from '../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
 import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
+import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
   selector: 'ws-mp-register',
@@ -33,9 +34,6 @@ export class MpRegisterComponent implements OnInit {
   allFacilityTypes: string[] = []
 
   // JSON URLs
-  mpANMDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_anm_District.json?cb=${Date.now()}`
-  mpCHODistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_cho_District.json?cb=${Date.now()}`
-  mpTRAINERDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_trainer_district.json?cb=${Date.now()}`
 
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
 
@@ -85,7 +83,7 @@ export class MpRegisterComponent implements OnInit {
 
   /** Load district JSON */
   private loadDistrictData(): void {
-    const url = this.mpANMDistrictUrl
+    const url = S3_END_POINTS.mpANMDistrictUrl
 
     this.http.get(url).subscribe((districtData: any) => {
       if (Array.isArray(districtData) && districtData.length > 0) {

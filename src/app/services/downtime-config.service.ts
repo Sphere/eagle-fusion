@@ -8,6 +8,7 @@ import {
   DOWNTIME_DEFAULTS,
   DowntimeType,
 } from '../models/downtime.model'
+import { API_END_POINTS } from '../constants/apiConstants'
 
 /**
  * DowntimeConfigService
@@ -21,8 +22,6 @@ import {
   providedIn: 'root',
 })
 export class DowntimeConfigService {
-  private readonly API_ENDPOINT = '/apis/v1/form/read'
-
   constructor(
     private ngZone: NgZone,
     private httpClient: HttpClient,
@@ -105,7 +104,7 @@ export class DowntimeConfigService {
     }
 
     return this.httpClient
-      .post<any>(`${this.API_ENDPOINT}?v=${Date.now()}`, body)
+      .post<any>(`${API_END_POINTS.FORM_READ}?v=${Date.now()}`, body)
       .pipe(
         map(response => {
           const data = response?.result?.form?.data

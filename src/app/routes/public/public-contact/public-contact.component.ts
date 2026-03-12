@@ -3,6 +3,7 @@ import { ConfigurationsService, LoggerService, NsPage } from '@ws-widget/utils'
 import { HttpClient } from '@angular/common/http'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
+import { S3_END_POINTS } from '../../../constants/apiConstants'
 
 @Component({
   selector: 'ws-public-contact',
@@ -16,7 +17,6 @@ export class PublicContactComponent implements OnInit, OnDestroy {
   panelOpenState = false
   pageNavbar: Partial<NsPage.INavBackground> = this.configSvc.pageNavBar
   private subscriptionContact: Subscription | null = null
-  private contactPageS3Url = 'https://aastar-assets.s3.ap-south-1.amazonaws.com/data/contact-page-content.json'
 
   constructor(
     private configSvc: ConfigurationsService,
@@ -36,8 +36,7 @@ export class PublicContactComponent implements OnInit, OnDestroy {
 
   private loadContactPageFromS3() {
     // Add cache buster with current timestamp to always fetch latest version
-    const cacheBuster = new Date().getTime()
-    const s3UrlWithCache = `${this.contactPageS3Url}?v=${cacheBuster}`
+    const s3UrlWithCache = S3_END_POINTS.CONTACT_PAGE_CONFIG
 
     this.logger.log('Loading contact page from S3:', s3UrlWithCache)
 

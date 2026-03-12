@@ -9,24 +9,7 @@ import isUndefined from 'lodash/isUndefined'
 
 import { v4 as uuid } from 'uuid'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
-
-const API_END_POINTS = {
-  USER_SIGNUP: `/apis/public/v8/emailMobile/signup`,
-  REGISTERUSERWITHMOBILE: `/apis/public/v8/emailMobile/registerUserWithMobile`,
-  GENERATE_OTP: `/apis/public/v8/emailMobile/generateOtp`,
-  VALIDATE_OTP: `/apis/public/v8/emailMobile/validateOtp`,
-  VERIFY_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
-  RESET_PASSWORD: `/apis/public/v8/forgot-password/reset/proxy/password`,
-  SETPASSWORD_OTP: `/apis/public/v8/forgot-password/verifyOtp`,
-  profilePid: '/apis/proxies/v8/api/user/v2/read',
-  newssowithMobileEmail: '/apis/public/v8/signupWithAutoLoginV2/register',
-  newssowithMobileEmailOrgForm: '/apis/public/v8/signupWithAutoLoginOrgForm/register',
-  validateOTP: '/apis/public/v8/signupWithAutoLoginv2/validateOtpWithLogin',
-  validateOrgOTP: '/apis/public/v8/signupWithAutoLoginOrgForm/validateOtpWithLogin',
-  sendUserOTP: '/apis/public/v8/ssoLogin/otp/sendOtp',
-  newLogin: '/apis/public/v8/ssoLogin/login',
-  resendOTP: '/apis/public/v8/ssoLogin/otp/resendOtp'
-}
+import { API_END_POINTS, S3_END_POINTS } from '../../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -92,7 +75,7 @@ export class SignupService {
   }
 
   signup(data: any): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.USER_SIGNUP, data).pipe(
+    return this.http.post<any>(API_END_POINTS.SIGNUP, data).pipe(
       map(response => {
         return response
       }),
@@ -100,7 +83,7 @@ export class SignupService {
   }
 
   registerWithMobile(data: any) {
-    return this.http.post<any>(API_END_POINTS.REGISTERUSERWITHMOBILE, data).pipe(
+    return this.http.post<any>(API_END_POINTS.REGISTER_USERWITH_MOBILE, data).pipe(
       map(response => {
         return response
       })
@@ -108,7 +91,7 @@ export class SignupService {
   }
 
   verifyUserMobile(data: any) {
-    return this.http.post<any>(API_END_POINTS.VERIFY_OTP, data).pipe(
+    return this.http.post<any>(API_END_POINTS.VERIFY_FPW_OTP, data).pipe(
       map(response => {
         return response
       })
@@ -152,14 +135,14 @@ export class SignupService {
   }
 
   public forgotPassword(request: any): Observable<any> {
-    return this.http.post(API_END_POINTS.RESET_PASSWORD, request).pipe(
+    return this.http.post(API_END_POINTS.RESET_FPW_PASSWORD, request).pipe(
       map((response: any) => {
         return response
       }))
   }
 
   setPasswordWithOtp(request: any): Observable<any> {
-    return this.http.post(API_END_POINTS.SETPASSWORD_OTP, request).pipe(
+    return this.http.post(API_END_POINTS.SET_FPW_OTP, request).pipe(
       map((response: any) => {
         return response
       }))
@@ -281,7 +264,7 @@ export class SignupService {
   }
   private async fetchOrgSelectiveConfig(): Promise<void> {
     try {
-      const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
+      const s3Url = S3_END_POINTS.ORG_SELECTIVE_COURSE
       const orgSelectiveData = await this.http.get<any>(s3Url).toPromise()
 
       if (orgSelectiveData && Array.isArray(orgSelectiveData.states)) {

@@ -23,6 +23,7 @@ import { PlayerStateService } from '../../../../player-state.service'
 import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 import { TranslateService } from '@ngx-translate/core'
+import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 @Component({
   selector: 'viewer-assesment-modal',
   templateUrl: './assesment-modal.component.html',
@@ -194,7 +195,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
    * Fetch restricted organization names from S3 configuration file
    */
   private fetchRestrictedOrgIds(): void {
-    const s3ConfigUrl = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/quiz-config.json?cb=${Date.now()}`
+    const s3ConfigUrl = S3_END_POINTS.QUIZ_CONFIG
 
     this.http.get<any>(s3ConfigUrl).subscribe(
       (config: any) => {

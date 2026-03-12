@@ -6,6 +6,7 @@ import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/u
 import { OrgServiceService } from './../../org-service.service'
 import { WidgetUserService } from '@ws-widget/collection'
 import { Router } from '@angular/router'
+import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 interface OrgSelectiveCourseJson {
   states: {
@@ -144,7 +145,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
     }
 
     // Fetch JSON from S3
-    const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
+    const s3Url = S3_END_POINTS.ORG_SELECTIVE_COURSE
     const s3Request = this.http.get<OrgSelectiveCourseJson>(s3Url)
 
     forkJoin({

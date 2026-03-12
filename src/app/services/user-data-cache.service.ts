@@ -3,10 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable, throwError } from 'rxjs'
 import { map, shareReplay, tap, catchError, retry, take } from 'rxjs/operators'
 import { LoggerService } from '@ws-widget/utils'
-
-const API_ENDPOINTS = {
-  getUserProfile: '/apis/proxies/v8/api/user/v2/read',
-}
+import { API_END_POINTS } from '../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -107,9 +104,9 @@ export class UserDataCacheService implements OnDestroy {
     }
 
     // If not cached and no call in progress, make the API call with retry
-    this.logger.log('[UserDataCache] No cache found, making API call to', API_ENDPOINTS.getUserProfile)
+    this.logger.log('[UserDataCache] No cache found, making API call to', API_END_POINTS.getUserProfile)
     this.apiCall$ = this.http
-      .get<any>(API_ENDPOINTS.getUserProfile)
+      .get<any>(API_END_POINTS.getUserProfile)
       .pipe(
         retry(1),
         map((res: any) => {

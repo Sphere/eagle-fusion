@@ -11,6 +11,7 @@ import {
 } from '@ws-widget/collection'
 import { ViewerUtilService } from '../../viewer-util.service'
 import { NsWidgetResolver } from '@ws-widget/resolver'
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Component({
   selector: 'viewer-audio',
@@ -64,7 +65,7 @@ export class AudioComponent implements OnInit, OnDestroy {
           }
           this.widgetResolverAudioData = this.initWidgetResolverAudioData()
           this.widgetResolverAudioData.widgetData.url = this.audioData
-            ? `/apis/authContent/${encodeURIComponent(this.audioData.artifactUrl)}`
+            ? API_END_POINTS.AUTH_CONTENT(encodeURIComponent(this.audioData.artifactUrl))
             : ''
           this.widgetResolverAudioData.widgetData.disableTelemetry = true
           this.isFetchingDataComplete = true

@@ -19,6 +19,7 @@ import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { LoaderService } from '../../../../project/ws/author/src/public-api'
 import { startWith, map, tap } from 'rxjs/operators'
 import { Observable } from 'rxjs'
+import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
   selector: 'ws-bnrc-register',
@@ -73,8 +74,6 @@ export class BnrcRegisterComponent implements OnInit {
   isANM = false
   isCHO = false
   message: string = ''
-  biharDistrictUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bihar-district.json?cb = ${Date.now()}`
-  instituteNameUrl = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bnrc-institute.json?cb = ${Date.now()}`;
   // instituteNameUrl = '../../../fusion-assets/files/district_institutes_option_a.json'
   institutesData: any = []
   currentDistrictInstitutes: any = []
@@ -180,7 +179,7 @@ export class BnrcRegisterComponent implements OnInit {
     this.aamShcList = this.registrationData[this.selectedDistrict]?.[this.selectedBlock] || []
   }
   ngOnInit() {
-    this.http.get(this.biharDistrictUrl).subscribe((districtData: any) => {
+    this.http.get(S3_END_POINTS.biharDistrictUrl).subscribe((districtData: any) => {
       this.logger.log("districtData", districtData)
       if (Array.isArray(districtData) && districtData.length > 0) {
         this.biharDistrictData = districtData[0]
@@ -245,7 +244,7 @@ export class BnrcRegisterComponent implements OnInit {
 
 
 
-    this.http.get(this.instituteNameUrl).subscribe((instituteData: any) => {
+    this.http.get(S3_END_POINTS.instituteNameUrl).subscribe((instituteData: any) => {
       this.institutesData = instituteData   // full district → list json
 
       // default empty list

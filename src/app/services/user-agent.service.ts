@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
+import { S3_END_POINTS } from '../constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -138,7 +139,7 @@ export class UserAgentResolverService {
   async isEditableForSphere(data: any): Promise<boolean> {
     try {
       const orgData = await this.http
-        .get<{ id: string }[]>(`https://aastar-app-assets.s3.ap-south-1.amazonaws.com/sphere_profile_update_org.json`)
+        .get<{ id: string }[]>(S3_END_POINTS.SPHERE_PROFILE_UPDATE_ORG)
         .toPromise()
       const allowedOrgIds = orgData.map(item => item.id)
       const hasAccess = allowedOrgIds.includes(data?.rootOrgId)

@@ -23,6 +23,7 @@ import { v4 as uuid } from 'uuid'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { UserDataCacheService } from './user-data-cache.service'
 import { ConfigCacheService } from './config-cache.service'
+import { S3_END_POINTS } from '../constants/apiConstants'
 
 interface IFeaturePermissionConfigs {
   [id: string]: Omit<NsWidgetResolver.IPermissions, 'feature'>
@@ -159,7 +160,7 @@ export class InitService {
   /** Fetches config once and caches it */
   private async fetchOrgSelectiveConfig(): Promise<void> {
     try {
-      const s3Url = `https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`
+      const s3Url = S3_END_POINTS.ORG_SELECTIVE_COURSE
       const orgSelectiveData = await this.http.get<any>(s3Url).toPromise()
 
       if (orgSelectiveData && Array.isArray(orgSelectiveData.states)) {
@@ -245,7 +246,7 @@ export class InitService {
   private async fetchHostedConfig(): Promise<any> {
     // use the rootOrg and org to fetch the instance
     const hostConfig = await this.http
-      .get<any>(`https://aastar-app-assets.s3.ap-south-1.amazonaws.com/ekshamataOrgConfig.json`)
+      .get<any>(S3_END_POINTS.EKSHAMATA_ORG_CONFIG)
       .toPromise()
     if (hostConfig) {
       if (this.configSvc.userProfile) {

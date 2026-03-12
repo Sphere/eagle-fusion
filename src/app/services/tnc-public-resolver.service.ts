@@ -6,16 +6,8 @@ import { HttpClient } from '@angular/common/http'
 import { IResolveResponse, ConfigurationsService } from '@ws-widget/utils'
 import { NsTnc } from '../models/tnc.model'
 import { LanguageService } from './language.service'
+import { API_END_POINTS } from '../constants/apiConstants'
 
-const API_END_POINTS = {
-  USER_SIGNUP: `apis/public/v8/register/registerUserWithEmail`,
-  USER_SIGNUP_NEW: `apis/protected/v8/user/profileDetails/createUser`,
-  REGISTERUSERWITHMOBILE: `apis/public/v8/register/registerUserWithMobile`,
-  VERIFY_OTP: `/apis/public/v8/register/verifyUserWithMobileNumber`,
-  RESET_PASSWORD: `/apis/public/v8/register/resetPassword`,
-  SETPASSWORD_OTP: `/apis/public/v8/register/setPasswordWithOTP`,
-  ASSIGN_ADMIN_TO_CREATED_DEPARTMENT: '/apis/proxies/v8/user/private/v1/assign/role',
-}
 @Injectable()
 export class TncPublicResolverService {
 
@@ -51,7 +43,7 @@ export class TncPublicResolverService {
   }
 
   registerWithMobile(data: any) {
-    return this.http.post<any>('/apis/public/v8/register/registerUserWithMobile', data).pipe(
+    return this.http.post<any>(API_END_POINTS.REGISTERUSERWITHMOBILE, data).pipe(
       map(response => {
         return response
       })

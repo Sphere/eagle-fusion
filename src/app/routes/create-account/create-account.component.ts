@@ -14,6 +14,7 @@ import { ConfigurationsService, LoggerService, ValueService } from '../../../../
 import { HttpClient } from '@angular/common/http'
 import { LanguageService } from '../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
+import { S3_END_POINTS } from '../../constants/apiConstants'
 
 // Constants
 const ASSET_PATHS = {
@@ -184,7 +185,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
         // Organization-specific signup flow
         this.setPageState(false, true, false, false)
-        this.http.get<any>(`https://aastar-assets.s3.ap-south-1.amazonaws.com/data/org-selective-course.json?cb=${Date.now()}`)
+        this.http.get<any>(S3_END_POINTS.ORG_SELECTIVE_COURSE)
           .pipe(takeUntil(this.destroy$))
           .subscribe(data => {
             localStorage.setItem('isOrgSelectiveCourse', 'true')

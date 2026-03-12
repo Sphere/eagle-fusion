@@ -9,6 +9,7 @@ import { HttpClient } from '@angular/common/http'
 import { forkJoin } from 'rxjs'
 import { WidgetUserService } from '@ws-widget/collection'
 import { uniqBy } from 'lodash'
+import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Component({
   selector: 'ws-app-org',
@@ -77,9 +78,7 @@ export class OrgComponent implements OnInit, OnDestroy {
 
     this.orgName = this.activateRoute.snapshot.queryParams.orgId
 
-    const url = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`
-
-    this.http.get(url, { responseType: 'text' })
+    this.http.get(S3_END_POINTS.ORG_META_CONFIG, { responseType: 'text' })
       .subscribe(
         (results: any) => {
           try {

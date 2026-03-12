@@ -2,6 +2,7 @@ import { Injectable, signal, computed } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { ConfigurationsService, LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 import { BehaviorSubject } from 'rxjs'
+import { API_END_POINTS } from '../constants/apiConstants'
 
 @Injectable({ providedIn: 'root' })
 export class PlaylistService {
@@ -63,8 +64,9 @@ export class PlaylistService {
     }
 
     try {
+      const url = API_END_POINTS.FORM_READ
       const response: any = await this.http
-        .post(`/apis/v1/form/read?v=${Date.now()}`, body)
+        .post(url, body)
         .toPromise()
 
       const data = response?.result?.form?.data ?? null
@@ -86,7 +88,7 @@ export class PlaylistService {
       }
     }
 
-    const url = `/apis/protected/v8/playlist/search?v=${new Date().getTime()}`
+    const url = API_END_POINTS.PLAYLIST_SEARCH
 
     const response: any = await this.http.post(url, body).toPromise()
 
