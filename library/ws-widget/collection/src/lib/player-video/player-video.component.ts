@@ -20,6 +20,7 @@ import { PlayerVideoPopupComponent } from '../player-video-popup/player-video-po
 import { MatDialog } from '@angular/material/dialog'
 import { interval, Subscription } from 'rxjs'
 import 'videojs-markers'
+import { PlaylistService } from '../../../../../../src/app/services/playlist.service'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
@@ -98,7 +99,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     public viewerDataSvc: ViewerDataService,
     private readonly dialog: MatDialog,
     private readonly valueSvc: ValueService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private plylsSvc: PlaylistService
   ) {
     super()
     // this.logger.log(window.innerWidth)
@@ -477,6 +479,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     if (!this.widgetData.disableTelemetry && typeof (this.widgetData.disableTelemetry) !== 'undefined') {
       enableTelemetry = true
     }
+    const config = this.plylsSvc.orgDetails()
+    const isSeekingEnable: boolean = config.videoConfig.isSeekingEnable ?? true
     const initObj = videoJsInitializer(
       this.videoTag.nativeElement,
       {
@@ -493,6 +497,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       enableTelemetry,
       this.widgetData,
       this.widgetData.mimeType,
+      isSeekingEnable
     )
     this.logger.log("this.widgetData.resumePoint ", this.widgetData.resumePoint)
     this.player = initObj.player

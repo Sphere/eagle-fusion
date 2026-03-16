@@ -18,6 +18,8 @@ export const videojsEventNames = {
   unmute: 'unmute',
   volumechange: 'volumechange',
   loadeddata: 'loadeddata',
+  loadedmetadata: 'loadedmetadata',
+  seeking: 'seeking',
 }
 export type telemetryEventDispatcherFunction = (e: any) => void
 export type saveContinueLearningFunction = (d: any) => void
@@ -148,8 +150,9 @@ export function videoJsInitializer(
   enableTelemetry: boolean,
   widgetData: any,
   mimeType: NsContent.EMimeTypes,
+  isSeekingEnable?: boolean
 ): { player: videoJs.Player; dispose: () => void } {
-  const player = videoJs(elem, config)
+  const player: any = videoJs(elem, config)
   player.volume(0.8) // Set default volume to 80%
   player.muted(false) // Ensure video is not muted
 
@@ -162,7 +165,141 @@ export function videoJsInitializer(
   let loaded = false
   let readyToRaise = false
   let currTime = 0
+  let maxWatchedTime: number = resumePoint || 0
 
+  const seekRestrictionEnabled = !isSeekingEnable
+  let progressUnlocked = resumePoint > 0
+  let lastKnownTime = resumePoint || 0
+  // ==========================================
+  // 🎯 PROGRESS TRACKING STATE (STRICT 5% BOUNDARY + MONOTONIC)
+  // ==========================================
+  let lastReportedBoundary = -1 // Track last 5% boundary reported (0, 5, 10, 15...)
+
+  // ==========================================
+  // 🎯 SINGLE SOURCE OF TRUTH: reportProgress()
+  // WITH DEFENSIVE PLAYER VALIDITY CHECKS
+  // ==========================================
+  const reportProgress = (source: string = "timeupdate"): void => {
+    try {
+      // ==========================================
+      // 🔥 CRITICAL: Defensive player validity checks
+      // Prevents "Cannot read properties of null" errors
+      // ==========================================
+
+      // Check 1: Player exists
+      if (!player) {
+        console.warn("[Progress] Player is null")
+        return
+      }
+
+      // Check 2: Player not disposed
+      if (player.isDisposed && player.isDisposed()) {
+        console.warn("[Progress] Player disposed")
+        return
+      }
+
+      // Check 3: Tech layer exists (can be null after dispose)
+      if (!player.tech_ || !player.tech_.el_) {
+        console.warn("[Progress] Player tech unavailable")
+        return
+      }
+
+      // Check 4: Methods exist
+      if (
+        typeof player.duration !== "function" ||
+        typeof player.currentTime !== "function"
+      ) {
+        console.warn("[Progress] Player methods unavailable")
+        return
+      }
+
+      // Now safely get values
+      let duration, currentTime
+
+      try {
+        duration = player.duration()
+        currentTime = player.currentTime()
+      } catch (err) {
+        console.warn("[Progress] Error accessing player time:", err)
+        return
+      }
+
+      if (
+        !duration ||
+        isNaN(duration) ||
+        duration <= 0 ||
+        isNaN(currentTime) ||
+        currentTime < 0
+      ) {
+        return
+      }
+
+      const currentPercentage = (currentTime / duration) * 100
+
+      // Math.floor for strict 5% boundaries
+      const currentBoundary = Math.floor(currentPercentage / 5) * 5
+      const clampedBoundary = Math.max(0, Math.min(100, currentBoundary))
+
+      // Monotonic check: only forward progress
+      if (clampedBoundary > lastReportedBoundary) {
+        lastReportedBoundary = clampedBoundary
+        currTime = currentTime
+
+        console.log(
+          `[Progress] ${source} | Boundary: ${clampedBoundary}% | ` +
+          `Time: ${currentTime.toFixed(2)}s/${duration.toFixed(2)}s | ` +
+          `Speed: ${player.playbackRate()}x | Raw: ${currentPercentage.toFixed(
+            2
+          )}%`
+        )
+
+        fireRealTimeProgress(
+          mimeType,
+          widgetData,
+          fireRProgress,
+          currentTime,
+          duration
+        )
+      } else if (clampedBoundary < lastReportedBoundary) {
+        console.log(
+          `[Progress] ${source} | Backward seek detected: ` +
+          `${clampedBoundary}% < ${lastReportedBoundary}% (skipping duplicate fire)`
+        )
+      }
+    } catch (err) {
+      console.error("[Progress] Error:", err)
+    }
+  }
+
+  const enableProgressControl = () => {
+    player?.controlBar?.progressControl?.enable()
+    const progressEl = player?.controlBar?.progressControl?.el()
+    if (progressEl) {
+      (progressEl as HTMLElement).style.pointerEvents = "auto";
+      (progressEl as HTMLElement).style.cursor = "pointer"
+    }
+    const seekBar = player?.controlBar?.progressControl?.seekBar
+    seekBar?.enable()
+
+    if (seekBar?.el()) {
+      const el = seekBar.el() as HTMLElement
+      el.style.pointerEvents = "auto"
+      el.style.cursor = "pointer"
+    }
+  }
+  const disableProgressControl = () => {
+    const progressControl = player?.controlBar?.progressControl
+    const seekBar = progressControl?.seekBar
+
+    progressControl?.disable()
+    seekBar?.disable()
+
+    if (seekBar?.el()) {
+      const el = seekBar.el() as HTMLElement
+      el.style.pointerEvents = "none"
+      el.style.cursor = "default"
+    }
+  }
   // Resume from saved position — must work regardless of telemetry setting
   // Handle both cases: loadeddata not yet fired, or already fired (src in template)
   const applyResume = () => {
@@ -186,6 +323,7 @@ export function videoJsInitializer(
   if (enableTelemetry) {
     player.on(videojsEventNames.ended, () => {
       if (loaded) {
+        reportProgress("ended")
         eventDispatcher(WsEvents.EnumTelemetrySubType.Unloaded, widgetData, WsEvents.EnumTelemetryMediaActivity.ENDED, mimeType)
         loaded = false
         heartBeatSubscription.unsubscribe()
@@ -211,8 +349,101 @@ export function videoJsInitializer(
 
 
     })
+    // ==========================================
+    // 🎯 SINGLE DRIVER: timeupdate
+    // This is the ONLY place progress is tracked during playback
+    // Fires naturally at appropriate rate for all playback speeds
+    // ==========================================
+    player.on("timeupdate", () => {
+      try {
+
+        const currentTime = player.currentTime()
+        lastKnownTime = currentTime
+        //  Only enforce frontier snap-back if restriction is ON
+        if (seekRestrictionEnabled) {
+          const playbackRate = player.playbackRate() || 1
+          const dynamicBuffer = playbackRate * 1.5
+          if (currentTime > maxWatchedTime + dynamicBuffer) {
+            player.currentTime(maxWatchedTime)
+            disableProgressControl()
+            setTimeout(() => enableProgressControl(), 300)
+            return
+          }
+        }
+        if (!player.paused() && !player.ended()) {
+          if (currentTime > maxWatchedTime) {
+            maxWatchedTime = currentTime
+          }
+          if (seekRestrictionEnabled && !progressUnlocked) {
+            enableProgressControl()
+            progressUnlocked = true
+          }
+          reportProgress("timeupdate")
+        }
+
+      } catch (err) {
+        console.error("[Player] Error in timeupdate:", err)
+      }
+    })
+    // ==========================================
+    // 🎯 SEEKED: Only for seek detection
+    // Reports progress immediately after user seeks
+    // Monotonic check prevents backward seek duplicates
+    // ==========================================
+    player.on(videojsEventNames.seeking, () => {
+      try {
+        if (!player || player.isDisposed?.()) return
+        if (!seekRestrictionEnabled) return
+        if (!progressUnlocked) {
+          console.log(
+            "[Seek Block] Playback not started yet — blocking seek"
+          )
+          player.currentTime(maxWatchedTime) // snap back to 0
+          return
+        }
+        const seekTarget = player.currentTime()
+        const delta = Math.abs(seekTarget - lastKnownTime)
+        if (player.paused()) {
+          const seekTarget = player.currentTime()
+          if (seekTarget > maxWatchedTime) {
+            console.log("[Seek Block] Forward seek blocked while paused")
+            player.currentTime(maxWatchedTime)
+            disableProgressControl()
+            setTimeout(() => enableProgressControl(), 300)
+          }
+          return
+        }
+        const buffer = 1 // 1 second tolerance to avoid flickering at boundary
+        if (delta <= 10.5) {
+          if (seekTarget > maxWatchedTime) {
+            maxWatchedTime = seekTarget
+          }
+          // Tap backward → always allow (seekTarget < lastKnownTime)
+          return
+        }
+        if (seekTarget > maxWatchedTime + buffer) {
+          player.currentTime(maxWatchedTime)
+        }
+      } catch (err) {
+        console.error("[Seek Block] Error:", err)
+      }
+    })
+    player.on(videojsEventNames.seeked, () => {
+      try {
+        const seekedTo = player.currentTime()
+        if (player.paused()) return
+        console.log(`[Player] Seeked to: ${seekedTo}s`)
+        if (!seekRestrictionEnabled || seekedTo <= maxWatchedTime) {
+          reportProgress("seeked")
+        }
+      } catch (err) {
+        console.error("[Player] Error in seeked:", err)
+      }
+    })
+
     player.on(videojsEventNames.pause, () => {
       if (loaded) {
+        reportProgress("pause")
         eventDispatcher(WsEvents.EnumTelemetrySubType.Unloaded, widgetData, WsEvents.EnumTelemetryMediaActivity.PAUSED, mimeType)
         loaded = false
         heartBeatSubscription.unsubscribe()

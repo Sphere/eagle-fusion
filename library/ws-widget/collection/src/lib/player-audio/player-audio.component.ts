@@ -22,6 +22,7 @@ import {
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { WidgetContentService } from '../_services/widget-content.service'
 import { NsContent } from '../_services/widget-content.model'
+import { PlaylistService } from '../../../../../../src/app/services/playlist.service'
 
 const videoJsOptions: videoJs.PlayerOptions = {
   controls: true,
@@ -57,6 +58,7 @@ export class PlayerAudioComponent extends WidgetBaseComponent
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
     private activatedRoute: ActivatedRoute,
+    private plylsSvc: PlaylistService
   ) {
     super()
   }
@@ -141,6 +143,8 @@ export class PlayerAudioComponent extends WidgetBaseComponent
     if (!this.widgetData.disableTelemetry && typeof (this.widgetData.disableTelemetry) !== 'undefined') {
       enableTelemetry = true
     }
+    const config = this.plylsSvc.orgDetails()
+    const isSeekingEnable: boolean = config.videoConfig.isSeekingEnable ?? true
     const initObj = videoJsInitializer(
       this.audioTag.nativeElement,
       { ...videoJsOptions, poster: this.widgetData.posterImage },
@@ -153,6 +157,7 @@ export class PlayerAudioComponent extends WidgetBaseComponent
       enableTelemetry,
       this.widgetData,
       NsContent.EMimeTypes.MP3,
+      isSeekingEnable
     )
     this.player = initObj.player
     this.dispose = initObj.dispose
