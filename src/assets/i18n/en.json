@@ -935,5 +935,6 @@
   "Sorry ! There is some issue in resetting your account. Please contact admin.": "Sorry ! There is some issue in resetting your account. Please contact admin.",
   "Success ! Please verify the OTP .": "Success ! Please verify the OTP .",
   "Sorry ! There is some issue in verifying your account. Please try after sometime.": "Sorry ! There is some issue in verifying your account. Please try after sometime.",
-  "SUCCESS": "SUCCESS"
+  "SUCCESS": "SUCCESS",
+  "You have no courses.": "You have no courses."
 }
