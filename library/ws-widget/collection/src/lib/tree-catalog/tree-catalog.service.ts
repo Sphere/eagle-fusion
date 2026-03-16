@@ -3,10 +3,7 @@ import { Observable, of } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { tap } from 'rxjs/operators'
 import { NSSearch } from '../_services/widget-search.model'
-
-const API_END_POINTS = {
-  catalog: '/apis/public/v8/homePage/catalog',
-}
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',

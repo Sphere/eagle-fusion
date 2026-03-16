@@ -8,6 +8,7 @@ import { JSON_MAP } from './page.constant'
 import { NsPage } from './configurations.model'
 import { IResolveResponse } from './resolver.model'
 import { NsContent } from '../../../../collection/src/lib/_services/widget-content.model'
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -64,17 +65,14 @@ export class PageResolve {
   }
 
   private setS3Cookie(contentId: string): Observable<any> {
-    return this.http.post(`/apis/protected/v8/content/setCookie`, { contentId }).pipe(
+    return this.http.post(API_END_POINTS.SET_COOKIE, { contentId }).pipe(
       catchError(_err => of(true)),
     )
   }
 
   private getContent(id: string) {
     return this.http
-      .post<NsContent.IContent>(
-        `/apis/protected/v8/content/${id}?hierarchyType=minimal`,
-        ['status', 'artifactUrl'],
-      )
+      .post<NsContent.IContent>(API_END_POINTS.GET_CONTENT(id), ['status', 'artifactUrl'],)
   }
 
   private getData(url: string) {

@@ -6,17 +6,7 @@ import { KeycloakService } from 'keycloak-angular'
 import { NSSearch } from '@ws-widget/collection'
 import { map } from 'rxjs/operators'
 import { LoggerService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-const API_END_POINTS = {
-  SOCIAL_VIEW_SEARCH_RESULT: `${PROTECTED_SLAG_V8}/social/post/search`,
-  SEARCH_AUTO_COMPLETE: '/apis/proxies/v8/sunbirdigot/read',
-  // `${PROTECTED_SLAG_V8}/content/searchAutoComplete`,
-  SEARCH_V6: `${PROTECTED_SLAG_V8}/content/searchV6`,
-  // SEARCH_V6PUBLIC: '/apis/public/v8/homePage/searchv6',
-  SEARCH_V6PUBLIC: '/apis/public/v8/ratingsSearch/getCourses',
-  SEARCH_V7PUBLIC: `/apis/public/v8/ratingsSearch/recommendation/publicSearch/getcourse`,
-}
-
+import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 // const facetsOb = {
 //   facets: [
 //     {
@@ -108,7 +98,7 @@ export class SearchApiService {
   }
 
   getSearchAutoCompleteResults(params: { q: string, l: string }): Observable<ISearchAutoComplete[]> {
-    return this.http.get<ISearchAutoComplete[]>(API_END_POINTS.SEARCH_AUTO_COMPLETE, { params })
+    return this.http.get<ISearchAutoComplete[]>(API_END_POINTS.CONTENT_SEARCH_V6, { params })
   }
 
   // getSearchV6Results(body: NSSearch.ISearchV6Request): Observable<NSSearch.ISearchV6ApiResult> {
@@ -175,7 +165,7 @@ export class SearchApiService {
   }
 
   getSearchV7Results(body: NSSearch.ISearchV6RequestV2): Observable<any> {
-    return this.http.post<any>(API_END_POINTS.SEARCH_V7PUBLIC, body)
+    return this.http.post<any>(API_END_POINTS.SEARCH_V8PUBLIC, body)
       .pipe(map((res: any) => {
 
         if (res.result.content.length > 0) {

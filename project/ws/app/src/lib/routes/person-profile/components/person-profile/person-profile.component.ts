@@ -42,7 +42,6 @@ export class PersonProfileComponent implements OnInit {
   followingFetchStatus: TFetchStatus = 'none'
   statusFollowed: 'FOLLOWED' | 'NOT_FOLLOWED' | 'PENDING' | 'ERROR' = 'PENDING'
   targetId = ''
-  basePicUrl = `/apis/protected/v8/user/details/wtoken`
   userDetails: IFollowDetails | undefined
   suggestionsInterestLimit = 7
   emailId = ''

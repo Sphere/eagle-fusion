@@ -1,16 +1,15 @@
 import { Injectable } from '@angular/core'
 import { NsContent } from '@ws-widget/collection'
 import { filter } from 'rxjs/operators'
-// import { AuthKeycloakService } from './auth-keycloak.service'
 import { NsInstanceConfig } from '../resolvers/configurations.model'
 import { ConfigurationsService } from './configurations.service'
 import { WsEvents } from './event.model'
 import { EventService } from './event.service'
 import { LoggerService } from './logger.service'
-// import { environment } from 'src/environments/environment'
 import { HttpClient } from '@angular/common/http'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { ConfigCacheService } from 'src/app/services/config-cache.service'
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 declare var $t: any
 
@@ -18,24 +17,18 @@ declare var $t: any
   providedIn: 'root',
 })
 export class TelemetryService {
-  // private baseUrl = 'assets/configurations'
-
   previousUrl: string | null = null
   telemetryConfig: NsInstanceConfig.ITelemetryConfig | null = null
   pData: any = null
   externalApps: any = {
     RBCP: 'rbcp-web-ui',
   }
-  PUBLIC_TELEMETRY = '/apis/public/v8/publicTelemetry'
 
   constructor(
-    // private orgService: OrgServiceService,
     private http: HttpClient,
     private configSvc: ConfigurationsService,
     private configCacheSvc: ConfigCacheService,
     private eventsSvc: EventService,
-    // private authSvc: AuthKeycloakService,
-    // private envSvc : environment,
     private logger: LoggerService,
     private UserAgentResolverService: UserAgentResolverService,
 
@@ -48,17 +41,13 @@ export class TelemetryService {
         pdata: {
           ...this.telemetryConfig.pdata,
           pid: navigator.userAgent,
-          // id: `${environment.name}.${this.telemetryConfig.pdata.id}`,
         },
         channel: this.rootOrgId || this.telemetryConfig.channel,
         uid: this.configSvc.userProfile && this.configSvc.userProfile.userId,
         sid: this.getTelemetrySessionId,
-        // authtoken: this.authSvc.token,
       }
       this.pData = this.telemetryConfig.pdata
-      // this.addPlayerListener()
       this.addInteractListener()
-      // this.addTimeSpentListener()
       this.addSearchListener()
       this.addHearbeatListener()
     }
@@ -606,7 +595,7 @@ export class TelemetryService {
   postPublicTelemetry(data: any) {
     // this.logger.log("public telemetry")
     const publicConfig = this.http
-      .post<any>(this.PUBLIC_TELEMETRY, data)
+      .post<any>(API_END_POINTS.PUBLIC_TELEMETRY, data)
       .toPromise()
     return publicConfig
   }

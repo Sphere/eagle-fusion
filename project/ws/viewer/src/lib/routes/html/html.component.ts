@@ -97,9 +97,6 @@ export class HtmlComponent implements OnInit, OnDestroy {
     } else {
       this.routeDataSubscription = this.activatedRoute.data.subscribe(
         async data => {
-          // data.content.data.artifactUrl =
-          //   data.content.data.artifactUrl.startsWith('/scorm-player') ?
-          //     `/apis/proxies/v8${data.content.data.artifactUrl}` : data.content.data.artifactUrl
           data.content.data.artifactUrl =
             data.content.data.artifactUrl.indexOf('ScormCoursePlayer') > -1
               ? `${data.content.data.artifactUrl.replace(/%20/g, '')}&Param1=${this.uuid}`

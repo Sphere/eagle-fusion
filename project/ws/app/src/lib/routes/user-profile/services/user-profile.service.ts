@@ -10,35 +10,8 @@ import {
   IUserProfileDetailsFromRegistry,
 } from '../models/user-profile.model'
 import { LoggerService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
+import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
-const API_ENDPOINTS = {
-  // updateProfileDetails: '/apis/protected/v8/user/profileRegistry/updateUserRegistry',
-  updateProfileDetails: '/apis/protected/v8/user/profileDetails/updateUser',
-  updateProfileWithSourceDetails: '/apis/protected/v8/user/profileDetails/v2/updateUser',
-  // getUserdetailsFromRegistry: '/apis/protected/v8/user/profileRegistry/getUserRegistryById',
-  getUserdetailsFromRegistry: '/apis/proxies/v8/api/user/v2/read',
-  getUserdetails: '/apis/protected/v8/user/details/detailV1',
-  getMasterNationlity: '/apis/protected/v8/user/profileRegistry/getMasterNationalities',
-  getMasterLanguages: '/apis/protected/v8/user/profileRegistry/getMasterLanguages',
-  // getProfilePageMeta: '/apis/protected/v8/user/profileRegistry/getProfilePageMeta',
-  getAllDepartments: '/apis/protected/v8/portal/listDeptNames',
-  approveRequest: '/apis/protected/v8/workflowhandler/transition',
-  getPendingFields: '/apis/protected/v8/workflowhandler/userWFApplicationFieldsSearch',
-  bnrcRegistration: '/apis/public/v8/bnrcUserCreation/createUser',
-  bnrcSendOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/sendOtp',
-  bnrcReSendOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/resendOtp',
-  bnrcValidateOtpRegistration: '/apis/public/v8/bnrcUserCreation/otp/validateOtp',
-  upsmfRegistration: '/apis/public/v8/upsmfUserCreation/createUser',
-  upsmfSendOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/sendOtp',
-  upsmfReSendOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/resendOtp',
-  upsmfValidateOtpRegistration: '/apis/public/v8/upsmfUserCreation/otp/validateOtp',
-  mpRegistration: '/apis/public/v8/mpNHMUserCreation/createUser',
-  mpSendOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/sendOtp',
-  mpReSendOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/resendOtp',
-  mpValidateOtpRegistration: '/apis/public/v8/mpNHMUserCreation/otp/validateOtp',
-  getLeaderBoardData: '/apis/proxies/v8/user/v1/leaderboard',
-  // getProfilePageMeta: '/apis/protected/v8/user/profileDetails/getProfilePageMeta',
-}
 
 @Injectable()
 export class UserProfileService {
@@ -57,7 +30,7 @@ export class UserProfileService {
   }
 
   updateProfileDetails(data: any) {
-    return this.http.post<any>(API_ENDPOINTS.updateProfileWithSourceDetails, data).pipe(
+    return this.http.post<any>(API_END_POINTS.updateProfileWithSourceDetails, data).pipe(
       tap((response: any) => {
         this.logger.log('[UserProfileService] Profile updated, clearing all user caches', response)
         // Clear all user caches since profile was updated
@@ -69,62 +42,62 @@ export class UserProfileService {
     )
   }
   getUserdetails(email: string | undefined): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.getUserdetails, { email })
+    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.getUserdetails, { email })
   }
   bnrcRegistration(value: any): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcRegistration, { value })
+    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.bnrcRegistration, { value })
   }
 
   // bnrcSendOtp(value: any): Observable<[IUserProfileDetails]> {
-  //   return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcSendOtpRegistration, { value })
+  //   return this.http.post<[IUserProfileDetails]>(API_END_POINTS.bnrcSendOtpRegistration, { value })
   // }
   bnrcSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.bnrcSendOtpRegistration, phone)
+    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.bnrcSendOtpRegistration, phone)
   }
   bnrcResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.bnrcReSendOtpRegistration, phone)
+    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.bnrcReSendOtpRegistration, phone)
   }
 
   bnrcValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.bnrcValidateOtpRegistration, value)
+    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.bnrcValidateOtpRegistration, value)
   }
   upsmfRegistration(value: any): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.upsmfRegistration, { value })
+    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.upsmfRegistration, { value })
   }
   upsmfSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.upsmfSendOtpRegistration, phone)
+    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.upsmfSendOtpRegistration, phone)
   }
   upsmfResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.upsmfReSendOtpRegistration, phone)
+    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.upsmfReSendOtpRegistration, phone)
   }
 
   mpValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.mpValidateOtpRegistration, value)
+    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.mpValidateOtpRegistration, value)
   }
   mpRegistration(value: any): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.mpRegistration, { value })
+    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.mpRegistration, { value })
   }
   mpSendOtp(phone: { phone: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.mpSendOtpRegistration, phone)
+    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.mpSendOtpRegistration, phone)
   }
   mpResendOtp(phone: { phone: string }): Observable<[IUserProfileDetails]> {
-    return this.http.post<[IUserProfileDetails]>(API_ENDPOINTS.mpReSendOtpRegistration, phone)
+    return this.http.post<[IUserProfileDetails]>(API_END_POINTS.mpReSendOtpRegistration, phone)
   }
 
   upsmfValidateOtp(value: { phone: string; otp: string }): Observable<IUserProfileDetails[]> {
-    return this.http.post<IUserProfileDetails[]>(API_ENDPOINTS.upsmfValidateOtpRegistration, value)
+    return this.http.post<IUserProfileDetails[]>(API_END_POINTS.upsmfValidateOtpRegistration, value)
   }
   getMasterLanguages(): Observable<ILanguagesApiData> {
-    return this.http.get<ILanguagesApiData>(API_ENDPOINTS.getMasterLanguages)
+    return this.http.get<ILanguagesApiData>(API_END_POINTS.getMasterLanguages)
   }
   getMasterNationlity(): Observable<INationalityApiData> {
-    return this.http.get<INationalityApiData>(API_ENDPOINTS.getMasterNationlity)
+    return this.http.get<INationalityApiData>(API_END_POINTS.getMasterNationlity)
   }
   // getProfilePageMeta(): Observable<IProfileMetaApiData> {
-  //   return this.http.get<IProfileMetaApiData>(API_ENDPOINTS.getProfilePageMeta)
+  //   return this.http.get<IProfileMetaApiData>(API_END_POINTS.getProfilePageMeta)
   // }
   // getUserdetailsFromRegistry(): Observable<[IUserProfileDetailsFromRegistry]> {
-  //   return this.http.get<[IUserProfileDetailsFromRegistry]>(API_ENDPOINTS.getUserdetailsFromRegistry)
+  //   return this.http.get<[IUserProfileDetailsFromRegistry]>(API_END_POINTS.getUserdetailsFromRegistry)
   // }
   getUserdetailsFromRegistry(wid: string): Observable<[IUserProfileDetailsFromRegistry]> {
     // Check if data is already cached for this user (in-memory)
@@ -143,7 +116,7 @@ export class UserProfileService {
     }
 
     // If not cached, fetch from API and cache the result
-    return this.http.get<[IUserProfileDetailsFromRegistry]>(`${API_ENDPOINTS.getUserdetailsFromRegistry}/${wid}`)
+    return this.http.get<[IUserProfileDetailsFromRegistry]>(`${API_END_POINTS.getUserdetailsFromRegistry}/${wid}`)
       .pipe(
         retry(1),
         map((res: any) => res.result.response),
@@ -157,20 +130,20 @@ export class UserProfileService {
       )
   }
   getAllDepartments() {
-    return this.http.get<INationalityApiData>(API_ENDPOINTS.getAllDepartments)
+    return this.http.get<INationalityApiData>(API_END_POINTS.getAllDepartments)
   }
   approveRequest(data: any) {
-    return this.http.post(API_ENDPOINTS.approveRequest, data)
+    return this.http.post(API_END_POINTS.approveRequest, data)
   }
   listApprovalPendingFields() {
-    return this.http.post<any>(API_ENDPOINTS.getPendingFields, {
+    return this.http.post<any>(API_END_POINTS.getPendingFields, {
       serviceName: 'profile',
       applicationStatus: 'SEND_FOR_APPROVAL',
     })
   }
   getLeaderBoardData(request): Observable<any> {
     const options = {
-      url: API_ENDPOINTS.getLeaderBoardData,
+      url: API_END_POINTS.getLeaderBoardData,
       payload: request,
     }
     return this.http.post(options.url, options.payload)

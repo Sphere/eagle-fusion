@@ -167,12 +167,6 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
         safeUrl: this.domSanitizer.bypassSecurityTrustResourceUrl(this.urlPrefix + u.URL),
       }))
     }
-    // this.slides = this.webModuleManifest.map(u => ({
-    //   ...u,
-    //   safeUrl: this.domSanitizer.bypassSecurityTrustResourceUrl(
-    //     `/apis/protected/v8/content/getWebModuleFiles?url=${encodeURIComponent(this.urlPrefix + u.URL)}`
-    //   )
-    // }));
     this.setPage(this.widgetData.resumePage ?? 1)
   }
 

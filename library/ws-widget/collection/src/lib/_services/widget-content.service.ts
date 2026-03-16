@@ -8,51 +8,7 @@ import { NsContent } from './widget-content.model'
 import { NSSearch } from './widget-search.model'
 import { LanguageService } from '../../../../../../src/app/services/language.service'
 import { LoggerService } from '../../../../utils/src/public-api'
-
-// TODO: move this in some common place
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-const PUBLIC_SLAG = '/apis/public/v8'
-const API_END_POINTS = {
-  CONTENT: `${PROTECTED_SLAG_V8}/content`,
-  AUTHORING_CONTENT: `/apis/authApi/hierarchy`,
-  LATEST_HOMEPAGE_COURSE: `/apis/public/v8/homePage/latestCourses`,
-  CONTENT_LIKES: `${PROTECTED_SLAG_V8}/content/likeCount`,
-  SET_S3_COOKIE: `${PROTECTED_SLAG_V8}/content/setCookie`,
-  SET_S3_IMAGE_COOKIE: `${PROTECTED_SLAG_V8}/content/setImageCookie`,
-  FETCH_MANIFEST: `${PROTECTED_SLAG_V8}/content/getWebModuleManifest`,
-  FETCH_WEB_MODULE_FILES: `${PROTECTED_SLAG_V8}/content/getWebModuleFiles`,
-  MULTIPLE_CONTENT: `${PROTECTED_SLAG_V8}/content/multiple`,
-  CONTENT_SEARCH_V5: `${PROTECTED_SLAG_V8}/content/searchV5`,
-  PUBLIC_CONTENT_SEARCH: `${PUBLIC_SLAG}/ratingsSearch/getCourses`,
-  CONTENT_SEARCH: '/apis/public/v8/mobileApp/contentSearch',
-  CONTENT_SEARCH_V6: `/apis/proxies/v8/sunbirdigot/read`,
-  CONTENT_SEARCH_REGION_RECOMMENDATION: `${PROTECTED_SLAG_V8}/content/searchRegionRecommendation`,
-  CONTENT_HISTORY: `${PROTECTED_SLAG_V8}/user/history`,
-  CONTENT_HISTORYV2: `/apis/proxies/v8/read/content-progres`,
-  USER_CONTINUE_LEARNING: `${PROTECTED_SLAG_V8}/user/history/continue`,
-  CONTENT_RATING: `${PROTECTED_SLAG_V8}/user/rating`,
-  COLLECTION_HIERARCHY: (type: string, id: string) =>
-    `${PROTECTED_SLAG_V8}/content/collection/${type}/${id}`,
-  REGISTRATION_STATUS: `${PROTECTED_SLAG_V8}/admin/userRegistration/checkUserRegistrationContent`,
-  MARK_AS_COMPLETE_META: (contentId: string) => `${PROTECTED_SLAG_V8}/user/progress/${contentId}`,
-  COURSE_BATCH_LIST: `/apis/proxies/v8/learner/course/v1/batch/list`,
-  ENROLL_BATCH: `/apis/proxies/v8/learner/course/v1/enrol`,
-  COURSE_RATING: `/apis/protected/v8/ratings/upsert`,
-  READ_COURSE_RATING: `/apis/protected/v8/ratings/v2/read`,
-  READ_COURSE_RATING_SUMMARY: `/apis/protected/v8/ratings/summary`,
-  GOOGLE_AUTHENTICATE: `/apis/public/v8/google/callback`,
-  LOGIN_USER: `/apis/public/v8/emailMobile/auth`,
-  FETCH_USER_ENROLLMENT_LIST: (userId: string | undefined) =>
-    // tslint:disable-next-line: max-line-length
-    `/apis/proxies/v8/learner/course/v1/user/enrollment/list/${userId}?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  FETCH_GENERAL_RC_CERTIFICATE: () =>
-    // tslint:disable-next-line: max-line-length
-    `apis/protected/v8/rcCert/user/enrollment/list/adhocCertificates?orgdetails=orgName,email&licenseDetails=name,description,url&fields=competency,contentType,sourceName,issueCertification,topic,name,channel,mimeType,appIcon,gradeLevel,resourceType,thumbnail,identifier,medium,pkgVersion,board,subject,trackable,posterImage,duration,creatorLogo,license,competency&batchDetails=name,endDate,startDate,status,enrollmentType,createdBy,certificates`,
-  COURSE_RECOMENDATION: (profession: string) =>
-    `${PUBLIC_SLAG}/mobileApp/courseRemommendationv2?profession=${profession}`,
-  COURSE_RECOMMENDATION_V2: `${PUBLIC_SLAG}/mobileApp/publicSearch/courseRecommendationCbp`,
-}
-
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 @Injectable({
   providedIn: 'root',
 })
@@ -91,22 +47,11 @@ export class WidgetContentService {
     this.logger.log('came1')
     this.workSource.next(msg)
   }
-  // fetchContent(
-  //   contentId: string,
-  //   hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
-  //   additionalFields: string[] = [],
-  // ): Observable<NsContent.IContent> {
-  //   this.logger.log('Fetch content 666')
-  //   const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
-  //   return this.http
-  //     .post<NsContent.IContent>(url, { additionalFields })
-  //     .pipe(retry(1))
-  // }
 
   // tslint:disable-next-line:max-line-length
   fetchUserBatchList(userId: string | undefined): Observable<NsContent.ICourse[]> {
     let path = ''
-    path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST(userId)
+    path = API_END_POINTS.FETCH_USER_ENROLLMENT_LIST_COMP(userId)
     return this.http
       .get(path)
       .pipe(
@@ -126,7 +71,7 @@ export class WidgetContentService {
       )
   }
   fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
-    const url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=detail`
+    const url = API_END_POINTS.CONTENT_HIERARCHY(contentId, 'detail')
     const apiData = this.http
       .get<NsContent.IContent>(url)
       .pipe(retry(1))
@@ -134,7 +79,7 @@ export class WidgetContentService {
   }
 
   readContentV2(id: string): Observable<NsContent.IContent> {
-    let url = `/apis/proxies/v8/action/content/v3/read/${id}`
+    let url = API_END_POINTS.CONTENT_READ(id)
     const apiData = this.http
       .get<NsContent.IContent>(url)
       .pipe(retry(1))
@@ -142,12 +87,12 @@ export class WidgetContentService {
   }
 
   processCertificate(req: any): Observable<any> {
-    const url = `/apis/proxies/v8/course/batch/cert/v1/issue/`
+    const url = API_END_POINTS.BATCH_CERT_ISSUE
     return this.http.post<any>(url, req)
   }
 
   downloadCertificateAPI(certificateId: string): Observable<any> {
-    const url = `/apis/proxies/v8/certreg/v2/certs/download/${certificateId}`
+    const url = API_END_POINTS.DOWNLOAD_CERTIFICATE(certificateId)
     const apiData = this.http
       .get<any>(url)
       .pipe(retry(1))
@@ -155,7 +100,7 @@ export class WidgetContentService {
   }
 
   getCertificateAPI(certificateId: string): Observable<any> {
-    const url = `/apis/proxies/v8/certreg/v2/certs/download/${certificateId}`
+    const url = API_END_POINTS.DOWNLOAD_CERTIFICATE(certificateId)
     const apiData = this.http
       .get<any>(url)
       .pipe(retry(1), map(res => this._updateValue.next({ [certificateId]: res.result.printUri })))
@@ -168,22 +113,15 @@ export class WidgetContentService {
     _additionalFields: string[] = [],
     primaryCategory?: string | null,
   ): Observable<NsContent.IContent> {
-    // const url = `${API_END_POINTS.CONTENT}/${contentId}?hierarchyType=${hierarchyType}`
     let url = ''
     if (primaryCategory && this.isResource(primaryCategory)) {
-      url = `/apis/proxies/v8/action/content/v3/read/${contentId}`
+      url = API_END_POINTS.CONTENT_READ(contentId)
     } else {
-      url = `/apis/proxies/v8/action/content/v3/hierarchy/${contentId}?hierarchyType=${hierarchyType}`
+      url = API_END_POINTS.CONTENT_HIERARCHY(contentId, hierarchyType)
     }
-    // return this.http
-    //   .post<NsContent.IContent>(url, { additionalFields })
-    //   .pipe(retry(1))
     const apiData = this.http
       .get<NsContent.IContent>(url)
       .pipe(retry(1))
-    // if (apiData && apiData.result) {
-    //   return apiData.result.content
-    // }
     return apiData
   }
 

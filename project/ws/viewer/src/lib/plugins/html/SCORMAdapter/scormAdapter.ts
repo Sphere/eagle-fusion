@@ -1,26 +1,16 @@
-/* tslint:disable */
 import { Injectable } from '@angular/core'
 import { Storage, IScromData } from './storage'
 import { errorCodes } from './errors'
-// import _ from 'lodash'
 import { HttpBackend, HttpClient } from '@angular/common/http'
 import { ActivatedRoute, Router } from '@angular/router'
 import { ConfigurationsService, LoggerService, TelemetryService } from '../../../../../../../../library/ws-widget/utils/src/public-api'
 import dayjs from 'dayjs'
-//import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 import { Subscription } from 'rxjs'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { first } from 'rxjs/operators'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
-const API_END_POINTS = {
-  SCROM_ADD_UPDTE: '/apis/protected/v8/scrom/add',
-  SCROM_FETCH: '/apis/protected/v8/scrom/get',
-  SCROM_UPDTE_PROGRESS: `/apis/proxies/v8/content-progres`,
-  SCROM_FETCH_PROGRESS: `/apis/proxies/v8/read/content-progres`,
-  NEW_PROGRESS_UPDATE: `/apis/protected/v8/updateProgressv2/update`,
-}
-//import { ViewerDataService } from '../../../viewer-data.service'
 @Injectable({
   providedIn: 'root',
 })

@@ -13,7 +13,6 @@ export class UserImageComponent implements OnInit, OnChanges {
   @Input() userId: string | null = null
   @Input() userName = ''
   @Input() imageType: 'initial' | 'rounded' | 'name-initial' = 'initial'
-  basePicUrl = `/apis/protected/v8/user/profile/graph/photo/`
   errorOccurred = false
   verifiedMicrosoftEmail = ''
   shortName = ''

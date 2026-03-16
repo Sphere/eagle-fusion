@@ -5,6 +5,7 @@ import { ReplaySubject } from 'rxjs'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
 import { LoggerService } from './logger.service'
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 interface IParsedToken {
   email?: string
@@ -152,7 +153,7 @@ export class AuthKeycloakService {
       let url = `${document.baseURI}`
       let redirectUrl = `${url}public/home`
       window.location.href = redirectUrl
-      await this.http.get('/apis/proxies/v8/logout/user').toPromise()
+      await this.http.get(API_END_POINTS.LOGOUT_USER).toPromise()
     } catch (error) { }
   }
   private addKeycloakEventListener() {

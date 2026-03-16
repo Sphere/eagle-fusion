@@ -13,12 +13,8 @@ import { AccessControlService } from '@ws/author/src/lib/modules/shared/services
 import { FIXED_FILE_NAME } from '../../../../../constants/upload'
 import { HttpClient } from '@angular/common/http'
 import { ConfigurationsService } from '@ws-widget/utils'
+import { API_END_POINTS } from '../../../../../../../../../../src/app/constants/apiConstants'
 
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-
-const API_END_POINTS = {
-  CATALOG_AUTHORING: `${PROTECTED_SLAG_V8}/social/catalog`,
-}
 @Injectable()
 export class UploadService {
   constructor(

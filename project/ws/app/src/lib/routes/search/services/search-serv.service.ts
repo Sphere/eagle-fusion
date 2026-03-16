@@ -12,11 +12,8 @@ import {
   IFilterUnitItem, IFilterUnitResponse, ISearchAutoComplete, ISearchQuery, ISearchRequestV2, ISearchRequestV3,
   ISearchSocialSearchPartialRequest, ISocialSearchRequest,
 } from '../models/search.model'
+import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiConstants'
 
-const API_END_POINTS = {
-  translateFiltersBase: '/apis/protected/v8/translate/filterdata',
-  translateFilters: (lang: string) => `${API_END_POINTS.translateFiltersBase}/${lang}`,
-}
 
 @Injectable({
   providedIn: 'root',

@@ -3,12 +3,7 @@ import { Injectable } from '@angular/core'
 import { Observable } from 'rxjs'
 import { ConfigurationsService, getStringifiedQueryParams } from '../../../../../utils/src/public-api'
 import { NsAutoComplete } from './user-autocomplete.model'
-
-// TODO: move this in some common place
-const PROTECTED_SLAG_V8 = '/apis/protected/v8'
-const API_END_POINTS = {
-  AUTOCOMPLETE: (query: string) => `${PROTECTED_SLAG_V8}/user/autocomplete/${query}`,
-}
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
@@ -35,7 +30,7 @@ export class UserAutocompleteService {
     url += stringifiedQueryParams ? `?${stringifiedQueryParams}` : ''
 
     return this.http.get<NsAutoComplete.IUserAutoComplete[]>(
-      url ,
+      url,
     )
   }
 }

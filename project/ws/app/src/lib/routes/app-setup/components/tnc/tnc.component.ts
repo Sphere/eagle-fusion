@@ -16,6 +16,7 @@ import {
 import { TncAppResolverService } from '../../../../../../../../../src/app/services/tnc-app-resolver.service'
 import { TncPublicResolverService } from '../../../../../../../../../src/app/services/tnc-public-resolver.service'
 import { Globals } from '../../globals'
+import { API_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Component({
   selector: 'ws-app-tnc',
@@ -151,7 +152,7 @@ export class TncComponent implements OnInit, OnDestroy {
         })
       }
       this.isAcceptInProgress = true
-      this.http.post('/apis/protected/v8/user/tnc/accept', { termsAccepted }).subscribe(
+      this.http.post(API_END_POINTS.TNC_ACCEPT, { termsAccepted }).subscribe(
         () => {
           // TO DO: Telemetry event for success
           if (this.tncData) {
@@ -181,6 +182,6 @@ export class TncComponent implements OnInit, OnDestroy {
     }
   }
   postProcess() {
-    this.http.patch('/apis/protected/v8/user/tnc/postprocessing', {}).subscribe()
+    this.http.patch(API_END_POINTS.TNC_POST_PROCESSING, {}).subscribe()
   }
 }

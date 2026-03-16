@@ -4,9 +4,7 @@ import { IUserPreference } from './user-preference.model'
 import { ConfigurationsService } from './configurations.service'
 import { debounceTime, retry, catchError } from 'rxjs/operators'
 import { of } from 'rxjs'
-const endpoints = {
-  userPref: '/apis/protected/v8/user/preference',
-}
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 @Injectable({
   providedIn: 'root',
 })
@@ -26,7 +24,7 @@ export class UserPreferenceService {
   }
 
   async fetchUserPreference(): Promise<IUserPreference> {
-    const pref = await this.http.get<IUserPreference>(endpoints.userPref).toPromise()
+    const pref = await this.http.get<IUserPreference>(API_END_POINTS.userPref).toPromise()
     return pref
   }
 
@@ -79,7 +77,7 @@ export class UserPreferenceService {
       const oldUserPref: IUserPreference | null = this.configurationSvc.userPreference
       this.configurationSvc.userPreference = newUserPref
       await this.http
-        .put(endpoints.userPref, newUserPref)
+        .put(API_END_POINTS.userPref, newUserPref)
         .pipe(
           retry(3),
           catchError(err => {

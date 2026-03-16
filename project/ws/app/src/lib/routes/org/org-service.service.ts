@@ -3,24 +3,8 @@ import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { Observable, of, BehaviorSubject } from 'rxjs'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
-// import { environment } from './../../../../../../../src/environments/environment'
+import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
-// let instanceConfigPath: string | null = window.location.host
-
-// if (!environment.production && Boolean(environment.sitePath)) {
-//   instanceConfigPath = environment.sitePath
-// }
-const API_END_POINTS = {
-  // SEARCH_V6PUBLIC: '/apis/public/v8/publicContent/v1/search',
-  SEARCH_V6PUBLIC: '/apis/public/v8/ratingsSearch/getCourses',
-  SEARCH_V7PUBLIC: '/apis/public/v8/publicSearch/getCourses',
-  KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
-  Sashakt_Auth: '/apis/public/v8/sashaktAuth/login',
-  Maternity_Auth: '/apis/public/v8/maternityFoundation/login',
-  ENROLLED_USER: 'apis/protected/v8/userEnrolledInSource',
-  Tnai_Auth: '/apis/public/v8/tnai/login',
-  Tnnmc_Auth: '/apis/public/v8/tnnmc/login',
-}
 @Injectable({
   providedIn: 'root',
 })

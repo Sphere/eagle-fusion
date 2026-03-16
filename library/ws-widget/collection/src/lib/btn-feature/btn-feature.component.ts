@@ -5,7 +5,6 @@ import { ConfigurationsService, EventService, NsPage } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 import { take } from 'rxjs/operators'
 import { MobileAppsService } from '../../../../../../src/app/services/mobile-apps.service'
-// import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
 import { BtnFeatureService } from './btn-feature.service'
 import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.service'
 import { SignupService } from 'src/app/routes/signup/signup.service'
@@ -14,7 +13,6 @@ import { LocalStorageService } from '../../../../../../src/app/services/local-st
 import { Events } from '../../../../../../src/app/routes/notification/events'
 import { LanguageService } from '../../../../../../src/app/services/language.service'
 import { LoggerService } from '@ws-widget/utils'
-// import { LocalStorageService } from "../../services/local-storage.service"
 
 export const typeMap = {
   cardFull: 'card-full',

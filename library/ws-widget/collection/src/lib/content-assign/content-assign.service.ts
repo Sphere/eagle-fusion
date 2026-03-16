@@ -1,14 +1,7 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { IContentAssignModel, IUserSearchRequestModel } from './content-assign.model'
-
-const API_END_POINTS = {
-  assignContent: `/apis/protected/v8/user/content-assign/assignContent`,
-  getAdminLevel: `/apis/protected/v8/user/content-assign/getAdminLevel`,
-  getAssignments: `/apis/protected/v8/user/content-assign/getAssignments`,
-  searchUsers: `/apis/protected/v8/user/content-assign/searchUsers`,
-  managerDetails: `/apis/protected/v8/user/details/managerDetails`,
-}
+import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',

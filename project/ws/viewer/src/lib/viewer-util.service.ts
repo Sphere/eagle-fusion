@@ -8,19 +8,12 @@ import {
 import dayjs from 'dayjs'
 import { NsContent } from '../../../../../library/ws-widget/collection/src/lib/_services/widget-content.model'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
+import { API_END_POINTS } from '../../../../../src/app/constants/apiConstants'
 
 @Injectable({
   providedIn: 'root',
 })
 export class ViewerUtilService {
-  API_ENDPOINTS = {
-    setS3Cookie: `/apis/v8/protected/content/setCookie`,
-    // PROGRESS_UPDATE: `/apis/protected/v8/user/realTimeProgress/update`,
-    PROGRESS_UPDATE: `/apis/proxies/v8/content-progres`,
-    NEW_PROGRESS_UPDATE: `/apis/protected/v8/updateProgressv2/update`,
-    NEW_PROGRESS_UPDATE_V3: `/apis/protected/v8/updateProgressv3/update`,
-    SCORM_UPDATE: `/apis/proxies/v8/getContents/`,
-  }
   downloadRegex = new RegExp(`(/content-store/.*?)(\\\)?\\\\?['"])`, 'gm')
   authoringBase = '/apis/authContent/'
   competencyAsessment = new BehaviorSubject<any>(false)
@@ -49,7 +42,7 @@ export class ViewerUtilService {
 
   private async setS3Cookie(contentId: string) {
     await this.http
-      .post(this.API_ENDPOINTS.setS3Cookie, { contentId })
+      .post(API_END_POINTS.setS3Cookie, { contentId })
       .toPromise()
       .catch((_err: any) => { })
     return
@@ -196,7 +189,7 @@ export class ViewerUtilService {
 
         })
     })
-    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
+    return this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req)
   }
 
   realTimeProgressUpdate(contentId: string, request: any, collectionId?: string, batchId?: string) {
@@ -267,7 +260,7 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    this.logger.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE_V3}`, '215')
+    this.logger.log(req, `${API_END_POINTS.NEW_PROGRESS_UPDATE_V3}`, '215')
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe((record) => {
       this.logger.log(record, '217')
 
@@ -306,7 +299,7 @@ export class ViewerUtilService {
 
         })
     })
-    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
+    return this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req)
   }
 
   realTimeProgressUpdateV3(contentId: string, request: any, collectionId?: string, batchId?: string) {
@@ -377,7 +370,7 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    this.logger.log(req, `${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE_V3}`, '215')
+    this.logger.log(req, `${API_END_POINTS.NEW_PROGRESS_UPDATE_V3}`, '215')
     this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe((record) => {
       this.logger.log(record, '217')
 
@@ -416,7 +409,7 @@ export class ViewerUtilService {
 
         })
     })
-    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE_V3}`, req)
+    return this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE_V3}`, req)
   }
 
   realTimeProgressUpdateQuiz(contentId: string, collectionId?: string, batchId?: string, status?: number) {
@@ -439,15 +432,15 @@ export class ViewerUtilService {
     } else {
       req = {}
     }
-    this.logger.log(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, '201')
+    this.logger.log(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, '201')
     // this.http
-    //   .patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}/${contentId}`, req)
+    //   .patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}/${contentId}`, req)
     //   .subscribe(noop, noop)
-    return this.http.patch(`${this.API_ENDPOINTS.NEW_PROGRESS_UPDATE}`, req)
+    return this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req)
   }
 
   scormUpdate(artifactUrl: string): Observable<any> {
-    return this.http.get(`${this.API_ENDPOINTS.SCORM_UPDATE}${artifactUrl}`, { responseType: 'text' as 'json' })
+    return this.http.get(`${API_END_POINTS.SCORM_UPDATE}${artifactUrl}`, { responseType: 'text' as 'json' })
   }
   getContent(contentId: string): Observable<NsContent.IContent> {
     return this.http.get<NsContent.IContent>(

@@ -40,7 +40,6 @@ import {
   ConfigurationsService,
 } from '@ws-widget/utils'
 import moment from 'moment'
-// import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
   selector: 'viewer-plugin-quiz',
   templateUrl: './quiz.component.html',
