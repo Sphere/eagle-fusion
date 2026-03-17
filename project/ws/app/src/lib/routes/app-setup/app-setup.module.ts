@@ -35,6 +35,7 @@ import { TncAppResolverService } from '../../../../../../../src/app/services/tnc
 // import { SetupDoneComponent } from './components/setup-done/setup-done.component'
 import { InterestModules } from './module/interest/interest.module'
 import { Globals } from './globals'
+import { TranslateModule } from '@ngx-translate/core'
 // import { InterestModule } from '../profile/routes/interest/interest.module'
 
 @NgModule({
@@ -75,6 +76,7 @@ import { Globals } from './globals'
     InterestModules,
     LanguageSelectorModule,
     // InterestModule,
+    TranslateModule
   ],
   providers: [TncAppResolverService, Globals],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]

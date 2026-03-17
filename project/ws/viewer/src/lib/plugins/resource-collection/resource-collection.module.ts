@@ -16,6 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 import { ResourceCollectionComponent } from './resource-collection.component'
 import { ViewSubmissionComponent } from './components/view-submission/view-submission.component'
 import { PlayerPdfModule, PlayerVideoModule } from '../../../../../../../library/ws-widget/collection/src/public-api'
+import { TranslateModule } from '@ngx-translate/core'
 
 @NgModule({
     declarations: [ResourceCollectionComponent, ViewSubmissionComponent],
@@ -36,6 +37,7 @@ import { PlayerPdfModule, PlayerVideoModule } from '../../../../../../../library
         MatProgressSpinnerModule,
         PlayerPdfModule,
         PlayerVideoModule,
+        TranslateModule
     ],
     exports: [
         ResourceCollectionComponent,

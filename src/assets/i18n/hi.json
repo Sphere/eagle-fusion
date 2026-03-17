@@ -266,7 +266,7 @@
   "Country": "देश",
   "State": "राज्य",
   "District": "जिला",
-  "City/Distict": "City/District",
+  "City/Distict": "शहर / जिला",
   "Pincode": "पिन कोड",
   "Language Preference": "भाषा प्राथमिकता",
   "My Certificates": "मेरे प्रमाण पत्र",
@@ -734,7 +734,7 @@
   "Download Resource": "संसाधन डाउनलोड करें",
   "Contacts": "संपर्क",
   "This content can only be viewed in Intranet.": "यह सामग्री केवल इंट्रानेट में ही देखी जा सकती है।",
-  "Content may be required to be opened in a new window. If you are unable to view it, Please\r\n        click on the Open in New Window Button else Dismiss": "सामग्री को एक नई विंडो में खोलने की आवश्यकता हो सकती है। यदि आप इसे देखने में असमर्थ हैं, तो कृपया नई विंडो में खोलें बटन पर क्लिक करें अन्यथा खारिज करें",
+  "ALERT_MSG_HTML": "सामग्री को एक नई विंडो में खोलने की आवश्यकता हो सकती है। यदि आप इसे देखने में असमर्थ हैं, तो कृपया नई विंडो में खोलें बटन पर क्लिक करें अन्यथा खारिज करें",
   "This content can only be viewed in Intranet": "यह सामग्री केवल इंट्रानेट में ही देखी जा सकती है",
   "Content will open in a new window. If you are unable to view it, click on the button below.": "सामग्री एक नई विंडो में खुलेगी। यदि आप इसे देखने में असमर्थ हैं तो नीचे दिए गए बटन पर क्लिक करें।",
   "Open in New Window": "नई विंडो में खोलें",
@@ -939,5 +939,11 @@
   "Success ! Please verify the OTP .": "सफल! कृपया ओटीपी सत्यापित करें।",
   "Sorry ! There is some issue in verifying your account. Please try after sometime.": "क्षमा करें! आपके खाते को सत्यापित करने में कुछ समस्या आ रही है। कृपया कुछ समय बाद फिर से प्रयास करें।",
   "SUCCESS": "सफल",
-  "You have no courses.": "आपके पास कोई कोर्स नहीं है।"
+  "You have no courses.": "आपके पास कोई कोर्स नहीं है।",
+  "Healthcare Worker": "स्वास्थ्य कर्मी",
+  "Healthcare Volunteer": "स्वास्थ्य स्वयंसेवक",
+  "ASHA": "आशा कार्यकर्ता",
+  "Student": "छात्र",
+  "Faculty": "संकाय",
+  "PASS_MESSAGE": "इस मॉड्यूल को पूरा करने के लिए आपको कम से कम {{passPercentage}}% अंक प्राप्त करने होंगे।"
 }

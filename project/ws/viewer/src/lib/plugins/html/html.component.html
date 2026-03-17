@@ -1,19 +1,13 @@
 <mat-card class="ws-mat-primary-lite-background-on-day margin-top-s ml-5"
   *ngIf="showIframeSupportWarning || isIntranetUrl || htmlContent?.isInIntranet">
   <mat-card-content>
-    <h2 class="mat-h2" *ngIf="
-        isIntranetUrl || htmlContent?.isInIntranet || htmlContent?.isIframeSupported === 'Maybe'
-      ">
-      <ng-container *ngIf="
-          ((isIntranetUrl && htmlContent?.isIframeSupported === 'Maybe') ||
-            (htmlContent?.isInIntranet && htmlContent?.isIframeSupported === 'Maybe')) &&
-          !isUserInIntranet
-        " i18n>
-        This content can only be viewed in Intranet.
+    <h2 class="mat-h2" *ngIf="isIntranetUrl || htmlContent?.isInIntranet || htmlContent?.isIframeSupported === 'Maybe'">
+      <ng-container *ngIf="((isIntranetUrl && htmlContent?.isIframeSupported === 'Maybe') ||
+            (htmlContent?.isInIntranet && htmlContent?.isIframeSupported === 'Maybe')) && !isUserInIntranet">
+        {{'This content can only be viewed in Intranet.' | translate}}
       </ng-container>
-      <ng-container *ngIf="htmlContent?.isIframeSupported === 'Maybe'" i18n>
-        Content may be required to be opened in a new window. If you are unable to view it, Please
-        click on the Open in New Window Button else Dismiss
+      <ng-container *ngIf="htmlContent?.isIframeSupported === 'Maybe'">
+        {{"ALERT_MSG_HTML" | translate}}
       </ng-container>
     </h2>
     <h2 class="mat-h2" *ngIf="
@@ -26,11 +20,11 @@
             (htmlContent?.isIframeSupported === 'No' || !htmlContent?.isIframeSupported)) ||
             (htmlContent?.isInIntranet &&
               (htmlContent?.isIframeSupported === 'No' || !htmlContent?.isIframeSupported))) &&
-          !isUserInIntranet
-        " i18n>This content can only be viewed in Intranet
+          !isUserInIntranet">{{"This content can only be viewed in Intranet" | translate}}
       </ng-container>
       <ng-container *ngIf="htmlContent?.isIframeSupported === 'No' || !htmlContent?.isIframeSupported">
-        <span i18n>Content will open in a new window. If you are unable to view it, click on the button below.</span>
+        <span>{{"Content will open in a new window. If you are unable to view it, click on the button below." |
+          translate}}</span>
         <a [routerLink]="'/app/info/faq'" [queryParams]="{tab: 'popup'}">
           <mat-icon matTooltip="How to Disable Pop-ups" class="align-text-top ws-mat-primary-text">help
           </mat-icon>
@@ -39,9 +33,8 @@
     </h2>
     <h2 class="mat-h2" *ngIf="
         (isIntranetUrl && htmlContent?.isIframeSupported === 'Yes') ||
-        (htmlContent?.isInIntranet && htmlContent?.isIframeSupported === 'Yes')
-      " i18n>
-      This content can only be viewed in Intranet.
+        (htmlContent?.isInIntranet && htmlContent?.isIframeSupported === 'Yes')">
+      {{"This content can only be viewed in Intranet." | translate}}
     </h2>
     <mat-divider></mat-divider>
     <mat-progress-bar mode="determinate" *ngIf="progress > 0 && htmlContent?.isIframeSupported.toLowerCase() === 'no'"
@@ -49,36 +42,34 @@
 
     <div class="flex flex-between padding-top-s">
       <a type="button" [ngClass]="mobAppSvc?.isMobile ? 'block' : 'hidden'" mat-button
-        [href]="this.htmlContent?.artifactUrl" target="_blank" #mobileOpenInNewTab>Open in New Tab</a>
+        [href]="this.htmlContent?.artifactUrl" target="_blank" #mobileOpenInNewTab>{{"Open in New Tab" | translate}}</a>
 
-      <button [ngClass]="!mobAppSvc?.isMobile ? 'block' : 'hidden'" mat-raised-button color="primary" type="button" i18n
+      <button [ngClass]="!mobAppSvc?.isMobile ? 'block' : 'hidden'" mat-raised-button color="primary" type="button"
         mat-button (click)="openInNewTab()">
-        Open in New Window
+        {{"Open in New Window" | translate}}
       </button>
-      <button type="button" *ngIf="
-          htmlContent?.isIframeSupported === 'Maybe' ||
+      <button type="button" *ngIf="htmlContent?.isIframeSupported === 'Maybe' ||
           (isIntranetUrl && htmlContent?.isIframeSupported === 'Yes') ||
-          (htmlContent?.isInIntranet && htmlContent?.isIframeSupported === 'Yes')
-        " i18n mat-button (click)="dismiss()">
-        Dismiss
+          (htmlContent?.isInIntranet && htmlContent?.isIframeSupported === 'Yes')" mat-button (click)="dismiss()">
+        {{"Dismiss" | translate}}
       </button>
     </div>
   </mat-card-content>
 </mat-card>
 
 <h2 class="text-center mat-primary-text margin-top-m load"
-  *ngIf="showIsLoadingMessage || (htmlContent && htmlContent.isIframeSupported === 'Yes')" i18n>
-  Please wait! Content requested is loading
+  *ngIf="showIsLoadingMessage || (htmlContent && htmlContent.isIframeSupported === 'Yes')">
+  {{"Please wait! Content requested is loading" | translate}}
 </h2>
 
 <div class="margin-top-m text-center" *ngIf="pageFetchStatus !== 'done'">
-  <h2 *ngIf="pageFetchStatus === 'error'" i18n>
-    Error loading page. Please try refreshing page.
+  <h2 *ngIf="pageFetchStatus === 'error'">
+    {{"Error loading page. Please try refreshing page." | translate}}
   </h2>
   <h2 *ngIf="pageFetchStatus === 'artifactUrlMissing'">
-    <span i18n>There is nothing to play</span> <a class="cursor-pointer ws-mat-primary-text"
-      (click)="backToDetailsPage()"><span i18n>Click here</span></a>
-    <span i18n>to go to details page.</span>
+    <span>{{"There is nothing to play" | translate}}</span> <a class="cursor-pointer ws-mat-primary-text"
+      (click)="backToDetailsPage()"><span>{{"Click here" | translate}}</span></a>
+    <span>{{"to go to details page." | translate}}</span>
   </h2>
 </div>
 

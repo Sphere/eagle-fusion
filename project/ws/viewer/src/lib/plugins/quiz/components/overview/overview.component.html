@@ -8,11 +8,11 @@
       </div>
       <div class="card-section">
         <h3 class="mat-h3">
-          <ng-container i18n>Difficulty : </ng-container>
+          <ng-container>{{"Difficulty :" | translate}} </ng-container>
           {{ complexityLevel }}
         </h3>
         <h3 class="mat-h3">
-          <ng-container i18n>Duration : </ng-container>
+          <ng-container>{{"Duration :" | translate}} </ng-container>
           <ng-container *ngIf="duration">{{
             duration | pipeDurationTransform: 'hms'
             }}</ng-container>
@@ -21,18 +21,18 @@
             }}</ng-container>
         </h3>
         <h3 class="mat-h3">
-          <ng-container i18n>Questions : </ng-container>
+          <ng-container>{{"Questions :" | translate }} </ng-container>
           {{ noOfQuestions }}
         </h3>
       </div>
     </div>
     <div class="text-center">
       <button mat-raised-button color="primary" (click)="userSelection.emit('start')" class="margin-right-m"
-        i18n [hidden]="progressStatus==='completed' && isNqocnContent">
-        Start
+        [hidden]="progressStatus==='completed' && isNqocnContent">
+        {{"Start" | translate}}
       </button>
       <ng-container *ngIf="progressStatus==='completed' && isNqocnContent">
-        <p i18n>You have already completed the Assessment</p>
+        <p>{{"You have already completed the Assessment" | translate}}</p>
       </ng-container>
     </div>
   </mat-card>

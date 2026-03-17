@@ -17,6 +17,7 @@ import { MatRadioModule } from '@angular/material/radio'
 
 import { SearchInputComponent } from './components/search-input/search-input.component'
 import { FiltersComponent } from './components/filters/filters.component'
+import { TranslateModule } from '@ngx-translate/core'
 
 @NgModule({
   declarations: [ContentPickerV2Component, SearchInputComponent, FiltersComponent],
@@ -38,6 +39,7 @@ import { FiltersComponent } from './components/filters/filters.component'
     MatCheckboxModule,
     MatListModule,
     MatRadioModule,
+    TranslateModule
   ],
   exports: [
     ContentPickerV2Component,

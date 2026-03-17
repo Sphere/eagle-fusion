@@ -6,7 +6,7 @@
         <a [ngClass]="{ 'greyed-out': isGreyedOut(content) }" class="image-section-a"
           [routerLink]="!isGreyedOut(content) ? '/app/toc/' + content?.identifier + '/overview' : null">
           <img class="image-section" [src]="content?.appIcon" [wsUtilsDefaultThumbnail]="defaultThumbnail"
-            alt="Content Icon" i18n-alt />
+            alt="Content Icon" />
         </a>
         <div class="width-expand mx-2 md:mx-4">
           <div class="flex flex-middle text-truncate">
@@ -26,10 +26,10 @@
             <span class="mat-caption ml-1" *ngIf="durationType === 'remaining'">
               <ng-container *ngIf="content?.timeLeft">
                 {{ content?.timeLeft | pipeDurationTransform: 'hms' }}
-                <ng-container i18n>Remaining</ng-container>
+                <ng-container>{{"Remaining" | translate}}</ng-container>
               </ng-container>
-              <ng-container *ngIf="!content?.timeLeft" i18n>
-                Completed!
+              <ng-container *ngIf="!content?.timeLeft">
+                {{"Completed!" | translate}}
               </ng-container>
             </span>
             <span class="px-1">|</span>
@@ -40,9 +40,12 @@
           </div>
         </div>
         <div class="ws-mat-warn-text mat-caption">
-          <ng-container i18n *ngIf="isDeletedOrExpired(content)">Content maybe expired or deleted.</ng-container>
-          <ng-container i18n *ngIf="isInIntranetMobile(content)">Content can only be viewed in intranet.</ng-container>
-          <ng-container i18n *ngIf="hasNoAccess(content)">You no longer have access to this content</ng-container>
+          <ng-container *ngIf="isDeletedOrExpired(content)">{{"Content maybe expired or deleted." |
+            translate}}</ng-container>
+          <ng-container *ngIf="isInIntranetMobile(content)">{{"Content can only be viewed in intranet." |
+            translate}}</ng-container>
+          <ng-container *ngIf="hasNoAccess(content)">{{"You no longer have access to this content" |
+            translate}}</ng-container>
         </div>
       </div>
 
@@ -55,8 +58,8 @@
 <mat-card *ngIf="contents?.length > MIN_CONTENT_DISPLAY" class="flex flex-row-reverse">
   <ng-container>
     <button mat-button (click)="viewMore = !viewMore">
-      <ng-container *ngIf="!viewMore" i18n>View More</ng-container>
-      <ng-container *ngIf="viewMore" i18n>View Less</ng-container>
+      <ng-container *ngIf="!viewMore">{{"View More" | translate}}</ng-container>
+      <ng-container *ngIf="viewMore">{{"View Less" | translate}}</ng-container>
     </button>
   </ng-container>
 </mat-card>

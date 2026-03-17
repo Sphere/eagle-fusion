@@ -137,7 +137,7 @@
             {{((result === 100 || result < passPercentage) ? 'Retake Assessment' : 'View Answers' )}}</button>
               <!-- <button class="btn btn-lg" mat-raised-button (click)="retakeQuiz()" i18n>Retake Assessment</button> -->
               <button class="btn btn-active" [disabled]="disableContinue" (click)="closeDone()"
-                mat-raised-button>Continue</button>
+                mat-raised-button>{{"Continue" | translate}}</button>
         </div>
 
 

@@ -7,7 +7,7 @@
 <div #quizContainer *ngIf="viewState !== 'initial'" class="quiz-container">
   <nav class="quiz-nav-bar mat-toolbar mat-caption">
     <span>
-      <button mat-icon-button aria-label="menu toggle" i18n-aria-label (click)="sidenav.toggle()">
+      <button mat-icon-button aria-label="menu toggle" (click)="sidenav.toggle()">
         <mat-icon aria-label="open questions navigation">menu</mat-icon>
       </button>
       <ws-widget-btn-fullscreen [widgetType]="'actionButton'" [widgetSubType]="'actionButtonFullscreen'"
@@ -18,13 +18,14 @@
       <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
         {{ timeLeft | pipeDurationTransform: 'hms' }}
       </div>
-      <div *ngIf="isSubmitted && fetchingResultsStatus !== 'error'" class="margin-left-xs mat-body-strong" i18n>(Submitted)
+      <div *ngIf="isSubmitted && fetchingResultsStatus !== 'error'" class="margin-left-xs mat-body-strong">
+        {{"(Submitted)" | translate}}
       </div>
     </div>
   </nav>
   <mat-sidenav-container class="sidenav-container" autosize>
     <mat-sidenav [mode]="sidenavMode" class="sidenav" #sidenav [opened]="sidenavOpenDefault">
-      <h2 class="mat-title margin-top-s text-center" i18n>Questions</h2>
+      <h2 class="mat-title margin-top-s text-center">{{"Questions" | translate}}</h2>
       <div class="flex flex-wrapped margin-right-s margin-left-s">
         <div class="col" *ngFor="let question of quizJson?.questions; let i = index">
           <div (click)="scroll(i + 1)" [ngClass]="{
@@ -64,62 +65,63 @@
               <mat-spinner></mat-spinner>
             </div>
           </div>
-          <h2 i18n class="mat-title" *ngIf="fetchingResultsStatus === 'error'">
-            Unable to Submit
+          <h2 class="mat-title" *ngIf="fetchingResultsStatus === 'error'">
+            {{"Unable to Submit" | translate}}
           </h2>
           <ng-container *ngIf="fetchingResultsStatus === 'done'">
-            <h2 *ngIf="!quizJson.isAssessment" class="mat-title" i18n>
-              Thank you for your attempt.
+            <h2 *ngIf="!quizJson.isAssessment" class="mat-title">
+              {{"Thank you for your attempt." | translate}}
             </h2>
             <h2 *ngIf="quizJson.isAssessment" class="mat-title">
-              <ng-container i18>Result:</ng-container>
-              <ng-container i18n *ngIf="isCompleted">Pass</ng-container>
-              <ng-container i18n *ngIf="!isCompleted">Did not Pass</ng-container>
+              <ng-container>{{"Result:" | translate}}</ng-container>
+              <ng-container *ngIf="isCompleted">{{"Pass" | translate}}</ng-container>
+              <ng-container *ngIf="!isCompleted">{{"Did not Pass" | translate}}</ng-container>
             </h2>
             <div class="flex flex-wrapped flex-center text-center">
               <div class="card-section">
                 <h2 class="mat-title">{{ numCorrectAnswers }}</h2>
-                <h2 class="mat-title" i18n>
-                  Correct
+                <h2 class="mat-title">
+                  {{"Correct" | translate}}
                 </h2>
               </div>
               <div class="card-section">
                 <h2 class="mat-title">{{ numIncorrectAnswers }}</h2>
-                <h2 class="mat-title" i18n>
-                  Incorrect
+                <h2 class="mat-title">
+                  {{"Incorrect" | translate}}
                 </h2>
               </div>
               <div class="card-section">
                 <h2 class="mat-title">{{ numUnanswered }}</h2>
-                <h2 class="mat-title" i18n>
-                  Unanswered
+                <h2 class="mat-title">
+                  {{"Unanswered" | translate}}
                 </h2>
               </div>
               <div class="card-section">
                 <h2 class="mat-title">
                   {{ result | number: '1.0-0' }}
                 </h2>
-                <h2 class="mat-title" i18n>
-                  Percentage
+                <h2 class="mat-title">
+                  {{"Percentage" | translate}}
                 </h2>
               </div>
             </div>
             <div class="text-center">
-              <p class="h3" i18n>Your Score is</p>
+              <p class="h3">{{"Your Score is" | translate}}</p>
               <p class="h3 text-danger">{{result | number: '1.0-0'}} %</p>
-              <p class="h4" *ngIf="result<passPercentage">You need to score atleast {{passPercentage}}%
-              to complete this module.</p>
-              <button i18n mat-raised-button color="primary" (click)="reTakeQuiz()">Retake Assessment</button>
+              <p class="h4" *ngIf="result<passPercentage">
+                {{ 'PASS_MESSAGE' | translate:{ passPercentage: passPercentage} }}</p>
+              <button mat-raised-button color="primary" (click)="reTakeQuiz()">{{"Retake Assessment" |
+                translate}}</button>
             </div>
           </ng-container>
         </mat-card>
         <div class="text-center">
           <button class="margin-right-m" mat-raised-button color="primary"
-            *ngIf="!(viewState === 'answer' && quizJson?.isAssessment)" (click)="proceedToSubmit()" i18n>
-            Submit
+            *ngIf="!(viewState === 'answer' && quizJson?.isAssessment)" (click)="proceedToSubmit()">
+            {{"Submit" | translate}}
           </button>
-          <button mat-raised-button color="primary" *ngIf="viewState === 'review'" (click)="showAnswers()" i18n>
-            Show Answers
+          <button mat-raised-button color="primary" *ngIf="viewState === 'review'" (click)="showAnswers()">
+            {{"Show Answers" | translate}}
           </button>
         </div>
       </div>
