@@ -56,16 +56,15 @@ export class YourLocationComponent implements OnInit {
     this.http.get(this.countryUrl).subscribe((data: any) => {
       this.countries = data.nationalities
     })
-
-    this.http.get(this.stateUrl).subscribe((data: any) => {
-      this.states = data.states
-    })
   }
   countrySelect(event: Event) {
     this.logger.log(this.aboutYouForm.controls)
     let option = event.target as HTMLInputElement
     this.setCountryCode(option.value)
     if (option.value === 'India') {
+      this.http.get(this.stateUrl).subscribe((data: any) => {
+        this.states = data.states
+      })
       this.selectDisable = false
     } else {
       this.selectDisable = true

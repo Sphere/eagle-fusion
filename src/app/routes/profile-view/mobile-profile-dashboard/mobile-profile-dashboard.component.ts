@@ -18,6 +18,7 @@ import { LanguageService } from '../../../../../src/app/services/language.servic
 import { PlaylistService } from '../../../services/playlist.service'
 import { LeadershipDashboardComponent } from '../leadership-dashboard/leadership-dashboard.component'
 import { MatSnackBar } from '@angular/material/snack-bar'
+import { TranslateService } from '@ngx-translate/core'
 
 @Component({
   selector: 'ws-mobile-profile-dashboard',
@@ -83,7 +84,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     private plylsSvc: PlaylistService,
     private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private translate: TranslateService
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe((data: any) => {
       this.logger.log(data)
@@ -492,7 +494,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
       result => {
         this.logger.log('Language saved successfully:', result)
-        this.snackBar.open("Language Updated", undefined, { duration: 1000 })
+        this.snackBar.open(this.translate.instant("Language Updated"), undefined, { duration: 1000 })
       },
       error => {
         this.logger.error('Error saving language:', error)

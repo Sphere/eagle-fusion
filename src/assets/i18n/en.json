@@ -942,5 +942,6 @@
   "ASHA": "ASHA",
   "Student": "Student",
   "Faculty": "Faculty",
-  "PASS_MESSAGE": "You need to score at least {{passPercentage}}% to complete this module."
+  "PASS_MESSAGE": "You need to score at least {{passPercentage}}% to complete this module.",
+  "Language Updated": "Language Updated"
 }
