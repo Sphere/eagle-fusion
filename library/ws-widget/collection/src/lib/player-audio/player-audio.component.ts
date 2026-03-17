@@ -144,7 +144,7 @@ export class PlayerAudioComponent extends WidgetBaseComponent
       enableTelemetry = true
     }
     const config = this.plylsSvc.orgDetails()
-    const isSeekingEnable: boolean = config.videoConfig.isSeekingEnable ?? true
+    const isSeekingEnable: boolean = config?.videoConfig?.isSeekingEnable ?? true
     const initObj = videoJsInitializer(
       this.audioTag.nativeElement,
       { ...videoJsOptions, poster: this.widgetData.posterImage },
