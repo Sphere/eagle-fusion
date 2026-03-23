@@ -40,6 +40,8 @@ import {
   ConfigurationsService,
 } from '@ws-widget/utils'
 import moment from 'moment'
+import { ScreenSecurityService } from '../../screen-security.service'
+import { PlaylistService } from '../../../../../../../src/app/services/playlist.service'
 // import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
   selector: 'viewer-plugin-quiz',
@@ -115,6 +117,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
+  isRecoridngEnable: boolean
   constructor(
     private events: EventService,
     public dialog: MatDialog,
@@ -128,12 +131,14 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     private contentSvc: WidgetContentService,
     private loggerSvc: LoggerService,
     private configSvc: ConfigurationsService,
-    // private searchSvc: SearchApiService,
+    private screenSrtSvc: ScreenSecurityService,
+    private plyLsSvc: PlaylistService
   ) {
 
   }
 
   ngOnInit() {
+    this.isRecoridngEnable = this.plyLsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
   }
   openOverviewDialog() {
     let overviewData: any = {}
@@ -324,7 +329,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         )
         // **CRITICAL**: Store the progress for use in close handler to avoid redundant fetch
         this.assessmentCurrentProgress = currentProgress || null
-
+        if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
         this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
           panelClass: 'assesment-modal',
           disableClose: true,
@@ -346,6 +351,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       (error) => {
         this.loggerSvc.warn('Failed to fetch progress before opening assessment:', error)
         // On error, still open modal without progress data
+        if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
         this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
           panelClass: 'assesment-modal',
           disableClose: true,
@@ -643,7 +649,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         const currentProgress = data?.result?.contentList?.find((item: any) =>
           item.contentId === this.identifier
         )
-
+        if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
         this.dialogQuiz = this.dialog.open(QuizModalComponent, {
           panelClass: 'quiz-modal',
           disableClose: true,
@@ -665,6 +671,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       (error) => {
         this.loggerSvc.warn('Failed to fetch progress before opening quiz:', error)
         // On error, still open modal without progress data
+        if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
         this.dialogQuiz = this.dialog.open(QuizModalComponent, {
           panelClass: 'quiz-modal',
           disableClose: true,
@@ -834,6 +841,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     })
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
+        this.screenSrtSvc.closeModal()
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
@@ -863,6 +871,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     })
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
+        this.screenSrtSvc.closeModal()
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
