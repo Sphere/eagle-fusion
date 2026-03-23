@@ -86,9 +86,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private http: HttpClient,
     private logger: LoggerService,
     private plylsSvc: PlaylistService,
-    private translate: TranslateService
-    private scrnScrtySvc: ScreenSecurityService,
-    private plyLsSvc: PlaylistService
+    private translate: TranslateService,
+    private scrnScrtySvc: ScreenSecurityService
   ) { }
 
   ngOnInit() {
@@ -183,7 +182,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     )
   }
   ngAfterViewInit() {
-    let enabled: boolean = this.plyLsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
+    let enabled: boolean = this.plylsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
     if (!enabled) this.scrnScrtySvc.init()
     let object = {
       "id": this.assesmentdata.generalData.identifier,

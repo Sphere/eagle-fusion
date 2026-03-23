@@ -59,7 +59,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
     private logger: LoggerService,
-    private translate: TranslateService
+    private translate: TranslateService,
     private scrnScrtySvc: ScreenSecurityService,
     private plyLsSvc: PlaylistService
   ) {
