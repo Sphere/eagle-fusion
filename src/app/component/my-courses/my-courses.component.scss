@@ -1,5 +1,122 @@
 @import 'ws-mixins';
 
+/* ── Shimmer base animation ─────────────────────────────────────────────── */
+@keyframes shimmerSlide {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+%shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
+  background-size: 600px 100%;
+  animation: shimmerSlide 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+/* ── Title shimmer ───────────────────────────────────────────────────────── */
+.sk-title {
+  @extend %shimmer;
+  width: 200px;
+  height: 28px;
+  margin: 20px 0 16px;
+}
+
+/* ── Tab bar shimmer ─────────────────────────────────────────────────────── */
+.sk-tabs {
+  display: flex;
+  gap: 24px;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 10px;
+  margin-bottom: 16px;
+}
+
+.sk-tab {
+  @extend %shimmer;
+  width: 110px;
+  height: 20px;
+  border-radius: 4px;
+}
+
+/* ── Card shimmer ────────────────────────────────────────────────────────── */
+.sk-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+}
+
+.sk-image {
+  @extend %shimmer;
+  flex-shrink: 0;
+  width: 110px;
+  height: 90px;
+  border-radius: 8px;
+}
+
+.sk-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sk-line {
+  @extend %shimmer;
+  height: 14px;
+
+  &--title  { width: 65%; height: 18px; }
+  &--subtitle { width: 40%; }
+  &--pct    { width: 80px; height: 12px; }
+}
+
+.sk-progress-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sk-progress-bar {
+  @extend %shimmer;
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+}
+
+.sk-btn {
+  @extend %shimmer;
+  flex-shrink: 0;
+  width: 90px;
+  height: 36px;
+  border-radius: 20px;
+}
+
+/* ── Legacy placeholder (kept for safety) ───────────────────────────────── */
+.loading-placeholders {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 8px 0;
+}
+
+.placeholder-card {
+  width: 100%;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0px 0px 8px 0px #00000020;
+  border: 1px solid #00000014;
+  background: #fff;
+}
+
+.placeholder-shimmer {
+  @extend %shimmer;
+  width: 100%;
+  height: 125px;
+}
 
 :host ::ng-deep .card-long {
   width: 99% !important;

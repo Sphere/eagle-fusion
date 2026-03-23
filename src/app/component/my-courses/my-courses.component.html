@@ -1,31 +1,49 @@
 <div class="paddingView">
-  <h1 id="heading">{{ config?.title | translate }}</h1>
-  <mat-tab-group [selectedIndex]="selectedIndex">
-    <mat-tab *ngFor="let tab of config?.tabMenu; let i =index"
-      [label]="(tab?.label | translate) + ' (' + tab?.data.length + ')'">
-      <div class="flex justify-center flex-col no-content" *ngIf="tab?.data?.length === 0">
-        <h3 class="mt15">{{ tab?.fallbackState?.label | translate }}</h3>
-        <div class="text-center" *ngIf="tab?.fallbackState?.button?.show">
-          <button class="outline-btn cursor-pointer" (click)="tabClick()">
-            {{ tab?.fallbackState?.button.label | translate }}</button>
+
+  <!-- Full skeleton while all APIs load -->
+  <ng-container *ngIf="isLoading">
+    <div class="sk-title"></div>
+    <div class="sk-tabs">
+      <div class="sk-tab"></div>
+      <div class="sk-tab"></div>
+      <div class="sk-tab"></div>
+    </div>
+    <div class="sk-card" *ngFor="let i of [1,2,3,4]">
+      <div class="sk-image"></div>
+      <div class="sk-body">
+        <div class="sk-line sk-line--title"></div>
+        <div class="sk-line sk-line--subtitle"></div>
+        <div class="sk-progress-wrap">
+          <div class="sk-progress-bar"></div>
+          <div class="sk-line sk-line--pct"></div>
         </div>
       </div>
-      <div [class]="tab.className" *ngFor="let data of tab?.data; let last = last"
-        [ngClass]="{'last-child1': last && i % 2 === 0,'last-child2': last && i % 2 !== 0}">
-        <ws-mobile-course-view *ngIf="isXSmall" [displayConfig]=" tab?.displayConfig"
-          [courseData]="data"></ws-mobile-course-view>
-        <ws-web-course-card *ngIf="!isXSmall" [displayConfig]="tab?.displayConfigWeb"
-          [courseData]="data"></ws-web-course-card>
-      </div>
-    </mat-tab>
-  </mat-tab-group>
-  <div class="overlay" *ngIf="isLoading" aria-live="polite">
-    <div class="loader-container">
-      <div class="loader-ripple">
-        <div></div>
-        <div></div>
-      </div>
+      <div class="sk-btn"></div>
     </div>
-  </div>
+  </ng-container>
+
+  <!-- Actual content once all APIs respond -->
+  <ng-container *ngIf="!isLoading">
+    <h1 id="heading">{{ config?.title | translate }}</h1>
+    <mat-tab-group [selectedIndex]="selectedIndex">
+      <mat-tab *ngFor="let tab of config?.tabMenu; let i =index"
+        [label]="(tab?.label | translate) + ' (' + tab?.data.length + ')'">
+        <div class="flex justify-center flex-col no-content" *ngIf="tab?.data?.length === 0">
+          <h3 class="mt15">{{ tab?.fallbackState?.label | translate }}</h3>
+          <div class="text-center" *ngIf="tab?.fallbackState?.button?.show">
+            <button class="outline-btn cursor-pointer" (click)="tabClick()">
+              {{ tab?.fallbackState?.button.label | translate }}</button>
+          </div>
+        </div>
+        <div [class]="tab.className" *ngFor="let data of tab?.data; let last = last"
+          [ngClass]="{'last-child1': last && i % 2 === 0,'last-child2': last && i % 2 !== 0}">
+          <ws-mobile-course-view *ngIf="isXSmall" [displayConfig]="tab?.displayConfig"
+            [courseData]="data"></ws-mobile-course-view>
+          <ws-web-course-card *ngIf="!isXSmall" [displayConfig]="tab?.displayConfigWeb"
+            [courseData]="data"></ws-web-course-card>
+        </div>
+      </mat-tab>
+    </mat-tab-group>
+  </ng-container>
 
 </div>

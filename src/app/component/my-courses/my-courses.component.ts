@@ -20,6 +20,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   completedCourse: any[] = []
   coursesForYou: any[] = []
   isLoading = false
+  private pendingRequests = 0
   isXSmall: boolean = false
   selectedIndex = 0; // Index for the active tab
   yourPlansCourseIdentifier: any[] = []
@@ -49,16 +50,16 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   async ngOnInit() {
     this.lang = this.langSvc.getCurrentLanguage()
     this.isLoading = true
+    this.pendingRequests = 2 // enrollment list + professional/forYou courses
+
     // Load playlist configs
     this.plyLsData = await this.playlistSvc.getPlaylistConfig()
     let res = this.playlistSvc.selectedTabConfig()
     if (res == '') {
       res = await this.playlistSvc.loadPlaylistData()
       this.config = res?.LAYOUT_BODY?.sections?.courseTab
-      this.isLoading = false
     } else {
       this.config = res
-      this.isLoading = false
     }
 
     sessionStorage.removeItem('cURL')
@@ -74,15 +75,28 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       }
     })
 
-    // Fetch user courses
-    this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe((courses) => {
-      this.userEnrolledCourse = courses
-      this.processUserCourses(courses)
-      this.updateTabData()
+    // Fetch user courses - pending request 1
+    this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe({
+      next: (courses) => {
+        this.userEnrolledCourse = courses
+        this.processUserCourses(courses)
+        this.updateTabData()
+        this.decrementPending()
+      },
+      error: () => {
+        this.decrementPending()
+      }
     })
 
-    // Handle professional details
+    // Handle professional details - pending request 2
     this.handleProfessionalCourses()
+  }
+
+  private decrementPending() {
+    this.pendingRequests--
+    if (this.pendingRequests <= 0) {
+      this.isLoading = false
+    }
   }
 
   private processUserCourses(courses: NsContent.ICourse[]) {
@@ -120,7 +134,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     if (!profDet) {
       this.coursesForYou = []
-      this.isLoading = false
+      this.decrementPending()
       return
     }
 
@@ -167,14 +181,19 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       this.pageLimit += this.initialPageLimit
 
       if (competencySearchArray.length > 0) {
-        this.searchContentByCompetencies$(baseQuery, competencySearchArray, sourceName, listOfEnrolledCourseId).subscribe((res: any) => {
-          this.coursesForYou = res || []
-          this.updateTabData()
-          this.isLoading = false
+        this.searchContentByCompetencies$(baseQuery, competencySearchArray, sourceName, listOfEnrolledCourseId).subscribe({
+          next: (res: any) => {
+            this.coursesForYou = res || []
+            this.updateTabData()
+            this.decrementPending()
+          },
+          error: () => {
+            this.decrementPending()
+          }
         })
       } else {
         this.updateTabData()
-        this.isLoading = false
+        this.decrementPending()
       }
     } else {
       const element = matchedElements[0]
@@ -182,20 +201,25 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
       this.orgService
         .getTopLiveSearchResults(this.yourPlansCourseIdentifier, this.lang)
-        .subscribe((results: any) => {
-          const content = results?.result?.content || []
-          const idSet = new Set(this.yourPlansCourseIdentifier)
+        .subscribe({
+          next: (results: any) => {
+            const content = results?.result?.content || []
+            const idSet = new Set(this.yourPlansCourseIdentifier)
 
-          this.coursesForYou = Array.from(
-            new Map(
-              content
-                .filter(item => idSet.has(item.identifier))
-                .map(item => [item.identifier, item])
-            ).values()
-          )
+            this.coursesForYou = Array.from(
+              new Map(
+                content
+                  .filter(item => idSet.has(item.identifier))
+                  .map(item => [item.identifier, item])
+              ).values()
+            )
 
-          this.updateTabData()
-          this.isLoading = false
+            this.updateTabData()
+            this.decrementPending()
+          },
+          error: () => {
+            this.decrementPending()
+          }
         })
     }
   }
@@ -215,7 +239,6 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         tab.data = this.completedCourse
       }
     })
-    this.isLoading = false
   }
 
   tabClick() {
