@@ -94,6 +94,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.scrnScrtySvc.isBlocked$.subscribe(val => {
       this.isBlockedFlag = val
     })
+    this.isBlockedFlag = JSON.parse(localStorage.getItem('screenBlocked'))
     this.logger.log("this.viewerDataSvc.resource", this.viewerDataSvc.resource)
     this.logger.log(this.assesmentdata)
     this.telemetrySvc.getTelemetryConfig()
@@ -182,7 +183,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     )
   }
   ngAfterViewInit() {
-    let enabled: boolean = this.plyLsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
+    let enabled: boolean = this.plylsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
     if (!enabled) this.scrnScrtySvc.init()
     let object = {
       "id": this.assesmentdata.generalData.identifier,

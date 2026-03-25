@@ -17,19 +17,21 @@ export class ScreenSecurityService {
 
   init() {
     document.addEventListener('visibilitychange', () => {
-      this.logger.log("visibilitychange", event, document.hidden)
-      if (this.isModalOpen) {
-        if (document.hidden) this.block('Tab switch')
-      }
+      this.logger.log("visibilitychange", document.hidden)
+      if (document.hidden) this.block('Tab switch')
     })
 
-    window.addEventListener('blur', () => {
-      this.logger.log("blur")
-      this.block('Window blur')
+    window.addEventListener('blur', (event) => {
+      this.logger.log("blur", event)
+      if (this.isModalOpen) {
+        this.block('Window blur')
+      }
     })
     window.addEventListener('focus', () => {
       this.logger.log("focus")
-      this.unblock()
+      if (this.isModalOpen) {
+        this.unblock()
+      }
     })
     this.detectDevTools()
   }
@@ -37,7 +39,10 @@ export class ScreenSecurityService {
   handleContextMenu = (event: MouseEvent) => {
     if (this.isModalOpen) {
       event.preventDefault()
-      alert('Right-click is disabled while the modal is open.')
+      this.block('Screen recording shortcut')
+      setTimeout(() => {
+        this.unblock()
+      }, 2000)
     } else {
       this.logger.log('Right-click detected')
     }
@@ -68,11 +73,13 @@ export class ScreenSecurityService {
 
   block(reason: string) {
     this.logger.log('Blocked:', reason)
+    localStorage.setItem("screenBlocked", JSON.stringify(true))
     this._isBlocked.next(true)
   }
 
   unblock() {
     this.logger.log("unblock")
+    localStorage.setItem("screenBlocked", JSON.stringify(false))
     this._isBlocked.next(false)
   }
 
