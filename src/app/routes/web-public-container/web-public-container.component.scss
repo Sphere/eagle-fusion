@@ -253,3 +253,84 @@ height: 42px;
     opacity: 0;
   }
 }
+
+/* ── Shimmer animation ───────────────────────────────────── */
+@keyframes shimmerSlide {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+/* ── Base shimmer (apply everywhere) ─────────────────────── */
+.shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
+  background-size: 600px 100%;
+  animation: shimmerSlide 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+/* ── Layout fixes ────────────────────────────────────────── */
+.horizontal-shimmer {
+  display: flex;
+  gap: 16px;
+}
+
+/* ── Header row ─────────────────────────────────────────── */
+.line-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* ── Lines ─────────────────────────────────────────────── */
+.shimmer-line {
+  display: block;
+  height: 12px;
+  border-radius: 4px;
+}
+
+/* ── Variants ───────────────────────────────────────────── */
+.shimmer-header {
+  width: 14%;
+  height: 16px;
+}
+
+.shimmer-title {
+  width: 60%;
+  height: 14px;
+}
+
+.shimmer-subtitle {
+  width: 40%;
+  height: 12px;
+}
+
+/* ── Button ─────────────────────────────────────────────── */
+.shimmer-button {
+  width: 80px;
+  height: 20px;
+  border-radius: 20px;
+  border: none;
+  background: #eeeaea;
+}
+
+/* ── Card ──────────────────────────────────────────────── */
+.shimmer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 30%;
+}
+
+/* ── Image ─────────────────────────────────────────────── */
+.shimmer-image {
+  height: 120px;
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* ── Body ──────────────────────────────────────────────── */
+.shimmer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}

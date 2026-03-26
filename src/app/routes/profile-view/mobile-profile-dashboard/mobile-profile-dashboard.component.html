@@ -198,7 +198,17 @@
         </form>
       </ng-container>
       <ng-container *ngIf="selectedIndex === 'certificates'">
-        <p class="text-xl inline-block header2" *ngIf="certificates && certificates.length>0">
+        <ng-container *ngIf="isLoading">
+          <div class="shimmer shimmer-text"></div>
+          <div class="shimmer-card" *ngFor="let i of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]">
+            <div class="shimmer-container">
+              <div class="shimmer shimmer-image"></div>
+              <div class="shimmer shimmer-text"></div>
+              <div class="shimmer shimmer-button"></div>
+            </div>
+          </div>
+        </ng-container>
+        <p class="text-xl inline-block header2" *ngIf="!isLoading && certificates && certificates.length>0">
           {{ selectedIndextitle | translate }}</p>
         <div *ngFor="let certificate of certificates">
           <ng-container *ngIf="certificates && certificates.length > 0">
