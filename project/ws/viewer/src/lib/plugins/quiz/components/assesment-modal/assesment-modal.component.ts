@@ -86,8 +86,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private http: HttpClient,
     private logger: LoggerService,
     private plylsSvc: PlaylistService,
-    private scrnScrtySvc: ScreenSecurityService,
-    private plyLsSvc: PlaylistService
+    private scrnScrtySvc: ScreenSecurityService
   ) { }
 
   ngOnInit() {
