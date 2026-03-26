@@ -94,6 +94,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.scrnScrtySvc.isBlocked$.subscribe(val => {
       this.isBlockedFlag = val
     })
+    this.isBlockedFlag = JSON.parse(localStorage.getItem('screenBlocked'))
     this.logger.log("this.viewerDataSvc.resource", this.viewerDataSvc.resource)
     this.logger.log(this.assesmentdata)
     this.telemetrySvc.getTelemetryConfig()

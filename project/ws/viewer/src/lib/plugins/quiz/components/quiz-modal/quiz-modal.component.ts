@@ -80,6 +80,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.scrnScrtySvc.isBlocked$.subscribe(val => {
       this.isBlockedFlag = val
     })
+    this.isBlockedFlag = JSON.parse(localStorage.getItem('screenBlocked'))
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)

@@ -53,6 +53,7 @@ import { TranslateService } from '@ngx-translate/core'
 import { PlaylistService } from '../../services/playlist.service'
 import { CsModule } from '@project-sunbird/client-services'
 import { DowntimeConfigService } from '../../services/downtime-config.service'
+import { ScreenSecurityService } from '../../../../project/ws/viewer/src/lib/screen-security.service'
 
 @Component({
   selector: 'ws-root',
@@ -129,6 +130,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private playlistSvc: PlaylistService,
     private logger: LoggerService,
     private downtimeService: DowntimeConfigService,
+    private scrnScrtySvc: ScreenSecurityService
   ) {
     const t = this.injector.get(TranslateService, null as any)
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
@@ -508,7 +510,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
       this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
-
+      let enabled: boolean = this.orgDetails?.assessmentConfig?.isRecoridngEnable ?? false
+      if (!enabled) this.scrnScrtySvc.init()
       if (this.playlistSvc.getSelectedTab() === 'homeTab') {
         this.showNavbar = true
         this.videoData = this.configData?.[this.configData?.length - 1]
