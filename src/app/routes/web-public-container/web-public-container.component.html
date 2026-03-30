@@ -5,7 +5,7 @@
         <!-- Header -->
         <div class="line-label flex scroller-container">
           <span class="shimmer shimmer-line shimmer-header"></span>
-          <button class="view-all-course shimmer-button shimmer">
+          <button *ngIf="!isXSmall" class="view-all-course shimmer-button shimmer">
             <span class="shimmer shimmer-line"></span>
           </button>
         </div>

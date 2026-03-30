@@ -8,17 +8,27 @@
   <ng-container *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length">
     <div style="display: flex; justify-content: space-between; padding: 10px;">
       <div class="sk-title"></div>
-      <div class="sk-title"></div>
+      <div class="sk-title" *ngIf="!isXSmall"></div>
     </div>
-    <div class="shimmer-card" *ngFor="let j of [1, 2, 3, 4]">
-      <div class="shimmer shimmer-image"></div>
-      <div class="shimmer-body">
-        <div class="shimmer-title"></div>
-        <div class="shimmer-subtitle"></div>
-        <div class="shimmer-subtitle"></div>
-        <div class="shimmer-subtitle"></div>
+    <ng-container *ngIf="!isXSmall">
+      <div class="shimmer-card" *ngFor="let j of [1, 2, 3, 4]">
+        <div class="shimmer shimmer-image"></div>
+        <div class="shimmer-body">
+          <div class="shimmer-title"></div>
+          <div class="shimmer-subtitle"></div>
+          <div class="shimmer-subtitle"></div>
+          <div class="shimmer-subtitle"></div>
+        </div>
       </div>
-    </div>
+    </ng-container>
+    <ng-container *ngIf="isXSmall">
+      <div class="shimmer-card-small" *ngFor="let j of [1, 2, 3, 4]">
+        <div class="shimmer shimmer-image-small"></div>
+        <div class="shimmer-body">
+          <div class="shimmer-title"></div>
+        </div>
+      </div>
+    </ng-container>
   </ng-container>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
     <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"

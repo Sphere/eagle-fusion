@@ -150,6 +150,12 @@ height: 42px;
 }
 
 @media (max-width: 600px) {
+  .horizontal-shimmer {
+    flex-direction: column;
+  }
+  .shimmer-card {
+    width: 100% !important;
+  }
   .view-all-course {
     width: 100%;
     img {

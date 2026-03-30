@@ -138,6 +138,18 @@
   margin: 1rem 2rem 2rem 1rem;
 }
 
+.shimmer-card-small {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 1rem 2rem 2rem 1rem;
+  .shimmer-title {
+    @extend %shimmer;
+    width: 100%;
+    height: 14px;
+  }
+}
+
 /* ── Image ─────────────────────────────────────────────── */
 .shimmer-image {
   @extend %shimmer;
@@ -146,6 +158,12 @@
   border-radius: 8px;
 }
 
+.shimmer-image-small {
+  @extend %shimmer;
+  height: 200px;
+  width: 100%;
+  border-radius: 8px;
+}
 /* ── Body ──────────────────────────────────────────────── */
 .shimmer-body {
   display: flex;
