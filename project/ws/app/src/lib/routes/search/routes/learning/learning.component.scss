@@ -98,3 +98,59 @@
   margin-top:10px;
 }
 }
+
+@keyframes shimmerSlide {
+  0%   { background-position: -600px 0; }
+  100% { background-position: 600px 0; }
+}
+
+%shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
+  background-size: 600px 100%;
+  animation: shimmerSlide 1.4s infinite linear;
+  border-radius: 6px;
+}
+
+.sk-title {
+  @extend %shimmer;
+  width: 200px;
+  height: 28px;
+  margin: 20px 0 16px;
+}
+
+.shimmer-title {
+  @extend %shimmer;
+  width: 60%;
+  height: 14px;
+}
+
+.shimmer-subtitle {
+  @extend %shimmer;
+  width: 40%;
+  height: 12px;
+}
+
+/* ── Card ──────────────────────────────────────────────── */
+.shimmer-card {
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  margin: 1rem 2rem 2rem 1rem;
+}
+
+/* ── Image ─────────────────────────────────────────────── */
+.shimmer-image {
+  @extend %shimmer;
+  height: 100px;
+  width: 10%;
+  border-radius: 8px;
+}
+
+/* ── Body ──────────────────────────────────────────────── */
+.shimmer-body {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 80%;
+  justify-content: center;
+}

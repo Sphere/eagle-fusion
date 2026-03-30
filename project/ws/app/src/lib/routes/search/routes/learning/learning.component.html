@@ -5,6 +5,21 @@
       [filtersResetAble]="filtersResetAble" [sideNavBarOpened]="false" [filtersResponse]="filtersResponse"
       [routeComp]="routeComp" (filterClose)="closeFilter($event)"></ws-app-filter-display>
   </mat-sidenav>
+  <ng-container *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length">
+    <div style="display: flex; justify-content: space-between; padding: 10px;">
+      <div class="sk-title"></div>
+      <div class="sk-title"></div>
+    </div>
+    <div class="shimmer-card" *ngFor="let j of [1, 2, 3, 4]">
+      <div class="shimmer shimmer-image"></div>
+      <div class="shimmer-body">
+        <div class="shimmer-title"></div>
+        <div class="shimmer-subtitle"></div>
+        <div class="shimmer-subtitle"></div>
+        <div class="shimmer-subtitle"></div>
+      </div>
+    </div>
+  </ng-container>
   <mat-sidenav-content class="sidenav-content" *ngIf="!noContent && searchResults?.result?.content?.length">
     <div role="link" tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
       [ngClass]="{'withFilter' : withoutFilter,'withoutFilter' : !withoutFilter}">
@@ -48,10 +63,6 @@
         <a (click)="getResults(true)" class="ws-mat-primary-text cursor-pointer">{{'Click here' | translate}}</a>
         <span>{{'to explore more.' | translate}}</span>
       </ng-container>
-      <!--<button mat-icon-button class="width-auto" [ngClass]="{ 'hide-filter-btn': sideNavBarOpened }"
-        (click)="sideNavBarOpened = !sideNavBarOpened">
-        <mat-icon>filter_list</mat-icon>
-      </button> -->
     </div>
     <div class="margin-bottom-m">
       <mat-chip-list aria-label="Filter selection" role="none" *ngIf="filtersResponse">
@@ -92,12 +103,6 @@
         </ws-mobile-course-view>
       </ng-container>
 
-      <div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
-        <mat-spinner></mat-spinner>
-        <!-- <h2 class="h2-title">
-          Loading...
-        </h2> -->
-      </div>
       <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus != 'done'"
         [hidden]="searchRequestStatus === 'fetching'" accesskey="+">
         <mat-icon>add</mat-icon>
@@ -105,18 +110,10 @@
       </button>
     </div>
   </mat-sidenav-content>
-  <div *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length"
-    class="overflow-y-hidden margin-top-m flex flex-center">
-    <mat-spinner></mat-spinner>
-  </div>
   <div *ngIf="noContent && searchRequestStatus === 'done'" class="margin-xl text-center">
     <h2 class="mat-h2">{{'No result' | translate}}</h2>
     <h3 class="mat-h3">{{'You may try' | translate}}</h3>
     <div class="padding-left-s">
-      <!-- <h4>
-            <span >Browsing</span>&nbsp;
-            <a [routerLink]="'/catalog'"  class="catalog-link">Catalog</a>
-          </h4> -->
       <h4>{{'Different keywords' | translate}}</h4>
       <h4 *ngIf="!isXSmall$">
         <ng-container>{{'Clear search results' | translate}}</ng-container>
@@ -135,15 +132,9 @@
   </div>
 
   <div *ngIf="searchRequestStatus === 'error'" class="text-center margin-top-m">
-    <!-- <h2 class="h2-title" ="search result fetch error">
-      Some error occurred! Please retry
-    </h2> -->
     <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
   </div>
 </mat-sidenav-container>
 <div *ngIf="error.load">
-  <!-- <h2 class="h2-title flex flex-center" ="search result fetch error">
-    Some error occurred! Please retry
-  </h2> -->
   <ng-container [wsResolverWidget]="errorWidget"> </ng-container>
 </div>

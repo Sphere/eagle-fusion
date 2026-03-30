@@ -8,7 +8,11 @@ import { FilterDisplayComponent } from '../../components/filter-display/filter-d
 import { IFilterUnitResponse, ISearchRequestV2, ISearchTab, ISearchRequestV3 } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 import { isEmpty, orderBy } from 'lodash'
+import { filter } from 'rxjs/operators'
 import { SearchApiService } from '../../apis/search-api.service'
+
+type SearchResultLegacy = NSSearch.ISearchV6ApiResultV2
+type SearchResultV3 = NSSearch.ISearchV6ApiResultV3
 
 @Component({
   selector: 'ws-app-learning',
@@ -23,7 +27,7 @@ export class LearningComponent implements OnInit, OnDestroy {
   defaultSideNavBarOpenedSubscription: Subscription | null = null
   expandToPrefLang = true
   isLtMedium$ = this.valueSvc.isLtMedium$
-  isXSmall: boolean = false
+  isXSmall = false
   screenSizeIsLtMedium = false
   sideNavBarOpened = true
   searchRequestStatus = 'none'
@@ -33,37 +37,17 @@ export class LearningComponent implements OnInit, OnDestroy {
     { id: 'hi', label: 'हिंदी' },
   ]
   contact = ''
-  newSearchResults: NSSearch.ISearchV6ApiResultV3 = {
+  newSearchResults: SearchResultV3 = {
     responseCode: '',
     result: {
       count: 0,
       content: [],
     },
   }
-  searchResults: any = {
-    id: '',
-    ver: '',
-    ts: '',
-    params: {
-      resmsgid: '',
-      err: '',
-      errmsg: '',
-      msgid: '',
-      status: '',
-    },
-    filters: [],
-    responseCode: '',
-    result: {
-      count: 0,
-      content: [],
-      facets: [],
-    },
-  }
+  searchResults: any = this.getInitialSearchResults()
   newSearchRequestObject: ISearchRequestV3 = {
-
     query: '',
-    language: ''
-
+    language: '',
   }
   searchRequestObject: ISearchRequestV2 = {
     request: {
@@ -103,11 +87,11 @@ export class LearningComponent implements OnInit, OnDestroy {
     message: '',
   }
   routeComp = ''
-  langPresent: boolean = false
+  langPresent = false
   translatedFilters: any = {}
   isIntranetAllowedSettings = false
   prefChangeSubscription: Subscription | null = null
-  withoutFilter: boolean = false
+  withoutFilter = false
   filtersResponse: IFilterUnitResponse[] = []
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
@@ -127,7 +111,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     private logger: LoggerService
   ) {
     effect(() => {
-      this.isXSmall = this.valueSvc.isMobile() ? true : false
+      this.isXSmall = this.valueSvc.isMobile()
     })
   }
 
@@ -137,19 +121,13 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   get applyPhraseSearch(): boolean {
-    if (this.activated.snapshot.data.pageData.data.search.tabs[0].phraseSearch ||
-      this.activated.snapshot.data.pageData.data.search.tabs[0].phraseSearch === undefined) {
-      return true
-    }
-    return false
+    const phraseSearch = this.activated.snapshot.data.pageData.data.search.tabs[0].phraseSearch
+    return phraseSearch || phraseSearch === undefined
   }
 
   get applyIsStandAlone(): boolean {
-    if (this.activated.snapshot.data.pageData.data.search.tabs[0].isStandAlone ||
-      this.activated.snapshot.data.pageData.data.search.tabs[0].isStandAlone === undefined) {
-      return true
-    }
-    return false
+    const isStandAlone = this.activated.snapshot.data.pageData.data.search.tabs[0].isStandAlone
+    return isStandAlone || isStandAlone === undefined
   }
 
   get filtersFromConfig() {
@@ -157,41 +135,31 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   get isDefaultFilterApplied() {
-    const defaultFilters = JSON.parse(JSON.stringify(this.filtersFromConfig ?? {}))
-    // const appliedFilters = JSON.parse(JSON.stringify(this.searchRequestObject.filters || {}))
-    const appliedFilters = JSON.parse(JSON.stringify(this.searchRequestObject.request.filters || {}))
+    const defaultFilters = this.clone(this.filtersFromConfig ?? {})
+    const appliedFilters = this.clone(this.searchRequestObject.request.filters || {})
     if (!Object.keys(defaultFilters).length) {
       return false
     }
-    for (const key of Object.keys(defaultFilters)) {
-      if (JSON.stringify(defaultFilters[key]) !== JSON.stringify(appliedFilters[key])) {
-        return false
-      }
-    }
-    return true
+    return Object.keys(defaultFilters).every(
+      key => JSON.stringify(defaultFilters[key]) === JSON.stringify(appliedFilters[key]),
+    )
   }
 
   get preferredLanguages(): string {
-    if (this.configSvc.userPreference && this.configSvc.userPreference.selectedLangGroup) {
-      let prefLang: string[] | string = this.configSvc.userPreference.selectedLangGroup.split(',').map(lang => {
-        return this.searchServ.getLanguageSearchIndex(lang || 'en')
-      })
-      prefLang = prefLang.join(',')
-      return prefLang
+    if (this.configSvc.userPreference?.selectedLangGroup) {
+      return this.configSvc.userPreference.selectedLangGroup
+        .split(',')
+        .map(lang => this.searchServ.getLanguageSearchIndex(lang || 'en'))
+        .join(',')
     }
     return 'en'
   }
 
   get searchAcrossPreferredLang() {
-    // if (this.activated.snapshot.data.pageData.data.search.tabs[0].acrossPreferredLang) {
-    //   if (this.searchRequestObject.locale && this.searchRequestObject.locale.join(',') !== this.preferredLanguages) {
-    //     return true
-    //   }
-    //   return false
-    // }
     return false
   }
-  selectLang(e: any) {
+
+  selectLang(e: string) {
     this.lang = e
     this.router.navigate([], {
       queryParams: { lang: e },
@@ -201,10 +169,10 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   removeDefaultFiltersApplied() {
-    const defaultFilters = JSON.parse(JSON.stringify(this.filtersFromConfig ?? {}))
-    // const appliedFilters = JSON.parse(JSON.stringify(this.searchRequestObject.filters || {}))
-    const appliedFilters = JSON.parse(JSON.stringify(this.searchRequestObject.request.filters || {}))
-    const newFilters = JSON.parse(JSON.stringify(appliedFilters))
+    const defaultFilters = this.clone(this.filtersFromConfig ?? {})
+    const appliedFilters = this.clone(this.searchRequestObject.request.filters || {})
+    const newFilters = this.clone(appliedFilters)
+
     for (const key of Object.keys(defaultFilters)) {
       if (!appliedFilters[key]) {
         return
@@ -214,6 +182,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       }
       delete newFilters[key]
     }
+
     this.router.navigate([], {
       queryParams: { f: JSON.stringify(newFilters) },
       relativeTo: this.activated.parent,
@@ -230,35 +199,49 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.router.events.subscribe((event: any) => {
-      if (event instanceof NavigationEnd) {
+    this.trackRouteState()
+    this.detectLanguageParam()
+    this.initializeSearchConfig()
+    this.setInitialFilters()
+    this.trackViewport()
+    this.subscribeToQueryParams()
+  }
+
+  private trackRouteState() {
+    this.router.events
+      .pipe(filter(event => event instanceof NavigationEnd))
+      .subscribe((event: NavigationEnd) => {
         if (event.url.includes('/learning')) {
           this.withoutFilter = true
         }
-      }
-    })
-    this.logger.log("view", this.withoutFilter)
+      })
+    this.logger.log('view', this.withoutFilter)
+  }
 
-    let url = window.location.href
-    // Extract the query parameters part of the URL
-    let paramsString = url.split('?')[1] || ''
-    let params = new URLSearchParams(paramsString)
-    // Check if 'lang' parameter exists
+  private detectLanguageParam() {
+    const params = new URLSearchParams(window.location.href.split('?')[1] || '')
     if (params.has('lang')) {
       this.logger.log(params.get('lang'))
       this.langPresent = true
+    } else {
+      this.langPresent = false
     }
+  }
 
+  private initializeSearchConfig() {
     this.searchServ.searchConfig = this.activated.snapshot.data.pageData.data
     this.prefChangeSubscription = this.configSvc.prefChangeNotifier.subscribe(() => {
       this.isIntranetAllowedSettings = this.configSvc.isIntranetAllowed
     })
-    const queryMap = this.activated.snapshot.queryParamMap
-    let defaultFilters = {}
-    const lang = this.configSvc.userPreference && this.configSvc.userPreference.selectedLocale
+    const lang = this.configSvc.userPreference?.selectedLocale
     this.searchServ.translateSearchFilters(lang || 'en').then(val => {
       this.translatedFilters = val
     })
+  }
+
+  private setInitialFilters() {
+    const queryMap = this.activated.snapshot.queryParamMap
+    let defaultFilters = {}
     if (queryMap.get('f')) {
       defaultFilters = JSON.parse(queryMap.get('f') || '{}')
     }
@@ -269,197 +252,204 @@ export class LearningComponent implements OnInit, OnDestroy {
         queryParamsHandling: 'merge',
       })
     }
+  }
+
+  private trackViewport() {
     this.defaultSideNavBarOpenedSubscription = this.isLtMedium$.subscribe((isLtMedium: boolean) => {
       this.screenSizeIsLtMedium = isLtMedium
       this.sideNavBarOpened = !isLtMedium
     })
-    // if (this.activated.snapshot.data.learning && this.activated.snapshot.data.learning.result) {
-    //   this.searchResults.totalHits = this.activated.snapshot.data.learning.totalHits
-    //   this.searchResults.filters = this.activated.snapshot.data.learning.filters
-    //   this.searchResults.type = this.activated.snapshot.data.learning.type
-    //   this.searchResults.result = this.activated.snapshot.data.learning.result
-    // } else {
+  }
+
+  private subscribeToQueryParams() {
     this.activated.queryParamMap.subscribe(queryParams => {
-      if (queryParams.get('competency') == 'true') {
+      if (queryParams.get('competency') === 'true') {
         this.getCompetencyResult(queryParams.getAll('q'))
-
-      } else {
-
-        // Reset search request object
-        this.searchRequest = {
-          query: '',
-          filters: {},
-        }
-        if (
-          this.activated.snapshot.data &&
-          this.activated.snapshot.data.pageroute !== 'learning' &&
-          this.activated.snapshot.data.pageData
-        ) {
-          this.routeComp = this.activated.snapshot.data.pageroute
-          this.activated.snapshot.data.pageData.data.search.tabs.map((cur: ISearchTab) => {
-            if (cur.titleKey === this.activated.snapshot.data.pageroute) {
-              // this.searchRequestObject.filters = cur.searchQuery.filters
-              this.searchRequestObject.request.filters = {}
-            }
-          })
-        } else {
-          this.routeComp = this.activated.snapshot.data.pageroute
-          // this.searchRequestObject.filters = {}
-        }
-        if (this.utilitySvc.isMobile && !this.isIntranetAllowedSettings) {
-          this.searchRequestObject.request.filters = {}
-          // this.searchRequestObject.filters['isInIntranet'] = ['false']
-        }
-        // query
-
-        if (queryParams.has('q')) {
-          if (this.searchRequestObject.request.query !== queryParams.get('q') && queryParams.get('competency') == 'true') {
-            this.expandToPrefLang = true
-          }
-          this.searchRequestObject.request.query = queryParams.get('q') || ''
-          if (isEmpty(this.searchRequest.filters)) {
-            this.searchRequestObject.request.filters = {
-              visibility: ['Default'],
-              primaryCategory: [
-                'Course',
-              ],
-              contentType: [
-                'Course',
-              ],
-            }
-          }
-        }
-        if (queryParams.has('q')) {
-          if (this.newSearchRequestObject.query !== queryParams.get('q') && queryParams.get('competency') == 'true') {
-            this.expandToPrefLang = true
-          }
-          this.newSearchRequestObject.query = queryParams.get('q') || ''
-        }
-        // filters
-        if (queryParams.has('f')) {
-          const filters = JSON.parse(queryParams.get('f') || '{}')
-          if (this.searchRequest.filters !== filters) {
-            this.expandToPrefLang = true
-          }
-          if (Object.keys(filters).length > 0) {
-            this.searchRequest.filters = filters
-            for (const key of Object.keys(this.searchRequest.filters)) {
-              if (key) {
-                this.searchRequestObject.request.filters = this.searchRequest.filters
-              }
-            }
-          } else {
-            this.searchRequestObject.request.filters = { visibility: ['Default'] }
-          }
-        }
-        // if (queryParams.has('sort') && this.searchRequestObject.sort) {
-        //   this.searchRequest.sort = queryParams.get('sort') || ''
-        //   this.searchRequestObject.sort = this.getSortType(this.searchRequest.sort)
-        // }
-        if (queryParams.has('sort') && this.searchRequestObject.request.sort_by.lastUpdatedOn) {
-          this.searchRequest.sort = queryParams.get('sort') || ''
-          this.searchRequestObject.request.sort_by.lastUpdatedOn = this.getSortType()// this.searchRequest.sort
-        }
-        if (this.searchRequest.lang !== queryParams.get('lang') || this.getActiveLocale() || 'en') {
-          this.expandToPrefLang = true
-        }
-        this.searchRequest.lang = queryParams.get('lang')
-        if (this.searchRequest.lang) {
-          this.searchRequest.lang = this.searchRequest.lang.toLowerCase()
-          this.searchRequestObject.request.filters['lang'] = this.searchRequest.lang.toLowerCase()
-          this.lang = this.searchRequest.lang.toLowerCase()
-          this.contact = this.lang
-          // this.searchRequestObject.locale =
-          //   this.searchRequest.lang !== '' ? this.searchRequest.lang.split(',') : []
-        }
-        if (
-          this.searchRequestObject.request.query.toLowerCase() !== 'all' &&
-          this.searchRequestObject.request.query !== '*' && this.searchRequestObject.request.query !== ''
-        ) {
-          this.searchRequestObject.request.sort_by.lastUpdatedOn = ''
-          if (!this.searchRequest.filters.hasOwnProperty('contentType')) {
-            // this.searchRequestObject.isStandAlone = true
-          } else if (this.searchRequest.filters.contentType.length === 0) {
-            // this.searchRequestObject.isStandAlone = true
-          }
-          if (!this.applyIsStandAlone && this.searchRequestObject.hasOwnProperty('isStandAlone')) {
-            // delete this.searchRequestObject.isStandAlone
-          }
-        } else {
-          this.searchRequestObject.request.sort_by = { lastUpdatedOn: 'desc' }
-        }
-        this.noContent = false
-        if (
-          this.searchRequestObject.request.filters &&
-          !Object.keys(this.searchRequestObject.request.filters).length
-        ) {
-          // if (this.searchRequestObject && this.searchRequestObject.pageNo) {
-          //   this.searchRequestObject.pageNo = 0
-          // }
-          this.searchResults = {
-            responseCode: '',
-            result: {
-              count: 0,
-              content: [],
-            },
-
-          }
-          this.searchResults = {
-            id: '',
-            ver: '',
-            ts: '',
-            params: {
-              resmsgid: '',
-              err: '',
-              errmsg: '',
-              msgid: '',
-              status: '',
-            },
-            responseCode: '',
-            filters: [],
-            result: {
-              count: 0,
-              content: [],
-              facets: [],
-            },
-          }
-        }
-        // const updatedFilterSet = this.searchServ.updateSelectedFiltersSet(this.searchRequest.filters)
-        // this.selectedFilterSet = updatedFilterSet.filterSet
-
-        // this.filtersResetAble = updatedFilterSet.filterReset
-        // Modify filters
-        this.getSearchResults(undefined)
+        return
       }
+
+      this.resetSearchRequest()
+      this.updateRouteComponentState()
+      this.applyMobileRestrictions()
+      this.applyQueryParams(queryParams)
+      this.getSearchResults(undefined)
     })
-    // }
+  }
+
+  private resetSearchRequest() {
+    this.searchRequest = {
+      query: '',
+      filters: {},
+    }
+  }
+
+  private updateRouteComponentState() {
+    if (
+      this.activated.snapshot.data &&
+      this.activated.snapshot.data.pageroute !== 'learning' &&
+      this.activated.snapshot.data.pageData
+    ) {
+      this.routeComp = this.activated.snapshot.data.pageroute
+      this.activated.snapshot.data.pageData.data.search.tabs.forEach((cur: ISearchTab) => {
+        if (cur.titleKey === this.activated.snapshot.data.pageroute) {
+          this.searchRequestObject.request.filters = {}
+        }
+      })
+      return
+    }
+
+    this.routeComp = this.activated.snapshot.data.pageroute
+  }
+
+  private applyMobileRestrictions() {
+    if (this.utilitySvc.isMobile && !this.isIntranetAllowedSettings) {
+      this.searchRequestObject.request.filters = {}
+    }
+  }
+
+  private applyQueryParams(queryParams: any) {
+    this.applyQuery(queryParams)
+    this.applyFilters(queryParams)
+    this.applySort(queryParams)
+    this.applyLanguage(queryParams)
+    this.applySortingRules()
+    this.resetSearchResultsWhenFiltersAreEmpty()
+  }
+
+  private applyQuery(queryParams: any) {
+    if (!queryParams.has('q')) {
+      return
+    }
+
+    const query = queryParams.get('q') || ''
+
+    if (this.searchRequestObject.request.query !== query && queryParams.get('competency') === 'true') {
+      this.expandToPrefLang = true
+    }
+
+    if (this.newSearchRequestObject.query !== query && queryParams.get('competency') === 'true') {
+      this.expandToPrefLang = true
+    }
+
+    this.searchRequestObject.request.query = query
+    this.newSearchRequestObject.query = query
+
+    if (isEmpty(this.searchRequest.filters)) {
+      this.searchRequestObject.request.filters = {
+        visibility: ['Default'],
+        primaryCategory: ['Course'],
+        contentType: ['Course'],
+      }
+    }
+  }
+
+  private applyFilters(queryParams: any) {
+    if (!queryParams.has('f')) {
+      return
+    }
+
+    const filters = JSON.parse(queryParams.get('f') || '{}')
+    if (this.searchRequest.filters !== filters) {
+      this.expandToPrefLang = true
+    }
+
+    if (Object.keys(filters).length > 0) {
+      this.searchRequest.filters = filters
+      this.searchRequestObject.request.filters = this.searchRequest.filters
+      return
+    }
+
+    this.searchRequestObject.request.filters = { visibility: ['Default'] }
+  }
+
+
+  private getLangFromUrl(): string {
+    return new URLSearchParams(window.location.href.split('?')[1] || '').get('lang') || ''
+  }
+
+  private applySort(queryParams: any) {
+    if (queryParams.has('sort') && this.searchRequestObject.request.sort_by.lastUpdatedOn) {
+      this.searchRequest.sort = queryParams.get('sort') || ''
+      this.searchRequestObject.request.sort_by.lastUpdatedOn = this.getSortType()
+    }
+  }
+
+  private applyLanguage(queryParams: any) {
+    if (this.searchRequest.lang !== queryParams.get('lang') || this.getActiveLocale() || 'en') {
+      this.expandToPrefLang = true
+    }
+
+    this.searchRequest.lang = queryParams.get('lang')
+    if (!this.searchRequest.lang) {
+      return
+    }
+
+    this.searchRequest.lang = this.searchRequest.lang.toLowerCase()
+    this.searchRequestObject.request.filters['lang'] = this.searchRequest.lang.toLowerCase()
+    this.lang = this.searchRequest.lang.toLowerCase()
+    this.contact = this.lang
+  }
+
+  private applySortingRules() {
+    const query = this.searchRequestObject.request.query
+    if (query.toLowerCase() !== 'all' && query !== '*' && query !== '') {
+      this.searchRequestObject.request.sort_by.lastUpdatedOn = ''
+
+      if (!this.applyIsStandAlone && this.searchRequestObject.hasOwnProperty('isStandAlone')) {
+        return
+      }
+      return
+    }
+
+    this.searchRequestObject.request.sort_by = { lastUpdatedOn: 'desc' }
+  }
+
+  private resetSearchResultsWhenFiltersAreEmpty() {
+    this.noContent = false
+    if (
+      this.searchRequestObject.request.filters &&
+      !Object.keys(this.searchRequestObject.request.filters).length
+    ) {
+      this.searchResults = this.getInitialSearchResults()
+    }
+  }
+
+  private getInitialSearchResults() {
+    return {
+      id: '',
+      ver: '',
+      ts: '',
+      params: {
+        resmsgid: '',
+        err: '',
+        errmsg: '',
+        msgid: '',
+        status: '',
+      },
+      filters: [],
+      responseCode: '',
+      result: {
+        count: 0,
+        content: [],
+        facets: [],
+      },
+    }
   }
 
   ngOnDestroy() {
-    if (this.searchResultsSubscription) {
-      this.searchResultsSubscription.unsubscribe()
-    }
-    if (this.defaultSideNavBarOpenedSubscription) {
-      this.defaultSideNavBarOpenedSubscription.unsubscribe()
-    }
-    if (this.prefChangeSubscription) {
-      this.prefChangeSubscription.unsubscribe()
-    }
+    this.searchResultsSubscription?.unsubscribe()
+    this.defaultSideNavBarOpenedSubscription?.unsubscribe()
+    this.prefChangeSubscription?.unsubscribe()
   }
-  getCompetencyResult(data: any) {
+
+  getCompetencyResult(data: string[]) {
     const reqData = {
       request: {
         filters: {
           competencySearch: data,
-          primaryCategory: [
-            'Course',
-          ],
-          contentType: [
-            'Course',
-          ],
-          status: [
-            'Live',
-          ],
+          primaryCategory: ['Course'],
+          contentType: ['Course'],
+          status: ['Live'],
         },
         sort_by: {
           lastUpdatedOn: 'desc',
@@ -471,10 +461,212 @@ export class LearningComponent implements OnInit, OnDestroy {
         },
       ],
     }
-    let withQuotes: boolean
+
     const didYouMean = true
+
     this.searchSvc.getSearchCompetencyCourses(reqData).subscribe(
+      dataResponse => {
+        this.searchResults.result.count = dataResponse.result.count
+        this.searchServ.raiseSearchResponseEvent(
+          this.searchRequestObject.request.query,
+          this.searchRequestObject.request.filters,
+          this.searchResults.result.count,
+          '',
+        )
+        this.searchResults.filters = dataResponse.filters
+        this.searchResults.result.content = dataResponse.result.content || []
+
+        if (this.handleEmptyStateAndFallbacks(didYouMean)) {
+          return
+        }
+
+        this.updateSearchRequestStatus()
+        this.getTrainingsLHub(this.searchResults)
+      },
+      error => {
+        this.handleSearchError(error)
+      },
+    )
+  }
+  private prepareLegacySearch(withQuotes?: boolean) {
+    this.prepareSearchRequest(withQuotes, false)
+    this.searchServ.raiseSearchEvent(
+      this.searchRequestObject.request.query,
+      this.searchRequestObject.request.filters,
+      '',
+    )
+
+    if (localStorage.getItem('orgValue') === 'nhsrc') {
+      this.searchRequestObject.request.filters['sourceName'] = ['Ministry of Health and Family Welfare']
+    }
+  }
+
+  private prepareNewSearch(withQuotes?: boolean) {
+    this.prepareSearchRequest(withQuotes, true)
+    this.searchServ.raiseSearchEvent(this.newSearchRequestObject.query, '', '')
+  }
+
+  private prepareSearchRequest(withQuotes: boolean | undefined, useNewRequest: boolean) {
+    this.logger.log('getResults', withQuotes)
+    this.searchResultsSubscription?.unsubscribe()
+    this.searchRequestStatus = 'fetching'
+    this.exactResult.show = false
+
+    const query = useNewRequest ? this.newSearchRequestObject.query : this.searchRequestObject.request.query
+
+    if (this.exactResult.old !== query) {
+      this.exactResult.applied = false
+    }
+
+    if (withQuotes === undefined && query.indexOf(' ') > -1 &&
+      !this.exactResult.applied) {
+      this.exactResult.applied = true
+      const normalizedQuery = query.replace(/['"]+/g, '')
+      if (useNewRequest) {
+        this.newSearchRequestObject.query = normalizedQuery
+      } else {
+        this.searchRequestObject.request.query = normalizedQuery
+      }
+      this.searchResults.result.content = []
+      this.exactResult.show = false
+      this.exactResult.old = normalizedQuery
+    } else if (withQuotes && query.indexOf(' ') > -1) {
+      this.exactResult.applied = true
+      const normalizedQuery = query.replace(/['"]+/g, '')
+
+      if (useNewRequest) {
+        this.newSearchRequestObject.query = normalizedQuery
+      } else {
+        this.searchRequestObject.request.query = normalizedQuery
+      }
+
+      this.searchResults.result.content = []
+      this.exactResult.show = false
+      this.exactResult.old = normalizedQuery
+    }
+  }
+
+  private updateFiltersResponse(data: any) {
+    this.logger.log('this.searchResults.result.content', this.searchResults.result.content)
+    const filterData = this.searchServ.handleFilters(
+      this.searchResults.filters,
+      this.selectedFilterSet,
+      this.searchRequest.filters,
+      this.activated.snapshot.data.pageroute !== 'learning',
+    )
+
+    this.searchServ.getSearchConfig().then(searchData => {
+      if (!(filterData.filtersRes && filterData.filtersRes.length > 0)) {
+        return
+      }
+
+      filterData.filtersRes.forEach(ele => {
+        if (searchData.search.visibleFilters.hasOwnProperty(ele.displayName)) {
+          ele.displayName = searchData.search.visibleFilters[ele.displayName].displayName
+        }
+      })
+
+      const facetFilters: any[] = []
+      data.result.facets.forEach((facet: any) => {
+        if (facet.values.length === 0) {
+          return
+        }
+
+        facet.values.forEach((value: any) => {
+          value.displayName = value.name
+          value.type = value.name
+          value.checked = true
+          value.count = value.count
+        })
+
+        if (facet.name === 'resourceType' || facet.name === 'exclusiveContent') {
+          facetFilters.push({
+            displayName: facet.name,
+            type: facet.name,
+            checked: true,
+            content: facet.values,
+          })
+        }
+      })
+
+      Array.prototype.push.apply(filterData.filtersRes, facetFilters)
+      this.filtersResponse = filterData.filtersRes
+    })
+  }
+
+  private handleEmptyStateAndFallbacks(
+    didYouMean: boolean,
+    withQuotes?: boolean,
+    useLegacyRequest = false,
+  ): boolean {
+    const query = useLegacyRequest ? this.searchRequestObject.request.query : this.newSearchRequestObject.query
+
+    if (this.searchResults.result.count === 0 && this.isDefaultFilterApplied) {
+      this.removeDefaultFiltersApplied()
+      useLegacyRequest ? this.getResults(undefined, didYouMean) : this.getSearchResults(undefined, didYouMean)
+      return true
+    }
+
+    if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
+      this.searchWithPreferredLanguage()
+      useLegacyRequest ? this.getResults(undefined, didYouMean) : this.getSearchResults(undefined, didYouMean)
+      return true
+    }
+
+    if (this.searchResults.result.count === 0 && query.indexOf(' ') === -1) {
+      this.noContent = true
+      return false
+    }
+
+    if (this.searchResults.result.count === 0 && query.indexOf(' ') === -1) {
+      useLegacyRequest
+        ? this.getResults(true, didYouMean)
+        : this.getSearchResults(true, didYouMean)
+      return true
+    }
+
+    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && !this.applyPhraseSearch) {
+      this.noContent = true
+      return false
+    }
+
+    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && withQuotes) {
+      this.noContent = true
+      return false
+    }
+
+    if (this.searchResults.result.count === 0 && query.indexOf(' ') > -1 && this.applyPhraseSearch) {
+      useLegacyRequest ? this.getResults(true, didYouMean) : this.getSearchResults(true, didYouMean)
+      return true
+    }
+
+    if (this.searchResults.result.count > 0 && query.indexOf(' ') > -1 && !this.exactResult.applied) {
+      this.exactResult.show = true
+      this.exactResult.text = query.replace(/['"]+/g, '')
+    }
+
+    return false
+  }
+
+  private updateSearchRequestStatus() {
+    if (this.searchResults.result.content.length < this.searchResults.result.count) {
+      this.searchRequestStatus = 'hasMore'
+      return
+    }
+    this.searchRequestStatus = 'done'
+  }
+
+  private handleSearchError(error: any) {
+    this.error.load = true
+    this.error.message = error
+    this.searchRequestStatus = 'done'
+  }
+  getResults(withQuotes?: boolean, didYouMean = true) {
+    this.prepareLegacySearch(withQuotes)
+
+    this.searchResultsSubscription = this.searchServ.getLearning(this.searchRequestObject).subscribe(
       data => {
+        this.logger.log(data)
         this.searchResults.result.count = data.result.count
         this.searchServ.raiseSearchResponseEvent(
           this.searchRequestObject.request.query,
@@ -483,430 +675,61 @@ export class LearningComponent implements OnInit, OnDestroy {
           '',
         )
         this.searchResults.filters = data.filters
-        // this.searchResults.queryUsed = data.queryUsed
-        // this.searchResults.type = data.type
-        this.logger.log(orderBy(data.result.content, ['lastPublishedOn'], ['desc']))
-        this.searchResults.result.content = (data.result.content) ? data.result.content : []
+        this.searchResults.result.content = data.result.content
+          ? orderBy(data.result.content, ['lastPublishedOn'], ['desc'])
+          : []
 
-        // this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
-        // [...this.searchResults.result.content, ...(data.result.content ? data.result.content : [])]
-        // this.searchResults.doYouMean = data.doYouMean
-        // this.searchResults.queryUsed = data.queryUsed
-        // this.handleFilters(this.searchResults.filters)
-        // const filteR = this.searchServ.handleFilters(
-        //   this.searchResults.filters,
-        //   this.selectedFilterSet,
-        //   this.searchRequest.filters,
-        //   this.activated.snapshot.data.pageroute !== 'learning' ? true : false,
-        // )
-        // this.searchServ.getSearchConfig().then(searchData => {
-        //   if (filteR.filtersRes && filteR.filtersRes.length > 0) {
-        //     filteR.filtersRes.forEach(ele => {
-        //       if (searchData.search.visibleFilters.hasOwnProperty(ele.displayName)) {
-        //         ele.displayName = searchData.search.visibleFilters[ele.displayName].displayName
-        //       }
-        //     })
-        //     const newArray: any = []
-        //     data.result.facets.forEach((el: any) => {
-        //       const obj2 = {}
-        //       if (el.values.length > 0) {
-        //         el.values.forEach((el1: any) => {
-        //           el1['displayName'] = el1.name
-        //           el1['type'] = el1.name
-        //           el1['checked'] = true
-        //           el1['count'] = el1.count
-        //         })
-        //         if (el.name === 'resourceType' || el.name === 'exclusiveContent') {
-        //           obj2['displayName'] = el.name
-        //           obj2['type'] = el.name
-        //           obj2['checked'] = true
-        //           obj2['content'] = el.values
-        //           newArray.push(obj2)
-        //         }
-        //       }
-        //     })
-        //     Array.prototype.push.apply(filteR.filtersRes, newArray)
-        //     this.filtersResponse = filteR.filtersRes
-        //   }
-        // })
-        if (
-          this.searchResults.result.count === 0 && this.isDefaultFilterApplied
-        ) {
-          this.removeDefaultFiltersApplied()
-          this.getResults(undefined, didYouMean)
+        this.updateFiltersResponse(data)
+
+        if (this.handleEmptyStateAndFallbacks(didYouMean, withQuotes, true)) {
           return
-        } if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
-          this.searchWithPreferredLanguage()
-          this.getResults(undefined, didYouMean)
-          return
-        } if (
-          this.searchResults.result.count === 0 &&
-          this.searchRequestObject.request.query.indexOf(' ') === -1
-        ) {
-          this.noContent = true
-        } else if ( // No results with phrase search disabled and space separated words
-          this.searchResults.result.count === 0 &&
-          this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-          !this.applyPhraseSearch
-        ) {
-          this.noContent = true
-        } else if (
-          this.searchResults.result.count === 0 &&
-          this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-          withQuotes
-        ) {
-          this.noContent = true
-        } else if (
-          this.searchResults.result.count === 0 &&
-          this.searchRequestObject.request.query.indexOf(' ') > -1 && this.applyPhraseSearch
-        ) {
-          // this.searchRequestObject.pageNo = 0
-          this.getResults(true, didYouMean)
-          return
-        } else if (
-          this.searchResults.result.count === 0 &&
-          this.searchRequestObject.request.query.indexOf(' ') === -1 // &&
-          // this.searchRequestObject.instanceCatalog
-        ) {
-          // this.searchRequestObject.pageNo = 0
-          // this.searchRequestObject.instanceCatalog = false
-          this.getResults(true, didYouMean)
-          return
-        } else if (
-          this.searchResults.result.count > 0 &&
-          this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-          !this.exactResult.applied
-        ) {
-          this.exactResult.show = true
-          this.exactResult.text = this.searchRequestObject.request.query.replace(/['"]+/g, '')
-        }
-        if (this.searchResults.result.content.length < this.searchResults.result.count) {
-          this.searchRequestStatus = 'hasMore'
-        } else {
-          this.searchRequestStatus = 'done'
-        }
-        if (this.searchResults.result.content.length < this.searchResults.result.count) {
-          // tslint:disable-next-line: no-non-null-assertion
-          // this.searchRequestObject.pageNo! += 1
         }
 
+        this.updateSearchRequestStatus()
         this.getTrainingsLHub(this.searchResults)
       },
       error => {
-        this.error.load = true
-        this.error.message = error
-        this.searchRequestStatus = 'done'
+        this.handleSearchError(error)
       },
     )
-
   }
-  getResults(withQuotes?: boolean, didYouMean = true) {
-    this.logger.log('getResults', withQuotes)
-    // this.searchRequestObject.didYouMean = didYouMean
-    if (this.searchResultsSubscription) {
-      this.searchResultsSubscription.unsubscribe()
-    }
-    this.searchRequestStatus = 'fetching'
-    this.exactResult.show = false
-    if (this.exactResult.old !== this.searchRequestObject.request.query) {
-      this.exactResult.applied = false
-    }
-    if (
-      withQuotes === undefined &&
-      this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-      !this.exactResult.applied // &&
-      // this.searchRequestObject.pageNo === 0 && this.applyPhraseSearch
-    ) {
-      this.searchRequestObject.request.query = `${this.searchRequestObject.request.query}`
-    } else if (withQuotes && this.searchRequestObject.request.query.indexOf(' ') > -1) {
-      this.exactResult.applied = true
-      this.searchRequestObject.request.query = this.searchRequestObject.request.query.replace(/['"]+/g, '')
-      this.searchResults.result.content = []
-      this.exactResult.show = false
-      // this.searchRequestObject.request.pageNo = 0
-      this.exactResult.old = this.searchRequestObject.request.query
-    }
-    this.searchServ.raiseSearchEvent(
-      this.searchRequestObject.request.query,
-      this.searchRequestObject.request.filters,
-      '',
-    )
-    // if (this.searchRequestObject.locale && this.searchRequestObject.locale.length > 1) {
-    //   this.searchRequestObject.didYouMean = false
-    // }
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-      this.searchRequestObject.request.filters['sourceName'] = ['Ministry of Health and Family Welfare']
-    }
 
-    this.searchResultsSubscription = this.searchServ
-      .getLearning(this.searchRequestObject)
-      .subscribe(
-        data => {
-          this.logger.log(data)
-          this.searchResults.result.count = data.result.count
-          this.searchServ.raiseSearchResponseEvent(
-            this.searchRequestObject.request.query,
-            this.searchRequestObject.request.filters,
-            this.searchResults.result.count,
-            '',
-          )
-          this.searchResults.filters = data.filters
-          // this.searchResults.queryUsed = data.queryUsed
-          // this.searchResults.type = data.type
-          this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
-          // [...this.searchResults.result.content, ...(data.result.content ? data.result.content : [])]
-          // this.searchResults.doYouMean = data.doYouMean
-          // this.searchResults.queryUsed = data.queryUsed
-          // this.handleFilters(this.searchResults.filters)
-          this.logger.log("this.searchResults.result.content", this.searchResults.result.content)
-          const filteR = this.searchServ.handleFilters(
-            this.searchResults.filters,
-            this.selectedFilterSet,
-            this.searchRequest.filters,
-            this.activated.snapshot.data.pageroute !== 'learning' ? true : false,
-          )
-          this.searchServ.getSearchConfig().then(searchData => {
-            if (filteR.filtersRes && filteR.filtersRes.length > 0) {
-              filteR.filtersRes.forEach(ele => {
-                if (searchData.search.visibleFilters.hasOwnProperty(ele.displayName)) {
-                  ele.displayName = searchData.search.visibleFilters[ele.displayName].displayName
-                }
-              })
-              const newArray: any = []
-              data.result.facets.forEach((el: any) => {
-                const obj2: any = {}
-                if (el.values.length > 0) {
-                  el.values.forEach((el1: any) => {
-                    el1['displayName'] = el1.name
-                    el1['type'] = el1.name
-                    el1['checked'] = true
-                    el1['count'] = el1.count
-                  })
-                  if (el.name === 'resourceType' || el.name === 'exclusiveContent') {
-                    obj2['displayName'] = el.name
-                    obj2['type'] = el.name
-                    obj2['checked'] = true
-                    obj2['content'] = el.values
-                    newArray.push(obj2)
-                  }
-                }
-              })
-              Array.prototype.push.apply(filteR.filtersRes, newArray)
-              this.filtersResponse = filteR.filtersRes
-            }
-          })
 
-          if (
-            this.searchResults.result.count === 0 && this.isDefaultFilterApplied
-          ) {
-            this.removeDefaultFiltersApplied()
-            this.getResults(undefined, didYouMean)
-            return
-          } if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
-            this.searchWithPreferredLanguage()
-            this.getResults(undefined, didYouMean)
-            return
-          } if (
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') === -1
-          ) {
-            this.noContent = true
-          } else if ( // No results with phrase search disabled and space separated words
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-            !this.applyPhraseSearch
-          ) {
-            this.noContent = true
-          } else if (
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-            withQuotes
-          ) {
-            this.noContent = true
-          } else if (
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') > -1 && this.applyPhraseSearch
-          ) {
-            // this.searchRequestObject.pageNo = 0
-            this.getResults(true, didYouMean)
-            return
-          } else if (
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') === -1 // &&
-            // this.searchRequestObject.instanceCatalog
-          ) {
-            // this.searchRequestObject.pageNo = 0
-            // this.searchRequestObject.instanceCatalog = false
-            this.getResults(true, didYouMean)
-            return
-          } else if (
-            this.searchResults.result.count > 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-            !this.exactResult.applied
-          ) {
-            this.exactResult.show = true
-            this.exactResult.text = this.searchRequestObject.request.query.replace(/['"]+/g, '')
-          }
-          if (this.searchResults.result.content.length < this.searchResults.result.count) {
-            this.searchRequestStatus = 'hasMore'
-          } else {
-            this.searchRequestStatus = 'done'
-          }
-          if (this.searchResults.result.content.length < this.searchResults.result.count) {
-            // tslint:disable-next-line: no-non-null-assertion
-            // this.searchRequestObject.pageNo! += 1
-          }
-
-          this.getTrainingsLHub(this.searchResults)
-        },
-        error => {
-          this.error.load = true
-          this.error.message = error
-          this.searchRequestStatus = 'done'
-        },
-      )
-  }
-  // new search API integration
   getSearchResults(withQuotes?: boolean, didYouMean = true) {
-    this.logger.log('getResults', withQuotes)
-    // this.searchRequestObject.didYouMean = didYouMean
-    if (this.searchResultsSubscription) {
-      this.searchResultsSubscription.unsubscribe()
-    }
-    this.searchRequestStatus = 'fetching'
-    this.exactResult.show = false
-    if (this.exactResult.old !== this.newSearchRequestObject.query) {
-      this.exactResult.applied = false
-    }
-    if (
-      withQuotes === undefined &&
-      this.newSearchRequestObject.query.indexOf(' ') > -1 &&
-      !this.exactResult.applied // &&
-      // this.searchRequestObject.pageNo === 0 && this.applyPhraseSearch
-    ) {
-      this.newSearchRequestObject.query = `${this.newSearchRequestObject.query}`
-    } else if (withQuotes && this.newSearchRequestObject.query.indexOf(' ') > -1) {
-      this.exactResult.applied = true
-      this.newSearchRequestObject.query = this.newSearchRequestObject.query.replace(/['"]+/g, '')
-      this.searchResults.result.content = []
-      this.exactResult.show = false
-      // this.searchRequestObject.request.pageNo = 0
-      this.exactResult.old = this.newSearchRequestObject.query
-    }
+    this.prepareNewSearch(withQuotes)
+    this.newSearchRequestObject.language = this.getLangFromUrl()
 
-    this.searchServ.raiseSearchEvent(
-      this.newSearchRequestObject.query,
-      '', '',
+    this.searchResultsSubscription = this.searchServ.getsearchLearning(this.newSearchRequestObject).subscribe(
+      data => {
+        this.logger.log(data, 'data')
+        this.searchResults.result.count = data?.result?.count || 0
+        this.searchResults.result.content = data?.result?.content
+          ? orderBy(data.result.content, ['lastPublishedOn'], ['desc'])
+          : []
+
+        this.searchServ.raiseNewSearchResponseEvent(
+          this.newSearchRequestObject.query,
+          this.searchResults.result.count,
+          '',
+        )
+
+        if (this.handleEmptyStateAndFallbacks(didYouMean, withQuotes, false)) {
+          return
+        }
+
+        this.updateSearchRequestStatus()
+        this.getTrainingsLHub2(this.searchResults)
+      },
+      error => {
+        this.handleSearchError(error)
+      },
     )
-    // let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') === true ? 'hi' : 'en'
-
-    let url = window.location.href
-
-    // Extract the query parameters part of the URL
-    let paramsString = url.split('?')[1] || ''
-    let params = new URLSearchParams(paramsString)
-
-    let lang = '' // Default value
-
-    // Check if 'lang' parameter exists
-    if (params.has('lang')) {
-      lang = params.get('lang') || ''
-    }
-    this.logger.log(lang)
-    this.newSearchRequestObject.language = lang
-    if (localStorage.getItem('orgValue') === 'nhsrc') {
-    }
-    this.searchResultsSubscription = this.searchServ
-      .getsearchLearning(this.newSearchRequestObject)
-      .subscribe(
-        data => {
-          if (data && data.result && data.result.count) {
-            this.logger.log(data, 'data')
-            this.searchResults.result.count = data.result.count
-            this.searchResults.result.content = (data.result.content) ? orderBy(data.result.content, ['lastPublishedOn'], ['desc']) : []
-
-          } else {
-            this.searchResults.result.count = data.result.count
-            this.logger.log(data, 'data123')
-          }
-
-          this.searchServ.raiseNewSearchResponseEvent(
-            this.newSearchRequestObject.query,
-            this.searchResults.result.count,
-            '',
-          )
-
-          if (
-            this.searchResults.result.count === 0 && this.isDefaultFilterApplied
-          ) {
-            this.removeDefaultFiltersApplied()
-            this.getSearchResults(undefined, didYouMean)
-            return
-          } if (this.searchResults.result.count === 0 && this.searchAcrossPreferredLang && this.expandToPrefLang) {
-            this.searchWithPreferredLanguage()
-            this.getSearchResults(undefined, didYouMean)
-            return
-          } if (
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') === -1
-          ) {
-            this.noContent = true
-          } else if ( // No results with phrase search disabled and space separated words
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-            !this.applyPhraseSearch
-          ) {
-            this.noContent = true
-          } else if (
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-            withQuotes
-          ) {
-            this.noContent = true
-          } else if (
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') > -1 && this.applyPhraseSearch
-          ) {
-            this.getSearchResults(true, didYouMean)
-            return
-          } else if (
-            this.searchResults.result.count === 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') === -1 // &&
-          ) {
-
-            this.getSearchResults(true, didYouMean)
-            return
-          } else if (
-            this.searchResults.result.count > 0 &&
-            this.searchRequestObject.request.query.indexOf(' ') > -1 &&
-            !this.exactResult.applied
-          ) {
-            this.exactResult.show = true
-            this.exactResult.text = this.searchRequestObject.request.query.replace(/['"]+/g, '')
-          }
-          if (this.searchResults.result.content.length < this.searchResults.result.count) {
-            this.searchRequestStatus = 'hasMore'
-          } else {
-            this.searchRequestStatus = 'done'
-          }
-          if (this.searchResults.result.content.length < this.searchResults.result.count) {
-          }
-          if (data && data.result && data.result.count) {
-            this.searchRequestStatus = 'done'
-          }
-          this.getTrainingsLHub2(this.searchResults)
-        },
-        error => {
-          this.error.load = true
-          this.error.message = error
-          this.searchRequestStatus = 'done'
-        },
-      )
   }
 
   contentTrackBy(item: NsContent.IContent) {
     return item.identifier
   }
+
   sortOrder(type: string) {
     try {
       this.router.navigate([], {
@@ -952,36 +775,24 @@ export class LearningComponent implements OnInit, OnDestroy {
   }
 
   searchInsteadFor() {
-    // this.searchResults.result = []
     this.searchResults.result.content = []
     this.getSearchResults(undefined, false)
   }
 
   removeFilters() {
-    // const filtercheck = JSON.stringify(this.searchRequest.filters)
-
     this.router.navigate([], {
       queryParams: { f: null, q: this.searchRequestObject.request.query },
-      // queryParams: { f: null, q: this.searchRequestObject.query },
-      // queryParamsHandling: 'merge',
       relativeTo: this.activated.parent,
     })
   }
 
   removeLanguage() {
-    // this.contact = this.lang = ''
-    // this.searchRequest.filters['lang'] = []
-    // this.logger.log('filter', this.searchRequest)
-    // this.router.navigate([], {
-    //   queryParams: { f: JSON.stringify(this.searchRequest.filters), q: this.searchRequestObject.request.query, lang: null },
-    //   // queryParamsHandling: 'merge',
-    //   relativeTo: this.activated.parent,
-    // })
     this.router.navigateByUrl('/app/search/home?f=')
   }
 
   removeSearch() {
-    this.contact = this.lang = ''
+    this.contact = ''
+    this.lang = ''
     this.router.navigateByUrl('/app/search/learning?q=')
   }
 
@@ -989,7 +800,11 @@ export class LearningComponent implements OnInit, OnDestroy {
     this.sideNavBarOpened = value
   }
 
-  private getTrainingsLHub(_searchResults: NSSearch.ISearchV6ApiResultV2) {
+  private clone<T>(value: T): T {
+    return JSON.parse(JSON.stringify(value))
+  }
+
+  private getTrainingsLHub(_searchResults: SearchResultLegacy) {
     const restrictedFeatures = this.configSvc.restrictedFeatures
     const trainingLHubEnabled = restrictedFeatures && !restrictedFeatures.has('trainingLHub')
 
@@ -998,7 +813,7 @@ export class LearningComponent implements OnInit, OnDestroy {
     }
   }
 
-  private getTrainingsLHub2(_searchResults: NSSearch.ISearchV6ApiResultV3) {
+  private getTrainingsLHub2(_searchResults: SearchResultV3) {
     const restrictedFeatures = this.configSvc.restrictedFeatures
     const trainingLHubEnabled = restrictedFeatures && !restrictedFeatures.has('trainingLHub')
 
@@ -1006,5 +821,4 @@ export class LearningComponent implements OnInit, OnDestroy {
       // this.trainingSvc.getTrainingCountsForSearchResults(searchResults)
     }
   }
-
 }
