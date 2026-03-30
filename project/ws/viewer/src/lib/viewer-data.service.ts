@@ -54,6 +54,7 @@ export class ViewerDataService {
     this.error = null
     this.status = status
     this.primaryCategory = primaryCategory || ''
+    this.gatingEnabled = false  // Reset gating flag when changing courses
     this.changedSubject.next()
   }
   updateResource(resource: NsContent.IContent | null = null, error: any | null = null) {

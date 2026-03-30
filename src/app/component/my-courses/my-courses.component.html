@@ -25,23 +25,31 @@
   <!-- Actual content once all APIs respond -->
   <ng-container *ngIf="!isLoading">
     <h1 id="heading">{{ config?.title | translate }}</h1>
-    <mat-tab-group [selectedIndex]="selectedIndex">
-      <mat-tab *ngFor="let tab of config?.tabMenu; let i =index"
+    <mat-tab-group [selectedIndex]="selectedIndex" (selectedIndexChange)="onTabChange($event)">
+      <mat-tab *ngFor="let tab of config?.tabMenu; let i = index"
         [label]="(tab?.label | translate) + ' (' + tab?.data.length + ')'">
-        <div class="flex justify-center flex-col no-content" *ngIf="tab?.data?.length === 0">
-          <h3 class="mt15">{{ tab?.fallbackState?.label | translate }}</h3>
-          <div class="text-center" *ngIf="tab?.fallbackState?.button?.show">
-            <button class="outline-btn cursor-pointer" (click)="tabClick()">
-              {{ tab?.fallbackState?.button.label | translate }}</button>
+        <ng-template matTabContent>
+          <div class="flex justify-center flex-col no-content" *ngIf="tab?.data?.length === 0">
+            <h3 class="mt15">{{ tab?.fallbackState?.label | translate }}</h3>
+            <div class="text-center" *ngIf="tab?.fallbackState?.button?.show">
+              <button class="outline-btn cursor-pointer" (click)="tabClick()">
+                {{ tab?.fallbackState?.button.label | translate }}</button>
+            </div>
           </div>
-        </div>
-        <div [class]="tab.className" *ngFor="let data of tab?.data; let last = last"
-          [ngClass]="{'last-child1': last && i % 2 === 0,'last-child2': last && i % 2 !== 0}">
-          <ws-mobile-course-view *ngIf="isXSmall" [displayConfig]="tab?.displayConfig"
-            [courseData]="data"></ws-mobile-course-view>
-          <ws-web-course-card *ngIf="!isXSmall" [displayConfig]="tab?.displayConfigWeb"
-            [courseData]="data"></ws-web-course-card>
-        </div>
+          <div [class]="tab.className"
+            *ngFor="let data of tab?.data | slice:0:(displayLimit[i] || 10); let last = last; trackBy: courseTrackBy"
+            [ngClass]="{'last-child1': last && i % 2 === 0,'last-child2': last && i % 2 !== 0}">
+            <ws-mobile-course-view *ngIf="isXSmall" [displayConfig]="tab?.displayConfig"
+              [courseData]="data"></ws-mobile-course-view>
+            <ws-web-course-card *ngIf="!isXSmall" [displayConfig]="tab?.displayConfigWeb"
+              [courseData]="data"></ws-web-course-card>
+          </div>
+          <div class="text-center show-more-container" *ngIf="tab?.data?.length > (displayLimit[i] || 10)">
+            <button class="outline-btn cursor-pointer" (click)="showMore(i, tab.data.length)">
+              Show More ({{ (displayLimit[i] || 10) }} of {{ tab.data.length }})
+            </button>
+          </div>
+        </ng-template>
       </mat-tab>
     </mat-tab-group>
   </ng-container>

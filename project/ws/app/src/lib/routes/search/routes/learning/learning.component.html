@@ -105,10 +105,32 @@
       </button>
     </div>
   </mat-sidenav-content>
-  <div *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length"
-    class="overflow-y-hidden margin-top-m flex flex-center">
-    <mat-spinner></mat-spinner>
-  </div>
+  <ng-container *ngIf="searchRequestStatus === 'fetching' && !searchResults?.result?.content?.length">
+    <!-- Desktop shimmer: horizontal thumbnail + text -->
+    <div *ngIf="!isXSmall" class="shimmer-container">
+      <div class="shimmer-card" *ngFor="let i of [1,2,3,4,5,6]">
+        <div class="shimmer-image shimmer-anim"></div>
+        <div class="shimmer-content">
+          <div class="shimmer-line shimmer-anim shimmer-title"></div>
+          <div class="shimmer-line shimmer-anim shimmer-subtitle"></div>
+          <div class="shimmer-line shimmer-anim shimmer-meta"></div>
+          <div class="shimmer-line shimmer-anim shimmer-tag"></div>
+        </div>
+      </div>
+    </div>
+    <!-- Mobile shimmer: full-width card with image on top -->
+    <div *ngIf="isXSmall" class="shimmer-mobile-container">
+      <div class="shimmer-mobile-card" *ngFor="let i of [1,2,3,4]">
+        <div class="shimmer-mobile-image shimmer-anim">
+          <div class="shimmer-badge shimmer-anim-dark"></div>
+        </div>
+        <div class="shimmer-mobile-body">
+          <div class="shimmer-line shimmer-anim shimmer-mobile-title"></div>
+          <div class="shimmer-line shimmer-anim shimmer-mobile-subtitle"></div>
+        </div>
+      </div>
+    </div>
+  </ng-container>
   <div *ngIf="noContent && searchRequestStatus === 'done'" class="margin-xl text-center">
     <h2 class="mat-h2">{{'No result' | translate}}</h2>
     <h3 class="mat-h3">{{'You may try' | translate}}</h3>

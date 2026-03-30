@@ -159,7 +159,14 @@
   }
 }
 
+.show-more-container {
+  padding: 16px 0 20px;
+}
+
 @media (max-width: 767px) {
+  .show-more-container {
+    padding-bottom: 80px;
+  }
   #heading {
     margin-left: 15px;
     margin-bottom: 10px;

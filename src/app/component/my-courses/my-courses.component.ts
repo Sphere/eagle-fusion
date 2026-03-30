@@ -31,6 +31,8 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   currentOffset: number = 1;
   pageLimit = 500;
   initialPageLimit = 10;
+  displayLimit: number[] = [] // Per-tab display limits for progressive rendering
+  private readonly PAGE_SIZE = 10
   constructor(
     private configSvc: ConfigurationsService,
     private contentSvc: WidgetContentService,
@@ -227,7 +229,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   private updateTabData() {
     if (!this.config?.tabMenu) return
 
-    this.config.tabMenu.forEach((tab: any) => {
+    this.config.tabMenu.forEach((tab: any, index: number) => {
       if (tab.label === 'For You') {
         tab.data = this.coursesForYou.filter(item =>
           !this.userEnrolledCourse.some(bItem => bItem.contentId === item.identifier))
@@ -238,11 +240,34 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       if (tab.label === 'Completed') {
         tab.data = this.completedCourse
       }
+      // Initialize display limits for each tab
+      if (this.displayLimit[index] === undefined) {
+        this.displayLimit[index] = this.PAGE_SIZE
+      }
     })
   }
 
   tabClick() {
     this.selectedIndex = 1
+  }
+
+  onTabChange(index: number) {
+    this.selectedIndex = index
+    // Reset display limit for new tab to show first page quickly
+    if (this.displayLimit[index] === undefined) {
+      this.displayLimit[index] = this.PAGE_SIZE
+    }
+  }
+
+  showMore(tabIndex: number, totalLength: number) {
+    this.displayLimit[tabIndex] = Math.min(
+      (this.displayLimit[tabIndex] || this.PAGE_SIZE) + this.PAGE_SIZE,
+      totalLength
+    )
+  }
+
+  courseTrackBy(index: number, item: any): string {
+    return item?.identifier || index
   }
 
 

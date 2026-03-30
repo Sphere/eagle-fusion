@@ -157,6 +157,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       this.dialog.closeAll()
       this.dialogOverview = this.dialog.open(AssesmentOverviewComponent, {
         width: '542px',
+        maxWidth: '95vw',
         panelClass: 'overview-modal',
         disableClose: true,
         data: overviewData,

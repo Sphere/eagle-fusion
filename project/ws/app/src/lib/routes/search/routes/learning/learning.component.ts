@@ -607,6 +607,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       this.searchResultsSubscription.unsubscribe()
     }
     this.searchRequestStatus = 'fetching'
+    this.searchResults.result.content = []
     this.exactResult.show = false
     if (this.exactResult.old !== this.searchRequestObject.request.query) {
       this.exactResult.applied = false
@@ -774,6 +775,7 @@ export class LearningComponent implements OnInit, OnDestroy {
       this.searchResultsSubscription.unsubscribe()
     }
     this.searchRequestStatus = 'fetching'
+    this.searchResults.result.content = []
     this.exactResult.show = false
     if (this.exactResult.old !== this.newSearchRequestObject.query) {
       this.exactResult.applied = false
