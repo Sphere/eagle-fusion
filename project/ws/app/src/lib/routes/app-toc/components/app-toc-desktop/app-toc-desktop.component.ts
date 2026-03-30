@@ -23,7 +23,6 @@ import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/ap
 import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
-import { LanguageService } from '../../../../../../../../../src/app/services/language.service'
 @Component({
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
