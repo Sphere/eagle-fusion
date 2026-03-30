@@ -1,21 +1,20 @@
-<div>
+<div *ngIf="isLoading" class="shimmer-container">
+  <div style="display: flex; justify-content: space-between;">
+    <div class="shimmer shimmer-header"></div>
+    <div class="shimmer shimmer-button"></div>
+    <div class="shimmer shimmer-button"></div>
+  </div>
+  <div class="shimmer shimmer-image"></div>
+</div>
+<div *ngIf="!isLoading" style="padding: 1.5rem;">
   <button class="close-button float-right cursor-pointer" [mat-dialog-close]="true">&times;</button>
   <div style="display: flex;">
     <h3><span>{{'Certificate preview of course' | translate}}</span>: {{content.tocConfig}}</h3>
-    <button mat-raised-button [color]="'primary'" style="margin:0px 10px;" (click)="downloadCertificate(content)">
-      <img loading="lazy" src=".\fusion-assets\icons\download.svg" alt="download">
-      <span class="full-text">{{'Certificate' | translate}}</span>
-      <span class="short-text">{{'Cert' | translate}}</span>
+    <button mat-raised-button color="primary" class="btn-align">
+      <mat-icon>file_download</mat-icon>
+      <span>{{'Certificate' | translate}}</span>
     </button>
   </div>
   <img [src]="img">
   <canvas id="certCanvas"></canvas>
-  <div class="overlay" *ngIf="isLoading">
-    <div class="loader-container">
-      <div class="loader-ripple">
-        <div></div>
-        <div></div>
-      </div>
-    </div>
-  </div>
 </div>

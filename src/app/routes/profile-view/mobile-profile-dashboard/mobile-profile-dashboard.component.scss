@@ -685,3 +685,43 @@ font-weight: 500;
 .label {
   font-size: 16px;
 }
+
+@keyframes shimmerSlide {
+  0% {
+    background-position: -200px 0;
+  }
+  100% {
+    background-position: 200px 0;
+  }
+}
+
+.shimmer-container {
+  display: flex;
+  gap: 5%;
+  padding: 10px;
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
+  background-size: 200% 100%;
+  animation: shimmerSlide 1.5s infinite linear;
+  border-radius: 4px;
+}
+
+.shimmer-image {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+}
+
+.shimmer-text {
+  width: 200px;
+  height: 20px;
+  margin-top: 10px;
+}
+
+.shimmer-button {
+  width: 50px;
+  height: 20px;
+  margin-top: 10px;
+}

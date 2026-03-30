@@ -22,9 +22,8 @@ import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-de
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
-
-import { WindowService } from 'src/app/services/navigation-history.service'
 import { TranslateService } from '@ngx-translate/core'
+import { LanguageService } from '../../../../../../../../../src/app/services/language.service'
 @Component({
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
@@ -49,7 +48,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   updatedContentStatus = false
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
-  validPaths = new Set(['overview', 'contents'])
+  validPaths = new Set(['overview', 'contents',])
   averageRating: any = ''
   totalRatings: any = ''
   routerParamSubscription: Subscription | null = null
@@ -104,7 +103,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     public createBatchDialog: MatDialog,
     private loader: LoaderService,
     private onlineIndexedDbService: IndexedDBService,
-    private navService: WindowService,
     @Inject(DOCUMENT) public document: Document,
     private telemetrySvc: TelemetryService,
     private logger: LoggerService,
@@ -243,9 +241,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       // ✅ Redirect to selective org course page instead of home
       const redirectUrl = orgSelectiveConfig.redirectUrl || '/page/home'
       this.logger.log('Redirecting to selective org page:', redirectUrl)
-      location.href = `${document.baseURI.replace(/\/hi$/, '').replace(/\/$/, '')}${redirectUrl}`
+      this.router.navigate([redirectUrl])
     } else {
-      this.navService.nativeWindow.history.back()
+      this.router.navigate(['/page/home'])
     }
   }
 

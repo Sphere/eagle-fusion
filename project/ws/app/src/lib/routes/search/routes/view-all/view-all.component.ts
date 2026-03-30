@@ -42,9 +42,9 @@ export class ViewAllComponent implements OnInit {
       this.courseType = params['courseType'] || 'defaultCourseType' // Use a default if needed
       this.identifiers = params['data']
       this.logger.log('Course Type:', this.courseType)
+      this.searchRequestStatus = 'fetching'
       if (this.configSvc?.userProfile?.rootOrgId)
         this.plyLsData = await this.playlistSvc.getPlaylistConfig()
-      this.searchRequestStatus = 'fetching'
       this.fetchEnvironmentConfigurations()
     })
   }
