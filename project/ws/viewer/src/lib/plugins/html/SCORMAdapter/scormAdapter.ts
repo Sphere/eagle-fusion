@@ -249,9 +249,17 @@ export class SCORMAdapterService {
           this.logger.log('PD', progressDetails)
           if (progressDetails.length > 0) {
             const data = progressDetails[0]
-            if (data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data")) {
-              const loadDatas: IScromData = {}
-              loadDatas["cmi.suspend_data"] = data.progressdetails['cmi.suspend_data']
+             if (data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data")) {
+              if (Object.keys(data.progressdetails).length === 1) {
+                data.progressdetails = {}
+              }
+              const loadDatas: IScromData = {
+                "cmi.core.exit": data.progressdetails["cmi.core.exit"],
+                "cmi.core.lesson_status": data.progressdetails["cmi.core.lesson_status"],
+                "cmi.core.session_time": data.progressdetails["cmi.core.session_time"],
+                "cmi.suspend_data": data.progressdetails["cmi.suspend_data"],
+                Initialized: data.progressdetails["Initialized"],
+              }
               // this.logger.log(loadDatas)
               this.store.setAll(loadDatas)
             }

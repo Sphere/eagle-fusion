@@ -1,14 +1,7 @@
 <div class="text-center signup-container">
-  <h2 class="mat-title" >
+  <h2 class="mat-title">
     Sign up
   </h2>
-
-  <!-- <div class="mt-8 mb-8 d-flex flex-center">
-    <button mat-raised-button class="w-50" color="primary" *ngIf="!isMobile" (click)="verifyEntry()">
-      Next</button>
-  </div> -->
-
-
 
   <form class="example-form mt-8" [formGroup]="signupForm">
     <!-- otp validate html -->
@@ -57,23 +50,15 @@
       <div class="border"></div>
 
       <div class="mt-4 flex justify-center">
-        <!-- <div class="center flex items-center"> -->
-        <!-- <div *ngIf="uploadSaveData" class="pr-4 flex items-center justify-center">
-            <mat-spinner [diameter]="30"></mat-spinner>
-          </div> -->
         <button mat-raised-button class="md-large-button" color="primary" type="submit"
           [disabled]="uploadSaveData || !signupForm?.valid" (click)="onSubmit(signupForm)">
 
           <ng-container>Register</ng-container>
         </button>
 
-
-        <!-- <button type="reset" (click)="onReset()" class="pl-4 mat-button">Cancel</button> -->
       </div>
     </div>
   </form>
-  <!--OTP component-->
-  <!-- <ws-otp *ngIf="submitted"></ws-otp> -->
 </div>
 
 <input type="hidden" i18-value i18-aria-value aria-value="Signup successful" value="Thanks for Signing up"

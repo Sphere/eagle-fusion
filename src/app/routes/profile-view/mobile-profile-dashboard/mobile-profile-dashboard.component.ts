@@ -68,6 +68,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   selectedIndextitle: string
   earnedBadges$: any
   count = 3
+  isLoading = false;
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -240,6 +241,7 @@ export class MobileProfileDashboardComponent implements OnInit {
 
       case 'certificates':
         window.scroll(0, 0)
+        this.isLoading = true
         this.contentSvc.fetchGeneralAndRcCertificates().pipe(
           mergeMap((res: any) => this.processCertiFicate(res))
         ).subscribe({
@@ -350,6 +352,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     )
   }
   formatAllRequest(data: any) {
+    this.isLoading = false
     this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))
   }
 
@@ -596,6 +599,7 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     this.userProfileSvc.getLeaderBoardData(request).subscribe((res: any) => {
+      alert("getLEaderboard data" + JSON.stringify(res.result))
       this.totalUsers = res?.result?.count || 0
       this.leaderboardData = res?.result?.content?.leaderboardList || []
       this.currentUser = res?.result?.content?.activeUserDetails

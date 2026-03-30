@@ -524,33 +524,6 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData, userAgent, userCookie)
 
-    // Ensure all personal details are defined with default values if missing
-    const defaultPersonalDetails = {
-      osName: userAgent.OS,
-      browserName: userAgent.browserName,
-      userCookie: userCookie,
-      postalAddress: form.value.country !== 'India'
-        ? form.value.country
-        : `${form.value.country},${form.value.state},${form.value.distict}`,
-      profileLocation: 'sphere-web/personal-detail-edit-onSubmit',
-      firstname: this.userProfileData.personalDetails.firstname || '',
-      surname: this.userProfileData.personalDetails.surname || '',
-      dob: this.userProfileData.personalDetails.dob || '',
-      nationality: this.userProfileData.personalDetails.nationality || '',
-      domicileMedium: this.userProfileData.personalDetails.domicileMedium || '',
-      gender: this.userProfileData.personalDetails.gender || '',
-      maritalStatus: this.userProfileData.personalDetails.maritalStatus || '',
-      knownLanguages: this.userProfileData.personalDetails.knownLanguages || [],
-      mobile: this.userProfileData.personalDetails.mobile || '',
-      email: this.userProfileData.personalDetails.primaryEmail || '',
-      pincode: this.userProfileData.personalDetails.pincode || '',
-    }
-
-    profileRequest.profileReq.personalDetails = {
-      ...defaultPersonalDetails,
-      ...this.userProfileData.personalDetails, // Override defaults with existing values if present
-    }
-
     profileRequest.profileReq.personalDetails["osName"] = this.userProfileData.personalDetails.osName ? this.userProfileData.personalDetails.osName : userAgent.OS
     profileRequest.profileReq.personalDetails["browserName"] = this.userProfileData.personalDetails.browserName ? this.userProfileData.personalDetails.browserName : userAgent.browserName
     profileRequest.profileReq.personalDetails["userCookie"] = this.userProfileData.personalDetails.userCookie ? this.userProfileData.personalDetails.userCookie : userCookie
@@ -579,7 +552,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         },
       },
     }
-    this.logger.log(reqUpdate)
+    this.logger.log("reqUpdate", reqUpdate)
     this.userProfileSvc.updateProfileDetails(reqUpdate)
       .pipe(takeUntil(this.destroy$))
       .subscribe(

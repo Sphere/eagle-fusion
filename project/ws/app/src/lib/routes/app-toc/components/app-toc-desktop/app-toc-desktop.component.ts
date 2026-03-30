@@ -4,51 +4,35 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
 import { ActivatedRoute, Event, NavigationEnd, Router } from '@angular/router'
 import {
-  // ContentProgressService,
   NsContent,
-  // NsGoal,
-  // NsPlaylist,
   viewerRouteGenerator,
   WidgetContentService,
 } from '@ws-widget/collection'
 import { ConfigurationsService, TelemetryService, TFetchStatus, LoggerService } from '@ws-widget/utils'
 import { UtilityService } from '@ws-widget/utils/src/lib/services/utility.service'
-// import { AccessControlService } from '@ws/author'
 import { Subscription } from 'rxjs'
-// import { NsAnalytics } from '../../models/app-toc-analytics.model'
 import { NsAppToc, NsCohorts } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
-// import { AppTocDialogIntroVideoComponent } from '../app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
 import { MobileAppsService } from 'src/app/services/mobile-apps.service'
 import { FormControl, FormGroup, Validators } from '@angular/forms'
-// import dayjs from 'dayjs'
-// import * as  lodash from 'lodash'
-// import { CreateBatchDialogComponent } from '../create-batch-dialog/create-batch-dialog.component'
-// import * as FileSaver from 'file-saver'
 import moment from 'moment'
 import { IndexedDBService } from 'src/app/online-indexed-db.service'
 import { DOCUMENT } from '@angular/common'
 import { AppTocDesktopModalComponent } from '../app-toc-desktop-modal/app-toc-desktop-modal.component'
 import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/app-toc-certificate-modal.component'
 import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
-// import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
-
-import { WindowService } from 'src/app/services/navigation-history.service'
 import { LanguageService } from '../../../../../../../../../src/app/services/language.service'
 @Component({
   selector: 'ws-app-app-toc-desktop',
   templateUrl: './app-toc-desktop.component.html',
   styleUrls: ['./app-toc-desktop.component.scss'],
-  providers: [
-    // AccessControlService
-  ],
+  providers: [],
 })
 export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() banners: NsAppToc.ITocBanner | null = null
   @Input() content: NsContent.IContent | null = null
   @Input() resumeData: NsContent.IContinueLearningData | null = null
-  // @Input() analytics: NsAnalytics.IAnalytics | null = null
   @Input() forPreview = false
   @Input() batchData!: any
   @Input() enrollCourse!: any
@@ -61,12 +45,9 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   issueCertificate = false
   updatedContentFound: any
   updatedContentStatus = false
-  // contentProgress = 0
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
-  validPaths = new Set(['overview', 'contents',
-    // 'analytics'
-  ])
+  validPaths = new Set(['overview', 'contents',])
   averageRating: any = ''
   totalRatings: any = ''
   routerParamSubscription: Subscription | null = null
@@ -77,9 +58,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   isPracticeVisible = false
   editButton = false
   reviewButton = false
-  // analyticsDataClient: any = null
-  // btnPlaylistConfig: NsPlaylist.IBtnPlaylist | null = null
-  // btnGoalsConfig: NsGoal.IBtnGoal | null = null
   isRegistrationSupported = false
   checkRegistrationSources: Set<string> = new Set([
     'SkillSoft Digitalization',
@@ -101,7 +79,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   } = {}
   identifier: any
   cohortTypesEnum = NsCohorts.ECohortTypes
-  // learnersCount:Number
   defaultSLogo = ''
   disableEnrollBtn = false
   batchId!: string
@@ -118,17 +95,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private dialog: MatDialog,
     private tocSvc: AppTocService,
     private configSvc: ConfigurationsService,
-    // private progressSvc: ContentProgressService,
     private contentSvc: WidgetContentService,
     private utilitySvc: UtilityService,
     private mobileAppsSvc: MobileAppsService,
     private snackBar: MatSnackBar,
     public createBatchDialog: MatDialog,
     private loader: LoaderService,
-
     private onlineIndexedDbService: IndexedDBService,
-    private navService: WindowService,
-    // private authAccessService: AccessControlService,
     @Inject(DOCUMENT) public document: Document,
     private telemetrySvc: TelemetryService,
     private langSvc: LanguageService,
@@ -153,9 +126,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
     if (this.content) {
       this.logger.log(this.optmisticPercentage, '149', this.finishedPercentage)
-
       this.readCourseRatingSummary()
-      // this.fetchCohorts(this.cohortTypesEnum.ACTIVE_USERS, this.content.identifier)
     }
 
     this.route.data.subscribe(data => {
@@ -195,17 +166,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         'showIntranetMessageDesktop',
       )
     }
-
-    // if (this.authAccessService.hasAccess(this.content as any) && !this.isInIFrame) {
-    //   const status: string = (this.content as any).status
-    //   if (!this.forPreview) {
-    //     this.editButton = true
-    //   } else if (['Draft', 'Live'].includes(status)) {
-    //     this.editButton = true
-    //   } else if (['InReview', 'Reviewed', 'QualityReview'].includes(status)) {
-    //     this.reviewButton = true
-    //   }
-    // }
     this.checkRegistrationStatus()
     this.routerParamSubscription = this.router.events.subscribe((routerEvent: Event) => {
       if (routerEvent instanceof NavigationEnd) {
@@ -247,8 +207,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
   }
 
-
-
   setConfirmDialogStatus(percentage: any) {
     this.contentSvc.showConformation = percentage
   }
@@ -286,16 +244,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
   redirect() {
     this.logger.log(this.configSvc, 'key')
-    let local = (
-      this.configSvc.unMappedUser &&
-      this.configSvc.unMappedUser.profileDetails &&
-      this.configSvc.unMappedUser.profileDetails.preferences &&
-      this.configSvc.unMappedUser.profileDetails.preferences.language !== undefined
-    )
-      ? this.configSvc.unMappedUser.profileDetails.preferences.language
-      : (location.href.includes('/hi/') ? 'hi' : '')
-    local = local === 'en' ? '' : 'hi'
-    this.logger.log(local)
     let url = ''
 
     // ✅ Check if orgSelectiveConfig matches and redirect accordingly
@@ -309,45 +257,11 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       // ✅ Redirect to selective org course page instead of home
       const redirectUrl = orgSelectiveConfig.redirectUrl || '/page/home'
       this.logger.log('Redirecting to selective org page:', redirectUrl)
-      location.href = `${document.baseURI.replace(/\/hi$/, '').replace(/\/$/, '')}${redirectUrl}`
+      this.router.navigate([redirectUrl])
     } else {
-      this.navService.nativeWindow.history.back()
-      // url = local === 'hi' ? `${local}/page/home` : `${local}page/home`
-      // this.logger.log(url)
-      // let url3 = `${document.baseURI}`
-      // if (url3.includes('hi')) {
-      //   url3 = url3.replace(/hi\//g, '')
-      // }
-      // location.href = `${url3}${url}`
+      this.router.navigate(['/page/home'])
     }
   }
-
-  // resumeBtn() {
-  //   if(localStorage.getItem(`resume_URL`)){
-  //     this.resumeDataLink.url = localStorage.getItem(`resume_URL`)
-  //       this.logger.log(resume_URL)
-  //       //location.href = resume_URL
-  //       //this.router.navigateByUrl(`${resume_URL}`)
-  //   } else {
-  //     this.logger.log(this.lastCourseID)
-  //     this.resumeDataLink = viewerRouteGenerator(
-  //       this.lastCourseID.content.identifier,
-  //       this.lastCourseID.content.mimeType,
-  //       this.isResource ? undefined : this.lastCourseID.content.identifier,
-  //       this.isResource ? undefined : this.lastCourseID.content.contentType,
-  //       this.forPreview,
-  //       'Learning Resource',
-  //       this.getBatchId(),
-  //     )
-  //     this.logger.log(this.resumeDataLink)
-  //      const query = this.generateQuery('RESUME')
-  //      this.logger.log(query)
-  //      this.logger.log(this.resumeDataLink)
-  // tslint:disable-next-line:max-line-length
-  //     let url = this.resumeDataLink.url+'?primaryCategory='+query.primaryCategory+'&collectionId='+query.collectionId+'&collectionType='+query.collectionType+'&batchId='+query.batchId
-
-  //   }
-  // }
 
   uniqueIdsByContentType(obj: any, contentType: any, uniqueIds = new Set()) {
     // Check if the current object is an array

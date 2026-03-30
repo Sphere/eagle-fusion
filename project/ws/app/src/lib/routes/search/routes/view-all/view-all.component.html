@@ -1,4 +1,19 @@
-<div class="sidenav-content" *ngIf="searchRequestStatus === 'done'&&searchResults?.length > 0">
+<ng-container *ngIf="searchRequestStatus === 'fetching'">
+  <div style="display: flex; justify-content: space-between; padding: 10px;">
+    <div class="sk-title"></div>
+    <div class="sk-title"></div>
+  </div>
+  <div class="shimmer-card" *ngFor="let j of [1, 2, 3, 4]">
+    <div class="shimmer shimmer-image"></div>
+    <div class="shimmer-body">
+      <div class="shimmer-title"></div>
+      <div class="shimmer-subtitle"></div>
+      <div class="shimmer-subtitle"></div>
+      <div class="shimmer-subtitle"></div>
+    </div>
+  </div>
+</ng-container>
+<div class="sidenav-content" *ngIf="searchRequestStatus === 'done' && searchResults?.length > 0">
   <a tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
     [ngClass]="{'withFilter': withoutFilter, 'withoutFilter': !withoutFilter}">
     <span class="mt-1" *ngIf="!isXSmall$">{{"Showing" | translate}} </span>
@@ -21,6 +36,3 @@
     <h2 class="mat-h2">{{"No result" | translate}}</h2>
   </div>
 </ng-template>
-<div *ngIf="searchRequestStatus === 'fetching'" class="margin-top-m flex flex-center">
-  <mat-spinner diameter="48" style="--mdc-circular-progress-active-indicator-color: #000"></mat-spinner>
-</div>
