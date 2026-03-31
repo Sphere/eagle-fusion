@@ -12,6 +12,7 @@ import { MatInputModule } from '@angular/material/input'
 import { ReactiveFormsModule } from '@angular/forms'
 import { BtnFullscreenModule } from '../btn-fullscreen/btn-fullscreen.module'
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
+import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
     declarations: [PlayerPdfComponent],
     imports: [
@@ -26,7 +27,8 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
         ReactiveFormsModule,
         BtnFullscreenModule,
         MatInputModule,
-        NgxExtendedPdfViewerModule
+        NgxExtendedPdfViewerModule,
+        TranslateModule
     ],
     exports: [PlayerPdfComponent, NgxExtendedPdfViewerModule]
 })
