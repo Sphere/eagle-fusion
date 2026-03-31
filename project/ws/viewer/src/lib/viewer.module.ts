@@ -53,6 +53,7 @@ import { UserImageModule } from './../../../../../library/ws-widget/collection/s
 import { AppTocModule } from '@ws/app'
 import { QuizModule } from './plugins/quiz/quiz.module'
 import { MatTooltipModule } from '@angular/material/tooltip'
+import { TranslateModule } from '@ngx-translate/core'
 @NgModule({
   declarations: [ViewerComponent, ViewerTocComponent, FilterResourcePipe],
   imports: [
@@ -100,6 +101,7 @@ import { MatTooltipModule } from '@angular/material/tooltip'
     AppTocModule,
     QuizModule,
     NgCircleProgressModule.forRoot({}),
+    TranslateModule
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

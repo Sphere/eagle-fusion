@@ -239,7 +239,7 @@ export class SCORMAdapterService {
           this.logger.log('PD', progressDetails)
           if (progressDetails.length > 0) {
             const data = progressDetails[0]
-             if (data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data")) {
+            if (data.progressdetails && data.progressdetails.hasOwnProperty("cmi.suspend_data")) {
               if (Object.keys(data.progressdetails).length === 1) {
                 data.progressdetails = {}
               }
