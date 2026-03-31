@@ -2,13 +2,15 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http'
 import { Injectable } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/lib/services/configurations.service'
 import { Observable, of, throwError, Subject, BehaviorSubject } from 'rxjs'
-import { catchError, retry, map } from 'rxjs/operators'
+import { catchError, retry, map, shareReplay } from 'rxjs/operators'
 import { NsContentStripMultiple } from '../content-strip-multiple/content-strip-multiple.model'
 import { NsContent } from './widget-content.model'
 import { NSSearch } from './widget-search.model'
 import { LanguageService } from '../../../../../../src/app/services/language.service'
 import { LoggerService } from '../../../../utils/src/public-api'
 import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
+import { CourseHierarchyCacheService } from './course-hierarchy-cache.service'
+
 @Injectable({
   providedIn: 'root',
 })
@@ -26,11 +28,15 @@ export class WidgetContentService {
   // Observable navItem stream
   updateValue$ = this._updateValue.asObservable()
   _showConformation: any
+
+  // Request deduplication cache for progress API
+  private progressRequestCache: Map<string, Observable<any>> = new Map()
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService,
     private languageSvc: LanguageService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cacheService: CourseHierarchyCacheService
   ) { }
 
   fetchMarkAsCompleteMeta(identifier: string): Promise<any> {
@@ -71,15 +77,18 @@ export class WidgetContentService {
       )
   }
   fetchHierarchyContent(contentId: string): Observable<NsContent.IContent> {
-    const url = API_END_POINTS.CONTENT_HIERARCHY(contentId, 'detail')
-    const apiData = this.http
-      .get<NsContent.IContent>(url)
-      .pipe(retry(1))
-    return apiData
+    // Use cache service with 2-hour expiration (same-day freshness for published courses)
+    return this.cacheService.getCourseHierarchy(contentId)
   }
 
   readContentV2(id: string): Observable<NsContent.IContent> {
-    let url = API_END_POINTS.CONTENT_READ(id)
+    // Guard: prevent API call with undefined id
+    if (!id || id === 'undefined') {
+      console.error('[Content] Error: readContentV2 called with undefined id')
+      return throwError(() => new Error('Content ID is required'))
+    }
+
+    let url = `/apis/proxies/v8/action/content/v3/read/${id}`
     const apiData = this.http
       .get<NsContent.IContent>(url)
       .pipe(retry(1))
@@ -109,20 +118,27 @@ export class WidgetContentService {
 
   fetchContent(
     contentId: string,
-    hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
+    _hierarchyType: 'all' | 'minimal' | 'detail' = 'detail',
     _additionalFields: string[] = [],
     primaryCategory?: string | null,
   ): Observable<NsContent.IContent> {
-    let url = ''
-    if (primaryCategory && this.isResource(primaryCategory)) {
-      url = API_END_POINTS.CONTENT_READ(contentId)
-    } else {
-      url = API_END_POINTS.CONTENT_HIERARCHY(contentId, hierarchyType)
+    // Guard: prevent API call with undefined id
+    if (!contentId || contentId === 'undefined') {
+      console.error('[Content] Error: fetchContent called with undefined contentId')
+      return throwError(() => new Error('Content ID is required'))
     }
-    const apiData = this.http
-      .get<NsContent.IContent>(url)
-      .pipe(retry(1))
-    return apiData
+
+    // For resources (learning objects), fetch directly without cache
+    if (primaryCategory && this.isResource(primaryCategory)) {
+      const url = `/apis/proxies/v8/action/content/v3/read/${contentId}`
+      const apiData = this.http
+        .get<NsContent.IContent>(url)
+        .pipe(retry(1))
+      return apiData
+    }
+
+    // For collections/courses, use cache service with 2-hour expiration
+    return this.cacheService.getCourseHierarchy(contentId)
   }
 
   isResource(primaryCategory: string) {
@@ -189,9 +205,38 @@ export class WidgetContentService {
 
   fetchContentHistoryV2(req: NsContent.IContinueLearningDataReq): Observable<NsContent.IContinueLearningData> {
     req.request.fields = ['progressdetails']
-    return this.http.post<NsContent.IContinueLearningData>(
-      `${API_END_POINTS.CONTENT_HISTORYV2}/${req.request.courseId}`, req
+    const courseId = req.request.courseId
+    const cacheKey = `progress-${courseId}`
+
+    // Check if we already have a pending request for this course (request deduplication)
+    if (this.progressRequestCache.has(cacheKey)) {
+      console.log(`[Progress] Deduplication: Using cached request for ${courseId}`)
+      return this.progressRequestCache.get(cacheKey)!
+    }
+
+    // Make API call and cache the observable (prevents duplicate simultaneous requests)
+    const request$ = this.http.post<NsContent.IContinueLearningData>(
+      `${API_END_POINTS.CONTENT_HISTORYV2}/${courseId}`, req
+    ).pipe(
+      shareReplay(1),  // Share result among multiple subscribers + keep cached for 1 more subscription
+      catchError(error => {
+        console.error(`[Progress] API Error for ${courseId}:`, error)
+        this.progressRequestCache.delete(cacheKey)  // Remove from cache on error
+        return throwError(() => error)
+      }),
+      // Auto cleanup cache after response (allows time for more subscribers to attach)
+      // 500ms - enough for multiple simultaneous subscriptions to use the cached result
     )
+
+    this.progressRequestCache.set(cacheKey, request$)
+    console.log(`[Progress] API Call: ${courseId}`)
+
+    // Auto-cleanup after 500ms to prevent memory buildup
+    setTimeout(() => {
+      this.progressRequestCache.delete(cacheKey)
+    }, 500)
+
+    return request$
   }
   // async continueLearning(id: string, collectionId?: string, collectionType?: string): Promise<any> {
   //   return new Promise(async resolve => {

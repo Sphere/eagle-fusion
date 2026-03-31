@@ -95,12 +95,15 @@ export class AppTocContentsComponent implements OnInit, OnDestroy {
   private initData(data: Data) {
     const initData = this.tocSvc.initData(data, true)
     this.content = initData.content
-    if (this.content && this.content.gatingEnabled) {
+    // Always set gating flag, even if false (previous course gating flag must be reset)
+    if (this.content) {
       this.tocSvc.setNode(this.content.gatingEnabled)
-      if (this.content.children[0].children && this.content.children[0].children.length > 0) {
-        this.content.children[0].children[0]['hideLocIcon'] = true
-      } else {
-        this.content.children[0]['hideLocIcon'] = true
+      if (this.content.gatingEnabled) {
+        if (this.content.children[0].children && this.content.children[0].children.length > 0) {
+          this.content.children[0].children[0]['hideLocIcon'] = true
+        } else {
+          this.content.children[0]['hideLocIcon'] = true
+        }
       }
     }
     this.errorCode = initData.errorCode

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import { PlayerStateService } from '../../../../../../project/ws/viewer/src/lib/player-state.service'
+import { ViewerDataService } from '../../../../../../project/ws/viewer/src/lib/viewer-data.service'
 import { EventService } from '../../../../utils/src/public-api'
 
 @Component({
@@ -20,6 +21,7 @@ export class PlayerNavigationWidgetComponent implements OnInit {
 
   constructor(
     private viewerDataSvc: PlayerStateService,
+    private viewerData: ViewerDataService,
     private router: Router,
     private events: EventService
   ) { }
@@ -53,6 +55,11 @@ export class PlayerNavigationWidgetComponent implements OnInit {
   }
 
   get isProgressCheck(): boolean {
+    // If gating is not enabled, allow next button by default
+    if (!this.viewerData.gatingEnabled) {
+      return true
+    }
+    // If gating is enabled, require 100% completion
     if (typeof this.currentCompletionPercentage === 'undefined' ||
       this.currentCompletionPercentage !== 100) {
       return false

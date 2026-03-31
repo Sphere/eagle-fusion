@@ -153,18 +153,17 @@
 
 
   @include breakpoint-xs {
-    width: 103.6%;
+    width: 100%;
     height: 45vh !important;
     position: relative;
     min-height: 45vh !important;
-    margin: 0px 0 0 -7px;
-    padding: 0px 9px;
-
+    margin: 0;
+    padding: 0;
   }
 }
 
 #fullScreenContainer>div {
-  left: 1px;
+  left: 0;
 }
 
 .prev-button .width-auto {

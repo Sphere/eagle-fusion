@@ -444,7 +444,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       ).toPromise()
       content = content.result.content
       this.heirarchy = content
-      if (content && content.gatingEnabled) {
+      // Always set gating flag, even if false (previous course gating flag must be reset)
+      if (content) {
         this.viewerDataSvc.setNode(content.gatingEnabled)
       }
       this.resourceContentTypeFunct(content.mimeType)

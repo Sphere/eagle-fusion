@@ -709,7 +709,8 @@ export class ViewerResolve {
       tap(content => {
         // tslint:disable-next-line: no-parameter-reassignment
         content = content.result.content
-        if (content && content.gatingEnabled) {
+        // Always set gating flag, even if false (previous course gating flag must be reset)
+        if (content) {
           this.viewerDataSvc.setNode(content.gatingEnabled)
         }
         if (content.status === 'Deleted' || content.status === 'Expired') {

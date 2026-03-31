@@ -9,7 +9,7 @@
     {{assesmentdata.isAssessment ? "'Assessment' | translate" : "'Quiz' | translate"}}
   </div>
   <div class="status-box">
-    <div class=" m-2 p-2 ellips">
+    <div class=" m-2 ellips">
       <h4 class="label2">{{
         assesmentdata.duration | pipeDurationTransform: 'mnts'
         }}</h4>
@@ -20,7 +20,7 @@
       </div> -->
 
     </div>
-    <div class="m-2 p-2 ellips">
+    <div class="m-2 ellips">
       <h4 class="label2">
         {{assesmentdata.noOfQuestions}}</h4>
       <h4 class="label3">{{"Questions" | translate}}</h4>
@@ -29,7 +29,7 @@
         <span class="label3" style="margin: -13px;">Questions</span> -->
       <!-- </div> -->
     </div>
-    <div class=" m-2 p-2 ellips">
+    <div class=" m-2 ellips">
       <h4 class="label2">{{assesmentdata.passPercentage}}<span>%</span></h4>
       <h4 class="label3">{{"Required" | translate}}</h4>
       <!-- <span class="label2">

@@ -100,6 +100,8 @@
 
   @include breakpoint-xs {
     font-size: 24px !important;
+    padding: 0 !important;
+    line-height: 1.2;
   }
 
   @include breakpoint-s {
@@ -123,6 +125,7 @@
   @include breakpoint-xs {
     font-size: 12px !important;
     margin-top: 0 !important;
+    padding: 0 !important;
   }
 
   @include breakpoint-s {

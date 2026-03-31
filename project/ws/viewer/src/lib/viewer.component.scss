@@ -37,6 +37,9 @@
   @include breakpoint-gt-xs {
     min-height: 450px;
   }
+  @include breakpoint-xs {
+    min-height: 300px;
+  }
 }
 
 .viewer-sidenav-container {
@@ -161,13 +164,21 @@ viewer-quiz {
   // }
 }
 
-::ng-deep .mat-tab-link,
-::ng-deep .mat-tab-label {
+::ng-deep .mat-mdc-tab-link,
+::ng-deep .mat-mdc-tab {
   opacity: 1;
   font-size: 20px !important;
 }
 
-::ng-deep .mat-tab-label-active {
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: #555555 !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: #000000 !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active {
   border-bottom: solid 3px #969696;
 }
 
