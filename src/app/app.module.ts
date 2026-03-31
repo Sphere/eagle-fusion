@@ -118,9 +118,9 @@ import { CreateAccountDialogComponent } from './routes/create-account-modal/crea
 import { OrganisationsModule } from '../organisations/organisations.module'
 import { Capacitor } from '@capacitor/core'
 import { SashaktCallbackComponent } from './sashakt-callback/sashakt-callback.component'
-import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
-import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web/self-assessment'
-import { CompetencyModule } from '@aastrika_npmjs/competency-web/competency'
+import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
+import { CompetencyModule } from '@aastrika_npmjs/comptency/competency'
 import { AppCallBackComponent } from './component/app-call-back/app-call-back.component'
 import { WebFeaturedCourseComponent } from './routes/web-featured-course/web-featured-course.component'
 import { WebNavLinkPageComponent } from './routes/web-nav-link/web-nav-link-page.component'
@@ -454,8 +454,6 @@ export class AppModule {
   constructor(private translate: TranslateService) {
     this.translate.setDefaultLang('en')
     this.translate.use('en')
-    // EntryModule.forRoot(COMPETENCY_REGISTRATION_CONFIG)
-    // CompetencyModule.forRoot(COMPETENCY_REGISTRATION_CONFIG)
   }
 }
 

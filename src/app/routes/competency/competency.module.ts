@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
 
 // Import competency modules
-import { EntryModule } from '@aastrika_npmjs/competency-web/entry-module'
-import { SelfAssessmentModule } from '@aastrika_npmjs/competency-web/self-assessment'
-import { CompetencyModule as AastrikaCompetencyModule } from '@aastrika_npmjs/competency-web/competency'
+import { EntryModule } from '@aastrika_npmjs/comptency/entry-module'
+import { SelfAssessmentModule } from '@aastrika_npmjs/comptency/self-assessment'
+import { CompetencyModule as AastrikaCompetencyModule } from '@aastrika_npmjs/comptency/competency'
 
 // Components
 // import { SelfAssessmentComponent } from '../self-assessment/self-assessment.component'
