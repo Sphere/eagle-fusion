@@ -238,13 +238,13 @@
   justify-content: center;
 }
 
-::ng-deep.theme-igot.day-mode .mat-mdc-progress-bar-fill::after {
+::ng-deep.light-theme .mat-mdc-progress-bar-fill::after {
   background: #30EA7E 0% 0% no-repeat padding-box;
 
   border-radius: 40px;
 }
 
-::ng-deep.theme-igot.day-mode .mat-mdc-progress-bar--buffer {
+::ng-deep.light-theme .mat-mdc-progress-bar--buffer {
   background-color: #EDEDED;
   // background-color: #E7E6E6 !important;
 }

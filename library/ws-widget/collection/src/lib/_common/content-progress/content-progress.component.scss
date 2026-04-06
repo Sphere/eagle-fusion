@@ -7,10 +7,10 @@
   height: 10px;
 }*/
 
-::ng-deep.theme-igot.day-mode .mdc-linear-progress__bar {
+::ng-deep.light-theme .mdc-linear-progress__bar {
   background: #34D6A4 0% 0% no-repeat padding-box;
 }
 
-::ng-deep.theme-igot.day-mode .mdc-linear-progress__buffer {
+::ng-deep.light-theme .mdc-linear-progress__buffer {
   background-color: #EDEDED;
 }

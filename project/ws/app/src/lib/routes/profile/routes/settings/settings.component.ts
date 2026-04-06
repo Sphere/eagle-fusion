@@ -45,7 +45,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   contentLangForm: UntypedFormControl = new UntypedFormControl()
   showContentLang = false
   intranetContentForm = new UntypedFormControl(false)
-  darkModeForm = new UntypedFormControl(false)
+  // darkModeForm = new UntypedFormControl(false)
   activeThemeKey = ''
   activeFontClass = ''
   activeLocaleClass = ''
@@ -128,15 +128,15 @@ export class SettingsComponent implements OnInit, OnDestroy {
         {},
       )
       // Set the initial value for Themes
-      this.darkModeForm.setValue(this.configSvc.isDarkMode)
+      // this.darkModeForm.setValue(this.configSvc.isDarkMode)
       this.intranetContentForm.setValue(this.isIntranetAllowed)
       this.updateActiveStatus()
       // Events Subscription
-      this.modeChangeSubs = this.darkModeForm.valueChanges
-        .pipe(distinctUntilChanged(), debounceTime(150))
-        .subscribe((isDark: boolean) => {
-          this.btnSettingsSvc.applyThemeMode(isDark)
-        })
+      // this.modeChangeSubs = this.darkModeForm.valueChanges
+      //   .pipe(distinctUntilChanged(), debounceTime(150))
+      //   .subscribe((isDark: boolean) => {
+      //     // this.btnSettingsSvc.applyThemeMode(isDark)
+      //   })
       this.modeChangeSubs = this.intranetContentForm.valueChanges
         .pipe(distinctUntilChanged(), debounceTime(150))
         .subscribe((isIntranet: boolean) => {
@@ -205,7 +205,7 @@ export class SettingsComponent implements OnInit, OnDestroy {
   }
 
   private updateActiveStatus() {
-    this.darkModeForm.setValue(this.configSvc.isDarkMode)
+    // this.darkModeForm.setValue(this.configSvc.isDarkMode)
     this.intranetContentForm.setValue(this.configSvc.isIntranetAllowed)
     if (this.configSvc.activeThemeObject) {
       this.activeThemeKey = this.configSvc.activeThemeObject.themeClass

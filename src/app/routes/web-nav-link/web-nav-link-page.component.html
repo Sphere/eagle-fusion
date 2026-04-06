@@ -1,4 +1,7 @@
 <div class="link-container" *ngIf="!mode && (data?.tncAccepted || data?.dob)">
+  <button mat-button (click)="toggleTheme()" matTooltip="Toggle theme">
+    <mat-icon>brightness_6</mat-icon>
+  </button>
   <div class="link-block" *ngFor="let item of menuItems">
     <a role="button" *ngIf="item.type=='text'" matRipple [ngClass]="{'ws-mat-accent-text': item.show }"
       (click)="redirect(item)" active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">

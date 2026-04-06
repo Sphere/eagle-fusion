@@ -45,7 +45,7 @@
   padding: 14px 16px;
   margin-bottom: 12px;
   border-radius: 10px;
-  background: #fff;
+  background: var(--mat-toolbar-container-background-color);
   box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.08);
   border: 1px solid rgba(0, 0, 0, 0.08);
 }
@@ -143,6 +143,7 @@
 
 #heading {
   //margin-left: 20px;
+  color: var(--title-color);
   margin-top: 20px;
   margin-bottom: 0px;
   font: 400 24px / 32px Roboto;
@@ -275,7 +276,7 @@
   background: #1C5D95 !important;
   font-size: 14px;
   border-radius: 50px;
-  color: #fff !important;
+  color: var(--mat-toolbar-container-background-color) !important;
   padding: 8px 32px;
   line-height: 19px;
 }
@@ -348,9 +349,20 @@
   background: #00000085;
 }
 
-::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab--active {
+::ng-deep .light-theme .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab--active {
   opacity: 1;
   --mat-tab-header-active-label-text-color: black !important;
+  --mdc-tab-indicator-active-indicator-color: black !important;
+  --mat-tab-header-active-focus-label-text-color: black !important;
+  --mat-tab-header-active-hover-label-text-color: black !important;
+  --mat-tab-header-active-focus-indicator-color: black !important;
+  --mat-tab-header-active-hover-indicator-color: black !important;
+}
+
+
+::ng-deep .dark-theme .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab--active {
+  opacity: 1;
+  --mat-tab-header-active-label-text-color: white !important;
   --mdc-tab-indicator-active-indicator-color: black !important;
   --mat-tab-header-active-focus-label-text-color: black !important;
   --mat-tab-header-active-hover-label-text-color: black !important;
@@ -399,7 +411,7 @@
   top: 0px;
   padding: 5px;
   background-color: #D68480;
-  color: #FFFFFF;
+  color: var(--mat-toolbar-container-background-color);
   border-top-left-radius: 10px;
   border-bottom-right-radius: 10px;
 }
@@ -410,7 +422,7 @@
   right: 0px;
   padding: 5px;
   background-color: #519DB2;
-  color: #FFFFFF;
+  color: var(--mat-toolbar-container-background-color);
   border-top-left-radius: 10px;
   border-bottom-left-radius: 10px;
 }

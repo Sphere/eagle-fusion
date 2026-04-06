@@ -1,8 +1,7 @@
 @import 'ws-vars';
 @import 'ws-mixins';
 @import './utility.scss';
-
-//@import '../../node_modules/quill/dist/quill.snow.css';
+@import './themes.scss';
 
 @include print {
   * {
@@ -582,13 +581,9 @@ h3.shepherd-title {
   background-color: #f5d58d;
 }
 
-.theme-igot.day-mode .mat-mdc-raised-button.mat-primary {
+.light-theme .mat-mdc-raised-button.mat-primary {
   background-color: #f5d58d !important;
   line-height: 40px !important;
-}
-
-.theme-igot.day-mode .mat-mdc-raised-button[disabled][disabled] {
-  // background-color: white !important;
 }
 
 .action-button {
@@ -692,7 +687,7 @@ a.width-auto {
   display: block;
 }
 
-.theme-igot.day-mode a.width-auto.mat-button[disabled][disabled]:hover {
+.light-theme a.width-auto.mat-button[disabled][disabled]:hover {
   opacity: 0.4;
 }
 
@@ -700,7 +695,7 @@ a.width-auto {
   background-color: transparent !important;
 }
 
-.theme-igot.day-mode .mat-menu-item-highlighted:not([disabled]) {
+.light-theme .mat-menu-item-highlighted:not([disabled]) {
   background: rgb(255 255 255) !important;
 }
 
@@ -789,7 +784,7 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   outline: 1px solid rgb(162, 206, 250);
 }
 
-.theme-igot.day-mode .mat-expansion-panel:not([class*='mat-elevation-z']) {
+.light-theme .mat-expansion-panel:not([class*='mat-elevation-z']) {
   box-shadow: none !important;
 }
 
@@ -1195,4 +1190,22 @@ ws-public-toc {
   .mat-mdc-tab-header {
     border-bottom: 1px solid #dfdfdf !important;
   }
+}
+
+.light-theme .mat-mdc-checkbox-checked.mat-primary .mdc-checkbox__background {
+  background-color: #f5d58d !important;
+}
+
+::ng-deep .mat-mdc-form-field .mdc-notched-outline__leading,
+::ng-deep .mat-mdc-form-field .mdc-notched-outline__trailing {
+  border: none !important;
+}
+
+::ng-deep .light-theme .mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #469788 !important;
+  --mdc-linear-progress-track-color: #EDEDED !important;
+}
+
+::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple){
+  background-color: #f5d58d !important;
 }

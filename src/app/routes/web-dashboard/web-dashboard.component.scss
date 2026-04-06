@@ -1,9 +1,8 @@
 .banner-container{
-    display: flex;
-    margin-top: 45px;
-    align-items: center;
-    justify-content: space-around;
-    background: #fdfcfc;
+  display: flex;
+  margin-top: 45px;
+  align-items: center;
+  justify-content: space-around;
 }
 .isEkshamata{
   margin-top: 5px;
@@ -31,7 +30,7 @@
   font-weight: 400;
   line-height: 26px;
   text-align: left;
-  color: #513433;
+  // color: #513433;
 }
 .banner-first-image{
   width: 92.08px;
@@ -56,10 +55,10 @@
   letter-spacing: -0.02em;
   text-align: left;
   font-style: normal;
-  color: #000000;
+  // color: #000000;
 }
 .banner-mini-heading{
-  color: #000000;
+  // color: #000000;
   font-style: normal;
   letter-spacing: -0.48px;
   font-family: Roboto, sans-serif;
@@ -130,6 +129,20 @@
 .dot-icon{
   width: 10px;
   height: 10px;
+}
+
+.dark-theme .round-button {
+  background-color: rgba(255, 255, 255, 0.978) !important;
+  .dot-icon {
+    filter: brightness(0) invert(1) !important;
+  }
+}
+
+.dark-theme .round-button.active {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  .dot-icon {
+    filter: brightness(0) invert(0) !important;
+  }
 }
 
 .round-button {

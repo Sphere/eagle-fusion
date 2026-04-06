@@ -9,10 +9,10 @@ a.blue {
   margin-bottom: 6rem !important;
 }
 
-::ng-deep .theme-igot.day-mode a[href^="/"][target=_self],
-.theme-igot.day-mode a[href^=http],
-.theme-igot.day-mode a[href^=mailto],
-.theme-igot.day-mode a[target=_blank] {
+::ng-deep .light-theme a[href^="/"][target=_self],
+.light-theme a[href^=http],
+.light-theme a[href^=mailto],
+.light-theme a[target=_blank] {
   color: #8BC34A !important
 }
 
@@ -25,10 +25,10 @@ a.blue {
 }
 
 a.blue,
-::ng-deep .theme-igot.day-mode a[href^="/"][target=_self],
-::ng-deep .theme-igot.day-mode a[href^=http],
-::ng-deep .theme-igot.day-mode a[href^=mailto],
-::ng-deep .theme-igot.day-mode a[target=_blank] {
+::ng-deep .light-theme a[href^="/"][target=_self],
+::ng-deep .light-theme a[href^=http],
+::ng-deep .light-theme a[href^=mailto],
+::ng-deep .light-theme a[target=_blank] {
   color: #1C5D95 !important;
 }
 
@@ -40,7 +40,7 @@ a.blue,
   color: #d32f2f
 }
 
-.theme-igot.day-mode .mat-error {
+.light-theme .mat-error {
   margin: -8px 0px 8px 0px !important;
 }
 

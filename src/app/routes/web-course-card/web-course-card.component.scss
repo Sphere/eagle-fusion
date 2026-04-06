@@ -69,7 +69,7 @@ margin: 5px 20px 5px 0px !important;
 
 }
 .course-container .name {
-  color: #1C5D95;
+  color: var(--text-color);
   font-weight: 400;
   font-size: 16px;
   margin-bottom: 0 !important;
@@ -143,7 +143,7 @@ font-weight: 400;
 line-height: 23.44px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #000000;
+color: var(--text-color);
 
 }
 .start-btn {
@@ -161,7 +161,7 @@ font-weight: 400;
 line-height: 28.13px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #1C5D95 !important;
+// color: #1C5D95 !important;
 margin: 0px !important;
 
 }
@@ -175,10 +175,10 @@ margin: 0px !important;
 .bg-cont-white {
   background-color: #fff;
 }
-:host ::ng-deep .theme-igot.day-mode .mat-mdc-progress-bar-fill::after {
+:host ::ng-deep .light-theme .mat-mdc-progress-bar-fill::after {
     background: #469788 !important;
 }
-::ng-deep.theme-igot.day-mode .mat-mdc-progress-bar-buffer {
+::ng-deep.light-theme .mat-mdc-progress-bar-buffer {
   background-color: #DCDCDC !important;
 }
 
@@ -801,11 +801,11 @@ $title-line-count: 2;
   font-size: 21px;
 }
 
-.theme-igot.day-mode .mat-card {
+.light-theme .mat-card {
   box-shadow: none !important;
 }
 
-.theme-igot.day-mode .mat-card-content {
+.light-theme .mat-card-content {
   font-size: 13px;
 }
 
@@ -851,7 +851,7 @@ $title-line-count: 2;
   }
 }
 
-::ng-deep .theme-igot.day-mode .mat-mdc-progress-bar-buffer {
+::ng-deep .light-theme .mat-mdc-progress-bar-buffer {
   background-color: bisque;
 }
 

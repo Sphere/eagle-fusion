@@ -1,0 +1,104 @@
+@use '@angular/material' as mat;
+@include mat.core();
+
+$dark-bg-primary: #121212;
+$dark-bg-secondary: #1e1e1e;
+$dark-bg-tertiary: #2d2d2d;
+$dark-bg-quaternary: #3f3f3f;
+$dark-bg-yellow: #ffd54f;
+$dark-text-primary: #ffffff;
+$dark-text-secondary: #b3b3b3;
+$dark-text-tertiary: #9e9e9e;
+$dark-accent: #bb86fc;
+$dark-accent-light: #d4b3ff;
+$dark-accent-error: #ff5252;
+$dark-accent-error-light: #ff1744;
+$dark-accent-success: #69f0ae;
+$dark-accent-warning: #ffb74d;
+$dark-badge-secondary: #519db2;
+$dark-progress-highlight: #3d3d0a;
+$dark-btn-primary-alt: #2a6ba8;
+$dark-btn-primary-alt-active: #1a4a7a;
+$dark-btn-secondary-alt: #3a7fb5;
+$dark-progress-color: #469788;
+$dark-text-info: #7cb5e8;
+$dark-text-subtle: #9a9a9a;
+$dark-accent-highlight: #FDD835;
+$dark-text-dark: #212121;
+$dark-border: #2d2d2d;
+$dark-border-light: #3f3f3f;
+
+// Define palettes
+$blue-palette: mat.define-palette((50: #eff1f3,
+    100: #FFFFFF,
+    200: #a5c1dc,
+    300: #68a0d6,
+    400: #4788c7,
+    500: #FFFFFF,
+    600: #0358ab,
+    700: #424242,
+    800: #154a7d,
+    900: #b3bdc7,
+    A100: #617284,
+    A200: #587594,
+    A400: #3e6792,
+    A700: #062c54,
+    contrast: (50: rgba(black, 0.87), 100: white, 200: rgba(black, 0.87), 300: rgba(black, 0.87), 400: rgba(black, 0.87), 500: rgba(black, 0.87), 600: white, 700: white, 800: white, 900: white, A100: rgba(black, 0.87), A200: rgba(black, 0.87), A400: rgba(black, 0.87), A700: rgba(black, 0.87)),
+));
+// Light Theme
+$light-theme: mat.define-light-theme((
+  color: (
+    primary: $blue-palette,
+    accent: mat.define-palette(mat.$orange-palette),
+    warn: mat.define-palette(mat.$red-palette),
+  ),
+  density: 0
+));
+
+// Dark Theme
+$dark-theme: mat.define-dark-theme((
+  color: (
+    primary: mat.define-palette(mat.$grey-palette, 900),
+    accent: mat.define-palette(mat.$deep-orange-palette),
+    warn: mat.define-palette(mat.$red-palette),
+  ),
+  density: 0
+));
+
+// Apply themes
+.light-theme {
+  @include mat.all-component-colors($light-theme);
+  --icon-color: rgba(0, 0, 0, 0.87);
+  --text-color:  rgba(0, 0, 0, 0.87);
+  --mat-toolbar-container-background-color:  rgba(255, 255, 255, 0.87);
+  --mat-toolbar-container-text-color: rgba(255, 255, 255, 0.87);
+  --title-color: rgb(28, 93, 149);
+  --sub-title-color: rgb(28, 93, 149);
+}
+
+.dark-theme {
+  @include mat.all-component-colors($dark-theme);
+  --icon-color: rgba(255, 255, 255, 0.87);
+  --text-color: rgba(255, 255, 255, 0.87);
+  --mat-toolbar-container-background-color:  rgba(0, 0, 0, 0.87);
+  --mat-toolbar-container-text-color: rgba(0, 0, 0, 0.87);
+  --title-color: rgba(255, 255, 255, 0.87);
+  --sub-title-color: $dark-text-secondary;
+}
+
+.mat-icon {
+  color: var(--icon-color);
+}
+
+.link-text, .heading, .banner-sub-heading{
+  color: var(--text-color);
+}
+
+.mat-toolbar.mat-primary {
+  background-color: var(--mat-toolbar-container-background-color, inherit) !important;
+  color: var(--mat-toolbar-container-text-color, inherit) !important;
+}
+
+.course-name-mini {
+  color: var(--text-color);
+}

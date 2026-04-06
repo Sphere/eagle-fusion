@@ -943,5 +943,6 @@
   "Student": "Student",
   "Faculty": "Faculty",
   "PASS_MESSAGE": "You need to score at least {{passPercentage}}% to complete this module.",
-  "Language Updated": "Language Updated"
+  "Language Updated": "Language Updated",
+  "DARK_MODE": "Dark Mode"
 }
