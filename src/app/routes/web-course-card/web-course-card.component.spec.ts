@@ -62,10 +62,10 @@ describe('WebCourseCardComponent', () => {
 
     fixture = TestBed.createComponent(WebCourseCardComponent)
     component = fixture.componentInstance
-    router = TestBed.get(Router)
-    configSvc = TestBed.get(ConfigurationsService)
-    userProfileSvc = TestBed.get(UserProfileService)
-    titleService = TestBed.get(Title)
+    router = TestBed.inject(Router)
+    configSvc = TestBed.inject(ConfigurationsService)
+    userProfileSvc = TestBed.inject(UserProfileService)
+    titleService = TestBed.inject(Title)
   })
 
   it('should create the component', () => {

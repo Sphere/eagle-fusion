@@ -37,7 +37,7 @@ describe('OrgComponent', () => {
 
   beforeEach(() => {
     fixture = TestBed.createComponent(OrgComponent)
-    orgService = TestBed.get(OrgServiceService) // Inject the service
+    orgService = TestBed.inject(OrgServiceService) // Inject the service
     fixture.detectChanges()
   })
   it('should create', fakeAsync(() => {

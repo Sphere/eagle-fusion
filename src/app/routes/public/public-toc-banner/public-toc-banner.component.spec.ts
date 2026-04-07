@@ -31,9 +31,9 @@ describe('PublicTocBannerComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(PublicTocBannerComponent)
     component = fixture.componentInstance
-    httpClient = TestBed.get(HttpClient)
-    signUpService = TestBed.get(SignupService)
-    router = TestBed.get(Router)
+    httpClient = TestBed.inject(HttpClient)
+    signUpService = TestBed.inject(SignupService)
+    router = TestBed.inject(Router)
     spyOn(httpClient, 'get').and.returnValue(of({}))
     fixture.detectChanges()
   })
