@@ -12,46 +12,30 @@
 
 <div *ngIf="name==='userExist'" class="lang-box">
   <img src="/fusion-assets/icons/red-ex-acc.png" class="info-icon" alt="" />
-<<<<<<< HEAD
   <div>
     <div class="language">
       <h1 class="mb-1 exist">{{ 'User already exists.' | translate }}</h1>
     </div>
   </div>
   <div mat-dialog-actions class="lang-done">
-    <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('again')">
-      {{ 'Try again' | translate }}</button>
-    <button class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1" (click)="confirm('login')">
-      {{ 'Login' | translate }}</button>
-=======
-  <h1 class="mb-1 exist">{{ 'User already exists.' | translate }}</h1>
-  <div class="lang-done">
     <button class="btn-done btn-edit cursor-pointer" (click)="confirm('again')">{{ 'Try again' | translate }}</button>
     <button class="btn-done btn-confirm cursor-pointer" (click)="confirm('login')">{{ 'Login' | translate }}</button>
->>>>>>> cdcf6079fe519875648c3cf65494c19c2a38cbf1
   </div>
 </div>
+
 <div *ngIf="name==='userNotExist'" class="lang-box">
   <img src="/fusion-assets/icons/red-ex-acc.png" class="info-icon" alt="" />
-<<<<<<< HEAD
   <div>
     <div class="language">
       <h1 class="mb-1 exist">{{ 'User doesn\'t exist.' | translate }}</h1>
     </div>
   </div>
   <div mat-dialog-actions class="lang-done">
-    <button class="btn-done btn-edit cursor-pointer" id="language-select-btn-1" (click)="confirm('again')">
-      {{ 'Try again' | translate }}</button>
-    <button *ngIf="!userNotExistEkshamta" class="btn-done btn-confirm cursor-pointer" id="language-select-btn-1"
-=======
-  <h1 class="mb-1 exist">{{ 'User doesn\'t exist.' | translate }}</h1>
-  <div class="lang-done">
     <button class="btn-done btn-edit cursor-pointer" (click)="confirm('again')">{{ 'Try again' | translate }}</button>
-    <button *ngIf="!userNotExistEkshamta" class="btn-done btn-confirm cursor-pointer"
->>>>>>> cdcf6079fe519875648c3cf65494c19c2a38cbf1
-      (click)="confirm('createAccount')">{{ 'Create account' | translate }}</button>
+    <button *ngIf="!userNotExistEkshamta" class="btn-done btn-confirm cursor-pointer" (click)="confirm('createAccount')">{{ 'Create account' | translate }}</button>
   </div>
 </div>
+
 <div *ngIf="name==='help'" class="lang-box help-box">
   <button (click)="backToChatIcon()" class="help-close-btn" id="dialogue-close" mat-icon-button mat-dialog-close>
     <mat-icon>close</mat-icon>

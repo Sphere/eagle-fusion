@@ -160,6 +160,7 @@ export const API_END_POINTS = {
   Maternity_Auth: `${PUBLIC_SLAG_V8}/maternityFoundation/login`,
   ENROLLED_USER: `apis/protected/v8/userEnrolledInSource`,
   Tnai_Auth: `${PUBLIC_SLAG_V8}/tnai/login`,
+  MNC_Auth: `${PUBLIC_SLAG_V8}/mnc/login`,
   Tnnmc_Auth: `${PUBLIC_SLAG_V8}/tnnmc/login`,
   userTopics: `${PROTECTED_SLAG_V8}/user/topics`,
   lastlearnt: `${PROTECTED_SLAG_V8}/user/history`,
