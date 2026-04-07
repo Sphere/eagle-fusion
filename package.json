@@ -95,7 +95,7 @@
     "ngx-moment": "^5.0.0",
     "ngx-multi-pixel": "^2.2.2",
     "pdfjs-dist": "3.4.120",
-    "rxjs": "~6.5.2",
+    "rxjs": "~7.8.2",
     "shepherd.js": "^7.1.0",
     "socket.io-client": "^4.8.1",
     "tailwindcss": "^2.2.19",
@@ -147,9 +147,13 @@
     "webpack-bundle-analyzer": "4.5.0"
   },
   "resolutions": {
-    "stylus": "0.55.0"
+    "stylus": "0.55.0",
+    "rxjs": "~7.8.2"
   },
   "overrides": {
+    "@project-sunbird/client-services": {
+      "rxjs": "~7.8.2"
+    },
     "ngx-chips": {
       "@angular/core": "16.2.12",
       "@angular/common": "16.2.12",
