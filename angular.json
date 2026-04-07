@@ -187,6 +187,15 @@
             }
           },
           "defaultConfiguration": "development"
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -201,6 +210,15 @@
           "options": {
             "tsConfig": "library/ws-widget/resolver/tsconfig.lib.json",
             "project": "library/ws-widget/resolver/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "library/ws-widget/resolver/src/**/*.ts",
+              "library/ws-widget/resolver/src/**/*.html"
+            ]
           }
         }
       }
@@ -217,6 +235,15 @@
             "tsConfig": "library/ws-widget/collection/tsconfig.lib.json",
             "project": "library/ws-widget/collection/ng-package.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "library/ws-widget/collection/src/**/*.ts",
+              "library/ws-widget/collection/src/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -231,6 +258,15 @@
           "options": {
             "tsConfig": "library/ws-widget/utils/tsconfig.lib.json",
             "project": "library/ws-widget/utils/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "library/ws-widget/utils/src/**/*.ts",
+              "library/ws-widget/utils/src/**/*.html"
+            ]
           }
         }
       }
@@ -247,6 +283,15 @@
             "tsConfig": "project/ws/app/tsconfig.lib.json",
             "project": "project/ws/app/ng-package.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "project/ws/app/src/**/*.ts",
+              "project/ws/app/src/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -262,6 +307,15 @@
             "tsConfig": "project/ws/author/tsconfig.lib.json",
             "project": "project/ws/author/ng-package.json"
           }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "project/ws/author/src/**/*.ts",
+              "project/ws/author/src/**/*.html"
+            ]
+          }
         }
       }
     },
@@ -276,6 +330,15 @@
           "options": {
             "tsConfig": "project/ws/viewer/tsconfig.lib.json",
             "project": "project/ws/viewer/ng-package.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": [
+              "project/ws/viewer/src/**/*.ts",
+              "project/ws/viewer/src/**/*.html"
+            ]
           }
         }
       }

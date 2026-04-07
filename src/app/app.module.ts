@@ -178,13 +178,13 @@ export function HttpLoaderFactory(http: HttpClient) {
 }
 
 if (Capacitor.getPlatform() === 'ios') {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.log('iOS!')
 } else if (Capacitor.getPlatform() === 'android') {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.log('Android!')
 } else {
-  // tslint:disable-next-line:no-console
+  // eslint-disable-next-line no-console
   console.log('Web!')
 }
 
@@ -214,10 +214,12 @@ if (url.indexOf('?org=') > 0 || url.indexOf('&org=')) {
     if (orgValue === 'nhsrc') {
       if (url.indexOf('do_') > 0) {
         // window.location.href = `${url}`
+        // eslint-disable-next-line no-console
         console.log('app.module', url)
         localStorage.setItem(`url_before_login`, `app/toc/` + `${url.split('/')[5]}` + `/overview`)
         // window.location.href = `${document.baseURI}organisations/home`
       } else {
+        // eslint-disable-next-line no-console
         console.log('line number 182 else in app module.ts', url)
         window.location.href = `${document.baseURI}organisations/home`
       }
@@ -267,6 +269,7 @@ export function initializeCompetencyConfig(): () => void {
         isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || '',
       }
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error initializing competency config:', error)
       COMPETENCY_REGISTRATION_CONFIG = {
         config: {},
@@ -393,7 +396,7 @@ import { DowntimeBannerComponent } from './component/downtime-banner/downtime-ba
   ],
   exports: [
     TncComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
   ],
   bootstrap: [RootComponent],
   providers: [
@@ -446,7 +449,7 @@ import { DowntimeBannerComponent } from './component/downtime-banner/downtime-ba
       deps: [LanguageService],
       multi: true,
     },
-    UserProfileService
+    UserProfileService,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
