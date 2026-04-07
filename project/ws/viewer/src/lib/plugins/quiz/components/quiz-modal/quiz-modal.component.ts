@@ -6,16 +6,15 @@ import { interval, Subject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
-//import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
-//import { WidgetContentService } from '@ws-widget/collection'
 declare var $: any
 import { LoggerService, ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
+import { ScreenSecurityService } from '../../../../screen-security.service'
+import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 @Component({
   selector: 'viewer-quiz-modal',
   templateUrl: './quiz-modal.component.html',
   styleUrls: ['./quiz-modal.component.scss'],
-  // tslint:disable-next-line:use-component-view-encapsulation
   encapsulation: ViewEncapsulation.None,
 })
 export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
@@ -50,6 +49,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public activeSlideIndex = 0
 
   viewState: NSQuiz.TQuizViewMode = 'initial'
+  isBlockedFlag: boolean = false
   constructor(
     public dialogRef: MatDialogRef<QuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -57,13 +57,15 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     public route: ActivatedRoute,
     private valueSvc: ValueService,
     private snackBar: MatSnackBar,
-    private logger: LoggerService
-    //private viewerSvc: ViewerUtilService,
-    //private contentSvc: WidgetContentService,
+    private logger: LoggerService,
+    private scrnScrtySvc: ScreenSecurityService,
+    private plyLsSvc: PlaylistService
   ) {
 
   }
   ngAfterViewInit() {
+    let enabled: boolean = this.plyLsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
+    if (!enabled) this.scrnScrtySvc.init()
     this.logger.log(this.assesmentdata, 'qui')
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
@@ -73,6 +75,10 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.quizService.updateMtf.next(status)
   }
   ngOnInit() {
+    this.scrnScrtySvc.isBlocked$.subscribe(val => {
+      this.isBlockedFlag = val
+    })
+    this.isBlockedFlag = JSON.parse(localStorage.getItem('screenBlocked'))
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)

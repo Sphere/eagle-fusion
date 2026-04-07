@@ -24,6 +24,7 @@ import { ViewerUtilService } from '../../../../viewer-util.service'
 import { PlayerStateService } from '../../../../player-state.service'
 import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
+import { ScreenSecurityService } from '../../../../screen-security.service'
 // declare var Telemetry: any
 @Component({
   selector: 'viewer-assesment-modal',
@@ -66,7 +67,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   // Organizations where View Answers should not be shown if isCorrectAnswerPopUp is not present
   // Fetched from S3 configuration
   private restrictedOrgIds: string[] = []
-
+  isBlockedFlag: boolean
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -84,10 +85,15 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private dialog: MatDialog,
     private http: HttpClient,
     private logger: LoggerService,
-    private plylsSvc: PlaylistService
+    private plylsSvc: PlaylistService,
+    private scrnScrtySvc: ScreenSecurityService
   ) { }
 
   ngOnInit() {
+    this.scrnScrtySvc.isBlocked$.subscribe(val => {
+      this.isBlockedFlag = val
+    })
+    this.isBlockedFlag = JSON.parse(localStorage.getItem('screenBlocked'))
     this.logger.log("this.viewerDataSvc.resource", this.viewerDataSvc.resource)
     this.logger.log(this.assesmentdata)
     this.telemetrySvc.getTelemetryConfig()
@@ -176,6 +182,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     )
   }
   ngAfterViewInit() {
+    let enabled: boolean = this.plylsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
+    if (!enabled) this.scrnScrtySvc.init()
     let object = {
       "id": this.assesmentdata.generalData.identifier,
       "type": "application/json",
