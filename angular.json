@@ -63,10 +63,9 @@
               ]
             },
             "styles": [
-              "node_modules/tailwindcss/dist/utilities.min.css",
+              "src/styles/tailwind-output.css",
               "node_modules/video.js/dist/video-js.min.css",
               "node_modules/vis-network/dist/vis-network.min.css",
-              "node_modules/tailwindcss/dist/components.min.css",
               "node_modules/videojs-markers/dist/videojs.markers.min.css",
               "src/styles/libraries.scss",
               "node_modules/material-icons/iconfont/material-icons.scss",
