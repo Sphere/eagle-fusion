@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core'
-//import { Location } from '@angular/common'
+import { Router } from '@angular/router'
 import {
   ConfigurationsService,
   LoggerService
@@ -13,9 +13,8 @@ import {
 export class HeaderComponent implements OnInit {
   //result: any
   constructor(
-    //private location: Location,
+    private router: Router,
     public configSvc: ConfigurationsService,
-    //private signupService: SignupService,
     private logger: LoggerService
   ) { }
 
@@ -26,7 +25,8 @@ export class HeaderComponent implements OnInit {
   }
   homePage() {
     if (localStorage.getItem('isOrgSelectiveCourse') === 'false') {
-      location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+      const path = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+      this.router.navigateByUrl(path)
     }
   }
 }

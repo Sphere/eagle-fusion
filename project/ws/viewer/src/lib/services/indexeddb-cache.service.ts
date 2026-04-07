@@ -14,7 +14,7 @@ export class IndexedDBCacheService {
   private dbName = 'EagleFusionCache'
   private storeName = 'courseHierarchy'
   private db: IDBDatabase | null = null
-  private readonly INDEXED_DB_DURATION = 7 * 24 * 60 * 60 * 1000 // 7 days
+  private readonly INDEXED_DB_DURATION = 30 * 60 * 1000 // 30 minutes
 
   constructor() {
     this.initializeDB()

@@ -128,6 +128,10 @@ export class OrgServiceService {
     this.logger.log(data)
     return this.http.post<any>(`${API_END_POINTS.Maternity_Auth}`, data)
   }
+  setMNCId(data: any): Observable<any> {
+    this.logger.log(data)
+    return this.http.post<any>(`${API_END_POINTS.MNC_Auth}`, data)
+  }
   setTnaiToken(data: any): Observable<any> {
     this.logger.log(data)
     return this.http.post<any>(`${API_END_POINTS.Tnai_Auth}`, data)

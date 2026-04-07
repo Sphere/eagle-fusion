@@ -355,7 +355,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
 
   homePage() {
     if (localStorage.getItem('isOrgSelectiveCourse') === 'false') {
-      location.href = (this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'
+      this.router.navigate([(this.configSvc!.unMappedUser! && this.configSvc!.unMappedUser!.id) ? '/page/home' : '/public/home'])
     }
   }
 

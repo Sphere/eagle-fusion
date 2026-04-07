@@ -149,7 +149,7 @@ height: 42px;
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 767px) {
   .horizontal-shimmer {
     flex-direction: column;
   }
@@ -191,6 +191,7 @@ height: 42px;
 
   .scroller-container {
     margin-bottom: 32px;
+    justify-content: center !important;
   }
 }
 

@@ -19,7 +19,7 @@ export class CourseHierarchyCacheService {
   private cacheSubject = new Map<string, Observable<any>>()
 
   // Cache duration in milliseconds: 12 hours (adjustable)
-  private readonly CACHE_DURATION = 12 * 60 * 60 * 1000 // 12 hours
+  private readonly CACHE_DURATION = 30 * 60 * 1000 // 30 minutes
   private readonly API_ENDPOINT = 'apis/proxies/v8/action/content/v3/hierarchy'
 
   constructor(
