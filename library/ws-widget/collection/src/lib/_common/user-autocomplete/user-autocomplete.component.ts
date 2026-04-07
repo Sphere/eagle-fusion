@@ -10,9 +10,10 @@ import { NsAutoComplete } from './user-autocomplete.model'
 import { of } from 'rxjs'
 
 @Component({
-  selector: 'ws-widget-user-autocomplete',
-  templateUrl: './user-autocomplete.component.html',
-  styleUrls: ['./user-autocomplete.component.scss'],
+    selector: 'ws-widget-user-autocomplete',
+    templateUrl: './user-autocomplete.component.html',
+    styleUrls: ['./user-autocomplete.component.scss'],
+    
 })
 export class UserAutocompleteComponent implements OnInit {
 

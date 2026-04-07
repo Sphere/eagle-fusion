@@ -7,9 +7,10 @@ import { PlaylistService } from '../../../../../../../../../src/app/services/pla
 import { LanguageService } from '../../../../../../../../../src/app/services/language.service'
 
 @Component({
-  selector: 'ws-app-view-all',
-  templateUrl: './view-all.component.html',
-  styleUrls: ['./view-all.component.scss'],
+    selector: 'ws-app-view-all',
+    templateUrl: './view-all.component.html',
+    styleUrls: ['./view-all.component.scss'],
+    
 })
 export class ViewAllComponent implements OnInit {
   courseType: string | null = null

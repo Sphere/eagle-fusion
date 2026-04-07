@@ -9,9 +9,10 @@ import { MatDialog } from '@angular/material/dialog'
 import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
-  selector: 'ws-app-user-kb',
-  templateUrl: './user-kb.component.html',
-  styleUrls: ['./user-kb.component.scss'],
+    selector: 'ws-app-user-kb',
+    templateUrl: './user-kb.component.html',
+    styleUrls: ['./user-kb.component.scss'],
+    
 })
 export class UserKbComponent implements OnInit, OnChanges {
   @Input() wid = ''

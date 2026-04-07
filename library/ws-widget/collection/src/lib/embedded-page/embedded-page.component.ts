@@ -5,9 +5,10 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { NsEmbeddedPage } from './embedded-page.model'
 
 @Component({
-  selector: 'ws-widget-embedded-page',
-  templateUrl: './embedded-page.component.html',
-  styleUrls: ['./embedded-page.component.scss'],
+    selector: 'ws-widget-embedded-page',
+    templateUrl: './embedded-page.component.html',
+    styleUrls: ['./embedded-page.component.scss'],
+    
 })
 export class EmbeddedPageComponent extends WidgetBaseComponent
   implements

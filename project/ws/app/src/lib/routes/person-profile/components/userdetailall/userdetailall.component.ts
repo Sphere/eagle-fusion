@@ -2,9 +2,10 @@ import { Component, OnInit, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 @Component({
-  selector: 'ws-app-userdetailall',
-  templateUrl: './userdetailall.component.html',
-  styleUrls: ['./userdetailall.component.scss'],
+    selector: 'ws-app-userdetailall',
+    templateUrl: './userdetailall.component.html',
+    styleUrls: ['./userdetailall.component.scss'],
+    
 })
 
 export class UserdetailallComponent implements OnInit {

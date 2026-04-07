@@ -42,10 +42,11 @@ import { UntypedFormGroup } from '@angular/forms'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 
 @Component({
-  selector: 'ws-auth-quiz',
-  templateUrl: './quiz.component.html',
-  styleUrls: ['./quiz.component.scss'],
-  providers: [QuizResolverService],
+    selector: 'ws-auth-quiz',
+    templateUrl: './quiz.component.html',
+    styleUrls: ['./quiz.component.scss'],
+    providers: [QuizResolverService],
+    
 })
 export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 

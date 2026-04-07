@@ -3,10 +3,11 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
-  selector: 'viewer-assesment-overview',
-  templateUrl: './assesment-overview.component.html',
-  styleUrls: ['./assesment-overview.component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+    selector: 'viewer-assesment-overview',
+    templateUrl: './assesment-overview.component.html',
+    styleUrls: ['./assesment-overview.component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    
 })
 export class AssesmentOverviewComponent implements OnInit {
   isCompetency = false

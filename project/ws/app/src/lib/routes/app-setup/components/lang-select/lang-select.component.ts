@@ -8,9 +8,10 @@ import {
 import { UntypedFormControl, Validators } from '@angular/forms'
 
 @Component({
-  selector: 'ws-app-lang-select',
-  templateUrl: './lang-select.component.html',
-  styleUrls: ['./lang-select.component.scss'],
+    selector: 'ws-app-lang-select',
+    templateUrl: './lang-select.component.html',
+    styleUrls: ['./lang-select.component.scss'],
+    
 })
 export class LangSelectComponent implements OnInit {
   constructor(

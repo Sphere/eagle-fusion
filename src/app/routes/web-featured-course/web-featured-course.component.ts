@@ -5,9 +5,10 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { Title } from '@angular/platform-browser'
 
 @Component({
-  selector: 'ws-web-featured-course',
-  templateUrl: './web-featured-course.component.html',
-  styleUrls: ['./web-featured-course.component.scss'],
+    selector: 'ws-web-featured-course',
+    templateUrl: './web-featured-course.component.html',
+    styleUrls: ['./web-featured-course.component.scss'],
+    
 })
 export class WebFeaturedCourseComponent implements OnInit {
   @Input() courseData: any

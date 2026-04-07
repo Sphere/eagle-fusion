@@ -26,9 +26,10 @@ import { IAssessmentDetails } from '../../interface/iap-assessment.interface'
 import { IapAssessmentService } from '../../services/iap-assessment.service'
 
 @Component({
-  selector: 'ws-auth-root-iap-assessment',
-  templateUrl: './iap-assessment.component.html',
-  styleUrls: ['./iap-assessment.component.scss'],
+    selector: 'ws-auth-root-iap-assessment',
+    templateUrl: './iap-assessment.component.html',
+    styleUrls: ['./iap-assessment.component.scss'],
+    
 })
 export class IapAssessmentComponent implements OnInit {
   constructor(

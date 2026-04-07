@@ -14,9 +14,10 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 import { ConfigurationsService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'app-leadership-dashboard',
-  templateUrl: './leadership-dashboard.component.html',
-  styleUrls: ['./leadership-dashboard.component.scss'],
+    selector: 'app-leadership-dashboard',
+    templateUrl: './leadership-dashboard.component.html',
+    styleUrls: ['./leadership-dashboard.component.scss'],
+    
 })
 export class LeadershipDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   leaderboardData: any[] = []

@@ -1,7 +1,8 @@
 import { Directive, ViewContainerRef } from '@angular/core'
 
 @Directive({
-  selector: '[wsAppAppTocHome]',
+    selector: '[wsAppAppTocHome]',
+    
 })
 export class AppTocHomeDirective {
 

@@ -11,9 +11,10 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 // import { IImpressionEventInput,  } from '@project-sunbird/telemetry-sdk'
 
 @Component({
-  selector: 'app-certificate-details',
-  templateUrl: './certificate-details.component.html',
-  styleUrls: ['./certificate-details.component.scss'],
+    selector: 'app-certificate-details',
+    templateUrl: './certificate-details.component.html',
+    styleUrls: ['./certificate-details.component.scss'],
+    
 })
 export class CertificateDetailsComponent implements OnInit {
   appIcon: SafeUrl | null = null

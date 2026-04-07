@@ -5,9 +5,10 @@ import { NestedTreeControl } from '@angular/cdk/tree'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
 
 @Component({
-  selector: 'ws-widget-tree',
-  templateUrl: './tree.component.html',
-  styleUrls: ['./tree.component.scss'],
+    selector: 'ws-widget-tree',
+    templateUrl: './tree.component.html',
+    styleUrls: ['./tree.component.scss'],
+    
 })
 export class TreeComponent extends WidgetBaseComponent
   implements OnChanges, NsWidgetResolver.IWidgetData<IWsTree[]> {

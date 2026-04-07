@@ -5,9 +5,10 @@ import { LanguageService } from "../../../../../../../../../src/app/services/lan
 import { PlaylistService } from "../../../../../../../../../src/app/services/playlist.service"
 
 @Component({
-  selector: "app-congratulations-popup",
-  templateUrl: "./congratulations-popup.component.html",
-  styleUrls: ["./congratulations-popup.component.scss"],
+    selector: "app-congratulations-popup",
+    templateUrl: "./congratulations-popup.component.html",
+    styleUrls: ["./congratulations-popup.component.scss"],
+    
 })
 export class CongratulationsPopupComponent implements OnInit {
   designation = ""

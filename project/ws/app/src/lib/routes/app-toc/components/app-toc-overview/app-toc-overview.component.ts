@@ -13,9 +13,10 @@ import { AppTocService } from '../../services/app-toc.service'
 import { TelemetryService } from '../../../../../../../../../library/ws-widget/utils/src/lib/services/telemetry.service'
 
 @Component({
-  selector: 'ws-app-app-toc-overview',
-  templateUrl: './app-toc-overview.component.html',
-  styleUrls: ['./app-toc-overview.component.scss'],
+    selector: 'ws-app-app-toc-overview',
+    templateUrl: './app-toc-overview.component.html',
+    styleUrls: ['./app-toc-overview.component.scss'],
+    
 })
 export class AppTocOverviewComponent implements OnInit, OnDestroy {
   content: NsContent.IContent | null = null

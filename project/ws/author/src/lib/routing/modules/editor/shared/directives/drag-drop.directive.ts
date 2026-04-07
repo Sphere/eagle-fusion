@@ -7,7 +7,8 @@ import {
 } from '@angular/core'
 
 @Directive({
-  selector: '[wsAuthDragDrop]',
+    selector: '[wsAuthDragDrop]',
+    
 })
 export class DragDropDirective {
   @Output() fileDropped = new EventEmitter<any>()

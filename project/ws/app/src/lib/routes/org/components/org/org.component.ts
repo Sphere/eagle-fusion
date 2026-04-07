@@ -12,9 +12,10 @@ import { uniqBy } from 'lodash'
 import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Component({
-  selector: 'ws-app-org',
-  templateUrl: './org.component.html',
-  styleUrls: ['./org.component.scss'],
+    selector: 'ws-app-org',
+    templateUrl: './org.component.html',
+    styleUrls: ['./org.component.scss'],
+    
 })
 export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger

@@ -6,9 +6,10 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { LoggerService } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-mobile-profile-nav',
-  templateUrl: './mobile-profile-nav.component.html',
-  styleUrls: ['./mobile-profile-nav.component.scss'],
+    selector: 'ws-mobile-profile-nav',
+    templateUrl: './mobile-profile-nav.component.html',
+    styleUrls: ['./mobile-profile-nav.component.scss'],
+    
 })
 export class MobileProfileNavComponent implements OnInit {
   @Input() showbackButton?: boolean

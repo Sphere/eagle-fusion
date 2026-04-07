@@ -12,9 +12,10 @@ import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
-  selector: 'ws-upsmf-register',
-  templateUrl: './upsmf-register.component.html',
-  styleUrls: ['./upsmf-register.component.scss'],
+    selector: 'ws-upsmf-register',
+    templateUrl: './upsmf-register.component.html',
+    styleUrls: ['./upsmf-register.component.scss'],
+    
 })
 export class UpsmfRegisterComponent implements OnInit {
   // Form groups

@@ -16,9 +16,10 @@ import { NotificationComponent } from '../../../../../../../../../modules/shared
 import { TEMPLATE_TYPES } from './image-v2.constant'
 
 @Component({
-  selector: 'ws-auth-image-v2',
-  templateUrl: './image-v2.component.html',
-  styleUrls: ['./image-v2.component.scss'],
+    selector: 'ws-auth-image-v2',
+    templateUrl: './image-v2.component.html',
+    styleUrls: ['./image-v2.component.scss'],
+    
 })
 export class ImageV2Component implements OnChanges {
   @Output() data = new EventEmitter<{ content: IWidgetElementHtml; isValid: boolean }>()

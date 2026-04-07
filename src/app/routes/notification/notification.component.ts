@@ -15,9 +15,10 @@ import { Observable } from "rxjs"
 import { MatDialogRef } from '@angular/material/dialog'
 
 @Component({
-  selector: "app-notification",
-  templateUrl: "./notification.component.html",
-  styleUrls: ["./notification.component.scss"],
+    selector: "app-notification",
+    templateUrl: "./notification.component.html",
+    styleUrls: ["./notification.component.scss"],
+    
 })
 export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit {
 

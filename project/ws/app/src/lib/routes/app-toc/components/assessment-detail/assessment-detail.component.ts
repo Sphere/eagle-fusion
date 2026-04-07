@@ -9,9 +9,10 @@ import { ActivatedRoute } from '@angular/router'
 import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-app-assessment-detail',
-  templateUrl: './assessment-detail.component.html',
-  styleUrls: ['./assessment-detail.component.scss'],
+    selector: 'ws-app-assessment-detail',
+    templateUrl: './assessment-detail.component.html',
+    styleUrls: ['./assessment-detail.component.scss'],
+    
 })
 export class AssessmentDetailComponent implements OnInit {
 

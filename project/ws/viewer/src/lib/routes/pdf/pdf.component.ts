@@ -9,9 +9,10 @@ import { ViewerUtilService } from '../../viewer-util.service'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Component({
-  selector: 'viewer-pdf',
-  templateUrl: './pdf.component.html',
-  styleUrls: ['./pdf.component.scss'],
+    selector: 'viewer-pdf',
+    templateUrl: './pdf.component.html',
+    styleUrls: ['./pdf.component.scss'],
+    
 })
 export class PdfComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null

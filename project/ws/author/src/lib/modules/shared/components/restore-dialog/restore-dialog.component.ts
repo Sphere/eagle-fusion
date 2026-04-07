@@ -16,9 +16,10 @@ import { mergeMap, catchError } from 'rxjs/operators'
 import { of } from 'rxjs'
 
 @Component({
-  selector: 'ws-auth-restore-dialog',
-  templateUrl: './restore-dialog.component.html',
-  styleUrls: ['./restore-dialog.component.scss'],
+    selector: 'ws-auth-restore-dialog',
+    templateUrl: './restore-dialog.component.html',
+    styleUrls: ['./restore-dialog.component.scss'],
+    
 })
 export class RestoreDialogComponent implements OnInit {
   commentsForm!: UntypedFormGroup

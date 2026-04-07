@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'pipeLimitTo',
+    name: 'pipeLimitTo',
+    
 })
 export class PipeLimitToPipe implements PipeTransform {
 

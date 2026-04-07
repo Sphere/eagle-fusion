@@ -5,9 +5,10 @@ import { SettingsService } from '../../settings.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
-  selector: 'ws-app-notification-settings',
-  templateUrl: './notification-settings.component.html',
-  styleUrls: ['./notification-settings.component.scss'],
+    selector: 'ws-app-notification-settings',
+    templateUrl: './notification-settings.component.html',
+    styleUrls: ['./notification-settings.component.scss'],
+    
 })
 export class NotificationSettingsComponent implements OnInit {
 

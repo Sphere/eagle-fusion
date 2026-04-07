@@ -4,9 +4,10 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { IFilterUnitItem, IFilterUnitResponse, ISearchConfigContentStrip, IWsSearchAdvancedFilter } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 @Component({
-  selector: 'ws-app-filter-display',
-  templateUrl: './filter-display.component.html',
-  styleUrls: ['./filter-display.component.scss'],
+    selector: 'ws-app-filter-display',
+    templateUrl: './filter-display.component.html',
+    styleUrls: ['./filter-display.component.scss'],
+    
 })
 export class FilterDisplayComponent implements OnInit {
   @Input() filtersResponse: IFilterUnitResponse[] = []

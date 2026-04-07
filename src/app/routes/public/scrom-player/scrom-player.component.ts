@@ -9,9 +9,10 @@ import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapte
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-scrom-player',
-  templateUrl: './scrom-player.component.html',
-  styleUrls: ['./scrom-player.component.scss'],
+    selector: 'ws-scrom-player',
+    templateUrl: './scrom-player.component.html',
+    styleUrls: ['./scrom-player.component.scss'],
+    
 })
 export class ScromPlayerComponent implements OnInit,
   //AfterViewInit,

@@ -24,10 +24,11 @@ import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugi
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-  selector: 'ws-app-app-toc-desktop',
-  templateUrl: './app-toc-desktop.component.html',
-  styleUrls: ['./app-toc-desktop.component.scss'],
-  providers: [],
+    selector: 'ws-app-app-toc-desktop',
+    templateUrl: './app-toc-desktop.component.html',
+    styleUrls: ['./app-toc-desktop.component.scss'],
+    providers: [],
+    
 })
 export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() banners: NsAppToc.ITocBanner | null = null

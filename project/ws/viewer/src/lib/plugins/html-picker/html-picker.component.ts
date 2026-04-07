@@ -17,9 +17,10 @@ import { EventService } from '@ws-widget/utils'
 import { IHtmlPicker } from './html-picker.model'
 
 @Component({
-  selector: 'viewer-plugin-html-picker',
-  templateUrl: './html-picker.component.html',
-  styleUrls: ['./html-picker.component.scss'],
+    selector: 'viewer-plugin-html-picker',
+    templateUrl: './html-picker.component.html',
+    styleUrls: ['./html-picker.component.scss'],
+    
 })
 export class HtmlPickerComponent implements OnInit, OnDestroy {
   @Input() identifier: string | null = null

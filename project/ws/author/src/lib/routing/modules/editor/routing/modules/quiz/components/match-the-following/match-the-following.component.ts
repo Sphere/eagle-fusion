@@ -35,9 +35,10 @@ import { OpenPlainCkEditorComponent } from '../../shared/components/open-plain-c
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'
 
 @Component({
-  selector: 'ws-auth-match-the-following',
-  templateUrl: './match-the-following.component.html',
-  styleUrls: ['./match-the-following.component.scss'],
+    selector: 'ws-auth-match-the-following',
+    templateUrl: './match-the-following.component.html',
+    styleUrls: ['./match-the-following.component.scss'],
+    
 })
 export class MatchTheFollowingComponent implements OnInit, OnChanges, OnDestroy {
   @Output() value = new EventEmitter<MatchQuiz>()

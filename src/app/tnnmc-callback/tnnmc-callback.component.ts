@@ -6,9 +6,10 @@ import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 @Component({
-  selector: 'ws-tnnmc-callback',
-  templateUrl: './tnnmc-callback.component.html',
-  styleUrls: ['./tnnmc-callback.component.scss'],
+    selector: 'ws-tnnmc-callback',
+    templateUrl: './tnnmc-callback.component.html',
+    styleUrls: ['./tnnmc-callback.component.scss'],
+    
 })
 export class TnnmcCallbackComponent implements OnInit {
   isLoading = false

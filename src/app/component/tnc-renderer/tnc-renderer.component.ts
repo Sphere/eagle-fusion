@@ -4,9 +4,10 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
-  selector: 'ws-tnc-renderer',
-  templateUrl: './tnc-renderer.component.html',
-  styleUrls: ['./tnc-renderer.component.scss'],
+    selector: 'ws-tnc-renderer',
+    templateUrl: './tnc-renderer.component.html',
+    styleUrls: ['./tnc-renderer.component.scss'],
+    
 })
 export class TncRendererComponent implements OnInit, OnChanges {
 

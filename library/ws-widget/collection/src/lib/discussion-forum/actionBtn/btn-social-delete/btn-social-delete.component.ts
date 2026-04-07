@@ -3,9 +3,10 @@ import { MatDialog } from '@angular/material/dialog'
 import { DialogSocialDeletePostComponent } from '../../dialog/dialog-social-delete-post/dialog-social-delete-post.component'
 
 @Component({
-  selector: 'ws-widget-btn-social-delete',
-  templateUrl: './btn-social-delete.component.html',
-  styleUrls: ['./btn-social-delete.component.scss'],
+    selector: 'ws-widget-btn-social-delete',
+    templateUrl: './btn-social-delete.component.html',
+    styleUrls: ['./btn-social-delete.component.scss'],
+    
 })
 export class BtnSocialDeleteComponent implements OnInit {
   @Input() postId = ''

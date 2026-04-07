@@ -11,9 +11,10 @@ import { Router } from '@angular/router'
 import { LoggerService } from '../../../../utils/src/public-api'
 
 @Component({
-  selector: 'ws-widget-btn-fullscreen',
-  templateUrl: './btn-fullscreen.component.html',
-  styleUrls: ['./btn-fullscreen.component.scss'],
+    selector: 'ws-widget-btn-fullscreen',
+    templateUrl: './btn-fullscreen.component.html',
+    styleUrls: ['./btn-fullscreen.component.scss'],
+    
 })
 export class BtnFullscreenComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<{ fsContainer: HTMLElement | null }> {

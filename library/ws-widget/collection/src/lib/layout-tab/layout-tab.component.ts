@@ -4,9 +4,10 @@ import { NsWidgetLayoutTab } from './layout-tab.model'
 import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router, ParamMap } from '@angular/router'
 @Component({
-  selector: 'ws-widget-layout-tab',
-  templateUrl: './layout-tab.component.html',
-  styleUrls: ['./layout-tab.component.scss'],
+    selector: 'ws-widget-layout-tab',
+    templateUrl: './layout-tab.component.html',
+    styleUrls: ['./layout-tab.component.scss'],
+    
 })
 export class LayoutTabComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<NsWidgetLayoutTab.ILayout> {

@@ -7,9 +7,10 @@ import { ViewerUtilService } from '../../viewer-util.service'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 
 @Component({
-  selector: 'viewer-audio-native',
-  templateUrl: './audio-native.component.html',
-  styleUrls: ['./audio-native.component.scss'],
+    selector: 'viewer-audio-native',
+    templateUrl: './audio-native.component.html',
+    styleUrls: ['./audio-native.component.scss'],
+    
 })
 export class AudioNativeComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null

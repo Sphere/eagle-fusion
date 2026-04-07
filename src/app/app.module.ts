@@ -417,7 +417,7 @@ import { DowntimeBannerComponent } from './component/downtime-banner/downtime-ba
         {
             provide: APP_INITIALIZER,
             useFactory: (languageService: LanguageService) => () => {
-                return languageService.initializeLanguage();
+                return languageService.initializeLanguage()
             },
             deps: [LanguageService],
             multi: true,

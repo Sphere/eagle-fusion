@@ -15,9 +15,10 @@ type SearchResultLegacy = NSSearch.ISearchV6ApiResultV2
 type SearchResultV3 = NSSearch.ISearchV6ApiResultV3
 
 @Component({
-  selector: 'ws-app-learning',
-  templateUrl: './learning.component.html',
-  styleUrls: ['./learning.component.scss'],
+    selector: 'ws-app-learning',
+    templateUrl: './learning.component.html',
+    styleUrls: ['./learning.component.scss'],
+    
 })
 export class LearningComponent implements OnInit, OnDestroy {
   @ViewChild(FilterDisplayComponent, { static: false })

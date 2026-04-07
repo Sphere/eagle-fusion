@@ -18,11 +18,10 @@ import { LanguageService } from '../../services/language.service'
  * - No background interaction allowed
  */
 @Component({
-  selector: 'app-downtime-full',
-  standalone: true,
-  imports: [CommonModule],
-  templateUrl: './downtime-full.component.html',
-  styleUrls: ['./downtime-full.component.scss'],
+    selector: 'app-downtime-full',
+    imports: [CommonModule],
+    templateUrl: './downtime-full.component.html',
+    styleUrls: ['./downtime-full.component.scss'],
 })
 export class DowntimeFullComponent implements OnInit, OnDestroy {
   content: DowntimeContent | null = null

@@ -8,9 +8,10 @@ import { Router, NavigationStart, NavigationEnd } from '@angular/router'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 
 @Component({
-  selector: 'ws-widget-btn-apps',
-  templateUrl: './btn-apps.component.html',
-  styleUrls: ['./btn-apps.component.scss'],
+    selector: 'ws-widget-btn-apps',
+    templateUrl: './btn-apps.component.html',
+    styleUrls: ['./btn-apps.component.scss'],
+    
 })
 
 export class BtnAppsComponent extends WidgetBaseComponent

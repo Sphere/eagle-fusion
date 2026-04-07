@@ -23,9 +23,10 @@ import { constructReq } from '../profile-view/request-util'
 import { API_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
-  selector: 'ws-new-tnc',
-  templateUrl: './new-tnc.component.html',
-  styleUrls: ['./new-tnc.component.scss'],
+    selector: 'ws-new-tnc',
+    templateUrl: './new-tnc.component.html',
+    styleUrls: ['./new-tnc.component.scss'],
+    
 })
 export class NewTncComponent implements OnInit, OnDestroy {
   //@ViewChild('scrollContainer') scrollContainer: ElementRef

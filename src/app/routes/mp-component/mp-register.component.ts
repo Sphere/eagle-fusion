@@ -10,9 +10,10 @@ import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
-  selector: 'ws-mp-register',
-  templateUrl: './mp-register.component.html',
-  styleUrls: ['./mp-register.component.scss'],
+    selector: 'ws-mp-register',
+    templateUrl: './mp-register.component.html',
+    styleUrls: ['./mp-register.component.scss'],
+    
 })
 export class MpRegisterComponent implements OnInit {
   anmRegistrationForm: FormGroup

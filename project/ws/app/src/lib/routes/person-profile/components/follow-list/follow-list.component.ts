@@ -4,9 +4,10 @@ import { PersonProfileService } from '../../services/person-profile.service'
 import { TFetchStatus, ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-app-follow-list',
-  templateUrl: './follow-list.component.html',
-  styleUrls: ['./follow-list.component.scss'],
+    selector: 'ws-app-follow-list',
+    templateUrl: './follow-list.component.html',
+    styleUrls: ['./follow-list.component.scss'],
+    
 })
 export class FollowListComponent implements OnInit, OnChanges {
   @Input() wid = ''

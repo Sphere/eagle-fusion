@@ -8,9 +8,10 @@ import { EventService, WsEvents } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-  selector: 'viewer-web-module',
-  templateUrl: './web-module.component.html',
-  styleUrls: ['./web-module.component.scss'],
+    selector: 'viewer-web-module',
+    templateUrl: './web-module.component.html',
+    styleUrls: ['./web-module.component.scss'],
+    
 })
 export class WebModuleComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null

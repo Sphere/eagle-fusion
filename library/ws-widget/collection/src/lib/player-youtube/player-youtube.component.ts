@@ -44,9 +44,10 @@ const videoJsOptions: IYTOptions = {
 }
 
 @Component({
-  selector: 'ws-widget-player-youtube',
-  templateUrl: './player-youtube.component.html',
-  styleUrls: ['./player-youtube.component.scss'],
+    selector: 'ws-widget-player-youtube',
+    templateUrl: './player-youtube.component.html',
+    styleUrls: ['./player-youtube.component.scss'],
+    
 })
 export class PlayerYoutubeComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {

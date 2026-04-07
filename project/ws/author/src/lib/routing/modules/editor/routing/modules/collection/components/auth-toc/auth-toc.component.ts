@@ -19,10 +19,11 @@ import { map } from 'rxjs/operators'
 
 declare let $: any
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ws-author-auth-toc',
-  templateUrl: './auth-toc.component.html',
-  styleUrls: ['./auth-toc.component.scss'],
+    // tslint:disable-next-line:component-selector
+    selector: 'ws-author-auth-toc',
+    templateUrl: './auth-toc.component.html',
+    styleUrls: ['./auth-toc.component.scss'],
+    
 })
 export class AuthTocComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() createdFromCourse: any

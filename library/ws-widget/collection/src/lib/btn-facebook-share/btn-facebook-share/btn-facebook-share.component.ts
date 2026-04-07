@@ -3,9 +3,10 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { ConfigurationsService } from '../../../../../utils/src/public-api'
 
 @Component({
-  selector: 'ws-widget-btn-facebook-share',
-  templateUrl: './btn-facebook-share.component.html',
-  styleUrls: ['./btn-facebook-share.component.scss'],
+    selector: 'ws-widget-btn-facebook-share',
+    templateUrl: './btn-facebook-share.component.html',
+    styleUrls: ['./btn-facebook-share.component.scss'],
+    
 })
 export class BtnFacebookShareComponent implements OnInit {
   @Input() url = location.href

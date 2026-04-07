@@ -10,9 +10,10 @@ import { LoggerService } from '../../../../library/ws-widget/utils/src/public-ap
 // import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
-  selector: 'ws-app-register',
-  templateUrl: './register.component.html',
-  styleUrls: ['./register.component.scss'],
+    selector: 'ws-app-register',
+    templateUrl: './register.component.html',
+    styleUrls: ['./register.component.scss'],
+    
 })
 export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
   signupForm: UntypedFormGroup

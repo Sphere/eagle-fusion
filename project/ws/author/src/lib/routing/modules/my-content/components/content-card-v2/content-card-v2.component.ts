@@ -16,9 +16,10 @@ interface ILanguageBar {
 }
 
 @Component({
-  selector: 'ws-auth-content-card-v2',
-  templateUrl: './content-card-v2.component.html',
-  styleUrls: ['./content-card-v2.component.scss'],
+    selector: 'ws-auth-content-card-v2',
+    templateUrl: './content-card-v2.component.html',
+    styleUrls: ['./content-card-v2.component.scss'],
+    
 })
 export class ContentCardV2Component implements OnInit {
   languages: ILanguageBar[] = []

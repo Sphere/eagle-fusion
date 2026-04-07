@@ -10,9 +10,10 @@ import { WidgetContentService } from '../../../../../library/ws-widget/collectio
 import { LanguageService } from '../../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-  selector: 'ws-education-edit',
-  templateUrl: './education-edit.component.html',
-  styleUrls: ['./education-edit.component.scss'],
+    selector: 'ws-education-edit',
+    templateUrl: './education-edit.component.html',
+    styleUrls: ['./education-edit.component.scss'],
+    
 })
 export class EducationEditComponent implements OnInit {
   educationForm: UntypedFormGroup

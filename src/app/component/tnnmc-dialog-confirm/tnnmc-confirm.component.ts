@@ -3,9 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 
 @Component({
-  selector: 'ws-tnnmc-confirm',
-  templateUrl: './tnnmc-confirm.component.html',
-  styleUrls: ['./tnnmc-confirm.component.scss'],
+    selector: 'ws-tnnmc-confirm',
+    templateUrl: './tnnmc-confirm.component.html',
+    styleUrls: ['./tnnmc-confirm.component.scss'],
+    
 })
 export class TnnmcConfirmComponent {
 

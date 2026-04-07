@@ -27,9 +27,10 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
-  selector: 'ws-app-settings',
-  templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss'],
+    selector: 'ws-app-settings',
+    templateUrl: './settings.component.html',
+    styleUrls: ['./settings.component.scss'],
+    
 })
 export class SettingsComponent implements OnInit, OnDestroy {
   @ViewChild('successToast', { static: true }) successToast!: ElementRef<any>

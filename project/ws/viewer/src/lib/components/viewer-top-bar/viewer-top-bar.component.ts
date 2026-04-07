@@ -10,9 +10,10 @@ import { WidgetContentService } from '@ws-widget/collection/src/lib/_services/wi
 import { ViewerUtilService } from '../../viewer-util.service'
 import { NsContent } from '@ws-widget/collection/src/lib/_services/widget-content.model'
 @Component({
-  selector: 'viewer-viewer-top-bar',
-  templateUrl: './viewer-top-bar.component.html',
-  styleUrls: ['./viewer-top-bar.component.scss'],
+    selector: 'viewer-viewer-top-bar',
+    templateUrl: './viewer-top-bar.component.html',
+    styleUrls: ['./viewer-top-bar.component.scss'],
+    
 })
 export class ViewerTopBarComponent implements OnInit, OnChanges, OnDestroy {
   @Input() frameReference: any

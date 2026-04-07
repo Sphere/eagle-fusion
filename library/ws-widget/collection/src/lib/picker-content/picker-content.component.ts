@@ -21,9 +21,10 @@ import { IPickerContentData, ISearchConfig } from './picker-content.model'
 import { PickerContentService } from './picker-content.service'
 
 @Component({
-  selector: 'ws-widget-picker-content[widgetData]',
-  templateUrl: './picker-content.component.html',
-  styleUrls: ['./picker-content.component.scss'],
+    selector: 'ws-widget-picker-content[widgetData]',
+    templateUrl: './picker-content.component.html',
+    styleUrls: ['./picker-content.component.scss'],
+    
 })
 export class PickerContentComponent extends WidgetBaseComponent
   implements OnInit, OnChanges, OnDestroy, NsWidgetResolver.IWidgetData<IPickerContentData> {

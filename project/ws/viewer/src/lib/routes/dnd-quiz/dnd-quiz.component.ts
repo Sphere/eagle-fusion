@@ -7,9 +7,10 @@ import { ActivatedRoute } from '@angular/router'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-  selector: 'viewer-dnd-quiz',
-  templateUrl: './dnd-quiz.component.html',
-  styleUrls: ['./dnd-quiz.component.scss'],
+    selector: 'viewer-dnd-quiz',
+    templateUrl: './dnd-quiz.component.html',
+    styleUrls: ['./dnd-quiz.component.scss'],
+    
 })
 export class DndQuizComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null

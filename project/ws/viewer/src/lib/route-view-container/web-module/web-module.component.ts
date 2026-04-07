@@ -5,9 +5,10 @@ import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
-  selector: 'viewer-web-module-container',
-  templateUrl: './web-module.component.html',
-  styleUrls: ['./web-module.component.scss'],
+    selector: 'viewer-web-module-container',
+    templateUrl: './web-module.component.html',
+    styleUrls: ['./web-module.component.scss'],
+    
 })
 export class WebModuleComponent implements OnInit {
   @Input() isFetchingDataComplete = false

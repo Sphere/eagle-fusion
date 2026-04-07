@@ -4,9 +4,10 @@ import { ChannelStoreService } from './../../../services/store.service'
 import { ChannelResolverService } from './../../../services/resolver.service'
 
 @Component({
-  selector: 'ws-auth-gallery',
-  templateUrl: './gallery.component.html',
-  styleUrls: ['./gallery.component.scss'],
+    selector: 'ws-auth-gallery',
+    templateUrl: './gallery.component.html',
+    styleUrls: ['./gallery.component.scss'],
+    
 })
 export class GalleryComponent implements OnInit, OnChanges {
 

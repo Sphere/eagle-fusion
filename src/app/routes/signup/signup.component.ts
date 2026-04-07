@@ -7,9 +7,10 @@ import { SignupService } from './signup.service'
 import { Router } from '@angular/router'
 
 @Component({
-  selector: 'ws-signup',
-  templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss'],
+    selector: 'ws-signup',
+    templateUrl: './signup.component.html',
+    styleUrls: ['./signup.component.scss'],
+    
 })
 export class SignupComponent implements OnInit, OnDestroy {
   signupForm: UntypedFormGroup

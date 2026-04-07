@@ -8,15 +8,16 @@ import { ConfigurationsService } from '../../../../../../../library/ws-widget/ut
 import { SettingsComponent } from '../profile/routes/settings/settings.component'
 
 @Component({
-  selector: 'ws-app-app-setup-home',
-  templateUrl: './app-setup-home.component.html',
-  styleUrls: ['./app-setup-home.component.scss'],
-  providers: [
-    {
-      provide: STEPPER_GLOBAL_OPTIONS,
-      useValue: { displayDefaultIndicatorType: false },
-    },
-  ],
+    selector: 'ws-app-app-setup-home',
+    templateUrl: './app-setup-home.component.html',
+    styleUrls: ['./app-setup-home.component.scss'],
+    providers: [
+        {
+            provide: STEPPER_GLOBAL_OPTIONS,
+            useValue: { displayDefaultIndicatorType: false },
+        },
+    ],
+    
 })
 export class AppSetupHomeComponent implements OnInit, AfterViewInit {
   currentIndex = 0

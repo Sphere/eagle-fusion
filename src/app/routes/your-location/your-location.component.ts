@@ -8,13 +8,14 @@ import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../project/ws/app/src
 import { LoggerService } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-your-location',
-  templateUrl: './your-location.component.html',
-  styleUrls: ['./your-location.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: AppDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
-  ],
+    selector: 'ws-your-location',
+    templateUrl: './your-location.component.html',
+    styleUrls: ['./your-location.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: AppDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+    ],
+    
 })
 export class YourLocationComponent implements OnInit {
   disticts: any

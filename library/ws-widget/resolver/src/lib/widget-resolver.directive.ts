@@ -4,7 +4,8 @@ import { NsWidgetResolver } from './widget-resolver.model'
 import { WidgetResolverService } from './widget-resolver.service'
 
 @Directive({
-  selector: '[wsResolverWidget]',
+    selector: '[wsResolverWidget]',
+    
 })
 export class WidgetResolverDirective implements OnChanges {
   @Input() wsResolverWidget: NsWidgetResolver.IRenderConfigWithAnyData | null = null

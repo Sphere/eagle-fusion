@@ -4,9 +4,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { NsGalleryView } from '@ws-widget/collection/src/public-api'
 
 @Component({
-  selector: 'ws-auth-gallery-widget',
-  templateUrl: './gallery-widget.component.html',
-  styleUrls: ['./gallery-widget.component.scss'],
+    selector: 'ws-auth-gallery-widget',
+    templateUrl: './gallery-widget.component.html',
+    styleUrls: ['./gallery-widget.component.scss'],
+    
 })
 export class GalleryWidgetComponent implements OnInit {
 

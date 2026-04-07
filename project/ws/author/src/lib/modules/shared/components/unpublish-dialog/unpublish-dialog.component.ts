@@ -17,9 +17,10 @@ import { mergeMap, catchError } from 'rxjs/operators'
 import { of } from 'rxjs'
 
 @Component({
-  selector: 'ws-auth-unpublish-dialog',
-  templateUrl: './unpublish-dialog.component.html',
-  styleUrls: ['./unpublish-dialog.component.scss'],
+    selector: 'ws-auth-unpublish-dialog',
+    templateUrl: './unpublish-dialog.component.html',
+    styleUrls: ['./unpublish-dialog.component.scss'],
+    
 })
 export class UnpublishDialogComponent implements OnInit {
   commentsForm!: UntypedFormGroup

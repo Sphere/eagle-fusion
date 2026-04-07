@@ -2,7 +2,8 @@ import { Directive, HostListener } from '@angular/core'
 import { ValueService } from '../../services/value.service'
 
 @Directive({
-  selector: '[wsUtilsRetain]',
+    selector: '[wsUtilsRetain]',
+    
 })
 export class RetainScrollDirective {
   currentPosition = 0

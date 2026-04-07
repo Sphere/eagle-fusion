@@ -4,9 +4,10 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { ResourceCollectionService } from 'project/ws/viewer/src/lib/plugins/resource-collection/resource-collection.service'
 
 @Component({
-  selector: 'viewer-view-submission',
-  templateUrl: './view-submission.component.html',
-  styleUrls: ['./view-submission.component.scss'],
+    selector: 'viewer-view-submission',
+    templateUrl: './view-submission.component.html',
+    styleUrls: ['./view-submission.component.scss'],
+    
 })
 export class ViewSubmissionComponent implements OnInit {
   submissionUrl = ''

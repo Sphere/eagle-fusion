@@ -4,9 +4,10 @@ import { NsGalleryView } from './gallery-view.model'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'ws-widget-gallery-view',
-  templateUrl: './gallery-view.component.html',
-  styleUrls: ['./gallery-view.component.scss'],
+    selector: 'ws-widget-gallery-view',
+    templateUrl: './gallery-view.component.html',
+    styleUrls: ['./gallery-view.component.scss'],
+    
 })
 export class GalleryViewComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsGalleryView.IWidgetGalleryView> {

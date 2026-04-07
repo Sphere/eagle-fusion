@@ -7,9 +7,10 @@ import { PipeLimitToPipe } from '@ws-widget/utils/src/lib/pipes/pipe-limit-to/pi
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
-  selector: 'viewer-html-container',
-  templateUrl: './html.component.html',
-  styleUrls: ['./html.component.scss'],
+    selector: 'viewer-html-container',
+    templateUrl: './html.component.html',
+    styleUrls: ['./html.component.scss'],
+    
 })
 export class HtmlComponent implements OnInit, OnChanges {
 

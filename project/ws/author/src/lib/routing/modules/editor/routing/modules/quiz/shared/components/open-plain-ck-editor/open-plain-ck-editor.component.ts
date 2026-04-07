@@ -9,9 +9,10 @@ interface IData {
 }
 
 @Component({
-  selector: 'ws-auth-open-plain-ck-editor',
-  templateUrl: './open-plain-ck-editor.component.html',
-  styleUrls: ['./open-plain-ck-editor.component.scss'],
+    selector: 'ws-auth-open-plain-ck-editor',
+    templateUrl: './open-plain-ck-editor.component.html',
+    styleUrls: ['./open-plain-ck-editor.component.scss'],
+    
 })
 export class OpenPlainCkEditorComponent implements OnInit {
 

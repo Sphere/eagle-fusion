@@ -7,9 +7,10 @@ import { IQuestionDetailsContent } from '../iap-assessment/iap-assessment.compon
 // IQuestionDetailsContent
 
 @Component({
-  selector: 'ws-auth-section-dialog',
-  templateUrl: './section-dialog.component.html',
-  styleUrls: ['./section-dialog.component.scss'],
+    selector: 'ws-auth-section-dialog',
+    templateUrl: './section-dialog.component.html',
+    styleUrls: ['./section-dialog.component.scss'],
+    
 })
 export class SectionDialogComponent implements OnInit {
   constructor(

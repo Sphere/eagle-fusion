@@ -4,9 +4,10 @@ import { TFetchStatus, ConfigurationsService, ValueService } from '@ws-widget/ut
 import { Subscription } from 'rxjs'
 import { PersonProfileService } from '../../services/person-profile.service'
 @Component({
-  selector: 'ws-app-profile-blog',
-  templateUrl: './profile-blog.component.html',
-  styleUrls: ['./profile-blog.component.scss'],
+    selector: 'ws-app-profile-blog',
+    templateUrl: './profile-blog.component.html',
+    styleUrls: ['./profile-blog.component.scss'],
+    
 })
 export class ProfileBlogComponent implements OnInit {
 

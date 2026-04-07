@@ -17,9 +17,10 @@ import { CollectionStoreService } from './../../services/store.service'
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { map } from 'rxjs/operators'
 @Component({
-  selector: 'ws-auth-table-of-contents',
-  templateUrl: './auth-table-of-contents.component.html',
-  styleUrls: ['./auth-table-of-contents.component.scss'],
+    selector: 'ws-auth-table-of-contents',
+    templateUrl: './auth-table-of-contents.component.html',
+    styleUrls: ['./auth-table-of-contents.component.scss'],
+    
 })
 export class AuthTableOfContentsComponent implements OnInit, OnDestroy {
   @Output() action = new EventEmitter<{ type: string; identifier: string }>()

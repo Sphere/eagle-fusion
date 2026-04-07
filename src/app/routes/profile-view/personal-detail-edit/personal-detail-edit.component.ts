@@ -22,14 +22,15 @@ import { LanguageService } from '../../../services/language.service'
 import { LoggerService } from '@ws-widget/utils'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-  selector: 'ws-personal-detail-edit',
-  templateUrl: './personal-detail-edit.component.html',
-  styleUrls: ['./personal-detail-edit.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: AppDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'ws-personal-detail-edit',
+    templateUrl: './personal-detail-edit.component.html',
+    styleUrls: ['./personal-detail-edit.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: AppDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+    ],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    
 })
 export class PersonalDetailEditComponent implements OnInit, AfterViewInit, AfterViewChecked, OnDestroy {
   private destroy$ = new Subject<void>()

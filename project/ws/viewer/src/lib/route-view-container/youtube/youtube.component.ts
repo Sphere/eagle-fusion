@@ -5,9 +5,10 @@ import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
-  selector: 'viewer-youtube-container',
-  templateUrl: './youtube.component.html',
-  styleUrls: ['./youtube.component.scss'],
+    selector: 'viewer-youtube-container',
+    templateUrl: './youtube.component.html',
+    styleUrls: ['./youtube.component.scss'],
+    
 })
 export class YoutubeComponent implements OnInit {
   @Input() isScreenSizeSmall = false

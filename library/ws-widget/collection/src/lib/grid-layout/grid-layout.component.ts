@@ -8,9 +8,10 @@ import {
   IGridLayoutDataMain,
 } from './grid-layout.model'
 @Component({
-  selector: 'ws-widget-grid-layout',
-  templateUrl: './grid-layout.component.html',
-  styleUrls: ['./grid-layout.component.scss'],
+    selector: 'ws-widget-grid-layout',
+    templateUrl: './grid-layout.component.html',
+    styleUrls: ['./grid-layout.component.scss'],
+    
 })
 export class GridLayoutComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<IGridLayoutDataMain> {

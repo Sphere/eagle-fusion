@@ -39,13 +39,14 @@ import { LanguageDialogComponent } from '../../../../../../../../../src/app/rout
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
-  selector: 'ws-app-user-profile',
-  templateUrl: './user-profile.component.html',
-  styleUrls: ['./user-profile.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: AppDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
-  ],
+    selector: 'ws-app-user-profile',
+    templateUrl: './user-profile.component.html',
+    styleUrls: ['./user-profile.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: AppDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+    ],
+    
 })
 export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
   createUserForm: UntypedFormGroup

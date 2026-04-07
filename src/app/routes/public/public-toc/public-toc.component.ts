@@ -8,9 +8,10 @@ import { combineLatest } from 'rxjs'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-public-toc',
-  templateUrl: './public-toc.component.html',
-  styleUrls: ['./public-toc.component.scss'],
+    selector: 'ws-public-toc',
+    templateUrl: './public-toc.component.html',
+    styleUrls: ['./public-toc.component.scss'],
+    
 })
 export class PublicTocComponent implements OnInit, OnDestroy {
   tocData: any

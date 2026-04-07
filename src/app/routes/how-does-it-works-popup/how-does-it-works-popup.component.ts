@@ -3,9 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 // import { DomSanitizer } from '@angular/platform-browser'
 
 @Component({
-  selector: 'app-video-popup',
-  templateUrl: './how-does-it-works-popup.component.html',
-  styleUrls: ['./how-does-it-works-popup.component.scss'],
+    selector: 'app-video-popup',
+    templateUrl: './how-does-it-works-popup.component.html',
+    styleUrls: ['./how-does-it-works-popup.component.scss'],
+    
 })
 export class VideoPopupComponent implements OnInit {
 

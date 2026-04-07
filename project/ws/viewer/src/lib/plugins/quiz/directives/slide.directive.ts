@@ -3,7 +3,8 @@ declare let $: any
 import { QuizService } from '../quiz.service'
 /* tslint:disable */
 @Directive({
-  selector: '[questionSlide]',
+    selector: '[questionSlide]',
+    
 })
 /* tslint:enable */
 export class SlideDirective implements OnInit {

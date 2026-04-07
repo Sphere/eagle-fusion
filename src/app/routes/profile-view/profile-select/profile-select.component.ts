@@ -14,9 +14,10 @@ import { constructReq } from '../request-util'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
-  selector: 'ws-profile-select',
-  templateUrl: './profile-select.component.html',
-  styleUrls: ['./profile-select.component.scss'],
+    selector: 'ws-profile-select',
+    templateUrl: './profile-select.component.html',
+    styleUrls: ['./profile-select.component.scss'],
+    
 })
 export class ProfileSelectComponent implements OnInit {
   imageTypes = IMAGE_SUPPORT_TYPES

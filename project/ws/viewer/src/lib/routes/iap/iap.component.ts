@@ -8,9 +8,10 @@ import { filter } from 'rxjs/operators'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-  selector: 'viewer-iap',
-  templateUrl: './iap.component.html',
-  styleUrls: ['./iap.component.scss'],
+    selector: 'viewer-iap',
+    templateUrl: './iap.component.html',
+    styleUrls: ['./iap.component.scss'],
+    
 })
 export class IapComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null

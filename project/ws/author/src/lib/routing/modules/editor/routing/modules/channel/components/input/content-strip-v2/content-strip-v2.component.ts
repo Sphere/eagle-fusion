@@ -17,9 +17,10 @@ import { InterestService } from './../../../../../../../../../../../../app/src/l
 import { SEARCHV6 } from './content-strip-v2.constant'
 
 @Component({
-  selector: 'ws-auth-content-strip-v2',
-  templateUrl: './content-strip-v2.component.html',
-  styleUrls: ['./content-strip-v2.component.scss'],
+    selector: 'ws-auth-content-strip-v2',
+    templateUrl: './content-strip-v2.component.html',
+    styleUrls: ['./content-strip-v2.component.scss'],
+    
 })
 export class ContentStripV2Component implements OnInit {
   @Output() data = new EventEmitter<{

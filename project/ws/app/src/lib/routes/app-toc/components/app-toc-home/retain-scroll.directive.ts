@@ -2,7 +2,8 @@ import { Directive, HostListener } from '@angular/core'
 import { ValueService } from '@ws-widget/utils'
 
 @Directive({
-  selector: '[wsAppRetainScroll]',
+    selector: '[wsAppRetainScroll]',
+    
 })
 export class RetainScrollDirective {
   currentPosition = 0

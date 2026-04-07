@@ -32,11 +32,12 @@ import { RootService } from 'src/app/component/root/root.service'
 import { FlatTreeControl } from '@angular/cdk/tree'
 
 @Component({
-  // tslint:disable-next-line:component-selector
-  selector: 'ws-author-course-collection',
-  templateUrl: './course-collection.component.html',
-  styleUrls: ['./course-collection.component.scss'],
-  providers: [CollectionStoreService, CollectionResolverService],
+    // tslint:disable-next-line:component-selector
+    selector: 'ws-author-course-collection',
+    templateUrl: './course-collection.component.html',
+    styleUrls: ['./course-collection.component.scss'],
+    providers: [CollectionStoreService, CollectionResolverService],
+    
 })
 export class CourseCollectionComponent implements OnInit, OnDestroy {
   contents: NSContent.IContentMeta[] = []

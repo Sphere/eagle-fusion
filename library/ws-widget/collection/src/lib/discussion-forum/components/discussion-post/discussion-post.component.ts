@@ -12,9 +12,10 @@ import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { DialogSocialDeletePostComponent } from '../../dialog/dialog-social-delete-post/dialog-social-delete-post.component'
 
 @Component({
-  selector: 'ws-widget-discussion-post',
-  templateUrl: './discussion-post.component.html',
-  styleUrls: ['./discussion-post.component.scss'],
+    selector: 'ws-widget-discussion-post',
+    templateUrl: './discussion-post.component.html',
+    styleUrls: ['./discussion-post.component.scss'],
+    
 })
 export class DiscussionPostComponent implements OnInit {
 

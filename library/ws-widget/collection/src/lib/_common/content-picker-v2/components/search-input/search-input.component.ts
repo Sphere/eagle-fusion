@@ -11,9 +11,10 @@ interface ISearchQuery {
   query: string
 }
 @Component({
-  selector: 'ws-widget-search-input',
-  templateUrl: './search-input.component.html',
-  styleUrls: ['./search-input.component.scss'],
+    selector: 'ws-widget-search-input',
+    templateUrl: './search-input.component.html',
+    styleUrls: ['./search-input.component.scss'],
+    
 })
 export class SearchInputComponent implements OnInit, OnDestroy {
 

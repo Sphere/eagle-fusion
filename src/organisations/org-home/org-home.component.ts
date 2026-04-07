@@ -8,9 +8,10 @@ import { SignupService } from '../../app/routes/signup/signup.service'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { orderBy, get } from 'lodash'
 @Component({
-  selector: 'ws-org-home',
-  templateUrl: './org-home.component.html',
-  styleUrls: ['./org-home.component.scss'],
+    selector: 'ws-org-home',
+    templateUrl: './org-home.component.html',
+    styleUrls: ['./org-home.component.scss'],
+    
 })
 export class OrgHomeComponent implements OnInit {
   courses: any

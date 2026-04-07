@@ -9,11 +9,12 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 
 @Component({
-  selector: 'ws-auth-root-root',
-  templateUrl: './root.component.html',
-  styleUrls: ['./root.component.scss'],
-  // tslint:disable-next-line:use-component-view-encapsulation
-  encapsulation: ViewEncapsulation.None,
+    selector: 'ws-auth-root-root',
+    templateUrl: './root.component.html',
+    styleUrls: ['./root.component.scss'],
+    // tslint:disable-next-line:use-component-view-encapsulation
+    encapsulation: ViewEncapsulation.None,
+    
 })
 export class AuthRootComponent implements OnInit, OnDestroy {
   appIcon: SafeUrl | null = null

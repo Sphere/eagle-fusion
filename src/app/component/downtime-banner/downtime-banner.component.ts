@@ -20,11 +20,10 @@ import { LanguageService } from '../../services/language.service'
  * - Dismissible banner
  */
 @Component({
-  selector: 'app-downtime-banner',
-  standalone: true,
-  imports: [CommonModule, MatIconModule, MatButtonModule],
-  templateUrl: './downtime-banner.component.html',
-  styleUrls: ['./downtime-banner.component.scss'],
+    selector: 'app-downtime-banner',
+    imports: [CommonModule, MatIconModule, MatButtonModule],
+    templateUrl: './downtime-banner.component.html',
+    styleUrls: ['./downtime-banner.component.scss'],
 })
 export class DowntimeBannerComponent implements OnInit, OnDestroy {
   isVisible = false

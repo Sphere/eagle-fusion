@@ -6,9 +6,10 @@ import { WIDGET_LIBRARY } from '../../../constants/widet'
 import { ImageMapComponent } from './../image-map/image-map.component'
 
 @Component({
-  selector: 'ws-auth-selector-responsive-v2',
-  templateUrl: './selector-responsive-v2.component.html',
-  styleUrls: ['./selector-responsive-v2.component.scss'],
+    selector: 'ws-auth-selector-responsive-v2',
+    templateUrl: './selector-responsive-v2.component.html',
+    styleUrls: ['./selector-responsive-v2.component.scss'],
+    
 })
 export class SelectorResponsiveV2Component implements OnInit {
   @Output() data = new EventEmitter<{

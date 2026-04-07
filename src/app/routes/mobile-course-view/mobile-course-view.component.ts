@@ -10,9 +10,10 @@ import { Title } from '@angular/platform-browser'
 import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-mobile-course-view',
-  templateUrl: './mobile-course-view.component.html',
-  styleUrls: ['./mobile-course-view.component.scss'],
+    selector: 'ws-mobile-course-view',
+    templateUrl: './mobile-course-view.component.html',
+    styleUrls: ['./mobile-course-view.component.scss'],
+    
 })
 export class MobileCourseViewComponent implements OnInit {
 

@@ -15,9 +15,10 @@ import { Platform } from '@angular/cdk/platform'
 import dayjs from 'dayjs'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 @Component({
-  selector: 'viewer-video',
-  templateUrl: './video.component.html',
-  styleUrls: ['./video.component.scss'],
+    selector: 'viewer-video',
+    templateUrl: './video.component.html',
+    styleUrls: ['./video.component.scss'],
+    
 })
 export class VideoComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null

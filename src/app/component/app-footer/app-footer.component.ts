@@ -5,9 +5,10 @@ import { Router } from '@angular/router'
 import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
-  selector: 'ws-app-footer',
-  templateUrl: './app-footer.component.html',
-  styleUrls: ['./app-footer.component.scss'],
+    selector: 'ws-app-footer',
+    templateUrl: './app-footer.component.html',
+    styleUrls: ['./app-footer.component.scss'],
+    
 })
 export class AppFooterComponent implements OnInit {
   @Input() isEkshamata = false

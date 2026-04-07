@@ -12,13 +12,14 @@ import { WidgetContentService } from '../../../../../library/ws-widget/collectio
 import { LanguageService } from '../../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-  selector: 'ws-work-info-edit',
-  templateUrl: './work-info-edit.component.html',
-  styleUrls: ['./work-info-edit.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: AppDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
-  ],
+    selector: 'ws-work-info-edit',
+    templateUrl: './work-info-edit.component.html',
+    styleUrls: ['./work-info-edit.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: AppDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+    ],
+    
 })
 export class WorkInfoEditComponent implements OnInit, OnDestroy {
   maxDate = new Date()

@@ -19,9 +19,10 @@ interface ISubtitle {
 }
 
 @Component({
-  selector: 'ws-auth-audio-video',
-  templateUrl: './audio-video.component.html',
-  styleUrls: ['./audio-video.component.scss'],
+    selector: 'ws-auth-audio-video',
+    templateUrl: './audio-video.component.html',
+    styleUrls: ['./audio-video.component.scss'],
+    
 })
 export class AudioVideoComponent implements OnChanges, OnInit {
   @Input() isSubmitPressed = false

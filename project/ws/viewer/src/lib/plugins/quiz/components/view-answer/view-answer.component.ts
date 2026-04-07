@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from "@angular/core"
 import { MAT_DIALOG_DATA, MatDialogRef } from "@angular/material/dialog"
 
 @Component({
-  selector: "app-view-answer",
-  templateUrl: "./view-answer.component.html",
-  styleUrls: ["./view-answer.component.scss"],
+    selector: "app-view-answer",
+    templateUrl: "./view-answer.component.html",
+    styleUrls: ["./view-answer.component.scss"],
+    
 })
 export class ViewAnswerComponent implements OnInit {
   questions!: any[]

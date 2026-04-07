@@ -12,9 +12,10 @@ import { WidgetContentService } from '@ws-widget/collection'
 // import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
-  selector: 'ws-public-toc-overview',
-  templateUrl: './public-toc-overview.component.html',
-  styleUrls: ['./public-toc-overview.component.scss'],
+    selector: 'ws-public-toc-overview',
+    templateUrl: './public-toc-overview.component.html',
+    styleUrls: ['./public-toc-overview.component.scss'],
+    
 })
 export class PublicTocOverviewComponent implements OnInit, OnDestroy {
   /*

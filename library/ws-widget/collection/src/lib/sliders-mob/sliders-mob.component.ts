@@ -5,9 +5,10 @@ import { EventService } from '../../../../utils/src/public-api'
 import { ICarousel } from '../sliders/sliders.model'
 
 @Component({
-  selector: 'ws-widget-sliders-mob',
-  templateUrl: './sliders-mob.component.html',
-  styleUrls: ['./sliders-mob.component.scss'],
+    selector: 'ws-widget-sliders-mob',
+    templateUrl: './sliders-mob.component.html',
+    styleUrls: ['./sliders-mob.component.scss'],
+    
 })
 export class SlidersMobComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<ICarousel[]> {

@@ -7,10 +7,11 @@ import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 import { get } from 'lodash'
 @Component({
-  selector: 'ws-public-license',
-  templateUrl: './public-license.component.html',
-  styleUrls: ['./public-license.component.scss'],
-  providers: [AppTocService],
+    selector: 'ws-public-license',
+    templateUrl: './public-license.component.html',
+    styleUrls: ['./public-license.component.scss'],
+    providers: [AppTocService],
+    
 })
 export class PublicLicenseComponent implements OnInit {
   isXSmall = false

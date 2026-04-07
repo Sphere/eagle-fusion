@@ -6,9 +6,10 @@ import { HttpClient } from '@angular/common/http'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
-  selector: 'viewer-channel',
-  templateUrl: './channel.component.html',
-  styleUrls: ['./channel.component.scss'],
+    selector: 'viewer-channel',
+    templateUrl: './channel.component.html',
+    styleUrls: ['./channel.component.scss'],
+    
 })
 export class ChannelComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null

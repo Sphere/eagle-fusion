@@ -17,9 +17,10 @@ export interface IUsersData {
   languages: any[]
 }
 @Component({
-  selector: 'ws-auth-upload-audio',
-  templateUrl: './upload-audio.component.html',
-  styleUrls: ['./upload-audio.component.scss'],
+    selector: 'ws-auth-upload-audio',
+    templateUrl: './upload-audio.component.html',
+    styleUrls: ['./upload-audio.component.scss'],
+    
 })
 
 export class UploadAudioComponent implements OnInit {

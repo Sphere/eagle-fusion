@@ -1,9 +1,10 @@
 import { Component, Directive, Input, NgModule } from '@angular/core'
 
 @Component({
-  selector: 'mde-popover',
-  template: '<ng-content></ng-content>',
-  exportAs: 'mdePopover',
+    selector: 'mde-popover',
+    template: '<ng-content></ng-content>',
+    exportAs: 'mdePopover',
+    
 })
 export class MdePopover {
   @Input() mdePopoverOverlapTrigger = false
@@ -16,8 +17,9 @@ export class MdePopover {
 }
 
 @Directive({
-  selector: '[mdePopoverTriggerFor]',
-  exportAs: 'mdePopoverTrigger',
+    selector: '[mdePopoverTriggerFor]',
+    exportAs: 'mdePopoverTrigger',
+    
 })
 export class MdePopoverTrigger {
   @Input('mdePopoverTriggerFor') popover: any

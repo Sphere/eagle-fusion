@@ -2,9 +2,10 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { IAppliedFilters, IFilter, IIncludedFilters } from '../../content-picker-v2.model'
 
 @Component({
-  selector: 'ws-widget-filters',
-  templateUrl: './filters.component.html',
-  styleUrls: ['./filters.component.scss'],
+    selector: 'ws-widget-filters',
+    templateUrl: './filters.component.html',
+    styleUrls: ['./filters.component.scss'],
+    
 })
 export class FiltersComponent implements OnInit {
 

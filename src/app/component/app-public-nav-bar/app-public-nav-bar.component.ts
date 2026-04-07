@@ -4,9 +4,10 @@ import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
-  selector: 'ws-app-public-nav-bar',
-  templateUrl: './app-public-nav-bar.component.html',
-  styleUrls: ['./app-public-nav-bar.component.scss'],
+    selector: 'ws-app-public-nav-bar',
+    templateUrl: './app-public-nav-bar.component.html',
+    styleUrls: ['./app-public-nav-bar.component.scss'],
+    
 })
 export class AppPublicNavBarComponent implements OnInit, OnDestroy {
   @Input() orgConfig: any

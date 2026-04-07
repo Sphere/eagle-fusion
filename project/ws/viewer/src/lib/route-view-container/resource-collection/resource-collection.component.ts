@@ -5,9 +5,10 @@ import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
-  selector: 'viewer-resource-collection-container',
-  templateUrl: './resource-collection.component.html',
-  styleUrls: ['./resource-collection.component.scss'],
+    selector: 'viewer-resource-collection-container',
+    templateUrl: './resource-collection.component.html',
+    styleUrls: ['./resource-collection.component.scss'],
+    
 })
 export class ResourceCollectionComponent implements OnInit {
   @Input() isFetchingDataComplete = false

@@ -5,9 +5,10 @@ import { ConfigurationsService } from '../../../../utils/src/public-api'
 import { ErrorResolverService } from './error-resolver.service'
 import { ActivatedRoute } from '@angular/router'
 @Component({
-  selector: 'ws-widget-error-resolver',
-  templateUrl: './error-resolver.component.html',
-  styleUrls: ['./error-resolver.component.scss'],
+    selector: 'ws-widget-error-resolver',
+    templateUrl: './error-resolver.component.html',
+    styleUrls: ['./error-resolver.component.scss'],
+    
 })
 export class ErrorResolverComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsError.IWidgetErrorResolver> {

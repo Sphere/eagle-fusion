@@ -7,9 +7,10 @@ import { ConfigurationsService } from '@ws-widget/utils'
 
 import { IWidgetErrorSomethingsWrong } from './error-something-wrong.model'
 @Component({
-  selector: 'ws-widget-error-something-wrong',
-  templateUrl: './error-something-wrong.component.html',
-  styleUrls: ['./error-something-wrong.component.scss'],
+    selector: 'ws-widget-error-something-wrong',
+    templateUrl: './error-something-wrong.component.html',
+    styleUrls: ['./error-something-wrong.component.scss'],
+    
 })
 export class ErrorSomethingWrongComponent implements OnInit, OnDestroy {
   @Input() errorData: IWidgetErrorSomethingsWrong | null = null

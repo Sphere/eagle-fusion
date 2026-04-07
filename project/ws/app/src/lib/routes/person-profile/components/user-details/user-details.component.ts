@@ -3,9 +3,10 @@ import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 import { IFollowerId } from '../../person-profile.model'
 
 @Component({
-  selector: 'ws-app-user-details',
-  templateUrl: './user-details.component.html',
-  styleUrls: ['./user-details.component.scss'],
+    selector: 'ws-app-user-details',
+    templateUrl: './user-details.component.html',
+    styleUrls: ['./user-details.component.scss'],
+    
 })
 export class UserDetailsComponent implements OnInit, OnChanges {
   @Input() wid = ''

@@ -80,8 +80,7 @@
         "@angular-eslint/no-empty-lifecycle-method": "warn",
         "@typescript-eslint/no-namespace": "warn",
         "@typescript-eslint/no-this-alias": "warn",
-        "@angular-eslint/no-output-native": "warn",
-        "@angular-eslint/no-host-metadata-property": "warn"
+        "@angular-eslint/no-output-native": "warn"
       }
     },
     {

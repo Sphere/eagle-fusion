@@ -9,9 +9,10 @@ import { ConfigurationsService } from '../../../../../../../library/ws-widget/ut
 import { PlayerStateService } from '../../player-state.service'
 
 @Component({
-  selector: 'viewer-iap-container',
-  templateUrl: './iap.component.html',
-  styleUrls: ['./iap.component.scss'],
+    selector: 'viewer-iap-container',
+    templateUrl: './iap.component.html',
+    styleUrls: ['./iap.component.scss'],
+    
 })
 export class IapComponent implements OnInit {
   @Input() isFetchingDataComplete = false

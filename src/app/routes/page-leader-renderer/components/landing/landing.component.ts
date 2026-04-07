@@ -9,9 +9,10 @@ import { LeadershipService } from '../../services/leadership.service'
 import { SendMailDialogComponent } from '../send-mail-dialog/send-mail-dialog.component'
 
 @Component({
-  selector: 'ws-landing',
-  templateUrl: './landing.component.html',
-  styleUrls: ['./landing.component.scss'],
+    selector: 'ws-landing',
+    templateUrl: './landing.component.html',
+    styleUrls: ['./landing.component.scss'],
+    
 })
 export class LandingComponent implements OnInit {
   @ViewChild('followed', { static: true }) followed!: ElementRef<any>

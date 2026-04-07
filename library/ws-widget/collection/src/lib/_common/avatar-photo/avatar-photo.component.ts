@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core'
 
 @Component({
-  selector: 'ws-widget-avatar-photo',
-  templateUrl: './avatar-photo.component.html',
-  styleUrls: ['./avatar-photo.component.scss'],
+    selector: 'ws-widget-avatar-photo',
+    templateUrl: './avatar-photo.component.html',
+    styleUrls: ['./avatar-photo.component.scss'],
+    
 })
 export class AvatarPhotoComponent implements OnInit {
   @Input() datalen: any

@@ -19,9 +19,10 @@ import { Globals } from '../../globals'
 import { API_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Component({
-  selector: 'ws-app-tnc',
-  templateUrl: './tnc.component.html',
-  styleUrls: ['./tnc.component.scss'],
+    selector: 'ws-app-tnc',
+    templateUrl: './tnc.component.html',
+    styleUrls: ['./tnc.component.scss'],
+    
 })
 export class TncComponent implements OnInit, OnDestroy {
   tncData: NsTnc.ITnc | null = null

@@ -4,9 +4,10 @@ import { ISelectorResponsive } from './selector-responsive.model'
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'
 import { debounceTime, map, distinctUntilChanged } from 'rxjs/operators'
 @Component({
-  selector: 'ws-widget-selector-responsive',
-  templateUrl: './selector-responsive.component.html',
-  styleUrls: ['./selector-responsive.component.scss'],
+    selector: 'ws-widget-selector-responsive',
+    templateUrl: './selector-responsive.component.html',
+    styleUrls: ['./selector-responsive.component.scss'],
+    
 })
 export class SelectorResponsiveComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<ISelectorResponsive | null> {

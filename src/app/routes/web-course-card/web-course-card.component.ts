@@ -10,9 +10,10 @@ import { Title } from '@angular/platform-browser'
 import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-web-course-card',
-  templateUrl: './web-course-card.component.html',
-  styleUrls: ['./web-course-card.component.scss'],
+    selector: 'ws-web-course-card',
+    templateUrl: './web-course-card.component.html',
+    styleUrls: ['./web-course-card.component.scss'],
+    
 })
 export class WebCourseCardComponent implements OnInit {
   isUserLoggedIn = false

@@ -5,9 +5,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { NSContent } from '@ws/author/src/lib/interface/content'
 
 @Component({
-  selector: 'ws-auth-root-comments-dialog',
-  templateUrl: './comments-dialog.component.html',
-  styleUrls: ['./comments-dialog.component.scss'],
+    selector: 'ws-auth-root-comments-dialog',
+    templateUrl: './comments-dialog.component.html',
+    styleUrls: ['./comments-dialog.component.scss'],
+    
 })
 export class CommentsDialogComponent implements OnInit {
   commentsForm!: UntypedFormGroup

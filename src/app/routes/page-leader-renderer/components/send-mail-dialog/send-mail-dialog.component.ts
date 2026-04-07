@@ -8,9 +8,10 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { LeadershipService } from '../../services/leadership.service'
 
 @Component({
-  selector: 'ws-send-mail-dialog',
-  templateUrl: './send-mail-dialog.component.html',
-  styleUrls: ['./send-mail-dialog.component.scss'],
+    selector: 'ws-send-mail-dialog',
+    templateUrl: './send-mail-dialog.component.html',
+    styleUrls: ['./send-mail-dialog.component.scss'],
+    
 })
 export class SendMailDialogComponent implements OnInit {
   mailBodyText = ''

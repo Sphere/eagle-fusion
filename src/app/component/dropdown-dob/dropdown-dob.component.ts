@@ -3,9 +3,10 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-dropdown-dob',
-  templateUrl: './dropdown-dob.component.html',
-  styleUrls: ['./dropdown-dob.component.scss'],
+    selector: 'ws-dropdown-dob',
+    templateUrl: './dropdown-dob.component.html',
+    styleUrls: ['./dropdown-dob.component.scss'],
+    
 })
 export class DropdownDobComponent implements OnInit {
   @Output() dobValue = new EventEmitter<string>()

@@ -9,9 +9,10 @@ import { ViewSubmissionComponent } from './components/view-submission/view-submi
 import { ResourceCollectionService } from './resource-collection.service'
 
 @Component({
-  selector: 'viewer-plugin-resource-collection',
-  templateUrl: './resource-collection.component.html',
-  styleUrls: ['./resource-collection.component.scss'],
+    selector: 'viewer-plugin-resource-collection',
+    templateUrl: './resource-collection.component.html',
+    styleUrls: ['./resource-collection.component.scss'],
+    
 })
 export class ResourceCollectionComponent implements OnInit {
   @ViewChild('paginator', { static: true }) paginator: MatPaginator | null = null

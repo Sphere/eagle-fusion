@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core'
 @Component({
-  selector: 'ws-mobile-testimonials',
-  templateUrl: './mobile-testimonials.component.html',
-  styleUrls: ['./mobile-testimonials.component.scss'],
+    selector: 'ws-mobile-testimonials',
+    templateUrl: './mobile-testimonials.component.html',
+    styleUrls: ['./mobile-testimonials.component.scss'],
+    
 })
 export class MobileTestimonialsComponent implements OnInit {
   name = 'Angular'

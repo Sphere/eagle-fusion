@@ -8,9 +8,10 @@ import { isUndefined, toLower } from 'lodash'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 @Component({
-  selector: 'viewer-view-assesment-questions',
-  templateUrl: './view-assesment-questions.component.html',
-  styleUrls: ['./view-assesment-questions.component.scss'],
+    selector: 'viewer-view-assesment-questions',
+    templateUrl: './view-assesment-questions.component.html',
+    styleUrls: ['./view-assesment-questions.component.scss'],
+    
 })
 export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, OnDestroy {
   @Input() artifactUrl = ''

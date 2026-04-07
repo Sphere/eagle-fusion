@@ -7,9 +7,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { BtnSettingsService } from './btn-settings.service'
 
 @Component({
-  selector: 'ws-widget-btn-settings',
-  templateUrl: './btn-settings.component.html',
-  styleUrls: ['./btn-settings.component.scss'],
+    selector: 'ws-widget-btn-settings',
+    templateUrl: './btn-settings.component.html',
+    styleUrls: ['./btn-settings.component.scss'],
+    
 })
 export class BtnSettingsComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {

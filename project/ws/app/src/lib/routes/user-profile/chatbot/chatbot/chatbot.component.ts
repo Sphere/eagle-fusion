@@ -16,13 +16,14 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 declare let $: any
 @Component({
-  selector: 'ws-app-chatbot',
-  templateUrl: './chatbot.component.html',
-  styleUrls: ['./chatbot.component.scss'],
-  providers: [
-    { provide: DateAdapter, useClass: AppDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
-  ],
+    selector: 'ws-app-chatbot',
+    templateUrl: './chatbot.component.html',
+    styleUrls: ['./chatbot.component.scss'],
+    providers: [
+        { provide: DateAdapter, useClass: AppDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: APP_DATE_FORMATS },
+    ],
+    
 })
 export class ChatbotComponent implements OnInit {
 

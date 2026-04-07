@@ -24,9 +24,10 @@ import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 
 @Component({
-  selector: 'ws-widget-player-pdf',
-  templateUrl: './player-pdf.component.html',
-  styleUrls: ['./player-pdf.component.scss'],
+    selector: 'ws-widget-player-pdf',
+    templateUrl: './player-pdf.component.html',
+    styleUrls: ['./player-pdf.component.scss'],
+    
 })
 export class PlayerPdfComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {

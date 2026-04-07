@@ -4,9 +4,10 @@ import { ConfigurationsService } from '@ws-widget/utils'
 // import { NsMiniProfile } from '../../mini-profile/mini-profile.model'
 
 @Component({
-  selector: 'ws-widget-user-image',
-  templateUrl: './user-image.component.html',
-  styleUrls: ['./user-image.component.scss'],
+    selector: 'ws-widget-user-image',
+    templateUrl: './user-image.component.html',
+    styleUrls: ['./user-image.component.scss'],
+    
 })
 export class UserImageComponent implements OnInit, OnChanges {
   @Input() email = ''

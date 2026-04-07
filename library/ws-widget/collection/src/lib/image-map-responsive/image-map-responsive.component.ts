@@ -6,9 +6,10 @@ import { WidgetBaseComponent, NsWidgetResolver } from '../../../../resolver/src/
 import { IWidgetImageMap, IWidgetMapMeta, IWidgetScale, IWidgetMapCoords } from './image-map-responsive.model'
 
 @Component({
-  selector: 'ws-widget-image-map-responsive',
-  templateUrl: './image-map-responsive.component.html',
-  styleUrls: ['./image-map-responsive.component.scss'],
+    selector: 'ws-widget-image-map-responsive',
+    templateUrl: './image-map-responsive.component.html',
+    styleUrls: ['./image-map-responsive.component.scss'],
+    
 })
 export class ImageMapResponsiveComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<IWidgetImageMap> {

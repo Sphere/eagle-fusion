@@ -6,9 +6,10 @@ import { NsContent } from '../_services/widget-content.model'
 import { BtnContentShareDialogComponent } from './btn-content-share-dialog/btn-content-share-dialog.component'
 
 @Component({
-  selector: 'ws-widget-btn-content-share',
-  templateUrl: './btn-content-share.component.html',
-  styleUrls: ['./btn-content-share.component.scss'],
+    selector: 'ws-widget-btn-content-share',
+    templateUrl: './btn-content-share.component.html',
+    styleUrls: ['./btn-content-share.component.scss'],
+    
 })
 export class BtnContentShareComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NsContent.IContent> {

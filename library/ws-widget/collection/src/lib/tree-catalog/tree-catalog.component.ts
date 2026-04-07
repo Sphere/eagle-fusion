@@ -7,9 +7,10 @@ import { NSSearch } from '../_services/widget-search.model'
 import { TFetchStatus } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-widget-tree-catalog',
-  templateUrl: './tree-catalog.component.html',
-  styleUrls: ['./tree-catalog.component.scss'],
+    selector: 'ws-widget-tree-catalog',
+    templateUrl: './tree-catalog.component.html',
+    styleUrls: ['./tree-catalog.component.scss'],
+    
 })
 export class TreeCatalogComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<NSCatalog.ITreeCatalogData> {

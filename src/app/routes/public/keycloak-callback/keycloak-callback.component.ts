@@ -6,9 +6,10 @@ import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/au
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 //import { ConfigurationsService } from '@ws-widget/utils'
 @Component({
-  selector: 'ws-keycloak-callback',
-  templateUrl: './keycloak-callback.component.html',
-  styleUrls: ['./keycloak-callback.component.scss'],
+    selector: 'ws-keycloak-callback',
+    templateUrl: './keycloak-callback.component.html',
+    styleUrls: ['./keycloak-callback.component.scss'],
+    
 })
 export class KeycloakCallbackComponent implements OnInit {
   isLoading = false

@@ -12,9 +12,10 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { FILE_MAX_SIZE } from './../../../../../../../../../constants/upload'
 
 @Component({
-  selector: 'ws-auth-image-map',
-  templateUrl: './image-map.component.html',
-  styleUrls: ['./image-map.component.scss'],
+    selector: 'ws-auth-image-map',
+    templateUrl: './image-map.component.html',
+    styleUrls: ['./image-map.component.scss'],
+    
 })
 export class ImageMapComponent implements OnInit, AfterViewInit {
   @ViewChild('canvas', { static: false }) canvas!: ElementRef

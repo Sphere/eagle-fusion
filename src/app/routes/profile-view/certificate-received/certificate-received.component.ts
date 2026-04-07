@@ -2,9 +2,10 @@ import { Component, OnInit, Input } from '@angular/core'
 import * as FileSaver from 'file-saver'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 @Component({
-  selector: 'ws-certificate-received',
-  templateUrl: './certificate-received.component.html',
-  styleUrls: ['./certificate-received.component.scss'],
+    selector: 'ws-certificate-received',
+    templateUrl: './certificate-received.component.html',
+    styleUrls: ['./certificate-received.component.scss'],
+    
 })
 export class CertificateReceivedComponent implements OnInit {
   @Input() certificateData?: any

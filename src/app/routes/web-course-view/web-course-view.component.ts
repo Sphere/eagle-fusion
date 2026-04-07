@@ -10,9 +10,10 @@ import { Title } from '@angular/platform-browser'
 import { LoggerService } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-web-course-view',
-  templateUrl: './web-course-view.component.html',
-  styleUrls: ['./web-course-view.component.scss'],
+    selector: 'ws-web-course-view',
+    templateUrl: './web-course-view.component.html',
+    styleUrls: ['./web-course-view.component.scss'],
+    
 })
 export class WebCourseViewComponent implements OnInit {
   isUserLoggedIn = false

@@ -1,7 +1,8 @@
 import { Directive } from '@angular/core'
 
 @Directive({
-  selector: '[wsUtilsPermission]',
+    selector: '[wsUtilsPermission]',
+    
 })
 export class PermissionDirective {
 

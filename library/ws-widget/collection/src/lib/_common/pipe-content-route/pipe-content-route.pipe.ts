@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core'
 import { NsContent } from '../../_services/widget-content.model'
 @Pipe({
-  name: 'pipeContentRoute',
+    name: 'pipeContentRoute',
+    
 })
 export class PipeContentRoutePipe implements PipeTransform {
   constructor() { }

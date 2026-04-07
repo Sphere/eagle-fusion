@@ -8,11 +8,12 @@ import { ISearchAutoComplete } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 
 @Component({
-  selector: 'ws-app-search-input-home',
-  templateUrl: './search-input-home.component.html',
-  styleUrls: ['./search-input-home.component.scss'],
-  // tslint:disable-next-line
-  encapsulation: ViewEncapsulation.None,
+    selector: 'ws-app-search-input-home',
+    templateUrl: './search-input-home.component.html',
+    styleUrls: ['./search-input-home.component.scss'],
+    // tslint:disable-next-line
+    encapsulation: ViewEncapsulation.None,
+    
 })
 export class SearchInputHomeComponent implements OnInit, OnChanges {
   @Input() placeHolder = ''

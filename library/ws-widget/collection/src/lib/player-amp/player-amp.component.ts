@@ -17,9 +17,10 @@ import { first, filter } from 'rxjs/operators'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 
 @Component({
-  selector: 'ws-widget-player-amp',
-  templateUrl: './player-amp.component.html',
-  styleUrls: ['./player-amp.component.scss'],
+    selector: 'ws-widget-player-amp',
+    templateUrl: './player-amp.component.html',
+    styleUrls: ['./player-amp.component.scss'],
+    
 })
 export class PlayerAmpComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {

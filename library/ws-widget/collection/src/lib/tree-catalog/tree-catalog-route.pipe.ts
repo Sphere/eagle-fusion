@@ -1,7 +1,8 @@
 import { Pipe, PipeTransform } from '@angular/core'
 
 @Pipe({
-  name: 'treeCatalogRoute',
+    name: 'treeCatalogRoute',
+    
 })
 export class TreeCatalogRoutePipe implements PipeTransform {
 

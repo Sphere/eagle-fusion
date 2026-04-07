@@ -16,9 +16,10 @@ import { mergeMap, catchError } from 'rxjs/operators'
 import { of } from 'rxjs'
 
 @Component({
-  selector: 'ws-auth-delete-dialog',
-  templateUrl: './delete-dialog.component.html',
-  styleUrls: ['./delete-dialog.component.scss'],
+    selector: 'ws-auth-delete-dialog',
+    templateUrl: './delete-dialog.component.html',
+    styleUrls: ['./delete-dialog.component.scss'],
+    
 })
 export class DeleteDialogComponent implements OnInit {
   commentsForm!: UntypedFormGroup

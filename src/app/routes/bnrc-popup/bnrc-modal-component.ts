@@ -4,10 +4,11 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'bnrc-modal-component',
-  templateUrl: './bnrc-modal-component.html',
-  styleUrls: ['./bnrc-modal-component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+    selector: 'bnrc-modal-component',
+    templateUrl: './bnrc-modal-component.html',
+    styleUrls: ['./bnrc-modal-component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    
 })
 export class BnrcmodalComponent implements OnInit {
 

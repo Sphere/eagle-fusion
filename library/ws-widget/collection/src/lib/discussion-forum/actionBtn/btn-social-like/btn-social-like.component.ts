@@ -7,9 +7,10 @@ import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 
 @Component({
-  selector: 'ws-widget-btn-social-like',
-  templateUrl: './btn-social-like.component.html',
-  styleUrls: ['./btn-social-like.component.scss'],
+    selector: 'ws-widget-btn-social-like',
+    templateUrl: './btn-social-like.component.html',
+    styleUrls: ['./btn-social-like.component.scss'],
+    
 })
 export class BtnSocialLikeComponent implements OnInit {
   @Input() postId = ''

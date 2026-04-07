@@ -9,9 +9,10 @@ import { UntypedFormControl } from '@angular/forms'
 import { distinctUntilChanged } from 'rxjs/operators'
 
 @Component({
-  selector: 'ws-widget-content-picker-v2',
-  templateUrl: './content-picker-v2.component.html',
-  styleUrls: ['./content-picker-v2.component.scss'],
+    selector: 'ws-widget-content-picker-v2',
+    templateUrl: './content-picker-v2.component.html',
+    styleUrls: ['./content-picker-v2.component.scss'],
+    
 })
 export class ContentPickerV2Component implements OnInit, OnDestroy {
 

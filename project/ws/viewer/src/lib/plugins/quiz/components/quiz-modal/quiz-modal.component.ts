@@ -13,10 +13,11 @@ import { TranslateService } from '@ngx-translate/core'
 import { ScreenSecurityService } from '../../../../screen-security.service'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 @Component({
-  selector: 'viewer-quiz-modal',
-  templateUrl: './quiz-modal.component.html',
-  styleUrls: ['./quiz-modal.component.scss'],
-  encapsulation: ViewEncapsulation.None,
+    selector: 'viewer-quiz-modal',
+    templateUrl: './quiz-modal.component.html',
+    styleUrls: ['./quiz-modal.component.scss'],
+    encapsulation: ViewEncapsulation.None,
+    
 })
 export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$

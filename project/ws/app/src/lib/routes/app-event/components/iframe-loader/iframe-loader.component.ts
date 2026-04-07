@@ -5,9 +5,10 @@ import { EiframeUrl } from '../../interfaces/event-details.model'
 import { EventService } from '../../services/event.service'
 
 @Component({
-  selector: 'ws-app-iframe-loader',
-  templateUrl: './iframe-loader.component.html',
-  styleUrls: ['./iframe-loader.component.scss'],
+    selector: 'ws-app-iframe-loader',
+    templateUrl: './iframe-loader.component.html',
+    styleUrls: ['./iframe-loader.component.scss'],
+    
 })
 export class IframeLoaderComponent implements OnInit {
   iframeSrc: SafeResourceUrl | null = null

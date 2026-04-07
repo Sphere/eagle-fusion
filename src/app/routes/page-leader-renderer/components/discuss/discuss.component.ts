@@ -5,9 +5,10 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { NsDiscussionForum } from '@ws-widget/collection'
 
 @Component({
-  selector: 'ws-discuss',
-  templateUrl: './discuss.component.html',
-  styleUrls: ['./discuss.component.scss'],
+    selector: 'ws-discuss',
+    templateUrl: './discuss.component.html',
+    styleUrls: ['./discuss.component.scss'],
+    
 })
 export class DiscussComponent implements OnInit {
   @Input() pageId = ''

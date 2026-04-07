@@ -42,9 +42,10 @@ const videoJsOptions: videoJs.PlayerOptions = {
 }
 
 @Component({
-  selector: 'ws-widget-player-video',
-  templateUrl: './player-video.component.html',
-  styleUrls: ['./player-video.component.scss'],
+    selector: 'ws-widget-player-video',
+    templateUrl: './player-video.component.html',
+    styleUrls: ['./player-video.component.scss'],
+    
 })
 export class PlayerVideoComponent extends WidgetBaseComponent
   implements

@@ -56,9 +56,10 @@ import { DowntimeConfigService } from '../../services/downtime-config.service'
 import { ScreenSecurityService } from '../../../../project/ws/viewer/src/lib/screen-security.service'
 
 @Component({
-  selector: 'ws-root',
-  templateUrl: './root.component.html',
-  styleUrls: ['./root.component.scss'],
+    selector: 'ws-root',
+    templateUrl: './root.component.html',
+    styleUrls: ['./root.component.scss'],
+    
 })
 export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>()

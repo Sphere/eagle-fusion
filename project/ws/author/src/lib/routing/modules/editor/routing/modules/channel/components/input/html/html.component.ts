@@ -11,9 +11,10 @@ import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import mustache from 'mustache'
 
 @Component({
-  selector: 'ws-auth-html',
-  templateUrl: './html.component.html',
-  styleUrls: ['./html.component.scss'],
+    selector: 'ws-auth-html',
+    templateUrl: './html.component.html',
+    styleUrls: ['./html.component.scss'],
+    
 })
 export class HtmlComponent implements OnInit {
 

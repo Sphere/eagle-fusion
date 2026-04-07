@@ -43,9 +43,10 @@ const videoJsOptions: videoJs.PlayerOptions = {
 }
 
 @Component({
-  selector: 'ws-widget-player-audio',
-  templateUrl: './player-audio.component.html',
-  styleUrls: ['./player-audio.component.scss'],
+    selector: 'ws-widget-player-audio',
+    templateUrl: './player-audio.component.html',
+    styleUrls: ['./player-audio.component.scss'],
+    
 })
 export class PlayerAudioComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {

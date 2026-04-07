@@ -36,9 +36,10 @@ interface OrgBanner {
 }
 
 @Component({
-  selector: 'ws-org-selective-course',
-  templateUrl: './org-selective-course.component.html',
-  styleUrls: ['./org-selective-course.component.scss'],
+    selector: 'ws-org-selective-course',
+    templateUrl: './org-selective-course.component.html',
+    styleUrls: ['./org-selective-course.component.scss'],
+    
 })
 export class OrgSelectiveCourseComponent implements OnInit {
   courseData: any[] = []

@@ -8,9 +8,10 @@ import { ValueService } from '../../services/value.service'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-  selector: 'ws-utils-image-crop',
-  templateUrl: './image-crop.component.html',
-  styleUrls: ['./image-crop.component.scss'],
+    selector: 'ws-utils-image-crop',
+    templateUrl: './image-crop.component.html',
+    styleUrls: ['./image-crop.component.scss'],
+    
 })
 export class ImageCropComponent implements OnInit {
 

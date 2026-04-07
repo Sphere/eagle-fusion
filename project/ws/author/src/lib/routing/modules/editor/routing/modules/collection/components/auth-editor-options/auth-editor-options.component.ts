@@ -8,9 +8,10 @@ import { IContentNode, IContentTreeNode } from './../../interface/icontent-tree'
 import { CollectionStoreService } from './../../services/store.service'
 
 @Component({
-  selector: 'ws-auth-editor-options',
-  templateUrl: './auth-editor-options.component.html',
-  styleUrls: ['./auth-editor-options.component.scss'],
+    selector: 'ws-auth-editor-options',
+    templateUrl: './auth-editor-options.component.html',
+    styleUrls: ['./auth-editor-options.component.scss'],
+    
 })
 export class AuthEditorOptionsComponent implements OnInit {
   @Input() node!: IContentTreeNode

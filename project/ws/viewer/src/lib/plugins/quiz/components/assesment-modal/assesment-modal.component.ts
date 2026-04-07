@@ -27,11 +27,12 @@ import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiC
 import { ScreenSecurityService } from '../../../../screen-security.service'
 // declare var Telemetry: any
 @Component({
-  selector: 'viewer-assesment-modal',
-  templateUrl: './assesment-modal.component.html',
-  styleUrls: ['./assesment-modal.component.scss'],
-  // tslint:disable-next-line:use-component-view-encapsulation
-  encapsulation: ViewEncapsulation.None,
+    selector: 'viewer-assesment-modal',
+    templateUrl: './assesment-modal.component.html',
+    styleUrls: ['./assesment-modal.component.scss'],
+    // tslint:disable-next-line:use-component-view-encapsulation
+    encapsulation: ViewEncapsulation.None,
+    
 })
 export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$

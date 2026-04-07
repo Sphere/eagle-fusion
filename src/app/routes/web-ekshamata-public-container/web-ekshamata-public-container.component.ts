@@ -3,9 +3,10 @@ import { Router } from '@angular/router'
 import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'web-ekshamata-public-container',
-  templateUrl: './web-ekshamata-public-container.component.html',
-  styleUrls: ['./web-ekshamata-public-container.component.scss'],
+    selector: 'web-ekshamata-public-container',
+    templateUrl: './web-ekshamata-public-container.component.html',
+    styleUrls: ['./web-ekshamata-public-container.component.scss'],
+    
 })
 export class WebEkshamataPublicComponent implements OnInit {
 

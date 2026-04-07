@@ -14,9 +14,10 @@ import { NotificationComponent } from '../../../../../../../../../modules/shared
 import { IQuizQuestionType } from '../../../interface/quiz-interface'
 
 @Component({
-  selector: 'ws-auth-question-editor-sidebar',
-  templateUrl: './question-editor-sidenav.component.html',
-  styleUrls: ['./question-editor-sidenav.component.scss'],
+    selector: 'ws-auth-question-editor-sidebar',
+    templateUrl: './question-editor-sidenav.component.html',
+    styleUrls: ['./question-editor-sidenav.component.scss'],
+    
 })
 export class QuestionEditorSidenavComponent implements OnInit, OnDestroy {
 

@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { ICustomCreateEntity } from './../../interface/create-menu'
 
 @Component({
-  selector: 'ws-auth-collection-matmenu',
-  templateUrl: './auth-collection-matmenu.component.html',
-  styleUrls: ['./auth-collection-matmenu.component.scss'],
+    selector: 'ws-auth-collection-matmenu',
+    templateUrl: './auth-collection-matmenu.component.html',
+    styleUrls: ['./auth-collection-matmenu.component.scss'],
+    
 })
 export class AuthCollectionMatmenuComponent implements OnInit {
   @Output() action = new EventEmitter<{ action: string; type?: string }>()

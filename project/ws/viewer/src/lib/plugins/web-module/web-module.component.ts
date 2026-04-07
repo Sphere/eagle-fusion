@@ -16,9 +16,10 @@ import { ViewerUtilService } from '../../viewer-util.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 // import { ActivatedRoute } from '@angular/router'
 @Component({
-  selector: 'viewer-plugin-web-module',
-  templateUrl: './web-module.component.html',
-  styleUrls: ['./web-module.component.scss'],
+    selector: 'viewer-plugin-web-module',
+    templateUrl: './web-module.component.html',
+    styleUrls: ['./web-module.component.scss'],
+    
 })
 export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
   @Input() collectionId = ''

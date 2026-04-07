@@ -5,9 +5,10 @@ interface ILinearWidgets {
   widgets: NsWidgetResolver.IRenderConfigWithAnyData[]
 }
 @Component({
-  selector: 'ws-widget-layout-linear',
-  templateUrl: './layout-linear.component.html',
-  styleUrls: ['./layout-linear.component.scss'],
+    selector: 'ws-widget-layout-linear',
+    templateUrl: './layout-linear.component.html',
+    styleUrls: ['./layout-linear.component.scss'],
+    
 })
 export class LayoutLinearComponent extends WidgetBaseComponent
   implements OnInit, NsWidgetResolver.IWidgetData<ILinearWidgets> {

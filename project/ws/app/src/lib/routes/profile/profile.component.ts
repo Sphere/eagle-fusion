@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 
 @Component({
-  selector: 'ws-app-profile',
-  templateUrl: './profile.component.html',
-  styleUrls: ['./profile.component.scss'],
+    selector: 'ws-app-profile',
+    templateUrl: './profile.component.html',
+    styleUrls: ['./profile.component.scss'],
+    
 })
 export class ProfileComponent implements OnInit, OnDestroy {
   tabName = ''

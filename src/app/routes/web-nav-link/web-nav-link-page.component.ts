@@ -18,9 +18,10 @@ import { Events } from '../notification/events'
 import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
-  selector: 'ws-web-nav-link-page',
-  templateUrl: './web-nav-link-page.component.html',
-  styleUrls: ['./web-nav-link-page.component.scss'],
+    selector: 'ws-web-nav-link-page',
+    templateUrl: './web-nav-link-page.component.html',
+    styleUrls: ['./web-nav-link-page.component.scss'],
+    
 })
 export class WebNavLinkPageComponent implements OnInit, OnChanges {
   data: any

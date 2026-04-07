@@ -10,9 +10,10 @@ import { Observable, of, Subject } from 'rxjs'
 import { catchError, map, takeUntil } from 'rxjs/operators'
 
 @Component({
-  selector: 'ws-my-courses',
-  templateUrl: './my-courses.component.html',
-  styleUrls: ['./my-courses.component.scss'],
+    selector: 'ws-my-courses',
+    templateUrl: './my-courses.component.html',
+    styleUrls: ['./my-courses.component.scss'],
+    
 })
 export class MyCoursesComponent implements OnInit, OnDestroy {
   private destroy$ = new Subject<void>()

@@ -41,9 +41,10 @@ import { PlainCKEditorComponent } from '../../../../../shared/components/plain-c
 import { NotificationService } from '@ws/author/src/lib/services/notification.service'
 
 @Component({
-  selector: 'ws-auth-web-module-editor',
-  templateUrl: './web-module-editor.component.html',
-  styleUrls: ['./web-module-editor.component.scss'],
+    selector: 'ws-auth-web-module-editor',
+    templateUrl: './web-module-editor.component.html',
+    styleUrls: ['./web-module-editor.component.scss'],
+    
 })
 
 export class WebModuleEditorComponent implements OnInit, OnDestroy {

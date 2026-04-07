@@ -4,9 +4,10 @@ import { DOCUMENT } from '@angular/common'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-create-account-dialog',
-  templateUrl: './create-account-dialog.component.html',
-  styleUrls: ['./create-account-dialog.component.scss'],
+    selector: 'ws-create-account-dialog',
+    templateUrl: './create-account-dialog.component.html',
+    styleUrls: ['./create-account-dialog.component.scss'],
+    
 })
 export class CreateAccountDialogComponent implements OnInit {
 

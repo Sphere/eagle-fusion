@@ -6,9 +6,10 @@ import { LanguageService } from '../../services/language.service'
 import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
-  selector: 'ws-web-home',
-  templateUrl: './web-home.component.html',
-  styleUrls: ['./web-home.component.scss'],
+    selector: 'ws-web-home',
+    templateUrl: './web-home.component.html',
+    styleUrls: ['./web-home.component.scss'],
+    
 })
 export class WebHomeComponent implements OnInit, OnDestroy {
   showCreateBtn = false

@@ -30,9 +30,10 @@ const flattenItems = (items: any[], key: string | number) => {
   }, [])
 }
 @Component({
-  selector: 'ws-app-app-toc-home-page',
-  templateUrl: './app-toc-home-page.component.html',
-  styleUrls: ['./app-toc-home-page.component.scss'],
+    selector: 'ws-app-app-toc-home-page',
+    templateUrl: './app-toc-home-page.component.html',
+    styleUrls: ['./app-toc-home-page.component.scss'],
+    
 })
 export class AppTocHomePageComponent implements OnInit, OnDestroy {
   [x: string]: any

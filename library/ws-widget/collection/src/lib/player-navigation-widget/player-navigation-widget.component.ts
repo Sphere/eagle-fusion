@@ -5,9 +5,10 @@ import { ViewerDataService } from '../../../../../../project/ws/viewer/src/lib/v
 import { EventService } from '../../../../utils/src/public-api'
 
 @Component({
-  selector: 'app-player-navigation-widget',
-  templateUrl: './player-navigation-widget.component.html',
-  styleUrls: ['./player-navigation-widget.component.scss'],
+    selector: 'app-player-navigation-widget',
+    templateUrl: './player-navigation-widget.component.html',
+    styleUrls: ['./player-navigation-widget.component.scss'],
+    
 })
 export class PlayerNavigationWidgetComponent implements OnInit {
 

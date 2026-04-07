@@ -11,9 +11,10 @@ import { ICommon } from '../../_models/common.model'
 import * as htmlToImage from 'html-to-image'
 
 @Component({
-  selector: 'ws-widget-btn-content-share-dialog',
-  templateUrl: './btn-content-share-dialog.component.html',
-  styleUrls: ['./btn-content-share-dialog.component.scss'],
+    selector: 'ws-widget-btn-content-share-dialog',
+    templateUrl: './btn-content-share-dialog.component.html',
+    styleUrls: ['./btn-content-share-dialog.component.scss'],
+    
 })
 export class BtnContentShareDialogComponent implements OnInit {
   readonly separatorKeysCodes: number[] = [ENTER, COMMA, SEMICOLON]

@@ -5,9 +5,10 @@ import { ISearchContent } from '@ws/author/src/lib/interface/search'
 import { ValueService } from '@ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-auth-course-rating-dialog',
-  templateUrl: './course-rating-dialog.component.html',
-  styleUrls: ['./course-rating-dialog.component.scss'],
+    selector: 'ws-auth-course-rating-dialog',
+    templateUrl: './course-rating-dialog.component.html',
+    styleUrls: ['./course-rating-dialog.component.scss'],
+    
 })
 export class CourseRatingDialogComponent implements OnInit {
   ratingsForm!: UntypedFormGroup

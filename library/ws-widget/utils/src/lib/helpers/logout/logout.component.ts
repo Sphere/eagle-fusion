@@ -5,9 +5,10 @@ import { ConfigurationsService } from '../../services/configurations.service'
 import { UtilityService } from '../../services/utility.service'
 
 @Component({
-  selector: 'ws-utils-logout',
-  templateUrl: './logout.component.html',
-  styleUrls: ['./logout.component.scss'],
+    selector: 'ws-utils-logout',
+    templateUrl: './logout.component.html',
+    styleUrls: ['./logout.component.scss'],
+    
 })
 export class LogoutComponent implements OnInit {
 

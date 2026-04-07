@@ -4,9 +4,10 @@ import { IEventDetails } from '../../interfaces/event-details.model'
 import { EventService } from '../../services/event.service'
 
 @Component({
-  selector: 'ws-app-event-overview',
-  templateUrl: './event-overview.component.html',
-  styleUrls: ['./event-overview.component.scss'],
+    selector: 'ws-app-event-overview',
+    templateUrl: './event-overview.component.html',
+    styleUrls: ['./event-overview.component.scss'],
+    
 })
 export class EventOverviewComponent implements OnInit {
 

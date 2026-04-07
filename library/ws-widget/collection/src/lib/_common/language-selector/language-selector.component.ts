@@ -3,9 +3,10 @@ import { ConfigurationsService, NsInstanceConfig } from '../../../../../utils/sr
 import { MatSelectChange } from '@angular/material/select'
 
 @Component({
-  selector: 'ws-widget-language-selector',
-  templateUrl: './language-selector.component.html',
-  styleUrls: ['./language-selector.component.scss'],
+    selector: 'ws-widget-language-selector',
+    templateUrl: './language-selector.component.html',
+    styleUrls: ['./language-selector.component.scss'],
+    
 })
 export class LanguageSelectorComponent implements OnInit {
   allowedLangCode: { [langCode: string]: NsInstanceConfig.ILocalsConfig } = {}

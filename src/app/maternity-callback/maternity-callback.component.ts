@@ -3,9 +3,10 @@ import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 //import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
-  selector: 'ws-maternity-callback',
-  templateUrl: './maternity-callback.component.html',
-  styleUrls: ['./maternity-callback.component.scss'],
+    selector: 'ws-maternity-callback',
+    templateUrl: './maternity-callback.component.html',
+    styleUrls: ['./maternity-callback.component.scss'],
+    
 })
 export class MaternityCallbackComponent implements OnInit {
   isLoading = false

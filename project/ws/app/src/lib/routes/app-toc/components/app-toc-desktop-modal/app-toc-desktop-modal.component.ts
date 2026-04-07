@@ -4,9 +4,10 @@ import { forEach } from 'lodash'
 import { Router } from '@angular/router'
 import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 @Component({
-  selector: 'ws-app-app-toc-desktop-modal',
-  templateUrl: './app-toc-desktop-modal.component.html',
-  styleUrls: ['./app-toc-desktop-modal.component.scss'],
+    selector: 'ws-app-app-toc-desktop-modal',
+    templateUrl: './app-toc-desktop-modal.component.html',
+    styleUrls: ['./app-toc-desktop-modal.component.scss'],
+    
 })
 export class AppTocDesktopModalComponent implements OnInit {
   cometencyData: { name: any; levels: string }[] = []

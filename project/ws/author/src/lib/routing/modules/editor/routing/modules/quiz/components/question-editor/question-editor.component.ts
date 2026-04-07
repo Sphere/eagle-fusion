@@ -7,9 +7,10 @@ import { Subscription } from 'rxjs'
 import { EditorContentService } from '../../../../../services/editor-content.service'
 
 @Component({
-  selector: 'ws-auth-question-editor',
-  templateUrl: './question-editor.component.html',
-  styleUrls: ['./question-editor.component.scss'],
+    selector: 'ws-auth-question-editor',
+    templateUrl: './question-editor.component.html',
+    styleUrls: ['./question-editor.component.scss'],
+    
 })
 export class QuestionEditorComponent implements OnInit, OnChanges, OnDestroy {
   quizIndex!: number

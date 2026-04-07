@@ -3,9 +3,10 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-language-dialog',
-  templateUrl: './language-dialog.component.html',
-  styleUrls: ['./language-dialog.component.scss'],
+    selector: 'ws-language-dialog',
+    templateUrl: './language-dialog.component.html',
+    styleUrls: ['./language-dialog.component.scss'],
+    
 })
 export class LanguageDialogComponent implements OnInit {
 

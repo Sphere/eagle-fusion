@@ -5,9 +5,10 @@ import { SignupService } from '../signup/signup.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
-  selector: 'ws-google-callback',
-  templateUrl: './google-callback.component.html',
-  styleUrls: ['./google-callback.component.scss'],
+    selector: 'ws-google-callback',
+    templateUrl: './google-callback.component.html',
+    styleUrls: ['./google-callback.component.scss'],
+    
 })
 export class GoogleCallbackComponent implements OnInit {
 

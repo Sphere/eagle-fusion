@@ -13,9 +13,10 @@ import { Meta, Title } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-  selector: 'ws-public-login',
-  templateUrl: './public-login.component.html',
-  styleUrls: ['./public-login.component.scss'],
+    selector: 'ws-public-login',
+    templateUrl: './public-login.component.html',
+    styleUrls: ['./public-login.component.scss'],
+    
 })
 export class PublicLoginComponent implements OnInit {
   loginForm: FormGroup

@@ -6,9 +6,10 @@ import {
 } from '@ws-widget/utils'
 //import { SignupService } from '../signup/signup.service'
 @Component({
-  selector: 'ws-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.scss'],
+    selector: 'ws-header',
+    templateUrl: './header.component.html',
+    styleUrls: ['./header.component.scss'],
+    
 })
 export class HeaderComponent implements OnInit {
   //result: any

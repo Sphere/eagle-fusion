@@ -4,10 +4,11 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { LoggerService, ValueService } from '@ws-widget/utils'
 
 @Component({
-  selector: 'player-video-popup-component',
-  templateUrl: './player-video-popup-component.html',
-  styleUrls: ['./player-video-popup-component.scss'],
-  encapsulation: ViewEncapsulation.Emulated,
+    selector: 'player-video-popup-component',
+    templateUrl: './player-video-popup-component.html',
+    styleUrls: ['./player-video-popup-component.scss'],
+    encapsulation: ViewEncapsulation.Emulated,
+    
 })
 export class PlayerVideoPopupComponent implements OnInit {
 

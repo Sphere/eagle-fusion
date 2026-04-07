@@ -5,9 +5,10 @@ import { ISpeakerDetails } from '../../interfaces/speaker-details.model'
 import { EventService } from '../../services/event.service'
 
 @Component({
-  selector: 'ws-app-event-sessions',
-  templateUrl: './event-sessions.component.html',
-  styleUrls: ['./event-sessions.component.scss'],
+    selector: 'ws-app-event-sessions',
+    templateUrl: './event-sessions.component.html',
+    styleUrls: ['./event-sessions.component.scss'],
+    
 })
 export class EventSessionsComponent implements OnInit, OnDestroy {
   data: ISpeakerDetails[] = []

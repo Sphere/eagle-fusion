@@ -25,9 +25,10 @@ import { UrlUploadComponent } from './../url-upload/url-upload.component'
 import { VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection'
 
 @Component({
-  selector: 'ws-auth-curate',
-  templateUrl: './curate.component.html',
-  styleUrls: ['./curate.component.scss'],
+    selector: 'ws-auth-curate',
+    templateUrl: './curate.component.html',
+    styleUrls: ['./curate.component.scss'],
+    
 })
 export class CurateComponent implements OnInit, OnDestroy {
   contents: NSContent.IContentMeta[] = []

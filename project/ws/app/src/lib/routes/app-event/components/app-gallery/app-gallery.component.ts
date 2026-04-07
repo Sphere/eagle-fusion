@@ -4,9 +4,10 @@ import { ValueService } from '@ws-widget/utils'
 import { Subscription } from 'rxjs'
 
 @Component({
-  selector: 'ws-app-app-gallery',
-  templateUrl: './app-gallery.component.html',
-  styleUrls: ['./app-gallery.component.scss'],
+    selector: 'ws-app-app-gallery',
+    templateUrl: './app-gallery.component.html',
+    styleUrls: ['./app-gallery.component.scss'],
+    
 })
 export class AppGalleryComponent implements OnInit, OnDestroy {
   data: any

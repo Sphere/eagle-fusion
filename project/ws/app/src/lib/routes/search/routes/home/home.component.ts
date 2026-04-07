@@ -9,11 +9,12 @@ import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.
 import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
-  selector: 'ws-app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  // tslint:disable-next-line
-  encapsulation: ViewEncapsulation.None,
+    selector: 'ws-app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    // tslint:disable-next-line
+    encapsulation: ViewEncapsulation.None,
+    
 })
 export class HomeComponent implements OnInit {
 

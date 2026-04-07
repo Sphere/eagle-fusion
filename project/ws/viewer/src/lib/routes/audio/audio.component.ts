@@ -14,9 +14,10 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Component({
-  selector: 'viewer-audio',
-  templateUrl: './audio.component.html',
-  styleUrls: ['./audio.component.scss'],
+    selector: 'viewer-audio',
+    templateUrl: './audio.component.html',
+    styleUrls: ['./audio.component.scss'],
+    
 })
 export class AudioComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null

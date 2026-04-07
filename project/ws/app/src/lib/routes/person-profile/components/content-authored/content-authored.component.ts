@@ -6,9 +6,10 @@ import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
-  selector: 'ws-app-content-authored',
-  templateUrl: './content-authored.component.html',
-  styleUrls: ['./content-authored.component.scss'],
+    selector: 'ws-app-content-authored',
+    templateUrl: './content-authored.component.html',
+    styleUrls: ['./content-authored.component.scss'],
+    
 })
 export class ContentAuthoredComponent implements OnInit, OnDestroy {
   @Input() wid = ''

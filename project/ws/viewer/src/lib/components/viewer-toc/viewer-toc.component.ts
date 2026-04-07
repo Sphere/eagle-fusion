@@ -58,9 +58,10 @@ interface ICollectionCard {
   redirectUrl: string | null
 }
 @Component({
-  selector: 'viewer-viewer-toc',
-  templateUrl: './viewer-toc.component.html',
-  styleUrls: ['./viewer-toc.component.scss'],
+    selector: 'viewer-viewer-toc',
+    templateUrl: './viewer-toc.component.html',
+    styleUrls: ['./viewer-toc.component.scss'],
+    
 })
 export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()

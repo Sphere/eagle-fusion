@@ -4,9 +4,10 @@ import { EventService } from '../../services/event.service'
 import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-app-app-event',
-  templateUrl: './app-event.component.html',
-  styleUrls: ['./app-event.component.scss'],
+    selector: 'ws-app-app-event',
+    templateUrl: './app-event.component.html',
+    styleUrls: ['./app-event.component.scss'],
+    
 })
 export class AppEventComponent implements OnInit {
   data: any

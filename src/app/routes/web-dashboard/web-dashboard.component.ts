@@ -9,9 +9,10 @@ import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
-  selector: 'ws-dashboard',
-  templateUrl: './web-dashboard.component.html',
-  styleUrls: ['./web-dashboard.component.scss'],
+    selector: 'ws-dashboard',
+    templateUrl: './web-dashboard.component.html',
+    styleUrls: ['./web-dashboard.component.scss'],
+    
 })
 export class WebDashboardComponent implements OnInit, OnDestroy {
   firstName: any

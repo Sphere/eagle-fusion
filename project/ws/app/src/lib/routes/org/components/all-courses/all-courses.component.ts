@@ -3,9 +3,10 @@ import { Component, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 
 @Component({
-  selector: 'ws-app-all-courses',
-  templateUrl: './all-courses.component.html',
-  styleUrls: ['./all-courses.component.scss'],
+    selector: 'ws-app-all-courses',
+    templateUrl: './all-courses.component.html',
+    styleUrls: ['./all-courses.component.scss'],
+    
 })
 export class AllCoursesComponent implements OnInit {
   orgName: any

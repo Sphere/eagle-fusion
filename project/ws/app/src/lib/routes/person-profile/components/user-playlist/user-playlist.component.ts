@@ -6,9 +6,10 @@ import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils/src/public
 // import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
-  selector: 'ws-app-user-playlist',
-  templateUrl: './user-playlist.component.html',
-  styleUrls: ['./user-playlist.component.scss'],
+    selector: 'ws-app-user-playlist',
+    templateUrl: './user-playlist.component.html',
+    styleUrls: ['./user-playlist.component.scss'],
+    
 })
 export class UserPlaylistComponent implements OnInit, OnChanges {
   @Input() wid = ''

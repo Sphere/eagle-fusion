@@ -58,9 +58,10 @@ interface PasswordValidation {
 }
 
 @Component({
-  selector: 'ws-create-account',
-  templateUrl: './create-account.component.html',
-  styleUrls: ['./create-account.component.scss'],
+    selector: 'ws-create-account',
+    templateUrl: './create-account.component.html',
+    styleUrls: ['./create-account.component.scss'],
+    
 })
 export class CreateAccountComponent implements OnInit, OnDestroy {
   // ViewChild references

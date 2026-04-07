@@ -6,9 +6,10 @@ import { get } from 'lodash'
 import { WidgetContentService } from '@ws-widget/collection'
 
 @Component({
-  selector: 'ws-education-list',
-  templateUrl: './education-list.component.html',
-  styleUrls: ['./education-list.component.scss'],
+    selector: 'ws-education-list',
+    templateUrl: './education-list.component.html',
+    styleUrls: ['./education-list.component.scss'],
+    
 })
 export class EducationListComponent implements OnInit {
   academicsArray: any[] = []

@@ -12,9 +12,10 @@ import { CONTENT_BASE_WEBHOST_ASSETS, AUTHORING_CONTENT_BASE } from '@ws/author/
 import { ICarousel } from '@ws-widget/collection/src/public-api'
 
 @Component({
-  selector: 'ws-auth-slider',
-  templateUrl: './slider.component.html',
-  styleUrls: ['./slider.component.scss'],
+    selector: 'ws-auth-slider',
+    templateUrl: './slider.component.html',
+    styleUrls: ['./slider.component.scss'],
+    
 })
 export class SliderComponent implements OnInit {
 

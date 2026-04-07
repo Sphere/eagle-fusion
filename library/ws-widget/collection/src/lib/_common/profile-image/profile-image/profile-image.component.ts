@@ -1,9 +1,10 @@
 import { Component, OnInit, Input } from '@angular/core'
 
 @Component({
-  selector: 'ws-widget-profile-image',
-  templateUrl: './profile-image.component.html',
-  styleUrls: ['./profile-image.component.scss'],
+    selector: 'ws-widget-profile-image',
+    templateUrl: './profile-image.component.html',
+    styleUrls: ['./profile-image.component.scss'],
+    
 })
 export class ProfileImageComponent implements OnInit {
 

@@ -2,9 +2,10 @@ import { Component, Inject, OnInit } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 @Component({
-  selector: 'app-leadership-dashboard-info',
-  templateUrl: './leadership-dashboard-info.component.html',
-  styleUrls: ['./leadership-dashboard-info.component.scss'],
+    selector: 'app-leadership-dashboard-info',
+    templateUrl: './leadership-dashboard-info.component.html',
+    styleUrls: ['./leadership-dashboard-info.component.scss'],
+    
 })
 export class LeadershipDashboardInfoComponent implements OnInit {
   constructor(

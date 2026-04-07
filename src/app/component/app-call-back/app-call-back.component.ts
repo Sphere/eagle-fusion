@@ -4,9 +4,10 @@ import { AppCallBackService } from '../../services/app-call-back.service'
 import { get } from 'lodash'
 
 @Component({
-  selector: 'ws-app-call-back',
-  templateUrl: './app-call-back.component.html',
-  styleUrls: ['./app-call-back.component.scss'],
+    selector: 'ws-app-call-back',
+    templateUrl: './app-call-back.component.html',
+    styleUrls: ['./app-call-back.component.scss'],
+    
 })
 export class AppCallBackComponent implements OnInit {
 

@@ -13,9 +13,10 @@ import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 
 @Component({
-  selector: 'ws-app-nav-bar',
-  templateUrl: './app-nav-bar.component.html',
-  styleUrls: ['./app-nav-bar.component.scss'],
+    selector: 'ws-app-nav-bar',
+    templateUrl: './app-nav-bar.component.html',
+    styleUrls: ['./app-nav-bar.component.scss'],
+    
 })
 export class AppNavBarComponent implements OnInit, OnChanges {
   allowAuthor = false

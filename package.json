@@ -37,17 +37,17 @@
   "dependencies": {
     "@aastrika_npmjs/comptency": "^1.0.1",
     "@aastrika_npmjs/discussions-ui-v8": "^4.0.0",
-    "@angular/animations": "^18.2.14",
-    "@angular/cdk": "^18.2.14",
-    "@angular/common": "^18.2.14",
-    "@angular/compiler": "^18.2.14",
-    "@angular/core": "18.2.14",
-    "@angular/forms": "^18.2.14",
-    "@angular/localize": "18.2.14",
-    "@angular/material": "^18.2.14",
-    "@angular/platform-browser": "^18.2.14",
-    "@angular/platform-browser-dynamic": "^18.2.14",
-    "@angular/router": "^18.2.14",
+    "@angular/animations": "^19.2.20",
+    "@angular/cdk": "^19.2.19",
+    "@angular/common": "^19.2.20",
+    "@angular/compiler": "^19.2.20",
+    "@angular/core": "19.2.20",
+    "@angular/forms": "^19.2.20",
+    "@angular/localize": "19.2.20",
+    "@angular/material": "^19.2.19",
+    "@angular/platform-browser": "^19.2.20",
+    "@angular/platform-browser-dynamic": "^19.2.20",
+    "@angular/router": "^19.2.20",
     "@capacitor/android": "6.2.1",
     "@capacitor/app": "^6.0.2",
     "@capacitor/cli": "6.2.1",
@@ -105,19 +105,19 @@
     "videojs-markers": "^1.0.1",
     "vis-network": "^5.2.4",
     "vis-util": "^5.0.7",
-    "zone.js": "~0.14.10"
+    "zone.js": "~0.15.1"
   },
   "devDependencies": {
-    "@angular-devkit/build-angular": "^18.2.21",
+    "@angular-devkit/build-angular": "^19.2.23",
     "@angular-devkit/build-ng-packagr": "^0.1002.4",
-    "@angular-eslint/builder": "^18.4.3",
-    "@angular-eslint/eslint-plugin": "^18.4.3",
-    "@angular-eslint/eslint-plugin-template": "^18.4.3",
-    "@angular-eslint/schematics": "^18.4.3",
-    "@angular-eslint/template-parser": "^18.4.3",
-    "@angular/cli": "^18.2.21",
-    "@angular/compiler-cli": "^18.2.14",
-    "@angular/language-service": "^18.2.14",
+    "@angular-eslint/builder": "^19.8.1",
+    "@angular-eslint/eslint-plugin": "^19.8.1",
+    "@angular-eslint/eslint-plugin-template": "^19.8.1",
+    "@angular-eslint/schematics": "^19.8.1",
+    "@angular-eslint/template-parser": "^19.8.1",
+    "@angular/cli": "^19.2.23",
+    "@angular/compiler-cli": "^19.2.20",
+    "@angular/language-service": "^19.2.20",
     "@types/jest": "^27.4.1",
     "@types/mustache": "^0.8.32",
     "@types/node": "^12.20.55",
@@ -138,11 +138,11 @@
     "jest-config": "^26.0.0",
     "jest-environment-node": "^26.0.0",
     "jest-preset-angular": "^8.3.2",
-    "ng-packagr": "^18.2.1",
+    "ng-packagr": "^19.2.2",
     "source-map-explorer": "^2.5.3",
     "ts-jest": "^26.5.0",
     "ts-node": "9.1.1",
-    "typescript": "5.4.5",
+    "typescript": "5.8.3",
     "webpack-bundle-analyzer": "4.5.0"
   },
   "resolutions": {
@@ -154,40 +154,40 @@
       "rxjs": "~7.8.2"
     },
     "ngx-chips": {
-      "@angular/core": "18.2.14",
-      "@angular/common": "18.2.14",
-      "@angular/forms": "18.2.14"
+      "@angular/core": "19.2.20",
+      "@angular/common": "19.2.20",
+      "@angular/forms": "19.2.20"
     },
     "ng2-material-dropdown": {
-      "@angular/core": "18.2.14",
+      "@angular/core": "19.2.20",
       "@angular/common": "16.2.12"
     },
     "@project-sunbird/sunbird-quml-player": {
-      "@angular/core": "18.2.14",
+      "@angular/core": "19.2.20",
       "@angular/common": "16.2.12"
     },
     "@project-sunbird/sunbird-player-sdk": {
-      "@angular/core": "18.2.14",
+      "@angular/core": "19.2.20",
       "@angular/common": "16.2.12"
     },
     "@sunbird-cb/micro-surveys": {
-      "@angular/core": "18.2.14",
+      "@angular/core": "19.2.20",
       "@angular/common": "16.2.12"
     },
     "ng-mocks": {
-      "@angular/core": "18.2.14",
+      "@angular/core": "19.2.20",
       "@angular/common": "16.2.12"
     },
     "@aastrika_npmjs/comptency": {
-      "@angular/core": "18.2.14",
+      "@angular/core": "19.2.20",
       "@angular/common": "16.2.12"
     },
     "@aastrika_npmjs/discussions-ui-v8": {
-      "@angular/core": "18.2.14",
+      "@angular/core": "19.2.20",
       "@angular/common": "16.2.12"
     },
     "ngx-extended-pdf-viewer": {
-      "@angular/core": "18.2.14",
+      "@angular/core": "19.2.20",
       "@angular/common": "16.2.12"
     }
   },

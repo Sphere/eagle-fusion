@@ -4,9 +4,10 @@ import { IFeatureSearchConfig } from '../../models/search.model'
 import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 
 @Component({
-  selector: 'ws-app-search-root',
-  templateUrl: './search-root.component.html',
-  styleUrls: ['./search-root.component.scss'],
+    selector: 'ws-app-search-root',
+    templateUrl: './search-root.component.html',
+    styleUrls: ['./search-root.component.scss'],
+    
 })
 export class SearchRootComponent implements OnInit {
   searchTabs: IFeatureSearchConfig = {

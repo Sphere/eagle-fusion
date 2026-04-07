@@ -12,9 +12,10 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { forEach, get } from 'lodash'
 @Component({
-  selector: 'ws-app-learning-card',
-  templateUrl: './learning-card.component.html',
-  styleUrls: ['./learning-card.component.scss'],
+    selector: 'ws-app-learning-card',
+    templateUrl: './learning-card.component.html',
+    styleUrls: ['./learning-card.component.scss'],
+    
 })
 export class LearningCardComponent extends WidgetBaseComponent
   implements OnInit, OnChanges, NsWidgetResolver.IWidgetData<NsCardContent.ICard> {

@@ -11,9 +11,10 @@ import { Subscription } from 'rxjs'
 // import { InterestService } from '../../../../profile/routes/interest/services/interest.service'
 
 @Component({
-  selector: 'ws-app-interests',
-  templateUrl: './interest.component.html',
-  styleUrls: ['./interest.component.scss'],
+    selector: 'ws-app-interests',
+    templateUrl: './interest.component.html',
+    styleUrls: ['./interest.component.scss'],
+    
 })
 export class InterestComponent implements OnInit {
   interestsData: any

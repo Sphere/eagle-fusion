@@ -6,9 +6,10 @@ import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils/src/public
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
-  selector: 'ws-app-content-reviewed',
-  templateUrl: './content-reviewed.component.html',
-  styleUrls: ['./content-reviewed.component.scss'],
+    selector: 'ws-app-content-reviewed',
+    templateUrl: './content-reviewed.component.html',
+    styleUrls: ['./content-reviewed.component.scss'],
+    
 })
 export class ContentReviewedComponent implements OnInit, OnDestroy {
   @Input() wid = ''

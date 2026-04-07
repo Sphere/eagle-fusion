@@ -1,5 +1,8 @@
 <div class="text-center mat-body" [ngSwitch]="langCode">
-  <ng-container *ngSwitchCase="'en' || ''">
+  <ng-container *ngSwitchCase="'en'">
+    English
+  </ng-container>
+  <ng-container *ngSwitchCase="''">
     English
   </ng-container>
   <ng-container *ngSwitchCase="'de'">

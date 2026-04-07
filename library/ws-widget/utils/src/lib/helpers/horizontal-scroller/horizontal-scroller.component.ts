@@ -8,9 +8,10 @@ import { debounceTime, throttleTime } from 'rxjs/operators'
 import { TFetchStatus } from '../../constants/misc.constants'
 
 @Component({
-  selector: 'ws-utils-horizontal-scroller',
-  templateUrl: './horizontal-scroller.component.html',
-  styleUrls: ['./horizontal-scroller.component.scss'],
+    selector: 'ws-utils-horizontal-scroller',
+    templateUrl: './horizontal-scroller.component.html',
+    styleUrls: ['./horizontal-scroller.component.scss'],
+    
 })
 export class HorizontalScrollerComponent implements OnInit, OnChanges, OnDestroy {
 

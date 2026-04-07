@@ -11,9 +11,10 @@ import { take } from 'rxjs/operators'
 import { ViewerUtilService } from '../../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { Subscription } from 'rxjs'
 @Component({
-  selector: 'viewer-plugin-html',
-  templateUrl: './html.component.html',
-  styleUrls: ['./html.component.scss'],
+    selector: 'viewer-plugin-html',
+    templateUrl: './html.component.html',
+    styleUrls: ['./html.component.scss'],
+    
 })
 export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
 

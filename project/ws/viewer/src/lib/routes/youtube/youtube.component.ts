@@ -13,9 +13,10 @@ import { Platform } from '@angular/cdk/platform'
 import { ViewerDataService } from './../../viewer-data.service'
 
 @Component({
-  selector: 'viewer-youtube',
-  templateUrl: './youtube.component.html',
-  styleUrls: ['./youtube.component.scss'],
+    selector: 'viewer-youtube',
+    templateUrl: './youtube.component.html',
+    styleUrls: ['./youtube.component.scss'],
+    
 })
 export class YoutubeComponent implements OnInit, OnDestroy {
   private routeDataSubscription: Subscription | null = null

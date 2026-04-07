@@ -15,9 +15,10 @@ import { Title } from '@angular/platform-browser'
 import { get, forEach } from 'lodash'
 
 @Component({
-  selector: 'ws-widget-card-content',
-  templateUrl: './card-content.component.html',
-  styleUrls: ['./card-content.component.scss'],
+    selector: 'ws-widget-card-content',
+    templateUrl: './card-content.component.html',
+    styleUrls: ['./card-content.component.scss'],
+    
 })
 export class CardContentComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, AfterViewInit, NsWidgetResolver.IWidgetData<NsCardContent.ICard> {

@@ -14,9 +14,10 @@ import { AuthInitService } from './../../../../../../../../services/init.service
 import { URLCheckerClass } from './url-upload.helper'
 
 @Component({
-  selector: 'ws-auth-url-upload',
-  templateUrl: './url-upload.component.html',
-  styleUrls: ['./url-upload.component.scss'],
+    selector: 'ws-auth-url-upload',
+    templateUrl: './url-upload.component.html',
+    styleUrls: ['./url-upload.component.scss'],
+    
 })
 export class UrlUploadComponent implements OnInit {
   urlUploadForm!: UntypedFormGroup

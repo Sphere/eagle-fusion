@@ -6,9 +6,10 @@ import { MatDialog } from '@angular/material/dialog'
 import { ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-  selector: 'ws-how-does-work',
-  templateUrl: './web-how-does-work.component.html',
-  styleUrls: ['./web-how-does-work.component.scss'],
+    selector: 'ws-how-does-work',
+    templateUrl: './web-how-does-work.component.html',
+    styleUrls: ['./web-how-does-work.component.scss'],
+    
 })
 export class WebHowDoesWorkComponent implements OnInit {
   @Input() config: any = {}
