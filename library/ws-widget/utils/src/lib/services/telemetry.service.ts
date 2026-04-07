@@ -594,10 +594,10 @@ export class TelemetryService {
   }
   postPublicTelemetry(data: any) {
     // this.logger.log("public telemetry")
-    const publicConfig = this.http
+    return this.http
       .post<any>(API_END_POINTS.PUBLIC_TELEMETRY, data)
       .toPromise()
-    return publicConfig
+      .catch(() => { })
   }
   async paramTriggerImpression(param: any, browserName: any, OS: any) {
     try {

@@ -83,7 +83,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     const rootOrgId = this.configSvc?.userProfile?.rootOrgId
     const roleCheck = (roles: string[]) =>
       roles?.some(r => r.toLowerCase() === designationLower)
-    if (this.configData) {
+    if (Array.isArray(this.configData)) {
       this.uiConfig = this.configData.slice(1, -1)
     }
     if (this.configSvc?.userProfile) {

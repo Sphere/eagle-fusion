@@ -505,6 +505,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         const playlistData = await this.playlistSvc.loadPlaylistData()
         if (!playlistData) {
           this.logger.warn('No playlist data loaded')
+          this.orgDetails = {}
+          this.bodyConfig = {}
+          this.footerConfig = {}
+          this.changeDetector.markForCheck()
           return
         }
       }

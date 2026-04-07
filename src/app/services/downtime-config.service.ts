@@ -104,7 +104,7 @@ export class DowntimeConfigService implements OnDestroy {
     }
 
     return this.httpClient
-      .post<any>(`${API_END_POINTS.FORM_READ}?v=${Date.now()}`, body)
+      .post<any>(API_END_POINTS.FORM_READ, body)
       .pipe(
         map(response => {
           const data = response?.result?.form?.data

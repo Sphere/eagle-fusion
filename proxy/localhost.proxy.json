@@ -1,5 +1,5 @@
 {
-  "/apis/*": {
+  "/apis/**": {
     "target": "https://sphere.aastrika.org/",
     "secure": false,
     "logLevel": "debug",
@@ -8,10 +8,10 @@
       "/apis": "/apis"
     },
     "headers": {
-      "Cookie": "connect.sid=s%3A6HSBiglR7pqb4S1-uiQYGFojaKdz_IJD.NKueFg2FqCVEgAy8STr8SDoCkkNiR43T5DaQ39vU2iU"
+      "Cookie": "connect.sid=s%3A8w7AQnp-Lv-XNpKtW1mVENRmrcq4K3cf.sRHroHpoSHIIjgOmpvs24FN2NnwjYvntwLeo9ydmbOg"
     }
   },
-  "/content-api/*": {
+  "/content-api/**": {
     "target": "http://localhost:3004",
     "secure": false,
     "logLevel": "debug",
@@ -20,7 +20,7 @@
       "/apis": ""
     }
   },
-  "/content-store/*": {
+  "/content-store/**": {
     "target": "http://localhost:3005",
     "secure": false,
     "logLevel": "debug",
@@ -29,7 +29,7 @@
       "/apis": ""
     }
   },
-  "/chat-bot/*": {
+  "/chat-bot/**": {
     "target": "http://localhost:3006",
     "secure": false,
     "logLevel": "debug",
@@ -38,7 +38,7 @@
       "/apis": ""
     }
   },
-  "/mobile-apps/*": {
+  "/mobile-apps/**": {
     "target": "http://localhost:3007",
     "secure": false,
     "logLevel": "debug",
@@ -47,7 +47,7 @@
       "/apis": ""
     }
   },
-  "/LA/*": {
+  "/LA/**": {
     "target": "http://localhost:3008",
     "secure": false,
     "logLevel": "debug",
@@ -56,7 +56,7 @@
       "/apis": ""
     }
   },
-  "/assets/*": {
+  "/assets/**": {
     "target": "https://sphere.aastrika.org",
     "secure": false,
     "logLevel": "debug",
