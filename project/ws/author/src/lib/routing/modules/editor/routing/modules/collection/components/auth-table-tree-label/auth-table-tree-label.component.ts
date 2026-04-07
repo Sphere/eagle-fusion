@@ -3,6 +3,7 @@ import { EditorContentService } from '@ws/author/src/lib/routing/modules/editor/
 import { CollectionResolverService } from './../../services/resolver.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-table-tree-label',
     templateUrl: './auth-table-tree-label.component.html',
     styleUrls: ['./auth-table-tree-label.component.scss'],

@@ -7,6 +7,7 @@ import { IActionButtonConfig, IActionButton } from '@ws/author/src/lib/interface
 import { CollectionStoreService } from '../../services/store.service'
 
 @Component({
+    standalone: false,
     // tslint:disable-next-line:component-selector
     selector: 'ws-author-course-header',
     templateUrl: './course-header.component.html',

@@ -8,6 +8,7 @@ import { AppTocService } from '../../services/app-toc.service'
 import { AppDateAdapter, APP_DATE_FORMATS, startWithYearformat } from '../../../user-profile/services/format-datepicker'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-create-batch-dialog',
     templateUrl: './create-batch-dialog.component.html',
     styleUrls: ['./create-batch-dialog.component.scss'],

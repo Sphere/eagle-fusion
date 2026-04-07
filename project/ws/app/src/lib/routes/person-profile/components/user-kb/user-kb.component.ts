@@ -9,6 +9,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-user-kb',
     templateUrl: './user-kb.component.html',
     styleUrls: ['./user-kb.component.scss'],

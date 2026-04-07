@@ -7,6 +7,7 @@ import { ViewerUtilService } from '../../viewer-util.service'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 
 @Component({
+    standalone: false,
     selector: 'viewer-audio-native',
     templateUrl: './audio-native.component.html',
     styleUrls: ['./audio-native.component.scss'],

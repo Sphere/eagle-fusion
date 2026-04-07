@@ -9,6 +9,7 @@ interface IEmbedWidget {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-embed',
     templateUrl: './embed.component.html',
     styleUrls: ['./embed.component.scss'],

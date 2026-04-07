@@ -6,6 +6,7 @@ import { EventService } from '../../../../utils/src/public-api'
 import { Router } from '@angular/router'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-sliders',
     templateUrl: './sliders.component.html',
     styleUrls: ['./sliders.component.scss'],

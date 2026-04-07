@@ -16,6 +16,7 @@ import { ViewerUtilService } from '../../viewer-util.service'
 import { EventService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 // import { ActivatedRoute } from '@angular/router'
 @Component({
+    standalone: false,
     selector: 'viewer-plugin-web-module',
     templateUrl: './web-module.component.html',
     styleUrls: ['./web-module.component.scss'],

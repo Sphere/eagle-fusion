@@ -32,6 +32,7 @@ import { RootService } from 'src/app/component/root/root.service'
 import { FlatTreeControl } from '@angular/cdk/tree'
 
 @Component({
+    standalone: false,
     // tslint:disable-next-line:component-selector
     selector: 'ws-author-course-collection',
     templateUrl: './course-collection.component.html',

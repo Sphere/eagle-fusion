@@ -8,6 +8,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { LeadershipService } from '../../services/leadership.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-send-mail-dialog',
     templateUrl: './send-mail-dialog.component.html',
     styleUrls: ['./send-mail-dialog.component.scss'],

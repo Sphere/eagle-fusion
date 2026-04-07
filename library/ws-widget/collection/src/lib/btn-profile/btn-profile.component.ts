@@ -23,6 +23,7 @@ interface IGroupWithFeatureWidgets extends NsAppsConfig.IGroup {
   featureWidgets: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[]
 }
 @Component({
+    standalone: false,
     selector: 'ws-widget-btn-profile',
     templateUrl: './btn-profile.component.html',
     styleUrls: ['./btn-profile.component.scss'],

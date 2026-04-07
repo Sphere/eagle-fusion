@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { WidgetBaseComponent } from '../widget-base.component'
 @Component({
+    standalone: false,
     selector: 'ws-resolver-invalid-permission',
     templateUrl: './invalid-permission.component.html',
     styleUrls: ['./invalid-permission.component.scss'],

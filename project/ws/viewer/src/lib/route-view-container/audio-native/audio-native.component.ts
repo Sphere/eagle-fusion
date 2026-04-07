@@ -6,6 +6,7 @@ import { ConfigurationsService } from '../../../../../../../library/ws-widget/ut
 import { PlayerStateService } from '../../player-state.service'
 
 @Component({
+    standalone: false,
     selector: 'viewer-audio-native-container',
     templateUrl: './audio-native.component.html',
     styleUrls: ['./audio-native.component.scss'],

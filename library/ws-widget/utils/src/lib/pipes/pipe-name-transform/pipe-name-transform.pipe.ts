@@ -7,6 +7,7 @@ interface IUserName {
 }
 
 @Pipe({
+    standalone: false,
     name: 'pipeNameTransform',
     
 })

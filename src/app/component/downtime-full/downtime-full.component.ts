@@ -18,6 +18,7 @@ import { LanguageService } from '../../services/language.service'
  * - No background interaction allowed
  */
 @Component({
+    standalone: true,
     selector: 'app-downtime-full',
     imports: [CommonModule],
     templateUrl: './downtime-full.component.html',

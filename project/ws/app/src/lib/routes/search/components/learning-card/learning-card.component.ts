@@ -12,6 +12,7 @@ import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { forEach, get } from 'lodash'
 @Component({
+    standalone: false,
     selector: 'ws-app-learning-card',
     templateUrl: './learning-card.component.html',
     styleUrls: ['./learning-card.component.scss'],

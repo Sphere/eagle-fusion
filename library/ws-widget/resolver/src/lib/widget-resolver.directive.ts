@@ -4,6 +4,7 @@ import { NsWidgetResolver } from './widget-resolver.model'
 import { WidgetResolverService } from './widget-resolver.service'
 
 @Directive({
+    standalone: false,
     selector: '[wsResolverWidget]',
     
 })

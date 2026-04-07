@@ -2,6 +2,7 @@ import { Component, OnInit, Inject } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-userdetailall',
     templateUrl: './userdetailall.component.html',
     styleUrls: ['./userdetailall.component.scss'],

@@ -1,6 +1,7 @@
 import { Directive, OnChanges, Input, HostBinding, HostListener } from '@angular/core'
 
 @Directive({
+    standalone: false,
     selector: '[wsUtilsNavigation]',
     
 })

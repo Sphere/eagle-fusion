@@ -23,6 +23,7 @@ import { constructReq } from '../profile-view/request-util'
 import { API_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'ws-new-tnc',
     templateUrl: './new-tnc.component.html',
     styleUrls: ['./new-tnc.component.scss'],

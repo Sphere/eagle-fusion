@@ -10,6 +10,7 @@ import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'ws-mp-register',
     templateUrl: './mp-register.component.html',
     styleUrls: ['./mp-register.component.scss'],

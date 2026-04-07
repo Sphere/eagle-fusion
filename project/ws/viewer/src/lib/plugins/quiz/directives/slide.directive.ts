@@ -3,6 +3,7 @@ declare let $: any
 import { QuizService } from '../quiz.service'
 /* tslint:disable */
 @Directive({
+    standalone: false,
     selector: '[questionSlide]',
     
 })

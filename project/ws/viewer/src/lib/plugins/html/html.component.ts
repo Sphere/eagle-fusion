@@ -11,6 +11,7 @@ import { take } from 'rxjs/operators'
 import { ViewerUtilService } from '../../../../../../../project/ws/viewer/src/lib/viewer-util.service'
 import { Subscription } from 'rxjs'
 @Component({
+    standalone: false,
     selector: 'viewer-plugin-html',
     templateUrl: './html.component.html',
     styleUrls: ['./html.component.scss'],

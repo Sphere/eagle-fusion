@@ -4,6 +4,7 @@ import * as iapInterface from '../../interface/iap-assessment.interface'
 import { IapAssessmentService } from '../../services/iap-assessment.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-view-question-dialog',
     templateUrl: './view-question-dialog.component.html',
     styleUrls: ['./view-question-dialog.component.scss'],

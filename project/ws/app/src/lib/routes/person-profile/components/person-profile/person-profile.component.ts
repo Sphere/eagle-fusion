@@ -9,6 +9,7 @@ import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-person-profile',
     templateUrl: './person-profile.component.html',
     styleUrls: ['./person-profile.component.scss'],

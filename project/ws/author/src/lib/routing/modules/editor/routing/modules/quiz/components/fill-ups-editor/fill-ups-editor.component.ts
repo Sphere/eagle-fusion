@@ -25,6 +25,7 @@ import { QuizStoreService } from '../../services/store.service'
 import { OpenPlainCkEditorComponent } from '../../shared/components/open-plain-ck-editor/open-plain-ck-editor.component'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-fill-ups-editor',
     templateUrl: './fill-ups-editor.component.html',
     styleUrls: ['./fill-ups-editor.component.scss'],

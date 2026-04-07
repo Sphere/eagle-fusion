@@ -8,6 +8,7 @@ import {
   IGridLayoutDataMain,
 } from './grid-layout.model'
 @Component({
+    standalone: false,
     selector: 'ws-widget-grid-layout',
     templateUrl: './grid-layout.component.html',
     styleUrls: ['./grid-layout.component.scss'],

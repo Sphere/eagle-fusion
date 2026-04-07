@@ -11,6 +11,7 @@ interface ISearchQuery {
   query: string
 }
 @Component({
+    standalone: false,
     selector: 'ws-widget-search-input',
     templateUrl: './search-input.component.html',
     styleUrls: ['./search-input.component.scss'],

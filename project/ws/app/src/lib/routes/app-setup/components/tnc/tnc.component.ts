@@ -19,6 +19,7 @@ import { Globals } from '../../globals'
 import { API_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-tnc',
     templateUrl: './tnc.component.html',
     styleUrls: ['./tnc.component.scss'],

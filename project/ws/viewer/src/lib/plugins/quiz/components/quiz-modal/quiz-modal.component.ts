@@ -13,6 +13,7 @@ import { TranslateService } from '@ngx-translate/core'
 import { ScreenSecurityService } from '../../../../screen-security.service'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 @Component({
+    standalone: false,
     selector: 'viewer-quiz-modal',
     templateUrl: './quiz-modal.component.html',
     styleUrls: ['./quiz-modal.component.scss'],

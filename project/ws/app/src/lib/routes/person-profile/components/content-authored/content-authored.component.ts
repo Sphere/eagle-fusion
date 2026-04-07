@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-content-authored',
     templateUrl: './content-authored.component.html',
     styleUrls: ['./content-authored.component.scss'],

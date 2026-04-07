@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 @Component({
+    standalone: false,
     selector: 'ws-tnnmc-callback',
     templateUrl: './tnnmc-callback.component.html',
     styleUrls: ['./tnnmc-callback.component.scss'],

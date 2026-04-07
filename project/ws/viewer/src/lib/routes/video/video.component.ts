@@ -15,6 +15,7 @@ import { Platform } from '@angular/cdk/platform'
 import dayjs from 'dayjs'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 @Component({
+    standalone: false,
     selector: 'viewer-video',
     templateUrl: './video.component.html',
     styleUrls: ['./video.component.scss'],

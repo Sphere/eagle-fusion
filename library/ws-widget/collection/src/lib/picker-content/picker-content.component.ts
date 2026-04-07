@@ -21,6 +21,7 @@ import { IPickerContentData, ISearchConfig } from './picker-content.model'
 import { PickerContentService } from './picker-content.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-picker-content[widgetData]',
     templateUrl: './picker-content.component.html',
     styleUrls: ['./picker-content.component.scss'],

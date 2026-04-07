@@ -6,6 +6,7 @@ import { get } from 'lodash'
 import { WidgetContentService } from '@ws-widget/collection'
 
 @Component({
+    standalone: false,
     selector: 'ws-education-list',
     templateUrl: './education-list.component.html',
     styleUrls: ['./education-list.component.scss'],

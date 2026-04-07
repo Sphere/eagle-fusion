@@ -9,6 +9,7 @@ import { ViewSubmissionComponent } from './components/view-submission/view-submi
 import { ResourceCollectionService } from './resource-collection.service'
 
 @Component({
+    standalone: false,
     selector: 'viewer-plugin-resource-collection',
     templateUrl: './resource-collection.component.html',
     styleUrls: ['./resource-collection.component.scss'],

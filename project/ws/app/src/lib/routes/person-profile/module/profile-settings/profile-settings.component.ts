@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-profile-settings',
     templateUrl: './profile-settings.component.html',
     styleUrls: ['./profile-settings.component.scss'],

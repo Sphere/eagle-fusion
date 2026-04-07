@@ -7,6 +7,7 @@ interface ITimer {
   mins: number
 }
 @Component({
+    standalone: false,
     selector: 'ws-app-event-banner',
     templateUrl: './event-banner.component.html',
     styleUrls: ['./event-banner.component.scss'],

@@ -26,6 +26,7 @@ import { IAssessmentDetails } from '../../interface/iap-assessment.interface'
 import { IapAssessmentService } from '../../services/iap-assessment.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-root-iap-assessment',
     templateUrl: './iap-assessment.component.html',
     styleUrls: ['./iap-assessment.component.scss'],

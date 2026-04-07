@@ -27,6 +27,7 @@ import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiC
 import { ScreenSecurityService } from '../../../../screen-security.service'
 // declare var Telemetry: any
 @Component({
+    standalone: false,
     selector: 'viewer-assesment-modal',
     templateUrl: './assesment-modal.component.html',
     styleUrls: ['./assesment-modal.component.scss'],

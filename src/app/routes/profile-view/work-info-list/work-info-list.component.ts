@@ -14,6 +14,7 @@ import { LanguageService } from '../../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
+    standalone: false,
     selector: 'ws-work-info-list',
     templateUrl: './work-info-list.component.html',
     styleUrls: ['./work-info-list.component.scss'],

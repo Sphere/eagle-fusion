@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'bnrc-modal-component',
     templateUrl: './bnrc-modal-component.html',
     styleUrls: ['./bnrc-modal-component.scss'],

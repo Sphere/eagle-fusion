@@ -15,6 +15,7 @@ import { Title } from '@angular/platform-browser'
 import { get, forEach } from 'lodash'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-card-content',
     templateUrl: './card-content.component.html',
     styleUrls: ['./card-content.component.scss'],

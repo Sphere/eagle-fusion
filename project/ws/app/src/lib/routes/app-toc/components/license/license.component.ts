@@ -8,6 +8,7 @@ import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 import { get } from 'lodash'
 @Component({
+    standalone: false,
     selector: 'ws-app-license',
     templateUrl: './license.component.html',
     styleUrls: ['./license.component.scss'],

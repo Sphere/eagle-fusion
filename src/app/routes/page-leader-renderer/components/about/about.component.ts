@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import { IWsLeader } from '../../model/leadership.model'
 
 @Component({
+    standalone: false,
     selector: 'ws-about',
     templateUrl: './about.component.html',
     styleUrls: ['./about.component.scss'],

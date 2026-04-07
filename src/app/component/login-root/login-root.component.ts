@@ -3,6 +3,7 @@ import { LoginRootDirective } from './login-root.directive'
 import { LoginRootService } from './login-root.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-login-root',
     templateUrl: './login-root.component.html',
     styleUrls: ['./login-root.component.scss'],

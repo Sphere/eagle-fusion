@@ -4,6 +4,7 @@ import { TFetchStatus } from '@ws-widget/utils/src/public-api'
 // import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-user-goals',
     templateUrl: './user-goals.component.html',
     styleUrls: ['./user-goals.component.scss'],

@@ -1,6 +1,7 @@
 import { Directive, Input, HostListener, HostBinding, OnChanges } from '@angular/core'
 
 @Directive({
+    standalone: false,
     selector: '[wsUtilsDefaultThumbnail]',
     
 })

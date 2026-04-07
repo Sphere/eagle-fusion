@@ -6,6 +6,7 @@ export interface IFilteredContent {
   contents: NsContent.IContent[]
 }
 @Component({
+    standalone: false,
     selector: 'ws-app-last-learnt',
     templateUrl: './last-learnt.component.html',
     styleUrls: ['./last-learnt.component.scss'],

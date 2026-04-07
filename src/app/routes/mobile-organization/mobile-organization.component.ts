@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core'
 
 @Component({
+    standalone: false,
     selector: 'ws-mobile-organization',
     templateUrl: './mobile-organization.component.html',
     styleUrls: ['./mobile-organization.component.scss'],

@@ -4,6 +4,7 @@ import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/l
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
+    standalone: false,
     selector: 'ws-tnc-renderer',
     templateUrl: './tnc-renderer.component.html',
     styleUrls: ['./tnc-renderer.component.scss'],

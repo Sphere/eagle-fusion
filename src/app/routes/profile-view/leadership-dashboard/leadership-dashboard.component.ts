@@ -14,6 +14,7 @@ import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes
 import { ConfigurationsService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'app-leadership-dashboard',
     templateUrl: './leadership-dashboard.component.html',
     styleUrls: ['./leadership-dashboard.component.scss'],

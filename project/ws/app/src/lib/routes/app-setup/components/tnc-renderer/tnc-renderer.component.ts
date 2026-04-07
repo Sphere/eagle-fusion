@@ -3,6 +3,7 @@ import { NsTnc } from '../../../../../../../../../src/app/models/tnc.model'
 import { MatSelectChange } from '@angular/material/select'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-tnc-renderer',
     templateUrl: './tnc-renderer.component.html',
     styleUrls: ['./tnc-renderer.component.scss'],

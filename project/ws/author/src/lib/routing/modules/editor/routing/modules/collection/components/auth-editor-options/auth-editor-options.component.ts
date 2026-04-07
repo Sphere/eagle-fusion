@@ -8,6 +8,7 @@ import { IContentNode, IContentTreeNode } from './../../interface/icontent-tree'
 import { CollectionStoreService } from './../../services/store.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-editor-options',
     templateUrl: './auth-editor-options.component.html',
     styleUrls: ['./auth-editor-options.component.scss'],

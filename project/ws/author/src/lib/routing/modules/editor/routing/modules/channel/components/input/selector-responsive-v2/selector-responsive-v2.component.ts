@@ -6,6 +6,7 @@ import { WIDGET_LIBRARY } from '../../../constants/widet'
 import { ImageMapComponent } from './../image-map/image-map.component'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-selector-responsive-v2',
     templateUrl: './selector-responsive-v2.component.html',
     styleUrls: ['./selector-responsive-v2.component.scss'],

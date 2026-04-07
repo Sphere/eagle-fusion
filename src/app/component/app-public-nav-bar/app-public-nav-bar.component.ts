@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs'
 import { ActivatedRoute, Router } from '@angular/router'
 import { AuthKeycloakService } from './../../../../library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
+    standalone: false,
     selector: 'ws-app-public-nav-bar',
     templateUrl: './app-public-nav-bar.component.html',
     styleUrls: ['./app-public-nav-bar.component.scss'],

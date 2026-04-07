@@ -3,6 +3,7 @@ import { Router } from '@angular/router'
 import { LoggerService, ValueService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'web-ekshamata-public-container',
     templateUrl: './web-ekshamata-public-container.component.html',
     styleUrls: ['./web-ekshamata-public-container.component.scss'],

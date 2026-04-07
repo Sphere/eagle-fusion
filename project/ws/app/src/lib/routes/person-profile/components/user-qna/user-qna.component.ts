@@ -4,6 +4,7 @@ import { TFetchStatus, ConfigurationsService } from '@ws-widget/utils'
 import { PersonProfileService } from '../../services/person-profile.service'
 import { Subscription } from 'rxjs'
 @Component({
+    standalone: false,
     selector: 'ws-app-user-qna',
     templateUrl: './user-qna.component.html',
     styleUrls: ['./user-qna.component.scss'],

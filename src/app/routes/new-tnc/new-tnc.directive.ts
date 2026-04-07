@@ -1,6 +1,7 @@
 import { Directive, HostListener, Output, EventEmitter } from '@angular/core'
 
 @Directive({
+    standalone: false,
     selector: '[appScrollDetector]',
     
 })

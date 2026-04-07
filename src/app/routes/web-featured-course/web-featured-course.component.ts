@@ -5,6 +5,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { Title } from '@angular/platform-browser'
 
 @Component({
+    standalone: false,
     selector: 'ws-web-featured-course',
     templateUrl: './web-featured-course.component.html',
     styleUrls: ['./web-featured-course.component.scss'],

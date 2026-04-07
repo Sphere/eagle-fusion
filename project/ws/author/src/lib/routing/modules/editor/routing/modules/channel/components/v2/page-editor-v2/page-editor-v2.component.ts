@@ -4,6 +4,7 @@ import { ChannelStoreService } from './../../../services/store.service'
 import { MatDrawer } from '@angular/material/sidenav'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-page-editor-v2',
     templateUrl: './page-editor-v2.component.html',
     styleUrls: ['./page-editor-v2.component.scss'],

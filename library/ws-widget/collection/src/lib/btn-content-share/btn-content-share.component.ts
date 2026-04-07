@@ -6,6 +6,7 @@ import { NsContent } from '../_services/widget-content.model'
 import { BtnContentShareDialogComponent } from './btn-content-share-dialog/btn-content-share-dialog.component'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-btn-content-share',
     templateUrl: './btn-content-share.component.html',
     styleUrls: ['./btn-content-share.component.scss'],

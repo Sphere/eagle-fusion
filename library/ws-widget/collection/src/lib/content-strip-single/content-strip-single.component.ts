@@ -7,6 +7,7 @@ import { NsContentStripSingle } from './content-strip-single.model'
 import { ContentStripSingleService } from './content-strip-single.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-content-strip-single',
     templateUrl: './content-strip-single.component.html',
     styleUrls: ['./content-strip-single.component.scss'],

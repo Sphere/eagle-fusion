@@ -22,6 +22,7 @@ import { Observable } from 'rxjs'
 import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'ws-bnrc-register',
     templateUrl: './bnrc-register.component.html',
     styleUrls: ['./bnrc-register.component.scss'],

@@ -24,6 +24,7 @@ import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugi
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
+    standalone: false,
     selector: 'ws-app-app-toc-desktop',
     templateUrl: './app-toc-desktop.component.html',
     styleUrls: ['./app-toc-desktop.component.scss'],

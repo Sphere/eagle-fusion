@@ -6,6 +6,7 @@ import { WidgetContentService } from '@ws-widget/collection'
 import { LoggerService } from '@ws-widget/utils'
 
 @Component({
+    standalone: false,
     selector: 'ws-mobile-profile-nav',
     templateUrl: './mobile-profile-nav.component.html',
     styleUrls: ['./mobile-profile-nav.component.scss'],

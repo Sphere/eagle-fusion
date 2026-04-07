@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import { NsWidgetResolver } from '@ws-widget/resolver'
 import { WidgetBaseComponent } from '../widget-base.component'
 @Component({
+    standalone: false,
     selector: 'ws-resolver-invalid-registration',
     templateUrl: './invalid-registration.component.html',
     styleUrls: ['./invalid-registration.component.scss'],

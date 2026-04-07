@@ -16,6 +16,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 declare let $: any
 @Component({
+    standalone: false,
     selector: 'ws-app-chatbot',
     templateUrl: './chatbot.component.html',
     styleUrls: ['./chatbot.component.scss'],

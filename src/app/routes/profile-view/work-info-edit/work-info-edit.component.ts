@@ -12,6 +12,7 @@ import { WidgetContentService } from '../../../../../library/ws-widget/collectio
 import { LanguageService } from '../../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
+    standalone: false,
     selector: 'ws-work-info-edit',
     templateUrl: './work-info-edit.component.html',
     styleUrls: ['./work-info-edit.component.scss'],

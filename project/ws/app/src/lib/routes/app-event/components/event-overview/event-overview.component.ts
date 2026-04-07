@@ -4,6 +4,7 @@ import { IEventDetails } from '../../interfaces/event-details.model'
 import { EventService } from '../../services/event.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-event-overview',
     templateUrl: './event-overview.component.html',
     styleUrls: ['./event-overview.component.scss'],

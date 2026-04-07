@@ -6,6 +6,7 @@ import { PlayerStateService } from '../../player-state.service'
 import { ValueService } from '@ws-widget/utils'
 
 @Component({
+    standalone: false,
     selector: 'viewer-quiz-container',
     templateUrl: './quiz.component.html',
     styleUrls: ['./quiz.component.scss'],

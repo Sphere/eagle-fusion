@@ -13,6 +13,7 @@ import { Meta, Title } from '@angular/platform-browser'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
+    standalone: false,
     selector: 'ws-public-login',
     templateUrl: './public-login.component.html',
     styleUrls: ['./public-login.component.scss'],

@@ -5,6 +5,7 @@ import { ViewerDataService } from '../../../../../../project/ws/viewer/src/lib/v
 import { EventService } from '../../../../utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'app-player-navigation-widget',
     templateUrl: './player-navigation-widget.component.html',
     styleUrls: ['./player-navigation-widget.component.scss'],

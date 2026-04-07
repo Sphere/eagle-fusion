@@ -31,6 +31,7 @@ export const typeMap = {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-btn-feature',
     templateUrl: './btn-feature.component.html',
     styleUrls: ['./btn-feature.component.scss'],

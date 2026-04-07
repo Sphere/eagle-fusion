@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
+    standalone: false,
     selector: 'viewer-channel',
     templateUrl: './channel.component.html',
     styleUrls: ['./channel.component.scss'],

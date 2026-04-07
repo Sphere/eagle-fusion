@@ -13,6 +13,7 @@ import { PlaylistService } from '../../services/playlist.service'
 import { LanguageService } from '../../services/language.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-nav-bar',
     templateUrl: './app-nav-bar.component.html',
     styleUrls: ['./app-nav-bar.component.scss'],

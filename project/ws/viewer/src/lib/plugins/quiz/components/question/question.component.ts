@@ -4,6 +4,7 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
 import { jsPlumb, OnConnectionBindInfo } from 'jsplumb'
 
 @Component({
+    standalone: false,
     selector: 'viewer-question',
     templateUrl: './question.component.html',
     styleUrls: ['./question.component.scss'],

@@ -16,6 +16,7 @@ import { ConfigurationsService, NsPage, AuthKeycloakService } from '@ws-widget/u
 import { Subscription } from 'rxjs'
 
 @Component({
+    standalone: false,
     selector: 'ws-login',
     templateUrl: './login.component.html',
     styleUrls: ['./login.component.scss'],

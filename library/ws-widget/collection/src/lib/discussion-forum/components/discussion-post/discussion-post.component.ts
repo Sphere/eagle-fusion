@@ -12,6 +12,7 @@ import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { DialogSocialDeletePostComponent } from '../../dialog/dialog-social-delete-post/dialog-social-delete-post.component'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-discussion-post',
     templateUrl: './discussion-post.component.html',
     styleUrls: ['./discussion-post.component.scss'],

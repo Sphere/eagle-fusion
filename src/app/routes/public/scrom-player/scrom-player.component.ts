@@ -9,6 +9,7 @@ import { MobileScromAdapterService } from '../../../services/mobile-scrom-adapte
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-scrom-player',
     templateUrl: './scrom-player.component.html',
     styleUrls: ['./scrom-player.component.scss'],

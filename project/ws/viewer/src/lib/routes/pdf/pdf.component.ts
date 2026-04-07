@@ -9,6 +9,7 @@ import { ViewerUtilService } from '../../viewer-util.service'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'viewer-pdf',
     templateUrl: './pdf.component.html',
     styleUrls: ['./pdf.component.scss'],

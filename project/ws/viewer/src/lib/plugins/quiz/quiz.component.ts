@@ -44,6 +44,7 @@ import { ScreenSecurityService } from '../../screen-security.service'
 import { PlaylistService } from '../../../../../../../src/app/services/playlist.service'
 // import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
+    standalone: false,
     selector: 'viewer-plugin-quiz',
     templateUrl: './quiz.component.html',
     styleUrls: ['./quiz.component.scss'],

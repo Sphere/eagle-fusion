@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
+    standalone: false,
     selector: 'viewer-assesment-overview',
     templateUrl: './assesment-overview.component.html',
     styleUrls: ['./assesment-overview.component.scss'],

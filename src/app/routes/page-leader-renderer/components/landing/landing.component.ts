@@ -9,6 +9,7 @@ import { LeadershipService } from '../../services/leadership.service'
 import { SendMailDialogComponent } from '../send-mail-dialog/send-mail-dialog.component'
 
 @Component({
+    standalone: false,
     selector: 'ws-landing',
     templateUrl: './landing.component.html',
     styleUrls: ['./landing.component.scss'],

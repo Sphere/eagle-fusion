@@ -58,6 +58,7 @@ interface PasswordValidation {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-create-account',
     templateUrl: './create-account.component.html',
     styleUrls: ['./create-account.component.scss'],

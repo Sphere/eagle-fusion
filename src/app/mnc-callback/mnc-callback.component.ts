@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service.service'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 @Component({
+    standalone: false,
     selector: 'ws-mnc-callback',
     templateUrl: './mnc-callback.component.html',
     styleUrls: ['./mnc-callback.component.scss'],

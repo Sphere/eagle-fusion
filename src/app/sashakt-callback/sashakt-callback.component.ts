@@ -3,6 +3,7 @@ import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 @Component({
+    standalone: false,
     selector: 'ws-sashakt-callback',
     templateUrl: './sashakt-callback.component.html',
     styleUrls: ['./sashakt-callback.component.scss'],

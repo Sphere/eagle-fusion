@@ -7,6 +7,7 @@ import { IQuestionDetailsContent } from '../iap-assessment/iap-assessment.compon
 // IQuestionDetailsContent
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-section-dialog',
     templateUrl: './section-dialog.component.html',
     styleUrls: ['./section-dialog.component.scss'],

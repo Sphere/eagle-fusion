@@ -6,6 +6,7 @@ import {
 } from '@ws-widget/utils'
 //import { SignupService } from '../signup/signup.service'
 @Component({
+    standalone: false,
     selector: 'ws-header',
     templateUrl: './header.component.html',
     styleUrls: ['./header.component.scss'],

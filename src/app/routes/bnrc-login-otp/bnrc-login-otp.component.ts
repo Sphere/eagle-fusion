@@ -7,6 +7,7 @@ import { Router } from '@angular/router'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
+    standalone: false,
     selector: 'ws-bnrc-login-otp',
     templateUrl: './bnrc-login-otp.component.html',
     styleUrls: ['./bnrc-login-otp.component.scss'],

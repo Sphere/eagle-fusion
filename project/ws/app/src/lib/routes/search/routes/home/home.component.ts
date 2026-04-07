@@ -9,6 +9,7 @@ import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.
 import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],

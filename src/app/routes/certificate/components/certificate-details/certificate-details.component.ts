@@ -11,6 +11,7 @@ import { DomSanitizer, SafeUrl } from '@angular/platform-browser'
 // import { IImpressionEventInput,  } from '@project-sunbird/telemetry-sdk'
 
 @Component({
+    standalone: false,
     selector: 'app-certificate-details',
     templateUrl: './certificate-details.component.html',
     styleUrls: ['./certificate-details.component.scss'],

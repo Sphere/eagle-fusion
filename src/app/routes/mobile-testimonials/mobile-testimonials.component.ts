@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core'
 @Component({
+    standalone: false,
     selector: 'ws-mobile-testimonials',
     templateUrl: './mobile-testimonials.component.html',
     styleUrls: ['./mobile-testimonials.component.scss'],

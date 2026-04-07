@@ -8,6 +8,7 @@ import { WsEvents, EventService } from '@ws-widget/utils'
 import { ViewerUtilService } from '../../viewer-util.service'
 
 @Component({
+    standalone: false,
     selector: 'viewer-quiz',
     templateUrl: './quiz.component.html',
     styleUrls: ['./quiz.component.scss'],

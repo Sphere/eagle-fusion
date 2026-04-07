@@ -15,6 +15,7 @@ import { Observable } from "rxjs"
 import { MatDialogRef } from '@angular/material/dialog'
 
 @Component({
+    standalone: false,
     selector: "app-notification",
     templateUrl: "./notification.component.html",
     styleUrls: ["./notification.component.scss"],

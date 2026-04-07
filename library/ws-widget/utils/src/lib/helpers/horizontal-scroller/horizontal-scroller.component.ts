@@ -8,6 +8,7 @@ import { debounceTime, throttleTime } from 'rxjs/operators'
 import { TFetchStatus } from '../../constants/misc.constants'
 
 @Component({
+    standalone: false,
     selector: 'ws-utils-horizontal-scroller',
     templateUrl: './horizontal-scroller.component.html',
     styleUrls: ['./horizontal-scroller.component.scss'],

@@ -19,6 +19,7 @@ import { Observable, of } from 'rxjs'
 import { InterestService } from './../../../../../../../../../../../../app/src/lib/routes/profile/routes/interest/services/interest.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-content-strip-single',
     templateUrl: './content-strip-single.component.html',
     styleUrls: ['./content-strip-single.component.scss'],

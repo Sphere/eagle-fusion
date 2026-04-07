@@ -8,6 +8,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 
 import { IWidgetErrorInternalServer } from './error-internal-server.model'
 @Component({
+    standalone: false,
     selector: 'ws-widget-error-internal-server',
     templateUrl: './error-internal-server.component.html',
     styleUrls: ['./error-internal-server.component.scss'],

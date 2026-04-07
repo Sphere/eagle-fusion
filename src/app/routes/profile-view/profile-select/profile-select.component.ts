@@ -14,6 +14,7 @@ import { constructReq } from '../request-util'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-profile-select',
     templateUrl: './profile-select.component.html',
     styleUrls: ['./profile-select.component.scss'],

@@ -42,6 +42,7 @@ import { UntypedFormGroup } from '@angular/forms'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-quiz',
     templateUrl: './quiz.component.html',
     styleUrls: ['./quiz.component.scss'],

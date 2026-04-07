@@ -24,6 +24,7 @@ import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { OpenPlainCkEditorComponent } from '../../shared/components/open-plain-ck-editor/open-plain-ck-editor.component'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-multiple-choice-question',
     templateUrl: './multiple-choice-question.component.html',
     styleUrls: ['./multiple-choice-question.component.scss'],

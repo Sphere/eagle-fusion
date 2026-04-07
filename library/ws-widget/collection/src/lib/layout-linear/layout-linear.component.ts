@@ -5,6 +5,7 @@ interface ILinearWidgets {
   widgets: NsWidgetResolver.IRenderConfigWithAnyData[]
 }
 @Component({
+    standalone: false,
     selector: 'ws-widget-layout-linear',
     templateUrl: './layout-linear.component.html',
     styleUrls: ['./layout-linear.component.scss'],

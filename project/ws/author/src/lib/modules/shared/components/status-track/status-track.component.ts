@@ -25,6 +25,7 @@ interface IWorkFlowStepper {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-status-track',
     templateUrl: './status-track.component.html',
     styleUrls: ['./status-track.component.scss'],

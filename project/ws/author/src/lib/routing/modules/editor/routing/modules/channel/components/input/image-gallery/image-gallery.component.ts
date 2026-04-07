@@ -4,6 +4,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { WIDGET_LIBRARY } from '../../../constants/widet'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-image-gallery',
     templateUrl: './image-gallery.component.html',
     styleUrls: ['./image-gallery.component.scss'],

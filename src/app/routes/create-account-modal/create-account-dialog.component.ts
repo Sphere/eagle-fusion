@@ -4,6 +4,7 @@ import { DOCUMENT } from '@angular/common'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-create-account-dialog',
     templateUrl: './create-account-dialog.component.html',
     styleUrls: ['./create-account-dialog.component.scss'],

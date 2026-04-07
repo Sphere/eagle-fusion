@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router'
 import { ValueService, ConfigurationsService } from '@ws-widget/utils'
 
 @Component({
+    standalone: false,
     selector: 'viewer-pdf-container',
     templateUrl: './pdf.component.html',
     styleUrls: ['./pdf.component.scss'],

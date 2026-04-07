@@ -7,6 +7,7 @@ import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-discussion-forum',
     templateUrl: './discussion-forum.component.html',
     styleUrls: ['./discussion-forum.component.scss'],

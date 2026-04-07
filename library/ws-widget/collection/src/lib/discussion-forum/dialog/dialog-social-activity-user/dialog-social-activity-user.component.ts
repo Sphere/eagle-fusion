@@ -15,6 +15,7 @@ const TAB_INDEX_ACTIVITY_TYPE_MAPPING: { [key: number]: string } = {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-dialog-social-activity-user',
     templateUrl: './dialog-social-activity-user.component.html',
     styleUrls: ['./dialog-social-activity-user.component.scss'],

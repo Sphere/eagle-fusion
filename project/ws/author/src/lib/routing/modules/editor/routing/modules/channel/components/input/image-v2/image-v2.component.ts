@@ -16,6 +16,7 @@ import { NotificationComponent } from '../../../../../../../../../modules/shared
 import { TEMPLATE_TYPES } from './image-v2.constant'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-image-v2',
     templateUrl: './image-v2.component.html',
     styleUrls: ['./image-v2.component.scss'],

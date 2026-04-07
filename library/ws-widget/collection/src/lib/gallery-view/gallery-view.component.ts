@@ -4,6 +4,7 @@ import { NsGalleryView } from './gallery-view.model'
 import { Subscription } from 'rxjs'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-gallery-view',
     templateUrl: './gallery-view.component.html',
     styleUrls: ['./gallery-view.component.scss'],

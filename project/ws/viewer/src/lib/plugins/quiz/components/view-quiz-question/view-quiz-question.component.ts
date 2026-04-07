@@ -8,6 +8,7 @@ import { Subject } from 'rxjs'
 import { isUndefined, toLower } from 'lodash'
 
 @Component({
+    standalone: false,
     selector: 'viewer-view-quiz-question',
     templateUrl: './view-quiz-question.component.html',
     styleUrls: ['./view-quiz-question.component.scss'],

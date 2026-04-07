@@ -5,6 +5,7 @@ import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { NsAppToc } from '../../models/app-toc.model'
 import { AppTocService } from '../../services/app-toc.service'
 @Component({
+    standalone: false,
     selector: 'ws-app-toc-content-card',
     templateUrl: './app-toc-content-card.component.html',
     styleUrls: ['./app-toc-content-card.component.scss'],

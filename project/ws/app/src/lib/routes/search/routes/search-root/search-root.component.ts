@@ -4,6 +4,7 @@ import { IFeatureSearchConfig } from '../../models/search.model'
 import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-search-root',
     templateUrl: './search-root.component.html',
     styleUrls: ['./search-root.component.scss'],

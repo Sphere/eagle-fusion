@@ -22,6 +22,7 @@ import { LanguageService } from '../../../services/language.service'
 import { LoggerService } from '@ws-widget/utils'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
+    standalone: false,
     selector: 'ws-personal-detail-edit',
     templateUrl: './personal-detail-edit.component.html',
     styleUrls: ['./personal-detail-edit.component.scss'],

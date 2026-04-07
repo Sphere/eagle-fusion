@@ -9,6 +9,7 @@ interface IContentStripWidgetMap {
   widgets: string[]
 }
 @Component({
+    standalone: false,
     selector: 'ws-auth-content-strip',
     templateUrl: './content-strip.component.html',
     styleUrls: ['./content-strip.component.scss'],

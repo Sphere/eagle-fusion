@@ -7,6 +7,7 @@ import { Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-view-followperson',
     templateUrl: './view-followperson.component.html',
     styleUrls: ['./view-followperson.component.scss'],

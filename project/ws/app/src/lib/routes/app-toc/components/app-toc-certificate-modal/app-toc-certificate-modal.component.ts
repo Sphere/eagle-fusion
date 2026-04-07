@@ -6,6 +6,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-app-toc-certificate-modal',
     templateUrl: './app-toc-certificate-modal.component.html',
     styleUrls: ['./app-toc-certificate-modal.component.scss'],

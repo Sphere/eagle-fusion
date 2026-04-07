@@ -8,6 +8,7 @@ import { isUndefined, toLower } from 'lodash'
 import { takeUntil } from 'rxjs/operators'
 import { Subject } from 'rxjs'
 @Component({
+    standalone: false,
     selector: 'viewer-view-assesment-questions',
     templateUrl: './view-assesment-questions.component.html',
     styleUrls: ['./view-assesment-questions.component.scss'],

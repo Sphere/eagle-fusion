@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 // import { PlayerStateService } from '../../player-state.service'
 @Component({
+    standalone: false,
     selector: 'viewer-audio-container',
     templateUrl: './audio.component.html',
     styleUrls: ['./audio.component.scss'],

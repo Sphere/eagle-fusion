@@ -9,6 +9,7 @@ enum ScrollingStateEnum {
 }
 
 @Directive({
+    standalone: false,
     selector: '[wsUtilsClassChangeOnScroll]',
     
 })

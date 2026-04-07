@@ -43,6 +43,7 @@ const videoJsOptions: videoJs.PlayerOptions = {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-player-audio',
     templateUrl: './player-audio.component.html',
     styleUrls: ['./player-audio.component.scss'],

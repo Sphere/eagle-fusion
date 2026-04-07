@@ -13,6 +13,7 @@ import { Platform } from '@angular/cdk/platform'
 import { ViewerDataService } from './../../viewer-data.service'
 
 @Component({
+    standalone: false,
     selector: 'viewer-youtube',
     templateUrl: './youtube.component.html',
     styleUrls: ['./youtube.component.scss'],

@@ -10,6 +10,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { takeUntil } from 'rxjs/operators'
 import { get, last } from 'lodash'
 @Component({
+    standalone: false,
     selector: 'ws-app-app-toc-contents',
     templateUrl: './app-toc-contents.component.html',
     styleUrls: ['./app-toc-contents.component.scss'],

@@ -12,6 +12,7 @@ import { BnrcmodalComponent } from '../bnrc-popup/bnrc-modal-component'
 import { S3_END_POINTS } from '../../constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'ws-upsmf-register',
     templateUrl: './upsmf-register.component.html',
     styleUrls: ['./upsmf-register.component.scss'],

@@ -9,6 +9,7 @@ interface IData {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-open-plain-ck-editor',
     templateUrl: './open-plain-ck-editor.component.html',
     styleUrls: ['./open-plain-ck-editor.component.scss'],

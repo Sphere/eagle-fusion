@@ -13,6 +13,7 @@ import { ConfigCacheService } from '../../services/config-cache.service'
 declare const gapi: any
 
 @Component({
+    standalone: false,
     selector: 'ws-mobile-login',
     templateUrl: './mobile-login.component.html',
     styleUrls: ['./mobile-login.component.scss'],

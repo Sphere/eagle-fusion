@@ -4,6 +4,7 @@ import { forEach } from 'lodash'
 import { Router } from '@angular/router'
 import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 @Component({
+    standalone: false,
     selector: 'ws-app-app-toc-desktop-modal',
     templateUrl: './app-toc-desktop-modal.component.html',
     styleUrls: ['./app-toc-desktop-modal.component.scss'],

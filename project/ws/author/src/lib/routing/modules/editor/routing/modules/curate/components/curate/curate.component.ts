@@ -25,6 +25,7 @@ import { UrlUploadComponent } from './../url-upload/url-upload.component'
 import { VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-curate',
     templateUrl: './curate.component.html',
     styleUrls: ['./curate.component.scss'],

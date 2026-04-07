@@ -17,6 +17,7 @@ import { first, filter } from 'rxjs/operators'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-player-amp',
     templateUrl: './player-amp.component.html',
     styleUrls: ['./player-amp.component.scss'],

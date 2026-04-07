@@ -8,6 +8,7 @@ interface ICertificationDate {
 }
 
 @Pipe({
+    standalone: false,
     name: 'pipeDateConcat',
     
 })

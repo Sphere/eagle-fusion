@@ -8,6 +8,7 @@ import { AppDateAdapter, APP_DATE_FORMATS } from '../../../../project/ws/app/src
 import { LoggerService } from '@ws-widget/utils'
 
 @Component({
+    standalone: false,
     selector: 'ws-your-location',
     templateUrl: './your-location.component.html',
     styleUrls: ['./your-location.component.scss'],

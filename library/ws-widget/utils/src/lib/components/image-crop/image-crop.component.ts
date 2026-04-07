@@ -8,6 +8,7 @@ import { ValueService } from '../../services/value.service'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
+    standalone: false,
     selector: 'ws-utils-image-crop',
     templateUrl: './image-crop.component.html',
     styleUrls: ['./image-crop.component.scss'],

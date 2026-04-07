@@ -15,6 +15,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 // import { HttpErrorResponse } from '@angular/common/http'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-app-toc-overview-root',
     templateUrl: './app-toc-overview.component.html',
     styleUrls: ['./app-toc-overview.component.scss'],

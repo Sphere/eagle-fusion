@@ -19,6 +19,7 @@ export interface IPreviewDevice {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-viewer',
     templateUrl: './viewer.component.html',
     styleUrls: ['./viewer.component.scss'],

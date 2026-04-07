@@ -7,6 +7,7 @@ import { SignupService } from './signup.service'
 import { Router } from '@angular/router'
 
 @Component({
+    standalone: false,
     selector: 'ws-signup',
     templateUrl: './signup.component.html',
     styleUrls: ['./signup.component.scss'],

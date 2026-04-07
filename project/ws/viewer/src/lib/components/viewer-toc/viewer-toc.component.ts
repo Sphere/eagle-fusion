@@ -58,6 +58,7 @@ interface ICollectionCard {
   redirectUrl: string | null
 }
 @Component({
+    standalone: false,
     selector: 'viewer-viewer-toc',
     templateUrl: './viewer-toc.component.html',
     styleUrls: ['./viewer-toc.component.scss'],

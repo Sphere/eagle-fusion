@@ -9,6 +9,7 @@ import { Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 @Component({
+    standalone: false,
     selector: 'ws-public-home',
     templateUrl: './public-home.component.html',
     styleUrls: ['./public-home.component.scss'],

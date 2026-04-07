@@ -4,6 +4,7 @@ import { EventService } from '../../services/event.service'
 import { ConfigurationsService, NsPage } from '@ws-widget/utils'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-app-event',
     templateUrl: './app-event.component.html',
     styleUrls: ['./app-event.component.scss'],

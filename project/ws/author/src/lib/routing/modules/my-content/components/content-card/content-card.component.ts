@@ -2,6 +2,7 @@ import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 import { AccessControlService } from '@ws/author/src/lib/modules/shared/services/access-control.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-root-content-card',
     templateUrl: './content-card.component.html',
     styleUrls: ['./content-card.component.scss'],

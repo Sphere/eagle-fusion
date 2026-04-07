@@ -14,6 +14,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'viewer-audio',
     templateUrl: './audio.component.html',
     styleUrls: ['./audio.component.scss'],

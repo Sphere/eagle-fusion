@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
 
 @Component({
+    standalone: false,
     selector: 'viewer-assesment-question-result',
     templateUrl: './assesment-question-result.component.html',
     styleUrls: ['./assesment-question-result.component.scss'],

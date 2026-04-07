@@ -13,6 +13,7 @@ import {
 } from '@ws-widget/utils'
 import { SignupService } from '../signup/signup.service'
 @Component({
+    standalone: false,
     selector: 'ws-tnc',
     templateUrl: './tnc.component.html',
     styleUrls: ['./tnc.component.scss'],

@@ -11,6 +11,7 @@ import { Router } from '@angular/router'
 import { LoggerService } from '../../../../utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-btn-fullscreen',
     templateUrl: './btn-fullscreen.component.html',
     styleUrls: ['./btn-fullscreen.component.scss'],

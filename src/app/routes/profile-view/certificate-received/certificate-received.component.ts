@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import * as FileSaver from 'file-saver'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 @Component({
+    standalone: false,
     selector: 'ws-certificate-received',
     templateUrl: './certificate-received.component.html',
     styleUrls: ['./certificate-received.component.scss'],

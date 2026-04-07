@@ -4,6 +4,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { IFilterUnitItem, IFilterUnitResponse, ISearchConfigContentStrip, IWsSearchAdvancedFilter } from '../../models/search.model'
 import { SearchServService } from '../../services/search-serv.service'
 @Component({
+    standalone: false,
     selector: 'ws-app-filter-display',
     templateUrl: './filter-display.component.html',
     styleUrls: ['./filter-display.component.scss'],

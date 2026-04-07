@@ -5,6 +5,7 @@ import { LanguageService } from "../../../../../../../../../src/app/services/lan
 import { PlaylistService } from "../../../../../../../../../src/app/services/playlist.service"
 
 @Component({
+    standalone: false,
     selector: "app-congratulations-popup",
     templateUrl: "./congratulations-popup.component.html",
     styleUrls: ["./congratulations-popup.component.scss"],

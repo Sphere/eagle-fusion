@@ -2,6 +2,7 @@ import { Directive, HostListener } from '@angular/core'
 import { ValueService } from '@ws-widget/utils'
 
 @Directive({
+    standalone: false,
     selector: '[wsAppRetainScroll]',
     
 })

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService, ValueService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
+    standalone: false,
     selector: 'viewer-web-module-container',
     templateUrl: './web-module.component.html',
     styleUrls: ['./web-module.component.scss'],

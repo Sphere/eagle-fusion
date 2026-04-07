@@ -9,6 +9,7 @@ import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 @Component({
+    standalone: false,
     selector: 'ws-dashboard',
     templateUrl: './web-dashboard.component.html',
     styleUrls: ['./web-dashboard.component.scss'],

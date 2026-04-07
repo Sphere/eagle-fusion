@@ -30,6 +30,7 @@ import {
 //   data: ITimeSpent
 // }
 @Component({
+    standalone: false,
     selector: 'ws-app-dashboard',
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.scss'],

@@ -17,6 +17,7 @@ import { EventService } from '@ws-widget/utils'
 import { IHtmlPicker } from './html-picker.model'
 
 @Component({
+    standalone: false,
     selector: 'viewer-plugin-html-picker',
     templateUrl: './html-picker.component.html',
     styleUrls: ['./html-picker.component.scss'],

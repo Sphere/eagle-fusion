@@ -6,6 +6,7 @@ import { ActivatedRoute } from '@angular/router'
 import { S3_END_POINTS } from '../../../constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'ws-public-contact',
     templateUrl: './public-contact.component.html',
     styleUrls: ['./public-contact.component.scss'],

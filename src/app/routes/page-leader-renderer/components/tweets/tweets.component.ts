@@ -6,6 +6,7 @@ import { LeadershipService } from '../../services/leadership.service'
 let tweetScriptId = 'tweetScript'
 
 @Component({
+    standalone: false,
     selector: 'ws-tweets',
     templateUrl: './tweets.component.html',
     styleUrls: ['./tweets.component.scss'],

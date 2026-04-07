@@ -27,6 +27,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-settings',
     templateUrl: './settings.component.html',
     styleUrls: ['./settings.component.scss'],

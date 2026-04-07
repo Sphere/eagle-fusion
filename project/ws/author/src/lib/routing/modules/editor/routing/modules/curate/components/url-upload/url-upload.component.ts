@@ -14,6 +14,7 @@ import { AuthInitService } from './../../../../../../../../services/init.service
 import { URLCheckerClass } from './url-upload.helper'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-url-upload',
     templateUrl: './url-upload.component.html',
     styleUrls: ['./url-upload.component.scss'],

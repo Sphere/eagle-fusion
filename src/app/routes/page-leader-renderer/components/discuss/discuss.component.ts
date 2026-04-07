@@ -5,6 +5,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { NsDiscussionForum } from '@ws-widget/collection'
 
 @Component({
+    standalone: false,
     selector: 'ws-discuss',
     templateUrl: './discuss.component.html',
     styleUrls: ['./discuss.component.scss'],

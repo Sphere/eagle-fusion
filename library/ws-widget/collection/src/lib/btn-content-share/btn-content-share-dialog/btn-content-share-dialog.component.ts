@@ -11,6 +11,7 @@ import { ICommon } from '../../_models/common.model'
 import * as htmlToImage from 'html-to-image'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-btn-content-share-dialog',
     templateUrl: './btn-content-share-dialog.component.html',
     styleUrls: ['./btn-content-share-dialog.component.scss'],

@@ -6,6 +6,7 @@ import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils/src/public
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-content-reviewed',
     templateUrl: './content-reviewed.component.html',
     styleUrls: ['./content-reviewed.component.scss'],

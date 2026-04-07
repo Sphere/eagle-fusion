@@ -7,6 +7,7 @@ import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 import { NsDiscussionForum } from '../../ws-discussion-forum.model'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-btn-social-vote',
     templateUrl: './btn-social-vote.component.html',
     styleUrls: ['./btn-social-vote.component.scss'],

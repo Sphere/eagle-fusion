@@ -9,6 +9,7 @@ import { ActivatedRoute } from '@angular/router'
 import { LoggerService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-assessment-detail',
     templateUrl: './assessment-detail.component.html',
     styleUrls: ['./assessment-detail.component.scss'],

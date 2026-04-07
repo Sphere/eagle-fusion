@@ -8,6 +8,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 
 import { IWidgetErrorFeatureUnavailable } from './error-feature-unavailable.model'
 @Component({
+    standalone: false,
     selector: 'ws-widget-error-feature-unavailable',
     templateUrl: './error-feature-unavailable.component.html',
     styleUrls: ['./error-feature-unavailable.component.scss'],

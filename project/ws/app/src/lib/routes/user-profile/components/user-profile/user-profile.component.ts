@@ -39,6 +39,7 @@ import { LanguageDialogComponent } from '../../../../../../../../../src/app/rout
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-user-profile',
     templateUrl: './user-profile.component.html',
     styleUrls: ['./user-profile.component.scss'],

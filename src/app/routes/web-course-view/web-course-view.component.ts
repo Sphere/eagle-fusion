@@ -10,6 +10,7 @@ import { Title } from '@angular/platform-browser'
 import { LoggerService } from '@ws-widget/utils'
 
 @Component({
+    standalone: false,
     selector: 'ws-web-course-view',
     templateUrl: './web-course-view.component.html',
     styleUrls: ['./web-course-view.component.scss'],

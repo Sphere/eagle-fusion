@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-dropdown-dob',
     templateUrl: './dropdown-dob.component.html',
     styleUrls: ['./dropdown-dob.component.scss'],

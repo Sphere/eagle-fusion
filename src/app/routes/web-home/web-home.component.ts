@@ -6,6 +6,7 @@ import { LanguageService } from '../../services/language.service'
 import { PlaylistService } from '../../services/playlist.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-web-home',
     templateUrl: './web-home.component.html',
     styleUrls: ['./web-home.component.scss'],

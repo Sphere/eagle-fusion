@@ -9,6 +9,7 @@ import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout'
 import { map } from 'rxjs/operators'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-discussion-reply',
     templateUrl: './discussion-reply.component.html',
     styleUrls: ['./discussion-reply.component.scss'],

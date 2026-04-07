@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http'
 import { SignupService } from 'src/app/routes/signup/signup.service'
 import { Router } from '@angular/router'
 @Component({
+    standalone: false,
     selector: 'ws-public-toc-banner',
     templateUrl: './public-toc-banner.component.html',
     styleUrls: ['./public-toc-banner.component.scss'],

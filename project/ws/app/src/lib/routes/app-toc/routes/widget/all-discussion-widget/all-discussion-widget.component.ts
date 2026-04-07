@@ -8,6 +8,7 @@ import { ConfigService, EventsService, NavigationServiceService, DiscussionServi
 // import * as CONSTANTS from '@project-sunbird/discussions-ui-v8'
 
 @Component({
+    standalone: false,
     selector: 'all-discussion-widget',
     templateUrl: './all-discussion-widget.component.html',
     styleUrls: ['./all-discussion-widget.component.css'],

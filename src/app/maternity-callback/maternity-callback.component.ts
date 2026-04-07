@@ -3,6 +3,7 @@ import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service
 import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 //import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 @Component({
+    standalone: false,
     selector: 'ws-maternity-callback',
     templateUrl: './maternity-callback.component.html',
     styleUrls: ['./maternity-callback.component.scss'],

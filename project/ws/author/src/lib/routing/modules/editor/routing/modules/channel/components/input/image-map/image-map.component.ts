@@ -12,6 +12,7 @@ import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { FILE_MAX_SIZE } from './../../../../../../../../../constants/upload'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-image-map',
     templateUrl: './image-map.component.html',
     styleUrls: ['./image-map.component.scss'],

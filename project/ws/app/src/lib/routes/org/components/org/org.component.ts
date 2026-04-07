@@ -12,6 +12,7 @@ import { uniqBy } from 'lodash'
 import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-org',
     templateUrl: './org.component.html',
     styleUrls: ['./org.component.scss'],

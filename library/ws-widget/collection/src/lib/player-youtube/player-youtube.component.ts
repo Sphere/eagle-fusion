@@ -44,6 +44,7 @@ const videoJsOptions: IYTOptions = {
 }
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-player-youtube',
     templateUrl: './player-youtube.component.html',
     styleUrls: ['./player-youtube.component.scss'],

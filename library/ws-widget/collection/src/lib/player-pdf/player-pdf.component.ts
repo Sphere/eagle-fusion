@@ -24,6 +24,7 @@ import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-player-pdf',
     templateUrl: './player-pdf.component.html',
     styleUrls: ['./player-pdf.component.scss'],

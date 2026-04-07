@@ -56,6 +56,7 @@ import { DowntimeConfigService } from '../../services/downtime-config.service'
 import { ScreenSecurityService } from '../../../../project/ws/viewer/src/lib/screen-security.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-root',
     templateUrl: './root.component.html',
     styleUrls: ['./root.component.scss'],

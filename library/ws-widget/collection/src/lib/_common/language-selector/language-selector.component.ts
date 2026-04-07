@@ -3,6 +3,7 @@ import { ConfigurationsService, NsInstanceConfig } from '../../../../../utils/sr
 import { MatSelectChange } from '@angular/material/select'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-language-selector',
     templateUrl: './language-selector.component.html',
     styleUrls: ['./language-selector.component.scss'],

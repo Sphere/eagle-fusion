@@ -3,6 +3,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 // import { DomSanitizer } from '@angular/platform-browser'
 
 @Component({
+    standalone: false,
     selector: 'app-video-popup',
     templateUrl: './how-does-it-works-popup.component.html',
     styleUrls: ['./how-does-it-works-popup.component.scss'],

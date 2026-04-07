@@ -17,6 +17,7 @@ const customBreakPoints = {
 }
 
 @Directive({
+    standalone: false,
     selector: '[wsUtilsImageResponsive]',
     
 })

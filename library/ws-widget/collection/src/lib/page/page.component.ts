@@ -15,6 +15,7 @@ import { SubapplicationRespondService } from '../../../../utils/src/lib/services
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-page',
     templateUrl: './page.component.html',
     styleUrls: ['./page.component.scss'],

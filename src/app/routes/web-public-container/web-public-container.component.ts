@@ -13,6 +13,7 @@ import { WidgetContentService } from '../../../../library/ws-widget/collection/s
 import { catchError, map } from 'rxjs/operators'
 
 @Component({
+    standalone: false,
     selector: 'ws-web-public-container',
     templateUrl: './web-public-container.component.html',
     styleUrls: ['./web-public-container.component.scss'],

@@ -4,6 +4,7 @@ import { PersonProfileService } from '../../services/person-profile.service'
 import { TFetchStatus, ConfigurationsService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-follow-list',
     templateUrl: './follow-list.component.html',
     styleUrls: ['./follow-list.component.scss'],

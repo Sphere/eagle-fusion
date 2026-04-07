@@ -4,6 +4,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { LoggerService, ValueService } from '@ws-widget/utils'
 
 @Component({
+    standalone: false,
     selector: 'player-video-popup-component',
     templateUrl: './player-video-popup-component.html',
     styleUrls: ['./player-video-popup-component.scss'],

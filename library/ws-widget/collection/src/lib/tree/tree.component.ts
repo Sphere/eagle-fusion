@@ -5,6 +5,7 @@ import { NestedTreeControl } from '@angular/cdk/tree'
 import { MatTreeNestedDataSource } from '@angular/material/tree'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-tree',
     templateUrl: './tree.component.html',
     styleUrls: ['./tree.component.scss'],

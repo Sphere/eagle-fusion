@@ -17,6 +17,7 @@ import { ViewQuestionDialogComponent } from '../view-question-dialog/view-questi
 import { CONTENT_BASE_WEBHOST_ASSETS } from '../../../../../../../../constants/apiEndpoints'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-general-details',
     templateUrl: './general-details.component.html',
     styleUrls: ['./general-details.component.scss', '../iap-assessment/iap-assessment.component.scss'],

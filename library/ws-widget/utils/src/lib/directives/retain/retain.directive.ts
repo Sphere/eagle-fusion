@@ -2,6 +2,7 @@ import { Directive, HostListener } from '@angular/core'
 import { ValueService } from '../../services/value.service'
 
 @Directive({
+    standalone: false,
     selector: '[wsUtilsRetain]',
     
 })

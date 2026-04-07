@@ -4,6 +4,7 @@ import { ChannelStoreService } from './../../../services/store.service'
 import { ChannelResolverService } from './../../../services/resolver.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-selector-responsive',
     templateUrl: './selector-responsive.component.html',
     styleUrls: ['./selector-responsive.component.scss'],

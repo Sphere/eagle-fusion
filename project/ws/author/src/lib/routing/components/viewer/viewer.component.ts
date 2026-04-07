@@ -7,6 +7,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { VIEWER_ROUTE_FROM_MIME } from '@ws-widget/collection/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-card-viewer',
     templateUrl: './viewer.component.html',
     styleUrls: ['./viewer.component.scss'],

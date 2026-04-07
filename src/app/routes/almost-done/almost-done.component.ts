@@ -11,6 +11,7 @@ import { SignupService } from 'src/app/routes/signup/signup.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
+    standalone: false,
     selector: 'ws-almost-done',
     templateUrl: './almost-done.component.html',
     styleUrls: ['./almost-done.component.scss'],

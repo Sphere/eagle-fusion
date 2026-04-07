@@ -5,6 +5,7 @@ import { SignupService } from '../signup/signup.service'
 import { MatSnackBar } from '@angular/material/snack-bar'
 
 @Component({
+    standalone: false,
     selector: 'ws-google-callback',
     templateUrl: './google-callback.component.html',
     styleUrls: ['./google-callback.component.scss'],

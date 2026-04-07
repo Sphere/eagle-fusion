@@ -10,6 +10,7 @@ import { Title } from '@angular/platform-browser'
 import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-web-course-card',
     templateUrl: './web-course-card.component.html',
     styleUrls: ['./web-course-card.component.scss'],

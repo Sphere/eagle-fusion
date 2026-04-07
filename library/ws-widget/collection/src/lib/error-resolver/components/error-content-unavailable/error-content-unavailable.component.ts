@@ -8,6 +8,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 
 import { IWidgetErrorAccessForbidden } from '../error-access-forbidden/error-access-forbidden.model'
 @Component({
+    standalone: false,
     selector: 'ws-widget-error-content-unavailable',
     templateUrl: './error-content-unavailable.component.html',
     styleUrls: ['./error-content-unavailable.component.scss'],

@@ -8,6 +8,7 @@ import { ISearchContent } from '@ws/author/src/lib/interface/search'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
+    standalone: false,
     selector: 'viewer-confirm-modal-component',
     templateUrl: './confirm-modal-component.html',
     styleUrls: ['./confirm-modal-component.scss'],

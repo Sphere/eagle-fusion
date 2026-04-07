@@ -9,6 +9,7 @@ import { NotificationComponent } from '@ws/author/src/lib/modules/shared/compone
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-root-root',
     templateUrl: './root.component.html',
     styleUrls: ['./root.component.scss'],

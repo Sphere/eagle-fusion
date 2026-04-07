@@ -3,6 +3,7 @@ import { ConfigurationsService } from '@ws-widget/utils/src/public-api'
 import { IFollowerId } from '../../person-profile.model'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-user-details',
     templateUrl: './user-details.component.html',
     styleUrls: ['./user-details.component.scss'],

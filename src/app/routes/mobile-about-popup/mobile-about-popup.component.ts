@@ -8,6 +8,7 @@ import { constructReq } from '../profile-view/request-util'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-mobile-about-popup',
     templateUrl: './mobile-about-popup.component.html',
     styleUrls: ['./mobile-about-popup.component.scss'],

@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router'
 import { ConfigurationsService } from '../../../../../../../library/ws-widget/utils/src/public-api'
 import { PlayerStateService } from '../../player-state.service'
 @Component({
+    standalone: false,
     selector: 'viewer-resource-collection-container',
     templateUrl: './resource-collection.component.html',
     styleUrls: ['./resource-collection.component.scss'],

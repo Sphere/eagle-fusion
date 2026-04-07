@@ -5,6 +5,7 @@ import { ISpeakerDetails } from '../../interfaces/speaker-details.model'
 import { EventService } from '../../services/event.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-event-sessions',
     templateUrl: './event-sessions.component.html',
     styleUrls: ['./event-sessions.component.scss'],

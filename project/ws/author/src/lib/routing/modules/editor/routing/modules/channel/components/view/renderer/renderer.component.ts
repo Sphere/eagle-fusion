@@ -17,6 +17,7 @@ import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 import { NOTIFICATION_TIME } from '@ws/author/src/lib/constants/constant'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-renderer',
     templateUrl: './renderer.component.html',
     styleUrls: ['./renderer.component.scss'],

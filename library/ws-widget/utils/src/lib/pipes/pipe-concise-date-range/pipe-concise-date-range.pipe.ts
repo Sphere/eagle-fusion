@@ -7,6 +7,7 @@ interface IDateRange {
 }
 
 @Pipe({
+    standalone: false,
     name: 'pipeConciseDateRange',
     
 })

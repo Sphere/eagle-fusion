@@ -19,6 +19,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { Notify } from '@ws/author/src/lib/constants/notificationMessage'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-chips',
     templateUrl: './chips.component.html',
     styleUrls: ['./chips.component.scss'],

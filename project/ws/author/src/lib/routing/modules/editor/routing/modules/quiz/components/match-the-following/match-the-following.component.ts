@@ -35,6 +35,7 @@ import { OpenPlainCkEditorComponent } from '../../shared/components/open-plain-c
 import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-match-the-following',
     templateUrl: './match-the-following.component.html',
     styleUrls: ['./match-the-following.component.scss'],

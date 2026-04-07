@@ -4,6 +4,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 // import { NsMiniProfile } from '../../mini-profile/mini-profile.model'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-user-image',
     templateUrl: './user-image.component.html',
     styleUrls: ['./user-image.component.scss'],

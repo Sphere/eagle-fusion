@@ -3,6 +3,7 @@ import { fromEvent } from 'rxjs'
 import { debounceTime } from 'rxjs/operators'
 
 @Directive({
+    standalone: false,
     selector: '[wsUtilsInViewPort]',
     
 })

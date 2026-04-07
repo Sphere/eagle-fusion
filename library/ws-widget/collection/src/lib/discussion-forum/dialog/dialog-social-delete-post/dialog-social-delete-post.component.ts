@@ -4,6 +4,7 @@ import { ConfigurationsService } from '@ws-widget/utils'
 import { WsDiscussionForumService } from '../../ws-discussion-forum.services'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-dialog-social-delete-post',
     templateUrl: './dialog-social-delete-post.component.html',
     styleUrls: ['./dialog-social-delete-post.component.scss'],

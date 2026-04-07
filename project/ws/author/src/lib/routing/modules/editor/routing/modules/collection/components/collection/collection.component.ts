@@ -39,6 +39,7 @@ import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/l
  */
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-collection',
     templateUrl: './collection.component.html',
     styleUrls: ['./collection.component.scss'],

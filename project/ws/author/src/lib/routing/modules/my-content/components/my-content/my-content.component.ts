@@ -28,6 +28,7 @@ import { REVIEW_ROLE, PUBLISH_ROLE, CREATE_ROLE } from '@ws/author/src/lib/const
 import { LoggerService } from '../../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-my-content',
     templateUrl: './my-content.component.html',
     styleUrls: ['./my-content.component.scss'],

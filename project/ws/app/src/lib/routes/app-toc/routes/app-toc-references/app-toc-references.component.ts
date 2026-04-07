@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs'
 import { AppTocService } from '../../services/app-toc.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-app-toc-references',
     templateUrl: './app-toc-references.component.html',
     styleUrls: ['./app-toc-references.component.scss'],

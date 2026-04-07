@@ -7,6 +7,7 @@ import { Component, HostBinding, Input, OnInit, OnChanges, OnDestroy } from '@an
 // import { AppTocService } from '@ws/app/src/lib/routes/app-toc/services/app-toc.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-content-progress',
     templateUrl: './content-progress.component.html',
     styleUrls: ['./content-progress.component.scss'],

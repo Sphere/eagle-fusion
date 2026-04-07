@@ -7,6 +7,7 @@ import { Subscription } from 'rxjs'
 import { EditorContentService } from '../../../../../services/editor-content.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-question-editor',
     templateUrl: './question-editor.component.html',
     styleUrls: ['./question-editor.component.scss'],

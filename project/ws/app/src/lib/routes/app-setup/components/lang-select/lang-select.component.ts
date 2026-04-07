@@ -8,6 +8,7 @@ import {
 import { UntypedFormControl, Validators } from '@angular/forms'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-lang-select',
     templateUrl: './lang-select.component.html',
     styleUrls: ['./lang-select.component.scss'],

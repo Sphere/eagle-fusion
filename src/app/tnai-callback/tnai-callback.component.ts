@@ -3,6 +3,7 @@ import { OrgServiceService } from 'project/ws/app/src/lib/routes/org/org-service
 import { AuthKeycloakService } from 'library/ws-widget/utils/src/lib/services/auth-keycloak.service'
 import { LoggerService } from '@ws-widget/utils'
 @Component({
+    standalone: false,
     selector: 'ws-tnai-callback',
     templateUrl: './tnai-callback.component.html',
     styleUrls: ['./tnai-callback.component.scss'],

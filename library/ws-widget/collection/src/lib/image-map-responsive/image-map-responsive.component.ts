@@ -6,6 +6,7 @@ import { WidgetBaseComponent, NsWidgetResolver } from '../../../../resolver/src/
 import { IWidgetImageMap, IWidgetMapMeta, IWidgetScale, IWidgetMapCoords } from './image-map-responsive.model'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-image-map-responsive',
     templateUrl: './image-map-responsive.component.html',
     styleUrls: ['./image-map-responsive.component.scss'],

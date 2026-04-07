@@ -3,6 +3,7 @@ import { Subscription } from 'rxjs'
 import { ActivatedRoute } from '@angular/router'
 
 @Component({
+    standalone: false,
     selector: 'ws-invalid-user',
     templateUrl: './invalid-user.component.html',
     styleUrls: ['./invalid-user.component.scss'],

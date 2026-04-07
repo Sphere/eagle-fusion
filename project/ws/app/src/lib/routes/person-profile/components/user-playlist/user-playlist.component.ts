@@ -6,6 +6,7 @@ import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils/src/public
 // import { PersonProfileService } from '../../services/person-profile.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-user-playlist',
     templateUrl: './user-playlist.component.html',
     styleUrls: ['./user-playlist.component.scss'],

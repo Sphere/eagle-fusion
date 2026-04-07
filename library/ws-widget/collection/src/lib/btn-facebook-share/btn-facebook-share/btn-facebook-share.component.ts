@@ -3,6 +3,7 @@ import { DomSanitizer } from '@angular/platform-browser'
 import { ConfigurationsService } from '../../../../../utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-widget-btn-facebook-share',
     templateUrl: './btn-facebook-share.component.html',
     styleUrls: ['./btn-facebook-share.component.scss'],

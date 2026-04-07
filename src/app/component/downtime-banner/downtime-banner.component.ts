@@ -20,6 +20,7 @@ import { LanguageService } from '../../services/language.service'
  * - Dismissible banner
  */
 @Component({
+    standalone: true,
     selector: 'app-downtime-banner',
     imports: [CommonModule, MatIconModule, MatButtonModule],
     templateUrl: './downtime-banner.component.html',

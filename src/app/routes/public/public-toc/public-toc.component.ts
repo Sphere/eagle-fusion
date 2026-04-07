@@ -8,6 +8,7 @@ import { combineLatest } from 'rxjs'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-public-toc',
     templateUrl: './public-toc.component.html',
     styleUrls: ['./public-toc.component.scss'],

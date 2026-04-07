@@ -4,6 +4,7 @@ import { SafeUrl, DomSanitizer } from '@angular/platform-browser'
 import { Event, NavigationEnd, Router } from '@angular/router'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-home',
     templateUrl: './home.component.html',
     styleUrls: ['./home.component.scss'],

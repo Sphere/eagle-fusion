@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core'
 import { IWsLeaderArticle } from '../../model/leadership.model'
 
 @Component({
+    standalone: false,
     selector: 'ws-articles',
     templateUrl: './articles.component.html',
     styleUrls: ['./articles.component.scss'],

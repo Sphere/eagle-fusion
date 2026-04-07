@@ -3,6 +3,7 @@ import { NsWidgetResolver } from '@ws-widget/resolver'
 import { NSSearch } from '@ws-widget/collection'
 
 @Component({
+    standalone: false,
     selector: 'ws-communications',
     templateUrl: './communications.component.html',
     styleUrls: ['./communications.component.scss'],

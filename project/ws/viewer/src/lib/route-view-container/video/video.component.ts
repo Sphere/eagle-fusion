@@ -6,6 +6,7 @@ import { ConfigurationsService } from '../../../../../../../library/ws-widget/ut
 import { PlayerStateService } from '../../player-state.service'
 
 @Component({
+    standalone: false,
     selector: 'viewer-video-container',
     templateUrl: './video.component.html',
     styleUrls: ['./video.component.scss'],

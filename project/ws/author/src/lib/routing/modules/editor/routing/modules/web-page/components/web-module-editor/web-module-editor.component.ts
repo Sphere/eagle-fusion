@@ -41,6 +41,7 @@ import { PlainCKEditorComponent } from '../../../../../shared/components/plain-c
 import { NotificationService } from '@ws/author/src/lib/services/notification.service'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-web-module-editor',
     templateUrl: './web-module-editor.component.html',
     styleUrls: ['./web-module-editor.component.scss'],

@@ -21,6 +21,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
+    standalone: false,
     selector: 'ws-mobile-profile-dashboard',
     templateUrl: './mobile-profile-dashboard.component.html',
     styleUrls: ['./mobile-profile-dashboard.component.scss'],

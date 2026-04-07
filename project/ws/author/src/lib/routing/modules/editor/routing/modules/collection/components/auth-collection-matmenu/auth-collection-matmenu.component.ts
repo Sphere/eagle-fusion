@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angu
 import { ICustomCreateEntity } from './../../interface/create-menu'
 
 @Component({
+    standalone: false,
     selector: 'ws-auth-collection-matmenu',
     templateUrl: './auth-collection-matmenu.component.html',
     styleUrls: ['./auth-collection-matmenu.component.scss'],

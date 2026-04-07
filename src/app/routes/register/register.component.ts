@@ -10,6 +10,7 @@ import { LoggerService } from '../../../../library/ws-widget/utils/src/public-ap
 // import { EmailMobileValidators } from '../emailMobile.validator'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-register',
     templateUrl: './register.component.html',
     styleUrls: ['./register.component.scss'],

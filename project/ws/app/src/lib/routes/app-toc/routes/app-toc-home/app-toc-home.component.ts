@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http'
 import { TelemetryService } from '../../../../../../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
+    standalone: false,
     selector: 'ws-app-app-toc-home-root',
     templateUrl: './app-toc-home.component.html',
     styleUrls: ['./app-toc-home.component.scss'],

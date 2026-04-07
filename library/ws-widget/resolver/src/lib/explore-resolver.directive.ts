@@ -4,6 +4,7 @@ import { NsWidgetResolver } from './widget-resolver.model'
 import { ExploreResolverService } from './explore-resolver.service'
 
 @Directive({
+    standalone: false,
     // tslint:disable-next-line:directive-selector
     selector: '[wsExploreResolverWidget]',
     
