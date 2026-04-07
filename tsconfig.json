@@ -16,7 +16,7 @@
     "skipLibCheck": true,
     "lib": ["ES2022", "dom"],
     "module": "ES2022",
-    "moduleResolution": "node",
+    "moduleResolution": "bundler",
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
