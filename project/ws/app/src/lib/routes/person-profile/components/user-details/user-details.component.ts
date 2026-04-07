@@ -89,13 +89,13 @@ export class UserDetailsComponent implements OnInit, OnChanges {
     }
   }
 
-  fetchingKbDone(event: Boolean) {
+  fetchingKbDone(event: boolean) {
     if (event) {
       this.kbFetchingDone = true
     }
   }
 
-  fetchingPlaylistDone(event: Boolean) {
+  fetchingPlaylistDone(event: boolean) {
     if (event) {
       this.playlistsFetchingDone = true
     }

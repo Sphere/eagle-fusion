@@ -39,7 +39,7 @@ export class FollowListComponent implements OnInit, OnChanges {
     private personprofileSvc: PersonProfileService,
     public configSvc: ConfigurationsService
   ) {
-    this.personprofileSvc.isfollowevent.subscribe((result: Boolean) => {
+    this.personprofileSvc.isfollowevent.subscribe((result: boolean) => {
       if (result) {
         this.fetchFollowerApi()
         this.nextFollowersDisable = false

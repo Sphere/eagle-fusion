@@ -8,7 +8,7 @@ export interface IndexedDBCacheItem {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IndexedDBCacheService {
   private dbName = 'EagleFusionCache'
@@ -62,7 +62,7 @@ export class IndexedDBCacheService {
         courseId,
         data,
         timestamp: Date.now(),
-        version: data.pkgVersion || '1.0'
+        version: data.pkgVersion || '1.0',
       }
 
       const request = store.put(item)
@@ -221,7 +221,7 @@ export class IndexedDBCacheService {
 
         resolve({
           count: items.length,
-          oldestCourse: oldest?.courseId || 'none'
+          oldestCourse: oldest?.courseId || 'none',
         })
       }
 

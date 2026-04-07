@@ -10,6 +10,6 @@ import { OrgModule } from './../../../project/ws/app/src/lib/routes/org/org.modu
     ],
     exports: [
         OrgModule,
-    ]
+    ],
 })
 export class RouteOrgDetailsModule { }

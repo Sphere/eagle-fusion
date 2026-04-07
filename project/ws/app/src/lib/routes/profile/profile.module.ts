@@ -56,6 +56,6 @@ import { SettingsModule } from './routes/settings/settings.module'
     // LearningTimeResolver,
     // LearningHistoryResolver,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProfileModule { }

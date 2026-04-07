@@ -33,7 +33,7 @@ export class MobileScromAdapterService {
       courseId: '',
       authorization: '',
       userToken: '',
-    };
+    }
   constructor(
     private http: HttpClient,
     private store: Storage,
@@ -72,7 +72,7 @@ export class MobileScromAdapterService {
       this._setError(301)
       return false
     }
-    let _return = this.LMSCommit()
+    const _return = this.LMSCommit()
     this.store.setItem('Initialized', false)
     this.store.clearAll()
     return _return
@@ -82,7 +82,7 @@ export class MobileScromAdapterService {
       this._setError(301)
       return false
     }
-    let value = _.get(this.store.getAll(), element)
+    const value = _.get(this.store.getAll(), element)
     if (!value) {
       this._setError(201)
       return ''
@@ -137,7 +137,7 @@ export class MobileScromAdapterService {
         duration: 0,
       }
       const user = {
-        id: this.getProperty('userId')
+        id: this.getProperty('userId'),
       }
       this.telemetrySvc.
         paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user, rollup)
@@ -175,7 +175,7 @@ export class MobileScromAdapterService {
             duration: 0,
           }
           const user = {
-            id: this.getProperty('userId')
+            id: this.getProperty('userId'),
           }
           this.telemetrySvc.
             paramTriggerStart(paramsJSON, userAgent.browserName, userAgent.OS, startEparams, user, rollup)
@@ -202,7 +202,7 @@ export class MobileScromAdapterService {
           }
           return !!response
         },
-        (error) => {
+        error => {
           if (error) {
             this._setError(101)
             // this.logger.log(error)
@@ -211,7 +211,7 @@ export class MobileScromAdapterService {
       )
       return false
     } else {
-      this.updateScromProgress(data).subscribe((res) => {
+      this.updateScromProgress(data).subscribe(res => {
         this.logger.log(res)
       })
     }
@@ -226,17 +226,17 @@ export class MobileScromAdapterService {
     return ""
   }
   LMSGetErrorString(errorCode: number) {
-    let error = errorCodes[errorCode]
+    const error = errorCodes[errorCode]
     if (!error) return ""
     return error[errorCode]["errorString"]
   }
   LMSGetDiagnostic(errorCode: number) {
-    let error = errorCodes[errorCode]
+    const error = errorCodes[errorCode]
     if (!error) return ""
     return error[errorCode]["diagnostic"]
   }
   _isInitialized() {
-    let initialized = this.store.getItem('Initialized')
+    const initialized = this.store.getItem('Initialized')
     return initialized
   }
   _setError(errorCode: number) {
@@ -335,7 +335,7 @@ export class MobileScromAdapterService {
             status: this.getStatus(postData) || 2,
             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
             progressdetails: postData || {},
-            completionPercentage: this.getPercentage(postData) || 0
+            completionPercentage: this.getPercentage(postData) || 0,
           },
         ],
       },
@@ -374,7 +374,7 @@ export class MobileScromAdapterService {
             status: 1,
             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
             progressdetails: null,
-            completionPercentage: 0
+            completionPercentage: 0,
           },
         ],
       },

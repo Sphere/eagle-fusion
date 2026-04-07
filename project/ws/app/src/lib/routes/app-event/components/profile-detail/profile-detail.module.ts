@@ -28,7 +28,7 @@ import { CardDetailsModule } from '../card-details/card-details.module'
         FormsModule,
         ReactiveFormsModule,
     ],
-    exports: [ProfileDetailComponent]
+    exports: [ProfileDetailComponent],
 })
 
 export class ProfileDetailModule { }

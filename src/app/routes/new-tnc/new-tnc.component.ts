@@ -40,10 +40,10 @@ export class NewTncComponent implements OnInit, OnDestroy {
   showAcceptbtn = true
   lang: any
   termsAccepted: any
-  shouldScrollToBottom: boolean = false; // Set this to enable/disable scrolling
-  tncAcceptedBtn: boolean = false
-  showTnc: boolean = false
-  showTerms: string = ''
+  shouldScrollToBottom = false // Set this to enable/disable scrolling
+  tncAcceptedBtn = false
+  showTnc = false
+  showTerms = ''
   errorWidget: NsWidgetResolver.IRenderConfigWithTypedData<NsError.IWidgetErrorResolver> = {
     widgetType: ROOT_WIDGET_CONFIG.errorResolver._type,
     widgetSubType: ROOT_WIDGET_CONFIG.errorResolver.errorResolver,
@@ -52,7 +52,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
     },
   }
   userData: any
-  isXSmall$: boolean = false
+  isXSmall$ = false
   langDialog: any
   userProfileData!: any
 
@@ -352,7 +352,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
         this.createUserForm.controls.browserName.setValue(userAgent.browserName || '')
         this.createUserForm.controls.userCookie.setValue(userCookie || '')
       }
-      let data = localStorage.getItem('preferedLanguage')
+      const data = localStorage.getItem('preferedLanguage')
       if (data) {
         this.lang = JSON.parse(data)
         this.lang = this.lang.id !== 'en' ? this.lang.id : 'en'
@@ -371,7 +371,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
                 preferences: {
                   language: this.lang,
                 },
-                ...(userSource ? { userSource } : {})
+                ...(userSource ? { userSource } : {}),
                 // personalDetails: profileRequest.profileReq.personalDetails
               }
               this.loggerSvc.log("this.userProfileData", this.userProfileData)
@@ -393,7 +393,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
                   // profileDetails: Object.assign(profileRequest, Obj),
                   profileDetails: { ...profileRequest, profileLocation: 'sphere-web/new-tnc' },
                   tncAcceptedVersion: this.termsAccepted,
-                  tncAcceptedOn: new Date().getTime()
+                  tncAcceptedOn: new Date().getTime(),
                 },
               }
               this.loggerSvc.log(reqUpdate, 'sss')
@@ -461,7 +461,7 @@ export class NewTncComponent implements OnInit, OnDestroy {
 
   private navigateToHome(rootOrgId: string, orgSelectiveConfig: any, scenario: string) {
     let homePath = '/page/home'
-    let queryParams: any = {}
+    const queryParams: any = {}
 
     // Check if user belongs to selective org config
     if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {

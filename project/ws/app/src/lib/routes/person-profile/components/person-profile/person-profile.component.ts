@@ -58,7 +58,7 @@ export class PersonProfileComponent implements OnInit {
   currentUserId = ''
   profilePic = ''
 
-  enabledFeatures: String[] = []
+  enabledFeatures: string[] = []
 
   // followingCount: any = ''
 

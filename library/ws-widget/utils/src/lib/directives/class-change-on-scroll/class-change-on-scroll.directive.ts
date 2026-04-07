@@ -51,7 +51,7 @@ export class ClassChangeOnScrollDirective implements OnInit, OnDestroy, AfterVie
     }
   }
 
-  private setScrollState(prev: number = 0, curr: number = 0) {
+  private setScrollState(prev = 0, curr = 0) {
     if (prev > curr) {
       this.currState = ScrollingStateEnum.ScrollingUp
     } else if (prev < curr) {

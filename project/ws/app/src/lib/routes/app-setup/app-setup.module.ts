@@ -76,9 +76,9 @@ import { TranslateModule } from '@ngx-translate/core'
     InterestModules,
     LanguageSelectorModule,
     // InterestModule,
-    TranslateModule
+    TranslateModule,
   ],
   providers: [TncAppResolverService, Globals],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppSetupModule { }

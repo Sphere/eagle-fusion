@@ -36,6 +36,6 @@ import { RomanConvertPipe } from '@ws/author/src/lib/routing/modules/editor/rout
         AuthViewerModule,
     ],
     exports: [QuizComponent],
-    providers: [QuizStoreService]
+    providers: [QuizStoreService],
 })
 export class QuizModule { }

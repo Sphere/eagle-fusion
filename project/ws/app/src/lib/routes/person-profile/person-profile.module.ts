@@ -86,6 +86,6 @@ import { FollowingListComponent } from './components/following-list/following-li
     ],
     exports: [UserdetailallComponent, ProfileSettingsComponent],
     providers: [MyContentService, AuthInitService, ApiService, AccessControlService],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class PersonProfileModule { }

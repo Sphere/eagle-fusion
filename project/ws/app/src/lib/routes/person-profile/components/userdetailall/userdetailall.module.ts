@@ -7,6 +7,6 @@ import { UserdetailallComponent } from './userdetailall.component'
     imports: [
         CommonModule,
     ],
-    exports: [UserdetailallComponent]
+    exports: [UserdetailallComponent],
 })
 export class UserdetailallModule { }

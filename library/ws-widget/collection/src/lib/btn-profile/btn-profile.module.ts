@@ -30,6 +30,6 @@ import { AvatarPhotoModule } from '../_common/avatar-photo/avatar-photo.module'
         WidgetResolverModule,
         AvatarPhotoModule,
     ],
-    providers: [UserProfileService]
+    providers: [UserProfileService],
 })
 export class BtnProfileModule { }

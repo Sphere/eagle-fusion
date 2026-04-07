@@ -7,8 +7,8 @@ import { MatIconModule } from '@angular/material/icon'
     declarations: [PlayerVideoComponent],
     imports: [
         CommonModule,
-        MatIconModule
+        MatIconModule,
     ],
-    exports: [PlayerVideoComponent]
+    exports: [PlayerVideoComponent],
 })
 export class PlayerVideoModule { }

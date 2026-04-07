@@ -24,7 +24,7 @@ interface IWindowMobileAppModified extends Window {
   isAuthenticated?: any
   dispatchEventFlag?: any
 }
-declare var window: IWindowMobileAppModified
+declare let window: IWindowMobileAppModified
 
 @Injectable({
   providedIn: 'root',

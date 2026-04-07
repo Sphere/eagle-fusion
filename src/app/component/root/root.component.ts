@@ -8,7 +8,7 @@ import {
   OnDestroy,
   Injector,
   effect,
-  HostListener
+  HostListener,
 } from '@angular/core'
 import {
   NavigationCancel,
@@ -75,7 +75,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   topCertifiedCourse: any = []
   userEnrollCourse: any
   isProfile: any = false
-  isXSmall$: boolean = false
+  isXSmall$ = false
   routeChangeInProgress = false
   showNavbar = false
   currentUrl!: string
@@ -95,13 +95,13 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   showMobileDashboard = true
   isCommonChatEnabled = true
   online$: Observable<boolean> = of(true)
-  appOnline: boolean = true
+  appOnline = true
   paramsJSON!: string
   videoData: any = []
   configData: any
   orgDetails: any
   private routerEventsSubscription: Subscription
-  isEkshamata: boolean = false
+  isEkshamata = false
   domain: string
   bodyConfig: any
   footerConfig: any
@@ -239,7 +239,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   }
   mergeProgressDetails(obj1: any, obj2: any) {
     // Create a new object to store the merged results
-    let mergedObj = { ...obj1 }
+    const mergedObj = { ...obj1 }
 
     // Loop through the keys in obj2
     for (const key in obj2) {
@@ -263,7 +263,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (event instanceof NavigationEnd) {
       this.logger.log('Navigation ended to URL:', event.url)
-      let contentURL = localStorage.getItem('contentId')
+      const contentURL = localStorage.getItem('contentId')
       this.logger.log(contentURL)
       if (contentURL) {
         const url: any = contentURL
@@ -274,8 +274,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           doId = match[0] // Extract the first match
         }
         const urlParams = new URLSearchParams(url.split('?')[1])
-        let collectionId: any = urlParams.get('collectionId')
-        let batchId = urlParams.get('batchId')
+        const collectionId: any = urlParams.get('collectionId')
+        const batchId = urlParams.get('batchId')
         let storedData: any
         let userId
         if (this.configSvc.userProfile) {
@@ -306,8 +306,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
               ) {
                 storedData = localStorage.getItem(doId)
                 if (storedData) {
-                  let dat = JSON.parse(storedData)
-                  let mergedProgressDetails: any = this.mergeProgressDetails(
+                  const dat = JSON.parse(storedData)
+                  const mergedProgressDetails: any = this.mergeProgressDetails(
                     contentData.progressdetails,
                     dat,
                   )
@@ -380,10 +380,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.downtimeService.initializeDowntimeConfig()
       .pipe(takeUntil(this.destroy$))
       .subscribe(
-        (state) => {
+        state => {
           this.logger.log('[RootComponent] Downtime config initialized:', state)
         },
-        (error) => {
+        error => {
           this.logger.warn('[RootComponent] Error initializing downtime config, continuing normally:', error)
         }
       )
@@ -414,7 +414,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     // Use a timeout to prevent hanging on slow/failed requests
     Promise.race([
       this.setUpFormData(),
-      new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000))
+      new Promise((_, reject) => setTimeout(() => reject(new Error('Timeout')), 5000)),
     ]).catch(err => {
       this.logger.warn('Form data load timeout/failed, using defaults:', err)
       this.orgDetails = {}
@@ -511,7 +511,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
       this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
-      let enabled: boolean = this.orgDetails?.assessmentConfig?.isRecoridngEnable ?? false
+      const enabled: boolean = this.orgDetails?.assessmentConfig?.isRecoridngEnable ?? false
       if (!enabled) this.scrnScrtySvc.init()
       if (this.playlistSvc.getSelectedTab() === 'homeTab') {
         this.showNavbar = true

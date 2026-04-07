@@ -29,8 +29,8 @@ export class PlaylistService {
     return sections[tab] || sections.homeTab || ''
   })
 
-  private earnedBadgesSubject = new BehaviorSubject<number>(0);
-  earnedBadges$ = this.earnedBadgesSubject.asObservable();
+  private earnedBadgesSubject = new BehaviorSubject<number>(0)
+  earnedBadges$ = this.earnedBadgesSubject.asObservable()
   constructor(
     private http: HttpClient,
     private configSvc: ConfigurationsService,
@@ -52,7 +52,7 @@ export class PlaylistService {
     if (cachedData && !force) {
       return cachedData
     }
-    let orgId = this.configSvc?.userProfile?.rootOrgId
+    const orgId = this.configSvc?.userProfile?.rootOrgId
     const body = {
       request: {
         type: 'web_layout',
@@ -84,8 +84,8 @@ export class PlaylistService {
 
     const body = {
       request: {
-        filters: { orgId: org }
-      }
+        filters: { orgId: org },
+      },
     }
 
     const url = API_END_POINTS.PLAYLIST_SEARCH
@@ -99,7 +99,7 @@ export class PlaylistService {
     this.playlistData.set(null)
   }
 
-  setEarnedBadges(count: number, isIncrement: boolean = false) {
+  setEarnedBadges(count: number, isIncrement = false) {
     const currentCount = this.earnedBadgesSubject.getValue()
     if (isIncrement) {
       count = currentCount + count

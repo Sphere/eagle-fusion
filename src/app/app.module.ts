@@ -11,7 +11,6 @@ import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-transla
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import {
   APP_INITIALIZER,
-  Injectable,
   NgModule,
   ErrorHandler,
   CUSTOM_ELEMENTS_SCHEMA,

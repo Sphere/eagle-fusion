@@ -28,7 +28,7 @@
 
     <div class="div mobile-div">
       <ng-container *ngFor="let ls of uiConfig">
-        <div *ngIf="ls.id == 'leaderBoard' && totalUsers > 0" class="leaderboard-card" (click)="openLeaderboard()">
+        <div *ngIf="ls.id === 'leaderBoard' && totalUsers > 0" class="leaderboard-card" (click)="openLeaderboard()">
           <div class="leaderboard-header">
             <div class="icon">
               <img [src]="ls.img" alt="star" />
@@ -47,7 +47,7 @@
             </div>
           </div>
         </div>
-        <div class="flex justify-center" *ngIf="ls.id == 'help&Support'">
+        <div class="flex justify-center" *ngIf="ls.id === 'help&Support'">
           <a *ngIf="isEkshamata" class="help-btn cursor-pointer mt-4 mb-4 flex items-center gap-2"
             [href]="'tel:' + configSvc.hostedInfo?.phone?.replace('tel:', '')">{{ ls?.text | translate }}
             <img [width]="20" height="18" [src]="ls.img" alt="" />
@@ -119,7 +119,7 @@
     </div>
     <div class="div">
       <ng-container *ngFor="let ls of uiConfig">
-        <div *ngIf="ls.id =='leaderBoard' && totalUsers > 0" class="leaderboard-card" (click)="openLeaderboard()">
+        <div *ngIf="ls.id ==='leaderBoard' && totalUsers > 0" class="leaderboard-card" (click)="openLeaderboard()">
           <div class="leaderboard-header">
             <div class="icon"><img [src]="ls.img" alt="star" /></div>
             <div class="title">{{ls.text | translate}}</div>
@@ -138,12 +138,12 @@
           </div>
         </div>
         <div *ngIf="ls.id !== 'leaderBoard'">
-          <a *ngIf=" ls.type=='text'" [class.active]=" selectedIndex===ls.name"
+          <a *ngIf=" ls.type==='text'" [class.active]=" selectedIndex===ls.name"
             (click)="selectedIndex = ls.name; changeFunction(ls)">
             <img alt=ls.text [src]="ls.img" width="35" height="18" />
             <span>{{ ls.text | translate }}</span>
           </a>
-          <button *ngIf="!isEkshamata && ls.type == 'button'" class="web-help-btn mt-2 mb-2 cursor-pointer"
+          <button *ngIf="!isEkshamata && ls.type === 'button'" class="web-help-btn mt-2 mb-2 cursor-pointer"
             (click)="showSocialChats($event)">{{ ls.text | translate }}
             <img width="35" height="18" [src]="ls.img" alt="" />
           </button>

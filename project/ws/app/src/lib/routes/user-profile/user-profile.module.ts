@@ -71,9 +71,9 @@ import { TextFieldModule } from '@angular/cdk/text-field'
     MatButtonToggleModule,
     MatTabsModule,
     MatAutocompleteModule,
-    TextFieldModule
+    TextFieldModule,
   ],
   providers: [UserProfileService, LoaderService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class UserProfileModule { }

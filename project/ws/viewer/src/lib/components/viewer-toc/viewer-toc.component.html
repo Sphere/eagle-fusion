@@ -178,7 +178,7 @@
             <div [ngSwitch]="content.type | lowercase">
               <div *ngSwitchCase="'pdf'">
                 <img src=".\fusion-assets\icons\pdf-icon.png">
-                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
+                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn==='Yes'"
                   (click)="downloadResource(content)" mat-icon-button [matTooltip]="'Download Resource' | translate ">
                   <mat-icon [matTooltip]="'Download Resource' | translate">get_app</mat-icon>
                 </button>
@@ -186,14 +186,14 @@
               <div *ngSwitchCase="'lecture'">
                 <img src=".\fusion-assets\icons\pdf-icon.png">
                 <button title="Download Resource" [matTooltip]="'Download Resource' | translate"
-                  aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
+                  aria-label="Download Resource" *ngIf="content.showDownloadBtn==='Yes'"
                   (click)="downloadResource(content)" mat-icon-button>
                   <mat-icon matTooltip="Download Resource">get_app</mat-icon>
                 </button>
               </div>
               <div *ngSwitchCase="'video'">
                 <img src=".\fusion-assets\icons\video-icon.png">
-                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn=='Yes'"
+                <button title="Download Resource" aria-label="Download Resource" *ngIf="content.showDownloadBtn==='Yes'"
                   (click)="downloadResource(content)" mat-icon-button [matTooltip]="'Download Resource' | translate">
                   <mat-icon matTooltip="Download Resource">get_app</mat-icon>
                 </button>

@@ -60,7 +60,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   currentFragment = 'overview'
   batchId!: string
   sticky = false
-  databaseAndTablesExist: boolean = false;
+  databaseAndTablesExist = false
   rowData: any
   license = 'CC BY'
   errorWidgetData: NsWidgetResolver.IRenderConfigWithTypedData<any> = {
@@ -92,10 +92,10 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   matspinner = true
   resumeDataLink: any
   rowDetails: any | undefined
-  optmisticPercentage: number = 0
+  optmisticPercentage = 0
   finishedPercentage: any | undefined
-  selectedIndex = 0;
-  visibleTabs: string[] = ['overview'];
+  selectedIndex = 0
+  visibleTabs: string[] = ['overview']
   @HostListener('window:scroll', [])
   handleScroll() {
     const windowScroll = window.pageYOffset
@@ -260,7 +260,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   async refreshTable() {
     try {
       const tableName = 'onlineCourseProgress' // Specify the table name
-      let tableData = await this.onlineIndexedDbService.getData(tableName)
+      const tableData = await this.onlineIndexedDbService.getData(tableName)
       this.loggerSvc.log(tableData)
     } catch (error) {
       this.loggerSvc.error('Error fetching data from IndexedDB:', error)
@@ -486,7 +486,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
-    let courseId = urlParams[3]
+    const courseId = urlParams[3]
     // this.route.data.subscribe(data => {
     //   userId = data.profileData.data.userId
     // })
@@ -504,34 +504,34 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
 
         if (data && data.result && data.result.contentList && data.result.contentList.length) {
           this.loggerSvc.log('datatta', data)
-          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
+          this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async record => {
             this.loggerSvc.log('Record:', record)
             this.rowData = await record
-            let dat = JSON.parse(this.rowData.data)
+            const dat = JSON.parse(this.rowData.data)
             if (dat && dat.length) {
               this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
               this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
               this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
             }
-          }, (error) => {
+          }, error => {
             this.loggerSvc.error('Error:', error, data.result.contentList)
             this.onlineIndexedDbService.insertData(userId, courseId, 'onlineCourseProgress', data.result.contentList).subscribe(
               (dat: any) => {
                 this.loggerSvc.log('Data inserted successfully1', dat)
-                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async (record) => {
+                this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userId, courseId).subscribe(async record => {
                   this.loggerSvc.log('Record:', record)
                   this.rowData = await record
-                  let dat = JSON.parse(this.rowData.data)
+                  const dat = JSON.parse(this.rowData.data)
                   if (dat && dat.length) {
                     this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
                     this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
                     this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
                   }
-                }, (error) => {
+                }, error => {
                   this.loggerSvc.error('Error:', error)
                 })
               },
-              (error) => {
+              error => {
                 this.loggerSvc.error('Error inserting data:', error)
               }
             )
@@ -588,8 +588,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
   updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
-    let courseId = urlParams[3]
-    let userID = this.configSvc.userProfile!.userId
+    const courseId = urlParams[3]
+    const userID = this.configSvc.userProfile!.userId
     //let cId = this.activatedRoute.snapshot.queryParams.contentId
 
     arr2.forEach((obj2: any) => {
@@ -610,22 +610,22 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
       () => {
         this.loggerSvc.log('Data inserted successfully2')
       },
-      (error) => {
+      error => {
         this.loggerSvc.error('Error inserting data:', error)
       }
     )
     const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
     this.loggerSvc.log('Aggregate value:', aggregateValue)
     this.loggerSvc.log(this.content, 'content')
-    let uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
+    const uniqueIdsOfType = this.uniqueIdsByContentType(this.content!.children, 'Resource')
     this.loggerSvc.log(uniqueIdsOfType.length, this.content!.childNodes.length) // Output: [1, 3]
-    let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
+    const percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
     this.loggerSvc.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
-    let progress = Math.min(Math.max(percentage, 0), 100)
+    const progress = Math.min(Math.max(percentage, 0), 100)
     return progress
   }
   calculateAggregate(arr: any, field: string): number {
-    let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
+    const val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
     this.loggerSvc.log(val)
     return val
   }
@@ -645,7 +645,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     }
     // Return uniqueIds as an array (if needed)
     return [...uniqueIds]
-  };
+  }
 
   enrollUser(batchData: any) {
     let userId = ''

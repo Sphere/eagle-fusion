@@ -4,7 +4,7 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-mnc-callback',
   templateUrl: './mnc-callback.component.html',
-  styleUrls: ['./mnc-callback.component.scss']
+  styleUrls: ['./mnc-callback.component.scss'],
 })
 export class MNCCallbackComponent implements OnInit {
   isLoading = false
@@ -23,14 +23,14 @@ export class MNCCallbackComponent implements OnInit {
   //checkMNCCallback(token: any, id?: any) {
   checkMNCCallback(token: any) {
     this.logger.log('su')
-    let data = {
+    const data = {
       "token": token,
       //"moduleId": id
     }
     try {
       //setTimeout(() => {
       this.orgService.setMNCId(data).subscribe(async (res: any) => {
-        let loc = await res
+        const loc = await res
         this.logger.log(loc, 'oo')
         localStorage.setItem('loc', JSON.stringify(loc))
         if (loc.message === 'success') {

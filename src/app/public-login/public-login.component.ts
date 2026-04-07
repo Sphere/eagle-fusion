@@ -15,7 +15,7 @@ import { TranslateService } from '@ngx-translate/core'
 @Component({
   selector: 'ws-public-login',
   templateUrl: './public-login.component.html',
-  styleUrls: ['./public-login.component.scss']
+  styleUrls: ['./public-login.component.scss'],
 })
 export class PublicLoginComponent implements OnInit {
   loginForm: FormGroup
@@ -27,17 +27,17 @@ export class PublicLoginComponent implements OnInit {
   langDialog: any
   isXSmall$: Observable<boolean>
   hide2 = true
-  resendTimer: number = 600; // Initialize with 600 seconds (10 minutes)
-  resendTimerText: string = '10:00'; // Initialize the display text
+  resendTimer = 600 // Initialize with 600 seconds (10 minutes)
+  resendTimerText = '10:00' // Initialize the display text
   interval: any
   otpInputs: string[] = ['', '', '', '']
   iconChange2 = 'fas fa-eye-slash'
   emailPhoneType: any = 'phone'
   isEkshamtaLogin = false
   routerLink = 'public/home'
-  isOrgSelectiveCourse: boolean = false
-  isLoginLoading: boolean = false
-  telemetrySessionId: string = ''
+  isOrgSelectiveCourse = false
+  isLoginLoading = false
+  telemetrySessionId = ''
   constructor(
     private spherFormBuilder: FormBuilder,
     public signupService: SignupService,
@@ -63,7 +63,7 @@ export class PublicLoginComponent implements OnInit {
       Validators.pattern(/^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\ *])(?=.{8,})/g)]),
     })
     this.OTPForm = this.spherFormBuilder.group({
-      OTPcode: new FormControl('', [Validators.required])
+      OTPcode: new FormControl('', [Validators.required]),
     })
     this.route.queryParams.subscribe(params => {
       if (params['ekshamtaLogin']) {
@@ -87,12 +87,12 @@ export class PublicLoginComponent implements OnInit {
 
     this.meta.updateTag({
       name: 'description',
-      content: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.'
+      content: 'Access high-quality, self-paced certified courses with CNE points on the Aastrika Sphere digital platform. Designed for continuous learning and professional development in healthcare.',
     })
 
     this.meta.updateTag({
       name: 'keywords',
-      content: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps'
+      content: 'Aastrika Sphere, healthcare courses, certified courses, CNE points, online training, midwifery, skilling, e-learning, professional development, competency gaps',
     })
     sessionStorage.clear()
     localStorage.removeItem('preferedLanguage')
@@ -132,12 +132,12 @@ export class PublicLoginComponent implements OnInit {
         otp2: new FormControl('', [Validators.required]),
         otp3: new FormControl('', [Validators.required]),
         otp4: new FormControl('', [Validators.required]),
-        OTPcode: new FormControl('', [Validators.required])
+        OTPcode: new FormControl('', [Validators.required]),
       })
     } else {
       this.logger.log("email type")
       this.OTPForm = this.spherFormBuilder.group({
-        OTPcode: ['', Validators.required]
+        OTPcode: ['', Validators.required],
       })
     }
 
@@ -191,7 +191,7 @@ export class PublicLoginComponent implements OnInit {
       height: '30%',
       data: {
         selected: 'userNotExist',
-        userNotExistEkshamta: this.isEkshamtaLogin
+        userNotExistEkshamta: this.isEkshamtaLogin,
       },
     })
 
@@ -255,7 +255,7 @@ export class PublicLoginComponent implements OnInit {
       if (phone.length >= 10) {
         type = 'phone'
       } else {
-        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+        const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
@@ -266,14 +266,14 @@ export class PublicLoginComponent implements OnInit {
         req = {
           "userEmail": this.loginPwdForm.controls.emailOrMobile.value,
           "typeOfLogin": "password",
-          "userPassword": this.loginPwdForm.controls.password.value
+          "userPassword": this.loginPwdForm.controls.password.value,
         }
       }
       if (type === 'phone') {
         req = {
           "userPhone": this.loginPwdForm.controls.emailOrMobile.value,
           "typeOfLogin": "password",
-          "userPassword": this.loginPwdForm.controls.password.value
+          "userPassword": this.loginPwdForm.controls.password.value,
         }
       }
 
@@ -295,7 +295,7 @@ export class PublicLoginComponent implements OnInit {
 
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
-            let res = await result
+            const res = await result
             this.logger.log(res, 'res')
             localStorage.setItem('lang131', JSON.stringify(res))
 
@@ -303,7 +303,7 @@ export class PublicLoginComponent implements OnInit {
             this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'password', res?.msg || res?.message)
 
             if (localStorage.getItem('url_before_login')) {
-              let url = localStorage.getItem('url_before_login') || ''
+              const url = localStorage.getItem('url_before_login') || ''
               location.href = url
             } else {
               const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
@@ -348,7 +348,7 @@ export class PublicLoginComponent implements OnInit {
       if (phone.length >= 10) {
         type = 'phone'
       } else {
-        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+        const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
@@ -358,13 +358,13 @@ export class PublicLoginComponent implements OnInit {
       if (type === 'email') {
         req = {
           "userEmail": this.loginForm.controls.emailOrMobile.value,
-          "userId": this.userID
+          "userId": this.userID,
         }
       }
       if (type === 'phone') {
         req = {
           "userPhone": this.loginForm.controls.emailOrMobile.value,
-          "userId": this.userID
+          "userId": this.userID,
         }
       }
       this.startTimer()
@@ -373,7 +373,7 @@ export class PublicLoginComponent implements OnInit {
         otp2: '',
         otp3: '',
         otp4: '',
-        code: ''
+        code: '',
       })
       this.logger.log(req, type)
       this.signupService.resendOTP(req).subscribe(res => {
@@ -402,7 +402,7 @@ export class PublicLoginComponent implements OnInit {
       if (phone.length >= 10) {
         type = 'phone'
       } else {
-        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+        const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
@@ -413,14 +413,14 @@ export class PublicLoginComponent implements OnInit {
         req = {
           "userEmail": this.loginForm.controls.emailOrMobile.value,
           "typeOfLogin": "otp",
-          "otp": this.OTPForm.controls.OTPcode.value.trim()
+          "otp": this.OTPForm.controls.OTPcode.value.trim(),
         }
       }
       if (type === 'phone') {
         req = {
           "userPhone": this.loginForm.controls.emailOrMobile.value,
           "typeOfLogin": "otp",
-          "otp": this.OTPForm.controls.OTPcode.value.trim()
+          "otp": this.OTPForm.controls.OTPcode.value.trim(),
         }
       }
 
@@ -441,17 +441,17 @@ export class PublicLoginComponent implements OnInit {
         this.openSnackbar(this.translate.instant(res.msg ?? res.message))
         setTimeout(() => {
           this.signupService.fetchStartUpDetails().then(async (result: any) => {
-            let res = await result
+            const res = await result
             this.logger.log(res, 'res')
             // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
             localStorage.setItem('res123', JSON.stringify(res))
             if (res && res.status) {
               if (res.language) {
-                let lang = res.language
-                let obj = {
+                const lang = res.language
+                const obj = {
                   lang: lang,
                   res: res.language,
-                  line: 56
+                  line: 56,
                 }
                 localStorage.setItem('lang123', JSON.stringify(obj))
               }
@@ -461,7 +461,7 @@ export class PublicLoginComponent implements OnInit {
 
               localStorage.setItem('res', JSON.stringify(res))
               if (localStorage.getItem('url_before_login')) {
-                let url = localStorage.getItem('url_before_login') || ''
+                const url = localStorage.getItem('url_before_login') || ''
                 location.href = url
               } else {
                 const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
@@ -503,7 +503,7 @@ export class PublicLoginComponent implements OnInit {
         this.emailPhoneType = 'phone'
       } else {
         // this.otpPage = true
-        let check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
+        const check = /^[a-zA-Z0-9 .!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9- ]+)*$/.test(
           this.loginForm.controls.emailOrMobile.value
         )
         type = 'email'
@@ -514,13 +514,13 @@ export class PublicLoginComponent implements OnInit {
       if (type === 'email') {
         req = {
           "userEmail": this.loginForm.controls.emailOrMobile.value,
-          "userPhone": ""
+          "userPhone": "",
         }
       }
       if (type === 'phone') {
         req = {
           "userEmail": '',
-          "userPhone": this.loginForm.controls.emailOrMobile.value
+          "userPhone": this.loginForm.controls.emailOrMobile.value,
         }
       }
       if (window.location.href.includes('email-otp')) {
@@ -576,7 +576,7 @@ export class PublicLoginComponent implements OnInit {
   }
 
 
-  openSnackbar(primaryMsg: string, duration: number = 3000) {
+  openSnackbar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })
@@ -637,14 +637,14 @@ export class PublicLoginComponent implements OnInit {
           phone: maskedPhone,
           email: maskedEmail,
           typeOfLogin: type === 'email' ? 'email' : 'phone',
-          method: method
-        }
-      }
+          method: method,
+        },
+      },
     }
 
     const actor = {
       id: this.telemetrySessionId,
-      type: 'Guest user'
+      type: 'Guest user',
     }
 
     this.telemetrySvc.interactForLogin('CLICKED', 'Login-submitted', 'login', actor, telemetryExtras)
@@ -665,14 +665,14 @@ export class PublicLoginComponent implements OnInit {
           typeOfLogin: type === 'email' ? 'email' : 'phone',
           method: method,
           loginStatus: 'success',
-          message: message
-        }
-      }
+          message: message,
+        },
+      },
     }
 
     const loginSuccessActor = {
       id: this.configSvc.userProfile?.userId || '',
-      type: 'User'
+      type: 'User',
     }
     this.telemetrySvc.interact('CLICKED', 'Login-success', 'login', undefined, loginSuccessActor, loginSuccessExtras)
   }
@@ -692,14 +692,14 @@ export class PublicLoginComponent implements OnInit {
           typeOfLogin: type === 'email' ? 'email' : 'phone',
           method: method,
           loginStatus: 'failed',
-          message: message
-        }
-      }
+          message: message,
+        },
+      },
     }
 
     const loginFailureActor = {
       id: this.telemetrySessionId,
-      type: 'Guest user'
+      type: 'Guest user',
     }
 
     this.telemetrySvc.interactForLogin('CLICKED', 'Login-failed', 'login', loginFailureActor, loginFailureExtras)

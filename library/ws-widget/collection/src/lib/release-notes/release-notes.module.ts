@@ -29,6 +29,6 @@ import { ReleaseNotesComponent } from './release-notes.component'
         MatProgressSpinnerModule,
         MatExpansionModule,
         BtnPageBackModule,
-    ]
+    ],
 })
 export class ReleaseNotesModule { }

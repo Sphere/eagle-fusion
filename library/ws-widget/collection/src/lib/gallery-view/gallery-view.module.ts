@@ -9,6 +9,6 @@ import { MatCardModule } from '@angular/material/card'
 @NgModule({
     declarations: [GalleryViewComponent],
     imports: [CommonModule, WidgetResolverModule, HorizontalScrollerModule, MatIconModule, MatCardModule],
-    exports: [GalleryViewComponent]
+    exports: [GalleryViewComponent],
 })
 export class GalleryViewModule { }

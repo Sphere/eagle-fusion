@@ -4,11 +4,11 @@ import { Observable, Observer } from 'rxjs'
 import { LoggerService } from '@ws-widget/utils'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class IndexedDBService {
-  private readonly dbName = 'optimistic-ui-online-store';
-  private readonly dbVersion = 1;
+  private readonly dbName = 'optimistic-ui-online-store'
+  private readonly dbVersion = 1
   private db: IDBDatabase | undefined
 
   constructor(private logger: LoggerService) { }
@@ -27,7 +27,7 @@ export class IndexedDBService {
       }
       const request = indexedDB.open(this.dbName, this.dbVersion)
 
-      request.onupgradeneeded = (event) => {
+      request.onupgradeneeded = event => {
         const db = (event.target as IDBOpenDBRequest).result as IDBDatabase
 
         // Check if the required object stores exist, if not create them
@@ -44,7 +44,7 @@ export class IndexedDBService {
         }
       }
 
-      request.onsuccess = (event) => {
+      request.onsuccess = event => {
         const db = (event.target as IDBOpenDBRequest).result as IDBDatabase
         // Check if the required tables exist
         const transaction = db.transaction(['onlineCourseProgress', 'userEnrollCourse'], 'readonly')
@@ -95,7 +95,7 @@ export class IndexedDBService {
           this.logger.error(`Failed to retrieve record with key ${key} from ${tableName}:`, event.target.error)
           observer.error(`Failed to retrieve record with key ${key} from ${tableName}`)
         }
-      }, (error) => {
+      }, error => {
         alert(error)
         this.logger.error('Error opening database:', error)
         observer.error('Error opening database')
@@ -204,7 +204,7 @@ export class IndexedDBService {
     const request = objectStore.openCursor()
 
     return new Promise<boolean>((resolve, reject) => {
-      request.onsuccess = (event) => {
+      request.onsuccess = event => {
         const cursor = request.result
         this.logger.log(event, 'a', cursor)
         if (cursor) {
@@ -214,7 +214,7 @@ export class IndexedDBService {
         }
       }
 
-      request.onerror = (event) => {
+      request.onerror = event => {
         this.logger.log(event)
         reject('Error checking data in IndexedDB')
       }
@@ -224,7 +224,7 @@ export class IndexedDBService {
   deleteRecordByKey(storeName: string, key: any): Observable<string> {
     return new Observable((observer: Observer<string>) => {
       this.openOrCreateDatabase().subscribe({
-        next: (db) => {
+        next: db => {
           const transaction = db.transaction(storeName, 'readwrite')
           const objectStore = transaction.objectStore(storeName)
           const request = objectStore.delete(key)
@@ -238,15 +238,15 @@ export class IndexedDBService {
             observer.error(event)
           }
         },
-        error: (err) => observer.error(err)
+        error: err => observer.error(err),
       })
     })
   }
 
   deleteRecordByKeyValue(storeName: string, key: string): Observable<string> {
-    return new Observable<string>((observer) => {
+    return new Observable<string>(observer => {
       this.openOrCreateDatabase().subscribe(
-        (db) => {
+        db => {
           const transaction = db.transaction(storeName, 'readwrite')
           const objectStore = transaction.objectStore(storeName)
           this.logger.log(key)
@@ -260,7 +260,7 @@ export class IndexedDBService {
               this.logger.log(`No record found with key: ${key}`)
               observer.error('Record not found')
             } else {
-              observer.next()
+              observer.next(undefined)
               observer.complete()
             }
           }
@@ -277,9 +277,9 @@ export class IndexedDBService {
   }
 
   insertProgressData(userID: string, courseId: string, contentId: string, tableName: string, url: string, dataArray?: any): Observable<string> {
-    return new Observable((observer) => {
+    return new Observable(observer => {
       this.openOrCreateDatabase().subscribe(
-        (db) => {
+        db => {
           try {
             const transaction = db.transaction(tableName, 'readwrite')
             const objectStore = transaction.objectStore(tableName)
@@ -315,9 +315,9 @@ export class IndexedDBService {
     })
   }
   insertData(userID: string, courseId: string, tableName: string, dataArray?: any): Observable<string> {
-    return new Observable((observer) => {
+    return new Observable(observer => {
       this.openOrCreateDatabase().subscribe(
-        (db) => {
+        db => {
           try {
             const transaction = db.transaction(tableName, 'readwrite')
             const objectStore = transaction.objectStore(tableName)
@@ -382,7 +382,7 @@ export class IndexedDBService {
       const objectStore = transaction.objectStore(objectStoreName)
       const request = objectStore.get(key)
 
-      request.onsuccess = (event) => {
+      request.onsuccess = event => {
         this.logger.log(event)
         const data = request.result
         if (data) {
@@ -411,7 +411,7 @@ export class IndexedDBService {
   }
 
   getDataByCourseIdFromIndexedDB(tableName: string, courseId: string): Observable<any> {
-    return new Observable<any>((observer) => {
+    return new Observable<any>(observer => {
       const transaction = this.db!.transaction(tableName, 'readonly')
       const objectStore = transaction.objectStore(tableName)
       const index = objectStore.index('courseIdIndex')
@@ -445,7 +445,7 @@ export class IndexedDBService {
       const request = index.get(courseId)
 
       return new Promise<any | undefined>((resolve, reject) => {
-        request.onsuccess = (event) => {
+        request.onsuccess = event => {
           this.logger.log(event)
           const row = request.result
           resolve(row)
@@ -474,7 +474,7 @@ export class IndexedDBService {
 
       // const request = objectStore.get(key)
       this.logger.log(request)
-      request.onsuccess = (event) => {
+      request.onsuccess = event => {
         this.logger.log(event)
         const row = request.result
         if (row && row[fieldToUpdate]) {

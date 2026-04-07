@@ -55,7 +55,7 @@ export class ViewerDataService {
     this.status = status
     this.primaryCategory = primaryCategory || ''
     this.gatingEnabled = false  // Reset gating flag when changing courses
-    this.changedSubject.next()
+    this.changedSubject.next(undefined)
   }
   updateResource(resource: NsContent.IContent | null = null, error: any | null = null) {
     if (resource) {
@@ -71,7 +71,7 @@ export class ViewerDataService {
       this.error = error
       this.status = 'error'
     }
-    this.changedSubject.next()
+    this.changedSubject.next(undefined)
   }
   // tslint:disable-next-line: max-line-length
   updateNextPrevResource({ isValid = true, prev = null, prevTitle, nextTitle, next = null, currentPercentage, prevPercentage }:

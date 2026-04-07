@@ -28,6 +28,6 @@ import { IapAssessmentRoutingModule } from './iap-assessment.routing.module'
         MatTableModule,
     ],
     exports: [GeneralDetailsComponent],
-    providers: [EditorContentService, EditorService, PlainCKEditorComponent, IapAssessmentService]
+    providers: [EditorContentService, EditorService, PlainCKEditorComponent, IapAssessmentService],
 })
 export class IapAssessmentModule { }

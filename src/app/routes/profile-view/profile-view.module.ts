@@ -39,7 +39,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LeadershipDashboardComponent,
-    DropdownDobComponent
+    DropdownDobComponent,
   ],
   imports: [
     CommonModule,
@@ -55,7 +55,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     MatDatepickerModule,
     MatNativeDateModule,
     MatDividerModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
   ],
   exports: [
     MobileProfileDashboardComponent,
@@ -69,8 +69,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     CertificateReceivedComponent,
     PersonalDetailEditComponent,
     LeadershipDashboardComponent,
-    DropdownDobComponent
+    DropdownDobComponent,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ProfileViewModule { }

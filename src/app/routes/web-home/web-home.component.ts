@@ -13,13 +13,13 @@ import { PlaylistService } from '../../services/playlist.service'
 export class WebHomeComponent implements OnInit {
   showCreateBtn = false
   bannerStatus: any
-  currentSlideIndex = 0;
-  currentIndex = 0;
+  currentSlideIndex = 0
+  currentIndex = 0
   private intervalId: any
   lang: any = 'en'
   dataCarousel: any
   config: any
-  isXsmall: boolean = false
+  isXsmall = false
   constructor(
     private router: Router,
     private valueSvc: ValueService,
@@ -42,9 +42,9 @@ export class WebHomeComponent implements OnInit {
   }
 
   async ngOnInit() {
-    let res = this.playlsSvc.bodyConfig()
+    const res = this.playlsSvc.bodyConfig()
     if (res == '') {
-      let res = await this.playlsSvc.loadPlaylistData()
+      const res = await this.playlsSvc.loadPlaylistData()
       this.config = res?.LAYOUT_BODY[0]
     } else {
       this.config = res[0]

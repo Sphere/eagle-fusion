@@ -26,6 +26,6 @@ import { MatButtonModule } from '@angular/material/button'
         ErrorServiceUnavailableComponent,
         ErrorSomethingWrongComponent,
     ],
-    imports: [CommonModule, MatButtonModule, RouterModule]
+    imports: [CommonModule, MatButtonModule, RouterModule],
 })
 export class ErrorResolverModule { }

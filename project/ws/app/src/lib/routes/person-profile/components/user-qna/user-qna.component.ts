@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs'
 export class UserQnaComponent implements OnInit {
   @Input() wid = ''
   @Output() count = new EventEmitter<number>()
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
 
   qnaTimelineRequest!: NsDiscussionForum.ITimelineRequest
   qnaSubscription: Subscription | null = null

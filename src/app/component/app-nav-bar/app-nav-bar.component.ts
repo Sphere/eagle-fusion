@@ -48,7 +48,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
   hideCreateButton = true
   hideSearch = false
   showNavLinkPage = true
-  langPresent: boolean = false
+  langPresent = false
   domain!: string
   orgData: any
   menuItems: any[] = []
@@ -110,7 +110,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
     }
     this.config = this.playlistSvc.headerConfig()
     if (this.config) {
-      let menuItem = this.config.menuItems
+      const menuItem = this.config.menuItems
       this.menuItems = this.isXSmall
         ? menuItem?.filter(item => this.config.mobileMenuItems.includes(item.id))
         : menuItem?.filter(item => this.config.webMenuItems.includes(item.id))

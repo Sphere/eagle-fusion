@@ -12,15 +12,15 @@ import { LoggerService, ValueService } from '@ws-widget/utils'
 export class PlayerVideoPopupComponent implements OnInit {
 
   isMobile = false
-  currentIndex = 0; // Track the current question index
-  selectedAnswers: any = []; // Store answers for the current question
-  answers: any[] = []; // Track all answers
+  currentIndex = 0 // Track the current question index
+  selectedAnswers: any = [] // Store answers for the current question
+  answers: any[] = [] // Track all answers
   questions: Array<{ text: string; options: any[] }>
-  resultMessage: string | null = null;
-  selectedOption = null; // To store the selected option
-  showAnswerInfo: boolean = false
-  layoutDirection = 'column'; // or 'row'
-  showReset: boolean = false
+  resultMessage: string | null = null
+  selectedOption = null // To store the selected option
+  showAnswerInfo = false
+  layoutDirection = 'column' // or 'row'
+  showReset = false
   constructor(
     private readonly valueSvc: ValueService,
     public snackBar: MatSnackBar,

@@ -11,6 +11,6 @@ import { EmbeddedPageModule } from '../embedded-page/embedded-page.module'
         PlayerVideoModule,
         EmbeddedPageModule,
     ],
-    exports: [VideoWrapperComponent]
+    exports: [VideoWrapperComponent],
 })
 export class VideoWrapperModule { }

@@ -11,9 +11,9 @@ import { LoggerService } from '../../../../library/ws-widget/utils/src/public-ap
 export class CreateAccountDialogComponent implements OnInit {
 
   name = ''
-  firstName: string = '';
-  lastName: string = '';
-  userNotExistEkshamta: boolean = false
+  firstName = ''
+  lastName = ''
+  userNotExistEkshamta = false
   constructor(
     public dialogRef: MatDialogRef<CreateAccountDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public selectedData: any,

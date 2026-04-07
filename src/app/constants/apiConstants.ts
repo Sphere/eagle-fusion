@@ -216,5 +216,5 @@ export const S3_END_POINTS = {
   mpTRAINERDistrictUrl: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/mp_trainer_district.json?cb=${Date.now()}`,
   biharDistrictUrl: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bihar-district.json?cb=${Date.now()}`,
   instituteNameUrl: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/bnrc-institute.json?cb=${Date.now()}`,
-  ORG_META_CONFIG: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`
+  ORG_META_CONFIG: `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`,
 }

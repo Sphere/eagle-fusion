@@ -100,7 +100,7 @@ export class PickerContentComponent extends WidgetBaseComponent
     }
   }
 
-  async initializeSearchSubject(phraseSearch: boolean = true) {
+  async initializeSearchSubject(phraseSearch = true) {
     const phraseSearchConfig = await this.searchServSvc.getApplyPhraseSearch()
     const searchConfig = await this.searchServSvc.getSearchConfig()
     const isStandAlone = searchConfig.search.tabs[0].isStandAlone

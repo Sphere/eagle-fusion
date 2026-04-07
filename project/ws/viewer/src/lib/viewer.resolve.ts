@@ -36,7 +36,7 @@ export class ViewerResolve {
         this.logger.warn('No collectionId provided - cannot validate gating')
         return {
           isAccessible: false,
-          redirectUrl: '/app/home'
+          redirectUrl: '/app/home',
         }
       }
 
@@ -50,14 +50,14 @@ export class ViewerResolve {
       this.logger.log('Input Parameters:', {
         resourceId,
         collectionId,
-        batchId
+        batchId,
       })
       this.logger.log('Course Data:', {
         courseId: courseData?.identifier,
         courseName: courseData?.name,
         gatingEnabled: courseData?.gatingEnabled,
         hasChildren: !!courseData?.children?.length,
-        totalChildren: courseData?.children?.length || 0
+        totalChildren: courseData?.children?.length || 0,
       })
 
       // IMPORTANT: Only enforce gating if it's EXPLICITLY enabled on the course
@@ -113,7 +113,7 @@ export class ViewerResolve {
           this.logger.log('Incomplete resource to resume:', {
             id: incompleteResource.identifier,
             name: incompleteResource.name,
-            completion: incompleteResource.completionPercentage
+            completion: incompleteResource.completionPercentage,
           })
           this.logger.log('═══════════════════════════════════════════════════════════')
 
@@ -129,15 +129,15 @@ export class ViewerResolve {
               collectionId,
               collectionType: 'Course',
               batchId,
-              viewMode: 'RESUME'
-            }
+              viewMode: 'RESUME',
+            },
           }
         } else {
           this.logger.log('RESULT: USER BLOCKED - Prerequisites not met (no specific resource found)')
           this.logger.log('═══════════════════════════════════════════════════════════')
           return {
             isAccessible: false,
-            redirectUrl: `/app/toc/${collectionId}/overview`
+            redirectUrl: `/app/toc/${collectionId}/overview`,
           }
         }
       }
@@ -163,7 +163,7 @@ export class ViewerResolve {
 
       this.logger.log('Collecting content IDs for progress fetch:', {
         totalContentIds: contentIds.length,
-        contentIds: contentIds.slice(0, 5) // Log first 5 for debugging
+        contentIds: contentIds.slice(0, 5), // Log first 5 for debugging
       })
 
       // Only fetch if we have content IDs
@@ -178,8 +178,8 @@ export class ViewerResolve {
           userId: this.configSvc.userProfile?.userId,
           courseId: collectionId,
           contentIds: contentIds,
-          fields: ['progressdetails']
-        }
+          fields: ['progressdetails'],
+        },
       }
 
       const progressResponse = await this.contentSvc.fetchContentHistoryV2(progressReq).toPromise()
@@ -196,8 +196,8 @@ export class ViewerResolve {
         progressMapSize: Object.keys(progressMap).length,
         sampleData: contentList.slice(0, 3).map((c: any) => ({
           id: c.contentId,
-          percentage: c.completionPercentage
-        }))
+          percentage: c.completionPercentage,
+        })),
       })
 
       // Update completion percentages in the hierarchy
@@ -274,7 +274,7 @@ export class ViewerResolve {
             id: node.identifier,
             completed: completedChildren,
             total: node.children.length,
-            percentage: node.completionPercentage
+            percentage: node.completionPercentage,
           })
         }
       }
@@ -341,7 +341,7 @@ export class ViewerResolve {
       this.logger.log('Checking collection completeness:', {
         id: node.identifier,
         name: node.name,
-        childrenCount: node.children?.length || 0
+        childrenCount: node.children?.length || 0,
       })
 
       if (!node.children || node.children.length === 0) {
@@ -392,7 +392,7 @@ export class ViewerResolve {
       resourceId: currentResource?.identifier,
       resourceName: currentResource?.name,
       hierarchyDepth: hierarchy.length,
-      hierarchyPath: hierarchy.map((h: any) => h.name).join(' > ')
+      hierarchyPath: hierarchy.map((h: any) => h.name).join(' > '),
     })
 
     // Check all preceding siblings at each level
@@ -430,7 +430,7 @@ export class ViewerResolve {
               parentName: sibling.name,
               incompleteResourceId: incompleteResource?.identifier,
               incompleteResourceName: incompleteResource?.name,
-              contentType: incompleteResource?.contentType
+              contentType: incompleteResource?.contentType,
             })
             return incompleteResource
           }
@@ -485,7 +485,7 @@ export class ViewerResolve {
       resourceId: currentResource?.identifier,
       resourceName: currentResource?.name,
       hierarchyDepth: hierarchy.length,
-      hierarchyPath: hierarchy.map((h: any) => h.name).join(' > ')
+      hierarchyPath: hierarchy.map((h: any) => h.name).join(' > '),
     })
 
     // Validate all preceding siblings at each level
@@ -512,7 +512,7 @@ export class ViewerResolve {
         currentNodeName: currentNode.name,
         currentIndexInParent: currentIndex,
         totalSiblingsAtThisLevel: parent.children.length,
-        precedingSiblingsToCheck: currentIndex
+        precedingSiblingsToCheck: currentIndex,
       })
 
       // Check ALL preceding siblings at this level
@@ -526,7 +526,7 @@ export class ViewerResolve {
             contentType: sibling.contentType,
             isCollection: this.isCollection(sibling),
             completionPercentage: sibling.completionPercentage,
-            hasChildren: !!sibling.children && sibling.children.length > 0
+            hasChildren: !!sibling.children && sibling.children.length > 0,
           })
 
           // Check if this prerequisite sibling is complete
@@ -539,14 +539,14 @@ export class ViewerResolve {
               contentType: sibling.contentType,
               isCollection: this.isCollection(sibling),
               completionPercentage: sibling.completionPercentage,
-              reason: this.getIncompleteReason(sibling)
+              reason: this.getIncompleteReason(sibling),
             })
             return false
           }
 
           this.logger.log(`Prerequisite complete:`, {
             id: sibling.identifier,
-            name: sibling.name
+            name: sibling.name,
           })
         }
       } else {
@@ -692,7 +692,7 @@ export class ViewerResolve {
                   // Redirect to incomplete prerequisite resource or TOC if not accessible
                   if (validation.redirectParams) {
                     this.router.navigate([validation.redirectUrl], {
-                      queryParams: validation.redirectParams
+                      queryParams: validation.redirectParams,
                     })
                   } else {
                     this.router.navigate([validation.redirectUrl])

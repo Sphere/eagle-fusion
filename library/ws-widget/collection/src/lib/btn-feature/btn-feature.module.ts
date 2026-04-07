@@ -26,6 +26,6 @@ import { AvatarPhotoModule } from '../_common/avatar-photo/avatar-photo.module'
         MatBadgeModule,
         AvatarPhotoModule,
     ],
-    exports: [BtnFeatureComponent]
+    exports: [BtnFeatureComponent],
 })
 export class BtnFeatureModule { }

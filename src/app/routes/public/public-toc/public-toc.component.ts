@@ -34,7 +34,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     // Subscribe to both params and queryParams
     combineLatest([
       childRoute.params,
-      childRoute.queryParams
+      childRoute.queryParams,
     ]).subscribe(async ([params, queryParams]) => {
       const courseId = params['courseId'] || queryParams['courseId']
       const slug = params['slug'] || params['courseId'] || ''
@@ -45,7 +45,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
       try {
         (window as any).fbq('track', 'ViewContent', {
           contentId: this.courseid,
-          content_category: 'Public TOC'
+          content_category: 'Public TOC',
         })
       } catch (e) {
         this.logger.log("fb pixel error")
@@ -122,12 +122,12 @@ export class PublicTocComponent implements OnInit, OnDestroy {
 
               this.meta.updateTag({
                 name: 'description',
-                content: `Begin your journey to mastering pregnancy, childbirth, AMTSL & newborn care. Get 7.5 CNE credits & INC certification after each module.`
+                content: `Begin your journey to mastering pregnancy, childbirth, AMTSL & newborn care. Get 7.5 CNE credits & INC certification after each module.`,
               })
 
               this.meta.updateTag({
                 name: 'keywords',
-                content: `${this.tocData?.name}, AMTSL, childbirth, newborn care, maternal health, pregnancy, INC certificate, CNE credits, Aastrika Sphere`
+                content: `${this.tocData?.name}, AMTSL, childbirth, newborn care, maternal health, pregnancy, INC certificate, CNE credits, Aastrika Sphere`,
               })
 
               localStorage.setItem('tocData', JSON.stringify(this.tocData))

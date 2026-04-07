@@ -56,12 +56,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           max_size: 10,
           mime_type: this.mimeType,
           completionPercentage: completionPercentage,
-          status: 2
+          status: 2,
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdateV3(this.htmlContent.identifier, data2, collectionId, batchId).subscribe(
           () => { /* success - fire and forget */ },
-          (error) => { this.logger.warn('Progress update failed:', error) }
+          error => { this.logger.warn('Progress update failed:', error) }
         )
         // Pre-calculate telemetry and send message without waiting for API response
         const telemetryData = {
@@ -69,7 +69,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           completionPercentage: completionPercentage,
           status: 2,
           mimeType: 'youtube',
-          batchId: batchId
+          batchId: batchId,
         }
         this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
         const result = { contentId: this.htmlContent?.identifier, ...data2, type: 'youtube' }
@@ -84,8 +84,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           "version": "",
           "rollup": {
             "l1": collectionId || courseID,
-            "l2": this.htmlContent.identifier
-          }
+            "l2": this.htmlContent.identifier,
+          },
         }
         const extras: any = {
           values: [{
@@ -93,7 +93,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             contentId: this.htmlContent.identifier,
             name: this.htmlContent.name,
             moduleId: this.getModuleId(courseID, this.htmlContent.parent),
-          }]
+          }],
         }
         this.telemetrySvc.end('youtube', 'youtube-close', 'player', data1, extras)
       }
@@ -161,12 +161,12 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           max_size: 10,
           mime_type: this.mimeType,
           completionPercentage: completionPercentage,
-          status: 2
+          status: 2,
         }
         // @ts-ignore: Object is possibly 'null'.
         this.viewerSvc.realTimeProgressUpdateV3(this.htmlContent.identifier, data2, collectionId, batchId).subscribe(
           () => { /* success - fire and forget */ },
-          (error) => { this.logger.warn('Progress update failed:', error) }
+          error => { this.logger.warn('Progress update failed:', error) }
         )
         // Pre-calculate telemetry and send message without waiting for API response
         const telemetryData = {
@@ -174,7 +174,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           completionPercentage: completionPercentage,
           status: 2,
           mimeType: 'docs.google',
-          batchId: batchId
+          batchId: batchId,
         }
         this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
         const result = { contentId: this.htmlContent?.identifier, ...data2, type: 'docs.google' }
@@ -190,8 +190,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           "version": "",
           "rollup": {
             "l1": collectionId || courseID,
-            "l2": this.htmlContent.identifier
-          }
+            "l2": this.htmlContent.identifier,
+          },
         }
         const extras: any = {
           values: [{
@@ -199,7 +199,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             contentId: this.htmlContent.identifier,
             name: this.htmlContent.name,
             moduleId: this.getModuleId(courseID, this.htmlContent.parent),
-          }]
+          }],
         }
         this.telemetrySvc.end('docs.google', 'docs.google-close', 'player', data1, extras)
       }
@@ -211,7 +211,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
   mergeProgressDetails(obj1: any, obj2: any) {
     // Create a new object to store the merged results
-    let mergedObj = { ...obj1 }
+    const mergedObj = { ...obj1 }
 
     // Loop through the keys in obj2
     for (const key in obj2) {
@@ -290,13 +290,13 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   max_size: 1,
                   mime_type: this.mimeType,
                   completionPercentage: completionPercentage,
-                  status: 2
+                  status: 2,
                 }
                 this.logger.log('here')
                 this.viewerSvc
                   .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
                     () => { /* success - fire and forget */ },
-                    (error) => { this.logger.warn('Progress update failed:', error) }
+                    error => { this.logger.warn('Progress update failed:', error) }
                   )
                 // Pre-calculate telemetry and send message without waiting for API response
                 const telemetryData = {
@@ -304,7 +304,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   completionPercentage: completionPercentage,
                   status: 2,
                   mimeType: 'html',
-                  batchId: batchId
+                  batchId: batchId,
                 }
                 this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
                 const result = { contentId: this.htmlContent?.identifier, ...data1, type: 'html' }
@@ -323,15 +323,15 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         "version": "",
         "rollup": {
           "l1": courseId,
-          "l2": this.htmlContent.identifier
-        }
+          "l2": this.htmlContent.identifier,
+        },
       }
       const extras: any = {
         values: [{
           resourceID: this.htmlContent.identifier,
           courseID: courseId,
           moduleID: this.getModuleId(courseId, this.htmlContent.parent),
-        }]
+        }],
       }
       this.telemetrySvc.end('player', 'view', 'player', obj, extras)
     }
@@ -351,7 +351,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         localStorage.setItem('contentId', window.location.href)
 
         // Initialize SCORM directly without fetching history - adapter handles its own communication
-        let scorminit = this.scormAdapterService.LMSInitialize()
+        const scorminit = this.scormAdapterService.LMSInitialize()
         this.logger.log(scorminit, 'scorminit')
         this.telemetrySvc.start('scorm', 'scorm-start', 'player')
 
@@ -364,8 +364,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             "version": "",
             "rollup": {
               "l1": courseID,
-              "l2": this.htmlContent.identifier
-            }
+              "l2": this.htmlContent.identifier,
+            },
           }
           const extras: any = {
             values: [{
@@ -373,7 +373,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               contentId: this.htmlContent.identifier,
               name: this.htmlContent.name,
               moduleId: this.getModuleId(courseID, this.htmlContent.parent),
-            }]
+            }],
           }
           this.telemetrySvc.end('scorm', 'scorm-close', 'player', data, extras)
         }
@@ -428,7 +428,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               max_size: 1,
               mime_type: this.htmlContent.mimeType,
               completionPercentage: completionPercentage,
-              status: 2
+              status: 2,
             }
 
             setTimeout(() => {
@@ -436,7 +436,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 this.viewerSvc
                   .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
                     () => { /* success - fire and forget */ },
-                    (error) => { this.logger.warn('Progress update failed:', error) }
+                    error => { this.logger.warn('Progress update failed:', error) }
                   )
                 // Pre-calculate telemetry and send message without waiting for API response
                 const telemetryData = {
@@ -444,7 +444,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   completionPercentage: completionPercentage,
                   status: 2,
                   mimeType: 'html',
-                  batchId: batchId
+                  batchId: batchId,
                 }
                 this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
                 const result = { contentId: this.htmlContent?.identifier, ...data1, type: 'html' }
@@ -461,8 +461,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 "version": "",
                 "rollup": {
                   "l1": collectionId || courseID,
-                  "l2": this.htmlContent.identifier
-                }
+                  "l2": this.htmlContent.identifier,
+                },
               }
               const extras: any = {
                 values: [{
@@ -470,7 +470,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                   contentId: this.htmlContent.identifier,
                   name: this.htmlContent.name,
                   moduleId: this.getModuleId(courseID, this.htmlContent.parent),
-                }]
+                }],
               }
               this.telemetrySvc.end('html/x-url', 'html/x-url-close', 'player', data2, extras)
             }
@@ -610,8 +610,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
               "version": "",
               "rollup": {
                 "l1": courseID,
-                "l2": this.htmlContent.identifier
-              }
+                "l2": this.htmlContent.identifier,
+              },
             }
             const extras: any = {
               values: [{
@@ -619,7 +619,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
                 contentId: this.htmlContent.identifier,
                 name: this.htmlContent.name,
                 moduleId: this.getModuleId(courseID, this.htmlContent.parent),
-              }]
+              }],
             }
             this.telemetrySvc.end('html/lms', 'html/lms-close', 'player', data2, extras)
           }
@@ -662,7 +662,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
         verison: "",
         rollup: {},
         ...data,
-      }, { values: [{ contentId: this.htmlContent.identifier, }] })
+      }, { values: [{ contentId: this.htmlContent.identifier }] })
     }
   }
   receiveMessage(msg: any) {
@@ -699,7 +699,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           this.viewerSvc
             .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
               () => { /* success - fire and forget */ },
-              (error) => { this.logger.warn('Progress update failed:', error) }
+              error => { this.logger.warn('Progress update failed:', error) }
             )
           // Pre-calculate telemetry and send message without waiting for API response
           const telemetryData = {
@@ -707,7 +707,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             completionPercentage: completionPercentage,
             status: 2,
             mimeType: 'html',
-            batchId: batchId
+            batchId: batchId,
           }
           this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
           const result = { contentId: this.htmlContent?.identifier, ...data1, type: 'html' }
@@ -724,8 +724,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
           "version": "",
           "rollup": {
             "l1": collectionId || courseID,
-            "l2": this.htmlContent.identifier
-          }
+            "l2": this.htmlContent.identifier,
+          },
         }
         const extras: any = {
           values: [{
@@ -734,7 +734,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             contentId: this.htmlContent.identifier,
             name: this.htmlContent.name,
             moduleId: this.getModuleId(courseID, this.htmlContent.parent),
-          }]
+          }],
         }
         this.telemetrySvc.end('html/open-in-newtab', 'html/open-in-newtab-close', 'player', data2, extras)
       }
@@ -793,7 +793,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
   }
 
   getModuleId(courseID: any, parent: any): string | null {
-    let moduleID: string | null = parent && parent !== courseID ? parent : null
+    const moduleID: string | null = parent && parent !== courseID ? parent : null
     return moduleID
   }
 }

@@ -9,7 +9,7 @@ import { TncPublicResolverService } from '../../services/tnc-public-resolver.ser
 import { UntypedFormGroup } from '@angular/forms'
 import {
   ConfigurationsService,
-  LoggerService
+  LoggerService,
 } from '@ws-widget/utils'
 import { SignupService } from '../signup/signup.service'
 @Component({

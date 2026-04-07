@@ -228,8 +228,8 @@ export class WebModuleComponent implements OnInit, OnChanges, OnDestroy {
         id: this.widgetData.identifier,
         type: "",
         version: "",
-        rollup: {}
-      }, { values: [{ contentId: this.widgetData.identifier, }] })
+        rollup: {},
+      }, { values: [{ contentId: this.widgetData.identifier }] })
     }
     if (event === 'scroll') {
       this.isScrolled = false

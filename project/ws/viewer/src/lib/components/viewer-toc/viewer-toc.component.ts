@@ -573,7 +573,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
   private getCollectionTypeRedirectUrl(
     identifier: string,
-    contentType: string = '',
+    contentType = '',
     displayContentType?: NsContent.EDisplayContentTypes,
   ): string | null {
     let url: string | null
@@ -713,8 +713,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
   updateKeyIfMatch(arr1: any, arr2: any, keyToUpdate: string): number {
     const targetUrl = this.router.url
     const urlParams = targetUrl.split('/')
-    let courseId = urlParams[3]
-    let userID = this.configSvc.userProfile!.userId
+    const courseId = urlParams[3]
+    const userID = this.configSvc.userProfile!.userId
     //let cId = this.activatedRoute.snapshot.queryParams.contentId
 
     arr2.forEach((obj2: any) => {
@@ -738,22 +738,22 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       () => {
         this.logger.log('Data inserted successfully2')
       },
-      (error) => {
+      error => {
         this.logger.error('Error inserting data:', error)
       }
     )
     const aggregateValue = this.calculateAggregate(arr1, 'completionPercentage')
     this.logger.log('Aggregate value:', aggregateValue)
     this.logger.log(this.heirarchy, 'content')
-    let uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
+    const uniqueIdsOfType = this.uniqueIdsByContentType(this.heirarchy!.children, 'Resource')
     this.logger.log(uniqueIdsOfType.length, this.heirarchy!.childNodes.length) // Output: [1, 3]
-    let percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
+    const percentage = Math.round((aggregateValue) / (uniqueIdsOfType.length * 100) * 100)
     this.logger.log(percentage, 'percentage', Math.min(Math.max(percentage, 0), 100))
-    let progress = Math.min(Math.max(percentage, 0), 100)
+    const progress = Math.min(Math.max(percentage, 0), 100)
     return progress
   }
   calculateAggregate(arr: any, field: string): number {
-    let val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
+    const val = arr.reduce((total: number, obj: any) => total + obj[field], 0)
     this.logger.log(val)
     return val
   }
@@ -803,10 +803,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           }
         })
       }
-      this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(async (record) => {
+      this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', this.configSvc.userProfile!.userId, this.collectionId).subscribe(async record => {
         this.logger.log('Record:', record)
         rowData = await record
-        let dat = JSON.parse(rowData.data)
+        const dat = JSON.parse(rowData.data)
         this.logger.log(dat, 'dat')
         if (dat && dat.length) {
           optmisticPercentage = await this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
@@ -870,7 +870,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   return {
                     competencyName: competency.competencyName,
                     competencyLevel: competency.level,
-                    competencyId: competency.competencyId
+                    competencyId: competency.competencyId,
                   }
                 })
                 this.logger.log("finalCompetencies", finalCompetencies)
@@ -890,9 +890,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   })
                 }
 
-                let delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
                 setTimeout(() => {
-                  this.openCongratulationPopup().then((isCompleted) => {
+                  this.openCongratulationPopup().then(isCompleted => {
                     if (isCompleted) {
                       confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                         width: '300px',
@@ -928,7 +928,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   return {
                     competencyName: competency.competencyName,
                     competencyLevel: competency.level,
-                    competencyId: competency.competencyId
+                    competencyId: competency.competencyId,
                   }
                 })
                 this.logger.log("finalCompetencies", finalCompetencies)
@@ -949,9 +949,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   })
                 }
 
-                let delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
                 setTimeout(() => {
-                  this.openCongratulationPopup().then((isCompleted) => {
+                  this.openCongratulationPopup().then(isCompleted => {
                     if (isCompleted) {
                       confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                         width: '300px',
@@ -1011,7 +1011,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   return {
                     competencyName: competency.competencyName,
                     competencyLevel: competency.level,
-                    competencyId: competency.competencyId
+                    competencyId: competency.competencyId,
                   }
                 })
                 this.logger.log("finalCompetencies", finalCompetencies)
@@ -1031,9 +1031,9 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                   })
                 }
 
-                let delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
+                const delay = this.resourceContentType.toLowerCase().includes('video') ? 2000 : 0
                 setTimeout(() => {
-                  this.openCongratulationPopup().then((isCompleted) => {
+                  this.openCongratulationPopup().then(isCompleted => {
                     if (isCompleted) {
                       confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                         width: '300px',
@@ -1072,11 +1072,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             } else {
               this.logger.log('lll', dat)
               const nextResource = this.playerStateService.getNextResource()
-              const regex: RegExp = /do_\d+/
+              const regex = /do_\d+/
               const match: any = nextResource.match(regex)
               this.logger.log(match[0])
-              let courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
-              let courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
+              const courseData1 = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+              const courseData2 = await this.contentSvc.fetchContent(match[0]).toPromise()
               this.logger.log(courseData2)
               const foundContent1 = dat.find((el1: any) => el1.contentId === this.resourceId)
 
@@ -1094,16 +1094,16 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             }
           }
         }
-      }, (error) => {
+      }, error => {
         this.logger.error('Error:', error)
-        let userID = this.configSvc.userProfile!.userId
+        const userID = this.configSvc.userProfile!.userId
         this.onlineIndexedDbService.insertData(userID, this.collectionId, 'onlineCourseProgress', content.contentList).subscribe(
           (dat: any) => {
             this.logger.log('Data inserted successfully1', dat)
-            this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async (record) => {
+            this.onlineIndexedDbService.getRecordFromTable('onlineCourseProgress', userID, this.collectionId).subscribe(async record => {
               this.logger.log('Record:', record)
               rowData = await record
-              let dat = JSON.parse(rowData.data)
+              const dat = JSON.parse(rowData.data)
               this.logger.log(dat)
               if (dat && dat.length) {
                 optmisticPercentage = this.updateKeyIfMatch(dat, content.contentList, 'completionPercentage')
@@ -1124,11 +1124,11 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                 }
 
               }
-            }, (error) => {
+            }, error => {
               this.logger.error('Error:', error)
             })
           },
-          (error) => {
+          error => {
             this.logger.error('Error inserting data:', error)
           }
         )
@@ -1136,7 +1136,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     } else {
       if (this.collection && this.collection.children) {
         this.isLoading = true
-        let resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
+        const resourceData = await this.contentSvc.fetchContent(this.resourceId!).toPromise()
         this.logger.log(resourceData, 'resourceData')
         this.logger.log(resourceData.result.content.mimeType)
         if (resourceData.result.content.mimeType !== 'application/vnd.ekstep.html-archive') {
@@ -1291,8 +1291,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     const dialogRef = this.dialog.open(CongratulationsPopupComponent, {
       panelClass: 'congratulations-dialog',
       data: {
-        collectionId: this.collectionId
-      }
+        collectionId: this.collectionId,
+      },
     })
 
     const result = await dialogRef.afterClosed().toPromise()
@@ -1313,7 +1313,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
     this.playerStateService.setState({
       isValid: Boolean(this.collection),
       // tslint:disable-next-line:object-shorthand-properties-first
-      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource
+      prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource,
     })
     this.isLoading = false
   }
@@ -1343,17 +1343,17 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
             },
           },
         ],
-      }
+      },
     }
     this.quizService
       .updatePassbook(formatedData)
       .pipe(
-        catchError((error) => {
+        catchError(error => {
           this.logger.error('Update passbook failed:', error)
           return of(null)
         })
       )
-      .subscribe((res) => {
+      .subscribe(res => {
         this.logger.log('Passbook updated successfully', res)
       })
 

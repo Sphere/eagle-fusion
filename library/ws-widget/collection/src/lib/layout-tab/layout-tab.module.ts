@@ -5,6 +5,6 @@ import { MatTabsModule } from '@angular/material/tabs'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 @NgModule({
     declarations: [LayoutTabComponent],
-    imports: [CommonModule, MatTabsModule, WidgetResolverModule]
+    imports: [CommonModule, MatTabsModule, WidgetResolverModule],
 })
 export class LayoutTabModule { }

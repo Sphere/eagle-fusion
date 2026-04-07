@@ -69,7 +69,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   selectedIndextitle: string
   earnedBadges$: any
   count = 3
-  isLoading = false;
+  isLoading = false
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -251,10 +251,10 @@ export class MobileProfileDashboardComponent implements OnInit {
             this.logger.log('[MobileProfileDashboard] Certificate processing completed')
             this.loader = false
           },
-          error: (err) => {
+          error: err => {
             this.logger.error('[MobileProfileDashboard] Error processing certificates:', err)
             this.loader = false
-          }
+          },
         })
         setWindow('certificates')
         break
@@ -365,7 +365,7 @@ export class MobileProfileDashboardComponent implements OnInit {
       result.push({
         identifier: value.identifier,
         name: value.name,
-        rcCertiface: false
+        rcCertiface: false,
       })
       return result
     }, [])
@@ -380,7 +380,7 @@ export class MobileProfileDashboardComponent implements OnInit {
             name: certificate.certificateName,
             downloadUrl: certificate.certificateDownloadUrl,
             image: certificate.thumbnail,
-            rcCerticate: true
+            rcCerticate: true,
           })
           return result
         },
@@ -456,7 +456,7 @@ export class MobileProfileDashboardComponent implements OnInit {
         userId: userdata.profileReq.id,
         profileDetails: {
           ...userdata,
-          profileLocation: 'sphere-web/mobile-profile-dashboard-store-language'
+          profileLocation: 'sphere-web/mobile-profile-dashboard-store-language',
         },
       },
     }
@@ -542,7 +542,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   openProfileDialog(): void {
     const dialogRef = this.dialog.open(ProfileSelectComponent, {
       width: '600px',
-      panelClass: 'edit-profile-popup'
+      panelClass: 'edit-profile-popup',
     })
     dialogRef.afterClosed().subscribe(result => {
       // tslint:disable-next-line: no-console

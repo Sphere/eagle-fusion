@@ -67,7 +67,7 @@ import { OrgSelectiveCourseComponent } from 'project/ws/app/src/lib/routes/org/c
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
-let domain = window.location.hostname
+const domain = window.location.hostname
 // this.domain = window.location.hostname
 
 const routes: Routes = [
@@ -112,21 +112,21 @@ const routes: Routes = [
   {
     path: 'bnrc/register',
     data: {
-      title: 'Aastrika Sphere - Bnrc Registration'
+      title: 'Aastrika Sphere - Bnrc Registration',
     },
     component: BnrcRegisterComponent,
   },
   {
     path: 'uttarpradesh/register',
     data: {
-      title: 'Aastrika Sphere - Uttar Pradesh Registration'
+      title: 'Aastrika Sphere - Uttar Pradesh Registration',
     },
     component: UpsmfRegisterComponent,
   },
   {
     path: 'madhyapradesh/register',
     data: {
-      title: 'Aastrika Sphere - Madhya Pradesh Registration'
+      title: 'Aastrika Sphere - Madhya Pradesh Registration',
     },
     component: MpRegisterComponent,
   },
@@ -137,14 +137,14 @@ const routes: Routes = [
   {
     path: 'app/create-account',
     data: {
-      title: 'Aastrika Sphere - Create Account'
+      title: 'Aastrika Sphere - Create Account',
     },
-    component: CreateAccountComponent
+    component: CreateAccountComponent,
   },
   {
     path: ':lang/app/create-account',
     data: {
-      title: 'Aastrika Sphere - Create Account'
+      title: 'Aastrika Sphere - Create Account',
     },
     component: CreateAccountComponent,
   },
@@ -152,8 +152,8 @@ const routes: Routes = [
     path: 'app/create-account/:stateCode/:orgName/:role',
     component: CreateAccountComponent,
     data: {
-      title: 'Create Account'
-    }
+      title: 'Create Account',
+    },
   },
   {
     path: 'app/complete-profile',
@@ -198,7 +198,7 @@ const routes: Routes = [
   {
     path: 'public/login',
     data: {
-      title: 'Aastrika Sphere - Login'
+      title: 'Aastrika Sphere - Login',
     },
     component: PublicLoginComponent,
   },
@@ -571,8 +571,8 @@ const routes: Routes = [
       {
         path: 'overview',
         component: PublicTocOverviewComponent, // fallback for query param only
-      }
-    ]
+      },
+    ],
   },
   {
     path: 'public/faq/:tab',
@@ -616,7 +616,7 @@ const routes: Routes = [
   ],
   exports: [RouterModule],
   providers: [ExploreDetailResolve],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppRoutingModule {
   paramsJSON!: string

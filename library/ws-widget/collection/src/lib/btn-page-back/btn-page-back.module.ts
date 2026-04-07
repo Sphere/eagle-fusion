@@ -13,6 +13,6 @@ import { BtnPageBackComponent } from './btn-page-back.component'
         MatButtonModule,
         MatIconModule,
     ],
-    exports: [BtnPageBackComponent]
+    exports: [BtnPageBackComponent],
 })
 export class BtnPageBackModule { }

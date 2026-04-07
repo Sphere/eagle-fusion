@@ -6,7 +6,7 @@ import { interval, Subject, Subscription } from 'rxjs'
 import { map } from 'rxjs/operators'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
-declare var $: any
+declare let $: any
 import { LoggerService, ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
 import { TranslateService } from '@ngx-translate/core'
@@ -50,7 +50,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public activeSlideIndex = 0
 
   viewState: NSQuiz.TQuizViewMode = 'initial'
-  isBlockedFlag: boolean = false
+  isBlockedFlag = false
   constructor(
     public dialogRef: MatDialogRef<QuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -66,7 +66,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   }
   ngAfterViewInit() {
-    let enabled: boolean = this.plyLsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
+    const enabled: boolean = this.plyLsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
     if (!enabled) this.scrnScrtySvc.init()
     this.logger.log(this.assesmentdata, 'qui')
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
@@ -148,7 +148,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.submitQuiz()
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

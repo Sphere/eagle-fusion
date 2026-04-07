@@ -26,7 +26,7 @@ export class EducationEditComponent implements OnInit {
   change: any
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
   yearPattern = /^(19[5-9]\d|20[0-2]\d|2030)$/
-  isEditableForSphere: boolean = false
+  isEditableForSphere = false
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -83,7 +83,7 @@ export class EducationEditComponent implements OnInit {
   }
 
   ngOnInit() {
-    let eduLog: any = sessionStorage.getItem('academic') || null
+    const eduLog: any = sessionStorage.getItem('academic') || null
     this.workLog = JSON.parse(eduLog)
 
     if (this.workLog === 'true' || this.workLog.edit === true) {
@@ -136,7 +136,7 @@ export class EducationEditComponent implements OnInit {
     const userCookie = this.UserAgentResolverService.generateCookie()
 
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
-    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
+    const local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
     this.logger.log(local)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/education-edit'
 
@@ -162,7 +162,7 @@ export class EducationEditComponent implements OnInit {
           form.reset()
           this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
           this.userProfileSvc._updateuser.next('true')
-          let ob = {
+          const ob = {
             "type": "academic",
             "edit": 'save',
 
@@ -171,7 +171,7 @@ export class EducationEditComponent implements OnInit {
         }
       })
   }
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

@@ -40,10 +40,10 @@ import { AllCoursesComponent } from './components/all-courses/all-courses.compon
     HorizontalScrollerModule,
     WidgetResolverModule,
     CardContentModule,
-    InfiniteScrollModule
+    InfiniteScrollModule,
   ],
   exports: [],
   providers: [PipeContentRoutePipe],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class OrgModule { }

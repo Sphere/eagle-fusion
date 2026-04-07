@@ -17,7 +17,7 @@ import { CollectionStoreService } from './../../services/store.service'
 import { BreakpointObserver, Breakpoints, BreakpointState } from '@angular/cdk/layout'
 import { map } from 'rxjs/operators'
 
-declare var $: any
+declare let $: any
 @Component({
   // tslint:disable-next-line:component-selector
   selector: 'ws-author-auth-toc',

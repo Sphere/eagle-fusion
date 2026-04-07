@@ -8,7 +8,7 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-tnnmc-callback',
   templateUrl: './tnnmc-callback.component.html',
-  styleUrls: ['./tnnmc-callback.component.scss']
+  styleUrls: ['./tnnmc-callback.component.scss'],
 })
 export class TnnmcCallbackComponent implements OnInit {
   isLoading = false
@@ -32,14 +32,14 @@ export class TnnmcCallbackComponent implements OnInit {
   //checkTnnmcCallback(token: any, id?: any) {
   checkTnnmcCallback(token: any) {
     this.logger.log('su')
-    let data = {
+    const data = {
       "token": token,
       //"moduleId": id
     }
     try {
       //setTimeout(() => {
       this.orgService.setTnnmcToken(data).subscribe(async (res: any) => {
-        let loc = await res
+        const loc = await res
         this.logger.log(loc, 'oo')
         localStorage.setItem('loc', JSON.stringify(loc))
         if (loc.message === 'success') {
@@ -55,12 +55,12 @@ export class TnnmcCallbackComponent implements OnInit {
             this.isLoading = false
             this.router.navigate(['/app/org-details'], {
               queryParams: {
-                orgId: 'Tamil Nadu Nurses and Midwives Council (TNNMC)'
-              }
+                orgId: 'Tamil Nadu Nurses and Midwives Council (TNNMC)',
+              },
             })
             this.dialog.open(TnnmcConfirmComponent, {
               width: '300px',
-              data: { 'body': err.error.message }
+              data: { 'body': err.error.message },
             })
           } else {
             this.router.navigate(['/public/home'])
@@ -79,12 +79,12 @@ export class TnnmcCallbackComponent implements OnInit {
         this.isLoading = false
         this.router.navigate(['/app/org-details'], {
           queryParams: {
-            orgId: 'Tamil Nadu Nurses and Midwives Council (TNNMC)'
-          }
+            orgId: 'Tamil Nadu Nurses and Midwives Council (TNNMC)',
+          },
         })
         this.dialog.open(TnnmcConfirmComponent, {
           width: '300px',
-          data: { 'body': err.error.message }
+          data: { 'body': err.error.message },
         })
       } else {
         this.router.navigate(['/public/home'])

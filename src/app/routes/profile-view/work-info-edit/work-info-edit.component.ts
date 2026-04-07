@@ -53,7 +53,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     this.change = this.contentSvc.workMessage.subscribe(async (data: any) => {
       this.logger.log(data, 'here')
       this.workLog = await data
-      let check = sessionStorage.getItem('work')
+      const check = sessionStorage.getItem('work')
       this.logger.log(check)
       if (this.workLog) {
         this.getUserDetails()
@@ -116,12 +116,12 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       form.doj = changeformat(new Date(`${form.doj}`))
     }
     // ✅ Use LanguageService instead of checking location.href
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage() || 'en'
+    const local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc.getCurrentLanguage() || 'en'
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form, this.userProfileData, userAgent, userCookie)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/work-info-edit'
     const obj = {
@@ -137,7 +137,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-edit', },
+        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-edit' },
       },
     }
     this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(
@@ -150,7 +150,7 @@ export class WorkInfoEditComponent implements OnInit, OnDestroy {
       })
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

@@ -18,7 +18,7 @@ import { Component, HostBinding, Input, OnInit, OnChanges, OnDestroy } from '@an
     'aria-valuemin': '0',
     'aria-valuemax': '100',
     // Binding that updates the current value of the progressbar.
-    '[attr.aria-valuenow]': 'progress'
+    '[attr.aria-valuenow]': 'progress',
   },
   /* tslint:enable */
 })

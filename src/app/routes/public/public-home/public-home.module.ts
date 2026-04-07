@@ -82,7 +82,7 @@ import { MatMenuModule } from '@angular/material/menu'
     DialogConfirmComponent,
     BnrcLoginOtpComponent,
     VideoPopupComponent,
-    TnnmcConfirmComponent
+    TnnmcConfirmComponent,
   ],
   imports: [
     MatProgressBarModule,
@@ -106,7 +106,7 @@ import { MatMenuModule } from '@angular/material/menu'
     PipeDurationTransformModule,
     RouterModule,
     UserImageModule,
-    RetainScrollModule
+    RetainScrollModule,
   ],
   exports: [
     PublicHomeComponent,
@@ -139,7 +139,7 @@ import { MatMenuModule } from '@angular/material/menu'
     DialogConfirmComponent,
     BnrcLoginOtpComponent,
     VideoPopupComponent,
-    TnnmcConfirmComponent
+    TnnmcConfirmComponent,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })

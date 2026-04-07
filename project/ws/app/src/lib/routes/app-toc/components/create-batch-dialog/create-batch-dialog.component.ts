@@ -86,7 +86,7 @@ export class CreateBatchDialogComponent implements OnInit {
         this.uploadSaveData = false
       })
   }
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

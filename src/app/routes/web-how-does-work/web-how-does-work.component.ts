@@ -51,7 +51,7 @@ export class WebHowDoesWorkComponent implements OnInit {
   openVideoPopup(url: string) {
     this.dialog.open(VideoPopupComponent, {
       data: { 'url': url },
-      panelClass: 'howDoesItWorksDialog'
+      panelClass: 'howDoesItWorksDialog',
     })
   }
 }

@@ -33,7 +33,7 @@ export class PageComponent extends WidgetBaseComponent
   isHlpMenuXs = false
   navBackground: Partial<NsPage.INavBackground> | null = null
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
-  authenticated: boolean = true  // Default to true for logged-in users
+  authenticated = true  // Default to true for logged-in users
 
   // Error type tracking
   isNetworkError = false
@@ -133,7 +133,7 @@ export class PageComponent extends WidgetBaseComponent
             type: err.type,
             status: err.status,
             message: err.message,
-            url: window.location.href
+            url: window.location.href,
           })
         } else {
           // Legacy error handling (string or simple error)
@@ -229,7 +229,7 @@ export class PageComponent extends WidgetBaseComponent
 
   logout() {
     this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
-      panelClass: 'logout-dialog-container'
+      panelClass: 'logout-dialog-container',
     })
   }
 

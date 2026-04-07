@@ -26,7 +26,7 @@ import { LanguageService } from '../../services/language.service'
 })
 export class DowntimeFullComponent implements OnInit, OnDestroy {
   content: DowntimeContent | null = null
-  currentLanguage: string = 'en'
+  currentLanguage = 'en'
   cssConfig: DowntimeCssConfig | null = null
   isLoading = true
   currentDowntimeState: any = null

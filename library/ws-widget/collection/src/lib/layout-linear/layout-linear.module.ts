@@ -4,6 +4,6 @@ import { LayoutLinearComponent } from './layout-linear.component'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 @NgModule({
     declarations: [LayoutLinearComponent],
-    imports: [CommonModule, WidgetResolverModule]
+    imports: [CommonModule, WidgetResolverModule],
 })
 export class LayoutLinearModule {}

@@ -139,7 +139,7 @@ export class YourBackgroundComponent implements OnInit {
       }
     }
   }
-  private openSnackbar(primaryMsg: string, duration: number = 2000) {
+  private openSnackbar(primaryMsg: string, duration = 2000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

@@ -19,6 +19,6 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
         MatRippleModule,
         WidgetResolverModule,
     ],
-    exports: [BtnAppsComponent]
+    exports: [BtnAppsComponent],
 })
 export class BtnAppsModule { }

@@ -72,13 +72,13 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
   districtUrl = '/fusion-assets/files/district.json'
   stateUrl = '/fusion-assets/files/state.json'
   selectDisable = true
-  countryName: boolean = false
-  isEditableForSphere: boolean = false
-  @Input() isEkshamata: boolean = false
+  countryName = false
+  isEditableForSphere = false
+  @Input() isEkshamata = false
   @Input() data: any
   @Input() userData: any
   formConfig: any
-  address: string = ''
+  address = ''
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -171,7 +171,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
             this.disticts = (stateData.districts || []).map((d: string) => ({ name: d }))
           }
         },
-        (err) => {
+        err => {
           this.logger.error('Error fetching districts:', err)
         }
       )
@@ -427,20 +427,20 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         this.logger.log(this.countryName)
         if (data.personalDetails!.postalAddress) {
           if (this.countryName) {
-            let cName = data.personalDetails.postalAddress
-            let csplit = cName.split(',')
+            const cName = data.personalDetails.postalAddress
+            const csplit = cName.split(',')
             this.stateSelect(csplit[1].trim())
             this.personalDetailForm.patchValue({
               country: csplit[0],
               state: csplit[1].trim(),
-              distict: csplit[2].trim()
+              distict: csplit[2].trim(),
             })
             this.selectDisable = true
           } else {
-            let cName = data.personalDetails.postalAddress
-            let csplit = cName.split(',')
+            const cName = data.personalDetails.postalAddress
+            const csplit = cName.split(',')
             this.personalDetailForm.patchValue({
-              country: csplit[0]
+              country: csplit[0],
             })
             this.selectDisable = false
           }
@@ -499,7 +499,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     //   form.value.dob = changeformat(new Date(`${form.value.dob}`))
     // }
     this.userProfileData = this.userData
-    let local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
+    const local = (this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.langSvc.getCurrentLanguage()
 
 
     if (form.value.dob.includes('undefined')) {
@@ -507,9 +507,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
       form.value.dob = data
     }
     form.value.knownLanguages = this.selectedKnowLangs
-    let userName = {
+    const userName = {
       firstname: form.value.firstname,
-      surname: form.value.surname
+      surname: form.value.surname,
     }
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
@@ -553,7 +553,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
             this.router.navigate(['/app/profile-view'])
           }
         },
-        (err) => {
+        err => {
           this.logger.error('Error updating profile:', err)
           this.openSnackbar(this.translate.instant("PROFILE_UPDATE_ERR"))
         }
@@ -611,12 +611,12 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
                         const redirectUrl = `${location.origin}/page/home`
                         window.location.assign(redirectUrl)
                       },
-                      (err) => {
+                      err => {
                         this.logger.error('Error updating language preference:', err)
                       }
                     )
                 },
-                (err) => {
+                err => {
                   this.logger.error('Error fetching user details:', err)
                 }
               )

@@ -58,7 +58,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
   private player: videoJs.Player | null = null
   private dispose: (() => void) | null = null
   contentData: any
-  popupShown = false;
+  popupShown = false
   progressData: any
   private contentHistoryResponse: any = null  // Cache full progress response for messaging
   private lastSentProgressPercentage = -1  // Track last sent progress to avoid duplicates
@@ -86,7 +86,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     volumechange: 'volumechange',
     loadeddata: 'loadeddata',
   }
-  videoStates: { [videoId: string]: { popupTriggered: any, currentMilestone: any } } = {};
+  videoStates: { [videoId: string]: { popupTriggered: any, currentMilestone: any } } = {}
   popupTriggered = false
   isResumeStarted = false
   constructor(
@@ -330,7 +330,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
             () => {
               this.logger.log('VPlayer progress update sent successfully', { identifier })
             },
-            (error) => {
+            error => {
               this.logger.error('VPlayer progress update error:', { identifier, error })
             }
           )
@@ -625,8 +625,8 @@ export class PlayerVideoComponent extends WidgetBaseComponent
       "version": "",
       "rollup": {
         "l1": this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier,
-        "l2": this.widgetData.identifier
-      }
+        "l2": this.widgetData.identifier,
+      },
     })
   }
 
@@ -661,7 +661,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
    * **CRITICAL**: This ensures TOC always receives complete data structure with all required fields
    */
   private async fetchAndCacheContentHistory(identifier: string, batchId: string | undefined, collectionId: string): Promise<void> {
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       let userId
       if (this.configSvc.userProfile) {
         userId = this.configSvc.userProfile.userId || ''
@@ -690,7 +690,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               this.logger.log('✓ Cached complete content history:', {
                 identifier,
                 hasContentList: !!this.contentHistoryResponse.contentList,
-                itemCount: this.contentHistoryResponse.contentList?.length
+                itemCount: this.contentHistoryResponse.contentList?.length,
               })
             }
           }
@@ -793,9 +793,9 @@ export class PlayerVideoComponent extends WidgetBaseComponent
               contentList: [{
                 contentId: identifier,
                 completionPercentage: percent,
-                status: status
+                status: status,
               }],
-              type: 'Video'
+              type: 'Video',
             }
             this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: identifier, completionPercentage: percent, status, mimeType: 'video/mp4', batchId: batchId || '' })
             this.logger.log("messageDData3333", messageData)

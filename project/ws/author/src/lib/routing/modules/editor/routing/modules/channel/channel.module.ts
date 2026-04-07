@@ -93,8 +93,8 @@ import { IntranetSelectorComponent } from './components/input/intranet-selector/
         WidgetResolverModule,
         HorizontalScrollerModule,
         DragDropModule,
-        PickerContentModule
+        PickerContentModule,
     ],
-    providers: [ChannelResolverService]
+    providers: [ChannelResolverService],
 })
 export class ChannelModule { }

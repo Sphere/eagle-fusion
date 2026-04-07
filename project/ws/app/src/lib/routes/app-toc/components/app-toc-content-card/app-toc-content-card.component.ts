@@ -24,8 +24,8 @@ export class AppTocContentCardComponent implements OnInit, OnChanges {
     pdf: '/fusion-assets/icons/PDF.svg', // Replace with your icon path or class
     video: '/fusion-assets/icons/Video.svg',
     link: '/fusion-assets/icons/Link.svg',
-    audio: '/fusion-assets/icons/Audio.svg'
-  };
+    audio: '/fusion-assets/icons/Audio.svg',
+  }
   contentId!: string
   hasContentStructure = false
   resourceContentType: any

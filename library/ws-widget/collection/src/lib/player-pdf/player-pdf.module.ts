@@ -28,8 +28,8 @@ import { TranslateModule } from '@ngx-translate/core'
         BtnFullscreenModule,
         MatInputModule,
         NgxExtendedPdfViewerModule,
-        TranslateModule
+        TranslateModule,
     ],
-    exports: [PlayerPdfComponent, NgxExtendedPdfViewerModule]
+    exports: [PlayerPdfComponent, NgxExtendedPdfViewerModule],
 })
 export class PlayerPdfModule { }

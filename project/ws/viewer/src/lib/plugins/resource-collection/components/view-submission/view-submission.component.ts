@@ -45,7 +45,7 @@ export class ViewSubmissionComponent implements OnInit {
         this.resourceSvc.readContentTextFile(this.submissionUrl).subscribe((data: any) => {
           const answers = data
           const submissionarray = answers.split('\n')
-          this.submissionAnswerText = submissionarray.filter((answer: String) => answer !== '')
+          this.submissionAnswerText = submissionarray.filter((answer: string) => answer !== '')
         })
       } else if (this.submissionType === 'mp4' && this.submissionUrl) {
         this.videoData = {

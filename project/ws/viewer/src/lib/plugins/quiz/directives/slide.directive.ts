@@ -1,5 +1,5 @@
 import { Directive, ElementRef, Input, OnInit } from '@angular/core'
-declare var $: any
+declare let $: any
 import { QuizService } from '../quiz.service'
 /* tslint:disable */
 @Directive({

@@ -12,7 +12,7 @@ import { MatSnackBar } from '@angular/material/snack-bar'
 })
 export class ContentAuthoredComponent implements OnInit, OnDestroy {
   @Input() wid = ''
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
   @Output() count = new EventEmitter<number>()
 
   userWid = ''

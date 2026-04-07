@@ -10,6 +10,6 @@ import { PersonProfileModule } from '../../../project/ws/app/src/lib/routes/pers
     ],
     exports: [
         PersonProfileModule,
-    ]
+    ],
 })
 export class RoutePersonProfileModule { }

@@ -40,7 +40,7 @@ export class AppTocCertificateModalComponent implements OnInit {
         const url = await response.result.printUri
         this.logger.log("response", response.result)
         this.isLoading = false
-        let that = this
+        const that = this
         img.onload = function () {
           const defaultWidth = 1350
           const defaultHeight = 880

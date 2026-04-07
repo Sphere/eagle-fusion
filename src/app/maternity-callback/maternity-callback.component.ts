@@ -5,7 +5,7 @@ import { LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 @Component({
   selector: 'ws-maternity-callback',
   templateUrl: './maternity-callback.component.html',
-  styleUrls: ['./maternity-callback.component.scss']
+  styleUrls: ['./maternity-callback.component.scss'],
 })
 export class MaternityCallbackComponent implements OnInit {
   isLoading = false
@@ -27,14 +27,14 @@ export class MaternityCallbackComponent implements OnInit {
   //checkMaternityCallback(token: any, id?: any) {
   checkMaternityCallback(token: any) {
     this.logger.log('su')
-    let data = {
+    const data = {
       "token": token,
       //"moduleId": id
     }
     try {
       //setTimeout(() => {
       this.orgService.setMaternyId(data).subscribe(async (res: any) => {
-        let loc = await res
+        const loc = await res
         this.logger.log(loc, 'oo')
         localStorage.setItem('loc', JSON.stringify(loc))
         if (loc.message === 'success') {

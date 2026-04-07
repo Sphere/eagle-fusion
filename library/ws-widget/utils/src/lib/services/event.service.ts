@@ -30,7 +30,7 @@ export class EventService {
         eventSubType: WsEvents.EnumTelemetrySubType.Interact,
       },
       from: from || '',
-      to: 'Telemetry'
+      to: 'Telemetry',
     })
   }
 

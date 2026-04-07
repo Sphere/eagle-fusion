@@ -7,6 +7,6 @@ import { ImageMapResponsiveComponent } from './image-map-responsive.component'
     declarations: [ImageMapResponsiveComponent],
     imports: [
         CommonModule,
-    ]
+    ],
 })
 export class ImageMapResponsiveModule { }

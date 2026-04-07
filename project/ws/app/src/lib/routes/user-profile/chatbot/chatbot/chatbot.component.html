@@ -60,7 +60,7 @@
 
     <div class="option-section">
       <form [formGroup]="createUserForm">
-        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'country'">
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus === 'country'">
           <p class=" margin-remove-bottom form-label">
             {{ 'Select country' | translate }}
           </p>
@@ -84,7 +84,7 @@
 
         </div>
 
-        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'state'">
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus === 'state'">
           <p class=" margin-remove-bottom form-label">
             {{ 'Select state' | translate }}
           </p>
@@ -108,7 +108,7 @@
 
         </div>
 
-        <div class="input-wrapper align-location" *ngIf="dropdownStatus == 'district'">
+        <div class="input-wrapper align-location" *ngIf="dropdownStatus === 'district'">
           <p class=" margin-remove-bottom form-label">
             {{ 'Select district' | translate }}
           </p>

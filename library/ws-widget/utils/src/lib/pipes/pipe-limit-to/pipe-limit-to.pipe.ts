@@ -5,7 +5,7 @@ import { Pipe, PipeTransform } from '@angular/core'
 })
 export class PipeLimitToPipe implements PipeTransform {
 
-  transform(data: any, limit: number = 5): any {
+  transform(data: any, limit = 5): any {
     if (!data || !data.length) {
       return null
     }

@@ -26,7 +26,7 @@ const mockWidgetService: Partial<WidgetContentService> = {}
 const mockUserAgentService: Partial<UserAgentResolverService> = {}
 const mockHttpService: Partial<HttpClient> = {}
 const mockSnackBar: Partial<MatSnackBar> = {
-  open: jest.fn()
+  open: jest.fn(),
 }
 
 describe('WorkInfoListComponent', () => {
@@ -56,7 +56,7 @@ describe('WorkInfoListComponent', () => {
         MatInputModule,
         MatIconModule,
         MatSnackBarModule,
-        NoopAnimationsModule
+        NoopAnimationsModule,
       ],
       providers: [
         { provide: ConfigurationsService, useValue: mockConfigService },
@@ -65,8 +65,8 @@ describe('WorkInfoListComponent', () => {
         { provide: WidgetContentService, useValue: mockWidgetService },
         { provide: UserAgentResolverService, useValue: mockUserAgentService },
         { provide: HttpClient, useValue: mockHttpService },
-        { provide: MatSnackBar, useValue: jest.fn() }
-      ]
+        { provide: MatSnackBar, useValue: jest.fn() },
+      ],
     }).compileComponents()
   })
 

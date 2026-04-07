@@ -146,7 +146,7 @@ export function videoJsInitializer(
   fireRProgress: fireRealTimeProgressFunction,
   passThroughData: any,
   widgetSubType: string,
-  resumePoint: number = 0,
+  resumePoint = 0,
   enableTelemetry: boolean,
   widgetData: any,
   mimeType: NsContent.EMimeTypes,
@@ -163,7 +163,7 @@ export function videoJsInitializer(
   let heartBeatSubscription: Subscription
   let currentTimeInterval: Subscription
   let loaded = false
-  let readyToRaise = false
+  const readyToRaise = false
   let currTime = 0
   let maxWatchedTime: number = resumePoint || 0
 
@@ -179,7 +179,7 @@ export function videoJsInitializer(
   // 🎯 SINGLE SOURCE OF TRUTH: reportProgress()
   // WITH DEFENSIVE PLAYER VALIDITY CHECKS
   // ==========================================
-  const reportProgress = (source: string = "timeupdate"): void => {
+  const reportProgress = (source = "timeupdate"): void => {
     try {
       // ==========================================
       // 🔥 CRITICAL: Defensive player validity checks
@@ -660,7 +660,7 @@ export function youtubeInitializer(
 }
 function marker(widgetData: any, player: any) {
   if (widgetData.videoQuestions) {
-    let markers = convertData(widgetData.videoQuestions)
+    const markers = convertData(widgetData.videoQuestions)
     if (player.markers) {
       player.markers({
         markerStyle: {
@@ -671,7 +671,7 @@ function marker(widgetData: any, player: any) {
           display: true,
           text: function () {
             return "Quiz"
-          }
+          },
         },
         markers: markers,
       })
@@ -684,7 +684,7 @@ function convertData(data: any[]): { time: number, text: string }[] {
   return data.map(item => {
     return {
       time: item.timestampInSeconds,
-      text: item.question[0].text
+      text: item.question[0].text,
     }
   })
 }

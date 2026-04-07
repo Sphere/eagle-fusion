@@ -21,6 +21,6 @@ import { CompetencyModule as AastrikaCompetencyModule } from '@aastrika_npmjs/co
     SelfAssessmentModule,
     AastrikaCompetencyModule,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class CompetencyModule { }

@@ -18,6 +18,6 @@ import { RouterModule } from '@angular/router'
         MatIconModule,
         MatButtonModule,
     ],
-    exports: [TreeComponent]
+    exports: [TreeComponent],
 })
 export class TreeModule { }

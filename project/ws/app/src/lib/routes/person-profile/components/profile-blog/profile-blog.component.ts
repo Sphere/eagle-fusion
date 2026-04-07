@@ -12,7 +12,7 @@ export class ProfileBlogComponent implements OnInit {
 
   @Input() wid = ''
   @Output() count = new EventEmitter<number>()
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
 
   blogSubscription: Subscription | null = null
   requestBody!: NsDiscussionForum.ITimelineRequest

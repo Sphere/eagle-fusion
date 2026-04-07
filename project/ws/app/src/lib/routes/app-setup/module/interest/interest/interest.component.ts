@@ -65,7 +65,7 @@ export class InterestComponent implements OnInit {
     this.selectInterest()
   }
 
-  selectInterest(index: number = 0) {
+  selectInterest(index = 0) {
     if (this.fetchStatus === 'fetching') {
       return
     }

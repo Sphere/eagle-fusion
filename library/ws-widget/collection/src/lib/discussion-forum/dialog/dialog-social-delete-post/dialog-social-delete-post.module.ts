@@ -7,6 +7,6 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
 
 @NgModule({
     declarations: [DialogSocialDeletePostComponent],
-    imports: [CommonModule, MatDialogModule, MatButtonModule, MatProgressSpinnerModule]
+    imports: [CommonModule, MatDialogModule, MatButtonModule, MatProgressSpinnerModule],
 })
 export class DialogSocialDeletePostModule { }

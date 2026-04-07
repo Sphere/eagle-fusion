@@ -110,7 +110,7 @@ export class BtnAppsComponent extends WidgetBaseComponent
 
   logout() {
     this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
-      panelClass: 'logout-dialog-container'
+      panelClass: 'logout-dialog-container',
     })
   }
 }

@@ -74,7 +74,7 @@ export class AppTocService {
     return status
   }
 
-  initData(data: Data, needResumeData: boolean = false): NsAppToc.IWsTocResponse {
+  initData(data: Data, needResumeData = false): NsAppToc.IWsTocResponse {
     let content: NsContent.IContent | null = null
     let errorCode: NsAppToc.EWsTocErrorCode | null = null
 
@@ -349,7 +349,7 @@ export class AppTocService {
     )
   }
   updateBatchData() {
-    this.batchReplaySubject.next()
+    this.batchReplaySubject.next(undefined)
   }
 
   getNode(): boolean {

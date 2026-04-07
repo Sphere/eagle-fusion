@@ -16,7 +16,7 @@ import { PersonProfileService } from '../../services/person-profile.service'
 export class UserKbComponent implements OnInit, OnChanges {
   @Input() wid = ''
   @Input() name = ''
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
 
   followingFetchStatus: TFetchStatus = 'none'
   followContent: NSProfileData.IFollowing[] = []

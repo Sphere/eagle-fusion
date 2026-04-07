@@ -21,16 +21,16 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   coursesForYou: any[] = []
   isLoading = false
   private pendingRequests = 0
-  isXSmall: boolean = false
-  selectedIndex = 0; // Index for the active tab
+  isXSmall = false
+  selectedIndex = 0 // Index for the active tab
   yourPlansCourseIdentifier: any[] = []
   config: any
   lang: any
   plyLsData: any
   userEnrolledCourse: any = []
-  currentOffset: number = 1;
-  pageLimit = 500;
-  initialPageLimit = 10;
+  currentOffset = 1
+  pageLimit = 500
+  initialPageLimit = 10
   displayLimit: number[] = [] // Per-tab display limits for progressive rendering
   private readonly PAGE_SIZE = 10
   constructor(
@@ -79,7 +79,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
 
     // Fetch user courses - pending request 1
     this.contentSvc.fetchUserBatchList(userId).pipe(takeUntil(this.destroy$)).subscribe({
-      next: (courses) => {
+      next: courses => {
         this.userEnrolledCourse = courses
         this.processUserCourses(courses)
         this.updateTabData()
@@ -87,7 +87,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       },
       error: () => {
         this.decrementPending()
-      }
+      },
     })
 
     // Handle professional details - pending request 2
@@ -157,7 +157,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         .filter(course => course?.content?.identifier && !course?.content?.competency)
         .map(course => course.content.identifier)
 
-      let competencySearchArray: string[] = []
+      const competencySearchArray: string[] = []
       let baseQuery: any = {}
       let sourceName: string[] = []
 
@@ -191,7 +191,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
           },
           error: () => {
             this.decrementPending()
-          }
+          },
         })
       } else {
         this.updateTabData()
@@ -221,7 +221,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
           },
           error: () => {
             this.decrementPending()
-          }
+          },
         })
     }
   }
@@ -301,8 +301,8 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       return []
     }
     const competencySearchArray: string[] = []
-    competencyPayload.forEach((competencyObj) => {
-      Object.keys(competencyObj).forEach((key) => {
+    competencyPayload.forEach(competencyObj => {
+      Object.keys(competencyObj).forEach(key => {
         const competency = competencyObj[key]
         const competencyId = competency?.id
         if (!competencyId) return
@@ -318,7 +318,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       })
     })
     return competencySearchArray
-  };
+  }
 
   searchContentByCompetencies$ = (baseQuery: any, competencySearchArray: string[], requiredSourceName: string[], listOfEnrolledCourseId: string[]): Observable<any[]> => {
     if (!Array.isArray(competencySearchArray) || competencySearchArray.length === 0) {
@@ -340,7 +340,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         const processedCourses = this.processRecommendedCourses(content, requiredSourceName, listOfEnrolledCourseId)
         return processedCourses
       }),
-      catchError((err) => {
+      catchError(err => {
         console.error("Error fetching recommendation", err)
         return of([])
       })
@@ -350,7 +350,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
   recommendedCourse = (data: any[]) =>
     (data || [])
       .filter(item => item && item.identifier)
-      .map((item) => ({
+      .map(item => ({
         identifier: item.identifier,
         appIcon: item.appIcon,
         thumbnail: item.posterImage || item.thumbnail,
@@ -375,5 +375,5 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
       })
       .filter(item => sourceSet.has(item.sourceName))
       .filter(item => !enrolledSet.has(item.identifier))
-  };
+  }
 }

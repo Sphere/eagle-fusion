@@ -136,8 +136,8 @@ export class ProfileSelectComponent implements OnInit {
     if (this.configSvc.userProfile) {
       this.userID = this.configSvc.userProfile.userId || ''
     }
-    let userAgent = this.UserAgentResolverService.getUserAgent()
-    let userCookie = this.UserAgentResolverService.generateCookie()
+    const userAgent = this.UserAgentResolverService.getUserAgent()
+    const userCookie = this.UserAgentResolverService.generateCookie()
     let profileRequest = constructReq(form.value, this.userProfileData.profileReq, userAgent, userCookie)
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/profile-select'
 
@@ -152,7 +152,7 @@ export class ProfileSelectComponent implements OnInit {
       request: {
         userId: this.userID,
         profileDetails: {
-          ...profileRequest, profileLocation: 'sphere-web/profile-select'
+          ...profileRequest, profileLocation: 'sphere-web/profile-select',
         },
       },
     }

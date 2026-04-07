@@ -24,7 +24,7 @@ describe('PublicTocBannerComponent', () => {
     TestBed.configureTestingModule({
       declarations: [PublicTocBannerComponent, MockPipeDurationTransform],
       imports: [HttpClientTestingModule, RouterTestingModule],
-      providers: [SignupService]
+      providers: [SignupService],
     }).compileComponents()
   })
 

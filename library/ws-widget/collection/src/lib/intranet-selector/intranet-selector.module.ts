@@ -8,6 +8,6 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
     imports: [
         CommonModule,
         WidgetResolverModule,
-    ]
+    ],
 })
 export class IntranetSelectorModule { }

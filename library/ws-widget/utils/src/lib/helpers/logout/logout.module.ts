@@ -13,6 +13,6 @@ import { LogoutComponent } from './logout.component'
         MatButtonModule,
         MatDialogModule,
         TranslateModule,
-    ]
+    ],
 })
 export class LogoutModule { }

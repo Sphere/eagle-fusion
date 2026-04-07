@@ -5,6 +5,6 @@ import { PipeSafeSanitizerModule } from '@ws-widget/utils'
 
 @NgModule({
     declarations: [ElementHtmlComponent],
-    imports: [CommonModule, PipeSafeSanitizerModule]
+    imports: [CommonModule, PipeSafeSanitizerModule],
 })
 export class ElementHtmlModule {}

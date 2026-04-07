@@ -39,7 +39,7 @@ import { TranslateModule } from '@ngx-translate/core'
     MatCheckboxModule,
     MatListModule,
     MatRadioModule,
-    TranslateModule
+    TranslateModule,
   ],
   exports: [
     ContentPickerV2Component,

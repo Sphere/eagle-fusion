@@ -10,8 +10,8 @@ import { PlaylistService } from "../../../../../../../../../src/app/services/pla
   styleUrls: ["./congratulations-popup.component.scss"],
 })
 export class CongratulationsPopupComponent implements OnInit {
-  designation = "";
-  earnedBadge: boolean | null = null;
+  designation = ""
+  earnedBadge: boolean | null = null
 
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: any,
@@ -24,12 +24,12 @@ export class CongratulationsPopupComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    let profile: any = this.configSvc?.unMappedUser?.profileDetails?.profileReq
+    const profile: any = this.configSvc?.unMappedUser?.profileDetails?.profileReq
     this.designation = profile?.professionalDetails[0]?.designation || ""
     const currentLang = this.languageSvc.getCurrentLanguage()
     this.generateInteractTelemetry()
     this.fetchPlayLists(currentLang, this.designation)
-      .then((playlists) => {
+      .then(playlists => {
         this.earnedBadge = false
         this.logger.log("playlists", playlists, this.data.collectionId)
         if (
@@ -62,14 +62,14 @@ export class CongratulationsPopupComponent implements OnInit {
       type: undefined,
       version: "",
       "rollup": {
-        "l1": this.data.collectionId || ""
-      }
+        "l1": this.data.collectionId || "",
+      },
     }
     const extras: any = {
       values: [{
         identifier: this.data.collectionId || "",
         completionPercentage: 100,
-      }]
+      }],
     }
     this.telemetrySvc.interact('open-congratulation-popup', 'popup-open', 'course-completion-popup', data, extras)
   }

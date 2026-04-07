@@ -3,7 +3,7 @@ export const data = {
     "defaultLang": "hi",
     "foundationLogo": "/fusion-assets/images/sphere-new-logo.svg",
     "source": "",
-    "role": ""
+    "role": "",
   },
   "LAYOUT_HEADER": {
     "appLogo": "",
@@ -12,21 +12,21 @@ export const data = {
       "id": "web_search",
       "type": "search",
       "icon": "",
-      "placeholder": "What do you want to learn today?"
+      "placeholder": "What do you want to learn today?",
     },
     "webMenuItems": [
       "homeTab",
       "courseTab",
       "competencyTab",
       "accountTab",
-      "notifTab"
+      "notifTab",
     ],
     "mobileMenuItems": [
       "homeTab",
       "courseTab",
       "competencyTab",
       "searchMob",
-      "notifTab"
+      "notifTab",
     ],
     "menuItems": [
       {
@@ -38,8 +38,8 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": true,
-          "src": "/fusion-assets/icons/Home.svg"
-        }
+          "src": "/fusion-assets/icons/Home.svg",
+        },
       },
       {
         "id": "courseTab",
@@ -50,8 +50,8 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": true,
-          "src": "/fusion-assets/icons/material-symbols.svg"
-        }
+          "src": "/fusion-assets/icons/material-symbols.svg",
+        },
       },
       {
         "id": "competencyTab",
@@ -62,8 +62,8 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": true,
-          "src": "/fusion-assets/icons/Competency_home.svg"
-        }
+          "src": "/fusion-assets/icons/Competency_home.svg",
+        },
       },
       {
         "id": "searchMob",
@@ -74,8 +74,8 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": true,
-          "src": "/fusion-assets/icons/Search.svg"
-        }
+          "src": "/fusion-assets/icons/Search.svg",
+        },
       },
       {
         "id": "accountTab",
@@ -86,8 +86,8 @@ export const data = {
         "type": "text",
         "image": {
           "isMobile": false,
-          "src": "/fusion-assets/icons/account.svg"
-        }
+          "src": "/fusion-assets/icons/account.svg",
+        },
       },
       {
         "id": "notifTab",
@@ -97,18 +97,18 @@ export const data = {
         "show": false,
         "type": "button-icon",
         "image": {
-          "src": "/fusion-assets/icons/notifications.svg"
-        }
-      }
+          "src": "/fusion-assets/icons/notifications.svg",
+        },
+      },
     ],
     "rightMenuItem": {
       "id": "menu",
       "title": "",
       "image": {
         "isMobile": true,
-        "src": "/fusion-assets/icons/Hamburger_menu-svg.svg"
-      }
-    }
+        "src": "/fusion-assets/icons/Hamburger_menu-svg.svg",
+      },
+    },
   },
   "LAYOUT_BODY": {
     "heading": "",
@@ -126,16 +126,16 @@ export const data = {
               "titleHi": "सीएनई आवर्स के साथ पाठ्यक्रम देखें",
               "img": "/fusion-assets/images/banner_1_cne.png",
               "scrollEmit": "scrollToCneCourses",
-              "bg-color": "#D7AC5C;"
+              "bg-color": "#D7AC5C;",
             },
             {
               "title": "Watch tutorials on how sphere works",
               "titleHi": "जानिए स्फीयर कैसे काम करता है",
               "img": "/fusion-assets/images/banner_2.png",
               "scrollEmit": "scrollToHowSphereWorks",
-              "bg-color": "#469788;;"
-            }
-          ]
+              "bg-color": "#469788;;",
+            },
+          ],
         },
         {
           "title": "CONTINUE LEARNING",
@@ -150,8 +150,8 @@ export const data = {
             "badges": {
               "certification": true,
               "rating": true,
-              "completionPercentage": true
-            }
+              "completionPercentage": true,
+            },
           },
           "displayConfig": {
             "displayType": "card-mini",
@@ -159,16 +159,16 @@ export const data = {
               "certification": true,
               "rating": true,
               "completionPercentage": true,
-              "mobilesourceName": true
-            }
+              "mobilesourceName": true,
+            },
           },
           "button": {
             "label1": "View All",
             "label2": "Hide",
             "img": "/fusion-assets/icons/Arrowpng.png",
             "courseType": "continueLearning",
-            "routingUrl": "app/user/my_courses"
-          }
+            "routingUrl": "app/user/my_courses",
+          },
         },
         {
           "title": "FOR YOU",
@@ -183,24 +183,24 @@ export const data = {
             "badges": {
               "certification": true,
               "rating": true,
-              "sourceName": true
-            }
+              "sourceName": true,
+            },
           },
           "displayConfig": {
             "displayType": "card-badges",
             "badges": {
               "certification": true,
               "rating": true,
-              "sourceName": true
-            }
+              "sourceName": true,
+            },
           },
           "button": {
             "label1": "View All",
             "label2": "Hide",
             "img": "/fusion-assets/icons/Arrowpng.png",
             "courseType": "formatForYouCourses",
-            "routingUrl": "app/user/my_courses"
-          }
+            "routingUrl": "app/user/my_courses",
+          },
         },
         {
           "title": "TOP COURSES",
@@ -215,24 +215,24 @@ export const data = {
             "badges": {
               "certification": true,
               "rating": true,
-              "sourceName": true
-            }
+              "sourceName": true,
+            },
           },
           "displayConfig": {
             "displayType": "card-badges",
             "badges": {
               "certification": true,
               "rating": true,
-              "sourceName": true
-            }
+              "sourceName": true,
+            },
           },
           "button": {
             "label1": "View All",
             "label2": "Hide",
             "img": "/fusion-assets/icons/Arrowpng.png",
             "courseType": "topCourse",
-            "routingUrl": "app/search/topCourse"
-          }
+            "routingUrl": "app/search/topCourse",
+          },
         },
         {
           "title": "CNE COURSES",
@@ -247,24 +247,24 @@ export const data = {
             "badges": {
               "cneName": true,
               "rating": true,
-              "sourceName": true
-            }
+              "sourceName": true,
+            },
           },
           "displayConfig": {
             "displayType": "card-badges",
             "badges": {
               "cneName": true,
               "rating": true,
-              "sourceName": true
-            }
+              "sourceName": true,
+            },
           },
           "button": {
             "label1": "View All",
             "label2": "Hide",
             "img": "/fusion-assets/icons/Arrowpng.png",
             "courseType": "cneCourses",
-            "routingUrl": "app/search/topCourse"
-          }
+            "routingUrl": "app/search/topCourse",
+          },
         },
         {
           "title": "How sphere works",
@@ -274,20 +274,20 @@ export const data = {
             {
               "url": "https://www.youtube.com/embed/1fqlys8mkHg",
               "title": "Register for a course",
-              "description": "Explore various courses and pick the ones you like"
+              "description": "Explore various courses and pick the ones you like",
             },
             {
               "url": "https://www.youtube.com/embed/Kl28R7m2k50",
               "title": "Take the course",
-              "description": "Access the course anytime, at your convinience"
+              "description": "Access the course anytime, at your convinience",
             },
             {
               "url": "https://www.youtube.com/embed/JTGzCkEXlmU",
               "title": "Get certified",
-              "description": "Receive downloadable and shareable certificates"
-            }
-          ]
-        }
+              "description": "Receive downloadable and shareable certificates",
+            },
+          ],
+        },
       ],
       "courseTab": {
         "title": "My Courses",
@@ -303,8 +303,8 @@ export const data = {
                 "certification": true,
                 "rating": true,
                 "completionPercentage": true,
-                "resume": true
-              }
+                "resume": true,
+              },
             },
             "displayConfig": {
               "displayType": "card-mini",
@@ -312,16 +312,16 @@ export const data = {
                 "certification": true,
                 "rating": true,
                 "completionPercentage": true,
-                "mobilesourceName": true
-              }
+                "mobilesourceName": true,
+              },
             },
             "fallbackState": {
               "label": "You have not started any courses.",
               "button": {
                 "show": true,
-                "label": "Check out courses for you"
-              }
-            }
+                "label": "Check out courses for you",
+              },
+            },
           },
           {
             "id": 1,
@@ -333,24 +333,24 @@ export const data = {
               "badges": {
                 "certification": true,
                 "sourceName": true,
-                "rating": true
-              }
+                "rating": true,
+              },
             },
             "displayConfig": {
               "displayType": "card-badges",
               "badges": {
                 "certification": true,
                 "sourceName": true,
-                "rating": true
-              }
+                "rating": true,
+              },
             },
             "fallbackState": {
               "label": "You have no courses.",
               "button": {
                 "show": false,
-                "label": ""
-              }
-            }
+                "label": "",
+              },
+            },
           },
           {
             "id": 2,
@@ -363,26 +363,26 @@ export const data = {
                 "rating": true,
                 "viewAll": true,
                 "mobilesourceName": true,
-                "sourceLine": true
-              }
+                "sourceLine": true,
+              },
             },
             "displayConfig": {
               "displayType": "card-mini",
               "badges": {
                 "rating": true,
                 "mobilesourceName": true,
-                "sourceLine": true
-              }
+                "sourceLine": true,
+              },
             },
             "fallbackState": {
               "label": "You have not completed any courses.",
               "button": {
                 "show": false,
-                "label": ""
-              }
-            }
-          }
-        ]
+                "label": "",
+              },
+            },
+          },
+        ],
       },
       "competencyTab": [],
       "searchMob": [],
@@ -395,7 +395,7 @@ export const data = {
           "langPreference",
           "certificate",
           "help&Support",
-          "logout"
+          "logout",
         ],
         "mobOrderList": [
           "profileImg",
@@ -405,7 +405,7 @@ export const data = {
           "personalDetails",
           "orgDetails",
           "academicDetails",
-          "logout"
+          "logout",
         ],
         "menuItems": [
           {
@@ -415,8 +415,8 @@ export const data = {
             "type": "heading",
             "editIcon": {
               "label": "edit",
-              "className": "pencil"
-            }
+              "className": "pencil",
+            },
           },
           {
             "id": "help&Support",
@@ -426,7 +426,7 @@ export const data = {
             "img": "/fusion-assets/icons/support-agent.svg",
             "phone": "tel:+918429036003",
             "icon": "",
-            "data": {}
+            "data": {},
           },
           {
             "id": "logout",
@@ -437,8 +437,8 @@ export const data = {
             "icon": "",
             "data": {
               "mobInfoText": "To request account deletion please send an email to",
-              "supportLink": "support@aastrika.org"
-            }
+              "supportLink": "support@aastrika.org",
+            },
           },
           {
             "id": "langPreference",
@@ -454,24 +454,24 @@ export const data = {
               "sub_header": "APP_LANGUAGE",
               "img": {
                 "show": false,
-                "icon": ""
+                "icon": "",
               },
               "optionsList": [
                 {
                   "code": "en",
                   "name": "English",
-                  "checked": false
+                  "checked": false,
                 },
                 {
                   "code": "hi",
                   "name": "हिंदी",
-                  "checked": false
-                }
+                  "checked": false,
+                },
               ],
               "button": {
-                "label": "Save"
-              }
-            }
+                "label": "Save",
+              },
+            },
           },
           {
             "id": "certificate",
@@ -482,7 +482,7 @@ export const data = {
             "img": "/fusion-assets/images/Group.svg",
             "icon": "/fusion-assets/icons/arrow-right.svg",
             "data": {},
-            "selected": false
+            "selected": false,
           },
           {
             "id": "personalDetails",
@@ -498,162 +498,162 @@ export const data = {
               "sub_header": "",
               "img": {
                 "show": false,
-                "icon": ""
+                "icon": "",
               },
               "optionsList": [
                 {
                   "title": "First name",
                   "name": "firstname",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "Last name",
                   "name": "surname",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "DOB",
                   "name": "dob",
-                  "required": false
+                  "required": false,
                 },
                 {
                   "title": "POSITION",
                   "name": "profession",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "ORG_NAME",
                   "name": "name",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "NATIONALITY",
                   "name": "nationality",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "MOTHER_TONGUE",
                   "name": "domicileMedium",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "GENDER",
                   "name": "gender",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "MARITAL_STATUS",
                   "name": "maritalStatus",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "PHONE_NUMBER",
                   "name": "mobile",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "COUNTRY",
                   "name": "country",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "STATE",
                   "name": "state",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "CITY_DISTRICT",
                   "name": "distict",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "PINCODE",
                   "name": "pincode",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "FRMELEMNTS_LBL_BLOCK",
                   "name": "block",
-                  "required": true
-                }
+                  "required": true,
+                },
               ],
               "formData": [
                 {
                   "key": "firstname",
                   "type": "text",
                   "label": "First name",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "key": "surname",
                   "type": "text",
                   "label": "Last name",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "key": "mobile",
                   "type": "text",
                   "label": "Phone Number",
                   "required": false,
-                  "pattern": "^[0-9]*$"
+                  "pattern": "^[0-9]*$",
                 },
                 {
                   "key": "email",
                   "type": "text",
                   "label": "Email ID",
                   "required": false,
-                  "pattern": "^[0-9]*$"
+                  "pattern": "^[0-9]*$",
                 },
                 {
                   "key": "dob",
                   "type": "dob",
                   "label": "Date Of Birth",
                   "required": true,
-                  "errMsg": "You must be at least 18 years old"
+                  "errMsg": "You must be at least 18 years old",
                 },
                 {
                   "key": "country",
                   "type": "select",
                   "label": "Country",
                   "options": "countries",
-                  "required": false
+                  "required": false,
                 },
                 {
                   "key": "state",
                   "type": "select",
                   "label": "State",
                   "options": "states",
-                  "required": false
+                  "required": false,
                 },
                 {
                   "key": "distict",
                   "type": "select",
                   "label": "District",
                   "options": "disticts",
-                  "required": false
+                  "required": false,
                 },
                 {
                   "key": "block",
                   "type": "text",
                   "label": "Block",
-                  "required": false
+                  "required": false,
                 },
                 {
                   "key": "pincode",
                   "type": "text",
                   "label": "Pincode",
                   "required": false,
-                  "pattern": "^[0-9]*$"
+                  "pattern": "^[0-9]*$",
                 },
                 {
                   "key": "personal-btn",
                   "type": "button",
                   "label": "Save",
-                  "required": false
-                }
+                  "required": false,
+                },
               ],
-              "sucessMsg": "User profile details updated successfully!"
-            }
+              "sucessMsg": "User profile details updated successfully!",
+            },
           },
           {
             "id": "orgDetails",
@@ -669,84 +669,84 @@ export const data = {
               "sub_header": "",
               "img": {
                 "show": false,
-                "icon": "assets/icons/edit-icon-outline.svg"
+                "icon": "assets/icons/edit-icon-outline.svg",
               },
               "optionsList": [
                 {
                   "title": "BACKGROUND",
                   "name": "background",
-                  "required": false
+                  "required": false,
                 },
                 {
                   "title": "POSITION",
                   "name": "designation",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "DEPARTMENT_NAME",
                   "name": "channel",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "FACILITY_NAME",
                   "name": "facilityName",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "FACILITY_CODE",
                   "name": "facilityCode",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "FACILITY_TYPE",
                   "name": "facilityType",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "PROFESSIONS",
                   "name": "profession",
-                  "required": false
+                  "required": false,
                 },
                 {
                   "title": "ORGANIZATIONAL_TYPE",
                   "name": "orgType",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "ORGANIZATIONAL_NAME",
                   "name": "name",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "RN_NUM",
                   "name": "rnNumber",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "QUALIFICATION",
                   "name": "qualification",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "INSTITUE_NAME",
                   "name": "instituteName",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "CITY_DISTRICT",
                   "name": "locationselect",
-                  "required": true
+                  "required": true,
                 },
                 {
                   "title": "FRMELEMNTS_LBL_BLOCK",
                   "name": "block",
-                  "required": false
+                  "required": false,
                 },
                 {
                   "title": "SUB_CENTRE",
                   "name": "subcentre",
-                  "required": true
-                }
+                  "required": true,
+                },
               ],
               "formData": [
                 {
@@ -756,7 +756,7 @@ export const data = {
                   "placeholder": "Profession",
                   "required": false,
                   "disabled": false,
-                  "options": "professions"
+                  "options": "professions",
                 },
                 {
                   "key": "designation",
@@ -771,11 +771,11 @@ export const data = {
                       "Healthcare Worker",
                       "Healthcare Volunteer",
                       "Student",
-                      "Faculty"
-                    ]
+                      "Faculty",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": "errorMsg"
+                  "errorMsg": "errorMsg",
                 },
                 {
                   "key": "professionOtherSpecify",
@@ -787,14 +787,14 @@ export const data = {
                   "showIf": {
                     "profession": [
                       "Healthcare Worker",
-                      "Healthcare Volunteer"
+                      "Healthcare Volunteer",
                     ],
                     "designation": [
-                      "Others"
-                    ]
+                      "Others",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": "errorMsg"
+                  "errorMsg": "errorMsg",
                 },
                 {
                   "key": "regNurseRegMidwifeNumber",
@@ -805,11 +805,11 @@ export const data = {
                   "disabled": false,
                   "showIf": {
                     "profession": [
-                      "Healthcare Worker"
-                    ]
+                      "Healthcare Worker",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": ""
+                  "errorMsg": "",
                 },
                 {
                   "key": "selectBackground",
@@ -821,9 +821,9 @@ export const data = {
                   "options": "professionalOptions",
                   "showIf": {
                     "profession": [
-                      "Others"
-                    ]
-                  }
+                      "Others",
+                    ],
+                  },
                 },
                 {
                   "key": "designation",
@@ -834,13 +834,13 @@ export const data = {
                   "disabled": false,
                   "showIf": {
                     "profession": [
-                      "Others"
+                      "Others",
                     ],
                     "selectBackground": [
-                      "Other"
-                    ]
+                      "Other",
+                    ],
                   },
-                  "pattern": ""
+                  "pattern": "",
                 },
                 {
                   "key": "nameOther",
@@ -851,14 +851,14 @@ export const data = {
                   "disabled": false,
                   "showIf": {
                     "profession": [
-                      "Others"
+                      "Others",
                     ],
                     "selectBackground": [
-                      "Other"
-                    ]
+                      "Other",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": "errorMsg"
+                  "errorMsg": "errorMsg",
                 },
                 {
                   "key": "orgType",
@@ -872,12 +872,12 @@ export const data = {
                     "profession": [
                       "Healthcare Worker",
                       "Healthcare Volunteer",
-                      "Others"
+                      "Others",
                     ],
                     "selectBackground": [
-                      "Other"
-                    ]
-                  }
+                      "Other",
+                    ],
+                  },
                 },
                 {
                   "key": "orgOtherSpecify",
@@ -890,17 +890,17 @@ export const data = {
                     "profession": [
                       "Healthcare Worker",
                       "Healthcare Volunteer",
-                      "Others"
+                      "Others",
                     ],
                     "selectBackground": [
-                      "Other"
+                      "Other",
                     ],
                     "orgType": [
-                      "Others"
-                    ]
+                      "Others",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": "errorMsg"
+                  "errorMsg": "errorMsg",
                 },
                 {
                   "key": "orgName",
@@ -913,14 +913,14 @@ export const data = {
                     "profession": [
                       "Healthcare Worker",
                       "Healthcare Volunteer",
-                      "Others"
+                      "Others",
                     ],
                     "selectBackground": [
-                      "Other"
-                    ]
+                      "Other",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": "errorMsg"
+                  "errorMsg": "errorMsg",
                 },
                 {
                   "key": "courseName",
@@ -931,11 +931,11 @@ export const data = {
                   "disabled": false,
                   "showIf": {
                     "profession": [
-                      "Student"
-                    ]
+                      "Student",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": "errorMsg"
+                  "errorMsg": "errorMsg",
                 },
                 {
                   "key": "instituteName",
@@ -946,11 +946,11 @@ export const data = {
                   "disabled": false,
                   "showIf": {
                     "profession": [
-                      "Student"
-                    ]
+                      "Student",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": "errorMsg"
+                  "errorMsg": "errorMsg",
                 },
                 {
                   "key": "orgName",
@@ -961,11 +961,11 @@ export const data = {
                   "disabled": false,
                   "showIf": {
                     "profession": [
-                      "Faculty"
-                    ]
+                      "Faculty",
+                    ],
                   },
                   "pattern": "^[a-zA-Z][^\\s].*$",
-                  "errorMsg": "errorMsg"
+                  "errorMsg": "errorMsg",
                 },
                 {
                   "key": "locationselect",
@@ -978,13 +978,13 @@ export const data = {
                   "showIf": {
                     "profession": [
                       "ASHA",
-                      "Others"
+                      "Others",
                     ],
                     "selectBackground": [
                       "Asha Facilitator",
-                      "Asha Trainer"
-                    ]
-                  }
+                      "Asha Trainer",
+                    ],
+                  },
                 },
                 {
                   "key": "block",
@@ -996,13 +996,13 @@ export const data = {
                   "showIf": {
                     "profession": [
                       "ASHA",
-                      "Others"
+                      "Others",
                     ],
                     "selectBackground": [
                       "Asha Facilitator",
-                      "Asha Trainer"
-                    ]
-                  }
+                      "Asha Trainer",
+                    ],
+                  },
                 },
                 {
                   "key": "subcentre",
@@ -1014,24 +1014,24 @@ export const data = {
                   "showIf": {
                     "profession": [
                       "ASHA",
-                      "Others"
+                      "Others",
                     ],
                     "selectBackground": [
                       "Asha Facilitator",
-                      "Asha Trainer"
-                    ]
-                  }
+                      "Asha Trainer",
+                    ],
+                  },
                 },
                 {
                   "key": "organization-btn",
                   "type": "submit",
                   "label": "Save",
                   "required": false,
-                  "condition": "isEditableForSphere"
-                }
+                  "condition": "isEditableForSphere",
+                },
               ],
-              "sucessMsg": "User profile details updated successfully!"
-            }
+              "sucessMsg": "User profile details updated successfully!",
+            },
           },
           {
             "id": "academicDetails",
@@ -1048,7 +1048,7 @@ export const data = {
               "button": {
                 "show": true,
                 "label": "edit",
-                "icon": "pencil"
+                "icon": "pencil",
               },
               // "optionsList": [
               //   {
@@ -1102,12 +1102,12 @@ export const data = {
               //     "required": false
               //   }
               // ]
-            }
-          }
-        ]
+            },
+          },
+        ],
       },
-      "notifTab": []
-    }
+      "notifTab": [],
+    },
   },
   "LAYOUT_FOOTER": {
     "footerLabel": "2024 AastarUrmika Health Systems ('Aastrika Foundation')",
@@ -1120,25 +1120,25 @@ export const data = {
           {
             "label": "Privacy policy",
             "type": "dp",
-            "routerLink": "/public/tnc"
+            "routerLink": "/public/tnc",
           },
           {
             "label": "Terms of Use",
             "type": "tnc",
-            "routerLink": "/public/tnc"
-          }
-        ]
+            "routerLink": "/public/tnc",
+          },
+        ],
       },
       {
         "heading": "Help & Contact",
         "link": "support@aastrika.org",
         "href": "http://support.aastrika.org/support/solutions",
-        "links": []
+        "links": [],
       },
       {
         "label": "Talk to us on WhatsApp",
         "src": "/fusion-assets/icons/whatsapp.png",
-        "href": "https://wa.me/919632013414?text=Hi"
+        "href": "https://wa.me/919632013414?text=Hi",
       },
       {
         "heading": "Additional Links",
@@ -1148,25 +1148,25 @@ export const data = {
           {
             "href": "https://twitter.com/aastrika_fndn?s=21&t=I9xN5rzMahavP0R1Fp7VwA",
             "icon": "/fusion-assets/icons/icons8-twitter.svg",
-            "alt": "twitter"
+            "alt": "twitter",
           },
           {
             "href": "https://www.facebook.com/aastrikasphere?mibextid=LQQJ4d",
             "icon": "/fusion-assets/icons/icons8-facebook.svg",
-            "alt": "facebook"
+            "alt": "facebook",
           },
           {
             "href": "https://instagram.com/sphere.aastrika?igshid=MmJiY2I4NDBkZg==",
             "icon": "/fusion-assets/icons/icons8-instagram.svg",
-            "alt": "instagram"
+            "alt": "instagram",
           },
           {
             "href": "https://www.linkedin.com/company/aastrika-foundation/",
             "icon": "/fusion-assets/icons/icons8-linkedin.svg",
-            "alt": "linkedin"
-          }
-        ]
-      }
-    ]
-  }
+            "alt": "linkedin",
+          },
+        ],
+      },
+    ],
+  },
 }

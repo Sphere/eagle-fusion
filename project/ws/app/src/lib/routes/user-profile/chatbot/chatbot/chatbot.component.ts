@@ -14,7 +14,7 @@ import { BtnProfileService } from '@ws-widget/collection/src/lib/btn-profile/btn
 import { AppDateAdapter, APP_DATE_FORMATS } from '../../services/format-datepicker'
 import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
-declare var $: any
+declare let $: any
 @Component({
   selector: 'ws-app-chatbot',
   templateUrl: './chatbot.component.html',
@@ -770,7 +770,7 @@ export class ChatbotComponent implements OnInit {
         osName: userAgent.OS,
         browserName: userAgent.browserName,
         userCookie,
-        profileLocation: 'sphere-web/chatbot'
+        profileLocation: 'sphere-web/chatbot',
       },
       academics: this.getAcademics(form),
       employmentDetails: {
@@ -1000,7 +1000,7 @@ export class ChatbotComponent implements OnInit {
     })
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 2000) {
+  private openSnackbar(primaryMsg: string, duration = 2000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

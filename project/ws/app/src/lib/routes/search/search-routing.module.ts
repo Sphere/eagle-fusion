@@ -52,7 +52,7 @@ const routes: Routes = [
     resolve: {
       pageData: PageResolve,
       content: PageResolve,
-    }
+    },
   },
   {
     path: 'learningJourneys',

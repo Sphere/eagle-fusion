@@ -242,7 +242,7 @@ export class WebModuleEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  checkValidity(lexId: string): Boolean {
+  checkValidity(lexId: string): boolean {
     let returnVal = true
     for (let i = 0; i < this.userData[lexId].pages.length; i = i + 1) {
       if (!this.userData[lexId].pages[i].body) {

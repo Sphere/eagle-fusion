@@ -175,14 +175,14 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
             "port": 3000,
-            "browserTarget": "fusion:build"
+            "buildTarget": "fusion:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "fusion:build:production"
+              "buildTarget": "fusion:build:production"
             },
             "development": {
-              "browserTarget": "fusion:build:development"
+              "buildTarget": "fusion:build:development"
             }
           },
           "defaultConfiguration": "development"

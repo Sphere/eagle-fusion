@@ -21,6 +21,6 @@ import { TreeCatalogRoutePipe } from './tree-catalog-route.pipe'
         MatMenuModule,
         MatProgressSpinnerModule,
     ],
-    exports: [TreeCatalogComponent, TreeCatalogMenuComponent]
+    exports: [TreeCatalogComponent, TreeCatalogMenuComponent],
 })
 export class TreeCatalogModule { }

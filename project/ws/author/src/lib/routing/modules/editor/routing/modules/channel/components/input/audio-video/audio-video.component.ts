@@ -103,7 +103,7 @@ export class AudioVideoComponent implements OnChanges, OnInit {
 
   removeSubtitle(index: number) {
     // tslint:disable-next-line: semicolon
-    ; (this.content.subtitles || []).splice(index, 1)
+     (this.content.subtitles || []).splice(index, 1)
     this.update('subtitles', this.content.subtitles)
   }
 
@@ -164,7 +164,7 @@ export class AudioVideoComponent implements OnChanges, OnInit {
               this.update('url', url)
             } else {
               // tslint:disable-next-line: semicolon
-              ; (this.content.subtitles || []).push({
+               (this.content.subtitles || []).push({
                 url,
                 srclang: this.selectedSubtitle.srclang,
                 label: this.selectedSubtitle.label,

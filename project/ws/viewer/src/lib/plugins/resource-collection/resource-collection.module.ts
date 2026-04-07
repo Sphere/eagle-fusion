@@ -37,10 +37,10 @@ import { TranslateModule } from '@ngx-translate/core'
         MatProgressSpinnerModule,
         PlayerPdfModule,
         PlayerVideoModule,
-        TranslateModule
+        TranslateModule,
     ],
     exports: [
         ResourceCollectionComponent,
-    ]
+    ],
 })
 export class ResourceCollectionModule { }

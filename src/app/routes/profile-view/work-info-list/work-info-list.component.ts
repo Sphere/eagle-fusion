@@ -39,7 +39,7 @@ export class WorkInfoListComponent implements OnInit {
   trigerrNavigation = true
 
   @Output() passProfession = new EventEmitter<string>()
-  @Input() isEkshamata: boolean = false
+  @Input() isEkshamata = false
   @Input() data: any
 
   isEditableForSphere = false
@@ -205,7 +205,7 @@ export class WorkInfoListComponent implements OnInit {
         controls.locationselect.setValue(location)
 
         if (state) {
-          this.loadDistrictsByState(state, (districts) => {
+          this.loadDistrictsByState(state, districts => {
             if (districts.includes(dist)) {
               form.get('locationselect')?.setValue(dist)
             }
@@ -394,7 +394,7 @@ export class WorkInfoListComponent implements OnInit {
     }
 
     // ✅ Use LanguageService instead of checking location.href
-    let local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
+    const local = (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : this.languageSvc?.getCurrentLanguage() || 'en'
 
     let profileRequest = this.constructReq(form)
     if (form.value.locationselect) {
@@ -405,10 +405,10 @@ export class WorkInfoListComponent implements OnInit {
 
       this.logger.log(cName)
       if (cName) {
-        let cName1 = this.userProfileData.personalDetails.postalAddress
-        let csplit = cName1.split(',')
-        let country = csplit[0].trim()
-        let state = csplit[1].trim()
+        const cName1 = this.userProfileData.personalDetails.postalAddress
+        const csplit = cName1.split(',')
+        const country = csplit[0].trim()
+        const state = csplit[1].trim()
         profileRequest.profileReq.personalDetails.postalAddress = country + ',' + state + ',' + form.value.locationselect
       }
     }
@@ -424,7 +424,7 @@ export class WorkInfoListComponent implements OnInit {
     const reqUpdate = {
       request: {
         userId: this.userID,
-        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-list', },
+        profileDetails: { ...profileRequest, profileLocation: 'sphere-web/work-info-list' },
       },
     }
     this.logger.log('request update', reqUpdate, get(form.value, 'profession'))
@@ -546,7 +546,7 @@ export class WorkInfoListComponent implements OnInit {
     return organisations
   }
 
-  public openSnackbar(primaryMsg: string, duration: number = 5000) {
+  public openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

@@ -1,7 +1,7 @@
 import {
   Component, OnInit,
   //AfterViewInit,
-  OnDestroy, ViewChild, ElementRef
+  OnDestroy, ViewChild, ElementRef,
 } from '@angular/core'
 import { DomSanitizer } from '@angular/platform-browser'
 import { ActivatedRoute } from '@angular/router'

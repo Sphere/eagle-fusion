@@ -19,7 +19,7 @@ export class BtnFullscreenComponent extends WidgetBaseComponent
   implements OnInit, OnDestroy, NsWidgetResolver.IWidgetData<{ fsContainer: HTMLElement | null }> {
   @Input() widgetData!: { fsContainer: HTMLElement | null }
   @Output() fsState: EventEmitter<boolean> = new EventEmitter()
-  containsQuizAssessment = false;
+  containsQuizAssessment = false
   constructor(private router: Router, private logger: LoggerService) {
     super()
     this.logger.log(this.router.url.includes('quiz'))

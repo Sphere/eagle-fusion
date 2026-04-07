@@ -9,7 +9,7 @@ import { LoggerService, ValueService } from '../../../../library/ws-widget/utils
 })
 export class WebEkshamataPublicComponent implements OnInit {
 
-  isXSmall$: boolean = false
+  isXSmall$ = false
 
   constructor(private readonly router: Router, private readonly valueSvc: ValueService,
     private logger: LoggerService

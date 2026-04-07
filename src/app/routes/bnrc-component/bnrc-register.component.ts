@@ -39,7 +39,7 @@ export class BnrcRegisterComponent implements OnInit {
   serviceType = ['Regular', 'Contractual']
   userProfileData!: IUserProfileDetailsFromRegistry
   showbackButton = false
-  @Output() passProfession = new EventEmitter<string>();
+  @Output() passProfession = new EventEmitter<string>()
   showLogOutIcon = false
   trigerrNavigation = true
   bnrcDetailForm: UntypedFormGroup
@@ -67,25 +67,25 @@ export class BnrcRegisterComponent implements OnInit {
   enableSubmit = false
   hideAsha = false
   districts: any = []
-  institutes: any = [];
+  institutes: any = []
   filteredInstitutes!: Observable<any[]>
-  isSubmitting = false;
-  isInservice = false;
+  isSubmitting = false
+  isInservice = false
   isANM = false
   isCHO = false
-  message: string = ''
+  message = ''
   // instituteNameUrl = '../../../fusion-assets/files/district_institutes_option_a.json'
   institutesData: any = []
   currentDistrictInstitutes: any = []
   @ViewChild('toastSuccess', { static: true }) toastSuccess!: ElementRef<any>
-  hrmsErr: boolean = false
-  bnrcErr: boolean = false
-  showMessage: boolean = false
+  hrmsErr = false
+  bnrcErr = false
+  showMessage = false
   blocks: string[] = []
   aamShcList: { name: string; nin: number }[] = []
 
-  selectedDistrict: string = ''
-  selectedBlock: string = ''
+  selectedDistrict = ''
+  selectedBlock = ''
 
 
   biharDistrictData: any = {}
@@ -400,7 +400,7 @@ export class BnrcRegisterComponent implements OnInit {
 
         clearValidatorsAndReset([
           'facultyType', 'bnrcRegistrationNumber', 'publicFacilityType', 'roleForInService',
-          'serviceType', 'facilityName', 'privateFacilityType', 'hrmsId'
+          'serviceType', 'facilityName', 'privateFacilityType', 'hrmsId',
         ])
         break
       }
@@ -421,7 +421,7 @@ export class BnrcRegisterComponent implements OnInit {
 
         clearValidatorsAndReset([
           'courseSelection', 'publicFacilityType', 'roleForInService', 'serviceType',
-          'facilityName', 'privateFacilityType', 'hrmsId'
+          'facilityName', 'privateFacilityType', 'hrmsId',
         ])
         break
       }
@@ -457,7 +457,7 @@ export class BnrcRegisterComponent implements OnInit {
         setValidators('block', [Validators.required])
 
         clearValidatorsAndReset([
-          'courseSelection', 'facultyType', 'privateFacilityType', 'instituteType', 'instituteName'
+          'courseSelection', 'facultyType', 'privateFacilityType', 'instituteType', 'instituteName',
         ])
         break
       }
@@ -478,7 +478,7 @@ export class BnrcRegisterComponent implements OnInit {
 
         clearValidatorsAndReset([
           'courseSelection', 'facultyType', 'hrmsId', 'publicFacilityType',
-          'serviceType', 'instituteName', 'instituteType'
+          'serviceType', 'instituteName', 'instituteType',
         ])
         break
       }
@@ -499,7 +499,7 @@ export class BnrcRegisterComponent implements OnInit {
 
         clearValidatorsAndReset([
           'courseSelection', 'facultyType', 'hrmsId', 'publicFacilityType',
-          'instituteName', 'instituteType'
+          'instituteName', 'instituteType',
         ])
         break
       }
@@ -544,7 +544,7 @@ export class BnrcRegisterComponent implements OnInit {
     if (this.bnrcDetailForm.valid) {
 
       const phone = {
-        phone: this.bnrcDetailForm.value.phone
+        phone: this.bnrcDetailForm.value.phone,
       }
       this.isSubmitting = true
       this.otpPage = true
@@ -554,7 +554,7 @@ export class BnrcRegisterComponent implements OnInit {
           this.openSnackbar(res.message)
         }
       },
-        (error) => {
+        error => {
           this.isSubmitting = false
           this.loader.changeLoad.next(false)
           this.openSnackbar(error.error.message)
@@ -589,7 +589,7 @@ export class BnrcRegisterComponent implements OnInit {
     const formValues = { ...this.bnrcDetailForm.value, phone: +this.bnrcDetailForm.value.phone }
     const reqUpdate = {
       request: {
-        formValues
+        formValues,
       },
     }
     this.userProfileSvc.bnrcRegistration(reqUpdate).subscribe(
@@ -606,7 +606,7 @@ export class BnrcRegisterComponent implements OnInit {
             panelClass: 'overview-modal',
             disableClose: true,
             data: {
-              message: 'कृपया ई-क्षमता ऐप डाउनलोड करें और दिए गए मोबाइल नंबर के साथ ओटीपी का उपयोग करके लॉगिन करें । Kindly download the e- Kshamata app and login using your given mobile number with OTP.', from: 'Bnrc'
+              message: 'कृपया ई-क्षमता ऐप डाउनलोड करें और दिए गए मोबाइल नंबर के साथ ओटीपी का उपयोग करके लॉगिन करें । Kindly download the e- Kshamata app and login using your given mobile number with OTP.', from: 'Bnrc',
             },
           })
         } else {
@@ -617,7 +617,7 @@ export class BnrcRegisterComponent implements OnInit {
 
         }
       },
-      (error) => {
+      error => {
         this.isSubmitting = false
         this.logger.error('HTTP Error:', error.error.message)
 
@@ -627,7 +627,7 @@ export class BnrcRegisterComponent implements OnInit {
       }
     )
   }
-  public openSnackbar(primaryMsg: string, duration: number = 10000) {
+  public openSnackbar(primaryMsg: string, duration = 10000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

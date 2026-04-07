@@ -13,8 +13,8 @@ import { TranslateModule } from '@ngx-translate/core'
     FormsModule,
     MatIconModule,
     MatListModule,
-    TranslateModule
+    TranslateModule,
   ],
-  exports: [PlayerVideoPopupComponent]
+  exports: [PlayerVideoPopupComponent],
 })
 export class PlayerVideoPopupModule { }

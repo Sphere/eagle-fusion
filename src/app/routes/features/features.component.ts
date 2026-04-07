@@ -140,7 +140,7 @@ export class FeaturesComponent implements OnInit, OnDestroy {
 
   logout() {
     this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
-      panelClass: 'logout-dialog-container'
+      panelClass: 'logout-dialog-container',
     })
   }
   startTour() {

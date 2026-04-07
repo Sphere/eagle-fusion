@@ -158,15 +158,15 @@ export class ViewerUtilService {
       }
     }
     this.logger.log(req.request.contents[0])
-    let cUrl = req.request.url ? req.request.url : window.location.href
-    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, req.request.contents[0].courseId).subscribe((record) => {
+    const cUrl = req.request.url ? req.request.url : window.location.href
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, req.request.contents[0].courseId).subscribe(record => {
       this.logger.log(record, '153')
       this.logger.log(cUrl.split('/'))
-      let id = cUrl.split('/')[5]
+      const id = cUrl.split('/')[5]
       this.logger.log(id)
       this.logger.log(req.request)
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe({
-        next: (next) => {
+        next: next => {
           this.logger.log('Record deleted successfully', next)
           if (next) {
 
@@ -177,11 +177,11 @@ export class ViewerUtilService {
 
             })
         },
-        error: (error) => {
+        error: error => {
           this.logger.error('Error deleting record:', error)
-        }
+        },
       })
-    }, (error) => {
+    }, error => {
       this.logger.log(error, '156',)
       this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', cUrl, req.request).subscribe(
         (dat: any) => {
@@ -225,7 +225,7 @@ export class ViewerUtilService {
       if (percentage > 95) {
         percentage = 100
       }
-      let mimeType = request.mime_type
+      const mimeType = request.mime_type
       // **CRITICAL**: Extract numeric value from current (could be array or number)
       // request.current comes as array ["69.613552"] from API responses
       const currentNumeric = Array.isArray(request.current)
@@ -261,12 +261,12 @@ export class ViewerUtilService {
       req = {}
     }
     this.logger.log(req, `${API_END_POINTS.NEW_PROGRESS_UPDATE_V3}`, '215')
-    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe((record) => {
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe(record => {
       this.logger.log(record, '217')
 
-      let cUrl = window.location.href
+      const cUrl = window.location.href
       this.logger.log(cUrl.split('/'))
-      let id = cUrl.split('/')[5]
+      const id = cUrl.split('/')[5]
       this.logger.log(id)
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
         (message: any) => { // 'next' callback
@@ -275,7 +275,7 @@ export class ViewerUtilService {
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
             async (dat: any) => {
               this.logger.log('Data inserted successfully2', dat)
-              let msg = await dat
+              const msg = await dat
               if (msg) {
 
               }
@@ -291,7 +291,7 @@ export class ViewerUtilService {
       )
 
 
-    }, (error) => {
+    }, error => {
       this.logger.log(error, '247')
       this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
         (dat: any) => {
@@ -335,7 +335,7 @@ export class ViewerUtilService {
       if (percentage > 95) {
         percentage = 100
       }
-      let mimeType = request.mime_type
+      const mimeType = request.mime_type
       // **CRITICAL**: Extract numeric value from current (could be array or number)
       // request.current comes as array ["69.613552"] from API responses
       const currentNumeric = Array.isArray(request.current)
@@ -371,12 +371,12 @@ export class ViewerUtilService {
       req = {}
     }
     this.logger.log(req, `${API_END_POINTS.NEW_PROGRESS_UPDATE_V3}`, '215')
-    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe((record) => {
+    this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configservice.userProfile!.userId, collectionId).subscribe(record => {
       this.logger.log(record, '217')
 
-      let cUrl = window.location.href
+      const cUrl = window.location.href
       this.logger.log(cUrl.split('/'))
-      let id = cUrl.split('/')[5]
+      const id = cUrl.split('/')[5]
       this.logger.log(id)
       this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
         (message: any) => { // 'next' callback
@@ -385,7 +385,7 @@ export class ViewerUtilService {
           this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
             async (dat: any) => {
               this.logger.log('Data inserted successfully2', dat)
-              let msg = await dat
+              const msg = await dat
               if (msg) {
 
               }
@@ -401,7 +401,7 @@ export class ViewerUtilService {
       )
 
 
-    }, (error) => {
+    }, error => {
       this.logger.log(error, '247')
       this.onlineIndexedDbService.insertProgressData(this.configservice.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
         (dat: any) => {
@@ -473,8 +473,8 @@ export class ViewerUtilService {
   }
 
   generateInteractTelemetry(actionId: string, contentData) {
-    let objRollup = { l1: '', l2: '' }
-    let query = window.location.search
+    const objRollup = { l1: '', l2: '' }
+    const query = window.location.search
     const params = new URLSearchParams(query)
     const collectionId = params.get('collectionId')
     objRollup.l1 = contentData.courseId || contentData.checkCollectionId || collectionId
@@ -493,8 +493,8 @@ export class ViewerUtilService {
         "identifier": contentData?.contentId || '',
         "progress": contentData?.completionPercentage || contentData?.percentage || 0,
         "batchId": batchIdValue,  // **CRITICAL**: batchId from contentData should be forwarded to extras
-        "status": contentData?.status || 1  // **CRITICAL**: Use actual status code (0/1/2), not progress percentage
-      }
+        "status": contentData?.status || 1,  // **CRITICAL**: Use actual status code (0/1/2), not progress percentage
+      },
     ]
     this.events.raiseInteractTelemetry(
       actionId,

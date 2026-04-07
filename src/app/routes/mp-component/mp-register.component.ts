@@ -77,7 +77,7 @@ export class MpRegisterComponent implements OnInit {
       facilityName: ['', Validators.required],
       facilityCode: [''],
       facilityNameOthers: [''],
-      customFacilityName: ['']
+      customFacilityName: [''],
     })
   }
 
@@ -138,7 +138,7 @@ export class MpRegisterComponent implements OnInit {
         customFacilityType: '',
         facilityName: '',
         customFacilityNameForOthersBlock: '',
-        facilityCode: ''
+        facilityCode: '',
       })
     })
 
@@ -157,7 +157,7 @@ export class MpRegisterComponent implements OnInit {
           facilityType: '',
           customFacilityType: '',
           facilityName: '',
-          customFacilityName: ''
+          customFacilityName: '',
         })
         this.anmRegistrationForm.get('customBlockName')?.setValidators([Validators.required])
         this.anmRegistrationForm.get('customBlockName')?.updateValueAndValidity()
@@ -188,7 +188,7 @@ export class MpRegisterComponent implements OnInit {
         this.anmRegistrationForm.patchValue({
           blockOthers: '',
           customBlockName: '',
-          customFacilityType: ''
+          customFacilityType: '',
         })
 
         if (district && selectedBlock && this.biharDistrictData[district][selectedBlock]) {
@@ -203,7 +203,7 @@ export class MpRegisterComponent implements OnInit {
         facilityType: '',
         customFacilityType: '',
         facilityName: '',
-        facilityCode: ''
+        facilityCode: '',
       })
     })    // Facility type change → populate facility names
     this.anmRegistrationForm.get('facilityType')?.valueChanges.subscribe(selectedFacilityType => {
@@ -234,7 +234,7 @@ export class MpRegisterComponent implements OnInit {
         facilityName: '',
         facilityCode: '',
         facilityNameOthers: '',
-        customFacilityName: ''
+        customFacilityName: '',
       })
     })
 
@@ -245,7 +245,7 @@ export class MpRegisterComponent implements OnInit {
         this.anmRegistrationForm.patchValue({
           facilityCode: '',
           facilityNameOthers: 'Others',
-          customFacilityName: ''
+          customFacilityName: '',
         })
         this.anmRegistrationForm.get('customFacilityName')?.setValidators([Validators.required])
         this.anmRegistrationForm.get('customFacilityName')?.updateValueAndValidity()
@@ -331,7 +331,7 @@ export class MpRegisterComponent implements OnInit {
             this.openSnackbar(res.message)
           }
         },
-        (error) => {
+        error => {
           this.isSubmitting = false
           this.loader.changeLoad.next(false)
           this.openSnackbar(error.error.message)
@@ -391,7 +391,7 @@ export class MpRegisterComponent implements OnInit {
           this.openSnackbar(res.message)
         }
       },
-      (error) => {
+      error => {
         this.isSubmitting = false
         this.loader.changeLoad.next(false)
         this.openSnackbar(error.error.message)
@@ -416,7 +416,7 @@ export class MpRegisterComponent implements OnInit {
     })
   }
 
-  public openSnackbar(primaryMsg: string, duration: number = 10000): void {
+  public openSnackbar(primaryMsg: string, duration = 10000): void {
     this.snackBar.open(primaryMsg, 'X', { duration })
   }
 

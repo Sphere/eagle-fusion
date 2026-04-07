@@ -20,7 +20,7 @@ export class PersonProfileService {
       validator_URL: `https://${this.configSvc.hostPath}${API_END_POINTS.VALIDATE_USER}`,
     }),
   }
-  isfollowevent = new EventEmitter<Boolean>()
+  isfollowevent = new EventEmitter<boolean>()
   wid = new BehaviorSubject<string>('')
 
   constructor(
@@ -35,7 +35,7 @@ export class PersonProfileService {
   lastlearnt(): Observable<any> {
     return this.http.get<any>(`${API_END_POINTS.lastlearnt}?pageSize=20`)
   }
-  getFollowers(wid: string, pageSize: number = 0, pageState?: string): Observable<any> {
+  getFollowers(wid: string, pageSize = 0, pageState?: string): Observable<any> {
     if (pageState) {
       return this.http.post<any>(API_END_POINTS.getFollowersv3, {
         fetchSize: pageSize,

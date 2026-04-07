@@ -6,7 +6,7 @@ interface IWindowMobileAppModified extends Window {
   appRef?: any
   webkit?: any
 }
-declare var window: IWindowMobileAppModified
+declare let window: IWindowMobileAppModified
 
 const RANDOM_ID_PER_USER = 0
 interface IRecursiveData {

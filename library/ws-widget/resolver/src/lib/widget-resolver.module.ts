@@ -31,7 +31,7 @@ import { ExploreResolverDirective } from './explore-resolver.directive'
     ExploreResolverDirective,
   ],
   imports: [CommonModule, MatButtonModule, MatIconModule, MatCardModule],
-  exports: [WidgetResolverDirective, WidgetBaseComponent, LoginResolverDirective, ExploreResolverDirective]
+  exports: [WidgetResolverDirective, WidgetBaseComponent, LoginResolverDirective, ExploreResolverDirective],
 })
 export class WidgetResolverModule {
   static forRoot(config: NsWidgetResolver.IRegistrationConfig[]): ModuleWithProviders<WidgetResolverModule> {

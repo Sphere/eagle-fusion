@@ -6,6 +6,6 @@ import { PlayerWebPagesComponent } from './player-web-pages.component'
     declarations: [PlayerWebPagesComponent],
     imports: [
         CommonModule,
-    ]
+    ],
 })
 export class PlayerWebPagesModule { }

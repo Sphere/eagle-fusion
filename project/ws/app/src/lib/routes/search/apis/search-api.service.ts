@@ -127,7 +127,7 @@ export class SearchApiService {
     return this.http.post<NSSearch.ISearchV6ApiResultV2>(API_END_POINTS.SEARCH_V6PUBLIC, body)
       .pipe(map((res: NSSearch.ISearchV6ApiResultV2) => {
         this.logger.log("res getSearchV6Results", res)
-        const tempArray = Array()
+        const tempArray = []
         if (res.result.facets.length > 0) {
           searchconfig.forEach((ele: any) => {
             const temp: NSSearch.IFacet = {

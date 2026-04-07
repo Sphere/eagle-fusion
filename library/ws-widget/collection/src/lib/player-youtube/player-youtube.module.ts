@@ -6,6 +6,6 @@ import { PlayerYoutubeComponent } from './player-youtube.component'
     declarations: [PlayerYoutubeComponent],
     imports: [
         CommonModule,
-    ]
+    ],
 })
 export class PlayerYoutubeModule { }

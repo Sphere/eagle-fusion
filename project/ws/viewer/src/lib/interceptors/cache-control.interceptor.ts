@@ -4,7 +4,7 @@ import {
   HttpInterceptor,
   HttpHandler,
   HttpRequest,
-  HttpResponse
+  HttpResponse,
 } from '@angular/common/http'
 import { Observable } from 'rxjs'
 import { tap } from 'rxjs/operators'
@@ -27,8 +27,8 @@ export class CacheControlInterceptor implements HttpInterceptor {
     // Add cache control headers for better browser caching
     const cachedReq = req.clone({
       setHeaders: {
-        'Cache-Control': 'public, max-age=43200, must-revalidate' // 12 hours
-      }
+        'Cache-Control': 'public, max-age=43200, must-revalidate', // 12 hours
+      },
     })
 
     return next.handle(cachedReq).pipe(
@@ -40,7 +40,7 @@ export class CacheControlInterceptor implements HttpInterceptor {
             {
               status: event.status,
               cacheControl: event.headers.get('cache-control'),
-              etag: event.headers.get('etag')
+              etag: event.headers.get('etag'),
             }
           )
         }

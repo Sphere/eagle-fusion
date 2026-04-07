@@ -20,10 +20,10 @@ const mockUserAgentService: Partial<UserAgentResolverService> = {}
 const mockSignupService: Partial<SignupService> = {}
 
 const mockFormBuilder: Partial<FormBuilder> = {
-  group: jest.fn()
+  group: jest.fn(),
 }
 const mockMatSnackBar: Partial<MatSnackBar> = {
-  open: jest.fn()
+  open: jest.fn(),
 }
 
 describe('PublicLoginComponent', () => {
@@ -56,7 +56,7 @@ describe('PublicLoginComponent', () => {
         { provide: ActivatedRoute, useValue: mockActivatedRouteService },
         { provide: UserAgentResolverService, useValue: mockUserAgentService },
         { provide: SignupService, useValue: mockSignupService },
-        { provide: MatSnackBar, useValue: jest.fn() }
+        { provide: MatSnackBar, useValue: jest.fn() },
       ],
     })
       .compileComponents()

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class PerformanceService {
 
@@ -43,7 +43,7 @@ export class PerformanceService {
 
   private setupLazyLoading(): void {
     const lazyImages = document.querySelectorAll('img[data-lazy]')
-    const imageObserver = new IntersectionObserver((entries) => {
+    const imageObserver = new IntersectionObserver(entries => {
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           const img = entry.target as HTMLImageElement

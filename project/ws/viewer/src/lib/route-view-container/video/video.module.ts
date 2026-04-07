@@ -61,7 +61,7 @@ import { SharedModule } from '../../../../../author/src/lib/modules/shared/share
     //UserContentRatingModule,
     //BtnContentFeedbackV2Module,
     //PlayerBriefModule,
-    SharedModule
+    SharedModule,
   ],
   exports: [
     VideoComponent,

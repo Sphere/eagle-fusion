@@ -101,8 +101,8 @@ import { TranslateModule } from '@ngx-translate/core'
     AppTocModule,
     QuizModule,
     NgCircleProgressModule.forRoot({}),
-    TranslateModule
+    TranslateModule,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class ViewerModule { }

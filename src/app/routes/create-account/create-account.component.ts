@@ -73,59 +73,59 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
   otpCodeForm!: FormGroup
 
   // UI state
-  readonly languageIcon = ASSET_PATHS.languageIcon;
-  uploadSaveData = false;
-  showAllFields = true;
-  hide1 = true;
-  hide2 = true;
-  iconChange1 = 'fas fa-eye-slash';
-  iconChange2 = 'fas fa-eye-slash';
-  langPage = true;
-  createAccount = false;
-  confirmPassword = false;
-  otpPage = false;
-  emailDelaid = false;
+  readonly languageIcon = ASSET_PATHS.languageIcon
+  uploadSaveData = false
+  showAllFields = true
+  hide1 = true
+  hide2 = true
+  iconChange1 = 'fas fa-eye-slash'
+  iconChange2 = 'fas fa-eye-slash'
+  langPage = true
+  createAccount = false
+  confirmPassword = false
+  otpPage = false
+  emailDelaid = false
   districts: any
   districtInstituteMap: any
-  showDistricts = false;
+  showDistricts = false
   // Email/Phone state
-  phone = false;
-  email = false;
-  isMobile = false;
-  isOtpValid = false;
-  emailPhoneType: 'email' | 'phone' | null = null;
-  institutes: any[] = [];
+  phone = false
+  email = false
+  isMobile = false
+  isOtpValid = false
+  emailPhoneType: 'email' | 'phone' | null = null
+  institutes: any[] = []
   // Password validation images
   passwordValidation: PasswordValidation = {
     length: ASSET_PATHS.grayDot,
     uppercase: ASSET_PATHS.grayDot,
     number: ASSET_PATHS.grayDot,
     specialChar: ASSET_PATHS.grayDot,
-  };
+  }
 
   // Language options
-  preferredLanguage = '';
-  preferedLanguage: Language = { id: 'en', lang: 'English' };
+  preferredLanguage = ''
+  preferedLanguage: Language = { id: 'en', lang: 'English' }
   readonly preferredLanguageList: Language[] = [
     { id: 'en', lang: 'English' },
     { id: 'hi', lang: 'हिंदी' },
-  ];
+  ]
 
   // Login options
-  loginSelected = '';
+  loginSelected = ''
   readonly loginSelection: LoginOption[] = [
     { id: 'otp', val: 'With OTP' },
     { id: 'password', val: 'With a password' },
-  ];
+  ]
 
   // Observables
   isXSmall$: Observable<boolean>
-  isOrgSelectiveCourse = false;
+  isOrgSelectiveCourse = false
 
   // Cleanup
-  private destroy$ = new Subject<void>();
+  private destroy$ = new Subject<void>()
   private dialogRef?: MatDialogRef<any>
-  organisationId: string = '0132317968766894088'
+  organisationId = '0132317968766894088'
   channelName!: string
   state!: string
   userRole!: string
@@ -241,7 +241,7 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
       lastname: ['', [Validators.required, Validators.pattern(REGEX_PATTERNS.name)]],
       emailOrMobile: ['', [Validators.required, Validators.pattern(REGEX_PATTERNS.emailOrMobile)]],
       district: [''],
-      instituteName: ['']
+      instituteName: [''],
     })
 
     this.createAccountWithPasswordForm = this.fb.group(

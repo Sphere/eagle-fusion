@@ -6,6 +6,6 @@ import { PlayerAmpComponent } from './player-amp.component'
     declarations: [PlayerAmpComponent],
     imports: [
         CommonModule,
-    ]
+    ],
 })
 export class PlayerAmpModule { }

@@ -31,6 +31,6 @@ import { ContentStripMultipleModule } from './../content-strip-multiple/content-
         // CardBreadcrumbModule,
         ContentStripMultipleModule,
     ],
-    exports: [PageComponent]
+    exports: [PageComponent],
 })
 export class PageModule { }

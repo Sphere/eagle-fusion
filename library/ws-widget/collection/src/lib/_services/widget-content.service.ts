@@ -88,7 +88,7 @@ export class WidgetContentService {
       return throwError(() => new Error('Content ID is required'))
     }
 
-    let url = `/apis/proxies/v8/action/content/v3/read/${id}`
+    const url = `/apis/proxies/v8/action/content/v3/read/${id}`
     const apiData = this.http
       .get<NsContent.IContent>(url)
       .pipe(retry(1))
@@ -158,7 +158,7 @@ export class WidgetContentService {
       `${API_END_POINTS.MULTIPLE_CONTENT}/${ids.join(',')}`,
     )
   }
-  fetchCollectionHierarchy(type: string, id: string, pageNumber: number = 0, pageSize: number = 1) {
+  fetchCollectionHierarchy(type: string, id: string, pageNumber = 0, pageSize = 1) {
     return this.http.get<NsContent.ICollectionHierarchyResponse>(
       `${API_END_POINTS.COLLECTION_HIERARCHY(
         type,
@@ -405,7 +405,7 @@ export class WidgetContentService {
       )
   }
   fetchCourseRemommendations(profession: any): Observable<NsContent.ICourse[]> {
-    let path = API_END_POINTS.COURSE_RECOMENDATION(profession)
+    const path = API_END_POINTS.COURSE_RECOMENDATION(profession)
     return this.http
       .get(path)
       .pipe(
@@ -417,17 +417,17 @@ export class WidgetContentService {
 
   }
   COURSE_RECOMMENDATION_V2(req: any): Observable<NsContent.ICourse[]> {
-    let payload = {
+    const payload = {
       offset: 1,
       limit: 300,
       "search_text": req.designation,
       "search_fieldnames": [
-        "rolesMapped"
+        "rolesMapped",
       ],
       "course_status": "Live",
       "primaryCategory": "Course",
       orgId: req.orgId,
-      language: req.language
+      language: req.language,
     }
     return this.http
       .post<NsContent.ICourse[]>(API_END_POINTS.COURSE_RECOMMENDATION_V2, payload)
@@ -450,13 +450,13 @@ export class WidgetContentService {
 
   get showConformation() {
     if (this._showConformation === undefined) {
-      let showConformation = localStorage.getItem('showConformation')
+      const showConformation = localStorage.getItem('showConformation')
       this._showConformation = showConformation === 'false' ? false : true
     }
     return this._showConformation
   }
 
-  getCouseByContentSearch(identifiers: string[], includeRating: boolean = false, requestBody?: any): Observable<any> {
+  getCouseByContentSearch(identifiers: string[], includeRating = false, requestBody?: any): Observable<any> {
     const req = requestBody || {
       request: {
         filters: {

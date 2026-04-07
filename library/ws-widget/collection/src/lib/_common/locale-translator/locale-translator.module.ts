@@ -7,6 +7,6 @@ import { LocaleTranslatorComponent } from './locale-translator.component'
     imports: [
         CommonModule,
     ],
-    exports: [LocaleTranslatorComponent]
+    exports: [LocaleTranslatorComponent],
 })
 export class LocaleTranslatorModule { }

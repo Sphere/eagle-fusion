@@ -1,10 +1,10 @@
 <div class="link-container" *ngIf="!mode && (data?.tncAccepted || data?.dob)">
   <div class="link-block" *ngFor="let item of menuItems">
-    <a role="button" *ngIf="item.type=='text'" matRipple [ngClass]="{'ws-mat-accent-text': item.show }"
+    <a role="button" *ngIf="item.type==='text'" matRipple [ngClass]="{'ws-mat-accent-text': item.show }"
       (click)="redirect(item)" active routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer">
       <span class="link-text">{{item.title | translate}}</span>
     </a>
-    <button *ngIf="item.type=='button-icon'" (keydown)="handleKeyDown($event)" (click)="redirect(item)" matRipple
+    <button *ngIf="item.type==='button-icon'" (keydown)="handleKeyDown($event)" (click)="redirect(item)" matRipple
       routerLinkActive="ws-mat-accent-text" class="flex cursor-pointer bg-transparent border-0">
       <img [alt]="item.redirect" width="20" height="24" [src]="item?.image?.src">
       <span *ngIf="numberOfNotification" class="badge">{{numberOfNotification}}</span>

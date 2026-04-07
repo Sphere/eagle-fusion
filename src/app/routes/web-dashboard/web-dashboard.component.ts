@@ -21,16 +21,16 @@ export class WebDashboardComponent implements OnInit {
   dataCarousel: any = []
   bannerFirstImage: any
   bannerSecondImage: any
-  currentSlideIndex = 0;
-  currentIndex = 0;
+  currentSlideIndex = 0
+  currentIndex = 0
   public intervalId: any
   lang: any = 'en'
   domain!: any
   @Input() configData: any
   @Input() userEnrolledCourse: any = []
   uiConfig: any
-  playListIds: any[] = [];
-  noOfBadges: number = 0;
+  playListIds: any[] = []
+  noOfBadges = 0
   constructor(
     public router: Router,
     public dialog: MatDialog,
@@ -80,7 +80,7 @@ export class WebDashboardComponent implements OnInit {
     // Set preferred language from LanguageService
     this.preferedLanguage = {
       id: this.languageSvc.getCurrentLanguage(),
-      lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English'
+      lang: this.languageSvc.getCurrentLanguage() === 'hi' ? 'हिंदी' : 'English',
     }
     await this.calculateBadges()
   }
@@ -133,7 +133,7 @@ export class WebDashboardComponent implements OnInit {
       const currentLanguage = this.configSvc?.userProfile?.language || 'en'
       const res = await this.plylsSvc.getPlaylistConfig()
       this.playListIds = res.find((item: any) => item.language === currentLanguage)?.dataSource?.payload || []
-      let data = this.userEnrolledCourse?.filter(item => this.playListIds?.includes(item.identifier))
+      const data = this.userEnrolledCourse?.filter(item => this.playListIds?.includes(item.identifier))
       const completedCourses = data?.filter(item => item.completionPercentage === 100)
 
       this.noOfBadges = completedCourses.length

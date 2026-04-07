@@ -6,6 +6,6 @@ import { PlayerSlidesComponent } from './player-slides.component'
     declarations: [PlayerSlidesComponent],
     imports: [
         CommonModule,
-    ]
+    ],
 })
 export class PlayerSlidesModule { }

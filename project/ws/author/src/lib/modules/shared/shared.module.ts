@@ -70,7 +70,7 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         UnpublishDialogComponent,
         ShowHideToolTipDirective,
         StatusTrackComponent,
-        PlayerNavigationWidgetComponent
+        PlayerNavigationWidgetComponent,
     ],
     imports: [
         CommonModule,
@@ -109,7 +109,7 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         // ImageCropModule,
         PipeContentRouteModule,
         RouterModule,
-        TextFieldModule
+        TextFieldModule,
     ],
     exports: [
         MatIconModule,
@@ -160,7 +160,7 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         StatusTrackComponent,
         PlayerNavigationWidgetComponent,
         TextFieldModule,
-        TranslateModule
+        TranslateModule,
     ],
     providers: [
         ApiService,
@@ -170,6 +170,6 @@ import { TextFieldModule } from '@angular/cdk/text-field'
         NotificationService,
         { provide: MAT_DIALOG_DATA, useValue: {} },
         { provide: MatDialogRef, useValue: {} },
-    ]
+    ],
 })
 export class SharedModule { }

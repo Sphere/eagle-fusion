@@ -44,7 +44,7 @@ export class BtnPageBackService {
 
   }
 
-  getLastUrl(pageNumber: number = 1) {
+  getLastUrl(pageNumber = 1) {
 
     let lastUrl: string = this.previousRouteUrls[this.previousRouteUrls.length - pageNumber]
     let fragment

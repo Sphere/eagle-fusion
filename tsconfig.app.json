@@ -2,7 +2,7 @@
   "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "./out-tsc/app",
-    "types": ["node", "@types/zip.js"]
+    "types": ["node"]
   },
   "files": ["global.d.ts"],
   "include": ["src/main.ts", "src/polyfills.ts"],

@@ -20,18 +20,18 @@ export class LoginOtpComponent implements OnInit {
   loginOtpForm!: UntypedFormGroup
   @Input() signUpdata: any
   @Input() loginData: any
-  @Input() organisationId: string = '0132317968766894088'
+  @Input() organisationId = '0132317968766894088'
   @Output() redirectToParent = new EventEmitter()
   @Output() backToCreate = new EventEmitter<string>()
   emailPhoneType: any = 'phone'
   loginVerification = false
   redirectUrl = ''
-  resendTimer: number = 600; // Initialize with 600 seconds (10 minutes)
-  resendTimerText: string = '10:00'; // Initialize the display text
+  resendTimer = 600 // Initialize with 600 seconds (10 minutes)
+  resendTimerText = '10:00' // Initialize the display text
   interval: any
   otpInputs: string[] = ['', '', '', '']
   isXSmall$: Observable<boolean>
-  isBelowOneMinute: boolean = false;
+  isBelowOneMinute = false
   langDialog: any
 
   constructor(
@@ -73,7 +73,7 @@ export class LoginOtpComponent implements OnInit {
   initializeForm(): void {
     if (this.emailPhoneType === 'email') {
       this.loginOtpForm = this.fb.group({
-        code: ['', Validators.required] // This control will store the combined OTP code
+        code: ['', Validators.required], // This control will store the combined OTP code
       })
     } else {
       this.loginOtpForm = this.fb.group({
@@ -81,7 +81,7 @@ export class LoginOtpComponent implements OnInit {
         otp2: ['', Validators.required],
         otp3: ['', Validators.required],
         otp4: ['', Validators.required],
-        code: [''] // This control will store the combined OTP code
+        code: [''], // This control will store the combined OTP code
       })
     }
 
@@ -166,7 +166,7 @@ export class LoginOtpComponent implements OnInit {
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
-        organisationId
+        organisationId,
       }
 
     } else if (/^[a-zA-Z0-9.!#$%&'+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/.test(
@@ -176,7 +176,7 @@ export class LoginOtpComponent implements OnInit {
         password: this.signUpdata.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
-        organisationId
+        organisationId,
       }
     }
     this.isLoading = true
@@ -188,7 +188,7 @@ export class LoginOtpComponent implements OnInit {
     //this.signupService.validateOtp(request).subscribe(
     otpService$.subscribe(
       (res: any) => {
-        let url = `${document.baseURI}`
+        const url = `${document.baseURI}`
         sessionStorage.setItem('login-btn', 'clicked')
         this.openSnackbar(this.translate.instant(res.msg))
         window.location.href = `${url}app/new-tnc`
@@ -196,7 +196,7 @@ export class LoginOtpComponent implements OnInit {
       },
       (err: any) => {
         this.isLoading = false
-        let errMsg = err.error.error || err.error.message || 'VERIFY_OTP'
+        const errMsg = err.error.error || err.error.message || 'VERIFY_OTP'
         this.openSnackbar(this.translate.instant(errMsg))
       })
   }
@@ -211,7 +211,7 @@ export class LoginOtpComponent implements OnInit {
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
-        organisationId
+        organisationId,
       }
 
     } else {
@@ -220,7 +220,7 @@ export class LoginOtpComponent implements OnInit {
         password: this.loginData.value.password,
         otp: this.loginOtpForm.value.code,
         userId: localStorage.getItem(`userUUID`),
-        organisationId
+        organisationId,
       }
     }
     const isOrgSelectiveCourse = localStorage.getItem('isOrgSelectiveCourse') === 'true'
@@ -261,7 +261,7 @@ export class LoginOtpComponent implements OnInit {
       otp2: '',
       otp3: '',
       otp4: '',
-      code: ''
+      code: '',
     })
     this.signupService.generateOtp(requestBody).subscribe(
       async (res: any) => {
@@ -289,7 +289,7 @@ export class LoginOtpComponent implements OnInit {
       },
     })
   }
-  private openSnackbar(primaryMsg: string, duration: number = 3000) {
+  private openSnackbar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

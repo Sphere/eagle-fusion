@@ -124,7 +124,7 @@ import { TranslateModule } from '@ngx-translate/core'
     MatDividerModule,
     UserAutocompleteModule,
     PublicHomeModule,
-    TranslateModule
+    TranslateModule,
   ],
   exports: [
     // ItemTileComponent,
@@ -132,6 +132,6 @@ import { TranslateModule } from '@ngx-translate/core'
   providers: [
     // TrainingApiService, TrainingService
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SearchModule { }

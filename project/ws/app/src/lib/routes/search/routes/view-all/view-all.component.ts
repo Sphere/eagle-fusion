@@ -12,12 +12,12 @@ import { LanguageService } from '../../../../../../../../../src/app/services/lan
   styleUrls: ['./view-all.component.scss'],
 })
 export class ViewAllComponent implements OnInit {
-  courseType: string | null = null;
+  courseType: string | null = null
   topCertifiedCourseIdentifier: any = []
   cneCoursesIdentifier: any = []
   topCertifiedCourse: any = []
   cneCourse: any = []
-  isXSmall$: boolean = false
+  isXSmall$ = false
   resultsDisplayType: 'basic' | 'advanced' = 'advanced'
   searchResults!: any
   searchRequestStatus = 'none'

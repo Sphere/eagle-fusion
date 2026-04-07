@@ -47,10 +47,10 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   userEnrolledDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; completionPercentage: boolean } } | undefined
   forYouCourseDisplayConfig: { displayType: string; badges: { certification: boolean; rating: boolean; sourceName: boolean } } | undefined
   CNECourseDisplayConfig: any
-  isUpLogin: boolean = false
+  isUpLogin = false
   uiConfig: any
-  lang: string = ''
-  isXSmall: boolean = false
+  lang = ''
+  isXSmall = false
 
   currentOffset = 0
   pageLimit = 500
@@ -76,7 +76,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
 
   async ngOnInit() {
     this.handleScrollEvents()
-    let designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
+    const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
     const designationLower = designation.toLowerCase()
     const rootOrgId = this.configSvc?.userProfile?.rootOrgId
     const roleCheck = (roles: string[]) =>
@@ -134,7 +134,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
       .filter(course => course?.content?.identifier && !course?.content?.competency)
       .map(course => course.content.identifier)
 
-    let competencySearchArray: string[] = []
+    const competencySearchArray: string[] = []
     let baseQuery: any = {}
     let sourceName: string[] = []
 
@@ -178,8 +178,8 @@ export class WebPublicComponent implements OnInit, OnDestroy {
       return []
     }
     const competencySearchArray: string[] = []
-    competencyPayload.forEach((competencyObj) => {
-      Object.keys(competencyObj).forEach((key) => {
+    competencyPayload.forEach(competencyObj => {
+      Object.keys(competencyObj).forEach(key => {
         const competency = competencyObj[key]
         const competencyId = competency?.id
         if (!competencyId) return
@@ -217,7 +217,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
         const processedCourses = this.processRecommendedCourses(content, requiredSourceName, listOfEnrolledCourseId)
         return processedCourses
       }),
-      catchError((err) => {
+      catchError(err => {
         console.error("Error fetching recommendation", err)
         return of([])
       })
@@ -227,7 +227,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   recommendedCourse = (data: any[]) =>
     (data || [])
       .filter(item => item && item.identifier)
-      .map((item) => ({
+      .map(item => ({
         identifier: item.identifier,
         appIcon: item.appIcon,
         thumbnail: item.posterImage || item.thumbnail,
@@ -251,7 +251,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
       seen.add(id)
       return true
     })
-  };
+  }
 
   private handleScrollEvents() {
     this.scrollService.scrollToDivEvent.subscribe((targetDivId: string) => {
@@ -310,7 +310,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   }
 
   updateCourseData() {
-    let data = this.userEnrollCourse?.filter(item => this.yourPlansCourseIdentifier?.includes(item.identifier))
+    const data = this.userEnrollCourse?.filter(item => this.yourPlansCourseIdentifier?.includes(item.identifier))
     if (this.configData) {
       const completed = data?.filter(item => item.completionPercentage === 100)
       const incomplete = data?.filter(item => item.completionPercentage !== 100)
@@ -344,7 +344,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   }
   // To view all course
   viewAllCourse(content: any) {
-    let courseType = content?.button?.courseType
+    const courseType = content?.button?.courseType
     if (courseType == 'continueLearning' || courseType == 'completed' || courseType == 'formatForYouCourses') {
       content.displayData = this.isXSmall ?
         (courseType == 'formatForYouCourses' ? this.coursesForYou : this.userEnrollCourse)

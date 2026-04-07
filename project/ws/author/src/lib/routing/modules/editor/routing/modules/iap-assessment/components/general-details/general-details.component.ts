@@ -470,7 +470,7 @@ export class GeneralDetailsComponent implements OnInit {
     section.showOptions = !section.showOptions
   }
 
-  cardActions(name: String, section: ISectionDetailsContent) {
+  cardActions(name: string, section: ISectionDetailsContent) {
     if (name === 'Delete Section') {
       this.deleteSection(section)
     } else if (name === 'Add Questions') {

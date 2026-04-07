@@ -101,7 +101,7 @@ export class VideoComponent implements OnInit, OnDestroy {
             this.contentSvc.fetchContentHistoryV2(req).subscribe(
               async data => {
                 if (data && data.result && data.result.contentList.length) {
-                  let contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
+                  const contentData = await data['result']['contentList'].find((obj: any) => obj.contentId === this.videoData!.identifier)
                   this.logger.log(contentData)
                   if (contentData === undefined || contentData.completionPercentage === 0) {
                     this.logger.log('contentData')
@@ -118,8 +118,8 @@ export class VideoComponent implements OnInit, OnDestroy {
                               status: 1,
                               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                               progressdetails: {},
-                              completionPercentage: 0
-                            }
+                              completionPercentage: 0,
+                            },
                           ],
                         },
                       }
@@ -146,8 +146,8 @@ export class VideoComponent implements OnInit, OnDestroy {
                               status: contentData.status,
                               lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                               progressdetails: contentData.progressdetails,
-                              completionPercentage: contentData.completionPercentage
-                            }
+                              completionPercentage: contentData.completionPercentage,
+                            },
                           ],
                         },
                       }
@@ -176,8 +176,8 @@ export class VideoComponent implements OnInit, OnDestroy {
                             status: 1,
                             lastAccessTime: dayjs(new Date()).format('YYYY-MM-DD HH:mm:ss:SSSZZ'),
                             progressdetails: {},
-                            completionPercentage: 0
-                          }
+                            completionPercentage: 0,
+                          },
                         ],
                       },
                     }

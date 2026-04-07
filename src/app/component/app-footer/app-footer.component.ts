@@ -34,7 +34,7 @@ export class AppFooterComponent implements OnInit {
       this.configData = this.config
     } else {
       this.orgData = this.playlistSvc.orgDetails()
-      let res = this.playlistSvc.footerConfig()
+      const res = this.playlistSvc.footerConfig()
       this.logger.log('********* playlist data in nav bar ', res)
       this.configData = res
       this.appIcon = this.orgData?.appLogo

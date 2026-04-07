@@ -21,7 +21,7 @@ export class SliderComponent implements OnInit {
   @Input() identifier!: string
   @Input() content!: ICarousel[]
   @Input() isSubmitPressed = false
-  @Output() data = new EventEmitter<{ content: ICarousel, isValid: Boolean }>()
+  @Output() data = new EventEmitter<{ content: ICarousel, isValid: boolean }>()
   form!: UntypedFormGroup
 
   constructor(

@@ -16,7 +16,7 @@ import { LoggerService, TelemetryService } from '../../../../library/ws-widget/u
 })
 export class MobileCourseViewComponent implements OnInit {
 
-  @Input() courseData: any = {};
+  @Input() courseData: any = {}
   @Input() cnePoints: any = false
 
   @Input() enableConfig = false

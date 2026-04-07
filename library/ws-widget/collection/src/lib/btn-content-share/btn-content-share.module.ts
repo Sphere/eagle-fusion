@@ -39,6 +39,6 @@ import { BtnWhatsappShareModule } from '../btn-whatsapp-share/btn-whatsapp-share
         QRCodeModule,
         BtnWhatsappShareModule,
     ],
-    exports: [BtnContentShareComponent]
+    exports: [BtnContentShareComponent],
 })
 export class BtnContentShareModule { }

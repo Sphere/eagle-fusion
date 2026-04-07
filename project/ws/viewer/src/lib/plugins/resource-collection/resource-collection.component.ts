@@ -46,7 +46,7 @@ export class ResourceCollectionComponent implements OnInit {
   ) {
     this.answerControl = new UntypedFormControl('')
   }
-  private openSnackBar(primaryMsg: string, duration: number = 3000) {
+  private openSnackBar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

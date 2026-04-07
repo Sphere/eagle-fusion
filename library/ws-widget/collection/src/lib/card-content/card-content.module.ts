@@ -65,6 +65,6 @@ import { BtnContentShareModule } from '../btn-content-share/btn-content-share.mo
         // BtnKbAnalyticsModule,
     ],
     exports: [CardContentComponent],
-    schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class CardContentModule { }

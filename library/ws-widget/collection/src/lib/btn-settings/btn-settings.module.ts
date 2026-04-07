@@ -25,6 +25,6 @@ import { BtnSettingsComponent } from './btn-settings.component'
         MatListModule,
         MatTooltipModule,
     ],
-    exports: [BtnSettingsComponent]
+    exports: [BtnSettingsComponent],
 })
 export class BtnSettingsModule { }

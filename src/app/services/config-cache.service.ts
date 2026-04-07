@@ -21,7 +21,7 @@ export class ConfigCacheService {
    * Get host config for specified locale (host.config.json for en, host.config.hi.json for hi)
    * @param locale - Language locale (e.g., 'en', 'hi')
    */
-  getHostConfig(locale: string = 'en'): Observable<any> {
+  getHostConfig(locale = 'en'): Observable<any> {
     if (!this.hostConfigCache.has(locale)) {
       this.hostConfigCache.set(locale, { subject: new BehaviorSubject<any>(null), call$: null })
     }
@@ -66,7 +66,7 @@ export class ConfigCacheService {
   /**
    * Cache data to session storage with locale key
    */
-  private cacheToSession(data: any, locale: string = 'en'): void {
+  private cacheToSession(data: any, locale = 'en'): void {
     try {
       const cacheKey = `config_hostConfig_${locale}`
       sessionStorage.setItem(cacheKey, JSON.stringify(data))

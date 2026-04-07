@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core'
 import {
   ActivatedRouteSnapshot, Router,
   // RouterStateSnapshot,
-  UrlTree
+  UrlTree,
 } from '@angular/router'
 import { ConfigurationsService, LoggerService } from '../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'

@@ -17,7 +17,7 @@ export class CourseRatingDialogComponent implements OnInit {
   children = 0
   isNew = 'No'
   isMobile = false
-  stars: number[] = [1, 2, 3, 4, 5];
+  stars: number[] = [1, 2, 3, 4, 5]
   selectedRating!: number
   constructor(
     private formBuilder: UntypedFormBuilder,

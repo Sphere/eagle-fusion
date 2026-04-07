@@ -19,7 +19,7 @@ export class PublicHomeComponent extends WidgetBaseComponent
   @Input() widgetData: NsPage.IPage | null = null
   navBackground: Partial<NsPage.INavBackground> | null = null
   links: NsWidgetResolver.IRenderConfigWithTypedData<NsPage.INavLink>[] = []
-  isEkshamata: boolean = false
+  isEkshamata = false
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,

@@ -80,8 +80,8 @@ export class ExploreDetailResolve {
             type: errorType,
             status: err instanceof HttpErrorResponse ? err.status : 0,
             message: err instanceof HttpErrorResponse ? err.message : 'Unknown error',
-            original: err
-          }
+            original: err,
+          },
         })
       }),
     )

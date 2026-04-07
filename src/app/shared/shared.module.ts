@@ -15,6 +15,6 @@ import { TranslateModule } from '@ngx-translate/core'
     FormsModule,
     ReactiveFormsModule,
     TranslateModule,       // <-- IMPORTANT
-  ]
+  ],
 })
 export class SharedModule { }

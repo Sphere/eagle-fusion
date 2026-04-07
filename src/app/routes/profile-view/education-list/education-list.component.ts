@@ -15,7 +15,7 @@ export class EducationListComponent implements OnInit {
   showbackButton = false
   showLogOutIcon = false
   trigerrNavigation = true
-  @Input() isEkshamata: boolean = false
+  @Input() isEkshamata = false
   @Input() data: any
   constructor(
     private configSvc: ConfigurationsService,
@@ -49,10 +49,10 @@ export class EducationListComponent implements OnInit {
     }
   }
   redirectTo(isEdit?: any, academic?: any) {
-    let ob = {
+    const ob = {
       "type": "academic",
       "edit": isEdit,
-      'academic': academic
+      'academic': academic,
     }
 
     if (sessionStorage.getItem('onListPage')) {

@@ -7,7 +7,7 @@ import { interval, Subject, Subscription } from 'rxjs'
 import { first, map, takeUntil } from 'rxjs/operators'
 import { NSQuiz } from '../../quiz.model'
 import { QuizService } from '../../quiz.service'
-declare var $: any
+declare let $: any
 import { round, forEach, isNull } from 'lodash'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ViewerDataService } from '../../../../viewer-data.service'
@@ -159,7 +159,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             mime_type: NsContent.EMimeTypes.APPLICATION_JSON,
             user_id_type: 'uuid',
             completionPercentage: 0,
-            status: 1
+            status: 1,
           }
 
           this.viewerSvc.realTimeProgressUpdateV3(
@@ -169,30 +169,30 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             batchId
           ).subscribe(
             () => { /* success - fire and forget */ },
-            (error) => { this.logger.warn('Progress init failed:', error) }
+            error => { this.logger.warn('Progress init failed:', error) }
           )
         } else {
           // Assessment already has progress - don't reset it
           this.logger.log('Assessment already in progress with', currentProgress.completionPercentage, '% completion - skipping init progress update')
         }
       },
-      (error) => {
+      error => {
         this.logger.warn('Failed to fetch current progress:', error)
         // On error, don't send any progress update to avoid overwriting existing data
       }
     )
   }
   ngAfterViewInit() {
-    let enabled: boolean = this.plylsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
+    const enabled: boolean = this.plylsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
     if (!enabled) this.scrnScrtySvc.init()
-    let object = {
+    const object = {
       "id": this.assesmentdata.generalData.identifier,
       "type": "application/json",
       "version": "",
       "rollup": {
         "l1": this.assesmentdata.generalData.collectionId,
-        "l2": this.assesmentdata.generalData.identifier
-      }
+        "l2": this.assesmentdata.generalData.identifier,
+      },
     }
     this.telemetrySvc.start('application/json', 'assessment-start', 'player', object)
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
@@ -230,7 +230,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
    */
   canShowViewAnswers(): boolean {
     // Check if isCorrectAnswerPopUp is present in resource
-    let orgData = this.plylsSvc.orgDetails()
+    const orgData = this.plylsSvc.orgDetails()
     const resource = this.viewerDataSvc.resource
     const isCorrectAnswerPopUp = resource?.isCorrectAnswerPopUp
     const isDisplayAnswer = orgData?.assessmentConfig?.isCorrectAnswerPopUp ?? false
@@ -273,8 +273,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       version: "",
       "rollup": {
         "l1": this.assesmentdata.generalData.collectionId,
-        "l2": this.assesmentdata.generalData.identifier
-      }
+        "l2": this.assesmentdata.generalData.identifier,
+      },
     }
     const extras: any = {
       values: [{
@@ -283,7 +283,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         name: this.assesmentdata.generalData.name,
         moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
 
-      }]
+      }],
     }
     this.telemetrySvc.interact('application/json', 'assessment-close-start', 'player', data, extras)
     this.telemetrySvc.interact('application/json', 'assessment-close-end', 'player', data, extras)
@@ -302,8 +302,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         panelClass: 'view-answer-dialog',
         data: {
           questions: this.assesmentdata.questions.questions,
-          userInput: this.questionAnswerHash
-        }
+          userInput: this.questionAnswerHash,
+        },
       })
     }
   }
@@ -346,8 +346,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
               version: "",
               "rollup": {
                 "l1": this.assesmentdata.generalData.collectionId,
-                "l2": this.assesmentdata.generalData.identifier
-              }
+                "l2": this.assesmentdata.generalData.identifier,
+              },
             }
             const extras: any = {
               values: [{
@@ -355,7 +355,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                 contentId: this.assesmentdata.generalData.identifier,
                 name: this.assesmentdata.generalData.name,
                 moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-              }]
+              }],
             }
             this.telemetrySvc.end('application/json', 'assessment-auto-submit', 'player', data, extras)
             this.isIdeal = true
@@ -408,8 +408,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         questionType: question ? question.questionType : "",
         identifier: this.assesmentdata?.generalData?.identifier,
         questionId: question ? question.questionId : "",
-        qindex: question ? qindex : ""
-      }]
+        qindex: question ? qindex : "",
+      }],
     }
     this.events.raiseInteractTelemetry(status ? 'TOUCH' : 'select-option', status
       ? status === "next"
@@ -425,7 +425,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     this.submitQuiz()
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
@@ -471,8 +471,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           version: "",
           "rollup": {
             "l1": this.assesmentdata.generalData.collectionId,
-            "l2": this.assesmentdata.generalData.identifier
-          }
+            "l2": this.assesmentdata.generalData.identifier,
+          },
         }
         const extras: any = {
           values: [{
@@ -480,7 +480,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             contentId: this.assesmentdata.generalData.identifier,
             name: this.assesmentdata.generalData.name,
             moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-          }]
+          }],
         }
         this.telemetrySvc.end('application/json', 'assessment-submit', 'player', data, extras)
         window.scrollTo(0, 0)
@@ -520,8 +520,8 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
           version: "",
           "rollup": {
             "l1": this.assesmentdata.generalData.collectionId,
-            "l2": this.assesmentdata.generalData.identifier
-          }
+            "l2": this.assesmentdata.generalData.identifier,
+          },
         }
         const extras: any = {
           values: [{
@@ -529,7 +529,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
             contentId: this.assesmentdata.generalData.identifier,
             name: this.assesmentdata.generalData.name,
             moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-          }]
+          }],
         }
         this.telemetrySvc.end('competency', 'competency-submit', 'player', data1, extras)
         window.scrollTo(0, 0)
@@ -748,18 +748,18 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
                 completionPercentage: 0,
                 status: 0,
               }],
-              type: 'application/json'
+              type: 'application/json',
             }
             this.viewerSvc.generateInteractTelemetry('progress-update-success', {
               contentId: data.nextContentId,
               completionPercentage: 0,
               status: 0,
               mimeType: 'application/json',
-              batchId: this.route.snapshot.queryParams.batchId || ''
+              batchId: this.route.snapshot.queryParams.batchId || '',
             })
             this.contentSvc.changeMessage(messageData)
           },
-          (error) => { this.logger.warn('Next resource progress update failed:', error) }
+          error => { this.logger.warn('Next resource progress update failed:', error) }
         )
       }
     })

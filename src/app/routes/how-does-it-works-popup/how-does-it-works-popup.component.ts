@@ -5,7 +5,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 @Component({
   selector: 'app-video-popup',
   templateUrl: './how-does-it-works-popup.component.html',
-  styleUrls: ['./how-does-it-works-popup.component.scss']
+  styleUrls: ['./how-does-it-works-popup.component.scss'],
 })
 export class VideoPopupComponent {
 
@@ -13,7 +13,7 @@ export class VideoPopupComponent {
     public dialogRef: MatDialogRef<VideoPopupComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) { }
-  public isOpen = false;
+  public isOpen = false
 
   ngOnInit() {
     // this.logger.log("videoUrl", this.data.url)

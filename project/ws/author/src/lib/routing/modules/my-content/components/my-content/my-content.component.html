@@ -19,7 +19,7 @@ class="matExpansion flex flex-middle margin-top-m margin-left-l margin-right-l p
           <mat-list role="list">
             <mat-list-item mat-button role="listitem" class="draftss">
               <a routerLink="/author/my-content" [queryParams]="{ status: 'draft' }"
-                [routerLinkActive]="status=='draft'" [class.active]="status=='draft'" class="draft">Draft</a>
+                [routerLinkActive]="status==='draft'" [class.active]="status==='draft'" class="draft">Draft</a>
             </mat-list-item>
             <mat-list-item mat-button role="listitem">
               <a routerLink="/author/my-content" [queryParams]="{ status: 'inreview' }">Sent for review</a>
@@ -53,7 +53,7 @@ class="matExpansion flex flex-middle margin-top-m margin-left-l margin-right-l p
           <mat-list role="list">
             <mat-list-item mat-button role="listitem" class="draftss">
               <a routerLink="/author/my-content" [queryParams]="{ status: 'draft' }"
-                [routerLinkActive]="status=='draft'" [class.active]="status=='draft'" class="draft">Draft</a>
+                [routerLinkActive]="status==='draft'" [class.active]="status==='draft'" class="draft">Draft</a>
             </mat-list-item>
             <mat-list-item mat-button role="listitem">
               <a routerLink="/author/my-content" [queryParams]="{ status: 'inreview' }">Sent for review</a>

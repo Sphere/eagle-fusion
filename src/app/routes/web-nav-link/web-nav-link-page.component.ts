@@ -24,7 +24,7 @@ import { PlaylistService } from '../../services/playlist.service'
 })
 export class WebNavLinkPageComponent implements OnInit, OnChanges {
   data: any
-  numberOfNotification: string = ''
+  numberOfNotification = ''
   currentTab = ''
   notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null
   @Input() menuItems: any[]

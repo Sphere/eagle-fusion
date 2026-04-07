@@ -3,7 +3,7 @@ import { TranslateService } from '@ngx-translate/core'
 import { BehaviorSubject, Observable } from 'rxjs'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class LanguageService {
   private currentLanguage = new BehaviorSubject<string>('en')
@@ -11,7 +11,7 @@ export class LanguageService {
 
   private availableLanguages = [
     { code: 'en', name: 'English' },
-    { code: 'hi', name: 'हिंदी' }
+    { code: 'hi', name: 'हिंदी' },
   ]
 
   constructor(private translateService: TranslateService) {

@@ -58,7 +58,7 @@ export class GoogleCallbackComponent implements OnInit {
       )
     }
   }
-  private openSnackbar(primaryMsg: string, duration: number = 3000) {
+  private openSnackbar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

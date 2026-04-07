@@ -5,7 +5,7 @@ import { LoggerService } from '@ws-widget/utils'
 @Component({
   selector: 'ws-tnai-callback',
   templateUrl: './tnai-callback.component.html',
-  styleUrls: ['./tnai-callback.component.scss']
+  styleUrls: ['./tnai-callback.component.scss'],
 })
 export class TnaiCallbackComponent implements OnInit {
   isLoading = false
@@ -24,7 +24,7 @@ export class TnaiCallbackComponent implements OnInit {
     }
   }
   checkTnaiCallback(token: any) {
-    let data = {
+    const data = {
       "token": token,
     }
     try {

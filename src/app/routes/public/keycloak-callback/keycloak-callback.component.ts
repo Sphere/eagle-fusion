@@ -46,20 +46,20 @@ export class KeycloakCallbackComponent implements OnInit {
               this.signupService.fetchStartUpDetails().then(async result => {
                 // tslint:disable-next-line:no-console
                 this.logger.log(result)
-                let res = await result
+                const res = await result
                 if (res && res.status === 200
                   //&& res.roles.length > 0
                 ) {
                   // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
                   if (res.language) {
-                    let lang = res.language
-                    let obj = {
+                    const lang = res.language
+                    const obj = {
                       lang: lang,
                       res: res.language,
-                      line: 56
+                      line: 56,
                     }
                     sessionStorage.setItem('lang1', JSON.stringify(obj))
-                    let url = localStorage.getItem('url_before_login') || '/page/home'
+                    const url = localStorage.getItem('url_before_login') || '/page/home'
                     location.href = url
                   } else {
                     if (localStorage.getItem('preferedLanguage')) {
@@ -67,13 +67,13 @@ export class KeycloakCallbackComponent implements OnInit {
                       let lang: any
                       data = localStorage.getItem('preferedLanguage')
                       lang = JSON.parse(data)
-                      let obj = {
+                      const obj = {
                         lang: lang.id,
-                        line: 79
+                        line: 79,
                       }
                       sessionStorage.setItem('lang2', JSON.stringify(obj))
 
-                      let url = localStorage.getItem('url_before_login') || '/page/home'
+                      const url = localStorage.getItem('url_before_login') || '/page/home'
                       location.href = url
                     } else {
                       if (localStorage.getItem('url_before_login')) {

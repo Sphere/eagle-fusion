@@ -1157,7 +1157,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
       request: {
         userId: this.userID,
         profileDetails: {
-          ...profileRequest, profileLocation: 'sphere-web/user-profile-on-submit'
+          ...profileRequest, profileLocation: 'sphere-web/user-profile-on-submit',
         },
       },
     }
@@ -1275,7 +1275,7 @@ export class UserProfileComponent implements OnInit, AfterViewInit, OnDestroy {
     this.btnservice.changeName(fn)
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

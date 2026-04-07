@@ -48,6 +48,6 @@ import { DialogSocialDeletePostModule } from './dialog/dialog-social-delete-post
         DialogSocialDeletePostModule,
     ],
     exports: [DiscussionForumComponent],
-    providers: [ApiService]
+    providers: [ApiService],
 })
 export class DiscussionForumModule { }

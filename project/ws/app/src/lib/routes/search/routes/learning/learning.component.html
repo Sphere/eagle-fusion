@@ -103,7 +103,7 @@
         </ws-mobile-course-view>
       </ng-container>
 
-      <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus != 'done'"
+      <button mat-raised-button class="width-1-1" (click)="getResults()" *ngIf="searchRequestStatus !== 'done'"
         [hidden]="searchRequestStatus === 'fetching'" accesskey="+">
         <mat-icon>add</mat-icon>
         <ng-container>{{'View More' | translate}}</ng-container>

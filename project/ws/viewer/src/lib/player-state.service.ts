@@ -37,7 +37,7 @@ export class PlayerStateService {
         currentCompletionPercentage: currentPercentage,
         prevCompletionPercentage: prevPercentage,
         nextContentId,
-        firstResource: firstResource
+        firstResource: firstResource,
       },
     )
   }

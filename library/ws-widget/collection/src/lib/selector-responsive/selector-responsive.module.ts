@@ -7,6 +7,6 @@ import { WidgetResolverModule } from '@ws-widget/resolver'
 @NgModule({
     declarations: [SelectorResponsiveComponent],
     imports: [CommonModule, LayoutModule, WidgetResolverModule],
-    exports: [SelectorResponsiveComponent]
+    exports: [SelectorResponsiveComponent],
 })
 export class SelectorResponsiveModule {}

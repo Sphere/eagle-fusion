@@ -11,7 +11,7 @@ import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 import { ConfigCacheService } from 'src/app/services/config-cache.service'
 import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
 
-declare var $t: any
+declare let $t: any
 
 @Injectable({
   providedIn: 'root',
@@ -80,7 +80,7 @@ export class TelemetryService {
           OS: userAgent.OS,
           timestamp: Date.now(),
           userAgent,
-          cookie
+          cookie,
         }
         $t.interact(edata, {
           actor: {
@@ -92,9 +92,9 @@ export class TelemetryService {
             pdata: {
               ...this.pData,
               id: 'web-ui',
-              pid: 'sphere.aastrika.org'
+              pid: 'sphere.aastrika.org',
             },
-            sid: this.getTelemetrySessionId
+            sid: this.getTelemetrySessionId,
           },
           object: {
             ...(data) && data,
@@ -127,7 +127,7 @@ export class TelemetryService {
           timestamp: Date.now(),
           userAgent,
           cookie,
-          ...extras // Spread extras to include type, subtype, id, pageid, values
+          ...extras, // Spread extras to include type, subtype, id, pageid, values
         }
 
         const finalObject = {
@@ -156,8 +156,8 @@ export class TelemetryService {
                 cdata: [
                   {
                     id: actor?.id || '',
-                    type: actor?.type || ''
-                  }
+                    type: actor?.type || '',
+                  },
                 ],
                 rollup: {},
               },
@@ -197,7 +197,7 @@ export class TelemetryService {
           OS: userAgent.OS,
           timestamp: Date.now(),
           userAgent,
-          cookie
+          cookie,
         }
         $t.impression(edata, {
           context: {
@@ -206,9 +206,9 @@ export class TelemetryService {
             pdata: {
               ...this.pData,
               id: 'web-ui',
-              pid: 'sphere.aastrika.org'
+              pid: 'sphere.aastrika.org',
             },
-            sid: this.getTelemetrySessionId
+            sid: this.getTelemetrySessionId,
           },
           object: {
             ...(data) && data,
@@ -235,7 +235,7 @@ export class TelemetryService {
             type,
             mode,
             pageid: id,
-            extras
+            extras,
           },
           {
             context: {
@@ -243,7 +243,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.pData.id,
               },
-              sid: this.getTelemetrySessionId
+              sid: this.getTelemetrySessionId,
             },
             object: {
               ...(data) && data,
@@ -266,7 +266,7 @@ export class TelemetryService {
           type,
           mode,
           pageid: id,
-          extras
+          extras,
         },
         {
           context: {
@@ -274,7 +274,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
-            sid: this.getTelemetrySessionId
+            sid: this.getTelemetrySessionId,
           },
           object: {
             ...(data) && data,
@@ -304,7 +304,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
-            sid: this.getTelemetrySessionId
+            sid: this.getTelemetrySessionId,
           },
         },
       )
@@ -480,7 +480,7 @@ export class TelemetryService {
         type: eparams.type,
         mode: eparams.mode,
         pageid: eparams.pageid,
-        duration: eparams.duration
+        duration: eparams.duration,
       }
       param = JSON.parse(param)
       edata = {
@@ -517,7 +517,7 @@ export class TelemetryService {
               ver: '1.0.0',
               id: '',
               type: "",
-              rollup: rollup
+              rollup: rollup,
             },
             tags: [],
             edata,
@@ -541,7 +541,7 @@ export class TelemetryService {
         type: eparams.type,
         mode: eparams.mode,
         pageid: eparams.pageid,
-        duration: eparams.duration
+        duration: eparams.duration,
       }
       param = JSON.parse(param)
       edata = {
@@ -578,7 +578,7 @@ export class TelemetryService {
               ver: '1.0.0',
               id: '',
               type: '',
-              rollup: rollup
+              rollup: rollup,
             },
             tags: [],
             edata,
@@ -627,7 +627,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
-            sid: this.getTelemetrySessionId
+            sid: this.getTelemetrySessionId,
           },
           object: {
             id: page.objectId,
@@ -641,7 +641,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.pData.id,
             },
-            sid: this.getTelemetrySessionId
+            sid: this.getTelemetrySessionId,
           },
         })
       }
@@ -662,7 +662,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.externalApps[impressionData.subApplicationName],
             },
-            sid: this.getTelemetrySessionId
+            sid: this.getTelemetrySessionId,
           },
           object: {
             id: page.objectId,
@@ -673,7 +673,7 @@ export class TelemetryService {
               ...this.pData,
               id: this.externalApps[impressionData.subApplicationName],
             },
-            sid: this.getTelemetrySessionId
+            sid: this.getTelemetrySessionId,
           },
         }
         $t.impression(impressionData.data, externalConfig)
@@ -779,7 +779,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.externalApps[event.from],
               },
-              sid: this.getTelemetrySessionId
+              sid: this.getTelemetrySessionId,
             },
           }
           try {
@@ -796,7 +796,7 @@ export class TelemetryService {
                 mode: event.data.subType,
                 // object: event.data.object,
                 pageid: event.data.pageid || page.pageid,
-                extras: event.data.extras
+                extras: event.data.extras,
                 // target: { page },
               },
               {
@@ -805,7 +805,7 @@ export class TelemetryService {
                     ...this.pData,
                     id: this.pData.id,
                   },
-                  sid: this.getTelemetrySessionId
+                  sid: this.getTelemetrySessionId,
                 },
                 object: {
                   ...event.data.object,
@@ -837,7 +837,7 @@ export class TelemetryService {
                 ...this.pData,
                 id: this.externalApps[event.from],
               },
-              sid: this.getTelemetrySessionId
+              sid: this.getTelemetrySessionId,
             },
           }
           try {
@@ -862,7 +862,7 @@ export class TelemetryService {
                     ...this.pData,
                     id: this.pData.id,
                   },
-                  sid: this.getTelemetrySessionId
+                  sid: this.getTelemetrySessionId,
                 },
               })
           } catch (e) {
@@ -898,7 +898,7 @@ export class TelemetryService {
                   ...this.pData,
                   id: this.pData.id,
                 },
-                sid: this.getTelemetrySessionId
+                sid: this.getTelemetrySessionId,
               },
             },
           )

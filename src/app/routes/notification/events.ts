@@ -7,7 +7,7 @@ export type EventHandler = (...args: any[]) => any
     providedIn: 'root',
 })
 export class Events {
-    private readonly c = new Map<string, EventHandler[]>();
+    private readonly c = new Map<string, EventHandler[]>()
 
     constructor(private logger: LoggerService) { }
 

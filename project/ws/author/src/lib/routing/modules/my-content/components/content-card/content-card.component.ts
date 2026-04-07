@@ -16,7 +16,7 @@ export class ContentCardComponent implements OnInit {
   translationArray: any = []
   userId!: string
   @Output() action = new EventEmitter<any>()
-  isBaseContent: Boolean = true
+  isBaseContent = true
   constructor(private accessService: AccessControlService) { }
 
   ngOnInit() {

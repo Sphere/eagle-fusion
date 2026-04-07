@@ -8,7 +8,7 @@ import {
   providedIn: 'root',
 })
 export class LocalStorageService {
-  numberOfNotificatios = 0;
+  numberOfNotificatios = 0
 
   constructor(public configSvc: ConfigurationsService, private logger: LoggerService) { }
 

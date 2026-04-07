@@ -98,14 +98,14 @@ export class SCORMAdapterService {
     //     , 'collectionType': this.activatedRoute.snapshot.queryParams.collectionType,
     //   }
     // )
-    let _return = this.LMSCommit()
+    const _return = this.LMSCommit()
     this.store.setItem('Initialized', false)
     this.store.clearAll()
     return _return
   }
 
   initValue() {
-    let data = this.store.getAll()
+    const data = this.store.getAll()
     this.logger.log('data', data)
     if (data) {
       return data
@@ -119,7 +119,7 @@ export class SCORMAdapterService {
       this._setError(301)
       return false
     }
-    let value = this.store.getItem(element)
+    const value = this.store.getItem(element)
     if (!value) {
       this._setError(201)
       return ""
@@ -137,13 +137,13 @@ export class SCORMAdapterService {
   }
 
   LMSCommit() {
-    let data = this.store.getAll()
+    const data = this.store.getAll()
     this.contentKey = this.store.returnKey()
     this.logger.log('[SCORM] LMSCommit called, data:', data, 'contentKey:', this.contentKey)
     let url
     url = this.router.url
-    let splitUrl1 = url.split('?primary')
-    let splitUrl2 = splitUrl1[0].split('/viewer/html/')
+    const splitUrl1 = url.split('?primary')
+    const splitUrl2 = splitUrl1[0].split('/viewer/html/')
     if (splitUrl2[1] !== this.contentId) {
       this.contentId = splitUrl2[1]
     }
@@ -172,19 +172,19 @@ export class SCORMAdapterService {
   }
 
   LMSGetErrorString(errorCode: number) {
-    let error = errorCodes[errorCode]
+    const error = errorCodes[errorCode]
     if (!error) return ""
     return error[errorCode]["errorString"]
   }
 
   LMSGetDiagnostic(errorCode: number) {
-    let error = errorCodes[errorCode]
+    const error = errorCodes[errorCode]
     if (!error) return ""
     return error[errorCode]["diagnostic"]
   }
 
   _isInitialized() {
-    let initialized = this.store.getItem('Initialized')
+    const initialized = this.store.getItem('Initialized')
     return initialized
   }
 
@@ -277,7 +277,7 @@ export class SCORMAdapterService {
   }
 
   loadData() {
-    this.http.get<any>(API_END_POINTS.SCROM_FETCH + '/' + this.contentId).subscribe((response) => {
+    this.http.get<any>(API_END_POINTS.SCROM_FETCH + '/' + this.contentId).subscribe(response => {
       const data = response.result.data
       const loadDatas: IScromData = {
         "cmi.core.exit": data["cmi.core.exit"],
@@ -288,7 +288,7 @@ export class SCORMAdapterService {
         // errors: data["errors"]
       }
       this.store.setAll(loadDatas)
-    }, (error) => {
+    }, error => {
       if (error) {
         // this.logger.log(error)
         this._setError(101)
@@ -298,8 +298,8 @@ export class SCORMAdapterService {
   addData(postData: IScromData) {
     this.http.post(API_END_POINTS.SCROM_ADD_UPDTE + '/' + this.contentId, postData, {
       headers: {
-        'content-type': 'application/json'
-      }
+        'content-type': 'application/json',
+      },
     })
     return this.http.post(API_END_POINTS.SCROM_ADD_UPDTE + '/' + this.contentId, postData)
   }
@@ -386,7 +386,7 @@ export class SCORMAdapterService {
           this.logger.log('[SCORM] Built update request:', req)
 
           // Update IndexedDB cache
-          this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.activatedRoute.snapshot.queryParams.collectionId).subscribe((record) => {
+          this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.activatedRoute.snapshot.queryParams.collectionId).subscribe(record => {
             this.logger.log('[SCORM] IndexedDB record found:', record)
             this.onlineIndexedDbService.deleteRecordByKey('userEnrollCourse', req.request.contents[0].courseId).subscribe(
               (message: any) => {
@@ -404,7 +404,7 @@ export class SCORMAdapterService {
                 this.logger.error('[SCORM] Error deleting record:', error)
               }
             )
-          }, (error) => {
+          }, error => {
             this.logger.log('[SCORM] No existing IndexedDB record, inserting fresh:', error)
             this.onlineIndexedDbService.insertProgressData(this.configSvc.userProfile!.userId, req.request.contents[0].courseId, req.request.contents[0].contentId, 'userEnrollCourse', window.location.href, req.request).subscribe(
               (dat: any) => {
@@ -421,25 +421,25 @@ export class SCORMAdapterService {
           this.scromSubscription = this.http.patch(`${API_END_POINTS.NEW_PROGRESS_UPDATE}`, req).pipe(first()).subscribe(async (response: any) => {
             this.logger.log('[SCORM] Progress UPDATE API success:', response)
             if (this.scormData) {
-              let object = {
+              const object = {
                 "id": this.contentId,
                 "type": "scorm",
                 "version": "",
                 "rollup": {
                   "l1": this.activatedRoute.snapshot.queryParams.collectionId,
-                  "l2": this.contentId
-                }
+                  "l2": this.contentId,
+                },
               }
               this.telemetrySvc.start('scorm', 'scorm-start', 'player', object)
               if (this.activatedRoute.snapshot.queryParams.collectionId) {
-                let data2: any = {
+                const data2: any = {
                   id: this.contentId,
                   type: 'scrom',
                   version: "",
                   "rollup": {
                     "l1": this.activatedRoute.snapshot.queryParams.collectionId,
-                    "l2": this.contentId
-                  }
+                    "l2": this.contentId,
+                  },
                 }
                 const extras: any = {
                   values: [{
@@ -451,21 +451,21 @@ export class SCORMAdapterService {
                     duration: this.scormData["cmi.core.session_time"],
                     type: 'scrom',
                     mode: 'scrom-play',
-                  }]
+                  }],
                 }
                 this.telemetrySvc.end('scorm', 'scorm-close', 'player', data2, extras)
               }
             }
 
             if (this.getPercentage(this.scormData) === 100) {
-              let result = await response.result
+              const result = await response.result
               result["type"] = 'scorm'
               this.contentSvc.changeMessage(result)
               setTimeout(() => {
                 this.LMSFinish()
               })
             }
-          }, (error) => {
+          }, error => {
             this.logger.error('[SCORM] Progress UPDATE API FAILED:', error)
             this._setError(101)
           })
@@ -473,7 +473,7 @@ export class SCORMAdapterService {
           this.logger.warn('[SCORM] addDataV2 skipped: no userProfile or postData')
         }
       },
-      (error) => {
+      error => {
         this.logger.error('[SCORM] addDataV2 READ API FAILED:', error)
         // Even if READ fails, still attempt to update progress with default values
         if (this.configSvc.userProfile && postData) {
@@ -498,7 +498,7 @@ export class SCORMAdapterService {
             (response: any) => {
               this.logger.log('[SCORM] Progress UPDATE API success (fallback):', response)
             },
-            (patchError) => {
+            patchError => {
               this.logger.error('[SCORM] Progress UPDATE API FAILED (fallback):', patchError)
               this._setError(101)
             }

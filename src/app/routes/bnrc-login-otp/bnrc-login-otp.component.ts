@@ -21,7 +21,7 @@ export class BnrcLoginOtpComponent implements OnInit {
   emailPhoneType: any = 'phone'
   loginVerification = false
   redirectUrl = ''
-  disableSubmit: boolean = false
+  disableSubmit = false
   constructor(
     public router: Router,
     private fb: UntypedFormBuilder,
@@ -101,7 +101,7 @@ export class BnrcLoginOtpComponent implements OnInit {
       async (res: any) => {
         this.loginOtpForm.patchValue({ code: '' })
         this.isLoading = false
-        let res1 = res
+        const res1 = res
         //this.openSnackbar(res.message)
         if (this.preferedLanguage || localStorage.getItem('preferedLanguage')) {
           const reqObj = this.preferedLanguage || localStorage.getItem('preferedLanguage')
@@ -141,7 +141,7 @@ export class BnrcLoginOtpComponent implements OnInit {
     )
   }
 
-  openSnackbar(primaryMsg: string, duration: number = 3000) {
+  openSnackbar(primaryMsg: string, duration = 3000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

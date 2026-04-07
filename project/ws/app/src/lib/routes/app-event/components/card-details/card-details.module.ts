@@ -11,7 +11,7 @@ import { MatDividerModule } from '@angular/material/divider'
         RouterModule,
         MatDividerModule,
     ],
-    exports: [CardDetailsComponent]
+    exports: [CardDetailsComponent],
 })
 
 export class CardDetailsModule { }

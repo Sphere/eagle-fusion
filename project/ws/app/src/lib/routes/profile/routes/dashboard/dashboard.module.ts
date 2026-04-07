@@ -49,6 +49,6 @@ import { UserProfileService } from '../../../user-profile/services/user-profile.
     // CompetencyModule,
   ],
   providers: [UserProfileService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class DashboardModule { }

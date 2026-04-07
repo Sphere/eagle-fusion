@@ -225,7 +225,7 @@ export class RegisterComponent implements OnInit, AfterViewChecked, OnDestroy {
 
   }
 
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

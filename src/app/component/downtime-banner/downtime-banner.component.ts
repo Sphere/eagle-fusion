@@ -29,7 +29,7 @@ import { LanguageService } from '../../services/language.service'
 export class DowntimeBannerComponent implements OnInit, OnDestroy {
   isVisible = false
   content: DowntimeContent | null = null
-  currentLanguage: string = 'en'
+  currentLanguage = 'en'
   cssConfig: DowntimeCssConfig | null = null
 
   private destroy$ = new Subject<void>()

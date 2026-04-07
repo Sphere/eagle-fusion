@@ -60,6 +60,6 @@ import { WidgetResolverModule } from '../../../../library/ws-widget/resolver/src
         BtnPageBackModule,
         DiscussionForumModule,
     ],
-    exports: [LandingComponent]
+    exports: [LandingComponent],
 })
 export class PageLeaderRendererModule { }

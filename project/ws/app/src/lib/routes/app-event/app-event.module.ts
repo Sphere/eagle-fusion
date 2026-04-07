@@ -59,6 +59,6 @@ import { CardDetailsModule } from './components/card-details/card-details.module
     EventResolverService,
     EventService,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class AppEventModule { }

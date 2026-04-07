@@ -298,7 +298,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   openCongratulationPopup(): Promise<boolean> {
     const dialogRef = this.dialog.open(CongratulationsPopupComponent, {
       panelClass: 'congratulations-dialog',
-      data: { collectionId: this.collectionId }
+      data: { collectionId: this.collectionId },
     })
     return dialogRef.afterClosed().toPromise().then((result: any) => {
       return !!result?.completed
@@ -341,15 +341,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               artifactUrl: this.artifactUrl,
               name: this.name,
               collectionId: this.collectionId,
-              gating: this.viewerDataSvc.gatingEnabled
+              gating: this.viewerDataSvc.gatingEnabled,
             },
             // **CRITICAL**: Pass existing progress data to modal so it doesn't reset completed assessments
-            currentProgress: this.assessmentCurrentProgress
+            currentProgress: this.assessmentCurrentProgress,
           },
         })
         this.handleAssesmentDialogClose()
       },
-      (error) => {
+      error => {
         this.loggerSvc.warn('Failed to fetch progress before opening assessment:', error)
         // On error, still open modal without progress data
         if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
@@ -363,9 +363,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               artifactUrl: this.artifactUrl,
               name: this.name,
               collectionId: this.collectionId,
-              gating: this.viewerDataSvc.gatingEnabled
+              gating: this.viewerDataSvc.gatingEnabled,
             },
-            currentProgress: null
+            currentProgress: null,
           },
         })
         this.handleAssesmentDialogClose()
@@ -435,8 +435,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         if (result.event === 'RETAKE_QUIZ') {
           this.openOverviewDialog()
         } else if (result.event === 'DONE') {
-          let Id = this.identifier
-          let collectionId = this.collectionId
+          const Id = this.identifier
+          const collectionId = this.collectionId
           const batchId = this.route.snapshot.queryParams.batchId
 
           // **CRITICAL**: Check if user failed and only update if new result is better than previous
@@ -455,7 +455,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                 max_size: 100,
                 mime_type: "application/json",
                 completionPercentage: userResult,
-                status: userResult >= 100 ? 2 : 1  // status 2 only if 100%, otherwise 1
+                status: userResult >= 100 ? 2 : 1,  // status 2 only if 100%, otherwise 1
               }
               this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
                 () => {
@@ -465,20 +465,20 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                       completionPercentage: userResult,
                       status: userResult >= 100 ? 2 : 1,  // Consistent with API call
                     }],
-                    type: 'assessment'
+                    type: 'assessment',
                   }
                   this.viewerSvc.generateInteractTelemetry('progress-update-success', {
                     contentId: Id,
                     completionPercentage: userResult,
                     status: userResult >= 100 ? 2 : 1,  // Consistent with API call
                     mimeType: 'assessment',
-                    batchId: batchId || ''
+                    batchId: batchId || '',
                   })
                   this.contentSvc.changeMessage(messageData)
                   // **CRITICAL**: Navigate after failed attempt
                   this.navigateAfterAssessment()
                 },
-                (error) => { this.loggerSvc.warn('Progress update failed:', error) }
+                error => { this.loggerSvc.warn('Progress update failed:', error) }
               )
             } else {
               this.loggerSvc.log('Skipping progress update: New result not better than previous', { newResult: userResult, previousCompletion })
@@ -492,7 +492,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               max_size: 10,
               mime_type: "application/json",
               completionPercentage: 100,
-              status: 2
+              status: 2,
             }
             // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
             // Send telemetry and changeMessage with pre-calculated data
@@ -504,20 +504,20 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     completionPercentage: 100,
                     status: 2,
                   }],
-                  type: 'assessment'
+                  type: 'assessment',
                 }
                 this.viewerSvc.generateInteractTelemetry('progress-update-success', {
                   contentId: Id,
                   completionPercentage: 100,
                   status: 2,
                   mimeType: 'assessment',
-                  batchId: batchId || ''
+                  batchId: batchId || '',
                 })
                 this.contentSvc.changeMessage(messageData)
                 // **CRITICAL**: Navigate after passing
                 this.navigateAfterAssessment()
               },
-              (error) => { this.loggerSvc.warn('Progress update failed:', error) }
+              error => { this.loggerSvc.warn('Progress update failed:', error) }
             )
           }
         }
@@ -538,7 +538,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             const data = {
               courseId: this.collectionId,
             }
-            this.openCongratulationPopup().then((isCompleted) => {
+            this.openCongratulationPopup().then(isCompleted => {
               if (isCompleted) {
                 const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                   width: '300px',
@@ -661,15 +661,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               artifactUrl: this.artifactUrl,
               name: this.name,
               collectionId: this.collectionId,
-              gating: this.viewerDataSvc.gatingEnabled
+              gating: this.viewerDataSvc.gatingEnabled,
             },
             // **CRITICAL**: Pass existing progress data to modal so it doesn't reset ongoing quizzes
-            currentProgress: currentProgress || null
+            currentProgress: currentProgress || null,
           },
         })
         this.handleQuizDialogClose()
       },
-      (error) => {
+      error => {
         this.loggerSvc.warn('Failed to fetch progress before opening quiz:', error)
         // On error, still open modal without progress data
         if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
@@ -683,9 +683,9 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               artifactUrl: this.artifactUrl,
               name: this.name,
               collectionId: this.collectionId,
-              gating: this.viewerDataSvc.gatingEnabled
+              gating: this.viewerDataSvc.gatingEnabled,
             },
-            currentProgress: null
+            currentProgress: null,
           },
         })
         this.handleQuizDialogClose()
@@ -706,8 +706,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           this.closeQuizBtnDialog(result.event)
         } else if (result.event === 'DONE') {
 
-          let Id = this.identifier
-          let collectionId = this.collectionId
+          const Id = this.identifier
+          const collectionId = this.collectionId
           const batchId = this.route.snapshot.queryParams.batchId
 
           const data2 = {
@@ -715,7 +715,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             max_size: 10,
             mime_type: "application/json",
             completionPercentage: 100,
-            status: 2
+            status: 2,
           }
           // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
           // Send telemetry and changeMessage with pre-calculated data
@@ -727,18 +727,18 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   completionPercentage: 100,
                   status: 2,
                 }],
-                type: 'quiz'
+                type: 'quiz',
               }
               this.viewerSvc.generateInteractTelemetry('progress-update-success', {
                 contentId: Id,
                 completionPercentage: 100,
                 status: 2,
                 mimeType: 'quiz',
-                batchId: batchId || ''
+                batchId: batchId || '',
               })
               this.contentSvc.changeMessage(messageData)
             },
-            (error) => { this.loggerSvc.warn('Progress update failed:', error) }
+            error => { this.loggerSvc.warn('Progress update failed:', error) }
           )
 
           let userId
@@ -777,7 +777,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                       && this.contentSvc.showConformation) {
                       const isDialogOpen = this.dialog.openDialogs.length > 0
                       if (!isDialogOpen) {
-                        this.openCongratulationPopup().then((isCompleted) => {
+                        this.openCongratulationPopup().then(isCompleted => {
                           if (isCompleted) {
                             const confirmdialog = this.dialog.open(ConfirmmodalComponent, {
                               width: '300px',
@@ -832,7 +832,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       }
     })
   }
-  closeQuizBtnDialog(event: String) {
+  closeQuizBtnDialog(event: string) {
     const dialogRef = this.dialog.open(CloseQuizModalComponent, {
       panelClass: 'assesment-close-modal',
       disableClose: true,
@@ -1034,8 +1034,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         //if (this.result >= this.passPercentage) {
         if (this.result >= 0) {
           this.isCompleted = true
-          let Id = this.identifier
-          let collectionId = this.collectionId
+          const Id = this.identifier
+          const collectionId = this.collectionId
           const batchId = this.route.snapshot.queryParams.batchId
 
           const data2 = {
@@ -1043,7 +1043,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
             max_size: 10,
             mime_type: "application/json",
             completionPercentage: 100,
-            status: 2
+            status: 2,
           }
           // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
           // Send telemetry and changeMessage with pre-calculated data
@@ -1055,18 +1055,18 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   completionPercentage: 100,
                   status: 2,
                 }],
-                type: 'quiz'
+                type: 'quiz',
               }
               this.viewerSvc.generateInteractTelemetry('progress-update-success', {
                 contentId: Id,
                 completionPercentage: 100,
                 status: 2,
                 mimeType: 'quiz',
-                batchId: batchId || ''
+                batchId: batchId || '',
               })
               this.contentSvc.changeMessage(messageData)
             },
-            (error) => { this.loggerSvc.warn('Progress update failed:', error) }
+            error => { this.loggerSvc.warn('Progress update failed:', error) }
           )
         }
 
@@ -1266,12 +1266,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
           id: optionId,
           type: 'quiz',
           version: '',
-          rollup: {}
+          rollup: {},
         },
         {
           values: [{
-            optionId
-          }]
+            optionId,
+          }],
         }
       )
     } else {
@@ -1279,11 +1279,11 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         id: this.identifier,
         type: 'quiz',
         version: '',
-        rollup: {}
+        rollup: {},
       }, {
         values: [{
           contentId: this.identifier,
-        }]
+        }],
       })
     }
   }

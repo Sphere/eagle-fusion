@@ -3,7 +3,7 @@ import { BehaviorSubject } from 'rxjs'
 import { LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ScreenSecurityService {
 
@@ -21,7 +21,7 @@ export class ScreenSecurityService {
       if (document.hidden) this.block('Tab switch')
     })
 
-    window.addEventListener('blur', (event) => {
+    window.addEventListener('blur', event => {
       this.logger.log("blur", event)
       if (this.isModalOpen) {
         this.block('Window blur')

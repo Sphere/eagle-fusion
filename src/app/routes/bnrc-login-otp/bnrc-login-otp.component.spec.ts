@@ -58,9 +58,9 @@ describe('BnrcLoginOtpComponent', () => {
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn().mockReturnValue({
-        subscribe: (success: Function) => success({ status: 'success', message: { message: 'OTP validated' } })
+        subscribe: (success: Function) => success({ status: 'success', message: { message: 'OTP validated' } }),
       }),
-      bnrcValidateOtp: jest.fn()
+      bnrcValidateOtp: jest.fn(),
     }
     const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any)
     component.loginData = { value: { phone: '1234567890' } }
@@ -80,9 +80,9 @@ describe('BnrcLoginOtpComponent', () => {
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn().mockReturnValue({
-        subscribe: (_success: Function, error: Function) => error({ error: { message: 'Invalid OTP' } })
+        subscribe: (_success: Function, error: Function) => error({ error: { message: 'Invalid OTP' } }),
       }),
-      bnrcValidateOtp: jest.fn()
+      bnrcValidateOtp: jest.fn(),
     }
     const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any)
     component.loginData = { value: { phone: '1234567890' } }
@@ -100,9 +100,9 @@ describe('BnrcLoginOtpComponent', () => {
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfResendOtp: jest.fn().mockReturnValue({
-        subscribe: (success: Function) => success({ message: 'OTP resent' })
+        subscribe: (success: Function) => success({ message: 'OTP resent' }),
       }),
-      bnrcResendOtp: jest.fn()
+      bnrcResendOtp: jest.fn(),
     }
     const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any)
     component.loginData = { value: { phone: '1234567890' } }
@@ -120,7 +120,7 @@ describe('BnrcLoginOtpComponent', () => {
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn(),
-      bnrcValidateOtp: jest.fn()
+      bnrcValidateOtp: jest.fn(),
     }
     const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any)
     component.loginData = { value: { phone: '1234567890' } }
@@ -138,7 +138,7 @@ describe('BnrcLoginOtpComponent', () => {
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn(),
-      bnrcValidateOtp: jest.fn()
+      bnrcValidateOtp: jest.fn(),
     }
     const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any)
     component.loginData = null
@@ -162,7 +162,7 @@ describe('BnrcLoginOtpComponent', () => {
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn(),
-      bnrcValidateOtp: jest.fn()
+      bnrcValidateOtp: jest.fn(),
     }
     const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any)
 
@@ -179,9 +179,9 @@ describe('BnrcLoginOtpComponent', () => {
     const mockSnackBar = { open: jest.fn() }
     const mockUserProfileSvc = {
       upsmfValidateOtp: jest.fn().mockReturnValue({
-        subscribe: (_success: Function, error: Function) => error({ message: 'An unexpected error occurred' })
+        subscribe: (_success: Function, error: Function) => error({ message: 'An unexpected error occurred' }),
       }),
-      bnrcValidateOtp: jest.fn()
+      bnrcValidateOtp: jest.fn(),
     }
     const component = new BnrcLoginOtpComponent(mockRouter as any, mockFormBuilder, mockSnackBar as any, mockUserProfileSvc as any)
     component.loginData = { value: { phone: '1234567890' } }

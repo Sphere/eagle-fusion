@@ -12,7 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { EventService, WsEvents, TelemetryService, ConfigurationsService, UtilityService, LoggerService } from '@ws-widget/utils'
 import {
-  interval, merge, Subject, Subscription
+  interval, merge, Subject, Subscription,
 } from 'rxjs'
 import { debounceTime, distinctUntilChanged } from 'rxjs/operators'
 import { ViewerUtilService } from '../../../../../../project/ws/viewer/src/lib/viewer-util.service'
@@ -251,7 +251,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     this.telemetrySvc.interact('application/pdf', 'page-change', 'player', {
       id: this.widgetData.identifier,
       type: 'application/pdf',
-      version: ''
+      version: '',
     })
   }
   // raiseTelemetry(action: string) {
@@ -271,8 +271,8 @@ export class PlayerPdfComponent extends WidgetBaseComponent
       "version": "",
       "rollup": {
         "l1": collectionId,
-        "l2": id
-      }
+        "l2": id,
+      },
     }
     const extras: any = {
       values: [{
@@ -280,7 +280,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         contentId: this.widgetData.identifier,
         name: this.viewerDataSvc.resource?.name || '',  // Add null check
         moduleId: this.viewerDataSvc.resource?.parent ? this.viewerDataSvc.resource.parent : undefined,
-      }]
+      }],
     }
     // End telemetry session
     this.telemetrySvc.end('application/pdf', 'pdf-close', 'player', data1, extras)
@@ -443,7 +443,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
           this.sendProgressMessageToTOC(percent, status)
         }
       },
-      (error) => {
+      error => {
         this.logger.error('Error updating progress:', error)
       }
     )
@@ -460,12 +460,12 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         this.logger.warn('contentHistoryResponse has empty contentList, creating minimal entry for TOC', {
           identifier: this.identifier,
           percent,
-          status
+          status,
         })
         contentList = [{
           contentId: this.identifier,
           completionPercentage: percent,
-          status: status
+          status: status,
         }]
       } else {
         // Update existing content list with new completion percentage
@@ -482,7 +482,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         contentListLen: contentList.length,
         identifier: this.identifier,
         completionPercentage: percent,
-        status
+        status,
       })
       this.viewerSvc.generateInteractTelemetry('progress-update-success', { contentId: this.identifier, completionPercentage: percent, status, mimeType: 'application/pdf' })
       this.contentSvc.changeMessage(messageData)
@@ -502,14 +502,14 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // this.zoom.enable()
     const collectionId = this.activatedRoute.snapshot.queryParams.collectionId ?? this.widgetData.identifier
 
-    let object = {
+    const object = {
       "id": this.widgetData.identifier,
       "type": "application/pdf",
       "version": "",
       "rollup": {
         "l1": collectionId,
-        "l2": this.widgetData.identifier
-      }
+        "l2": this.widgetData.identifier,
+      },
     }
     this.telemetrySvc.start('application/pdf', 'pdf-start', 'player', object)
     this.currentPage.enable()
@@ -520,7 +520,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
         ? this.widgetData.resumePage
         : 1,
     )
-    this.renderSubject.next()
+    this.renderSubject.next(undefined)
     this.activityStartedAt = new Date()
     if (!this.widgetData.disableTelemetry) {
       this.eventDispatcher(WsEvents.EnumTelemetrySubType.Loaded)

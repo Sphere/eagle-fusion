@@ -46,7 +46,7 @@ export class InViewPortDirective implements OnInit, OnDestroy {
     this.resize.unsubscribe()
   }
 
-  check(partial: boolean = true, direction: string = 'both') {
+  check(partial = true, direction = 'both') {
     const el = this._el.nativeElement
 
     const elSize = (el.offsetWidth * el.offsetHeight)

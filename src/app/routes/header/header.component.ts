@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core'
 import { Router } from '@angular/router'
 import {
   ConfigurationsService,
-  LoggerService
+  LoggerService,
 } from '@ws-widget/utils'
 //import { SignupService } from '../signup/signup.service'
 @Component({

@@ -11,10 +11,10 @@ import { LoggerService } from '@ws-widget/utils'
   styleUrls: ['./mobile-profile-nav.component.scss'],
 })
 export class MobileProfileNavComponent implements OnInit {
-  @Input() showbackButton?: Boolean
-  @Input() showLogOutIcon?: Boolean
-  @Input() trigerrNavigation?: Boolean = false
-  @Input() navigateTohome?: Boolean = false
+  @Input() showbackButton?: boolean
+  @Input() showLogOutIcon?: boolean
+  @Input() trigerrNavigation?: boolean = false
+  @Input() navigateTohome?: boolean = false
   constructor(
     private dialog: MatDialog,
     public router: Router,
@@ -34,45 +34,45 @@ export class MobileProfileNavComponent implements OnInit {
 
   logout() {
     this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
-      panelClass: 'logout-dialog-container'
+      panelClass: 'logout-dialog-container',
     })
   }
 
   backScreen() {
     this.logger.log('now')
-    let backURL = sessionStorage.getItem('currentWindow')
-    let url3 = `${document.baseURI}`
+    const backURL = sessionStorage.getItem('currentWindow')
+    const url3 = `${document.baseURI}`
     this.logger.log(backURL)
     if (backURL) {
-      let ob = {
+      const ob = {
         "type": "back",
-        "back": true
+        "back": true,
       }
       this.contentSvc.changeWork(ob)
     } else {
-      let orgcheck = sessionStorage.getItem('work')
-      let academicCheck = sessionStorage.getItem('academic')
-      let eduList = sessionStorage.getItem('onListPage')
+      const orgcheck = sessionStorage.getItem('work')
+      const academicCheck = sessionStorage.getItem('academic')
+      const eduList = sessionStorage.getItem('onListPage')
       this.logger.log(eduList)
       this.logger.log(academicCheck)
       this.logger.log(orgcheck)
       if (orgcheck) {
-        let ob = {
+        const ob = {
           "type": "work",
-          "back": true
+          "back": true,
         }
         this.contentSvc.changeWork(ob)
       } else if (academicCheck && eduList === null) {
-        let ob = {
+        const ob = {
           "type": "academic",
-          "back": true
+          "back": true,
         }
         this.contentSvc.changeWork(ob)
       } else {
         if (eduList) {
-          let ob = {
+          const ob = {
             "type": "onListPage",
-            "back": true
+            "back": true,
           }
           this.contentSvc.changeWork(ob)
         }
@@ -95,29 +95,29 @@ export class MobileProfileNavComponent implements OnInit {
         } else {
           this.logger.log("fasdfasdwew")
           // this.currentText = text.name
-          let url = '/page/home'
+          const url = '/page/home'
           location.href = `${url3}${url}`
           // this.router.navigate(['/page/home'])
         }
       } else {
-        let orgcheck = sessionStorage.getItem('work')
-        let academicCheck = sessionStorage.getItem('academic')
+        const orgcheck = sessionStorage.getItem('work')
+        const academicCheck = sessionStorage.getItem('academic')
         this.logger.log(academicCheck)
         this.logger.log(orgcheck)
         if (orgcheck) {
-          let ob = {
+          const ob = {
             "type": "work",
-            "back": true
+            "back": true,
           }
           this.contentSvc.changeWork(ob)
         } else if (academicCheck) {
-          let ob = {
+          const ob = {
             "type": "academic",
-            "back": true
+            "back": true,
           }
           this.contentSvc.changeWork(ob)
         } else {
-          let backURL = sessionStorage.getItem('currentWindow')
+          const backURL = sessionStorage.getItem('currentWindow')
           this.logger.log(backURL)
           const url = sessionStorage.getItem('clickedUrl') || ''
           sessionStorage.removeItem('clickedUrl')

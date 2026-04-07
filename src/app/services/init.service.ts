@@ -35,7 +35,7 @@ interface IFeaturePermissionConfigs {
 export class InitService {
   private orgSelectiveConfig: any | null = null
 
-  domain: string = ''
+  domain = ''
   constructor(
     private logger: LoggerService,
     private configSvc: ConfigurationsService,
@@ -78,7 +78,7 @@ export class InitService {
     if (authenticated) {
       if (loginData) {
         const parsedData = JSON.parse(loginData)
-        let token = parsedData.token?.access_token ? true : false
+        const token = parsedData.token?.access_token ? true : false
         if (!token)
           this.authSvc.logout()
       } else {
@@ -250,7 +250,7 @@ export class InitService {
       .toPromise()
     if (hostConfig) {
       if (this.configSvc.userProfile) {
-        let rootOrgId = this.configSvc.userProfile.rootOrgId
+        const rootOrgId = this.configSvc.userProfile.rootOrgId
         this.logger.log("rootOrgId: ", rootOrgId, hostConfig)
         const orgDetails = hostConfig.orgNames
         // Find the matching object
@@ -602,7 +602,7 @@ export class InitService {
           const manifestElem = document.getElementById('id-app-description')
           if (manifestElem) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-            ; (manifestElem as HTMLMetaElement).setAttribute(
+             (manifestElem as HTMLMetaElement).setAttribute(
               'content',
               this.configSvc.instanceConfig.indexHtmlMeta.description,
             )
@@ -612,7 +612,7 @@ export class InitService {
           const shareIcon = document.getElementById('id-app-share-icon')
           if (shareIcon) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-            ; (shareIcon as HTMLMetaElement).setAttribute(
+             (shareIcon as HTMLMetaElement).setAttribute(
               'content',
               this.configSvc.instanceConfig.logos.appBottomNav,
             )
@@ -622,14 +622,14 @@ export class InitService {
           const pngIconElem = document.getElementById('id-app-fav-icon')
           if (pngIconElem) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-            ; (pngIconElem as HTMLLinkElement).href = this.configSvc.instanceConfig.indexHtmlMeta.pngIcon
+             (pngIconElem as HTMLLinkElement).href = this.configSvc.instanceConfig.indexHtmlMeta.pngIcon
           }
         }
         if (this.configSvc.instanceConfig.indexHtmlMeta.xIcon) {
           const xIconElem = document.getElementById('id-app-x-icon')
           if (xIconElem) {
             // tslint:disable-next-line: semicolon // tslint:disable-next-line: whitespace
-            ; (xIconElem as HTMLLinkElement).href = this.configSvc.instanceConfig.indexHtmlMeta.xIcon
+             (xIconElem as HTMLLinkElement).href = this.configSvc.instanceConfig.indexHtmlMeta.xIcon
           }
         }
       } catch (error) {

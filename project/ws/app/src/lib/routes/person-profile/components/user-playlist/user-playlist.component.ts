@@ -13,7 +13,7 @@ import { ConfigurationsService, TFetchStatus } from '@ws-widget/utils/src/public
 export class UserPlaylistComponent implements OnInit, OnChanges {
   @Input() wid = ''
   @Input() name = ''
-  @Output() fetching = new EventEmitter<Boolean>()
+  @Output() fetching = new EventEmitter<boolean>()
 
   // playlists: NsPlaylist.IPlaylist[] | null = null
   // type: NsPlaylist.EPlaylistTypes = NsPlaylist.EPlaylistTypes.ME

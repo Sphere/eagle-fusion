@@ -26,9 +26,9 @@ describe('WebCourseCardComponent', () => {
         getItem: jest.fn(),
         setItem: jest.fn(),
         removeItem: jest.fn(),
-        clear: jest.fn()
+        clear: jest.fn(),
       },
-      writable: true
+      writable: true,
     })
     const configSvcSpy = {
       userProfile: null,
@@ -50,7 +50,7 @@ describe('WebCourseCardComponent', () => {
 
     await TestBed.configureTestingModule({
       declarations: [WebCourseCardComponent],
-      imports: [MatProgressBarModule, /* other modules */],
+      imports: [MatProgressBarModule /* other modules */],
       providers: [
         { provide: Router, useValue: routerSpy },
         { provide: ConfigurationsService, useValue: configSvcSpy },

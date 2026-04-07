@@ -53,6 +53,6 @@ import { UploadService } from './services/upload.service'
         // AuthEditorActionButtonsComponent,
         // AuthPickerComponent,
     ],
-    providers: [UploadService]
+    providers: [UploadService],
 })
 export class EditorSharedModule { }

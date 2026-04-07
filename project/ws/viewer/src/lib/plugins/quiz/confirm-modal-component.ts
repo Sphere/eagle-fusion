@@ -20,9 +20,9 @@ export class ConfirmmodalComponent implements OnInit {
   children = 0
   isNew = 'No'
   isMobile = false
-  stars: number[] = [1, 2, 3, 4, 5];
+  stars: number[] = [1, 2, 3, 4, 5]
   selectedRating!: number
-  isMandatory: boolean = true
+  isMandatory = true
 
   constructor(
     public snackBar: MatSnackBar,
@@ -131,7 +131,7 @@ export class ConfirmmodalComponent implements OnInit {
     }
   }
 
-  openSnackbar(primaryMsg: string, duration: number = 5000) {
+  openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })

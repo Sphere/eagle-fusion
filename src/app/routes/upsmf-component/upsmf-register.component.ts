@@ -108,15 +108,15 @@ export class UpsmfRegisterComponent implements OnInit {
     return this.formBuilder.group({
       firstName: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/),
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/),
       ]),
       phone: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[6-9]\d{9}$/)
+        Validators.pattern(/^[6-9]\d{9}$/),
       ]),
       dob: new FormControl('', [Validators.required]),
       regNurseRegMidwifeNumber: new FormControl('', [Validators.required]),
@@ -128,7 +128,7 @@ export class UpsmfRegisterComponent implements OnInit {
       block: new FormControl(''),
       facilityType: new FormControl(''),
       facilityName: new FormControl(''),
-      facilityCode: new FormControl('')  // Removed as per new requirements
+      facilityCode: new FormControl(''),  // Removed as per new requirements
     })
   }
 
@@ -136,15 +136,15 @@ export class UpsmfRegisterComponent implements OnInit {
     return this.formBuilder.group({
       firstName: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/),
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/),
       ]),
       phone: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[6-9]\d{9}$/)
+        Validators.pattern(/^[6-9]\d{9}$/),
       ]),
       district: new FormControl('', [Validators.required]),
       role: new FormControl('', [Validators.required]),
@@ -153,7 +153,7 @@ export class UpsmfRegisterComponent implements OnInit {
       courseSelection: new FormControl(''),
       facultyType: new FormControl(''),
       hrmsId: new FormControl(''),
-      upsmfRegistrationNumber: new FormControl('')
+      upsmfRegistrationNumber: new FormControl(''),
     })
   }
 
@@ -162,18 +162,18 @@ export class UpsmfRegisterComponent implements OnInit {
       hrmsId: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/),
       ]),
       lastName: new FormControl('', [
         Validators.required,
-        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/)
+        Validators.pattern(/^[A-Za-z][A-Za-z\s]*$/),
       ]),
       role: new FormControl('', []),
       phone: new FormControl('', [Validators.required, Validators.pattern(/^[0-9]{10}$/)]),
       district: new FormControl('', [Validators.required]),
       dob: new FormControl('', [Validators.required]),
       dateOfJoining: new FormControl('', [Validators.required]),
-      seniorityNumber: new FormControl('', [])
+      seniorityNumber: new FormControl('', []),
     })
   }
 
@@ -251,7 +251,7 @@ export class UpsmfRegisterComponent implements OnInit {
     }
 
     // Update validity
-    ;[instituteNameControl, instituteTypeControl, courseSelectionControl,
+    [instituteNameControl, instituteTypeControl, courseSelectionControl,
       facultyTypeControl, hrmsIdControl, upsmfRegistrationControl].forEach(control => {
         control?.updateValueAndValidity()
       })
@@ -367,7 +367,7 @@ export class UpsmfRegisterComponent implements OnInit {
     this.anmRegistrationForm.get('serviceType')?.setValidators([Validators.required])
     this.anmRegistrationForm.get('hrmsId')?.setValidators([
       Validators.required,
-      Validators.pattern(/^[0-9]{5,8}$/)  // only numbers, 5–8 digits
+      Validators.pattern(/^[0-9]{5,8}$/),  // only numbers, 5–8 digits
     ])
 
     this.anmRegistrationForm.get('district')?.setValidators([Validators.required])
@@ -383,7 +383,7 @@ export class UpsmfRegisterComponent implements OnInit {
     this.anmRegistrationForm.get('district')?.setValidators([Validators.required])
     this.anmRegistrationForm.get('facilityName')?.setValidators([
       Validators.required,
-      Validators.pattern(/^[A-Za-z, ]+$/)
+      Validators.pattern(/^[A-Za-z, ]+$/),
     ])
 
     this.updateFormValidation(['district', 'facilityName'])
@@ -421,7 +421,7 @@ export class UpsmfRegisterComponent implements OnInit {
             this.openSnackbar(res.message)
           }
         },
-        (error) => {
+        error => {
           this.isSubmitting = false
           this.loader.changeLoad.next(false)
           this.openSnackbar(error.error.message)
@@ -448,7 +448,7 @@ export class UpsmfRegisterComponent implements OnInit {
             this.openSnackbar(res.message)
           }
         },
-        (error) => {
+        error => {
           this.isSubmitting = false
           this.loader.changeLoad.next(false)
           this.openSnackbar(error.error.message)
@@ -474,7 +474,7 @@ export class UpsmfRegisterComponent implements OnInit {
             this.openSnackbar(res.message)
           }
         },
-        (error) => {
+        error => {
           this.isSubmitting = false
           this.loader.changeLoad.next(false)
           this.openSnackbar(error.error.message)
@@ -525,7 +525,7 @@ export class UpsmfRegisterComponent implements OnInit {
       facultyType: 'Type of Faculty',
       upsmfRegistrationNumber: 'UPSMF Registration Number',
       dateOfJoining: 'Date of Joining',
-      seniorityNumber: 'Seniority Number'
+      seniorityNumber: 'Seniority Number',
     }
 
     return fieldNames[fieldName] || fieldName
@@ -543,7 +543,7 @@ export class UpsmfRegisterComponent implements OnInit {
     const currentForm = this.isInService ? this.anmRegistrationForm : (this.isPreService ? this.preServiceForm : this.medicalOfficerForm)
     const formValues = {
       ...currentForm.value,
-      phone: +currentForm.value.phone
+      phone: +currentForm.value.phone,
     }
 
     // Add service type identifier
@@ -555,7 +555,7 @@ export class UpsmfRegisterComponent implements OnInit {
     }
 
     const reqUpdate = {
-      request: { formValues }
+      request: { formValues },
     }
 
     this.userProfileSvc.upsmfRegistration(reqUpdate).subscribe(
@@ -570,7 +570,7 @@ export class UpsmfRegisterComponent implements OnInit {
           this.openSnackbar(res.message)
         }
       },
-      (error) => {
+      error => {
         this.isSubmitting = false
         this.loader.changeLoad.next(false)
         this.openSnackbar(error.error.message)
@@ -607,12 +607,12 @@ export class UpsmfRegisterComponent implements OnInit {
       disableClose: true,
       data: {
         message: message,
-        from: 'Upsmf'
+        from: 'Upsmf',
       },
     })
   }
 
-  public openSnackbar(primaryMsg: string, duration: number = 10000): void {
+  public openSnackbar(primaryMsg: string, duration = 10000): void {
     this.snackBar.open(primaryMsg, 'X', { duration })
   }
 

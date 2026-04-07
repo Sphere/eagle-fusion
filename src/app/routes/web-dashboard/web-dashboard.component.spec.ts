@@ -14,12 +14,12 @@ import { EventEmitter } from '@angular/core'
 const mockSignupService: Partial<UserProfileService> = {}
 const mockConfigService: Partial<ConfigurationsService> = {}
 const mockScrollService: Partial<ScrollService> = {
-  scrollToDivEvent: new EventEmitter<string>() // Creating a mock EventEmitter<string>
+  scrollToDivEvent: new EventEmitter<string>(), // Creating a mock EventEmitter<string>
 }
 const router: Partial<Router> = {}
 
 const mockMatDialog: Partial<MatDialog> = {
-  open: jest.fn()
+  open: jest.fn(),
 }
 
 
@@ -46,7 +46,7 @@ describe('WebDashboardComponent', () => {
         { provide: UserProfileService, useValue: mockSignupService },
         { provide: Router, useValue: router },
 
-        { provide: MatSnackBar, useValue: jest.fn() }
+        { provide: MatSnackBar, useValue: jest.fn() },
       ],
     })
       .compileComponents()

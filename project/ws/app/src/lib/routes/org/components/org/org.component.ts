@@ -1,5 +1,5 @@
 import {
-  ConfigurationsService, LoggerService, ValueService
+  ConfigurationsService, LoggerService, ValueService,
 } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { Component, OnInit, ViewChild, OnDestroy, HostListener, effect } from '@angular/core'
@@ -34,7 +34,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   color = 'accent'
   ratingArr: any = []
   index = 0
-  link: string = ''
+  link = ''
   competency_offered: any = 0
   formattedAbout!: string
   averageRating: any = ''
@@ -44,9 +44,9 @@ export class OrgComponent implements OnInit, OnDestroy {
   orgUserCourseEnrolled: any = 0
   myCourseDisplayConfig: any
   isMobile = false
-  showAllUserEnrollCourses: boolean = false
-  showAllCompletedCourses: boolean = false
-  selectedLanguage: string = 'all' // Default to 'all'
+  showAllUserEnrollCourses = false
+  showAllCompletedCourses = false
+  selectedLanguage = 'all' // Default to 'all'
 
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
@@ -65,7 +65,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   @HostListener('window:popstate', ['$event'])
   onPopState(event: any) {
     this.logger.log(event)
-    let url = sessionStorage.getItem('currentURL')
+    const url = sessionStorage.getItem('currentURL')
     if (url) {
       location.href = url
     }
@@ -102,7 +102,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                 }
                 forkJoin([
                   this.orgService.getSearchResultsV7ById(this.currentOrgData.closedCoursesList),
-                  this.orgService.getSearchV7Results(this.orgName)
+                  this.orgService.getSearchV7Results(this.orgName),
                 ]).subscribe(([closedCoursesRes, taggedCoursesRes]: any[]) => {
                   const closedCourses = closedCoursesRes.result.content || []
                   const taggedCourses = (taggedCoursesRes.result.content || []).filter(
@@ -152,7 +152,7 @@ export class OrgComponent implements OnInit, OnDestroy {
             this.logger.error('Error parsing JSON', e)
           }
         },
-        (error) => {
+        error => {
           this.logger.error('HTTP error', error)
         }
       )
@@ -164,7 +164,7 @@ export class OrgComponent implements OnInit, OnDestroy {
       userId = this.configSvc.unMappedUser?.id
     }
 
-    this.orgService.getEnroledUserForCourses(this.orgName).subscribe((userEnrolled) => {
+    this.orgService.getEnroledUserForCourses(this.orgName).subscribe(userEnrolled => {
       if (userEnrolled && userEnrolled.length > 0) {
         this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
         this.competency_offered = userEnrolled[0].competency_offered || undefined
@@ -266,7 +266,7 @@ export class OrgComponent implements OnInit, OnDestroy {
           sourceName: key.content?.sourceName,
           issueCertification: key.content?.issueCertification,
           averageRating: key.content?.averageRating,
-          lang: key.content?.lang || 'en' // Add language property
+          lang: key.content?.lang || 'en', // Add language property
         }
 
         if (key.completionPercentage < 100) {
@@ -284,7 +284,7 @@ export class OrgComponent implements OnInit, OnDestroy {
           rating: true,
           completionPercentage: true,
           certification: true,
-          mobilesourceName: this.isMobile ? true : false
+          mobilesourceName: this.isMobile ? true : false,
         },
       }
     }
@@ -319,7 +319,7 @@ export class OrgComponent implements OnInit, OnDestroy {
   }
 
   redirect() {
-    let url = sessionStorage.getItem('currentURL')
+    const url = sessionStorage.getItem('currentURL')
     if (url) {
       location.href = url
     } else {
@@ -400,7 +400,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                 identifier: course.identifier,
                 competencyId: comp.competencyId,
                 name: comp.competencyName,
-                levels: []
+                levels: [],
               }
             }
 
@@ -409,7 +409,7 @@ export class OrgComponent implements OnInit, OnDestroy {
         })
       }
     })
-    let value = Object.values(grouped)
+    const value = Object.values(grouped)
     this.logger.log("grouped", value)
     return value
   }

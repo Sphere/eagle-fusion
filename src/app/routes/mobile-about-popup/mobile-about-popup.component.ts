@@ -61,7 +61,7 @@ export class MobileAboutPopupComponent implements OnInit {
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/mobile-about-popup'
 
     const obj = {
-      personalDetails: profileRequest.profileReq.personalDetails
+      personalDetails: profileRequest.profileReq.personalDetails,
     }
     profileRequest = Object.assign(profileRequest, obj)
 

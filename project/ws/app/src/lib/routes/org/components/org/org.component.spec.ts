@@ -46,15 +46,15 @@ describe('OrgComponent', () => {
     expect(fixture.componentInstance).toBeTruthy()
   }))
 
-  it('should get enrolled user data and competency data for an organisation', (done) => {
+  it('should get enrolled user data and competency data for an organisation', done => {
     const orgName = 'Indian Nursing Council'
 
     // Assume that getEnroledUserForCourses returns an observable
     spyOn(orgService, 'getEnroledUserForCourses').and.returnValue(of([
-      { enrolled_users: '4866', competency_offered: '0' }
+      { enrolled_users: '4866', competency_offered: '0' },
     ]))
 
-    orgService.getEnroledUserForCourses(orgName).subscribe((userEnrolled) => {
+    orgService.getEnroledUserForCourses(orgName).subscribe(userEnrolled => {
       expect(userEnrolled[0].enrolled_users).toEqual('4866')
       expect(userEnrolled[0].competency_offered).toEqual('0')
       done() // Call done() to signal that the asynchronous operation is complete

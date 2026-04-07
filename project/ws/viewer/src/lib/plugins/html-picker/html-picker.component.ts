@@ -180,8 +180,8 @@ export class HtmlPickerComponent implements OnInit, OnDestroy {
         id: this.identifier,
         type: 'scroll-picker',
         verison: '',
-        rollup: {}
-      }, { values: [{ contentId: this.identifier, }] })
+        rollup: {},
+      }, { values: [{ contentId: this.identifier }] })
     }
     if (event === 'codeinput') {
       this.isInput = false

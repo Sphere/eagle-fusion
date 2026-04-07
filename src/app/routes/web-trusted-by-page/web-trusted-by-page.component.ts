@@ -7,7 +7,7 @@ import { ValueService } from '../../../../library/ws-widget/utils/src/public-api
 })
 export class WebTrustedByPageComponent implements OnInit {
   @Input() config: any
-  isXsmall: boolean = false
+  isXsmall = false
   constructor(
     private valueSvc: ValueService
   ) {

@@ -504,20 +504,20 @@ export class AlmostDoneComponent implements OnInit {
       request: {
         userId: this.result.userId,
         profileDetails: {
-          ...profileRequest, profileLocation: 'sphere-web/almost-done'
+          ...profileRequest, profileLocation: 'sphere-web/almost-done',
         },
       },
     }
 
-    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async (data) => {
+    this.userProfileSvc.updateProfileDetails(reqUpdate).subscribe(async data => {
       this.logger.log(data, 'data')
-      let status = await data.params.status
+      const status = await data.params.status
       if (data && status === 'SUCCESS') {
         this.openSnackbar(this.translate.instant("USER_UPDATE_SUCCESS"))
         localStorage.removeItem('preferedLanguage')
         this.activateRoute.queryParams.subscribe(params => {
           this.logger.log(params.redirect, 'redirect')
-          let url1 = params.redirect
+          const url1 = params.redirect
           let url3 = `${document.baseURI}`
           if (url1 && url1 !== '/app/user/my_courses' && url1 !== 'app/user/my_courses') {
             localStorage.removeItem('url_before_login')
@@ -535,7 +535,7 @@ export class AlmostDoneComponent implements OnInit {
     })
   }
 
-  public openSnackbar(primaryMsg: string, duration: number = 2000) {
+  public openSnackbar(primaryMsg: string, duration = 2000) {
     this.snackBar.open(primaryMsg, undefined, {
       duration,
     })

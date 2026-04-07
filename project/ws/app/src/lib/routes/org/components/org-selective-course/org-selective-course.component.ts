@@ -49,8 +49,8 @@ export class OrgSelectiveCourseComponent implements OnInit {
   isXSmall$ = this.valueSvc.isXSmall$
   orgLogo!: string
   bannerImage!: string
-  bannerTitle: string = ''
-  bannerSubtitle: string = ''
+  bannerTitle = ''
+  bannerSubtitle = ''
   bannerPoints!: string[]
   isLoggedIn = false
 
@@ -133,10 +133,10 @@ export class OrgSelectiveCourseComponent implements OnInit {
       this.logger.log('Using cached org config for:', cachedOrgConfig.orgName || orgId)
       // Still fetch user courses for cached config
       userCoursesRequest.subscribe({
-        next: (userCourses) => {
+        next: userCourses => {
           this.handleOrgData(cachedOrgConfig, userCourses)
         },
-        error: (err) => {
+        error: err => {
           this.logger.error('Error fetching user courses:', err)
           this.handleOrgData(cachedOrgConfig, [])
         },
@@ -166,7 +166,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
         if (orgId) {
           for (const state of s3Data.states) {
             const found = state.organisations.find(
-              (o) => o.orgId === orgId
+              o => o.orgId === orgId
             )
             if (found) {
               matchedOrg = found
@@ -179,7 +179,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
         if (!matchedOrg && orgNameFromUrl) {
           for (const state of s3Data.states) {
             const found = state.organisations.find(
-              (o) =>
+              o =>
                 o.orgName?.toLowerCase().trim() === orgNameFromUrl.toLowerCase().trim()
             )
             if (found) {
@@ -202,7 +202,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
         // Load org data + user progress
         this.handleOrgData(matchedOrg, userCourses)
       },
-      error: (err) => {
+      error: err => {
         this.logger.error('Error fetching S3 org JSON or user courses:', err)
         this.isLoading = false
       },
@@ -264,7 +264,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
         this.buildSemesterWiseData(org.semesters)
         this.isLoading = false
       },
-      error: (err) => {
+      error: err => {
         this.logger.error('Error fetching course data:', err)
         this.isLoading = false
       },
@@ -275,10 +275,10 @@ export class OrgSelectiveCourseComponent implements OnInit {
    * Build semester-wise structure for UI rendering
    */
   buildSemesterWiseData(semesters: any[]) {
-    this.semesterData = semesters.map((sem) => ({
+    this.semesterData = semesters.map(sem => ({
       name: sem.name,
       courses: sem.courses
-        .map((id: string) => this.courseData.find((c) => c.identifier === id))
+        .map((id: string) => this.courseData.find(c => c.identifier === id))
         .filter(Boolean),
     }))
     this.logger.log('Final Semester Data:', this.semesterData)

@@ -8,6 +8,6 @@ import { BtnPageBackModule } from '../btn-page-back/btn-page-back.module'
 @NgModule({
     declarations: [EmbeddedPageComponent],
     imports: [CommonModule, BtnPageBackModule, MatIconModule, MatToolbarModule],
-    exports: [EmbeddedPageComponent]
+    exports: [EmbeddedPageComponent],
 })
 export class EmbeddedPageModule { }

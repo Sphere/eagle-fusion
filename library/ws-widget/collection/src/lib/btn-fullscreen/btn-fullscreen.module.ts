@@ -13,6 +13,6 @@ import { BtnFullscreenComponent } from './btn-fullscreen.component'
         MatIconModule,
         MatTooltipModule,
     ],
-    exports: [BtnFullscreenComponent]
+    exports: [BtnFullscreenComponent],
 })
 export class BtnFullscreenModule { }

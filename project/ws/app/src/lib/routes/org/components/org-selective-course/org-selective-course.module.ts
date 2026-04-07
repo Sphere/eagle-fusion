@@ -8,8 +8,8 @@ import { TranslateModule } from '@ngx-translate/core'
   declarations: [],
   imports: [
     CommonModule,
-    TranslateModule
+    TranslateModule,
   ],
-  exports: []
+  exports: [],
 })
 export class OrgSelectiveCourseModule { }

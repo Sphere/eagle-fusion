@@ -18,6 +18,6 @@ import { UserImageModule } from '../../../_common/user-image/user-image.module'
         MatDialogModule,
         MatProgressSpinnerModule,
         UserImageModule,
-    ]
+    ],
 })
 export class DialogSocialActivityUserModule { }

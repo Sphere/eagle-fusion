@@ -5,6 +5,6 @@ import { PlayerAudioComponent } from './player-audio.component'
 @NgModule({
     declarations: [PlayerAudioComponent],
     imports: [CommonModule],
-    exports: [PlayerAudioComponent]
+    exports: [PlayerAudioComponent],
 })
 export class PlayerAudioModule {}

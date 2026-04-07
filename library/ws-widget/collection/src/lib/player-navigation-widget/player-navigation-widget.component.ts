@@ -16,8 +16,8 @@ export class PlayerNavigationWidgetComponent implements OnInit {
   nextResourceUrl: string | null = null
   currentCompletionPercentage: number | null = null
   firstResourceUrl: string | null = null
-  isPlayBackBtnClicked: boolean = false
-  isPlayNextBtnClicked: boolean = false
+  isPlayBackBtnClicked = false
+  isPlayNextBtnClicked = false
 
   constructor(
     private viewerDataSvc: PlayerStateService,

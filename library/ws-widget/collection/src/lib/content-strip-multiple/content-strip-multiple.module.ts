@@ -24,6 +24,6 @@ import { MatCardModule } from '@angular/material/card'
         MatProgressSpinnerModule,
         MatChipsModule,
         MatCardModule,
-    ]
+    ],
 })
 export class ContentStripMultipleModule { }

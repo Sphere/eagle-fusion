@@ -55,6 +55,6 @@ import { SettingsService } from './settings.service'
   ],
   exports: [SettingsComponent],
   providers: [SettingsService],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
 export class SettingsModule { }

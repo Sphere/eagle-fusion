@@ -149,39 +149,39 @@ export class BtnFeatureComponent extends WidgetBaseComponent
 
     else if (text.name === 'आपके पाठ्यक्रम' || text.name === 'My Courses') {
       this.currentText = text.name
-      let url = '/app/user/my_courses'
-      let result = await this.signupService.getUserData()
+      const url = '/app/user/my_courses'
+      const result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         location.href = `${baseUrl}${url}`
       } else {
-        let redirectUrl = '/page/home'
+        const redirectUrl = '/page/home'
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
       }
     } else if (text.name === 'अधिसूचना' || text.name === 'Notification') {
       this.currentText = text.name
-      let url = '/notification'
+      const url = '/notification'
       location.href = `${baseUrl}${url}`
     } else if (text.name === 'Competency' || text.name === 'योग्यता') {
       this.currentText = text.name
-      let result = await this.signupService.getUserData()
+      const result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         localStorage.setItem('isOnlyPassbook', JSON.stringify(false))
-        let url = '/app/user/competency'
+        const url = '/app/user/competency'
         location.href = `${baseUrl}${url}`
       } else {
-        let redirectUrl = '/page/home'
+        const redirectUrl = '/page/home'
         this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
       }
     } else if (text.name === 'खोज' || text.name === 'Search') {
       this.navOption.changeNavBarActive('search')
       this.currentText = text.name
-      let url = '/app/search/home'
+      const url = '/app/search/home'
       location.href = `${baseUrl}${url}`
     } else {
-      let result = await this.signupService.getUserData()
+      const result = await this.signupService.getUserData()
       if (result && result.profileDetails!.profileReq!.personalDetails!.dob) {
         this.currentText = text.name
-        let url = '/app/profile-view'
+        const url = '/app/profile-view'
         location.href = `${baseUrl}${url}`
       } else {
         if (localStorage.getItem('url_before_login')) {
@@ -189,7 +189,7 @@ export class BtnFeatureComponent extends WidgetBaseComponent
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: courseUrl } })
         } else {
           this.currentText = 'Home'
-          let redirectUrl = '/page/home'
+          const redirectUrl = '/page/home'
           this.router.navigate(['/app/about-you'], { queryParams: { redirect: redirectUrl } })
         }
       }
@@ -238,11 +238,11 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       }
     }
     const count = this.storage.getNumberOfNotifications()
-    let notificationText = count > 0 ? '1' : ''
+    const notificationText = count > 0 ? '1' : ''
 
     this.numberOfNotification = (count > 1) ? '1+' : notificationText
-    this.event.subscribe('notificationCountUpdated', (data) => {
-      let notificationText = data > 0 ? '1' : ''
+    this.event.subscribe('notificationCountUpdated', data => {
+      const notificationText = data > 0 ? '1' : ''
       this.numberOfNotification = (data > 1) ? '1+' : notificationText
     })
     this.pinnedAppsChangeSubs = this.configurationsSvc.pinnedApps.subscribe(pinnedApps => {
@@ -294,11 +294,11 @@ export class BtnFeatureComponent extends WidgetBaseComponent
       id: featureId,
       type: "",
       version: "",
-      rollup: {}
+      rollup: {},
     }, {
       values: [{
-        id: featureId
-      }]
+        id: featureId,
+      }],
     })
     this.configurationsSvc.pinnedApps.pipe(take(1)).subscribe(pinnedApps => {
       const newPinnedApps = new Set(pinnedApps)

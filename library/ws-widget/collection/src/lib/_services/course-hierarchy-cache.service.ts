@@ -11,7 +11,7 @@ export interface CacheMetadata {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class CourseHierarchyCacheService {
   private courseCache = new Map<string, CacheMetadata>()
@@ -111,7 +111,7 @@ export class CourseHierarchyCacheService {
       courseId,
       data,
       timestamp: Date.now(),
-      version: data.pkgVersion || '1.0'
+      version: data.pkgVersion || '1.0',
     })
     this.logCacheEvent(`[Cache] Saved to Memory: ${courseId}`)
   }
@@ -139,7 +139,7 @@ export class CourseHierarchyCacheService {
     const size = new Blob([JSON.stringify(Array.from(this.courseCache.values()))]).size
     return {
       inMemory: this.courseCache.size,
-      size: this.formatBytes(size)
+      size: this.formatBytes(size),
     }
   }
 

@@ -8,13 +8,13 @@ import { LoggerService } from '../../../../library/ws-widget/utils/src/public-ap
   styleUrls: ['./dropdown-dob.component.scss'],
 })
 export class DropdownDobComponent implements OnInit {
-  @Output() dobValue = new EventEmitter<string>();
+  @Output() dobValue = new EventEmitter<string>()
   @Input() dob?: string
-  @Input() isEkshamata: boolean = false
+  @Input() isEkshamata = false
   @Input() dateType: 'dob' | 'joining' = 'dob' // 'dob' for date of birth, 'joining' for date of joining
 
   dobForm: FormGroup
-  dateValue: number[] = [];
+  dateValue: number[] = []
   monthValue = [
     { id: 1, name: 'January' }, { id: 2, name: 'February' },
     { id: 3, name: 'March' }, { id: 4, name: 'April' },
@@ -22,8 +22,8 @@ export class DropdownDobComponent implements OnInit {
     { id: 7, name: 'July' }, { id: 8, name: 'August' },
     { id: 9, name: 'September' }, { id: 10, name: 'October' },
     { id: 11, name: 'November' }, { id: 12, name: 'December' },
-  ];
-  yearsValue: number[] = [];
+  ]
+  yearsValue: number[] = []
 
   constructor(public cdr: ChangeDetectorRef, private logger: LoggerService) {
     this.dobForm = new FormGroup({

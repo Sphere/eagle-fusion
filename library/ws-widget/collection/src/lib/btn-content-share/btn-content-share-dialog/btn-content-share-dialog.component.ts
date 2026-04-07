@@ -34,10 +34,10 @@ export class BtnContentShareDialogComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    let cUrl = window.location.href
-    let id = cUrl.split('/')[5]
-    let newUrl = `${document.baseURI}`
-    let url = `public/toc/overview?courseId=${id}`
+    const cUrl = window.location.href
+    const id = cUrl.split('/')[5]
+    const newUrl = `${document.baseURI}`
+    const url = `public/toc/overview?courseId=${id}`
 
     this.qrdata = `${newUrl}${url}`
 
@@ -161,19 +161,19 @@ export class BtnContentShareDialogComponent implements OnInit {
   }
 
   raiseTelemetry() {
-    let extras = {
+    const extras = {
       values: [
         {
           contentId: this.data.content.identifier,
           contentType: this.data.content.contentType,
-        }
-      ]
+        },
+      ],
     }
     this.events.raiseInteractTelemetry('btn-clicked', 'share', 'content', {
       id: this.data.content.identifier,
       type: this.data.content.contentType,
       version: "",
-      rollup: {}
+      rollup: {},
     }, extras
     )
   }

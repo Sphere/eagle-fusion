@@ -47,7 +47,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   updatedContentStatus = false
   bannerUrl: SafeStyle | null = null
   routePath = 'overview'
-  validPaths = new Set(['overview', 'contents',])
+  validPaths = new Set(['overview', 'contents'])
   averageRating: any = ''
   totalRatings: any = ''
   routerParamSubscription: Subscription | null = null
@@ -75,7 +75,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   contextPath?: string
   tocConfig: any = null
   cohortResults: {
-    [key: string]: { hasError: boolean; contents: NsCohorts.ICohortsContent[], count: Number }
+    [key: string]: { hasError: boolean; contents: NsCohorts.ICohortsContent[], count: number }
   } = {}
   identifier: any
   cohortTypesEnum = NsCohorts.ECohortTypes
@@ -86,7 +86,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   enrolledCourse: any
   lastCourseID: any
   certificateMsg?: any
-  stars: number[] = [1, 2, 3, 4, 5];
+  stars: number[] = [1, 2, 3, 4, 5]
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -110,7 +110,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   @HostListener('window:popstate', [])
   onPopState() {
-    let url = sessionStorage.getItem('cURL') || '/page/home'
+    const url = sessionStorage.getItem('cURL') || '/page/home'
     if (url) {
       location.href = url
     }
@@ -261,7 +261,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     }
     // Return uniqueIds as an array (if needed)
     return [...uniqueIds]
-  };
+  }
 
   ngOnChanges() {
     this.assignPathAndUpdateBanner(this.router.url)
@@ -284,16 +284,16 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       let lastResource = ''
       let lastResourceMimeType: any
       this.logger.log(resumeDataV2, this.enrollCourse)
-      this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content.identifier).subscribe(async (record) => {
+      this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content.identifier).subscribe(async record => {
         this.logger.log('Record:', record.contentId, this.enrollCourse.lastReadContentId, this.resumeResource)
         if (record.contentId) {
           this.updatedContentStatus = true
         } else {
           this.updatedContentStatus = false
         }
-        let rowData = await record
+        const rowData = await record
         this.logger.log(rowData)
-        let data = JSON.parse(rowData.data)
+        const data = JSON.parse(rowData.data)
         this.logger.log(data)
         let url1 = ''
         if (rowData.url.includes('/chapters') || rowData.url.includes('/overview?primaryCategory=Course')) {
@@ -304,7 +304,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             const lastItem = collectionArry[collectionArry.length - 1]
             this.logger.log(matchId, lastItem)
             if (matchId === lastItem) {
-              let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${data.contents[0].batchId}`
+              const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${data.contents[0].batchId}`
               this.logger.log(url1, 'url')
               this.updatedContentFound = url1
             } else {
@@ -340,10 +340,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           const match = url.match(regex)
           if (match) {
             this.logger.log(match[0], collectionArry)
-            let matchId = match[0]
+            const matchId = match[0]
             const lastItem = collectionArry[collectionArry.length - 1]
             if (matchId === lastItem && this.optmisticPercentage === 100) {
-              let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+              const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
               this.logger.log(url1, 'url')
               this.updatedContentFound = url1
             } else {
@@ -355,15 +355,15 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         }
       }, err => {
         this.logger.log(err)
-        let collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
+        const collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
         const regex = /do_\d+(?=\?primaryCategory)/
         const match = this.updatedContentFound.match(regex)
         if (match) {
           this.logger.log(match[0], collectionArry)
-          let matchId = match[0]
+          const matchId = match[0]
           const lastItem = collectionArry[collectionArry.length - 1]
           if (matchId === lastItem && this.optmisticPercentage === 100) {
-            let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+            const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
             this.logger.log(url1, 'url')
             this.updatedContentFound = url1
           }
@@ -372,7 +372,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         }
       })
 
-      let eCourse = this.enrollCourse.contentStatus
+      const eCourse = this.enrollCourse.contentStatus
       if (Object.keys(eCourse).length > 0) {
         lastResource = Object.keys(eCourse)[Object.keys(eCourse).length - 1]
         this.content.children.filter((item: any) => {
@@ -459,28 +459,28 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       let batchId = this.getBatchId()
       this.logger.log(batchId, 'batchId')
       if (!batchId) {
-        let u1 = `${document.baseURI}`
-        let u2 = u1.split("&")
-        let u3 = u2[0].split("Id=")
+        const u1 = `${document.baseURI}`
+        const u2 = u1.split("&")
+        const u3 = u2[0].split("Id=")
         batchId = u3[1]
       }
-      let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
+      const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${batchId}`
       this.logger.log(url1, 'url13123')
       this.updatedContentFound = url1
       this.router.navigateByUrl(url1)
     } else {
-      let url2 = document.baseURI
+      const url2 = document.baseURI
       this.logger.log(url2, 'url2')
-      let url1 = updatedContentFound.includes(url2)
+      const url1 = updatedContentFound.includes(url2)
       if (url1) {
-        let u1 = updatedContentFound.split(url2).pop()
+        const u1 = updatedContentFound.split(url2).pop()
         this.router.navigateByUrl(u1)
       } else {
         this.router.navigateByUrl(updatedContentFound)
       }
     }
   }
-  private openSnackbar(primaryMsg: string, duration: number = 5000) {
+  private openSnackbar(primaryMsg: string, duration = 5000) {
     this.snackBar.open(primaryMsg, 'X', {
       duration,
     })
@@ -535,7 +535,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   // check for exisitng request
                   if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`) && duration <= 30) {
                     this.displayStyle = 'block'
-                    let dur = (30 - duration)
+                    const dur = (30 - duration)
                     this.certificateMsg = this.translate.instant("REQUEST_CERTIFICATE", { duration: dur })
                   } else {
                     this.contentSvc.processCertificate(req).subscribe((response: any) => {
@@ -578,7 +578,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   redirectFirstResource(url: any) {
-    let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${url.queryParams!.collectionId}&collectionType=Course&batchId=${url.queryParams!.batchId}`
+    const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${url.queryParams!.collectionId}&collectionType=Course&batchId=${url.queryParams!.batchId}`
     this.router.navigateByUrl(url1)
   }
 
@@ -609,20 +609,20 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             }
             this.logger.log(this.resumeData, this.content)
             this.logger.log(this.optmisticPercentage, 'optmisticPercentage', this.finishedPercentage, '705')
-            this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async (record) => {
+            this.onlineIndexedDbService.getRecordFromTable('userEnrollCourse', this.configSvc.userProfile!.userId, this.content!.identifier).subscribe(async record => {
               this.logger.log('Record:', record)
               if (record.contentId) {
                 this.updatedContentStatus = true
                 this.updatedContentFound = record.url
               }
-            }, async (error) => {
+            }, async error => {
               this.updatedContentStatus = true
               this.logger.log(this.enrolledCourse, 'this.enrolledCourse!')
               if (error && this.enrolledCourse?.batchId) {
                 this.logger.log('ewrwer')
                 if (this.enrolledCourse.lastReadContentId) {
                   let url = ''
-                  let data = await this.findObjectById(this.content!.children, this.enrolledCourse.lastReadContentId)
+                  const data = await this.findObjectById(this.content!.children, this.enrolledCourse.lastReadContentId)
                   this.logger.log(data, 'datahoooooray')
                   if (data.mimeType === "video/mp4") {
                     url = `/viewer/video/${data.identifier}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
@@ -640,7 +640,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   this.updatedContentFound = url
                 } else {
                   this.updatedContentStatus = false
-                  let url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
+                  const url1 = `${this.firstResourceLink!.url}?primaryCategory=Learning%20Resource&collectionId=${this.content!.identifier}&collectionType=Course&batchId=${this.enrolledCourse.batchId}`
                   this.logger.log(url1, 'url')
                   this.updatedContentFound = url1
                 }
@@ -1017,7 +1017,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
           const courseData = {
             courseId: data,
-            courseRating: res.result
+            courseRating: res.result,
           }
           this.loader.changeLoad.next(false)
 
@@ -1060,7 +1060,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
         if (data && data.result && data.result.message === 'Successful') {
           if (data.result.response) {
-            let res = data.result.response
+            const res = data.result.response
             this.averageRating = (res.sum_of_total_ratings / res.total_number_of_ratings).toFixed(1)
             this.totalRatings = res.total_number_of_ratings
             this.logger.log("data: ", res, data.result.response, this.totalRatings)

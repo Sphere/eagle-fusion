@@ -72,7 +72,7 @@ import { SharedModule } from '../../../../../author/src/lib/modules/shared/share
     // BtnContentFeedbackV2Module,
     // PlayerBriefModule,
     // ViewerCourseInfoModule,
-    SharedModule
+    SharedModule,
   ],
   providers: [PipeLimitToPipe],
   exports: [HtmlComponent],
