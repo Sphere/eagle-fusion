@@ -1,11 +1,5 @@
 import { Injectable } from '@angular/core'
-import {
-  HttpInterceptor,
-  HttpRequest,
-  HttpHandler,
-  HttpEvent,
-  HttpErrorResponse,
-} from '@angular/common/http'
+import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http'
 import { Observable, throwError, timer } from 'rxjs'
 import { retryWhen, mergeMap } from 'rxjs/operators'
 

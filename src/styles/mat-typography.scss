@@ -21,186 +21,186 @@ mat-typography-level parameters:
 */
 // Line-height must be unit-less fraction of the font-size.
 
-$typography: mat.define-typography-config(
+$typography: mat.m2-define-typography-config(
   $font-family: $font-family-open-poppins,
-  $headline-1: mat.define-typography-level(112px, 112px, 400),
-  $headline-2: mat.define-typography-level(56px, 56px, 400),
-  $headline-3: mat.define-typography-level(45px, 52px, 400),
-  $headline-4: mat.define-typography-level(34px, 40px, 300),
-  $headline-5: mat.define-typography-level(24px, 32px, 300),
-  $headline-6: mat.define-typography-level(20px, 32px, 400),
-  $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-  $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-  $body-2: mat.define-typography-level(14px, 24px, 600),
-  $body-1: mat.define-typography-level(14px, 20px, 300),
-  $caption: mat.define-typography-level(12px, 20px, 300),
-  $button: mat.define-typography-level(14px, 14px, 300),
+  $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+  $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+  $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+  $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+  $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+  $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+  $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+  $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+  $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+  $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+  $caption: mat.m2-define-typography-level(12px, 20px, 300),
+  $button: mat.m2-define-typography-level(14px, 14px, 300),
 );
 @include mat.all-component-typographies($typography);
 
 .x-small-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300)
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300)
   );
   @include mat.all-component-typographies($typography);
 }
 .small-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300)
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300)
   );
   @include mat.all-component-typographies($typography);
 }
 
 .large-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300)
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300)
   );
   @include mat.all-component-typographies($typography);
 }
 .x-large-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300),
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300),
   );
   @include mat.all-component-typographies($typography);
 }
 
 .custom-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300)
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300)
   );
   @include mat.all-component-typographies($typography);
 }
 
 .x-small-custom-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300)
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300)
   );
   @include mat.all-component-typographies($typography);
 }
 .small-custom-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300)
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300)
   );
   @include mat.all-component-typographies($typography);
 }
 
 .large-custom-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300)
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300)
   );
   @include mat.all-component-typographies($typography);
 }
 .x-large-custom-typography {
-  $typography: mat.define-typography-config(
+  $typography: mat.m2-define-typography-config(
     $font-family: $font-family-open-poppins,
-    $headline-1: mat.define-typography-level(112px, 112px, 400),
-    $headline-2: mat.define-typography-level(56px, 56px, 400),
-    $headline-3: mat.define-typography-level(45px, 52px, 400),
-    $headline-4: mat.define-typography-level(34px, 40px, 300),
-    $headline-5: mat.define-typography-level(24px, 32px, 300),
-    $headline-6: mat.define-typography-level(20px, 32px, 400),
-    $subtitle-1: mat.define-typography-level(16px, 28px, 300),
-    $subtitle-2: mat.define-typography-level(15px, 24px, 300),
-    $body-2: mat.define-typography-level(14px, 24px, 600),
-    $body-1: mat.define-typography-level(14px, 20px, 300),
-    $caption: mat.define-typography-level(12px, 20px, 300),
-    $button: mat.define-typography-level(14px, 14px, 300)
+    $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
+    $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
+    $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
+    $headline-4: mat.m2-define-typography-level(34px, 40px, 300),
+    $headline-5: mat.m2-define-typography-level(24px, 32px, 300),
+    $headline-6: mat.m2-define-typography-level(20px, 32px, 400),
+    $subtitle-1: mat.m2-define-typography-level(16px, 28px, 300),
+    $subtitle-2: mat.m2-define-typography-level(15px, 24px, 300),
+    $body-2: mat.m2-define-typography-level(14px, 24px, 600),
+    $body-1: mat.m2-define-typography-level(14px, 20px, 300),
+    $caption: mat.m2-define-typography-level(12px, 20px, 300),
+    $button: mat.m2-define-typography-level(14px, 14px, 300)
   );
   @include mat.all-component-typographies($typography);
 }
