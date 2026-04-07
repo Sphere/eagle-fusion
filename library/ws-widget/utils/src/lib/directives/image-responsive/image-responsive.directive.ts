@@ -24,7 +24,7 @@ const customBreakPoints = {
 export class ImageResponsiveDirective implements OnChanges, OnDestroy {
 
   @Input() src: IImageResponsiveUnit | null = null
-  @HostBinding('src') srcBindUrl = ''
+  @HostBinding('attr.src') srcBindUrl = ''
 
   currentSize = ''
   breakpointSubscription: Subscription | null = null
