@@ -45,9 +45,7 @@ import { MatSelectModule } from '@angular/material/select'
 
 import {
   BrowserModule,
-  HAMMER_GESTURE_CONFIG,
   Title,
-  HammerGestureConfig,
 } from '@angular/platform-browser'
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
@@ -68,7 +66,6 @@ import {
   LogoutModule,
 } from '@ws-widget/utils'
 import { SearchModule } from '@ws/app/src/public-api'
-import 'hammerjs'
 import { KeycloakAngularModule } from 'keycloak-angular'
 import { AppRoutingModule } from './app-routing.module'
 import { InitService } from './services/init.service'
@@ -149,17 +146,6 @@ import { UserProfileService } from '../../project/ws/app/src/lib/routes/user-pro
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
 // import { SearchRootComponent } from '../../project/ws/app/src/lib/routes/search/routes/search-root/search-root.component'
 
-@Injectable()
-export class HammerConfig extends HammerGestureConfig {
-  buildHammer(element: HTMLElement) {
-    const options: HammerOptions = {
-      touchAction: 'pan-y',
-      recognizers: [[Hammer.Swipe, { direction: Hammer.DIRECTION_HORIZONTAL }]],
-    }
-    const mc = new Hammer.Manager(element, options)
-    return mc
-  }
-}
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
   try {
     await initSvc.init()
@@ -436,7 +422,6 @@ import { DowntimeBannerComponent } from './component/downtime-banner/downtime-ba
       deps: [PlatformLocation],
     },
     { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
-    { provide: HAMMER_GESTURE_CONFIG, useClass: HammerConfig },
     { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
     Title,
     UserAgentResolverService,
