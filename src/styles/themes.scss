@@ -1,3 +1,4 @@
+@use 'sass:map';
 @use '@angular/material' as mat;
 @include mat.core();
 
@@ -65,25 +66,132 @@ $dark-theme: mat.define-dark-theme((
   density: 0
 ));
 
+$theme-token-list: (
+  icon-color,
+  text-color,
+  mat-toolbar-container-background-color,
+  mat-toolbar-container-text-color,
+  title-color,
+  sub-title-color,
+  theme-bg,
+  theme-surface,
+  theme-surface-alt,
+  theme-border,
+  theme-text,
+  theme-text-muted,
+  theme-text-soft,
+  theme-text-placeholder,
+  theme-accent,
+  theme-on-accent,
+  theme-chip-bg,
+  theme-chip-text,
+  theme-tab-active-text,
+  theme-tab-active-indicator,
+  theme-tab-inactive-text,
+  theme-tab-active-ripple,
+  theme-tab-inactive-ripple,
+  theme-shadow,
+  theme-spinner,
+  theme-icon-filter,
+  theme-input-disabled-bg,
+  theme-input-disabled-text,
+  theme-app-background
+);
+
+$light-theme-tokens: (
+  icon-color: rgba(0, 0, 0, 0.87),
+  text-color: rgba(0, 0, 0, 0.87),
+  mat-toolbar-container-background-color: rgba(255, 255, 255, 0.87),
+  mat-toolbar-container-text-color: rgba(255, 255, 255, 0.87),
+  title-color: rgb(28, 93, 149),
+  sub-title-color: rgb(28, 93, 149),
+  theme-bg: #ffffff,
+  theme-surface: #ffffff,
+  theme-surface-alt: #dfedf9,
+  theme-border: rgba(28, 93, 149, 0.12),
+  theme-text: #101828,
+  theme-text-muted: #5f6b7a,
+  theme-text-soft: #8c98a8,
+  theme-text-placeholder: #8c98a8,
+  theme-accent: #1c5d95,
+  theme-on-accent: #ffffff,
+  theme-chip-bg: #add1f0,
+  theme-chip-text: #08243f,
+  theme-tab-active-text: #000000,
+  theme-tab-active-indicator: #000000,
+  theme-tab-inactive-text: #808080,
+  theme-tab-active-ripple: #000000,
+  theme-tab-inactive-ripple: #808080,
+  theme-shadow: 2px 2px 2px 4px rgba(15, 23, 42, 0.08),
+  theme-spinner: #000000,
+  theme-icon-filter: none,
+  theme-input-disabled-bg: #ffffff,
+  theme-input-disabled-text: #101828,
+  theme-app-background: #ffffff
+);
+
+$dark-theme-tokens: (
+  icon-color: rgba(255, 255, 255, 0.87),
+  text-color: rgba(255, 255, 255, 0.87),
+  mat-toolbar-container-background-color: rgba(0, 0, 0, 0.87),
+  mat-toolbar-container-text-color: rgba(0, 0, 0, 0.87),
+  title-color: rgba(255, 255, 255, 0.87),
+  sub-title-color: $dark-text-secondary,
+  theme-bg: linear-gradient(180deg, #0d171d 0%, #121f27 100%),
+  theme-surface: #0e161b,
+  theme-surface-alt: #10181e,
+  theme-border: rgba(146, 178, 206, 0.2),
+  theme-text: #ecf3f8,
+  theme-text-muted: #b8c6d3,
+  theme-text-soft: #8fa4b8,
+  theme-text-placeholder: #8fa4b8,
+  theme-accent: #78b7ff,
+  theme-on-accent: #08131b,
+  theme-chip-bg: #23445d,
+  theme-chip-text: #e5f3ff,
+  theme-tab-active-text: #ffffff,
+  theme-tab-active-indicator: #ffffff,
+  theme-tab-inactive-text: #8fa4b8,
+  theme-tab-active-ripple: #ffffff,
+  theme-tab-inactive-ripple: #8fa4b8,
+  theme-shadow: 2px 2px 2px 4px rgba(0, 0, 0, 0.32),
+  theme-spinner: #78b7ff,
+  theme-icon-filter: invert(1) brightness(2),
+  theme-input-disabled-bg: #223541,
+  theme-input-disabled-text: #ecf3f8,
+  theme-app-background: #151515
+);
+
+@mixin emit-theme-tokens($tokens) {
+  @each $token-name in $theme-token-list {
+    @if not map.has-key($tokens, $token-name) {
+      @error 'Missing theme token: #{$token-name}';
+    }
+    --#{$token-name}: #{map.get($tokens, $token-name)};
+  }
+}
+
 // Apply themes
 .light-theme {
   @include mat.all-component-colors($light-theme);
-  --icon-color: rgba(0, 0, 0, 0.87);
-  --text-color:  rgba(0, 0, 0, 0.87);
-  --mat-toolbar-container-background-color:  rgba(255, 255, 255, 0.87);
-  --mat-toolbar-container-text-color: rgba(255, 255, 255, 0.87);
-  --title-color: rgb(28, 93, 149);
-  --sub-title-color: rgb(28, 93, 149);
+  @include emit-theme-tokens($light-theme-tokens);
 }
 
 .dark-theme {
   @include mat.all-component-colors($dark-theme);
-  --icon-color: rgba(255, 255, 255, 0.87);
-  --text-color: rgba(255, 255, 255, 0.87);
-  --mat-toolbar-container-background-color:  rgba(0, 0, 0, 0.87);
-  --mat-toolbar-container-text-color: rgba(0, 0, 0, 0.87);
-  --title-color: rgba(255, 255, 255, 0.87);
-  --sub-title-color: $dark-text-secondary;
+  @include emit-theme-tokens($dark-theme-tokens);
+}
+
+.light-theme .mat-app-background,
+.light-theme.mat-app-background {
+  background-color: var(--theme-app-background, #ffffff) !important;
+  color: var(--theme-text, #101828);
+}
+
+.dark-theme .mat-app-background,
+.dark-theme.mat-app-background {
+  background-color: var(--theme-app-background, #151515) !important;
+  color: var(--theme-text, #ecf3f8);
 }
 
 .mat-icon {
@@ -95,10 +203,69 @@ $dark-theme: mat.define-dark-theme((
 }
 
 .mat-toolbar.mat-primary {
+  --mat-toolbar-container-background-color: var(--theme-surface) !important;
   background-color: var(--mat-toolbar-container-background-color, inherit) !important;
   color: var(--mat-toolbar-container-text-color, inherit) !important;
 }
 
 .course-name-mini {
   color: var(--text-color);
+}
+
+:host-context(.dark-theme) {
+
+  .mat-tool-navbar {
+    background: var(--theme-surface, #0e161b) !important;
+    color: var(--theme-text, #ecf3f8);
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  .site-description {
+    color: var(--theme-text, #ecf3f8);
+    border-left-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .burger-menu {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+  }
+
+  .createAcc {
+    background-color: #000;
+    border-color: #000;
+    color: var(--theme-on-accent, #ffffff);
+  }
+
+  ::ng-deep ws-app-search-input-home .search-border {
+    background-color: var(--theme-surface-alt, #1c2d38);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep ws-app-search-input-home input,
+  ::ng-deep ws-app-search-input-home .search-placeholder {
+    color: var(--theme-text, #ecf3f8) !important;
+    caret-color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  ::ng-deep ws-app-search-input-home input::placeholder {
+    color: var(--theme-text-placeholder, #8fa4b8) !important;
+  }
+
+  ::ng-deep ws-app-search-input-home .border-right {
+    border-right-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep ws-web-nav-link-page .link-text,
+  ::ng-deep ws-web-nav-link-page .nav-label,
+  ::ng-deep ws-web-nav-link-page .nav-item {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  ::ng-deep ws-web-nav-link-page .mobile-bottom-nav {
+    background: var(--theme-surface, #0e161b);
+    border-top-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep ws-web-nav-link-page .nav-icon {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+  }
 }

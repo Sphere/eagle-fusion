@@ -2,6 +2,7 @@
 
 .content {
   padding: 60px 20px 30px;
+  color: var(--theme-text, #101828);
   //margin: auto;
 
   // @include breakpoint-gt-s {
@@ -24,6 +25,24 @@
     max-width: 90%;
   }
 }
+
+.section-title,
+label,
+.form-control,
+.select-box,
+input,
+select {
+  color: var(--theme-text, #101828);
+}
+
+.input-box {
+  // border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
+  // border-radius: 8px;
+  // padding: 0.75rem 0.9rem;
+  background: var(--theme-surface, #ffffff);
+  // margin-bottom: 1rem;
+}
+
 .save-btn:disabled {
   background-color: #BFBFBF;
   color: #808080;
@@ -31,7 +50,8 @@
 }
 .form-control:disabled,
 .form-control[readonly] {
-  background-color: transparent;
+  background-color: var(--theme-input-disabled-bg, transparent) !important;
+  color: var(--theme-input-disabled-text, #101828) !important;
   opacity: 1;
 }
 .heading,
@@ -47,7 +67,7 @@
 
 .heading {
   font-size: 12px;
-  color: #808080;
+  color: var(--theme-text-soft, #8c98a8);
 }
 
 .head-2 {
@@ -66,7 +86,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #1C5D95;
+  color: var(--theme-accent, #1c5d95);
 }
 
 .pencil {
@@ -74,15 +94,15 @@
 }
 
 .add-icon {
-  color: #1C5D95;
+  color: var(--theme-accent, #1c5d95);
   font-size: 20px;
 }
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: #1C5D95;
+  background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
-  color: #fff;
+  color: var(--theme-on-accent, #ffffff);
   border: 0;
   font-size: 16px;
   line-height: 19px;
@@ -95,28 +115,92 @@ input {
 }
 .select-box {
   background-color: transparent;
+  // border: none;
+  // width: 100%;
+}
+
+select {
+  color: var(--theme-text-placeholder, #8c98a8);
+}
+
+select.ng-dirty,
+select.ng-valid {
+  color: var(--theme-text, #101828);
+}
+
+select option:first-child {
+  color: var(--theme-text-placeholder, #8c98a8);
+}
+
+select option {
+  color: var(--theme-text, #101828);
+  background: var(--theme-surface, #ffffff);
 }
 
 ::ng-deep .field-fullwidth.mat-focused .mat-mdc-text-field-wrapper .mdc-notched-outline {
-  border: 1px solid #424242 !important;
+  border: 1px solid var(--theme-accent, #1c5d95) !important;
 }
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected,
 ::ng-deep .mat-mdc-option.mat-selected {
-  background-color: #f5d58d !important;
-  color: #fff !important;
+  background-color: var(--theme-accent, #1c5d95) !important;
+  color: var(--theme-on-accent, #ffffff) !important;
 }
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected:hover {
-  background-color: #f5d58d !important;
+  background-color: var(--theme-accent, #1c5d95) !important;
 }
 
 ::ng-deep .mat-mdc-option {
   font-weight: 500 !important;
   font-size: 16px !important;
+  color: var(--theme-text, #101828) !important;
+  background-color: var(--theme-surface, #ffffff) !important;
 }
 
 ::ng-deep .mat-mdc-select .mat-mdc-select-trigger .mat-mdc-select-value {
   font-weight: 500 !important;
   font-size: 16px !important;
+  color: var(--theme-text, #101828) !important;
+}
+
+::ng-deep .themed-mat-field {
+  .mat-mdc-text-field-wrapper {
+    background: var(--theme-surface, #ffffff) !important;
+  }
+
+  .mdc-notched-outline__leading,
+  .mdc-notched-outline__notch,
+  .mdc-notched-outline__trailing {
+    border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+  }
+
+  .mat-mdc-form-field-infix,
+  .mat-mdc-select-value-text,
+  .mat-mdc-select-arrow,
+  .mat-mdc-form-field-label,
+  .mdc-floating-label {
+    color: var(--theme-text, #101828) !important;
+  }
+}
+
+:host-context(.dark-theme) ::ng-deep .themed-mat-field {
+  .mat-mdc-form-field-label,
+  .mdc-floating-label,
+  .mat-mdc-select-placeholder,
+  .mat-mdc-select-arrow {
+    color: var(--theme-text-placeholder, #8fa4b8) !important;
+  }
+}
+
+:host-context(.dark-theme) ::ng-deep .mat-mdc-select-panel {
+  background: var(--theme-surface, #17242d) !important;
+}
+
+:host-context(.dark-theme) ::ng-deep .mat-pseudo-checkbox {
+  --mat-minimal-pseudo-checkbox-selected-checkmark-color: var(--theme-on-accent, #08131b);
+}
+
+::placeholder {
+  color: var(--theme-text-placeholder, #8c98a8) !important;
 }

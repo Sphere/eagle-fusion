@@ -340,3 +340,52 @@ height: 42px;
   flex-direction: column;
   gap: 8px;
 }
+
+:host-context(.dark-theme) {
+  .line-label::after {
+    background-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .bg-green::after,
+  .orange::after {
+    background: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .line-label span,
+  .curated-text,
+  .header1,
+  .header0,
+  .mt15 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .header1,
+  .header0 {
+    background-color: var(--theme-surface-alt, #1c2d38) !important;
+  }
+
+  .view-all-course {
+    color: var(--theme-accent, #78b7ff);
+    background: var(--theme-surface, #0e161b);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .view-all-course:hover {
+    color: var(--theme-text, #ecf3f8);
+    border-color: var(--theme-accent, #78b7ff);
+  }
+
+  .overlay {
+    background: color-mix(in srgb, var(--theme-surface, #0e161b) 85%, transparent);
+  }
+
+  .loader-ripple div {
+    border-color: var(--theme-text, #ecf3f8);
+  }
+
+  .shimmer,
+  .shimmer-button {
+    background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
+    background-size: 600px 100%;
+  }
+}

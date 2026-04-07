@@ -252,3 +252,37 @@
     font-size: 18px;
   }
 }
+
+:host-context(.dark-theme) .downtime-container,
+.downtime-container.dark-theme {
+  background: var(--theme-bg, linear-gradient(180deg, #0d171d 0%, #121f27 100%)) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+
+  .icon-placeholder {
+    background: color-mix(in srgb, var(--theme-accent, #78b7ff) 16%, transparent);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .downtime-title,
+  .downtime-message,
+  .app-link-hint,
+  .support-text {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .app-download-link {
+    color: var(--theme-on-accent, #08131b);
+    background: var(--theme-accent, #78b7ff);
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+
+    &:hover,
+    &:focus {
+      color: var(--theme-on-accent, #08131b);
+      background: var(--theme-accent, #78b7ff);
+    }
+  }
+
+  .decoration-circle {
+    background: color-mix(in srgb, var(--theme-accent, #78b7ff) 10%, transparent);
+  }
+}

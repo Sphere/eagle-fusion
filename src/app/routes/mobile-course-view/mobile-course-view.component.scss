@@ -2,7 +2,7 @@
 
 
 .course-container {
-box-shadow: 0px 0px 8px 0px #00000073;
+box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
 
   // box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
   border-radius: 8px;
@@ -11,7 +11,9 @@ box-shadow: 0px 0px 8px 0px #00000073;
   width: auto !important;;
   height: 100%;
   margin-bottom: 15px !important;
-  border: 1px solid #00000014;
+  border: 1px solid var(--theme-border, #00000014);
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #101828);
 }
 .course-container .appIcon {
   min-width: 272px;
@@ -86,19 +88,19 @@ box-shadow: 0px 0px 8px 0px #00000073;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: -0.02em;
-  color: #404040;
+  color: var(--theme-text-soft, #404040);
 }
 
 .start-btn {
   border-radius: 20px;
   font-size: 14px;
   padding: 5px 25px;
-  background: #1C5D95;
-  color: #fff !important;
+  background: var(--theme-accent, #1C5D95);
+  color: var(--theme-on-accent, #fff) !important;
   cursor: pointer;
 }
 .bg-cont-white {
-  background-color: #fff;
+  background-color: var(--theme-surface, #fff);
 }
 .card-block{
   width: 312px;
@@ -123,7 +125,7 @@ gap: 0px;
   left: 8px !important;
   gap: 0px !important;
   border-radius: 10px!important;
-  box-shadow: 0px 0px 8px 0px #00000073;
+  box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
   margin: 5px 15px 5px 0px !important;
 }
 .img-block{
@@ -150,7 +152,7 @@ gap: 0px;
 .value {
   position: relative;
   bottom: 19px;
-  color: #000000;
+  color: var(--theme-text, #000000);
   font-weight: 600;
   width: 275px;
   display: flex;
@@ -205,7 +207,7 @@ height: 16px;
   width: 100%;
   border-radius: 40px;
   height: 10px;
-  border: 1px solid #EDEDED;
+  border: 1px solid var(--theme-border, #EDEDED);
   --mdc-linear-progress-active-indicator-color: #469788 !important;
   --mdc-linear-progress-track-color: #dcdcdc!important;
   --mdc-linear-progress-track-height: 10px !important
@@ -219,8 +221,8 @@ height: 16px;
   --mdc-linear-progress-active-indicator-height: 10px !important
 }
 ::ng-deep.light-theme .mat-mdc-progress-bar--buffer {
-  background-color: #EDEDED;
-    border: 1px solid #EDEDED;
+  background-color: var(--theme-border, #EDEDED);
+    border: 1px solid var(--theme-border, #EDEDED);
   --mdc-linear-progress-active-indicator-color: #469788 !important;
   --mdc-linear-progress-track-color: #dcdcdc!important;
   --mdc-linear-progress-track-height: 10px !important;
@@ -278,7 +280,7 @@ height: 16px;
   border-top: 1px solid #DCDCDC;
   margin-top: 15px;
   padding-top: 10px;
-  color: #000000;
+  color: var(--theme-text, #000000);
 }
 
 .competency-icon {
@@ -287,7 +289,7 @@ height: 16px;
 }
 
 .top-border{
-border-top: 1px solid #DCDCDC;
+border-top: 1px solid var(--theme-border, #DCDCDC);
 }
 .mobile-source-name{
   font-family: Roboto, sans-serif;
@@ -296,7 +298,7 @@ font-weight: 400;
 line-height: 14.06px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #808080 !important;
+color: var(--theme-text-soft, #808080) !important;
 padding: 5px 0px 0px 0px;
 }
 
@@ -306,9 +308,9 @@ padding: 5px 0px 0px 0px;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background-color: #2E6491 !important;
+  background-color: var(--theme-accent, #2E6491) !important;
   border-radius: 50px;
-  color: #FFFFFF !important;
+  color: var(--theme-on-accent, #FFFFFF) !important;
   font-family: Roboto, sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -325,9 +327,9 @@ padding: 5px 0px 0px 0px;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background-color: #2E6491 !important;
+  background-color: var(--theme-accent, #2E6491) !important;
   border-radius: 50px;
-  color: #FFFFFF !important;
+  color: var(--theme-on-accent, #FFFFFF) !important;
   font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -343,16 +345,16 @@ padding: 5px 0px 0px 0px;
   justify-content: center;
   align-items: center;
   gap: 8px;
-  background-color: #FFFFFF !important;
+  background-color: var(--theme-surface, #FFFFFF) !important;
   border-radius: 50px;
-  color: #2E6491 !important;
+  color: var(--theme-accent, #2E6491) !important;
   font-family: "Roboto", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
   line-height: 16px;
   cursor: pointer;
-  border: 1px solid #2E6491;
+  border: 1px solid var(--theme-accent, #2E6491);
 }
 
 .modal {

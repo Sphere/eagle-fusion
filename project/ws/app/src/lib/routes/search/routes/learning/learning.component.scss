@@ -5,7 +5,8 @@
 .sidenav-container {
   height: 100%;
   min-height: 80vh;
-  background: white !important;
+  background: var(--theme-surface, white) !important;
+  color: var(--theme-text, #101828);
 }
 // Contents of SideNav Menu
 .sidenav {
@@ -22,6 +23,7 @@
   padding: 0 $size-m $size-l;
   box-sizing: border-box;
   min-height: calc(100vh - 145px);
+  color: var(--theme-text, #101828);
 }
 .day-mode {
   .mat-drawer-backdrop.mat-drawer-shown {
@@ -69,6 +71,9 @@
     height: 30px !important;
     border-radius: 16px;
     font-size: small;
+    // color: var(--theme-text, #101828);
+    // background-color: var(--theme-surface, #ffffff);
+    // border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
 }
 .lang-icon {
     background-image: url('/fusion-assets/icons/lang-icon.png');
@@ -153,4 +158,32 @@
   gap: 8px;
   width: 80%;
   justify-content: center;
+}
+
+:host {
+  color: var(--theme-text, #101828);
+}
+
+:host-context(.dark-theme) {
+  .sk-title,
+  .shimmer-title,
+  .shimmer-subtitle,
+  .shimmer-image {
+    background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
+    background-size: 600px 100%;
+  }
+
+  .lang-icon {
+    filter: var(--theme-icon-filter, none);
+  }
+
+  ::ng-deep mat-chip {
+    background: var(--theme-surface-alt, #1c2d38) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep .mat-drawer-backdrop.mat-drawer-shown {
+    background-color: rgba(0, 0, 0, 0.4) !important;
+  }
 }

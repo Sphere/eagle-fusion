@@ -8,7 +8,7 @@
   align-items: center;
   justify-content: center;
   z-index: 2000 !important;
-  background-color: #fff;
+  background-color: var(--theme-surface, #fff);
   }
 
   .relative-content {
@@ -76,6 +76,7 @@
   width: 5px;
   font-size: 26px;
   font-weight: 500;
+  color: var(--theme-text, #101828);
 }
 
 /* Shimmer Animation */
@@ -118,4 +119,21 @@
   width: 100%;
   height: 650px;
   border-radius: 8px;
+}
+
+.certificate-modal-shell {
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #101828);
+}
+
+::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background: var(--theme-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
+}
+
+:host-context(.dark-theme) {
+  .shimmer {
+    background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
+    background-size: 200% 100%;
+  }
 }

@@ -336,3 +336,31 @@
   font-size: 18px;
   margin-left: 10px;
 }
+
+:host-context(.dark-theme) {
+  .banner-container.isEkshamata {
+    background: linear-gradient(180deg, #0d171d 0%, #12212a 52%, #1a2b22 100%);
+  }
+
+  .banner-heading,
+  .banner-mini-heading,
+  .banner-sub-heading {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .badge-container {
+    color: var(--theme-chip-text, #e5f3ff);
+    background: var(--theme-surface-alt, #1c2d38);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  .round-buttons .dot-icon {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+    opacity: 0.55;
+  }
+
+  .round-buttons.active .dot-icon {
+    opacity: 1;
+  }
+}

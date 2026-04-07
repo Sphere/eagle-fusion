@@ -11,12 +11,12 @@ ws-app-nav-bar {
   min-height: 100vh;
 }
 
-.dark-theme {
-  background: #1e2927
+:host-context(.dark-theme) .bg-color {
+  background: #1e2927 !important;
 }
-.light-theme
-.bg-color{
-  background: #DCEFEC;
+
+:host-context(.light-theme) .bg-color {
+  background: #DCEFEC !important;
   padding: 10px 0px !important;
 }
 .route-change {

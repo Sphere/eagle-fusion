@@ -26,8 +26,8 @@
   // height: 27px;
   flex-shrink: 0;
   border-radius: 100px;
-  background: #DCFAFF;
-  color: #035F7C;
+  background: var(--theme-surface-alt, #DCFAFF);
+  color: var(--theme-accent, #035F7C);
   font-family: 'Roboto', sans-serif !important;
   font-size: 14px;
   font-style: normal;
@@ -45,7 +45,8 @@
 .box {
   width: 100%;
   height: 100%;
-  background: #f7f7f7;
+  background: var(--theme-bg, #f7f7f7);
+  color: var(--theme-text, #101828);
 
   @include breakpoint-xs {
     width: 100% !important;
@@ -77,6 +78,7 @@
   font-weight: 400;
   font-size: 32px;
   line-height: 38px;
+  color: var(--theme-text, #101828);
 }
 
 .subtitle {
@@ -93,7 +95,7 @@
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
-  color: #000000;
+  color: var(--theme-text, #000000);
   letter-spacing: -0.02em;
 }
 
@@ -103,7 +105,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #1c5d95;
+  color: var(--theme-accent, #1c5d95);
   flex: none;
   flex-grow: 0;
   padding-top: 20px;
@@ -154,9 +156,9 @@
   justify-content: center !important;
   align-items: center !important;
   padding: 0px 32px !important;
-  background: #1c5d95 !important;
+  background: var(--theme-accent, #1c5d95) !important;
   border-radius: 50px !important;
-  color: #f7f7f7 !important;
+  color: var(--theme-on-accent, #f7f7f7) !important;
   border: none;
 
   @include breakpoint-xs {
@@ -182,9 +184,9 @@
 }
 .banner-btn-active {
   display: flex;
-  color: #1c5d95 !important;
+  color: var(--theme-accent, #1c5d95) !important;
   border-radius: 50px;
-  border: 1px solid #1c5d95 !important;
+  border: 1px solid var(--theme-accent, #1c5d95) !important;
   margin-left: 10px;
   width: 25%;
   height: 35px;
@@ -200,7 +202,7 @@
 .share-img {
   width: 42px;
   height: 42px;
-  border: 1px solid #1c5d95;
+  border: 1px solid var(--theme-accent, #1c5d95);
   box-sizing: border-box;
   border-radius: 49%;
   padding: 9px 12px 0px;
@@ -232,7 +234,7 @@
 .value {
   position: relative;
   bottom: 19px;
-  color: #1C5D95;
+  color: var(--theme-accent, #1C5D95);
   width: 275px;
   display: flex;
   justify-content: center;
@@ -254,7 +256,7 @@
 }
 
 .button-border {
-  border: 1px solid #1c5d95;
+  border: 1px solid var(--theme-accent, #1c5d95);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -264,7 +266,7 @@
 }
 
 .btn-tittle {
-  color: #1c5d95;
+  color: var(--theme-accent, #1c5d95);
 }
 
 .modal {
@@ -283,6 +285,7 @@ line-height: 13.53px;
 letter-spacing: -0.02em;
 text-align: left;
 color: #747474;
+color: var(--theme-text-soft, #747474);
 padding-top: 3px !important;
 
 }
@@ -294,7 +297,7 @@ font-weight: 400;
 line-height: 16.8px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #000000;
+color: var(--theme-text, #000000);
 
 }
 
@@ -307,5 +310,52 @@ mat-progress-bar {
 }
 
 .action-button-share {
-  border: 1px solid #1c5d95;
+  border: 1px solid var(--theme-accent, #1c5d95);
+}
+
+.toc-inline-modal {
+  background: rgba(0, 0, 0, 0.45);
+}
+
+.modal-surface {
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #101828);
+  border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
+  border-radius: 20px;
+  box-shadow: var(--theme-shadow, 0 10px 30px rgba(15, 23, 42, 0.08));
+}
+
+.modal-header,
+.modal-footer {
+  border-color: var(--theme-border, rgba(28, 93, 149, 0.12));
+}
+
+.modal-header .close,
+#close-btn {
+  color: var(--theme-text, #101828);
+}
+
+#close-btn {
+  background: var(--theme-surface-alt, #dfedf9);
+  border-color: var(--theme-border, rgba(28, 93, 149, 0.12));
+}
+
+:host-context(.dark-theme) {
+  .button-border img,
+  .duration-block img {
+    filter: brightness(0) invert(1);
+  }
+
+  ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
+    background: var(--theme-surface, #17242d) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  mat-progress-bar {
+    --mdc-linear-progress-track-color: #223541 !important;
+  }
+
+  .modal-surface {
+    background: var(--theme-surface, #17242d);
+  }
 }

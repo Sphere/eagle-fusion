@@ -275,6 +275,7 @@ color: var(--text-color) !important;
 }
 .footer-aastar-logo{
   width: 190px;
+  filter: var(--theme-icon-filter);
   // margin-top: 30px;
 }
 img.docs-footer-aastar-logo {
@@ -799,4 +800,61 @@ color: var(--text-color);
 .list-items {
   flex-direction: column;
   display: flex;
+}
+
+:host-context(.dark-theme) {
+  .footer-container {
+    background: var(--theme-surface, #0e161b);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .docs-footer {
+    background: var(--theme-surface-alt, #1c2d38);
+  }
+
+  .mat-mdc-list-base .mat-mdc-list-item,
+  .list-item,
+  .list-item-link,
+  .link-text,
+  .foundation,
+  .footer-alignment,
+  .transform-header,
+  .text-partners {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .partner {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .partner span {
+    background: var(--theme-surface, #0e161b);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .transform-footer-container {
+    background-color: var(--theme-surface-alt, #1c2d38);
+    background-blend-mode: multiply;
+  }
+
+  .start-today-button {
+    background: #000;
+    color: var(--theme-on-accent, #ffffff);
+  }
+
+  .part-a-partner,
+  .part-b-partner {
+    background: var(--theme-surface-alt, #1c2d38) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .whatsapp-logo-container {
+    background: var(--theme-surface, #0e161b);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .social-logo {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+  }
 }

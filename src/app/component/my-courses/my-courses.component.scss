@@ -143,7 +143,7 @@
 
 #heading {
   //margin-left: 20px;
-  color: var(--title-color);
+  color: var(--text-color);
   margin-top: 20px;
   margin-bottom: 0px;
   font: 400 24px / 32px Roboto;
@@ -349,32 +349,21 @@
   background: #00000085;
 }
 
-::ng-deep .light-theme .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab--active {
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab--active {
   opacity: 1;
-  --mat-tab-header-active-label-text-color: black !important;
-  --mdc-tab-indicator-active-indicator-color: black !important;
-  --mat-tab-header-active-focus-label-text-color: black !important;
-  --mat-tab-header-active-hover-label-text-color: black !important;
-  --mat-tab-header-active-focus-indicator-color: black !important;
-  --mat-tab-header-active-hover-indicator-color: black !important;
-}
-
-
-::ng-deep .dark-theme .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab--active {
-  opacity: 1;
-  --mat-tab-header-active-label-text-color: white !important;
-  --mdc-tab-indicator-active-indicator-color: black !important;
-  --mat-tab-header-active-focus-label-text-color: black !important;
-  --mat-tab-header-active-hover-label-text-color: black !important;
-  --mat-tab-header-active-focus-indicator-color: black !important;
-  --mat-tab-header-active-hover-indicator-color: black !important;
+  --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+  --mat-tab-header-active-focus-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-header-active-hover-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-header-active-focus-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+  --mat-tab-header-active-hover-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
 }
 
 ::ng-deep .mat-mdc-tab-group.mat-primary .mat-ink-bar {
   background-color: rgb(3, 22, 21) !important;
 }
 ::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
-  --mat-tab-header-inactive-ripple-color: grey !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
   .mat-mdc-tab {
     padding-left: 24px !important;
     padding-right: 24px !important;
@@ -513,6 +502,88 @@
   animation: loader-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
 }
 
+:host-context(.dark-theme) {
+  .blue-btn {
+    background: #000 !important;
+  }
+
+  .sk-tabs {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .sk-card {
+    box-shadow: var(--theme-shadow, 0 0 8px 0 rgba(0, 0, 0, 0.08));
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .placeholder-card {
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    background: var(--theme-surface, #17242d);
+  }
+
+  .resource-container .card-thumbnail {
+    border-color: var(--theme-accent, #2e6491);
+  }
+
+  .resource-container .card-title,
+  .course-container .name,
+  .outline-btn {
+    color: var(--theme-accent, #1C5D95) !important;
+  }
+
+  .outline-btn {
+    border-color: var(--theme-accent, #2E6491);
+    background-color: var(--theme-surface, #17242d);
+  }
+
+  .value,
+  ::ng-deep .mat-mdc-tab-header .mdc-tab__text-label {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  :host ::ng-deep .mdc-linear-progress__buffer {
+    background-color: var(--theme-surface, #17242d) !important;
+  }
+
+  ::ng-deep .mat-mdc-tab-header {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep .mat-tab-group .mat-mdc-tab-header {
+    --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #8fa4b8) !important;
+    --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #ffffff) !important;
+    --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #8fa4b8) !important;
+    --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+    --mat-tab-header-active-focus-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-header-active-hover-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-header-active-focus-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+    --mat-tab-header-active-hover-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+  }
+
+  ::ng-deep .mat-mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label {
+    color: var(--theme-text-soft, #8fa4b8) !important;
+  }
+  .overlay {
+    background: color-mix(in srgb, var(--theme-surface, #17242d) 85%, transparent);
+  }
+
+  .loader-ripple div {
+    border-color: var(--theme-text, #ecf3f8);
+  }
+
+  .sk-title,
+  .sk-tab,
+  .sk-image,
+  .sk-line,
+  .sk-progress-bar,
+  .sk-btn,
+  .placeholder-shimmer {
+    background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
+    background-size: 600px 100%;
+  }
+}
+
 .loader-ripple div:nth-child(2) {
   animation-delay: -0.5s;
 }
@@ -535,11 +606,6 @@
   }
 }
 
-::ng-deep .mat-tab-group .mat-mdc-tab-header{
-  --mat-tab-header-active-label-text-color: grey !important;
-  --mat-tab-header-active-ripple-color: black !important;
-  --mat-tab-header-inactive-ripple-color: black !important;
-}
 /* Animation */
 @keyframes spin {
   to {

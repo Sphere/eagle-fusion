@@ -1,3 +1,8 @@
+.profile-select-shell {
+  color: var(--theme-text, #101828);
+  background: var(--theme-surface, #ffffff);
+}
+
 .profile-title {
   font-family: 'Roboto';
   font-style: normal;
@@ -6,6 +11,7 @@
   line-height: 29px;
   letter-spacing: -0.02em;
   margin: 1rem 0 0 !important;
+  color: var(--theme-text, #101828);
 }
 
 .pick-text {
@@ -16,6 +22,7 @@
   line-height: 17px;
   letter-spacing: -0.02em;
   margin: 0 !important;
+  color: var(--theme-text-soft, #8c98a8);
 }
 
 .add-own-img {
@@ -24,7 +31,7 @@
   font-weight: 400;
   font-size: 16px;
   line-height: 19px;
-  color: #1C5D95;
+  color: var(--theme-accent, #1c5d95);
   mix-blend-mode: normal;
   margin: 0 !important;
 }
@@ -32,7 +39,8 @@
 .camera-bg {
   width: 54px;
   height: 54px;
-  background: #F7F7F7;
+  background: var(--theme-surface-alt, #f7f7f7);
+  border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
   border-radius: 25px;
   position: relative;
 }
@@ -51,4 +59,21 @@
 
 .img:hover {
   cursor: pointer;
+}
+
+.close-icon {
+  filter: var(--theme-icon-filter, none);
+}
+
+:host-context(.dark-theme) {
+  .img img {
+    border-radius: 14px;
+    background: var(--theme-surface-alt, #1c2d38);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
+  }
+}
+
+::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
+  background: var(--theme-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
 }

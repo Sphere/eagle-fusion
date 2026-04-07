@@ -4,8 +4,8 @@
 /************/
 
 .course-container {
-      margin: 5px;
-box-shadow: 0px 0px 8px 0px #00000073;
+  margin: 5px;
+  // box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
 
   // box-shadow: 0px 0px 4px rgb(0 0 0 / 15%);
   border-radius: 8px;
@@ -16,15 +16,17 @@ box-shadow: 0px 0px 8px 0px #00000073;
   width: 312px;
     height: 230px;
   margin-right: 23px;
-  border: 1px solid #00000014;
+  border: 1px solid var(--theme-border, #00000014);
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #101828);
 }
 .card-block{
   width: 644px;
-height: 125px;
-top: 8px;
-left: 8px;
-gap: 0px;
-border-radius: 10px 0px 0px 0px;
+  height: 125px;
+  top: 8px;
+  left: 8px;
+  gap: 0px;
+  border-radius: 10px 0px 0px 0px;
 // opacity: 0px;
 
 }
@@ -63,7 +65,7 @@ top: 8px !important;
 left: 8px !important;
 gap: 0px !important;
 border-radius: 10px!important;
-box-shadow: 0px 0px 8px 0px #00000073;
+box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
 margin: 5px 20px 5px 0px !important;
 
 
@@ -91,7 +93,7 @@ margin: 5px 20px 5px 0px !important;
   font-size: 16px;
   line-height: 24px;
   letter-spacing: -0.02em;
-  color: #404040;
+  color: var(--theme-text-soft, #404040);
 }
 
 .course-name-block{
@@ -150,8 +152,8 @@ color: var(--text-color);
   border-radius: 20px;
   font-size: 14px;
   padding: 5px 25px;
-  background: #1C5D95;
-  color: #fff !important;
+  background: var(--theme-accent, #1C5D95);
+  color: var(--theme-on-accent, #fff) !important;
   cursor: pointer;
 }
 .course-name-mini{
@@ -173,7 +175,7 @@ margin: 0px !important;
     padding: 0px 0px 0px 5px;
 }
 .bg-cont-white {
-  background-color: #fff;
+  background-color: var(--theme-surface, #fff);
 }
 :host ::ng-deep .light-theme .mat-mdc-progress-bar-fill::after {
     background: #469788 !important;
@@ -185,7 +187,7 @@ margin: 0px !important;
 .value {
   position: relative;
   bottom: 19px;
-  color: #000000;
+  color: var(--theme-text, #000000);
   font-weight: 600;
   width: 275px;
   display: flex;
@@ -196,7 +198,7 @@ margin: 0px !important;
   width: 100%;
   border-radius: 40px;
   height: 10px;
-  border: 1px solid #EDEDED;
+  // border: 1px solid var(--theme-border, #EDEDED);
   --mdc-linear-progress-active-indicator-color: #469788 !important;
   --mdc-linear-progress-track-color: #EDEDED !important;
   --mdc-linear-progress-active-indicator-height: 10px !important;
@@ -204,8 +206,8 @@ margin: 0px !important;
 }
 
 ::ng-deep .mdc-linear-progress__buffer {
-  background-color: #EDEDED;
-  border: 1px solid #EDEDED;
+  background-color: var(--theme-border, #EDEDED);
+  border: 1px solid var(--theme-border, #EDEDED);
   --mdc-linear-progress-active-indicator-color: #469788 !important;
   --mdc-linear-progress-track-color: #EDEDED !important;
   --mdc-linear-progress-active-indicator-height: 10px !important;
@@ -296,7 +298,14 @@ height: 14px;
   border-top: 1px solid #DCDCDC;
   margin-top: 15px;
   padding-top: 10px;
-  color: #000000;
+  color: var(--theme-text, #000000);
+}
+
+:host-context(.dark-theme) {
+  .fitsize,
+  .fitsizeMini {
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.35);
+  }
 }
 
 .competency-icon {

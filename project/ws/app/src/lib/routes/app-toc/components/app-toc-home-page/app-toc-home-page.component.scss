@@ -12,7 +12,8 @@
 .toc-body {
   @extend %container-padding;
   padding-top: 10px !important;
-  background-color: white;
+  background-color: var(--theme-surface, white);
+  color: var(--theme-text, #101828);
 
   @include breakpoint-s {
     padding-right: 1rem;
@@ -102,7 +103,7 @@
 :host ::ng-deep .mat-expansion-panel-header,
 :host ::ng-deep .light-theme .mat-expansion-panel-header {
   margin-top: -5px;
-  border-bottom: solid 1px #d9d9d9;
+  border-bottom: solid 1px var(--theme-border, #d9d9d9);
   padding-top: 0px;
   padding-bottom: 0px;
   margin-bottom: 16px;
@@ -129,40 +130,45 @@
 }
 
 ::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab-indicator--active.mdc-tab--active {
-  --mat-tab-header-active-label-text-color: black !important;
-  --mdc-tab-indicator-active-indicator-color: black !important;
-  --mat-tab-header-active-focus-label-text-color: black !important;
-  --mat-tab-header-active-hover-label-text-color: black !important;
-  --mat-tab-header-active-focus-indicator-color: black !important;
-  --mat-tab-header-active-hover-indicator-color: black !important;
+  --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+  --mat-tab-header-active-focus-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-header-active-hover-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-header-active-focus-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+  --mat-tab-header-active-hover-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
 }
 
 ::ng-deep .toc-links .mat-mdc-tab-list .mat-mdc-tab-labels {
-  background-color: white !important;
+  background-color: var(--theme-surface, white) !important;
 }
 ::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
-  --mat-tab-header-inactive-ripple-color: grey !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
   .mat-mdc-tab {
     flex-grow:  0 !important;
   }
   .mdc-tab__content {
-    color: #424242 !important;
+    color: var(--theme-tab-inactive-text, #808080) !important;
     font-size: 18px !important;
   }
 }
 
 ::ng-deep .mat-mdc-tab-header {
-  border-bottom: 1px solid rgb(204, 203, 203);
+  border-bottom: 1px solid var(--theme-border, rgb(204, 203, 203));
 }
 
 ::ng-deep .mat-mdc-tab-body-active {
-  background-color: white !important;
+  background-color: var(--theme-surface, white) !important;
 }
 
 ::ng-deep .mat-tab-group .mat-mdc-tab-header{
-  --mat-tab-header-active-label-text-color: grey !important;
-  --mat-tab-header-active-ripple-color: black !important;
-  --mat-tab-header-inactive-ripple-color: black !important;
+  --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #808080) !important;
+  --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #000000) !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
+}
+
+::ng-deep .mat-mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label {
+  color: var(--theme-tab-inactive-text, #808080) !important;
 }
 
 ::ng-deep lib-discuss-card .discuss-card-title {
@@ -172,4 +178,16 @@
 ::ng-deep .toc-body .mdc-tab__text-label {
   font-size: 18px !important;
   font-weight: 500;
+}
+
+:host-context(.dark-theme) {
+  .toc-body {
+    background: var(--theme-bg, #121f27);
+  }
+
+  ::ng-deep .mat-mdc-tab-header-pagination-chevron,
+  ::ng-deep .mat-mdc-tab .mdc-tab__text-label,
+  ::ng-deep .mat-mdc-tab-header {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
 }

@@ -15,10 +15,12 @@
 
 .search-card {
   // border-bottom: solid 1px grey;
+  color: var(--theme-text, #101828);
 }
 
 .card-content {
   padding: 0 $size-xs;
+  color: var(--theme-text, #101828);
 }
 
 .premium-content {
@@ -53,6 +55,7 @@
   font-size: 20px !important;
   font-weight: 500 !important;
   line-height: 32px !important;
+  color: var(--theme-text, #101828);
 }
 
 .completed-icon {
@@ -80,4 +83,36 @@
 
 h1 {
   font-weight: 400 !important;
+}
+
+:host {
+  color: var(--theme-text, #101828);
+}
+
+::ng-deep .search-card .mat-mdc-card {
+  background: var(--theme-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
+  border: 0.1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
+  box-shadow: var(--theme-shadow, none) !important;
+  width: 100%;
+}
+
+:host-context(.dark-theme) {
+  .image-section img {
+    border-radius: 8px;
+  }
+
+  a,
+  span,
+  h1,
+  .mat-title,
+  .mat-card-subtitle,
+  .mat-body-2 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+}
+
+.width-expand{
+  flex: 1;
+  min-width: 1px;
 }

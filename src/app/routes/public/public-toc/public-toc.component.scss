@@ -193,7 +193,6 @@
 }
 
 mat-tab-group {
-  --mdc-tab-indicator-active-indicator-color: #dfdfdf !important;
-  --mat-tab-header-active-label-text-color: #000000de!important;
-  --mdc-tab-indicator-active-indicator-color: #000000de !important;
+  --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
 }

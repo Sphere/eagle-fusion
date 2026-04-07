@@ -3,6 +3,7 @@
 .content {
   padding: 10px 0px 0px 10px;
   font-size: 16px;
+  color: var(--theme-text, #101828);
   // margin: auto;
 
   // @include breakpoint-gt-s {
@@ -25,6 +26,26 @@
     max-width: 90%;
   }
 }
+
+.content label,
+.content p,
+.content input,
+.content select {
+  color: var(--theme-text, #101828);
+}
+
+.form-group {
+  margin-bottom: 1rem;
+}
+
+.form-control,
+.select-box {
+  color: var(--theme-text, #101828);
+  border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
+  background-color: var(--theme-surface, #ffffff) !important;
+  border-radius: 8px;
+}
+
  @media (min-width:320px) and (max-width:600px) {
     .personal-btn{
       margin-top: 10px;
@@ -32,7 +53,8 @@
     }
   }
 ::placeholder {
-  color: #bebebe !important;
+  color: var(--theme-text-placeholder, #bebebe) !important;
+  opacity: 1;
 }
 
 .date-picker {
@@ -40,8 +62,11 @@
   right: 0px;
   top: 0px;
 }
-:host ::ng-deep .form-control:disabled, .form-control[readonly] {
-    background-color: transparent !important;
+:host ::ng-deep .form-control:disabled,
+:host ::ng-deep .form-control[readonly] {
+  background-color: var(--theme-input-disabled-bg, #ffffff) !important;
+  color: var(--theme-input-disabled-text, #101828) !important;
+  border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
 }
 .field-fullwidth {
   width: 100% !important;
@@ -56,9 +81,9 @@
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: #1C5D95;
+  background-color: var(--theme-accent, #1C5D95);
   border-radius: 50px;
-  color: #fff;
+  color: var(--theme-on-accent, #fff);
   border: 0;
   font-size: 16px;
   line-height: 19px;
@@ -83,7 +108,8 @@
 
 .form-control:disabled,
 .form-control[readonly] {
-  background-color: transparent;
+  background-color: var(--theme-input-disabled-bg, #ffffff) !important;
+  color: var(--theme-input-disabled-text, #101828) !important;
   opacity: 1;
 }
 
@@ -112,9 +138,27 @@ img.lang-img {
 // }
 
 input {
-  background-color: transparent !important;
+  background-color: var(--theme-surface, #ffffff) !important;
 }
 
 .select-box {
-  background-color: transparent !important;
+  background-color: var(--theme-surface, #ffffff) !important;
+}
+
+select {
+  color: var(--theme-text-placeholder, #8c98a8);
+}
+
+select.ng-dirty,
+select.ng-valid {
+  color: var(--theme-text, #101828);
+}
+
+select option:first-child {
+  color: var(--theme-text-placeholder, #8c98a8);
+}
+
+select option {
+  color: var(--theme-text, #101828);
+  background-color: var(--theme-surface, #ffffff);
 }

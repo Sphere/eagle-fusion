@@ -1,8 +1,28 @@
 @import 'ws-vars';
 
+.search-tabs-group {
+  color: var(--theme-text, #101828);
+  background: var(--theme-surface, #ffffff);
+}
+
 .search-box {
   width: 100%;
   max-width: 500px;
   box-sizing: border-box;
   max-height: 50px;
+}
+
+:host-context(.dark-theme) {
+  ::ng-deep .mat-mdc-tab-header {
+    border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep .mat-mdc-tab .mdc-tab__text-label,
+  ::ng-deep .mat-mdc-tab-header-pagination-chevron {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  ::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
+    background: var(--theme-surface, #17242d) !important;
+  }
 }

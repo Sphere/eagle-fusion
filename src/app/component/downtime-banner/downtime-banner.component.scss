@@ -190,3 +190,36 @@
     font-size: 12px;
   }
 }
+
+:host-context(.dark-theme) {
+  .downtime-banner-card {
+    background-color: var(--theme-surface-alt, #1c2d38) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  .banner-title,
+  .banner-message {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .banner-close {
+    color: var(--theme-text, #ecf3f8);
+
+    &:hover,
+    &:focus {
+      color: var(--theme-text, #ecf3f8);
+      background-color: rgba(255, 255, 255, 0.08);
+    }
+  }
+
+  .banner-app-link {
+    color: var(--theme-accent, #78b7ff);
+
+    &:hover,
+    &:focus {
+      color: var(--theme-text, #ecf3f8);
+    }
+  }
+}

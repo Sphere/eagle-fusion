@@ -2,7 +2,7 @@
   <ws-mobile-profile-nav [trigerrNavigation]=" trigerrNavigation" [showbackButton]="showbackButton"
     [showLogOutIcon]="showLogOutIcon">
   </ws-mobile-profile-nav>
-  <p class="text-2xl mt-2">{{ data?.title | translate }}</p>
+  <p class="text-2xl mt-2 section-title">{{ data?.title | translate }}</p>
   <ng-container *ngIf="isEkshamata">
     <div class="form-group input-box"
       *ngIf="ekshamataData?.profileDetails?.profileReq?.professionalDetails[0]?.designation">
@@ -48,7 +48,7 @@
     <ng-container *ngFor="let field of data?.formData">
       <div *ngIf="field.type === 'mat-select'">
         <label [for]="field.key" style="display: block;">{{ field.label | translate }}</label>
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select [formControlName]="field.key" [placeholder]="field.placeholder | translate"
             (selectionChange)="professionalChange($event.value)">
             <mat-option [value]="profession" *ngFor="let profession of getOptions(field)">{{profession}}
