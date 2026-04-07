@@ -17,6 +17,7 @@ const API_END_POINTS = {
   KEYCLOAK_COOKIE: '/apis/public/v8/emailMobile/authv2',
   Sashakt_Auth: '/apis/public/v8/sashaktAuth/login',
   Maternity_Auth: '/apis/public/v8/maternityFoundation/login',
+  MNC_Auth: '/apis/public/v8/maharastraNursingCouncil/login',
   ENROLLED_USER: 'apis/protected/v8/userEnrolledInSource',
   Tnai_Auth: '/apis/public/v8/tnai/login',
   Tnnmc_Auth: '/apis/public/v8/tnnmc/login',
@@ -143,6 +144,10 @@ export class OrgServiceService {
   setMaternyId(data: any): Observable<any> {
     this.logger.log(data)
     return this.http.post<any>(`${API_END_POINTS.Maternity_Auth}`, data)
+  }
+  setMNCId(data: any): Observable<any> {
+    this.logger.log(data)
+    return this.http.post<any>(`${API_END_POINTS.MNC_Auth}`, data)
   }
   setTnaiToken(data: any): Observable<any> {
     this.logger.log(data)

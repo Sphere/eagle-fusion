@@ -42,7 +42,7 @@
     <ws-web-trusted-by-page *ngIf="!isLoggedIn" [config]="configData[4]"></ws-web-trusted-by-page>
     <div [ngClass]="{'mt-8': !isXSmall$}">
       <ws-how-does-work class="bg-color app-footer"
-        [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage, 'margin-top: 0.5rem': !isXSmall$}"
+        [ngStyle]="{ 'padding-bottom': !isSetupPage ? '56px' : '0', 'margin-top': !isXSmall$ ? '0.5rem' : '0' }"
         *ngIf="showNavbar && !hideHeaderFooter && videoData" [config]="videoData"></ws-how-does-work>
     </div>
   </ng-container>
@@ -50,7 +50,7 @@
   <!-- Desktop Footer -->
   <ws-app-footer class="app-footer" [ngStyle]="{ 'padding-bottom: 56px': !isSetupPage}"
     [ngClass]="{'hide-in-mobile': isLoggedIn && isXSmall$}"
-    *ngIf="showNavbar && !hideHeaderFooter && showNavigation && footerConfig" [config]="footerConfig">
+    *ngIf="showNavbar && !hideHeaderFooter && !hideFooter && showNavigation && footerConfig" [config]="footerConfig">
   </ws-app-footer>
 
   <!-- bottom nav bar for mobile -->

@@ -86,6 +86,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   isHomePage = false
   showNavigation = true
   hideHeaderFooter = false
+  hideFooter = false
   isLoggedIn = false
   mobileView = true
   showmobileFooter = true
@@ -537,6 +538,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   handleRouterSubscription() {
     this.router.events.pipe(takeUntil(this.destroy$)).subscribe((event: any) => {
       if (event instanceof NavigationEnd) {
+        this.hideFooter = event.url.includes('/app/org-selective-course')
         if (this.router.url === '/page/home' && !this.configSvc.unMappedUser) {
           window.location.href = 'public/home'
         }
@@ -566,6 +568,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.isNavBarRequired = this.router.url.includes('/page/home') ?? true
         } else {
           this.isHomePage = false
+        }
+        if (this.router.url.includes('/public/home')) {
+          this.showNavigation = true
+          this.hideHeaderFooter = false
         }
       }
 
@@ -607,7 +613,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/app/org-selective-course')) {
           this.isNavBarRequired = false
-          this.showmobileFooter = false
+          this.hideFooter = true
         } else if (event.url.includes('app/toc')) {
           if (this.configSvc.userProfile !== null) {
             this.mobileView = false
@@ -639,7 +645,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           this.mobileView = true
           // tslint:disable-next-line: max-line-length
         } else if (event.url.includes('/public/home')) {
-          this.showNavigation = true
         } else if (
           event.url.includes('/app/login') ||
           event.url.includes('/app/mobile-otp') ||
