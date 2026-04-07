@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core'
+import { Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 // import { DomSanitizer } from '@angular/platform-browser'
 
@@ -7,7 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
   templateUrl: './how-does-it-works-popup.component.html',
   styleUrls: ['./how-does-it-works-popup.component.scss'],
 })
-export class VideoPopupComponent {
+export class VideoPopupComponent implements OnInit {
 
   constructor(
     public dialogRef: MatDialogRef<VideoPopupComponent>,

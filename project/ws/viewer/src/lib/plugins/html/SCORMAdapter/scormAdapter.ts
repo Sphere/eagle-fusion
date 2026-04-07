@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core'
+import { Injectable, OnDestroy } from '@angular/core'
 import { Storage, IScromData } from './storage'
 import { errorCodes } from './errors'
 import { HttpBackend, HttpClient } from '@angular/common/http'
@@ -14,7 +14,7 @@ import { API_END_POINTS } from '../../../../../../../../src/app/constants/apiCon
 @Injectable({
   providedIn: 'root',
 })
-export class SCORMAdapterService {
+export class SCORMAdapterService implements OnDestroy {
   id = ''
   name = ''
   parent = ''

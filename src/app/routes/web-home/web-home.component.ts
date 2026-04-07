@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, effect } from '@angular/core'
+import { Component, OnInit, ElementRef, effect, OnDestroy } from '@angular/core'
 import { Router } from '@angular/router'
 import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { ScrollService } from '../../services/scroll.service'
@@ -10,7 +10,7 @@ import { PlaylistService } from '../../services/playlist.service'
   templateUrl: './web-home.component.html',
   styleUrls: ['./web-home.component.scss'],
 })
-export class WebHomeComponent implements OnInit {
+export class WebHomeComponent implements OnInit, OnDestroy {
   showCreateBtn = false
   bannerStatus: any
   currentSlideIndex = 0

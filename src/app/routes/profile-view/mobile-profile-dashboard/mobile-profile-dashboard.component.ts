@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject, effect, ChangeDetectorRef } from '@angular/core'
+import { Component, OnInit, Inject, effect, ChangeDetectorRef, OnDestroy } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { Router } from '@angular/router'
 import { ConfigurationsService, ValueService, LogoutComponent, TelemetryService, LoggerService } from '../../../../../library/ws-widget/utils/src/public-api'
@@ -25,7 +25,7 @@ import { TranslateService } from '@ngx-translate/core'
   templateUrl: './mobile-profile-dashboard.component.html',
   styleUrls: ['./mobile-profile-dashboard.component.scss'],
 })
-export class MobileProfileDashboardComponent implements OnInit {
+export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   firstName!: string
   lastName!: string
   showMobileView = false

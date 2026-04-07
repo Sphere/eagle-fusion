@@ -1,4 +1,4 @@
-import { Injectable, NgZone } from '@angular/core'
+import { Injectable, NgZone, OnDestroy } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable, of } from 'rxjs'
 import { map, tap, catchError } from 'rxjs/operators'
@@ -21,7 +21,7 @@ import { API_END_POINTS } from '../constants/apiConstants'
 @Injectable({
   providedIn: 'root',
 })
-export class DowntimeConfigService {
+export class DowntimeConfigService implements OnDestroy {
   constructor(
     private ngZone: NgZone,
     private httpClient: HttpClient,

@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, Renderer2, ChangeDetectorRef } from "@angular/core"
+import { Component, OnDestroy, OnInit, Renderer2, ChangeDetectorRef, AfterViewInit } from "@angular/core"
 import { SafeHtml } from "@angular/platform-browser"
 import { Socket, io } from "socket.io-client"
 
@@ -19,7 +19,7 @@ import { MatDialogRef } from '@angular/material/dialog'
   templateUrl: "./notification.component.html",
   styleUrls: ["./notification.component.scss"],
 })
-export class NotificationsComponent implements OnInit, OnDestroy {
+export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit {
 
   dropdownContent = false
   readNotificationList: any = []

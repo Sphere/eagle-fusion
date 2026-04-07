@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, Input, OnInit, OnDestroy } from '@angular/core'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
 import { ScrollService } from '../../services/scroll.service'
@@ -13,7 +13,7 @@ import { LoggerService } from '../../../../library/ws-widget/utils/src/public-ap
   templateUrl: './web-dashboard.component.html',
   styleUrls: ['./web-dashboard.component.scss'],
 })
-export class WebDashboardComponent implements OnInit {
+export class WebDashboardComponent implements OnInit, OnDestroy {
   firstName: any
   preferedLanguage: any = { id: 'en', lang: 'English' }
   userData: any

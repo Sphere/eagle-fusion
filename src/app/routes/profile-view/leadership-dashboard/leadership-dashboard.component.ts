@@ -6,7 +6,7 @@ import {
   OnDestroy,
   QueryList,
   ViewChildren,
-  ViewChild,
+  ViewChild, AfterViewInit,
 } from '@angular/core'
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { LeadershipDashboardInfoComponent } from '../leadership-dashboard-info/leadership-dashboard-info.component'
@@ -18,7 +18,7 @@ import { ConfigurationsService, LoggerService } from '../../../../../library/ws-
   templateUrl: './leadership-dashboard.component.html',
   styleUrls: ['./leadership-dashboard.component.scss'],
 })
-export class LeadershipDashboardComponent implements OnInit, OnDestroy {
+export class LeadershipDashboardComponent implements OnInit, OnDestroy, AfterViewInit {
   leaderboardData: any[] = []
   skeletonRankCards = [
     { height: 160 }, // rank 2
