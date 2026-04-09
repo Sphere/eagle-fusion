@@ -5,7 +5,7 @@
     "types": ["node"]
   },
   "files": ["global.d.ts"],
-  "include": ["src/main.ts", "src/polyfills.ts"],
+  "include": ["src/main.ts"],
   "exclude": [
     "src/test.ts",
     "src/**/*.spec.ts",

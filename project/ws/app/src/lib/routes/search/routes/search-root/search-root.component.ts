@@ -60,7 +60,7 @@ export class SearchRootComponent implements OnInit {
     //   relativeTo: this.activated.parent,
     // })
   }
-  hasKeys(object: Object): boolean {
+  hasKeys(object: object): boolean {
     if (object && Object.keys(object) && Object.keys(object).length) {
       return true
     }

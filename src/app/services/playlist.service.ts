@@ -13,7 +13,7 @@ export class PlaylistService {
   orgDetails = computed(() => this.playlistData()?.orgData ?? '')
 
   headerConfig = computed(() => this.playlistData()?.LAYOUT_HEADER ?? '')
-  bodyConfig = computed(() => this.playlistData()?.LAYOUT_BODY?.sections ?? '')
+  bodyConfig = computed(() => this.playlistData()?.LAYOUT_BODY ?? [])
   footerConfig = computed(() => this.playlistData()?.LAYOUT_FOOTER ?? '')
   config = computed(() => this.playlistData()?.LAYOUT_BODY ?? '')
 
@@ -28,6 +28,8 @@ export class PlaylistService {
     const tab = this.selectedTab()
     return sections[tab] || sections.homeTab || ''
   })
+
+  private playlistConfigCache = signal<any[] | null>(null)
 
   private earnedBadgesSubject = new BehaviorSubject<number>(0)
   earnedBadges$ = this.earnedBadgesSubject.asObservable()
@@ -80,19 +82,16 @@ export class PlaylistService {
   }
 
   async getPlaylistConfig(): Promise<any> {
+    const cached = this.playlistConfigCache()
+    if (cached) return cached
+
     const org = this.configSvc?.userProfile?.rootOrgId || 'default'
-
-    const body = {
-      request: {
-        filters: { orgId: org },
-      },
-    }
-
+    const body = { request: { filters: { orgId: org } } }
     const url = API_END_POINTS.PLAYLIST_SEARCH
-
     const response: any = await this.http.post(url, body).toPromise()
-
-    return response?.result?.playlist ?? []
+    const result = response?.result?.playlist ?? []
+    this.playlistConfigCache.set(result)
+    return result
   }
 
   clearCache() {

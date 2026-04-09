@@ -1,4 +1,4 @@
-import { Component, OnInit, ElementRef, Input, OnDestroy, effect, QueryList, ViewChildren } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, ElementRef, Input, OnDestroy, effect, QueryList, ViewChildren } from '@angular/core'
 import { NavigationExtras, Router } from '@angular/router'
 import { uniqBy } from 'lodash'
 import { MatDialog } from '@angular/material/dialog'
@@ -68,7 +68,8 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     private langSvc: LanguageService,
     private valueSvc: ValueService,
     private logger: LoggerService,
-    private contentSvc: WidgetContentService
+    private contentSvc: WidgetContentService,
+    private cdr: ChangeDetectorRef
   ) {
     this.lang = this.langSvc.getCurrentLanguage()
     effect(() => {
@@ -77,6 +78,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
   }
 
   async ngOnInit() {
+    this.isLoading = true
     this.handleScrollEvents()
     const designation = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.professionalDetails?.[0]?.designation || ''
     const designationLower = designation.toLowerCase()
@@ -109,16 +111,17 @@ export class WebPublicComponent implements OnInit, OnDestroy {
           this.featuredCourseIdentifier = dataSource.payload
         }
       }
-    } else {
+    }
+    // Fallback: if playlist API returned empty, read identifiers from form config
+    if (!this.topCertifiedCourseIdentifier.length && !this.cneCoursesIdentifier.length && !this.yourPlansCourseIdentifier.length) {
       this.uiConfig?.forEach(data => {
         if (data?.playlistConfigId == 'TOP_COURSE_PLAYLIST') {
-          this.topCertifiedCourseIdentifier = data.payload
+          this.topCertifiedCourseIdentifier = data.payload || []
         } else if (data?.playlistConfigId == 'CNE_COURSE_PLAYLIST') {
-          this.cneCoursesIdentifier = data.payload
+          this.cneCoursesIdentifier = data.payload || []
         }
       })
     }
-    this.isLoading = true
     // Main flow
     if (this.yourPlansCourseIdentifier.length > 0 || this.topCertifiedCourseIdentifier.length > 0 || this.cneCoursesIdentifier.length > 0) {
       this.fetchEnvironmentConfigurations()
@@ -278,13 +281,15 @@ export class WebPublicComponent implements OnInit, OnDestroy {
     ]
 
     const requests = !this.configSvc?.unMappedUser ? [this.orgService.getTopLiveSearchResults(defaultIds, 'en')] :
-      this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers], this.lang)
+      [this.orgService.getTopLiveSearchResults([...defaultIds, ...identifiers], this.lang)]
 
     return forkJoin(requests).subscribe((responses: any[]) => {
       const content = responses
         .flatMap(res => res?.result?.content || [])
 
       if (!content.length) {
+        this.isLoading = false
+        this.cdr.detectChanges()
         return
       }
       const cneSet = new Set(this.cneCoursesIdentifier)
@@ -313,10 +318,10 @@ export class WebPublicComponent implements OnInit, OnDestroy {
 
   updateCourseData() {
     const data = this.userEnrollCourse?.filter(item => this.yourPlansCourseIdentifier?.includes(item.identifier))
-    if (this.configData) {
+    if (Array.isArray(this.configData)) {
       const completed = data?.filter(item => item.completionPercentage === 100)
       const incomplete = data?.filter(item => item.completionPercentage !== 100)
-      this.configData?.forEach((element: any) => {
+      this.configData.forEach((element: any) => {
         if (element.playlistConfigId === 'CONTINUE_LEARNING') {
           element.data = incomplete
           element.displayData = element?.data?.slice(0, element.limit)
@@ -338,6 +343,7 @@ export class WebPublicComponent implements OnInit, OnDestroy {
       })
     }
     this.isLoading = false
+    this.cdr.detectChanges()
   }
 
   // For opening Course Page

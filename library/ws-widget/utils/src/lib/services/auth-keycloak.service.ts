@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http'
 import { Injectable } from '@angular/core'
-import { KeycloakEvent, KeycloakEventType, KeycloakService } from 'keycloak-angular'
+import { KeycloakEventLegacy, KeycloakEventTypeLegacy, KeycloakService } from 'keycloak-angular'
 import { ReplaySubject } from 'rxjs'
 import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
@@ -126,7 +126,6 @@ export class AuthKeycloakService {
     idpHint: 'E' | 'N' | 'S' = 'E',
     redirectUrl: string
   ) {
-    // tslint:disable-next-line: no-console
     this.logger.log(idpHint, redirectUrl)
   }
 
@@ -157,28 +156,28 @@ export class AuthKeycloakService {
     } catch (error) { }
   }
   private addKeycloakEventListener() {
-    this.keycloakSvc.keycloakEvents$.subscribe((event: KeycloakEvent) => {
+    this.keycloakSvc.keycloakEvents$.subscribe((event: KeycloakEventLegacy) => {
       switch (event.type) {
-        case KeycloakEventType.OnAuthError:
+        case KeycloakEventTypeLegacy.OnAuthError:
           this.loginChangeSubject.next(false)
           break
-        case KeycloakEventType.OnAuthLogout:
+        case KeycloakEventTypeLegacy.OnAuthLogout:
           this.loginChangeSubject.next(false)
           storage.removeItem(storageKey)
           break
-        case KeycloakEventType.OnAuthRefreshError:
+        case KeycloakEventTypeLegacy.OnAuthRefreshError:
           break
-        case KeycloakEventType.OnAuthRefreshSuccess:
+        case KeycloakEventTypeLegacy.OnAuthRefreshSuccess:
           break
-        case KeycloakEventType.OnAuthSuccess:
+        case KeycloakEventTypeLegacy.OnAuthSuccess:
           break
-        case KeycloakEventType.OnReady:
+        case KeycloakEventTypeLegacy.OnReady:
           this.loginChangeSubject.next(event?.args as any)
           if (event.args) {
             //   this.saveKeycloakConfig()
           }
           break
-        case KeycloakEventType.OnTokenExpired:
+        case KeycloakEventTypeLegacy.OnTokenExpired:
           //  this.keycloakSvc.updateToken(60)
           break
       }

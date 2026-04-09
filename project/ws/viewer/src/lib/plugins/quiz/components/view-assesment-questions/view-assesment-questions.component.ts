@@ -30,7 +30,7 @@ export class ViewAssesmentQuestionsComponent implements OnInit, AfterViewInit, O
       },
     ],
   }
-  @Output() itemSelected = new EventEmitter<string | Object>()
+  @Output() itemSelected = new EventEmitter<string | object>()
   @Input() itemSelectedList: string[] = []
   @Input() markedQuestions: Set<string> = new Set()
   title = 'match'

@@ -1,4 +1,4 @@
-import { Component, OnInit, ComponentFactoryResolver, ViewChild } from '@angular/core'
+import { Component, OnInit, ViewChild } from '@angular/core'
 import { AppTocHomeDirective } from './app-toc-home.directive'
 import { AppTocHomeService } from './app-toc-home.service'
 import { Router } from '@angular/router'
@@ -21,16 +21,14 @@ export class AppTocHomeComponent implements OnInit {
   constructor(
     private http: HttpClient,
     private router: Router,
-    private componentFactoryResolver: ComponentFactoryResolver,
     private appTocHomeSvc: AppTocHomeService,
     private telemetrySvc: TelemetryService
   ) { }
 
   loadComponent() {
-    const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.appTocHomeSvc.getComponent())
     const viewContainerRef = this.wsAppAppTocHome.viewContainerRef
     viewContainerRef.clear()
-    viewContainerRef.createComponent(componentFactory)
+    viewContainerRef.createComponent(this.appTocHomeSvc.getComponent())
   }
 
   ngOnInit() {

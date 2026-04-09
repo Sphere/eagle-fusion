@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, effect } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy, effect } from '@angular/core'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { ConfigurationsService, ValueService } from '@ws-widget/utils'
 import { SignupService } from 'src/app/routes/signup/signup.service'
@@ -44,7 +44,8 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     private readonly route: ActivatedRoute,
     private playlistSvc: PlaylistService,
     private langSvc: LanguageService,
-    private orgService: OrgServiceService
+    private orgService: OrgServiceService,
+    private cdr: ChangeDetectorRef
   ) {
     effect(() => {
       this.isXSmall = this.valueSvc.isMobile() ? true : false
@@ -100,6 +101,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
     this.pendingRequests--
     if (this.pendingRequests <= 0) {
       this.isLoading = false
+      this.cdr.detectChanges()
     }
   }
 

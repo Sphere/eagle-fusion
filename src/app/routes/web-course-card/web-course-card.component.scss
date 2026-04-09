@@ -30,15 +30,23 @@ border-radius: 10px 0px 0px 0px;
 
 }
 :host ::ng-deep {
-  .mat-mdc-progress-bar-fill:after {
-    background: #469788 !important;
-    // border-radius: 10px;
+  .mat-mdc-progress-bar {
+    --mdc-linear-progress-active-indicator-color: #469788 !important;
+    --mdc-linear-progress-track-color: #EDEDED !important;
+    border-radius: 40px;
+    height: 10px;
   }
-
-  .mat-mdc-progress-bar-buffer {
-    background-color: #DCDCDC !important
+  
+  // Specific override for MDC internals. The bar-inner is what actually shows the colored line using borders.
+  .mdc-linear-progress__bar-inner {
+    border-color: #469788 !important;
+  }
+  
+  .mdc-linear-progress__buffer-bar {
+    background-color: #EDEDED !important;
   }
 }
+
 .course-container .appIcon {
   // .mat-card-image {
   width: calc(100% + 32px) !important;
@@ -177,10 +185,10 @@ margin: 0px !important;
 .bg-cont-white {
   background-color: #fff;
 }
-:host ::ng-deep .theme-igot.day-mode .mat-mdc-progress-bar-fill::after {
-    background: #469788 !important;
+:host ::ng-deep .theme-igot.day-mode .mdc-linear-progress__bar-inner {
+    border-color: #469788 !important;
 }
-::ng-deep.theme-igot.day-mode .mat-mdc-progress-bar-buffer {
+::ng-deep.theme-igot.day-mode .mdc-linear-progress__buffer-bar {
   background-color: #DCDCDC !important;
 }
 

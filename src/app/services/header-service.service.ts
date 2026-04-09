@@ -22,7 +22,7 @@ export class HeaderServiceService {
   saveCourseContent() {
     this.headerSaveData.next(this.isSavePressed)
     // tslint:disable-next-line:no-console
-    this.logger.log('this.headerSaveData', this.headerSaveData)
+    console.log('this.headerSaveData', this.headerSaveData)
   }
 
   showCreatorHeader(name: string) {

@@ -403,6 +403,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
             this.logger.error('Error fetching user batch list:', err)
           },
         )
+      // Pre-warm playlist config cache so home page ngOnInit doesn't block on it
+      this.playlistSvc.getPlaylistConfig().catch(err => {
+        this.logger.warn('Failed to pre-warm playlist config cache:', err)
+      })
       localStorage.setItem(`userUUID`, this.configSvc.unMappedUser.userId)
       if (sessionStorage.getItem('cURL')) {
         sessionStorage.removeItem('cURL')
@@ -420,7 +424,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     ]).catch(err => {
       this.logger.warn('Form data load timeout/failed, using defaults:', err)
       this.orgDetails = {}
-      this.bodyConfig = {}
       this.footerConfig = {}
       this.changeDetector.markForCheck()
     })
@@ -506,7 +509,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!playlistData) {
           this.logger.warn('No playlist data loaded')
           this.orgDetails = {}
-          this.bodyConfig = {}
           this.footerConfig = {}
           this.changeDetector.markForCheck()
           return
@@ -515,7 +517,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
       this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
-      this.bodyConfig = this.isLoggedIn ? this.playlistSvc.bodyConfig().homeTab : this.playlistSvc.config()
+      this.bodyConfig = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
       const enabled: boolean = this.orgDetails?.assessmentConfig?.isRecoridngEnable ?? false
       if (!enabled) this.scrnScrtySvc.init()
@@ -531,7 +533,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.logger.error('Error setting up form data:', error)
       // Set safe defaults - page can still render with router-outlet
       this.orgDetails = {}
-      this.bodyConfig = {}
       this.footerConfig = {}
     }
   }

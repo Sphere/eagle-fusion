@@ -425,7 +425,11 @@ input.mdc-text-field__input {
   position: relative;
 }
 
-::ng-deep .mat-checkbox-inner-container {
+::ng-deep .mdc-checkbox {
+  align-self: flex-start;
+}
+
+::ng-deep .mdc-checkbox__background {
   height: 23px !important;
   width: 23px !important;
 }

@@ -8,14 +8,14 @@ import { MatToolbarModule } from '@angular/material/toolbar'
 import { MatTooltipModule } from '@angular/material/tooltip'
 import { MatSliderModule } from '@angular/material/slider'
 
-import { ImageCropperModule } from 'ngx-image-cropper'
+import { ImageCropperComponent } from 'ngx-image-cropper'
 import { ImageCropComponent } from './image-crop.component'
 
 @NgModule({
     declarations: [ImageCropComponent],
     imports: [
         CommonModule,
-        ImageCropperModule,
+        ImageCropperComponent,
         MatIconModule,
         MatButtonModule,
         MatDialogModule,

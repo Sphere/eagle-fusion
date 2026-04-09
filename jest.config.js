@@ -1,5 +1,4 @@
 globalThis.ngJest = {
-  skipNgcc: true,
   tsconfig: 'tsconfig.spec.json', // this is the project root tsconfig
 }
 
@@ -8,13 +7,6 @@ module.exports = {
   preset: 'jest-preset-angular',
   testEnvironment: 'jsdom',
   setupFilesAfterEnv: ['<rootDir>/setup-jest.ts'], // Ensure this path is correct
-  globals: {
-    'ts-jest': {
-      tsconfig: 'tsconfig.spec.json',
-      isolatedModules: true,
-      useESM: true,
-    },
-  },
   transform: {
     '^.+\\.ts$': ['ts-jest', {
       tsconfig: 'tsconfig.spec.json',

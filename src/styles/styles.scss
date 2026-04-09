@@ -249,11 +249,11 @@ mat-toolbar {
 
 // Override checkbox
 .fit-checkbox-to-width {
-  .mat-checkbox-layout {
+  .mat-mdc-checkbox {
     width: 100%;
   }
 
-  .mat-checkbox-label {
+  .mdc-label {
     flex: 1;
     min-width: 1px;
   }
@@ -263,7 +263,7 @@ mat-toolbar {
 .mat-drawer-inner-container,
 .mat-drawer-content,
 .mat-mdc-dialog-content,
-.mat-select-panel,
+.mat-mdc-select-panel,
 textarea {
   @extend .custom-scroll;
 }
@@ -435,7 +435,7 @@ area {
 }
 
 ws-app-kb-detail {
-  .mat-checkbox-label {
+  .mdc-label {
     white-space: normal;
   }
 }
@@ -587,10 +587,6 @@ h3.shepherd-title {
   line-height: 40px !important;
 }
 
-.theme-igot.day-mode .mat-mdc-raised-button[disabled][disabled] {
-  // background-color: white !important;
-}
-
 .action-button {
   margin-right: 17px !important;
 }
@@ -692,11 +688,11 @@ a.width-auto {
   display: block;
 }
 
-.theme-igot.day-mode a.width-auto.mat-button[disabled][disabled]:hover {
+.theme-igot.day-mode a.width-auto.mat-mdc-button[disabled][disabled]:hover {
   opacity: 0.4;
 }
 
-.mat-button-focus-overlay {
+.mat-mdc-focus-indicator {
   background-color: transparent !important;
 }
 
@@ -711,7 +707,7 @@ a.width-auto {
   overflow: hidden !important;
 }
 
-a.width-auto.mat-button {
+a.width-auto.mat-mdc-button {
   width: 30px;
   min-width: 35px;
   background-color: rgba(0, 0, 0, 0.8) !important;

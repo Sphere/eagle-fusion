@@ -2,7 +2,6 @@ import { WIDGET_RESOLVER_GLOBAL_CONFIG, WIDGET_RESOLVER_SCOPED_CONFIG } from './
 import {
   Injectable,
   Inject,
-  ComponentFactoryResolver,
   ViewContainerRef,
   ComponentRef,
   Type,
@@ -21,7 +20,6 @@ export class ExploreResolverService {
 
   constructor(
     private domSanitizer: DomSanitizer,
-    private componentFactoryResolver: ComponentFactoryResolver,
     @Inject(WIDGET_RESOLVER_GLOBAL_CONFIG)
     private globalConfig: null | NsWidgetResolver.IRegistrationConfig[],
     @Inject(WIDGET_RESOLVER_SCOPED_CONFIG)
@@ -90,10 +88,9 @@ export class ExploreResolverService {
     compData: NsWidgetResolver.IRenderConfigWithAnyData,
     component: Type<NsWidgetResolver.IWidgetData<any>>,
   ): ComponentRef<NsWidgetResolver.IWidgetData<any>> {
-    const factory = this.componentFactoryResolver.resolveComponentFactory(component)
     containerRef.clear()
     const compRef: ComponentRef<NsWidgetResolver.IWidgetData<any>> = containerRef.createComponent(
-      factory,
+      component,
     )
     compRef.instance.widgetData = compData.widgetData
     if (compRef.instance.updateBaseComponent) {
