@@ -1,4 +1,4 @@
-<div class="toc-body box ">
+<div class="toc-body box toc-desktop-shell">
   <div>
     <div class="flex justify-content-between align-items-center">
       <button (click)="redirect()" mat-icon-button [disableRipple]="true" class="back-icon">
@@ -236,9 +236,9 @@
   </div>
 </div>
 
-<div class="modal fade" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
+<div class="modal fade toc-inline-modal" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
   <div class="modal-dialog modal-sm">
-    <div class="modal-content">
+    <div class="modal-content modal-surface">
 
       <!-- Modal Header -->
       <div class="modal-header">

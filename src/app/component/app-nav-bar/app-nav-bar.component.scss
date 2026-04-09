@@ -30,7 +30,7 @@
 .mat-tool-navbar {
   display: flex;
   justify-content: left;
-  background: #fff !important;
+  background: #fff;
 }
 
 .top-right-profile {
@@ -90,7 +90,7 @@
   max-width: 100%;
   width: 150px;
   max-height: 60px;
-
+  filter: var(--theme-icon-filter);
   @include breakpoint-xs {
     max-width: 100px;
   }
@@ -302,62 +302,101 @@
   background-color: rgb(3, 22, 21) !important;
 }
 ::ng-deep .mat-tab-list .mat-tab-labels {
-  --mat-tab-header-inactive-ripple-color: grey !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
+}
+
+
+::ng-deep .dark-theme lib-competency-dashboard lib-no-result .no-data-container {
+  background-color: var(--theme-surface-alt, #f8f8f8) !important;
+  .no-data-text {
+    color: var(--theme-text-soft, #848886b3) !important
+  }
 }
 
 ::ng-deep lib-competency-dashboard  {
-  .mat-tab-list .mat-tab-labels .mat-tab-label-active {
-    opacity: 1;
-    --mat-tab-header-active-label-text-color: #424242!important;
-    --mdc-tab-indicator-active-indicator-color: #424242!important;
-    --mat-tab-header-active-focus-label-text-color: #424242!important;
-    --mat-tab-header-active-hover-label-text-color: #424242!important;
-    --mat-tab-header-active-focus-indicator-color: #424242!important;
-    --mat-tab-header-active-hover-indicator-color: #424242!important;
-  }
-  .mat-tab-label {
-    justify-content: center !important;
-  }
-  h1 {
-    font-weight: 400 !important;
-  }
+  .mat-mdc-tab-header,
   .mat-tab-header {
-  border-bottom: 1px solid rgb(204, 203, 203);
-  .mat-tab-label-content {
+    border-bottom: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+    --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #808080) !important;
+    --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #000000) !important;
+    --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
+    --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+    --mat-tab-header-active-focus-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-header-active-hover-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-header-active-focus-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+    --mat-tab-header-active-hover-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+  }
+
+  .mat-mdc-tab .mdc-tab__text-label,
+  .mat-tab-label,
+  .mat-tab-label .mat-tab-label-content {
+    justify-content: center !important;
+    color: var(--theme-tab-inactive-text, #808080) !important;
+  }
+
+  .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label,
+  .mat-mdc-tab.mdc-tab--active,
+  .mat-tab-label.mat-tab-label-active,
+  .mat-tab-label.mat-tab-label-active .mat-tab-label-content {
+    color: var(--theme-tab-active-text, #000000) !important;
+    border-color: var(--theme-color, #000000) !important;
+  }
+
+  h1, .tab-badge {
+    font-weight: 400 !important;
+    color: var(--theme-text, #101828);
+  }
+
+  .mat-tab-header .mat-tab-label-content,
+  .mat-mdc-tab .mdc-tab__text-label {
     font-family: Roboto;
     font-size: 14px;
     font-weight: 500;
   }
-  }
-  .mat-tab-body-wrapper {
+
+  .mat-mdc-tab-body-wrapper .mat-mdc-tab-body-content {
     background-color: transparent !important;
-
-    lib-self-assessment-card .card_box {
-      background-color: transparent !important;
+    color: var(--theme-text, #101828) !important;
+    .tab-badge {
+      color: var(--theme-text, #101828) !important;
     }
+  }
 
-    lib-gained-comptency-card .card-container {
-      background-color: transparent !important;
-      mat-expansion-panel {
-        background-color: transparent !important;
-        .log {
-          font-weight: 400 !important;
-        }
-      }
-    }
+  lib-self-assessment-card .card_box {
+    background-color: var(--theme-surface, transparent) !important;
+    color: var(--theme-text, #101828) !important;
+    border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+  }
 
-    lib-active-summary mat-expansion-panel,mat-expansion-panel-header {
-      background-color: transparent !important;
-      .activity-title {
+  lib-gained-comptency-card .card-container {
+    background-color: var(--theme-surface, transparent) !important;
+    color: var(--theme-text, #101828) !important;
+    border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+    mat-expansion-panel {
+      background-color: var(--theme-surface, transparent) !important;
+      color: var(--theme-text, #101828) !important;
+      .log {
         font-weight: 400 !important;
+        color: var(--theme-text, #101828) !important;
       }
-      mat-panel-description {
-        .role-title {
-          font-weight: 400 !important;
-        }
-        .green-bar  .mdc-linear-progress__primary-bar .mdc-linear-progress__bar-inner {
-          border-color: #469788!important
-        }
+    }
+  }
+
+  lib-active-summary mat-expansion-panel,mat-expansion-panel-header {
+    background-color: var(--theme-surface, transparent) !important;
+    color: var(--theme-text, #101828) !important;
+    .activity-title {
+      font-weight: 400 !important;
+      color: var(--theme-text, #101828) !important;
+    }
+    mat-panel-description {
+      .role-title {
+        font-weight: 400 !important;
+        color: var(--theme-text-soft, #808080) !important;
+      }
+      .green-bar  .mdc-linear-progress__primary-bar .mdc-linear-progress__bar-inner {
+        border-color: #469788!important
       }
     }
   }

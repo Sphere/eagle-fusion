@@ -9,6 +9,7 @@ $border-color: #d8d8d8;
   justify-content: space-between;
   flex-wrap: wrap;
   margin: $size-m 0 $size-l 0;
+  color: var(--theme-text, #101828);
 
   .main-container {
     width: 100%;
@@ -18,7 +19,7 @@ $border-color: #d8d8d8;
     .toc-section {
       display: flex;
       justify-content: space-between;
-      border-bottom: 1px solid $border-color;
+      border-bottom: 1px solid var(--theme-border, $border-color);
       padding-bottom: $size-s;
     }
 
@@ -73,5 +74,11 @@ $border-color: #d8d8d8;
       background: linear-gradient(90deg, #000000, transparent);
       color: white;
     }
+  }
+}
+
+:host-context(.dark-theme) {
+  .contents-container {
+    color: var(--theme-text, #ecf3f8);
   }
 }

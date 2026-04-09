@@ -99,7 +99,7 @@
 }
 
 ::ng-deep .mat-expansion-panel-header,
-::ng-deep .theme-igot.day-mode .mat-expansion-panel-header {
+::ng-deep .light-theme .mat-expansion-panel-header {
   margin-top: -5px;
   border-bottom: solid 1px #d9d9d9;
   padding-top: 0px;
@@ -193,7 +193,6 @@
 }
 
 mat-tab-group {
-  --mdc-tab-indicator-active-indicator-color: #dfdfdf !important;
-  --mat-tab-header-active-label-text-color: #000000de!important;
-  --mdc-tab-indicator-active-indicator-color: #000000de !important;
+  --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
 }

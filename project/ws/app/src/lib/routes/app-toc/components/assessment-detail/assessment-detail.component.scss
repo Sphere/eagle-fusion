@@ -14,7 +14,7 @@
   font-size: 24px;
   line-height: 29px;
   letter-spacing: -0.02em;
-  color: #000000;
+  color: var(--theme-text);
   text-align: center;
 
   @include breakpoint-xs {
@@ -30,14 +30,14 @@
   font-size: 12px;
   line-height: 17px;
   letter-spacing: -0.02em;
-  color: #000000;
+  color: var(--theme-text);
   text-align: center;
 }
 
 .ellips {
   width: 67px;
   height: 67px;
-  background: #E7F2FA;
+  background: var(--theme-surface-alt, #E7F2FA);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -66,7 +66,7 @@
   line-height: 69px;
   text-align: center;
   letter-spacing: -0.02em;
-  color: #154976;
+  color: var(--theme-accent, #154976);
   padding: 0px 25px 0px;
   margin-bottom: -16px !important;
   position: relative;
@@ -93,7 +93,7 @@
   // line-height: 58px;
   text-align: center;
   letter-spacing: -0.02em;
-  color: #154976;
+  color: var(--theme-accent, #154976);
   padding: 0px 24px 0px;
   margin-top: -12px !important;
   margin-bottom: 16px !important;
@@ -109,12 +109,12 @@
   // margin-right: 20px;
   border-radius: 50px;
   width: 140px;
-  border: 1px solid #1C5D95 !important;
+  border: 1px solid var(--theme-accent) !important;
 }
 
 .btn-active {
-  background-color: #1C5D95 !important;
-  color: #FFFFFF !important;
+  background-color: var(--theme-accent) !important;
+  color: var(--theme-surface) !important;
 }
 
 .row {
@@ -134,7 +134,7 @@
 }
 
 ::ng-deep .btn.btn-active.mat-mdc-raised-button.mat-mdc-button-base {
-  background: #1C5D95 !important;
+  background: var(--theme-accent) !important;
   border-radius: 50px !important;
-  color: #fff; // ensure text is visible
+  color: var(--theme-surface); // ensure text is visible
 }

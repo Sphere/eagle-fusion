@@ -6,7 +6,7 @@
   </div>
   <div class="shimmer shimmer-image"></div>
 </div>
-<div *ngIf="!isLoading" style="padding: 1.5rem;">
+<div *ngIf="!isLoading" class="certificate-modal-shell" style="padding: 1.5rem;">
   <button class="close-button float-right cursor-pointer" [mat-dialog-close]="true">&times;</button>
   <div style="display: flex;">
     <h3><span>{{'Certificate preview of course' | translate}}</span>: {{content.tocConfig}}</h3>

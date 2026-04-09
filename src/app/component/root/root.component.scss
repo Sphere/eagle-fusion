@@ -11,9 +11,13 @@ ws-app-nav-bar {
   min-height: 100vh;
 }
 
-.bg-color{
-  background: #DCEFEC;
-padding: 10px 0px !important;
+:host-context(.dark-theme) .bg-color {
+  background: #1e2927 !important;
+}
+
+:host-context(.light-theme) .bg-color {
+  background: #DCEFEC !important;
+  padding: 10px 0px !important;
 }
 .route-change {
   position: fixed;

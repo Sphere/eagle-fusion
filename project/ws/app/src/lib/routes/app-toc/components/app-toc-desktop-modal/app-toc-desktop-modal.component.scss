@@ -1,26 +1,36 @@
+.card-dialog {
+  padding: 25px;
+  background: var(--theme-surface, #ffffff);
+  color: var(--theme-text, #101828);
+}
+
+h1 {
+  color: var(--theme-text, #101828);
+}
+
 .subtitle {
   font-weight: 400;
   font-size: 16px;
-  color: #000000;
+  color: var(--theme-text, #000000);
   margin-bottom: 10px;
 }
 
 .details {
   font-weight: 400;
   font-size: 16px;
-  color: #000000;
+  color: var(--theme-text, #000000);
 }
 
 .details-date {
   font-weight: 400;
   font-size: 14px;
-  color: #1C5D95;
+  color: var(--theme-accent, #1C5D95);
 }
 
 .levels {
   font-weight: 400;
   font-size: 16px;
-  color: #000000;
+  color: var(--theme-text, #000000);
   display: flex;
 }
 
@@ -31,8 +41,15 @@
   width: 5px;
   font-size: 26px;
   font-weight: 500;
+  color: var(--theme-text, #101828);
 }
 
-.card-dialog {
-  padding: 25px;
+::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background: var(--theme-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
+  border-radius: 24px !important;
+}
+
+:host-context(.dark-theme) .close-button {
+  color: var(--theme-text, #ecf3f8);
 }

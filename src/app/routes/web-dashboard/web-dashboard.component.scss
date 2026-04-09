@@ -1,9 +1,8 @@
 .banner-container{
-    display: flex;
-    margin-top: 45px;
-    align-items: center;
-    justify-content: space-around;
-    background: #fdfcfc;
+  display: flex;
+  margin-top: 45px;
+  align-items: center;
+  justify-content: space-around;
 }
 .isEkshamata{
   margin-top: 5px;
@@ -31,7 +30,7 @@
   font-weight: 400;
   line-height: 26px;
   text-align: left;
-  color: #513433;
+  // color: #513433;
 }
 .banner-first-image{
   width: 92.08px;
@@ -56,10 +55,10 @@
   letter-spacing: -0.02em;
   text-align: left;
   font-style: normal;
-  color: #000000;
+  // color: #000000;
 }
 .banner-mini-heading{
-  color: #000000;
+  // color: #000000;
   font-style: normal;
   letter-spacing: -0.48px;
   font-family: Roboto, sans-serif;
@@ -130,6 +129,20 @@
 .dot-icon{
   width: 10px;
   height: 10px;
+}
+
+.dark-theme .round-button {
+  background-color: rgba(255, 255, 255, 0.978) !important;
+  .dot-icon {
+    filter: brightness(0) invert(1) !important;
+  }
+}
+
+.dark-theme .round-button.active {
+  background-color: rgba(255, 255, 255, 0.25) !important;
+  .dot-icon {
+    filter: brightness(0) invert(0) !important;
+  }
 }
 
 .round-button {
@@ -322,4 +335,32 @@
 .label {
   font-size: 18px;
   margin-left: 10px;
+}
+
+:host-context(.dark-theme) {
+  .banner-container.isEkshamata {
+    background: linear-gradient(180deg, #0d171d 0%, #12212a 52%, #1a2b22 100%);
+  }
+
+  .banner-heading,
+  .banner-mini-heading,
+  .banner-sub-heading {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .badge-container {
+    color: var(--theme-chip-text, #e5f3ff);
+    background: var(--theme-surface-alt, #1c2d38);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  .round-buttons .dot-icon {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+    opacity: 0.55;
+  }
+
+  .round-buttons.active .dot-icon {
+    opacity: 1;
+  }
 }

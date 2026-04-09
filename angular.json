@@ -52,7 +52,7 @@
                 "output": "/bleeding-edge/"
               },
               {
-                "glob": "theme-igot.scss",
+                "glob": "theme-light.scss",
                 "input": "src/themes/",
                 "output": "/assets/"
               }
@@ -67,20 +67,19 @@
               "node_modules/video.js/dist/video-js.min.css",
               "node_modules/vis-network/dist/vis-network.min.css",
               "node_modules/videojs-markers/dist/videojs.markers.min.css",
-              "src/styles/libraries.scss",
               "node_modules/material-icons/iconfont/material-icons.scss",
-              "src/styles/mat-typography.scss",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles/styles.scss",
               "node_modules/@fortawesome/fontawesome-free/css/all.css",
               "node_modules/shepherd.js/dist/css/shepherd.css",
               "node_modules/@aastrika_npmjs/discussions-ui-v8/assets/styles/global.scss",
               "node_modules/@aastrika_npmjs/comptency/assets/styles/global.scss",
-              "src/themes/theme-igot.scss",
               "node_modules/pdfjs-dist/web/pdf_viewer.css",
-              "src/fusion-assets/fonts/poppins/stylesheet.css",
               "node_modules/typeface-roboto/index.css",
-              "src/styles.scss"
+              "src/styles/mat-typography.scss",
+              "src/styles/styles.scss",
+              "src/fusion-assets/fonts/poppins/stylesheet.css",
+              "src/styles.scss",
+              "src/styles/themes.scss"
             ],
             "scripts": [
               "node_modules/jquery/dist/jquery.min.js",

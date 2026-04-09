@@ -16,6 +16,7 @@ import { NotificationsComponent } from '../notification/notification.component'
 import { LocalStorageService } from '../../services/local-storage.service'
 import { Events } from '../notification/events'
 import { PlaylistService } from '../../services/playlist.service'
+import { ThemeService } from '../../services/theme.service'
 
 @Component({
     standalone: false,
@@ -32,6 +33,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   @Input() menuItems: any[]
   @Input() mode = ''
   userData: any
+  isDark = false
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
@@ -43,12 +45,15 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     private readonly event: Events,
     private playlistSvc: PlaylistService,
     private cd: ChangeDetectorRef,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private themeService: ThemeService
   ) {
     this.subscribeNavbarChanges()
   }
 
   async ngOnInit() {
+    this.themeService.darkMode$.subscribe(val => this.isDark = val)
+    this.isDark = this.themeService.isDark()
     this.logger.log(" menuItems ", this.menuItems)
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())
@@ -187,5 +192,9 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     this.dialog.open<LogoutComponent, MatDialogConfig>(LogoutComponent, {
       panelClass: 'logout-dialog-container',
     })
+  }
+  toggleTheme() {
+    this.isDark = !this.isDark
+    this.themeService.setTheme(this.isDark)
   }
 }

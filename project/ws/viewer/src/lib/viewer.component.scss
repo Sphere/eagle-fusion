@@ -1,7 +1,7 @@
 @import 'ws-common';
 @import 'ws-mixins';
 
-::ng-deep .theme-igot.day-mode .mat-drawer-container {
+::ng-deep .light-theme .mat-drawer-container {
   background-color: transparent;
 }
 
@@ -182,7 +182,7 @@ viewer-quiz {
   border-bottom: solid 3px #969696;
 }
 
-.theme-igot.day-mode .mat-card:not([class*=mat-elevation-z]) {
+.light-theme .mat-card:not([class*=mat-elevation-z]) {
   box-shadow: none !important;
 }
 

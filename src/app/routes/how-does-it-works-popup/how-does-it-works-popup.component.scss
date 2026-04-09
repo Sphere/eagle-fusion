@@ -65,10 +65,10 @@ width: 210px !important;
 }
 
 .closeBtn {
-  display: block;
+  display: flex;
   color: #000000;
   cursor: pointer;
-  justify-content: end;
+  justify-content: flex-end;
   margin-top: -15px;
 }
 

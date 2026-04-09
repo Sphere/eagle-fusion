@@ -510,10 +510,10 @@ $title-line-count: 2;
 .mat-icon {
   font-size: 21px;
 }
-.theme-igot.day-mode .mat-card {
+.light-theme .mat-card {
   box-shadow: none !important;
 }
-.theme-igot.day-mode .mat-card-content {
+.light-theme .mat-card-content {
   font-size: 13px;
 }
 .duration {
@@ -572,7 +572,7 @@ a.rounded-t:hover span.img-overlay {
   // transition: all ease 0.5s;
 }
 
-::ng-deep .theme-igot.day-mode .mdc-linear-progress__buffer {
+::ng-deep .light-theme .mdc-linear-progress__buffer {
   background-color: bisque;
 }
 

@@ -125,7 +125,7 @@ a {
   color: inherit;
 }
 
-::ng-deep .theme-igot.day-mode .ws-mat-accent-text {
+::ng-deep .light-theme .ws-mat-accent-text {
   color: #1C5D95;
 
   .feature-icon-img {
@@ -134,7 +134,7 @@ a {
 
 }
 
-::ng-deep .theme-igot.day-mode .ws-mat-accent-text  .feature-icon-img {
+::ng-deep .light-theme .ws-mat-accent-text  .feature-icon-img {
   filter: invert(0.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
 }
 

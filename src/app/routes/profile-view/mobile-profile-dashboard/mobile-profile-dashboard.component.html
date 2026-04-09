@@ -1,7 +1,7 @@
-<div *ngIf="loader" class="mt-20 flex flex-center">
-  <mat-spinner diameter="48" style="--mdc-circular-progress-active-indicator-color: #000"></mat-spinner>
+<div *ngIf="loader" class="mt-20 flex flex-center profile-loader">
+  <mat-spinner diameter="48" class="profile-spinner"></mat-spinner>
 </div>
-<div class="content" *ngIf="!loader" [ngStyle]="!showbackButton ? {'display': 'flex' } : {}">
+<div class="content profile-dashboard-shell" *ngIf="!loader" [ngStyle]="!showbackButton ? {'display': 'flex' } : {}">
   <ws-mobile-profile-nav *ngIf="!showbackButton" [hidden]="hideData" [navigateTohome]="navigateTohome"
     [showbackButton]="showbackButton" [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
   <!-- mobile page -->
@@ -69,11 +69,11 @@
           </a>
         </div>
       </ng-container>
-      <div class="margin-top-xs" *ngIf="!isEkshamata || configSvc.hostedInfo?.email">
-        <span style="font-size: 15px;">
+      <div class="margin-top-xs support-copy" *ngIf="!isEkshamata || configSvc.hostedInfo?.email">
+        <span class="support-copy-text">
           {{ menuItems[menuItems.length-1]?.data?.mobInfoText | translate }}
         </span>
-        <span style="text-decoration: underline;">
+        <span class="support-copy-link">
           {{ isEkshamata ? configSvc.hostedInfo?.email : menuItems[menuItems.length-1]?.data?.supportLink }}
         </span>
       </div>
@@ -98,13 +98,13 @@
     </button>
 
     <div [ngStyle]="{'margin-top': isEkshamata ? '0' : '-35px'}">
-      <p class="" style="font-weight:400;font-size:24px">{{ userProfileData?.personalDetails?.firstname }}
+      <p class="desktop-profile-name" style="font-weight:400;font-size:24px">{{ userProfileData?.personalDetails?.firstname }}
         <span *ngIf="userProfileData?.personalDetails?.middlename">
           {{ userProfileData?.personalDetails?.middlename}}</span>{{userProfileData?.personalDetails?.surname }}
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-      <p class="" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;">
+      <p class="desktop-profile-position" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;">
         <span> {{ menuItems?.[0]?.text | translate }}</span> : {{currentProfession }}
       </p>
     </div>
@@ -185,7 +185,7 @@
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
       <ng-container *ngIf="selectedIndex === 'language'">
-        <h4 style="font-size: 1.5rem; font-weight: 400;">{{ selectedIndexData?.title | translate }}</h4>
+        <h4 class="section-heading" style="font-size: 1.5rem; font-weight: 400;">{{ selectedIndexData?.title | translate }}</h4>
         <form [formGroup]="userForm">
           <div class="form-group" *ngFor="let lang of selectedIndexData.optionsList; let i = index;">
             <label class="radio cursor-pointer">
@@ -215,7 +215,7 @@
             <ws-certificate-received [certificateData]="certificate"></ws-certificate-received>
           </ng-container>
         </div>
-        <div *ngIf="certificates.length === 0" style="margin-top: 15px;text-align: center;">
+        <div *ngIf="certificates.length === 0" class="empty-state">
           <h2>{{ selectedIndexData?.noData | translate }}</h2>
         </div>
       </ng-container>

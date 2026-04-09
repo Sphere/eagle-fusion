@@ -1,19 +1,7 @@
-select option:first-child {
-  color: #000;
-  //font-size: 24px;
-  line-height: 29px;
-}
-
-select option {
-  font-size: 16px;
-  line-height: 24px;
-  height: 15px;
-}
-
 .input-box {
   padding: 3px 0 3px 0;
   border-radius: 6px;
-  border: 1px solid #e3e3e3;
+  border: 1px solid var(--theme-border, #e3e3e3);
   width: 100%;
 }
 
@@ -25,6 +13,7 @@ select option {
   font-size: 16px;
   line-height: 19px;
   background-color: transparent;
+  color: var(--theme-text-placeholder, #8c98a8);
 }
 
 
@@ -43,16 +32,16 @@ select option {
 
 
 select {
-  color: #000;
+  color: var(--theme-text-placeholder, #8c98a8);
 }
 
-select.ng-dirty {
-  color: #000;
+select.ng-dirty,
+select.ng-valid {
+  color: var(--theme-text, #101828);
 }
 
 select option:first-child {
-  color: #000;
-  //font-size: 24px;
+  color: var(--theme-text-placeholder, #8c98a8);
   line-height: 29px;
 }
 
@@ -60,4 +49,6 @@ select option {
   font-size: 16px;
   line-height: 24px;
   height: 15px;
+  color: var(--theme-text, #101828);
+  background-color: var(--theme-surface, #ffffff);
 }

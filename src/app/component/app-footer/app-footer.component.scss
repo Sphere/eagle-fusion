@@ -20,7 +20,7 @@ line-height: 24px !important;
 
 letter-spacing: -0.02em;
 
-color: #7B6961 !important;
+color: var(--text-color) !important;
 }
 .social-logo-block{
   margin: 0px 5px;
@@ -29,7 +29,7 @@ color: #7B6961 !important;
     margin-top: 10px;
 }
 .footer-container {
-  background-color: #f7f7f7;
+  // background-color: #f7f7f7;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -65,7 +65,7 @@ color: #7B6961 !important;
     flex-direction: column;
   }
 
-  color: #7b6961;
+  color: var(--text-color);
 }
 
 .footer-flex {
@@ -120,7 +120,7 @@ color: #7B6961 !important;
 
       font-weight: 400;
       font-size: 16px;
-      color: #7B6961;
+      color: var(--text-color);
     }
 
   }
@@ -174,7 +174,7 @@ color: #7B6961 !important;
 }
 
 
-.theme-igot.day-mode .mat-mdc-list-base .mat-mdc-list-item a {
+.light-theme .mat-mdc-list-base .mat-mdc-list-item a {
   font-size: 14px !important;
 }
 
@@ -255,7 +255,7 @@ color: #7B6961 !important;
 }
 
 .docs-footer {
-  background: #f7f7f7;
+  // background: #f7f7f7;
   //color: #fff;
   padding: 1.25rem;
 
@@ -275,6 +275,7 @@ color: #7B6961 !important;
 }
 .footer-aastar-logo{
   width: 190px;
+  filter: var(--theme-icon-filter);
   // margin-top: 30px;
 }
 img.docs-footer-aastar-logo {
@@ -321,7 +322,7 @@ height: auto;
 ::ng-deep .footer-container .mat-mdc-list-base .mat-mdc-list-item .mdc-list-item__content {
   padding: 0;
 
-color: #7B6961;
+// color: var(--text-color);
 
   @include breakpoint-xs {
     display: block !important;
@@ -365,7 +366,7 @@ color: #7B6961;
 .partner span {
   background: #f7f7f7;
   padding: 0 10px;
-  color: #7B6961;
+  color: var(--text-color);
   font-size: 16px;
   font-weight: 400;
 }
@@ -380,7 +381,7 @@ line-height: 24px;
 cursor: pointer;
 letter-spacing: -0.02em;
 
-color: #7B6961;
+color: var(--text-color);
  @include breakpoint-xs {
     font-size: 14px;
     line-height: 22px;
@@ -404,14 +405,14 @@ line-height: 24px;
 
 letter-spacing: -0.02em;
 
-color: #7B6961 !important;
+color: var(--text-color) !important;
 text-decoration: underline !important;
 }
 
 .mail {
   font-weight: 400;
   font-size: 24px;
-  color: #7B6961;
+  color: var(--text-color);
 }
 
 .input-fiels {
@@ -472,7 +473,7 @@ line-height: 24px;
 
 letter-spacing: -0.02em;
 
-color: #7B6961;
+color: var(--text-color);
 }
 
 .link-text{
@@ -486,7 +487,7 @@ color: #7B6961;
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.02em;
-  color: #7B6961;
+  color: var(--text-color);
 }
 hr.new1{
  border-top: 1px solid #9F8D85;
@@ -494,11 +495,11 @@ hr.new1{
 .whatsapp-logo-container{
   margin-block: 5px;
   width: 230px;
-  border: 1px solid #7B6961 !important;
+  border: 1px solid var(--text-color) !important;
   border-radius: 100px;
   display: flex;
   align-items: center;
-  color: #7B6961 !important;
+  color: var(--text-color) !important;
   height: 32px;
   font-weight: 400 !important;
   font-size: 15px !important;
@@ -525,7 +526,7 @@ hr.new1{
   line-height: 17px;
   /* or 120% */
   letter-spacing: -0.02em;
-  color: #7B6961 !important;
+  color: var(--text-color) !important;
 }
 
 .footer-text{
@@ -544,7 +545,7 @@ line-height: 12px;
 text-align: center;
 letter-spacing: -0.02em;
 
-color: #7B6961;
+color: var(--text-color);
 
 }
 .footer-text-container{
@@ -564,7 +565,7 @@ color: #7B6961;
   width: 25px;
   height: 25px;
   // filter: grayscale(1);
-  color: lightgray -128.533px 0px / 523.478% 100% no-repeat;
+  color: var(--icon-color);
 }
 
 
@@ -582,7 +583,7 @@ line-height: 24px;
 text-align: center;
 letter-spacing: -0.02em;
 
-color: #7B6961;
+color: var(--text-color);
  @include breakpoint-s {
     font-size: 14px;
   }
@@ -694,7 +695,7 @@ color: #7B6961;
   flex-wrap: wrap;
   justify-content: center;
   flex-direction: column;
-  background-color: #EBF4FB;
+  // background-color: #EBF4FB;
   height: 175px;
   background-repeat:no-repeat;
   background-position-y:bottom ;
@@ -713,7 +714,7 @@ color: #7B6961;
 }
 
 .foundation {
-  color: #7B6961;
+  color: var(--text-color);
   font-weight: 400 !important;
   font-size: 15px !important;
 }
@@ -738,7 +739,7 @@ color: #7B6961;
   font-style: normal;
   font-weight: 400;
   line-height: 19px;
-  color: #FFFFFF;
+  // color: #FFFFFF;
   mix-blend-mode: normal;
   flex: none;
   order: 0;
@@ -747,12 +748,12 @@ color: #7B6961;
 .part-a-partner{
   width: 50%;
   height: 110px;
-  background: #F1E7E3;
+  // background: #F1E7E3;
 }
 .part-b-partner{
   width: 50%;
   height: 110px;
-  background: #F9F3E8;
+  // background: #F9F3E8;
 }
 .text-partners{
   font-family: 'Roboto';
@@ -761,7 +762,7 @@ color: #7B6961;
   font-size: 16px;
   line-height: 136%;
   /* or 22px */
-  color: #000000;
+  // color: #000000;
   transform: rotate(0.11deg);
   text-align: center;
 }
@@ -799,4 +800,61 @@ color: #7B6961;
 .list-items {
   flex-direction: column;
   display: flex;
+}
+
+:host-context(.dark-theme) {
+  .footer-container {
+    background: var(--theme-surface, #0e161b);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .docs-footer {
+    background: var(--theme-surface-alt, #1c2d38);
+  }
+
+  .mat-mdc-list-base .mat-mdc-list-item,
+  .list-item,
+  .list-item-link,
+  .link-text,
+  .foundation,
+  .footer-alignment,
+  .transform-header,
+  .text-partners {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .partner {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .partner span {
+    background: var(--theme-surface, #0e161b);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .transform-footer-container {
+    background-color: var(--theme-surface-alt, #1c2d38);
+    background-blend-mode: multiply;
+  }
+
+  .start-today-button {
+    background: #000;
+    color: var(--theme-on-accent, #ffffff);
+  }
+
+  .part-a-partner,
+  .part-b-partner {
+    background: var(--theme-surface-alt, #1c2d38) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .whatsapp-logo-container {
+    background: var(--theme-surface, #0e161b);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .social-logo {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+  }
 }

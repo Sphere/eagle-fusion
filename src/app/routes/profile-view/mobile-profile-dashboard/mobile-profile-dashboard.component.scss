@@ -11,6 +11,9 @@ h2 {
   width: 100%;
 }
 .content {
+  color: var(--theme-text, #101828);
+  background: var(--theme-app-background, #eef5fb);
+  border-radius: 24px;
   // padding: 60px 20px 50px;
   // margin: auto;
 
@@ -37,10 +40,17 @@ h2 {
     max-width: 100%;
     margin-top: 56px;
     margin-bottom: 150px;
+    border-radius: 24px 24px 0 0;
   }
 }
-:host ::ng-deep .form-control:disabled, .form-control[readonly] {
-    background-color: #ffffff !important;
+.profile-spinner {
+  --mdc-circular-progress-active-indicator-color: var(--theme-spinner, #000000);
+}
+
+:host ::ng-deep .form-control:disabled,
+:host ::ng-deep .form-control[readonly] {
+    background-color: var(--theme-input-disabled-bg, #ffffff) !important;
+    color: var(--theme-input-disabled-text, #101828) !important;
 }
 .pencil {
   position: relative;
@@ -117,6 +127,7 @@ h2 {
   font-weight: 400;
   line-height: 29px;
   letter-spacing: -0.02em;
+  color: var(--theme-text, #101828);
 }
 
 .profile-border {
@@ -170,6 +181,7 @@ h2 {
   a {
     display: flex;
     align-items: center;
+    color: var(--theme-text, #101828);
     img {
       height: 20px;
     }
@@ -187,6 +199,7 @@ h2 {
 .div a {
   margin-bottom: 15px;
   //font-size: 16px;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .div a:hover {
@@ -204,16 +217,16 @@ h2 {
 }
 
 .active img {
-  border: 1px solid #000;
+  border: 1px solid var(--theme-accent, #1c5d95);
   border-radius: 8px
 }
 
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: #1C5D95;
+  background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
-  color: #fff;
+  color: var(--theme-on-accent, #ffffff);
   border: 0;
   font-size: 16px;
   line-height: 19px;
@@ -224,9 +237,9 @@ h2 {
 .logout-btn {
   width: 80px;
   height: 25px;
-  background-color: #1C5D95;
+  background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
-  color: #fff;
+  color: var(--theme-on-accent, #ffffff);
   border: 0;
   font-size: 14px;
   line-height: 19px;
@@ -259,6 +272,8 @@ h2 {
   background-image: url('/fusion-assets/images/Background-acc-svg2.svg');
   background-size: cover;
   background-position: center;
+  background-color: var(--theme-surface-alt, #dfedf9);
+  background-blend-mode: multiply;
   padding: 16px 27px;
   min-height: 101px;
   justify-content: center;
@@ -299,13 +314,35 @@ h2 {
 
 }
 
+.desktop-profile-name,
+.desktop-profile-position,
+.section-heading,
+.support-copy-text,
+.support-copy-link,
+.empty-state h2 {
+  color: var(--theme-text, #101828);
+}
+
+.support-copy {
+  color: var(--theme-text-muted, #5f6b7a);
+}
+
+.support-copy-text {
+  font-size: 15px;
+}
+
+.support-copy-link {
+  text-decoration: underline;
+  color: var(--theme-accent, #1c5d95);
+}
+
 .web-help-btn {
     font-family: Roboto, sans-serif;
     font-size: 14px;
     font-weight: 400;
     line-height: 18.75px;
-    color: #000000;
-    background-color: #ADD1F0;
+    color: var(--theme-chip-text, #08243f);
+    background-color: var(--theme-chip-bg, #add1f0);
     height: 30px;
     width: 173px;
     padding: 10px;
@@ -327,8 +364,8 @@ h2 {
   font-weight: 400;
   line-height: 18.75px;
   text-align: left;
-  color: #000000 !important;
-  background-color: #ADD1F0;
+  color: var(--theme-chip-text, #08243f) !important;
+  background-color: var(--theme-chip-bg, #add1f0);
   height: 35px;
   width: 246px;
   padding: 10px;
@@ -340,8 +377,8 @@ h2 {
   font-weight: 400;
   line-height: 18.75px;
   text-align: left;
-  color: #000000;
-  background-color: #ADD1F0;
+  color: var(--theme-chip-text, #08243f);
+  background-color: var(--theme-chip-bg, #add1f0);
   height: 35px;
   padding: 8px 32px 8px 32px;
   gap: 8px;
@@ -360,7 +397,7 @@ font-weight: 400;
 line-height: 18.75px;
 letter-spacing: -0.02em;
 text-align: left;
-color: #000000;
+color: var(--theme-text, #101828);
 
 }
 .last-option{
@@ -368,7 +405,7 @@ color: #000000;
   justify-content: space-between;
 }
 .border-btm{
-  border-bottom: 1px solid #DDDDDD;
+  border-bottom: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
   padding:0px 0px 15px 0px;
     display: flex;
   justify-content: space-between;
@@ -416,8 +453,8 @@ color: #000000;
 }
 .whtsapp-text {
   font-weight: 500;
-  color: #1C5D95;
-  background-color: white;
+  color: var(--theme-accent, #1c5d95);
+  background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
   position: fixed;
@@ -427,8 +464,8 @@ color: #000000;
 }
 .whtsapp-text1 {
   font-weight: 500;
-  color: #1C5D95;
-  background-color: white;
+  color: var(--theme-accent, #1c5d95);
+  background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
   position: fixed;
@@ -445,8 +482,8 @@ color: #000000;
 }
 .fcapp-text {
   font-weight: 500;
-  color: #1C5D95 !important;
-  background-color: white;
+  color: var(--theme-accent, #1c5d95) !important;
+  background-color: var(--theme-surface, #ffffff);
   z-index: 1;
   left: 6.1rem;
   position: fixed;
@@ -455,7 +492,7 @@ color: #000000;
   border-radius: 0.3rem;
 }
 .logout-bg{
-  background-color: #DFEDF9;
+  background-color: var(--theme-surface-alt, #dfedf9);
   width: 100%;
   display: flex;
   align-items: center;
@@ -466,10 +503,10 @@ color: #000000;
   flex-wrap: wrap;
 }
   .btn-logout {
-    background-color: #1C5D95 !important;
+    background-color: var(--theme-accent, #1c5d95) !important;
     width: fit-content;
-    border: 1px solid #1C5D95;
-    color: white !important;
+    border: 1px solid var(--theme-accent, #1c5d95);
+    color: var(--theme-on-accent, #ffffff) !important;
     font-size: 16px !important;
     font-weight: 400 !important;
     height: 35px;
@@ -501,17 +538,17 @@ font-weight: 500;
   }
 
 .leaderboard-card {
-  background: #ffffff;
+  background: var(--theme-surface, #ffffff);
   border-radius: 16px;
   padding: 16px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+  box-shadow: var(--theme-shadow, 0 10px 30px rgba(15, 23, 42, 0.08));
   cursor: pointer;
   width: 100%;
   height: auto;
   display: flex;
   flex-direction: column;
   margin: 1rem auto 1.5rem;
-  border: 1px solid rgba(233, 233, 233, 1);
+  border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
 
   @include breakpoint-gt-m {
     width: 100%;
@@ -547,6 +584,7 @@ font-weight: 500;
     font-size: 17px;
     font-weight: 500;
     white-space: nowrap;
+    color: var(--theme-text, #101828);
 
     @include breakpoint-gt-m {
       font-size: 13px;
@@ -555,7 +593,7 @@ font-weight: 500;
   }
 
   .arrow {
-    color: #000;
+    color: var(--theme-text, #101828);
     font-size: 1rem;
     flex-shrink: 0;
     opacity: 0.6;
@@ -598,6 +636,7 @@ font-weight: 500;
     font-size: 36px;
     font-weight: 600;
     color: rgba(28, 93, 149, 1);
+    color: var(--theme-accent, #1c5d95);
     line-height: 1;
 
     @include breakpoint-gt-m {
@@ -608,7 +647,7 @@ font-weight: 500;
 
   .rank-total {
     font-size: 14px;
-    color: rgba(128, 128, 128, 1);
+    color: var(--theme-text-soft, #8c98a8);
     line-height: 1;
 
     @include breakpoint-gt-m {
@@ -632,7 +671,7 @@ font-weight: 500;
 
   .points-label {
     font-size: 12px;
-    color: rgba(156, 156, 156, 1);
+    color: var(--theme-text-soft, #8c98a8);
     order: 1;
 
     @include breakpoint-gt-m {
@@ -644,7 +683,7 @@ font-weight: 500;
   .points-value {
     font-size: 16px;
     font-weight: 600;
-    color: rgba(0, 0, 0, 1);
+    color: var(--theme-text, #101828);
     order: 2;
 
     @include breakpoint-gt-m {
@@ -667,14 +706,14 @@ font-weight: 500;
 .badge-container {
   margin-bottom: 10px;
   display: flex;
-  border: 1px solid;
+  border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
   width: fit-content;
   max-width: 100%;
-  background: white;
+  background: var(--theme-surface, #ffffff);
   padding: 8px 14px;
   text-align: center;
   border-radius: 4rem;
-  color: rgba(70, 151, 136, 1);
+  color: #469788;
 }
 
 .badge-container img {
@@ -706,6 +745,37 @@ font-weight: 500;
   background-size: 200% 100%;
   animation: shimmerSlide 1.5s infinite linear;
   border-radius: 4px;
+}
+
+:host-context(.dark-theme) .leaderboard-card,
+:host-context(.dark-theme) .badge-container,
+:host-context(.dark-theme) .logout-bg {
+  backdrop-filter: blur(14px);
+}
+
+// :host-context(.dark-theme) .profile-border {
+//   border-radius: 50%;
+//   box-shadow: 0 0 0 3px rgba(120, 183, 255, 0.18);
+// }
+
+// :host-context(.dark-theme) .edit-icon,
+// :host-context(.dark-theme) .log-o,
+// :host-context(.dark-theme) .save-btn,
+// :host-context(.dark-theme) .logout-btn,
+// :host-context(.dark-theme) .btnActive,
+// :host-context(.dark-theme) .btn-logout {
+//   background-color: #000 !important;
+//   background: #000 !important;
+// }
+
+:host-context(.dark-theme) .shimmer {
+  background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
+  background-size: 200% 100%;
+}
+
+.empty-state {
+  margin-top: 15px;
+  text-align: center;
 }
 
 .shimmer-image {
