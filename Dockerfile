@@ -1,5 +1,5 @@
-# Use Node 20, required for Angular 16
-FROM node:20.12.2
+# Use Node 20.19+ required for Angular 21
+FROM node:20.19.0
 
 # Build argument for cache busting
 ARG BUILDKIT_INLINE_CACHE=1
@@ -11,10 +11,10 @@ WORKDIR /app
 COPY . .
 
 # Install Angular CLI and http-server globally with a specific version
-RUN npm install -g @angular/cli@16.2.16 http-server
+RUN npm install -g @angular/cli@21 http-server
 
 # Ensure @angular/localize is installed for i18n support
-RUN yarn add @angular/localize@16.2.12
+RUN yarn add @angular/localize@21
 
 # Install project dependencies (using yarn)
 RUN yarn install
