@@ -249,6 +249,7 @@ export class MyCoursesComponent implements OnInit, OnDestroy {
         this.displayLimit[index] = this.PAGE_SIZE
       }
     })
+    this.cdr.markForCheck()
   }
 
   tabClick() {

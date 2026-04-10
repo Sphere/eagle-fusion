@@ -9,7 +9,9 @@ import {
   Injector,
   effect,
   HostListener,
+  Signal,
 } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import {
   NavigationCancel,
   NavigationEnd,
@@ -75,7 +77,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   topCertifiedCourseIdentifier: any = []
   featuredCourseIdentifier: any = []
   topCertifiedCourse: any = []
-  userEnrollCourse: any
+  userEnrollCourse!: Signal<any[]>
   isProfile: any = false
   isXSmall$ = false
   routeChangeInProgress = false
@@ -135,6 +137,14 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private downtimeService: DowntimeConfigService,
     private scrnScrtySvc: ScreenSecurityService
   ) {
+    this.userEnrollCourse = toSignal(
+      this.configSvc.userProfile
+        ? this.userSvc.fetchUserBatchList(this.configSvc.userProfile.userId || '').pipe(
+            map(res => this.buildEnrolledCourses(res))
+          )
+        : of([]),
+      { initialValue: [] }
+    )
     const t = this.injector.get(TranslateService, null as any)
     this.logger.log('[DEBUG] TranslateService present?', !!t, t ? t.currentLang : 'no service')
     this.domain = window.location.hostname
@@ -392,17 +402,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
 
     if (this.configSvc.userProfile) {
       this.userId = this.configSvc.userProfile.userId || ''
-      this.userSvc
-        .fetchUserBatchList(this.userId)
-        .pipe(takeUntil(this.destroy$))
-        .subscribe(
-          (res: any) => {
-            this.formatmyCourseResponse(res)
-          },
-          err => {
-            this.logger.error('Error fetching user batch list:', err)
-          },
-        )
       // Pre-warm playlist config cache so home page ngOnInit doesn't block on it
       this.playlistSvc.getPlaylistConfig().catch(err => {
         this.logger.warn('Failed to pre-warm playlist config cache:', err)
@@ -466,6 +465,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     })
     this.rootSvc.showNavbarDisplay$.pipe(delay(500)).subscribe(display => {
       this.showNavbar = display
+      this.changeDetector.detectChanges()
     })
     this.orgService.hideHeaderFooter.subscribe(show => {
       this.router.events.subscribe((e: Event) => {
@@ -478,6 +478,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       })
       if (window.location.pathname !== '/app/new-tnc')
         this.hideHeaderFooter = show
+      this.changeDetector.detectChanges()
     })
 
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -684,7 +685,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       ) {
         this.routeChangeInProgress = false
         this.currentUrl = event.url
-        this.changeDetector.detectChanges()
+        this.changeDetector.markForCheck()
       }
       if (this.router.url === 'profile-view') {
         this.isProfile = true
@@ -726,43 +727,25 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   //   return ''
   // }
 
-  formatmyCourseResponse(res: any) {
-    const myCourse: any = []
-    let myCourseObject = {}
-
+  private buildEnrolledCourses(res: any): any[] {
+    const myCourse: any[] = []
     res.forEach((key: any) => {
       if (key?.content?.identifier) {
-        if (key.completionPercentage !== 100) {
-          myCourseObject = {
-            identifier: key.content.identifier,
-            appIcon: key.content.appIcon,
-            thumbnail: key.content.thumbnail,
-            name: key.content.name,
-            dateTime: key.dateTime,
-            completionPercentage: key.completionPercentage,
-            sourceName: key.content.sourceName,
-            issueCertification: key.content.issueCertification,
-            averageRating: key.content.averageRating,
-            posterImage: key.content.posterImage,
-          }
-        } else {
-          myCourseObject = {
-            identifier: key.content.identifier,
-            appIcon: key.content.appIcon,
-            thumbnail: key.content.thumbnail,
-            name: key.content.name,
-            dateTime: key.dateTime,
-            completionPercentage: key.completionPercentage,
-            sourceName: key.content.sourceName,
-            issueCertification: key.content.issueCertification,
-            averageRating: key.content.averageRating,
-            posterImage: key.content.posterImage,
-          }
-        }
-        myCourse.push(myCourseObject)
+        myCourse.push({
+          identifier: key.content.identifier,
+          appIcon: key.content.appIcon,
+          thumbnail: key.content.thumbnail,
+          name: key.content.name,
+          dateTime: key.dateTime,
+          completionPercentage: key.completionPercentage,
+          sourceName: key.content.sourceName,
+          issueCertification: key.content.issueCertification,
+          averageRating: key.content.averageRating,
+          posterImage: key.content.posterImage,
+        })
       }
     })
-    this.userEnrollCourse = myCourse
+    return myCourse
   }
 
   ngAfterViewInit() {

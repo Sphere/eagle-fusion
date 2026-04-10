@@ -12,6 +12,7 @@ import {
   ConfigurationsService, LoggerService, ValueService,
 } from '@ws-widget/utils'
 import { Observable } from "rxjs"
+import { map } from "rxjs/operators"
 import { MatDialogRef } from '@angular/material/dialog'
 
 @Component({
@@ -91,7 +92,7 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
   startX = 0
   movedX = 0
   threshold = -80
-  isWebView = false
+  isWebView$!: Observable<boolean>
   isXSmall$: Observable<boolean>
   constructor(
     private readonly events: Events,
@@ -106,16 +107,11 @@ export class NotificationsComponent implements OnInit, OnDestroy, AfterViewInit 
   ) {
     this.logger.log('NotificationsComponent constructor called')
     this.isXSmall$ = this.valueSvc.isXSmall$
+    this.isWebView$ = this.isXSmall$.pipe(map(isXSmall => !isXSmall))
   }
 
   ngOnInit(): void {
     this.logger.log('ngOnInit called')
-
-    this.valueSvc.isXSmall$.subscribe(isXSmall => {
-      if (!isXSmall) {
-        this.isWebView = true
-      }
-    })
 
     this.user_id = this.configSvc.userProfile?.userId ?? ''
 

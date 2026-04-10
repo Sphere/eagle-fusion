@@ -1,4 +1,4 @@
-import { Component, effect, OnDestroy, OnInit, ViewChild } from '@angular/core'
+import { ChangeDetectorRef, Component, effect, OnDestroy, OnInit, ViewChild } from '@angular/core'
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router'
 import { NsContent, NsError, NSSearch, ROOT_WIDGET_CONFIG } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -15,11 +15,11 @@ type SearchResultLegacy = NSSearch.ISearchV6ApiResultV2
 type SearchResultV3 = NSSearch.ISearchV6ApiResultV3
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-learning',
-    templateUrl: './learning.component.html',
-    styleUrls: ['./learning.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-learning',
+  templateUrl: './learning.component.html',
+  styleUrls: ['./learning.component.scss'],
+
 })
 export class LearningComponent implements OnInit, OnDestroy {
   @ViewChild(FilterDisplayComponent, { static: false })
@@ -110,7 +110,8 @@ export class LearningComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private utilitySvc: UtilityService,
     private searchSvc: SearchApiService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef,
   ) {
     effect(() => {
       this.isXSmall = this.valueSvc.isMobile()
@@ -484,6 +485,8 @@ export class LearningComponent implements OnInit, OnDestroy {
 
         this.updateSearchRequestStatus()
         this.getTrainingsLHub(this.searchResults)
+        this.cdr.detectChanges()
+
       },
       error => {
         this.handleSearchError(error)
@@ -689,6 +692,7 @@ export class LearningComponent implements OnInit, OnDestroy {
 
         this.updateSearchRequestStatus()
         this.getTrainingsLHub(this.searchResults)
+        this.cdr.detectChanges()
       },
       error => {
         this.handleSearchError(error)
@@ -721,6 +725,8 @@ export class LearningComponent implements OnInit, OnDestroy {
 
         this.updateSearchRequestStatus()
         this.getTrainingsLHub2(this.searchResults)
+        this.cdr.detectChanges()
+
       },
       error => {
         this.handleSearchError(error)

@@ -1,11 +1,11 @@
 <div class="paddingView">
-  <ng-container *ngIf="isLoading">
+  <ng-container *ngIf="isLoading()">
     <div class="top-course-container content" *ngFor="let i of [1, 2, 3]">
       <section class="mt-4 view-all-course-container">
         <!-- Header -->
         <div class="line-label flex scroller-container">
           <span class="shimmer shimmer-line shimmer-header"></span>
-          <button *ngIf="!isXSmall" class="view-all-course shimmer-button shimmer">
+          <button *ngIf="!isXSmall()" class="view-all-course shimmer-button shimmer">
             <span class="shimmer shimmer-line"></span>
           </button>
         </div>
@@ -23,20 +23,20 @@
     </div>
   </ng-container>
 
-  <ng-container *ngIf="!isLoading">
-    <div class="top-course-container content" *ngFor="let content of uiConfig let i = index;">
+  <ng-container *ngIf="!isLoading()">
+    <div class="top-course-container content" *ngFor="let content of uiConfig(); let i = index;">
       <section *ngIf="content?.show && content?.data && content?.data?.length>0"
         class="mt-4 view-all-course-container {{content?.scrollEmit}}" #scrollToCneCourses
         [attr.data-scroll]="content?.scrollEmit">
-        <div [ngClass]="i === 0 || (isXSmall && i === 1) ? 'bg-green' : 'orange'"
+        <div [ngClass]="i === 0 || (isXSmall() && i === 1) ? 'bg-green' : 'orange'"
           class="line-label flex scroller-container">
-          <span [ngClass]="{'header0': i == 0 || isXSmall && i == 1}" [class]="content.headerClass">
+          <span [ngClass]="{'header0': i == 0 || isXSmall() && i == 1}" [class]="content.headerClass">
             {{ content.title | translate }}</span>
-          <button *ngIf="!isXSmall" (click)="viewAllCourse(content)" class="view-all-course">
+          <button *ngIf="!isXSmall()" (click)="viewAllCourse(content)" class="view-all-course">
             {{ content?.button?.label1 | translate }} <img class="right-arrow" [src]="content?.button?.img" alt="" />
           </button>
         </div>
-        <ws-utils-horizontal-scroller *ngIf="!isXSmall" class="flex " [loadStatus]="'done'">
+        <ws-utils-horizontal-scroller *ngIf="!isXSmall()" class="flex " [loadStatus]="'done'">
           <div *ngFor="let course of content?.data">
             <ng-container *ngIf="content.data && content.data.length>0">
               <ws-web-course-card [displayConfig]="content?.displayConfigWeb"
@@ -44,7 +44,7 @@
             </ng-container>
           </div>
         </ws-utils-horizontal-scroller>
-        <ng-container *ngIf="isXSmall">
+        <ng-container *ngIf="isXSmall()">
           <div *ngFor="let course of content?.displayData">
             <ws-mobile-course-view [displayConfig]="content?.displayConfig"
               [courseData]="course"></ws-mobile-course-view>
@@ -59,9 +59,9 @@
       </section>
 
       <div *ngIf="(content?.data?.length == 0 && content?.fallbackState?.label)" class="mt-4 view-all-course-container">
-        <div [ngClass]="i === 0 || (isXSmall && i === 1) ? 'bg-green' : 'orange'"
+        <div [ngClass]="i === 0 || (isXSmall() && i === 1) ? 'bg-green' : 'orange'"
           class="line-label flex scroller-container">
-          <span [ngClass]="{'header0': i == 0 || isXSmall && i == 1}" [class]="content.headerClass">
+          <span [ngClass]="{'header0': i == 0 || isXSmall() && i == 1}" [class]="content.headerClass">
             {{ content.title | translate }}</span>
         </div>
         <h3 class=" mt15">{{ content?.fallbackState?.label | translate }}</h3>

@@ -48,7 +48,8 @@ export class AssessmentDetailComponent implements OnInit {
   }
 
   async ngOnInit() {
-    this.assesmentdata = await this.transformQuiz(this.content)
+    const result = await this.transformQuiz(this.content)
+    setTimeout(() => { this.assesmentdata = result }, 0)
   }
   /* api call to get info of quiz or assessment */
   private async transformQuiz(content: any): Promise<NSQuiz.IQuiz> {

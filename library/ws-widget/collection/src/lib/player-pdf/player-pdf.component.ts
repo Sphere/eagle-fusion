@@ -1,5 +1,6 @@
 import {
   AfterViewInit,
+  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -78,6 +79,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
+    private cdr: ChangeDetectorRef,
     private eventSvc: EventService,
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
@@ -85,7 +87,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     private readonly utilitySvc: UtilityService,
     public viewerDataSvc: ViewerDataService,
     private readonly telemetrySvc: TelemetryService,
-    private logger: LoggerService
+    private logger: LoggerService,
   ) {
     super()
     pdfDefaultOptions.assetsFolder = 'bleeding-edge'
@@ -127,6 +129,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // setTimeout with 0 defers to the next macrotask, which is enough for cleanup.
     setTimeout(() => {
       this.pdfViewerReady = true
+      this.cdr.detectChanges()
     }, 0)
 
     // this.zoom.disable()

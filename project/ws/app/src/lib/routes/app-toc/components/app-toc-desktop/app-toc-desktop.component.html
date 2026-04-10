@@ -56,31 +56,25 @@
     <div *ngIf="optmisticPercentage !== null && content !== undefined">
       <!-- Content goes here -->
       <div *ngIf="(optmisticPercentage < 100 && finishedPercentage !== undefined); else elseBlock" class="mt-2">
-        <mat-progress-bar [mode]="'determinate'" [value]="
-                    optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+        <mat-progress-bar [mode]="'determinate'" [value]="optmisticPercentage" class="new-w desktop" [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === null || optmisticPercentage === 0, 'thick': optmisticPercentage}"
           [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
-          {{optmisticPercentage}} %
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
       </div>
     </div>
     <ng-template #elseBlock>
       <div *ngIf="optmisticPercentage === 100 && content?.completionPercentage !== 100" class="mt-2">
-        <mat-progress-bar [mode]="'determinate'" [value]="
-        optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+        <mat-progress-bar [mode]="'determinate'" [value]="optmisticPercentage" class="new-w desktop" [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === undefined, 'thick': optmisticPercentage}"
           [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
-          {{optmisticPercentage}} %
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
       </div>
       <div *ngIf="content?.completionPercentage === 100 && optmisticPercentage === 100" class="mt-2">
-        <mat-progress-bar [mode]="'determinate'" [value]="
-                    optmisticPercentage" class="new-w desktop " [attr.aria-labelledby]="'m-c-'+ content?.identifier"
+        <mat-progress-bar [mode]="'determinate'" [value]="optmisticPercentage" class="new-w desktop" [attr.aria-labelledby]="'m-c-'+ content?.identifier"
           [ngClass]="{ 'visibility-0': optmisticPercentage === undefined, 'thick': optmisticPercentage}"
           [attr.aria-label]="(optmisticPercentage + ' %' | translate)">
-          {{optmisticPercentage}} %
         </mat-progress-bar>
         <span class="value" *ngIf="optmisticPercentage">{{optmisticPercentage}}%</span>
       </div>

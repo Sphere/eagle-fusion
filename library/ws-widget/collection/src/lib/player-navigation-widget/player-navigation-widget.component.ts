@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core'
 import { Router } from '@angular/router'
 import { PlayerStateService } from '../../../../../../project/ws/viewer/src/lib/player-state.service'
 import { ViewerDataService } from '../../../../../../project/ws/viewer/src/lib/viewer-data.service'
@@ -25,7 +25,8 @@ export class PlayerNavigationWidgetComponent implements OnInit {
     private viewerDataSvc: PlayerStateService,
     private viewerData: ViewerDataService,
     private router: Router,
-    private events: EventService
+    private events: EventService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -35,6 +36,7 @@ export class PlayerNavigationWidgetComponent implements OnInit {
         this.nextResourceUrl = data.nextResource
         this.currentCompletionPercentage = data.currentCompletionPercentage
         this.firstResourceUrl = data.firstResource
+        this.cdr.detectChanges()
       }
     })
   }

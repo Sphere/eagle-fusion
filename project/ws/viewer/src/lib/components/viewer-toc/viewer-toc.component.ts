@@ -174,6 +174,8 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.collection) {
           this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
         }
+        this.isFetching = false
+        setTimeout(() => this.cdr.detectChanges(), 0)
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
@@ -453,7 +455,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
-      this.isFetching = false
       return viewerTocCardContent
     } catch (err: any) {
       switch (err.status) {
@@ -478,7 +479,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           break
         }
       }
-      this.isFetching = false
       return null
     }
   }
@@ -496,7 +496,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.resourceContentTypeFunct(content.mimeType)
       this.collectionCard = this.createCollectionCard(content)
       const viewerTocCardContent = this.convertContentToIViewerTocCard(content)
-      this.isFetching = false
       return viewerTocCardContent
     } catch (err: any) {
       switch (err.status) {
@@ -521,7 +520,6 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
           break
         }
       }
-      this.isFetching = false
       return null
     }
   }
@@ -1318,6 +1316,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource,
     })
     this.isLoading = false
+    this.cdr.detectChanges()
   }
 
   updatePassbookEntryPassbook(data: any, competency: any) {
@@ -1386,7 +1385,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       path.forEach((node: IViewerTocCard) => {
         this.nestedTreeControl.expand(node)
       })
-      // this.isLoading = false
+      this.cdr.detectChanges()
     }
   }
 

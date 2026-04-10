@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core'
+import { ChangeDetectorRef, Component, OnDestroy, OnInit, HostListener, ElementRef, ViewChild } from '@angular/core'
 import { ActivatedRoute, Data, NavigationEnd, Router } from '@angular/router'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
 import { NsWidgetResolver } from '@ws-widget/resolver'
@@ -119,7 +119,8 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
     private discussiConfig: DiscussConfigResolve,
-    private onlineIndexedDbService: IndexedDBService
+    private onlineIndexedDbService: IndexedDBService,
+    private cdr: ChangeDetectorRef
   ) {
     this.discussiConfig.setConfig()
     if (this.configSvc.userProfile) {
@@ -514,6 +515,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
               this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
               this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
               this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.finishedPercentage, '473')
+              this.cdr.detectChanges()
             }
           }, error => {
             this.loggerSvc.error('Error:', error, data.result.contentList)
@@ -528,6 +530,7 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
                     this.optmisticPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
                     this.finishedPercentage = this.updateKeyIfMatch(dat, data.result.contentList, 'completionPercentage')
                     this.loggerSvc.log(this.optmisticPercentage, 'foundContent', this.optmisticPercentage, '487')
+                    this.cdr.detectChanges()
                   }
                 }, error => {
                   this.loggerSvc.error('Error:', error)
@@ -576,9 +579,11 @@ export class AppTocHomePageComponent implements OnInit, OnDestroy {
           //   set(this.content, 'completionPercentage', percentage)
           // }
           this.tocSvc.updateResumaData(this.resumeData)
+          this.cdr.detectChanges()
         } else {
           this.loggerSvc.log('no data')
           this.resumeData = null
+          this.cdr.detectChanges()
         }
       },
       (error: any) => {

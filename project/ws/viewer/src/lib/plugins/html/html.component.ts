@@ -689,15 +689,17 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
 
       this.telemetrySvc.start('html/open-in-newtab', 'html/open-in-newtab-start', 'player')
 
+      const completionPercentage = 100
       const data1 = {
         current: 1,
         max_size: 1,
         mime_type: this.mimeType,
+        completionPercentage: completionPercentage,
+        status: 2,
       }
 
       setTimeout(() => {
         if (this.htmlContent) {
-          const completionPercentage = 100
           this.viewerSvc
             .realTimeProgressUpdateV3(this.htmlContent.identifier, data1, collectionId, batchId).subscribe(
               () => { /* success - fire and forget */ },
@@ -712,7 +714,10 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
             batchId: batchId,
           }
           this.viewerSvc.generateInteractTelemetry('progress-update-success', telemetryData)
-          const result = { contentId: this.htmlContent?.identifier, ...data1, type: 'html' }
+          const result = {
+            contentList: [{ contentId: this.htmlContent?.identifier, completionPercentage: completionPercentage, status: 2 }],
+            type: 'html',
+          }
           this.contentSvc.changeMessage(result)
         }
       }, 50)

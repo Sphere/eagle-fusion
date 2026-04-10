@@ -188,6 +188,7 @@ const routes: Routes = [
   },
   {
     path: '**',
+    component: ViewerComponent,
     data: {
       resourceType: 'error',
     },

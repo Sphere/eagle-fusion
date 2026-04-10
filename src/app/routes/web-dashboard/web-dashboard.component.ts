@@ -1,6 +1,8 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core'
+import { Component, Input, OnInit, OnDestroy, Signal } from '@angular/core'
+import { toSignal } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
+import { map } from 'rxjs/operators'
 import { ScrollService } from '../../services/scroll.service'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -16,9 +18,8 @@ import { LoggerService } from '../../../../library/ws-widget/utils/src/public-ap
     
 })
 export class WebDashboardComponent implements OnInit, OnDestroy {
-  firstName: any
+  firstName!: Signal<string>
   preferedLanguage: any = { id: 'en', lang: 'English' }
-  userData: any
   @Input() isEkshamata: any
   dataCarousel: any = []
   bannerFirstImage: any
@@ -43,7 +44,12 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     private plylsSvc: PlaylistService,
     private logger: LoggerService
   ) {
-
+    this.firstName = toSignal(
+      this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(
+        map((data: any) => _.get(data, 'profileDetails.profileReq.personalDetails.firstname', '') as string)
+      ),
+      { initialValue: '' }
+    )
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
@@ -74,10 +80,6 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
       this.lang = this.languageSvc.getCurrentLanguage()
     }
     this.startCarousel()
-    this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(async (data: any) => {
-      this.userData = await data
-      this.firstName = _.get(this.userData, 'profileDetails.profileReq.personalDetails.firstname', '')
-    })
 
     // Set preferred language from LanguageService
     this.preferedLanguage = {

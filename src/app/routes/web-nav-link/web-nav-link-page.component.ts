@@ -33,7 +33,6 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   @Input() menuItems: any[]
   @Input() mode = ''
   userData: any
-  isDark = false
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
@@ -52,8 +51,6 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
-    this.themeService.darkMode$.subscribe(val => this.isDark = val)
-    this.isDark = this.themeService.isDark()
     this.logger.log(" menuItems ", this.menuItems)
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())
@@ -194,7 +191,6 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     })
   }
   toggleTheme() {
-    this.isDark = !this.isDark
-    this.themeService.setTheme(this.isDark)
+    this.themeService.setTheme(!this.themeService.isDark())
   }
 }

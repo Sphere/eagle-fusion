@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject, ChangeDetectorRef } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
@@ -107,7 +107,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     @Inject(DOCUMENT) public document: Document,
     private telemetrySvc: TelemetryService,
     private logger: LoggerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   @HostListener('window:popstate', [])
@@ -606,6 +607,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             if (this.enrolledCourse && this.enrolledCourse.issuedCertificates.length > 0) {
               this.issueCertificate = true
             }
+            this.cdr.detectChanges()
             if (this.enrolledCourse) {
               this.resumeData = this.enrolledCourse.lastReadContentId
             }
@@ -617,6 +619,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                 this.updatedContentStatus = true
                 this.updatedContentFound = record.url
               }
+              this.cdr.detectChanges()
             }, async error => {
               this.updatedContentStatus = true
               this.logger.log(this.enrolledCourse, 'this.enrolledCourse!')
@@ -647,6 +650,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   this.updatedContentFound = url1
                 }
               }
+              this.cdr.detectChanges()
             }
             )
           }
@@ -1066,6 +1070,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             this.averageRating = (res.sum_of_total_ratings / res.total_number_of_ratings).toFixed(1)
             this.totalRatings = res.total_number_of_ratings
             this.logger.log("data: ", res, data.result.response, this.totalRatings)
+            this.cdr.detectChanges()
           }
         } else {
           this.disableEnrollBtn = false

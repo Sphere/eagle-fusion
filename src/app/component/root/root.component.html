@@ -22,7 +22,7 @@
     <ws-dashboard class="mb-6" *ngIf="isLoggedIn && isHomePage && bodyConfig" [configData]="bodyConfig"></ws-dashboard>
     <!-- Featured Section-->
     <section *ngIf="isHomePage && isLoggedIn && bodyConfig">
-      <ws-web-public-container [userEnrollCourse]="userEnrollCourse"
+      <ws-web-public-container [userEnrollCourse]="userEnrollCourse()"
         [configData]="bodyConfig"></ws-web-public-container>
     </section>
     <!-- Always render router-outlet for better content loading -->
@@ -34,7 +34,7 @@
 
   <!-- Featured Section-->
   <section *ngIf="isHomePage && !isLoggedIn && bodyConfig">
-    <ws-web-public-container [userEnrollCourse]="userEnrollCourse" [configData]="bodyConfig"></ws-web-public-container>
+    <ws-web-public-container [userEnrollCourse]="userEnrollCourse()" [configData]="bodyConfig"></ws-web-public-container>
   </section>
 
   <!-- How does it Works -->
@@ -79,7 +79,7 @@
     <!-- Featured Section-->
     <section *ngIf="isHomePage && isLoggedIn  && bodyConfig" [ngStyle]="{'margin-bottom': isXSmall$ ? '4rem' : ''}">
       <ws-web-public-container [isEkshamata]="isEkshamata" [configData]="bodyConfig"
-        [userEnrollCourse]="userEnrollCourse"></ws-web-public-container>
+        [userEnrollCourse]="userEnrollCourse()"></ws-web-public-container>
     </section>
     <!-- Desktop Footer -->
     <ws-app-footer [isEkshamata]="isEkshamata" class="app-footer hide-in-mobile"

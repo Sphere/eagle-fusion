@@ -1,29 +1,23 @@
 import { Injectable } from '@angular/core'
-import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
-import { LanguageService } from '../../../services/language.service'
+import { ConfigurationsService } from '@ws-widget/utils'
 @Injectable({
   providedIn: 'root',
 })
 export class ConfigService {
   userProfileData: any
-  constructor(public configSvc: ConfigurationsService,
-    private logger: LoggerService,
-    private langSvc: LanguageService
-  ) { }
+  constructor(
+    public configSvc: ConfigurationsService,
+  ) {
+  }
 
   setConfig(profileData: any, profileDetails: any) {
-    this.logger.log(profileDetails)
+    console.log(profileDetails)
     const config = {
-      userName:
-        (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
-      profileData: profileData.professionalDetails,
-      language:
-        this.configSvc?.unMappedUser?.profileDetails?.preferences?.language !== undefined
-          ? this.configSvc.unMappedUser.profileDetails.preferences.language
-          : this.langSvc.getCurrentLanguage(),
+      userName: (this.configSvc.nodebbUserProfile && this.configSvc.nodebbUserProfile.username) || '',
+      profileData: (profileData.professionalDetails),
+      language: (this.configSvc.unMappedUser && this.configSvc.unMappedUser!.profileDetails && this.configSvc.unMappedUser!.profileDetails!.preferences && this.configSvc.unMappedUser!.profileDetails!.preferences!.language !== undefined) ? this.configSvc.unMappedUser.profileDetails.preferences.language : location.href.includes('/hi/') ? 'hi' : 'en',
       id: this.configSvc.unMappedUser.id,
       hostPath: this.configSvc.hostPath,
-      isMobileApp: false,
     }
 
     if (localStorage.getItem('competency')) {
@@ -31,4 +25,5 @@ export class ConfigService {
     }
     localStorage.setItem('competency', JSON.stringify(config))
   }
+
 }

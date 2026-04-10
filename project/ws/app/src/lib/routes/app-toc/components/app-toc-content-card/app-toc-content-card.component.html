@@ -142,7 +142,7 @@
           <ng-container *ngIf="content?.completionPercentage > 0; else elseAssesmentLock">
             <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
               [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
-              [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+              [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false"
               [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
               [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
               [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
@@ -243,7 +243,7 @@
               <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
                   [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
-                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false"
                   [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
                   [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
                   [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
@@ -257,7 +257,7 @@
               <ng-container *ngIf="content?.completionPercentage > 0; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
                   [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
-                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false"
                   [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
                   [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
                   [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"
@@ -286,7 +286,7 @@
             class="flex items-center progress" [percent]="content?.completionPercentage" [radius]="12"
             [outerStrokeWidth]="3" [innerStrokeWidth]="3" [space]="-3"
             [outerStrokeColor]="progressColor(content?.completionPercentage)" [innerStrokeColor]="'rgba(0,0,0,.16)'"
-            [animation]="true" [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
+            [animation]="false" [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
             [showInnerStroke]="true" [clockwise]="true" [backgroundOpacity]="0" [backgroundGradient]="false"
             [backgroundStrokeWidth]="3" [showZeroOuterStroke]=false [backgroundPadding]="-9" [startFromZero]="false"
             [backgroundPadding]="0" [imageHeight]="24" [imageWidth]="24" [showBackground]="false"
@@ -301,7 +301,7 @@
       <!-- <circle-progress title="{{content?.completionPercentage}}%" class="flex items-center progress"
             [percent]="content?.completionPercentage" [radius]="12" [outerStrokeWidth]="3" [innerStrokeWidth]="3"
             [space]="-3" [outerStrokeColor]="progressColor(content?.completionPercentage)"
-            [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true" [animationDuration]="300" [showTitle]="false"
+            [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false" [animationDuration]="300" [showTitle]="false"
             [showUnits]="false" [showSubtitle]="false" [showInnerStroke]="true" [clockwise]="true"
             [backgroundOpacity]="0" [backgroundGradient]="false" [backgroundStrokeWidth]="3" [showZeroOuterStroke]=false
             [backgroundPadding]="-9" [startFromZero]="false" [backgroundPadding]="0" [imageHeight]="24"

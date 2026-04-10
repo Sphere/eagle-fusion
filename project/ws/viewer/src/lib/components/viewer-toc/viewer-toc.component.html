@@ -222,7 +222,7 @@
                 *ngIf="content?.completionPercentage > 0 && content?.completionPercentage !==100 ; else elseResourseLock">
                 <circle-progress class="flex items-center " [percent]="content?.completionPercentage" [maxPercent]="100"
                   [radius]="8" [clockwise]="true" [outerStrokeWidth]="2" [innerStrokeWidth]="2" [space]="-2"
-                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="true"
+                  [outerStrokeColor]="'rgba(39, 174, 96, 1)'" [innerStrokeColor]="'rgba(0,0,0,.16)'" [animation]="false"
                   [animationDuration]="300" [showTitle]="false" [showUnits]="false" [showSubtitle]="false"
                   [showInnerStroke]="true" [showZeroOuterStroke]=false [backgroundPadding]="10" [startFromZero]="false"
                   [imageHeight]="24" [imageWidth]="24" [showBackground]="false" [backgroundStrokeWidth]="0"

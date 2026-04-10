@@ -1,6 +1,6 @@
-<div *ngIf="isWebView" class="notification-triangle"></div>
+<div *ngIf="isWebView$ | async" class="notification-triangle"></div>
 
-<div class="notification-container" [ngClass]="{'iswebView': isWebView}">
+<div class="notification-container" [ngClass]="{'iswebView': isWebView$ | async}">
 
   <div class="notification_header">
     <span class="notification_header_title">{{ 'Notification' | translate }}</span>
