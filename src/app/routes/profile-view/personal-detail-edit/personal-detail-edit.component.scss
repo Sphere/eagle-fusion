@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .content {
   padding: 10px 0px 0px 10px;
@@ -22,7 +22,7 @@
   //   max-width: 50%;
   // }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 90%;
   }
 }

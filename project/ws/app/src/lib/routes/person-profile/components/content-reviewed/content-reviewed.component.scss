@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .font-family {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell,
@@ -39,7 +39,7 @@
   // border-radius: inherit !important;
   padding: 0.25rem !important;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     min-width: calc(100vw - 70px) !important;
     max-width: calc(100vw - 70px) !important;
     padding: 0.5rem !important;

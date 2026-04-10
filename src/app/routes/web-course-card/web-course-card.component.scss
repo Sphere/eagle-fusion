@@ -1,5 +1,5 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 /************/
 
@@ -328,8 +328,8 @@ height: 14px;
 
 
 
-@import 'ws-vars';
-@import 'ws-mixins';
+
+
 
 .card-minimal-container {
   position: relative;
@@ -382,8 +382,8 @@ a {
 }
 
 .card-space-saving-container {
-  $card-padding: $size-m;
-  $action-btn-size: 2.5 * $size-m;
+  $card-padding: ws-mixins.$size-m;
+  $action-btn-size: 2.5 * ws-mixins.$size-m;
   $card-width: 265px;
   position: relative;
   width: $card-width;
@@ -413,7 +413,7 @@ a {
 
   .title-text {
     display: block;
-    margin: $size-s 0;
+    margin: ws-mixins.$size-s 0;
   }
 
   $flip-desc-line-count: 4;
@@ -443,9 +443,9 @@ a {
 }
 
 .card-ford-container {
-  $card-padding: $size-m;
+  $card-padding: ws-mixins.$size-m;
   padding: 16px 16px 0 16px;
-  $action-btn-size: 2.5 * $size-m;
+  $action-btn-size: 2.5 * ws-mixins.$size-m;
   position: relative;
   $card-width: 220px;
   width: $card-width;
@@ -453,7 +453,7 @@ a {
   overflow: hidden;
   box-sizing: border-box;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     $card-width: 200px;
     width: $card-width;
     height: 240px;
@@ -476,7 +476,7 @@ a {
     display: block;
     object-fit: contain;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       height: 115px;
     }
   }
@@ -511,7 +511,7 @@ a {
   $title-line-height: 1.3em;
 
   .title-text {
-    margin: $size-s 0;
+    margin: ws-mixins.$size-s 0;
     position: relative;
     overflow: hidden;
     height: $title-line-count * $title-line-height;
@@ -552,16 +552,16 @@ a {
     -webkit-box-orient: vertical;
     text-align: justify;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       -webkit-line-clamp: 8;
     }
   }
 }
 
 .card-standard-container {
-  $card-padding: $size-m;
+  $card-padding: ws-mixins.$size-m;
   padding-bottom: 0px !important;
-  $action-btn-size: 2.5 * $size-m;
+  $action-btn-size: 2.5 * ws-mixins.$size-m;
   $card-width: 276px;
   position: relative;
   width: $card-width;
@@ -695,7 +695,7 @@ a {
 }
 
 .card-basic-infomartion-container {
-  $card-padding: $size-m;
+  $card-padding: ws-mixins.$size-m;
   $card-width: 265px;
   position: relative;
   width: $card-width;
@@ -721,7 +721,7 @@ a {
   $title-line-height: 1.3em;
 
   .title-text {
-    margin: $size-s 0 0 0;
+    margin: ws-mixins.$size-s 0 0 0;
     position: relative;
     overflow: hidden;
     height: $title-line-count * $title-line-height;
@@ -737,7 +737,7 @@ a {
 }
 
 .card-with-user-details-container {
-  $card-padding: $size-m;
+  $card-padding: ws-mixins.$size-m;
   $card-width: 265px;
   position: relative;
   width: $card-width;
@@ -770,7 +770,7 @@ a {
   }
 
   .author-image {
-    margin-right: $size-s;
+    margin-right: ws-mixins.$size-s;
     $size: 44px;
     height: $size;
     width: $size;
@@ -789,8 +789,8 @@ a {
 
 .detail-button {
   position: absolute;
-  top: $size-s;
-  right: $size-s;
+  top: ws-mixins.$size-s;
+  right: ws-mixins.$size-s;
   z-index: 1;
 }
 
@@ -865,7 +865,7 @@ $title-line-count: 2;
 }
 
 .xs-hidden {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }
@@ -978,7 +978,7 @@ padding: 5px 0px 0px 0px;
   margin-left: 10px;
   width: 13%;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
   }
 }

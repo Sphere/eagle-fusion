@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .trusted-by-container {
     display: flex;
@@ -7,11 +7,11 @@
     // padding-left: 100px;
     padding: 0px 85px;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         padding-left: 20px;
     }
 
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
         padding-left: 30px;
     }
 }
@@ -88,7 +88,7 @@
     font-size: 14px;
     font-family: 'Roboto', sans-serif;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         padding: 4px 4px;
     }
 }
@@ -97,7 +97,7 @@
     width: 375px;
     height: 325px;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         width: 300px;
         height: 290px;
     }
@@ -107,12 +107,12 @@
     width: 760px;
     height: 250px;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         width: 414px;
         height: 150px;
     }
 
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
         width: 500px;
         height: 250px;
     }
@@ -141,7 +141,7 @@
     position: relative;
     margin-top: 30px;
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
         left: 17px;
     }
 }

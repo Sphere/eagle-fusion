@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .light-theme .mat-typography .unit-meta-item h2{
    margin-bottom: 0px;
@@ -11,8 +11,8 @@
   .unit-meta-item {
     border-radius: 2px;
     box-sizing: border-box;
-    margin-bottom: $size-xl;
-    margin-top: $size-m;
+    margin-bottom: ws-vars.$size-xl;
+    margin-top: ws-vars.$size-m;
     clear: both;
     border-bottom: solid 1px #dfdfdf;
     h2 {
@@ -21,7 +21,7 @@
     }
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -31,7 +31,7 @@
   width: 32%;
   margin: 4px 0;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -41,7 +41,7 @@
   // min-width: 250px;
   margin-left: 24px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
     margin-left: 0;
   }
@@ -51,31 +51,31 @@
   min-width: 250px;
   margin-right: 24px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
     margin-right: 0;
   }
 }
 .info-container {
-  padding: $size-s $size-m;
-  margin-bottom: $size-m;
+  padding: ws-vars.$size-s ws-vars.$size-m;
+  margin-bottom: ws-vars.$size-m;
 
     .item-icon {
       $icon-size: 20px;
       width: $icon-size;
       height: $icon-size;
       font-size: $icon-size;
-      margin-left: $size-xs;
+      margin-left: ws-vars.$size-xs;
     }
 }
 
 
 .author {
-  padding: $size-s 0;
+  padding: ws-vars.$size-s 0;
   display: flex;
 
   .author-image {
-    margin-right: $size-s;
+    margin-right: ws-vars.$size-s;
     $size: 44px;
     height: $size;
     width: $size;

@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 
 .login-page-content {
   box-sizing: border-box;
@@ -9,16 +9,16 @@
   padding: 0;
   box-sizing: border-box;
 
-  @include breakpoint-gt-s {
+  @include ws-common.breakpoint-gt-s {
     max-width: 30%;
   }
 
-  @include breakpoint-s {
+  @include ws-common.breakpoint-s {
     max-width: 50%;
     padding: 12px;
   }
 
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     max-width: 90%;
     margin: auto;
   }

@@ -1,6 +1,6 @@
-@import 'ws-common';
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 
 .circle-s {
@@ -128,8 +128,8 @@
 
   .initials {
     color: #ffffff;
-    font-size: $size-s;
-    line-height: $size-s;
+    font-size: ws-common.$size-s;
+    line-height: ws-common.$size-s;
     letter-spacing: 0.2625px;
   }
 }
@@ -149,8 +149,8 @@
 
   .initials {
     color: #ffffff;
-    font-size: $size-l;
-    line-height: $size-l;
+    font-size: ws-common.$size-l;
+    line-height: ws-common.$size-l;
     letter-spacing: 0.2625px;
   }
 }
@@ -171,8 +171,8 @@
 
   .initials {
     color: #ffffff;
-    font-size: $size-xl;
-    line-height: $size-xl;
+    font-size: ws-common.$size-xl;
+    line-height: ws-common.$size-xl;
     letter-spacing: 0.2625px;
   }
 }
@@ -193,8 +193,8 @@
 
   .initials {
     color: #ffffff;
-    font-size: $size-xxl;
-    line-height: $size-xxl;
+    font-size: ws-common.$size-xxl;
+    line-height: ws-common.$size-xxl;
     letter-spacing: 0.2625px;
   }
 }

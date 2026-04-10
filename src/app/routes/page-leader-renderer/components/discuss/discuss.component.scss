@@ -1,12 +1,12 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 .discussion-container {
     display: block;
-    margin-top: $size-m;
-    @include breakpoint-lt-m {
-        padding: 0 $size-xs;
+    margin-top: ws-vars.$size-m;
+    @include ws-mixins.breakpoint-lt-m {
+        padding: 0 ws-vars.$size-xs;
     }
-    @include breakpoint-lt-l {
-        padding-right: $size-xs;
+    @include ws-mixins.breakpoint-lt-l {
+        padding-right: ws-vars.$size-xs;
       }
 }

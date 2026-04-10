@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 // $border-color: #c7c7c7;
 $border-color: #d8d8d8;
@@ -8,18 +8,18 @@ $border-color: #d8d8d8;
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  margin: $size-m 0 $size-l 0;
+  margin: ws-vars.$size-m 0 ws-vars.$size-l 0;
 
   .main-container {
     width: 100%;
-    padding-right: 2 * $size-l;
+    padding-right: 2 * ws-vars.$size-l;
     box-sizing: border-box;
 
     .toc-section {
       display: flex;
       justify-content: space-between;
       border-bottom: 1px solid $border-color;
-      padding-bottom: $size-s;
+      padding-bottom: ws-vars.$size-s;
     }
 
     .content-card {
@@ -32,10 +32,10 @@ $border-color: #d8d8d8;
 
     }
 
-    @include breakpoint-lt-m {
+    @include ws-mixins.breakpoint-lt-m {
       width: 100%;
       padding-right: 0;
-      margin-bottom: $size-xl;
+      margin-bottom: ws-vars.$size-xl;
     }
   }
 
@@ -43,19 +43,19 @@ $border-color: #d8d8d8;
     flex: 1;
     min-width: 250px;
 
-    @include breakpoint-lt-m {
+    @include ws-mixins.breakpoint-lt-m {
       width: 100%;
     }
   }
 }
 
 .playgrounds-container {
-  margin: 0 0 $size-l 0;
+  margin: 0 0 ws-vars.$size-l 0;
 
   .plg-card {
     position: relative;
-    margin-bottom: $size-s;
-    margin-right: $size-l;
+    margin-bottom: ws-vars.$size-s;
+    margin-right: ws-vars.$size-l;
 
     .plg-img {
       display: block;
@@ -66,7 +66,7 @@ $border-color: #d8d8d8;
     .plg-overlay {
       position: absolute;
       bottom: 0;
-      padding: $size-xs $size-s;
+      padding: ws-vars.$size-xs ws-vars.$size-s;
       box-sizing: border-box;
       left: 0;
       right: 0;

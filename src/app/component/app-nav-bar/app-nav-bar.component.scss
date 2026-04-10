@@ -1,4 +1,6 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
+@use 'ws-vars';
+
 .logo-container {
   width: 100%;
   justify-content: space-between;
@@ -58,7 +60,7 @@
 .custom {
   height: 80px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 54px;
   }
 }
@@ -91,7 +93,7 @@
   width: 150px;
   max-height: 60px;
   filter: var(--theme-icon-filter);
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 100px;
   }
 }
@@ -156,28 +158,28 @@
   right: 50px;
   padding: 10px 0px 0px 0px;
 
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     top: 20px;
     left: 980px;
   }
 
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     top: 20px;
     left: 980px;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     top: 0px;
     right: 50px;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     top: 20px;
     left: 450px;
   }
 }
 
-@import 'ws-vars';
+
 
 .menu-section {
   padding: 8px;
@@ -213,11 +215,11 @@
 }
 
 .margin-bottom-xs {
-  margin-bottom: $size-xs;
+  margin-bottom: ws-mixins.$size-xs;
 }
 
 .pipe-icon {
-  width: $size-l;
+  width: ws-mixins.$size-l;
   transform: scaleY(2);
 }
 
@@ -280,13 +282,13 @@
 }
 
 .hide-md {
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     display: none;
   }
 }
 
 .hide-xs {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }

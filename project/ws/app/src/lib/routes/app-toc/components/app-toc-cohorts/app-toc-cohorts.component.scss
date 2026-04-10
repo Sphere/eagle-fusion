@@ -1,12 +1,12 @@
-@import 'ws-vars';
+@use 'ws-vars';
 
 .cohorts-head {
-  padding: $size-xs $size-m;
+  padding: ws-vars.$size-xs ws-vars.$size-m;
 }
 .unit-cohort {
   display: flex;
   align-items: center;
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
   .cohort-image {
     $user-image-size: 32px;
     width: $user-image-size;

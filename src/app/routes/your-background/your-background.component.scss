@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 
 .login-page-content {
   box-sizing: border-box;
@@ -8,7 +8,7 @@
   box-sizing: border-box;
   padding: 0;
   max-width: 430px;
-  @include breakpoint-s {
+  @include ws-common.breakpoint-s {
     padding: 12px;
   }
 }

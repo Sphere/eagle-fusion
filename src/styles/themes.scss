@@ -30,7 +30,7 @@ $dark-border: #2d2d2d;
 $dark-border-light: #3f3f3f;
 
 // Define palettes
-$blue-palette: mat.define-palette((50: #eff1f3,
+$blue-palette: mat.m2-define-palette((50: #eff1f3,
     100: #FFFFFF,
     200: #a5c1dc,
     300: #68a0d6,
@@ -47,21 +47,21 @@ $blue-palette: mat.define-palette((50: #eff1f3,
     contrast: (50: rgba(black, 0.87), 100: white, 200: rgba(black, 0.87), 300: rgba(black, 0.87), 400: rgba(black, 0.87), 500: rgba(black, 0.87), 600: white, 700: white, 800: white, 900: white, A100: rgba(black, 0.87), A200: rgba(black, 0.87), A400: rgba(black, 0.87), A700: rgba(black, 0.87)),
 ));
 // Light Theme
-$light-theme: mat.define-light-theme((
+$light-theme: mat.m2-define-light-theme((
   color: (
     primary: $blue-palette,
-    accent: mat.define-palette(mat.$orange-palette),
-    warn: mat.define-palette(mat.$red-palette),
+    accent: mat.m2-define-palette(mat.$m2-orange-palette),
+    warn: mat.m2-define-palette(mat.$m2-red-palette),
   ),
   density: 0
 ));
 
 // Dark Theme
-$dark-theme: mat.define-dark-theme((
+$dark-theme: mat.m2-define-dark-theme((
   color: (
-    primary: mat.define-palette(mat.$grey-palette, 900),
-    accent: mat.define-palette(mat.$deep-orange-palette),
-    warn: mat.define-palette(mat.$red-palette),
+    primary: mat.m2-define-palette(mat.$m2-grey-palette, 900),
+    accent: mat.m2-define-palette(mat.$m2-deep-orange-palette),
+    warn: mat.m2-define-palette(mat.$m2-red-palette),
   ),
   density: 0
 ));

@@ -1,8 +1,8 @@
-@import 'ws-vars';
+@use 'ws-vars';
 
 .app-class .mat-list-option {
-  padding-top: $size-m;
-  padding-bottom: $size-m;
+  padding-top: ws-vars.$size-m;
+  padding-bottom: ws-vars.$size-m;
   height: auto;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .margin-bottom-m {
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .correct-option {

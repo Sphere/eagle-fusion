@@ -1,5 +1,5 @@
-@import 'ws-mixins';
-@import 'ws-common';
+@use 'ws-mixins';
+@use 'ws-common';
 
 a.blue {
   color: #8BC34A !important;
@@ -52,24 +52,24 @@ a.blue,
   padding: 0;
   box-sizing: border-box;
 
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     max-width: 40% !important;
   }
 
-  @include breakpoint-gt-m {
+  @include ws-mixins.breakpoint-gt-m {
     max-width: 30%;
   }
 
-  @include breakpoint-gt-l {
+  @include ws-mixins.breakpoint-gt-l {
     max-width: 20%;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     max-width: 50%;
     padding: 12px;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 90%;
     margin: auto;
   }
@@ -91,11 +91,11 @@ a.blue,
   //   max-width: 30%;
   // }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     max-width: 100%;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 90%;
   }
 }

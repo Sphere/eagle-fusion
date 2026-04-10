@@ -1,9 +1,9 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .app-class .mat-mdc-list-option {
-  padding-top: $size-m;
-  padding-bottom: $size-m;
+  padding-top: ws-vars.$size-m;
+  padding-bottom: ws-vars.$size-m;
   height: auto;
     --mdc-checkbox-selected-checkmark-color: white !important;
     --mdc-checkbox-selected-container-color: transparent !important;
@@ -39,12 +39,12 @@
   margin: 10px 0 0 0 !important;
   font-weight: 400;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin: 0 !important;
   }
 
   p {
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       margin: 0 !important;
     }
   }
@@ -88,7 +88,7 @@ correct-option {
 }
 
 .margin-bottom-m {
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .correct-option {

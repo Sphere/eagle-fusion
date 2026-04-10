@@ -1,6 +1,6 @@
-@import 'ws-common';
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .greyed-out {
   filter: opacity(0.5) grayscale(1);
@@ -10,7 +10,7 @@
 }
 
 .width-expand {
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     margin: auto;
     flex-direction: column;
   }
@@ -23,7 +23,7 @@
 }
 
 .image-section-a {
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     margin: auto;
   }
 }
@@ -32,7 +32,7 @@
   width: 103px;
   height: 67px;
 
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     width: 100%;
     height: 100%;
   }

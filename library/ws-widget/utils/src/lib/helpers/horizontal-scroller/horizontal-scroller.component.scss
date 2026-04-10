@@ -1,6 +1,6 @@
-@import 'ws-vars';
+@use 'ws-vars';
 
-$spaceFromEnd: -$size-m;
+$spaceFromEnd: -(ws-vars.$size-m);
 
 .horizontal-scroll-container {
   position: relative;

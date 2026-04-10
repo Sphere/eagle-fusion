@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .video-player-summary-container {
   height: auto;
@@ -10,11 +10,11 @@
 }
 
 .padding-dynamic {
-  padding: $size-xs;
-  padding-top: $size-m;
+  padding: ws-vars.$size-xs;
+  padding-top: ws-vars.$size-m;
 
-  @include breakpoint-xs {
-    padding: $size-xs;
+  @include ws-mixins.breakpoint-xs {
+    padding: ws-vars.$size-xs;
     // padding-top: 40vh;
   }
 }
@@ -28,11 +28,11 @@
 .video-player-title {
   width: 65%;
 
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     width: 70%;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -40,11 +40,11 @@
 .video-summary {
   width: 30%;
 
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     width: 25%;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
@@ -64,7 +64,7 @@
   z-index: 1000;
   background: black;
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     display: none;
   }
 }
@@ -80,13 +80,13 @@
 
 .info-section {
   .info-container {
-    padding: $size-s $size-m;
-    margin-bottom: $size-m;
+    padding: ws-vars.$size-s ws-vars.$size-m;
+    margin-bottom: ws-vars.$size-m;
 
     .info-item {
       display: flex;
       align-items: center;
-      padding: $size-xs 0;
+      padding: ws-vars.$size-xs 0;
       box-sizing: border-box;
 
       h3 {
@@ -104,23 +104,23 @@
         width: $icon-size;
         height: $icon-size;
         font-size: $icon-size;
-        margin-left: $size-xs;
+        margin-left: ws-vars.$size-xs;
       }
     }
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 }
 
 .author {
-  padding: $size-s 0;
+  padding: ws-vars.$size-s 0;
   display: flex;
 
   .author-image {
-    margin-right: $size-s;
-    $size: 4 * $size-s;
+    margin-right: ws-vars.$size-s;
+    $size: 4 * ws-vars.$size-s;
     font-size: $size;
     height: $size;
     width: $size;
@@ -130,7 +130,7 @@
 .unit-meta-item {
   border-radius: 2px;
   box-sizing: border-box;
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .full-height-width-iframe {
@@ -152,7 +152,7 @@
   padding: 0 9px;
 
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
     height: 45vh !important;
     position: relative;
@@ -169,22 +169,22 @@
 .prev-button .width-auto {
   left: -13px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     left: -7px;
     top: -5px;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     left: -8px;
   }
 }
 
 .player-nav-links {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 96%;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 97%;
   }
 }
@@ -192,7 +192,7 @@
 .next-button .width-auto {
   right: -3px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     right: 2px;
   }
 }
@@ -204,11 +204,11 @@
 .prev-button .title {
   margin-left: -12px !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: -8px !important;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     margin-left: -8px !important;
   }
 }

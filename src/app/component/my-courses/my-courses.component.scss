@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 /* ── Shimmer base animation ─────────────────────────────────────────────── */
 @keyframes shimmerSlide {
@@ -147,7 +147,7 @@
   margin-top: 20px;
   margin-bottom: 0px;
   font: 400 24px / 32px Roboto;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-top: 0px;
   }
 }
@@ -155,7 +155,7 @@
 .hideLower {
   font-size: 14px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none !important;
   }
 }
@@ -603,7 +603,7 @@
 }
 
 ::ng-deep .mat-mdc-tab-group .mat-mdc-tab-header{
-  --mat-tab-header-active-label-text-color: grey !important;
+  --mat-tab-header-active-label-text-color: #1C5D95 !important;
   --mat-tab-header-active-ripple-color: black !important;
   --mat-tab-header-inactive-ripple-color: black !important;
 }

@@ -1,11 +1,11 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 %container-padding {
-  padding: $size-xl 12rem;
+  padding: ws-mixins.$size-xl 12rem;
 
-  @include breakpoint-xs {
-    padding: $size-m $size-l;
+  @include ws-mixins.breakpoint-xs {
+    padding: ws-mixins.$size-m ws-mixins.$size-l;
   }
 }
 
@@ -14,7 +14,7 @@
   height: 100%;
   background: #f7f7f7;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
     height: 58% !important;
     margin-top: 50px;
@@ -25,7 +25,7 @@
   @extend %container-padding;
   padding-top: 0px !important;
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     padding-right: 1rem;
     padding-left: 1rem;
   }
@@ -123,7 +123,7 @@
   border-radius: 50px !important;
   color: #f7f7f7 !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
   }
 }
@@ -135,7 +135,7 @@
   margin-left: 10px;
   width: 13%;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
   }
 }

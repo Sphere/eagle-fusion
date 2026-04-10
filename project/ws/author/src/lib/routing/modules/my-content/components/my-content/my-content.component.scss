@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 
 .nav-container {
   position: relative;
@@ -75,16 +75,16 @@
 
 .flex-dynamic {
   justify-content: flex-start;
-  @include breakpoint-gt-s {
+  @include ws-common.breakpoint-gt-s {
     justify-content: center;
   }
-  @include breakpoint-gt-xs {
+  @include ws-common.breakpoint-gt-xs {
     justify-content: center;
   }
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     justify-content: center;
   }
-  @include breakpoint-gt-m {
+  @include ws-common.breakpoint-gt-m {
     justify-content: flex-start;
   }
 }
@@ -106,7 +106,7 @@
 
 .sidenav-content {
   margin: 0;
-  padding: 0 $size-m $size-l;
+  padding: 0 ws-common.$size-m ws-common.$size-l;
   box-sizing: border-box;
   min-height: calc(100vh);
 }

@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 
 ::ng-deep .light-theme .mat-drawer-container {
   background-color: transparent;
@@ -34,10 +34,10 @@
 }
 
 .minhightab {
-  @include breakpoint-gt-xs {
+  @include ws-common.breakpoint-gt-xs {
     min-height: 450px;
   }
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     min-height: 300px;
   }
 }
@@ -46,7 +46,7 @@
   // height: calc(100vh - 56px);
   margin: 0 50px;
 
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     margin: 0 !important;
   }
 
@@ -57,7 +57,7 @@
   border: none !important;
   padding-top: 24px;
 
-  @include breakpoint-gt-xs {
+  @include ws-common.breakpoint-gt-xs {
     width: 25%;
     min-width: 400px;
     max-width: 600px;
@@ -69,7 +69,7 @@
   border: none !important;
   padding-top: 24px;
 
-  @include breakpoint-gt-xs {
+  @include ws-common.breakpoint-gt-xs {
     width: 25%;
     min-width: 300px;
     max-width: 400px;
@@ -112,7 +112,7 @@ viewer-quiz {
 .info-item {
   display: flex;
   align-items: center;
-  padding: $size-xs 0;
+  padding: ws-common.$size-xs 0;
   box-sizing: border-box;
 
   h3 {
@@ -130,7 +130,7 @@ viewer-quiz {
     width: $icon-size;
     height: $icon-size;
     font-size: $icon-size;
-    margin-left: $size-xs;
+    margin-left: ws-common.$size-xs;
   }
 }
 

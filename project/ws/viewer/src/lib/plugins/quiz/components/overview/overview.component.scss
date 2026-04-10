@@ -1,17 +1,17 @@
-@import 'ws-common';
-@import 'ws-vars';
+@use 'ws-common';
+@use 'ws-vars';
 
 .overview-container {
   min-height: 100%;
   box-sizing: border-box;
   @extend %page-center;
   max-height: 10000 !important;
-  padding: $size-s;
+  padding: ws-common.$size-s;
 }
 
 .card-section {
   width: 90%;
-  margin: $size-m;
+  margin: ws-common.$size-m;
 
   // @include breakpoint-gt-sm {
   //   width: 45%;

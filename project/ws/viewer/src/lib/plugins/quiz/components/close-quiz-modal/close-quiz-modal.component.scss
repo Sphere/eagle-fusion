@@ -1,9 +1,9 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .overview-container {
   padding: 30px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 5px;
   }
 }
@@ -12,7 +12,7 @@
   display: flex;
   justify-content: space-evenly;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     flex-direction: column;
     align-items: center;
   }
@@ -27,7 +27,7 @@
   // border-color: #1C5D95 !important;
   border: 1px solid #1c5d95 !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 0px;
     //width: 75px !important;
     margin-bottom: 10px;
@@ -59,7 +59,7 @@ h3 {
 ::ng-deep.close-modal .mat-mdc-dialog-container {
   border-radius: 34px !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     border-radius: 18px !important;
   }
 }
@@ -67,7 +67,7 @@ h3 {
 ::ng-deep.assesment-close-modal .mat-mdc-dialog-container {
   border-radius: 34px !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     border-radius: 25px !important;
   }
 }
@@ -76,7 +76,7 @@ h3 {
   content: '\a';
   white-space: pre;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     // content: "";
     white-space: nowrap;
   }
@@ -89,7 +89,7 @@ h3 {
   margin-bottom: 15px;
   line-height: 25px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     font-size: 13px;
     font-weight: 500;
   }

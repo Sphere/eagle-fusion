@@ -1,11 +1,11 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 %container-padding {
-  padding: $size-xl 12rem;
+  padding: ws-mixins.$size-xl 12rem;
 
-  @include breakpoint-xs {
-    padding: $size-m $size-l;
+  @include ws-mixins.breakpoint-xs {
+    padding: ws-mixins.$size-m ws-mixins.$size-l;
   }
 }
 
@@ -48,7 +48,7 @@
   background: var(--theme-bg, #f7f7f7);
   color: var(--theme-text, #101828);
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
     height: 58% !important;
     margin-top: 50px;
@@ -59,7 +59,7 @@
   @extend %container-padding;
   padding-top: 0px !important;
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     padding-right: 1rem;
     padding-left: 1rem;
   }
@@ -161,15 +161,15 @@
   color: var(--theme-on-accent, #f7f7f7) !important;
   border: none;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 50% !important;
   }
 
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     width: 50% !important;
   }
 
@@ -194,7 +194,7 @@
   align-items: center !important;
 
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
   }
 }
@@ -217,15 +217,15 @@
   --mdc-linear-progress-active-indicator-height: 20px !important;
   --mdc-linear-progress-track-height: 20px !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 50% !important;
   }
 
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     width: 50% !important;
   }
 

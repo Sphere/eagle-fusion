@@ -1,12 +1,12 @@
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-mixins';
 .signup-container {
     box-sizing: border-box;
-    padding: $size-m;
+    padding: ws-common.$size-m;
     @extend %page-center;
     @extend %height-mat-toolbar-sibling;
     box-sizing: border-box;
-    @include breakpoint-gt-s {
+    @include ws-common.breakpoint-gt-s {
         max-width: 30%;
     }
 }

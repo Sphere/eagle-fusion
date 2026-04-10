@@ -1,10 +1,10 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 .application-logo {
   max-width: 150px;
   display: block;
   width: 100%;
   //padding-top: 8px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 1100px;
   }
 }
@@ -17,7 +17,7 @@
   max-height: 73px;
   min-width: 120px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 80px;
     margin-top: 9px;
   }
@@ -27,7 +27,7 @@
   width: 60px;
 }
 .title-app {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     visibility: hidden;
   }
 }
@@ -40,7 +40,7 @@
   flex: 1;
   height: 50px;
   max-width: 470px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-right: 7px;
   }
 }
@@ -51,13 +51,13 @@
   // flex: 1;
 }
 .small-font-size {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     font-size: smaller !important;
   }
 }
 
 .padding-remove-small {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 0 !important;
   }
 }

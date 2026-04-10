@@ -1,6 +1,6 @@
-@import 'ws-vars';
-@import 'ws-mixins';
-@import 'ws-common';
+@use 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-common';
 
 ws-app-search-input-home .autocomplete-form {
   width: 100%;
@@ -21,7 +21,7 @@ ws-app-search-input-home .autocomplete-form {
 
 .search-home {
   border-radius: 0px 4px 4px 0px;
-  padding: $size-s 0;
+  padding: ws-vars.$size-s 0;
 }
 
 ws-app-search-input-home input {
@@ -53,12 +53,12 @@ ws-app-search-input-home .search-border {
   flex: 1;
   // background-color: #fff;
   width: 450px;
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       width: 350px;
     }
   /* border-color: #cecece;*/
   .search {
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 65px;
     }
   }
@@ -81,8 +81,8 @@ ws-app-search-input-home .search-page-container {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
-  margin-top: $size-xl;
-  padding-top: $size-xl;
+  margin-top: ws-vars.$size-xl;
+  padding-top: ws-vars.$size-xl;
   text-align: center;
   margin: auto;
   width: 80%;
@@ -103,8 +103,8 @@ ws-app-search-input-home .feature-group {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-around;
-  margin-top: $size-m;
-  padding-bottom: $size-m;
+  margin-top: ws-vars.$size-m;
+  padding-bottom: ws-vars.$size-m;
 
   .feature {
     display: flex;
@@ -112,23 +112,23 @@ ws-app-search-input-home .feature-group {
     align-items: center;
     text-align: center;
     margin: 0;
-    padding: $size-xs;
+    padding: ws-vars.$size-xs;
     height: auto;
     box-sizing: border-box;
     border-radius: 0;
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 50%;
     }
   }
 
   .feature-icon {
-    $icon-size: 2.25 * $size-m;
+    $icon-size: 2.25 * ws-vars.$size-m;
     width: $icon-size;
     height: $icon-size;
-    font-size: $size-l;
-    @include breakpoint-gt-xs {
+    font-size: ws-vars.$size-l;
+    @include ws-mixins.breakpoint-gt-xs {
       margin-right: 0;
-      margin-bottom: $size-s;
+      margin-bottom: ws-vars.$size-s;
     }
   }
 }

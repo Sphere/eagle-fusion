@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 $medium-badge-size: 90px;
 $small-badge-size: 50px;
@@ -90,7 +90,7 @@ $badge-padding: 12px;
 }
 .entity-container {
   display: flex;
-  padding: 16px 16px $size-s 16px;
+  padding: 16px 16px ws-vars.$size-s 16px;
 
 }
 .required {
@@ -231,7 +231,7 @@ animation: 0.5s ease-out 0s 1 slideInFromLeft;
 
 .margin-left {
   margin-left: 120px;
-  @media only screen and(max-width: 930px) {
+  @media only screen and (max-width: 930px) {
     // margin-top: 24px;
     margin-left: 80px;
     .icon-container{
@@ -239,15 +239,15 @@ animation: 0.5s ease-out 0s 1 slideInFromLeft;
     }
   }
 
-  @media only screen and(max-width: 824px) {
+  @media only screen and (max-width: 824px) {
     margin-left: 40px;
   }
 
-  @media only screen and(max-width: 699px) {
+  @media only screen and (max-width: 699px) {
     padding-top: 24px;
   }
 
-  @media only screen and(max-width: 585px) {
+  @media only screen and (max-width: 585px) {
     margin-left: 0px;
   }
 }

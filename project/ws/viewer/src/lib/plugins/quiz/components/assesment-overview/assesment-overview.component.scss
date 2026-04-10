@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .overview-container {
   display: flex;
@@ -24,7 +24,7 @@
   color: #000000;
   text-align: center;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     font-size: 16px;
     line-height: 20px;
   }
@@ -53,14 +53,14 @@
   text-align: center;
   padding: auto 0;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 70px;
     height: 70px;
     padding: 0 !important;
     margin: 5px !important;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 100px;
     height: 100px;
     padding: 0 !important;
@@ -88,23 +88,23 @@
   span {
     font-size: 15px;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       font-size: 11px !important;
     }
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       font-size: 20px !important;
     }
   }
 
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     font-size: 24px !important;
     padding: 0 !important;
     line-height: 1.2;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     font-size: 36px !important;
   }
 }
@@ -122,13 +122,13 @@
   margin-bottom: 0 !important;
   position: relative;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     font-size: 12px !important;
     margin-top: 0 !important;
     padding: 0 !important;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     font-size: 16px !important;
     // margin-top: 0 !important;
   }
@@ -152,7 +152,7 @@
   justify-content: center;
   padding-top: 12px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     flex-wrap: nowrap;
     padding: 20px 0px;
 
@@ -175,7 +175,7 @@
   display: flex;
   padding: 12px 32px 32px 32px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 20px 0px;
   }
 }

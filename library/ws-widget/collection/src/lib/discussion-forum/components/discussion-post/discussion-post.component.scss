@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 .main-post-user-image {
   $size: 40px;
   min-width: $size;
@@ -12,7 +12,7 @@
     justify-content: flex-start;
     margin-top: -7px;
     width: 95%;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 26px;
     position: relative;
     width: auto;
@@ -33,8 +33,8 @@
 .write-reply-container {
   display: flex;
   align-items: stretch;
-  padding: $size-s;
-  margin-top: calc($size-xs / 2);
+  padding: ws-vars.$size-s;
+  margin-top: calc(ws-vars.$size-xs / 2);
   .write-reply-user-image {
     $size: 36px;
     width: $size;
@@ -45,13 +45,13 @@
     align-items: center;
     height: 100%;
     // background: white;
-    padding-left: $size-s;
+    padding-left: ws-vars.$size-s;
     cursor: pointer;
     font-size: 15px;
   }
   .write-reply-editor {
     display: block;
-    padding: $size-s;
+    padding: ws-vars.$size-s;
     padding-bottom: 0;
   }
 }

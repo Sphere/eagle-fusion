@@ -1,4 +1,4 @@
-@import 'ws-vars';
+@use 'ws-vars';
 ul,
 li {
   list-style-type: none;
@@ -6,5 +6,5 @@ li {
   padding-left:0px;
 }
 .nested-filters {
-  padding-left: 2 * $size-xl;
+  padding-left: 2 * ws-vars.$size-xl;
 }

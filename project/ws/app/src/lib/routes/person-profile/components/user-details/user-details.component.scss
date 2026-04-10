@@ -1,10 +1,10 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .userdetails {
   margin-top: 12px;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     display: block !important;
     justify-content: space-between;
   }
@@ -46,7 +46,7 @@
 .card {
   border-radius: 0px;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: inherit;
     // padding: 0rem !important;
   }

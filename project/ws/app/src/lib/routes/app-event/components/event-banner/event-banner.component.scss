@@ -1,20 +1,20 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .dots-container {
   position: relative;
   z-index: 2;
   .dot {
     cursor: pointer;
-    height: $size-m;
-    width: $size-m;
+    height: ws-vars.$size-m;
+    width: ws-vars.$size-m;
     margin: 6px 6px;
     background-color: rgba(120, 120, 120, 0.75);
     box-shadow: 1px 1px 4px rgba(0, 0, 0, 0.6);
     border-radius: 50%;
     display: inline-block;
     transition: background-color 0.5s ease !important;
-    @include breakpoint-lt-m {
+    @include ws-mixins.breakpoint-lt-m {
       // height: $size-xs;
       // width: $size-xs;
       margin: 4px 4px;
@@ -23,8 +23,8 @@
 
   .dot.active {
     background-color: #d3d3d3;
-    height: $size-m + calc($size-xs / 4);
-    width: $size-m + calc($size-xs / 4);
+    height: ws-vars.$size-m + calc(ws-vars.$size-xs / 4);
+    width: ws-vars.$size-m + calc(ws-vars.$size-xs / 4);
     // @include breakpoint-lt-m {
     //   height: $size-xs + calc($size-xs / 4);
     //   width: $size-xs + calc($size-xs / 4);
@@ -39,10 +39,10 @@
   text-align: center;
   color: #fff;
   height: 380px;
-  @include breakpoint-s{
+  @include ws-mixins.breakpoint-s{
     height: 420px !important;
   }
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     height: 430px !important;
   }
 }
@@ -64,10 +64,10 @@
   width: 60%;
   margin: auto !important;
   line-height: initial;
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 80% !important;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100% !important;
   }
 }
@@ -98,19 +98,19 @@
 .bannerdiv {
   padding-top: 4%;
   padding-bottom:4%;
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     padding: 2%;
   }
 }
 .timerBlock {
   width: 30%;
   margin: auto 0 auto auto;
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     flex-wrap: wrap !important;
     width: 50% !important;
     height: auto !important;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     flex-wrap: wrap !important;
     width: 100% !important;
     height: auto !important;
@@ -118,10 +118,10 @@
 }
 .timer-card {
   width: 80%;
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 75%;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 75%;
     margin: auto;
   }
@@ -132,7 +132,7 @@
 .timerh1 {
   position: relative;
   margin-top: -9.5rem !important;
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     margin-top: -7.5rem !important;
     font-size: 2.25rem !important;
   }
@@ -142,7 +142,7 @@
   margin-left: 40%;
   width: 50%;
   margin-top: 2%;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     text-align: center;
     width: 80%;
     margin: 48% auto 0 auto;
@@ -153,7 +153,7 @@
 }
 .quizBtn {
   margin: 20px 0;
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     margin: 10px 0;
   }
 }
@@ -169,7 +169,7 @@
   ::ng-deep circle {
     stroke-width: 6.27273% !important;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     right: initial;
     width: 12rem !important;
     height: 12rem !important;
@@ -183,7 +183,7 @@
 .div-circle-stable {
   position: absolute;
   right: 60%;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     right: initial;
   }
 }
@@ -197,7 +197,7 @@
   ::ng-deep circle {
     stroke-width: 2.27273% !important;
   }
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     width: 12rem !important;
     height: 12rem !important;
   ::ng-deep svg {
@@ -207,7 +207,7 @@
   }
 }
 .timebannerText{
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     font-size: 1.3rem !important;
   }
 }

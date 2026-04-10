@@ -1,6 +1,6 @@
-@import 'ws-common';
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-common';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .log-o {
     flex: 1;
@@ -11,21 +11,21 @@
 .new-margin {
     margin-top: 16px;
     box-sizing: border-box;
-    @include breakpoint-xs {
+    @include ws-common.breakpoint-xs {
         margin-top: 0;
     }
 }
 
 .profile-text {
     font: 400 12px/20px Roboto;
-    @include breakpoint-gt-xs {
+    @include ws-common.breakpoint-gt-xs {
         display: none;
     }
 }
 
 .profile-content {
     display:flex;
-    @include breakpoint-xs {
+    @include ws-common.breakpoint-xs {
         position: absolute;
         top: 5px;
     }

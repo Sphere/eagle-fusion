@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 @media only screen and (min-width: 600px) and (max-width: 959px) {
   .padding-rl #continueLearning {
     padding: 0px 50px !important;
@@ -65,7 +65,7 @@
 }
 
 .pad {
-  padding: $size-l 0 $size-l $size-l;
+  padding: ws-mixins.$size-l 0 ws-mixins.$size-l ws-mixins.$size-l;
 }
 
 h1 {

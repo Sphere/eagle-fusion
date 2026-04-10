@@ -1,8 +1,8 @@
-@import 'ws-vars';
+@use 'ws-vars';
 
 .app-class .mat-mdc-list-option {
-  padding-top: $size-m;
-  padding-bottom: $size-m;
+  padding-top: ws-vars.$size-m;
+  padding-bottom: ws-vars.$size-m;
   height: auto;
    --mdc-checkbox-selected-checkmark-color: white !important;
     --mdc-checkbox-selected-container-color: transparent !important;
@@ -78,7 +78,7 @@ correct-option {
 }
 
 .margin-bottom-m {
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .correct-option {

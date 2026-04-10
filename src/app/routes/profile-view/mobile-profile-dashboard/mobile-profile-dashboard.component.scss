@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .form-group {
   display: flex;
@@ -17,26 +17,26 @@ h2 {
   // padding: 60px 20px 50px;
   // margin: auto;
 
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     //max-width: 30%;
     padding: 0px 45px 50px;
   }
 
-  @include breakpoint-gt-m {
+  @include ws-mixins.breakpoint-gt-m {
     //max-width: 35%;
     padding: 0px 45px 50px;
   }
 
-  @include breakpoint-gt-l {
+  @include ws-mixins.breakpoint-gt-l {
     max-width: 30%;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     // max-width: 50%;
     padding: 0px 45px 50px;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 100%;
     margin-top: 56px;
     margin-bottom: 150px;
@@ -518,7 +518,7 @@ color: var(--theme-text, #101828);
     padding-left: 1.5rem;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
    .whatsapp-icon {
   bottom: 9.3rem;
 }
@@ -550,7 +550,7 @@ font-weight: 500;
   margin: 1rem auto 1.5rem;
   border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
 
-  @include breakpoint-gt-m {
+  @include ws-mixins.breakpoint-gt-m {
     width: 100%;
     margin: 10px 0px;
     padding: 8px 10px;
@@ -572,7 +572,7 @@ font-weight: 500;
       width: 20px;
       height: 20px;
 
-      @include breakpoint-gt-m {
+      @include ws-mixins.breakpoint-gt-m {
         width: 16px;
         height: 16px;
       }
@@ -586,7 +586,7 @@ font-weight: 500;
     white-space: nowrap;
     color: var(--theme-text, #101828);
 
-    @include breakpoint-gt-m {
+    @include ws-mixins.breakpoint-gt-m {
       font-size: 13px;
       font-weight: 600;
     }
@@ -602,7 +602,7 @@ font-weight: 500;
       width: 16px;
       height: 16px;
 
-      @include breakpoint-gt-m {
+      @include ws-mixins.breakpoint-gt-m {
         width: auto;
         height: auto;
       }
@@ -617,7 +617,7 @@ font-weight: 500;
   margin-top: 0px;
   gap: 8px;
 
-  @include breakpoint-gt-m {
+  @include ws-mixins.breakpoint-gt-m {
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
@@ -639,7 +639,7 @@ font-weight: 500;
     color: var(--theme-accent, #1c5d95);
     line-height: 1;
 
-    @include breakpoint-gt-m {
+    @include ws-mixins.breakpoint-gt-m {
       font-size: 22px;
       font-weight: 600;
     }
@@ -650,7 +650,7 @@ font-weight: 500;
     color: var(--theme-text-soft, #8c98a8);
     line-height: 1;
 
-    @include breakpoint-gt-m {
+    @include ws-mixins.breakpoint-gt-m {
       font-size: 10px;
     }
   }
@@ -664,7 +664,7 @@ font-weight: 500;
   justify-content: flex-end;
   line-height: 1.2;
 
-  @include breakpoint-gt-m {
+  @include ws-mixins.breakpoint-gt-m {
     text-align: right;
     flex: 1;
   }
@@ -674,7 +674,7 @@ font-weight: 500;
     color: var(--theme-text-soft, #8c98a8);
     order: 1;
 
-    @include breakpoint-gt-m {
+    @include ws-mixins.breakpoint-gt-m {
       font-size: 9px;
       line-height: 1;
     }
@@ -686,7 +686,7 @@ font-weight: 500;
     color: var(--theme-text, #101828);
     order: 2;
 
-    @include breakpoint-gt-m {
+    @include ws-mixins.breakpoint-gt-m {
       font-size: 11px;
       font-weight: 600;
       line-height: 1;

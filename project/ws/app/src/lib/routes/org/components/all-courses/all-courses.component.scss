@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .w-100 {
   width: 100%;
@@ -9,9 +9,9 @@
 }
 
 .card-standard-container {
-  $card-padding: $size-m;
+  $card-padding: ws-vars.$size-m;
   padding-bottom: 0px !important;
-  $action-btn-size: 2.5 * $size-m;
+  $action-btn-size: 2.5 * ws-vars.$size-m;
   $card-width: 276px;
   position: relative;
   width: $card-width;

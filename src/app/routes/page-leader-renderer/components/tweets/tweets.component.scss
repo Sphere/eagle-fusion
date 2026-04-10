@@ -1,6 +1,6 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 .twitter-loaded {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     width: 650px;
     margin: auto;
   }

@@ -1,13 +1,13 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 .small-screen-width{
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
 
   }
 }
 .tnc-container {
-  padding: $size-l;
+  padding: ws-vars.$size-l;
   margin: auto;box-sizing: border-box;
     overflow: auto;
     max-height: 70%;
@@ -17,24 +17,24 @@
     padding-bottom: 40px;
     border: 0.5px groove;
     border-radius: 4px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin:  8px;
     padding: 4px;
 
   }
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     max-width: 90%;
   }
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     max-width: 80%;
   }
-  @include breakpoint-gt-m {
+  @include ws-mixins.breakpoint-gt-m {
     max-width: 1024px;
   }
 }
 
 .accept-btn-icon {
-  margin-right: $size-s;
+  margin-right: ws-vars.$size-s;
 }
 
 .tnc-title {

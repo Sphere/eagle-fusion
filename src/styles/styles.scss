@@ -1,9 +1,9 @@
-@import 'ws-vars';
-@import 'ws-mixins';
-@import './utility.scss';
-@import './themes.scss';
+@use 'ws-vars';
+@use 'ws-mixins';
+@use './utility.scss';
+@use './themes.scss';
 
-@include print {
+@include ws-mixins.print {
   * {
     display: none !important;
     width: 0px !important;
@@ -14,7 +14,7 @@
 html,
 body {
   margin: 0px;
-  font-family: $font-family-open-poppins;
+  font-family: ws-vars.$font-family-open-poppins;
 }
 
 ::selection {
@@ -26,21 +26,21 @@ body {
 }
 
 .w-lg-1-8 {
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     width: 12.5% !important;
   }
 }
 
 .font-sans {
-  font-family: $font-family-open-poppins;
+  font-family: ws-vars.$font-family-open-poppins;
 }
 
 .font-serif {
-  font-family: $font-family-open-poppins;
+  font-family: ws-vars.$font-family-open-poppins;
 }
 
 .font-mono {
-  font-family: $font-family-mono;
+  font-family: ws-vars.$font-family-mono;
 }
 
 button:focus,
@@ -52,17 +52,17 @@ button:focus,
   -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
-    width: $size-xs;
-    height: $size-xs;
+    width: ws-vars.$size-xs;
+    height: ws-vars.$size-xs;
 
-    @include breakpoint-s {
-      width: $size-s;
-      height: $size-s;
+    @include ws-mixins.breakpoint-s {
+      width: ws-vars.$size-s;
+      height: ws-vars.$size-s;
     }
 
-    @include breakpoint-gt-s {
-      width: $size-m;
-      height: $size-m;
+    @include ws-mixins.breakpoint-gt-s {
+      width: ws-vars.$size-m;
+      height: ws-vars.$size-m;
     }
 
     @media (hover: none) {
@@ -99,8 +99,8 @@ button:focus,
   -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
-    width: $size-xs;
-    height: $size-xs;
+    width: ws-vars.$size-xs;
+    height: ws-vars.$size-xs;
 
     @media (hover: none) {
       $scroll-size: 0px !important;
@@ -223,17 +223,17 @@ mat-toolbar {
 // TNC content
 .tnc-container {
   dd {
-    margin-inline-start: $size-xs;
+    margin-inline-start: ws-vars.$size-xs;
   }
 
   ul,
   ol {
-    padding-inline-start: $size-m;
+    padding-inline-start: ws-vars.$size-m;
   }
 
   li {
-    padding-inline-start: $size-xs;
-    margin-bottom: $size-xs;
+    padding-inline-start: ws-vars.$size-xs;
+    margin-bottom: ws-vars.$size-xs;
   }
 }
 
@@ -276,11 +276,11 @@ textarea {
 
 // Content Strip
 .content-strip {
-  margin-bottom: $size-s;
-  padding: $size-m;
+  margin-bottom: ws-vars.$size-s;
+  padding: ws-vars.$size-m;
 
-  @include breakpoint-gt-xs {
-    padding: $size-m $size-xl;
+  @include ws-mixins.breakpoint-gt-xs {
+    padding: ws-vars.$size-m ws-vars.$size-xl;
   }
 }
 
@@ -320,7 +320,7 @@ textarea {
 .width-1-2 {
   width: 50%;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
 }
@@ -328,7 +328,7 @@ textarea {
 .width-1-4 {
   width: 20%;
 
-  @include breakpoint-lt-s {
+  @include ws-mixins.breakpoint-lt-s {
     width: 100%;
   }
 }
@@ -336,7 +336,7 @@ textarea {
 .width-3-4 {
   width: 80%;
 
-  @include breakpoint-lt-s {
+  @include ws-mixins.breakpoint-lt-s {
     width: 100%;
   }
 }
@@ -344,7 +344,7 @@ textarea {
 .width-2-3 {
   width: 66.66%;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
 }
@@ -352,7 +352,7 @@ textarea {
 .width-1-3 {
   width: 33.34%;
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
 }
@@ -378,7 +378,7 @@ area {
   p:first-of-type {
     display: flex;
 
-    @include breakpoint-lt-m {
+    @include ws-mixins.breakpoint-lt-m {
       display: initial;
     }
   }
@@ -390,7 +390,7 @@ area {
     width: auto;
   }
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     img {
       display: block;
       float: none;
@@ -531,11 +531,11 @@ h3.shepherd-title {
 }
 
 .author {
-  padding: $size-s 0;
+  padding: ws-vars.$size-s 0;
   display: flex;
 
   .author-image {
-    margin-right: $size-s;
+    margin-right: ws-vars.$size-s;
     $size: 44px;
     height: $size;
     width: $size;
@@ -600,7 +600,7 @@ h3.shepherd-title {
     opacity: 1;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 4px;
   }
 }
@@ -618,7 +618,7 @@ h3.shepherd-title {
   // opacity: 0; // uncomment this
   width: 100%;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     opacity: 1;
   }
 }
@@ -667,7 +667,7 @@ a.width-auto {
   color: #fff;
   font-size: 27px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     right: 17px;
   }
 }
@@ -687,7 +687,7 @@ a.width-auto {
   display: block;
 }
 
-.theme-igot.day-mode a.width-auto.mat-mdc-button[disabled][disabled]:hover {
+.theme-igot.day-mode a.width-auto.mat-mdc-button[disabled]:hover {
   opacity: 0.4;
 }
 
@@ -725,13 +725,13 @@ a.width-auto.mat-mdc-button {
 .padding-dynamic .mat-card {
   box-shadow: none !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 15px;
   }
 }
 
 .padding-dynamic {
-  @include breakpoint-gt-s {
+  @include ws-mixins.breakpoint-gt-s {
     min-height: 600px;
     height: 100%;
     display: flex;
@@ -740,7 +740,7 @@ a.width-auto.mat-mdc-button {
     overflow-x: hidden;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     min-height: 280px;
     height: 100%;
     display: flex;
@@ -749,7 +749,7 @@ a.width-auto.mat-mdc-button {
     overflow-x: hidden;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     // min-height: 500px;
     height: 100%;
     display: flex;
@@ -824,7 +824,7 @@ body.custom-scroll::-webkit-scrollbar-thumb {
   margin-right: -8px;
   text-align: right;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-right: -17px;
   }
 }
@@ -847,14 +847,14 @@ body.custom-scroll::-webkit-scrollbar-thumb {
 
 button.action-button,
 a.action-button {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 28px;
   }
 }
 
 .padding-dynamic .unit-meta-item {
   .action-button {
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 35px;
     }
   }
@@ -863,7 +863,7 @@ a.action-button {
 }
 
 .unit-meta-item .flex {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     justify-content: center;
   }
 }
@@ -871,7 +871,7 @@ a.action-button {
 table {
   width: 100%;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     td {
       max-width: 0;
     }
@@ -893,31 +893,31 @@ table {
 ws-widget-btn-catalog {
   margin-top: 7px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-top: -9px;
   }
 }
 
 .signup-container {
   box-sizing: border-box;
-  padding: $size-m;
+  padding: ws-vars.$size-m;
   margin-left: 10%;
   margin-top: 5vh;
   @extend %height-mat-toolbar-sibling;
   box-sizing: border-box;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 0px;
     padding: 0 15px;
   }
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     max-width: 45%;
   }
 }
 
 .split {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 100%;
     position: fixed;
     z-index: 1;
@@ -928,7 +928,7 @@ ws-widget-btn-catalog {
     border-top: solid 8px #f5d58d;
   }
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     height: 100%;
     position: fixed;
     z-index: 1;
@@ -940,7 +940,7 @@ ws-widget-btn-catalog {
 }
 
 .centered {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     position: absolute;
     top: 50%;
     left: 50%;
@@ -950,31 +950,31 @@ ws-widget-btn-catalog {
 }
 
 .left {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     left: 0;
     background-color: #eaeaea;
   }
 }
 
 .right {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     right: 0;
   }
 }
 
 .width-40 {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     width: 40%;
     text-align: center;
   }
 }
 
 .width-60 {
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     width: 60%;
   }
 }
@@ -1018,7 +1018,7 @@ button.submit-btn[disabled] {
   min-width: 87px !important;
 
   // max-width: 87px !important;
-  @include breakpoint-lt-s {
+  @include ws-mixins.breakpoint-lt-s {
     // // bottom: 70px !important;
     // // left: 5px !important;
     // bottom: 95px !important;
@@ -1050,7 +1050,7 @@ button.submit-btn[disabled] {
   max-height: 100vh;
 
   //overrides default height of dialog
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100vw;
     height: 100vh;
   }
@@ -1063,7 +1063,7 @@ button.submit-btn[disabled] {
   max-height: 100vh;
 
   //overrides default height of dialog
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100vw;
     height: 100vh;
   }
@@ -1073,7 +1073,7 @@ button.submit-btn[disabled] {
   border-radius: 30px !important;
   padding: 22px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     padding: 0;
   }
 }
@@ -1086,7 +1086,7 @@ button.submit-btn[disabled] {
   width: 440px;
   height: 350px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: 220px !important;
   }
 }
@@ -1095,7 +1095,7 @@ button.submit-btn[disabled] {
   width: 440px;
   height: auto;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     height: auto !important;
   }
 }

@@ -1,6 +1,6 @@
-@import '../../../../../../../../../../src/styles/_ws-vars';
-$card-padding: $size-m;
-$action-btn-size: 2.5 * $size-m; // 40px
+@use '../../../../../../../../../../src/styles/_ws-vars';
+$card-padding: ws-vars.$size-m;
+$action-btn-size: 2.5 * ws-vars.$size-m; // 40px
 .card-container {
   position: relative;
   width: 265px;

@@ -1,5 +1,5 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 
 .app-logo{
@@ -21,7 +21,7 @@
     height: 100%;
     width: 100%;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       margin: 8px 0;
     }
 
@@ -45,7 +45,7 @@
   overflow-y: auto;
   color: grey;
   position: relative;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
       margin: 16px;
       height: calc(100vh - 196px);
     }

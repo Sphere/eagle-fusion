@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .main {
   display: flex;
@@ -71,7 +71,7 @@
   // border-color: #1C5D95 !important;
   border: 1px solid #1c5d95 !important;
 
-  @include breakpoint-xs {}
+  @include ws-mixins.breakpoint-xs {}
 }
 
 .btn-active {
@@ -82,7 +82,7 @@
 
 
 .mat-column-response {
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     word-wrap: break-word !important;
   white-space: unset !important;
   flex: 0 0 28% !important;

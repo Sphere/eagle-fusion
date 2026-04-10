@@ -1,5 +1,5 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .custom-card {
   height: 60px;
@@ -107,8 +107,8 @@ mat-tree {
   -webkit-overflow-scrolling: touch;
 
   &::-webkit-scrollbar {
-    width: $size-xs;
-    height: $size-xs;
+    width: ws-vars.$size-xs;
+    height: ws-vars.$size-xs;
 
     @media (hover: none) {
       $scroll-size: 0px !important;

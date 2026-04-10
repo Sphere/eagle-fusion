@@ -1,12 +1,12 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 .mat-body{
   display: flex;
   justify-content: center;
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
         justify-content: center;
     }
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       justify-content: center;
     }
 }
@@ -35,11 +35,11 @@ color: var(--text-color) !important;
   justify-content: space-between;
   padding: 1.5rem 10rem;
 
-  @include breakpoint-lt-l {
+  @include ws-mixins.breakpoint-lt-l {
     padding: 1.5rem 1rem;
   }
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     padding: 1.5rem 1rem;
     .ml-12{
       margin-left: 5px !important;
@@ -52,16 +52,16 @@ color: var(--text-color) !important;
       flex-direction: column;
     }
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     .ml-12{
       margin-left: 5px !important;
     }
   }
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     padding: 1.5rem 1rem;
   }
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     flex-direction: column;
   }
 
@@ -69,7 +69,7 @@ color: var(--text-color) !important;
 }
 
 .footer-flex {
-  @include breakpoint-lt-xl {
+  @include ws-mixins.breakpoint-lt-xl {
     justify-content: center;
   }
 }
@@ -86,11 +86,11 @@ color: var(--text-color) !important;
 .footer-first-col {
   justify-content: flex-start;
   // align-items: center;
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
       justify-content:space-between;
     }
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       justify-content:space-between;
     }
   // width: 35%;
@@ -102,16 +102,16 @@ color: var(--text-color) !important;
       padding-left: 5%;
     }
 
-    @include breakpoint-l {
+    @include ws-mixins.breakpoint-l {
       padding-right: 30px !important;
       line-height: 23px;
     }
 
-    @include breakpoint-m {
+    @include ws-mixins.breakpoint-m {
       padding-right: 28px !important;
     }
 
-    @include breakpoint-s {
+    @include ws-mixins.breakpoint-s {
       padding-right: 0px !important;
       padding-bottom: 20px;
     }
@@ -125,7 +125,7 @@ color: var(--text-color) !important;
 
   }
 
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
 }
@@ -156,7 +156,7 @@ color: var(--text-color) !important;
   height: auto;
   max-width: 58%;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 32%;
     max-height: 50px;
   }
@@ -185,26 +185,26 @@ color: var(--text-color) !important;
 // }
 
 ::ng-deep .social-logo-container > .mdc-list-item__content {
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     margin-top: 10px !important;
     margin-left:0px !important;
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     margin-top: 10px !important;
     margin-left:0px !important;  }
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     margin-top: 10px !important;
     margin-left:0px !important; }
 
 }
  .mat-mdc-list-item{
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     margin-top: 0px !important
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     margin-top: 0px !important
   }
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     margin-top: 0px !important
   }
 }
@@ -260,7 +260,7 @@ color: var(--text-color) !important;
   padding: 1.25rem;
 
   // padding: 1.25rem 9rem;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-top: -20px;
     margin-bottom: 5rem;
     padding-bottom: 2rem;
@@ -286,7 +286,7 @@ height: auto;
     max-width: 100%;
     width: 150px;
     max-height: 60px;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     max-width: 45%;
     text-align: center;
   }
@@ -303,16 +303,16 @@ height: auto;
 .docs-footer-version {
   min-width: 175px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     text-align: center;
   }
 }
 .footer-aastar-logo{
 
-@include breakpoint-m {
+@include ws-mixins.breakpoint-m {
       margin-top: 0px !important;
   }
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 150px;
       margin-top: 0px !important;
       max-width: 200px !important;
@@ -324,19 +324,19 @@ height: auto;
 
 // color: var(--text-color);
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: block !important;
     text-align: center;
     font-size: 14px;
   }
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     .list-item-link{
       font-size: 14px;
     }
     display: block !important;
     font-size: 14px;
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     display: block !important;
     font-size: 14px;
   }
@@ -382,15 +382,15 @@ cursor: pointer;
 letter-spacing: -0.02em;
 
 color: var(--text-color);
- @include breakpoint-xs {
+ @include ws-mixins.breakpoint-xs {
     font-size: 14px;
     line-height: 22px;
   }
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     font-size: 14px;
     line-height: 22px;
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     font-size: 14px;
     line-height: 22px;
   }
@@ -440,7 +440,7 @@ text-decoration: underline !important;
   position: relative;
   left: -36px;
 
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     left: 0;
   }
 }
@@ -454,7 +454,7 @@ text-decoration: underline !important;
 }
 
 .flex-col {
-  @include breakpoint-l {
+  @include ws-mixins.breakpoint-l {
     padding-left: 25px !important;
   }
 }
@@ -503,7 +503,7 @@ hr.new1{
   height: 32px;
   font-weight: 400 !important;
   font-size: 15px !important;
-   @include breakpoint-s {
+   @include ws-mixins.breakpoint-s {
     font-size: 12px;
     width: 160px;
     padding-left: 0px;
@@ -511,7 +511,7 @@ hr.new1{
   }
 }
 .whatsapp-logo{
-  @include breakpoint-s{
+  @include ws-mixins.breakpoint-s{
     width: 30px;
     height: 30px;
   }
@@ -584,10 +584,10 @@ text-align: center;
 letter-spacing: -0.02em;
 
 color: var(--text-color);
- @include breakpoint-s {
+ @include ws-mixins.breakpoint-s {
     font-size: 14px;
   }
-  @include breakpoint-m {
+  @include ws-mixins.breakpoint-m {
     font-size: 14px;
   }
 }

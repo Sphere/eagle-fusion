@@ -1,6 +1,6 @@
-@import 'ws-vars';
-@import 'ws-mixins';
-@import 'ws-common';
+@use 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-common';
 
 .sidenav-container {
   height: 100%;
@@ -12,7 +12,7 @@
 .sidenav {
   width: 25%;
   min-width: 300px;
-  padding: $size-s;
+  padding: ws-vars.$size-s;
   background: inherit;
   box-shadow: none;
 }
@@ -20,7 +20,7 @@
 // Contents of Side Nav Content
 .sidenav-content {
   margin: 0;
-  padding: 0 $size-m $size-l;
+  padding: 0 ws-vars.$size-m ws-vars.$size-l;
   box-sizing: border-box;
   min-height: calc(100vh - 145px);
   color: var(--theme-text, #101828);
@@ -42,13 +42,13 @@
 
 .concept {
   text-align: center;
-  margin-right: $size-s;
+  margin-right: ws-vars.$size-s;
   height: 100px;
-  min-width: 5 * $size-l;
+  min-width: 5 * ws-vars.$size-l;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: $size-s;
+  padding: ws-vars.$size-s;
   box-sizing: border-box;
   font: inherit;
 }

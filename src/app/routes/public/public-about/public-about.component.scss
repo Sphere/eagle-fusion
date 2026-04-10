@@ -1,6 +1,6 @@
-@import 'ws-vars';
-@import 'ws-common';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-common';
+@use 'ws-mixins';
 
 .about-content {
   @extend %height-mat-toolbar-sibling;
@@ -9,7 +9,7 @@
 .banner-overview-container {
   justify-content: space-between;
   .overview-description {
-    @include breakpoint-xs {
+    @include ws-common.breakpoint-xs {
       width: 100%;
       margin-right: 0px;
     }
@@ -20,7 +20,7 @@
 
 .overview-container {
   margin: 24px;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     margin: 16px;
   }
 }
@@ -49,7 +49,7 @@
     font-size: 48px;
     background-color: rgba(0, 0, 0, 0.5);
     border-radius: 50%;
-    padding: $size-xs;
+    padding: ws-vars.$size-xs;
 
     &:active {
       background-color: rgba(0, 0, 0, 0.7);
@@ -89,7 +89,7 @@ $description-height-size: 1.2em;
 .description-application {
   width: 44%;
   padding: 16px;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     width: 100%;
     padding-bottom: 0px !important;
     padding-top: 0px !important;
@@ -98,14 +98,14 @@ $description-height-size: 1.2em;
 
 .learning-overview {
   box-sizing: border-box;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     width: 100%;
   }
 }
 
 .learning-world {
   box-sizing: border-box;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     width: 100%;
   }
 }
@@ -113,7 +113,7 @@ $description-height-size: 1.2em;
 .video-container {
   width: 30%;
   box-sizing: border-box;
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     width: 100%;
   }
 }
@@ -122,11 +122,11 @@ $description-height-size: 1.2em;
   @extend %about-info;
   height: 228px;
 
-  @include breakpoint-s {
+  @include ws-common.breakpoint-s {
     height: 300px;
   }
 
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     height: 340px;
   }
 }
@@ -136,7 +136,7 @@ $description-height-size: 1.2em;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  padding: 2 * $size-xl $size-xl;
+  padding: 2 * ws-vars.$size-xl ws-vars.$size-xl;
 
   color: black;
 
@@ -149,20 +149,20 @@ $description-height-size: 1.2em;
       display: block;
     }
     .header-meta {
-      margin-bottom: $size-xl;
+      margin-bottom: ws-vars.$size-xl;
       line-height: 1.5;
       overflow: hidden;
     }
   }
 
-  @include breakpoint-xs {
-    padding: $size-l $size-s;
+  @include ws-common.breakpoint-xs {
+    padding: ws-vars.$size-l ws-vars.$size-s;
   }
 }
 
 .padd-right-gt-m {
-  @include breakpoint-gt-m {
-    padding-right: $size-m;
+  @include ws-common.breakpoint-gt-m {
+    padding-right: ws-vars.$size-m;
   }
 }
 
@@ -173,20 +173,20 @@ $description-height-size: 1.2em;
 }
 
 .about-section-full {
-  padding: $size-xl;
+  padding: ws-vars.$size-xl;
   font-size: initial;
 }
 
 .vertical-align-super {
   vertical-align: super;
-  padding-left: $size-m;
+  padding-left: ws-vars.$size-m;
   font-weight: bold;
 }
 
 .container-margin {
   margin: 24px;
 
-  @include breakpoint-xs {
+  @include ws-common.breakpoint-xs {
     margin: 8px;
   }
 }
@@ -209,5 +209,5 @@ $description-height-size: 1.2em;
 }
 
 .heading-bottom {
-  padding-bottom: $size-m;
+  padding-bottom: ws-vars.$size-m;
 }

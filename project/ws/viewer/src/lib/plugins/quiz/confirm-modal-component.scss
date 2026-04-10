@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .flex {
   display: flex;
@@ -26,7 +26,7 @@
   // border-color: #1C5D95 !important;
   border: 1px solid #1c5d95 !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 12px;
   }
 }

@@ -1,19 +1,19 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .default-banner{
   display: flex;
   justify-content: flex-end;
   background: var(--theme-surface-alt, #EEF8F8) !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
      height: 300px;
     }
 
 }
 .load-more-block{
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
      padding-bottom: 50px;
     }
 }
@@ -23,7 +23,7 @@
     background-size: cover;
     background-position: center;
     padding: 20px 20px 0px 0px;
-      @include breakpoint-xs {
+      @include ws-mixins.breakpoint-xs {
        width: 298px;
       height: 442px;
       }
@@ -54,7 +54,7 @@
       flex-direction: column;
       padding: 0px 150px 0px 150px;
       margin-top: -60px;
-      @include breakpoint-s {
+      @include ws-mixins.breakpoint-s {
         padding: 0px 50px 0px 50px;
         margin-top: -45px;
       }
@@ -74,7 +74,7 @@ font-style: normal;
 font-weight: 400;
 line-height: 48px;
 letter-spacing: -0.8px;
- @include breakpoint-xs {
+ @include ws-mixins.breakpoint-xs {
         color: var(--theme-text, #000);
 /* Header 2 */
 font-family: Roboto, sans-serif;
@@ -108,7 +108,7 @@ align-items: center;
   // align-items: center;
   margin: 5px 0px;
   flex-direction: column;
-   @include breakpoint-xs {
+   @include ws-mixins.breakpoint-xs {
 // padding-left: 15px;
   }
 }
@@ -124,9 +124,9 @@ align-items: center;
 
 .card-standard-container {
   display: flex;
-  $card-padding: $size-m;
+  $card-padding: ws-vars.$size-m;
   padding-bottom: 0px !important;
-  $action-btn-size: 2.5 * $size-m;
+  $action-btn-size: 2.5 * ws-vars.$size-m;
   $card-width: 293px;
   position: relative;
   width: $card-width;
@@ -282,7 +282,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
       border-radius: 212px;
       border: 0.2px solid #000;
       background-color: var(--theme-surface, #fff);
-      @include breakpoint-s {
+      @include ws-mixins.breakpoint-s {
       top: 87%;
       left: 20%;
       width: 190px;
@@ -430,7 +430,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
 }
 .course-container{
     padding: 0px 150px 0px 150px;
-     @include breakpoint-s {
+     @include ws-mixins.breakpoint-s {
         padding: 0px 50px 0px 50px;
       }
 }
@@ -594,7 +594,7 @@ font-family: Roboto, sans-serif;
 line-height: 13.533px;
 letter-spacing: -0.226px;
 }
- @include breakpoint-s {
+ @include ws-mixins.breakpoint-s {
   .course-header{
     /* Header 2 */
 font-family: Roboto, sans-serif;
@@ -605,7 +605,7 @@ line-height: 28.8px;
 letter-spacing: -0.48px;
   }
 }
- @include breakpoint-xs {
+ @include ws-mixins.breakpoint-xs {
   .course-header{
     /* Header 2 */
 font-family: Roboto, sans-serif;

@@ -1,5 +1,5 @@
 // @import '../../../../../../../../../src/styles/ws-mixins';
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .assesment-container {
   display: flex;
@@ -14,7 +14,7 @@
     background: none;
     border: none;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       display: none;
     }
   }
@@ -31,7 +31,7 @@
   color: #000000 !important;
   padding-left: 9px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: calc(100% - 30px);
   }
 }
@@ -40,7 +40,7 @@
   display: flex;
   align-items: center;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-top: 15px;
     padding-top: 10px;
   }
@@ -99,7 +99,7 @@
   // max-height: 400px;
   overflow-y: auto;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     // padding: 17px;
     // margin-top: 20px;
     // height: auto;
@@ -122,7 +122,7 @@
   // border-color: #1C5D95 !important;
   border: 1px solid #1c5d95 !important;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-left: 12px;
   }
 }
@@ -173,7 +173,7 @@
   height: 25px;
   justify-content: center;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     // position: relative;
     // left: 247px;
     // top: 5px;
@@ -207,7 +207,7 @@
   display: flex;
   flex-direction: column;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }
@@ -253,7 +253,7 @@
   width: 465px;
   margin-top: 20px;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 100%;
   }
 
@@ -269,7 +269,7 @@
     width: 130px;
     height: 130px;
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       width: 110px;
       height: 110px;
       //margin-right: 10px;
@@ -284,7 +284,7 @@
       font-size: 40px !important;
       color: #154976;
 
-      @include breakpoint-xs {
+      @include ws-mixins.breakpoint-xs {
         font-weight: 400 !important;
         font-size: 25px !important;
       }
@@ -296,7 +296,7 @@
       color: #154976;
       margin-top: 10px !important;
 
-      @include breakpoint-xs {
+      @include ws-mixins.breakpoint-xs {
         font-weight: 500 !important;
         font-size: 13px !important;
         white-space: normal;

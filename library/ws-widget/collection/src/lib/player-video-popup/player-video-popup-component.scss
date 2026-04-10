@@ -1,13 +1,13 @@
-@import 'ws-vars';
-@import 'ws-mixins';
+@use 'ws-vars';
+@use 'ws-mixins';
 
 .quiz-container {
   margin: 2rem;
 }
 
 .app-class .mat-list-option {
-  padding-top: $size-m;
-  padding-bottom: $size-m;
+  padding-top: ws-vars.$size-m;
+  padding-bottom: ws-vars.$size-m;
   height: auto;
 
   .mat-pseudo-checkbox.mat-pseudo-checkbox-checked {
@@ -127,12 +127,12 @@ text-decoration-skip-ink: none;
   overflow-x: auto;
   margin: 10px 0 5px 0 !important;
 color: #000000 !important;
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin: 0 !important;
   }
 
   p {
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       margin: 0 !important;
     }
   }
@@ -163,7 +163,7 @@ correct-option {
 }
 
 .margin-bottom-m {
-  margin-bottom: $size-m;
+  margin-bottom: ws-vars.$size-m;
 }
 
 .correct-option {

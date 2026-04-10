@@ -1,10 +1,10 @@
-@import 'ws-vars';
-@import 'ws-mixins';
-@import 'utility';
+@use 'ws-vars';
+@use 'ws-mixins';
+@use 'utility';
 
 .galleryBlock{
   width: 85%;
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     width: auto;
   }
 }
@@ -17,13 +17,13 @@
   margin-right: 5rem;
   margin-left: 5rem;
   padding:0;
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     margin-top: 2rem;
     margin-bottom: 2rem;
     margin-right: 1.5rem;
     margin-left: 1.5rem;
   }
-   @include breakpoint-xs {
+   @include ws-mixins.breakpoint-xs {
     margin-top: 1.5rem;
     margin-bottom: 1.5rem;
     margin-right: 1rem;
@@ -32,25 +32,25 @@
 }
 
 .gallery-header{
-  font-size: $size-l;
+  font-size: ws-vars.$size-l;
   font-weight: 400;
-  @include breakpoint-s {
-     font-size: $size-l;
+  @include ws-mixins.breakpoint-s {
+     font-size: ws-vars.$size-l;
      font-weight: 400;
   }
-  @include breakpoint-xs {
-     font-size: $size-l;
+  @include ws-mixins.breakpoint-xs {
+     font-size: ws-vars.$size-l;
      font-weight: 400;
   }
 }
 
 .event-select{
-  font-size: $size-s;
+  font-size: ws-vars.$size-s;
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 60%;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     width: 60%;
   }
 }
@@ -58,11 +58,11 @@
 .gallery-content{
   margin-right: 5rem;
   margin-left: 5rem;
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     margin-right: 3rem;
     margin-left: 3rem;
   }
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     margin-right: 2rem;
     margin-left: 2rem;
   }
@@ -83,10 +83,10 @@ mat-divider{
 }
 
 .gallery-tile {
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 100% !important;
   }
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     width: 100% !important;
   }
 }
@@ -114,10 +114,10 @@ mat-label{
   height:55vh;
   width: 30vw;
   padding: 0 20px;
-  @include breakpoint-s{
+  @include ws-mixins.breakpoint-s{
     width:50vw !important;
   }
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     width:65vw !important;
     padding: 0 10px !important;
   }

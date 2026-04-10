@@ -1,4 +1,4 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .top-margin {
   background-color: grey;
@@ -16,12 +16,12 @@
 }
 .card-content{
   padding:2rem!important;
-  @include breakpoint-lt-m{
+  @include ws-mixins.breakpoint-lt-m{
     padding: 0 !important;
     width: 95%;
     margin: auto
   }
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     width: 95%;
     margin: auto;
   }
@@ -34,25 +34,25 @@
 }
 .header-1{
   // width:50%!important;
-  @include breakpoint-lt-m{
+  @include ws-mixins.breakpoint-lt-m{
      width:100%!important;
   }
 }
 .header-2{
   // width:50%!important;
   // margin-left:3%;
-  @include breakpoint-lt-m{
+  @include ws-mixins.breakpoint-lt-m{
      width:100%!important;
       margin-left:0;
   }
 }
 .w-50{
   width: 48%;
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     width: 100%;
     margin: auto auto 30px auto;
   }
-  @include breakpoint-s{
+  @include ws-mixins.breakpoint-s{
     width: 100%;
     margin: auto;
   }
@@ -81,20 +81,20 @@
 .profile-image {
   // width: 50%;
   height: 23.5rem;
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
   }
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     margin: 20px 0;
   }
-  @include breakpoint-s{
+  @include ws-mixins.breakpoint-s{
     margin: 20px 0;
   }
 }
 .profile{
   margin-left:3%;
   width:50%;
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     width: 100%;
     margin-left:0;
     margin-top: 1rem;
@@ -109,7 +109,7 @@
   }
 }
 .main {
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
     flex-wrap: wrap;
   }
   @media only screen and (max-width: 767px) {
@@ -117,10 +117,10 @@
   }
 }
 .profBlock{
-  @include breakpoint-xs{
+  @include ws-mixins.breakpoint-xs{
     flex-direction: column-reverse;
   }
-  @include breakpoint-s{
+  @include ws-mixins.breakpoint-s{
     flex-direction: column-reverse;
   }
 }
@@ -133,10 +133,10 @@
 .userDetail{
   width: 16%;
   margin: auto auto 30px auto;
-  @include breakpoint-s{
+  @include ws-mixins.breakpoint-s{
     width: 32% !important;
   }
-  @include  breakpoint-xs{
+  @include  ws-mixins.breakpoint-xs{
     width: 45% !important;
   }
 }

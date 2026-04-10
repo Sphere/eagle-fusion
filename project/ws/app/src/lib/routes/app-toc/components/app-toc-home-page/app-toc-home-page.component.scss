@@ -1,11 +1,11 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 %container-padding {
-  padding: $size-xl 12rem;
+  padding: ws-mixins.$size-xl 12rem;
 
-  @include breakpoint-xs {
-    padding: $size-m $size-l;
+  @include ws-mixins.breakpoint-xs {
+    padding: ws-mixins.$size-m ws-mixins.$size-l;
   }
 }
 
@@ -15,7 +15,7 @@
   background-color: var(--theme-surface, white);
   color: var(--theme-text, #101828);
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     padding-right: 1rem;
     padding-left: 1rem;
   }
@@ -41,7 +41,7 @@
 .hidden-xs-inline {
   display: inline;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: none;
   }
 }
@@ -49,7 +49,7 @@
 .visible-xs-inline {
   display: none;
 
-  @include breakpoint-xs {
+  @include ws-mixins.breakpoint-xs {
     display: inline;
   }
 }
@@ -68,14 +68,14 @@
     width: 28%;
     margin-left: 48px;
 
-    @include breakpoint-s {
-      margin-left: $size-l;
+    @include ws-mixins.breakpoint-s {
+      margin-left: ws-mixins.$size-l;
       min-width: 250px;
     }
 
-    @include breakpoint-xs {
+    @include ws-mixins.breakpoint-xs {
       margin-left: 0;
-      margin-bottom: $size-l;
+      margin-bottom: ws-mixins.$size-l;
       width: 100%;
     }
   }

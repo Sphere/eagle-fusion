@@ -1,5 +1,5 @@
 @use '@angular/material' as mat;
-@import 'ws-vars';
+@use 'ws-vars';
 // Include the common styles for Angular Material. We include this here so that you only
 // have to load a single css file for Angular Material in your app.
 // Be sure that you only ever include this mixin once!
@@ -22,7 +22,7 @@ mat-typography-level parameters:
 // Line-height must be unit-less fraction of the font-size.
 
 $typography: mat.m2-define-typography-config(
-  $font-family: $font-family-open-poppins,
+  $font-family: ws-vars.$font-family-open-poppins,
   $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
   $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
   $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -40,7 +40,7 @@ $typography: mat.m2-define-typography-config(
 
 .x-small-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -58,7 +58,7 @@ $typography: mat.m2-define-typography-config(
 }
 .small-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -77,7 +77,7 @@ $typography: mat.m2-define-typography-config(
 
 .large-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -95,7 +95,7 @@ $typography: mat.m2-define-typography-config(
 }
 .x-large-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -114,7 +114,7 @@ $typography: mat.m2-define-typography-config(
 
 .custom-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -133,7 +133,7 @@ $typography: mat.m2-define-typography-config(
 
 .x-small-custom-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -151,7 +151,7 @@ $typography: mat.m2-define-typography-config(
 }
 .small-custom-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -170,7 +170,7 @@ $typography: mat.m2-define-typography-config(
 
 .large-custom-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),
@@ -188,7 +188,7 @@ $typography: mat.m2-define-typography-config(
 }
 .x-large-custom-typography {
   $typography: mat.m2-define-typography-config(
-    $font-family: $font-family-open-poppins,
+    $font-family: ws-vars.$font-family-open-poppins,
     $headline-1: mat.m2-define-typography-level(112px, 112px, 400),
     $headline-2: mat.m2-define-typography-level(56px, 56px, 400),
     $headline-3: mat.m2-define-typography-level(45px, 52px, 400),

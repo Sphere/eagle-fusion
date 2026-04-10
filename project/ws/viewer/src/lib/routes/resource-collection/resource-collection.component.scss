@@ -1,5 +1,5 @@
-@import 'ws-mixins';
-@import 'ws-vars';
+@use 'ws-mixins';
+@use 'ws-vars';
 
 h1{
     font-weight: 400 !important;
@@ -27,7 +27,7 @@ h1{
 // }
 .table{
   width: 100% !important;
-   @include breakpoint-lt-m {
+   @include ws-mixins.breakpoint-lt-m {
       width: 100%;
       margin:  1em 12em 2em -1em;
     }
@@ -38,7 +38,7 @@ mat-card{
   position: relative;
   margin-left: 30px;
   box-shadow: 0 10px 20px 10px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23) !important;
-   @include breakpoint-lt-m {
+   @include ws-mixins.breakpoint-lt-m {
       width: 100%;
       left:0% ;
       margin:  1em 12em 2em -1em;
@@ -55,7 +55,7 @@ th.mat-header-cell{
 .submissionbutton{
   font-size: 16px !important;
   border: 1px solid  #c0bebe;
-  @include breakpoint-lt-m {
+  @include ws-mixins.breakpoint-lt-m {
       font-size: 12px !important;
 
     }

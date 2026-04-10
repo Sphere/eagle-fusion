@@ -1,11 +1,11 @@
-@import 'ws-mixins';
+@use 'ws-mixins';
 
 .feature {
   position: relative;
   display: block;
   padding: 8px;
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     padding: 16px;
   }
 }
@@ -36,7 +36,7 @@
   font-size: 36px;
   margin-right: 16px;
 
-  @include breakpoint-gt-xs {
+  @include ws-mixins.breakpoint-gt-xs {
     margin-right: 0;
     margin-bottom: 12px;
   }

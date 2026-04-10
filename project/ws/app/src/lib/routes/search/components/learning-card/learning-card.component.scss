@@ -1,5 +1,5 @@
-@import 'ws-common';
-@import 'ws-vars';
+@use 'ws-common';
+@use 'ws-vars';
 
 .app-icon-holder {
   width: 150px;
@@ -19,7 +19,7 @@
 }
 
 .card-content {
-  padding: 0 $size-xs;
+  padding: 0 ws-common.$size-xs;
   color: var(--theme-text, #101828);
 }
 
@@ -60,7 +60,7 @@
 
 .completed-icon {
   color: green;
-  margin-right: $size-xs;
+  margin-right: ws-common.$size-xs;
 }
 
 .status-danger {
