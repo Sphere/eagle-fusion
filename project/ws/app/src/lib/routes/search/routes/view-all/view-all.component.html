@@ -1,4 +1,4 @@
-<ng-container *ngIf="searchRequestStatus === 'fetching'">
+<ng-container *ngIf="searchRequestStatus() === 'fetching'">
   <div style="display: flex; justify-content: space-between; padding: 10px;">
     <div class="sk-title"></div>
     <div class="sk-title"></div>
@@ -13,7 +13,7 @@
     </div>
   </div>
 </ng-container>
-<div class="sidenav-content" *ngIf="searchRequestStatus === 'done' && searchResults?.length > 0">
+<div class="sidenav-content" *ngIf="searchRequestStatus() === 'done' && searchResults()?.length > 0">
   <a tabindex="0" class="mb-2" [ngStyle]="{'padding-top': langPresent ? '80px' : '0px'}"
     [ngClass]="{'withFilter': withoutFilter, 'withoutFilter': !withoutFilter}">
     <span class="mt-1" *ngIf="!isXSmall$">{{"Showing" | translate}} </span>
@@ -31,7 +31,7 @@
     </ws-mobile-course-view>
   </ng-container>
 </div>
-<ng-template *ngIf="searchRequestStatus === 'done'&&searchResults?.length <1">
+<ng-template *ngIf="searchRequestStatus() === 'done'&&searchResults()?.length <1">
   <div class="margin-xl text-center">
     <h2 class="mat-h2">{{"No result" | translate}}</h2>
   </div>
