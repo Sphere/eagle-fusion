@@ -106,9 +106,9 @@
     (click)="minimizenav()" [routerLink]="content.viewerUrl" queryParamsHandling="preserve" [attr.tabindex]="'-1'">
     <span class="width-expand flex flex-middle">
 
-      <img alt="thumbnail" class="viewer-toc-thumbnail align-self-start margin-auto mat-app-background"
+      <img alt="thumbnail" class="viewer-toc-thumbnail align-self-center margin-auto mat-app-background"
         [src]="content.thumbnailUrl" [wsUtilsDefaultThumbnail]="defaultThumbnail" />
-      <span class="width-1-1 margin-left-m flex flex-wrapped align-self-start">
+      <span class="width-1-1 margin-left-m flex flex-wrapped align-self-center">
         <div class="width-1-1 flex flex-between" [ngClass]="{ 'content-active': pathSet.has(content.identifier) }">
           <div class="mat-body-2 text-truncate flex">
             <span>

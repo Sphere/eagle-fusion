@@ -213,9 +213,10 @@
   width: 25%;
   border-radius: 40px;
   height: 20px;
-  --mdc-linear-progress-active-indicator-color: #469788 !important;
-  --mdc-linear-progress-active-indicator-height: 20px !important;
-  --mdc-linear-progress-track-height: 20px !important;
+  --mat-progress-bar-active-indicator-color: #469788 !important;
+  --mat-progress-bar-active-indicator-height: 20px !important;
+  --mat-progress-bar-track-height: 20px !important;
+  --mat-progress-bar-track-color: #EDEDED !important;
 
   @include ws-mixins.breakpoint-xs {
     width: 100% !important;
@@ -228,7 +229,6 @@
   @include ws-mixins.breakpoint-m {
     width: 50% !important;
   }
-
 }
 
 .value {
@@ -240,15 +240,13 @@
   justify-content: center;
 }
 
-::ng-deep.light-theme .mat-mdc-progress-bar-fill::after {
-  background: #30EA7E 0% 0% no-repeat padding-box;
-
-  border-radius: 40px;
+::ng-deep .new-w.mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
+  border-color: #469788 !important;
+  background-color: #469788 !important;
 }
 
-::ng-deep.light-theme .mat-mdc-progress-bar--buffer {
-  background-color: #EDEDED;
-  // background-color: #E7E6E6 !important;
+::ng-deep .new-w.mat-mdc-progress-bar .mdc-linear-progress__buffer {
+  background-color: #EDEDED !important;
 }
 
 .banner-btn:hover {
@@ -306,7 +304,7 @@ color: var(--theme-text, #000000);
 }
 
 mat-progress-bar {
-  --mdc-linear-progress-track-color: #ededed !important;
+  --mat-progress-bar-track-color: #ededed !important;
 }
 
 .action-button-share {
@@ -352,7 +350,7 @@ mat-progress-bar {
   }
 
   mat-progress-bar {
-    --mdc-linear-progress-track-color: #223541 !important;
+    --mat-progress-bar-track-color: #223541 !important;
   }
 
   .modal-surface {

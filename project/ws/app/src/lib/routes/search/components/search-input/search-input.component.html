@@ -9,7 +9,7 @@
   </div>
   <div class="w-full search">
     <form (submit)="updateQuery(queryControl.value)">
-      <mat-form-field appearance="none" class="autocomplete-form" color="primary" [floatLabel]="'never'">
+      <mat-form-field appearance="fill" class="autocomplete-form" color="primary" [floatLabel]="'never'">
         <input type="search" class="ml-2" i18n-placeholder="search content" [placeholder]="placeHolder" i18-aria-label
           aria-label="Query" matInput [formControl]="queryControl" [matAutocomplete]="auto" accesskey="F" />
         <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"

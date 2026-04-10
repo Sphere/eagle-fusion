@@ -304,7 +304,7 @@
   background-color: rgb(3, 22, 21) !important;
 }
 ::ng-deep .mat-tab-list .mat-tab-labels {
-  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
+  --mat-tab-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
 }
 
 
@@ -319,15 +319,15 @@
   .mat-mdc-tab-header,
   .mat-tab-header {
     border-bottom: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
-    --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
-    --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #808080) !important;
-    --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #000000) !important;
-    --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
+    --mat-tab-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-inactive-label-text-color: var(--theme-tab-inactive-text, #808080) !important;
+    --mat-tab-active-ripple-color: var(--theme-tab-active-ripple, #000000) !important;
+    --mat-tab-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
     --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
-    --mat-tab-header-active-focus-label-text-color: var(--theme-tab-active-text, #000000) !important;
-    --mat-tab-header-active-hover-label-text-color: var(--theme-tab-active-text, #000000) !important;
-    --mat-tab-header-active-focus-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
-    --mat-tab-header-active-hover-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+    --mat-tab-active-focus-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-active-hover-label-text-color: var(--theme-tab-active-text, #000000) !important;
+    --mat-tab-active-focus-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+    --mat-tab-active-hover-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
   }
 
   .mat-mdc-tab .mdc-tab__text-label,

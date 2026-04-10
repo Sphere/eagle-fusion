@@ -58,11 +58,11 @@ interface ICollectionCard {
   redirectUrl: string | null
 }
 @Component({
-    standalone: false,
-    selector: 'viewer-viewer-toc',
-    templateUrl: './viewer-toc.component.html',
-    styleUrls: ['./viewer-toc.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-viewer-toc',
+  templateUrl: './viewer-toc.component.html',
+  styleUrls: ['./viewer-toc.component.scss'],
+
 })
 export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
   @Output() hidenav = new EventEmitter<boolean>()
@@ -174,8 +174,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         if (this.collection) {
           this.queue = this.utilitySvc.getLeafNodes(this.collection, [])
         }
-        this.isFetching = false
-        setTimeout(() => this.cdr.detectChanges(), 0)
+        setTimeout(() => {
+          this.isFetching = false
+          this.cdr.detectChanges()
+        }, 0)
       }
       if (this.resourceId) {
         this.processCurrentResourceChange()
@@ -309,7 +311,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
 
         // **CRITICAL**: Trigger Angular change detection after updating tree
         // This ensures the UI updates immediately when progress changes (ticket display)
-        this.cdr.detectChanges()
+        Promise.resolve().then(() => this.cdr.detectChanges())
         // this.ngOnInit()
       }
     })
@@ -1316,7 +1318,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       prev, prevTitle, nextTitle, next, currentPercentage, prevPercentage, nextContentId, firstResource,
     })
     this.isLoading = false
-    this.cdr.detectChanges()
+    Promise.resolve().then(() => this.cdr.detectChanges())
   }
 
   updatePassbookEntryPassbook(data: any, competency: any) {
@@ -1385,7 +1387,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       path.forEach((node: IViewerTocCard) => {
         this.nestedTreeControl.expand(node)
       })
-      this.cdr.detectChanges()
+      Promise.resolve().then(() => this.cdr.detectChanges())
     }
   }
 

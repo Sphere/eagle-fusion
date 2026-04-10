@@ -9,13 +9,13 @@ import { SearchApiService } from '@ws/app/src/lib/routes/search/apis/search-api.
 import { LanguageService } from 'src/app/services/language.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss'],
-    // tslint:disable-next-line
-    encapsulation: ViewEncapsulation.None,
-    
+  standalone: false,
+  selector: 'ws-app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
+  // tslint:disable-next-line
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class HomeComponent implements OnInit {
 
@@ -68,13 +68,12 @@ export class HomeComponent implements OnInit {
     const paramsString = url.split('?')[1] || ''
     const params = new URLSearchParams(paramsString)
 
-    let lang1 = '' // Default value
-    // Check if 'lang' parameter exists
+    let lang1 = lang || this.searchQuery.l
     if (params.has('lang')) {
-      lang1 = params.get('lang') || ''
+      lang1 = params.get('lang') || lang1
     }
     this.router.navigate(['/app/search/home'], {
-      queryParams: { lang1, q: query || this.searchQuery.q },
+      queryParams: { lang: lang1, q: query || this.searchQuery.q },
     }).then(() => {
       this.router.navigate(['/app/search/learning'], {
         queryParams: {

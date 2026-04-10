@@ -129,17 +129,26 @@
   z-index: 1000;
 }
 
-::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab-indicator--active.mdc-tab--active {
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels .mdc-tab-indicator--active.mdc-tab--active,
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab.mdc-tab--active,
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label,
+::ng-deep .mat-mdc-tab-list .mat-mdc-tab.mdc-tab--active .mat-tab-label-content {
   --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
-  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
   --mat-tab-header-active-focus-label-text-color: var(--theme-tab-active-text, #000000) !important;
   --mat-tab-header-active-hover-label-text-color: var(--theme-tab-active-text, #000000) !important;
-  --mat-tab-header-active-focus-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
-  --mat-tab-header-active-hover-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+  color: var(--theme-tab-active-text, #000000) !important;
 }
 
 ::ng-deep .toc-links .mat-mdc-tab-list .mat-mdc-tab-labels {
   background-color: var(--theme-surface, white) !important;
+}
+
+::ng-deep .toc-links .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: var(--theme-tab-active-text, #000000) !important;
+}
+
+::ng-deep .toc-links .mat-mdc-tab.mdc-tab--active .mat-tab-label-content {
+  color: var(--theme-tab-active-text, #000000) !important;
 }
 ::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
   --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;

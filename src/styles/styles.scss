@@ -1206,6 +1206,12 @@ ws-public-toc {
   --mdc-linear-progress-track-color: #EDEDED !important;
 }
 
+::ng-deep .mat-mdc-progress-bar {
+  --mdc-linear-progress-active-indicator-color: #469788 !important;
+  --mdc-linear-progress-track-color: #EDEDED !important;
+  min-height: 6px;
+}
+
 ::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple){
   background-color: #f5d58d !important;
 }

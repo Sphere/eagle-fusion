@@ -1,8 +1,15 @@
 import {
-  ConfigurationsService, LoggerService, ValueService,
-} from '@ws-widget/utils'
+  Component,
+  OnInit,
+  ViewChild,
+  OnDestroy,
+  HostListener,
+  effect,
+  signal,
+  computed,
+} from '@angular/core'
+import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
-import { Component, OnInit, ViewChild, OnDestroy, HostListener, effect } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MdePopoverTrigger } from '@jaguards/material-extended-mde'
 import { HttpClient } from '@angular/common/http'
@@ -12,24 +19,22 @@ import { uniqBy } from 'lodash'
 import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-org',
-    templateUrl: './org.component.html',
-    styleUrls: ['./org.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-org',
+  templateUrl: './org.component.html',
+  styleUrls: ['./org.component.scss'],
+
 })
 export class OrgComponent implements OnInit, OnDestroy {
   @ViewChild('target', { static: false }) target!: MdePopoverTrigger
   orgName!: string
-  courseData!: any
   routeSubscription: any
   orgData: any
-  currentOrgData: any
+  currentOrgData = signal<any | null>(null)
   showEndPopup = false
   btnText = ''
-  courseCount = 0
   cardLimit = 5
-  competencyData: { identifier: string, name: any; levels: string }[] = []
+  competencyData = signal<{ identifier: string, name: any; levels: string }[]>([])
   rating = 4
   starCount = 5
   stars: number[] = [1, 2, 3, 4, 5]
@@ -41,14 +46,46 @@ export class OrgComponent implements OnInit, OnDestroy {
   formattedAbout!: string
   averageRating: any = ''
   totalRatings: any = ''
-  userEnrollCourse: any[] = []
-  completedCourse: any[] = []
-  orgUserCourseEnrolled: any = 0
+  userEnrollCourse = signal<any[]>([])
+  completedCourse = signal<any[]>([])
+  orgUserCourseEnrolled = signal(0)
   myCourseDisplayConfig: any
   isMobile = false
-  showAllUserEnrollCourses = false
-  showAllCompletedCourses = false
-  selectedLanguage = 'all' // Default to 'all'
+  showAllUserEnrollCourses = signal(false)
+  showAllCompletedCourses = signal(false)
+  selectedLanguage = signal<'all' | 'en' | 'hi'>('all') // Default to 'all'
+  courseData = signal<any[]>([])
+  courseCount = computed(() => this.courseData().length)
+  filteredCourseData = computed(() => {
+    const data = this.courseData()
+    if (this.selectedLanguage() === 'all') {
+      return data
+    }
+    return data.filter((course: any) => {
+      const courseLanguage = course.lang || 'en'
+      return courseLanguage === this.selectedLanguage()
+    })
+  })
+  filteredUserEnrollCourse = computed(() => {
+    const data = this.userEnrollCourse()
+    if (this.selectedLanguage() === 'all') {
+      return data
+    }
+    return data.filter((course: any) => {
+      const courseLanguage = course.lang || 'en'
+      return courseLanguage === this.selectedLanguage()
+    })
+  })
+  filteredCompletedCourse = computed(() => {
+    const data = this.completedCourse()
+    if (this.selectedLanguage() === 'all') {
+      return data
+    }
+    return data.filter((course: any) => {
+      const courseLanguage = course.lang || 'en'
+      return courseLanguage === this.selectedLanguage()
+    })
+  })
 
   constructor(private activateRoute: ActivatedRoute,
     private orgService: OrgServiceService,
@@ -87,63 +124,60 @@ export class OrgComponent implements OnInit, OnDestroy {
             const currentOrg = this.orgName.trim()
             const parsedResults = JSON.parse(results)
             this.orgData = parsedResults.sources
-            this.currentOrgData = this.orgData.filter(
-              (org: any) =>
-                org.sourceName === currentOrg
+            const orgMatch = this.orgData.find(
+              (org: any) => org.sourceName === currentOrg
             )
-            if (this.currentOrgData) {
-              this.currentOrgData = this.currentOrgData[0]
-              this.formattedAbout = this.formatAbout(this.currentOrgData.about)
-              if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
-                this.logger.log("this.currentOrgData.closedCoursesList present", this.currentOrgData.closedCoursesList)
-                if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)' && this.currentOrgData) {
+            this.currentOrgData.set(orgMatch || null)
+            if (this.currentOrgData()) {
+              this.formattedAbout = this.formatAbout(this.currentOrgData()?.about)
+              if (this.currentOrgData()?.closedCoursesList) {
+                this.logger.log("this.currentOrgData.closedCoursesList present", this.currentOrgData()?.closedCoursesList)
+                if (this.orgName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)' && this.currentOrgData()) {
                   forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((res: any) => {
                     this.logger.log("res: ", res)
                     this.formatmyCourseResponse(res[0])
                   })
                 }
                 forkJoin([
-                  this.orgService.getSearchResultsV7ById(this.currentOrgData.closedCoursesList),
+                  this.orgService.getSearchResultsV7ById(this.currentOrgData()?.closedCoursesList),
                   this.orgService.getSearchV7Results(this.orgName),
                 ]).subscribe(([closedCoursesRes, taggedCoursesRes]: any[]) => {
                   const closedCourses = closedCoursesRes.result.content || []
                   const taggedCourses = (taggedCoursesRes.result.content || []).filter(
-                    (org: any) => org.sourceName === this.currentOrgData.sourceName
+                    (org: any) => org.sourceName === this.currentOrgData()?.sourceName
                   )
 
                   const allCourses = [...closedCourses, ...taggedCourses]
-                  this.courseData = uniqBy(allCourses, 'identifier')
+                  this.courseData.set(uniqBy(allCourses, 'identifier'))
 
-                  this.courseCount = this.courseData
+                  this.logger.log("this.courseData", this.courseData())
 
-                  this.logger.log("this.courseData", this.courseData)
-
-                  if (this.courseData.length > 0) {
-                    this.competencyData = this.groupCompetenciesById(this.courseData)
+                  if (this.courseData().length > 0) {
+                    this.competencyData.set(this.groupCompetenciesById(this.courseData()))
                   }
                 })
               } else {
                 this.orgService.getSearchV7Results(this.orgName).subscribe((result: any) => {
-                  this.courseData = result.result.content.filter(
+                  const matchedCourses = result.result.content.filter(
                     (org: any) => org.sourceName === this.orgName
                   )
+                  this.courseData.set(matchedCourses)
 
-                  this.courseCount = this.courseData
-                  this.logger.log("this.courseData", this.courseData)
-                  if (this.courseData && this.courseData.length > 0) {
-                    this.competencyData = this.groupCompetenciesById(this.courseData)
+                  this.logger.log("this.courseData", this.courseData())
+                  if (this.courseData().length > 0) {
+                    this.competencyData.set(this.groupCompetenciesById(this.courseData()))
                   } else {
-                    this.logger.log("this.courseData", this.courseData)
+                    this.logger.log("this.courseData", this.courseData())
 
-                    this.orgService.getSearchResults(this.currentOrgData.taggedSourceName).subscribe((result: any) => {
-                      this.courseData = result.result.content.filter(
-                        (org: any) => org.sourceName === this.currentOrgData.taggedSourceName
+                    this.orgService.getSearchResults(this.currentOrgData()?.taggedSourceName).subscribe((result: any) => {
+                      const fallbackCourses = result.result.content.filter(
+                        (org: any) => org.sourceName === this.currentOrgData()?.taggedSourceName
                       )
-                      this.courseCount = this.courseData
-                      this.logger.log("this.courseData", this.courseData)
-                      if (this.courseData && this.courseData.length > 0) {
+                      this.courseData.set(fallbackCourses)
+                      this.logger.log("this.courseData", this.courseData())
+                      if (this.courseData().length > 0) {
                         this.logger.log('l')
-                        this.competencyData = this.groupCompetenciesById(this.courseData)
+                        this.competencyData.set(this.groupCompetenciesById(this.courseData()))
                       }
                     })
                   }
@@ -166,63 +200,54 @@ export class OrgComponent implements OnInit, OnDestroy {
       userId = this.configSvc.unMappedUser?.id
     }
 
-    this.orgService.getEnroledUserForCourses(this.orgName).subscribe(userEnrolled => {
-      if (userEnrolled && userEnrolled.length > 0) {
-        this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
-        this.competency_offered = userEnrolled[0].competency_offered || undefined
-      }
-    })
+    // this.orgService.getEnroledUserForCourses(this.orgName).subscribe(userEnrolled => {
+    //   if (userEnrolled && userEnrolled.length > 0) {
+    //     this.orgUserCourseEnrolled = userEnrolled[0].enrolled_users || []
+    //     this.competency_offered = userEnrolled[0].competency_offered || undefined
+    //   }
+    // })
 
     this.configSvc.unMappedUser! == undefined ? this.btnText = 'Login' : this.btnText = 'View Course'
   }
 
-  filterByLanguage(language: string): void {
-    this.selectedLanguage = language
+  filterByLanguage(language: 'all' | 'en' | 'hi'): void {
+    this.selectedLanguage.set(language)
     this.cardLimit = 5 // Reset card limit when filtering
   }
 
   getFilteredCourseData(): any[] {
-    if (!this.courseData) {
-      return []
+    const data = this.courseData()
+    if (this.selectedLanguage() === 'all') {
+      return data
     }
 
-    if (this.selectedLanguage === 'all') {
-      return this.courseData
-    }
-
-    return this.courseData.filter((course: any) => {
+    return data.filter((course: any) => {
       const courseLanguage = course.lang || 'en'
-      return courseLanguage === this.selectedLanguage
+      return courseLanguage === this.selectedLanguage()
     })
   }
 
   getFilteredUserEnrollCourse(): any[] {
-    if (!this.userEnrollCourse) {
-      return []
+    const data = this.userEnrollCourse()
+    if (this.selectedLanguage() === 'all') {
+      return data
     }
 
-    if (this.selectedLanguage === 'all') {
-      return this.userEnrollCourse
-    }
-
-    return this.userEnrollCourse.filter((course: any) => {
+    return data.filter((course: any) => {
       const courseLanguage = course.lang || 'en'
-      return courseLanguage === this.selectedLanguage
+      return courseLanguage === this.selectedLanguage()
     })
   }
 
   getFilteredCompletedCourse(): any[] {
-    if (!this.completedCourse) {
-      return []
+    const data = this.completedCourse()
+    if (this.selectedLanguage() === 'all') {
+      return data
     }
 
-    if (this.selectedLanguage === 'all') {
-      return this.completedCourse
-    }
-
-    return this.completedCourse.filter((course: any) => {
+    return data.filter((course: any) => {
       const courseLanguage = course.lang || 'en'
-      return courseLanguage === this.selectedLanguage
+      return courseLanguage === this.selectedLanguage()
     })
   }
 
@@ -241,17 +266,17 @@ export class OrgComponent implements OnInit, OnDestroy {
   viewAllItems(section: string): void {
     switch (section) {
       case 'userEnrollCourses':
-        this.showAllUserEnrollCourses = !this.showAllUserEnrollCourses
+        this.showAllUserEnrollCourses.update(value => !value)
         break
       case 'completedCourses':
-        this.showAllCompletedCourses = !this.showAllCompletedCourses
+        this.showAllCompletedCourses.update(value => !value)
         break
     }
   }
 
   formatmyCourseResponse(res: any) {
-    if (this.currentOrgData?.closedCoursesList && this.currentOrgData?.closedCoursesList.length > 0) {
-      res = res.filter((item: any) => this.currentOrgData.closedCoursesList.includes(item.content.identifier))
+    if (this.currentOrgData()?.closedCoursesList && this.currentOrgData()?.closedCoursesList.length > 0) {
+      res = res.filter((item: any) => this.currentOrgData()?.closedCoursesList.includes(item.content.identifier))
     }
     this.logger.log("orgFltered", res)
 
@@ -267,19 +292,19 @@ export class OrgComponent implements OnInit, OnDestroy {
           completionPercentage: key.completionPercentage,
           sourceName: key.content?.sourceName,
           issueCertification: key.content?.issueCertification,
-          averageRating: key.content?.averageRating,
+          averageRating: key.averageRating,
           lang: key.content?.lang || 'en', // Add language property
         }
 
         if (key.completionPercentage < 100) {
-          this.userEnrollCourse.push(courseData)
+          this.userEnrollCourse.update(arr => [...arr, courseData])
         } else {
-          this.completedCourse.push(courseData)
+          this.completedCourse.update(arr => [...arr, courseData])
         }
       }
     })
-    this.logger.log("this.myCourse", this.completedCourse, this.userEnrollCourse)
-    if (this.userEnrollCourse.length > 0 || this.completedCourse.length > 0) {
+    this.logger.log("this.myCourse", this.completedCourse(), this.userEnrollCourse())
+    if (this.userEnrollCourse().length > 0 || this.completedCourse().length > 0) {
       this.myCourseDisplayConfig = {
         displayType: 'card-mini',
         badges: {
@@ -323,7 +348,8 @@ export class OrgComponent implements OnInit, OnDestroy {
   redirect() {
     const url = sessionStorage.getItem('currentURL')
     if (url) {
-      location.href = url
+      const path = url.startsWith('http') ? new URL(url).pathname : url
+      this.router.navigateByUrl(path)
     } else {
       // Navigation is now language-agnostic; translations handled via ngx-translate
       this.router.navigateByUrl('/page/home')
@@ -332,7 +358,7 @@ export class OrgComponent implements OnInit, OnDestroy {
 
   toggleCardLimit() {
     if (this.cardLimit === 5) {
-      this.cardLimit = this.getFilteredCourseData().length
+      this.cardLimit = this.filteredCourseData().length
     } else {
       this.cardLimit = 5
     }
