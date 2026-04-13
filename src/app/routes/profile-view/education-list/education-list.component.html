@@ -30,8 +30,7 @@
   </div>
 
   <mat-divider class="mt-2"></mat-divider>
-
-  <div *ngIf="!isEkshamata && data?.show" class="mt-3">
+  <div *ngIf="!isEkshamata && isEditableForSphere  && data?.show" class="mt-3">
     <p class="add-edu-txt inline-block cursor-pointer" (click)="redirectTo(false)">{{ data?.sub_header | translate }}
     </p>
   </div>

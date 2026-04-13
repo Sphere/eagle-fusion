@@ -71,7 +71,7 @@
             [placeholder]="field.placeholder | translate" autocomplete="off" />
         </div>
       </ng-container>
-      <div *ngIf="field.type == 'submit'">
+      <div *ngIf="field.type == 'submit' && !isEkshamata && isEditableForSphere">
         <button class="save-btn" [type]="field.type" [disabled]="personalDetailForm.invalid"
           (click)="onSubmit(personalDetailForm)">{{ field.label | translate }}
         </button>
