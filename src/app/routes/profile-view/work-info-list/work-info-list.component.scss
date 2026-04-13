@@ -26,21 +26,8 @@
   }
 }
 
-.section-title,
-label,
-.form-control,
-.select-box,
-input,
-select {
-  color: var(--theme-text, #101828);
-}
-
-.input-box {
-  // border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
-  // border-radius: 8px;
-  // padding: 0.75rem 0.9rem;
-  background: var(--theme-surface, #ffffff);
-  // margin-bottom: 1rem;
+.form-control {
+  background: var(--theme-surface, #ffffff) !important;
 }
 
 .save-btn:disabled {
@@ -137,8 +124,8 @@ select option {
   background: var(--theme-surface, #ffffff);
 }
 
-::ng-deep .field-fullwidth.mat-focused .mat-mdc-text-field-wrapper .mdc-notched-outline {
-  border: 1px solid var(--theme-accent, #1c5d95) !important;
+::ng-deep .field-fullwidth .mat-mdc-text-field-wrapper {
+  border: 1px solid !important;
 }
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected,
@@ -149,6 +136,7 @@ select option {
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected:hover {
   background-color: var(--theme-accent, #1c5d95) !important;
+  border: 1px solid !important;
 }
 
 ::ng-deep .mat-mdc-option {
@@ -162,9 +150,17 @@ select option {
   font-weight: 500 !important;
   font-size: 16px !important;
   color: var(--theme-text, #101828) !important;
+  padding-block: 10px;
 }
 
 ::ng-deep .themed-mat-field {
+  --mdc-outlined-text-field-outline-color: var(--theme-border, rgba(28, 93, 149, 0.12));
+  --mdc-outlined-text-field-hover-outline-color: var(--theme-border, rgba(28, 93, 149, 0.12));
+  --mdc-outlined-text-field-focus-outline-color: var(--theme-accent, #1c5d95);
+  --mdc-outlined-text-field-focus-label-text-color: var(--theme-accent, #1c5d95);
+  --mat-form-field-focus-select-arrow-color: var(--theme-text, #101828);
+  --mat-form-field-enabled-select-arrow-color: var(--theme-text, #101828);
+
   .mat-mdc-text-field-wrapper {
     background: var(--theme-surface, #ffffff) !important;
   }
@@ -172,6 +168,8 @@ select option {
   .mdc-notched-outline__leading,
   .mdc-notched-outline__notch,
   .mdc-notched-outline__trailing {
+    border-width: 1px !important;
+    border-style: solid !important;
     border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
   }
 
@@ -181,6 +179,14 @@ select option {
   .mat-mdc-form-field-label,
   .mdc-floating-label {
     color: var(--theme-text, #101828) !important;
+  }
+
+  &.mat-focused {
+    .mdc-notched-outline__leading,
+    .mdc-notched-outline__notch,
+    .mdc-notched-outline__trailing {
+      border-color: var(--theme-accent, #1c5d95) !important;
+    }
   }
 }
 

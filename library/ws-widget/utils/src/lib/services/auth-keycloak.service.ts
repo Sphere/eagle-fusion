@@ -6,6 +6,7 @@ import { AuthMicrosoftService } from './auth-microsoft.service'
 import { ConfigurationsService } from './configurations.service'
 import { LoggerService } from './logger.service'
 import { API_END_POINTS } from '../../../../../../src/app/constants/apiConstants'
+import { ThemeService } from '../../../../../../src/app/services/theme.service'
 
 interface IParsedToken {
   email?: string
@@ -28,7 +29,8 @@ export class AuthKeycloakService {
     private configSvc: ConfigurationsService,
     private keycloakSvc: KeycloakService,
     private msAuthSvc: AuthMicrosoftService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private themeSvc: ThemeService
   ) {
     this.loginChangeSubject.subscribe((isLoggedIn: boolean) => {
       this.configSvc.isAuthenticated = isLoggedIn
@@ -140,6 +142,7 @@ export class AuthKeycloakService {
 
   async logout() {
     try {
+      let theme = localStorage.getItem('theme')
       sessionStorage.clear()
       localStorage.removeItem('preferedLanguage')
       localStorage.removeItem('telemetrySessionId')
@@ -150,6 +153,10 @@ export class AuthKeycloakService {
       localStorage.removeItem('showConformation')
       localStorage.removeItem('loginDetailsWithToken')
       localStorage.clear()
+      localStorage.setItem('theme', theme || 'light')
+      if (theme == 'dark') {
+        this.themeSvc.setTheme(true)
+      }
       let url = `${document.baseURI}`
       let redirectUrl = `${url}public/home`
       window.location.href = redirectUrl

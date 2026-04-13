@@ -44,7 +44,7 @@
 .ellips {
   width: 130px;
   height: 130px;
-  background: #E7F2FA;
+  background: var(--theme-surface-alt, #E7F2FA);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -178,4 +178,37 @@
   @include breakpoint-xs {
     padding: 20px 0px;
   }
+}
+
+::ng-deep .dark-theme .ellips {
+  background: var(--theme-dialog-surface, #E7F2FA) !important;
+  .label2, .label3 {
+    color: var(--theme-text)
+  }
+}
+
+:host-context(.dark-theme) {
+  .overview-container,
+  .close,
+  .header1,
+  .label1,
+  p {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .ellips {
+    background: var(--theme-surface-alt, #10181e) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .label2,
+  .label3 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+}
+
+::ng-deep .dark-theme .overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background: var(--theme-dialog-surface, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

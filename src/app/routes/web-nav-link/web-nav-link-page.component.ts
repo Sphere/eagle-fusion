@@ -50,7 +50,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
-    this.themeService.darkMode$.subscribe(val => this.isDark = val)
+    this.isDark = this.themeService.isDarkMode()
     this.isDark = this.themeService.isDark()
     this.logger.log(" menuItems ", this.menuItems)
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails

@@ -49,3 +49,30 @@
     justify-content: space-between;
   }
 }
+
+:host-context(.dark-theme) {
+  .meta-section,
+  .unit-meta-item,
+  .author,
+  .author-name,
+  h2,
+  h3,
+  p,
+  div {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .unit-meta-item {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep .mat-divider {
+    border-top-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep .mat-card-content,
+  ::ng-deep .mat-subheading-1,
+  ::ng-deep .break-words {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+}

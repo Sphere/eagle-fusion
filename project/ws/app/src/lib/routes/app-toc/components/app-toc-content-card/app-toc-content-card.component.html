@@ -15,8 +15,7 @@
             <button *ngIf="content?.artifactUrl" type="button" mat-icon-button [matMenuTriggerFor]="buttonMenu">
               <mat-icon>more_vertical</mat-icon>
             </button>
-            <button type="button" (click)="viewChildren = !viewChildren" class="margin-left-m" mat-button
-              color="primary">
+            <button mat-button (click)="viewChildren = !viewChildren" class="margin-left-m">
               <ng-container *ngIf="!viewChildren">
                 <mat-icon>expand_more</mat-icon>
               </ng-container>

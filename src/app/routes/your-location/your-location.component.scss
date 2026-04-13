@@ -16,10 +16,10 @@
   margin: 0;
   margin-top: 20px;
   padding: 20px 20px 30px 20px;
-  color: #000;
+  color: var(--theme-text);
   font-size: 14px;
   line-height: 17px;
-  background: #fff;
+  background: var(--theme-dialog-surface);
 }
 .check-email-text {
   font-size: 24px;
@@ -148,4 +148,85 @@ select option {
 
 .label {
   font-weight: 400 !important
+}
+
+:host-context(.dark-theme) {
+  .login-page-content {
+    background: var(--theme-app-background, #151515);
+  }
+
+  .login-card {
+    background: var(--theme-dialog-surface, #192831) !important;
+    color: var(--theme-text, #ecf3f8);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  .check-email-text,
+  .create-acct-text,
+  .label,
+  .label-text,
+  .dob-input,
+  .text-danger,
+  h3,
+  p,
+  span,
+  pre {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .label-text {
+    color: var(--theme-text-soft, #8fa4b8) !important;
+  }
+
+  .input-box {
+    background: var(--theme-surface-alt, #10181e);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .select-box,
+  .dob-input,
+  select,
+  option {
+    background: transparent;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  select {
+    caret-color: #ffffff;
+  }
+
+  select:disabled,
+  select.ng-dirty:disabled {
+    color: var(--theme-text-soft, #8fa4b8) !important;
+  }
+
+  select option {
+    background: var(--theme-dialog-surface, #192831);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  select option:first-child,
+  ::placeholder {
+    color: var(--theme-text-placeholder, #8fa4b8) !important;
+  }
+
+  .form-control:disabled {
+    background-color: var(--theme-input-disabled-bg, #223541);
+    color: var(--theme-input-disabled-text, #ecf3f8);
+  }
+
+  .login-button {
+    background: #000;
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .login-button:disabled {
+    background: var(--theme-input-disabled-bg, #223541);
+    color: var(--theme-input-disabled-text, #ecf3f8);
+  }
+
+  .text-danger {
+    color: var(--theme-error, #ff6b6b) !important;
+  }
 }

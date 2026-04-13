@@ -944,5 +944,9 @@
   "Faculty": "Faculty",
   "PASS_MESSAGE": "You need to score at least {{passPercentage}}% to complete this module.",
   "Language Updated": "Language Updated",
-  "DARK_MODE": "Dark Mode"
+  "DARK_MODE": "Dark Mode",
+  "RE-ASSESS": " Re-Assess",
+  "ASSESS": "Assess",
+  "VIEW_COURSES": "View Courses",
+  "IN_PROGRESS": "In Progress"
 }

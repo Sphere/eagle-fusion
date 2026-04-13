@@ -99,3 +99,34 @@ h1 {
 img {
   height: 85% !important;
 }
+
+:host-context(.dark-theme) {
+
+  h1,
+  h4,
+  span,
+  p {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  :host ::ng-deep .column {
+    background: var(--theme-surface-alt, #10181e);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.18));
+  }
+
+  :host ::ng-deep .column:hover,
+  :host ::ng-deep .column:focus {
+    border-color: var(--theme-accent, #78b7ff) !important;
+  }
+
+  .login-button {
+    background: #000;
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .login-button:disabled {
+    background: var(--theme-input-disabled-bg, #223541);
+    color: var(--theme-input-disabled-text, #ecf3f8);
+  }
+}

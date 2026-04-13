@@ -66,3 +66,21 @@ mat-toolbar {
   font-weight: 400 !important;
   color: #000000;
 }
+
+:host-context(.dark-theme) {
+  mat-toolbar {
+    background: var(--theme-surface, #0e161b) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+  }
+
+  .top-title,
+  a,
+  mat-icon {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  ::ng-deep img.action-icons {
+    filter: var(--theme-icon-filter, brightness(1) invert(1));
+  }
+}

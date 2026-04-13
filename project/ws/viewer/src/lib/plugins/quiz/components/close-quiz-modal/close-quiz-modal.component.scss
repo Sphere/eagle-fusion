@@ -114,3 +114,32 @@ h3 {
 .restart-btn {
   width: 125px !important;
 }
+
+:host-context(.dark-theme) {
+  .overview-container,
+  .title,
+  .sub-title,
+  h2,
+  h3 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .btn {
+    color: var(--theme-text, #ecf3f8) !important;
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
+    background: var(--theme-surface, #0e161b) !important;
+  }
+
+  .btn-active {
+    background: #000 !important;
+    border-color: #000 !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+}
+
+::ng-deep .dark-theme .close-modal .mat-mdc-dialog-surface,
+::ng-deep .dark-theme .assesment-close-modal .mat-mdc-dialog-surface {
+  background: var(--theme-dialog-surface, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}

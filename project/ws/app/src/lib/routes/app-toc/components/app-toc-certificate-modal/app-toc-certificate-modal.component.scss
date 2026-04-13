@@ -127,7 +127,7 @@
 }
 
 ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
-  background: var(--theme-surface, #ffffff) !important;
+  background: var(--theme-dialog-surface, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
 }
 

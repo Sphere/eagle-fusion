@@ -318,7 +318,7 @@ mat-progress-bar {
 }
 
 .modal-surface {
-  background: var(--theme-surface, #ffffff);
+  background: var(--theme-dialog-surface, #ffffff);
   color: var(--theme-text, #101828);
   border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
   border-radius: 20px;
@@ -342,12 +342,13 @@ mat-progress-bar {
 
 :host-context(.dark-theme) {
   .button-border img,
+  .action-button-toc img,
   .duration-block img {
-    filter: brightness(0) invert(1);
+    filter: var(--theme-icon-filter)
   }
 
   ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
-    background: var(--theme-surface, #17242d) !important;
+    background: var(--theme-dialog-surface, #17242d) !important;
     color: var(--theme-text, #ecf3f8) !important;
   }
 
@@ -356,6 +357,6 @@ mat-progress-bar {
   }
 
   .modal-surface {
-    background: var(--theme-surface, #17242d);
+    background: var(--theme-dialog-surface, #17242d);
   }
 }

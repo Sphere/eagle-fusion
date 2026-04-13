@@ -34,7 +34,7 @@ export class PublicLoginComponent implements OnInit {
   iconChange2 = 'fas fa-eye-slash'
   emailPhoneType: any = 'phone'
   isEkshamtaLogin = false
-  routerLink = 'public/home'
+  routerLink = '/public/home'
   isOrgSelectiveCourse: boolean = false
   isLoginLoading: boolean = false
   telemetrySessionId: string = ''

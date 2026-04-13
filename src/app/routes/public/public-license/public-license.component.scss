@@ -10,3 +10,24 @@
 ::ng-deep .light-theme .mat-card:not([class*=mat-elevation-z]) {
     box-shadow: none !important;
 }
+
+:host-context(.dark-theme) {
+    ::ng-deep .mat-card:not([class*=mat-elevation-z]),
+    ::ng-deep mat-card {
+        background: var(--theme-surface, #0e161b) !important;
+        color: var(--theme-text, #ecf3f8) !important;
+        border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+        box-shadow: none !important;
+    }
+
+    h2,
+    p,
+    .license-link,
+    a {
+        color: var(--theme-text, #ecf3f8) !important;
+    }
+
+    .blue-link {
+        color: var(--theme-accent, #78b7ff) !important;
+    }
+}

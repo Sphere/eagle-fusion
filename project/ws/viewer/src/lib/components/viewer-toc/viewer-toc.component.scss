@@ -260,6 +260,80 @@ a.disabled {
   animation-delay: -0.5s;
 }
 
+:host-context(.dark-theme) {
+  color: var(--theme-text, #ecf3f8);
+
+  mat-card,
+  ::ng-deep .mat-mdc-card {
+    background: var(--theme-surface, #0e161b) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .resource-container,
+  .tree-node,
+  .flat-list-content,
+  .outer-ul,
+  .toc-tree {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .resource-container {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .tree-node {
+    background: var(--theme-surface, #0e161b);
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .node-title,
+  .sub-heading,
+  .mat-body-1,
+  .mat-body-2,
+  .f-w-500,
+  .content-duration,
+  .margin-left-xxs,
+  h3 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .viewer-toc-thumbnail {
+    background: var(--theme-surface-alt, #1c2d38);
+  }
+
+  ::ng-deep mat-tree,
+  ::ng-deep .mat-tree,
+  ::ng-deep .mat-tree-node,
+  ::ng-deep .mat-nested-tree-node,
+  ::ng-deep .mat-mdc-list-base,
+  ::ng-deep .mat-mdc-list-item {
+    background: transparent !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  ::ng-deep mat-tree-node .li-active {
+    background-color: var(--theme-surface-alt, #1c2d38);
+
+    .resource-container {
+      border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+
+      .sub-heading {
+        color: var(--theme-text, #ecf3f8) !important;
+      }
+    }
+  }
+
+  .overlay {
+    background-color: var(--theme-surface, #0e161b);
+  }
+
+  .loader-ripple div {
+    border-color: var(--theme-text, #ecf3f8);
+  }
+}
+
 @keyframes loader-ripple {
   0% {
     top: 38px;
@@ -289,4 +363,8 @@ a.disabled {
     background: none !important;
     padding: 0 !important;
   }
+}
+
+img {
+  filter: var(--theme-icon-filter);
 }

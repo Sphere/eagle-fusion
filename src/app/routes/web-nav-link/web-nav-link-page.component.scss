@@ -9,7 +9,7 @@
     top: 2px;
     right: 9px;
     background: #f88808;
-    color: #fff;
+    color: var(--theme-text);
     padding: 7px;
     height: 12px;
     width: 13px;
@@ -30,8 +30,8 @@
 }
 ::ng-deep .link-container .ws-mat-accent-text {
 
-    color: #2E6491 !important;
-    border-bottom: 2px solid #2E6491;
+    color: var(--theme-primary-strong) !important;
+    border-bottom: 2px solid var(--theme-primary-strong);
 }
 .link-text{
     font-family: sans-serif, 'Roboto';
@@ -54,9 +54,9 @@
 .save-btn {
   width: 88px;
   height: 38px;
-  background-color: #1C5D95;
+  background-color: var(--theme-accent);
   border-radius: 24px;
-  color: #fff;
+  color: var(--theme-text);
   border:0;
   font-size: 14px;
   line-height: 19px;
@@ -76,7 +76,7 @@
   left: 0;
   right: 0;
   height: 64px;
-  background: #ffffff;
+  background: var(--theme-surface);
   display: flex;
   justify-content: space-around;
   align-items: center;
@@ -115,7 +115,7 @@
 
 /* Active state */
 .nav-item.active {
-  color: #1e88e5; /* blue like screenshot */
+  color: var(--theme-primary-strong); /* blue like screenshot */
 }
 
 .nav-item.active .nav-icon {

@@ -321,3 +321,62 @@
   align-items: center;
   justify-content: center;
 }
+
+:host-context(.dark-theme) {
+  .assesment-container,
+  .quiz-question-wrapper,
+  .result-wrapper,
+  .close-btn,
+  .sub-title,
+  .result-title,
+  .result-score-title,
+  span,
+  h1,
+  h3,
+  h4,
+  div {
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .timer,
+  .result-overview {
+    background: var(--theme-surface-alt, #10181e) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .digit,
+  .lable,
+  .result-score,
+  .result-score span {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .btn {
+    color: var(--theme-text, #ecf3f8) !important;
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
+    background: var(--theme-surface, #0e161b) !important;
+  }
+
+  .btn-active {
+    background: #000 !important;
+    border-color: #000 !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .quiz-progress-bar .mat-mdc-progress-bar-buffer,
+  .mat-mdc-progress-bar .mat-mdc-progress-bar-buffer {
+    background: var(--theme-surface, #0e161b) !important;
+  }
+
+  .block-screen {
+    background: #000;
+    color: var(--theme-text, #ecf3f8);
+  }
+}
+
+::ng-deep .dark-theme .quiz-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface,
+::ng-deep .dark-theme .quiz-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background: var(--theme-dialog-surface, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}

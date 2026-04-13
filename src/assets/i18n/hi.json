@@ -947,5 +947,9 @@
   "Faculty": "संकाय",
   "PASS_MESSAGE": "इस मॉड्यूल को पूरा करने के लिए आपको कम से कम {{passPercentage}}% अंक प्राप्त करने होंगे।",
   "Language Updated": "भाषा अपडेट हो गई है",
-  "DARK_MODE": "डार्क मोड"
+  "DARK_MODE": "डार्क मोड",
+  "RE-ASSESS": " पुनर्मूल्यांकन",
+  "ASSESS": "मूल्यांकन",
+  "VIEW_COURSES": "कोर्स देखें",
+  "IN_PROGRESS": "चालू"
 }

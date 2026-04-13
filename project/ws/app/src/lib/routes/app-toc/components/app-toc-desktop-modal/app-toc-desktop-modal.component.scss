@@ -1,6 +1,6 @@
 .card-dialog {
   padding: 25px;
-  background: var(--theme-surface, #ffffff);
+  background: var(--theme-dialog-surface, #ffffff);
   color: var(--theme-text, #101828);
 }
 
@@ -45,7 +45,7 @@ h1 {
 }
 
 ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
-  background: var(--theme-surface, #ffffff) !important;
+  background: var(--theme-dialog-surface, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
   border-radius: 24px !important;
 }

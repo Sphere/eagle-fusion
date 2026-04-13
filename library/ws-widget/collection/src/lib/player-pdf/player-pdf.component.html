@@ -1,8 +1,8 @@
 <section #fullScreenContainer class="pdf-container">
   <!-- <mat-toolbar class="pdf-nav-bar" color="primary" *ngIf="widgetData?.hideControls"> -->
   <mat-toolbar class="pdf-nav-bar flex justify-center" color="red" *ngIf="widgetData?.hideControls">
-    <button mat-icon-button [disabled]="currentPage.value < 2" (click)="loadPageNum(currentPage.value - 1)"
-      aria-label="previous">
+    <button mat-button [disabled]="currentPage.value < 2" (click)="loadPageNum(currentPage.value - 1)"
+      matTooltip="previous">
       <mat-icon>chevron_left</mat-icon>
     </button>
     <mat-form-field class="auto-mat-form-field-input-infix mb-2" #input>
@@ -11,8 +11,8 @@
         min="1" [max]="totalPages" [formControl]="currentPage" matInput />
       <span matSuffix class="pl-2">of {{ totalPages }}</span>
     </mat-form-field>
-    <button mat-icon-button [disabled]="currentPage.value >= totalPages" (click)="loadPageNum(currentPage.value + 1)"
-      aria-label="next">
+    <button mat-button [disabled]="currentPage.value >= totalPages" (click)="loadPageNum(currentPage.value + 1)"
+      matTooltip="next">
       <mat-icon>chevron_right</mat-icon>
     </button>
 
