@@ -32,20 +32,30 @@
 
 }
 :host ::ng-deep {
-  .mat-mdc-progress-bar {
-    --mdc-linear-progress-active-indicator-color: #469788 !important;
-    --mdc-linear-progress-track-color: #EDEDED !important;
-    border-radius: 40px;
-    height: 10px;
+  .mdc-linear-progress {
+    height: 8px !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
   }
 
-  // Specific override for MDC internals. The bar-inner is what actually shows the colored line using borders.
   .mdc-linear-progress__bar-inner {
     border-color: #469788 !important;
+    border-top-width: 8px !important;
+  }
+
+  .mdc-linear-progress__bar {
+    top: 0 !important;
+    bottom: auto !important;
+    margin: 0 !important;
   }
 
   .mdc-linear-progress__buffer-bar {
     background-color: #EDEDED !important;
+  }
+
+  .mdc-linear-progress__buffer {
+    height: 8px !important;
+    top: 0 !important;
   }
 }
 
@@ -206,23 +216,6 @@ margin: 0px !important;
 
 .mat-mdc-progress-bar {
   width: 100%;
-  border-radius: 40px;
-  height: 10px;
-  // border: 1px solid var(--theme-border, #EDEDED);
-  --mdc-linear-progress-active-indicator-color: #469788 !important;
-  --mdc-linear-progress-track-color: #EDEDED !important;
-  --mdc-linear-progress-active-indicator-height: 10px !important;
-  --mdc-linear-progress-track-height: 10px !important;
-}
-
-::ng-deep .mdc-linear-progress__buffer {
-  background-color: var(--theme-border, #EDEDED);
-  border: 1px solid var(--theme-border, #EDEDED);
-  --mdc-linear-progress-active-indicator-color: #469788 !important;
-  --mdc-linear-progress-track-color: #EDEDED !important;
-  --mdc-linear-progress-active-indicator-height: 10px !important;
-  --mdc-linear-progress-track-height: 10px !important;
-  height: 20px !important;
 }
 
 .fitsize {

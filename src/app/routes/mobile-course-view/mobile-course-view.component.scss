@@ -61,19 +61,30 @@ box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
 
 }
 :host ::ng-deep {
-  .mat-mdc-progress-bar {
-    --mdc-linear-progress-active-indicator-color: #469788 !important;
-    --mdc-linear-progress-track-color: #EDEDED !important;
-    border-radius: 40px;
-    height: 10px;
+  .mdc-linear-progress {
+    height: 8px !important;
+    border-radius: 4px !important;
+    overflow: hidden !important;
   }
-  
+
   .mdc-linear-progress__bar-inner {
     border-color: #469788 !important;
+    border-top-width: 8px !important;
   }
-  
+
+  .mdc-linear-progress__bar {
+    top: 0 !important;
+    bottom: auto !important;
+    margin: 0 !important;
+  }
+
   .mdc-linear-progress__buffer-bar {
-    background-color: #DCDCDC !important;
+    background-color: #EDEDED !important;
+  }
+
+  .mdc-linear-progress__buffer {
+    height: 8px !important;
+    top: 0 !important;
   }
 }
 .course-container .name {
@@ -214,7 +225,7 @@ height: 16px;
   width: 100%;
   border-radius: 40px;
   height: 10px;
-  border: 1px solid var(--theme-border, #EDEDED);
+  border: none;
   --mdc-linear-progress-active-indicator-color: #469788 !important;
   --mdc-linear-progress-track-color: #dcdcdc!important;
   --mdc-linear-progress-track-height: 10px !important

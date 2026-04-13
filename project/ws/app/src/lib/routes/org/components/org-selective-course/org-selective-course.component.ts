@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core'
 import { forkJoin, of } from 'rxjs'
 import { uniqBy } from 'lodash'
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
@@ -76,7 +76,8 @@ export class OrgSelectiveCourseComponent implements OnInit {
     private valueSvc: ValueService,
     private readonly userSvc: WidgetUserService,
     private router: Router,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef,
   ) { }
   sanitizeId(name: string): string {
     return name.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase()
@@ -265,6 +266,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
         this.courseData = uniqBy(enrichedCourses, 'identifier')
         this.buildSemesterWiseData(org.semesters)
         this.isLoading = false
+        this.cdr.detectChanges()
       },
       error: err => {
         this.logger.error('Error fetching course data:', err)
