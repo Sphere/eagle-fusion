@@ -9,11 +9,11 @@ import { CreateAccountDialogComponent } from '../create-account-modal/create-acc
 import { MatDialog } from '@angular/material/dialog'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-    standalone: false,
-    selector: 'ws-login-otp',
-    templateUrl: './login-otp.component.html',
-    styleUrls: ['./login-otp.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-login-otp',
+  templateUrl: './login-otp.component.html',
+  styleUrls: ['./login-otp.component.scss'],
+
 })
 export class LoginOtpComponent implements OnInit {
   [x: string]: any

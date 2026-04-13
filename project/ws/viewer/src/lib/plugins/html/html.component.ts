@@ -1,4 +1,4 @@
-import { Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, AfterViewInit, HostListener } from '@angular/core'
+import { ChangeDetectorRef, Component, ElementRef, Input, OnChanges, OnDestroy, OnInit, ViewChild, AfterViewInit, HostListener } from '@angular/core'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'
 import { ActivatedRoute, Router } from '@angular/router'
@@ -116,7 +116,8 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
     private viewerSvc: ViewerUtilService,
     private activatedRoute: ActivatedRoute,
     private telemetrySvc: TelemetryService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
     (window as any).API = this.scormAdapterService
     // if (window.addEventListener) {
@@ -641,6 +642,7 @@ export class HtmlComponent implements OnInit, OnChanges, OnDestroy, AfterViewIni
       this.iframeUrl = null
       this.pageFetchStatus = 'error'
     }
+    this.cdr.detectChanges()
   }
 
   // backToDetailsPage() {

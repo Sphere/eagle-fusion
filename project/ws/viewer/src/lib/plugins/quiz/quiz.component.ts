@@ -256,15 +256,20 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         this.openOverviewDialog()
       }, 500)
     }
+    if (this.castResourceSubscribe) {
+      this.castResourceSubscribe.unsubscribe()
+    }
     this.castResourceSubscribe = this.viewerSvc.castResource.subscribe((content: any) => {
-      if (content) {
-        if (content.type === 'Assessment') {
-          this.viewState = 'initial'
+      setTimeout(() => {
+        if (content) {
+          if (content.type === 'Assessment') {
+            this.viewState = 'initial'
+          }
+          if (content.openOverviewDialog) {
+            this.openOverviewDialog()
+          }
         }
-        if (content.openOverviewDialog) {
-          this.openOverviewDialog()
-        }
-      }
+      }, 0)
     })
     if (this.viewStateChange) {
       this.viewState = 'initial'

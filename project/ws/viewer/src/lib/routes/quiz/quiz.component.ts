@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { HttpClient } from '@angular/common/http'
 import { NsContent, WidgetContentService } from '@ws-widget/collection'
@@ -33,6 +33,7 @@ export class QuizComponent implements OnInit, OnDestroy {
     private contentSvc: WidgetContentService,
     private eventSvc: EventService,
     private viewSvc: ViewerUtilService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -54,6 +55,7 @@ export class QuizComponent implements OnInit, OnDestroy {
           this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.quizData)
         }
         this.isFetchingDataComplete = true
+        this.cdr.detectChanges()
       },
       () => { },
     )

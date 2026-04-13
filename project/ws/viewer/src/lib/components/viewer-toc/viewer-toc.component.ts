@@ -208,8 +208,10 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
       this.logger.log(_data, '180')
       if (this.resourceId !== this.viewerDataSvc.resourceId) {
         this.resourceId = this.viewerDataSvc.resourceId
-        this.processCurrentResourceChange()
-        this.checkIndexOfResource()
+        setTimeout(() => {
+          this.processCurrentResourceChange()
+          this.checkIndexOfResource()
+        }, 0)
       }
     })
     this.viewerDataServiceSubscription = this.viewerDataSvc.scromChangeSubject.subscribe(data => {
@@ -1277,6 +1279,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
         this.logger.log(this.collection.children)
         this.nestedDataSource.data = this.collection.children
         this.pathSet = new Set()
+        this.cdr.detectChanges()
         // if (this.resourceId && this.tocMode === 'TREE') {
         if (this.resourceId) {
           of(true)

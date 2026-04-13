@@ -1,4 +1,4 @@
-import { Component, ElementRef, OnInit, ViewChild, HostListener, OnDestroy } from '@angular/core'
+import { Component, ElementRef, OnInit, ViewChild, HostListener, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { FormBuilder, FormGroup, Validators, AbstractControl } from '@angular/forms'
 import { MatDialog, MatDialogRef } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -58,11 +58,11 @@ interface PasswordValidation {
 }
 
 @Component({
-    standalone: false,
-    selector: 'ws-create-account',
-    templateUrl: './create-account.component.html',
-    styleUrls: ['./create-account.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-create-account',
+  templateUrl: './create-account.component.html',
+  styleUrls: ['./create-account.component.scss'],
+
 })
 export class CreateAccountComponent implements OnInit, OnDestroy {
   // ViewChild references
@@ -144,15 +144,16 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     private http: HttpClient,
     private languageService: LanguageService,
     private logger: LoggerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
-    this.initializeFromRoute()
     this.initializeForms()
     this.loadPreferredLanguage()
   }
 
   ngOnInit(): void {
+    this.initializeFromRoute()
     this.setupPasswordValidation()
     this.setupEmailOrMobileValidation()
     this.loadStoredLanguage()
@@ -349,10 +350,13 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     confirmPassword: boolean,
     otpPage: boolean
   ): void {
-    this.langPage = langPage
-    this.createAccount = createAccount
-    this.confirmPassword = confirmPassword
-    this.otpPage = otpPage
+    setTimeout(() => {
+      this.langPage = langPage
+      this.createAccount = createAccount
+      this.confirmPassword = confirmPassword
+      this.otpPage = otpPage
+      this.cdr.detectChanges()
+    })
   }
 
   homePage() {
@@ -421,8 +425,8 @@ export class CreateAccountComponent implements OnInit, OnDestroy {
     if (data === 'confirm') {
       if (this.loginSelected === 'password') {
         this.setPageState(false, false, true, false)
-      } else {
-        this.setPageState(false, false, false, false)
+      } else if (this.loginSelected === 'otp') {
+        this.setPageState(false, false, false, true)
         this.onSubmit(this.createAccountWithPasswordForm, this.createAccountForm)
       }
     } else if (data === 'login') {

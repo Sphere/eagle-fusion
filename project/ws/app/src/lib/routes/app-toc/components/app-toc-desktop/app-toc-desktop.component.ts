@@ -24,12 +24,12 @@ import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugi
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
 @Component({
-    standalone: false,
-    selector: 'ws-app-app-toc-desktop',
-    templateUrl: './app-toc-desktop.component.html',
-    styleUrls: ['./app-toc-desktop.component.scss'],
-    providers: [],
-    
+  standalone: false,
+  selector: 'ws-app-app-toc-desktop',
+  templateUrl: './app-toc-desktop.component.html',
+  styleUrls: ['./app-toc-desktop.component.scss'],
+  providers: [],
+
 })
 export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   @Input() banners: NsAppToc.ITocBanner | null = null
@@ -238,7 +238,11 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
     if (sessionStorage.getItem('cURL')) {
       url = sessionStorage.getItem('cURL') || ''
-      location.href = url
+      if (url.startsWith('http://') || url.startsWith('https://')) {
+        const parsed = new URL(url)
+        url = parsed.pathname + parsed.search + parsed.hash
+      }
+      this.router.navigateByUrl(url)
     } else if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
       // ✅ Redirect to selective org course page instead of home
       const redirectUrl = orgSelectiveConfig.redirectUrl || '/page/home'
@@ -275,6 +279,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
       } else {
         this.updatedContentStatus = true
       }
+      this.cdr.detectChanges()
       collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
       this.logger.log(collectionArry, 'collectionArry')
       this.fetchExternalContentAccess()
@@ -294,6 +299,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         } else {
           this.updatedContentStatus = false
         }
+        this.cdr.detectChanges()
         const rowData = await record
         this.logger.log(rowData)
         const data = JSON.parse(rowData.data)

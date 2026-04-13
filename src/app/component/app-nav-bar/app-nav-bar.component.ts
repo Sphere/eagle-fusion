@@ -158,6 +158,7 @@ export class AppNavBarComponent implements OnInit, OnChanges {
       this.primaryNavbarBackground = this.configSvc.primaryNavBar
       this.pageNavbar = this.configSvc.pageNavBar
       this.primaryNavbarConfig = this.configSvc.primaryNavBarConfig
+      this.cdr.detectChanges()
     }
     if (this.configSvc.appsConfig) {
       this.featureApps = Object.keys(this.configSvc.appsConfig.features)

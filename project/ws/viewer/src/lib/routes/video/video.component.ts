@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { AccessControlService } from '@ws/author'
 import {
@@ -45,7 +45,8 @@ export class VideoComponent implements OnInit, OnDestroy {
     private platform: Platform,
     private accessControlSvc: AccessControlService,
     private configSvc: ConfigurationsService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) { }
 
   ngOnInit() {
@@ -221,6 +222,7 @@ export class VideoComponent implements OnInit, OnDestroy {
             await this.setS3Cookie(this.videoData.identifier)
           }
           this.isFetchingDataComplete = true
+          this.cdr.detectChanges()
         },
         () => { },
       )
