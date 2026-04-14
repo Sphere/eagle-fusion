@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { Component, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { ActivatedRoute, Data, Router } from '@angular/router'
 import { Subscription } from 'rxjs'
 import { NsTnc } from '../../models/tnc.model'
@@ -44,7 +44,8 @@ export class TncComponent implements OnInit, OnDestroy {
     private tncPublicSvc: TncPublicResolverService,
     public configSvc: ConfigurationsService,
     private signupService: SignupService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
   }
 
@@ -57,6 +58,7 @@ export class TncComponent implements OnInit, OnDestroy {
         this.tncData = response.tnc.data
         // this.configSvc.isNewUser = Boolean(this.tncData && this.tncData.isNewUser)
         this.isPublic = response.isPublic || false
+        this.cdr.markForCheck()
       } else {
         this.router.navigate(['error-service-unavailable'])
         // this.errorFetchingTnc = true

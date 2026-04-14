@@ -1,5 +1,5 @@
 
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core'
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectorRef, NgZone } from '@angular/core'
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { SignupService } from '../signup/signup.service'
@@ -43,7 +43,9 @@ export class LoginOtpComponent implements OnInit {
     private readonly valueSvc: ValueService,
     public dialog: MatDialog,
     private logger: LoggerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.initializeForm()
@@ -134,17 +136,20 @@ export class LoginOtpComponent implements OnInit {
     this.resendTimer = 600 // Reset the timer value to 10 minutes
     this.resendTimerText = '10:00' // Reset the display text to 10:00
     this.isBelowOneMinute = false
-    this.interval = setInterval(() => {
-      this.resendTimer--
-      if (this.resendTimer === 0) {
-        clearInterval(this.interval)
-        this.interval = null
-      }
-      const minutes: string = Math.floor(this.resendTimer / 60).toString().padStart(2, '0')
-      const seconds: string = (this.resendTimer % 60).toString().padStart(2, '0')
-      this.resendTimerText = `${minutes}:${seconds}`
-      this.isBelowOneMinute = this.resendTimer < 60
-    }, 1000)
+    this.ngZone.runOutsideAngular(() => {
+      this.interval = setInterval(() => {
+        this.resendTimer--
+        if (this.resendTimer === 0) {
+          clearInterval(this.interval)
+          this.interval = null
+        }
+        const minutes: string = Math.floor(this.resendTimer / 60).toString().padStart(2, '0')
+        const seconds: string = (this.resendTimer % 60).toString().padStart(2, '0')
+        this.resendTimerText = `${minutes}:${seconds}`
+        this.isBelowOneMinute = this.resendTimer < 60
+        this.cdr.markForCheck()
+      }, 1000)
+    })
   }
 
   redirectToSignUp() {

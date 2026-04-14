@@ -81,8 +81,8 @@ export class ViewAllComponent implements OnInit {
         .getTopLiveSearchResults(identifiers, this.langSvc.getCurrentLanguage())
         .subscribe((results: any) => {
           const content = results?.result?.content || []
+          this.searchRequestStatus.set('done')
           if (content.length > 0) {
-            this.searchRequestStatus.set('done')
             if (this.courseType() === 'topCourse') {
               this.formatTopCertifiedCourseResponse(results)
             } else {
@@ -98,8 +98,8 @@ export class ViewAllComponent implements OnInit {
         .getTopLiveSearchResults(this.identifiers(), this.langSvc.getCurrentLanguage())
         .subscribe((results: any) => {
           const content = results?.result?.content || []
+          this.searchRequestStatus.set('done')
           if (content.length > 0) {
-            this.searchRequestStatus.set('done')
             if (this.courseType() === 'topCourse') {
               this.topCertifiedCourseIdentifier.set(this.identifiers())
               this.formatTopCertifiedCourseResponse(results)
@@ -109,7 +109,9 @@ export class ViewAllComponent implements OnInit {
             }
           }
         })
+      return
     }
+    this.searchRequestStatus.set('done')
   }
 
 

@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnChanges, OnInit } from '@angular/core'
+import { Component, Input, Output, EventEmitter, OnChanges, OnInit, ChangeDetectorRef } from '@angular/core'
 import { NsTnc } from '../../models/tnc.model'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
 import { ActivatedRoute } from '@angular/router'
@@ -24,7 +24,7 @@ export class TncRendererComponent implements OnInit, OnChanges {
 
   // UI Vars
   currentPanel: 'tnc' | 'dp' = 'tnc'
-  constructor(private configSvc: ConfigurationsService, private route: ActivatedRoute) {
+  constructor(private configSvc: ConfigurationsService, private route: ActivatedRoute, private cdr: ChangeDetectorRef) {
     if (this.configSvc.restrictedFeatures) {
       if (this.configSvc.restrictedFeatures.has('termsOfUser')) {
         this.termsOfUser = false
@@ -62,6 +62,7 @@ export class TncRendererComponent implements OnInit, OnChanges {
           this.dpTnc = tnc
         }
       })
+      this.cdr.markForCheck()
     }
   }
 
