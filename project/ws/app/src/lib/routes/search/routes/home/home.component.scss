@@ -28,12 +28,14 @@ ws-app-home .search .mat-form-field-wrapper {
 }
 .lang-select {
     font-size: small !important;
+    filter: var(--theme-icon-filter);
 }
 .lang-icon {
     background-image: url('/fusion-assets/icons/lang-icon.png');
     background-repeat: no-repeat;
     background-size: contain;
     width:73px !important;
+    filter: var(--theme-icon-filter);
 }
 .filter-lang {
     float: right;

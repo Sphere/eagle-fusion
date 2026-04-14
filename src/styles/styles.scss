@@ -1106,6 +1106,8 @@ button.submit-btn[disabled] {
 
 .howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
+  background: var(--theme-dialog-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
   .mat-mdc-dialog-content.mdc-dialog__content {
     padding: 10px 12px 12px 12px !important;
   }
@@ -1114,6 +1116,8 @@ button.submit-btn[disabled] {
 ::ng-deep .logout-dialog-container {
   .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
     border-radius: 30px !important;
+    background: var(--theme-dialog-surface, #ffffff) !important;
+    color: var(--theme-text, #101828) !important;
   }
 }
 ws-app-home {

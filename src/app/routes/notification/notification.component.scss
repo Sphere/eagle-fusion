@@ -21,7 +21,7 @@ color: var(--theme-title);
 
 @media only screen and (max-width: 599px) {
     .notification-container {
-        margin-top: 50px;
+        // margin-top: 50px;
         background: var(--theme-dialog-surface);
     }
 }
@@ -226,6 +226,7 @@ cdk-overlay-pane .custom-notification-modal{
     position: absolute;
     right: 1rem;
     cursor: pointer;
+    filter: var(--theme-icon-filter);
 }
 .read-item{
     cursor: pointer;

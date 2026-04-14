@@ -8,6 +8,8 @@
   justify-content: center;
   align-items: center;
   background: rgba(0, 0, 0, 0.4);
+  // background: var(--theme-dialog-surface, #ffffff) !important;
+  // color: var(--theme-text, #101828) !important;
   z-index: 1000;
 }
 
@@ -15,7 +17,9 @@
   position: relative;
   width: 85%;
   max-width: 400px;
-  background: white;
+  // background: white;
+  background: var(--theme-dialog-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
   border-radius: 12px;
   padding: 24px 20px;
   box-shadow: 0 4px 18px rgba(0, 0, 0, 0.15);
@@ -26,6 +30,7 @@
   justify-content: space-between;
   align-items: flex-start;
   margin-bottom: 16px;
+  filter: var(--theme-icon-filter);
 }
 
 .info-icon-badge {
@@ -53,6 +58,7 @@
 
 .info-body {
   text-align: left;
+  color: var(--theme-text, #101828);
 }
 
 .info-list {
@@ -64,7 +70,8 @@
   li {
     font-size: 14px;
     line-height: 1.6;
-    color: #333;
+    // color: #333;
+    color: var(--theme-text-soft, #101828);
     margin-bottom: 12px;
     font-weight: 400;
 
@@ -77,6 +84,8 @@
 .mat-mdc-dialog-surface .mdc-dialog__surface {
   background: none;
   box-shadow: none;
+  background: var(--theme-dialog-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
 }
 
 

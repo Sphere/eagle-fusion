@@ -20,7 +20,7 @@
   class="mat-toolbar mat-ws-mat-primary-text footer-container pb-0 sm:px-48 md:px-10ss">
   <div class="mat-body footer-flex mb-4" [ngClass]="{'flex w-full': !isXSmall && !isMedium}">
     <div [ngClass]="{'flex': !isXSmall}" class="footer-first-col">
-      <mat-list class="list" [ngClass]="{'ml-12': !isXSmall}">
+      <mat-list class="list list-items" [ngClass]="{'ml-12': !isXSmall}">
         <mat-list-item *ngIf="isEkshamata"><span class="link-header">
             {{ configData?.footerHeading | translate}}</span></mat-list-item>
         <mat-list-item style="margin-top: 10px; height: 60px !important;">

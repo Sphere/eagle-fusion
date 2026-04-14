@@ -142,7 +142,7 @@ ws-app-search-input-home .feature-group {
   padding-bottom: 0 !important;
   line-height: normal !important;
   height: 34px !important; /* or your required height */
-  caret-color: #000 !important; /* Ensure caret visible */
+  caret-color: var(--theme-text) !important; /* Ensure caret visible */
 }
 
 .query {

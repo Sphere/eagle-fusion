@@ -700,10 +700,15 @@ font-weight: 500;
     .mat-mdc-dialog-surface.mdc-dialog__surface {
       padding: 5%;
       border-radius: 15px !important;
+      background: var(--theme-dialog-surface, #ffffff) !important;
+      color: var(--theme-text, #101828) !important;
     }
   }
 }
 
+.icon, .arrow {
+  filter: var(--theme-icon-filter) !important;
+}
 .badge-container {
   margin-bottom: 10px;
   display: flex;

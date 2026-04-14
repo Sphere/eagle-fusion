@@ -4,6 +4,8 @@
     border-radius: 30px !important;
     width: auto !important;
     height: auto !important;
+    background: var(--theme-dialog-surface, #ffffff) !important;
+    color: var(--theme-text, #101828) !important;
   }
 }
 button.primary-color.mat-mdc-raised-button.mat-button-base.mat-primary {

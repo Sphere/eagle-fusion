@@ -60,14 +60,14 @@
   padding: 5px;
   display: flex;
   width: 600px;
-height: 125px !important;
-top: 8px !important;
-left: 8px !important;
-gap: 0px !important;
-border-radius: 10px!important;
-box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
-margin: 5px 20px 5px 0px !important;
-
+  height: 125px !important;
+  top: 8px !important;
+  left: 8px !important;
+  gap: 0px !important;
+  border-radius: 10px!important;
+  box-shadow: var(--theme-shadow, 0px 0px 8px 0px #00000073);
+  margin: 5px 20px 5px 0px !important;
+  background: var(--theme-bg);
 
 }
 .course-container .name {

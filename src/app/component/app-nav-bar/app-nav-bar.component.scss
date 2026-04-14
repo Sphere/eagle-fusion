@@ -12,6 +12,7 @@
 .burger-menu{
   width: 25px;
   height: 25px;
+  filter: var(--theme-icon-filter);
 }
 .fix-ww {
   // margin-left: auto;

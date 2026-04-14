@@ -601,7 +601,6 @@ export class MobileProfileDashboardComponent implements OnInit {
     }
 
     this.userProfileSvc.getLeaderBoardData(request).subscribe((res: any) => {
-      alert("getLEaderboard data" + JSON.stringify(res.result))
       this.totalUsers = res?.result?.count || 0
       this.leaderboardData = res?.result?.content?.leaderboardList || []
       this.currentUser = res?.result?.content?.activeUserDetails

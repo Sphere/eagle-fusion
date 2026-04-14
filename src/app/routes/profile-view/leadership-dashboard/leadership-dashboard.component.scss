@@ -4,7 +4,7 @@
   justify-content: space-between;
   height: 56px;
   padding: 0 16px;
-  background: #ffffff;
+  background: var(--theme-dialog-surface, #ffffff) !important;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -13,7 +13,7 @@
 .title {
   font-size: 18px;
   font-weight: 600;
-  color: #333;
+  color: var(--theme-text);
 }
 
 .icon {
@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - 56px);
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
   position: relative;
 }
 
@@ -49,13 +49,13 @@
   height: 100%;
   max-height: 80vh;
   overflow: hidden;
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
   position: relative;
 }
 
 /* Header Section */
 .leaderboard-header {
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
   border-bottom: 1px solid #f0f0f0;
   flex-shrink: 0;
 }
@@ -67,15 +67,16 @@
   gap: 4px;
   font-size: 14px;
   line-height: 1.6;
+  color: var(--theme-text, #101828);
 }
 
 .college-title {
-  color: #333;
+  color: var(--theme-text, #101828);
   font-weight: 600;
 }
 
 .college-value {
-  color: #555;
+  color: var(--theme-text-soft, #555);
   font-weight: 400;
 }
 
@@ -206,7 +207,7 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -229,7 +230,7 @@
 .leaderboard-list {
   display: flex;
   flex-direction: column;
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -254,7 +255,7 @@
 
 .list-item {
   border-bottom: 1px solid #f0f0f0;
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
   transition: background-color 0.2s;
 
   &:active {
@@ -334,7 +335,7 @@
 /* Pinned User */
 .pinned-user {
   position: relative;
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
   z-index: 50;
   border-top: 1px solid #e8e8e8;
@@ -441,7 +442,7 @@ ngx-skeleton-loader {
   justify-content: space-between;
   height: 56px;
   padding: 0 16px;
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
   position: sticky;  // stays on top
   top: 0;
   z-index: 10;
@@ -456,15 +457,16 @@ ngx-skeleton-loader {
   width: 24px;
   height: 24px;
   cursor: pointer;
+  filter: var(--theme-icon-filter);
 }
 
 .info-icon {
   font-size: 25px;
-  color: rgba(28, 93, 149, 1);
+  color: var(--theme-accent);
 }
 
 ion-item{
-  --background: white !important;
+  --background: var(--theme-dialog-surface) !important;
 }
 
 ion-list{
@@ -475,8 +477,8 @@ ion-list{
     position: sticky;
     top: 0px;
     z-index: 1;
-    border-bottom: 6px solid white;
-    background: white;
+    border-bottom: 6px solid var(--theme-surface);
+    background: var(--theme-surface);
 }
 
 
@@ -485,7 +487,7 @@ ion-list{
   bottom: 0;
   left: 0;
   right: 0;
-  background: #fff;
+  background: var(--theme-surface);
   z-index: 20;
   border-top: 1px solid #ddd;
   width: 100%;
@@ -499,6 +501,12 @@ ion-list{
   background: rgba(223, 237, 249, 1);
   border-left: 6px solid rgba(74, 144, 226, 1);
   padding-left: 10px !important;
+}
+
+::ng-deep .dark-theme .highlight-user {
+  background: rgba(74, 144, 226, 0.1) !important;
+  border-left: 6px solid rgba(74, 144, 226, 1) !important;
+  color: var(--text-color) !important;
 }
 
 .invisible {
@@ -515,7 +523,7 @@ ion-item.highlight-user::part(native) {
 }
 
 .skeleton-card {
-  background: #ffffff;
+  background: var(--theme-dialog-surface);
   padding: 16px;
   width: 100px;
   height: 160px;

@@ -231,6 +231,8 @@ color: #000000;
   .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
     border-radius: 30px !important;
     margin: 10px !important;
+    background: var(--theme-dialog-surface, #ffffff) !important;
+    color: var(--theme-text, #101828) !important;
   }
 
   ws-utils-logout {

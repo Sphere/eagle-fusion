@@ -9,6 +9,10 @@
   }
 }
 
+img {
+  filter: var(--theme-icon-filter);
+}
+
 .navbar-container{
   background: var(--theme-bg) !important;
 }
