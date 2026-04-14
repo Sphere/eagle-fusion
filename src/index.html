@@ -145,8 +145,8 @@
       sessionStorage.setItem('tnnmc_token', tnnmc_token)
       const tnai_token = url.slice(url.indexOf('?token=') + 7)
       sessionStorage.setItem('tnai_token', tnai_token)
-      const mnc_token = url.slice(url.indexOf('?token=') + 7)
-      sessionStorage.setItem('mnc_token', tnai_token)
+      const mncParams = new URLSearchParams(window.location.search)
+      sessionStorage.setItem('mnc_userToken', mncParams.get('userToken') || '')
     }
   }
 

@@ -13,47 +13,53 @@ export class MNCCallbackComponent implements OnInit {
     private logger: LoggerService
   ) { }
 
+  /**
+   * Called on component load.
+   * Reads the encrypted userToken from sessionStorage (set by index.html when
+   * MNC portal redirects to /openid/MNC?userToken=<jwt>) and triggers the callback.
+   */
   ngOnInit() {
-    const mnc_token = sessionStorage.getItem('mnc_token') || null
-    if (mnc_token) {
+    const mnc_userToken = sessionStorage.getItem('mnc_userToken') || null
+    this.logger.log('[MNC] ngOnInit - userToken from sessionStorage:', mnc_userToken ? 'present' : 'missing')
+    if (mnc_userToken) {
       this.isLoading = true
-      this.checkMNCCallback(mnc_token)
+      this.logger.log('[MNC] Initiating callback with userToken')
+      this.checkMNCCallback(mnc_userToken)
+    } else {
+      this.logger.log('[MNC] No userToken found in sessionStorage, skipping callback')
     }
   }
-  //checkMNCCallback(token: any, id?: any) {
-  checkMNCCallback(token: any) {
-    this.logger.log('su')
-    let data = {
-      "token": token,
-      //"moduleId": id
-    }
+
+  /**
+   * Sends the encrypted userToken (JWT) to the backend for verification and decoding.
+   * The backend extracts user data (firstName, lastName, email, phone, rmNumber, role)
+   * from the token using the shared secret agreed with the MNC portal.
+   * On success, redirects to the MNC org-details page.
+   * On 400/419 error, redirects to home (token invalid or expired).
+   */
+  checkMNCCallback(userToken: any) {
+    this.logger.log('[MNC] Sending userToken to backend')
+    const data = { userToken }
     try {
-      //setTimeout(() => {
-      this.orgService.setMNCId(data).subscribe(async (res: any) => {
-        let loc = await res
-        this.logger.log(loc, 'oo')
-        localStorage.setItem('loc', JSON.stringify(loc))
-        if (loc.message === 'success') {
+      // POST to MNC_Auth endpoint — backend verifies JWT and creates/updates user
+      this.orgService.setMNCId(data).subscribe((res: any) => {
+        this.logger.log('[MNC] Backend response:', res)
+        localStorage.setItem('loc', JSON.stringify(res))
+        if (res.message === 'success') {
+          this.logger.log('[MNC] Success - redirecting to org-details')
           location.href = '/app/org-details?orgId=Maharashtra%20Nursing%20Council'
-          //window.location = loc.resRedirectUrl
         }
-        // tslint:disable-next-line:no-console
-        this.logger.log('mnc component.ts', res)
       }, (err: any) => {
-        // tslint:disable-next-line:no-console
-        this.logger.log(err)
+        this.logger.log('[MNC] API error - status:', err.status, 'error:', err)
         if (err.status === 400 || err.status === 419) {
-          // sessionStorage.clear()
-          //this.authSvc.logout()
+          // Token invalid or expired — send user back to home
+          this.logger.log('[MNC] Token invalid/expired - redirecting to home')
           location.href = '/public/home'
         }
       })
-      //}, 500)
     } catch (err) {
-      // tslint:disable-next-line:no-console
-      this.logger.log(err)
-      //this.authSvc.logout()
-      location.href = "/public/home"
+      this.logger.log('[MNC] Unexpected error in checkMNCCallback:', err)
+      location.href = '/public/home'
     }
   }
 }
