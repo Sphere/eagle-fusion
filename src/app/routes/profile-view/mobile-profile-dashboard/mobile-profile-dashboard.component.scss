@@ -391,6 +391,9 @@ h2 {
   justify-content: center;
 }
 
+.help-btn img {
+  filter: var(--theme-icon-filter);
+}
 .options{
 font-family: Roboto, sans-serif;
 font-size: 16px;
@@ -706,7 +709,7 @@ font-weight: 500;
   }
 }
 
-.icon, .arrow {
+.icon, .arrow, .right-icon {
   filter: var(--theme-icon-filter) !important;
 }
 .badge-container {
@@ -800,4 +803,22 @@ font-weight: 500;
   width: 50px;
   height: 20px;
   margin-top: 10px;
+}
+
+::ng-deep .dark-theme .mat-mdc-slide-toggle.mat-accent {
+  --mdc-switch-selected-focus-state-layer-color: #84e087 !important;
+  --mdc-switch-selected-handle-color: var(--theme-text) !important;
+  --mdc-switch-selected-hover-state-layer-color: #84e087 !important;
+  --mdc-switch-selected-pressed-state-layer-color: #84e087 !important;
+  --mdc-switch-selected-focus-handle-color: #9cf79f !important;
+  --mdc-switch-selected-hover-handle-color: #9cf79f !important;
+  --mdc-switch-selected-pressed-handle-color: #9cf79f !important;
+  --mdc-switch-selected-focus-track-color: #4caf50 !important;
+  --mdc-switch-selected-hover-track-color: #4caf50 !important;
+  --mdc-switch-selected-pressed-track-color: #4caf50 !important;
+  --mdc-switch-selected-track-color: #4caf50 !important;
+}
+
+.themeIcon {
+  filter: brightness(0.5);
 }

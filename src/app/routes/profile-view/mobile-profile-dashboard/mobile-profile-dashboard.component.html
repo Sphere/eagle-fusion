@@ -69,6 +69,14 @@
           </a>
         </div>
       </ng-container>
+      <div style="display:flex; justify-content: space-between; margin-left: 0.5rem">
+        <div>
+          <img class="themeIcon" src="/fusion-assets/images/dark_mode.png">
+          <label style="margin-left: 1rem;">{{"DARK_MODE" | translate}}</label>
+        </div>
+        <mat-slide-toggle labelPosition="before" [checked]="isDark()"
+          (change)="onToggleChange($event)"></mat-slide-toggle>
+      </div>
       <div class="margin-top-xs support-copy" *ngIf="!isEkshamata || configSvc.hostedInfo?.email">
         <span class="support-copy-text">
           {{ menuItems[menuItems.length-1]?.data?.mobInfoText | translate }}
@@ -98,13 +106,15 @@
     </button>
 
     <div [ngStyle]="{'margin-top': isEkshamata ? '0' : '-35px'}">
-      <p class="desktop-profile-name" style="font-weight:400;font-size:24px">{{ userProfileData?.personalDetails?.firstname }}
+      <p class="desktop-profile-name" style="font-weight:400;font-size:24px">{{
+        userProfileData?.personalDetails?.firstname }}
         <span *ngIf="userProfileData?.personalDetails?.middlename">
           {{ userProfileData?.personalDetails?.middlename}}</span>{{userProfileData?.personalDetails?.surname }}
       </p>
     </div>
     <div class="flex flex-col" *ngIf="userProfileData?.professionalDetails && userProfileData?.professionalDetails[0]">
-      <p class="desktop-profile-position" style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;">
+      <p class="desktop-profile-position"
+        style="font-size:14px;line-height:18.75px;font-weight: 430;margin-bottom: 10px;">
         <span> {{ menuItems?.[0]?.text | translate }}</span> : {{currentProfession }}
       </p>
     </div>
@@ -185,7 +195,8 @@
       <ws-mobile-profile-nav [trigerrNavigation]="trigerrNavigation" [showbackButton]="showbackButton"
         [showLogOutIcon]="showLogOutIcon"></ws-mobile-profile-nav>
       <ng-container *ngIf="selectedIndex === 'language'">
-        <h4 class="section-heading" style="font-size: 1.5rem; font-weight: 400;">{{ selectedIndexData?.title | translate }}</h4>
+        <h4 class="section-heading" style="font-size: 1.5rem; font-weight: 400;">{{ selectedIndexData?.title | translate
+          }}</h4>
         <form [formGroup]="userForm">
           <div class="form-group" *ngFor="let lang of selectedIndexData.optionsList; let i = index;">
             <label class="radio cursor-pointer">

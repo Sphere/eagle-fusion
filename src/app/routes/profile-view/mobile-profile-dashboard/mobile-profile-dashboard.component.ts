@@ -19,6 +19,8 @@ import { PlaylistService } from '../../../services/playlist.service'
 import { LeadershipDashboardComponent } from '../leadership-dashboard/leadership-dashboard.component'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { TranslateService } from '@ngx-translate/core'
+import { ThemeService } from '../../../services/theme.service'
+import { MatSlideToggleChange } from '@angular/material/slide-toggle'
 
 @Component({
   selector: 'ws-mobile-profile-dashboard',
@@ -70,6 +72,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   earnedBadges$: any
   count = 3
   isLoading = false;
+  isDark = this.themeService.isDarkMode
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -86,7 +89,8 @@ export class MobileProfileDashboardComponent implements OnInit {
     private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef,
     private logger: LoggerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private themeService: ThemeService
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe((data: any) => {
       this.logger.log(data)
@@ -163,7 +167,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   ngOnInit() {
     this.setupMenuItems()
     this.domain = window.location.hostname
-    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+    if (this.configSvc.hostedInfo || this.domain.includes('localhost')) {
       this.isEkshamata = true
     }
     if (sessionStorage.getItem('currentWindow')) {
@@ -626,5 +630,9 @@ export class MobileProfileDashboardComponent implements OnInit {
         currentUser: this.currentUser,
       },
     })
+  }
+
+  onToggleChange(event: MatSlideToggleChange) {
+    this.themeService.setTheme(event.checked)
   }
 }
