@@ -1118,25 +1118,25 @@ button.submit-btn[disabled] {
 }
 ws-app-home {
   .mat-mdc-form-field {
-    --mdc-filled-text-field-container-color: white !important;
-    --mdc-filled-text-field-active-indicator-color: white !important;
-    --mdc-filled-text-field-hover-active-indicator-color: white !important;
-    --mdc-filled-text-field-focus-active-indicator-color: white !important;
+    --mdc-filled-text-field-container-color: var(--theme-surface) !important;
+    --mdc-filled-text-field-active-indicator-color: var(--theme-surface) !important;
+    --mdc-filled-text-field-hover-active-indicator-color: var(--theme-surface) !important;
+    --mdc-filled-text-field-focus-active-indicator-color: var(--theme-surface) !important;
 
     --mat-mdc-form-field-container-vertical-padding: 0px;
-    --mdc-filled-text-field-hover-state-layer-color: white !important;
-    --mdc-filled-text-field-focus-state-layer-color: white !important;
+    --mdc-filled-text-field-hover-state-layer-color: var(--theme-surface) !important;
+    --mdc-filled-text-field-focus-state-layer-color: var(--theme-surface) !important;
   }
   .mat-mdc-form-field .mdc-text-field::before,
   .mat-mdc-form-field .mdc-text-field::after {
     opacity: 0 !important;
-    background-color: white !important;
+    // background-color: white !important;
   }
 
   /* Prevent any background on focus */
-  .mat-mdc-form-field .mdc-text-field--focused {
-    background-color: white !important;
-  }
+  // .mat-mdc-form-field .mdc-text-field--focused {
+  //   background-color: white !important;
+  // }
   /* Remove extra height from infix */
   .mat-mdc-form-field .mat-mdc-form-field-infix {
     min-height: auto !important;
@@ -1144,14 +1144,14 @@ ws-app-home {
     padding-bottom: 0 !important;
   }
 
-  .mat-mdc-form-field:hover {
-    background-color: white !important;
-  }
+  // .mat-mdc-form-field:hover {
+  //   background-color: white !important;
+  // }
 
     /* Kill ALL MDC filled input backgrounds (hover + focus + typing) */
-  .mat-mdc-form-field .mdc-text-field--filled {
-    background-color: white !important;
-  }
+  // .mat-mdc-form-field .mdc-text-field--filled {
+  //   background-color: white !important;
+  // }
 
   /* THIS is the real culprit */
   .mat-mdc-form-field .mdc-text-field__ripple {
@@ -1165,9 +1165,9 @@ ws-app-home {
   }
 
   /* Prevent focus class styling */
-  .mat-mdc-form-field .mdc-text-field--focused {
-    background-color: white !important;
-  }
+  // .mat-mdc-form-field .mdc-text-field--focused {
+  //   background-color: white !important;
+  // }
   .mat-mdc-form-field-focus-overlay {
     background-color: transparent !important;
     opacity: 0 !important;
@@ -1214,4 +1214,8 @@ ws-public-toc {
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected:not(.mdc-list-item--disabled):not(.mat-mdc-option-multiple){
   background-color: #f5d58d !important;
+}
+
+.flex-between {
+  justify-content: space-between;
 }

@@ -15,7 +15,7 @@ ws-app-home .filter-button {
 }
 
 .search {
-  background: white !important;
+  background: var(--theme-surface) !important;
 }
 
 ws-app-home .search .mat-form-field-wrapper {
@@ -56,6 +56,7 @@ ws-app-home .border-right {
   .mat-title {
     margin-top: 2rem !important;
     font-size: 1.3rem !important;
+    color: var(--theme-text);
   }
 }
 

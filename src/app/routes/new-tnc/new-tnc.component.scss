@@ -207,3 +207,56 @@
 ::ng-deep .mdc-checkbox .mdc-checkbox__native-control:enabled~.mdc-checkbox__background .mdc-checkbox__checkmark {
   color: white !important;
 }
+
+:host-context(.dark-theme) {
+  .nav-bar-bg1,
+  .tnc-main,
+  .tnc-render-content {
+    background: var(--theme-app-background, #151515) !important;
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .tnc-render-content {
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: none;
+  }
+
+  .terms-text,
+  .tick-text,
+  .cons-text,
+  .link-text,
+  .decline-btn,
+  p,
+  span,
+  li {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .link-text {
+    color: var(--theme-accent, #78b7ff) !important;
+  }
+
+  .tnc-bottom-navbar {
+    background-color: var(--theme-surface-alt, #10181e);
+    border-top: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  #decline:disabled {
+    color: var(--theme-text-soft, #8fa4b8);
+  }
+
+  .help-btn {
+    color: var(--theme-text, #ecf3f8);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+    background: var(--theme-surface, #0e161b);
+  }
+
+  ::ng-deep .mat-mdc-checkbox .mdc-checkbox__background {
+    border-color: var(--theme-text-soft, #8fa4b8) !important;
+  }
+
+  ::ng-deep .mat-mdc-checkbox.mat-mdc-checkbox-checked.mat-accent .mdc-checkbox__background {
+    background-color: #000 !important;
+    border-color: #000 !important;
+  }
+}

@@ -52,13 +52,13 @@ html.fc-widget-small body {
   border: none;
 }
 .firstName{
-  font-family: Roboto, sans-serif;
-  font-size: 18px;
-  font-weight: 500;
-  line-height: 24px;
-  text-align: center;
-  color: #000000;
-  word-break: break-word;
+//   font-family: Roboto, sans-serif;
+// font-size: 18px;
+// font-weight: 500;
+// line-height: 21.09px;
+// letter-spacing: -0.02em;
+// text-align: center;
+color: var(--text-color);
 }.info{
   font-family: Roboto, sans-serif;
 font-size: 16px;
@@ -178,6 +178,7 @@ text-align: center;
 .info-icon{
   width: 40px;
 height: 40px;
+filter: var(--theme-icon-filter) !important;
 }
 @media only screen and (max-width: 599px) {
   ::ng-deep .language-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
@@ -192,4 +193,33 @@ height: 40px;
   ::ng-deep .language-modal .mdc-dialog__container {
     max-height: none !important;
   }
+}
+
+:host-context(.dark-theme) {
+  .firstName,
+  .info,
+  .exist,
+  .ca-text,
+  .whtsapp-text,
+  .mat-icon,
+  p,
+  h1 {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .wa-block,
+  .ca-block {
+    background: var(--theme-surface, #0e161b);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .line-bottom {
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+}
+
+::ng-deep .dark-theme .language-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
+  background: var(--theme-dialog-surface, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

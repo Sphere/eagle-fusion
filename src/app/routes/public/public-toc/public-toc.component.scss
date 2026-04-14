@@ -196,3 +196,48 @@ mat-tab-group {
   --mat-tab-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
   --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
 }
+
+:host-context(.dark-theme) {
+  .toc-body {
+    background: var(--theme-app-background, #151515);
+    color: var(--theme-text, #ecf3f8);
+  }
+
+  .toc-links {
+    background: var(--theme-app-background, #151515);
+  }
+
+  .toc-links .mat-tab-link,
+  .hidden-xs-inline,
+  .visible-xs-inline,
+  .detailBar,
+  .editDetails {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .toc-links .link-active {
+    color: var(--theme-tab-active-text, #ffffff) !important;
+    border-bottom-color: var(--theme-tab-active-indicator, #ffffff);
+  }
+
+  ::ng-deep .mat-expansion-panel-header {
+    background: var(--theme-surface, #0e161b) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  ::ng-deep .mat-mdc-tab-header {
+    border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+    --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #8fa4b8) !important;
+    --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+  }
+
+  .overlay {
+    background-color: rgba(21, 21, 21, 0.96);
+  }
+
+  .loader-ripple div {
+    border-color: var(--theme-text, #ecf3f8);
+  }
+}

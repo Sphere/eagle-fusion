@@ -65,3 +65,26 @@
 .background-well {
   background: #eee;
 }
+
+:host-context(.dark-theme) {
+  .quiz-question,
+  .quiz-radio-button,
+  .quiz-selected-value,
+  .question,
+  .answer,
+  .wrap-mat-radio-label,
+  p,
+  label,
+  span {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .question,
+  .answer {
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .background-well {
+    background: var(--theme-surface-alt, #10181e);
+  }
+}

@@ -289,3 +289,84 @@ button:disabled {
   align-items: center;
   width: 100%;
 }
+
+:host-context(.dark-theme) {
+  .top-blue-color {
+    background: var(--theme-app-background, #151515);
+  }
+
+  .login-page-content {
+    background: var(--theme-dialog-surface, #192831);
+    color: var(--theme-text, #ecf3f8);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
+    border-radius: 20px;
+  }
+
+  .login-card,
+  .check-email-text,
+  .enter-code-text,
+  .login-timer,
+  .login-timer-text,
+  .login-timer-count,
+  .input-content-wrapper,
+  .form-group,
+  .activeLink,
+  .cursor-pointer,
+  .text-dark,
+  h1,
+  h2,
+  h3,
+  h4,
+  p,
+  span,
+  label {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .enter-code-text,
+  .login-timer-text {
+    color: var(--theme-text-soft, #8fa4b8) !important;
+  }
+
+  .resend-text {
+    color: var(--theme-accent, #78b7ff) !important;
+  }
+
+  .otp-input,
+  .input-box {
+    background: var(--theme-surface-alt, #10181e);
+    color: var(--theme-text, #ecf3f8);
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+    box-shadow: none;
+    caret-color: #ffffff;
+  }
+
+  .otp-input::placeholder,
+  .input-box::placeholder {
+    color: var(--theme-text-placeholder, #8fa4b8);
+  }
+
+  .otp-input:focus,
+  .input-box:focus {
+    outline: none;
+    border-color: var(--theme-accent, #78b7ff);
+  }
+
+  .red-text {
+    color: var(--theme-error, #ff6b6b) !important;
+  }
+
+  .overlay {
+    background-color: rgba(21, 21, 21, 0.96);
+  }
+
+  .loader-ripple div {
+    border-color: var(--theme-text, #ecf3f8);
+  }
+
+  .help-icon,
+  .otp-image {
+    filter: var(--theme-icon-filter, invert(1) brightness(2));
+  }
+}

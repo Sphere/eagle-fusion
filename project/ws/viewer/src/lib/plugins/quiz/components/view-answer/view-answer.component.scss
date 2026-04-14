@@ -327,3 +327,50 @@
     overflow-y: auto;
   }
 }
+
+:host-context(.dark-theme) {
+  .view-answer-wrapper,
+  .header-title,
+  .header-subtitle,
+  .question-text,
+  .option-text,
+  .header-info,
+  p,
+  span {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .header-container {
+    background: var(--theme-dialog-surface, #192831);
+    border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .ion-content {
+    background: var(--theme-dialog-surface, #192831);
+  }
+
+  .option-row {
+    background: var(--theme-surface, #0e161b);
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
+  .option-row.correct {
+    background: rgba(70, 151, 136, 0.16);
+  }
+
+  .option-row.wrong {
+    background: rgba(176, 130, 43, 0.16);
+  }
+
+  .bullet,
+  .checkmark {
+    color: var(--theme-text-soft, #8fa4b8);
+  }
+}
+
+::ng-deep .dark-theme .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-container,
+::ng-deep .dark-theme .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-surface {
+  background: var(--theme-dialog-surface, #192831) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}

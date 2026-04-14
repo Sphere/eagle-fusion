@@ -192,6 +192,7 @@ h2 {
   button {
     img {
       height: 20px;
+      filter: var(--theme-icon-filter, none);
     }
   }
 }

@@ -1,13 +1,14 @@
 .notification_header {
     padding: 14px;
     margin-left: 1%;
-    position: fixed;
+    // position: fixed;
     z-index: 1000;
     overflow-y: hidden;
-    background: white;
+    background: var(--theme-dialog-surface, white);
     width: 100%;
     height: 7vh;
     display: flex;
+    color: var(--theme-text);
 }
 .notification_header_title{
     font-family: Roboto, sans-serif;
@@ -15,12 +16,13 @@ font-weight: 400;
 font-size: 18px;
 line-height: 28.8px;
 letter-spacing: -2%;
-color: #000000;
+color: var(--theme-title);
 }
 
 @media only screen and (max-width: 599px) {
     .notification-container {
         margin-top: 50px;
+        background: var(--theme-dialog-surface);
     }
 }
 
@@ -39,7 +41,7 @@ cdk-overlay-pane .custom-notification-modal{
 :host ::ng-deep .cdk-overlay-pane .custom-notification-modal {
   width: 400px; /* Adjust width as needed */
   max-height: 80vh; /* Prevent modal from being too large */
-  background: #fff;
+  background: var(--theme--dialog-surface, white);
   border-radius: 10px;
   overflow: hidden;
   display: flex;
@@ -55,7 +57,7 @@ cdk-overlay-pane .custom-notification-modal{
     height: 0;
     border-left: 10px solid transparent;
     border-right: 10px solid transparent;
-    border-bottom: 10px solid white; /* Color same as modal background */
+    border-bottom: 10px solid var(--theme-surface); /* Color same as modal background */
 }
 ::ng-deep .cdk-overlay-container .mat-mdc-dialog-container {
     padding: 0px !important;
@@ -75,7 +77,7 @@ cdk-overlay-pane .custom-notification-modal{
     .notification_header {
         padding: 14px;
         overflow-y: hidden;
-        background: white;
+        background: var(--theme-surface);
         width: 100%;
         height: 7vh;
         display: flex    ;
@@ -93,7 +95,7 @@ cdk-overlay-pane .custom-notification-modal{
      position: absolute;
     right: 20px;
     top: 70px;
-    background: white;
+    background: var(--theme-surface);
     border-radius: 10px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     // width: 170px;
@@ -118,7 +120,7 @@ cdk-overlay-pane .custom-notification-modal{
     /* 🔹 Slideable Notification Content */
     .notification-content {
     flex: 1;
-    background: white;
+    background: var(--theme-surface);
     display: flex;
     align-items: center;
     transition: transform 0.3s ease;
@@ -129,7 +131,7 @@ cdk-overlay-pane .custom-notification-modal{
     position: absolute;
     right: -60px; /* Initially hidden */
     background: #eff6fc !important ;
-    color: white;
+    color: var(--theme-surface);
     border: none;
     padding: 10px 15px;
     height: 100%;
@@ -180,7 +182,7 @@ cdk-overlay-pane .custom-notification-modal{
     width: 100%;
     height: auto;
     padding: 1.2rem 0.5rem;
-    background-color: white;
+    background-color: var(--theme-surface);
     border-radius: 10px;
     box-shadow: 0px 0px 4px rgba(0, 0, 0, 0.15);
     transition: all 0.3s ease-in;
@@ -215,7 +217,7 @@ cdk-overlay-pane .custom-notification-modal{
     font-family: Roboto, sans-serif;
     font-size: 16px;
     a {
-        color: rgba(46, 100, 145, 1);
+        color: var(--theme-accent);
         display: block;
     }
 }
@@ -231,7 +233,7 @@ cdk-overlay-pane .custom-notification-modal{
 .dropdown-content {
     position: absolute;
     border-radius: 10px;
-    background-color: var(--white);
+    background-color: var(--theme-surface);
     box-shadow: 0 3px 5px 4px rgba(0, 0, 0, 0.05);
     z-index: 1001;
     text-align: left;
@@ -248,7 +250,7 @@ font-size: 16px;
 line-height: 18.75px;
 letter-spacing: -2%;
 
-    color: #2E6491;
+    color: var(--theme-accent);
     padding-left: 10px;
 }
 .border-bottom-1{
@@ -265,7 +267,7 @@ letter-spacing: -2%;
 
 
  .notifications__item--unread{
-    background: rgba(239, 246, 252, 1)!important;
+    background: var(--theme-surface) !important;
  }
 
  .notifications__item__date {
@@ -287,8 +289,8 @@ letter-spacing: -2%;
 
  .notification_certificate{
     margin-top: 12px;
-    border: 1px solid rgba(46, 100, 145, 1);
-    color: rgba(46, 100, 145, 1);
+    border: 1px solid var(--theme-accent);
+    color: var(--theme-accent);
     padding: 4px 23px;
     font-size: 14px;
     cursor: pointer;
@@ -300,7 +302,7 @@ letter-spacing: -2%;
 .notification-slide-container {
   position: relative;
   overflow: hidden;
-  background: white;
+  background: var(--theme-surface);
   margin-bottom: 10px;
   border-radius: 10px;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
@@ -309,7 +311,7 @@ letter-spacing: -2%;
 .notification-content {
   display: flex;
   align-items: center;
-  background: white;
+  background: var(--theme-surface);;
   transition: transform 0.3s ease-in-out;
   width: 100%;
   position: relative;
@@ -325,7 +327,7 @@ letter-spacing: -2%;
   height: 100%;
   width: 80px;
   background: red;
-  color: white;
+  color: var(--theme-surface);;
   border: none;
   display: flex;
   align-items: center;

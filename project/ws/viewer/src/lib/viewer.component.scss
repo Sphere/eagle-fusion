@@ -171,11 +171,11 @@ viewer-quiz {
 }
 
 ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
-  color: #555555 !important;
+  color: var(--theme-tab-inactive-text) !important;
 }
 
 ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
-  color: #000000 !important;
+  color: var(--theme-tab-active-text) !important;
 }
 
 ::ng-deep .mat-mdc-tab.mdc-tab--active {
@@ -197,4 +197,61 @@ viewer-quiz {
 
 mat-sidenav {
  background: transparent !important;
+}
+
+::ng-deep .mat-drawer-container,
+  ::ng-deep .mat-drawer-content,
+  ::ng-deep .mat-drawer-inner-container {
+    background: var(--theme-app-background, #151515) !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+::ng-deep .dark-theme {
+  .viewer-sidenav-container,
+  .sidenavContent,
+  .discussion-container {
+    background: var(--theme-app-background, #151515);
+    color: var(--theme-text, #ecf3f8);
+  }
+}
+
+::ng-deep .mat-drawer {
+  background: var(--theme-surface, #0e161b) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border-left: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}
+
+::ng-deep .mat-card,
+::ng-deep mat-card {
+  background: var(--theme-surface, #0e161b) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32)) !important;
+}
+
+.floating-btn {
+  background-color: var(--theme-surface-alt, #1c2d38) !important;
+  color: var(--theme-text, #ecf3f8) !important;
+  border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+}
+
+::ng-deep .mat-mdc-tab .mdc-tab__text-label {
+  color: var(--theme-tab-inactive-text, #8fa4b8) !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
+  color: var(--theme-tab-active-text, #ffffff) !important;
+}
+
+::ng-deep .mat-mdc-tab.mdc-tab--active {
+  border-bottom-color: var(--theme-tab-active-indicator, #ffffff);
+}
+
+::ng-deep .mat-mdc-tab-header {
+  --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
+  --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #8fa4b8) !important;
+  --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #ffffff) !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #8fa4b8) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+  border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

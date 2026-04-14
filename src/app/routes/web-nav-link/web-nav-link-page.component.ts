@@ -19,11 +19,11 @@ import { PlaylistService } from '../../services/playlist.service'
 import { ThemeService } from '../../services/theme.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-web-nav-link-page',
-    templateUrl: './web-nav-link-page.component.html',
-    styleUrls: ['./web-nav-link-page.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-web-nav-link-page',
+  templateUrl: './web-nav-link-page.component.html',
+  styleUrls: ['./web-nav-link-page.component.scss'],
+
 })
 export class WebNavLinkPageComponent implements OnInit, OnChanges {
   data: any
@@ -33,6 +33,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   @Input() menuItems: any[]
   @Input() mode = ''
   userData: any
+  isDark = false
   constructor(
     private dialog: MatDialog,
     private configSvc: ConfigurationsService,
@@ -51,6 +52,8 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   }
 
   async ngOnInit() {
+    this.isDark = this.themeService.isDarkMode()
+    this.isDark = this.themeService.isDark()
     this.logger.log(" menuItems ", this.menuItems)
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())

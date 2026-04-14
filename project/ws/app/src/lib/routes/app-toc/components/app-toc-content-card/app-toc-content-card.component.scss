@@ -168,8 +168,9 @@ height: 41px;
 }
 
 .width-expand {
-  position: relative;
-  width: 256px;
+  // position: relative;
+  // width: 256px;
+  flex: 1;
 }
 
 // @media (max-width: 500px) {
@@ -223,9 +224,10 @@ button {
 
 :host-context(.dark-theme) {
   .card-thumbnail1,
-  .resource-container img,
   button mat-icon {
     color: var(--theme-text, #ecf3f8) !important;
+  }
+  .resource-container img {
     filter: var(--theme-icon-filter);
   }
 }

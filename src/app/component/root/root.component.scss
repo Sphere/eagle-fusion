@@ -243,6 +243,12 @@ color: #000000;
 ::ng-deep lib-discuss-card {
 .discuss-card-content {
   background: transparent !important;
+  h3, .discuss-user-label, .timing, .discussion-card-comment {
+    color: var(--theme-text) !important;
+  }
+  img {
+    filter: var(--theme-icon-filter) !important;
+  }
 }
 .discuss-card-title {
   font-weight: 400 !important;

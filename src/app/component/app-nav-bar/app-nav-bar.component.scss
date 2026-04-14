@@ -375,10 +375,18 @@
     background-color: var(--theme-surface, transparent) !important;
     color: var(--theme-text, #101828) !important;
     border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+    .levelsTitle {
+      color: var(--theme-text, #101828) !important;
+    }
     mat-expansion-panel {
+      .level {
+        box-shadow: 0 0 1px var(--theme-text);
+        color: var(--theme-text);
+        background: var(--theme-dialog-surface);
+      }
       background-color: var(--theme-surface, transparent) !important;
       color: var(--theme-text, #101828) !important;
-      .log {
+      .log, .log-header {
         font-weight: 400 !important;
         color: var(--theme-text, #101828) !important;
       }
@@ -392,7 +400,17 @@
       font-weight: 400 !important;
       color: var(--theme-text, #101828) !important;
     }
+    .mat-expansion-indicator {
+      filter: var(--theme-icon-filter);
+    }
     mat-panel-description {
+      .mat-mdc-progress-spinner {
+        --mdc-circular-progress-active-indicator-color: #ffd54f !important;
+        --mdc-linear-progress-active-indicator-height: 6px !important;
+      }
+      .competency-title, .progress-status  {
+        color: var(--theme-text) !important;
+      }
       .role-title {
         font-weight: 400 !important;
         color: var(--theme-text-soft, #808080) !important;

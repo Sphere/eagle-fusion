@@ -616,6 +616,7 @@ color: var(--text-color);
     }
     .start-today-button {
       margin-bottom: 0px !important;
+      color: var(--theme-text) !important;
     }
   }
 }
@@ -695,11 +696,11 @@ color: var(--text-color);
   flex-wrap: wrap;
   justify-content: center;
   flex-direction: column;
-  // background-color: #EBF4FB;
+  background-color: #EBF4FB;
   height: 175px;
   background-repeat:no-repeat;
   background-position-y:bottom ;
-
+  background-position-x: center;
 }
 
 .transform-header {
@@ -739,7 +740,7 @@ color: var(--text-color);
   font-style: normal;
   font-weight: 400;
   line-height: 19px;
-  // color: #FFFFFF;
+  color: #FFFFFF;
   mix-blend-mode: normal;
   flex: none;
   order: 0;
@@ -748,12 +749,12 @@ color: var(--text-color);
 .part-a-partner{
   width: 50%;
   height: 110px;
-  // background: #F1E7E3;
+  background: #F1E7E3;
 }
 .part-b-partner{
   width: 50%;
   height: 110px;
-  // background: #F9F3E8;
+  background: #F9F3E8;
 }
 .text-partners{
   font-family: 'Roboto';
@@ -779,6 +780,7 @@ color: var(--text-color);
 .part-a-img{
   width: 47px;
   height: 54px;
+  filter: var(--theme-icon-filter) !important;
 }
 .part-b-img{
   width: 130px;
@@ -835,16 +837,24 @@ color: var(--text-color);
   .transform-footer-container {
     background-color: var(--theme-surface-alt, #1c2d38);
     background-blend-mode: multiply;
+    background-color: #aad1f1;
+    background-position-x: center;
+    background-size: cover;
+    background-image:url('/fusion-assets/images/Group-people-dark.png') !important
   }
 
   .start-today-button {
-    background: #000;
-    color: var(--theme-on-accent, #ffffff);
+    // background: #000;
+    color: var(--theme-text, #ffffff) !important;
   }
 
-  .part-a-partner,
+  .part-a-partner {
+    background: #1F2528 !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
   .part-b-partner {
-    background: var(--theme-surface-alt, #1c2d38) !important;
+    background: #10181E !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 

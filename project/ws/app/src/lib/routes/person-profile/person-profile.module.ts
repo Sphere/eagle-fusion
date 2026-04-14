@@ -30,7 +30,6 @@ import { UserQnaComponent } from './components/user-qna/user-qna.component'
 import { UserdetailallComponent } from './components/userdetailall/userdetailall.component'
 import { UserGoalsComponent } from './components/user-goals/user-goals.component'
 import { BtnPageBackModule } from '@ws-widget/collection/src/lib/btn-page-back/btn-page-back.module'
-// import { BtnFollowModule } from '@ws-widget/collection/src/public-api'
 import { LastLearntComponent } from './components/last-learnt/last-learnt.component'
 import { ViewFollowpersonComponent } from './components/view-followperson/view-followperson.component'
 import { FollowListComponent } from './components/follow-list/follow-list.component'
@@ -82,7 +81,6 @@ import { FollowingListComponent } from './components/following-list/following-li
         DefaultThumbnailModule,
         PipeLimitToModule,
         MatProgressSpinnerModule,
-        // BtnFollowModule,
     ],
     exports: [UserdetailallComponent, ProfileSettingsComponent],
     providers: [MyContentService, AuthInitService, ApiService, AccessControlService],

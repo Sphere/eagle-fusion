@@ -96,3 +96,31 @@
   hyphens: auto;
   }
 }
+
+:host-context(.dark-theme) {
+  .main,
+  .main .child,
+  .better-luck,
+  .correct-answer,
+  .answer-title,
+  span,
+  h1,
+  h2,
+  h3,
+  p,
+  div {
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+
+  .next-btn {
+    color: var(--theme-text, #ecf3f8) !important;
+    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
+    background: var(--theme-surface, #0e161b) !important;
+  }
+
+  .btn-active {
+    background: #000 !important;
+    border-color: #000 !important;
+    color: var(--theme-text, #ecf3f8) !important;
+  }
+}
