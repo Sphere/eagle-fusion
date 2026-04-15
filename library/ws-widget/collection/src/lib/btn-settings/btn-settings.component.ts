@@ -21,7 +21,7 @@ export class BtnSettingsComponent extends WidgetBaseComponent
   fonts: NsInstanceConfig.IFontSize[] = []
   allowedLangCode: { [langCode: string]: NsInstanceConfig.ILocalsConfig } = {}
 
-  // darkModeForm = new UntypedFormControl(false)
+  darkModeForm = new UntypedFormControl(false)
   isRTLForm = new UntypedFormControl(this.configSvc.isRTL)
   activeThemeClass = ''
   activeFontClass = ''
