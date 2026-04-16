@@ -426,7 +426,7 @@ const routes: Routes = [
     component: TnnmcCallbackComponent,
   },
   {
-    path: 'openid/MNC',
+    path: 'openid/mnc',
     component: MNCCallbackComponent,
   },
   {
