@@ -324,7 +324,9 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   logout() {
     this.telemetrySvc.getTelemetryConfig()
     this.telemetrySvc.interact('clicked', 'logout-clicked', 'profile', {}, { id: this.userInfo.profileDetails.profileReq.id, type: 'user', version: "", rollup: {} })
-    this.dialog.open<LogoutComponent>(LogoutComponent)
+    this.dialog.open<LogoutComponent>(LogoutComponent, {
+      panelClass: 'logout-dialog-container',
+    })
   }
   processCertiFicate(data: any) {
     const certificateIdArray = _.map(_.flatten(_.filter(_.map(data.generalCertificates, 'issuedCertificates'), certificate => {
