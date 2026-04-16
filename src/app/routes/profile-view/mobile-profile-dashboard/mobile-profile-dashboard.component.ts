@@ -169,7 +169,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setupMenuItems()
     this.domain = window.location.hostname
-    if (this.configSvc.hostedInfo || this.domain.includes('localhost')) {
+    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       this.isEkshamata = true
     }
     if (sessionStorage.getItem('currentWindow')) {
@@ -256,15 +256,18 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
           next: () => {
             this.logger.log('[MobileProfileDashboard] Certificate processing completed')
             this.loader = false
+            this.cdr.detectChanges()
           },
-          error: err => {
+          error: (err: any) => {
             this.logger.error('[MobileProfileDashboard] Error processing certificates:', err)
             this.loader = false
+            this.cdr.detectChanges()
           },
         })
         setWindow('certificates')
         break
     }
+    this.cdr.detectChanges()
 
     if (this.showMobileView) {
       this.logger.log(item?.text, 'mobileview', this.showMobileView)
@@ -362,6 +365,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   formatAllRequest(data: any) {
     this.isLoading = false
     this.certificates = _.concat(this.formateRequest(data), this.rcCertiface(data))
+    this.cdr.detectChanges()
   }
 
   formateRequest(data: any) {

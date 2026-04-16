@@ -57,13 +57,15 @@
         </mat-form-field>
       </div>
       <ng-container *ngIf="shouldShowField(field)">
-        <div class="form-group input-box" *ngIf="field.type === 'select'">
-          <label [for]="field.key" *ngIf="field.label" style="display: block;">{{ field.label | translate }}</label>
-          <select [id]="field?.key" class="form-control select-box" [formControlName]="field.key"
-            [required]="field.required" (change)="handleChange($event.target, field)">
-            <option [value]="null" [disabled]="field.disabled">{{ field.placeholder | translate }}</option>
-            <option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</option>
-          </select>
+        <div *ngIf="field.type === 'select'">
+          <label *ngIf="field.label" style="display: block;">{{ field.label | translate }}</label>
+          <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
+            <mat-select [formControlName]="field.key" [placeholder]="field.placeholder | translate"
+              [required]="field.required" (selectionChange)="handleChange($event, field)">
+              <mat-option [value]="null" [disabled]="field.disabled">{{ field.placeholder | translate }}</mat-option>
+              <mat-option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</mat-option>
+            </mat-select>
+          </mat-form-field>
         </div>
         <div class="form-group input-box" *ngIf="field.type === 'text'">
           <label *ngIf="field.label" [for]="field.key">{{ field?.label | translate }}</label>

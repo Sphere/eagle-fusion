@@ -1,4 +1,4 @@
-import { Component, effect, Input, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, effect, Input, OnInit } from '@angular/core'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { get } from 'lodash'
@@ -26,7 +26,8 @@ export class EducationListComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
-    private UserAgentResolverService: UserAgentResolverService
+    private UserAgentResolverService: UserAgentResolverService,
+    private cdr: ChangeDetectorRef
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -50,6 +51,7 @@ export class EducationListComponent implements OnInit {
           this.isEditableForSphere = await this.UserAgentResolverService.isEditableForSphere(data)
           if (data && get(data, 'profileDetails.profileReq.academics')) {
             this.academicsArray = get(data, 'profileDetails.profileReq.academics')
+            this.cdr.detectChanges()
           }
         })
     }
