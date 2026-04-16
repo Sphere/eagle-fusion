@@ -292,4 +292,9 @@ $dark-theme-tokens: (
   ::ng-deep ws-web-nav-link-page .nav-icon {
     filter: var(--theme-icon-filter, brightness(1) invert(1));
   }
+
+  ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
+    background: var(--theme-dialog-surface, #ffffff) !important;
+    color: var(--theme-text, #101828) !important;
+  }
 }

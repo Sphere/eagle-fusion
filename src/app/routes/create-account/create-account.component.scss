@@ -124,6 +124,7 @@
     min-height: 52px;
     padding-top: 18px !important;
     padding-bottom: 8px !important;
+    padding-left: 10px !important;
   }
 
   .mdc-text-field__input,
@@ -519,6 +520,15 @@ span.mdc-button__label {
     align-self: flex-end;
     margin: 0;
   }
+}
+.nav-bar-bg, .nav-bar-bg1 {
+  img {
+    filter: var(--theme-icon-filter);
+  }
+}
+
+.help-icon {
+  filter: var(--theme-icon-filter);
 }
 
 :host-context(.dark-theme) {

@@ -25,6 +25,7 @@ import { PersonalDetailEditComponent } from './personal-detail-edit/personal-det
 import { LeadershipDashboardComponent } from './leadership-dashboard/leadership-dashboard.component'
 import { DropdownDobComponent } from '../../component/dropdown-dob/dropdown-dob.component'
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
+import { MatSlideToggleModule } from '@angular/material/slide-toggle'
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner'
     MatNativeDateModule,
     MatDividerModule,
     MatProgressSpinnerModule,
+    MatSlideToggleModule
   ],
   exports: [
     MobileProfileDashboardComponent,

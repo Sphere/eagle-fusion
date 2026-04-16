@@ -264,7 +264,9 @@
 .assesment-progress-bar {
   display: flex;
   flex-direction: column;
-
+  span {
+    color: var(--theme-text) !important;
+  }
   @include ws-mixins.breakpoint-xs {
     display: none;
   }

@@ -137,6 +137,8 @@
 
 ::ng-deep.overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface{
   border-radius: 30px !important;
+  background: var(--theme-dialog-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
 }
 
 ::ng-deep .btn.btn-active.mat-mdc-raised-button.mat-mdc-button-base {

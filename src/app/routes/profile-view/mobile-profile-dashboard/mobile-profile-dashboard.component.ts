@@ -19,13 +19,15 @@ import { PlaylistService } from '../../../services/playlist.service'
 import { LeadershipDashboardComponent } from '../leadership-dashboard/leadership-dashboard.component'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { TranslateService } from '@ngx-translate/core'
+import { ThemeService } from '../../../services/theme.service'
+import { MatSlideToggleChange } from '@angular/material/slide-toggle'
 
 @Component({
-    standalone: false,
-    selector: 'ws-mobile-profile-dashboard',
-    templateUrl: './mobile-profile-dashboard.component.html',
-    styleUrls: ['./mobile-profile-dashboard.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-mobile-profile-dashboard',
+  templateUrl: './mobile-profile-dashboard.component.html',
+  styleUrls: ['./mobile-profile-dashboard.component.scss'],
+
 })
 export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   firstName!: string
@@ -71,7 +73,8 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   selectedIndextitle: string
   earnedBadges$: any
   count = 3
-  isLoading = false
+  isLoading = false;
+  isDark = this.themeService.isDarkMode
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -88,7 +91,8 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     private snackBar: MatSnackBar,
     private cdr: ChangeDetectorRef,
     private logger: LoggerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private themeService: ThemeService
   ) {
     this.gotData = this.contentSvc.workMessage.subscribe((data: any) => {
       this.logger.log(data)
@@ -165,7 +169,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.setupMenuItems()
     this.domain = window.location.hostname
-    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
+    if (this.configSvc.hostedInfo || this.domain.includes('localhost')) {
       this.isEkshamata = true
     }
     if (sessionStorage.getItem('currentWindow')) {
@@ -603,7 +607,6 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     }
 
     this.userProfileSvc.getLeaderBoardData(request).subscribe((res: any) => {
-      alert("getLEaderboard data" + JSON.stringify(res.result))
       this.totalUsers = res?.result?.count || 0
       this.leaderboardData = res?.result?.content?.leaderboardList || []
       this.currentUser = res?.result?.content?.activeUserDetails
@@ -629,5 +632,9 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
         currentUser: this.currentUser,
       },
     })
+  }
+
+  onToggleChange(event: MatSlideToggleChange) {
+    this.themeService.setTheme(event.checked)
   }
 }

@@ -234,8 +234,8 @@
 .value {
   position: relative;
   bottom: 19px;
-  color: var(--theme-accent, #1C5D95);
-  width: 275px;
+  color: #1C5D95;
+  width: 25%;
   display: flex;
   justify-content: center;
 }
@@ -301,6 +301,8 @@ color: var(--theme-text, #000000);
 
 ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
+  background: var(--theme-dialog-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
 }
 
 mat-progress-bar {

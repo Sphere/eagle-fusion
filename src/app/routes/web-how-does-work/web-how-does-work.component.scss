@@ -124,13 +124,13 @@ border-radius: 20px 0px 0px 0px;
     font-size: 24px;
     line-height: 29px;
     font-weight: 400;
-    color: #424242 !important
+    color: var(--theme-text) !important
   }
 
   .label1 {
     font-size: 14px;
     line-height: 17px;
-    color: #808080 !important
+    color: var(--theme-text-soft) !important
   }
 
   .block-container {
@@ -153,4 +153,6 @@ border-radius: 20px 0px 0px 0px;
 }
 .howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
+  background: var(--theme-dialog-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
 }

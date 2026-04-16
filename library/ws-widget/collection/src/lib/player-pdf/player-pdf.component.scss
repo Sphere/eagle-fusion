@@ -66,7 +66,7 @@
 ::ng-deep .pdf-fullscreen img.action-icons {
   border: none !important;
   width: 20px;
-  color: var(--icon-color);
+  filter: var(--theme-icon-filter);
 }
 
 ::ng-deep .fullscreen #youtubeTag {

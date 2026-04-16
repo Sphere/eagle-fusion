@@ -118,6 +118,10 @@
   height: 125px;
 }
 
+h3 {
+  color: var(--text-color);
+}
+
 :host ::ng-deep .card-long {
   width: 99% !important;
 }

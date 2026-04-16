@@ -58,7 +58,8 @@
 }
 
 .close-icon {
-  background-color: white !important;
+  background-color: transparent !important;
+  color: var(--icon-color) !important;
   margin-top: 5px !important;
 }
 
@@ -110,10 +111,13 @@
   text-align: center !important;
   border: none !important;
   height: 40px !important;
+  margin-top: 1rem !important
 }
 
 .submit-btn[disabled] {
   background-color: #d3d3d3 !important;
+  color: var(--theme-surface) !important;
+  margin-top: 1rem !important;
 }
 
 .relative {
@@ -136,7 +140,9 @@
 }
 
 textarea.mat-mdc-input-element {
-  caret-color: #000; /* keep cursor visible */
+  caret-color: var(--text-color); /* keep cursor visible */
+  background: var(--theme-surface);
+  margin-top: 1rem;
 }
 
 /* Remove blue outline only on textarea */

@@ -28,6 +28,8 @@
   border-radius: 30px !important;
   width: 370px !important;
   height: 400px !important;
+  background: var(--theme-dialog-surface, #ffffff) !important;
+  color: var(--theme-text, #101828) !important;
 }
 .web-btm-block-img{
     position: absolute;
