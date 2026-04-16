@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, Signal } from '@angular/core'
+import { Component, Input, OnInit, OnDestroy, Signal, ChangeDetectorRef } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
@@ -27,6 +27,7 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   currentSlideIndex = 0
   currentIndex = 0
   public intervalId: any
+  imgsLoaded: boolean[] = []
   lang: any = 'en'
   domain!: any
   @Input() configData: any
@@ -42,7 +43,8 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     public userProfileSvc: UserProfileService,
     private languageSvc: LanguageService,
     private plylsSvc: PlaylistService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
     this.firstName = toSignal(
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(
@@ -64,6 +66,7 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     this.logger.log(this.configData, 'configData ****** ')
     this.uiConfig = this.configData?.[0]
     this.dataCarousel = this.uiConfig?.data
+    this.imgsLoaded = (this.dataCarousel || []).map(() => false)
     if (this.isEkshamata) {
       this.domain = window.location.hostname
       this.logger.log("yes here", this.isEkshamata)
@@ -106,7 +109,14 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
 
 
   nextSlide(): void {
-    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel?.length
+    if (!this.dataCarousel?.length) return
+    this.currentSlideIndex = (this.currentSlideIndex + 1) % this.dataCarousel.length
+    this.cdr.detectChanges()
+  }
+
+  onBannerImgLoad(index: number): void {
+    this.imgsLoaded[index] = true
+    this.cdr.detectChanges()
   }
 
   prevSlide(): void {
@@ -114,12 +124,9 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   }
 
   goToSlide(index: number): void {
-    this.currentIndex = index
-    this.clearInterval() // Stop automatic sliding when manually navigating
-    setTimeout(() => {
-      this.currentSlideIndex = index // Set the current slide index manually after a short delay
-    }, 0)
-    this.logger.log('Navigating to slide:', index)
+    this.currentSlideIndex = index
+    this.clearInterval()
+    this.startCarousel() // restart auto-play after manual nav
   }
   scrollToHowSphereWorks(value: string) {
     this.scrollService.scrollToDivEvent.emit(value)

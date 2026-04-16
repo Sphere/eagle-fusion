@@ -26,6 +26,7 @@ export class LearningCardComponent extends WidgetBaseComponent
   content: NsContent.IContent = {} as NsContent.IContent
   @Input() widgetData!: NsCardContent.ICard
   contentProgress = 0
+  imgLoaded = false
   isExpanded = false
   defaultThumbnail = ''
   description: SafeHtml = ''

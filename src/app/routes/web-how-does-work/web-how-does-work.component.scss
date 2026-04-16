@@ -1,35 +1,33 @@
 @use 'ws-mixins';
 
 .scrollHowSphereWorks{
-  padding: 0px 85px;
-  margin-top: 10px;
+  padding: 40px 85px;
+  margin-top: 0;
 }
 .how-work-content {
-    // background: #FFFF !important;
   cursor: pointer;
   box-shadow: 0px 0px 8px 0px #00000073;
   background: var(--theme-bg, #fff) !important;
-  border-radius: 5px;
+  border-radius: 20px;
   padding: 10px;
   display: flex;
   flex-direction: column;
-  margin-bottom: 15px;
-  border-radius: 20px;
+  height: 100%;
+  box-sizing: border-box;
 }
 video {
   border-radius: 10px;
 }
 .videoTitle {
-  font-weight: 400;
+  font-weight: 500;
   font-size: 16px;
-  color: var(--text-color);
+  color: var(--theme-text, #101828);
   margin-bottom: 2px !important;
   margin-top: 16px !important;
-
 }
 
 .videoDes {
-  color: var(--text-color);
+  color: var(--theme-text-soft, #667085);
   font-size: 14px;
   font-weight: 400;
 }
@@ -46,17 +44,40 @@ video::-webkit-media-controls-play-button {
   height: 34px;
 }
 
-.how-work-iframe{
-  display: flex;
-  // width: 297px;
-  // height: 184px;
+.how-work-thumbnail {
+  position: relative;
   border-radius: 25px;
-  pointer-events: none;
+  overflow: hidden;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+
+  .how-work-thumb-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .play-overlay {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+
+    .play-icon {
+      font-size: 56px;
+      width: 56px;
+      height: 56px;
+      color: white;
+      filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.6));
+    }
+  }
 }
 .scrollHowSphereWorks-block{
-  display: flex;
-  flex-wrap: wrap;
-  gap: 85px !important;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
 }
 .m-10{
   margin: 10px;
@@ -81,34 +102,17 @@ line-height: 24px;
 letter-spacing: -0.32px;
 }
 .block-container{
-  width: 376px;
-height: 297px;
-
-border-radius: 20px 0px 0px 0px;
-// opacity: 0px;
-
+  border-radius: 20px;
+  min-width: 0;
 }
-@media only screen and (min-width: 768px) and (max-width: 959px){
-.scrollHowSphereWorks{
-  padding: 0px 50px;
-}
-.scrollHowSphereWorks-block{
-  padding: 0px 40px;
-}
-.block-container{
-  width: 208px;
-}
-.how-work-content{
-  box-shadow: 0px 0px 8px 0px #00000073;
-
-  height: 275px;
-  // background: #FFFF !important;
-}
-}
-@media only screen and (min-width: 1360px) and (max-width:1500px){
-.block-container{
-  width: 320px !important;
-}
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+  .scrollHowSphereWorks {
+    padding: 0px 50px;
+  }
+  .scrollHowSphereWorks-block {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
 }
 
 @media (max-width: 767px) {
@@ -116,8 +120,9 @@ border-radius: 20px 0px 0px 0px;
     padding: 0px 24px 80px 24px;
   }
 
-  .scrollHowSphereWorks-block{
-    gap: 0px !important;
+  .scrollHowSphereWorks-block {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 
   .header2 {
@@ -143,12 +148,12 @@ border-radius: 20px 0px 0px 0px;
     flex-direction: row;
   }
 
-  .how-work-iframe {
+  .how-work-thumbnail {
     border-radius: 10px;
-    display: flex;
     width: 125px;
     height: 100px;
-    pointer-events: none;
+    flex-shrink: 0;
+    aspect-ratio: unset;
   }
 }
 .howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {

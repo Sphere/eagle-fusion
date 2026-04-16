@@ -1,14 +1,16 @@
 <!-- video-popup.component.html -->
-<mat-dialog-content>
-  <div class="popup" mat-dialog-content>
-    <div class="flex closeBtn">
-      <button mat-dialog-close mat-icon-button (click)="close()">
-        <mat-icon>close</mat-icon>
-      </button>
-    </div>
-    <div>
-      <iframe title="youtubeLink iframe" class="youtubeLink-iframe" [src]="data?.url" style="border:none"
-        allowfullscreen></iframe>
-    </div>
-  </div>
-</mat-dialog-content>
+<div class="video-dialog-wrapper">
+  <button class="close-btn" mat-icon-button (click)="close()" mat-dialog-close>
+    <mat-icon>close</mat-icon>
+  </button>
+  <iframe
+    title="youtubeLink iframe"
+    class="youtubeLink-iframe"
+    [src]="autoplayUrl"
+    style="border:none"
+    allowfullscreen
+    webkitallowfullscreen
+    mozallowfullscreen
+    allow="autoplay; fullscreen; encrypted-media; picture-in-picture">
+  </iframe>
+</div>

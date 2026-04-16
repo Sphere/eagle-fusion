@@ -20,9 +20,14 @@
         <!--[routerLink]="(content | pipeContentRoute).url"
           [queryParams]="(content | pipeContentRoute).queryParams" -->
         <a (click)="raiseTelemetry(content)" class="image-section cursor-pointer">
+          <div class="img-shimmer" *ngIf="!imgLoaded"></div>
           <img i18n-alt alt="thumbnail" class="mat-lite-background"
             [src]="content.posterImage?content.posterImage:content.appIcon"
-            [wsUtilsDefaultThumbnail]="defaultThumbnail" />
+            [wsUtilsDefaultThumbnail]="defaultThumbnail"
+            loading="lazy" decoding="async"
+            width="120" height="80"
+            (load)="imgLoaded = true"
+            (error)="imgLoaded = true" />
         </a>
         <div class="width-expand card-content">
           <h1 [title]="content.name" class="margin-remove-top margin-remove-bottom flex flex-middle">

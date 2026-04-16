@@ -18,6 +18,8 @@ import { LoggerService, TelemetryService } from '../../../../library/ws-widget/u
 })
 export class WebCourseCardComponent implements OnInit {
   isUserLoggedIn = false
+  imgLoaded = false
+  imgMiniLoaded = false
   @Input() widgetData!: any
   @Input() cnePoints: any = false
   @Input() courseData: any

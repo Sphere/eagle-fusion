@@ -12,8 +12,12 @@
         <div class="text-over">
           <!-- <img alt="" class="appIcon fitsize" [src]="courseData?.thumbnail ? courseData.thumbnail : courseData.appIcon"> -->
 
+          <div class="img-shimmer" *ngIf="!imgLoaded"></div>
           <img alt="" class="appIcon fitsize"
-            src="{{courseData.posterImage? courseData.posterImage : courseData.appIcon}}">
+            src="{{courseData.posterImage? courseData.posterImage : courseData.appIcon}}"
+            loading="lazy" decoding="async"
+            (load)="imgLoaded = true"
+            (error)="imgLoaded = true">
           <ng-container>
             <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
               CNE: {{courseData.cneName}}
@@ -118,8 +122,12 @@
     <a (click)="redirectPage(courseData)" class="card-block">
       <div class="card-long">
         <div class="img-block">
+          <div class="img-shimmer-mini" *ngIf="!imgMiniLoaded"></div>
           <img alt="" class="appIcon fitsizeMini"
-            src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}">
+            src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}"
+            loading="lazy" decoding="async"
+            (load)="imgMiniLoaded = true"
+            (error)="imgMiniLoaded = true">
           <ng-container>
             <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
               CNE: {{courseData.cneName}}

@@ -54,6 +54,15 @@ export class WebHowDoesWorkComponent implements OnInit {
     this.dialog.open(VideoPopupComponent, {
       data: { 'url': url },
       panelClass: 'howDoesItWorksDialog',
+      width: '90vw',
+      maxWidth: '800px',
+      maxHeight: '90vh',
     })
+  }
+
+  getYoutubeThumbnail(url: any): string {
+    const urlStr = typeof url === 'string' ? url : (url?.changingThisBreaksApplicationSecurity || '')
+    const match = urlStr.match(/embed\/([a-zA-Z0-9_-]{11})/)
+    return match ? `https://img.youtube.com/vi/${match[1]}/hqdefault.jpg` : ''
   }
 }

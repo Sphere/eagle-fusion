@@ -22,12 +22,15 @@
       </div>
     </div>
     <!-- ================= Sphere Banner (Web + Mobile) ================= -->
-    <div *ngIf="!isEkshamata" class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
-      <div class="slide" *ngFor="let data of dataCarousel; let i = index">
-        <div class="slide-content" [class.active]="i === currentSlideIndex"
-          (click)="scrollToHowSphereWorks(data?.scrollEmit)">
-
-          <img class="banner-image" [src]="data?.img" alt="Carousel image" loading="lazy" />
+    <div *ngIf="!isEkshamata" class="slides-viewport">
+      <div class="slides" [style.transform]="'translateX(' + (-currentSlideIndex * 100) + '%)'">
+        <div class="slide" *ngFor="let data of dataCarousel; let i = index">
+          <div class="slide-content" (click)="scrollToHowSphereWorks(data?.scrollEmit)">
+            <div class="banner-shimmer" *ngIf="!imgsLoaded[i]"></div>
+            <img class="banner-image" [src]="data?.img" alt="Carousel image" loading="lazy"
+              (load)="onBannerImgLoad(i)"
+              (error)="onBannerImgLoad(i)" />
+          </div>
         </div>
       </div>
     </div>
@@ -37,10 +40,7 @@
 
 <!-- ================= Carousel Dots (Sphere Only) ================= -->
 <div *ngIf="!isEkshamata" class="carousel-dots">
-  <button *ngFor="let _ of dataCarousel; let i = index" class="round-buttons" [class.active]="i === currentSlideIndex"
-    (click)="goToSlide(i)">
-    <img class="dot-icon" [src]="i === currentSlideIndex
-        ? '/fusion-assets/icons/active_dot.svg'
-        : '/fusion-assets/icons/gray_dot.svg'" alt="carousel dot" />
+  <button *ngFor="let _ of dataCarousel; let i = index" class="dot-btn" [class.active]="i === currentSlideIndex"
+    (click)="goToSlide(i)" [attr.aria-label]="'Go to slide ' + (i + 1)">
   </button>
 </div>

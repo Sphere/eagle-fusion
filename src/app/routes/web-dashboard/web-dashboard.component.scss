@@ -81,10 +81,17 @@
     flex-direction: column;
 }
 
+.slides-viewport {
+  flex: 65%;
+  overflow: hidden;
+  min-width: 0;
+}
+
 .slides {
   display: flex;
-  flex: 65%;
-  transition: transform 0.3s ease; /* Adjust the duration and easing as needed */
+  width: 100%;
+  transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: transform;
 }
 
 .slide {
@@ -113,22 +120,46 @@
 }
 
 .slide-content {
-  display: none;
+  cursor: pointer;
+  position: relative;
+  width: 100%;
 }
 
-.slide-content.active {
-  display: block;
+@keyframes bannerShimmer {
+  0% { background-position: -800px 0; }
+  100% { background-position: 800px 0; }
 }
 
-.round-buttons {
- background: none;
-    border: none;
-     padding: 0px 0px 0px 4px !important;
+.banner-shimmer {
+  width: 100%;
+  height: 280px;
+  border-radius: 12px;
+  background: linear-gradient(90deg, #e8e8e8 0px, #d0d0d0 200px, #e8e8e8 400px);
+  background-size: 800px 100%;
+  animation: bannerShimmer 1.4s infinite linear;
 
+  @media (max-width: 767px) {
+    height: 180px;
+    border-radius: 8px;
+  }
 }
-.dot-icon{
-  width: 10px;
-  height: 10px;
+
+.dot-btn {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: rgba(0, 0, 0, 0.2);
+  padding: 0;
+  margin: 0 5px;
+  cursor: pointer;
+  transition: width 0.3s ease, background 0.3s ease;
+
+  &.active {
+    width: 24px;
+    border-radius: 4px;
+    background: var(--theme-accent, #469788);
+  }
 }
 
 .dark-theme .round-button {
@@ -200,12 +231,6 @@
     height: auto;
     object-fit: cover;
   }
-  .round-buttons {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 0px 0px 0px 4px !important;
-  }
   .carousel {
     align-items: flex-start;
     flex-direction: column;
@@ -261,27 +286,12 @@
     align-items: center;
   }
 
-  .slides {
-    margin-left: 16px;
+  .slides-viewport {
+    width: 100%;
+    flex: unset;
+    margin-left: 0;
   }
 
-  .slide-content {
-    display: none;
-  }
-
-  .slide-content.active {
-    display: block;
-  }
-
-  .round-button {
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-    background-color: rgba(0, 0, 0, 0.25);
-    margin: 0 5px;
-    cursor: pointer;
-    border: none;
-  }
 
   .round-button.active {
     background-color: rgba(0, 0, 0, 0.978);
@@ -355,12 +365,10 @@
     box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
   }
 
-  .round-buttons .dot-icon {
-    filter: var(--theme-icon-filter, brightness(1) invert(1));
-    opacity: 0.55;
-  }
-
-  .round-buttons.active .dot-icon {
-    opacity: 1;
+  .dot-btn {
+    background: rgba(255, 255, 255, 0.35);
+    &.active {
+      background: var(--theme-accent, #469788);
+    }
   }
 }

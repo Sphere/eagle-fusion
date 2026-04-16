@@ -1,16 +1,16 @@
 <section class="horizontal-scroll-container h-full">
-  <button aria-label="Previous" i18n-aria-label name="content-backward-button" mat-mini-fab color="primary"
-    (click)="showPrev()" id="backward-arrow-btn" class="prevBtn hidden-touch" [hidden]="!enablePrev"
-    [ngClass]="{'prevBtnHover': onHover}">
-    <mat-icon>navigate_before</mat-icon>
+  <div class="fade-left" [class.visible]="enablePrev"></div>
+  <button aria-label="Previous" i18n-aria-label name="content-backward-button"
+    (click)="showPrev()" class="scroll-btn prevBtn hidden-touch" [class.visible]="enablePrev">
+    <mat-icon>chevron_left</mat-icon>
   </button>
   <div name="horizontal-scroll-content-strip" class="horizontal-scroll-content" #horizontalScrollElem>
     <ng-content></ng-content>
   </div>
-  <button aria-label="Next" i18n-aria-label name="content-forward-button" mat-mini-fab (click)="showNext()"
-    id="forward-arrow-btn" color="primary" class="nextBtn hidden-touch" [ngClass]="{'nextBtnHover': onHover}"
-    [hidden]="!enableNext || loadStatus === 'fetching'">
-    <mat-icon>navigate_next</mat-icon>
+  <div class="fade-right" [class.visible]="enableNext && loadStatus !== 'fetching'"></div>
+  <button aria-label="Next" i18n-aria-label name="content-forward-button" (click)="showNext()"
+    class="scroll-btn nextBtn hidden-touch" [class.visible]="enableNext && loadStatus !== 'fetching'">
+    <mat-icon>chevron_right</mat-icon>
   </button>
   <div class="nextLoading" *ngIf="loadStatus === 'fetching'">
     <mat-spinner></mat-spinner>
