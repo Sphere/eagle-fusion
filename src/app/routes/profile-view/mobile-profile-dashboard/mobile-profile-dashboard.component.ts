@@ -167,7 +167,7 @@ export class MobileProfileDashboardComponent implements OnInit {
   ngOnInit() {
     this.setupMenuItems()
     this.domain = window.location.hostname
-    if (this.configSvc.hostedInfo || this.domain.includes('localhost')) {
+    if (this.configSvc.hostedInfo || this.domain.includes('ekshamata')) {
       this.isEkshamata = true
     }
     if (sessionStorage.getItem('currentWindow')) {
