@@ -1,5 +1,9 @@
 @use 'ws-mixins';
 
+:host {
+  scroll-margin-top: 80px;
+}
+
 .scrollHowSphereWorks{
   padding: 40px 85px;
   margin-top: 0;

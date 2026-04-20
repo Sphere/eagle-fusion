@@ -9,7 +9,9 @@ export class ScrollService {
   constructor() { }
   scrollToElement(element: HTMLElement) {
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+      const rect = element.getBoundingClientRect()
+      const scrollTop = window.scrollY + rect.top - 80
+      window.scrollTo({ top: scrollTop, behavior: 'smooth' })
     }
   }
 }

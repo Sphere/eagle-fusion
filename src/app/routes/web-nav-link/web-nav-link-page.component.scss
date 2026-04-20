@@ -28,19 +28,31 @@
         margin: 10px 10px 10px 10px;
     }
 }
-::ng-deep .link-container .ws-mat-accent-text {
-
-    color: var(--theme-primary-strong) !important;
-    border-bottom: 2px solid var(--theme-primary-strong);
+/* Desktop nav link — smooth underline via border-bottom transition */
+::ng-deep .link-container .link-block a {
+  padding-bottom: 3px;
+  border-bottom: 2px solid transparent;
+  transition: color 0.22s cubic-bezier(0.4, 0, 0.2, 1),
+              border-bottom-color 0.22s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.link-text{
-    font-family: sans-serif, 'Roboto';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 15px;
-    line-height: 24px;
-    /* or 150% */
-    letter-spacing: -0.02em;
+
+::ng-deep .link-container .ws-mat-accent-text {
+  color: var(--theme-primary-strong) !important;
+  border-bottom-color: var(--theme-primary-strong) !important;
+}
+
+.link-text {
+  font-family: sans-serif, 'Roboto';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 24px;
+  letter-spacing: -0.02em;
+  transition: color 0.22s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+::ng-deep .link-container .ws-mat-accent-text .link-text {
+  color: var(--theme-primary-strong);
 }
 .link-block{
     margin: 0px 15px;
@@ -97,13 +109,18 @@
   color: #666;
   cursor: pointer;
   min-width: 64px;
+  position: relative;
+  padding: 6px 0;
+  transition: color 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
+
 
 /* Icon */
 .nav-icon {
   width: 24px;
   height: 24px;
   filter: grayscale(100%) opacity(0.7);
+  transition: filter 0.28s ease, transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 /* Label */
@@ -111,6 +128,7 @@
   font-size: 12px;
   font-weight: 400;
   line-height: 1;
+  transition: color 0.25s ease, font-weight 0.25s ease;
 }
 
 /* Active state */
@@ -119,5 +137,10 @@
 }
 
 .nav-item.active .nav-icon {
-  filter: invert(.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);;
+  filter: invert(.3) sepia(9) saturate(10) hue-rotate(177deg) brightness(85%) contrast(120%);
+  transform: translateY(-3px) scale(1.1);
+}
+
+.nav-item.active .nav-label {
+  font-weight: 600;
 }

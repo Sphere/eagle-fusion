@@ -1,5 +1,5 @@
 import { COMMA, ENTER, SEMICOLON } from '@angular/cdk/keycodes'
-import { Component, Inject, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService, EventService } from '@ws-widget/utils'
@@ -33,6 +33,7 @@ export class BtnContentShareDialogComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { content: NsContent.IContent },
     public shareSvc: WidgetContentShareService,
     public configSvc: ConfigurationsService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -49,6 +50,7 @@ export class BtnContentShareDialogComponent implements OnInit {
       } else {
         this.message = 'I want to share this artifact I found.'
       }
+      this.cdr.detectChanges()
     })
 
     if (this.configSvc.restrictedFeatures) {

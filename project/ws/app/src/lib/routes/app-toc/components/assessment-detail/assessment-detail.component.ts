@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core'
 import { ViewerUtilService } from '../../../../../../../viewer/src/lib/viewer-util.service'
 import { NSQuiz } from '../../../../../../../viewer/src/lib/plugins/quiz/quiz.model'
 import { HttpClient } from '@angular/common/http'
@@ -44,12 +44,14 @@ export class AssessmentDetailComponent implements OnInit {
     private http: HttpClient,
     private contentSvc: WidgetContentService,
     private activatedRoute: ActivatedRoute,
-    private logger: LoggerService) {
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef) {
   }
 
   async ngOnInit() {
     const result = await this.transformQuiz(this.content)
-    setTimeout(() => { this.assesmentdata = result }, 0)
+    this.assesmentdata = result
+    this.cdr.detectChanges()
   }
   /* api call to get info of quiz or assessment */
   private async transformQuiz(content: any): Promise<NSQuiz.IQuiz> {

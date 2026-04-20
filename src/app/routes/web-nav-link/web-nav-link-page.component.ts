@@ -8,7 +8,7 @@ import {
 } from '@angular/core'
 import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog'
 import { ConfigurationsService, LoggerService, LogoutComponent } from '@ws-widget/utils'
-import { Router } from '@angular/router'
+import { Router, NavigationEnd } from '@angular/router'
 import { SignupService } from '../signup/signup.service'
 import { Location } from '@angular/common'
 import { appNavBarService } from '../../component/app-nav-bar/app-nav-bar.service'
@@ -49,6 +49,12 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
     private themeService: ThemeService
   ) {
     this.subscribeNavbarChanges()
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.syncMenuWithUrl()
+        this.cd.detectChanges()
+      }
+    })
   }
 
   async ngOnInit() {

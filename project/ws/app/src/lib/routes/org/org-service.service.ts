@@ -1,7 +1,7 @@
-import { map, catchError } from 'rxjs/operators'
+// import { map, catchError } from 'rxjs/operators'
 import { Injectable } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
-import { Observable, of, BehaviorSubject } from 'rxjs'
+import { Observable, BehaviorSubject } from 'rxjs'
 import { ConfigurationsService, LoggerService } from '@ws-widget/utils'
 import { API_END_POINTS } from '../../../../../../../src/app/constants/apiConstants'
 
@@ -14,17 +14,17 @@ export class OrgServiceService {
 
   constructor(private http: HttpClient, private configSvc: ConfigurationsService, private logger: LoggerService) { }
 
-  resolve(): Observable<any> {
-    return this.getOrgMetadata().pipe(
-      map((data: any) => ({ data, error: null })),
-      catchError((error: any) => of({ error, data: null })),
-    )
+  resolve(): any {
+    // return this.getOrgMetadata().pipe(
+    //   map((data: any) => ({ data, error: null })),
+    //   catchError((error: any) => of({ error, data: null })),
+    // )
   }
 
-  getOrgMetadata() {
-    const orgMeta = this.http.get(`${this.sitePath}/orgmeta.config.json`)
-    return orgMeta
-  }
+  // getOrgMetadata() {
+  //   const orgMeta = this.http.get(`${this.sitePath}/orgmeta.config.json`)
+  //   return orgMeta
+  // }
 
   getSearchResults(source?: any): Observable<any> {
     // tslint:disable-next-line:max-line-length
