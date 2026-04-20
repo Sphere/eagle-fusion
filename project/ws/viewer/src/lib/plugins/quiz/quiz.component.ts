@@ -166,6 +166,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         width: '542px',
         maxWidth: '95vw',
         panelClass: 'overview-modal',
+        backdropClass: 'overview-backdrop',
         disableClose: true,
         data: overviewData,
       })

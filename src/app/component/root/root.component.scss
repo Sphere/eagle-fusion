@@ -46,13 +46,14 @@ ws-app-nav-bar {
   width: 100%;
   top: 0;
   box-shadow: 0px 0px 4px 0px #0000001A;
-
+  will-change: transform;
 }
 
 .bottom-nav-bar {
   position: fixed;
   width: 100%;
   bottom: 0;
+  will-change: transform;
 }
 
 .height-adjust {

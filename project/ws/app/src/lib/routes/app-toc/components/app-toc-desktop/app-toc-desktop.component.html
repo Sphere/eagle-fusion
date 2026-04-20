@@ -229,32 +229,6 @@
     <canvas id="certCanvas"></canvas>
   </div>
 </div>
-
-<div class="modal fade toc-inline-modal" id="myModal" [ngStyle]="{'display':displayStyle, 'opacity': '1', 'top': 'auto'}">
-  <div class="modal-dialog modal-sm">
-    <div class="modal-content modal-surface">
-
-      <!-- Modal Header -->
-      <div class="modal-header">
-        <!--<h4 class="modal-title">Modal Heading</h4> -->
-        <button type="button" class="close" data-dismiss="modal" (click)="closePopup()">&times;</button>
-      </div>
-
-      <!-- Modal body -->
-      <div class="modal-body">
-        <h3>{{certificateMsg}}</h3>
-
-      </div>
-      <!-- Modal footer -->
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" id="close-btn" data-dismiss="modal" (click)="closePopup()">
-          {{ 'Close' | translate }}
-        </button>
-      </div>
-
-    </div>
-  </div>
-</div>
 <!-- <ws-widget-content-progress *ngIf="content?.identifier" [forPreview]="forPreview" [contentId]="content?.identifier"
   [className]="'thick'" [progress]="content?.completionPercentage">
 </ws-widget-content-progress> -->

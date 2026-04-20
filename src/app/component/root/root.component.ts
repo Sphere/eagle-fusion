@@ -517,16 +517,15 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       }
 
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
-      this.configData = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
-      this.bodyConfig = this.isLoggedIn ? this.playlistSvc.selectedTabConfig() : this.playlistSvc.config()
+      const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
+      this.configData = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
+      this.bodyConfig = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
       this.footerConfig = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.footerConfig() }
       const enabled: boolean = this.orgDetails?.assessmentConfig?.isRecoridngEnable ?? false
       if (!enabled) this.scrnScrtySvc.init()
-      if (this.playlistSvc.getSelectedTab() === 'homeTab') {
-        this.showNavbar = true
-        this.videoData = this.configData?.[this.configData?.length - 1]
-        localStorage.setItem('videoData', JSON.stringify(this.videoData))
-      }
+      this.showNavbar = true
+      this.videoData = this.configData?.[this.configData?.length - 1]
+      localStorage.setItem('videoData', JSON.stringify(this.videoData))
 
       // Trigger change detection to ensure template updates with new data
       this.changeDetector.markForCheck()

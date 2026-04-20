@@ -84,10 +84,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   defaultSLogo = ''
   disableEnrollBtn = false
   batchId!: string
-  displayStyle = 'none'
   enrolledCourse: any
   lastCourseID: any
-  certificateMsg?: any
   stars: number[] = [1, 2, 3, 4, 5]
 
   constructor(
@@ -543,25 +541,21 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                   // trigger request
                   // check for exisitng request
                   if (localStorage.getItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`) && duration <= 30) {
-                    this.displayStyle = 'block'
                     const dur = (30 - duration)
-                    this.certificateMsg = this.translate.instant("REQUEST_CERTIFICATE", { duration: dur })
+                    this.openSnackbar(this.translate.instant("REQUEST_CERTIFICATE", { duration: dur }))
                   } else {
                     this.contentSvc.processCertificate(req).subscribe((response: any) => {
                       if (response.responseCode === 'OK') {
                         this.sendApi()
                         localStorage.setItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`, moment(new Date()).toString())
-                        this.displayStyle = 'block'
-                        this.certificateMsg = this.translate.instant("CERTIFICATE_REQ_SUCESSFULL")
+                        this.openSnackbar(this.translate.instant("CERTIFICATE_REQ_SUCESSFULL"))
                       } else {
-                        this.displayStyle = 'block'
-                        this.certificateMsg = this.translate.instant("REQUEST_CERTIFICATE_FAILED")
+                        this.openSnackbar(this.translate.instant("REQUEST_CERTIFICATE_FAILED"))
                       }
                     },
                       err => {
-                        this.displayStyle = 'block'
                         this.logger.log(err.error.params.errmsg)
-                        this.certificateMsg = this.translate.instant("REQUEST_CERTIFICATE_FAILED")
+                        this.openSnackbar(this.translate.instant("REQUEST_CERTIFICATE_FAILED"))
                       })
                   }
                 }
@@ -571,17 +565,18 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           })
 
       } else {
-        this.displayStyle = 'block'
         // tslint:disable-next-line:max-line-length
         if (this.optmisticPercentage != 100) {
-          this.certificateMsg = this.translate.instant("ALERT_CERTIFICATE_MSG")
+          this.dialog.open(AppTocDesktopModalComponent, {
+            width: '480px',
+            data: { type: 'ALERT', message: this.translate.instant("ALERT_CERTIFICATE_MSG") },
+          })
         } else {
-          this.certificateMsg = this.translate.instant('CERTIFICATE_REQ_SUCESSFULL')
+          this.openSnackbar(this.translate.instant('CERTIFICATE_REQ_SUCESSFULL'))
         }
       }
     } else {
-      this.displayStyle = 'block'
-      this.certificateMsg = this.translate.instant("ENROLL_ALERT")
+      this.openSnackbar(this.translate.instant("ENROLL_ALERT"))
     }
 
   }
@@ -707,10 +702,6 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
           }
         }
       })
-  }
-
-  closePopup() {
-    this.displayStyle = 'none'
   }
 
   getCourseID() {
@@ -1139,7 +1130,8 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
 
   openPopup(content: any, tocConfig: any) {
     this.dialog.open(AppTocCertificateModalComponent, {
-      width: '100vw',
+      width: '90vw',
+      maxWidth: '900px',
       height: '80vh',
       data: { content, tocConfig, type: 'DETAILS' },
       disableClose: false,

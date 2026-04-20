@@ -6,6 +6,9 @@
   font: inherit;
   background-color: var(--theme-surface-alt, #edf1e5) !important;
   height: 50px !important;
+  color: var(--theme-text, #101828) !important;
+
+  mat-icon { color: var(--theme-text, #101828) !important; }
 }
 
 @media screen and (max-width:350px) {
@@ -78,8 +81,27 @@
 }
 
 
-::ng-deep .auto-mat-form-field-input-infix .mat-mdc-text-field-wrapper {
-  background: transparent !important;
+::ng-deep .auto-mat-form-field-input-infix {
+  .mat-mdc-text-field-wrapper {
+    background: transparent !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+  }
+  .mat-mdc-form-field-infix {
+    padding-top: 8px !important;
+    padding-bottom: 8px !important;
+    min-height: unset !important;
+  }
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
+  .mat-mdc-input-element {
+    color: var(--theme-text, #101828) !important;
+  }
+  .mat-mdc-form-field-text-prefix,
+  .mat-mdc-form-field-text-suffix {
+    color: var(--theme-text, #101828) !important;
+  }
 }
 
 .auto-mat-form-field-input-infix {

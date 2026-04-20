@@ -145,7 +145,7 @@
             <div class="competency-block" *ngIf="widget && widget.competencies_v1?.length>0">
               <img src="/fusion-assets/icons/ph_medal.svg">
               <div>
-                <ng-container *ngFor="let competency of competencyData; let last = last;">
+                <ng-container *ngFor="let competency of competencyData(); let last = last;">
                   <span *ngIf="competency.identifier==widget.identifier">{{competency.name}}, </span>
                   <span *ngIf="competency.identifier==widget.identifier">{{competency.levels}}</span>
                   <span *ngIf="!last && competency.identifier==widget.identifier"> </span>

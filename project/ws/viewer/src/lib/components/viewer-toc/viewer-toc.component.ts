@@ -902,6 +902,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                         width: '300px',
                         height: '420px',
                         panelClass: 'overview-modal',
+                        backdropClass: 'overview-backdrop',
                         disableClose: true,
                         data: { request: data, message: 'Congratulations!, you have completed the course' },
                       })
@@ -961,6 +962,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                         width: '300px',
                         height: '420px',
                         panelClass: 'overview-modal',
+                        backdropClass: 'overview-backdrop',
                         disableClose: true,
                         data: { request: data, message: 'Congratulations!, you have completed the course' },
                       })
@@ -1043,6 +1045,7 @@ export class ViewerTocComponent implements OnInit, OnChanges, OnDestroy, AfterVi
                         width: '300px',
                         height: '420px',
                         panelClass: 'overview-modal',
+                        backdropClass: 'overview-backdrop',
                         disableClose: true,
                         data: { request: data, message: 'Congratulations!, you have completed the course' },
                       })

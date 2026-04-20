@@ -1,139 +1,201 @@
-  .overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2000 !important;
-  background-color: var(--theme-surface, #fff);
-  }
-
-  .relative-content {
-  position: relative;
-  top: 7px;
-  left: 10px;
-  font-weight: 800;
-  color: white;
-  }
-
-  .loader-container {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  }
-
-  .loader-ripple {
-  display: inline-block;
-  position: relative;
-  width: 84px;
-  height: 84px;
-  }
-
-  .loader-ripple div {
-  position: absolute;
-  border: 4px solid #000;
-  opacity: 1;
-  border-radius: 50%;
-  animation: loader-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
-  }
-
-  .loader-ripple div:nth-child(2) {
-  animation-delay: -0.5s;
-  }
-
-  @keyframes loader-ripple {
-  0% {
-    top: 38px;
-    left: 38px;
-    width: 0;
-    height: 0;
-    opacity: 1;
-  }
-
-  100% {
-    top: -1px;
-    left: -1px;
-    width: 78px;
-    height: 78px;
-    opacity: 0;
-  }
-  }
-  .short-text { display: none; }
-
-// When resolution <= 1200px, hide full text and show short text
-@media (max-width: 1200px) {
-    .short-text { display: inline-block; }
-    .full-text { display: none; }
-}
-.close-button {
-  border: none;
-  background: none;
-  height: 10px;
-  width: 5px;
-  font-size: 26px;
-  font-weight: 500;
-  color: var(--theme-text, #101828);
-}
-
-/* Shimmer Animation */
+// ─── Shimmer ─────────────────────────────────────────────────────────────────
 @keyframes shimmerSlide {
-  0% {
-    background-position: -200px 0;
-  }
-  100% {
-    background-position: 200px 0;
-  }
+  0%   { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 200px, #ececec 400px);
+  background-size: 400px 100%;
+  animation: shimmerSlide 1.5s infinite linear;
+  border-radius: 6px;
+}
+
+:host-context(.dark-theme) .shimmer {
+  background: linear-gradient(90deg, #223340 0px, #304756 200px, #223340 400px);
+  background-size: 400px 100%;
 }
 
 .shimmer-container {
   display: flex;
   flex-direction: column;
-  gap: 15px;
-  padding: 1rem;
+  gap: 16px;
+  padding: 20px 24px;
+  height: 100%;
+  box-sizing: border-box;
 }
 
-.shimmer {
-  background: linear-gradient(90deg, #ececec 0px, #d8d8d8 150px, #ececec 300px);
-  background-size: 200% 100%;
-  animation: shimmerSlide 1.5s infinite linear;
-  border-radius: 4px;
+.shimmer-header-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
-.shimmer-header {
-  width: 70%;
-  height: 20px;
-  margin-bottom: 10px;
-}
-
-.shimmer-button {
-  width: 150px;
-  height: 40px;
-  margin-bottom: 10px;
-}
+.shimmer-title { flex: 1; height: 22px; }
+.shimmer-btn   { width: 110px; height: 38px; border-radius: 20px; }
+.shimmer-close { width: 38px;  height: 38px; border-radius: 50%; flex-shrink: 0; }
 
 .shimmer-image {
-  width: 100%;
-  height: 650px;
-  border-radius: 8px;
+  flex: 1;
+  border-radius: 10px;
+  min-height: 200px;
 }
 
-.certificate-modal-shell {
-  background: var(--theme-surface, #ffffff);
+// ─── Modal shell ─────────────────────────────────────────────────────────────
+.cert-modal {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  background: var(--theme-dialog-surface, #ffffff);
   color: var(--theme-text, #101828);
+  overflow: hidden;
 }
 
+// ─── Header ──────────────────────────────────────────────────────────────────
+.cert-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  flex-shrink: 0;
+}
+
+.cert-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+}
+
+.cert-icon {
+  color: #f5a623;
+  font-size: 28px;
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+}
+
+.cert-title-text {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.cert-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--theme-text-secondary, #6b7280);
+  line-height: 1.2;
+}
+
+.cert-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--theme-text, #101828);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 420px;
+  line-height: 1.4;
+}
+
+// ─── Actions ─────────────────────────────────────────────────────────────────
+.cert-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1c5d95;
+  color: #fff;
+  border-radius: 8px;
+  border: none;
+  padding: 0 16px;
+  height: 38px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+  }
+
+  &:hover {
+    background: #164f80;
+  }
+}
+
+.close-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: var(--theme-text-secondary, #6b7280);
+  transition: background 0.15s ease, color 0.15s ease;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.07);
+    color: var(--theme-text, #101828);
+  }
+}
+
+// ─── Certificate image ────────────────────────────────────────────────────────
+.cert-image-wrap {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px 24px;
+  overflow: auto;
+  background: var(--theme-bg, #f8f9fa);
+}
+
+.cert-image {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: 6px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
+}
+
+// ─── Hidden canvas (used for download) ───────────────────────────────────────
+.cert-canvas {
+  display: none;
+}
+
+// ─── Dialog surface override ──────────────────────────────────────────────────
 ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
   background: var(--theme-dialog-surface, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 
-:host-context(.dark-theme) {
-  .shimmer {
-    background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
-    background-size: 200% 100%;
-  }
+::ng-deep .mat-mdc-dialog-container .mat-mdc-dialog-content {
+  padding: 0 !important;
+  max-height: none !important;
 }

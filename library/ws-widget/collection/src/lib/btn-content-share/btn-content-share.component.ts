@@ -40,6 +40,8 @@ export class BtnContentShareComponent extends WidgetBaseComponent
         BtnContentShareDialogComponent,
         {
           data: { content: this.widgetData },
+          width: '90vw',
+          maxWidth: '480px',
         },
       )
     }

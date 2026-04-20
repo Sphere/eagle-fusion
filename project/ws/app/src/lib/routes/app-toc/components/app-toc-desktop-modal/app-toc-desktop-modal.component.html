@@ -16,6 +16,11 @@
     </div>
   </ng-container>
 
+  <ng-container *ngIf="content.type === 'ALERT'">
+    <h2>{{ 'Alert' | translate }}</h2>
+    <p>{{ content.message }}</p>
+  </ng-container>
+
   <ng-container *ngIf="content.type === 'COMPETENCY'">
     <h1>{{cometencyData[0].name}}</h1>
     <div class="flex flex-row">

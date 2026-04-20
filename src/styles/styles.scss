@@ -1043,6 +1043,10 @@ button.submit-btn[disabled] {
   display: none;
 }
 
+.overview-backdrop {
+  background: rgba(0, 0, 0, 0.65) !important;
+}
+
 .assesment-modal {
   width: 70vw;
   height: auto;
@@ -1249,4 +1253,32 @@ ws-public-toc {
 
 .flex-between {
   justify-content: space-between;
+}
+
+// ─── Modern page scrollbar ───────────────────────────────────────────────────
+html {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(28, 93, 149, 0.35) transparent;
+}
+
+html::-webkit-scrollbar {
+  width: 6px;
+}
+
+html::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+html::-webkit-scrollbar-thumb {
+  background: rgba(28, 93, 149, 0.28);
+  border-radius: 100px;
+  transition: background 0.2s ease;
+}
+
+html::-webkit-scrollbar-thumb:hover {
+  background: rgba(28, 93, 149, 0.65);
+}
+
+html::-webkit-scrollbar-corner {
+  background: transparent;
 }

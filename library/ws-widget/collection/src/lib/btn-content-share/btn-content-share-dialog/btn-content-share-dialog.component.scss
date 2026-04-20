@@ -1,24 +1,141 @@
-.text-area {
-  width: 100%;
+// ─── Dialog surface override ──────────────────────────────────────────────────
+::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 16px !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 
-.text-area-input {
-  line-height: 1.5 !important;
-}
-.close-btn{
-  margin-block: 1rem;
-  float: right;
-  background: #f5d58d !important;
+// ─── Header ──────────────────────────────────────────────────────────────────
+.share-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
 }
 
-.share-dialog {
-  margin-inline: 2rem;
+.share-title {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.5;
+  color: #101828;
+  flex: 1;
+  padding-top: 2px;
 }
-.heading {
-  font-size: 24px;
-  font-weight: 400;
-  line-height: 32px;
-  font-family: Roboto, sans-serif;
-  letter-spacing: normal;
-  margin: 0 0 16px;
+
+.share-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+  border-radius: 50%;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  color: #6b7280;
+  padding: 0;
+  transition: background 0.15s, color 0.15s;
+
+  mat-icon {
+    font-size: 20px;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+  }
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.06);
+    color: #101828;
+  }
+}
+
+// ─── Body ────────────────────────────────────────────────────────────────────
+.share-body {
+  padding: 20px;
+}
+
+.share-section-label {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #6b7280;
+  margin: 0 0 12px;
+}
+
+// ─── Social row ──────────────────────────────────────────────────────────────
+.share-social-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
+// ─── Divider ─────────────────────────────────────────────────────────────────
+.share-divider {
+  height: 1px;
+  background: rgba(0, 0, 0, 0.08);
+  margin: 18px 0;
+}
+
+// ─── QR section ──────────────────────────────────────────────────────────────
+.share-qr-row {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+
+  @media (max-width: 400px) {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
+
+.share-qr-wrap {
+  background: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 10px;
+  padding: 8px;
+  flex-shrink: 0;
+}
+
+.share-download-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #1c5d95;
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.15s;
+
+  mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+    line-height: 18px;
+  }
+
+  &:hover {
+    background: #164f80;
+  }
+}
+
+// ─── Dark theme ───────────────────────────────────────────────────────────────
+:host-context(.dark-theme) {
+  .share-title { color: #f0f0f0; }
+  .share-header { border-color: rgba(255, 255, 255, 0.1); }
+  .share-divider { background: rgba(255, 255, 255, 0.1); }
+  .share-qr-wrap { background: #1e2a35; border-color: rgba(255, 255, 255, 0.08); }
+  .share-section-label { color: #9ca3af; }
+  .share-close {
+    color: #9ca3af;
+    &:hover { background: rgba(255, 255, 255, 0.08); color: #f0f0f0; }
+  }
 }
