@@ -59,11 +59,11 @@ export class YourLocationComponent implements OnInit {
       this.countries = data.nationalities
     })
   }
-  countrySelect(event: Event) {
+  countrySelect(event: any) {
     this.logger.log(this.aboutYouForm.controls)
-    const option = event.target as HTMLInputElement
-    this.setCountryCode(option.value)
-    if (option.value === 'India') {
+    const value = event.value
+    this.setCountryCode(value)
+    if (value === 'India') {
       this.http.get(this.stateUrl).subscribe((data: any) => {
         this.states = data.states
       })
@@ -108,11 +108,11 @@ export class YourLocationComponent implements OnInit {
     }
   }
 
-  stateSelect(event: Event) {
-    const option = event.target as HTMLInputElement
+  stateSelect(event: any) {
+    const value = event.value
     this.http.get(this.districtUrl).subscribe((statesdata: any) => {
       statesdata.states.map((item: any) => {
-        if (item.state === option.value) {
+        if (item.state === value) {
           this.disticts = item.districts
         }
       })

@@ -548,7 +548,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
                       if (response.responseCode === 'OK') {
                         this.sendApi()
                         localStorage.setItem(`certificate_downloaded_${this.content ? this.content.identifier : ''}`, moment(new Date()).toString())
-                        this.openSnackbar(this.translate.instant("CERTIFICATE_REQ_SUCESSFULL"))
+                        this.dialog.open(AppTocDesktopModalComponent, {
+                          width: '312px',
+                          data: { type: 'SUCCESS', message: this.translate.instant('CERTIFICATE_REQ_SUCESSFULL') },
+                        })
                       } else {
                         this.openSnackbar(this.translate.instant("REQUEST_CERTIFICATE_FAILED"))
                       }
@@ -572,7 +575,10 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
             data: { type: 'ALERT', message: this.translate.instant("ALERT_CERTIFICATE_MSG") },
           })
         } else {
-          this.openSnackbar(this.translate.instant('CERTIFICATE_REQ_SUCESSFULL'))
+          this.dialog.open(AppTocDesktopModalComponent, {
+            width: '312px',
+            data: { type: 'SUCCESS', message: this.translate.instant('CERTIFICATE_REQ_SUCESSFULL') },
+          })
         }
       }
     } else {

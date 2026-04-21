@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http'
-import { Component, Input, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ConfigurationsService } from '../../../../library/ws-widget/utils/src/lib/services/configurations.service'
@@ -30,6 +30,7 @@ export class YourBackgroundComponent implements OnInit {
   professionUrl = '../../../fusion-assets/files/professions.json'
   constructor(
     private http: HttpClient,
+    private cdr: ChangeDetectorRef,
     private activateRoute: ActivatedRoute,
     private router: Router,
     private snackBar: MatSnackBar,
@@ -48,6 +49,7 @@ export class YourBackgroundComponent implements OnInit {
       } else {
         this.professions = data.professions
       }
+      this.cdr.detectChanges()
     })
     this.nextBtnDisable = true
   }

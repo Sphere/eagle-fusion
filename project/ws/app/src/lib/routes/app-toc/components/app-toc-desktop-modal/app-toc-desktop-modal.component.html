@@ -21,6 +21,14 @@
     <p>{{ content.message }}</p>
   </ng-container>
 
+  <ng-container *ngIf="content.type === 'SUCCESS'">
+    <div class="success-icon-wrap">
+      <mat-icon class="success-icon">check_circle</mat-icon>
+    </div>
+    <p class="success-message">{{ content.message }}</p>
+    <button class="btn-ok cursor-pointer" [mat-dialog-close]="true">{{ 'OK' | translate }}</button>
+  </ng-container>
+
   <ng-container *ngIf="content.type === 'COMPETENCY'">
     <h1>{{cometencyData[0].name}}</h1>
     <div class="flex flex-row">

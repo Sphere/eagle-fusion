@@ -73,18 +73,18 @@
 }
 
 .prevBtn {
-  left: -18px;
+  left: 4px;
 }
 
 .nextBtn {
-  right: -18px;
+  right: 4px;
 }
 
 .nextLoading {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
-  right: -18px;
+  right: 4px;
   z-index: 10;
 }
 
@@ -93,7 +93,7 @@
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 72px;
+  width: 48px;
   z-index: 5;
   pointer-events: none;
   opacity: 0;
@@ -109,7 +109,8 @@
   background: linear-gradient(
     to right,
     var(--theme-bg, #f5f5f5) 0%,
-    rgba(245, 245, 245, 0.6) 60%,
+    var(--theme-bg, #f5f5f5) 20%,
+    rgba(245, 245, 245, 0.5) 65%,
     transparent 100%
   );
 }
@@ -119,7 +120,8 @@
   background: linear-gradient(
     to left,
     var(--theme-bg, #f5f5f5) 0%,
-    rgba(245, 245, 245, 0.6) 60%,
+    var(--theme-bg, #f5f5f5) 20%,
+    rgba(245, 245, 245, 0.5) 65%,
     transparent 100%
   );
 }

@@ -358,6 +358,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
                   cvalue['printUri'] = res[cvalue.identifier]
                 }
               })
+              this.cdr.detectChanges()
             }
           })
         }, 500)

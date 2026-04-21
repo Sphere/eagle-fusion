@@ -1282,3 +1282,39 @@ html::-webkit-scrollbar-thumb:hover {
 html::-webkit-scrollbar-corner {
   background: transparent;
 }
+
+// Location select panel (your-location page)
+.location-select-panel {
+  .mat-mdc-option {
+    font-family: 'Roboto', sans-serif !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+    color: #101828 !important;
+    background-color: #ffffff !important;
+    min-height: 40px !important;
+
+    .mdc-list-item__primary-text {
+      font-family: 'Roboto', sans-serif !important;
+      font-size: 14px !important;
+      font-weight: 400 !important;
+      color: #101828 !important;
+    }
+
+    &:hover:not(.mdc-list-item--disabled),
+    &:focus:not(.mdc-list-item--disabled) {
+      background: #f0f4f8 !important;
+    }
+
+    &.mat-mdc-option-active,
+    &.mdc-list-item--selected {
+      background-color: #1C5D95 !important;
+
+      .mdc-list-item__primary-text {
+        font-family: 'Roboto', sans-serif !important;
+        font-size: 14px !important;
+        font-weight: 400 !important;
+        color: #ffffff !important;
+      }
+    }
+  }
+}
