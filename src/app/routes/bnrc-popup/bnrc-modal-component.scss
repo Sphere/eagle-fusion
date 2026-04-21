@@ -1,10 +1,16 @@
 @use 'ws-mixins';
 
+::ng-deep .overview-modal .mdc-dialog__surface {
+  border-radius: 24px !important;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.18) !important;
+}
+
 .overview-container {
   display: flex;
   flex-direction: column;
   gap: 17px;
-  margin: 2rem;
+  padding: 28px 24px 24px;
 }
 
 .flex {
@@ -15,6 +21,7 @@
 .header-block {
   display: flex;
   gap: 14px !important;
+  align-items: center;
 }
 
 .btn-block {
@@ -106,7 +113,7 @@
   background: #2E6491 !important;
   color: #FFFFFF !important;
   padding: 8px 32px 8px 32px;
-  border-radius: 50px;
+  border-radius: 14px;
   font-family: Roboto, sans-serif;
   font-size: 16px !important;
   font-weight: 400;
@@ -151,10 +158,7 @@
 .header {
   font-family: Roboto, sans-serif;
   font-size: 24px;
-  font-weight: 400;
+  font-weight: 600;
   line-height: 28.13px;
   letter-spacing: 0.02em;
-  // text-align: center;
-
-
 }

@@ -46,7 +46,7 @@
     </mat-error>
     <label i18n for="profession" *ngIf="isInservice" style="display: block;">District / ज़िला <span
         class="red-icon">*</span></label>
-    <mat-form-field *ngIf="isInservice" appearance="outline" class="field-fullwidth" style="width: 100%;">
+    <mat-form-field *ngIf="isInservice" appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
       <mat-select formControlName="district" i18n-placeholder placeholder="District">
         <mat-option [value]="district" *ngFor="let district of districts">{{district}}
         </mat-option>
@@ -67,7 +67,7 @@
           / In which district you are studying <span class="red-icon">*</span></label>
 
 
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select formControlName="district" i18n-placeholder placeholder="District">
             <mat-option [value]="district" *ngFor="let district of districts">{{district}}
             </mat-option>
@@ -78,7 +78,7 @@
         </mat-error>
         <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
             class="red-icon">*</span></label>
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <input matInput [matAutocomplete]="auto" formControlName="instituteName" placeholder="Name of Institute"
             i18n-placeholder
             (change)="assignFields('institutionName', bnrcDetailForm.controls['instituteName'].value, $event)" required
@@ -110,7 +110,7 @@
           / In which district you are teaching <span class="red-icon">*</span></label>
 
 
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select formControlName="district" i18n-placeholder placeholder="District">
             <mat-option [value]="district" *ngFor="let district of districts">{{district}}
             </mat-option>
@@ -121,7 +121,7 @@
         </mat-error>
         <label i18n for="profession" style="display: block;">Name of Institute / संस्थान का नाम <span
             class="red-icon">*</span></label>
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <input matInput [matAutocomplete]="auto" formControlName="instituteName" placeholder="Name of Institute"
             i18n-placeholder
             (change)="assignFields('institutionName', bnrcDetailForm.controls['instituteName'].value, $event)" required
@@ -158,7 +158,7 @@
 
     </ng-container>
     <ng-container *ngIf="inService">
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select formControlName="block" i18n-placeholder placeholder="Block">
           <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
           </mat-option>
@@ -169,7 +169,7 @@
       </mat-error>
       <ng-container *ngIf="!isInservice">
         <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select formControlName="publicFacilityType" i18n-placeholder placeholder="Position">
             <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
             </mat-option>
@@ -182,7 +182,7 @@
       </ng-container>
       <label i18n for="profession" style="display: block;">Role for Inservice Nurse <span
           class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select (selectionChange)="professionalChange($event.value)" formControlName="roleForInService"
           i18n-placeholder placeholder="Role for Inservice Nurse">
           <mat-option [value]="profession" *ngFor="let profession of inserviceList">{{profession}}
@@ -197,7 +197,7 @@
     <div *ngIf="publicHealthFacility">
       <label i18n for="profession" style="display: block;">Block / आप जिस ब्लॉक में काम कर रहे हैं
         / In which block you are working <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select formControlName="block" i18n-placeholder placeholder="Block">
           <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
           </mat-option>
@@ -208,7 +208,7 @@
       </mat-error>
       <ng-container *ngIf="!isInservice">
         <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select formControlName="publicFacilityType" i18n-placeholder placeholder="Position">
             <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
             </mat-option>
@@ -221,7 +221,7 @@
       </ng-container>
       <label i18n for="profession" style="display: block;">Role for Inservice Nurse <span
           class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select (selectionChange)="professionalChange($event.value)" formControlName="roleForInService"
           i18n-placeholder placeholder="Role for Inservice Nurse">
           <mat-option [value]="profession" *ngFor="let profession of inserviceList">{{profession}}
@@ -233,7 +233,7 @@
         Role for Inservice Nurse is required.
       </mat-error>
       <label i18n for="profession" style="display: block;">Type of service <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select (selectionChange)="serviceTypeChange($event.value)" formControlName="serviceType" i18n-placeholder
           placeholder="Type of service">
           <mat-option [value]="profession" *ngFor="let profession of serviceType">{{profession}}
@@ -260,7 +260,7 @@
     <div *ngIf="privateHealthFacility">
       <label i18n for="profession" style="display: block;">Block / आप जिस ब्लॉक में काम कर रहे हैं
         / In which block you are working <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select formControlName="block" i18n-placeholder placeholder="Block">
           <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
           </mat-option>
@@ -271,7 +271,7 @@
       </mat-error>
       <ng-container *ngIf="!isInservice">
         <label i18n for="position" style="display: block;">Position / पद <span class="red-icon">*</span></label>
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select formControlName="privateFacilityType" i18n-placeholder placeholder="Position">
             <mat-option [value]="profession" *ngFor="let profession of Position">{{profession}}
             </mat-option>
@@ -283,7 +283,7 @@
         </mat-error>
       </ng-container>
       <label i18n for="profession" style="display: block;">Role for Inservice Nurse <span
-          class="red-icon">*</span></label> <mat-form-field appearance="outline" class="field-fullwidth"
+          class="red-icon">*</span></label> <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field"
         style="width: 100%;">
         <mat-select formControlName="roleForInService" i18n-placeholder placeholder="Role"
           (selectionChange)="professionalChange($event.value)">
@@ -315,7 +315,7 @@
     <div *ngIf="cho">
       <label i18n for="profession" style="display: block;">District / आप जिस ज़िले में काम कर रहे हैं
         / In which district you are working <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select formControlName="district" i18n-placeholder placeholder="District">
           <mat-option [value]="district" *ngFor="let district of districts">{{district}}
           </mat-option>
@@ -326,7 +326,7 @@
       </mat-error>
       <label i18n for="profession" style="display: block;">Block / आप जिस ब्लॉक में काम कर रहे हैं
         / In which block you are working <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select formControlName="block" i18n-placeholder placeholder="Block">
           <mat-option [value]="block" *ngFor="let block of blocks">{{block}}
           </mat-option>
@@ -338,7 +338,7 @@
 
       <label i18n for="profession" style="display: block;">AAM-SHC / आप जिस AAM-SHC में काम कर रहे हैं
         / In which AAM-SHC you are working <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select formControlName="facilityName" i18n-placeholder placeholder="AAM-SHC">
           <mat-option *ngFor="let shc of aamShcs" [value]="shc">
             {{ shc.name }}
@@ -350,12 +350,12 @@
       </mat-error>
       <ng-container>
         <label i18n for="profession">NIN Number</label>
-        <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+        <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <input matInput placeholder="NIN" formControlName="nin" readonly disabled>
         </mat-form-field>
       </ng-container>
       <label i18n for="profession">Type of service <span class="red-icon">*</span></label>
-      <mat-form-field appearance="outline" class="field-fullwidth" style="width: 100%;">
+      <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
         <mat-select formControlName="serviceType" i18n-placeholder placeholder="Type of service">
           <mat-option [value]="profession" *ngFor="let profession of serviceType">{{profession}}
           </mat-option>

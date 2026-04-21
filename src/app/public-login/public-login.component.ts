@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, NgZone, OnInit } from '@angular/core'
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms'
 import { v4 as uuid } from 'uuid'
 import { SignupService } from 'src/app/routes/signup/signup.service'
@@ -53,7 +53,9 @@ export class PublicLoginComponent implements OnInit {
     private title: Title,
     private telemetrySvc: TelemetryService,
     private logger: LoggerService,
-    private translate: TranslateService
+    private translate: TranslateService,
+    private cdr: ChangeDetectorRef,
+    private ngZone: NgZone
   ) {
     this.isXSmall$ = this.valueSvc.isXSmall$
     this.loginForm = this.spherFormBuilder.group({
@@ -190,7 +192,6 @@ export class PublicLoginComponent implements OnInit {
     this.langDialog = this.dialog.open(CreateAccountDialogComponent, {
       panelClass: 'language-modal',
       width: '312px',
-      height: '30%',
       data: {
         selected: 'userNotExist',
         userNotExistEkshamta: this.isEkshamtaLogin,
@@ -541,6 +542,7 @@ export class PublicLoginComponent implements OnInit {
         this.openSnackbar(this.translate.instant(message, { value: lastValue }))
         this.startTimer()
         this.otpPage = true
+        this.cdr.detectChanges()
         this.logger.log(this.otpPage)
       }, err => {
         this.logger.log(err.error.msg, err.error.message)
@@ -565,16 +567,19 @@ export class PublicLoginComponent implements OnInit {
     this.resendTimer = 600 // Reset the timer value to 10 minutes
     this.resendTimerText = '10:00' // Reset the display text to 10:00
 
-    this.interval = setInterval(() => {
-      this.resendTimer--
-      if (this.resendTimer === 0) {
-        clearInterval(this.interval)
-        this.interval = null
-      }
-      const minutes: string = Math.floor(this.resendTimer / 60).toString().padStart(2, '0')
-      const seconds: string = (this.resendTimer % 60).toString().padStart(2, '0')
-      this.resendTimerText = `${minutes}:${seconds}`
-    }, 1000)
+    this.ngZone.runOutsideAngular(() => {
+      this.interval = setInterval(() => {
+        this.resendTimer--
+        if (this.resendTimer === 0) {
+          clearInterval(this.interval)
+          this.interval = null
+        }
+        const minutes: string = Math.floor(this.resendTimer / 60).toString().padStart(2, '0')
+        const seconds: string = (this.resendTimer % 60).toString().padStart(2, '0')
+        this.resendTimerText = `${minutes}:${seconds}`
+        this.cdr.detectChanges()
+      }, 1000)
+    })
   }
 
 

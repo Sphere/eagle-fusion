@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core'
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { find, includes } from 'lodash'
 import { UserProfileService } from 'project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
@@ -25,7 +25,8 @@ export class PublicTocComponent implements OnInit, OnDestroy {
     private activeRoute: ActivatedRoute,
     private userProfileSvc: UserProfileService,
     private meta: Meta, private title: Title,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef
   ) {
 
   }
@@ -119,6 +120,7 @@ export class PublicTocComponent implements OnInit, OnDestroy {
           , findRes => {
             if (findRes.identifier === id) {
               this.tocData = findRes
+              this.cdr.detectChanges()
               this.logger.log('findRes', findRes)
               this.title.setTitle(`${this.tocData?.name} | Aastrika Sphere`)
 

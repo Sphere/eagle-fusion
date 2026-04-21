@@ -410,8 +410,7 @@ export class MpRegisterComponent implements OnInit {
     const message = 'कृपया ई-क्षमता ऐप डाउनलोड करें और दिए गए मोबाइल नंबर के साथ ओटीपी का उपयोग करके लॉगिन करें । Kindly download the e-Kshamata app and login using your given mobile number with OTP'
 
     this.dialog.open(BnrcmodalComponent, {
-      width: '350px',
-      height: '305px',
+      width: '380px',
       panelClass: 'overview-modal',
       disableClose: true,
       data: { message, from: 'Upsmf' },
