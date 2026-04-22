@@ -9,10 +9,7 @@
     </div>
 
 
-    <div mat-dialog-title class="relative m-0">
-
-        <h2 class="m-0 center-align title" mat-dialog-title>{{"Submit your feedback" | translate}}</h2>
-    </div>
+    <h2 class="m-0 center-align title" mat-dialog-title>{{"Submit your feedback" | translate}}</h2>
     <mat-dialog-content>
         <form [formGroup]="ratingsForm">
             <div class="center-align">
@@ -23,7 +20,7 @@
                 </div>
             </div>
             <div class="rating-comment width-1-1 margin-top-m margin-bottom-l">
-                <textarea (input)="setRating(selectedRating)" style="height: 96px;padding: 10px; width: 98%;" rows="4"
+                <textarea (input)="setRating(selectedRating)" style="height: 96px;padding: 10px;" rows="4"
                     matInput [placeholder]="'Tell us more about what you felt' | translate" name=" name"
                     formControlName="review" required></textarea>
                 <mat-error *ngIf="isSubmitPressed && !ratingsForm.controls.review.value">

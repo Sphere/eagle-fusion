@@ -160,10 +160,33 @@ export class WorkInfoListComponent implements OnInit {
               }
               if (pd0.profession === 'ASHA' || (pd0.profession === 'Others' && (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer'))) {
                 this.selectedBg = pd0.selectBackground
-                this.personalDetailForm.controls.locationselect.setValue(pd0.locationselect)
+                this.personalDetailForm.controls.block.setValidators([Validators.required])
+                this.personalDetailForm.controls.block.updateValueAndValidity()
 
-                const { state } = this.extractStateDistrictFromPostalAddress(newData.personalDetails.postalAddress)
-                this.loadDistrictsByState(state)
+                this.http.get(this.districtUrl).subscribe((statesdata: any) => {
+                  if (pd0.locationselect) {
+                    // Find state by matching the saved district value
+                    for (const stateData of statesdata.states) {
+                      if (stateData.districts.includes(pd0.locationselect)) {
+                        this.disticts = stateData.districts
+                        this.personalDetailForm.controls.locationselect.setValue(pd0.locationselect)
+                        break
+                      }
+                    }
+                  } else {
+                    // No saved district — derive from postalAddress
+                    const { state, dist } = this.extractStateDistrictFromPostalAddress(newData.personalDetails.postalAddress)
+                    if (state) {
+                      const match = statesdata.states.find((s: any) => s.state === state)
+                      if (match) {
+                        this.disticts = match.districts
+                        if (dist && match.districts.includes(dist)) {
+                          this.personalDetailForm.controls.locationselect.setValue(dist)
+                        }
+                      }
+                    }
+                  }
+                })
               }
             }
           }
@@ -197,6 +220,8 @@ export class WorkInfoListComponent implements OnInit {
         controls.designation.clearValidators()
         controls.instituteName.clearValidators()
         controls.instituteName.updateValueAndValidity()
+        controls.block.setValidators([Validators.required])
+        controls.block.updateValueAndValidity()
         controls.block.setValue(null)
         controls.subcentre.setValue(null)
 
@@ -310,7 +335,18 @@ export class WorkInfoListComponent implements OnInit {
       this.orgTypeSelect(event.value)
     } else if (field.key === 'selectBackground') {
       this.chooseBackground(event.value)
+    } else if (field.key === 'locationselect') {
+      this.onLocationSelectChange(event.value)
     }
+  }
+
+  onLocationSelectChange(district: string) {
+    const postalAddress = this.userProfileData?.personalDetails?.postalAddress
+    if (!postalAddress || !postalAddress.includes('India')) return
+    const csplit = postalAddress.split(',')
+    const country = csplit[0].trim()
+    const state = csplit[1].trim()
+    this.userProfileData.personalDetails.postalAddress = `${country},${state},${district}`
   }
 
   professionSelect(option: any) {

@@ -13,10 +13,10 @@ import { WidgetContentService } from '../../../../library/ws-widget/collection/s
 import { catchError, map } from 'rxjs/operators'
 
 @Component({
-    standalone: false,
-    selector: 'ws-web-public-container',
-    templateUrl: './web-public-container.component.html',
-    styleUrls: ['./web-public-container.component.scss'],
+  standalone: false,
+  selector: 'ws-web-public-container',
+  templateUrl: './web-public-container.component.html',
+  styleUrls: ['./web-public-container.component.scss'],
 })
 export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   myCourse: any
@@ -341,14 +341,28 @@ export class WebPublicComponent implements OnInit, OnChanges, OnDestroy {
   // To view all course
   viewAllCourse(content: any) {
     const courseType = content?.button?.courseType
+    const isViewingAll = content?.data?.length === content?.displayData?.length
+
     if (courseType == 'continueLearning' || courseType == 'completed' || courseType == 'formatForYouCourses') {
-      content.displayData = this.isXSmall() ?
-        (courseType == 'formatForYouCourses' ? this.coursesForYou() : this.userEnrollCourse)
-        : this.router.navigate(['app/user/my_courses'], { queryParams: { courseType: courseType } })
+      if (isViewingAll) {
+        // Hide - reset to initial limit
+        content.displayData = (courseType == 'formatForYouCourses' ? this.coursesForYou() : this.userEnrollCourse).slice(0, content.limit)
+      } else {
+        // View all
+        content.displayData = this.isXSmall() ?
+          (courseType == 'formatForYouCourses' ? this.coursesForYou() : this.userEnrollCourse)
+          : this.router.navigate(['app/user/my_courses'], { queryParams: { courseType: courseType } })
+      }
     } else if (courseType == 'topCourse' || courseType == 'cneCourses') {
-      content.displayData = this.isXSmall() ?
-        (courseType == 'topCourse' ? this.topCertifiedCourse() : this.cneCourse())
-        : this.router.navigate(['app/search/topCourse'], { queryParams: { courseType: courseType, data: courseType == 'topCourse' ? this.topCertifiedCourseIdentifier : this.cneCoursesIdentifier } })
+      if (isViewingAll) {
+        // Hide - reset to initial limit
+        content.displayData = (courseType == 'topCourse' ? this.topCertifiedCourse() : this.cneCourse()).slice(0, content.limit)
+      } else {
+        // View all
+        content.displayData = this.isXSmall() ?
+          (courseType == 'topCourse' ? this.topCertifiedCourse() : this.cneCourse())
+          : this.router.navigate(['app/search/topCourse'], { queryParams: { courseType: courseType, data: courseType == 'topCourse' ? this.topCertifiedCourseIdentifier : this.cneCoursesIdentifier } })
+      }
     }
   }
 

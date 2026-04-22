@@ -81,13 +81,13 @@ export class AlmostDoneComponent implements OnInit {
     if (this.backgroundSelect === 'ASHA') {
       this.almostDoneForm.controls.professSelected.setValue('ASHA')
       this.enableSubmit = true
-      this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       this.http.get(this.districtUrl).subscribe((statesdata: any) => {
         statesdata.states.map((item: any) => {
           if (item.state === this.yourBackground.value.state) {
             this.disticts = item.districts
           }
         })
+        this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
       })
     }
   }
@@ -102,13 +102,13 @@ export class AlmostDoneComponent implements OnInit {
     if (this.selectedBg === 'Asha Facilitator' || this.selectedBg === 'Asha Trainer') {
       this.enableSubmit = true
       if (this.yourBackground && this.yourBackground.value) {
-        this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
         this.http.get(this.districtUrl).subscribe((statesdata: any) => {
           statesdata.states.map((item: any) => {
             if (item.state === this.yourBackground.value.state) {
               this.disticts = item.districts
             }
           })
+          this.almostDoneForm.controls.locationselect.setValue(this.yourBackground.value.distict)
         })
       }
     }
@@ -314,18 +314,9 @@ export class AlmostDoneComponent implements OnInit {
       // }
     }
     if (this.backgroundSelect === 'ASHA') {
-      // tslint:disable-next-line
-      this.almostDoneForm.valueChanges.subscribe(value => {
-        this.logger.log(value)
-        if (value.block && value.subcentre) {
-          this.enableSubmit = false
-        } else {
-          this.enableSubmit = true
-        }
-      })
-      // if (this.almostDoneForm.value.block && this.almostDoneForm.value.subcentre) {
-      //   this.enableSubmit = false
-      // }
+      const block = this.almostDoneForm.controls['block'].value
+      const locationselect = this.almostDoneForm.controls['locationselect'].value
+      this.enableSubmit = !(block && locationselect)
     }
     if (this.backgroundSelect === 'Student') {
       // tslint:disable-next-line
@@ -361,7 +352,7 @@ export class AlmostDoneComponent implements OnInit {
       }))
     }
 
-    if (Object.keys(event).length && this.almostDoneForm.dirty) {
+    if (Object.keys(event).length && this.almostDoneForm.dirty && this.backgroundSelect !== 'ASHA') {
       this.enableSubmit = false
     }
     this.logger.log(this.backgroundSelect, this.selectedBg)

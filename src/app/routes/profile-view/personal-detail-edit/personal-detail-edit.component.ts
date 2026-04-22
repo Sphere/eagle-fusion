@@ -529,6 +529,9 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     profileRequest.profileReq.personalDetails["userCookie"] = this.userProfileData.personalDetails.userCookie ? this.userProfileData.personalDetails.userCookie : userCookie
 
     profileRequest.profileReq.personalDetails["postalAddress"] = form.value.country !== 'India' ? form.value.country : form.value.country + ',' + form.value.state + ',' + form.value.distict
+    if (form.value.country === 'India' && form.value.distict && profileRequest.profileReq.professionalDetails.length) {
+      profileRequest.profileReq.professionalDetails[0].locationselect = form.value.distict
+    }
     profileRequest.profileReq.personalDetails["profileLocation"] = 'sphere-web/personal-detail-edit-onSubmit'
     const obj = {
       preferences: {

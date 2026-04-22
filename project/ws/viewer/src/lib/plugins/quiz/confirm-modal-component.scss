@@ -1,12 +1,16 @@
 @use 'ws-mixins';
 
+.overview-container {
+  padding: 0 8px 8px;
+}
+
 .flex {
   display: flex;
 
 }
 
 .justify-end {
-  text-align: center;
+  justify-content: flex-end;
 }
 
 .text-center {
@@ -80,6 +84,12 @@
   justify-content: center !important;
 }
 
+.star-rating img {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+
 .star {
   cursor: pointer;
   font-size: 24px;
@@ -143,6 +153,10 @@ textarea.mat-mdc-input-element {
   caret-color: var(--text-color); /* keep cursor visible */
   background: var(--theme-surface);
   margin-top: 1rem;
+  border: none;
+  width: 100%;
+  box-sizing: border-box;
+  resize: none;
 }
 
 /* Remove blue outline only on textarea */
