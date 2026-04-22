@@ -14,11 +14,11 @@ import { LanguageService } from '../../../services/language.service'
 import { TranslateService } from '@ngx-translate/core'
 
 @Component({
-    standalone: false,
-    selector: 'ws-work-info-list',
-    templateUrl: './work-info-list.component.html',
-    styleUrls: ['./work-info-list.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-work-info-list',
+  templateUrl: './work-info-list.component.html',
+  styleUrls: ['./work-info-list.component.scss'],
+
 })
 export class WorkInfoListComponent implements OnInit {
 
@@ -191,6 +191,7 @@ export class WorkInfoListComponent implements OnInit {
       case 'Healthcare Worker':
       case 'Healthcare Volunteer':
         controls.orgType.setValidators([Validators.required])
+        controls.designation.setValidators([Validators.required])
         break
       case 'ASHA':
         controls.designation.clearValidators()

@@ -175,7 +175,7 @@ export class AudioComponent implements OnInit, OnDestroy {
         this.logger.log(data.result.contentList)
         const result = data.result
         result['type'] = 'audio'
-        const res = data["result"]["contentList"].find(
+        const res = (data["result"]["contentList"] || []).find(
           (obj: any) => obj.contentId === audioId
         )
         this.viewerSvc.generateInteractTelemetry('progress-update-success', { ...res, mimeType: 'audio' })

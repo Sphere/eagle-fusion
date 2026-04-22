@@ -164,6 +164,8 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
     })
   }
   stateSelect(option: any) {
+    this.personalDetailForm.controls.distict.setValue(null)
+    this.changeDetectorRef.markForCheck()
     this.http.get(this.districtUrl)
       .pipe(takeUntil(this.destroy$))
       .subscribe(
@@ -172,6 +174,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
           if (stateData) {
             this.disticts = (stateData.districts || []).map((d: string) => ({ name: d }))
           }
+          this.changeDetectorRef.markForCheck()
         },
         err => {
           this.logger.error('Error fetching districts:', err)
@@ -378,6 +381,7 @@ export class PersonalDetailEditComponent implements OnInit, AfterViewInit, After
         break
       case 'state':
         this.stateSelect(this.personalDetailForm.get('state').value)
+        this.savebtnDisable = true
         break
       case 'distict':
         break

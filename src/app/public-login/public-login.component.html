@@ -68,15 +68,11 @@
                 <div class="field-edit-width">
                   <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
                     <mat-label>{{ 'Enter Password' | translate }}</mat-label>
-                    <input autofocus="" tabindex="0" id="emailOrMobile" required="" [type]="hide2 ? 'password' : 'text'"
-                      (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
-                      #emailOrMobile />
-                    <div class="input-group-append">
-                      <span class="input-group-text eye-icon" (click)="toggle2()" (keydown)="handleKeyDown($event)"
-                        style="cursor: pointer;" style="cursor: pointer;">
-                        <i [ngClass]="iconChange2" aria-hidden="true"></i>
-                      </span>
-                    </div>
+                    <input autofocus="" tabindex="0" required="" [type]="hide2 ? 'password' : 'text'"
+                      (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password" />
+                    <button mat-icon-button matSuffix type="button" (click)="toggle2()" (keydown)="handleKeyDown($event)">
+                      <i [ngClass]="iconChange2" aria-hidden="true"></i>
+                    </button>
                     <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">
                       {{ 'Invalid email or number' | translate }}</mat-error>
                   </mat-form-field>
@@ -302,15 +298,11 @@
           <div class="field-edit-width">
             <mat-form-field appearance="fill" class="margin-top-xs field-edit-width">
               <mat-label>{{ 'Enter Password' | translate }}</mat-label>
-              <input autofocus="" tabindex="0" id="emailOrMobile" required="" [type]="hide2 ? 'password' : 'text'"
-                (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password"
-                #emailOrMobile />
-              <div class="input-group-append">
-                <span class="input-group-text eye-icon" (keydown)="handleKeyDown($event)" (click)="toggle2()"
-                  style="cursor: pointer;">
-                  <i [ngClass]="iconChange2" aria-hidden="true"></i>
-                </span>
-              </div>
+              <input autofocus="" tabindex="0" required="" [type]="hide2 ? 'password' : 'text'"
+                (input)="checkPassword()" class="input-field" trim="blur" matInput formControlName="password" />
+              <button mat-icon-button matSuffix type="button" (click)="toggle2()" (keydown)="handleKeyDown($event)">
+                <i [ngClass]="iconChange2" aria-hidden="true"></i>
+              </button>
               <mat-error class="text-danger mb-4" *ngIf="loginForm.controls['emailOrMobile'].hasError('pattern')">{{
                 'Invalid email or number' | translate }}</mat-error>
             </mat-form-field>

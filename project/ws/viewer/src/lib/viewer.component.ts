@@ -225,8 +225,10 @@ export class ViewerComponent implements OnInit, OnDestroy, AfterViewChecked {
   ngAfterViewChecked() {
     const container = document.getElementById('fullScreenContainer') || null
     if (this.fullScreenContainer !== container) {
-      this.fullScreenContainer = container
-      Promise.resolve().then(() => this.changeDetector.detectChanges())
+      Promise.resolve().then(() => {
+        this.fullScreenContainer = container
+        this.changeDetector.detectChanges()
+      })
     }
   }
 

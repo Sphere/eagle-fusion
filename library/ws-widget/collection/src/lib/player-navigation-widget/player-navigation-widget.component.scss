@@ -6,9 +6,6 @@
     margin-top: 10px;
     margin-bottom: 10px;
     flex-wrap: nowrap;
-    position: relative;
-    z-index: 10;
-    pointer-events: auto;
 }
 
 .child {
@@ -30,9 +27,6 @@
     text-decoration: none;
     text-transform: none;
     box-sizing: border-box;
-    position: relative;
-    z-index: 10;
-    pointer-events: auto;
     white-space: nowrap;
 
     &:hover {
@@ -136,4 +130,31 @@
     opacity: 0.5 !important;
     cursor: not-allowed !important;
     pointer-events: none !important;
+}
+
+@media (max-width: 599px) {
+    .parent {
+        gap: 12px;
+        padding: 0 12px;
+    }
+
+    .child {
+        padding: 10px 16px !important;
+        min-width: unset !important;
+        flex: 1;
+        font-size: 14px;
+
+        span {
+            font-size: 14px;
+        }
+
+        img {
+            height: 16px;
+            width: 16px;
+        }
+    }
+
+    ::ng-deep .child.mat-mdc-button {
+        padding: 10px 16px !important;
+    }
 }

@@ -1,4 +1,7 @@
 .pdf-nav-bar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
   display: flex;
   align-items: center;
   min-height: 56px;
@@ -43,10 +46,26 @@
 }
 
 .pdf-container {
-  height: 100%;
+  height: auto;
   width: 100%;
   display: flex;
   flex-direction: column;
+  max-height: none;
+}
+
+@media only screen and (max-width: 599px) {
+  .pdf-container {
+    max-height: 360px;
+  }
+  #fullScreenContainer {
+    min-height: 200px;
+    max-height: 320px;
+  }
+  ::ng-deep ngx-extended-pdf-viewer {
+    min-height: 200px !important;
+    max-height: 320px !important;
+    height: auto !important;
+  }
 }
 
 .container {
@@ -77,7 +96,9 @@
 }
 
 #fullScreenContainer {
-  min-height: 75vh;
+  min-height: 200px;
+  max-height: calc(100vh - 220px);
+  overflow: auto;
 }
 
 

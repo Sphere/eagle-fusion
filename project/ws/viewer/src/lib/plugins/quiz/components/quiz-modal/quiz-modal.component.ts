@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { ActivatedRoute } from '@angular/router'
@@ -63,7 +63,9 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private logger: LoggerService,
     private translate: TranslateService,
     private scrnScrtySvc: ScreenSecurityService,
-    private plyLsSvc: PlaylistService
+    private plyLsSvc: PlaylistService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
   ) {
 
   }
@@ -103,25 +105,31 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
 
   timer(data: any) {
     if (data > -1) {
-      this.timerSubscription = interval(100)
-        .pipe(
-          map(
-            () =>
-              this.startTime + this.assesmentdata.questions.timeLimit - Date.now(),
-          ),
-        )
-        .subscribe(_timeRemaining => {
-          this.timeLeft -= 0.1
-          if (this.timeLeft < 0) {
-            this.isIdeal = true
-            this.timeLeft = 0
-            if (this.timerSubscription) {
-              this.timerSubscription.unsubscribe()
+      this.ngZone.runOutsideAngular(() => {
+        this.timerSubscription = interval(100)
+          .pipe(
+            map(
+              () =>
+                this.startTime + this.assesmentdata.questions.timeLimit - Date.now(),
+            ),
+          )
+          .subscribe(_timeRemaining => {
+            this.timeLeft -= 0.1
+            if (this.timeLeft < 0) {
+              this.ngZone.run(() => {
+                this.isIdeal = true
+                this.timeLeft = 0
+                if (this.timerSubscription) {
+                  this.timerSubscription.unsubscribe()
+                }
+                this.tabIndex = 1
+                this.tabActive = true
+              })
+            } else {
+              this.cdr.markForCheck()
             }
-            this.tabIndex = 1
-            this.tabActive = true
-          }
-        })
+          })
+      })
     }
   }
 
@@ -191,6 +199,7 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
         this.result = round(res.result)
         this.tabIndex = 1
         this.tabActive = true
+        this.cdr.detectChanges()
         this.logger.log(this.result, this.passPercentage)
         this.logger.log(this.result)
         if (this.result >= 0) {

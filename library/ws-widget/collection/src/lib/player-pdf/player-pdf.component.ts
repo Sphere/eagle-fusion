@@ -1,6 +1,5 @@
 import {
   AfterViewInit,
-  ChangeDetectorRef,
   Component,
   ElementRef,
   Input,
@@ -25,11 +24,11 @@ import { pdfDefaultOptions } from 'ngx-extended-pdf-viewer'
 import { ViewerDataService } from 'project/ws/viewer/src/lib/viewer-data.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-player-pdf',
-    templateUrl: './player-pdf.component.html',
-    styleUrls: ['./player-pdf.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-player-pdf',
+  templateUrl: './player-pdf.component.html',
+  styleUrls: ['./player-pdf.component.scss'],
+
 })
 export class PlayerPdfComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<any> {
@@ -79,7 +78,6 @@ export class PlayerPdfComponent extends WidgetBaseComponent
   constructor(
     private activatedRoute: ActivatedRoute,
     private router: Router,
-    private cdr: ChangeDetectorRef,
     private eventSvc: EventService,
     private contentSvc: WidgetContentService,
     private viewerSvc: ViewerUtilService,
@@ -127,10 +125,7 @@ export class PlayerPdfComponent extends WidgetBaseComponent
     // Delay showing the PDF viewer to allow any previous PDFViewerApplication
     // singleton to fully clean up its eventBus before we create a new instance.
     // setTimeout with 0 defers to the next macrotask, which is enough for cleanup.
-    setTimeout(() => {
-      this.pdfViewerReady = true
-      this.cdr.detectChanges()
-    }, 0)
+    this.pdfViewerReady = true
 
     // this.zoom.disable()
     this.currentPage.disable()

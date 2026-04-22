@@ -1,5 +1,5 @@
 import { AccessControlService } from '@ws/author'
-import { Component, OnInit, OnDestroy } from '@angular/core'
+import { ChangeDetectorRef, Component, OnInit, OnDestroy } from '@angular/core'
 import { Subscription } from 'rxjs'
 import { NsContent, NsDiscussionForum, WidgetContentService } from '@ws-widget/collection'
 import { WsEvents, EventService, ConfigurationsService } from '@ws-widget/utils'
@@ -19,7 +19,7 @@ export class PdfComponent implements OnInit, OnDestroy {
   private dataSubscription: Subscription | null = null
   private viewerDataSubscription: Subscription | null = null
   private telemetryIntervalSubscription: Subscription | null = null
-  isFetchingDataComplete = true
+  isFetchingDataComplete = false
   pdfData: NsContent.IContent | null = null
   oldData: NsContent.IContent | null = null
   alreadyRaised = false
@@ -46,6 +46,7 @@ export class PdfComponent implements OnInit, OnDestroy {
     private eventSvc: EventService,
     private accessControlSvc: AccessControlService,
     private configSvc: ConfigurationsService,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -74,6 +75,7 @@ export class PdfComponent implements OnInit, OnDestroy {
     } else {
       this.dataSubscription = this.activatedRoute.data.subscribe(
         async data => {
+          this.isFetchingDataComplete = false
           this.pdfData = data.content.data
           // if (this.alreadyRaised && this.oldData) {
           //   this.raiseEvent(WsEvents.EnumTelemetrySubType.Unloaded, this.oldData)
@@ -110,6 +112,7 @@ export class PdfComponent implements OnInit, OnDestroy {
           //   this.raiseEvent(WsEvents.EnumTelemetrySubType.Loaded, this.pdfData)
           // }
           this.isFetchingDataComplete = true
+          this.cdr.detectChanges()
         },
         () => { },
       )

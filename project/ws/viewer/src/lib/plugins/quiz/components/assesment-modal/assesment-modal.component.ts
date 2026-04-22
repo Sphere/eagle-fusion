@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Inject, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
+import { AfterViewInit, ChangeDetectorRef, Component, Inject, NgZone, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
@@ -89,7 +89,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private logger: LoggerService,
     private plylsSvc: PlaylistService,
     private translate: TranslateService,
-    private scrnScrtySvc: ScreenSecurityService
+    private scrnScrtySvc: ScreenSecurityService,
+    private ngZone: NgZone,
+    private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
@@ -332,44 +334,50 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
 
   timer(data: any) {
     if (data > -1) {
-      this.timerSubscription = interval(100)
-        .pipe(
-          map(
-            () =>
-              this.startTime + this.assesmentdata.questions.timeLimit - Date.now(),
-          ),
-        )
-        .subscribe(_timeRemaining => {
-          this.timeLeft -= 0.1
-          if (this.timeLeft < 0) {
-            const data: any = {
-              id: this.assesmentdata.generalData.identifier,
-              type: "application/json",
-              version: "",
-              "rollup": {
-                "l1": this.assesmentdata.generalData.collectionId,
-                "l2": this.assesmentdata.generalData.identifier,
-              },
+      this.ngZone.runOutsideAngular(() => {
+        this.timerSubscription = interval(100)
+          .pipe(
+            map(
+              () =>
+                this.startTime + this.assesmentdata.questions.timeLimit - Date.now(),
+            ),
+          )
+          .subscribe(_timeRemaining => {
+            this.timeLeft -= 0.1
+            if (this.timeLeft < 0) {
+              this.ngZone.run(() => {
+                const data: any = {
+                  id: this.assesmentdata.generalData.identifier,
+                  type: 'application/json',
+                  version: '',
+                  rollup: {
+                    l1: this.assesmentdata.generalData.collectionId,
+                    l2: this.assesmentdata.generalData.identifier,
+                  },
+                }
+                const extras: any = {
+                  values: [{
+                    courseID: this.assesmentdata.generalData.collectionId,
+                    contentId: this.assesmentdata.generalData.identifier,
+                    name: this.assesmentdata.generalData.name,
+                    moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
+                  }],
+                }
+                this.telemetrySvc.end('application/json', 'assessment-auto-submit', 'player', data, extras)
+                this.isIdeal = true
+                this.timeLeft = 0
+                if (this.timerSubscription) {
+                  this.timerSubscription.unsubscribe()
+                }
+                this.tabIndex = 1
+                this.tabActive = true
+                this.assesmentActive = false
+              })
+            } else {
+              this.cdr.markForCheck()
             }
-            const extras: any = {
-              values: [{
-                courseID: this.assesmentdata.generalData.collectionId,
-                contentId: this.assesmentdata.generalData.identifier,
-                name: this.assesmentdata.generalData.name,
-                moduleId: this.viewerDataSvc.resource!.parent ? this.viewerDataSvc.resource!.parent : undefined,
-              }],
-            }
-            this.telemetrySvc.end('application/json', 'assessment-auto-submit', 'player', data, extras)
-            this.isIdeal = true
-            this.timeLeft = 0
-            if (this.timerSubscription) {
-              this.timerSubscription.unsubscribe()
-            }
-            this.tabIndex = 1
-            this.tabActive = true
-            this.assesmentActive = false
-          }
-        })
+          })
+      })
     }
   }
 
@@ -499,6 +507,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
+        this.cdr.detectChanges()
         this.logger.log(this.result, this.passPercentage)
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
@@ -548,6 +557,7 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
         this.tabIndex = 1
         this.tabActive = true
         this.assesmentActive = false
+        this.cdr.detectChanges()
         if (this.result >= this.passPercentage) {
           this.isCompleted = true
           this.isCompetencyComplted = true

@@ -57,7 +57,10 @@
 .video-player {
   width: 100%;
   overflow-x: hidden;
+  overflow-y: hidden;
   position: relative;
+  max-height: calc(100vh - 220px);
+  min-height: 50%;
   // height: 75vh;
   // @include breakpoint-lt-xl {
   //   height: 80vh;
@@ -78,7 +81,14 @@
 
 @media (max-width: 900px) {
   .video-player {
-    min-height: 440px;
+    min-height: 200px;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .video-player {
+    min-height: 220px;
+    max-height: 320px;
   }
 }
 
@@ -135,9 +145,6 @@
 
 .overflow-class {
   display: block !important;
-  min-height: 85vh;
-  max-height: 85vh;
-  overflow: scroll;
 }
 
 .next-button .width-auto {
@@ -171,12 +178,11 @@
     padding-left: 0;
 }
 
-// @media (min-width: 961px) {
-//   .pdf.player-nav-links {
-//     width: 72%;
-//     position: fixed;
-//   }
-// }
+.pdf {
+  text-align: center;
+  margin-top: 16px;
+  margin-bottom: 16px;
+}
 
 mat-card {
   box-shadow: none !important;

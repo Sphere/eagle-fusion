@@ -202,6 +202,10 @@ export class PlayerVideoComponent extends WidgetBaseComponent
     player.on(this.videojsEventNames.play, () => {
       this.openFullscreen(player) // Open video in fullscreen mode
       const intervalId = interval(500).subscribe(() => {
+        if (player.isDisposed()) {
+          intervalId.unsubscribe()
+          return
+        }
         const currentTimeInSeconds = Math.round(player.currentTime())
         if (this.widgetData.videoQuestions && this.widgetData.videoQuestions.length > 0) {
           for (const milestone of this.widgetData.videoQuestions) {
@@ -224,6 +228,7 @@ export class PlayerVideoComponent extends WidgetBaseComponent
 
     // Handle timeupdate for user seeking
     player.on('timeupdate', () => {
+      if (player.isDisposed()) { return }
       const currentTimeInSeconds = Math.round(player.currentTime())
       if (this.widgetData.videoQuestions) {
         for (const milestone of this.widgetData.videoQuestions) {
