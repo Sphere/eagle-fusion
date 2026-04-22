@@ -290,52 +290,59 @@ export class PublicLoginComponent implements OnInit {
 
       this.logger.log(type, 'check')
       this.isLoginLoading = true
+      this.cdr.markForCheck()
       this.signupService.loginAPI(req).subscribe(res => {
-        this.isLoginLoading = false
-        localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
-        this.logger.log(res.status)
-        this.openSnackbar(this.translate.instant("USER_AUTH_SUCCESS"))
+        this.ngZone.run(() => {
+          this.isLoginLoading = false
+          this.cdr.detectChanges()
+          localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
+          this.logger.log(res.status)
+          this.openSnackbar(this.translate.instant("USER_AUTH_SUCCESS"))
 
-        setTimeout(() => {
-          this.signupService.fetchStartUpDetails().then(async (result: any) => {
-            const res = await result
-            this.logger.log(res, 'res')
-            localStorage.setItem('lang131', JSON.stringify(res))
+          setTimeout(() => {
+            this.signupService.fetchStartUpDetails().then(async (result: any) => {
+              const res = await result
+              this.logger.log(res, 'res')
+              localStorage.setItem('lang131', JSON.stringify(res))
 
-            // Send login success telemetry after userProfile is populated
-            this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'password', res?.msg || res?.message)
+              // Send login success telemetry after userProfile is populated
+              this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'password', res?.msg || res?.message)
 
-            if (localStorage.getItem('url_before_login')) {
-              const url = localStorage.getItem('url_before_login') || ''
-              location.href = url
-            } else {
-              const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-              const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
-              if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-                const redirectUrl =
-                  orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
-                this.logger.log(
-                  `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
-                )
-                window.location.href = redirectUrl
+              if (localStorage.getItem('url_before_login')) {
+                const url = localStorage.getItem('url_before_login') || ''
+                location.href = url
               } else {
-                window.location.href = '/page/home'
+                const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+                const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+                if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+                  const redirectUrl =
+                    orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
+                  this.logger.log(
+                    `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
+                  )
+                  window.location.href = redirectUrl
+                } else {
+                  window.location.href = '/page/home'
+                }
               }
-            }
-          })
-        }, 500)
+            })
+          }, 500)
+        })
 
       }, err => {
-        this.isLoginLoading = false
-        this.logger.log(err)
+        this.ngZone.run(() => {
+          this.isLoginLoading = false
+          this.cdr.detectChanges()
+          this.logger.log(err)
 
-        // Send login failure telemetry
-        this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'password', err?.error?.msg || err?.error?.message || 'Login failed')
+          // Send login failure telemetry
+          this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'password', err?.error?.msg || err?.error?.message || 'Login failed')
 
-        if (err?.error?.message === "User doesn't exists please signup and try again" || err?.error?.msg === "User doesn't exists please signup and try again") {
-          this.userDoesnotExist()
-        }
-        this.openSnackbar(this.translate.instant(err?.error?.msg || err?.error?.error || "Login Failed"))
+          if (err?.error?.message === "User doesn't exists please signup and try again" || err?.error?.msg === "User doesn't exists please signup and try again") {
+            this.userDoesnotExist()
+          }
+          this.openSnackbar(this.translate.instant(err?.error?.msg || err?.error?.error || "Login Failed"))
+        })
       })
     } else {
       this.logger.log('alert')
@@ -437,60 +444,67 @@ export class PublicLoginComponent implements OnInit {
 
       this.logger.log(req, type)
       this.isLoginLoading = true
+      this.cdr.markForCheck()
       this.signupService.loginAPI(req).subscribe(res => {
-        this.isLoginLoading = false
-        localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
-        this.logger.log(res)
-        this.openSnackbar(this.translate.instant(res.msg ?? res.message))
-        setTimeout(() => {
-          this.signupService.fetchStartUpDetails().then(async (result: any) => {
-            const res = await result
-            this.logger.log(res, 'res')
-            // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
-            localStorage.setItem('res123', JSON.stringify(res))
-            if (res && res.status) {
-              if (res.language) {
-                const lang = res.language
-                const obj = {
-                  lang: lang,
-                  res: res.language,
-                  line: 56,
+        this.ngZone.run(() => {
+          this.isLoginLoading = false
+          this.cdr.detectChanges()
+          localStorage.setItem('loginDetailsWithToken', JSON.stringify(res))
+          this.logger.log(res)
+          this.openSnackbar(this.translate.instant(res.msg ?? res.message))
+          setTimeout(() => {
+            this.signupService.fetchStartUpDetails().then(async (result: any) => {
+              const res = await result
+              this.logger.log(res, 'res')
+              // ✅ NO language prefix in URLs - ngx-translate handles language via localStorage
+              localStorage.setItem('res123', JSON.stringify(res))
+              if (res && res.status) {
+                if (res.language) {
+                  const lang = res.language
+                  const obj = {
+                    lang: lang,
+                    res: res.language,
+                    line: 56,
+                  }
+                  localStorage.setItem('lang123', JSON.stringify(obj))
                 }
-                localStorage.setItem('lang123', JSON.stringify(obj))
-              }
 
-              // Send login success telemetry after userProfile is populated
-              this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'otp', result?.msg || result?.message)
+                // Send login success telemetry after userProfile is populated
+                this.sendLoginSuccessTelemetry(type, maskedPhone, maskedEmail, 'otp', result?.msg || result?.message)
 
-              localStorage.setItem('res', JSON.stringify(res))
-              if (localStorage.getItem('url_before_login')) {
-                const url = localStorage.getItem('url_before_login') || ''
-                location.href = url
-              } else {
-                const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
-                const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
-                if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
-                  const redirectUrl =
-                    orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
-                  this.logger.log(
-                    `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
-                  )
-                  window.location.href = redirectUrl
+                localStorage.setItem('res', JSON.stringify(res))
+                if (localStorage.getItem('url_before_login')) {
+                  const url = localStorage.getItem('url_before_login') || ''
+                  location.href = url
                 } else {
-                  window.location.href = '/page/home'
+                  const orgSelectiveConfig = this.configSvc.orgSelectiveCourseConfig
+                  const rootOrgId = this.configSvc.userProfile?.rootOrgId || ''
+                  if (orgSelectiveConfig && orgSelectiveConfig.orgId === rootOrgId) {
+                    const redirectUrl =
+                      orgSelectiveConfig.redirectUrl || '/app/org-selective-course'
+                    this.logger.log(
+                      `Redirecting to org-selective page: ${redirectUrl} for org ${rootOrgId}`
+                    )
+                    window.location.href = redirectUrl
+                  } else {
+                    window.location.href = '/page/home'
+                  }
                 }
               }
-            }
-          })
-        }, 500)
+            })
+          }, 500)
+        })
       }, err => {
-        this.isLoginLoading = false
-        this.logger.log(err.error)
+        this.ngZone.run(() => {
+          this.isLoginLoading = false
+          this.cdr.detectChanges()
+          this.logger.log(err.error)
 
-        // Send login failure telemetry
-        this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'otp', err?.error?.msg || err?.error?.message || 'Login failed')
+          // Send login failure telemetry
+          this.sendLoginFailureTelemetry(type, maskedPhone, maskedEmail, 'otp', err?.error?.msg || err?.error?.message || 'Login failed')
 
-        this.openSnackbar(this.translate.instant(err.error.msg || err.error.message))
+          this.openSnackbar(this.translate.instant(err.error.msg || err.error.message))
+        })
       })
     }
   }
