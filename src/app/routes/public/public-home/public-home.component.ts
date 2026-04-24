@@ -6,6 +6,7 @@ import {
   effect,
 } from '@angular/core'
 import { Router } from '@angular/router'
+import { MatSnackBar } from '@angular/material/snack-bar'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import { ConfigurationsService, NsPage, ValueService } from '@ws-widget/utils'
 @Component({
@@ -24,6 +25,7 @@ export class PublicHomeComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private router: Router,
     private valueSvc: ValueService,
+    private snackBar: MatSnackBar,
   ) {
     super()
     if (localStorage.getItem('orgValue') === 'nhsrc') {
@@ -51,6 +53,16 @@ export class PublicHomeComponent extends WidgetBaseComponent
     }
     if (sessionStorage.getItem('academic')) {
       sessionStorage.removeItem('academic')
+    }
+
+    const mncError = sessionStorage.getItem('mnc_error')
+    if (mncError) {
+      sessionStorage.removeItem('mnc_error')
+      this.snackBar.open(mncError, 'OK', {
+        horizontalPosition: 'center',
+        verticalPosition: 'top',
+        panelClass: ['mnc-error-snackbar'],
+      })
     }
   }
 }

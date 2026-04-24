@@ -15,6 +15,7 @@ import { HorizontalScrollerModule, PipeSafeSanitizerModule, PipeDurationTransfor
 import { PublicHomeComponent } from './public-home.component'
 import { WidgetResolverModule } from '@ws-widget/resolver/src/public-api'
 import { MatProgressBarModule } from '@angular/material/progress-bar'
+import { MatSnackBarModule } from '@angular/material/snack-bar'
 
 import { MobilePageFaqComponent } from '../../../routes/mobile-page-faq/mobile-page-faq.component'
 import { MobileLatestCommentComponent } from '../../../routes/mobile-latest-comment/mobile-latest-comment.component'
@@ -86,6 +87,7 @@ import { MatMenuModule } from '@angular/material/menu'
   ],
   imports: [
     MatProgressBarModule,
+    MatSnackBarModule,
     CommonModule,
     FormsModule,
     ReactiveFormsModule,

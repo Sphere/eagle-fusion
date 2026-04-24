@@ -176300,3 +176300,13 @@ video {
     }
   }
 }
+
+.mnc-error-snackbar {
+  background-color: #c62828 !important;
+  color: #ffffff !important;
+  font-size: 14px;
+  font-weight: 500;
+  .mat-simple-snackbar-action {
+    color: #ffffff !important;
+  }
+}
