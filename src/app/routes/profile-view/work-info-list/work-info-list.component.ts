@@ -201,7 +201,7 @@ export class WorkInfoListComponent implements OnInit {
     const profile = this.userProfileData
     const profDetails = profile?.professionalDetails?.[0]
 
-      ;['designation', 'orgType', 'orgOtherSpecify', 'selectBackground'].forEach(key => {
+      ;['designation', 'orgType', 'orgOtherSpecify', 'selectBackground', 'block', 'professionOtherSpecify', 'locationselect'].forEach(key => {
         controls[key]?.clearValidators()
         controls[key]?.updateValueAndValidity()
       })
