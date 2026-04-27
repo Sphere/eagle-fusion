@@ -73,7 +73,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   selectedIndextitle: string
   earnedBadges$: any
   count = 3
-  isLoading = false;
+  isLoading = false
   isDark = this.themeService.isDarkMode
   constructor(
     private configSvc: ConfigurationsService,

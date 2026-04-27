@@ -1,7 +1,7 @@
 import { Injectable, signal, effect } from '@angular/core'
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ThemeService {
   private readonly STORAGE_KEY = 'theme'
@@ -66,7 +66,7 @@ export class ThemeService {
   private watchSystemTheme(): void {
     const media = window.matchMedia('(prefers-color-scheme: dark)')
 
-    media.addEventListener('change', (e) => {
+    media.addEventListener('change', e => {
       const saved = localStorage.getItem(this.STORAGE_KEY)
 
       // Only auto-switch if user hasn’t overridden

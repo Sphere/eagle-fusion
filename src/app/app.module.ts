@@ -439,7 +439,7 @@ export function initTranslate(translate: TranslateService) {
     Title,
     UserAgentResolverService,
     UserProfileService,
-  ]
+  ],
 })
 export class AppModule {
   constructor(private translate: TranslateService) {

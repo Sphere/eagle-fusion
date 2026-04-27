@@ -57,7 +57,7 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle'
     MatNativeDateModule,
     MatDividerModule,
     MatProgressSpinnerModule,
-    MatSlideToggleModule
+    MatSlideToggleModule,
   ],
   exports: [
     MobileProfileDashboardComponent,
