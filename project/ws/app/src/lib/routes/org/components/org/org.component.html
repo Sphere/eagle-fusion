@@ -145,13 +145,13 @@
   <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
     class="course-container py-1 px-4">
     <section class="mt-4 view-all-course-container" *ngIf="getFilteredUserEnrollCourse()?.length > 0">
-      <div class="mb-4 line-label bg-green flex scroller-container">
-        <div class="w-100">
-          <div class="flex flex-middle border-top">
-            <span class="course-header">{{'Continue Learning' | translate}}</span>
+        <div class="mb-4 line-label heading-line-yellow flex scroller-container">
+          <div class="w-100">
+            <div class="flex flex-middle heading-line">
+              <span class="course-header">{{'Continue Learning' | translate}}</span>
+            </div>
           </div>
         </div>
-      </div>
       <!-- Desktop: horizontal scroll row -->
       <ng-container *ngIf="getFilteredUserEnrollCourse()?.length > 0 && isMobile === false">
         <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
@@ -189,9 +189,9 @@
             Uses card-mini config (enrolledCourseCardConfig) with progress bar. -->
     <div class="course-container py-1 px-4" *ngIf="getFilteredUserEnrollCourse()?.length > 0">
       <section class="mt-4 view-all-course-container">
-        <div class="mb-4 line-label bg-green flex scroller-container">
+        <div class="mb-4 line-label heading-line-teal flex scroller-container">
           <div class="w-100">
-            <div class="flex flex-middle border-top">
+            <div class="flex flex-middle heading-line">
               <span class="header1 header0">{{'Continue Learning' | translate}}</span>
             </div>
           </div>
@@ -225,9 +225,9 @@
             align-self: flex-start prevents cards stretching to the tallest card's height. -->
     <div class="course-container py-1 px-4" *ngFor="let section of cneSections; let i = index">
       <section class="mt-4 view-all-course-container" *ngIf="getFilteredSectionCourses(section.courses)?.length > 0">
-        <div class="mb-4 line-label bg-green flex scroller-container">
+        <div class="mb-4 line-label heading-line-yellow flex scroller-container">
           <div class="w-100">
-            <div class="flex flex-middle border-top">
+            <div class="flex flex-middle heading-line">
               <!-- Section label comes from orgMeta.json, e.g. "5 CNE Hours Courses" -->
               <span class="header1">{{section.label | translate}}</span>
             </div>
@@ -260,9 +260,9 @@
             since pct is always 100 here, but certification badge is shown). -->
     <div class="course-container py-1 px-4" *ngIf="getFilteredCompletedCourse()?.length > 0">
       <section class="mt-4 view-all-course-container">
-        <div class="mb-4 line-label bg-green flex scroller-container">
+        <div class="mb-4 line-label heading-line-yellow flex scroller-container">
           <div class="w-100">
-            <div class="flex flex-middle border-top">
+            <div class="flex flex-middle heading-line">
               <span class="course-header">{{'Completed' | translate}}</span>
             </div>
           </div>
@@ -296,9 +296,11 @@
        getFilteredCourseData() applies the language filter and returns the slice.
        cardLimit controls how many cards are visible; Load More / Load Less toggles it. -->
   <div class="course-container py-1 px-4" *ngIf="!currentOrgData?.courseSections">
-    <div class="w-100" *ngIf="getFilteredCourseData()?.length > 0">
-      <div class="flex flex-middle border-top">
-        <span class="course-header">{{'Courses' | translate}}</span>
+    <div class="mb-4 line-label heading-line-yellow flex scroller-container" *ngIf="getFilteredCourseData()?.length > 0">
+      <div class="w-100">
+        <div class="flex flex-middle heading-line">
+          <span class="course-header">{{'Courses' | translate}}</span>
+        </div>
       </div>
     </div>
     <div class="mt-4 course-body" *ngIf="getFilteredCourseData()">
@@ -422,9 +424,9 @@
   <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
     class="course-container py-4 px-4 mb-4">
     <section class="view-all-course-container" *ngIf="getFilteredCompletedCourse()?.length > 0">
-      <div class="mb-4 line-label bg-green flex scroller-container">
+      <div class="mb-4 line-label heading-line-yellow flex scroller-container">
         <div class="w-100">
-          <div class="flex flex-middle border-top">
+          <div class="flex flex-middle heading-line">
             <span class="course-header">{{'Completed' | translate}}</span>
           </div>
         </div>
