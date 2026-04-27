@@ -141,7 +141,7 @@ export class AuthKeycloakService {
 
   async logout() {
     try {
-      let theme = localStorage.getItem('theme')
+      const theme = localStorage.getItem('theme')
       sessionStorage.clear()
       localStorage.removeItem('preferedLanguage')
       localStorage.removeItem('telemetrySessionId')
@@ -156,8 +156,8 @@ export class AuthKeycloakService {
       if (theme == 'dark') {
         this.themeSvc.setTheme(true)
       }
-      let url = `${document.baseURI}`
-      let redirectUrl = `${url}public/home`
+      const url = `${document.baseURI}`
+      const redirectUrl = `${url}public/home`
       window.location.href = redirectUrl
       await this.http.get(API_END_POINTS.LOGOUT_USER).toPromise()
     } catch (error) { }

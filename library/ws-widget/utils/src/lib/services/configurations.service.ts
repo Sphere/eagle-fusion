@@ -53,6 +53,11 @@ export class ConfigurationsService {
   isActive = true
   orgSelectiveCourseConfig: any = {}   // holds the org-selective-course.json data
 
+  // Maps rootOrgId → org-details redirectUrl for orgs that should bypass /page/home entirely.
+  // Populated at startup from the homeRedirectOrgs section of orgMeta.json.
+  // To add a new org: add an entry in orgMeta.json — no code change needed here.
+  orgHomeRedirectMap: Map<string, string> = new Map()
+
   // pinnedApps
   pinnedApps = new BehaviorSubject<Set<string>>(new Set())
 

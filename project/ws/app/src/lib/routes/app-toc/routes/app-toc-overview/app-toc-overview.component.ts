@@ -88,7 +88,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     this.widgetContentSvc.fetchConfig(licenseurl)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe({
-        next: (data) => {
+        next: data => {
           if (data?.licenses) {
             this.currentLicenseData = data.licenses.filter(
               (l: any) => l.licenseName === this.licenseName
@@ -97,7 +97,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
         },
         error: () => {
           this.currentLicenseData = [] // fallback only
-        }
+        },
       })
   }
 

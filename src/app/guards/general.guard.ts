@@ -30,6 +30,26 @@ export class GeneralGuard {
     const requiredFeatures = (next.data && next.data.requiredFeatures) || []
     const requiredRoles = (next.data && next.data.requiredRoles) || []
 
+    // ─── Org-based home redirect ───────────────────────────────────────────────
+    // When a logged-in user whose organisation is listed in orgMeta.json's
+    // `homeRedirectOrgs` array navigates to /page/home, send them straight to
+    // their org-details page instead of the generic home page.
+    //
+    // This covers every path to /page/home: post-login, nav-bar home click,
+    // browser back button, or direct URL entry.
+    //
+    // To add a new org: append one entry to homeRedirectOrgs in orgMeta.json.
+    // No code changes here are needed.
+    if (next.params['id'] === 'home') {
+      const rootOrgId = this.configSvc.userProfile?.rootOrgId
+      if (rootOrgId && this.configSvc.orgHomeRedirectMap?.has(rootOrgId)) {
+        const redirectUrl = this.configSvc.orgHomeRedirectMap.get(rootOrgId)!
+        this.logger.log(`[GeneralGuard] Org ${rootOrgId} redirected from /page/home → ${redirectUrl}`)
+        return this.router.parseUrl(redirectUrl)
+      }
+    }
+    // ──────────────────────────────────────────────────────────────────────────
+
     return await this.shouldAllow<boolean | UrlTree>(requiredFeatures, requiredRoles)
   }
 

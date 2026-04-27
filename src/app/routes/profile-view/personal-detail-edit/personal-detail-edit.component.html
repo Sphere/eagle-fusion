@@ -48,7 +48,7 @@
           {{errorMsg}}
         </mat-error>
         <div *ngIf="!isEkshamata&&isEditableForSphere" class="personal-btn" style="width: 55%; float: right;">
-          <button *ngIf="field.type=='button'" type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
+          <button *ngIf="field.type==='button'" type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
             [disabled]="personalDetailForm?.invalid || savebtnDisable">{{field.label | translate}}</button>
         </div>
       </ng-container>

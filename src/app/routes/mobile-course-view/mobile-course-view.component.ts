@@ -10,11 +10,11 @@ import { Title } from '@angular/platform-browser'
 import { LoggerService, TelemetryService } from '../../../../library/ws-widget/utils/src/public-api'
 
 @Component({
-    standalone: false,
-    selector: 'ws-mobile-course-view',
-    templateUrl: './mobile-course-view.component.html',
-    styleUrls: ['./mobile-course-view.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-mobile-course-view',
+  templateUrl: './mobile-course-view.component.html',
+  styleUrls: ['./mobile-course-view.component.scss'],
+
 })
 export class MobileCourseViewComponent implements OnInit {
 
@@ -32,7 +32,6 @@ export class MobileCourseViewComponent implements OnInit {
   displayStyle = 'none'
   isLoggedIn = false
   imgLoaded = false
-  imgMiniLoaded = false
 
   constructor(private router: Router,
     private configSvc: ConfigurationsService,

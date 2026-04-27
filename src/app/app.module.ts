@@ -135,6 +135,7 @@ import { NgxIndexedDBModule, DBConfig } from 'ngx-indexed-db'
 import { TnaiCallbackComponent } from './tnai-callback/tnai-callback.component'
 import { BnrcmodalComponent } from './routes/bnrc-popup/bnrc-modal-component'
 import { TnnmcCallbackComponent } from './tnnmc-callback/tnnmc-callback.component'
+import { MNCCallbackComponent } from './mnc-callback/mnc-callback.component'
 import { TextFieldModule } from '@angular/cdk/text-field'
 import { ProfileViewModule } from './routes/profile-view/profile-view.module'
 import { MatTabsModule } from '@angular/material/tabs'
@@ -295,6 +296,7 @@ export function initTranslate(translate: TranslateService) {
     ScromPlayerComponent,
     MaternityCallbackComponent,
     TnnmcCallbackComponent,
+    MNCCallbackComponent,
     PublicLoginComponent,
     TnaiCallbackComponent,
     LoginComponent,
@@ -417,7 +419,7 @@ export function initTranslate(translate: TranslateService) {
       provide: APP_INITIALIZER,
       useFactory: initTranslate,
       deps: [TranslateService],
-      multi: true
+      multi: true,
     },
     { provide: HTTP_INTERCEPTORS, useClass: AssetCacheInterceptorService, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: AppInterceptorService, multi: true },

@@ -24,7 +24,6 @@ import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
 import { AppTocResolverService } from '@ws/app/src/lib/routes/app-toc/resolvers/app-toc-resolver.service'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
-import { OrgServiceService } from '../../project/ws/app/src/lib/routes/org/org-service.service'
 import { MobileLoginComponent as loginComponent } from './routes/mobile-login/mobile-login.component'
 import { LoginOtpComponent } from './routes/login-otp/login-otp.component'
 
@@ -216,9 +215,10 @@ const routes: Routes = [
   {
     path: 'app/org-details',
     component: OrgComponent,
-    resolve: {
-      orgData: OrgServiceService,
-    },
+    // Resolver removed: OrgServiceService.resolve() was fetching a non-existent
+    // assets/configurations/orgmeta.config.json (404) on every navigation, and
+    // OrgComponent never read the resolver result — it loads its own data via
+    // /assets/orgMeta.json directly in loadOrgData().
   },
   {
     path: 'app/org-selective-course',

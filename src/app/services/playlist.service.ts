@@ -84,14 +84,21 @@ export class PlaylistService {
   async getPlaylistConfig(): Promise<any> {
     const cached = this.playlistConfigCache()
     if (cached) return cached
-
     const org = this.configSvc?.userProfile?.rootOrgId || 'default'
-    const body = { request: { filters: { orgId: org } } }
+    const body = {
+      request: {
+        filters: { orgId: org },
+      },
+    }
     const url = API_END_POINTS.PLAYLIST_SEARCH
-    const response: any = await this.http.post(url, body).toPromise()
-    const result = response?.result?.playlist ?? []
-    this.playlistConfigCache.set(result)
-    return result
+    try {
+      const response: any = await this.http.post(url, body).toPromise()
+      const result = response?.result?.playlist ?? []
+      this.playlistConfigCache.set(result)
+    } catch (error) {
+      this.logger.error('Failed to load playlist config', error)
+      return []
+    }
   }
 
   clearCache() {
