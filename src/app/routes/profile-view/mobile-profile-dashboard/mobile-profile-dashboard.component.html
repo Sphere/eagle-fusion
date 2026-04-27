@@ -13,7 +13,7 @@
         {{userProfileData?.personalDetails?.middlename }}
         {{userProfileData?.personalDetails?.surname}}</span>
       <span *ngIf="currentProfession" class="profile-user-position">
-        {{ menuItems[0].text | translate }} : {{ currentProfession }}
+        {{ menuItems?.[0]?.text | translate }} : {{ currentProfession }}
       </span>
     </div>
     <div class="badge-container mob-view" *ngIf="earnedBadges$ | async as count">

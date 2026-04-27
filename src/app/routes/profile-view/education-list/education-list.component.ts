@@ -1,9 +1,10 @@
-import { Component, effect, Input, OnInit } from '@angular/core'
+import { Component, ChangeDetectorRef, effect, Input, OnInit } from '@angular/core'
 import { ConfigurationsService, ValueService } from '../../../../../library/ws-widget/utils/src/public-api'
 import { UserProfileService } from '../../../../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { get } from 'lodash'
 //import { Router } from '@angular/router'
 import { WidgetContentService } from '@ws-widget/collection'
+import { UserAgentResolverService } from 'src/app/services/user-agent.service'
 
 @Component({
   selector: 'ws-education-list',
@@ -15,6 +16,7 @@ export class EducationListComponent implements OnInit {
   showbackButton = false
   showLogOutIcon = false
   trigerrNavigation = true
+  isEditableForSphere = false
   @Input() isEkshamata: boolean = false
   @Input() data: any
   constructor(
@@ -22,6 +24,8 @@ export class EducationListComponent implements OnInit {
     private userProfileSvc: UserProfileService,
     private valueSvc: ValueService,
     private contentSvc: WidgetContentService,
+    private userAgentSvc: UserAgentResolverService,
+    private cdr: ChangeDetectorRef,
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -42,12 +46,18 @@ export class EducationListComponent implements OnInit {
       }
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).subscribe(
         async (data: any) => {
+          this.isEditableForSphere = await this.userAgentSvc.isEditableForSphere(data)
           if (data && get(data, 'profileDetails.profileReq.academics')) {
             this.academicsArray = get(data, 'profileDetails.profileReq.academics')
           }
+          this.cdr.markForCheck()
         })
     }
   }
+  get hasValidAcademics(): boolean {
+    return this.academicsArray.some(a => a.nameOfInstitute)
+  }
+
   redirectTo(isEdit?: any, academic?: any) {
     let ob = {
       "type": "academic",

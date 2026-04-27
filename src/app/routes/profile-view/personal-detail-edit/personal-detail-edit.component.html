@@ -5,17 +5,18 @@
   </div>
   <p class="text-2xl mt-3">{{ data.title | translate }}</p>
 
-  <form [formGroup]="personalDetailForm" class="mt-3 mb-5">
+  <form [formGroup]="personalDetailForm" class="mt-3 mb-5"
+    [class.form-read-only]="!isEditableForSphere">
     <div style="width: 55%;" [ngStyle]="showbackButton ? {'width': '100%' } : {}">
       <ng-container *ngFor="let field of formConfig">
         <!-- Text Input -->
-        <div *ngIf="field.type === 'text'" class="form-group">
+        <div *ngIf="field.type === 'text' && (isEditableForSphere || personalDetailForm.get(field.key)?.value)" class="form-group">
           <label>{{ field.label | translate }}</label>
           <input [type]="field.tye" [formControlName]="field.key" class="form-control" (change)="fieldChange()"
             [placeholder]="field.label" autocomplete="off" [pattern]="field.pattern">
         </div>
         <!-- Select Input -->
-        <div *ngIf="field.type === 'select' && showSelectField(field)" class="form-group input-box ">
+        <div *ngIf="field.type === 'select' && showSelectField(field) && (isEditableForSphere || personalDetailForm.get(field.key)?.value)" class="form-group input-box">
           <label>{{ field.label | translate }}</label>
           <select [id]="field.key" [formControlName]="field.key" class="form-control select-box"
             name="country-input-field" (change)="fieldChange(field.key)"
@@ -25,7 +26,7 @@
           </select>
         </div>
         <!-- DOB Custom Component -->
-        <div *ngIf="field.type === 'dob'" class="form-group mt-4 relative"
+        <div *ngIf="field.type === 'dob' && (isEditableForSphere || personalDetailForm.get('dob')?.value)" class="form-group mt-4 relative"
           [ngStyle]="showbackButton ? {'font-size': '14px' } : {}">
           <label>{{ field.label | translate }}</label>
           <ng-container *ngIf="loadDob; else withoutDob">
@@ -47,7 +48,7 @@
           *ngIf="personalDetailForm.controls[field.key]?.hasError('pattern') && errorMsg">
           {{errorMsg}}
         </mat-error>
-        <button *ngIf="field.type=='button'" type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
+        <button *ngIf="field.type=='button' && isEditableForSphere" type="submit" (click)="onSubmit(personalDetailForm)" class="save-btn"
           [disabled]="personalDetailForm?.invalid || savebtnDisable">{{field.label | translate}}</button>
       </ng-container>
     </div>
