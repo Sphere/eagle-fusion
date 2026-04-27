@@ -1,7 +1,10 @@
 import { FullscreenOverlayContainer, OverlayContainer } from '@angular/cdk/overlay'
 import { APP_BASE_HREF, PlatformLocation } from '@angular/common'
 import { CommonModule } from '@angular/common'
-import { HTTP_INTERCEPTORS, HttpClient, provideHttpClient, withInterceptorsFromDi, withJsonpSupport } from '@angular/common/http'
+import {
+  HTTP_INTERCEPTORS, HttpClient, HttpClientModule,
+  // provideHttpClient, withInterceptorsFromDi, withJsonpSupport
+} from '@angular/common/http'
 import { TranslateModule, TranslateService, TranslateLoader } from '@ngx-translate/core'
 import { TranslateHttpLoader } from '@ngx-translate/http-loader'
 import {
@@ -41,7 +44,6 @@ import {
   BrowserModule,
   Title,
 } from '@angular/platform-browser'
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 import {
   BtnFeatureModule,
   ErrorResolverModule,
@@ -84,7 +86,7 @@ import { AppRetryInterceptorService } from './services/app-retry-interceptor.ser
 import { AssetCacheInterceptorService } from './services/asset-cache-interceptor.service'
 import { TncAppResolverService } from './services/tnc-app-resolver.service'
 import { TncPublicResolverService } from './services/tnc-public-resolver.service'
-import { LanguageService } from './services/language.service'
+// import { LanguageService } from './services/language.service'
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
@@ -138,7 +140,9 @@ import { ProfileViewModule } from './routes/profile-view/profile-view.module'
 import { MatTabsModule } from '@angular/material/tabs'
 import { UserProfileService } from '../../project/ws/app/src/lib/routes/user-profile/services/user-profile.service'
 import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
-// import { SearchRootComponent } from '../../project/ws/app/src/lib/routes/search/routes/search-root/search-root.component'
+// Downtime components imports
+import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
+import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
 
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
   try {
@@ -259,10 +263,19 @@ export function initializeCompetencyConfig(): () => void {
   }
 }
 
-// Downtime components imports
-import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
-import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
+export function getCompetencyConfig(): any {
+  return {
+    config: JSON.parse(localStorage.getItem('competency') || '{}'),
+    isOnlyPassbook: localStorage.getItem('isOnlyPassbook') || '',
+  }
+}
 
+export function initTranslate(translate: TranslateService) {
+  return () => {
+    translate.setDefaultLang('en')
+    return translate.use('en').toPromise()
+  }
+}
 // tslint:disable-next-line: max-classes-per-file
 @NgModule({
   declarations: [
@@ -308,9 +321,18 @@ import { DowntimeBannerComponent } from './component/downtime-banner/downtime-ba
     ForgotPasswordComponent,
   ],
   bootstrap: [RootComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA], imports: [BrowserModule,
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
+  imports: [
+    BrowserModule,
+    HttpClientModule,
+    TranslateModule.forRoot({
+      loader: {
+        provide: TranslateLoader,
+        useFactory: HttpLoaderFactory,
+        deps: [HttpClient],
+      },
+    }),
     CommonModule,
-    BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
@@ -354,9 +376,9 @@ import { DowntimeBannerComponent } from './component/downtime-banner/downtime-ba
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
-    EntryModule,
+    EntryModule.forRoot(getCompetencyConfig()),
     SelfAssessmentModule,
-    CompetencyModule,
+    CompetencyModule.forRoot(getCompetencyConfig()),
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,
@@ -364,68 +386,58 @@ import { DowntimeBannerComponent } from './component/downtime-banner/downtime-ba
     HorizontalScrollerModule,
     NgxIndexedDBModule.forRoot(dbConfig),
     TextFieldModule,
-    TranslateModule.forRoot({
-      loader: {
-        provide: TranslateLoader,
-        useFactory: HttpLoaderFactory,
-        deps: [HttpClient],
-      },
-    }),
     ProfileViewModule,
     MdePopoverModule,
     DowntimeFullComponent,
-    DowntimeBannerComponent], providers: [
-      {
-        provide: APP_INITIALIZER,
-        useFactory: initializeCompetencyConfig,
-        multi: true,
+    DowntimeBannerComponent],
+  providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initializeCompetencyConfig,
+      multi: true,
+    },
+    {
+      deps: [InitService, LoggerService],
+      multi: true,
+      provide: APP_INITIALIZER,
+      useFactory: appInitializer,
+    },
+    {
+      provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
+      useValue: { duration: 5000 },
+    },
+    {
+      provide: MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS,
+      useValue: {
+        diameter: 55,
+        strokeWidth: 4,
       },
-      {
-        deps: [InitService, LoggerService],
-        multi: true,
-        provide: APP_INITIALIZER,
-        useFactory: appInitializer,
-      },
-      {
-        provide: MAT_SNACK_BAR_DEFAULT_OPTIONS,
-        useValue: { duration: 5000 },
-      },
-      {
-        provide: MAT_PROGRESS_SPINNER_DEFAULT_OPTIONS,
-        useValue: {
-          diameter: 55,
-          strokeWidth: 4,
-        },
-      },
-      { provide: HTTP_INTERCEPTORS, useClass: AssetCacheInterceptorService, multi: true },
-      { provide: HTTP_INTERCEPTORS, useClass: AppInterceptorService, multi: true },
-      { provide: HTTP_INTERCEPTORS, useClass: AppRetryInterceptorService, multi: true },
-      TncAppResolverService,
-      TncPublicResolverService,
-      PipeContentRoutePipe,
-      AppTocResolverService,
-      LoaderService,
-      {
-        provide: APP_BASE_HREF,
-        useFactory: getBaseHref,
-        deps: [PlatformLocation],
-      },
-      { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
-      { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
-      Title,
-      UserAgentResolverService,
-      // ngx-translate Language Service
-      {
-        provide: APP_INITIALIZER,
-        useFactory: (languageService: LanguageService) => () => {
-          return languageService.initializeLanguage()
-        },
-        deps: [LanguageService],
-        multi: true,
-      },
-      UserProfileService,
-      provideHttpClient(withInterceptorsFromDi(), withJsonpSupport()),
-    ]
+    },
+    {
+      provide: APP_INITIALIZER,
+      useFactory: initTranslate,
+      deps: [TranslateService],
+      multi: true
+    },
+    { provide: HTTP_INTERCEPTORS, useClass: AssetCacheInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AppInterceptorService, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: AppRetryInterceptorService, multi: true },
+    TncAppResolverService,
+    TncPublicResolverService,
+    PipeContentRoutePipe,
+    AppTocResolverService,
+    LoaderService,
+    {
+      provide: APP_BASE_HREF,
+      useFactory: getBaseHref,
+      deps: [PlatformLocation],
+    },
+    { provide: OverlayContainer, useClass: FullscreenOverlayContainer },
+    { provide: ErrorHandler, useClass: GlobalErrorHandlingService },
+    Title,
+    UserAgentResolverService,
+    UserProfileService,
+  ]
 })
 export class AppModule {
   constructor(private translate: TranslateService) {

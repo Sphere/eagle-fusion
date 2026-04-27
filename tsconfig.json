@@ -24,6 +24,7 @@
     "noUnusedParameters": true,
     "outDir": "./dist/out-tsc",
     "paths": {
+      "@angular/*": ["./node_modules/@angular/*"],
       "@ws-widget/resolver": ["library/ws-widget/resolver"],
       "@ws-widget/resolver/*": ["library/ws-widget/resolver/*"],
       "@ws-widget/collection": ["library/ws-widget/collection"],
@@ -49,7 +50,8 @@
       "@ws/learning-hub": ["project/ws/learning-hub"],
       "@ws/learning-hub/*": ["project/ws/learning-hub/*"],
       "@aastrika_npmjs/comptency": ["node_modules/@aastrika_npmjs/comptency"],
-      "@aastrika_npmjs/comptency/*": ["node_modules/@aastrika_npmjs/comptency/*"]
+      "@aastrika_npmjs/comptency/*": ["node_modules/@aastrika_npmjs/comptency/*"],
+      "@ngx-translate/core": ["node_modules/@ngx-translate/core"]
     },
     "removeComments": true,
     "sourceMap": true,
@@ -61,13 +63,10 @@
     ]
   },
   "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
     "strictTemplates": false,
-    "fullTemplateTypeCheck": false,
     "strictAttributeTypes": false,
     "strictInputAccessModifiers": false,
-    "strictTemplateAccessAttributes": false,
-    "strictDomLocalRefTypes": false,
-    "noImplicitAny": false,
-    "strictNullChecks": false
+    "strictDomLocalRefTypes": false
   }
 }

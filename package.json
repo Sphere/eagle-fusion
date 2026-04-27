@@ -35,8 +35,8 @@
   },
   "private": true,
   "dependencies": {
-    "@aastrika_npmjs/comptency": "^1.0.1",
-    "@aastrika_npmjs/discussions-ui-v8": "^4.0.0",
+    "@aastrika_npmjs/comptency": "^2.0.0",
+    "@aastrika_npmjs/discussions-ui-v8": "^5.0.1",
     "@angular/animations": "^21.2.7",
     "@angular/cdk": "^21.2.5",
     "@angular/common": "^21.2.7",
@@ -54,11 +54,9 @@
     "@capacitor/core": "6.2.1",
     "@fortawesome/fontawesome-free": "^7.0.0",
     "@jaguards/material-extended-mde": "16.2.11",
-    "@ngx-translate/core": "16.0.1",
-    "@ngx-translate/http-loader": "16.0.1",
-    "@project-sunbird/client-services": "3.9.5",
-    "@project-sunbird/sb-styles": "0.0.7",
-    "@project-sunbird/sunbird-quml-player": "0.0.6",
+    "@ngx-translate/core": "^17.0.0",
+    "@ngx-translate/http-loader": "^7.0.0",
+    "@project-sunbird/client-services": "^8.1.4",
     "@project-sunbird/telemetry-sdk": "0.0.26",
     "@sunbird-cb/design-system": "0.0.2",
     "@sunbird-cb/micro-surveys": "^1.2.9",
@@ -74,6 +72,7 @@
     "file-saver": "^2.0.5",
     "html-to-image": "^1.11.13",
     "husky": "^4.2.3",
+    "i": "^0.3.7",
     "jquery": "^3.5.1",
     "jspdf": "^2.5.2",
     "jspdf-autotable": "^3.8.4",
@@ -92,6 +91,7 @@
     "ngx-indexed-db": "^22.0.0",
     "ngx-infinite-scroll": "^19.0.0",
     "ngx-multi-pixel": "^2.2.2",
+    "npm": "^11.13.0",
     "pdfjs-dist": "3.4.120",
     "rxjs": "~7.8.2",
     "shepherd.js": "^7.1.0",
@@ -145,23 +145,12 @@
     "rxjs": "~7.8.2"
   },
   "overrides": {
-    "@project-sunbird/client-services": {
-      "rxjs": "~7.8.2"
-    },
     "ngx-chips": {
       "@angular/core": "21.2.7",
       "@angular/common": "21.2.7",
       "@angular/forms": "21.2.7"
     },
     "ng2-material-dropdown": {
-      "@angular/core": "21.2.7",
-      "@angular/common": "21.2.7"
-    },
-    "@project-sunbird/sunbird-quml-player": {
-      "@angular/core": "21.2.7",
-      "@angular/common": "21.2.7"
-    },
-    "@project-sunbird/sunbird-player-sdk": {
       "@angular/core": "21.2.7",
       "@angular/common": "21.2.7"
     },
@@ -181,7 +170,7 @@
       "@angular/core": "21.2.7",
       "@angular/common": "21.2.7"
     },
-    "@jaguarts/material-extended-mde": {
+    "@jaguards/material-extended-mde": {
       "@angular/core": "21.2.7",
       "@angular/common": "21.2.7"
     },

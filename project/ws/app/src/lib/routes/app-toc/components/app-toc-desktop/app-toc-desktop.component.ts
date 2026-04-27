@@ -364,7 +364,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
         this.logger.log(err)
         const collectionArry = this.uniqueIdsByContentType(this.content!.children, 'Resource')
         const regex = /do_\d+(?=\?primaryCategory)/
-        const match = this.updatedContentFound.match(regex)
+        const match = this.updatedContentFound?.match(regex)
         if (match) {
           this.logger.log(match[0], collectionArry)
           const matchId = match[0]

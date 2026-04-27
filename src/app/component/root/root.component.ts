@@ -53,16 +53,15 @@ import { WidgetUserService } from '../../../../library/ws-widget/collection/src/
 import { ViewerUtilService } from 'project/ws/viewer/src/lib/viewer-util.service'
 import { TranslateService } from '@ngx-translate/core'
 import { PlaylistService } from '../../services/playlist.service'
-import { CsModule } from '@project-sunbird/client-services'
 import { DowntimeConfigService } from '../../services/downtime-config.service'
 import { ScreenSecurityService } from '../../../../project/ws/viewer/src/lib/screen-security.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-root',
-    templateUrl: './root.component.html',
-    styleUrls: ['./root.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-root',
+  templateUrl: './root.component.html',
+  styleUrls: ['./root.component.scss'],
+
 })
 export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
   private destroy$ = new Subject<void>()
@@ -140,8 +139,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     this.userEnrollCourse = toSignal(
       this.configSvc.userProfile
         ? this.userSvc.fetchUserBatchList(this.configSvc.userProfile.userId || '').pipe(
-            map(res => this.buildEnrolledCourses(res))
-          )
+          map(res => this.buildEnrolledCourses(res))
+        )
         : of([]),
       { initialValue: [] }
     )
@@ -194,42 +193,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     effect(() => {
       this.isXSmall$ = this.valueSvc.isMobile()
     })
-    const locationOrigin = location.origin
-    CsModule.instance.init({
-      core: {
-        httpAdapter: 'HttpClientBrowserAdapter',
-        global: {
-          channelId: '', // required
-          producerId: '', // required
-          deviceId: '', // required
-          sessionId: '',
-        },
-        api: {
-          host: `${locationOrigin}/apis/proxies/v8`, // default host
-          authentication: {},
-        },
-      },
-      services: {
-        groupServiceConfig: {
-          apiPath: '/learner/group/v1',
-          dataApiPath: '/learner/data/v1/group',
-          updateGroupGuidelinesApiPath: '/learner/group/membership/v1',
-        },
-        userServiceConfig: {
-          apiPath: '/learner/user/v2',
-        },
-        formServiceConfig: {
-          apiPath: '/learner/data/v1/form',
-        },
-        courseServiceConfig: {
-          apiPath: '/learner/course/v1',
-          certRegistrationApiPath: '/learner/certreg/v2/certs',
-        },
-        discussionServiceConfig: {
-          apiPath: '/discussion',
-        },
-      },
-    })
   }
 
   ngOnDestroy() {
@@ -279,7 +242,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.logger.log(contentURL)
       if (contentURL) {
         const url: any = contentURL
-        const path = url.split('?')[0] // Get the part before the query string
+        const path = url?.split('?')[0] // Get the part before the query string
         const match = path.match(/do_[\w\d]+/) // Match the do_ identifier pattern
         let doId: any
         if (match) {
