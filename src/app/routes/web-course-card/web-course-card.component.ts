@@ -33,6 +33,7 @@ export class WebCourseCardComponent implements OnInit {
   }
   displayStyle = 'none'
   isLoggedIn = false
+  imgLoaded = false
 
   // Helper to get language prefix - DEPRECATED: ngx-translate should be used instead
   // Do NOT use URL-based language prefixes with ngx-translate

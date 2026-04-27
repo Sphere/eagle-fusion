@@ -242,6 +242,33 @@ export class InitService {
   getOrgSelectiveConfig(): any {
     return this.orgSelectiveConfig
   }
+
+  /**
+   * Reads the `homeRedirectOrgs` section of orgMeta.json and builds a Map
+   * of rootOrgId → redirectUrl stored on ConfigurationsService.
+   *
+   * This drives the GeneralGuard's /page/home intercept: any logged-in user
+   * whose rootOrgId appears in this map is sent straight to their org-details
+   * page instead of the generic home page.
+   *
+   * To onboard a new org: add one entry to the homeRedirectOrgs array in
+   * orgMeta.json — no TypeScript changes needed.
+   */
+  private async fetchOrgHomeRedirectConfig(): Promise<void> {
+    const orgMeta = await this.http
+      .get<any>(`/assets/orgMeta.json?cb=${Date.now()}`)
+      .toPromise()
+
+    if (orgMeta && Array.isArray(orgMeta.homeRedirectOrgs)) {
+      this.configSvc.orgHomeRedirectMap = new Map(
+        orgMeta.homeRedirectOrgs.map((entry: { orgId: string; redirectUrl: string }) => [
+          entry.orgId,
+          entry.redirectUrl,
+        ])
+      )
+      this.logger.log('[InitService] orgHomeRedirectMap loaded:', this.configSvc.orgHomeRedirectMap)
+    }
+  }
   private async fetchHostedConfig(): Promise<any> {
     // use the rootOrg and org to fetch the instance
     const hostConfig = await this.http
@@ -475,6 +502,15 @@ export class InitService {
           await this.fetchOrgSelectiveConfig()
         } catch (err) {
           this.logger.warn('fetchOrgSelectiveConfig failed (non-fatal):', err)
+        }
+
+        // 🔹 Load org home-redirect map from orgMeta.json so the GeneralGuard
+        //    can intercept /page/home and send matching-org users straight to
+        //    their org-details page.  Non-fatal: a failure won't block the app.
+        try {
+          await this.fetchOrgHomeRedirectConfig()
+        } catch (err) {
+          this.logger.warn('fetchOrgHomeRedirectConfig failed (non-fatal):', err)
         }
         const details = {
           group: [],

@@ -29,6 +29,7 @@ export class MobileCourseViewComponent implements OnInit {
   }
   displayStyle = 'none'
   isLoggedIn = false
+  imgLoaded = false
 
   constructor(private router: Router,
     private configSvc: ConfigurationsService,

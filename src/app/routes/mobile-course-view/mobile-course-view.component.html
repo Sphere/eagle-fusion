@@ -9,8 +9,12 @@
     <a href="javascript:void(0)" (click)="redirectPage(courseData)" role="button" tabindex="0">
       <div class="box">
         <div class="text-over">
-          <img alt="" class="appIcon fitsize"
-            src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}">
+          <div class="img-shimmer-wrapper">
+            <div class="img-shimmer" [class.img-shimmer-hide]="imgLoaded"></div>
+            <img alt="" class="appIcon fitsize"
+              src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}"
+              (load)="imgLoaded = true" (error)="imgLoaded = true">
+          </div>
           <ng-container>
             <div *ngIf="displayConfig?.badges?.cneName === true&& courseData.cneName" class="topStyle">
               CNE: {{courseData.cneName}}
@@ -69,8 +73,12 @@
     <a (click)="redirectPage(courseData)" class="card-block">
       <div class="card-long">
         <div class="img-block">
-          <img alt="" class="appIcon fitsizeMini"
-            src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}">
+          <div class="img-shimmer-wrapper">
+            <div class="img-shimmer" [class.img-shimmer-hide]="imgLoaded"></div>
+            <img alt="" class="appIcon fitsizeMini"
+              src="{{courseData.posterImage ? courseData.posterImage : (courseData.thumbnail ? courseData.thumbnail : courseData.appIcon)}}"
+              (load)="imgLoaded = true" (error)="imgLoaded = true">
+          </div>
           <ng-container>
             <div *ngIf="displayConfig?.badges?.certification === true && courseData.issueCertification"
               class="certificate-name">

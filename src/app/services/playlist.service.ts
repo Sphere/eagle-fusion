@@ -88,9 +88,15 @@ export class PlaylistService {
 
     const url = `/apis/protected/v8/playlist/search?v=${new Date().getTime()}`
 
-    const response: any = await this.http.post(url, body).toPromise()
-
-    return response?.result?.playlist ?? []
+    // Wrap in try/catch: an unhandled rejection here propagates out of any
+    // awaiting ngOnInit, leaving isLoading stuck true and the page blank.
+    try {
+      const response: any = await this.http.post(url, body).toPromise()
+      return response?.result?.playlist ?? []
+    } catch (error) {
+      this.logger.error('Failed to load playlist config', error)
+      return []
+    }
   }
 
   clearCache() {
