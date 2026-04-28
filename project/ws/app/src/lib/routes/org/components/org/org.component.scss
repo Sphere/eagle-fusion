@@ -81,7 +81,7 @@
   overflow: visible;
   margin-bottom: 72px;
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     margin-bottom: 64px;
   }
 }
@@ -203,7 +203,7 @@
       flex-direction: column;
       padding: 0px 80px 0px 80px;
       margin-top: 0;
-      @include breakpoint-s {
+      @include ws-mixins.breakpoint-s {
         padding: 0px 50px 0px 50px;
         margin-top: 0;
       }
@@ -418,7 +418,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
   z-index: 2;
   transform: translateY(50%);
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     left: 50px;
   }
 }
@@ -436,7 +436,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
   border: 0.2px solid #000;
   background-color: var(--theme-surface, #fff);
 
-  @include breakpoint-s {
+  @include ws-mixins.breakpoint-s {
     width: 120px;
     height: 120px;
   }
