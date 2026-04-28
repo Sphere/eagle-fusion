@@ -314,7 +314,7 @@ export function initTranslate(translate: TranslateService) {
   ],
   exports: [
     TncComponent,
-    ForgotPasswordComponent
+    ForgotPasswordComponent,
   ],
   bootstrap: [RootComponent],
   imports: [
@@ -435,7 +435,7 @@ export function initTranslate(translate: TranslateService) {
     UserAgentResolverService,
     UserProfileService,
   ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
 })
 export class AppModule {
   constructor(private translate: TranslateService) {

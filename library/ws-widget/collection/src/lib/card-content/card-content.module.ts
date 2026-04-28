@@ -16,7 +16,6 @@ import { PipeContentRouteModule } from '../_common/pipe-content-route/pipe-conte
 import { ProfileImageModule } from '../_common/profile-image/profile-image.module'
 import { UserImageModule } from '../_common/user-image/user-image.module'
 import { CardContentComponent } from './card-content.component'
-// import { BtnKbAnalyticsModule } from '../btn-kb-analytics/btn-kb-analytics.module'
 import { BtnContentShareModule } from '../btn-content-share/btn-content-share.module'
 
 @NgModule({

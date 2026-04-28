@@ -294,7 +294,7 @@ export class OrgSelectiveCourseComponent implements OnInit {
       return []
     }
 
-    return this.courseData.filter((course) => {
+    return this.courseData.filter(course => {
       const completion = course?.completionPercentage ?? 0
       return completion > 0 && completion < 100
     })
