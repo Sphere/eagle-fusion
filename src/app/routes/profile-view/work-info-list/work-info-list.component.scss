@@ -234,3 +234,75 @@ label {
 ::placeholder {
   color: var(--theme-text-placeholder, #8c98a8) !important;
 }
+
+.read-only-mat-field {
+  padding: 6px 0 10px;
+  border-bottom: 1px solid #efefef;
+  margin-bottom: 8px;
+}
+
+.form-read-only {
+  pointer-events: none;
+  user-select: none;
+
+  label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .form-group {
+    padding: 6px 0 10px;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 8px;
+  }
+
+  input.form-control,
+  select.form-control,
+  .select-box {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 4px 0 0;
+    font-size: 15px;
+    color: #222 !important;
+    height: auto;
+    opacity: 1 !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-weight: 400;
+  }
+
+  ::ng-deep .field-fullwidth .mdc-notched-outline {
+    display: none !important;
+  }
+
+  ::ng-deep .field-fullwidth .mat-mdc-select-value-text {
+    font-size: 15px;
+    color: #222;
+    font-weight: 400;
+  }
+
+  ::ng-deep .field-fullwidth .mat-mdc-text-field-wrapper,
+  ::ng-deep .field-fullwidth .mdc-text-field {
+    padding: 0 !important;
+  }
+
+  ::ng-deep .field-fullwidth .mat-mdc-form-field-infix {
+    padding: 4px 0 0 !important;
+    min-height: unset;
+  }
+
+  ::ng-deep .field-fullwidth .mat-mdc-form-field-subscript-wrapper {
+    display: none !important;
+  }
+
+  ::ng-deep .mat-mdc-select-arrow {
+    display: none !important;
+  }
+}

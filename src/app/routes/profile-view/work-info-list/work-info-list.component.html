@@ -44,10 +44,14 @@
     </div>
   </ng-container>
 
-  <form *ngIf="!isEkshamata" [formGroup]="personalDetailForm" class="mt-3 mb-5">
+  <form *ngIf="!isEkshamata" [formGroup]="personalDetailForm" class="mt-3 mb-5"
+    [class.form-read-only]="!isEditableForSphere">
     <ng-container *ngFor="let field of data?.formData">
-      <div *ngIf="field.type === 'mat-select'">
-        <label [for]="field.key" style="display: block;">{{ field.label | translate }}</label>
+      <div *ngIf="field.type === 'mat-select' && (isEditableForSphere || personalDetailForm.get(field.key)?.value)"
+        [class.read-only-mat-field]="!isEditableForSphere">
+        <label [for]="field.key" style="display: block;" *ngIf="field.label || !isEditableForSphere">
+          {{ (field.label || field.placeholder || field.key) | translate }}
+        </label>
         <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
           <mat-select [formControlName]="field.key" [placeholder]="field.placeholder | translate"
             (selectionChange)="professionalChange($event.value)">
@@ -56,19 +60,28 @@
           </mat-select>
         </mat-form-field>
       </div>
-      <ng-container *ngIf="shouldShowField(field)">
-        <div *ngIf="field.type === 'select'">
-          <label *ngIf="field.label" style="display: block;">{{ field.label | translate }}</label>
-          <mat-form-field appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
+      <ng-container *ngIf="shouldShowField(field) && (isEditableForSphere || personalDetailForm.get(field.key)?.value)">
+        <div class="form-group input-box" *ngIf="field.type === 'select'">
+          <label [for]="field.key" style="display: block;" *ngIf="field.label || !isEditableForSphere">
+            {{ (field.label || field.placeholder || field.key) | translate }}
+          </label>
+          <mat-form-field *ngIf="isEditableForSphere" appearance="outline" class="field-fullwidth themed-mat-field" style="width: 100%;">
             <mat-select [formControlName]="field.key" [placeholder]="field.placeholder | translate"
               [required]="field.required" (selectionChange)="handleChange($event, field)">
               <mat-option [value]="null" [disabled]="field.disabled">{{ field.placeholder | translate }}</mat-option>
               <mat-option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</mat-option>
             </mat-select>
           </mat-form-field>
+          <select *ngIf="!isEditableForSphere" [id]="field?.key" class="form-control select-box" [formControlName]="field.key"
+            [required]="field.required">
+            <option [value]="null" [disabled]="field.disabled">{{ field.placeholder | translate }}</option>
+            <option *ngFor="let opt of getOptions(field)" [value]="opt">{{ opt }}</option>
+          </select>
         </div>
         <div class="form-group input-box" *ngIf="field.type === 'text'">
-          <label *ngIf="field.label" [for]="field.key">{{ field?.label | translate }}</label>
+          <label [for]="field.key" *ngIf="field.label || !isEditableForSphere">
+            {{ (field?.label || field?.placeholder || field?.key) | translate }}
+          </label>
           <input class="form-control" [formControlName]="field.key" [required]="field.required"
             [placeholder]="field.placeholder | translate" autocomplete="off" />
         </div>

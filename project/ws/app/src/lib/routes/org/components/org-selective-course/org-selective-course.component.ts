@@ -288,6 +288,17 @@ export class OrgSelectiveCourseComponent implements OnInit {
     this.logger.log('Final Semester Data:', this.semesterData)
     this.logger.log('Sample course with completionPercentage:', this.semesterData[0]?.courses[0])
   }
+
+  getContinueLearningCourses(): any[] {
+    if (!this.isLoggedIn) {
+      return []
+    }
+
+    return this.courseData.filter((course) => {
+      const completion = course?.completionPercentage ?? 0
+      return completion > 0 && completion < 100
+    })
+  }
   login() {
     this.router.navigateByUrl('/public/login')
   }

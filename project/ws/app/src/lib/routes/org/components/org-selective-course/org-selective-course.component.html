@@ -25,7 +25,26 @@
       </div>
       <!-- .banner -->
       <div class="courses-block component">
-        <div class="wrapper mb-4 margin-top-20">
+        <div class="course-section wrapper" *ngIf="getContinueLearningCourses().length > 0">
+          <div class="mb-4 flex scroller-container margin-top-20">
+            <div class="w-100 line-label heading-line-yellow">
+              <div class="flex flex-middle heading-line">
+                <span class="course-header">{{'Continue Learning' | translate}}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="wrapper resource-container">
+            <div *ngFor="let widget of getContinueLearningCourses(); let last = last" [ngClass]="{ 'last-child1': last }">
+              <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="myCourseDisplayConfig"
+                [courseData]="widget"></ws-mobile-course-view>
+              <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="myCourseWebDisplayConfig"
+                [courseData]="widget"></ws-web-course-card>
+            </div>
+          </div>
+        </div>
+
+        <div class="mb-4  flex scroller-container margin-top-20">
           <div class="w-100 line-label bg-green">
             <div class="flex flex-middle">
               <span class="course-header">{{'Elective Courses' | translate}}</span>

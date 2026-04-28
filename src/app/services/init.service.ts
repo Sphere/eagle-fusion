@@ -257,7 +257,7 @@ export class InitService {
    */
   private async fetchOrgHomeRedirectConfig(): Promise<void> {
     const orgMeta = await this.http
-      .get<any>(`/assets/orgMeta.json?cb=${Date.now()}`)
+      .get<any>(`https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`)
       .toPromise()
 
     if (orgMeta && Array.isArray(orgMeta.homeRedirectOrgs)) {

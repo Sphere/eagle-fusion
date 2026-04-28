@@ -67,6 +67,7 @@
   background-color: var(--theme-input-disabled-bg, #ffffff) !important;
   color: var(--theme-input-disabled-text, #101828) !important;
   border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
+  pointer-events: none;
 }
 .field-fullwidth {
   width: 100% !important;
@@ -161,4 +162,68 @@ select option:first-child {
 select option {
   color: var(--theme-text, #101828);
   background-color: var(--theme-surface, #ffffff);
+}
+
+.form-read-only {
+  pointer-events: none;
+  user-select: none;
+
+  label {
+    font-size: 11px;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    font-weight: 500;
+    margin-bottom: 2px;
+    display: block;
+  }
+
+  .form-group {
+    padding: 6px 0 10px;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 8px;
+  }
+
+  input.form-control,
+  select.form-control,
+  .select-box {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 4px 0 0;
+    font-size: 15px;
+    color: #222 !important;
+    height: auto;
+    opacity: 1 !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-weight: 400;
+  }
+
+  ::ng-deep ws-dropdown-dob select {
+    border: none !important;
+    box-shadow: none !important;
+    background: transparent !important;
+    padding: 4px 0 0;
+    font-size: 15px;
+    color: #222 !important;
+    height: auto;
+    opacity: 1 !important;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    font-weight: 400;
+  }
+
+  ::ng-deep ws-dropdown-dob .form-control {
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  ::ng-deep ws-dropdown-dob .form-group {
+    border: none !important;
+    padding: 0;
+    margin: 0;
+  }
 }

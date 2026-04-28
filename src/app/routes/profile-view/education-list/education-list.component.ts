@@ -11,16 +11,16 @@ import { UserAgentResolverService } from '../../../services/user-agent.service'
     selector: 'ws-education-list',
     templateUrl: './education-list.component.html',
     styleUrls: ['./education-list.component.scss'],
-    
+
 })
 export class EducationListComponent implements OnInit {
   academicsArray: any[] = []
   showbackButton = false
   showLogOutIcon = false
   trigerrNavigation = true
+  isEditableForSphere = false
   @Input() isEkshamata = false
   @Input() data: any
-  isEditableForSphere: boolean = false
   constructor(
     private configSvc: ConfigurationsService,
     private userProfileSvc: UserProfileService,
@@ -53,9 +53,15 @@ export class EducationListComponent implements OnInit {
             this.academicsArray = get(data, 'profileDetails.profileReq.academics')
             this.cdr.detectChanges()
           }
+          this.cdr.markForCheck()
         })
     }
   }
+
+  get hasValidAcademics(): boolean {
+    return this.academicsArray.some(a => a.nameOfInstitute)
+  }
+
   redirectTo(isEdit?: any, academic?: any) {
     const ob = {
       "type": "academic",
@@ -71,12 +77,5 @@ export class EducationListComponent implements OnInit {
     }
     sessionStorage.setItem('academic', JSON.stringify(ob))
     this.contentSvc.changeWork(ob)
-    // this.contentSvc.changeBack('/app/education-list')
-    // if (isEdit) {
-    //   this.router.navigate([`app/education-edit`], { queryParams: { ...academic }, skipLocationChange: true })
-    // } else {
-    //   this.router.navigate([`app/education-edit`])
-    // }
-
   }
 }

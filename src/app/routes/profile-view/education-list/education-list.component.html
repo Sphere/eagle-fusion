@@ -14,7 +14,7 @@
   </ng-container>
   <div class="inline-block" *ngIf="!isEkshamata">
     <div *ngFor="let academic of academicsArray">
-      <div *ngIf="!isEkshamata" class="edit-icon">
+      <div *ngIf="!isEkshamata && isEditableForSphere" class="edit-icon">
         <mat-icon *ngIf="academicsArray.length>0 && academic.nameOfInstitute"
           [class]="'float-right cursor-pointer' + data?.button?.icon"
           (click)="redirectTo(true,academic)">{{data?.button?.label | translate}}</mat-icon>
@@ -30,9 +30,14 @@
   </div>
 
   <mat-divider class="mt-2"></mat-divider>
-  <div *ngIf="!isEkshamata && isEditableForSphere  && data?.show" class="mt-3">
+  <div *ngIf="!isEkshamata && isEditableForSphere && data?.show" class="mt-3">
     <p class="add-edu-txt inline-block cursor-pointer" (click)="redirectTo(false)">{{ data?.sub_header | translate }}
     </p>
   </div>
+
+  <p *ngIf="!isEkshamata && !isEditableForSphere && !hasValidAcademics"
+    style="color: #888; font-size: 14px; margin-top: 12px;">
+    {{ 'No education details available' | translate }}
+  </p>
 
 </div>

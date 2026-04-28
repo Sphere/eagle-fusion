@@ -145,7 +145,7 @@ export class OrgComponent implements OnInit, OnDestroy {
 
     // orgMeta.json drives all org-level configuration: logo, banner, about text, and course layout.
     // The cache-buster (?cb=...) ensures we always get the latest version and never serve stale data.
-    const url = `/assets/orgMeta.json?cb=${Date.now()}`
+    const url = `https://aastar-app-assets.s3.ap-south-1.amazonaws.com/orgMeta.json?cb=${Date.now()}`
 
     this.http.get(url, { responseType: 'text' })
       .subscribe(
@@ -195,8 +195,8 @@ export class OrgComponent implements OnInit, OnDestroy {
                   const startedOrCompletedIds = new Set<string>()
 
                     // Process each course from the user's enrolled batch list
-                    ; (Array.isArray(userBatchList) ? userBatchList : []).forEach((batchItem: any) => {
-                      const courseId = batchItem?.content?.identifier
+                    ;(Array.isArray(userBatchList) ? userBatchList : []).forEach((batchItem: any) => {
+                      const courseId = batchItem?.content?.identifier ?? batchItem?.courseId
                       const completionPct = batchItem?.completionPercentage ?? 0
 
                       // Only process courses that belong to this org's CNE sections.
