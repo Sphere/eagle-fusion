@@ -30,6 +30,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   numberOfNotification = ''
   currentTab = ''
   notificationDialogRef: MatDialogRef<NotificationsComponent> | null = null
+  @Input() orgData: any
   @Input() menuItems: any[]
   @Input() mode = ''
   userData: any
@@ -60,7 +61,7 @@ export class WebNavLinkPageComponent implements OnInit, OnChanges {
   async ngOnInit() {
     this.isDark = this.themeService.isDarkMode()
     this.isDark = this.themeService.isDark()
-    this.logger.log(" menuItems ", this.menuItems)
+    this.logger.log(" menuItems ", this.menuItems, this.orgData)
     this.data = this.configSvc?.unMappedUser?.profileDetails?.profileReq?.personalDetails
     this.updateNotificationCount(this.storage.getNumberOfNotifications())
 

@@ -14,7 +14,8 @@
       <ws-app-search-input-home *ngIf="showSearchIcon" placeHolder="Search" class="my-search flex-1"
         [ref]="'home'"></ws-app-search-input-home>
 
-      <ws-web-nav-link-page *ngIf="showNavLinkPage" [menuItems]="menuItems" [mode]="isXSmall"></ws-web-nav-link-page>
+      <ws-web-nav-link-page *ngIf="showNavLinkPage" [menuItems]="menuItems" [mode]="isXSmall"
+        [orgData]="orgData"></ws-web-nav-link-page>
     </section>
 
     <img *ngIf="isXSmall" (click)="navigate()" class="burger-menu" [src]="config?.rightMenuItem?.image?.src"
@@ -25,7 +26,7 @@
   <div *ngIf="mode === 'bottom'" class="flex navbar-gap justify-between items-center"
     [ngStyle]="{ gap: langPresent ? '0px 8px' : '0px 3px' }">
     <ng-container *ngIf="!showCreateBtn && isXSmall && menuItems?.length">
-      <ws-web-nav-link-page [menuItems]="menuItems" [mode]="isXSmall"></ws-web-nav-link-page>
+      <ws-web-nav-link-page [menuItems]="menuItems" [mode]="isXSmall" [orgData]="orgData"></ws-web-nav-link-page>
     </ng-container>
     <div class="w-full" *ngIf="hideCreateButton">
       <a *ngIf="showCreateBtn && !configSvc.userProfile" matRipple

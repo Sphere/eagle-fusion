@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, OnDestroy, Signal, ChangeDetectorRef } from '@angular/core'
+import { Component, Input, OnInit, OnDestroy, Signal, ChangeDetectorRef, effect } from '@angular/core'
 import { toSignal } from '@angular/core/rxjs-interop'
 import { Router } from '@angular/router'
 import { MatDialog } from '@angular/material/dialog'
@@ -10,12 +10,13 @@ import { LanguageService } from 'src/app/services/language.service'
 import * as _ from 'lodash'
 import { PlaylistService } from '../../services/playlist.service'
 import { LoggerService } from '../../../../library/ws-widget/utils/src/public-api'
+import { ThemeService } from '../../services/theme.service'
 @Component({
-    standalone: false,
-    selector: 'ws-dashboard',
-    templateUrl: './web-dashboard.component.html',
-    styleUrls: ['./web-dashboard.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-dashboard',
+  templateUrl: './web-dashboard.component.html',
+  styleUrls: ['./web-dashboard.component.scss'],
+
 })
 export class WebDashboardComponent implements OnInit, OnDestroy {
   firstName!: Signal<string>
@@ -35,6 +36,7 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
   uiConfig: any
   playListIds: any[] = []
   noOfBadges = 0
+  isDark: boolean
   constructor(
     public router: Router,
     public dialog: MatDialog,
@@ -44,7 +46,8 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     private languageSvc: LanguageService,
     private plylsSvc: PlaylistService,
     private logger: LoggerService,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private themeSvc: ThemeService
   ) {
     this.firstName = toSignal(
       this.userProfileSvc.getUserdetailsFromRegistry(this.configSvc.unMappedUser.id).pipe(
@@ -55,6 +58,9 @@ export class WebDashboardComponent implements OnInit, OnDestroy {
     if (localStorage.getItem('orgValue') === 'nhsrc') {
       this.router.navigateByUrl('/organisations/home')
     }
+    effect(() => {
+      this.isDark = this.themeSvc.isDark()
+    })
   }
 
   get shouldShowBadges(): boolean {

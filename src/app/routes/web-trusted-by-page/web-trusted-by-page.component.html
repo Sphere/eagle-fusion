@@ -7,7 +7,7 @@
     {{ config?.subTitle | translate }}
   </div>
   <div class="trusted-by-img-container">
-    <img [src]="config?.img" class="trusted-by-img" alt="Sphere" />
+    <img [src]="!isDark ? config?.img : config.darkImg" class="trusted-by-img" alt="Sphere" />
     <div class="rmc-container">
       <hr>
       <div class="img-container" *ngFor="let ls of config?.imgData; let i = index">

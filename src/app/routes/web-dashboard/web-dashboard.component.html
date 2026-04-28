@@ -27,9 +27,8 @@
         <div class="slide" *ngFor="let data of dataCarousel; let i = index">
           <div class="slide-content" (click)="scrollToHowSphereWorks(data?.scrollEmit)">
             <div class="banner-shimmer" *ngIf="!imgsLoaded[i]"></div>
-            <img class="banner-image" [src]="data?.img" alt="Carousel image" loading="lazy"
-              (load)="onBannerImgLoad(i)"
-              (error)="onBannerImgLoad(i)" />
+            <img class="banner-image" [src]="!isDark ? data?.img: data?.darkimg" alt="Carousel image" loading="lazy"
+              (load)="onBannerImgLoad(i)" (error)="onBannerImgLoad(i)" />
           </div>
         </div>
       </div>

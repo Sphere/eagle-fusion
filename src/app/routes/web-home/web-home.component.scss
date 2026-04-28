@@ -17,7 +17,7 @@
     gap: 8px;
     background-color: var(--theme-accent) !important;
     border-radius: 50px;
-    color: var(--theme-bg) !important;
+    color: #FFFFFF !important;
     font-family: Roboto, sans-serif;
     font-style: normal;
     font-weight: 400;
@@ -433,7 +433,7 @@ text-align: center;
   }
 
   .badge-container {
-    color: var(--theme-chip-text, #e5f3ff);
+    color: var(--theme-text, #e5f3ff);
     background: var(--theme-bg, #1c2d38);
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
     box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));

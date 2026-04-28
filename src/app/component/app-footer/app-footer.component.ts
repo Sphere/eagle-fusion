@@ -1,15 +1,16 @@
-import { Component, Input, OnInit } from '@angular/core'
+import { Component, effect, Input, OnInit } from '@angular/core'
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { SafeUrl } from '@angular/platform-browser'
 import { Router } from '@angular/router'
 import { PlaylistService } from '../../services/playlist.service'
+import { ThemeService } from '../../services/theme.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-app-footer',
-    templateUrl: './app-footer.component.html',
-    styleUrls: ['./app-footer.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-app-footer',
+  templateUrl: './app-footer.component.html',
+  styleUrls: ['./app-footer.component.scss'],
+
 })
 export class AppFooterComponent implements OnInit {
   @Input() isEkshamata = false
@@ -22,12 +23,14 @@ export class AppFooterComponent implements OnInit {
   isLoggedIn = false
   configData: any
   orgData: any = {}
+  isDark: boolean
   constructor(
     public configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private readonly router: Router,
     private playlistSvc: PlaylistService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private themeSvc: ThemeService
   ) {
     this.isLoggedIn = !!this.configSvc.userProfile
     this.termsOfUser = !this.configSvc.restrictedFeatures?.has('termsOfUser')
@@ -41,6 +44,9 @@ export class AppFooterComponent implements OnInit {
       this.configData = res
       this.appIcon = this.orgData?.appLogo
     }
+    effect(() => {
+      this.isDark = this.themeSvc.isDark()
+    })
   }
 
   ngOnInit() {

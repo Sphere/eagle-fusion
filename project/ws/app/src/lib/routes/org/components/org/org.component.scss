@@ -18,10 +18,6 @@
   border-radius: 6px;
 }
 
-.dark-theme .shimmer {
-  background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
-}
-
 .org-shimmer-wrapper {
   position: relative;
   overflow: hidden;
@@ -971,4 +967,8 @@ letter-spacing: -2%;
       border-color: var(--theme-accent, #1C5D95);
     }
   }
+}
+
+.dark-theme .shimmer {
+  background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px) !important;
 }

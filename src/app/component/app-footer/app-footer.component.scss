@@ -833,15 +833,13 @@ color: var(--theme-text);
   }
 
   .transform-footer-container {
-    background-blend-mode: multiply;
-    background-color: #467295;
     background-position: center;
     background-size: cover;
     background-image:url('/fusion-assets/images/Group-people-dark.png') !important
   }
 
   .start-today-button {
-    // background: #000;
+    background: #000;
     color: var(--theme-text, #ffffff) !important;
   }
 

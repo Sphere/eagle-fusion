@@ -1,5 +1,5 @@
 <div *ngIf="!isLoggedIn" [ngClass]="{'mobileFooter': isXSmall}">
-  <div style="background-image:url('/fusion-assets/images/Group-people.png')" class="flex transform-footer-container">
+  <div class="flex transform-footer-container">
     <div class="mobileFlex">
       <div class=" transform-header">{{configData?.header | translate}}</div>
       <button (click)="createAcct()" class="start-today-button">{{configData?.button?.label | translate}}</button>

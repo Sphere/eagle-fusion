@@ -69,12 +69,13 @@
           </a>
         </div>
       </ng-container>
-      <div style="display:flex; justify-content: space-between; margin-left: 0.5rem">
+      <div *ngIf="orgDet?.themeConfig?.isDark"
+        style="display:flex; justify-content: space-between; margin-left: 0.5rem">
         <div>
           <img class="themeIcon" src="/fusion-assets/images/dark_mode.png">
           <label style="margin-left: 1rem;">{{"DARK_MODE" | translate}}</label>
         </div>
-        <mat-slide-toggle labelPosition="before" [checked]="isDark()"
+        <mat-slide-toggle labelPosition="before" [checked]="isDark()" [color]="'primary'"
           (change)="onToggleChange($event)"></mat-slide-toggle>
       </div>
       <div class="margin-top-xs support-copy" *ngIf="!isEkshamata || configSvc.hostedInfo?.email">

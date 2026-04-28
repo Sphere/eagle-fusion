@@ -1290,14 +1290,14 @@ html::-webkit-scrollbar-corner {
     font-size: 14px !important;
     font-weight: 400 !important;
     color: #101828 !important;
-    background-color: #ffffff !important;
+    background-color: var(--theme-bg) !important;
     min-height: 40px !important;
 
     .mdc-list-item__primary-text {
       font-family: 'Roboto', sans-serif !important;
       font-size: 14px !important;
       font-weight: 400 !important;
-      color: #101828 !important;
+      color: var(--theme-text) !important;
     }
 
     &:hover:not(.mdc-list-item--disabled),

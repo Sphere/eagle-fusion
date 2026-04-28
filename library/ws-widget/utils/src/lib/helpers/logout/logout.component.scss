@@ -16,7 +16,7 @@
   padding: 0 !important;
   text-align: left;
   font-family: 'Roboto';
-  color: #101828;
+  color: var(--theme-text);
   font-size: 1.25rem;
   font-weight: 600;
   line-height: 1.35;
@@ -69,7 +69,7 @@
 .secondary-action {
   border: 1px solid #d0d5dd;
   background: #ffffff;
-  color: #1d2939;
+  color: #1d2939 !important;
 }
 
 .primary-action {

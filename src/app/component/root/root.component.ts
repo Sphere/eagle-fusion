@@ -55,6 +55,7 @@ import { TranslateService } from '@ngx-translate/core'
 import { PlaylistService } from '../../services/playlist.service'
 import { DowntimeConfigService } from '../../services/downtime-config.service'
 import { ScreenSecurityService } from '../../../../project/ws/viewer/src/lib/screen-security.service'
+import { ThemeService } from '../../services/theme.service'
 
 @Component({
   standalone: false,
@@ -134,7 +135,8 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
     private playlistSvc: PlaylistService,
     private logger: LoggerService,
     private downtimeService: DowntimeConfigService,
-    private scrnScrtySvc: ScreenSecurityService
+    private scrnScrtySvc: ScreenSecurityService,
+    private themeSvc: ThemeService
   ) {
     this.userEnrollCourse = toSignal(
       this.configSvc.userProfile
@@ -489,7 +491,7 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       this.showNavbar = true
       this.videoData = this.configData?.[this.configData?.length - 1]
       localStorage.setItem('videoData', JSON.stringify(this.videoData))
-
+      this.orgDetails.themeConfig.isDark ? this.themeSvc.setTheme(true) : this.themeSvc.setTheme(false)
       // Trigger change detection to ensure template updates with new data
       this.changeDetector.markForCheck()
     } catch (error) {

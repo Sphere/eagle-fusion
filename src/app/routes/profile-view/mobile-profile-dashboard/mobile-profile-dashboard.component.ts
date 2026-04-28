@@ -75,6 +75,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   count = 3
   isLoading = false
   isDark = this.themeService.isDarkMode
+  orgDet: any
   constructor(
     private configSvc: ConfigurationsService,
     private router: Router,
@@ -154,6 +155,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
     } else {
       this.config = res
     }
+    this.orgDet = this.plylsSvc.orgDetails()
     const orderList = this.showMobileView ? this.config?.mobOrderList : this.config?.webOrderList
     this.menuItems = orderList?.map(id => this.config?.menuItems?.find(item => item.id === id)).filter(Boolean) || []
 

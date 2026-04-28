@@ -4,13 +4,14 @@ import { ValueService, ConfigurationsService, LoggerService } from '@ws-widget/u
 import { ScrollService } from '../../services/scroll.service'
 import { LanguageService } from '../../services/language.service'
 import { PlaylistService } from '../../services/playlist.service'
+import { ThemeService } from '../../services/theme.service'
 
 @Component({
-    standalone: false,
-    selector: 'ws-web-home',
-    templateUrl: './web-home.component.html',
-    styleUrls: ['./web-home.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-web-home',
+  templateUrl: './web-home.component.html',
+  styleUrls: ['./web-home.component.scss'],
+
 })
 export class WebHomeComponent implements OnInit, OnDestroy {
   showCreateBtn = false
@@ -22,6 +23,7 @@ export class WebHomeComponent implements OnInit, OnDestroy {
   dataCarousel: any
   config: any
   isXsmall = false
+  isDark: boolean
   constructor(
     private router: Router,
     private valueSvc: ValueService,
@@ -30,7 +32,8 @@ export class WebHomeComponent implements OnInit, OnDestroy {
     private elementRef: ElementRef,
     private languageSvc: LanguageService,
     private playlsSvc: PlaylistService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private themeSvc: ThemeService
   ) {
     effect(() => {
       if (this.valueSvc.isMobile()) {
@@ -40,6 +43,7 @@ export class WebHomeComponent implements OnInit, OnDestroy {
         this.isXsmall = false
         this.showCreateBtn = false
       }
+      this.isDark = this.themeSvc.isDark()
     })
   }
 

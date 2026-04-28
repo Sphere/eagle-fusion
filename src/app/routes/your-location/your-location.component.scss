@@ -189,9 +189,5 @@ input:focus-visible {
     ::ng-deep .mat-mdc-select-arrow {
       color: var(--theme-text-soft, #8fa4b8) !important;
     }
-
-    ::ng-deep .mat-mdc-text-field-wrapper {
-      background: var(--theme-bg, #10181e);
-    }
   }
 }

@@ -1,5 +1,5 @@
 <div class="link-container" *ngIf="!mode && (data?.tncAccepted || data?.dob)">
-  <button mat-button (click)="toggleTheme()" matTooltip="Toggle theme">
+  <button *ngIf="orgData?.themeConfig?.isDark" mat-button (click)="toggleTheme()" matTooltip="Toggle theme">
     <mat-icon>brightness_6</mat-icon>
   </button>
   <div class="link-block" *ngFor="let item of menuItems">
