@@ -195,7 +195,11 @@ export class OrgComponent implements OnInit, OnDestroy {
                   const startedOrCompletedIds = new Set<string>()
 
                     // Process each course from the user's enrolled batch list
+<<<<<<< HEAD
                     ;(Array.isArray(userBatchList) ? userBatchList : []).forEach((batchItem: any) => {
+=======
+                    ; (Array.isArray(userBatchList) ? userBatchList : []).forEach((batchItem: any) => {
+>>>>>>> origin/feature/downtime
                       const courseId = batchItem?.content?.identifier ?? batchItem?.courseId
                       const completionPct = batchItem?.completionPercentage ?? 0
 
@@ -203,7 +207,11 @@ export class OrgComponent implements OnInit, OnDestroy {
                       // Without this filter, courses from other orgs could leak into
                       // this org's Continue Learning / Completed sections.
                       if (courseId && allCourseIds.includes(courseId)) {
+<<<<<<< HEAD
                         if (completionPct > 0 && completionPct < 100) {
+=======
+                        if (completionPct >= 0 && completionPct < 100) {
+>>>>>>> origin/feature/downtime
                           // STARTED (in-progress): move to "Continue Learning", hide from CNE sections
                           startedOrCompletedIds.add(courseId)
                           this.inProgressCourses.push({
@@ -214,7 +222,11 @@ export class OrgComponent implements OnInit, OnDestroy {
                             completionPercentage: completionPct,
                             sourceName: batchItem.content.sourceName,
                             averageRating: batchItem.content.averageRating,
+<<<<<<< HEAD
                             lang: batchItem.content.lang || 'en',
+=======
+                            lang: batchItem.content.lang || 'en'
+>>>>>>> origin/feature/downtime
                           })
                         } else if (completionPct === 100) {
                           // COMPLETED: move to "Completed" section, hide from CNE sections
@@ -227,7 +239,11 @@ export class OrgComponent implements OnInit, OnDestroy {
                             completionPercentage: completionPct,
                             sourceName: batchItem.content.sourceName,
                             averageRating: batchItem.content.averageRating,
+<<<<<<< HEAD
                             lang: batchItem.content.lang || 'en',
+=======
+                            lang: batchItem.content.lang || 'en'
+>>>>>>> origin/feature/downtime
                           })
                         }
                         // completionPct === 0 means enrolled but not started: keep visible in CNE sections
@@ -247,7 +263,11 @@ export class OrgComponent implements OnInit, OnDestroy {
                   // Card display config for CNE section cards (full thumbnail + badges overlay)
                   this.cneCourseCardConfig = {
                     displayType: 'card-badges',
+<<<<<<< HEAD
                     badges: { cneName: true, rating: true, sourceName: true },
+=======
+                    badges: { cneName: false, rating: true, sourceName: true }
+>>>>>>> origin/feature/downtime
                   }
 
                   // Card display config for Continue Learning and Completed cards (mini with progress bar)

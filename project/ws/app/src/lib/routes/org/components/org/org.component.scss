@@ -77,6 +77,13 @@
 // Needed so position:absolute shimmer children are anchored to the banner area
 .banner-container {
   position: relative;
+  width: 100%;
+  overflow: visible;
+  margin-bottom: 72px;
+
+  @include breakpoint-s {
+    margin-bottom: 64px;
+  }
 }
 
 // Banner image shimmer — sits on top of the real <img> until (load) fires.
@@ -150,6 +157,8 @@
   display: flex;
   justify-content: flex-end;
   background: var(--theme-bg, #EEF8F8) !important;
+  width: 100%;
+  overflow: hidden;
 
   @include ws-mixins.breakpoint-xs {
      height: 300px;
@@ -164,22 +173,17 @@
 }
 .default-banner-img{
   position: relative;
-    height: 372px;
-    background-size: cover;
-    background-position: center;
-    padding: 20px 20px 0px 0px;
-      @include ws-mixins.breakpoint-xs {
-       width: 298px;
-      height: 442px;
-      }
+  display: block;
+  width: 100%;
+  height: auto;
+  padding: 0;
 }
 .banner {
-      position: relative;
-      width: 100%;
-      height: 220px;
-      background-size: cover;
-      background-position: center;
-    }
+  position: relative;
+  display: block;
+  width: 100%;
+  height: auto;
+}
 
     .logo {
       position: relative;
@@ -197,11 +201,11 @@
     .org-body{
       display: flex;
       flex-direction: column;
-      padding: 0px 150px 0px 150px;
-      margin-top: -60px;
-      @include ws-mixins.breakpoint-s {
+      padding: 0px 80px 0px 80px;
+      margin-top: 0;
+      @include breakpoint-s {
         padding: 0px 50px 0px 50px;
-        margin-top: -30px;
+        margin-top: 0;
       }
     }
 .org-name{
@@ -407,36 +411,41 @@ mat-card.card-standard-container.mr-8 .mat-card {
   float: left;
   width: 100%;
 }
+.banner-logo-wrap {
+  position: absolute;
+  left: 80px;
+  bottom: 0;
+  z-index: 2;
+  transform: translateY(50%);
+
+  @include breakpoint-s {
+    left: 50px;
+  }
+}
+
 .image-outer {
-    display: flex;
-    align-items: center;
-    border-radius: 84px;
-    overflow: hidden;
-    justify-content: center;
-    border: solid 1px #dfdfdf;
-    border: solid 1px var(--theme-border, #dfdfdf);
-     position: relative;
-      top: 87%;
-      left: 12%;
-      transform: translate(-50%, -50%);
-      width: 140px;
-      height: 140px;
-      flex-shrink: 0;
-      background-size: cover;
-      background-position: center;
-      border-radius: 140px;
-      border: 0.2px solid #000;
-      background-color: var(--theme-surface, #fff);
-      @include ws-mixins.breakpoint-s {
-      top: 87%;
-      left: 20%;
-      width: 120px;
-      height: 120px;
-    }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  width: 140px;
+  height: 140px;
+  flex-shrink: 0;
+  overflow: hidden;
+  border-radius: 140px;
+  border: 0.2px solid #000;
+  background-color: var(--theme-surface, #fff);
+
+  @include breakpoint-s {
+    width: 120px;
+    height: 120px;
+  }
 }
 
 .org-logo {
-  max-width: 150px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
 .align-logo {
@@ -687,6 +696,18 @@ background-color: #fff;
     background-color: #CBC9B5;
   }
 
+  .bg-green::after {
+    background: #A4DFCA;
+  }
+
+  .heading-line-yellow::after {
+    background: #F6F3D9;
+  }
+
+  .heading-line-teal::after {
+    background: #C2E3DD;
+  }
+
   .heading-line {
     justify-content: center;
   }
@@ -709,20 +730,22 @@ background-color: #fff;
    margin-bottom: 15px !important;
 }
     .image-outer{
-      top: 87%;
-      left: 23%;
       width: 80px;
       height: 80px;
     }
+  .banner-logo-wrap {
+    left: 10px;
+  }
   .org-logo {
-    max-width: 88px;
+    width: 100%;
+    height: 100%;
   }
   .banner{
     margin-top: 50px;
-      height: 225px;
   }
   .org-body {
     padding: 10px;
+    margin-top: 0;
   }
   .org-name {
     font-size: 18px;
