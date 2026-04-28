@@ -187,45 +187,45 @@ export class OrgComponent implements OnInit, OnDestroy {
                   // excluded from the CNE sections and shown in the correct personal section
                   const startedOrCompletedIds = new Set<string>()
 
-                  // Process each course from the user's enrolled batch list
-                  ;(Array.isArray(userBatchList) ? userBatchList : []).forEach((batchItem: any) => {
-                    const courseId = batchItem?.content?.identifier ?? batchItem?.courseId
-                    const completionPct = batchItem?.completionPercentage ?? 0
+                    // Process each course from the user's enrolled batch list
+                    ; (Array.isArray(userBatchList) ? userBatchList : []).forEach((batchItem: any) => {
+                      const courseId = batchItem?.content?.identifier ?? batchItem?.courseId
+                      const completionPct = batchItem?.completionPercentage ?? 0
 
-                    // Only process courses that belong to this org's CNE sections.
-                    // Without this filter, courses from other orgs could leak into
-                    // this org's Continue Learning / Completed sections.
-                    if (courseId && allCourseIds.includes(courseId)) {
-                      if (completionPct >= 0 && completionPct < 100) {
-                        // STARTED (in-progress): move to "Continue Learning", hide from CNE sections
-                        startedOrCompletedIds.add(courseId)
-                        this.inProgressCourses.push({
-                          identifier: courseId,
-                          appIcon: batchItem.content.appIcon,
-                          thumbnail: batchItem.content.thumbnail,
-                          name: batchItem.content.name,
-                          completionPercentage: completionPct,
-                          sourceName: batchItem.content.sourceName,
-                          averageRating: batchItem.content.averageRating,
-                          lang: batchItem.content.lang || 'en'
-                        })
-                      } else if (completionPct === 100) {
-                        // COMPLETED: move to "Completed" section, hide from CNE sections
-                        startedOrCompletedIds.add(courseId)
-                        this.completedCourses.push({
-                          identifier: courseId,
-                          appIcon: batchItem.content.appIcon,
-                          thumbnail: batchItem.content.thumbnail,
-                          name: batchItem.content.name,
-                          completionPercentage: completionPct,
-                          sourceName: batchItem.content.sourceName,
-                          averageRating: batchItem.content.averageRating,
-                          lang: batchItem.content.lang || 'en'
-                        })
+                      // Only process courses that belong to this org's CNE sections.
+                      // Without this filter, courses from other orgs could leak into
+                      // this org's Continue Learning / Completed sections.
+                      if (courseId && allCourseIds.includes(courseId)) {
+                        if (completionPct >= 0 && completionPct < 100) {
+                          // STARTED (in-progress): move to "Continue Learning", hide from CNE sections
+                          startedOrCompletedIds.add(courseId)
+                          this.inProgressCourses.push({
+                            identifier: courseId,
+                            appIcon: batchItem.content.appIcon,
+                            thumbnail: batchItem.content.thumbnail,
+                            name: batchItem.content.name,
+                            completionPercentage: completionPct,
+                            sourceName: batchItem.content.sourceName,
+                            averageRating: batchItem.content.averageRating,
+                            lang: batchItem.content.lang || 'en'
+                          })
+                        } else if (completionPct === 100) {
+                          // COMPLETED: move to "Completed" section, hide from CNE sections
+                          startedOrCompletedIds.add(courseId)
+                          this.completedCourses.push({
+                            identifier: courseId,
+                            appIcon: batchItem.content.appIcon,
+                            thumbnail: batchItem.content.thumbnail,
+                            name: batchItem.content.name,
+                            completionPercentage: completionPct,
+                            sourceName: batchItem.content.sourceName,
+                            averageRating: batchItem.content.averageRating,
+                            lang: batchItem.content.lang || 'en'
+                          })
+                        }
+                        // completionPct === 0 means enrolled but not started: keep visible in CNE sections
                       }
-                      // completionPct === 0 means enrolled but not started: keep visible in CNE sections
-                    }
-                  })
+                    })
 
                   // Build each CNE section, excluding courses the user has already
                   // started or completed (those are in Continue Learning / Completed)
@@ -240,7 +240,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                   // Card display config for CNE section cards (full thumbnail + badges overlay)
                   this.cneCourseCardConfig = {
                     displayType: 'card-badges',
-                    badges: { cneName: true, rating: true, sourceName: true }
+                    badges: { cneName: false, rating: true, sourceName: true }
                   }
 
                   // Card display config for Continue Learning and Completed cards (mini with progress bar)
@@ -251,10 +251,10 @@ export class OrgComponent implements OnInit, OnDestroy {
                   }
                 })
 
-              // ─── LAYOUT STRATEGY 2: closedCoursesList (e.g. TNNMC, TNAI, Goa) ─────────
-              // Used when an org has a flat list of specific course IDs to always display.
-              // For TNNMC, also fetches the user's enrolled courses to show Continue Learning
-              // and Completed sections. Other orgs just show the flat course grid.
+                // ─── LAYOUT STRATEGY 2: closedCoursesList (e.g. TNNMC, TNAI, Goa) ─────────
+                // Used when an org has a flat list of specific course IDs to always display.
+                // For TNNMC, also fetches the user's enrolled courses to show Continue Learning
+                // and Completed sections. Other orgs just show the flat course grid.
               } else if (this.currentOrgData && this.currentOrgData.closedCoursesList) {
                 this.logger.log("this.currentOrgData.closedCoursesList present", this.currentOrgData.closedCoursesList)
 
@@ -289,9 +289,9 @@ export class OrgComponent implements OnInit, OnDestroy {
                   }
                 })
 
-              // ─── LAYOUT STRATEGY 3: tag-based search (all other orgs) ────────────────
-              // No explicit course list configured — search by org name (sourceName field).
-              // Falls back to taggedSourceName if the primary search returns no results.
+                // ─── LAYOUT STRATEGY 3: tag-based search (all other orgs) ────────────────
+                // No explicit course list configured — search by org name (sourceName field).
+                // Falls back to taggedSourceName if the primary search returns no results.
               } else {
                 this.orgService.getSearchV7Results(this.orgName).subscribe((courseSearchResult: any) => {
                   this.courseData = courseSearchResult.result.content.filter(

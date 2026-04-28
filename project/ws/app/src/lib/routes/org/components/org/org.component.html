@@ -78,7 +78,7 @@
            (load)="bannerLoaded = true" />
     </ng-container>
     <!-- Floating circular org logo: shimmer until logo image fires (load) -->
-    <div class="flex-auto mr-4">
+    <div class="banner-logo-wrap flex-auto mr-4">
       <div class="image-outer">
         <div class="shimmer org-shimmer-logo-img" *ngIf="!logoLoaded && currentOrgData.logo !== ''"></div>
         <img [src]="currentOrgData?.logo" alt="Org Logo" class="org-logo"
