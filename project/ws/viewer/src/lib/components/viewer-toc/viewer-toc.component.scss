@@ -311,7 +311,7 @@ a.disabled {
   }
 
   .viewer-toc-thumbnail {
-    background: var(--theme-surface-alt, #1c2d38);
+    background: var(--theme-bg, #1c2d38);
   }
 
   ::ng-deep mat-tree,
@@ -325,7 +325,7 @@ a.disabled {
   }
 
   ::ng-deep mat-tree-node .li-active {
-    background-color: var(--theme-surface-alt, #1c2d38);
+    background-color: var(--theme-bg, #1c2d38);
 
     .resource-container {
       border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));

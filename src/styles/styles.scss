@@ -1110,7 +1110,7 @@ button.submit-btn[disabled] {
 
 .howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
-  background: var(--theme-dialog-surface, #ffffff) !important;
+  background: var(--theme-bg, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
   .mat-mdc-dialog-content.mdc-dialog__content {
     padding: 10px 12px 12px 12px !important;
@@ -1125,7 +1125,7 @@ button.submit-btn[disabled] {
     max-width: 336px !important;
     overflow: hidden !important;
     box-shadow: 0 18px 40px rgba(16, 24, 40, 0.14) !important;
-    background: var(--theme-dialog-surface, #ffffff) !important;
+    background: var(--theme-bg, #ffffff) !important;
     color: var(--theme-text, #101828) !important;
   }
 
@@ -1316,5 +1316,11 @@ html::-webkit-scrollbar-corner {
         color: #ffffff !important;
       }
     }
+  }
+}
+
+::ng-deep .dark-theme {
+  lib-discuss-start .discussion-start-modal .discussion-start-modal-content {
+    background: var(--theme-bg, #0e161b) !important;
   }
 }

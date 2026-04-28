@@ -107,3 +107,9 @@
   left: 50%;
   z-index: 1000;
 }
+
+::ng-deep .dark-theme {
+  lib-discuss-start .discussion-start-modal .discussion-start-modal-content {
+    background: var(--theme-bg, #0e161b) !important;
+  }
+}

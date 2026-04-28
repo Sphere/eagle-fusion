@@ -20,7 +20,7 @@ line-height: 24px !important;
 
 letter-spacing: -0.02em;
 
-color: var(--text-color) !important;
+color: var(--theme-text) !important;
 }
 .social-logo-block{
   margin: 0px 5px;
@@ -65,7 +65,7 @@ color: var(--text-color) !important;
     flex-direction: column;
   }
 
-  color: var(--text-color);
+  color: var(--theme-text);
 }
 
 .footer-flex {
@@ -120,7 +120,7 @@ color: var(--text-color) !important;
 
       font-weight: 400;
       font-size: 16px;
-      color: var(--text-color);
+      color: var(--theme-text);
     }
 
   }
@@ -322,8 +322,6 @@ height: auto;
 ::ng-deep .footer-container .mat-mdc-list-base .mat-mdc-list-item .mdc-list-item__content {
   padding: 0;
 
-// color: var(--text-color);
-
   @include ws-mixins.breakpoint-xs {
     display: block !important;
     text-align: center;
@@ -366,7 +364,7 @@ height: auto;
 .partner span {
   background: #f7f7f7;
   padding: 0 10px;
-  color: var(--text-color);
+  color: var(--theme-text);
   font-size: 16px;
   font-weight: 400;
 }
@@ -381,7 +379,7 @@ line-height: 24px;
 cursor: pointer;
 letter-spacing: -0.02em;
 
-color: var(--text-color);
+color: var(--theme-text);
  @include ws-mixins.breakpoint-xs {
     font-size: 14px;
     line-height: 22px;
@@ -405,14 +403,14 @@ line-height: 24px;
 
 letter-spacing: -0.02em;
 
-color: var(--text-color) !important;
+color: var(--theme-text) !important;
 text-decoration: underline !important;
 }
 
 .mail {
   font-weight: 400;
   font-size: 24px;
-  color: var(--text-color);
+  color: var(--theme-text);
 }
 
 .input-fiels {
@@ -473,7 +471,7 @@ line-height: 24px;
 
 letter-spacing: -0.02em;
 
-color: var(--text-color);
+color: var(--theme-text);
 }
 
 .link-text{
@@ -487,7 +485,7 @@ color: var(--text-color);
   font-size: 14px;
   line-height: 17px;
   letter-spacing: -0.02em;
-  color: var(--text-color);
+  color: var(--theme-text);
 }
 hr.new1{
  border-top: 1px solid #9F8D85;
@@ -495,11 +493,11 @@ hr.new1{
 .whatsapp-logo-container{
   margin-block: 5px;
   width: 230px;
-  border: 1px solid var(--text-color) !important;
+  border: 1px solid var(--theme-text) !important;
   border-radius: 100px;
   display: flex;
   align-items: center;
-  color: var(--text-color) !important;
+  color: var(--theme-text) !important;
   height: 32px;
   font-weight: 400 !important;
   font-size: 15px !important;
@@ -526,7 +524,7 @@ hr.new1{
   line-height: 17px;
   /* or 120% */
   letter-spacing: -0.02em;
-  color: var(--text-color) !important;
+  color: var(--theme-text) !important;
 }
 
 .footer-text{
@@ -545,7 +543,7 @@ line-height: 12px;
 text-align: center;
 letter-spacing: -0.02em;
 
-color: var(--text-color);
+color: var(--theme-text);
 
 }
 .footer-text-container{
@@ -583,7 +581,7 @@ line-height: 24px;
 text-align: center;
 letter-spacing: -0.02em;
 
-color: var(--text-color);
+color: var(--theme-text);
  @include ws-mixins.breakpoint-s {
     font-size: 14px;
   }
@@ -715,7 +713,7 @@ color: var(--text-color);
 }
 
 .foundation {
-  color: var(--text-color);
+  color: var(--theme-text);
   font-weight: 400 !important;
   font-size: 15px !important;
 }
@@ -806,12 +804,12 @@ color: var(--text-color);
 
 :host-context(.dark-theme) {
   .footer-container {
-    background: var(--theme-surface, #0e161b);
+    background: var(--theme-app-background, #0e161b);
     color: var(--theme-text, #ecf3f8);
   }
 
   .docs-footer {
-    background: var(--theme-surface-alt, #1c2d38);
+    background: var(--theme-app-background, #1c2d38);
   }
 
   .mat-mdc-list-base .mat-mdc-list-item,
@@ -855,12 +853,6 @@ color: var(--text-color);
   .part-b-partner {
     background: #10181E !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
-  }
-
-  .whatsapp-logo-container {
-    background: var(--theme-surface, #0e161b);
-    border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
-    color: var(--theme-text, #ecf3f8) !important;
   }
 
   .social-logo {

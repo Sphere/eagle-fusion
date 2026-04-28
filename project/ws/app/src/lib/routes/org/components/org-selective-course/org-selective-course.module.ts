@@ -1,15 +1,16 @@
 import { NgModule } from '@angular/core'
 import { CommonModule } from '@angular/common'
 import { TranslateModule } from '@ngx-translate/core'
-// OrgSelectiveCourseComponent is declared in AppModule directly (like OrgComponent)
-// to access PublicHomeModule components (ws-mobile-course-view, ws-web-course-card)
+import { PublicHomeModule } from '../../../../../../../../../src/app/routes/public/public-home/public-home.module'
+import { OrgSelectiveCourseComponent } from './org-selective-course.component'
 
 @NgModule({
-  declarations: [],
+  declarations: [OrgSelectiveCourseComponent],
   imports: [
     CommonModule,
     TranslateModule,
+    PublicHomeModule,
   ],
-  exports: [],
+  exports: [OrgSelectiveCourseComponent],
 })
 export class OrgSelectiveCourseModule { }

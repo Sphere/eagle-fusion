@@ -40,6 +40,10 @@
   z-index: 1;
 }
 
+.dark-theme .img-shimmer {
+  background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 80px, var(--theme-bg) 160px);
+}
+
 @keyframes shimmerSlide {
   0% { background-position: -200px 0; }
   100% { background-position: 200px 0; }

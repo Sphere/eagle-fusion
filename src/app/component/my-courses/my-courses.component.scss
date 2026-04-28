@@ -119,7 +119,7 @@
 }
 
 h3 {
-  color: var(--text-color);
+  color: var(--title-color);
 }
 
 :host ::ng-deep .card-long {
@@ -147,7 +147,7 @@ h3 {
 
 #heading {
   //margin-left: 20px;
-  color: var(--text-color);
+  color: var(--title-color);
   margin-top: 20px;
   margin-bottom: 0px;
   font: 400 24px / 32px Roboto;
@@ -532,8 +532,7 @@ h3 {
   }
 
   .outline-btn {
-    border-color: var(--theme-accent, #2E6491);
-    background-color: var(--theme-surface, #17242d);
+    background-color: transparent !important;
   }
 
   .value,
@@ -579,7 +578,7 @@ h3 {
   .sk-progress-bar,
   .sk-btn,
   .placeholder-shimmer {
-    background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
+    background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
     background-size: 600px 100%;
   }
 }

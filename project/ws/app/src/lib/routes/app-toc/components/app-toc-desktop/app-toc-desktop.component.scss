@@ -26,7 +26,7 @@
   // height: 27px;
   flex-shrink: 0;
   border-radius: 100px;
-  background: var(--theme-surface-alt, #DCFAFF);
+  background: #DCFAFF;
   color: var(--theme-accent, #035F7C);
   font-family: 'Roboto', sans-serif !important;
   font-size: 14px;
@@ -301,7 +301,7 @@ color: var(--theme-text, #000000);
 
 ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
-  background: var(--theme-dialog-surface, #ffffff) !important;
+  background: var(--theme-bg, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
 }
 
@@ -318,7 +318,7 @@ mat-progress-bar {
 }
 
 .modal-surface {
-  background: var(--theme-dialog-surface, #ffffff);
+  background: var(--theme-bg, #ffffff);
   color: var(--theme-text, #101828);
   border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
   border-radius: 20px;
@@ -336,7 +336,7 @@ mat-progress-bar {
 }
 
 #close-btn {
-  background: var(--theme-surface-alt, #dfedf9);
+  background: var(--theme-bg, #dfedf9);
   border-color: var(--theme-border, rgba(28, 93, 149, 0.12));
 }
 
@@ -348,7 +348,7 @@ mat-progress-bar {
   }
 
   ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
-    background: var(--theme-dialog-surface, #17242d) !important;
+    background: var(--theme-bg, #17242d) !important;
     color: var(--theme-text, #ecf3f8) !important;
   }
 
@@ -357,6 +357,6 @@ mat-progress-bar {
   }
 
   .modal-surface {
-    background: var(--theme-dialog-surface, #17242d);
+    background: var(--theme-bg, #17242d);
   }
 }

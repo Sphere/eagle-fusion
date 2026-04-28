@@ -13,17 +13,16 @@ import {
 } from '@ws-widget/utils'
 import { SignupService } from '../signup/signup.service'
 @Component({
-    standalone: false,
-    selector: 'ws-tnc',
-    templateUrl: './tnc.component.html',
-    styleUrls: ['./tnc.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-tnc',
+  templateUrl: './tnc.component.html',
+  styleUrls: ['./tnc.component.scss'],
+
 })
 export class TncComponent implements OnInit, OnDestroy {
   tncData: NsTnc.ITnc | null = null
   routeSubscription: Subscription | null = null
   result: any
-  // errorFetchingTnc = false
   tncFlag = false
   isAcceptInProgress = false
   errorInAccepting = false

@@ -341,12 +341,12 @@
   }
 
   .header-container {
-    background: var(--theme-dialog-surface, #192831);
+    background: var(--theme-bg, #192831);
     border-bottom-color: var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 
   .ion-content {
-    background: var(--theme-dialog-surface, #192831);
+    background: var(--theme-bg, #192831);
   }
 
   .option-row {
@@ -370,7 +370,7 @@
 
 ::ng-deep .dark-theme .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-container,
 ::ng-deep .dark-theme .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-surface {
-  background: var(--theme-dialog-surface, #192831) !important;
+  background: var(--theme-bg, #192831) !important;
   color: var(--theme-text, #ecf3f8) !important;
   border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

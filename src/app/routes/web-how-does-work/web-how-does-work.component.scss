@@ -87,7 +87,7 @@ video::-webkit-media-controls-play-button {
   margin: 10px;
 }
 .header2{
-  color: var(--text-color);
+  color: var(--title-color);
 /* Header 1 */
 font-family: 'Roboto';
 font-size: 32px;
@@ -97,7 +97,7 @@ line-height: 38.4px;
 letter-spacing: -0.64px;
 }
 .label1{
-  color: var(--text-color);
+  color: var(--title-color);
 font-family: 'Roboto';
 font-size: 16px;
 font-style: normal;
@@ -162,6 +162,6 @@ letter-spacing: -0.32px;
 }
 .howDoesItWorksDialog .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
-  background: var(--theme-dialog-surface, #ffffff) !important;
+  background: var(--theme-bg, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
 }

@@ -190,10 +190,6 @@
 }
 
 :host-context(.dark-theme) {
-  .toc-body {
-    background: var(--theme-bg, #121f27);
-  }
-
   ::ng-deep .mat-mdc-tab-header-pagination-chevron,
   ::ng-deep .mat-mdc-tab .mdc-tab__text-label,
   ::ng-deep .mat-mdc-tab-header {

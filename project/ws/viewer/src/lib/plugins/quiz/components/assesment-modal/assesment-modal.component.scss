@@ -198,7 +198,7 @@
   }
 
   .mat-mdc-progress-bar-buffer {
-    background: var(--theme-surface-alt) !important;
+    background: var(--theme-bg) !important;
   }
 }
 
@@ -219,7 +219,7 @@
 .timer {
   // position: relative;
   // top: 30px;
-  background: var(--theme-info-bg);
+  background: var(--theme-bg);
   border-radius: 16.5px;
   border-radius: 16.5px;
   width: 101px;
@@ -231,7 +231,7 @@
     // top: 5px;
     margin-left: 0px !important;
     z-index: 9999;
-    background: var(--theme-info-bg);
+    background: var(--theme-bg);
     border-radius: 16.5px;
     width: 101px;
   }
@@ -318,7 +318,7 @@
   }
 
   .result-overview {
-    background: var(--theme-info-bg);
+    background: var(--theme-bg);
     text-align: center;
     padding: auto 0;
     display: flex;
@@ -428,7 +428,7 @@ mat-progress-bar {
   .timer,
   .result-overview,
   .progress-summary {
-    background: var(--theme-surface-alt, #10181e) !important;
+    background: var(--theme-bg, #10181e) !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 
@@ -474,7 +474,7 @@ mat-progress-bar {
 
 ::ng-deep .dark-theme .assesment-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface,
 ::ng-deep .dark-theme .assesment-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
-  background: var(--theme-dialog-surface, #192831) !important;
+  background: var(--theme-bg, #192831) !important;
   color: var(--theme-text, #ecf3f8) !important;
   border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

@@ -303,6 +303,7 @@
 
 ::ng-deep .mat-mdc-tab-group.mat-primary .mdc-tab-indicator__content--underline {
   background-color: rgb(3, 22, 21) !important;
+  border-color: #ffff !important;
 }
 ::ng-deep .mat-tab-list .mat-tab-labels {
   --mat-tab-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
@@ -310,7 +311,7 @@
 
 
 ::ng-deep .dark-theme lib-competency-dashboard lib-no-result .no-data-container {
-  background-color: var(--theme-surface-alt, #f8f8f8) !important;
+  background-color: var(--theme-bg, #f8f8f8) !important;
   .no-data-text {
     color: var(--theme-text-soft, #848886b3) !important
   }
@@ -373,7 +374,7 @@
   }
 
   lib-gained-comptency-card .card-container {
-    background-color: var(--theme-surface, transparent) !important;
+    background-color: transparent !important;
     color: var(--theme-text, #101828) !important;
     border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
     .levelsTitle {
@@ -383,9 +384,9 @@
       .level {
         box-shadow: 0 0 1px var(--theme-text);
         color: var(--theme-text);
-        background: var(--theme-dialog-surface);
+        background: var(--theme-bg);
       }
-      background-color: var(--theme-surface, transparent) !important;
+      background-color: transparent !important;
       color: var(--theme-text, #101828) !important;
       .log, .log-header {
         font-weight: 400 !important;

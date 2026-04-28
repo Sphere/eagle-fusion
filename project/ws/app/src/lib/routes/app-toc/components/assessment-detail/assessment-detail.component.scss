@@ -34,7 +34,7 @@
   text-align: center;
 }
 ::ng-deep .dark-theme .ellips {
-  background: var(--theme-dialog-surface, #E7F2FA) !important;
+  background: var(--theme-bg, #E7F2FA) !important;
   .label2, .label3 {
     color: var(--theme-text)
   }
@@ -137,7 +137,7 @@
 
 ::ng-deep.overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface{
   border-radius: 30px !important;
-  background: var(--theme-dialog-surface, #ffffff) !important;
+  background: var(--theme-bg, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
 }
 

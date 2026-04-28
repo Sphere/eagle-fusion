@@ -18,6 +18,10 @@
   border-radius: 6px;
 }
 
+.dark-theme .shimmer {
+  background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
+}
+
 .org-shimmer-wrapper {
   position: relative;
   overflow: hidden;
@@ -149,7 +153,7 @@
 .default-banner{
   display: flex;
   justify-content: flex-end;
-  background: var(--theme-surface-alt, #EEF8F8) !important;
+  background: var(--theme-bg, #EEF8F8) !important;
 
   @include ws-mixins.breakpoint-xs {
      height: 300px;
@@ -787,7 +791,7 @@ letter-spacing: -0.24px;
     width: auto;
     height: 25px;
     border-radius: 15px;
-    background: var(--theme-surface-alt, #519DB2);
+    background: #519DB2;
     align-items: center;
     justify-content: space-around;
     padding: 0px 10px;
@@ -806,7 +810,7 @@ height: 25px;
 font-size: 12px;
   border-radius: 15px;
 background: #519DB2;
-background: var(--theme-surface-alt, #519DB2);
+background: var(--theme-bg, #519DB2);
 color: var(--theme-text, #FFF);
 margin: 0px;
     align-items: center;

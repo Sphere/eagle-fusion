@@ -5,21 +5,19 @@ import { ActivatedRoute, Router } from '@angular/router'
 import { NsWidgetResolver, WidgetBaseComponent } from '@ws-widget/resolver'
 import {
   ConfigurationsService, EventService, LoggerService, NsPage,
-  // ValueService,
   WsEvents, LogoutComponent, ValueService,
 } from '@ws-widget/utils'
 import { fromEvent, Subscription } from 'rxjs'
 import { filter } from 'rxjs/operators'
 import { SubapplicationRespondService } from '../../../../utils/src/lib/services/subapplication-respond.service'
-// import { CustomTourService } from '../_common/tour-guide/tour-guide.service'
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog'
 
 @Component({
-    standalone: false,
-    selector: 'ws-widget-page',
-    templateUrl: './page.component.html',
-    styleUrls: ['./page.component.scss'],
-    
+  standalone: false,
+  selector: 'ws-widget-page',
+  templateUrl: './page.component.html',
+  styleUrls: ['./page.component.scss'],
+
 })
 export class PageComponent extends WidgetBaseComponent
   implements OnInit, AfterViewInit, OnDestroy, NsWidgetResolver.IWidgetData<NsPage.IPage | null> {
@@ -48,12 +46,9 @@ export class PageComponent extends WidgetBaseComponent
     private configSvc: ConfigurationsService,
     private valueSvc: ValueService,
     private eventSvc: EventService,
-    // private tour: CustomTourService,
     private domSanitizer: DomSanitizer,
     private respondSvc: SubapplicationRespondService,
     private dialog: MatDialog,
-    // private authSvc: AuthKeycloakService,
-    // private loginResolverSvc: LoginResolverService,
     private exploreResolverSvc: ExploreResolverService,
     public router: Router
   ) {

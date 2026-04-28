@@ -15,8 +15,6 @@ import {
   NO_ERRORS_SCHEMA,
 } from '@angular/core'
 import { SharedModule } from '../../project/ws/author/src/lib/modules/shared/shared.module'
-// import { GestureConfig } from '@angular/material/core/gestures/gesture-config'
-// import * as Hammer from 'hammerjs'
 import { MatButtonModule } from '@angular/material/button'
 import { MatCardModule } from '@angular/material/card'
 import { MatDialogModule } from '@angular/material/dialog'
@@ -47,13 +45,10 @@ import {
 import {
   BtnFeatureModule,
   ErrorResolverModule,
-  // TourModule,
-  // WIDGET_REGISTERED_MODULES, // Removed - causes static analysis issues
   WIDGET_REGISTRATION_CONFIG,
   PipeContentRoutePipe,
   WIDGET_REGISTERED_MODULES,
 } from '@ws-widget/collection'
-// import { StickyHeaderModule } from '@ws-widget/collection/src/lib/_common/sticky-header/sticky-header.module'
 import { WidgetResolverModule } from '@ws-widget/resolver'
 import {
   ImageCropModule,
@@ -61,7 +56,7 @@ import {
   PipeSafeSanitizerModule,
   LogoutModule,
 } from '@ws-widget/utils'
-import { SearchModule } from '@ws/app/src/public-api'
+import { OrgSelectiveCourseModule, SearchModule } from '@ws/app/src/public-api'
 import { KeycloakAngularModule } from 'keycloak-angular'
 import { AppRoutingModule } from './app-routing.module'
 import { InitService } from './services/init.service'
@@ -90,7 +85,6 @@ import { TncPublicResolverService } from './services/tnc-public-resolver.service
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { SlidersModule } from './../../library/ws-widget/collection/src/lib/sliders/sliders.module'
 import { OrgComponent } from '../../project/ws/app/src/lib/routes/org/components/org/org.component'
-import { OrgSelectiveCourseComponent } from '../../project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.component'
 import { MdePopoverModule } from '@jaguards/material-extended-mde'
 import { CreateAccountComponent } from './routes/create-account/create-account.component'
 import { YourLocationComponent } from './routes/your-location/your-location.component'
@@ -144,6 +138,7 @@ import { NgxExtendedPdfViewerModule } from 'ngx-extended-pdf-viewer'
 // Downtime components imports
 import { DowntimeFullComponent } from './component/downtime-full/downtime-full.component'
 import { DowntimeBannerComponent } from './component/downtime-banner/downtime-banner.component'
+import { RouterModule } from '@angular/router'
 
 const appInitializer = (initSvc: InitService, logger: LoggerService) => async () => {
   try {
@@ -286,7 +281,6 @@ export function initTranslate(translate: TranslateService) {
     LoginRootComponent,
     LoginRootDirective,
     OrgComponent,
-    OrgSelectiveCourseComponent,
     HeaderComponent,
     GoogleCallbackComponent,
     LanguageDialogComponent,
@@ -320,13 +314,17 @@ export function initTranslate(translate: TranslateService) {
   ],
   exports: [
     TncComponent,
-    ForgotPasswordComponent,
+    ForgotPasswordComponent
   ],
   bootstrap: [RootComponent],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA],
   imports: [
     BrowserModule,
+    CommonModule,
+    FormsModule,
+    ReactiveFormsModule,
+    AppRoutingModule,
     HttpClientModule,
+    RouterModule,
     TranslateModule.forRoot({
       loader: {
         provide: TranslateLoader,
@@ -334,10 +332,6 @@ export function initTranslate(translate: TranslateService) {
         deps: [HttpClient],
       },
     }),
-    CommonModule,
-    FormsModule,
-    ReactiveFormsModule,
-    AppRoutingModule,
     KeycloakAngularModule,
     ...WIDGET_REGISTERED_MODULES,
     WidgetResolverModule.forRoot(WIDGET_REGISTRATION_CONFIG),
@@ -378,9 +372,9 @@ export function initTranslate(translate: TranslateService) {
     ImageCropModule,
     SharedModule,
     OrganisationsModule,
-    EntryModule.forRoot(getCompetencyConfig()),
+    EntryModule,
     SelfAssessmentModule,
-    CompetencyModule.forRoot(getCompetencyConfig()),
+    CompetencyModule,
     PipeDurationTransformModule,
     PipePartialContentModule,
     PipeCountTransformModule,
@@ -391,7 +385,8 @@ export function initTranslate(translate: TranslateService) {
     ProfileViewModule,
     MdePopoverModule,
     DowntimeFullComponent,
-    DowntimeBannerComponent],
+    DowntimeBannerComponent,
+    OrgSelectiveCourseModule],
   providers: [
     {
       provide: APP_INITIALIZER,
@@ -440,6 +435,7 @@ export function initTranslate(translate: TranslateService) {
     UserAgentResolverService,
     UserProfileService,
   ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class AppModule {
   constructor(private translate: TranslateService) {

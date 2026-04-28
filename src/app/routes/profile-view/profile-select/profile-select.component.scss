@@ -1,6 +1,6 @@
 .profile-select-shell {
   color: var(--theme-text, #101828);
-  background: var(--theme-dialog-surface, #ffffff);
+  background: var(--theme-bg, #ffffff);
 }
 
 .profile-title {
@@ -39,7 +39,7 @@
 .camera-bg {
   width: 54px;
   height: 54px;
-  background: var(--theme-surface-alt, #f7f7f7);
+  background: var(--theme-bg, #f7f7f7);
   border: 1px solid var(--theme-border, rgba(28, 93, 149, 0.12));
   border-radius: 25px;
   position: relative;
@@ -66,15 +66,7 @@
   filter: var(--theme-icon-filter, none);
 }
 
-:host-context(.dark-theme) {
-  .img img {
-    border-radius: 14px;
-    background: var(--theme-surface-alt, #1c2d38);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.24);
-  }
-}
-
 ::ng-deep .mat-mdc-dialog-container .mdc-dialog__surface {
-  background: var(--theme-dialog-surface, #ffffff) !important;
+  background: var(--theme-bg, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
 }

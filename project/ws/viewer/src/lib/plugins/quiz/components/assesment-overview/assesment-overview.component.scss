@@ -44,7 +44,7 @@
 .ellips {
   width: 130px;
   height: 130px;
-  background: var(--theme-surface-alt, #E7F2FA);
+  background: var(--theme-bg, #E7F2FA);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -163,7 +163,7 @@
 
 ::ng-deep.overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface{
   border-radius: 30px !important;
-  background: var(--theme-dialog-surface, #ffffff) !important;
+  background: var(--theme-bg, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
 }
 
@@ -183,7 +183,7 @@
 }
 
 ::ng-deep .dark-theme .ellips {
-  background: var(--theme-dialog-surface, #E7F2FA) !important;
+  background: var(--theme-bg, #E7F2FA) !important;
   .label2, .label3 {
     color: var(--theme-text)
   }
@@ -199,7 +199,7 @@
   }
 
   .ellips {
-    background: var(--theme-surface-alt, #10181e) !important;
+    background: var(--theme-bg, #10181e) !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 
@@ -210,7 +210,7 @@
 }
 
 ::ng-deep .dark-theme .overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
-  background: var(--theme-dialog-surface, #192831) !important;
+  background: var(--theme-bg, #192831) !important;
   color: var(--theme-text, #ecf3f8) !important;
   border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

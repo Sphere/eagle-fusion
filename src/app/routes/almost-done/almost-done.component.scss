@@ -136,7 +136,7 @@ select, input {
   }
 
   .login-card {
-    background: var(--theme-dialog-surface, #192831);
+    background: var(--theme-bg, #192831);
     color: var(--theme-text, #ecf3f8);
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
     box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
@@ -151,7 +151,7 @@ select, input {
 
   .input-box,
   .rnField {
-    background: var(--theme-surface-alt, #10181e);
+    background: var(--theme-bg, #10181e);
     border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
     color: var(--theme-text, #ecf3f8);
   }
@@ -173,7 +173,7 @@ select, input {
   select option,
   select option:first-child {
     color: var(--theme-text, #ecf3f8) !important;
-    background: var(--theme-dialog-surface, #192831);
+    background: var(--theme-bg, #192831);
   }
 
   .form-control:disabled,

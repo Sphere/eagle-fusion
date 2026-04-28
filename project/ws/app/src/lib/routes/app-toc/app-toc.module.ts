@@ -30,23 +30,19 @@ import { MatDatepickerModule } from '@angular/material/datepicker'
 import { MatNativeDateModule } from '@angular/material/core'
 
 // comps
-// import { AppTocAnalyticsComponent } from './routes/app-toc-analytics/app-toc-analytics.component'
 import { AppTocContentsComponent } from './routes/app-toc-contents/app-toc-contents.component'
 import { AppTocReferencesComponent } from './routes/app-toc-references/app-toc-references.component'
 import { AppTocHomeComponent } from './components/app-toc-home/app-toc-home.component'
 import { AppTocHomeComponent as AppTocHomeRootComponent } from './routes/app-toc-home/app-toc-home.component'
 import { AppTocOverviewComponent } from './components/app-toc-overview/app-toc-overview.component'
-// import { AppTocBannerComponent } from './components/app-toc-banner/app-toc-banner.component'
 import { AppTocCohortsComponent } from './components/app-toc-cohorts/app-toc-cohorts.component'
 import { AppTocContentCardComponent } from './components/app-toc-content-card/app-toc-content-card.component'
 import { AppTocDiscussionComponent } from './components/app-toc-discussion/app-toc-discussion.component'
-// import { CreateBatchDialogComponent } from './components/create-batch-dialog/create-batch-dialog.component'
 
 // services
 import { AppTocResolverService } from './resolvers/app-toc-resolver.service'
 import { ProfileResolverService } from './../user-profile/resolvers/profile-resolver.service'
 import { AppTocService } from './services/app-toc.service'
-// import { TrainingApiService } from '../infy/routes/training/apis/training-api.service'
 
 // custom modules
 import { WidgetResolverModule } from '@ws-widget/resolver'
@@ -63,51 +59,26 @@ import {
   PipeCountTransformModule,
 } from '@ws-widget/utils'
 import {
-  // BtnCallModule,
-  // BtnContentDownloadModule,
-  // BtnContentLikeModule,
   BtnContentShareModule,
-  // BtnContentFeedbackModule,
-  // BtnContentFeedbackV2Module,
-  // BtnGoalsModule,
-  // BtnMailUserModule,
   BtnPageBackModule,
   UserImageModule,
   DisplayContentTypeModule,
-  // BtnPlaylistModule,
   DisplayContentTypeIconModule,
   ContentProgressModule,
-  // UserContentRatingModule,
   PipeContentRouteModule,
   PipeContentRoutePipe,
-  // BtnKbModule,
-  // MarkAsCompleteModule,
-  // PlayerBriefModule,
   CardContentModule,
   UserAutocompleteModule,
 
 } from '@ws-widget/collection'
-// import { AppTocDialogIntroVideoComponent } from './components/app-toc-dialog-intro-video/app-toc-dialog-intro-video.component'
-// import { CertificationMetaResolver } from './routes/app-toc-certification/resolvers/certification-meta.resolver'
-// import { ContentCertificationResolver } from './routes/app-toc-certification/resolvers/content-certification.resolver'
-// import { CertificationApiService } from './routes/app-toc-certification/apis/certification-api.service'
-// import { AppTocCertificationModule } from './routes/app-toc-certification/app-toc-certification.module'
-// import { TrainingService } from '../infy/routes/training/services/training.service'
 import { AppTocOverviewDirective } from './routes/app-toc-overview/app-toc-overview.directive'
 import { AppTocOverviewComponent as AppTocOverviewRootComponent } from './routes/app-toc-overview/app-toc-overview.component'
 import { AppTocHomeDirective } from './routes/app-toc-home/app-toc-home.directive'
-// import { AppTocCohortsDirective } from './routes/app-toc-cohorts/app-toc-cohorts.directive'
-// import { AppTocCohortsComponent as AppTocCohortsRootComponent } from './routes/app-toc-cohorts/app-toc-cohorts.component'
-// import { AppTocAnalyticsTilesComponent } from './components/app-toc-analytics-tiles/app-toc-analytics-tiles.component'
-// import { KnowledgeArtifactDetailsComponent } from './components/knowledge-artifact-details/knowledge-artifact-details.component'
 import { ProfileImageModule } from '../../../../../../../library/ws-widget/collection/src/lib/_common/profile-image/profile-image.module'
 import { EditorService } from '../../../../../author/src/lib/routing/modules/editor/services/editor.service'
 import { ApiService, AccessControlService } from '../../../../../author/src/public-api'
 import { LicenseComponent } from './components/license/license.component'
 import { RetainScrollDirective } from './components/app-toc-home/retain-scroll.directive'
-// import { AppTocSinglePageComponent } from './components/app-toc-single-page/app-toc-single-page.component'
-// import { AppTocSinglePageComponent as AppTocSinglePageRootComponent } from './routes/app-toc-single-page/app-toc-single-page.component'
-// import { AppTocSinglePageDirective } from './routes/app-toc-single-page/app-toc-single-page.directive'
 import { AllDiscussionWidgetComponent } from './routes/widget/all-discussion-widget/all-discussion-widget.component'
 import { AppTocHomePageComponent } from './components/app-toc-home-page/app-toc-home-page.component'
 import { AppTocDesktopComponent } from './components/app-toc-desktop/app-toc-desktop.component'
@@ -118,29 +89,18 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
 @NgModule({
   declarations: [
     ConfirmmodalComponent,
-    // AppTocAnalyticsComponent,
     AppTocContentsComponent,
     AppTocReferencesComponent,
     AppTocHomeComponent,
     AppTocOverviewComponent,
-    // AppTocBannerComponent,
     AppTocCohortsComponent,
     AppTocContentCardComponent,
     AppTocDiscussionComponent,
-    // AppTocDialogIntroVideoComponent,
     AppTocOverviewDirective,
     AppTocOverviewRootComponent,
     AppTocHomeDirective,
     AppTocHomeRootComponent,
-    // AppTocCohortsDirective,
-    // AppTocCohortsRootComponent,
-    // KnowledgeArtifactDetailsComponent,
-    // AppTocAnalyticsTilesComponent,
     LicenseComponent,
-    // AppTocSinglePageComponent,
-    // AppTocSinglePageRootComponent,
-    // AppTocSinglePageDirective,
-    // CreateBatchDialogComponent,
     RetainScrollDirective,
     AllDiscussionWidgetComponent,
     AppTocHomePageComponent,
@@ -189,25 +149,12 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     PipeCountTransformModule,
     PipePartialContentModule,
     PipeContentRouteModule,
-    // BtnCallModule,
-    // BtnContentDownloadModule,
-    // BtnContentLikeModule,
-    // BtnContentFeedbackModule,
-    // BtnContentFeedbackV2Module,
-    // BtnGoalsModule,
-    // BtnPlaylistModule,
-    // BtnMailUserModule,
     BtnPageBackModule,
     HorizontalScrollerModule,
     UserImageModule,
     DefaultThumbnailModule,
     WidgetResolverModule,
     ContentProgressModule,
-    // UserContentRatingModule,
-    // BtnKbModule,
-    // AppTocCertificationModule,
-    // MarkAsCompleteModule,
-    // PlayerBriefModule,
     MatProgressSpinnerModule,
     CardContentModule,
     BtnContentShareModule,
@@ -221,11 +168,6 @@ import { ConfirmmodalComponent } from 'project/ws/viewer/src/lib/plugins/quiz/co
     AppTocResolverService,
     AppTocService,
     PipeContentRoutePipe,
-    // TrainingApiService,
-    // TrainingService,
-    // CertificationApiService,
-    // CertificationMetaResolver,
-    // ContentCertificationResolver,
     EditorService,
     ApiService,
     AccessControlService,

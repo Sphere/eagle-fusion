@@ -12,7 +12,7 @@ ws-app-nav-bar {
 }
 
 :host-context(.dark-theme) .bg-color {
-  background: #1e2927 !important;
+  background: #1A1A1A !important;
 }
 
 :host-context(.light-theme) .bg-color {
@@ -237,7 +237,7 @@ color: #000000;
     max-width: 336px !important;
     overflow: hidden !important;
     box-shadow: 0 18px 40px rgba(16, 24, 40, 0.14) !important;
-    background: var(--theme-dialog-surface, #ffffff) !important;
+    background: var(--theme-bg, #ffffff) !important;
     color: var(--theme-text, #101828) !important;
   }
 

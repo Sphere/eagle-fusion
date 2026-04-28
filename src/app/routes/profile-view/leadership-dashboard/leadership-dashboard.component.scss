@@ -4,7 +4,7 @@
   justify-content: space-between;
   height: 56px;
   padding: 0 16px;
-  background: var(--theme-dialog-surface, #ffffff) !important;
+  background: var(--theme-bg, #ffffff) !important;
   position: sticky;
   top: 0;
   z-index: 100;
@@ -38,7 +38,7 @@
   display: flex;
   flex-direction: column;
   height: calc(100vh - 56px);
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
   position: relative;
 }
 
@@ -49,13 +49,13 @@
   height: 100%;
   max-height: 80vh;
   overflow: hidden;
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
   position: relative;
 }
 
 /* Header Section */
 .leaderboard-header {
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
   border-bottom: 1px solid #f0f0f0;
   flex-shrink: 0;
 }
@@ -207,7 +207,7 @@
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
 
   &::-webkit-scrollbar {
     width: 6px;
@@ -230,7 +230,7 @@
 .leaderboard-list {
   display: flex;
   flex-direction: column;
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
   flex: 1;
   overflow-y: auto;
   overflow-x: hidden;
@@ -255,7 +255,7 @@
 
 .list-item {
   border-bottom: 1px solid #f0f0f0;
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
   transition: background-color 0.2s;
 
   &:active {
@@ -335,7 +335,7 @@
 /* Pinned User */
 .pinned-user {
   position: relative;
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
   box-shadow: 0 -2px 12px rgba(0, 0, 0, 0.08);
   z-index: 50;
   border-top: 1px solid #e8e8e8;
@@ -442,7 +442,7 @@ ngx-skeleton-loader {
   justify-content: space-between;
   height: 56px;
   padding: 0 16px;
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
   position: sticky;  // stays on top
   top: 0;
   z-index: 10;
@@ -466,7 +466,7 @@ ngx-skeleton-loader {
 }
 
 ion-item{
-  --background: var(--theme-dialog-surface) !important;
+  --background: var(--theme-bg) !important;
 }
 
 ion-list{
@@ -506,7 +506,7 @@ ion-list{
 ::ng-deep .dark-theme .highlight-user {
   background: rgba(74, 144, 226, 0.1) !important;
   border-left: 6px solid rgba(74, 144, 226, 1) !important;
-  color: var(--text-color) !important;
+  color: var(--title-color) !important;
 }
 
 .invisible {
@@ -523,7 +523,7 @@ ion-item.highlight-user::part(native) {
 }
 
 .skeleton-card {
-  background: var(--theme-dialog-surface);
+  background: var(--theme-bg);
   padding: 16px;
   width: 100px;
   height: 160px;

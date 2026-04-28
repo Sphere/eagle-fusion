@@ -74,9 +74,9 @@ letter-spacing: 0.02em;
     align-items: center;
     gap: 8px;
     border-radius: 50px;
-    color: #2E6491;
+    color: var(--title-color);
     text-decoration: underline;
-    background: #f8f8f8;
+    background: var(--theme-app-background);
     border: none;
     font-family: Roboto, sans-serif;
     font-size: 16px;
@@ -99,13 +99,13 @@ letter-spacing: 0.02em;
 }
 .right-arrow{
   width: 15px;
-height: 15px;
-top: 14.5px;
-left: 1px;
-gap: 0px;
-
-
+  height: 15px;
+  top: 14.5px;
+  left: 1px;
+  gap: 0px;
+  filter: var(--theme-icon-filter, brightness(1) invert(1));
 }
+
 .header1 {
   color: #4B4B4B;
 font-family: Roboto, sans-serif;
@@ -344,50 +344,15 @@ height: 42px;
 }
 
 :host-context(.dark-theme) {
-  .line-label::after {
-    background-color: var(--theme-border, rgba(146, 178, 206, 0.2));
-  }
-
-  .bg-green::after,
-  .orange::after {
-    background: var(--theme-border, rgba(146, 178, 206, 0.2));
-  }
-
-  .line-label span,
-  .curated-text,
-  .header1,
-  .header0,
-  .mt15 {
-    color: var(--theme-text, #ecf3f8) !important;
-  }
-
-  .header1,
-  .header0 {
-    background-color: var(--theme-surface-alt, #1c2d38) !important;
-  }
-
-  .view-all-course {
-    color: var(--theme-accent, #78b7ff);
-    background: var(--theme-surface, #0e161b);
-    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
-  }
 
   .view-all-course:hover {
     color: var(--theme-text, #ecf3f8);
     border-color: var(--theme-accent, #78b7ff);
   }
 
-  .overlay {
-    background: color-mix(in srgb, var(--theme-surface, #0e161b) 85%, transparent);
-  }
-
-  .loader-ripple div {
-    border-color: var(--theme-text, #ecf3f8);
-  }
-
   .shimmer,
   .shimmer-button {
-    background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
+    background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
     background-size: 600px 100%;
   }
 }

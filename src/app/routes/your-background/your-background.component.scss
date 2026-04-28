@@ -110,7 +110,7 @@ img {
   }
 
   :host ::ng-deep .column {
-    background: var(--theme-surface-alt, #10181e);
+    background: var(--theme-bg, #10181e);
     border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
     box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.18));
   }

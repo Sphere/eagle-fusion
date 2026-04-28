@@ -64,7 +64,7 @@
 }
 :host ::ng-deep .form-control:disabled,
 :host ::ng-deep .form-control[readonly] {
-  background-color: var(--theme-input-disabled-bg, #ffffff) !important;
+  background-color: transparent !important;
   color: var(--theme-input-disabled-text, #101828) !important;
   border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
   pointer-events: none;
@@ -109,7 +109,7 @@
 
 .form-control:disabled,
 .form-control[readonly] {
-  background-color: var(--theme-input-disabled-bg, #ffffff) !important;
+  background-color: transparent !important;
   color: var(--theme-input-disabled-text, #101828) !important;
   opacity: 1;
 }
@@ -192,7 +192,7 @@ select option {
     background: transparent !important;
     padding: 4px 0 0;
     font-size: 15px;
-    color: #222 !important;
+    color: var(--theme-text) !important;
     height: auto;
     opacity: 1 !important;
     -webkit-appearance: none;
@@ -226,4 +226,8 @@ select option {
     padding: 0;
     margin: 0;
   }
+}
+
+.dark-theme .form-read-only .form-group {
+  border-bottom: 1px solid var(--theme-bg) !important;
 }

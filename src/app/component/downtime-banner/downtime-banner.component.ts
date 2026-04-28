@@ -1,7 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { CommonModule } from '@angular/common'
-import { MatIconModule } from '@angular/material/icon'
-import { MatButtonModule } from '@angular/material/button'
 import { Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
 import { DowntimeConfigService } from '../../services/downtime-config.service'
@@ -20,11 +17,10 @@ import { LanguageService } from '../../services/language.service'
  * - Dismissible banner
  */
 @Component({
-    standalone: true,
-    selector: 'app-downtime-banner',
-    imports: [CommonModule, MatIconModule, MatButtonModule],
-    templateUrl: './downtime-banner.component.html',
-    styleUrls: ['./downtime-banner.component.scss'],
+  standalone: true,
+  selector: 'app-downtime-banner',
+  templateUrl: './downtime-banner.component.html',
+  styleUrls: ['./downtime-banner.component.scss'],
 })
 export class DowntimeBannerComponent implements OnInit, OnDestroy {
   isVisible = false

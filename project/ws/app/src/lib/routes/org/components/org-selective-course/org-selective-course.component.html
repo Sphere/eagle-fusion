@@ -35,7 +35,8 @@
           </div>
 
           <div class="wrapper resource-container">
-            <div *ngFor="let widget of getContinueLearningCourses(); let last = last" [ngClass]="{ 'last-child1': last }">
+            <div *ngFor="let widget of getContinueLearningCourses(); let last = last"
+              [ngClass]="{ 'last-child1': last }">
               <ws-mobile-course-view *ngIf="(isXSmall$ | async) === true" [displayConfig]="myCourseDisplayConfig"
                 [courseData]="widget"></ws-mobile-course-view>
               <ws-web-course-card *ngIf="(isXSmall$ | async) === false" [displayConfig]="myCourseWebDisplayConfig"

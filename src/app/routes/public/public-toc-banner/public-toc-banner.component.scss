@@ -211,7 +211,7 @@
 :host-context(.dark-theme) {
   .box,
   .toc-body {
-    background: var(--theme-dialog-surface, #192831);
+    background: var(--theme-bg, #192831);
     color: var(--theme-text, #ecf3f8);
   }
 
@@ -250,7 +250,7 @@
   }
 
   .modal-content {
-    background: var(--theme-dialog-surface, #192831) !important;
+    background: var(--theme-bg, #192831) !important;
     color: var(--theme-text, #ecf3f8) !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }

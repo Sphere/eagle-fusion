@@ -4,7 +4,7 @@
     // position: fixed;
     z-index: 1000;
     overflow-y: hidden;
-    background: var(--theme-dialog-surface, white);
+    background: var(--theme-bg, white);
     width: 100%;
     height: 7vh;
     display: flex;
@@ -22,7 +22,7 @@ color: var(--theme-title);
 @media only screen and (max-width: 599px) {
     .notification-container {
         // margin-top: 50px;
-        background: var(--theme-dialog-surface);
+        background: var(--theme-bg);
     }
 }
 

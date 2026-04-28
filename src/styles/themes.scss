@@ -68,14 +68,12 @@ $dark-theme: mat.m2-define-dark-theme((
 
 $theme-token-list: (
   icon-color,
-  text-color,
   mat-toolbar-container-background-color,
   mat-toolbar-container-text-color,
   title-color,
   sub-title-color,
   theme-bg,
   theme-surface,
-  theme-surface-alt,
   theme-border,
   theme-text,
   theme-text-muted,
@@ -96,10 +94,8 @@ $theme-token-list: (
   theme-input-disabled-bg,
   theme-input-disabled-text,
   theme-app-background,
-  theme-dialog-surface,
   theme-success,
   theme-error,
-  theme-info-bg,
   theme-info-display-bg1,
   theme-info-display-bg2,
   theme-primary-strong,
@@ -107,20 +103,18 @@ $theme-token-list: (
 );
 
 $light-theme-tokens: (
+  theme-app-background: #f8f8f8,
+  theme-surface: #ffffff,
+  title-color: rgb(28, 93, 149),
+  theme-bg: #ffffff,
+  theme-text: #101828,
+  theme-text-soft: #8c98a8,
   icon-color: rgba(0, 0, 0, 0.87),
-  text-color: rgba(0, 0, 0, 0.87),
   mat-toolbar-container-background-color: rgba(255, 255, 255, 0.87),
   mat-toolbar-container-text-color: rgba(255, 255, 255, 0.87),
-  title-color: rgb(28, 93, 149),
   sub-title-color: rgb(28, 93, 149),
-  theme-bg: #ffffff,
-  theme-surface: #ffffff,
-  theme-dialog-surface: #ffffff,
-  theme-surface-alt: #dfedf9,
   theme-border: rgba(28, 93, 149, 0.12),
-  theme-text: #101828,
   theme-text-muted: #5f6b7a,
-  theme-text-soft: #8c98a8,
   theme-text-placeholder: #8c98a8,
   theme-accent: #1c5d95,
   theme-on-accent: #ffffff,
@@ -136,10 +130,8 @@ $light-theme-tokens: (
   theme-icon-filter: none,
   theme-input-disabled-bg: #ffffff,
   theme-input-disabled-text: #101828,
-  theme-app-background: #ffffff,
   theme-success: #89c575,
   theme-error: #951c1c,
-  theme-info-bg: #e7f2fa,
   theme-info-display-bg1: #f1e7e3,
   theme-info-display-bg2: #f5f5f5,
   theme-primary-strong: #154976,
@@ -147,20 +139,19 @@ $light-theme-tokens: (
 );
 
 $dark-theme-tokens: (
+  theme-app-background: #171717,
+  theme-surface: #0D0D0D,
+  title-color: #E0E0E0,
+  theme-bg: #303030,
+  theme-text: #E0E0E0,
+  theme-text-soft: #BEBEBE,
+  theme-icon-filter: invert(1) brightness(2),
   icon-color: rgba(255, 255, 255, 0.87),
-  text-color: rgba(255, 255, 255, 0.87),
   mat-toolbar-container-background-color: rgba(0, 0, 0, 0.87),
   mat-toolbar-container-text-color: rgba(0, 0, 0, 0.87),
-  title-color: rgba(255, 255, 255, 0.87),
-  sub-title-color: $dark-text-secondary,
-  theme-bg: linear-gradient(180deg, #0d171d 0%, #121f27 100%),
-  theme-surface: #0e161b,
-  theme-dialog-surface: #192831,
-  theme-surface-alt: #10181e,
+  sub-title-color: #b3b3b3,
   theme-border: rgba(146, 178, 206, 0.2),
-  theme-text: #ecf3f8,
   theme-text-muted: #b8c6d3,
-  theme-text-soft: #8fa4b8,
   theme-text-placeholder: #8fa4b8,
   theme-accent: #78b7ff,
   theme-on-accent: #08131b,
@@ -173,13 +164,10 @@ $dark-theme-tokens: (
   theme-tab-inactive-ripple: #8fa4b8,
   theme-shadow: 0 0 8px rgba(0, 0, 0, 0.32),
   theme-spinner: #78b7ff,
-  theme-icon-filter: invert(1) brightness(2),
   theme-input-disabled-bg: #223541,
   theme-input-disabled-text: #ecf3f8,
-  theme-app-background: #151515,
   theme-success: #69f0ae,
   theme-error: #ff6b6b,
-  theme-info-bg: #17242d,
   theme-info-display-bg1: #1f2528,
   theme-info-display-bg2: #10181e,
   theme-primary-strong: #ecf3f8,
@@ -223,7 +211,7 @@ $dark-theme-tokens: (
 }
 
 .link-text, .heading, .banner-sub-heading{
-  color: var(--text-color);
+  color: var(--theme-text);
 }
 
 .mat-toolbar.mat-primary {
@@ -233,7 +221,7 @@ $dark-theme-tokens: (
 }
 
 .course-name-mini {
-  color: var(--text-color);
+  color: var(--title-color);
 }
 
 :host-context(.dark-theme) {
@@ -260,7 +248,7 @@ $dark-theme-tokens: (
   }
 
   ::ng-deep ws-app-search-input-home .search-border {
-    background-color: var(--theme-surface-alt, #1c2d38);
+    background-color: var(--theme-bg, #1c2d38);
     border-color: var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 
@@ -294,7 +282,17 @@ $dark-theme-tokens: (
   }
 
   ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
-    background: var(--theme-dialog-surface, #ffffff) !important;
+    background: var(--theme-bg, #ffffff) !important;
     color: var(--theme-text, #101828) !important;
   }
+
+  ::ng-deep .dark-theme {
+    lib-discuss-start .discussion-start-modal .discussion-start-modal-content {
+      background: var(--theme-bg, #0e161b) !important;
+    }
+  }
+}
+
+.dark-theme %shimmer, .shimmer {
+  background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
 }

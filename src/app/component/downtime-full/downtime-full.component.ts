@@ -1,5 +1,4 @@
 import { Component, OnInit, OnDestroy } from '@angular/core'
-import { CommonModule } from '@angular/common'
 import { Subject } from 'rxjs'
 import { takeUntil } from 'rxjs/operators'
 import { DowntimeConfigService } from '../../services/downtime-config.service'
@@ -18,11 +17,10 @@ import { LanguageService } from '../../services/language.service'
  * - No background interaction allowed
  */
 @Component({
-    standalone: true,
-    selector: 'app-downtime-full',
-    imports: [CommonModule],
-    templateUrl: './downtime-full.component.html',
-    styleUrls: ['./downtime-full.component.scss'],
+  standalone: true,
+  selector: 'app-downtime-full',
+  templateUrl: './downtime-full.component.html',
+  styleUrls: ['./downtime-full.component.scss'],
 })
 export class DowntimeFullComponent implements OnInit, OnDestroy {
   content: DowntimeContent | null = null

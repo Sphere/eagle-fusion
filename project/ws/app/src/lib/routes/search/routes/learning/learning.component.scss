@@ -168,7 +168,7 @@
   .shimmer-title,
   .shimmer-subtitle,
   .shimmer-image {
-    background: linear-gradient(90deg, #223340 0px, #304756 150px, #223340 300px);
+    background: linear-gradient(90deg, var(--theme-bg) 0px, var(--theme-app-background) 150px, var(--theme-surface) 300px);
     background-size: 600px 100%;
   }
 
@@ -177,7 +177,7 @@
   }
 
   ::ng-deep mat-chip {
-    background: var(--theme-surface-alt, #1c2d38) !important;
+    background: var(--theme-bg, #1c2d38) !important;
     color: var(--theme-text, #ecf3f8) !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }

@@ -428,13 +428,13 @@ text-align: center;
 //   }
 
   .create-account-mob {
-    background: var(--theme-surface-alt, #10181e) !important;
+    background: var(--theme-bg, #10181e) !important;
     border-top: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 
   .badge-container {
     color: var(--theme-chip-text, #e5f3ff);
-    background: var(--theme-surface-alt, #1c2d38);
+    background: var(--theme-bg, #1c2d38);
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
     box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
   }

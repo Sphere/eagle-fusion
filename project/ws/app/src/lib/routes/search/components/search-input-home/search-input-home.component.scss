@@ -7,10 +7,10 @@ ws-app-search-input-home .autocomplete-form {
   font-size: 0.75em;
   display: block;
   margin: auto;
-  height: 42px !important;
+  height: 48px !important;
   .mat-mdc-text-field-wrapper {
     --mdc-outlined-text-field-outline-width: 0px !important;
-    height: 42px !important;
+    height: 48px !important;
   }
   .mat-mdc-form-field-infix {
     padding-top: 10px !important;
@@ -49,7 +49,10 @@ ws-app-search-input-home .search .mat-form-field-wrapper {
     padding-bottom: 5px;
   }
 }
-
+.dark-theme ws-app-search-input-home .search-border {
+  border: none !important;
+  background-color: var(--theme-bg) !important;
+}
 ws-app-search-input-home .search-border {
   border-radius: 40.3162px;
   // border-radius: 10px; __<<ngThemingMigrationEscapedComment0>>__
@@ -140,12 +143,15 @@ ws-app-search-input-home .feature-group {
 @media only screen and (max-width: 821px) {
 }
 
+.mdc-text-field--no-label {
+  align-items: center !important;
+}
 
 .mdc-text-field--no-label .mdc-text-field__input {
-  padding-top: 0 !important;
-  padding-bottom: 0 !important;
+  // padding-top: 0 !important;
+  // padding-bottom: 0 !important;
   line-height: normal !important;
-  height: 34px !important; /* or your required height */
+  height: 48px !important; /* or your required height */
   caret-color: var(--theme-text) !important; /* Ensure caret visible */
 }
 

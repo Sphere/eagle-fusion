@@ -5,7 +5,7 @@
     position: absolute;
     width: 475px;
     border-radius: 18px;
-      background-color: var(--theme-dialog-surface) !important;
+      background-color: var(--theme-bg) !important;
     padding: 10px 50px 0px 50px;
     min-height: 85vh;
   }
@@ -28,7 +28,7 @@
   border-radius: 30px !important;
   width: 370px !important;
   height: 400px !important;
-  background: var(--theme-dialog-surface, #ffffff) !important;
+  background: var(--theme-bg, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
 }
 .web-btm-block-img{
@@ -331,7 +331,7 @@ color: var(--theme-text);
     box-shadow: 0 -4px 8px rgba(0, 0, 0, 0.1);
     border-radius: 40px 40px 0px 0px;
     display: block;
-    background: var(--theme-dialog-surface);
+    background: var(--theme-bg);
 }
 ::ng-deep .mat-mdc-form-field-underline {
   display: none;
@@ -621,7 +621,7 @@ img {
   }
 
   .login-section {
-    background: var(--theme-dialog-surface, #192831) !important;
+    background: var(--theme-bg, #192831) !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
     box-shadow: var(--theme-shadow, 0 16px 40px rgba(0, 0, 0, 0.32));
   }
@@ -671,7 +671,7 @@ img {
   }
 
   .otp-input {
-    background: var(--theme-surface-alt, #10181e);
+    background: var(--theme-bg, #10181e);
     color: var(--theme-text, #ecf3f8);
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
     box-shadow: none;
@@ -683,7 +683,7 @@ img {
 
   ::ng-deep .field-edit-width,
   ::ng-deep .input-content-wrapper {
-    --mdc-filled-text-field-container-color: var(--theme-surface-alt, #10181e) !important;
+    --mdc-filled-text-field-container-color: var(--theme-bg, #10181e) !important;
     --mdc-filled-text-field-input-text-color: var(--theme-text, #ecf3f8) !important;
     --mdc-filled-text-field-label-text-color: var(--theme-text-soft, #8fa4b8) !important;
     --mdc-filled-text-field-focus-label-text-color: var(--theme-text-soft, #8fa4b8) !important;
@@ -698,7 +698,7 @@ img {
 
   ::ng-deep .field-edit-width .mat-mdc-text-field-wrapper,
   ::ng-deep .field-edit-width .mdc-text-field {
-    background: var(--theme-surface-alt, #10181e) !important;
+    background: var(--theme-bg, #10181e) !important;
     box-shadow: none !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
@@ -721,7 +721,7 @@ img {
   ::ng-deep .field-edit-width .mdc-text-field:hover,
   ::ng-deep .field-edit-width .mat-mdc-text-field-wrapper.mdc-text-field--focused,
   ::ng-deep .field-edit-width .mdc-text-field.mdc-text-field--focused {
-    background: var(--theme-surface-alt, #10181e) !important;
+    background: var(--theme-bg, #10181e) !important;
     border-color: var(--theme-accent, #78b7ff) !important;
   }
 

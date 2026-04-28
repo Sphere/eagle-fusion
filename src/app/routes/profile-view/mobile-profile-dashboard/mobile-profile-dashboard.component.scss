@@ -273,7 +273,7 @@ h2 {
   background-image: url('/fusion-assets/images/Background-acc-svg2.svg');
   background-size: cover;
   background-position: center;
-  background-color: var(--theme-surface-alt, #dfedf9);
+  background-color: var(--theme-bg, #dfedf9);
   background-blend-mode: multiply;
   padding: 16px 27px;
   min-height: 101px;
@@ -496,7 +496,7 @@ color: var(--theme-text, #101828);
   border-radius: 0.3rem;
 }
 .logout-bg{
-  background-color: var(--theme-surface-alt, #dfedf9);
+  background-color: var(--theme-bg, #dfedf9);
   width: 100%;
   display: flex;
   align-items: center;
@@ -703,7 +703,7 @@ font-weight: 500;
     .mat-mdc-dialog-surface.mdc-dialog__surface {
       padding: 5%;
       border-radius: 15px !important;
-      background: var(--theme-dialog-surface, #ffffff) !important;
+      background: var(--theme-bg, #ffffff) !important;
       color: var(--theme-text, #101828) !important;
     }
   }

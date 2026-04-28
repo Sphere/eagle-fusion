@@ -117,7 +117,7 @@ h3 {
 
 ::ng-deep .dark-theme .close-modal .mat-mdc-dialog-surface,
 ::ng-deep .dark-theme .assesment-close-modal .mat-mdc-dialog-surface {
-  background: var(--theme-dialog-surface, #192831) !important;
+  background: var(--theme-bg, #192831) !important;
   color: var(--theme-text, #ecf3f8) !important;
   border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

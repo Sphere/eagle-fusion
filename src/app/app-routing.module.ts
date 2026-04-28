@@ -61,8 +61,6 @@ import { NotificationsComponent } from './routes/notification/notification.compo
 import { FormsModule, ReactiveFormsModule } from '@angular/forms'
 import { CommonModule } from '@angular/common'
 import { MpRegisterComponent } from './routes/mp-component/mp-register.component'
-import { OrgSelectiveCourseComponent } from 'project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.component'
-// import { SettingsComponent } from 'project/ws/app/src/lib/routes/profile/routes/settings/settings.component'
 // 💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥💥
 // Please declare routes in alphabetical order
 // 😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵😵
@@ -222,7 +220,8 @@ const routes: Routes = [
   },
   {
     path: 'app/org-selective-course',
-    component: OrgSelectiveCourseComponent,
+    loadChildren: () =>
+      import('../../project/ws/app/src/lib/routes/org/components/org-selective-course/org-selective-course.module').then(u => u.OrgSelectiveCourseModule),
   },
   {
     path: 'app/personal-detail-edit',

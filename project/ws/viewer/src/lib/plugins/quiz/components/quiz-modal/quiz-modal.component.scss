@@ -340,7 +340,7 @@
 
   .timer,
   .result-overview {
-    background: var(--theme-surface-alt, #10181e) !important;
+    background: var(--theme-bg, #10181e) !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
 
@@ -376,7 +376,7 @@
 
 ::ng-deep .dark-theme .quiz-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface,
 ::ng-deep .dark-theme .quiz-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
-  background: var(--theme-dialog-surface, #192831) !important;
+  background: var(--theme-bg, #192831) !important;
   color: var(--theme-text, #ecf3f8) !important;
   border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

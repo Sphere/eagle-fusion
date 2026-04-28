@@ -4,7 +4,7 @@
     border-radius: 30px !important;
     width: auto !important;
     height: auto !important;
-    background: var(--theme-dialog-surface, #ffffff) !important;
+    background: var(--theme-bg, #ffffff) !important;
     color: var(--theme-text, #101828) !important;
   }
 }
@@ -54,7 +54,7 @@ html.fc-widget-small body {
 // line-height: 21.09px;
 // letter-spacing: -0.02em;
 // text-align: center;
-color: var(--text-color);
+color: var(--title-color);
 }.info{
   font-family: Roboto, sans-serif;
 font-size: 16px;
@@ -215,7 +215,7 @@ filter: var(--theme-icon-filter) !important;
 }
 
 ::ng-deep .dark-theme .language-modal .mat-mdc-dialog-surface.mdc-dialog__surface {
-  background: var(--theme-dialog-surface, #192831) !important;
+  background: var(--theme-bg, #192831) !important;
   color: var(--theme-text, #ecf3f8) !important;
   border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

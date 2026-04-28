@@ -123,70 +123,35 @@
       </div>
     </div>
 
-  <!-- ══ LAYOUT STRATEGY 2 (TNNMC only) — Continue Learning section ══════
+    <!-- ══ LAYOUT STRATEGY 2 (TNNMC only) — Continue Learning section ══════
        TNNMC uses the closedCoursesList layout but also shows a personal
        "Continue Learning" horizontal scroll row above the main course grid. -->
-  <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
-    class="course-container py-1 px-4">
-    <section class="mt-4 view-all-course-container" *ngIf="getFilteredUserEnrollCourse()?.length > 0">
-      <div class="mb-4 line-label heading-line-yellow flex scroller-container">
-        <div class="w-100">
-          <div class="flex flex-middle heading-line">
-            <span class="course-header">{{'Continue Learning' | translate}}</span>
-          </div>
-        </div>
-      </div>
-      <!-- Desktop: horizontal scroll row -->
-      <ng-container *ngIf="isMobile === false">
-        <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
-          <div *ngFor="let course of getFilteredUserEnrollCourse()">
-            <ng-container>
-              <ws-web-course-card [displayConfig]="enrolledCourseCardConfig" [courseData]="course"></ws-web-course-card>
-            </ng-container>
-          </div>
-        </ws-utils-horizontal-scroller>
-      </ng-container>
-      <!-- Mobile: stacked list, paginated with View all / Hide toggle (shows 5 at a time) -->
-      <ng-container *ngIf="isMobile === true">
-        <div *ngFor="let course of getDisplayedItems(getFilteredUserEnrollCourse(), showAllUserEnrollCourses)">
-          <ws-mobile-course-view [displayConfig]="enrolledCourseCardConfig" [courseData]="course"></ws-mobile-course-view>
-        </div>
-        <button *ngIf="getFilteredUserEnrollCourse()?.length > 5" (click)="viewAllItems('userEnrollCourses')"
-          class="view-all-course">
-          {{ showAllUserEnrollCourses ? ('Hide' | translate) : ('View all' | translate) }}
-          <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
-        </button>
-      </ng-container>
-    </section>
-  </div>
-
-  <!-- ══ LAYOUT STRATEGY 1 — courseSections layout (e.g. MNC) ════════════
-       Triggered when orgMeta.json has a "courseSections" array.
-       Renders: 1. Continue Learning  2. CNE sections  3. Completed -->
-  <ng-container *ngIf="currentOrgData?.courseSections">
-
-    <!-- 1. Continue Learning -->
-    <div class="course-container py-1 px-4" *ngIf="getFilteredUserEnrollCourse()?.length > 0">
-      <section class="mt-4 view-all-course-container">
-        <div class="mb-4 line-label heading-line-teal flex scroller-container">
+    <div *ngIf="currentOrgData?.sourceName === 'Tamil Nadu Nurses and Midwives Council (TNNMC)'"
+      class="course-container py-1 px-4">
+      <section class="mt-4 view-all-course-container" *ngIf="getFilteredUserEnrollCourse()?.length > 0">
+        <div class="mb-4 line-label heading-line-yellow flex scroller-container">
           <div class="w-100">
             <div class="flex flex-middle heading-line">
-              <span class="header1 header0">{{'Continue Learning' | translate}}</span>
+              <span class="course-header">{{'Continue Learning' | translate}}</span>
             </div>
           </div>
         </div>
         <!-- Desktop: horizontal scroll row -->
         <ng-container *ngIf="isMobile === false">
-          <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
+          <ws-utils-horizontal-scroller class="flex " [loadStatus]="'done'">
             <div *ngFor="let course of getFilteredUserEnrollCourse()">
-              <ws-web-course-card [displayConfig]="enrolledCourseCardConfig" [courseData]="course"></ws-web-course-card>
+              <ng-container>
+                <ws-web-course-card [displayConfig]="enrolledCourseCardConfig"
+                  [courseData]="course"></ws-web-course-card>
+              </ng-container>
             </div>
           </ws-utils-horizontal-scroller>
         </ng-container>
-        <!-- Mobile: stacked list with View all / Hide toggle -->
+        <!-- Mobile: stacked list, paginated with View all / Hide toggle (shows 5 at a time) -->
         <ng-container *ngIf="isMobile === true">
           <div *ngFor="let course of getDisplayedItems(getFilteredUserEnrollCourse(), showAllUserEnrollCourses)">
-            <ws-mobile-course-view [displayConfig]="enrolledCourseCardConfig" [courseData]="course"></ws-mobile-course-view>
+            <ws-mobile-course-view [displayConfig]="enrolledCourseCardConfig"
+              [courseData]="course"></ws-mobile-course-view>
           </div>
           <button *ngIf="getFilteredUserEnrollCourse()?.length > 5" (click)="viewAllItems('userEnrollCourses')"
             class="view-all-course">
@@ -197,38 +162,78 @@
       </section>
     </div>
 
-      <!-- 2. CNE Sections -->
-    <div class="course-container py-1 px-4" *ngFor="let section of cneSections; let i = index">
-      <section class="mt-4 view-all-course-container" *ngIf="getFilteredSectionCourses(section.courses)?.length > 0">
-        <div class="mb-4 line-label heading-line-yellow flex scroller-container">
-          <div class="w-100">
-            <div class="flex flex-middle heading-line">
-              <!-- Section label comes from orgMeta.json, e.g. "5 CNE Hours Courses" -->
-              <span class="header1">{{section.label | translate}}</span>
+    <!-- ══ LAYOUT STRATEGY 1 — courseSections layout (e.g. MNC) ════════════
+       Triggered when orgMeta.json has a "courseSections" array.
+       Renders: 1. Continue Learning  2. CNE sections  3. Completed -->
+    <ng-container *ngIf="currentOrgData?.courseSections">
+
+      <!-- 1. Continue Learning -->
+      <div class="course-container py-1 px-4" *ngIf="getFilteredUserEnrollCourse()?.length > 0">
+        <section class="mt-4 view-all-course-container">
+          <div class="mb-4 line-label heading-line-teal flex scroller-container">
+            <div class="w-100">
+              <div class="flex flex-middle heading-line">
+                <span class="header1 header0">{{'Continue Learning' | translate}}</span>
+              </div>
             </div>
           </div>
           <!-- Desktop: horizontal scroll row -->
           <ng-container *ngIf="isMobile === false">
             <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
-              <div *ngFor="let course of getFilteredSectionCourses(section.courses)"
-                style="align-self: flex-start; flex-shrink: 0;">
-                <ws-web-course-card [displayConfig]="cneCourseCardConfig" [courseData]="course"></ws-web-course-card>
+              <div *ngFor="let course of getFilteredUserEnrollCourse()">
+                <ws-web-course-card [displayConfig]="enrolledCourseCardConfig"
+                  [courseData]="course"></ws-web-course-card>
               </div>
             </ws-utils-horizontal-scroller>
           </ng-container>
           <!-- Mobile: stacked list with View all / Hide toggle -->
           <ng-container *ngIf="isMobile === true">
-            <div
-              *ngFor="let course of getDisplayedItems(getFilteredSectionCourses(section.courses), showAllCneSectionMap[i])">
-              <ws-mobile-course-view [displayConfig]="cneCourseCardConfig"
+            <div *ngFor="let course of getDisplayedItems(getFilteredUserEnrollCourse(), showAllUserEnrollCourses)">
+              <ws-mobile-course-view [displayConfig]="enrolledCourseCardConfig"
                 [courseData]="course"></ws-mobile-course-view>
             </div>
-            <button *ngIf="getFilteredSectionCourses(section.courses)?.length > 5" (click)="toggleCneSection(i)"
+            <button *ngIf="getFilteredUserEnrollCourse()?.length > 5" (click)="viewAllItems('userEnrollCourses')"
               class="view-all-course">
-              {{ showAllCneSectionMap[i] ? ('Hide' | translate) : ('View all' | translate) }}
+              {{ showAllUserEnrollCourses ? ('Hide' | translate) : ('View all' | translate) }}
               <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
             </button>
           </ng-container>
+        </section>
+      </div>
+
+      <!-- 2. CNE Sections -->
+      <div class="course-container py-1 px-4" *ngFor="let section of cneSections; let i = index">
+        <section class="mt-4 view-all-course-container" *ngIf="getFilteredSectionCourses(section.courses)?.length > 0">
+          <div class="mb-4 line-label heading-line-yellow flex scroller-container">
+            <div class="w-100">
+              <div class="flex flex-middle heading-line">
+                <!-- Section label comes from orgMeta.json, e.g. "5 CNE Hours Courses" -->
+                <span class="header1">{{section.label | translate}}</span>
+              </div>
+            </div>
+            <!-- Desktop: horizontal scroll row -->
+            <ng-container *ngIf="isMobile === false">
+              <ws-utils-horizontal-scroller class="flex" [loadStatus]="'done'">
+                <div *ngFor="let course of getFilteredSectionCourses(section.courses)"
+                  style="align-self: flex-start; flex-shrink: 0;">
+                  <ws-web-course-card [displayConfig]="cneCourseCardConfig" [courseData]="course"></ws-web-course-card>
+                </div>
+              </ws-utils-horizontal-scroller>
+            </ng-container>
+            <!-- Mobile: stacked list with View all / Hide toggle -->
+            <ng-container *ngIf="isMobile === true">
+              <div
+                *ngFor="let course of getDisplayedItems(getFilteredSectionCourses(section.courses), showAllCneSectionMap[i])">
+                <ws-mobile-course-view [displayConfig]="cneCourseCardConfig"
+                  [courseData]="course"></ws-mobile-course-view>
+              </div>
+              <button *ngIf="getFilteredSectionCourses(section.courses)?.length > 5" (click)="toggleCneSection(i)"
+                class="view-all-course">
+                {{ showAllCneSectionMap[i] ? ('Hide' | translate) : ('View all' | translate) }}
+                <img class="bottom-arrow" src="/fusion-assets/icons/Arrow_2.png" alt="" />
+              </button>
+            </ng-container>
+          </div>
         </section>
       </div>
 
