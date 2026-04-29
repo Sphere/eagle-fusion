@@ -226,7 +226,7 @@ h2 {
   height: 38px;
   background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
-  color: var(--theme-on-accent, #ffffff);
+  color: #ffffff;
   border: 0;
   font-size: 16px;
   line-height: 19px;
@@ -239,7 +239,7 @@ h2 {
   height: 25px;
   background-color: var(--theme-accent, #1c5d95);
   border-radius: 50px;
-  color: var(--theme-on-accent, #ffffff);
+  color: #ffffff;
   border: 0;
   font-size: 14px;
   line-height: 19px;
@@ -345,8 +345,8 @@ h2 {
     font-size: 14px;
     font-weight: 400;
     line-height: 18.75px;
-    color: var(--theme-text, #08243f);
-    background-color:var(--theme-accent, #add1f0);
+    color: #08243f;
+    background-color: #add1f0;
     height: 30px;
     width: 173px;
     padding: 10px;

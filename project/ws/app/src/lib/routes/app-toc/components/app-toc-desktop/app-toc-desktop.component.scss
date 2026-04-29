@@ -158,7 +158,7 @@
   padding: 0px 32px !important;
   background: var(--theme-accent, #1c5d95) !important;
   border-radius: 50px !important;
-  color: var(--theme-on-accent, #f7f7f7) !important;
+  color: #f7f7f7 !important;
   border: none;
 
   @include ws-mixins.breakpoint-xs {
@@ -254,7 +254,7 @@
 }
 
 .button-border {
-  border: 1px solid var(--theme-accent, #1c5d95);
+  border: 1px solid var(--title-color, #1c5d95);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -264,7 +264,7 @@
 }
 
 .btn-tittle {
-  color: var(--theme-accent, #1c5d95);
+  color: var(--title-color, #1c5d95);
 }
 
 .modal {
@@ -341,11 +341,11 @@ mat-progress-bar {
 }
 
 :host-context(.dark-theme) {
-  .button-border img,
-  .action-button-toc img,
-  .duration-block img {
-    filter: var(--theme-icon-filter)
-  }
+  // .button-border img,
+  // .action-button-toc img,
+  // .duration-block img {
+  //   filter: var(--theme-icon-filter)
+  // }
 
   ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
     background: var(--theme-bg, #17242d) !important;

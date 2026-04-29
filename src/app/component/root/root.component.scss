@@ -269,12 +269,19 @@ color: #000000;
     }
   }
 }
-
+::ng-deep lib-discuss-all {
+  img {
+    filter: var(--theme-icon-filter) !important;
+  }
+}
 ::ng-deep lib-discuss-card {
 .discuss-card-content {
   background: transparent !important;
   h3, .discuss-user-label, .timing, .discussion-card-comment {
     color: var(--theme-text) !important;
+  }
+  .kabab-menu {
+    color: var(--icon-color) !important;
   }
   img {
     filter: var(--theme-icon-filter) !important;

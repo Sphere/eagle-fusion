@@ -1,4 +1,4 @@
-import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject, ChangeDetectorRef } from '@angular/core'
+import { Component, Input, OnChanges, OnDestroy, OnInit, HostListener, Inject, ChangeDetectorRef, effect } from '@angular/core'
 import { MatDialog } from '@angular/material/dialog'
 import { MatSnackBar } from '@angular/material/snack-bar'
 import { DomSanitizer, SafeStyle } from '@angular/platform-browser'
@@ -23,6 +23,7 @@ import { AppTocCertificateModalComponent } from '../app-toc-certificate-modal/ap
 import { ConfirmmodalComponent } from '../../../../../../../viewer/src/lib/plugins/quiz/confirm-modal-component'
 import { LoaderService } from '@ws/author/src/lib/services/loader.service'
 import { TranslateService } from '@ngx-translate/core'
+import { ThemeService } from '../../../../../../../../../src/app/services/theme.service'
 @Component({
   standalone: false,
   selector: 'ws-app-app-toc-desktop',
@@ -87,6 +88,7 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
   enrolledCourse: any
   lastCourseID: any
   stars: number[] = [1, 2, 3, 4, 5]
+  isDark: boolean
 
   constructor(
     private sanitizer: DomSanitizer,
@@ -106,8 +108,13 @@ export class AppTocDesktopComponent implements OnInit, OnChanges, OnDestroy {
     private telemetrySvc: TelemetryService,
     private logger: LoggerService,
     private translate: TranslateService,
-    private cdr: ChangeDetectorRef
-  ) { }
+    private cdr: ChangeDetectorRef,
+    private themeSvc: ThemeService
+  ) {
+    effect(() => {
+      this.isDark = this.themeSvc.isDark()
+    })
+  }
 
   @HostListener('window:popstate', [])
   onPopState() {
