@@ -112,7 +112,8 @@
               [matTooltip]="'Preview Certificate' | translate">
               <img loading="lazy"
                 [src]="!isDark ? './fusion-assets/icons/certificate-icon.svg' : './fusion-assets/icons/certificate-dark.svg'"
-                alt="download" style="background-color: cornflowerblue;width: 25px;height: auto;">
+                alt="download" [ngStyle]="isDark ? 'background-color: transparent' : 'background-color: cornflowerblue'"
+                style="width: 25px; height: auto;">
             </button>
             <span class="btn-tittle" *ngIf="content?.issueCertification === true">{{ 'Certificate' | translate }}</span>
           </ng-container>
@@ -123,7 +124,8 @@
               [matTooltip]="'Preview Certificate' | translate">
               <img loading="lazy"
                 [src]="!isDark ? './fusion-assets/icons/certificate-icon.svg' : './fusion-assets/icons/certificate-dark.svg'"
-                alt="download" style="background-color: cornflowerblue;width: 25px;height: auto;">
+                alt="download" [ngStyle]="isDark ? 'background-color: transparent' : 'background-color: cornflowerblue'"
+                style="width: 25px;height: auto;">
             </button>
             <span class="btn-tittle" *ngIf="content?.issueCertification === true">{{ 'Certificate' | translate }}</span>
           </ng-template>
