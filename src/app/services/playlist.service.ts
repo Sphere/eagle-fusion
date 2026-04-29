@@ -95,6 +95,7 @@ export class PlaylistService {
       const response: any = await this.http.post(url, body).toPromise()
       const result = response?.result?.playlist ?? []
       this.playlistConfigCache.set(result)
+      return result
     } catch (error) {
       this.logger.error('Failed to load playlist config', error)
       return []

@@ -1,9 +1,16 @@
 # Eagle-Fusion — Claude Code Guide
 
 ## Project Overview
-Angular 16 LMS (Learning Management System) frontend for **Aastrika Sphere**, a healthcare training platform. Built as a multi-library monorepo using Angular CLI workspaces. Integrates Sunbird, Keycloak SSO, and custom content libraries.
+Angular 21 LMS (Learning Management System) frontend for **Aastrika Sphere**, a healthcare training platform. Built as a multi-library monorepo using Angular CLI workspaces. Integrates Sunbird, Keycloak SSO, and custom content libraries.
 
 **Package manager:** Yarn (`yarn`, not `npm`)
+
+**Node version manager:** NVS — use `nvs use <version>` to switch Node versions before running any commands.
+Angular 21 requires **Node 20**. Switch with:
+```bash
+nvs use 20        # activate Node 20.x for this shell session
+nvs add 20        # install Node 20 if not already present (one-time)
+```
 
 ---
 
@@ -22,8 +29,8 @@ yarn run test-watch         # Jest watch mode
 yarn run test-coverage      # Jest with coverage
 
 # Linting
-yarn run lint               # TSLint check
-yarn run lint:fix           # TSLint auto-fix
+yarn run lint               # ESLint check (angular-eslint)
+yarn run lint:fix           # ESLint auto-fix
 
 # Styling
 yarn run tailwind           # Watch TailwindCSS
@@ -62,7 +69,7 @@ eagle-fusion/
 
 ### Key Services
 - `ConfigurationsService` (`@ws-widget/utils`) — user prefs, locale, feature flags
-- `ValueService` (`@ws-widget/utils`) — responsive breakpoints (`isMobile()`, `isLtMedium$`)
+- `ValueService` (`@ws-widget/utils`) — responsive breakpoints; `isMobile` is a `computed()` signal (< 768px), `isXSmall$` / `isLtMedium$` are Observables — prefer the Observables in non-signal components to avoid CD issues
 - `SearchServService` — search API, autocomplete, language index
 - `LoggerService` — use instead of `console.log` (TSLint enforces no-console)
 
@@ -71,15 +78,18 @@ eagle-fusion/
 ## Coding Conventions
 
 ### TypeScript / Angular
-- **No semicolons** — enforced by TSLint
+- **No semicolons** — enforced by ESLint
 - **Single quotes** for strings
 - **2-space indent**
 - Max line length: **140 characters**
 - `strict: false` — null checks are lenient but write defensive code anyway
-- Use `UntypedFormControl` (Angular 16 migration pattern used throughout)
+- Use typed `FormControl<T>` — `UntypedFormControl` is no longer needed (typed forms are stable since Angular 14)
 - Component selector prefix: **`ws-app-`** (e.g. `ws-app-search-input-home`)
 - Directive selector prefix: **`ws`** (camelCase attribute)
-- No `console.log` — use `this.logger.log(...)` or add `// tslint:disable-next-line:no-console`
+- Components use `standalone: false` — the codebase still uses NgModule-based architecture
+- No `console.log` — use `this.logger.log(...)` or add `// eslint-disable-next-line no-console`
+- Angular Signals (`signal()`, `computed()`, `effect()`) are stable in Angular 21 — use them for reactive state; prefer `toObservable()` / `toSignal()` from `@angular/core/rxjs-interop` to bridge signals and RxJS
+- Prefer new template control flow (`@if`, `@for`, `@switch`) in new code; legacy `*ngIf` / `*ngFor` still works
 
 ### SCSS
 - Import shared vars: `@import 'ws-vars'; @import 'ws-mixins'; @import 'ws-common';`
@@ -134,7 +144,7 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 ---
 
 ## i18n
-- Library: `@ngx-translate/core` v16
+- Library: `@ngx-translate/core` v17
 - Translation files in `src/assets/i18n/`
 - Always add `| translate` to user-facing strings in templates
 - Voice search language mapping: `'en' → 'en-IN'`, `'hi' → 'hi-IN'`
@@ -150,4 +160,4 @@ Runtime config is fetched from `/apis/...` on app init. Access via `Configuratio
 ---
 
 ## Current Branch
-`feature/downtime` — active development branch. Main branch is `master`.
+`feature/angular-21` — active development branch (Angular 21 upgrade). Main branch is `master`.
