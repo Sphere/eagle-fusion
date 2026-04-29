@@ -74,12 +74,18 @@
   border-radius: 20px;
 }
 
-// Needed so position:absolute shimmer children are anchored to the banner area
 .banner-container {
-  position: relative;
   width: 100%;
   overflow-x: hidden;
+}
+
+// position:relative scoped to the banner image area so .banner-logo-wrap and
+// shimmer overlays anchor to the banner bottom, not the full page height.
+.banner-image-section {
+  position: relative;
+  width: 100%;
   margin-bottom: 72px;
+  overflow: visible;
 
   @include ws-mixins.breakpoint-s {
     margin-bottom: 64px;
@@ -508,7 +514,7 @@ mat-card.card-standard-container.mr-8 .mat-card {
   }
 
   .default-banner-img,
-  .org-logo,
+  // .org-logo,
   .org-details img,
   .filter-btn img,
   .competency-block img,
@@ -519,7 +525,6 @@ mat-card.card-standard-container.mr-8 .mat-card {
   .course-name,
   .by-org-name,
   .filter-label,
-  .course-header,
   .org-desc,
   .org-name,
   .average-rating,
@@ -544,6 +549,12 @@ mat-card.card-standard-container.mr-8 .mat-card {
   .view-all-course {
     background: var(--theme-accent, #78b7ff);
     color: var(--theme-on-accent, #08131b);
+  }
+
+  .course-header,
+  .header1,
+  .header0 {
+    color: #4B4B4B !important;
   }
 }
 @media (max-width: 500px) {
@@ -734,7 +745,7 @@ background-color: #fff;
       height: 80px;
     }
   .banner-logo-wrap {
-    left: 10px;
+    left: 16px;
   }
   .org-logo {
     width: 100%;
@@ -750,7 +761,7 @@ background-color: #fff;
   .org-name {
     font-size: 18px;
     line-height: 22px;
-    padding-top: 26px;
+    padding-top: 20px;
     // padding-left: 15px;
 }
 .org-desc{

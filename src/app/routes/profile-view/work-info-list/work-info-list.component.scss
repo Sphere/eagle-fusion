@@ -247,7 +247,7 @@ label {
 
   label {
     font-size: 11px;
-    color: #888;
+    color: var(--theme-text-soft, #888);
     text-transform: uppercase;
     letter-spacing: 0.6px;
     font-weight: 500;
@@ -269,7 +269,7 @@ label {
     background: transparent !important;
     padding: 4px 0 0;
     font-size: 15px;
-    color: #222 !important;
+    color: var(--theme-text, #222) !important;
     height: auto;
     opacity: 1 !important;
     -webkit-appearance: none;
@@ -282,9 +282,28 @@ label {
     display: none !important;
   }
 
+  .read-only-mat-field {
+    padding: 6px 0 10px;
+    border-bottom: 1px solid #efefef;
+    margin-bottom: 8px;
+  }
+
+  ::ng-deep .read-only-mat-field .field-fullwidth.mat-mdc-form-field {
+    margin-bottom: 0 !important;
+  }
+
+  ::ng-deep .read-only-mat-field .field-fullwidth .mat-mdc-text-field-wrapper,
+  ::ng-deep .read-only-mat-field .field-fullwidth .mdc-text-field,
+  ::ng-deep .read-only-mat-field .field-fullwidth .mat-mdc-form-field-flex {
+    background: transparent !important;
+    border: 0 !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+  }
+
   ::ng-deep .field-fullwidth .mat-mdc-select-value-text {
     font-size: 15px;
-    color: #222;
+    color: var(--theme-text, #222) !important;
     font-weight: 400;
   }
 

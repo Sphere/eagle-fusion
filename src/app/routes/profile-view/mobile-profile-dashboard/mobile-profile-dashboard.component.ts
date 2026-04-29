@@ -60,7 +60,7 @@ export class MobileProfileDashboardComponent implements OnInit, OnDestroy {
   domain!: string
   config: any
   uiConfig: any
-  menuItems: any
+  menuItems: any[] = []
   isMobileView = false
   selectedIndexData: any
   rank = 0

@@ -80,4 +80,8 @@ export class ThemeService {
   isDark(): boolean {
     return this.darkMode()
   }
+
+  hasStoredPreference(): boolean {
+    return localStorage.getItem(this.STORAGE_KEY) !== null
+  }
 }

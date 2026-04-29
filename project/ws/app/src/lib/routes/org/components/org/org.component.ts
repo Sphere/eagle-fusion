@@ -4,14 +4,14 @@ import {
   ViewChild,
   OnDestroy,
   HostListener,
-  effect,
+  ChangeDetectorRef,
 } from '@angular/core'
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { ActivatedRoute, Router } from '@angular/router'
 import { MdePopoverTrigger } from '@jaguards/material-extended-mde'
 import { HttpClient } from '@angular/common/http'
-import { forkJoin, of } from 'rxjs'
+import { forkJoin, of, Subscription } from 'rxjs'
 import { WidgetUserService } from '@ws-widget/collection'
 import { uniqBy } from 'lodash'
 
@@ -50,6 +50,8 @@ export class OrgComponent implements OnInit, OnDestroy {
   orgUserCourseEnrolled: any = 0
   enrolledCourseCardConfig: any         // Card display config for Continue Learning & Completed sections (card-mini)
   isMobile = false
+  private mobileSubscription!: Subscription
+  private isDestroyed = false
   // True while orgMeta.json is being fetched; drives the shimmer skeleton in the template
   isLoading = false
   // Track individual image load state so shimmer persists on banner/logo
@@ -70,10 +72,12 @@ export class OrgComponent implements OnInit, OnDestroy {
     private configSvc: ConfigurationsService,
     private readonly userSvc: WidgetUserService,
     private valueSvc: ValueService,
-    private logger: LoggerService
+    private logger: LoggerService,
+    private cdr: ChangeDetectorRef,
   ) {
-    effect(() => {
-      this.isMobile = this.valueSvc.isMobile() ? true : false
+    this.mobileSubscription = this.valueSvc.isLtMedium$.subscribe(mobile => {
+      this.isMobile = mobile
+      this.detectViewChanges()
     })
   }
 
@@ -98,8 +102,13 @@ export class OrgComponent implements OnInit, OnDestroy {
     // react to every orgId change — including the home-redirect that sends
     // an MNC user from another org's page to the MNC org page.
     this.routeSubscription = this.activateRoute.queryParams.subscribe(params => {
-      this.orgName = params['orgId']
+      this.orgName = (params['orgId'] || '').trim()
       this.resetOrgState()
+      if (!this.orgName) {
+        this.isLoading = false
+        this.detectViewChanges()
+        return
+      }
       this.loadOrgData()
     })
   }
@@ -129,6 +138,17 @@ export class OrgComponent implements OnInit, OnDestroy {
     this.totalRatings = ''
     this.enrolledCourseCardConfig = undefined
     this.cneCourseCardConfig = undefined
+    this.detectViewChanges()
+  }
+
+  private detectViewChanges(): void {
+    if (!this.isDestroyed) {
+      Promise.resolve().then(() => {
+        if (!this.isDestroyed) {
+          this.cdr.detectChanges()
+        }
+      })
+    }
   }
 
   // Contains the full org initialisation logic previously in ngOnInit.
@@ -151,20 +171,18 @@ export class OrgComponent implements OnInit, OnDestroy {
       .subscribe(
         (results: any) => {
           try {
-            const currentOrgName = this.orgName.trim()
             const orgMetaConfig = JSON.parse(results)
-            this.orgMetaList = orgMetaConfig.sources
+            this.orgMetaList = Array.isArray(orgMetaConfig?.sources) ? orgMetaConfig.sources : []
 
             // Find the entry in orgMeta.json that matches the current org name
-            this.currentOrgData = this.orgMetaList.filter(
-              (orgEntry: any) =>
-                orgEntry.sourceName === currentOrgName
+            this.currentOrgData = this.orgMetaList.find(
+              (orgEntry: any) => orgEntry?.sourceName?.trim() === this.orgName
             )
             if (this.currentOrgData) {
-              this.currentOrgData = this.currentOrgData[0]
               this.formattedAbout = this.formatAbout(this.currentOrgData.about)
               // Org meta resolved — replace shimmer skeleton with real content
               this.isLoading = false
+              this.detectViewChanges()
 
               // ─── LAYOUT STRATEGY 1: courseSections (e.g. MNC) ───────────────────────────
               // Used when an org configures named course groups in orgMeta.json, e.g.:
@@ -256,6 +274,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                     displayType: 'card-mini',
                     badges: { rating: true, completionPercentage: true, certification: true, mobilesourceName: this.isMobile },
                   }
+                  this.detectViewChanges()
                 })
 
                 // ─── LAYOUT STRATEGY 2: closedCoursesList (e.g. TNNMC, TNAI, Goa) ─────────
@@ -270,6 +289,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                   forkJoin([this.userSvc.fetchUserBatchList(userId)]).pipe().subscribe((batchListResult: any) => {
                     this.logger.log("batchListResult: ", batchListResult)
                     this.formatmyCourseResponse(batchListResult[0])
+                    this.detectViewChanges()
                   })
                 }
 
@@ -294,6 +314,7 @@ export class OrgComponent implements OnInit, OnDestroy {
                   if (this.courseData.length > 0) {
                     this.competencyData = this.groupCompetenciesById(this.courseData)
                   }
+                  this.detectViewChanges()
                 })
 
                 // ─── LAYOUT STRATEGY 3: tag-based search (all other orgs) ────────────────
@@ -323,19 +344,26 @@ export class OrgComponent implements OnInit, OnDestroy {
                         this.logger.log('l')
                         this.competencyData = this.groupCompetenciesById(this.courseData)
                       }
+                      this.detectViewChanges()
                     })
                   }
+                  this.detectViewChanges()
                 })
               }
+            } else {
+              this.isLoading = false
+              this.detectViewChanges()
             }
           } catch (e) {
             this.isLoading = false
             this.logger.error('Error parsing JSON', e)
+            this.detectViewChanges()
           }
         },
         error => {
           this.isLoading = false
           this.logger.error('HTTP error', error)
+          this.detectViewChanges()
         }
       )
 
@@ -479,6 +507,7 @@ export class OrgComponent implements OnInit, OnDestroy {
         },
       }
     }
+    this.detectViewChanges()
   }
 
   getStarImage(index: number, averageRating: number): string {
@@ -553,10 +582,12 @@ export class OrgComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
+    this.isDestroyed = true
     this.orgService.hideHeaderFooter.next(false)
     if (this.routeSubscription) {
       this.routeSubscription.unsubscribe()
     }
+    this.mobileSubscription?.unsubscribe()
     this.orgService.hideHeaderFooter.next(false)
   }
 

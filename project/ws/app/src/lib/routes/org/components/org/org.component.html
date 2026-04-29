@@ -61,21 +61,23 @@
       </div>
     </div>
     <div class="banner-container" *ngIf="currentOrgData.sourceName !== 'Indian Nursing Council'">
-      <div class="default-banner" *ngIf="!currentOrgData.bgImage">
-        <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" />
-      </div>
-      <!-- Custom banner: shimmer overlay sits on top until the image fires (load) -->
-      <ng-container *ngIf="currentOrgData.bgImage">
-        <div class="shimmer org-shimmer-banner-img" *ngIf="!bannerLoaded"></div>
-        <img [src]="currentOrgData.bgImage" class="banner" [class.org-img-hidden]="!bannerLoaded"
-          (load)="bannerLoaded = true" />
-      </ng-container>
-      <!-- Floating circular org logo: shimmer until logo image fires (load) -->
-      <div class="flex-auto mr-4">
-        <div class="image-outer">
-          <div class="shimmer org-shimmer-logo-img" *ngIf="!logoLoaded && currentOrgData.logo !== ''"></div>
-          <img [src]="currentOrgData?.logo" alt="Org Logo" class="org-logo" *ngIf="currentOrgData.logo !== ''"
-            [class.org-img-hidden]="!logoLoaded" (load)="logoLoaded = true" />
+      <div class="banner-image-section">
+        <div class="default-banner" *ngIf="!currentOrgData.bgImage">
+          <img src="/fusion-assets/images/Frame.svg" class="default-banner-img" />
+        </div>
+        <!-- Custom banner: shimmer overlay sits on top until the image fires (load) -->
+        <ng-container *ngIf="currentOrgData.bgImage">
+          <div class="shimmer org-shimmer-banner-img" *ngIf="!bannerLoaded"></div>
+          <img [src]="currentOrgData.bgImage" class="banner" [class.org-img-hidden]="!bannerLoaded"
+            (load)="bannerLoaded = true" />
+        </ng-container>
+        <!-- Floating circular org logo: shimmer until logo image fires (load) -->
+        <div class="banner-logo-wrap" *ngIf="currentOrgData.logo !== ''">
+          <div class="image-outer">
+            <div class="shimmer org-shimmer-logo-img" *ngIf="!logoLoaded"></div>
+            <img [src]="currentOrgData?.logo" alt="Org Logo" class="org-logo"
+              [class.org-img-hidden]="!logoLoaded" (load)="logoLoaded = true" />
+          </div>
         </div>
       </div>
     </div>
