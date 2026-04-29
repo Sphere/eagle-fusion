@@ -49,8 +49,8 @@ h2 {
 
 :host ::ng-deep .form-control:disabled,
 :host ::ng-deep .form-control[readonly] {
-    background-color: var(--theme-input-disabled-bg, #ffffff) !important;
-    color: var(--theme-input-disabled-text, #101828) !important;
+    background-color: var(--theme-bg-disabled, #ffffff) !important;
+    color: var(--theme-disabled, #101828) !important;
 }
 .pencil {
   position: relative;

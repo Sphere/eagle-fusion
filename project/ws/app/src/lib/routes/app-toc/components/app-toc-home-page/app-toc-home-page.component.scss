@@ -151,12 +151,12 @@
   color: var(--theme-tab-active-text, #000000) !important;
 }
 ::ng-deep .mat-mdc-tab-list .mat-mdc-tab-labels {
-  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-inactive, #808080) !important;
   .mat-mdc-tab {
     flex-grow:  0 !important;
   }
   .mdc-tab__content {
-    color: var(--theme-tab-inactive-text, #808080) !important;
+    color: var(--theme-inactive, #808080) !important;
     font-size: 18px !important;
   }
 }
@@ -171,13 +171,13 @@
 
 ::ng-deep .mat-mdc-tab-group .mat-mdc-tab-header{
   --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
-  --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #808080) !important;
-  --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #000000) !important;
-  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #808080) !important;
+  --mat-tab-header-inactive-label-text-color: var(--theme-inactive, #808080) !important;
+  --mat-tab-header-active-ripple-color: var(--theme-tab-active-text, #000000) !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-inactive, #808080) !important;
 }
 
 ::ng-deep .mat-mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label {
-  color: var(--theme-tab-inactive-text, #808080) !important;
+  color: var(--theme-inactive, #808080) !important;
 }
 
 ::ng-deep lib-discuss-card .discuss-card-title {

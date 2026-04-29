@@ -37,8 +37,8 @@
 }
 
 ::ng-deep .link-container .ws-mat-accent-text {
-  color: var(--theme-primary-strong) !important;
-  border-bottom-color: var(--theme-primary-strong) !important;
+  color: var(--theme-disabled) !important;
+  border-bottom-color: var(--theme-disabled) !important;
 }
 
 .link-text {
@@ -52,7 +52,7 @@
 }
 
 ::ng-deep .link-container .ws-mat-accent-text .link-text {
-  color: var(--theme-primary-strong);
+  color: var(--theme-disabled);
 }
 .link-block{
     margin: 0px 15px;
@@ -133,7 +133,7 @@
 
 /* Active state */
 .nav-item.active {
-  color: var(--theme-primary-strong); /* blue like screenshot */
+  color: var(--theme-disabled); /* blue like screenshot */
 }
 
 .nav-item.active .nav-icon {

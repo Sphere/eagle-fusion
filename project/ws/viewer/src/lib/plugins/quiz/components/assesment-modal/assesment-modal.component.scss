@@ -170,8 +170,8 @@
 }
 
 .btn:disabled {
-  background: var(--theme-input-disabled-bg) !important;
-  color: var(--theme-input-disabled-text) !important;
+  background: var(--theme-bg-disabled) !important;
+  color: var(--theme-disabled) !important;
   border-color: var(--theme-border) !important;
 }
 
@@ -342,7 +342,7 @@
     .digit {
       font-weight: 400 !important;
       font-size: 40px !important;
-      color: var(--theme-primary-strong);
+      color: var(--theme-disabled);
 
       @include ws-mixins.breakpoint-xs {
         font-weight: 400 !important;
@@ -353,7 +353,7 @@
     .lable {
       font-weight: 500 !important;
       font-size: 15px !important;
-      color: var(--theme-primary-strong);
+      color: var(--theme-disabled);
       margin-top: 10px !important;
 
       @include ws-mixins.breakpoint-xs {
@@ -446,8 +446,8 @@ mat-progress-bar {
   }
 
   .btn:disabled {
-    background: var(--theme-input-disabled-bg, #223541) !important;
-    color: var(--theme-input-disabled-text, #ecf3f8) !important;
+    background: var(--theme-bg-disabled, #223541) !important;
+    color: var(--theme-disabled, #ecf3f8) !important;
     border-color: var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
   }
 
@@ -482,14 +482,14 @@ mat-progress-bar {
 ::ng-deep .dark-theme .assessment-tab .mat-mdc-tab-header {
   border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2)) !important;
   --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
-  --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #8fa4b8) !important;
-  --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #ffffff) !important;
-  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #8fa4b8) !important;
-  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+  --mat-tab-header-inactive-label-text-color: var(--theme-inactive, #8fa4b8) !important;
+  --mat-tab-header-active-ripple-color: var(--theme-tab-active-text, #ffffff) !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-inactive, #8fa4b8) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
 }
 
 ::ng-deep .dark-theme .assessment-tab .mat-mdc-tab .mdc-tab__text-label {
-  color: var(--theme-tab-inactive-text, #8fa4b8) !important;
+  color: var(--theme-inactive, #8fa4b8) !important;
 }
 
 ::ng-deep .dark-theme .assessment-tab .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
@@ -518,14 +518,14 @@ mat-progress-bar {
 
 ::ng-deep .mat-tab-group .mat-mdc-tab-header {
   --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
-  --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #8fa4b8) !important;
-  --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #ffffff) !important;
-  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #8fa4b8) !important;
-  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+  --mat-tab-header-inactive-label-text-color: var(--theme-inactive, #8fa4b8) !important;
+  --mat-tab-header-active-ripple-color: var(--theme-tab-active-text, #ffffff) !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-inactive, #8fa4b8) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
   --mat-tab-header-active-focus-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
   --mat-tab-header-active-hover-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
-  --mat-tab-header-active-focus-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
-  --mat-tab-header-active-hover-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+  --mat-tab-header-active-focus-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
+  --mat-tab-header-active-hover-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
 }
 
 ::ng-deep .mat-mdc-tab:not(.mdc-tab--active) .mdc-tab__text-label {

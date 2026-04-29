@@ -161,12 +161,12 @@ input:focus-visible {
   }
 
   .login-button:disabled {
-    background: var(--theme-input-disabled-bg, #223541);
-    color: var(--theme-input-disabled-text, #8fa4b8);
+    background: var(--theme-bg-disabled, #223541);
+    color: var(--theme-disabled, #8fa4b8);
   }
 
   ::placeholder {
-    color: var(--theme-text-placeholder, #8fa4b8) !important;
+    color: var(--theme-inactive, #8fa4b8) !important;
   }
 
   .location-field {
@@ -177,7 +177,7 @@ input:focus-visible {
     }
 
     ::ng-deep .mat-mdc-select-placeholder {
-      color: var(--theme-text-placeholder, #8fa4b8) !important;
+      color: var(--theme-inactive, #8fa4b8) !important;
     }
 
     ::ng-deep .mat-mdc-select-value,

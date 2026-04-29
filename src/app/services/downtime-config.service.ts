@@ -1,4 +1,4 @@
-import { Injectable, NgZone, OnDestroy } from '@angular/core'
+import { computed, Injectable, NgZone, OnDestroy, signal } from '@angular/core'
 import { HttpClient } from '@angular/common/http'
 import { BehaviorSubject, Observable, of } from 'rxjs'
 import { map, tap, catchError } from 'rxjs/operators'
@@ -22,6 +22,8 @@ import { API_END_POINTS } from '../constants/apiConstants'
   providedIn: 'root',
 })
 export class DowntimeConfigService implements OnDestroy {
+  private updateInfo = signal<any | null>(null)
+
   constructor(
     private ngZone: NgZone,
     private httpClient: HttpClient,
@@ -46,7 +48,7 @@ export class DowntimeConfigService implements OnDestroy {
 
   private refreshTimer: any = null
   private currentConfig: AppDowntimeConfig | null = null
-
+  themeConfig = computed(() => this.updateInfo()?.THEME_CONFIG_WEB ?? '')
   /**
    * Initialize downtime configuration
    * Called on application bootstrap
@@ -111,6 +113,7 @@ export class DowntimeConfigService implements OnDestroy {
           if (!data) {
             return this.getDefaultDowntimeState(false)
           }
+          this.updateInfo.set(data?.schemas)
           return this.parseDowntimeConfig(data)
         }),
         catchError(error => {

@@ -480,7 +480,6 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
           return
         }
       }
-
       this.orgDetails = { ...this.playlistSvc.orgDetails(), ...this.playlistSvc.headerConfig() }
       const homeTabConfig = this.playlistSvc.sections()?.['homeTab']
       this.configData = this.isLoggedIn ? (homeTabConfig || this.playlistSvc.selectedTabConfig()) : this.playlistSvc.config()
@@ -494,6 +493,10 @@ export class RootComponent implements OnInit, AfterViewInit, OnDestroy {
       if (!this.themeSvc.hasStoredPreference() && this.orgDetails?.themeConfig?.isDark !== undefined) {
         this.themeSvc.setTheme(!!this.orgDetails.themeConfig.isDark)
       }
+      const themeConfig = this.downtimeService.themeConfig()
+      const theme = themeConfig?.[this.orgDetails.themeConfig.theme] || themeConfig?.['defaultTheme']
+      console.log("theme config ", themeConfig, theme)
+      this.themeSvc.applyOrgTheme(theme)
       // Trigger change detection to ensure template updates with new data
       this.changeDetector.markForCheck()
     } catch (error) {

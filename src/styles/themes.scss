@@ -67,102 +67,84 @@ $dark-theme: mat.m2-define-dark-theme((
 ));
 
 $theme-token-list: (
-  icon-color,
-  mat-toolbar-container-background-color,
-  mat-toolbar-container-text-color,
-  title-color,
-  sub-title-color,
-  theme-bg,
-  theme-surface,
-  theme-border,
-  theme-text,
-  theme-text-muted,
-  theme-text-soft,
-  theme-text-placeholder,
-  theme-accent,
-  theme-on-accent,
-  theme-tab-active-text,
-  theme-tab-active-indicator,
-  theme-tab-inactive-text,
-  theme-tab-active-ripple,
-  theme-tab-inactive-ripple,
-  theme-shadow,
-  theme-icon-filter,
-  theme-input-disabled-bg,
-  theme-input-disabled-text,
   theme-app-background,
+  theme-surface,
+  theme-primary,
+  theme-bg,
+  theme-bg-disabled,
+  theme-text,
+  theme-text-soft,
+  theme-text-muted,
+  theme-inactive,
+  theme-tab-active-text,
+  theme-disabled,
+  icon-color,
+  theme-accent,
   theme-success,
   theme-error,
+  theme-on-accent,
+  theme-border,
+  theme-shadow,
   theme-info-display-bg1,
   theme-info-display-bg2,
-  theme-primary-strong,
-  theme-primary-soft
+  theme-icon-filter,
+  theme-progress,
+  theme-warning,
+  theme-black
 );
 
 $light-theme-tokens: (
   theme-app-background: #f8f8f8,
   theme-surface: #ffffff,
-  title-color: rgb(28, 93, 149),
+  theme-primary: #1c5d95,
   theme-bg: #ffffff,
+  theme-bg-disabled: #ffffff,
   theme-text: #101828,
   theme-text-soft: #8c98a8,
-  icon-color: rgba(0, 0, 0, 0.87),
-  mat-toolbar-container-background-color: rgba(255, 255, 255, 0.87),
-  mat-toolbar-container-text-color: rgba(255, 255, 255, 0.87),
-  sub-title-color: rgb(28, 93, 149),
-  theme-border: rgba(28, 93, 149, 0.12),
   theme-text-muted: #5f6b7a,
-  theme-text-placeholder: #8c98a8,
-  theme-accent: #1c5d95,
-  theme-on-accent: #ffffff,
+  theme-inactive: #808080,
   theme-tab-active-text: #000000,
-  theme-tab-active-indicator: #000000,
-  theme-tab-inactive-text: #808080,
-  theme-tab-active-ripple: #000000,
-  theme-tab-inactive-ripple: #808080,
-  theme-shadow: 0 0 8px rgba(15, 23, 42, 0.08),
-  theme-icon-filter: none,
-  theme-input-disabled-bg: #ffffff,
-  theme-input-disabled-text: #101828,
+  theme-disabled: #101828,
+  icon-color: #000000de,
+  theme-accent: #1c5d95,
   theme-success: #89c575,
   theme-error: #951c1c,
+  theme-on-accent: #ffffff,
+  theme-border: #1c5d951f,
+  theme-shadow: 0 0 8px #0f172a14,
   theme-info-display-bg1: #f1e7e3,
   theme-info-display-bg2: #f5f5f5,
-  theme-primary-strong: #154976,
-  theme-primary-soft: #1c5d95
+  theme-icon-filter: none,
+  theme-progress: #469788,
+  theme-warning: #E0BE80,
+  theme-black: #000000
 );
 
 $dark-theme-tokens: (
   theme-app-background: #171717,
   theme-surface: #0D0D0D,
-  title-color: #E0E0E0,
+  theme-primary: #E0E0E0,
   theme-bg: #303030,
+  theme-bg-disabled: #223541,
   theme-text: #E0E0E0,
   theme-text-soft: #BEBEBE,
-  theme-icon-filter: invert(1) brightness(2),
-  icon-color: rgba(255, 255, 255, 0.87),
-  mat-toolbar-container-background-color: rgba(0, 0, 0, 0.87),
-  mat-toolbar-container-text-color: rgba(0, 0, 0, 0.87),
-  sub-title-color: #b3b3b3,
-  theme-border: rgba(146, 178, 206, 0.2),
   theme-text-muted: #b8c6d3,
-  theme-text-placeholder: #8fa4b8,
-  theme-accent: #1c5d95,
-  theme-on-accent: #08131b,
+  theme-inactive: #8fa4b8,
   theme-tab-active-text: #ffffff,
-  theme-tab-active-indicator: #ffffff,
-  theme-tab-inactive-text: #8fa4b8,
-  theme-tab-active-ripple: #ffffff,
-  theme-tab-inactive-ripple: #8fa4b8,
-  theme-shadow: 0 0 8px rgba(0, 0, 0, 0.32),
-  theme-input-disabled-bg: #223541,
-  theme-input-disabled-text: #ecf3f8,
+  theme-disabled: #ecf3f8,
+  icon-color: rgba(255, 255, 255, 0.87),
+  theme-accent: #1c5d95,
   theme-success: #69f0ae,
   theme-error: #ff6b6b,
+  theme-on-accent: #08131b,
+  theme-border: rgba(146, 178, 206, 0.2),
+  theme-shadow: 0 0 8px rgba(0, 0, 0, 0.32),
   theme-info-display-bg1: #303030,
   theme-info-display-bg2: #232323,
-  theme-primary-strong: #ecf3f8,
-  theme-primary-soft: #4a90d6
+  theme-icon-filter: invert(1) brightness(2),
+  theme-progress: #469788,
+  theme-warning: #E0BE80,
+  theme-black: #000000
 );
 
 @mixin emit-theme-tokens($tokens) {
@@ -212,7 +194,7 @@ $dark-theme-tokens: (
 }
 
 .course-name-mini {
-  color: var(--title-color);
+  color: var(--theme-primary);
 }
 
 :host-context(.dark-theme) {
@@ -250,7 +232,7 @@ $dark-theme-tokens: (
   }
 
   ::ng-deep ws-app-search-input-home input::placeholder {
-    color: var(--theme-text-placeholder, #8fa4b8) !important;
+    color: var(--theme-inactive, #8fa4b8) !important;
   }
 
   ::ng-deep ws-app-search-input-home .border-right {

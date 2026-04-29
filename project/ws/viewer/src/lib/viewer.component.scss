@@ -171,7 +171,7 @@ viewer-quiz {
 }
 
 ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
-  color: var(--theme-tab-inactive-text) !important;
+  color: var(--theme-inactive) !important;
 }
 
 ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
@@ -236,7 +236,7 @@ mat-sidenav {
 }
 
 ::ng-deep .mat-mdc-tab .mdc-tab__text-label {
-  color: var(--theme-tab-inactive-text, #8fa4b8) !important;
+  color: var(--theme-inactive, #8fa4b8) !important;
 }
 
 ::ng-deep .mat-mdc-tab.mdc-tab--active .mdc-tab__text-label {
@@ -244,14 +244,14 @@ mat-sidenav {
 }
 
 ::ng-deep .mat-mdc-tab.mdc-tab--active {
-  border-bottom-color: var(--theme-tab-active-indicator, #ffffff);
+  border-bottom-color: var(--theme-tab-active-text, #ffffff);
 }
 
 ::ng-deep .mat-mdc-tab-header {
   --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
-  --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #8fa4b8) !important;
-  --mat-tab-header-active-ripple-color: var(--theme-tab-active-ripple, #ffffff) !important;
-  --mat-tab-header-inactive-ripple-color: var(--theme-tab-inactive-ripple, #8fa4b8) !important;
-  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+  --mat-tab-header-inactive-label-text-color: var(--theme-inactive, #8fa4b8) !important;
+  --mat-tab-header-active-ripple-color: var(--theme-tab-active-text, #ffffff) !important;
+  --mat-tab-header-inactive-ripple-color: var(--theme-inactive, #8fa4b8) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
   border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
 }

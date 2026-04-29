@@ -178,14 +178,14 @@ select, input {
 
   .form-control:disabled,
   .form-control[readonly] {
-    background-color: var(--theme-input-disabled-bg, #223541) !important;
-    color: var(--theme-input-disabled-text, #ecf3f8) !important;
+    background-color: var(--theme-bg-disabled, #223541) !important;
+    color: var(--theme-disabled, #ecf3f8) !important;
     opacity: 1;
   }
 
   .form-control[readonly]::placeholder,
   ::placeholder {
-    color: var(--theme-text-placeholder, #8fa4b8) !important;
+    color: var(--theme-inactive, #8fa4b8) !important;
   }
 
   .login-button {
@@ -194,8 +194,8 @@ select, input {
   }
 
   .login-button:disabled {
-    background: var(--theme-input-disabled-bg, #223541);
-    color: var(--theme-input-disabled-text, #ecf3f8);
+    background: var(--theme-bg-disabled, #223541);
+    color: var(--theme-disabled, #ecf3f8);
   }
 
   .text-danger {

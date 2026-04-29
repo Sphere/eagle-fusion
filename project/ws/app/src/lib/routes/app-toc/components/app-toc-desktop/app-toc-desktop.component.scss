@@ -254,7 +254,7 @@
 }
 
 .button-border {
-  border: 1px solid var(--title-color, #1c5d95);
+  border: 1px solid var(--theme-primary, #1c5d95);
   border-radius: 50%;
   display: flex;
   justify-content: center;
@@ -264,7 +264,7 @@
 }
 
 .btn-tittle {
-  color: var(--title-color, #1c5d95);
+  color: var(--theme-primary, #1c5d95);
 }
 
 .modal {

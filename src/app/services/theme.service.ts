@@ -1,4 +1,58 @@
 import { Injectable, signal, effect } from '@angular/core'
+interface CssVarEntry {
+  cssVar: string
+  rgbVar?: string
+}
+export interface OrgThemeColors {
+  bgPrimary?: string
+  white?: string
+  primary?: string
+  bgSecondary?: string
+  bgDisabled?: string
+  textPrimary?: string
+  textSecondary?: string
+  textTernary?: string
+  textInactive?: string
+  textActive?: string
+  textDisabled?: string
+  iconPrimary?: string
+  accent?: string
+  textonAccent?: string
+  suceess?: string
+  progress?: string
+  danger?: string
+  border?: string
+  shadow?: string
+  warning?: string
+  black?: string
+}
+export interface OrgThemeConfig {
+  mode: string
+  [key: string]: OrgThemeColors | any | undefined
+}
+const CSS_VAR_MAP: Record<keyof OrgThemeColors, CssVarEntry> = {
+  bgPrimary: { cssVar: '--theme-app-background' },
+  white: { cssVar: '--theme-surface' },
+  primary: { cssVar: '--theme-primary' },
+  bgSecondary: { cssVar: '--themebg' },
+  bgDisabled: { cssVar: '--theme-bg-disabled' },
+  textPrimary: { cssVar: '--theme-text' },
+  textSecondary: { cssVar: '--theme-text-soft' },
+  textTernary: { cssVar: '--theme-text-muted' },
+  textInactive: { cssVar: '--theme-inactive' },
+  textActive: { cssVar: '--theme-tab-active-text' },
+  textDisabled: { cssVar: '--theme-disabled' },
+  iconPrimary: { cssVar: '--icon-color' },
+  accent: { cssVar: '--theme-accent' },
+  textonAccent: { cssVar: '--theme-on-accent' },
+  suceess: { cssVar: '--theme-success' },
+  progress: { cssVar: '--theme-progress' },
+  danger: { cssVar: '--theme-error' },
+  border: { cssVar: '--theme-border' },
+  shadow: { cssVar: '--theme-shadow,' },
+  warning: { cssVar: '--theme-warning' },
+  black: { cssVar: '--theme-black' }
+}
 
 @Injectable({
   providedIn: 'root',
@@ -11,6 +65,30 @@ export class ThemeService {
 
   // Optional readonly exposure
   readonly isDarkMode = this.darkMode.asReadonly()
+  themeConfig: any
+  defaultTheme: OrgThemeColors = {
+    "bgPrimary": "#f8f8f8",
+    "white": "#ffffff",
+    "primary": "#1c5d95",
+    "bgSecondary": "#ffffff",
+    "bgDisabled": "#ffffff",
+    "textPrimary": "#101828",
+    "textSecondary": "#8c98a8",
+    "textTernary": "#5f6b7a",
+    "textInactive": "#808080",
+    "textActive": "#000000",
+    "textDisabled": "#101828",
+    "iconPrimary": "#000000de",
+    "accent": "#1c5d95",
+    "textonAccent": "#ffffff",
+    "suceess": "#89c575",
+    "progress": "#469788",
+    "danger": "#951c1c",
+    "border": "#1c5d951f",
+    "shadow": "#0f172a14",
+    "warning": "#E0BE80",
+    "black": "#000000"
+  }
 
   constructor() {
     this.initTheme()
@@ -84,4 +162,46 @@ export class ThemeService {
   hasStoredPreference(): boolean {
     return localStorage.getItem(this.STORAGE_KEY) !== null
   }
+
+  private applyOrgColors(colors: OrgThemeColors): void {
+    const root = document.documentElement;
+
+    (Object.keys(colors) as Array<keyof OrgThemeColors>).forEach((key) => {
+      const value = colors[key]
+      const entry = CSS_VAR_MAP[key]
+      if (!entry || !value) return
+      console.log(`[ThemeService] Applying org color override: ${key} → ${value}`, entry.cssVar)
+      root.style.setProperty(entry.cssVar, value)
+
+      // Also set the RGB companion if needed (for rgba() usage in CSS)
+      if (entry.rgbVar) {
+        const rgb = this.hexToRgbString(value)
+        console.log(`[ThemeService] Setting companion RGB var ${entry.rgbVar} → ${rgb}`)
+        if (rgb) root.style.setProperty(entry.rgbVar, rgb)
+      }
+    })
+  }
+
+  hexToRgbString(hex: string): string {
+    hex = hex.replace('#', '')
+
+    // Support short hex (#fff)
+    if (hex.length === 3) {
+      hex = hex.split('').map(c => c + c).join('')
+    }
+
+    const bigint = parseInt(hex, 16)
+    const r = (bigint >> 16) & 255
+    const g = (bigint >> 8) & 255
+    const b = bigint & 255
+
+    return `rgb(${r}, ${g}, ${b})`
+  }
+  async applyOrgTheme(themeConfig: any): Promise<void> {
+    if (!themeConfig) return
+    this.themeConfig = themeConfig || this.defaultTheme
+    if (!this.themeConfig) return
+    this.applyOrgColors(this.themeConfig)
+  }
+
 }

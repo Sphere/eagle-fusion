@@ -344,7 +344,7 @@ button:disabled {
 
   .otp-input::placeholder,
   .input-box::placeholder {
-    color: var(--theme-text-placeholder, #8fa4b8);
+    color: var(--theme-inactive, #8fa4b8);
   }
 
   .otp-input:focus,

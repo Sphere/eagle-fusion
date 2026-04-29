@@ -13,7 +13,7 @@
   font-size: 16px;
   line-height: 19px;
   background-color: transparent;
-  color: var(--theme-text-placeholder, #8c98a8);
+  color: var(--theme-inactive, #8c98a8);
 }
 
 
@@ -32,7 +32,7 @@
 
 
 select {
-  color: var(--theme-text-placeholder, #8c98a8);
+  color: var(--theme-inactive, #8c98a8);
 }
 
 select.ng-dirty,
@@ -41,7 +41,7 @@ select.ng-valid {
 }
 
 select option:first-child {
-  color: var(--theme-text-placeholder, #8c98a8);
+  color: var(--theme-inactive, #8c98a8);
   line-height: 29px;
 }
 

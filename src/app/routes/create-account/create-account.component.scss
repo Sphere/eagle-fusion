@@ -354,7 +354,7 @@ img.lang-img {
 }
 
 span.mdc-button__label {
-  color: var(--title-color) !important;
+  color: var(--theme-primary) !important;
 }
 
 .text {
@@ -563,8 +563,8 @@ span.mdc-button__label {
 
   .next-button:disabled,
   .next-button-lang:disabled {
-    background: var(--theme-input-disabled-bg, #223541);
-    color: var(--theme-input-disabled-text, #ecf3f8);
+    background: var(--theme-bg-disabled, #223541);
+    color: var(--theme-disabled, #ecf3f8);
   }
 
   .help-btn {

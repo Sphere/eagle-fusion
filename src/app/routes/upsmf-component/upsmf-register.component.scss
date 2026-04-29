@@ -252,7 +252,7 @@ label {
 }
 
 ::placeholder {
-  color: var(--theme-text-placeholder, #8c98a8) !important;
+  color: var(--theme-inactive, #8c98a8) !important;
 }
 
 ::ng-deep .mat-mdc-option.mdc-list-item--selected,
@@ -280,7 +280,7 @@ label {
   .mdc-floating-label,
   .mat-mdc-select-placeholder,
   .mat-mdc-select-arrow {
-    color: var(--theme-text-placeholder, #8fa4b8) !important;
+    color: var(--theme-inactive, #8fa4b8) !important;
   }
 }
 

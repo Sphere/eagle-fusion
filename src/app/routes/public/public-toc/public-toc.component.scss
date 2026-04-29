@@ -194,7 +194,7 @@
 
 mat-tab-group {
   --mat-tab-active-label-text-color: var(--theme-tab-active-text, #000000) !important;
-  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #000000) !important;
+  --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #000000) !important;
 }
 
 :host-context(.dark-theme) {
@@ -217,7 +217,7 @@ mat-tab-group {
 
   .toc-links .link-active {
     color: var(--theme-tab-active-text, #ffffff) !important;
-    border-bottom-color: var(--theme-tab-active-indicator, #ffffff);
+    border-bottom-color: var(--theme-tab-active-text, #ffffff);
   }
 
   ::ng-deep .mat-expansion-panel-header {
@@ -229,8 +229,8 @@ mat-tab-group {
   ::ng-deep .mat-mdc-tab-header {
     border-bottom: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
     --mat-tab-header-active-label-text-color: var(--theme-tab-active-text, #ffffff) !important;
-    --mat-tab-header-inactive-label-text-color: var(--theme-tab-inactive-text, #8fa4b8) !important;
-    --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-indicator, #ffffff) !important;
+    --mat-tab-header-inactive-label-text-color: var(--theme-inactive, #8fa4b8) !important;
+    --mdc-tab-indicator-active-indicator-color: var(--theme-tab-active-text, #ffffff) !important;
   }
 
   .overlay {

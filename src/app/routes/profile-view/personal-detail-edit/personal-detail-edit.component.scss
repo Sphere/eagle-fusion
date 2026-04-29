@@ -53,7 +53,7 @@
     }
   }
 ::placeholder {
-  color: var(--theme-text-placeholder, #bebebe) !important;
+  color: var(--theme-inactive, #bebebe) !important;
   opacity: 1;
 }
 
@@ -65,7 +65,7 @@
 :host ::ng-deep .form-control:disabled,
 :host ::ng-deep .form-control[readonly] {
   background-color: transparent !important;
-  color: var(--theme-input-disabled-text, #101828) !important;
+  color: var(--theme-disabled, #101828) !important;
   border-color: var(--theme-border, rgba(28, 93, 149, 0.12)) !important;
   pointer-events: none;
 }
@@ -110,7 +110,7 @@
 .form-control:disabled,
 .form-control[readonly] {
   background-color: transparent !important;
-  color: var(--theme-input-disabled-text, #101828) !important;
+  color: var(--theme-disabled, #101828) !important;
   opacity: 1;
 }
 
@@ -147,7 +147,7 @@ input {
 }
 
 select {
-  color: var(--theme-text-placeholder, #8c98a8);
+  color: var(--theme-inactive, #8c98a8);
 }
 
 select.ng-dirty,
@@ -156,7 +156,7 @@ select.ng-valid {
 }
 
 select option:first-child {
-  color: var(--theme-text-placeholder, #8c98a8);
+  color: var(--theme-inactive, #8c98a8);
 }
 
 select option {

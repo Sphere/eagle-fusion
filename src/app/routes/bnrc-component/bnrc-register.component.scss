@@ -230,7 +230,7 @@ a.blue,
 }
 
 ::placeholder {
-  color: var(--theme-text-placeholder, #8c98a8) !important;
+  color: var(--theme-inactive, #8c98a8) !important;
 }
 
 :host-context(.dark-theme) ::ng-deep .field-fullwidth {
@@ -238,7 +238,7 @@ a.blue,
   .mdc-floating-label,
   .mat-mdc-select-placeholder,
   .mat-mdc-select-arrow {
-    color: var(--theme-text-placeholder, #8fa4b8) !important;
+    color: var(--theme-inactive, #8fa4b8) !important;
   }
 }
 

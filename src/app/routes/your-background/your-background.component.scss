@@ -126,7 +126,7 @@ img {
   }
 
   .login-button:disabled {
-    background: var(--theme-input-disabled-bg, #223541);
-    color: var(--theme-input-disabled-text, #ecf3f8);
+    background: var(--theme-bg-disabled, #223541);
+    color: var(--theme-disabled, #ecf3f8);
   }
 }
