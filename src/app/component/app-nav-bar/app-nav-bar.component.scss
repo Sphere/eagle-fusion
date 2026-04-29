@@ -382,9 +382,8 @@
     }
     mat-expansion-panel {
       .level {
-        box-shadow: 0 0 1px var(--theme-text);
-        color: var(--theme-text);
-        background: var(--theme-bg);
+        box-shadow: 0 0 1px #000000;
+        color: #000000 !important;
       }
       background-color: transparent !important;
       color: var(--theme-text, #101828) !important;
@@ -401,9 +400,6 @@
     .activity-title {
       font-weight: 400 !important;
       color: var(--theme-text, #101828) !important;
-    }
-    .mat-expansion-indicator {
-      filter: var(--theme-icon-filter);
     }
     mat-panel-description {
       .mat-mdc-progress-spinner {
