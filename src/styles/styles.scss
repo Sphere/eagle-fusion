@@ -1048,7 +1048,7 @@ button.submit-btn[disabled] {
 }
 
 .assesment-modal {
-  width: 70vw;
+  width: min(90vw, 960px);
   height: auto;
   max-width: 100vw !important;
   max-height: 100vh;

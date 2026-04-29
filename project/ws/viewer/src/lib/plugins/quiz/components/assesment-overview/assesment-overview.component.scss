@@ -1,32 +1,49 @@
 @use 'ws-mixins';
 
 .overview-container {
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin: 1.875rem;
+  margin: 0;
+  padding: 2rem 2rem 2.5rem;
+  width: 100%;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
 }
 
 .close {
-  place-self: flex-end;
+  position: absolute;
+  top: 1.25rem;
+  right: 1.25rem;
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: none;
+  background: transparent;
+  cursor: pointer;
   font-weight: 400;
-  font-size: 17px;
+  font-size: 18px;
+  color: var(--icon-color);
 }
 
 .header1 {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  font-size: 24px;
-  line-height: 29px;
+  font-size: 30px;
+  line-height: 36px;
   letter-spacing: -0.02em;
   color: #000000;
   text-align: center;
+  margin-bottom: 0.25rem;
 
   @include ws-mixins.breakpoint-xs {
-    font-size: 16px;
-    line-height: 20px;
+    font-size: 22px;
+    line-height: 28px;
   }
 }
 
@@ -34,17 +51,18 @@
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 400;
-  font-size: 14px;
-  line-height: 17px;
-  letter-spacing: -0.02em;
-  color: #000000;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: -0.01em;
+  color: #667085;
   text-align: center;
+  margin-bottom: 1.5rem;
 }
 
 .ellips {
   width: 130px;
   height: 130px;
-  background: var(--theme-bg, #E7F2FA);
+  background: #E7F2FA;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -135,15 +153,20 @@
 }
 
 .btn {
-  // margin-right: 20px;
-  border-radius: 50px;
-  width: 140px !important;
+  border-radius: 24px;
+  width: auto !important;
+  min-width: 140px;
+  min-height: 42px;
   border: 1px solid #1C5D95 !important;
+  padding: 0 24px !important;
+  color: #1C5D95 !important;
+  background: transparent;
 }
 
 .btn-active {
   background-color: #1C5D95 !important;
   color: #FFFFFF !important;
+  border-color: #1C5D95 !important;
 }
 
 .row {
@@ -161,10 +184,11 @@
 
 }
 
-::ng-deep.overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface{
+::ng-deep .overview-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
   border-radius: 30px !important;
   background: var(--theme-bg, #ffffff) !important;
   color: var(--theme-text, #101828) !important;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.12) !important;
 }
 
 ::ng-deep .btn.btn-active.mat-mdc-raised-button.mat-mdc-button-base {
@@ -175,17 +199,17 @@
 
 .status-box {
   display: flex;
-  padding: 12px 32px 32px 32px;
-
-  @include ws-mixins.breakpoint-xs {
-    padding: 20px 0px;
-  }
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1.25rem;
+  padding: 16px 0 24px;
+  width: 100%;
 }
 
 ::ng-deep .dark-theme .ellips {
   background: var(--theme-bg, #E7F2FA) !important;
   .label2, .label3 {
-    color: var(--theme-text)
+    color: var(--theme-text) !important;
   }
 }
 

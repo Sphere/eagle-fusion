@@ -91,15 +91,8 @@
 
 /* Web: Centered popup dialog */
 @media (min-width: 601px) {
-  .cdk-overlay-pane.view-answer-dialog {
-    max-width: 800px !important;
-    width: 90vw !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-  }
-
-  .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-container,
-  .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-surface {
+  ::ng-deep .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-container,
+  ::ng-deep .cdk-overlay-pane.view-answer-dialog .mat-mdc-dialog-surface {
     max-height: 90vh !important;
   }
 }

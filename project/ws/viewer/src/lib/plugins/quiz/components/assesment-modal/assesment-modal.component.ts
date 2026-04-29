@@ -302,7 +302,9 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
       this.dialogRef.close({ event: 'RETAKE_QUIZ' })
     } else {
       this.dialog.open(ViewAnswerComponent, {
-        width: '100%',
+        width: '90vw',
+        maxWidth: '800px',
+        maxHeight: '90vh',
         panelClass: 'view-answer-dialog',
         data: {
           questions: this.assesmentdata.questions.questions,

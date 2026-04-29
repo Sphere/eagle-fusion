@@ -79,7 +79,7 @@
         </div>
       </div>
 
-      <div class="flex flex-col items-center m-0 m-auto  pt-5 main" *ngIf="isCompetency">
+      <div class="flex flex-col items-center m-0 m-auto pt-5 main competency-result-layout" *ngIf="isCompetency">
         <div class="child">
           <ng-container *ngIf="isCompetencyComplted">
             <p class="congrats-title">{{ 'ASSESSMENT.CONGRATULATIONS' | translate }}</p>
@@ -96,12 +96,12 @@
               </span></p>
           </ng-container>
 
-          <div class="mt-5 d-flex gap-5 flex-col align-items-center">
-            <button *ngIf="isCompetencyComplted" class="btn next-btn btn-active" [disabled]='!isCompetencyComplted'
+          <div class="mt-5 action-stack">
+            <button *ngIf="isCompetencyComplted" class="btn next-btn btn-active result-action-btn" [disabled]='!isCompetencyComplted'
               mat-raised-button (click)="nextCompetency()">{{ 'ASSESSMENT.NEXT' | translate }}</button>
-            <button class="btn btn-active btn-xll" *ngIf="!isCompetencyComplted" mat-raised-button
+            <button class="btn btn-active btn-xll result-action-btn" *ngIf="!isCompetencyComplted" mat-raised-button
               (click)="CompetencyDashboard()">{{ 'ASSESSMENT.GO_TO_COMPETENCY_DASHBOARD' | translate }}</button>
-            <button class="btn btn-active btn-xll" *ngIf="!isCompetencyComplted" mat-raised-button
+            <button class="btn btn-active btn-xll result-action-btn" *ngIf="!isCompetencyComplted" mat-raised-button
               (click)="viewCourses()">{{ 'ASSESSMENT.VIEW_RELEVANT_COURSES' | translate }}</button>
 
           </div>

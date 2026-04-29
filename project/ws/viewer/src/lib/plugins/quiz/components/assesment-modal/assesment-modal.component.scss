@@ -6,6 +6,11 @@
   flex-direction: column;
   margin-inline: 1rem;
   margin-top: 2rem !important;
+  background: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  overflow: visible;
+  padding: 0.75rem 0 1rem;
 
   .close {
     place-self: end;
@@ -16,6 +21,13 @@
       display: block;
     }
   }
+}
+
+::ng-deep .assesment-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+  border-radius: 28px !important;
+  overflow: hidden !important;
+  box-shadow: 0 32px 90px rgba(0, 0, 0, 0.16) !important;
+  max-height: 90vh;
 }
 
 ::ng-deep mat-tab-group .mdc-tab__content .mdc-tab__text-label {
@@ -29,13 +41,21 @@
   color: var(--theme-text) !important;
 }
 .main .child {
-  height: 100%;
+  width: 100%;
+  max-width: 760px;
+  min-height: 100%;
   padding: 0;
   margin: 0;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
+  gap: 16px;
+
+  @include ws-mixins.breakpoint-xs {
+    max-width: 100%;
+    gap: 12px;
+  }
 }
 
 .congrats-title {
@@ -58,6 +78,11 @@
   letter-spacing: -0.02em;
   text-align: center;
   color: var(--theme-error);
+
+  @include ws-mixins.breakpoint-xs {
+    font-size: 28px;
+    line-height: 34px;
+  }
 }
 
 .proficiceny-level {
@@ -80,6 +105,11 @@
   text-align: center;
   letter-spacing: -0.02em;
   color: var(--theme-error);
+
+  @include ws-mixins.breakpoint-xs {
+    font-size: 16px;
+    line-height: 22px;
+  }
 }
 
 .arrow-back {
@@ -148,17 +178,23 @@
 }
 
 .result-wrapper {
-  height: 72vh;
+  height: calc(90vh - 210px);
+  overflow-y: auto;
 }
 
 .btn {
   margin-left: 20px;
-  border-radius: 50px;
-  width: 100px !important;
-  height: 38px !important;
-  color: var(--theme-accent) !important;
-  border: 1px solid var(--theme-accent) !important;
+  border-radius: 22px;
+  width: auto !important;
+  min-height: 38px !important;
+  height: 40px !important;
+  color: var(--theme-accent, #1C5D95) !important;
+  border: 1px solid var(--theme-accent, #1C5D95) !important;
   background: transparent;
+  white-space: nowrap;
+  text-align: center;
+  line-height: 1.2;
+  padding: 8px 18px !important;
 
   @include ws-mixins.breakpoint-xs {
     margin-left: 12px;
@@ -210,10 +246,54 @@
   width: 65% !important;
 }
 
+.competency-result-layout {
+  width: 100%;
+  min-height: 72vh;
+  padding-inline: 24px;
+  padding-bottom: 32px;
+  box-sizing: border-box;
+
+  @include ws-mixins.breakpoint-xs {
+    min-height: calc(100vh - 180px);
+    padding-inline: 16px;
+    padding-bottom: 24px;
+  }
+}
+
+.action-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+  margin-top: 20px !important;
+}
+
+.result-action-btn {
+  width: min(100%, 420px) !important;
+  min-height: 42px !important;
+  margin-left: 0 !important;
+  padding: 10px 22px !important;
+  display: inline-flex !important;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px !important;
+  border-radius: 22px !important;
+
+  @include ws-mixins.breakpoint-xs {
+    width: 100% !important;
+    max-width: 280px;
+    min-height: 40px !important;
+    font-size: 14px !important;
+    padding: 10px 18px !important;
+  }
+}
+
 
 .btn-active {
   background-color: var(--theme-accent) !important;
-  color: var(--icon-color) !important;
+  border-color: var(--theme-accent) !important;
+  color: #ffffff !important;
 }
 
 .timer {
@@ -454,7 +534,7 @@ mat-progress-bar {
   .btn-active {
     background: #000 !important;
     border-color: #000 !important;
-    color: var(--theme-text, #ecf3f8) !important;
+    color: #ffffff !important;
   }
 
   .audio-progress-bar .mat-mdc-progress-bar-buffer,
