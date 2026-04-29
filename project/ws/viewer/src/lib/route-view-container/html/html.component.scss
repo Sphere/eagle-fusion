@@ -214,12 +214,12 @@
 }
 
 .videoContent {
-  height: calc(100% - 60px);
+  height: 100%;
   pointer-events: all !important;
 }
 
 .naviagtionBtns {
-  bottom: 0px;
+  padding: 0 9px;
 }
 
 /*@media screen and (min-width: 320px) and (max-width: 767px) and (orientation: portrait) {
