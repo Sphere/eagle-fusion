@@ -78,7 +78,7 @@
 .banner-container {
   position: relative;
   width: 100%;
-  overflow: visible;
+  overflow-x: hidden;
   margin-bottom: 72px;
 
   @include ws-mixins.breakpoint-s {
