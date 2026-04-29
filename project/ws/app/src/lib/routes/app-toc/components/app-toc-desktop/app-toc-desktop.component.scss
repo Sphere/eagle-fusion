@@ -343,9 +343,9 @@ mat-progress-bar {
 :host-context(.dark-theme) {
   // .button-border img,
   // .action-button-toc img,
-  // .duration-block img {
-  //   filter: var(--theme-icon-filter)
-  // }
+  .duration-block img {
+    filter: var(--theme-icon-filter)
+  }
 
   ::ng-deep .mat-mdc-dialog-surface.mdc-dialog__surface {
     background: var(--theme-bg, #17242d) !important;
