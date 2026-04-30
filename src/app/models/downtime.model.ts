@@ -56,6 +56,7 @@ export interface AppDowntimeConfig {
   isEnabled: boolean
   type: DowntimeType
   refreshInterval: number // seconds
+  bypassOrgs?: string[]  // rootOrgId values whose users skip downtime (for testing)
   content: DowntimeContent
 }
 

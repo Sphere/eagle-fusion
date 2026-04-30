@@ -9,6 +9,7 @@ import {
   DowntimeType,
 } from '../models/downtime.model'
 import { API_END_POINTS } from '../constants/apiConstants'
+import { ConfigurationsService } from '@ws-widget/utils'
 
 /**
  * DowntimeConfigService
@@ -27,6 +28,7 @@ export class DowntimeConfigService implements OnDestroy {
   constructor(
     private ngZone: NgZone,
     private httpClient: HttpClient,
+    private configSvc: ConfigurationsService,
   ) { }
 
   private downtimeState$ = new BehaviorSubject<DowntimeState>({
@@ -88,6 +90,18 @@ export class DowntimeConfigService implements OnDestroy {
    */
   public getDowntimeType(): DowntimeType {
     return this.downtimeState$.value.type
+  }
+
+  /**
+   * Returns true if the current user or browser should bypass downtime.
+   * Checks org-based bypass first (works on web + mobile), then falls back
+   * to the localStorage flag (web-only, useful for logged-out test scenarios).
+   */
+  public isBypassed(): boolean {
+    const bypassOrgs = this.currentConfig?.bypassOrgs || []
+    if (bypassOrgs.length === 0) return false
+    const userOrgId = this.configSvc.userProfile?.rootOrgId
+    return !!userOrgId && bypassOrgs.includes(userOrgId)
   }
 
   /**

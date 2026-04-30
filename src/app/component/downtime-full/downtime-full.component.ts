@@ -55,7 +55,7 @@ export class DowntimeFullComponent implements OnInit, OnDestroy {
   private initializeComponent(): void {
     const state = this.downtimeService.getCurrentDowntimeState()
     this.currentDowntimeState = state
-    if (state.isDowntime && state.type === 'full') {
+    if (state.isDowntime && state.type === 'full' && !this.downtimeService.isBypassed()) {
       this.content = state.content
       this.cssConfig = state.content.css || null
     }
@@ -87,11 +87,10 @@ export class DowntimeFullComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.destroy$))
       .subscribe(state => {
         this.currentDowntimeState = state
-        if (state.isDowntime && state.type === 'full') {
+        if (state.isDowntime && state.type === 'full' && !this.downtimeService.isBypassed()) {
           this.content = state.content
           this.cssConfig = state.content.css || null
         } else {
-          // Clear content when not in downtime state
           this.content = null
           this.cssConfig = null
         }

@@ -53,7 +53,7 @@ export class DowntimeBannerComponent implements OnInit, OnDestroy {
    */
   private initializeComponent(): void {
     const state = this.downtimeService.getCurrentDowntimeState()
-    if (state.isDowntime && (state.type === 'full' || state.type === 'partial')) {
+    if (state.isDowntime && (state.type === 'full' || state.type === 'partial') && !this.downtimeService.isBypassed()) {
       this.content = state.content
       this.cssConfig = state.content.css || null
       this.isVisible = true
@@ -84,7 +84,7 @@ export class DowntimeBannerComponent implements OnInit, OnDestroy {
       .getDowntimeState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(state => {
-        if (state.isDowntime && (state.type === 'full' || state.type === 'partial')) {
+        if (state.isDowntime && (state.type === 'full' || state.type === 'partial') && !this.downtimeService.isBypassed()) {
           this.content = state.content
           this.cssConfig = state.content.css || null
           this.isVisible = true
