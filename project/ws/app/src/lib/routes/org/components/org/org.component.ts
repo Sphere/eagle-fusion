@@ -1,7 +1,6 @@
 import {
   Component,
   OnInit,
-  ViewChild,
   OnDestroy,
   HostListener,
   ChangeDetectorRef,
@@ -9,7 +8,6 @@ import {
 import { ConfigurationsService, LoggerService, ValueService } from '@ws-widget/utils'
 import { OrgServiceService } from './../../org-service.service'
 import { ActivatedRoute, Router } from '@angular/router'
-import { MdePopoverTrigger } from '@jaguards/material-extended-mde'
 import { HttpClient } from '@angular/common/http'
 import { forkJoin, of, Subscription } from 'rxjs'
 import { WidgetUserService } from '@ws-widget/collection'
@@ -23,13 +21,11 @@ import { uniqBy } from 'lodash'
 
 })
 export class OrgComponent implements OnInit, OnDestroy {
-  @ViewChild('target', { static: false }) target!: MdePopoverTrigger
   orgName!: string
   courseData!: any
   routeSubscription: any
   orgMetaList: any   // Full list of org entries from orgMeta.json
   currentOrgData: any
-  showEndPopup = false
   btnText = ''
   courseCount = 0
   cardLimit = 5
@@ -568,17 +564,6 @@ export class OrgComponent implements OnInit, OnDestroy {
 
   goToProfile(id: string) {
     this.router.navigate(['/app/person-profile'], { queryParams: { userId: id } })
-  }
-
-  showTarget(event: any) {
-    if (window.innerWidth - event.clientX < 483) {
-      this.showEndPopup = true
-      this.target.targetOffsetX = event.clientX + 1
-    }
-  }
-
-  loginRedirect(contentId: any) {
-    this.router.navigateByUrl(`/app/toc/${contentId}/overview`)
   }
 
   ngOnDestroy() {

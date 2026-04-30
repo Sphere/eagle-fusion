@@ -291,10 +291,7 @@
         <ng-container *ngFor="let widget of getFilteredCourseData().slice(0, cardLimit)">
           <div class="card-standard-container mb-6 1 cursor-pointer">
             <a (click)="gotoOverview(widget.identifier)" class="rounded-t py-2" role="link" aria-label="Content"
-              #target="mdePopoverTrigger" i18n-aria-label="Content | Click to view" [mdePopoverTriggerFor]="appPopover1"
-              mdePopoverTriggerOn="hover" [mdePopoverEnterDelay]="1500" [mdePopoverLeaveDelay]="300"
-              [mdePopoverArrowWidth]="2" [mdePopoverOffsetX]="290" [mdePopoverOffsetY]="-340"
-              (mouseover)="showTarget($event)">
+              i18n-aria-label="Content | Click to view">
 
               <!-- Card image: prefers thumbnail, falls back to appIcon, then placeholder -->
               <div class="flex">
@@ -352,45 +349,6 @@
             </a>
           </div>
 
-          <!-- Hover popover: detailed course info panel, hidden on mobile (xs-hidden).
-             Positioned to the right of the card via mdePopoverOffsetX/Y. -->
-          <mde-popover #appPopover1="mdePopover" [mdePopoverOverlapTrigger]="false" [mdeFocusTrapEnabled]="false">
-            <mat-card class="popover-card xs-hidden">
-              <mat-card-content>
-                <div class="ws-mat-primary-text mat-h1 ws-mat-text-block-fade-gradient">
-                  {{ widget.name }}
-                </div>
-                <div class="description-text ws-mat-text-block-fade-gradient mb-2" title="Sub title">
-                  {{ widget.subTitle }}
-                </div>
-                <div class="mb-2" *ngIf="widget?.lastUpdatedOn"><span>{{'Published on' | translate}}</span>:
-                  {{widget?.lastPublishedOn | date }}</div>
-                <div *ngIf="widget.duration" class="duration mb-2" title="Duration">
-                  <span class="mr-1 orange-text">{{'Duration' | translate}}</span>:
-                  <mat-icon>access_time</mat-icon>
-                  <span class="time-text fs-13">{{ widget.duration | date:"HH:mm"}}</span>
-                </div>
-                <p><span class="fw-500">{{'Number of modules' | translate}}</span>: {{ widget?.childNodes?.length}}</p>
-                <p *ngIf="widget?.creatorContacts"><span class="fw-500">{{'Author' | translate}}</span>: {{
-                  widget?.creatorContacts[0]?.name}}</p>
-                <p *ngIf="widget?.uniqueUsersCount"><span class="fw-500">{{'Users enrolled' | translate}}</span>:
-                  {{widget?.uniqueUsersCount}}</p>
-                <p *ngIf="widget?.sourceName"><span class="fw-500">{{'Source' | translate}}</span>:
-                  {{widget.sourceName}}
-                </p>
-                <div class="description-text ws-mat-text-block-fade-gradient mb-20" i18n-title title="Description">
-                  <div class="fw-500 mb-1">{{'Course Description' | translate}}</div>
-                  {{ widget.description }}
-                </div>
-                <!-- CTA button: shows "Login" or "View Course" depending on auth state -->
-                <div class="mt-0 flex justify-between items-center absolute bottom-0 left-0 right-0 px-3 py-5">
-                  <button mat-raised-button class="ws-mat-primary-background mat-button-base"
-                    (click)="loginRedirect(widget.identifier)"> {{btnText}}
-                  </button>
-                </div>
-              </mat-card-content>
-            </mat-card>
-          </mde-popover>
         </ng-container>
 
         <!-- Load More / Load Less toggle: visible only when there are more than 5 courses.

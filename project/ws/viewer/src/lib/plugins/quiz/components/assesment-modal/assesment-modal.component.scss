@@ -23,7 +23,9 @@
   }
 }
 
-::ng-deep .assesment-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface {
+::ng-deep .assesment-modal .mat-mdc-dialog-container .mat-mdc-dialog-surface.mdc-dialog__surface,
+::ng-deep .assesment-modal .mdc-dialog__surface,
+::ng-deep .assesment-modal .mat-mdc-dialog-container {
   border-radius: 28px !important;
   overflow: hidden !important;
   box-shadow: 0 32px 90px rgba(0, 0, 0, 0.16) !important;
@@ -398,7 +400,7 @@
   }
 
   .result-overview {
-    background: var(--theme-bg);
+    background: #e3f2fd;
     text-align: center;
     padding: auto 0;
     display: flex;
@@ -467,9 +469,9 @@ mat-progress-bar {
   color: rgba(56, 161, 105, var(--text-opacity));
 }
 .progress-summary{
-    // background:var(--theme)
+    background: #e3f2fd;
     padding: 1.2rem;
-    border-radius: 10px;
+    border-radius: 12px;
 }
 
 .block-screen {
@@ -506,11 +508,16 @@ mat-progress-bar {
   }
 
   .timer,
-  .result-overview,
   .progress-summary {
     background: var(--theme-bg, #10181e) !important;
     border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
   }
+
+  .result-overview {
+    background: var(--theme-surface, #1a2b38) !important;
+    border: 1px solid var(--theme-border, rgba(146, 178, 206, 0.2));
+  }
+
 
   .result-score,
   .result-score span,
