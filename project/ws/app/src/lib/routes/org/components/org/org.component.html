@@ -75,8 +75,8 @@
         <div class="banner-logo-wrap" *ngIf="currentOrgData.logo !== ''">
           <div class="image-outer">
             <div class="shimmer org-shimmer-logo-img" *ngIf="!logoLoaded"></div>
-            <img [src]="currentOrgData?.logo" alt="Org Logo" class="org-logo"
-              [class.org-img-hidden]="!logoLoaded" (load)="logoLoaded = true" />
+            <img [src]="currentOrgData?.logo" alt="Org Logo" class="org-logo" [class.org-img-hidden]="!logoLoaded"
+              (load)="logoLoaded = true" />
           </div>
         </div>
       </div>
@@ -358,7 +358,6 @@
             translate}}</button>
           <button class="load-more" (click)="toggleCardLimit()" *ngIf="cardLimit !== 5">{{'Load Less' |
             translate}}</button>
-          x
         </div>
       </div>
     </div>
