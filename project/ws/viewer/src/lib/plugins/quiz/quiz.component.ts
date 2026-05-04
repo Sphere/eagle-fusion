@@ -42,11 +42,11 @@ import {
 import moment from 'moment'
 // import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
-    standalone: false,
-    selector: 'viewer-plugin-quiz',
-    templateUrl: './quiz.component.html',
-    styleUrls: ['./quiz.component.scss'],
-    
+  standalone: false,
+  selector: 'viewer-plugin-quiz',
+  templateUrl: './quiz.component.html',
+  styleUrls: ['./quiz.component.scss'],
+
 })
 export class QuizComponent implements OnInit, OnChanges, OnDestroy {
   [x: string]: any
@@ -373,17 +373,38 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     )
   }
 
-  private navigateAfterAssessment(userFailed: boolean): void {
+  /**
+   * Navigate after assessment completion based on gating and resources
+   */
+  private navigateAfterAssessment(): void {
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-      if (!userFailed && !isNull(data.nextResource)) {
-        this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-      } else {
+      if (isNull(data.nextResource)) {
+        // No next resource - go to course overview
         this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
           queryParams: {
             primaryCategory: 'Course',
             batchId: this.route.snapshot.queryParams.batchId,
           },
         })
+      } else {
+        // Has next resource
+        if (this.viewerDataSvc.gatingEnabled) {
+          // If gating is enabled, only navigate if passed (completion 100%)
+          if (data.currentCompletionPercentage === 100) {
+            this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+          } else {
+            // Gating enabled but not completed - go to TOC overview
+            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
+              queryParams: {
+                primaryCategory: 'Course',
+                batchId: this.route.snapshot.queryParams.batchId,
+              },
+            })
+          }
+        } else {
+          // No gating - always allow navigation to next resource
+          this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+        }
       }
     })
   }
@@ -454,13 +475,15 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     batchId: batchId || '',
                   })
                   this.contentSvc.changeMessage(messageData)
-                  this.navigateAfterAssessment(true)
+                  // **CRITICAL**: Navigate after failed attempt
+                  this.navigateAfterAssessment()
                 },
                 error => { this.loggerSvc.warn('Progress update failed:', error) }
               )
             } else {
               this.loggerSvc.log('Skipping progress update: New result not better than previous', { newResult: userResult, previousCompletion })
-              this.navigateAfterAssessment(true)
+              // Still navigate even if we skip the update
+              this.navigateAfterAssessment()
             }
           } else {
             // User passed - update to 100%
@@ -471,6 +494,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               completionPercentage: 100,
               status: 2,
             }
+            // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
+            // Send telemetry and changeMessage with pre-calculated data
             this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
               () => {
                 const messageData = {
@@ -489,7 +514,8 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   batchId: batchId || '',
                 })
                 this.contentSvc.changeMessage(messageData)
-                this.navigateAfterAssessment(false)
+                // **CRITICAL**: Navigate after passing
+                this.navigateAfterAssessment()
               },
               error => { this.loggerSvc.warn('Progress update failed:', error) }
             )
