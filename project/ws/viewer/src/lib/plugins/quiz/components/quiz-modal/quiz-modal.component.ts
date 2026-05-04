@@ -10,8 +10,6 @@ declare let $: any
 import { LoggerService, ValueService } from '@ws-widget/utils'
 import { round } from 'lodash'
 import { TranslateService } from '@ngx-translate/core'
-import { ScreenSecurityService } from '../../../../screen-security.service'
-import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 @Component({
     standalone: false,
     selector: 'viewer-quiz-modal',
@@ -52,7 +50,6 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
   public activeSlideIndex = 0
 
   viewState: NSQuiz.TQuizViewMode = 'initial'
-  isBlockedFlag = false
   constructor(
     public dialogRef: MatDialogRef<QuizModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -62,16 +59,12 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     private snackBar: MatSnackBar,
     private logger: LoggerService,
     private translate: TranslateService,
-    private scrnScrtySvc: ScreenSecurityService,
-    private plyLsSvc: PlaylistService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
   ) {
 
   }
   ngAfterViewInit() {
-    const enabled: boolean = this.plyLsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
-    if (!enabled) this.scrnScrtySvc.init()
     this.logger.log(this.assesmentdata, 'qui')
     if (this.assesmentdata.questions.questions[0].questionType === 'mtf') {
       this.updateQuestionType(true)
@@ -81,10 +74,6 @@ export class QuizModalComponent implements OnInit, AfterViewInit, OnDestroy {
     this.quizService.updateMtf.next(status)
   }
   ngOnInit() {
-    this.scrnScrtySvc.isBlocked$.subscribe(val => {
-      this.isBlockedFlag = val
-    })
-    this.isBlockedFlag = JSON.parse(localStorage.getItem('screenBlocked'))
     this.timeLeft = this.assesmentdata.questions.timeLimit
     this.startTime = Date.now()
     this.timer(this.timeLeft)

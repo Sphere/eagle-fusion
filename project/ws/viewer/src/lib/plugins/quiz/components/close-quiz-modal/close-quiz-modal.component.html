@@ -1,28 +1,27 @@
 <ng-container *ngIf="modelType === 'RETAKE_QUIZ'">
   <div class="overview-container">
-
-    <div class="sub-title">{{"Your results will not be saved. Are you sure you want to restart the quiz?" | translate}}
+    <div class="modal-icon-wrap">
+      <mat-icon class="modal-icon">replay</mat-icon>
     </div>
+    <div class="modal-title">{{ 'Restart Quiz?' | translate }}</div>
+    <div class="sub-title">{{ 'Your results will not be saved. Are you sure you want to restart the quiz?' | translate }}</div>
     <div class="btn-box">
-
-      <button class="btn restart-btn btn-active" mat-raised-button (click)="restart()">{{"Yes, Restart" |
-        translate}}</button>
-      <button class="btn continue-quiz" mat-raised-button (click)="closeNo()">{{"No,Continue Quiz" |
-        translate}}</button>
+      <button class="btn btn-active" mat-raised-button (click)="restart()">{{ 'Yes, Restart' | translate }}</button>
+      <button class="btn continue-quiz" mat-raised-button (click)="closeNo()">{{ 'No, Continue Quiz' | translate }}</button>
     </div>
   </div>
 </ng-container>
+
 <ng-container *ngIf="modelType === 'CLOSE'">
   <div class="overview-container">
-    <div class="sub-title">{{"Your results will not be saved. Are you sure you want to exit the quiz?" | translate}}
+    <div class="modal-icon-wrap">
+      <mat-icon class="modal-icon">logout</mat-icon>
     </div>
-
+    <div class="modal-title">{{ 'Exit Quiz?' | translate }}</div>
+    <div class="sub-title">{{ 'Your results will not be saved. Are you sure you want to exit the quiz?' | translate }}</div>
     <div class="btn-box">
-
-      <button class="btn btn-active" mat-raised-button (click)="closeYes()">{{"Yes, Exit" | translate}}</button>
-      <button class="btn continue-quiz" mat-raised-button (click)="closeNo()">{{"No,Continue Quiz" |
-        translate}}</button>
+      <button class="btn btn-active" mat-raised-button (click)="closeYes()">{{ 'Yes, Exit' | translate }}</button>
+      <button class="btn continue-quiz" mat-raised-button (click)="closeNo()">{{ 'No, Continue Quiz' | translate }}</button>
     </div>
   </div>
-
 </ng-container>

@@ -40,8 +40,6 @@ import {
   ConfigurationsService,
 } from '@ws-widget/utils'
 import moment from 'moment'
-import { ScreenSecurityService } from '../../screen-security.service'
-import { PlaylistService } from '../../../../../../../src/app/services/playlist.service'
 // import { SearchApiService } from '../../../../../app/src/lib/routes/search/apis/search-api.service'
 @Component({
     standalone: false,
@@ -119,7 +117,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
 * to unsubscribe the observable
 */
   public unsubscribe = new Subject<void>()
-  isRecoridngEnable: boolean
   constructor(
     private events: EventService,
     public dialog: MatDialog,
@@ -132,15 +129,12 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     public router: Router,
     private contentSvc: WidgetContentService,
     private loggerSvc: LoggerService,
-    private configSvc: ConfigurationsService,
-    private screenSrtSvc: ScreenSecurityService,
-    private plyLsSvc: PlaylistService
+    private configSvc: ConfigurationsService
   ) {
 
   }
 
   ngOnInit() {
-    this.isRecoridngEnable = this.plyLsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
   }
   openOverviewDialog() {
     let overviewData: any = {}
@@ -338,7 +332,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         )
         // **CRITICAL**: Store the progress for use in close handler to avoid redundant fetch
         this.assessmentCurrentProgress = currentProgress || null
-        if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
         this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
           panelClass: 'assesment-modal',
           disableClose: true,
@@ -360,7 +353,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       error => {
         this.loggerSvc.warn('Failed to fetch progress before opening assessment:', error)
         // On error, still open modal without progress data
-        if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
         this.dialogAssesment = this.dialog.open(AssesmentModalComponent, {
           panelClass: 'assesment-modal',
           disableClose: true,
@@ -381,38 +373,17 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     )
   }
 
-  /**
-   * Navigate after assessment completion based on gating and resources
-   */
-  private navigateAfterAssessment(): void {
+  private navigateAfterAssessment(userFailed: boolean): void {
     this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
-      if (isNull(data.nextResource)) {
-        // No next resource - go to course overview
+      if (!userFailed && !isNull(data.nextResource)) {
+        this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
+      } else {
         this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
           queryParams: {
             primaryCategory: 'Course',
             batchId: this.route.snapshot.queryParams.batchId,
           },
         })
-      } else {
-        // Has next resource
-        if (this.viewerDataSvc.gatingEnabled) {
-          // If gating is enabled, only navigate if passed (completion 100%)
-          if (data.currentCompletionPercentage === 100) {
-            this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-          } else {
-            // Gating enabled but not completed - go to TOC overview
-            this.router.navigate([`/app/toc/${this.collectionId}/overview`], {
-              queryParams: {
-                primaryCategory: 'Course',
-                batchId: this.route.snapshot.queryParams.batchId,
-              },
-            })
-          }
-        } else {
-          // No gating - always allow navigation to next resource
-          this.router.navigate([data.nextResource], { queryParamsHandling: 'preserve' })
-        }
       }
     })
   }
@@ -483,15 +454,13 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                     batchId: batchId || '',
                   })
                   this.contentSvc.changeMessage(messageData)
-                  // **CRITICAL**: Navigate after failed attempt
-                  this.navigateAfterAssessment()
+                  this.navigateAfterAssessment(true)
                 },
                 error => { this.loggerSvc.warn('Progress update failed:', error) }
               )
             } else {
               this.loggerSvc.log('Skipping progress update: New result not better than previous', { newResult: userResult, previousCompletion })
-              // Still navigate even if we skip the update
-              this.navigateAfterAssessment()
+              this.navigateAfterAssessment(true)
             }
           } else {
             // User passed - update to 100%
@@ -502,8 +471,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
               completionPercentage: 100,
               status: 2,
             }
-            // **CRITICAL**: Fire-and-forget pattern - do not read/parse API response
-            // Send telemetry and changeMessage with pre-calculated data
             this.viewerSvc.realTimeProgressUpdateV3(Id, data2, collectionId, batchId).subscribe(
               () => {
                 const messageData = {
@@ -522,8 +489,7 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
                   batchId: batchId || '',
                 })
                 this.contentSvc.changeMessage(messageData)
-                // **CRITICAL**: Navigate after passing
-                this.navigateAfterAssessment()
+                this.navigateAfterAssessment(false)
               },
               error => { this.loggerSvc.warn('Progress update failed:', error) }
             )
@@ -658,7 +624,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
         const currentProgress = data?.result?.contentList?.find((item: any) =>
           item.contentId === this.identifier
         )
-        if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
         this.dialogQuiz = this.dialog.open(QuizModalComponent, {
           panelClass: 'quiz-modal',
           disableClose: true,
@@ -680,7 +645,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
       error => {
         this.loggerSvc.warn('Failed to fetch progress before opening quiz:', error)
         // On error, still open modal without progress data
-        if (!this.isRecoridngEnable) this.screenSrtSvc.openModal()
         this.dialogQuiz = this.dialog.open(QuizModalComponent, {
           panelClass: 'quiz-modal',
           disableClose: true,
@@ -850,7 +814,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     })
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
-        this.screenSrtSvc.closeModal()
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {
@@ -880,7 +843,6 @@ export class QuizComponent implements OnInit, OnChanges, OnDestroy {
     })
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result.event === 'CLOSE') {
-        this.screenSrtSvc.closeModal()
         dialogRef.close()
         this.dialog.closeAll()
         this.playerStateService.playerState.pipe(first(), takeUntil(this.unsubscribe)).subscribe((data: any) => {

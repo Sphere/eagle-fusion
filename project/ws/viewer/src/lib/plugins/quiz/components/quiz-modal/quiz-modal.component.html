@@ -16,10 +16,10 @@
     <ng-container *ngIf="tabIndex !== 2 ">
       <div class="flex  ml-auto timer" *ngIf="!showAnswer && tabIndex !== 1">
         <!-- (isXSmall$ | async) !== true && -->
-        <mat-icon>schedule</mat-icon>&nbsp;&nbsp;
-        <div [ngClass]="{ 'mat-body-strong': !isSubmitted }">
+        <mat-icon style="font-size: 18px; width: 18px; height: 18px; line-height: 18px;">schedule</mat-icon>
+        <span [ngClass]="{ 'mat-body-strong': !isSubmitted }" style="font-size: 14px;">
           {{ timeLeft | pipeDurationTransform: 'hms' }}
-        </div>
+        </span>
       </div>
     </ng-container>
   </div>

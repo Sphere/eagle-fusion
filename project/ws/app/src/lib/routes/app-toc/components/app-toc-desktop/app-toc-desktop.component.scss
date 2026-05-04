@@ -9,15 +9,10 @@
   }
 }
 
-.cne-duration-block {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
 .duration-block {
   display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 .cne-block {
@@ -66,10 +61,13 @@
 }
 
 .back-icon {
-  padding-right: 20px;
   display: flex;
-  align-items: flex-end;
-  justify-content: flex-end;
+  align-items: center;
+  justify-content: center;
+}
+
+.toc-header-row {
+  padding-top: ws-vars.$size-m;
 }
 
 .title {
@@ -209,35 +207,59 @@
   margin-left: 10px;
 }
 
+.progress-section {
+  width: 100%;
+  max-width: 320px;
+  position: relative;
+  margin-top: 10px;
+  margin-bottom: 4px;
+
+  @include ws-mixins.breakpoint-xs {
+    max-width: 100%;
+  }
+
+  @include ws-mixins.breakpoint-s {
+    max-width: 100%;
+  }
+
+  @include ws-mixins.breakpoint-m {
+    max-width: 100%;
+  }
+}
+
+.toc-actions {
+  margin-top: 16px;
+}
+
+.toc-icon-action {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  min-width: 56px;
+}
+
 ::ng-deep .new-w.mat-mdc-progress-bar {
-  width: 25%;
+  width: 100%;
   border-radius: 40px;
   height: 20px;
   --mat-progress-bar-active-indicator-color: #469788 !important;
   --mat-progress-bar-active-indicator-height: 20px !important;
   --mat-progress-bar-track-height: 20px !important;
   --mat-progress-bar-track-color: #EDEDED !important;
-
-  @include ws-mixins.breakpoint-xs {
-    width: 100% !important;
-  }
-
-  @include ws-mixins.breakpoint-s {
-    width: 50% !important;
-  }
-
-  @include ws-mixins.breakpoint-m {
-    width: 50% !important;
-  }
 }
 
 .value {
-  position: relative;
-  bottom: 19px;
-  color: #1C5D95;
-  width: 25%;
-  display: flex;
-  justify-content: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #101828;
+  font-size: 12px;
+  font-weight: 600;
+  z-index: 1;
+  pointer-events: none;
+  text-shadow: 0 0 3px rgba(255, 255, 255, 0.9), 0 0 6px rgba(255, 255, 255, 0.7);
 }
 
 ::ng-deep .new-w.mat-mdc-progress-bar .mdc-linear-progress__bar-inner {
@@ -265,6 +287,8 @@
 
 .btn-tittle {
   color: var(--theme-primary, #1c5d95);
+  font-size: 12px;
+  white-space: nowrap;
 }
 
 .modal {

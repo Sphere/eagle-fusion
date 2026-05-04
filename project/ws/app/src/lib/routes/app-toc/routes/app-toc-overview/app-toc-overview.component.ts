@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, Input, OnDestroy } from '@angular/core'
+import { Component, OnInit, ViewChild, Input, OnDestroy, ChangeDetectorRef } from '@angular/core'
 import { AppTocOverviewDirective } from './app-toc-overview.directive'
 import { AccessControlService } from '@ws/author'
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser'
@@ -51,7 +51,8 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
     private domSanitizer: DomSanitizer,
     private authAccessControlSvc: AccessControlService,
     private router: Router,
-    private widgetContentSvc: WidgetContentService
+    private widgetContentSvc: WidgetContentService,
+    private cdr: ChangeDetectorRef
   ) {
     // this.licenseurl = `${this.configSvc.sitePath}/license.meta.json`
   }
@@ -93,6 +94,7 @@ export class AppTocOverviewComponent implements OnInit, OnDestroy {
             this.currentLicenseData = data.licenses.filter(
               (l: any) => l.licenseName === this.licenseName
             )
+            this.cdr.detectChanges()
           }
         },
         error: () => {

@@ -24,16 +24,15 @@ import { ViewAnswerComponent } from '../view-answer/view-answer.component'
 import { PlaylistService } from '../../../../../../../../../src/app/services/playlist.service'
 import { TranslateService } from '@ngx-translate/core'
 import { S3_END_POINTS } from '../../../../../../../../../src/app/constants/apiConstants'
-import { ScreenSecurityService } from '../../../../screen-security.service'
 // declare var Telemetry: any
 @Component({
-    standalone: false,
-    selector: 'viewer-assesment-modal',
-    templateUrl: './assesment-modal.component.html',
-    styleUrls: ['./assesment-modal.component.scss'],
-    // tslint:disable-next-line:use-component-view-encapsulation
-    encapsulation: ViewEncapsulation.None,
-    
+  standalone: false,
+  selector: 'viewer-assesment-modal',
+  templateUrl: './assesment-modal.component.html',
+  styleUrls: ['./assesment-modal.component.scss'],
+  // tslint:disable-next-line:use-component-view-encapsulation
+  encapsulation: ViewEncapsulation.None,
+
 })
 export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy {
   isXSmall$ = this.valueSvc.isXSmall$
@@ -69,7 +68,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
   // Organizations where View Answers should not be shown if isCorrectAnswerPopUp is not present
   // Fetched from S3 configuration
   private restrictedOrgIds: string[] = []
-  isBlockedFlag: boolean
   constructor(
     public dialogRef: MatDialogRef<AssesmentModalComponent>,
     @Inject(MAT_DIALOG_DATA) public assesmentdata: any,
@@ -89,16 +87,11 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     private logger: LoggerService,
     private plylsSvc: PlaylistService,
     private translate: TranslateService,
-    private scrnScrtySvc: ScreenSecurityService,
     private ngZone: NgZone,
     private cdr: ChangeDetectorRef,
   ) { }
 
   ngOnInit() {
-    this.scrnScrtySvc.isBlocked$.subscribe(val => {
-      this.isBlockedFlag = val
-    })
-    this.isBlockedFlag = JSON.parse(localStorage.getItem('screenBlocked'))
     this.logger.log("this.viewerDataSvc.resource", this.viewerDataSvc.resource)
     this.logger.log(this.assesmentdata)
     this.telemetrySvc.getTelemetryConfig()
@@ -187,8 +180,6 @@ export class AssesmentModalComponent implements OnInit, AfterViewInit, OnDestroy
     )
   }
   ngAfterViewInit() {
-    const enabled: boolean = this.plylsSvc.orgDetails()?.assessmentConfig?.isRecoridngEnable ?? false
-    if (!enabled) this.scrnScrtySvc.init()
     const object = {
       "id": this.assesmentdata.generalData.identifier,
       "type": "application/json",
